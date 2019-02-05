@@ -1283,6 +1283,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			case LIBRE_OFFICE:
 				sb.append("func round left (");
 
+			case GIAC:
+				sb.append("ggbround(");
+				break;
+
 			default:
 				sb.append("round(");
 			}
