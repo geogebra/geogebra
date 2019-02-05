@@ -589,7 +589,7 @@ public class GuiManagerW extends GuiManager
 				frame.forceHeaderVisibility(Visibility.NOT_SET);
 			}
 		});
-		frame.showPanel(sciSettingsView);
+		frame.showBrowser(sciSettingsView);
 		sciSettingsView.getAnimator().updateAnimateInStyle();
 	}
 

@@ -26,7 +26,7 @@ public abstract class MyHeaderPanel extends HeaderPanel {
 	public void close() {
 		if (frame != null) {
 			this.getApp().onBrowserClose();
-			frame.hidePanel(this);
+			frame.hideBrowser(this);
 		}
 
 	}

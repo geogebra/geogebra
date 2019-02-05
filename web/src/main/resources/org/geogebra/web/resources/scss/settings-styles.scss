@@ -543,11 +543,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			}	
     		}
     }
-	
-	.floatingSettings.animateIn {
-		animation-duration: 0.25s;
+
+    .animateInFromRight {
+        animation-duration: 0.25s;
         animation-name: settingsIn;
         overflow: auto;
+    }
+	
+	.floatingSettings.animateIn {
+		@extend .animateInFromRight;
 	}
 			
 	@keyframes settingsIn {
@@ -555,12 +559,16 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		50% {right: -250; top: 0px;}
 		100% {right: 0px; top: 0px;}
 	}
-	
-	.floatingSettings.animateOut {
-		animation-duration: 0.2s;
+
+	.animateOutToRight {
+	    animation-duration: 0.2s;
         animation-name: settingsOut;
         overflow-y: auto;
         right: -500px;
+	}
+	
+	.floatingSettings.animateOut {
+		@extend .animateOutToRight;
 	}
 			
 	@keyframes settingsOut {
@@ -568,5 +576,5 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		50% {right: -250; top: 0px;}
 		100% {right: -500px; top: 0px;}
 	}
-
+	
 }

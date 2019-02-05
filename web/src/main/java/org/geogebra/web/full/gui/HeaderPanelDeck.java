@@ -19,7 +19,7 @@ public interface HeaderPanelDeck
 	 * @param myHeaderPanel
 	 *            full-sized GUI
 	 */
-	void hidePanel(MyHeaderPanel myHeaderPanel);
+	void hideBrowser(MyHeaderPanel myHeaderPanel);
 
 	/** @return toolbar */
 	ToolBarInterface getToolbar();
