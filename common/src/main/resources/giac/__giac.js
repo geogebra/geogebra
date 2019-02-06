@@ -2333,6 +2333,8 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate(round(-1.6))", result:"-2", notes:"round half up" },
 { cat:"Evaluate", cmd:"Evaluate(round(-2.5))", result:"-3", notes:"round half up" },
 { cat:"Evaluate", cmd:"Evaluate(round(-5.5))", result:"-6", notes:"round half up" },
+{ cat:"Coefficients", cmd:"Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y)", result:"{1, 2, 3, 4, 5, 6}" },
+{ cat:"Coefficients", cmd:"Coefficients(2=3)", result:"?", notes:"expressions only, undefined for equations" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
