@@ -1,43 +1,23 @@
 package org.geogebra.web.html5.factories;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAlphaComposite;
-import org.geogebra.common.awt.GArc2D;
-import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.FocusListener;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.ggbjdk.factories.AwtFactoryHeadless;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
-import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
-import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
-import org.geogebra.ggbjdk.java.awt.geom.Area;
-import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
-import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
-import org.geogebra.ggbjdk.java.awt.geom.Line2D;
-import org.geogebra.ggbjdk.java.awt.geom.Path2D;
-import org.geogebra.ggbjdk.java.awt.geom.Point2D;
-import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
-import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
-import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.awt.GAlphaCompositeW;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -60,27 +40,12 @@ import com.google.gwt.core.client.Scheduler;
  * Creates AWT wrappers for web
  *
  */
-public class AwtFactoryW extends AwtFactory {
+public class AwtFactoryW extends AwtFactoryHeadless {
 	/** to make code more efficient in the following method */
 	boolean repaintDeferred = false;
 
 	/** to avoid infinite loop in the following method */
 	int repaintsFromHereInProgress = 0;
-
-	@Override
-	public GAffineTransform newAffineTransform() {
-		return new AffineTransform();
-	}
-
-	@Override
-	public GRectangle2D newRectangle2D() {
-		return new Rectangle2D.Double();
-	}
-
-	@Override
-	public GRectangle newRectangle(int x, int y, int w, int h) {
-		return new Rectangle(x, y, w, h);
-	}
 
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
@@ -100,27 +65,6 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GPoint2D newPoint2D() {
-		return new Point2D.Double();
-	}
-
-	@Override
-	public GPoint2D newPoint2D(double x, double y) {
-		return new Point2D.Double(x, y);
-	}
-
-	@Override
-	public GRectangle newRectangle(int x, int y) {
-		return new Rectangle(x, y);
-	}
-
-	@Override
-	public GGeneralPath newGeneralPath() {
-		// default winding rule changed for ggb50 (for Polygons) #3983
-		return new GeneralPath(Path2D.WIND_EVEN_ODD);
-	}
-
-	@Override
 	public GBasicStroke newMyBasicStroke(double f) {
 		return new GBasicStrokeW(f, DefaultBasicStroke.CAP_ROUND,
 				DefaultBasicStroke.JOIN_ROUND);
@@ -130,27 +74,6 @@ public class AwtFactoryW extends AwtFactory {
 	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
 			double miterLimit, double[] dash) {
 		return new GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash);
-	}
-
-	@Override
-	public GLine2D newLine2D() {
-		return new Line2D.Double();
-	}
-
-	@Override
-	public GRectangle newRectangle(GRectangle bb) {
-		return new Rectangle(bb);
-	}
-
-	@Override
-	public GEllipse2DDouble newEllipse2DDouble() {
-		return new Ellipse2D.Double();
-	}
-
-	@Override
-	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w,
-			double h) {
-		return new Ellipse2D.Double(x, y, w, h);
 	}
 
 	@Override
@@ -164,42 +87,6 @@ public class AwtFactoryW extends AwtFactory {
 	public GBasicStroke newBasicStrokeJoinMitre(double f) {
 		return new GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
 				GBasicStroke.JOIN_MITER);
-	}
-
-	@Override
-	public GRectangle newRectangle() {
-		return new Rectangle();
-	}
-
-	@Override
-	public GArc2D newArc2D() {
-		return new Arc2D.Double();
-	}
-
-	@Override
-	public GQuadCurve2D newQuadCurve2D() {
-		return new QuadCurve2D.Double();
-	}
-
-	/*
-	 * @Override public Area newArea(GeneralPathClipped hypRight) {
-	 * AbstractApplication.debug("implementation needed really"); // TODO
-	 * Auto-generated return null; }
-	 */
-
-	@Override
-	public GArea newArea() {
-		return new Area();
-	}
-
-	@Override
-	public GArea newArea(GShape shape) {
-		return new Area(shape);
-	}
-
-	@Override
-	public GGeneralPath newGeneralPath(int rule) {
-		return new GeneralPath(rule);
 	}
 
 	@Override
@@ -294,7 +181,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	/**
 	 * Helper method for repainting
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
