@@ -86,8 +86,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	 * @return true if has mow context menu feature
 	 */
 	protected boolean hasWhiteboardContextMenu() {
-		return app.has(Feature.WHITEBOARD_APP)
-				&& app.has(Feature.MOW_CONTEXT_MENU);
+		return app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	@Override

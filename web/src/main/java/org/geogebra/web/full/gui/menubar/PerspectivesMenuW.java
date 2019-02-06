@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
@@ -49,7 +48,7 @@ public class PerspectivesMenuW extends Submenu {
 		addPerspective(4, pr.menu_icon_graphics3D24());
 		addPerspective(2, pr.menu_icon_spreadsheet24());
 		addPerspective(5, pr.menu_icon_probability24());
-		if (app.has(Feature.WHITEBOARD_APP)) {
+		if (app.isWhiteboardActive()) {
 			addPerspective(6, pr.menu_icon_whiteboard24());
 		}
 		if (!app.isExam()) {

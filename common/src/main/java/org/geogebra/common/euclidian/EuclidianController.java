@@ -12623,8 +12623,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean hasWhiteboardContextMenu() {
-		return app.has(Feature.WHITEBOARD_APP)
-				&& app.has(Feature.MOW_CONTEXT_MENU);
+		return app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	public boolean isObjectMenuActive() {

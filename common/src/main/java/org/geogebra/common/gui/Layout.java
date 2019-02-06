@@ -13,7 +13,6 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -302,7 +301,7 @@ public abstract class Layout implements SettingListener {
 				spData, dpData,
 				defToolbar, false, false, true, false, true,
 				InputPosition.algebraView);
-		if (app.has(Feature.WHITEBOARD_APP)) {
+		if (app.isWhiteboardActive()) {
 			dpData = new DockPanelData[6];
 			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
 					false,
@@ -329,11 +328,6 @@ public abstract class Layout implements SettingListener {
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 					"1,1,1", 500);
 
-			// tring wbToolbar = "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 |
-			// 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26
-			// 17 62 | 25 | 40 41 42 27 , 6";
-			// String wbToolbar = "0 | 62 73 6 110 | 2 16 51 10 55 | 102 103 104
-			// 105 106 107 108 109 101| 17 26";
 			String wbToolbar = ToolBar.getWBToolBarDefString();
 			Perspective whiteboard = new Perspective(Perspective.NOTES,
 					spData, dpData,

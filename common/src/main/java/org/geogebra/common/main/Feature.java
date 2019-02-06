@@ -56,9 +56,6 @@ public enum Feature {
 	/** GGB-2336 */
 	KEYBOARD_ATTACHED_TO_TABLET,
 
-	/** MOW */
-	WHITEBOARD_APP,
-
 	/**
 	 * GGB-1398 + GGB-1529
 	 */

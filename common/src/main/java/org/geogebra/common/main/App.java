@@ -3737,10 +3737,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// note: please use prefix MOW
 		// *********************************************************
 		// **********************************************************************
-
-		case WHITEBOARD_APP:
-			return prerelease;
-
 		case MOW_CONTEXT_MENU:
 			return isUnbundledOrWhiteboard();
 
