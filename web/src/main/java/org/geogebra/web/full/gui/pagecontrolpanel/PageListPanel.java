@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -12,7 +10,6 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -73,19 +70,14 @@ public class PageListPanel
 		addNewPreviewCard(true);
 		frame.add(this);
 		setVisible(false);
-		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-			// if (Browser.isTabletBrowser()) {
-			addBitlessDomHandler(pageController, TouchStartEvent.getType());
-			addBitlessDomHandler(pageController, TouchMoveEvent.getType());
-			addBitlessDomHandler(pageController, TouchEndEvent.getType());
-			// } else {
-				addDomHandler(pageController, MouseDownEvent.getType());
-				addDomHandler(pageController, MouseMoveEvent.getType());
-				addDomHandler(pageController, MouseUpEvent.getType());
-			// }
-			divider = new FlowPanel();
-			divider.setStyleName("mowPagePreviewCardDivider");
-		}
+		addBitlessDomHandler(pageController, TouchStartEvent.getType());
+		addBitlessDomHandler(pageController, TouchMoveEvent.getType());
+		addBitlessDomHandler(pageController, TouchEndEvent.getType());
+		addDomHandler(pageController, MouseDownEvent.getType());
+		addDomHandler(pageController, MouseMoveEvent.getType());
+		addDomHandler(pageController, MouseUpEvent.getType());
+		divider = new FlowPanel();
+		divider.setStyleName("mowPagePreviewCardDivider");
 	}
 
 	private void addContentPanel() {
@@ -223,14 +215,6 @@ public class PageListPanel
 		if (isTouch) {
 			card.removeStyleName("desktop");
 		}
-		if (!app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-			ClickStartHandler.init(card, new ClickStartHandler() {
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					loadPage(card);
-				}
-			});
-		}
 		
 		if (pageIndex < pageController.getSlideCount()) {
 			contentPanel.insert(card, pageIndex);
@@ -239,16 +223,6 @@ public class PageListPanel
 			scrollPanel.scrollToBottom();
 		}
 		card.setLabels();
-	}
-
-	/**
-	 * Loads the given card.
-	 * 
-	 * @param card
-	 *            to load.
-	 */
-	void loadPage(PagePreviewCard card) {
-		pageController.loadPage(card.getPageIndex());
 	}
 
 	/**
