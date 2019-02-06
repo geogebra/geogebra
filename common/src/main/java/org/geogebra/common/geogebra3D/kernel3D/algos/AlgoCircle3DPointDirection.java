@@ -153,7 +153,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlain(getCommandString(),
-				((GeoElement) point).getLabel(tpl), secondInput.getLabel(tpl),
+				point.getLabel(tpl), secondInput.getLabel(tpl),
 				forAxis.getLabel(tpl));
 	}
 
