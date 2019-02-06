@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.geogebra.web.html5.main.AppW;
 
 /**
- * Menu items for notes
+ * Menu item provider for Scientific Calc
  */
-public class NotesMenuItemProvider implements MainMenuItemProvider {
+public class ScientificMenuItemProvider implements MainMenuItemProvider {
 
 	private AppW app;
 
@@ -15,15 +15,16 @@ public class NotesMenuItemProvider implements MainMenuItemProvider {
 	 * @param app
 	 *            application
 	 */
-	public NotesMenuItemProvider(AppW app) {
+	public ScientificMenuItemProvider(AppW app) {
 		this.app = app;
 	}
 
 	@Override
 	public void addMenus(ArrayList<Submenu> menus) {
-		menus.add(new FileMenuW(app));
-		menus.add(new DownloadMenuW(app));
+		menus.add(new ClearAllMenuitem(app));
+		menus.add(new AppsSubmenu(app));
 		menus.add(new SettingsMenu(app));
+		menus.add(new HelpMenuW(app));
 	}
 
 }

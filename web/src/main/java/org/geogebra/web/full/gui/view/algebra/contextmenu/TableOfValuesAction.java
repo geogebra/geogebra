@@ -8,7 +8,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Adds a functionable geo to the table view
  */
-public class TableOfValuesAction extends MenuAction {
+public class TableOfValuesAction extends MenuAction<GeoElement> {
 	/**
 	 * New table view action
 	 */

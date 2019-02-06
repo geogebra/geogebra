@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
@@ -25,7 +24,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * Item action bar
@@ -75,9 +73,7 @@ public class ItemControls extends FlowPanel
 	public GPushButton getDeleteButton() {
 		if (btnDelete == null) {
 			btnDelete = new GPushButton(
-					new Image(GuiResources.INSTANCE.algebra_delete()));
-			btnDelete.getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
+					new NoDragImage(MaterialDesignResources.INSTANCE.clear(), 24));
 			btnDelete.addStyleName("XButton");
 			btnDelete.addStyleName("shown");
 			ClickStartHandler.init(btnDelete,

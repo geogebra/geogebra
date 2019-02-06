@@ -13,12 +13,12 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.dialog.DialogManager3DW;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
@@ -43,7 +43,7 @@ public class AppWapplet3D extends AppWFull {
 
 	/**
 	 * Constructs AppW for applets
-	 * 
+	 *
 	 * @param ae
 	 *            article element
 	 * @param gf
@@ -173,7 +173,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public DialogManager getDialogManager() {
+	public DialogManagerW getDialogManager() {
 		if (dialogManager == null) {
 			dialogManager = new DialogManager3DW(this);
 		}

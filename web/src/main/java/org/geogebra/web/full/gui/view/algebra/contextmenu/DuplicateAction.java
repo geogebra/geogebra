@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 /**
  * Duplicates geo in AV and puts focus to the new input
  */
-public class DuplicateAction extends MenuAction {
+public class DuplicateAction extends MenuAction<GeoElement> {
 	private AlgebraViewW algebraView;
 
 	/**

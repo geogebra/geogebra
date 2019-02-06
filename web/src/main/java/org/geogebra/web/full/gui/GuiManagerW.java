@@ -1444,7 +1444,7 @@ public class GuiManagerW extends GuiManager
 			this.dataCollectionView.setLabels();
 		}
 
-		((DialogManagerW) getApp().getDialogManager()).setLabels();
+		getApp().getDialogManager().setLabels();
 		if (browseGUIwasLoaded()) {
 			getBrowseView().setLabels();
 		}
@@ -1909,7 +1909,7 @@ public class GuiManagerW extends GuiManager
 	public void detachView(final int viewId) {
 		if (viewId == App.VIEW_FUNCTION_INSPECTOR) {
 			Log.debug("Detaching VIEW_FUNCTION_INSPECTOR");
-			((DialogManagerW) getApp().getDialogManager()).getFunctionInspector()
+			getApp().getDialogManager().getFunctionInspector()
 			.setInspectorVisible(false);
 		} else {
 			super.detachView(viewId);

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * material design link text field
- * 
+ *
  * @author Csilla
  *
  */
@@ -65,6 +65,7 @@ public class ComponentLinkBox extends TextBox
 		setFocused(true);
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		if (isFocused()) {
 			setFocus(true);
@@ -73,6 +74,7 @@ public class ComponentLinkBox extends TextBox
 		setFocused(false);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		focus();
 	}

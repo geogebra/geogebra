@@ -182,7 +182,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private SoundManagerW soundManager;
 	private VideoManagerW videoManager;
 	private AsyncManager asyncManager;
-	protected DialogManager dialogManager = null;
 
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
@@ -2113,7 +2112,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public DialogManager getDialogManager() {
-		return dialogManager;
+		return null;
 	}
 
 	@Override

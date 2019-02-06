@@ -42,7 +42,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
-import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.HasHelpButton;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
@@ -1510,7 +1510,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected GPushButton getClearInputButton() {
 		if (btnClearInput == null) {
 			btnClearInput = new GPushButton(
-					new Image(GuiResources.INSTANCE.algebra_delete()));
+					new NoDragImage(MaterialDesignResources.INSTANCE.clear(), 24));
 			ClickStartHandler.init(btnClearInput,
 					new ClickStartHandler(false, true) {
 

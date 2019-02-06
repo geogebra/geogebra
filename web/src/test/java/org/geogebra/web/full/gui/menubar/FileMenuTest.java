@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.test.MockApp;
@@ -15,7 +14,7 @@ import com.google.gwtmockito.WithClassesToStub;
 
 /**
  * Tests for Undo with multiple slides
- * 
+ *
  * @author Zbynek
  *
  */
@@ -31,9 +30,9 @@ public class FileMenuTest {
 	public void fileNew() {
 		app = MockApp
 				.mockApplet(new TestArticleElement("canary", "notes"));
-		FileMenuW menu = new FileMenuW(app);
+		FileNewAction clear = new FileNewAction(app);
 		addObject("x");
-		menu.fileNew();
+		clear.execute(null, app);
 		app.getSaveController().cancel();
 		Assert.assertEquals(0, app.getKernel().getConstruction()
 				.getGeoSetConstructionOrder().size());

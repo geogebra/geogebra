@@ -9,7 +9,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Shows special points for a functionable geo
  */
-public class SpecialPointsAction extends MenuAction {
+public class SpecialPointsAction extends MenuAction<GeoElement> {
 	/**
 	 * New special points action
 	 */

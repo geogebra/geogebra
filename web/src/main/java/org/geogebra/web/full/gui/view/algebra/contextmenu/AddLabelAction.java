@@ -9,7 +9,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Add label to a geo in AV
  */
-public class AddLabelAction extends MenuAction {
+public class AddLabelAction extends MenuAction<GeoElement> {
 	/**
 	 * New add label action
 	 */

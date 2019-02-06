@@ -8,7 +8,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Deletes a geo
  */
-public class DeleteAction extends MenuAction {
+public class DeleteAction extends MenuAction<GeoElement> {
 	/**
 	 * New delete action
 	 */

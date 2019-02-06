@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
-import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.OpenFileListener;
@@ -179,6 +178,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private ShareControllerW shareController;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
+	protected DialogManagerW dialogManager = null;
 
 	/**
 	 *
@@ -505,7 +505,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void checkSaved(AsyncOperation<Boolean> runnable) {
-		((DialogManagerW) getDialogManager()).getSaveDialog()
+		getDialogManager().getSaveDialog()
 				.showIfNeeded(runnable);
 	}
 
@@ -779,13 +779,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public DialogManager getDialogManager() {
+	public DialogManagerW getDialogManager() {
 		if (dialogManager == null) {
 			dialogManager = new DialogManagerW(this);
-			if (getGoogleDriveOperation() != null) {
-				((GoogleDriveOperationW) getGoogleDriveOperation()).getView()
-						.add((DialogManagerW) dialogManager);
-			}
 		}
 		return dialogManager;
 	}
@@ -1141,7 +1137,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 				@Override
 				public final void run() {
-					((DialogManagerW) getDialogManager())
+					getDialogManager()
 							.showRecoverAutoSavedDialog(AppWFull.this,
 									materialJSON);
 				}
@@ -2062,7 +2058,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void openPDF(JavaScriptObject file) {
-		((DialogManagerW) this.getDialogManager()).showPDFInputDialog(file);
+		this.getDialogManager().showPDFInputDialog(file);
 	}
 
 	@Override

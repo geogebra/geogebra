@@ -1,0 +1,42 @@
+package org.geogebra.web.full.gui.menubar;
+
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.view.algebra.MenuAction;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.main.AppW;
+
+public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Boolean> {
+	private AppW app;
+
+	/**
+	 * @param app
+	 *            application
+	 */
+	public FileNewAction(AppW app) {
+		super(app.isWhiteboardActive() ? "mow.newFile" : "New",
+				app.isWhiteboardActive() ? MaterialDesignResources.INSTANCE.file_plus()
+						: MaterialDesignResources.INSTANCE.add_black());
+		this.app = app;
+	}
+
+	@Override
+	public void callback(Boolean active) {
+		// ignore active: don't save means we want new construction
+		app.setWaitCursor();
+		app.fileNew();
+		app.setDefaultCursor();
+
+		if (!app.isUnbundledOrWhiteboard()) {
+			app.showPerspectivesPopup();
+		}
+		if (app.getPageController() != null) {
+			app.getPageController().resetPageControl();
+		}
+	}
+
+	@Override
+	public void execute(Void geo, AppWFull appW) {
+		appW.getDialogManager().getSaveDialog().showIfNeeded(this);
+	}
+}

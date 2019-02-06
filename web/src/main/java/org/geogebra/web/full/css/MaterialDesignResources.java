@@ -202,6 +202,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/wrong_input.svg")
 	SVGResource wrong_input();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-clear-24px.svg")
+	SVGResource clear();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
 	SVGResource add_black();
 

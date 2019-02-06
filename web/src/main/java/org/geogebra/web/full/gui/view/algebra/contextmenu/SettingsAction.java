@@ -11,7 +11,7 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Opens the settings for a geo
  */
-public class SettingsAction extends MenuAction {
+public class SettingsAction extends MenuAction<GeoElement> {
 	/**
 	 * New settings action
 	 */
