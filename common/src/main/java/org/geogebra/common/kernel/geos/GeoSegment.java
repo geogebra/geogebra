@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -882,8 +881,7 @@ final public class GeoSegment extends GeoLine
 
 	@Override
 	public boolean isShape() {
-		return kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)
-				&& isShape;
+		return isShape;
 	}
 
 	/**

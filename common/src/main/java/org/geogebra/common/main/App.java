@@ -3748,10 +3748,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_CONTEXT_MENU:
 			return isUnbundledOrWhiteboard();
 
-		/** MOW-55 */
-		case MOW_BOUNDING_BOXES:
-			return prerelease && whiteboard;
-
 		/** MOW-320 */
 		case MOW_PIN_IMAGE:
 			return prerelease && whiteboard;

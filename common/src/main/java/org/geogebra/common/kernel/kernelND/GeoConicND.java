@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.main.ExamEnvironment;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -4579,8 +4578,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public boolean isShape() {
-		return kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)
-				&& isShape;
+		return isShape;
 	}
 
 	@Override
