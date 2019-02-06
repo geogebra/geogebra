@@ -4029,10 +4029,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case EQUATION_TYPE_SETTING:
 			return true;
 
-		/** APPS-266 - only for testing */
-		case DROPDOWN_COMPONENT:
-			return canary;
-
        // **********************************************************************
        // G3D START
        //

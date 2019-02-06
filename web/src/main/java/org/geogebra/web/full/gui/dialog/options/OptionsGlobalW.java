@@ -101,35 +101,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			addRoundingItem();
 			addLabelingItem();
 			addFontItem();
-
-			if (app.has(Feature.DROPDOWN_COMPONENT)) {
-				addNewDropDownElement("FewItems", 10);
-				addNewDropDownElement("ManyItem", 50);
-			}
-		}
-
-		private void addNewDropDownElement(String name, int itemcount) {
-			final ComponentDropDown selector = new ComponentDropDown(app);
-
-			selector.setTitleText(name);
-
-			List<String> items = new ArrayList<>();
-			for (int i = 0; i < itemcount; i++) {
-				items.add(i + " item");
-			}
-			selector.setElements(items);
-			selector.setSelected(0);
-
-//			selector.setElements(Arrays.asList(property.getValues()));
-//			selector.setSelected(property.getIndex());
-			selector.setDropDownSelectionCallback(
-					new ComponentDropDown.DropDownSelectionCallback() {
-						@Override
-						public void onSelectionChanged(int index) {
-							// property.setIndex(index);
-						}
-					});
-			optionsPanel.add(selector);
 		}
 
 		private void addRoundingItem() {

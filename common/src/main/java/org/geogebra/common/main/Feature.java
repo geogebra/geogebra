@@ -270,9 +270,6 @@ public enum Feature {
 	/** G3D-170 */
 	G3D_IMPROVE_SOLID_TOOLS,
 
-	/** APPS-266 */
-	DROPDOWN_COMPONENT,
-
     /** G3D-197 */
     G3D_TOOLS_SIMPLE_MORE_LESS,
 
