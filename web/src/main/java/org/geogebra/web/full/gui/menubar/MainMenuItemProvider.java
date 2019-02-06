@@ -15,4 +15,9 @@ public interface MainMenuItemProvider {
 	 */
 	void addMenus(ArrayList<Submenu> menus);
 
+	/**
+	 * @return whether to add signin menu
+	 */
+	boolean hasSigninMenu();
+
 }

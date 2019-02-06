@@ -37,4 +37,9 @@ public class BaseMenuItemProvider implements MainMenuItemProvider {
 
 	}
 
+	@Override
+	public boolean hasSigninMenu() {
+		return true;
+	}
+
 }

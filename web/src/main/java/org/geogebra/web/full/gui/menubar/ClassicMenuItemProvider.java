@@ -41,4 +41,9 @@ public class ClassicMenuItemProvider implements MainMenuItemProvider {
 
 	}
 
+	@Override
+	public boolean hasSigninMenu() {
+		return true;
+	}
+
 }

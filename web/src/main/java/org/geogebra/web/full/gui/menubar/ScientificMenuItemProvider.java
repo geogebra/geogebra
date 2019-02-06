@@ -27,4 +27,9 @@ public class ScientificMenuItemProvider implements MainMenuItemProvider {
 		menus.add(new HelpMenuW(app));
 	}
 
+	@Override
+	public boolean hasSigninMenu() {
+		return false;
+	}
+
 }

@@ -101,9 +101,6 @@ public class MainMenu extends FlowPanel
 		this.menus = new ArrayList<>();
 		this.userMenu = new UserSubmenu(app);
 		actionProvider.addMenus(menus);
-		if (app.enableFileFeatures()) {
-			menus.add(signInMenu);
-		}
 
 		smallScreen = app.isUnbundled()
 				&& app.getAppletFrame().shouldHaveSmallScreenLayout();
@@ -290,15 +287,17 @@ public class MainMenu extends FlowPanel
 
 	private boolean hasLoginButton() {
 		return app.enableFileFeatures()
-				&& (app.getLoginOperation() == null || app.getLAF().hasLoginButton());
+				&& actionProvider.hasSigninMenu();
 	}
 
 	private void removeUserSignIn() {
 		if (this.signInMenu != null) {
-			this.menuPanel.removeStack(this.signInMenu);
+			menus.remove(signInMenu);
+			menuPanel.removeStack(signInMenu);
 		}
 		if (this.userMenu != null) {
-			this.menuPanel.removeStack(this.userMenu);
+			menus.remove(userMenu);
+			menuPanel.removeStack(userMenu);
 		}
 	}
 
@@ -471,6 +470,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void addSignInMenu() {
+		menus.add(signInMenu);
 		addSubmenu(signInMenu);
 	}
 
@@ -479,6 +479,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void addUserMenu() {
+		menus.add(userMenu);
 		addSubmenu(userMenu);
 	}
 

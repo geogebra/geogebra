@@ -178,6 +178,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private ShareControllerW shareController;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
+	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
 
 	/**

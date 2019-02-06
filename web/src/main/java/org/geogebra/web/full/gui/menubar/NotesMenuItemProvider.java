@@ -26,4 +26,9 @@ public class NotesMenuItemProvider implements MainMenuItemProvider {
 		menus.add(new SettingsMenu(app));
 	}
 
+	@Override
+	public boolean hasSigninMenu() {
+		return app.getLoginOperation() == null || app.getLAF().hasLoginButton();
+	}
+
 }

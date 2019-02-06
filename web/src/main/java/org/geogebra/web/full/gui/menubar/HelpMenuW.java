@@ -137,6 +137,6 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 	@Override
 	protected String getTitleTranslationKey() {
-		return "Help";
+		return "HelpAndFeedback";
 	}
 }

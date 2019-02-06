@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -70,7 +71,7 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public MenuActionCollection getAVMenuItems(AlgebraViewW view) {
+	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollection(view);
 	}
 
