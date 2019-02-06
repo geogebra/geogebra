@@ -1645,8 +1645,6 @@ public class GeoList extends GeoElement
 		super.getXMLtags(sb);
 
 		getLineStyleXML(sb);
-		getScriptTags(sb);
-
 	}
 
 	/**
