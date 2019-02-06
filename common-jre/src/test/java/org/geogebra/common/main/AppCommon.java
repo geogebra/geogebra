@@ -13,6 +13,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.font.GFontCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.MyXMLioCommon;
@@ -20,6 +21,7 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.headless.DialogManagerNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.jre.headless.FontManagerNoGui;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
@@ -103,7 +105,7 @@ public class AppCommon extends App {
 
     @Override
     protected FontManager getFontManager() {
-        return null;
+		return new FontManagerNoGui();
     }
 
     @Override
@@ -231,7 +233,7 @@ public class AppCommon extends App {
 
     @Override
     public GFont getPlainFontCommon() {
-        return null;
+		return new GFontCommon(12);
     }
 
     @Override

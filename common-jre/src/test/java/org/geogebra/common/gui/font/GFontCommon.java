@@ -45,17 +45,17 @@ public class GFontCommon extends GFont {
 
     @Override
     public GFont deriveFont(int style, int fontSize) {
-        return null;
+		return this;
     }
 
     @Override
     public GFont deriveFont(int style, double fontSize) {
-        return null;
+		return this;
     }
 
     @Override
     public GFont deriveFont(int style) {
-        return null;
+		return this;
     }
 
     @Override

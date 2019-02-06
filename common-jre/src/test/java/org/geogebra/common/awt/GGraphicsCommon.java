@@ -1,5 +1,7 @@
 package org.geogebra.common.awt;
 
+import org.geogebra.common.gui.font.GFontCommon;
+
 /**
  * Class used for testing.
  */
@@ -97,7 +99,7 @@ public class GGraphicsCommon implements GGraphics2D {
 
     @Override
     public GFont getFont() {
-        return null;
+		return new GFontCommon(12);
     }
 
     @Override
