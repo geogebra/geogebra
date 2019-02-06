@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.openfileview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -235,7 +234,7 @@ public class OpenFileView extends MyHeaderPanel
 				if (!app.isUnbundledOrWhiteboard()) {
 					app.showPerspectivesPopup();
 				}
-				if (app.has(Feature.MOW_MULTI_PAGE)
+				if (app.isWhiteboardActive()
 						&& app.getPageController() != null) {
 					app.getPageController().resetPageControl();
 				}

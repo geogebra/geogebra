@@ -76,7 +76,7 @@ public class FileMenuW extends Submenu
 				if (!app.isUnbundledOrWhiteboard()) {
 					app.showPerspectivesPopup();
 				}
-				if (app.has(Feature.MOW_MULTI_PAGE)
+				if (app.isWhiteboardActive()
 						&& app.getPageController() != null) {
 					app.getPageController().resetPageControl();
 				}

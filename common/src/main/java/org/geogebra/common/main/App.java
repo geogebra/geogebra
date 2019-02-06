@@ -3785,10 +3785,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_COLOR_FILLING_LINE:
 			return prerelease && whiteboard;
 
-		/** MOW-269 */
-		case MOW_MULTI_PAGE:
-			return prerelease && whiteboard;
-
 		/** MOW-360, MOW-381, MOW-382 */
 		case MOW_CROP_IMAGE:
 			return prerelease && whiteboard;

@@ -145,9 +145,6 @@ public enum Feature {
 	/** MOW-261 */
 	MOW_COLOR_FILLING_LINE,
 
-	/** MOW-269 */
-	MOW_MULTI_PAGE,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

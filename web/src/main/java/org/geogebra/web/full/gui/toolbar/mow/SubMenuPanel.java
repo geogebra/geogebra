@@ -177,9 +177,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		if (app.has(Feature.MOW_MULTI_PAGE)) {
-			((AppWFull) app).getAppletFrame().getPageControlPanel().close();
-		}
+		((AppWFull) app).getAppletFrame().getPageControlPanel().close();
 	}
 
 	/**

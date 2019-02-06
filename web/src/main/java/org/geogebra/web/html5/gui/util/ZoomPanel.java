@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.Browser;
@@ -71,7 +70,7 @@ public class ZoomPanel extends FlowPanel
 			view.getEuclidianController().addZoomerListener(this);
 		}
 		setStyleName("zoomPanel");
-		addStyleName(app.isWhiteboardActive() && app.has(Feature.MOW_MULTI_PAGE)
+		addStyleName(app.isWhiteboardActive()
 				? "zoomPanelWithPageControl" : "zoomPanelPosition");
 		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
 			addZoomButtons();

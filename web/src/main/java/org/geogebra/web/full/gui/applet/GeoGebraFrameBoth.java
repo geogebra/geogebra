@@ -937,7 +937,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		app.hideKeyboard();
 		app.closePopups();
 		app.toggleMenu();
-		if (app.has(Feature.MOW_MULTI_PAGE)) {
+		if (app.isWhiteboardActive()) {
 			pageListPanel.close();
 		}
 	}

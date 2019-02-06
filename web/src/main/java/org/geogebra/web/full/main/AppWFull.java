@@ -1235,7 +1235,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 * @return whether it was closed
 	 */
 	public boolean closePageControlPanel() {
-		if (!has(Feature.MOW_MULTI_PAGE)) {
+		if (!isWhiteboardActive()) {
 			return false;
 		}
 

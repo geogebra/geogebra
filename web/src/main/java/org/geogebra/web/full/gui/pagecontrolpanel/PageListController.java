@@ -313,9 +313,6 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void resetPageControl() {
-		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			return;
-		}
 		// clear preview card list
 		slides.clear();
 		// clear gui

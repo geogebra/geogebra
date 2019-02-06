@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
@@ -163,16 +162,12 @@ public class ToolbarMow extends FlowPanel
 	public void updateFloatingButtonsPosition() {
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) (appW.getGuiManager()
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		if (!appW.has(Feature.MOW_MULTI_PAGE)) {
+		if (!appW.isWhiteboardActive()) {
 			if (appW.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
 				dp.setZoomPanelBottom(true);
 			} else {
 				dp.setZoomPanelBottom(false);
-				if (isOpen) {
-					dp.moveZoomPanelUpOrDown(true);
-				} else {
-					dp.moveZoomPanelUpOrDown(false);
-				}
+				dp.moveZoomPanelUpOrDown(isOpen);
 			}
 		} else {
 			if (appW.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
@@ -181,15 +176,11 @@ public class ToolbarMow extends FlowPanel
 			} else {
 				pageControlButton.getElement().getStyle().clearBottom();
 				dp.setZoomPanelBottom(false);
-				if (isOpen) {
-					pageControlButton.removeStyleName("hideMowSubmenu");
-					pageControlButton.addStyleName("showMowSubmenu");
-					dp.moveZoomPanelUpOrDown(true);
-				} else {
-					pageControlButton.removeStyleName("showMowSubmenu");
-					pageControlButton.addStyleName("hideMowSubmenu");
-					dp.moveZoomPanelUpOrDown(false);
-				}
+				pageControlButton.removeStyleName(
+						isOpen ? "hideMowSubmenu" : "showMowSubmenu");
+				pageControlButton.addStyleName(
+						isOpen ? "showMowSubmenu" : "hideMowSubmenu");
+				dp.moveZoomPanelUpOrDown(isOpen);
 			}
 		}
 	}
