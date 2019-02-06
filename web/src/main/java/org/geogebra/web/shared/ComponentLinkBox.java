@@ -12,10 +12,11 @@ import com.google.gwt.user.client.ui.TextBox;
  * @author Csilla
  *
  */
-public class ComponentLinkBox extends TextBox {
+public class ComponentLinkBox extends TextBox
+		implements ClickHandler, BlurHandler {
 
 	/** true if linkBox is focused */
-	protected boolean linkBoxFocused = true;
+	protected boolean isFocused = true;
 
 	/**
 	 * @param isReadOnly
@@ -30,22 +31,23 @@ public class ComponentLinkBox extends TextBox {
 		setReadOnly(isReadOnly);
 		setText(urlString);
 		setStyleName(style);
-		addLinkBoxHandlers();
+		addClickHandler(this);
+		addBlurHandler(this);
 	}
 
 	/**
 	 * @return true if text field in focus
 	 */
-	public boolean isLinkBoxFocused() {
-		return linkBoxFocused;
+	public boolean isFocused() {
+		return isFocused;
 	}
 
 	/**
 	 * @param linkBoxFocused
 	 *            true if set in focus text box
 	 */
-	public void setLinkBoxFocused(boolean linkBoxFocused) {
-		this.linkBoxFocused = linkBoxFocused;
+	public void setFocused(boolean linkBoxFocused) {
+		this.isFocused = linkBoxFocused;
 	}
 
 	@Override
@@ -53,41 +55,25 @@ public class ComponentLinkBox extends TextBox {
 		super.setReadOnly(isReadOnly);
 	}
 
-	private void addLinkBoxHandlers() {
-		this.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				focusLinkBox();
-			}
-		});
-		this.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (getLinkBox().isLinkBoxFocused()) {
-					getLinkBox().setFocus(true);
-					getLinkBox().setSelectionRange(0, 0);
-				}
-				getLinkBox().setLinkBoxFocused(false);
-			}
-		});
-	}
-
-	/**
-	 * @return link text box
-	 */
-	public ComponentLinkBox getLinkBox() {
-		return this;
-	}
-
 	/**
 	 * focus textBox and select text
 	 */
-	protected void focusLinkBox() {
+	protected void focus() {
 		setFocus(true);
 		setSelectionRange(0, 0);
 		selectAll();
-		setLinkBoxFocused(true);
+		setFocused(true);
+	}
+
+	public void onBlur(BlurEvent event) {
+		if (isFocused()) {
+			setFocus(true);
+			setSelectionRange(0, 0);
+		}
+		setFocused(false);
+	}
+
+	public void onClick(ClickEvent event) {
+		focus();
 	}
 }

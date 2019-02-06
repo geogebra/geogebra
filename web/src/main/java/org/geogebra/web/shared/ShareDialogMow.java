@@ -335,9 +335,9 @@ public class ShareDialogMow extends DialogBoxW
 			});
 			hide();
 		} else if (source == copyBtn) {
-			linkBox.setLinkBoxFocused(false);
+			linkBox.setFocused(false);
 			app.copyTextToSystemClipboard(linkBox.getText());
-			linkBox.focusLinkBox();
+			linkBox.focus();
 			hide();
 		}
 	}
