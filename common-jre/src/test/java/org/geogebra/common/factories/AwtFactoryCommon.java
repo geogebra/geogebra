@@ -26,6 +26,16 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.gui.font.GFontCommon;
+import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
+import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
+import org.geogebra.ggbjdk.java.awt.geom.Area;
+import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
+import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
+import org.geogebra.ggbjdk.java.awt.geom.Line2D;
+import org.geogebra.ggbjdk.java.awt.geom.Path2D;
+import org.geogebra.ggbjdk.java.awt.geom.Point2D;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 
 /**
  * Class used for testing.
@@ -34,17 +44,17 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GAffineTransform newAffineTransform() {
-        return null;
+		return new AffineTransform();
     }
 
     @Override
-    public GRectangle2D newRectangle2D() {
-        return null;
-    }
+	public GRectangle2D newRectangle2D() {
+		return new Rectangle2D.Double();
+	}
 
     @Override
     public GRectangle newRectangle(int x, int y, int w, int h) {
-        return null;
+		return new Rectangle(x, y, w, h);
     }
 
     @Override
@@ -68,28 +78,28 @@ public class AwtFactoryCommon extends AwtFactory {
     }
 
     @Override
-    public GPoint2D newPoint2D() {
-        return null;
-    }
-
-    @Override
     public GRectangle newRectangle(int w, int h) {
-        return null;
+		return new Rectangle(w, h);
     }
 
     @Override
     public GRectangle newRectangle() {
-        return null;
+		return new Rectangle();
     }
 
     @Override
-    public GPoint2D newPoint2D(double x, double y) {
-        return null;
-    }
+	public GPoint2D newPoint2D() {
+		return new Point2D.Double();
+	}
+
+	@Override
+	public GPoint2D newPoint2D(double x, double y) {
+		return new Point2D.Double(x, y);
+	}
 
     @Override
     public GGeneralPath newGeneralPath() {
-        return null;
+		return new GeneralPath(Path2D.WIND_EVEN_ODD);
     }
 
     @Override
@@ -109,32 +119,33 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GBasicStroke newBasicStroke(double f) {
-        return null;
+		return new GStrokeCommon();
     }
 
     @Override
-    public GLine2D newLine2D() {
-        return null;
-    }
+	public GLine2D newLine2D() {
+		return new Line2D.Double();
+	}
 
     @Override
     public GRectangle newRectangle(GRectangle bb) {
-        return null;
+		return new Rectangle(bb);
     }
 
     @Override
-    public GEllipse2DDouble newEllipse2DDouble() {
-        return null;
-    }
+	public GEllipse2DDouble newEllipse2DDouble() {
+		return new Ellipse2D.Double();
+	}
 
-    @Override
-    public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w, double h) {
-        return null;
-    }
+	@Override
+	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w,
+			double h) {
+		return new Ellipse2D.Double(x, y, w, h);
+	}
 
     @Override
     public GArc2D newArc2D() {
-        return null;
+		return new Arc2D.Double();
     }
 
     @Override
@@ -144,18 +155,18 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GArea newArea() {
-        return null;
+		return new Area();
     }
 
     @Override
     public GArea newArea(GShape shape) {
-        return null;
+		return new Area(shape);
     }
 
     @Override
-    public GGeneralPath newGeneralPath(int rule) {
-        return null;
-    }
+	public GGeneralPath newGeneralPath(int rule) {
+		return new GeneralPath(rule);
+	}
 
     @Override
     public GTextLayout newTextLayout(String string, GFont fontLine, GFontRenderContext frc) {
@@ -169,7 +180,7 @@ public class AwtFactoryCommon extends AwtFactory {
 
     @Override
     public GBasicStroke newBasicStrokeJoinMitre(double f) {
-        return null;
+		return new GStrokeCommon();
     }
 
     @Override

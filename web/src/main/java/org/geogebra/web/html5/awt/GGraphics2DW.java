@@ -17,6 +17,7 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
@@ -79,7 +80,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * GGB-1780 special method for SVG export this.canvas not set
-	 * 
+	 *
 	 * @param ctx
 	 *            context; doesn't belong to canvas
 	 */
@@ -95,7 +96,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Change how images are drawn on canvas.
-	 * 
+	 *
 	 * @param interpolate
 	 *            whether to use interpolation
 	 */
@@ -225,7 +226,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Draw shape with extra debugging dots.
-	 * 
+	 *
 	 * @param shape
 	 *            shape
 	 */
@@ -287,7 +288,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Draws a stroke for a string.
-	 * 
+	 *
 	 * @param str
 	 *            the <code>String</code> to be rendered
 	 * @param x
@@ -305,7 +306,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Sets stroke width
-	 * 
+	 *
 	 * @param w
 	 *            stroke width
 	 */
@@ -320,7 +321,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Set a SVG pattern.
-	 * 
+	 *
 	 * @param svgPaint
 	 *            SVG pattern
 	 * @param lineWidth
@@ -399,8 +400,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
 			context.setLineWidth(stroke.getLineWidth());
-			context.setLineCap(((GBasicStrokeW) stroke).getEndCapString());
-			context.setLineJoin(((GBasicStrokeW) stroke).getLineJoinString());
+			context.setLineCap(GBasicStrokeW.getEndCapString(stroke));
+			context.setLineJoin(GBasicStrokeW.getLineJoinString(stroke));
 
 			double[] dasharr = stroke.getDashArray();
 			if (dasharr != null) {
@@ -479,7 +480,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public GBasicStroke getStroke() {
 
-		return new GBasicStrokeW(context.getLineWidth(),
+		return new DefaultBasicStroke(context.getLineWidth(),
 		        GBasicStrokeW.getCap(context.getLineCap()),
 				GBasicStrokeW.getJoin(context.getLineJoin()), 0, dashArray);
 	}
@@ -617,12 +618,12 @@ public class GGraphics2DW implements GGraphics2DWI {
 		 * TODO: there is some differences between the result of
 		 * geogebra.awt.Graphics.drawLine(...) function. Here is an attempt to
 		 * make longer the vertical and horizontal lines:
-		 * 
+		 *
 		 * int x_1 = Math.min(x1,x2); int y_1 = Math.min(y1,y2); int x_2 =
 		 * Math.max(x1,x2); int y_2 = Math.max(y1,y2);
-		 * 
+		 *
 		 * if(x1==x2){ y_1--; y_2++; } else if(y1==y2){ x_1--; x_2++; }
-		 * 
+		 *
 		 * context.beginPath(); context.moveTo(x_1, y_1); context.lineTo(x_2,
 		 * y_2); context.closePath(); context.stroke();
 		 */
@@ -744,7 +745,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 		/*
 		 * alternative: makes clipping bad, see #3212
-		 * 
+		 *
 		 * //context.save(); context.beginPath(); context.moveTo(x, y);
 		 * context.lineTo(x + width, y); context.lineTo(x + width, y + height);
 		 * context.lineTo(x , y + height); context.lineTo(x , y);
@@ -800,7 +801,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Using bezier curves rather than arcs so that PDF export works
-	 * 
+	 *
 	 * @param x
 	 *            left
 	 * @param y
@@ -869,7 +870,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	/**
 	 * Fill the whole rectangle with color.
-	 * 
+	 *
 	 * @param fillColor
 	 *            fill color
 	 */

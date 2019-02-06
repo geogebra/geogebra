@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.factories;
 
 import org.geogebra.common.awt.GAlphaComposite;
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -17,9 +16,7 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.factories.AwtFactoryHeadless;
-import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.web.html5.awt.GAlphaCompositeW;
-import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -62,36 +59,6 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 	@Override
 	public GDimension newDimension(int width, int height) {
 		return new GDimensionW(width, height);
-	}
-
-	@Override
-	public GBasicStroke newMyBasicStroke(double f) {
-		return new GBasicStrokeW(f, DefaultBasicStroke.CAP_ROUND,
-				DefaultBasicStroke.JOIN_ROUND);
-	}
-
-	@Override
-	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
-			double miterLimit, double[] dash) {
-		return new GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash);
-	}
-
-	@Override
-	public GBasicStroke newBasicStroke(double f) {
-		return new GBasicStrokeW(f);
-	}
-
-	@Override
-	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
-	// see #1699
-	public GBasicStroke newBasicStrokeJoinMitre(double f) {
-		return new GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
-				GBasicStroke.JOIN_MITER);
-	}
-
-	@Override
-	public GBasicStroke newBasicStroke(double f, int cap, int join) {
-		return new GBasicStrokeW(f, cap, join);
 	}
 
 	@Override

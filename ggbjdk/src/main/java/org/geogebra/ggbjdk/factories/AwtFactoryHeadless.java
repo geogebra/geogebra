@@ -3,6 +3,7 @@ package org.geogebra.ggbjdk.factories;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
@@ -12,6 +13,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
 import org.geogebra.ggbjdk.java.awt.geom.Area;
@@ -113,6 +115,37 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	@Override
 	public GGeneralPath newGeneralPath(int rule) {
 		return new GeneralPath(rule);
+	}
+
+	@Override
+	public GBasicStroke newMyBasicStroke(double f) {
+		return new DefaultBasicStroke(f, DefaultBasicStroke.CAP_ROUND,
+				DefaultBasicStroke.JOIN_ROUND);
+	}
+
+	@Override
+	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
+			double miterLimit, double[] dash) {
+		return new DefaultBasicStroke(width, endCap, lineJoin, miterLimit,
+				dash);
+	}
+
+	@Override
+	public GBasicStroke newBasicStroke(double f) {
+		return new DefaultBasicStroke(f);
+	}
+
+	@Override
+	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
+	// see #1699
+	public GBasicStroke newBasicStrokeJoinMitre(double f) {
+		return new DefaultBasicStroke(f, GBasicStroke.CAP_SQUARE,
+				GBasicStroke.JOIN_MITER);
+	}
+
+	@Override
+	public GBasicStroke newBasicStroke(double f, int cap, int join) {
+		return new DefaultBasicStroke(f, cap, join);
 	}
 
 }

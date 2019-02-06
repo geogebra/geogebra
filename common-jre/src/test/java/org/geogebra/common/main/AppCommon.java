@@ -17,6 +17,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.MyXMLioCommon;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
+import org.geogebra.common.jre.headless.DialogManagerNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
@@ -43,6 +44,7 @@ import org.geogebra.common.util.debug.Log;
 public class AppCommon extends App {
 
     private LocalizationCommon localization;
+	private DialogManagerNoGui dialogManager;
 
     /**
      * Construct an AppCommon.
@@ -208,9 +210,9 @@ public class AppCommon extends App {
     }
 
     @Override
-    public DialogManager getDialogManager() {
-        return null;
-    }
+	public DialogManager getDialogManager() {
+		return dialogManager;
+	}
 
     @Override
     public void evalJavaScript(App app, String script, String arg) throws Exception {
@@ -539,4 +541,8 @@ public class AppCommon extends App {
 			}
 		};
     }
+
+	public void initDialogManager(boolean clear, String... inputs) {
+		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
+	}
 }
