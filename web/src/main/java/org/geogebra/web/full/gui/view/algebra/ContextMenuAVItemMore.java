@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -27,7 +28,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	private AppWFull mApp;
 	/** parent item */
 	private RadioTreeItem item;
-	private MenuActionCollection actions;
+	private MenuActionCollection<GeoElement> actions;
 
 	/**
 	 * Creates new context menu
@@ -37,7 +38,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * @param collection
 	 *            collection of items
 	 */
-	ContextMenuAVItemMore(RadioTreeItem item, MenuActionCollection collection) {
+	ContextMenuAVItemMore(RadioTreeItem item, MenuActionCollection<GeoElement> collection) {
 		mApp = item.getApplication();
 		loc = mApp.getLocalization();
 		this.item = item;
@@ -63,7 +64,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
-		for (MenuAction action : actions) {
+		for (MenuAction<GeoElement> action : actions) {
 			if (action.isAvailable(item.geo)) {
 				addAction(action);
 			}
@@ -81,7 +82,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		focusDeferred();
 	}
 
-	private void addAction(final MenuAction menuAction) {
+	private void addAction(final MenuAction<GeoElement> menuAction) {
 		SVGResource img = menuAction.getImage();
 		String html = MainMenu.getMenuBarHtml(img, menuAction.getTitle(loc));
 		AriaMenuItem mi = new AriaMenuItem(html, true, new Command() {
@@ -99,7 +100,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * @param menuAction
 	 *            action to be executed
 	 */
-	protected void select(MenuAction menuAction) {
+	protected void select(MenuAction<GeoElement> menuAction) {
 		menuAction.execute(item.geo, mApp);
 	}
 

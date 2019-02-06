@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigMixedReality;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
@@ -25,7 +26,7 @@ public class MixedRealityActivity extends BaseActivity {
 	}
 
 	@Override
-	public MenuActionCollection getAVMenuItems(AlgebraViewW view) {
+	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollectionMR(view);
 	}
 

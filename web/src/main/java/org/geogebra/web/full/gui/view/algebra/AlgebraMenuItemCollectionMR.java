@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
 
@@ -8,7 +9,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
  *
  * @author Zbynek
  */
-public class AlgebraMenuItemCollectionMR extends MenuActionCollection {
+public class AlgebraMenuItemCollectionMR extends MenuActionCollection<GeoElement> {
 
 	/**
 	 * @param av

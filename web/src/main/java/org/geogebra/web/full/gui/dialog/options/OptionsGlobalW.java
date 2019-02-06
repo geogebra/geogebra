@@ -1,14 +1,10 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;

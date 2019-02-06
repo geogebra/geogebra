@@ -1,9 +1,10 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AddLabelAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.RemoveLabelAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.AddLabelAction;
 
 /**
  * AV context menu actions for scientific
@@ -11,7 +12,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.AddLabelAction;
  * @author Zbynek
  *
  */
-public class AlgebraMenuItemCollectionScientific extends MenuActionCollection {
+public class AlgebraMenuItemCollectionScientific extends MenuActionCollection<GeoElement> {
 
 	/**
 	 * @param av

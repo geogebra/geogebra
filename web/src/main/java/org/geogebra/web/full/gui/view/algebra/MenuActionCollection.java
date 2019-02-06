@@ -6,10 +6,13 @@ import java.util.List;
 
 /**
  * Collection of context menu items
+ * 
+ * @param <T>
+ *            item context
  */
-public class MenuActionCollection implements Iterable<MenuAction> {
+public class MenuActionCollection<T> implements Iterable<MenuAction<T>> {
 
-	private List<MenuAction> actions;
+	private List<MenuAction<T>> actions;
 
 	/**
 	 * New collection
@@ -19,7 +22,7 @@ public class MenuActionCollection implements Iterable<MenuAction> {
 	}
 
 	@Override
-	public Iterator<MenuAction> iterator() {
+	public Iterator<MenuAction<T>> iterator() {
 		return actions.iterator();
 	}
 
@@ -27,8 +30,9 @@ public class MenuActionCollection implements Iterable<MenuAction> {
 	 * @param actionsToAdd
 	 *            new actions
 	 */
-	protected void addActions(MenuAction... actionsToAdd) {
-		for (MenuAction action : actionsToAdd) {
+	@SafeVarargs
+	protected final void addActions(MenuAction<T>... actionsToAdd) {
+		for (MenuAction<T> action : actionsToAdd) {
 			actions.add(action);
 		}
 	}

@@ -2996,6 +2996,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		this.pointsVisible = pointsVisible;
 	}
 
+	@Override
 	public double getX() {
 
 		try {
@@ -3016,6 +3017,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	}
 
+	@Override
 	public double getY() {
 		return -1;
 	}

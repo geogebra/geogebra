@@ -8,6 +8,8 @@ import org.geogebra.web.resources.SVGResource;
  * Menu item with title and icon
  *
  * @author Zbynek
+ * @param <T>
+ *            item context
  */
 public abstract class MenuAction<T> {
 
