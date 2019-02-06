@@ -512,10 +512,7 @@ public final class DrawImage extends Drawable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(
-					view.getApplication().has(Feature.MOW_CROP_IMAGE) ? true
-							: false,
-					false);
+			boundingBox = new BoundingBox(true, false);
 		}
 		return boundingBox;
 	}
@@ -535,13 +532,13 @@ public final class DrawImage extends Drawable {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		if (!(geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE))
+		if (!(geo.getKernel().getApplication().isWhiteboardActive())
 				|| (absoluteLocation && !geo.getKernel().getApplication()
 						.has(Feature.MOW_PIN_IMAGE))) {
 			return;
 		}
 		if (boundingBox.isCropBox()) {
-			if (!geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE)) {
+			if (!geo.getKernel().getApplication().isWhiteboardActive()) {
 				return;
 			}
 			geoImage.setCropped(true);

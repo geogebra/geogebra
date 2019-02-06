@@ -172,9 +172,6 @@ public enum Feature {
 	/** GBB-2374 */
 	MAT_DESIGN_HEADER,
 
-	/** MOW-360, MOW-381, MOW-382 */
-	MOW_CROP_IMAGE,
-
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 
@@ -291,4 +288,3 @@ public enum Feature {
     /** G3D-132 */
     G3D_SHOW_IN_ALGEBRA_VIEW
 }
-

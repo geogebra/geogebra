@@ -567,7 +567,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		if (app.isUnbundledOrWhiteboard()) {
-			if (app.has(Feature.MOW_CROP_IMAGE) && isImageGeoSelected()
+			if (app.isWhiteboardActive() && isImageGeoSelected()
 					&& ev.getMode() != EuclidianConstants.MODE_SELECT) {
 				addCropButton();
 			}
