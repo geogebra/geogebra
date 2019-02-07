@@ -442,16 +442,6 @@ public class MainMenu extends FlowPanel
 		}
 	}
 
-	/**
-	 * sets the height of the menu
-	 *
-	 * @param height
-	 *            int
-	 */
-	public void updateHeight(int height) {
-		this.setHeight(height + "px");
-	}
-
 	@Override
 	public void renderEvent(final BaseEvent event) {
 		if (!hasLoginButton()) {
