@@ -51,7 +51,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
 		super(app);
-		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
@@ -350,7 +350,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 */
 	protected void addMiProperties(String name, final OptionType type) {
 		String img;
-		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img = MaterialDesignResources.INSTANCE.gear().getSafeUri()
 					.asString();
 		} else {
@@ -359,7 +359,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		AriaMenuItem miProperties = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img,
-				app.isUnbundled() || hasWhiteboardContextMenu()
+						app.isUnbundledOrWhiteboard()
 						? loc.getMenu("Settings")
 						: loc.getMenu(name) + " ..."),
 				true,
@@ -453,7 +453,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		// zoom for both axes
 		AriaMenuBar zoomMenu = new AriaMenuBar();
 		String img;
-		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
 					.asString();
 		} else {
@@ -462,7 +462,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		AriaMenuItem zoomMenuItem = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Zoom")), true, zoomMenu);
-		if (!hasWhiteboardContextMenu()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			zoomMenuItem.addStyleName("mi_with_image");
 		}
 		wrappedPopup.addItem(zoomMenuItem);
@@ -498,7 +498,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				}
 			});
 			menu.addItem(mi);
-			if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				mi.addStyleName("no-image");
 			}
 		}
@@ -520,13 +520,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			return;
 		}
 		String img;
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img = AppResources.INSTANCE.axes20().getSafeUri().asString();
 		} else {
 			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
 		}
 		String htmlString = MainMenu.getMenuBarHtml(img, loc.getMenu("Axes"));
-		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			GCheckBoxMenuItem cbMenuItem = new GCheckBoxMenuItem(htmlString,
 					((AppW) app).getGuiManager().getShowAxesAction(), true,
 					app);
@@ -546,13 +546,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
 		}
 		String img2;
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img2 = AppResources.INSTANCE.grid20().getSafeUri().asString();
 		} else {
 			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
 		}
 		htmlString = MainMenu.getMenuBarHtml(img2, loc.getMenu("Grid"));
-		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowGridAction(), true, app);
 			cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid(),
@@ -574,7 +574,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 * add navigation bar
 	 */
 	protected void addNavigationBar() {
-		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			return;
 		}
 		// Show construction protocol navigation bar checkbox item
@@ -608,7 +608,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	@Override
 	protected void updateEditItems() {
-		if (!hasWhiteboardContextMenu()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			return;
 		}
 		updatePasteItem();

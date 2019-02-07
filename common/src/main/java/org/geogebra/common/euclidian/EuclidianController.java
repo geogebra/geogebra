@@ -11034,7 +11034,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// selectionRectangle
 					processSelectionRectangle(alt, control, shift);
 				} else if (selection.selectedGeosSize() > 0) {
-					if (hasWhiteboardContextMenu()) {
+					if (app.isUnbundledOrWhiteboard()) {
 						clearAndShowDrawingPadPopup(mouseLoc);
 					} else {
 						showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
@@ -12620,10 +12620,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (pen != null) {
 			pen.remove(geo);
 		}
-	}
-
-	protected boolean hasWhiteboardContextMenu() {
-		return app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	public boolean isObjectMenuActive() {

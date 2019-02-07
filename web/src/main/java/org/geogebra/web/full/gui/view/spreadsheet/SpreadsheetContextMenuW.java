@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -49,7 +48,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup = new GPopupMenuW((AppW) app);
 		popup.getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
 		initMenu();
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			popup.getPopupPanel().addStyleName("contextMenu");
 		} else if (app.isUnbundled()) {
 			popup.getPopupPanel().addStyleName("matMenu");
@@ -82,16 +81,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup.setVisible(false);
 	}
 
-	/**
-	 * @return true if has mow context menu feature
-	 */
-	protected boolean hasWhiteboardContextMenu() {
-		return app.has(Feature.MOW_CONTEXT_MENU);
-	}
-
 	@Override
 	protected void addEditItems() {
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addSeparator();
 
 			addCut();
@@ -118,7 +110,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 		String html;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
@@ -127,7 +119,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		AriaMenuItem mi;
 		mi = new AriaMenuItem(html, true, getCommand(cmdString));
-		if (!hasWhiteboardContextMenu()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			mi.addStyleName("mi_with_image");
 		}
 		mi.setEnabled(enabled);
@@ -142,7 +134,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString, isSelected),
 					"");
 		} else {
@@ -162,7 +154,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        boolean isSelected) {
 
 		String html;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
@@ -179,7 +171,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public AriaMenuItem addSubMenu(String text, String cmdString) {
 
 		String html;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
@@ -198,7 +190,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        String text, boolean enabled) {
 
 		String html;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(

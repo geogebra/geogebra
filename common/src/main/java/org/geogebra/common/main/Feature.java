@@ -64,9 +64,6 @@ public enum Feature {
 	/** MOW-97 */
 	ERASER, ROUNDED_POLYGON,
 
-	/** MOW-175 */
-	MOW_CONTEXT_MENU,
-
 	/** MOV-169 */
 	DYNAMIC_STYLEBAR,
 

@@ -50,7 +50,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			buildGUI3DUnbundled();
 			return;
 		}
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addPasteItem();
 		} else {
 			addAxesAndGridCheckBoxes();
@@ -122,7 +122,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	private void addStandardViewMenuItem() {
 		String img;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			img = AppResources.INSTANCE.standard_view20().getSafeUri()
 					.asString();
 		} else if (app.isUnbundled()) {
@@ -147,7 +147,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	private void addShowAllObjectsViewMenuItem() {
 		String img;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+		if (app.isWhiteboardActive()) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri()
 					.asString();
 		} else if (app.isUnbundled()) {
@@ -174,7 +174,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	protected void addAxesAndGridCheckBoxes() {
 		// AXES
 		String img;
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img = AppResources.INSTANCE.axes20().getSafeUri().asString();
 		} else {
 			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
@@ -189,7 +189,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		// GRID
 		String img2;
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img2 = AppResources.INSTANCE.grid20().getSafeUri().asString();
 		} else {
 			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
@@ -204,7 +204,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		// PLANE
 		String img3;
-		if (hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img3 = AppResources.INSTANCE.plane20().getSafeUri().asString();
 		} else {
 			img3 = StyleBar3DResources.INSTANCE.plane().getSafeUri().asString();

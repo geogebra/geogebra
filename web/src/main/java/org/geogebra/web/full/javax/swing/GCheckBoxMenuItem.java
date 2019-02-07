@@ -1,7 +1,6 @@
 package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
@@ -68,7 +67,7 @@ public class GCheckBoxMenuItem {
 		this.isHtml = isHtml;
 		this.app = app;
 
-		this.toggle = app.has(Feature.MOW_CONTEXT_MENU);
+		this.toggle = app.isUnbundledOrWhiteboard();
 		itemPanel = new HorizontalPanel();
 
 		checkBox = new CheckBox();

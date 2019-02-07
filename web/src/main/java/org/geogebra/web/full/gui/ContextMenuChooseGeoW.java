@@ -148,7 +148,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
 
 		selectAnotherMenu.addItem(mi);
-		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			mi.addStyleName("no-image");
 		}
 		metas.add(geo);
@@ -183,7 +183,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 					localization.getMenu("PerformToolOn"), false,
 			        selectAnotherMenu);
 		}
-		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			selectAnotherMenuItem.addStyleName("mi_no_image");
 		} 
 		wrappedPopup.addItem(selectAnotherMenuItem);
