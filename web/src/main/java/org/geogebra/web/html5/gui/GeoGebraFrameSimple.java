@@ -98,8 +98,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	}
 
 	@Override
-	public boolean isHeaderPanelOpen() {
-		return false;
+	public void onBackPressed() {
+
 	}
 
 	@Override

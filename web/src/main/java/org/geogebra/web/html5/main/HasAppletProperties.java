@@ -75,9 +75,9 @@ public interface HasAppletProperties {
 	public void remove();
 
 	/**
-	 * @return whether Open / Language guis are open
+	 * Can be called to handle the back button event.
 	 */
-	public boolean isHeaderPanelOpen();
+	public void onBackPressed();
 
 	/**
 	 * Update the CSS height of the article

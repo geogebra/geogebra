@@ -13,10 +13,11 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.HeaderPanelDeck;
 import org.geogebra.web.full.gui.MyHeaderPanel;
-import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
+import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
+import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
@@ -49,7 +50,6 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -60,7 +60,6 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -69,8 +68,9 @@ import com.google.gwt.user.client.ui.Widget;
  * Frame for applets with GUI
  *
  */
-public class GeoGebraFrameBoth extends GeoGebraFrameW implements
-		HeaderPanelDeck, NativePreviewHandler {
+public class GeoGebraFrameBoth
+		extends GeoGebraFrameW
+		implements HeaderPanelDeck, NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -79,15 +79,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private KeyboardState keyboardState;
 	private final SimplePanel kbButtonSpace = new SimplePanel();
 	private GDevice device;
-	private boolean[] childVisible = new boolean[0];
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private DockPanelW dockPanelKB;
-	private HeaderPanel lastBG;
 	private ToolbarMow toolbarMow;
 	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
+	private PanelTransitioner panelTransitioner;
 
 	/**
 	 * @param factory
@@ -104,6 +103,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		super(laf, mainTag);
 		this.device = device;
 		this.factory = factory;
+		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
 		Event.addNativePreviewHandler(this);
@@ -207,69 +207,23 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	/**
-	 * @param bg
-	 *            full-sized GUI
+	 * @param panel Shows this full-screen panel.
 	 */
-	public void showBrowser(MyHeaderPanel bg) {
-		keyBoardNeeded(false, null);
-		GeoGebraFrameW frameLayout = this;
-		ToolTipManagerW.hideAllToolTips();
-		final int count = frameLayout.getWidgetCount();
-		final int oldHeight = this.getOffsetHeight();
-		final int oldWidth = this.getOffsetWidth();
-		childVisible = new boolean[count];
-		for (int i = 0; i < count; i++) {
-			// MOW-531 don't interfere with menu animation
-			if (!(frameLayout.getWidget(i) instanceof FloatingMenuPanel)) {
-				childVisible[i] = frameLayout.getWidget(i).isVisible();
-				frameLayout.getWidget(i).setVisible(false);
-			}
-		}
-		frameLayout.add(bg);
-		bg.setHeight(oldHeight + "px");
-		bg.setWidth(oldWidth + "px");
-		bg.onResize();
-		bg.setVisible(true);
-		bg.setFrame(this);
-
-		this.lastBG = bg;
-		// in Graphing Menu > OPen sets overflow to hidden-> breaks resizing of
-		// BrowseGUI
-		getElement().getStyle().setOverflow(Overflow.VISIBLE);
-		// frameLayout.forceLayout();
+	public void showPanel(MyHeaderPanel panel) {
+		panelTransitioner.showPanel(panel);
 	}
 
 	@Override
-	public void hideBrowser(MyHeaderPanel bg) {
-		if (lastBG == null) {
-			return; // MOW-394: childVisible is outdated, return
-		}
-		remove(bg == null ? lastBG : bg);
-		lastBG = null;
-		ToolTipManagerW.hideAllToolTips();
-		final int count = getWidgetCount();
-		for (int i = 0; i < count; i++) {
-			// MOW-531 don't interfere with menu animation
-			if (childVisible.length > i
-					&& !(getWidget(i) instanceof FloatingMenuPanel)) {
-				getWidget(i).setVisible(childVisible[i]);
-			}
-		}
-		// frameLayout.setLayout(app);
-		// frameLayout.forceLayout();
-		if (articleElement.getDataParamFitToScreen()) {
-			setSize(Window.getClientWidth(), computeHeight());
-		} else {
-			app.updateViewSizes();
-		}
+	public void hidePanel(MyHeaderPanel panel) {
+		panelTransitioner.hidePanel(panel);
 	}
 
 	@Override
 	public void setSize(int width, int height) {
-		// setPixelSize(width, height);
-		if (lastBG != null) {
-			((MyHeaderPanel) lastBG).setPixelSize(width, height);
-			((MyHeaderPanel) lastBG).resizeTo(width, height);
+		MyHeaderPanel currentPanel = panelTransitioner.getCurrentPanel();
+		if (currentPanel != null) {
+			currentPanel.setPixelSize(width, height);
+			currentPanel.resizeTo(width, height);
 		} else {
 			super.setSize(width, height);
 			app.adjustViews(true, height > width
@@ -856,7 +810,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
-				&& !app.isUnbundled() && lastBG == null) {
+				&& !app.isUnbundled() && panelTransitioner.getCurrentPanel() == null) {
 			app.toggleMenu();
 		}
 	}
@@ -887,8 +841,15 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	@Override
-	public boolean isHeaderPanelOpen() {
-		return lastBG != null;
+	public void onBackPressed() {
+		if (isSubPanelOpen() && app != null) {
+			GuiManagerW guiManager = (GuiManagerW) app.getGuiManager();
+			hidePanel((BrowseGUI) guiManager.getBrowseView());
+		}
+	}
+
+	private boolean isSubPanelOpen() {
+		return panelTransitioner.getCurrentPanel() != null;
 	}
 
 	private void attachOpenMenuButton() {
@@ -1021,4 +982,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	@Override
+	public void onPanelHidden() {
+		if (articleElement.getDataParamFitToScreen()) {
+			setSize(Window.getClientWidth(), computeHeight());
+		} else {
+			app.updateViewSizes();
+		}
+	}
 }

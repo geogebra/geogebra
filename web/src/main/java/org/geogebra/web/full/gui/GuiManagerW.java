@@ -70,6 +70,7 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.LayoutW;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.panels.CASDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ConstructionProtocolDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.DataAnalysisViewDockPanelW;
@@ -189,7 +190,7 @@ public class GuiManagerW extends GuiManager
 
 	private GGWMenuBar mainMenuBar;
 
-	private ScientificSettingsView sciSettingsView;
+	private AnimatingPanel sciSettingsView;
 
 	/**
 	 *
@@ -589,8 +590,7 @@ public class GuiManagerW extends GuiManager
 				frame.forceHeaderVisibility(Visibility.NOT_SET);
 			}
 		});
-		frame.showBrowser(sciSettingsView);
-		sciSettingsView.getAnimator().updateAnimateInStyle();
+		frame.showPanel(sciSettingsView);
 	}
 
 	@Override

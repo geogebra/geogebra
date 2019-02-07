@@ -789,7 +789,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private void showBrowser(MyHeaderPanel bg) {
 		getAppletFrame().setApplication(this);
-		getAppletFrame().showBrowser(bg);
+		getAppletFrame().showPanel(bg);
 	}
 
 	@Override
@@ -1758,7 +1758,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void toggleMenu() {
 		if (!this.menuShowing) {
-			this.getAppletFrame().hideBrowser(null);
+			this.getAppletFrame().hidePanel(null);
 			this.menuShowing = true;
 			boolean needsUpdate = menuInited;
 			if (!menuInited) {

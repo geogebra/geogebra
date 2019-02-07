@@ -2,17 +2,15 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import java.util.Arrays;
 
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.PropertiesFactory;
 import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
 import org.geogebra.web.full.gui.HeaderView;
-import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentDropDown.DropDownSelectionCallback;
-import org.geogebra.web.full.gui.layout.animation.Animator;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -29,14 +27,13 @@ import com.google.gwt.user.client.ui.Widget;
  *         Settings view of scientific calculator
  *
  */
-public class ScientificSettingsView extends MyHeaderPanel implements FastClickHandler, SetLabels {
+public class ScientificSettingsView extends AnimatingPanel implements FastClickHandler {
 
 	private final AppW app;
 	private HeaderView headerView;
 	private boolean isOpen;
 	private Localization localization;
 	private ScrollPanel settingsScrollPanel;
-	private Animator animator;
 
 	/**
 	 * Build and style settings view for sci calc
@@ -49,7 +46,7 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 		this.app = app;
 		isOpen = true;
 		localization = app.getLocalization();
-		animator = new SettingsAnimator(app.getAppletFrame(), this);
+		setAnimator(new SettingsAnimator(app.getAppletFrame(), this));
 		createHeader();
 		createContent();
 	}
@@ -118,13 +115,13 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	@Override
 	public void onClick(Widget source) {
 		if (source == headerView.getBackButton()) {
-			animator.updateAnimateOutStyle();
+			updateAnimateOutStyle();
 			CSSEvents.runOnAnimation(new Runnable() {
 				@Override
 				public void run() {
 					close();
 				}
-			}, this.getElement(), animator.getAnimateOutStyle());
+			}, getElement(), getAnimateOutStyle());
 		}
 	}
 
@@ -178,9 +175,5 @@ public class ScientificSettingsView extends MyHeaderPanel implements FastClickHa
 	@Override
 	public void setLabels() {
 		updateGUI();
-	}
-
-	public Animator getAnimator() {
-		return animator;
 	}
 }

@@ -67,7 +67,7 @@ public class Animator {
 		return getAnimation().getAnimateOutStyle();
 	}
 
-	private Animation getAnimation() {
+	public Animation getAnimation() {
 		return frame.hasSmallWindowOrCompactHeader() ? smallScreenAnimation : largeScreenAnimation;
 	}
 }

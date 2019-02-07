@@ -24,6 +24,8 @@ public class SettingsAnimator extends Animator {
 				new Animation(
 						"panelFadeIn",
 						"panelFadeOut");
+		largeScreenAnimation.setFadeAnimation(true);
+
 		smallScreenAnimation =
 				new Animation(
 						"animateInFromRight",

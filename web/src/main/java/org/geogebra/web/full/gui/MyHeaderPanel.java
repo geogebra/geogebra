@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -8,7 +9,7 @@ import com.google.gwt.user.client.ui.HeaderPanel;
  * Common code for whole screen GUIs such as material browser
  *
  */
-public abstract class MyHeaderPanel extends HeaderPanel {
+public abstract class MyHeaderPanel extends HeaderPanel implements SetLabels {
 
 	private HeaderPanelDeck frame;
 
@@ -26,9 +27,8 @@ public abstract class MyHeaderPanel extends HeaderPanel {
 	public void close() {
 		if (frame != null) {
 			this.getApp().onBrowserClose();
-			frame.hideBrowser(this);
+			frame.hidePanel(this);
 		}
-
 	}
 
 	/**

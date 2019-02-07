@@ -16,10 +16,10 @@ public interface HeaderPanelDeck
 	/**
 	 * Hide the full-sized GUI, e.g. material browser
 	 * 
-	 * @param myHeaderPanel
+	 * @param panel
 	 *            full-sized GUI
 	 */
-	void hideBrowser(MyHeaderPanel myHeaderPanel);
+	void hidePanel(MyHeaderPanel panel);
 
 	/** @return toolbar */
 	ToolBarInterface getToolbar();
