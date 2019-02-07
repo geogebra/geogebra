@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.color;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -70,7 +69,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	 */
 	public void setFillEnabled(boolean b) {
 		getMyTable().setVisible(b);
-		if (b && !app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
+		if (!b) {
 			getMyPopup().setHeight("125px");
 		}
 	}

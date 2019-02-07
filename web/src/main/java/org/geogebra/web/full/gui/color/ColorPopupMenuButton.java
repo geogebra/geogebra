@@ -133,11 +133,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			if (hasSlider && app.isUnbundled()) {
 				getMyPopup().setHeight("118px");
 			}
-			if (!app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
-				if (!hasSlider && app.isWhiteboardActive()) {
-					getMyPopup().setHeight("38px");
-				}
-			}
 		}
 	}
 

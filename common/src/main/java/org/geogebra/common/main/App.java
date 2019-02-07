@@ -3756,9 +3756,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_CLEAR_VIEW_STYLEBAR:
 			return isUnbundledOrWhiteboard();
 
-		case MOW_COLORPOPUP_IMPROVEMENTS:
-			return prerelease;
-
 		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
 
