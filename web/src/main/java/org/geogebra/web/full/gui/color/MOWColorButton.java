@@ -74,7 +74,7 @@ public class MOWColorButton extends ColorPopupMenuButton {
 	 */
 	public void setFillEnabled(boolean b) {
 		fillTable.setVisible(b);
-		if (!b) {
+		if (b) {
 			getMyPopup().setHeight("125px");
 		}
 	}

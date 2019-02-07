@@ -47,8 +47,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public ColorPopupMenuButton(AppW app, int colorSetType, boolean hasSlider) {
 
 		super(app, createDummyIcons(app.isUnbundled() ? 8 : 10), -1,
-				app.isUnbundled() ? 4 : 5,
-				SelectionTable.MODE_ICON, false);
+				app.isUnbundled() ? 4 : 5, SelectionTable.MODE_ICON, false);
 		this.app = app;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
@@ -68,9 +67,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		getMySlider().setTickSpacing(5);
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
-		if (app.isUnbundled()) {
-			getMySlider().setWidth("120px");
-		}
 
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			if (hasSlider) {
@@ -102,9 +98,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		titleLabel = new Label();
 		titleLabel.addStyleName("opacityLabel");
 		sliderPanel.insert(titleLabel, 0);
-		if (app.isWhiteboardActive()) {
-			getMySlider().setWidth("140px");
-		}
 		setLabels();
 	}
 
@@ -118,20 +111,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			if (titleLabel != null) {
 				titleLabel.setVisible(hasSlider);
-			}
-			if (!hasSlider) {
-				getMyPopup().setHeight("88px");
-			}
-			if (hasSlider) {
-				getMyPopup().setHeight("150px");
-			}
-
-		} else {
-			if (!hasSlider && app.isUnbundled()) {
-				getMyPopup().setHeight("88px");
-			}
-			if (hasSlider && app.isUnbundled()) {
-				getMyPopup().setHeight("118px");
 			}
 		}
 	}
@@ -220,9 +199,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			this.setIcon(GeoGebraIconW.createNullSymbolIcon());
 			if (!app.isUnbundled()) {
 				this.getElement().getStyle()
-					.setBorderColor(this.app.isUnbundled()
-							? GColor.newColor(220, 220, 220, 255).toString()
-							: GColor.BLACK.toString());
+						.setBorderColor(this.app.isUnbundled()
+								? GColor.newColor(220, 220, 220, 255).toString()
+								: GColor.BLACK.toString());
 			}
 		}
 	}

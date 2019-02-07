@@ -39,10 +39,6 @@
 		    height: 22px;
 		    width: 22px;
 		}
-		.ButtonPopupMenu .panelRow2 {
-			/*padding-bottom: 8px;
-			padding-top: 4px;*/
-		}
 	}
 	
 	.mowLinePopup .preview{
@@ -132,7 +128,15 @@
 		}
 		.plusButton:hover {
 			border: 1px solid $mow_highlight !important;
-		}
+        }
+        
+        .panelRow.panelRow2.showSlider {
+             width: 180px !important;
+
+             input[type=range] {
+                width: calc(100% - 74px);
+             }
+        }
 	}
 	
 /*****************

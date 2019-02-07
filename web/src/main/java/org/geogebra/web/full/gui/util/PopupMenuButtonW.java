@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class PopupMenuButtonW extends MyCJButton
 		implements ChangeHandler, SliderInputHandler {
-	
+
 	/**
 	 * App
 	 */
@@ -114,7 +114,8 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0, boolean isBorderTeal) {
+			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0,
+			boolean isBorderTeal) {
 		this(app, data, rows, columns, mode, hasTable, hasSlider, null,
 				lineStyleMap0, isBorderTeal);
 	}
@@ -190,8 +191,8 @@ public class PopupMenuButtonW extends MyCJButton
 			public void onMouseOut(MouseOutEvent event) {
 				if (getMyPopup() != null && getMyPopup().isVisible()
 						&& EuclidianStyleBarW.getCurrentPopup() != null
-						&& getMyPopup().equals(
-								EuclidianStyleBarW.getCurrentPopup())) {
+						&& getMyPopup()
+								.equals(EuclidianStyleBarW.getCurrentPopup())) {
 					updateBorderColor(getElement(), isBorderTeal, getApp());
 				} else {
 					getElement().getStyle().setBorderColor("#dcdcdc");
@@ -249,7 +250,7 @@ public class PopupMenuButtonW extends MyCJButton
 			}
 		}
 		myPopup.setAutoHideEnabled(true);
-    }
+	}
 
 	/**
 	 * handle click on {@link PopupMenuButtonW this button}
@@ -264,7 +265,7 @@ public class PopupMenuButtonW extends MyCJButton
 				EuclidianStyleBarW.getCurrentPopup().hide();
 				if (EuclidianStyleBarW.getCurrentPopupButton() != null) {
 					EuclidianStyleBarW.getCurrentPopupButton().getElement()
-						.getStyle().setBorderColor("#dcdcdc");
+							.getStyle().setBorderColor("#dcdcdc");
 				}
 				/* getWidget().removeStyleName("active"); */
 			}
@@ -283,7 +284,7 @@ public class PopupMenuButtonW extends MyCJButton
 			EuclidianStyleBarW.setCurrentPopupButton(null);
 		}
 	}
-	
+
 	/**
 	 * @param element
 	 *            element
@@ -313,7 +314,7 @@ public class PopupMenuButtonW extends MyCJButton
 		this.data = newData;
 
 		myTable = new SelectionTableW(newData, rows, columns, mode,
-		        multiselectionEnabled);
+				multiselectionEnabled);
 		if (app.isUnbundledOrWhiteboard()) {
 			myTable.addStyleName("matSelectionTable");
 		}
@@ -332,7 +333,7 @@ public class PopupMenuButtonW extends MyCJButton
 		});
 
 		myPopup.getPanel().add(myTable);
-    }
+	}
 
 	/**
 	 * Show or hide item at given position
@@ -353,7 +354,7 @@ public class PopupMenuButtonW extends MyCJButton
 	public void addPopupHandler(PopupMenuHandler popupMenuHandler) {
 		this.popupHandler = popupMenuHandler;
 	}
-	
+
 	/**
 	 * @return {@link GPopupPanel}
 	 */
@@ -375,7 +376,7 @@ public class PopupMenuButtonW extends MyCJButton
 		// called by click on button
 		// overridden in (e.g.) EuclidianStayleBar3DW
 	}
-	
+
 	/**
 	 * Pass a popup action event up to the button invoker. If the first button
 	 * click triggered our popup (the click was in the triangle region), then we
@@ -387,13 +388,13 @@ public class PopupMenuButtonW extends MyCJButton
 		} else {
 			Log.debug("PopupMenubutton has null popupHandler");
 		}
-		
+
 		updateGUI();
 		if (!keepVisible) {
 			myPopup.hide();
 		}
 	}
-	
+
 	private void updateGUI() {
 		if (isIniting) {
 			return;
@@ -403,7 +404,7 @@ public class PopupMenuButtonW extends MyCJButton
 			setIcon(getButtonIcon());
 		}
 	}
-	
+
 	// ==============================================
 	// Icon Handling
 	// ==============================================
@@ -414,14 +415,14 @@ public class PopupMenuButtonW extends MyCJButton
 	public ImageOrText getButtonIcon() {
 		return data[getSelectedIndex()];
 	}
-		
+
 	/**
 	 * Append a downward triangle image to the right hand side of an input icon.
 	 */
 	@Override
 	public void setIcon(ImageOrText icon) {
 
-		if (isFixedIcon) {			
+		if (isFixedIcon) {
 			super.setIcon(fixedIcon);
 			return;
 		}
@@ -430,7 +431,8 @@ public class PopupMenuButtonW extends MyCJButton
 		if (icon != null) {
 			super.setIcon(icon);
 		} else {
-			ImgResourceHelper.setIcon(GuiResources.INSTANCE.toolbar_further_tools(), this);
+			ImgResourceHelper.setIcon(
+					GuiResources.INSTANCE.toolbar_further_tools(), this);
 		}
 	}
 
@@ -453,7 +455,7 @@ public class PopupMenuButtonW extends MyCJButton
 				selectedIndex == null ? -1 : selectedIndex.intValue());
 		updateGUI();
 	}
-	
+
 	/**
 	 * @param index
 	 *            index to be changed
@@ -498,13 +500,13 @@ public class PopupMenuButtonW extends MyCJButton
 		fireActionPerformed();
 		updateGUI();
 	}
-	
+
 	/**
 	 * Fires on index change
 	 */
 	protected void fireActionPerformed() {
-	    //implemented in subclass
-    }
+		// implemented in subclass
+	}
 
 	/**
 	 * @return {@link Slider}
@@ -515,18 +517,22 @@ public class PopupMenuButtonW extends MyCJButton
 		}
 		return mySlider;
 	}
-	
+
 	/**
 	 * @param show
 	 *            true if slider should be shown
 	 */
 	public void showSlider(boolean show) {
-		if (show) {
-			getMySlider().setVisible(show);
-			sliderLabel.setVisible(show);
-		} else if (mySlider != null) {
-			mySlider.setVisible(false);
-			sliderLabel.setVisible(false);
+		getMySlider().setVisible(show);
+		sliderLabel.setVisible(show);
+		if (getMySlider().getParent() != null) {
+			getMySlider().getParent()
+					.addStyleName(show ? "showSlider" : "hideSlider");
+			if (show) {
+				getMySlider().getParent().removeStyleName("hideSlider");
+			} else {
+				getMySlider().getParent().removeStyleName("showSlider");
+			}
 		}
 	}
 
@@ -601,16 +607,16 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            this table
 	 */
 	public void update(Object[] array) {
-	    // will be overwritten from instances
-    }
-	
+		// will be overwritten from instances
+	}
+
 	/**
 	 * @return selected Object of the {@link SelectionTableW table}
 	 */
 	public Object getSelectedValue() {
 		return myTable.getSelectedValue();
 	}
-	
+
 	/**
 	 * @return {@code int} or {@code -1} if the {@link Slider slider} is null
 	 */
@@ -632,7 +638,7 @@ public class PopupMenuButtonW extends MyCJButton
 	public void setKeepVisible(boolean keepVisible) {
 		this.keepVisible = keepVisible;
 	}
-	
+
 	/**
 	 * @return {@code true} if it has a slider, {@code false} otherwise
 	 */

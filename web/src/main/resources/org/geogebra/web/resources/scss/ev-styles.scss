@@ -190,25 +190,32 @@
     	background-color: $white;
     	box-shadow: 0 0 2px 1px $tool-border;
     	z-index: 500000;	
-    	min-height: 30px;
+        min-height: 30px;
+
+        .ButtonPopupMenu .panelRow2.showSlider {
+            display: inline-block;
+             width: 144px;
+        }
+
+        .ButtonPopupMenu .panelRow2.hideSlider {
+            display: none;
+        }
     	
     	/*slider panel*/
     	.ButtonPopupMenu .panelRow2 { 
     		padding-bottom: 8px;
-    		padding-top: 8px;
-    		line-height: 10px;
+            padding-top: 8px;
     		
     		/*slider label*/
     		.popupSliderLabel {
-    			float: right;
-    		    margin-right: 10px;
+    		    margin: 0px 10px;
     		    cursor: default;
     		}
     		/*slider*/
     		input[type=range] {
     			padding: 5px 0;
     			margin: 0px 0px 0px 8px;
-    			width: calc(100% - 40px);
+    			width: calc(100% - 56px);
     			cursor: pointer;
     		}
     		.opacityLabel {
