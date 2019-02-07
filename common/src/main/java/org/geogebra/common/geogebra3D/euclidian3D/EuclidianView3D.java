@@ -3289,6 +3289,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		pointDecorations.setWaitForReset();
 
+		clippingCubeDrawable.clearEnlarge();
 		clippingCubeDrawable.setWaitForReset();
 
 		getCompanion().resetOwnDrawables();

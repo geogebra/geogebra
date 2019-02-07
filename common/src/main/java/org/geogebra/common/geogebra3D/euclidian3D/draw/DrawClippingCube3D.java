@@ -87,9 +87,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 			minMaxLarge[i] = new double[2];
 			currentBounds[i] = new double[2];
 			minMaxObjects[i] = new double[2];
-			minMaxObjects[i][MIN] = Double.POSITIVE_INFINITY;
-			minMaxObjects[i][MAX] = Double.NEGATIVE_INFINITY;
 		}
+		clearEnlarge();
 
 		vertices = new Coords[8];
         verticesLarge = new Coords[8];
@@ -260,6 +259,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		}
 		return needsUpdate;
 	}
+
+	public void clearEnlarge() {
+        for (int i = 0; i < 3; i++) {
+            minMaxObjects[i][MIN] = Double.POSITIVE_INFINITY;
+            minMaxObjects[i][MAX] = Double.NEGATIVE_INFINITY;
+        }
+    }
 
 	/**
 	 * @param xmin
