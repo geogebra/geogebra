@@ -49,7 +49,7 @@ public class EuclidianStyleConstants {
 	/**
 	 * preview point size when free point
 	 */
-	public static final int PREVIEW_POINT_SIZE_WHEN_FREE = 4;
+	public static final int PREVIEW_POINT_SIZE_WHEN_FREE = 3;
 
 	/**
 	 * size for non-draggable points eg intersections

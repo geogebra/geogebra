@@ -40,8 +40,8 @@ public class PlotterCursor {
 	static private float TARGET_DOT_ALPHA = 0.87f;
 
 	static private float TARGET_CIRCLE_THICKNESS = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS
-			* PlotterBrush.LINE3D_THICKNESS;
-	static private float TARGET_CIRCLE_RADIUS = 100f;
+			* PlotterBrush.LINE3D_THICKNESS / 2f;
+	static private float TARGET_CIRCLE_RADIUS = 50f;
 	static private float TARGET_CIRCLE_ALPHA = 0.38f;
 
 	private int[] index;
