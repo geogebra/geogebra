@@ -32,11 +32,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	 */
 	public HelpMenuW(final AppW app) {
 		super("help", app);
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("matStackPanel");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
+		addExpandableStyleWithColor(false);
 		Localization loc = app.getLocalization();
 
 		// Tutorials

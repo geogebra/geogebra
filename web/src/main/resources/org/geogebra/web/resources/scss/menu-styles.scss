@@ -25,79 +25,7 @@ $classicToolbar: 50px;
 			//padding-top: 8px;
 			display: inline-block;
 		}
-		.gwt-StackPanel .matStackPanelNoOpacity {
-			min-width: 232px;
-			background-color: $white;
-			img {
-				height: 24px;
-				width: 24px;
-				opacity: 1;
-			}
-			
-			.gwt-MenuItem {
-				padding-top: 12px;
-				height: 40px;
-				padding-bottom: 0px;
-				padding-right: 16px;
-				padding-left: 72px;
-				line-height: normal;
-				min-width: 232px;
-				color: $black-87;
-				font-size: 90%;
-				
-				img {
-					height: 24px;
-					width: 24px;
-					position: absolute;
-					margin-left: -40px;	
-				}
-			
-				a { 
-					span { 
-						font-size: 100%;
-						color: $black-87;
-					}
-				}
-			
-				.gwt-HTML {
-					padding-top: 6px;
-					padding-left: 8px;
-				
-					.menuImg {
-						margin-left: -32px;
-						opacity: 1;
-					}
-				}
-				
-				.checkImg {
-					margin-right: 4px;
-					padding: 4px;
-					opacity: 0.54;	
-				}
-				
-				span.gwt-CheckBox.matCheckBox {
-					padding-left: 16px;
-				}
-				
-				td {
-					vertical-align: middle;
-				}
-			}
-			
-			.gwt-MenuItem:hover {
-				background-color: $selected-menuitem-background;
-				img {
-					opacity: 1;
-				}
-			
-				.checkImg {
-					opacity: 0.87;	
-				}
-				color: $black-87; 
-			}
-		}
-		
-		
+
 		/* sub menu items */
 		.gwt-StackPanel .matStackPanel {
 			min-width: 232px;
@@ -133,6 +61,55 @@ $classicToolbar: 50px;
 					opacity: 0.87;
 				}
 				color: $black-87; 
+			}
+
+			&.matStackPanelNoOpacity {
+				img {
+					opacity: 1;
+				}
+				
+				.gwt-MenuItem {
+					a { 
+						span { 
+							font-size: 100%;
+							color: $black-87;
+						}
+					}
+				
+					.gwt-HTML {
+						padding-top: 6px;
+						padding-left: 8px;
+					
+						.menuImg {
+							margin-left: -32px;
+							opacity: 1;
+						}
+					}
+					
+					.checkImg {
+						margin-right: 4px;
+						padding: 4px;
+						opacity: 0.54;	
+					}
+					
+					span.gwt-CheckBox.matCheckBox {
+						padding-left: 16px;
+					}
+					
+					td {
+						vertical-align: middle;
+					}
+				}
+				
+				.gwt-MenuItem:hover {
+					img {
+						opacity: 1;
+					}
+				
+					.checkImg {
+						opacity: 0.87;	
+					}
+				}
 			}
 		}
 			

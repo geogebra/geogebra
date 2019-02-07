@@ -24,6 +24,21 @@ public abstract class Submenu extends GMenuBar {
 	}
 
 	/**
+	 * @param colorfulIcons
+	 *            whether to allow colorful icons (suppress opacity)
+	 */
+	protected void addExpandableStyleWithColor(boolean colorfulIcons) {
+		if (getApp().isUnbundledOrWhiteboard()) {
+			addStyleName("matStackPanel");
+			if (colorfulIcons) {
+				addStyleName("matStackPanelNoOpacity");
+			}
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
+	}
+
+	/**
 	 * @return icon
 	 */
 	public abstract SVGResource getImage();

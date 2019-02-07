@@ -22,11 +22,7 @@ public class ToolsMenuW extends Submenu {
 	 */
 	public ToolsMenuW(AppW application) {
 		super("tools", application);
-		if (application.isUnbundled()) {
-			addStyleName("matStackPanel");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
+		addExpandableStyleWithColor(false);
 		initActions();
 	}
 

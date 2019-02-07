@@ -27,11 +27,7 @@ public class AppsSubmenu extends Submenu {
 	public AppsSubmenu(AppW app) {
 		super("apps", app);
 		this.app = app;
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("matStackPanelNoOpacity");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
+		addExpandableStyleWithColor(true);
 		initActions();
 	}
 

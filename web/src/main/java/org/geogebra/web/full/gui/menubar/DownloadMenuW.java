@@ -14,11 +14,7 @@ public class DownloadMenuW extends Submenu implements MenuBarI {
 	 */
 	public DownloadMenuW(final AppW app) {
 		super("DownloadAs", app);
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("matStackPanel");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
+		addExpandableStyleWithColor(false);
 		ExportMenuW.initActions(this, app);
 	}
 

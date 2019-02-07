@@ -46,11 +46,7 @@ public class ViewMenuW extends Submenu {
 	public ViewMenuW(AppW application) {
 		super("view", application);
 		this.app = application;
-		if (app.isUnbundled()) {
-			addStyleName("matStackPanelNoOpacity");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
+		addExpandableStyleWithColor(true);
 		initActions();
 	}
 

@@ -27,13 +27,9 @@ public class EditMenuW extends Submenu {
 	 */
 	public EditMenuW(AppW app) {
 		super("edit", app);
+		addExpandableStyleWithColor(false);
 		this.loc = app.getLocalization();
 		this.selection = getApp().getSelectionManager();
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("matStackPanel");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
 		initActions();
 	}
 

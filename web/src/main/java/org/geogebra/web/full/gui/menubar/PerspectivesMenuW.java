@@ -31,12 +31,8 @@ public class PerspectivesMenuW extends Submenu {
 	 */
 	public PerspectivesMenuW(AppW app) {
 		super("apps", app);
-	    this.app = app;
-		if (app.isUnbundled()) {
-			addStyleName("matStackPanelNoOpacity");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
+		this.app = app;
+		addExpandableStyleWithColor(false);
 		initActions();
 	}
 

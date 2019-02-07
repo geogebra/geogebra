@@ -28,9 +28,9 @@ public class Browser {
 
 	/**
 	 * Check if browser is Internet Explorer
-	 * 
+	 *
 	 * (Note: only IE11 is supported now)
-	 * 
+	 *
 	 * @return true if IE
 	 */
 	public static native boolean isIE() /*-{
@@ -46,11 +46,11 @@ public class Browser {
 
 	/**
 	 * Check if browser is Safari on iOS
-	 * 
+	 *
 	 * check isiOS() && isSafari() if you want just iOS browser & not webview
-	 * 
+	 *
 	 * (Note: returns true for Chrome on iOS as that's really an iOS Webview)
-	 * 
+	 *
 	 * @return true if iOS (WebView or Safari browser)
 	 */
 	public static native boolean isiOS() /*-{
@@ -59,9 +59,9 @@ public class Browser {
 
 	/**
 	 * Check if browser is Safari
-	 * 
+	 *
 	 * check isiOS() && isSafari() if you want just iOS browser & not webview
-	 * 
+	 *
 	 * @return true if Safari browser
 	 */
 	private static native boolean isSafari() /*-{
@@ -70,7 +70,7 @@ public class Browser {
 
 	/**
 	 * https://github.com/cheton/is-electron/blob/master/index.js MIT
-	 * 
+	 *
 	 * @return true if running in Electron
 	 */
 	public static native boolean isElectron() /*-{
@@ -177,7 +177,7 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * 
+	 *
 	 * @return true if WebAssembly supported
 	 */
 	public static native boolean webAssemblySupported()/*-{
@@ -248,7 +248,7 @@ public class Browser {
 	 * Native check for WebGL support based on
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support
-	 * 
+	 *
 	 * @return whether WebGL is supported
 	 */
 	public static native boolean supportsWebGLNative()/*-{
@@ -318,14 +318,15 @@ public class Browser {
 
 		Style style = parent.getStyle();
 		if (style != null) {
-			style.setProperty("webkitTransform", transform);
-			style.setProperty("mozTransform", transform);
-			style.setProperty("msTransform", transform);
-			style.setProperty("transform", transform);
-			style.setProperty("msTransformOrigin", pos);
-			style.setProperty("mozTransformOrigin", pos);
-			style.setProperty("webkitTransformOrigin", pos);
-			style.setProperty("transformOrigin", pos);
+			style.setProperty("zoom", externalScale + "");
+			// style.setProperty("webkitTransform", transform);
+			// style.setProperty("mozTransform", transform);
+			// style.setProperty("msTransform", transform);
+			// style.setProperty("transform", transform);
+			// style.setProperty("msTransformOrigin", pos);
+			// style.setProperty("mozTransformOrigin", pos);
+			// style.setProperty("webkitTransformOrigin", pos);
+			// style.setProperty("transformOrigin", pos);
 		}
 	}
 
@@ -370,14 +371,14 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * 
+	 *
 	 * Returns a base64 encoding of the specified (binary) string
-	 * 
+	 *
 	 * extra encoding needed for file from Generator: Adobe Illustrator 11.0,
 	 * SVG Export Plug-In
-	 * 
+	 *
 	 * xpacket begin='\uFEFF'
-	 * 
+	 *
 	 * @param svg
 	 *            A binary string (obtained for instance by the FileReader API)
 	 * @return a base64 encoded string.
@@ -533,7 +534,7 @@ public class Browser {
 
 	/**
 	 * Change URL if we are running on geogebra.org
-	 * 
+	 *
 	 * @param string
 	 *            new URL
 	 */
@@ -562,7 +563,7 @@ public class Browser {
 
 	/**
 	 * Opens GeoGebraTube material in a new window
-	 * 
+	 *
 	 * @param url
 	 *            GeoGebraTube url
 	 */
@@ -572,10 +573,10 @@ public class Browser {
 
 	/**
 	 * Returns a string based on base 64 encoded value
-	 * 
+	 *
 	 * @param base64
 	 *            a base64 encoded string
-	 * 
+	 *
 	 * @return decoded string
 	 */
 	public static native String decodeBase64(String base64)/*-{
@@ -588,7 +589,7 @@ public class Browser {
 
 	/**
 	 * Allow or diallow context menu for an element.
-	 * 
+	 *
 	 * @param element
 	 *            element
 	 * @param allow
@@ -690,7 +691,7 @@ public class Browser {
 
 	/**
 	 * Register handler for fullscreen event.
-	 * 
+	 *
 	 * @param callback
 	 *            callback for fullscreen event
 	 */
@@ -738,7 +739,7 @@ public class Browser {
 
 	/**
 	 * Add mutation observer to element and all its parents.
-	 * 
+	 *
 	 * @param el
 	 *            target element
 	 * @param asyncOperation
@@ -770,7 +771,7 @@ public class Browser {
 	/**
 	 * gets keycodes of iOS arrow keys iOS arrows have a different identifier
 	 * than win and android
-	 * 
+	 *
 	 * @param event
 	 *            native key event
 	 * @return JavaKeyCodes of arrow keys, -1 if pressed key was not an arrow

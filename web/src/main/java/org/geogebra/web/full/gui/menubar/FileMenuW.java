@@ -39,12 +39,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	 */
 	public FileMenuW(final AppW app) {
 		super("file", app);
+		addExpandableStyleWithColor(false);
 		this.loc = app.getLocalization();
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("matStackPanel");
-		} else {
-			addStyleName("GeoGebraMenuBar");
-		}
 		initActions();
 	}
 
