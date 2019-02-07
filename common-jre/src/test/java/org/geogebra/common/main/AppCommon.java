@@ -38,6 +38,7 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -85,6 +86,7 @@ public class AppCommon extends App {
     private void initFactories() {
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
         AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
+		StringUtil.setPrototypeIfNull(new StringUtil());
     }
 
     @Override

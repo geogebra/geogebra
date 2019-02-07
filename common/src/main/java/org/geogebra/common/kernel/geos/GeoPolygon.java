@@ -2549,14 +2549,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		String str;
 		String name;
 		if (getMetasLength() == 1) {
-			name = getLoc().getPlainLabel("face"); // Name.face
+			name = getLoc().getPlainLabel("face", "face"); // Name.face
 		} else {
 			if (points != null && points.length == 3) {
-				name = getLoc().getPlainLabel("triangle"); // Name.triangle
+				name = getLoc().getPlainLabel("triangle", "t"); // Name.triangle
 			} else if (points != null && points.length == 4) {
-				name = getLoc().getPlainLabel("quadrilateral"); // Name.quadrilateral
+				name = getLoc().getPlainLabel("quadrilateral", "q"); // Name.quadrilateral
 			} else {
-				name = getLoc().getPlainLabel("polygon");
+				name = getLoc().getPlainLabel("polygon", "poly");
 			}
 
 		}

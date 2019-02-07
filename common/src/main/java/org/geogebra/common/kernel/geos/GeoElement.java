@@ -3262,7 +3262,7 @@ public abstract class GeoElement extends ConstructionElement
 						&& !((FromMeta) this).getMetas()[0].isGeoPolygon()) {
 					int counter = 0;
 					String str;
-					final String name = getLoc().getPlainLabel("edge"); // Name.edge
+					final String name = getLoc().getPlainLabel("edge", "edge"); // Name.edge
 					do {
 						counter++;
 						str = name + kernel.internationalizeDigits(counter + "",
@@ -3331,7 +3331,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private String defaultNumberedLabel(final String plainKey,
 			boolean allowNoSuffix) {
-		String trans = getLoc().getPlainLabel(plainKey);
+		String trans = getLoc().getPlainLabel(plainKey, plainKey);
 		if (allowNoSuffix && cons.isFreeLabel(trans)) {
 			return trans;
 		}

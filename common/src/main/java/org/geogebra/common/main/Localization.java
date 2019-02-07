@@ -551,28 +551,26 @@ public abstract class Localization {
 	 * 
 	 * @param key
 	 *            eg "poly" -> "Name.poly" -> poly -> poly1 as a label
+	 * @param fallback
+	 *            if properties not loaded
 	 * @return "poly" (the suffix is added later)
 	 */
-	final public String getPlainLabel(String key) {
+	final public String getPlainLabel(String key, String fallback) {
 		String ret = getMenu("Name." + key);
 
 		if (ret == null || ret.startsWith("Name.")) {
-			return key;
+			return fallback;
 		}
 
 		for (int i = ret.length() - 1; i >= 0; i--) {
 			if (!StringUtil.isLetterOrDigitOrUnderscore(ret.charAt(i))) {
-
 				Log.warn("Bad character in key: " + key + "=" + ret);
-
 				// remove bad character
 				ret = ret.substring(0, i) + ret.substring(i + 1);
-
 			}
 		}
 
 		return ret;
-
 	}
 
 	/**
