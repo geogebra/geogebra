@@ -153,12 +153,16 @@ $classicToolbar: 50px;
 			}
 		}
 		
-		.gwt-StackPanel .gwt-StackPanelItem:hover {
-			background-color: $selected-menuitem-background;
+		.gwt-StackPanel .gwt-StackPanelItem{
+			&:hover, &:focus {
+				background-color: $selected-menuitem-background;
+			}
 		}
 	
-		.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first:hover {
-			   background-color: white;
+		.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first {
+			&:hover, &:focus {
+				background-color: white;
+			}
 		}
 		
 		.gwt-StackPanel .gwt-StackPanelItem-selected {

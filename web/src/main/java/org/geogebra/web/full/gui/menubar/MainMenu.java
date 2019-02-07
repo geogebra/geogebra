@@ -168,6 +168,13 @@ public class MainMenu extends FlowPanel
 			}
 
 			@Override
+			protected void setStackVisible(int index, boolean visible) {
+				if (!visible || !getMenuAt(index).getItems().isEmpty()) {
+					super.setStackVisible(index, visible);
+				}
+			}
+
+			@Override
 			public void onBrowserEvent(Event event) {
 				int eventType = DOM.eventGetType(event);
 				Element target = DOM.eventGetTarget(event);

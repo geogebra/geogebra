@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * List implementation of GWT StackPanel with aria support.
- * 
+ *
  * @author Zbynek, Laszlo
  *
  */
@@ -263,7 +263,7 @@ public class AriaStackPanel extends ComplexPanel
 	}
 
 	/**
-	 * Adds the {@code styleName} on the {@code 
+	 * Adds the {@code styleName} on the {@code
 	 * <tr>
 	 * } for the header specified by {@code index}.
 	 *
@@ -281,7 +281,7 @@ public class AriaStackPanel extends ComplexPanel
 	}
 
 	/**
-	 * Removes the {@code styleName} off the {@code 
+	 * Removes the {@code styleName} off the {@code
 	 * <tr>
 	 * } for the header specified by {@code index}.
 	 *
@@ -354,7 +354,13 @@ public class AriaStackPanel extends ComplexPanel
 		updateIndicesFrom(0);
 	}
 
-	private void setStackVisible(int index, boolean visible) {
+	/**
+	 * @param index
+	 *            index
+	 * @param visible
+	 *            whether to show
+	 */
+	protected void setStackVisible(int index, boolean visible) {
 		if (index < 0 || index >= headers.size()) {
 			return;
 		}
@@ -396,7 +402,7 @@ public class AriaStackPanel extends ComplexPanel
 		if (eventType == Event.ONMOUSEOVER || eventType == Event.ONKEYDOWN
 				|| eventType == Event.ONCLICK) {
 
-			if (index > 0) {
+			if (index > -1) {
 				headers.get(index).focus();
 			} else {
 				int idx = getContentIndex(target);
@@ -428,7 +434,7 @@ public class AriaStackPanel extends ComplexPanel
 
 	/**
 	 * Sets the label that screen reader reads to the stack at particular index.
-	 * 
+	 *
 	 * @param index
 	 *            of the stack.
 	 * @param label
@@ -450,7 +456,7 @@ public class AriaStackPanel extends ComplexPanel
 
 	/**
 	 * Move focus to the header of the stack at given index
-	 * 
+	 *
 	 * @param index
 	 *            Stack index to move focus to.
 	 */
