@@ -3742,7 +3742,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return prerelease && whiteboard;
 
 		case MOW_PEN_IS_LOCUS:
-			return prerelease;
+			return true;
 
 		case MOW_PEN_EVENTS:
 			return false;
