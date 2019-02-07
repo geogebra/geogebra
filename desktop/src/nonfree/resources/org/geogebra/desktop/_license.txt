@@ -185,6 +185,7 @@ TRANSLATORS
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
   * Ukrainian: Valentyna Pikalova, Valera Rakuta (Ukraine)
   * Uyghur: Tuniyaz Ablikim (China)
+  * Uzbek: Shavkat Shaimardanov (Uzbekistan)
   * Valencian: Pilar Embid Giner, Vicente Balaguer (Spain)
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
       Nguyen Danh Nam (Vietnam)
