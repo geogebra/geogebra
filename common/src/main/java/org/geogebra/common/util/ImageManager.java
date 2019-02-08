@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 abstract public class ImageManager {
@@ -63,7 +62,7 @@ abstract public class ImageManager {
 			ensure2ndCornerOnScreen(point1.getInhomX(), point2, app);
 		}
 		geoImage.setLabel(null);
-		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+		if (app.isWhiteboardActive()) {
 			centerOnScreen(geoImage, app);
 		}
 		GeoImage.updateInstances(app);

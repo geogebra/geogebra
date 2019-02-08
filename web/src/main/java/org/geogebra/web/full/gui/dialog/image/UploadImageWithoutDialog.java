@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -42,7 +41,7 @@ public class UploadImageWithoutDialog {
 	 * sets move mode after image mode was cancelled
 	 */
 	public void setSelectMode() {
-		if (!(app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+		if (!(app.isWhiteboardActive()
 				&& app.getMode() == EuclidianConstants.MODE_IMAGE)) {
 			return;
 		}

@@ -258,7 +258,7 @@ public class DialogManagerW extends DialogManager
 	 *            used device
 	 */
 	public void showImageInputDialog(GeoPoint corner, GDevice device) {
-		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+		if (app.isWhiteboardActive()
 				&& device instanceof BrowserDevice) {
 			((BrowserDevice) device).getUploadImageWithoutDialog((AppW) app);
 			return;
@@ -349,7 +349,7 @@ public class DialogManagerW extends DialogManager
 	 *            device type
 	 */
 	public void showWebcamInputDialog(GDevice device) {
-		if (!(app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+		if (!(app.isWhiteboardActive()
 				&& device instanceof BrowserDevice)) {
 			return;
 		}

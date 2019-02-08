@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -55,36 +54,36 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private native Element populate(Element el, String message,
 			String errorMessage) /*-{
-
-		el.style.position = "relative";
-		var dependentStyle = this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::getFeatureDependentStyle()();
-
-		var ihtml = "<span class=" + dependentStyle + "><br><br>" + message
-				+ "</span>\n";
-		ihtml += "<video autoplay class=" + dependentStyle + "><br><br>"
-				+ errorMessage + "</video>";
-
-		el.innerHTML = ihtml;
-		var video = el.lastChild;
-
-		$wnd.navigator.getMedia = ($wnd.navigator.getUserMedia
-				|| $wnd.navigator.webkitGetUserMedia
-				|| $wnd.navigator.mozGetUserMedia || $wnd.navigator.msGetUserMedia);
-
-		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
-				|| $wnd.oURL || null;
-		var that = this;
-
-		if ($wnd.navigator.getMedia) {
-			try {
-				var browserAlreadyAllowed = false;
-				var accessDenied = false;
-				$wnd.navigator
-						.getMedia(
-								{
+									
+									el.style.position = "relative";
+									var dependentStyle = this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::getStyle()();
+									
+									var ihtml = "<span class=" + dependentStyle + "><br><br>" + message
+									+ "</span>\n";
+									ihtml += "<video autoplay class=" + dependentStyle + "><br><br>"
+									+ errorMessage + "</video>";
+									
+									el.innerHTML = ihtml;
+									var video = el.lastChild;
+									
+									$wnd.navigator.getMedia = ($wnd.navigator.getUserMedia
+									|| $wnd.navigator.webkitGetUserMedia
+									|| $wnd.navigator.mozGetUserMedia || $wnd.navigator.msGetUserMedia);
+									
+									$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
+									|| $wnd.oURL || null;
+									var that = this;
+									
+									if ($wnd.navigator.getMedia) {
+									try {
+									var browserAlreadyAllowed = false;
+									var accessDenied = false;
+									$wnd.navigator
+									.getMedia(
+									{
 									video : true
-								},
-								function(bs) {
+									},
+									function(bs) {
 									browserAlreadyAllowed = true;
 									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 									if ($wnd.URL && $wnd.URL.createObjectURL) {
@@ -102,8 +101,8 @@ public class WebCamInputPanel extends VerticalPanel {
 										el.firstChild.style.display = "none";
 									}
 									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::stream = bs;
-								},
-								function(err) {
+									},
+									function(err) {
 									accessDenied = true;
 									// camera not found or not working
 									if (err.name == "NotFoundError"
@@ -119,26 +118,26 @@ public class WebCamInputPanel extends VerticalPanel {
 										that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showPermissionDeniedDialog()();
 									}
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: " + err.name);
-								});
-				function accessRequest() {
-					if (!browserAlreadyAllowed && !accessDenied) {
-						that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showRequestDialog()();
-					}
-				}
-				setTimeout(accessRequest, 400);
-
-				return video;
-			} catch (e) {
-				el.firstChild.innerHTML = "<br><br>" + errorMessage;
-				that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
-				return null;
-			}
-		} else {
-			el.firstChild.innerHTML = "<br><br>" + errorMessage;
-			that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showNotSupportedDialog()();
-		}
-		return null;
-	}-*/;
+									});
+									function accessRequest() {
+									if (!browserAlreadyAllowed && !accessDenied) {
+									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showRequestDialog()();
+									}
+									}
+									setTimeout(accessRequest, 400);
+									
+									return video;
+									} catch (e) {
+									el.firstChild.innerHTML = "<br><br>" + errorMessage;
+									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
+									return null;
+									}
+									} else {
+									el.firstChild.innerHTML = "<br><br>" + errorMessage;
+									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showNotSupportedDialog()();
+									}
+									return null;
+									}-*/;
 
 	private native String shotcapture(Element video1) /*-{
 		var canvas = $doc.createElement("canvas");
@@ -179,7 +178,7 @@ public class WebCamInputPanel extends VerticalPanel {
 			return null;
 		}
 		String capture = shotcapture(video);
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+		if (!app.isWhiteboardActive()) {
 			stopVideo();
 		}
 		return capture;
@@ -210,8 +209,8 @@ public class WebCamInputPanel extends VerticalPanel {
 				loc.getMenu("Webcam.Problem"));
 	}
 
-	private String getFeatureDependentStyle() {
-		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+	private String getStyle() {
+		if (app.isWhiteboardActive()) {
 			return "mowCameraInputPanel";
 		}
 		return "webcamInputPanel";
@@ -232,7 +231,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	}
 
 	private void hidePermissionDialog() {
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+		if (!app.isWhiteboardActive()) {
 			return;
 		}
 		if (permissionDialog != null) {
@@ -242,7 +241,7 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private void showPermissionDialog(
 			WebcamPermissionDialog.DialogType dialogType) {
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+		if (!app.isWhiteboardActive()) {
 			return;
 		}
 		hidePermissionDialog();
@@ -284,7 +283,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	}
 
 	private void resize() {
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+		if (!app.isWhiteboardActive()) {
 			return;
 		}
 		webcamDialog.resize();
