@@ -48,7 +48,7 @@ public class AppConfigDefault implements AppConfig {
 	public static boolean isUnbundledOrNotes(String appName) {
 		return "graphing".equals(appName) || "geometry".equals(appName)
 				|| "cas".equals(appName) || "notes".equals(appName)
-				|| "3d".equals(appName) || "scientific".equals(appName);
+				|| "3d".equals(appName) || "calculator".equals(appName);
 	}
 
 	@Override
