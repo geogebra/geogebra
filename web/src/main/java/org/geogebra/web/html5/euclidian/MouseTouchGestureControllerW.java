@@ -173,7 +173,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Create new mouse / touch handler.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param ec
@@ -303,7 +303,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle two finger touch move.
-	 * 
+	 *
 	 * @param touch
 	 *            first touch
 	 * @param touch2
@@ -327,7 +327,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle touch move event immediately.
-	 * 
+	 *
 	 * @param event
 	 *            touch move
 	 * @param time
@@ -358,7 +358,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle touch end
-	 * 
+	 *
 	 * @param event
 	 *            touch end event
 	 */
@@ -394,7 +394,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle touch start
-	 * 
+	 *
 	 * @param event
 	 *            touch start event
 	 */
@@ -439,7 +439,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	/**
 	 * Prevent touch event default behavior unless needed for native elements
 	 * (i.e. inputbox)
-	 * 
+	 *
 	 * @param event
 	 *            touch event
 	 */
@@ -451,7 +451,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle double touch event.
-	 * 
+	 *
 	 * @param touch
 	 *            first touch
 	 * @param touch2
@@ -470,7 +470,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle mouse scroll.
-	 * 
+	 *
 	 * @param event
 	 *            mouse wheel event
 	 */
@@ -516,7 +516,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle mouse out event.
-	 * 
+	 *
 	 * @param event
 	 *            mouse out event.
 	 */
@@ -532,7 +532,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle mouse movement
-	 * 
+	 *
 	 * @param event
 	 *            mouse move event
 	 */
@@ -577,7 +577,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle mouse move event immediately.
-	 * 
+	 *
 	 * @param event
 	 *            touch move
 	 * @param time
@@ -608,7 +608,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle mouse up event.
-	 * 
+	 *
 	 * @param event
 	 *            mouse up event
 	 */
@@ -629,7 +629,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle touch end or mouse up.
-	 * 
+	 *
 	 * @param e
 	 *            pointer up event
 	 */
@@ -659,7 +659,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle mouse down event.
-	 * 
+	 *
 	 * @param event
 	 *            mouse down event
 	 */
@@ -680,7 +680,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	/**
 	 * Handle pointer start event.
-	 * 
+	 *
 	 * @param event
 	 *            pointer start
 	 */
@@ -793,12 +793,14 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int mouseEventX(int clientX) {
-		return (int) Math.round((clientX) * (1 / style.getScaleX()));
+		int x = Browser.isZoomInSafari() ? clientX - getEnvXoffset() : clientX;
+		return (int) Math.round(x * (1 / style.getScaleX()));
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
-		return (int) Math.round((clientY) * (1 / style.getScaleY()));
+		int y = Browser.isZoomInSafari() ? clientY - getEnvYoffset() : clientY;
+		return (int) Math.round(y * (1 / style.getScaleY()));
 	}
 
 	@Override
