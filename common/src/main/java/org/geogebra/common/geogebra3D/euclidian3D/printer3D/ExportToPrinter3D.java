@@ -32,7 +32,7 @@ public class ExportToPrinter3D {
 	/**
 	 * 3D export type
 	 */
-	static public enum Type {
+	public enum Type {
 		/** curve */
 		CURVE,
 		/** closed curve */
