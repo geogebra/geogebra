@@ -208,7 +208,7 @@ public abstract class GeoElement extends ConstructionElement
 	public int labelOffsetY = 0;
 
 	/** enum for auxiliary state */
-	static public enum Auxiliary {
+	public enum Auxiliary {
 		/** is auxiliary */
 		YES_DEFAULT(true, false) {
 			@Override
@@ -7137,7 +7137,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/** Used by TraceDialog for "Trace as... value of/copy of */
-	static public enum TraceModesEnum {
+	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
 		ONLY_COPY,
 		/** one value / copy (e.g. text) */

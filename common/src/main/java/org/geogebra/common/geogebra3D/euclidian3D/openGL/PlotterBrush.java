@@ -90,7 +90,7 @@ public class PlotterBrush implements PathPlotter {
 	static private float ARROW_WIDTH = ARROW_LENGTH / 4f;
 
 	/** ticks */
-	static public enum Ticks {
+	public enum Ticks {
 		NONE, MAJOR, MAJOR_AND_MINOR
 	}
 
