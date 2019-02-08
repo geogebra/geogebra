@@ -16,6 +16,7 @@ public class Browser {
 	private static boolean webWorkerSupported = false;
 	private static boolean float64supported = true;
 	private static Boolean webglSupported = null;
+	private static boolean zoomInSafari = true;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -66,6 +67,10 @@ public class Browser {
 	 */
 	private static native boolean isSafari() /*-{
 		return !!(/safari/.test($wnd.navigator.userAgent.toLowerCase()));
+	}-*/;
+
+	private static native boolean isSafariByVendor() /*-{
+		return "Apple Computer, Inc." === $wnd.navigator.vendor;
 	}-*/;
 
 	/**
@@ -309,6 +314,11 @@ public class Browser {
 			return;
 		}
 
+		if (isZoomInSafari()) {
+			zoom(parent, externalScale);
+			return;
+		}
+
 		String transform = "scale(" + externalScale + "," + externalScale + ")";
 
 		if (DoubleUtil.isEqual(externalScale, 1)) {
@@ -327,6 +337,16 @@ public class Browser {
 			style.setProperty("webkitTransformOrigin", pos);
 			style.setProperty("transformOrigin", pos);
 		}
+	}
+
+	private static void zoom(Element parent, double externalScale) {
+		Style style = parent.getStyle();
+		if (style == null) {
+			return;
+		}
+
+		int zoomPercent = (int)Math.round(externalScale * 100);
+		style.setProperty("zoom", zoomPercent + "%");
 	}
 
 	/**
@@ -819,4 +839,11 @@ public class Browser {
 				: StringUtil.txtMarker + txt;
 	}
 
+	/**
+	 *
+	 * @return if we use css zoom in Safari.
+	 */
+	public static boolean isZoomInSafari() {
+		return zoomInSafari && isSafariByVendor();
+	}
 }
