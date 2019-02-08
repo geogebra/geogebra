@@ -221,102 +221,99 @@ $classicToolbar: 50px;
 			overflow-y: auto;
 		}
 	}
-			
-	@keyframes animateIn {
-		0% {left: -320px; top: 0px;}
-		50% {left: -100; top: 0px;}
-		100% {left: 0px; top: 0px;}
-	}
-			
-	@keyframes animateOut {
-		0% {left: 0px; top: 0px;}
-		50% {left: -220; top: 0px;}
-		100% {left: -320px; top: 0px;}
-	}
-	
-	@keyframes animateInClassic {
-		0% {right: -320px; top: $classicToolbar;}
-		50% {right: -100; top: $classicToolbar;}
-		100% {right: 0px; top: $classicToolbar;}
-	}
-			
-	@keyframes animateOutClassic {
-		0% {right: 0px; top: $classicToolbar;}
-		50% {right: -220; top: $classicToolbar;}
-		100% {right: -320px; top: $classicToolbar;}
-	}
-}
-	
-.floatingSubMenu {
-	z-index: 9999;
-	
-	.gwt-MenuBar {
-		border: 2px solid green;
-	}	
-	.gwt-MenuBar.gwt-MenuBar-vertical.floating-Popup.subMenuRightSide.matMenuBar.subMenuLeftSide2 {
-		top: 11px;
-		padding-top: 8px;
-   		padding-bottom: 8px;
-		padding-left: 0px;
-		padding-right: 0px;
-	}
-		
-	.subMenuRightSide {
-		position: relative;
-		width: 100%;
-		left: 326px;
-		border-radius: 2px;
-		padding: 5px;
-		background-color: $white-90;
-		box-shadow: $shadow-dark;
-		
-		.arrowSubmenu {
-			position: absolute;
-			top: -2px;
-			left: -17px;
-		}
-			
-		.gwt-MenuItem {
-			min-width: 36px;
-			padding-left: 12px;
-			padding-right: 16px;
-		}
-			
-		.gwt-MenuItemSeparator {
-			padding: 0px;
-		}
-		
-		input[type="radio"] {
-			margin: 0px 12px 0px 0px;
-		}
-			
-	}
-}
 
-@media screen and (max-width: 600px) {
-	.GeoGebraFrame {
-		.floatingMenu:not(.mow) {
-			.gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first {
-				height: 56px;
+	.floatingSubMenu {
+		z-index: 9999;
+		
+		.gwt-MenuBar {
+			border: 2px solid green;
+		}	
+		.gwt-MenuBar.gwt-MenuBar-vertical.floating-Popup.subMenuRightSide.matMenuBar.subMenuLeftSide2 {
+			top: 11px;
+			padding-top: 8px;
+	   		padding-bottom: 8px;
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+			
+		.subMenuRightSide {
+			position: relative;
+			width: 100%;
+			left: 326px;
+			border-radius: 2px;
+			padding: 5px;
+			background-color: $white-90;
+			box-shadow: $shadow-dark;
+			
+			.arrowSubmenu {
+				position: absolute;
+				top: -2px;
+				left: -17px;
+			}
+				
+			.gwt-MenuItem {
+				min-width: 36px;
+				padding-left: 12px;
+				padding-right: 16px;
+			}
+				
+			.gwt-MenuItemSeparator {
+				padding: 0px;
+			}
+			
+			input[type="radio"] {
+				margin: 0px 12px 0px 0px;
+			}
+				
+		}
+	}
+	
+	.floatingMenu .menuWithLogo {
+		.gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first {
+			height: 56px;
+			background-color: $white;
+
+			img {
+				opacity: 1;
+				top: 10px;
+				height: 36px;
+				width: 36px;
+				margin: 0px;
+				left: 6%;
+			}
+
+			span {
+				font-size: 100%;
+			}
+
+			&:hover {
 				background-color: $white;
-                              
-				img {
-					opacity: 1;
-					top: 10px;
-					height: 36px;
-					width: 36px;
-					margin: 0px;
-					left: 6%;
-				}
-                               
-				span {
-					font-size: 100%;
-				}
-	                       
-				&:hover {
-					background-color: $white;
-				}
 			}
 		}
 	}
 }
+
+@keyframes animateIn {
+	0% {left: -320px; top: 0px;}
+	50% {left: -100; top: 0px;}
+	100% {left: 0px; top: 0px;}
+}
+		
+@keyframes animateOut {
+	0% {left: 0px; top: 0px;}
+	50% {left: -220; top: 0px;}
+	100% {left: -320px; top: 0px;}
+}
+
+@keyframes animateInClassic {
+	0% {right: -320px; top: $classicToolbar;}
+	50% {right: -100; top: $classicToolbar;}
+	100% {right: 0px; top: $classicToolbar;}
+}
+		
+@keyframes animateOutClassic {
+	0% {right: 0px; top: $classicToolbar;}
+	50% {right: -220; top: $classicToolbar;}
+	100% {right: -320px; top: $classicToolbar;}
+}
+

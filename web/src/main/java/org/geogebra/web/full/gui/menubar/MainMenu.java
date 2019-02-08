@@ -18,6 +18,7 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
@@ -111,6 +112,7 @@ public class MainMenu extends FlowPanel
 		} else if (smallScreen) {
 			initLogoMenu();
 		}
+		Dom.toggleClass(this, "menuWithLogo", smallScreen);
 
 		for (Submenu menu : menus) {
 			addSubmenu(menu);
