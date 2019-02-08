@@ -26,8 +26,8 @@ public class BaseMenuItemProvider implements MainMenuItemProvider {
 			if (app.enableFileFeatures()) {
 				menus.add(new FileMenuW(app));
 			}
-			menus.add(new DownloadMenuW(app));
 			menus.add(new EditMenuW(app));
+			menus.add(new DownloadMenuW(app));
 			menus.add(new AppsSubmenu(app));
 			menus.add(new SettingsMenu(app));
 			menus.add(new HelpMenuW(app));

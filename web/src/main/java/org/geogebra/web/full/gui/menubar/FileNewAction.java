@@ -6,6 +6,10 @@ import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * Clears construction and initializes a new one
+ *
+ */
 public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Boolean> {
 	private AppW app;
 

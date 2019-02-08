@@ -121,6 +121,9 @@ public class ExitExamAction extends MenuAction<Void> {
 		saveScreenshot(menu);
 	}
 
+	/**
+	 * @return application
+	 */
 	AppW getApp() {
 		return app;
 	}
