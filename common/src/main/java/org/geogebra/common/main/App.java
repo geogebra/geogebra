@@ -5177,6 +5177,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		getLocalization().forceEnglishCommands();
 		StringTemplate.editorTemplate.setLocalizeCmds(false);
 		StringTemplate.editorTemplate.setPrintMethodsWithParenthesis(true);
+		StringTemplate.latexTemplateHideLHS.setLocalizeCmds(false);
+		StringTemplate.latexTemplateHideLHS
+				.setPrintMethodsWithParenthesis(true);
 	}
 
 	/**

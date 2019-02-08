@@ -3460,15 +3460,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Set to true to print ~ 3.1415 as pi.
-	 *
-	 * @param allowPiHack true to print pi symbolically
-	 */
-	public void setAllowPiHack(boolean allowPiHack) {
-		this.allowPiHack = allowPiHack;
-	}
-
-	/**
 	 * @return degree symbol
 	 */
 	public String getDegree() {
