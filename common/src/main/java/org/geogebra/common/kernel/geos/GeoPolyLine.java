@@ -344,7 +344,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		// Polyline({A})
 		if (points.length == 1) {
 			P.x = points[0].getInhomX();
-			P.y = points[1].getInhomY();
+			P.y = points[0].getInhomY();
 			P.z = 1.0;
 			return;
 		}
