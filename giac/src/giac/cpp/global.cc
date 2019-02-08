@@ -1771,7 +1771,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   // gbasis max number of pairs by F4 iteration
   // setting to 2000 accelerates cyclic9mod but cyclic9 would be slower
   // 32768 is enough for cyclic10mod without truncation and not too large for yang1
-  unsigned simult_primes=16; 
+  unsigned simult_primes=16,simult_primes2=16,simult_primes3=16,simult_primes_seuil2=-1,simult_primes_seuil3=-1; 
   // gbasis modular algorithm on Q: simultaneous primes (more primes means more parallel threads but also more memory required)
   double gbasis_reinject_ratio=0.2;
   // gbasis modular algo on Q: if new basis element exceed this ratio, new elements are reinjected in the ideal generators for the remaining computations

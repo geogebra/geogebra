@@ -4509,7 +4509,7 @@ namespace giac {
     }
     if (arg0.type!=_IDNT)
       arg0=arg0.eval(eval_level(contextptr),contextptr);
-    if (arg0.type!=_IDNT && arg1.type==_IDNT){
+    if ( (arg0.type!=_IDNT || arg0==cst_pi) && arg1.type==_IDNT){
       gen swapped=gen(makevecteur(arg1,arg0),_SEQ__VECT);
       if (s==at_superieur_strict) return assumesymbolic(symbolic(at_inferieur_strict,swapped),idnt_must_be,contextptr);
       if (s==at_superieur_egal) return assumesymbolic(symbolic(at_inferieur_egal,swapped),idnt_must_be,contextptr);

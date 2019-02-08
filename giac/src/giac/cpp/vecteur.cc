@@ -8035,6 +8035,193 @@ namespace giac {
 #endif
   }
 
+  int smallmodrref_lastpivotcol(const vector< vector<int> > & K,int lmax){
+    // first find the column of the last pivot
+    int pivotcol=-1;
+    for (int i=lmax-1;i>=0;--i){
+      const vector<int> & Ki=K[i];
+      for (int j=0;j<Ki.size();++j){
+	if (Ki[j]){
+	  return j;
+	}
+      }
+    }
+    return -1;
+  }
+
+  struct smallmodrref_upper_t {
+    vector< vector<int> > * N;
+    int l,lpivot,lmax,c,cmax,modulo;
+  };
+
+  void * do_thread_smallmodrref_upper(void * ptr_){
+    smallmodrref_upper_t * ptr=(smallmodrref_upper_t *)ptr_;
+    in_thread_smallmodrref_upper(*ptr->N,ptr->l,ptr->lpivot,ptr->lmax,ptr->c,ptr->cmax,ptr->modulo,1);
+    return ptr;
+  }
+
+  // finish full row reduction to echelon form if N is upper triangular
+  // threaded version assuming the whole matrix N is reduced 
+  // pivots are searched starting at column 0 from lmax-1 to lpivot
+  // but only colmuns c to cmax are reduced
+  // beware if parallel!=1 that c>to the last pivot column
+  void in_thread_smallmodrref_upper(vector< vector<int> > & N,int l,int lpivot,int lmax,int c,int cmax,int modulo,int parallel){
+#ifdef HAVE_LIBPTHREAD
+    if (parallel!=1) {
+      pthread_t tab[parallel];
+      smallmodrref_upper_t upperparam[parallel];
+      int kstep=int(std::ceil((cmax-c)/double(parallel))),ccur=c;
+      for (int j=0;j<parallel;++j){
+	int cnext=giacmin(cmax,ccur+kstep);
+	smallmodrref_upper_t tmp={&N,l,lpivot,lmax,ccur,cnext,modulo};
+	upperparam[j]=tmp;
+	ccur=cnext;
+      }
+      for (int j=0;j<parallel;++j){
+	bool res=true;
+	if (j<parallel-1)
+	  res=pthread_create(&tab[j],(pthread_attr_t *) NULL,do_thread_smallmodrref_upper,(void *) &upperparam[j]);
+	if (res)
+	  do_thread_smallmodrref_upper((void *)&upperparam[j]);
+      }
+      for (int j=0;j<parallel;++j){
+	void * ptr=(void *)&parallel; // non-zero initialisation
+	if (j<parallel-1)
+	  pthread_join(tab[j],&ptr);
+      }
+      return ;
+    }
+#endif
+    // free_null_lines(N,l,lmax,c,cmax); // already done
+    longlong modulo2=longlong(modulo)*modulo;
+    bool convertpos= double(modulo2)*(lmax-l) >= 9.22e18;
+    if (convertpos){
+      makepositive(N,l,lmax,c,cmax,modulo);
+    }
+    vector< pair<int,int> > pivots;
+    vector<longlong> buffer(cmax);
+    for (int L=lmax-1;L>=l;--L){
+      vector<int> & NL=N[L];
+      if (NL.empty()) continue;
+      if (!pivots.empty()){
+	// reduce line N[L]
+	// copy line to a 64 bits buffer
+	for (int C=c;C<cmax;++C)
+	  buffer[C]=NL[C];
+	// substract lines in pivots[k].first from column pivots[k].second to cmax
+	int ps=int(pivots.size());
+	for (int k=0;k<ps;++k){
+	  int line=pivots[k].first;
+	  const vector<int> & Nline=N[line];
+	  int col=pivots[k].second;
+	  longlong coeff=NL[col]; 
+	  if (!coeff) continue;
+	  buffer[col]=0;
+	  int C=giacmax(c,col+1);
+	  if (convertpos){
+	    if (coeff<0) 
+	      coeff += modulo;
+	    longlong * b=&buffer[C] ;
+	    const int * Nlineptr=&Nline[C],*Nlineend=&Nline[cmax]-4;
+	    for (;Nlineptr<Nlineend;){
+	      longlong x;
+	      x = *b-coeff* *Nlineptr;   
+	      x -= (x>>63)*modulo2;
+	      *b=x;
+ 	      ++b; ++Nlineptr;
+	      x = *b-coeff* *Nlineptr;   
+	      x -= (x>>63)*modulo2;
+	      *b=x;
+ 	      ++b; ++Nlineptr;
+	      x = *b-coeff* *Nlineptr;   
+	      x -= (x>>63)*modulo2;
+	      *b=x;
+ 	      ++b; ++Nlineptr;
+	      x = *b-coeff* *Nlineptr;   
+	      x -= (x>>63)*modulo2;
+	      *b=x;
+ 	      ++b; ++Nlineptr;
+	    }
+	    for (Nlineend+=4;Nlineptr<Nlineend;){
+	      longlong x;
+	      x = *b-coeff* *Nlineptr;   
+	      x -= (x>>63)*modulo2;
+	      *b=x;
+ 	      ++b; ++Nlineptr;
+	    }
+	  }
+	  else {
+	    for (;C<cmax-4;C+=4){
+	      buffer[C] -= coeff*Nline[C];   
+	      buffer[C+1] -= coeff*Nline[C+1];   
+	      buffer[C+2] -= coeff*Nline[C+2];   
+	      buffer[C+3] -= coeff*Nline[C+3];   
+	    }
+	    for (;C<cmax;++C){
+	      buffer[C] -= coeff*Nline[C];   
+	    }
+	  }
+	}
+	// copy back buffer to N[l]
+	for (int C=c;C<cmax;++C){
+	  longlong x=buffer[C];
+	  if (x) 
+	    NL[C]=x % modulo;
+	  else
+	    NL[C]=0;
+	}
+      } // end if pivots.empty()
+      if (L>=lpivot){
+	// search pivot in N[L] starting column L-l to cmax
+	for (int C=(L-l);C<cmax;++C){
+	  if (NL[C]){
+	    if (NL[C]!=1)
+	      CERR << "rref_upper Bad matrix "<< lmax << "x" << cmax << endl;
+	    pivots.push_back(pair<int,int>(L,C));
+	    break;
+	  }
+	}
+      }
+    }
+  }
+
+  void thread_smallmodrref_upper(vector< vector<int> > & K,int l,int lmax,int c,int cmax,int modulo,int parallel){
+    free_null_lines(K,l,lmax,c,cmax);
+    // effective lmax computation
+    while (lmax>=1 && K[lmax-1].empty())
+      --lmax;
+    // parallelize upper rref
+    int pivotcol=smallmodrref_lastpivotcol(K,lmax);
+    if (cmax-pivotcol<16*parallel)
+      smallmodrref_upper(K,l,lmax,c,cmax,modulo);
+    else {
+      // columns pivotcol+1 to cmax can be reduced in parallel
+      in_thread_smallmodrref_upper(K,l,l,lmax,pivotcol+1,cmax,modulo,parallel);
+      if (debug_infolevel>1)
+	CERR << CLOCK()*1e-6 << " rref_upper " << lmax << "*" << pivotcol+1 << "," << cmax-pivotcol-1 << endl;
+      int l1=(l+lmax)/2;
+      int pc=smallmodrref_lastpivotcol(K,l1);
+      if (cmax-pc <16*parallel
+	  || lmax-l<16
+	  )
+	// this part of the reduction must be done at the end
+	// otherwise we would loose the coefficients of the linear combinations
+	in_thread_smallmodrref_upper(K,l,l,lmax,c,pivotcol+1,modulo,1/*parallel*/);
+      else {
+	// reduce right part with respect to the lower part first
+	in_thread_smallmodrref_upper(K,l,l1,lmax,pc+1,pivotcol+1,modulo,1/*parallel*/);
+	// parallel reduce upper right part
+        if (debug_infolevel>1)
+          CERR << CLOCK()*1e-6 << " rref_upper_parallel " << l1-l << "*" << pivotcol-pc <<"/" << pivotcol-c << endl;
+	in_thread_smallmodrref_upper(K,l,l,l1,pc+1,pivotcol+1,modulo,parallel);
+        if (debug_infolevel>1)
+          CERR << CLOCK()*1e-6 << " rref_upper_parallel end" << endl;
+	// reduce left part
+	in_thread_smallmodrref_upper(K,l,l,l1,c,pc+1,modulo,1/*parallel*/);	
+      }
+    }
+  }
+
   void do_modular_reduction(vector< vector<int> > & N,int l,int pivotcol,int pivotval,int linit,int lmax,int c,int effcmax,int rref_or_det_or_lu,int modulo){
 #ifndef GIAC_HAS_STO_38
     int l1,l2,l3;

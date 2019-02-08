@@ -5079,15 +5079,15 @@ namespace giac {
     const gen &p=v.front();
     const gen & q=v[1];
     if (p.type==_VECT){
-      if (q.type==_VECT && p._VECTptr->size()==q._VECTptr->size() && s==3){
+      if (q.type==_VECT && (p._VECTptr->size()==q._VECTptr->size() || p._VECTptr->size()==q._VECTptr->size()+1) && s==3){
 	// Horner-like evaluation for divided difference
 	// p=divided differences, q=list of abscissas, r=eval point
 	const gen & x=v[2];
-	gen r=0;
 	const vecteur & P=*p._VECTptr;
 	s=int(P.size())-1;
 	const vecteur & Q=*q._VECTptr;
-	for (int i=s;i>=0;--i){
+	gen r=P[s];
+	for (int i=s-1;i>=0;--i){
 	  r=r*(x-Q[i])+P[i];
 	}
 	return r;

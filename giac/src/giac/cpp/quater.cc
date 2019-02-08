@@ -395,7 +395,7 @@ namespace giac {
       if (!is_undef(a)){
 	if (x._VECTptr->size()==3 && a.type==_VECT){
 	  if (a._VECTptr->size()==1)
-	    return makemod(a._VECTptr->front(),p).print(contextptr);
+	    return '('+makemod(a._VECTptr->front(),p).print(contextptr)+')';
 	  gen tmp=symb_horner(*a._VECTptr,x._VECTptr->back());
 	  if (tmp.is_symb_of_sommet(at_plus))
 	    return '('+tmp.print(contextptr)+')';

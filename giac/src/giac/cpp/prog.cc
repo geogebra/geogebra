@@ -4872,6 +4872,9 @@ namespace giac {
   }
   gen _makemat(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_INT_ && args.val>0 && double(args.val)*args.val<LIST_SIZE_LIMIT){
+      return gen(vecteur(args.val,vecteur(args.val,0)),_MATRIX__VECT);
+    }
     if (args.type!=_VECT)
       return symb_makemat(args);
     int s=int(args._VECTptr->size());
@@ -8407,6 +8410,7 @@ namespace giac {
 	return gensizeerr(contextptr);
       return res;
     }
+    if (g.type==_INT_) return _makemat(g,contextptr);
     if (g.type!=_VECT)
       return gentypeerr(contextptr);
     vecteur v=*g._VECTptr;
