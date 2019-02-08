@@ -44,6 +44,7 @@ public class ScientificActivity extends BaseActivity {
 		app.getKernel().getAlgebraProcessor()
 				.setCommandSelector(commandSelector);
 		initHeaderButtons(app);
+		app.forceEnglishCommands();
 	}
 
 	private static void initHeaderButtons(AppW app) {
