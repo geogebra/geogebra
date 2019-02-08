@@ -262,7 +262,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	/**
-	 * Reset min/max for axes
+	 * Reset min/max enlarging values for clipping cube
 	 */
 	public void clearEnlarge() {
         for (int i = 0; i < 3; i++) {
