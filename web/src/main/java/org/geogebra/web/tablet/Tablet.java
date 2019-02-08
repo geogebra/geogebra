@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.Browser;
@@ -47,7 +45,7 @@ public class Tablet implements EntryPoint {
 		Browser.checkFloat64();
 		if (useCordova()) {
 			PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
-	
+
 				@Override
 				public void onBackButtonPressed(final BackButtonPressedEvent event) {
 					goBack();

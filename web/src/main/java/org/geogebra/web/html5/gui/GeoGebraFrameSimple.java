@@ -98,11 +98,6 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	}
 
 	@Override
-	public void onBackPressed() {
-
-	}
-
-	@Override
 	public void runAsyncAfterSplash() {
 		super.runAsyncAfterSplash();
 		app.buildApplicationPanel(); // in webSimple we need to init the size

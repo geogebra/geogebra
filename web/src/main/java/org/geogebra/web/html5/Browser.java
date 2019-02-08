@@ -345,7 +345,7 @@ public class Browser {
 			return;
 		}
 
-		int zoomPercent = (int)Math.round(externalScale * 100);
+		int zoomPercent = (int) Math.round(externalScale * 100);
 		style.setProperty("zoom", zoomPercent + "%");
 	}
 

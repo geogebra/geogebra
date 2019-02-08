@@ -840,7 +840,9 @@ public class GeoGebraFrameBoth
 		}
 	}
 
-	@Override
+	/**
+	 * Can be called to handle the back button event.
+	 */
 	public void onBackPressed() {
 		if (isSubPanelOpen() && app != null) {
 			GuiManagerW guiManager = (GuiManagerW) app.getGuiManager();

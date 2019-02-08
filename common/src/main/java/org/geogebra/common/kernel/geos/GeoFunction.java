@@ -3001,7 +3001,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 		try {
 			PolyFunction poly = fun
-					.expandToPolyFunctionNoCas(fun.getExpression(), false);
+					.expandToPolyFunction(fun.getExpression(), false, true);
 			if (poly.getDegree() <= 1) {
 
 				// gradient of line

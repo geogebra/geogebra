@@ -75,11 +75,6 @@ public interface HasAppletProperties {
 	public void remove();
 
 	/**
-	 * Can be called to handle the back button event.
-	 */
-	public void onBackPressed();
-
-	/**
 	 * Update the CSS height of the article
 	 */
 	public void updateArticleHeight();

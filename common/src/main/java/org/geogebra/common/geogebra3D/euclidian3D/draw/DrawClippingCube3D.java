@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -260,6 +261,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return needsUpdate;
 	}
 
+	/**
+	 * Reset min/max for axes
+	 */
 	public void clearEnlarge() {
         for (int i = 0; i < 3; i++) {
             minMaxObjects[i][MIN] = Double.POSITIVE_INFINITY;
@@ -331,9 +335,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		Coords eye = getView3D().getEyePosition();
 		int x, y, z;
 		if (getView3D()
-				.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC
+				.getProjection() == EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC
 				|| getView3D()
-						.getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
+						.getProjection() == EuclidianView3DInterface.PROJECTION_OBLIQUE) {
 			x = eye.getX() > 0 ? 0 : 1;
 			y = eye.getY() > 0 ? 0 : 1;
 			z = eye.getZ() > 0 ? 0 : 1;

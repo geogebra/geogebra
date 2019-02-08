@@ -734,7 +734,7 @@ public class Function extends FunctionNVar
 
 	}
 
-	public PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
+	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
 			boolean symbolic) {
 		PolyFunction polyFun = null;
 		FunctionVariable xVar = new FunctionVariable(kernel, "x");
