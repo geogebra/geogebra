@@ -4063,7 +4063,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
         /** G3D-132 */
         case G3D_SHOW_IN_ALGEBRA_VIEW:
-            return prerelease;
+			return true;
 
         // **********************************************************************
         // G3D END
