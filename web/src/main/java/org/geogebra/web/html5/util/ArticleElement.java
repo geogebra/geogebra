@@ -107,7 +107,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public boolean getDataParamEnableRightClick() {
 		return getBoolDataParam("enableRightClick", true);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableCAS(boolean)
 	 */
@@ -209,7 +209,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public boolean getDataParamShowAlgebraInput(boolean def) {
 		return getBoolDataParam("showAlgebraInput", def);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getAlgebraPosition(org.geogebra.common.main.App.InputPosition)
 	 */
@@ -420,6 +420,10 @@ public final class ArticleElement extends Element implements ArticleElementInter
 							.indexOf("(") + 1));
 					sx *= mul;
 					sy *= mul;
+				}
+				if (style.zoom) {
+					sx *= style.zoom;
+					sy *= style.zoom;
 				}
 			}
 

@@ -16,7 +16,7 @@ public class Browser {
 	private static boolean webWorkerSupported = false;
 	private static boolean float64supported = true;
 	private static Boolean webglSupported = null;
-	private static boolean zoomInSafari = true;
+	private static boolean zoomInSafari = false;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -845,5 +845,9 @@ public class Browser {
 	 */
 	public static boolean isZoomInSafari() {
 		return zoomInSafari && isSafariByVendor();
+	}
+
+	public static void enableZoomInSafari() {
+		zoomInSafari = true;
 	}
 }

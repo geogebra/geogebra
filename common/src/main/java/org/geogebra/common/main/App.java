@@ -4019,6 +4019,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case EQUATION_TYPE_SETTING:
 			return true;
 
+		/** APPS-393 */
+		case SAFARI_CSS_ZOOM:
+			return prerelease;
+
        // **********************************************************************
        // G3D START
        //

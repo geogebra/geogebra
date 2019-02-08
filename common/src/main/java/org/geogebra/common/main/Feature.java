@@ -82,7 +82,7 @@ public enum Feature {
 
 	/** MOW-320 */
 	MOW_PIN_IMAGE,
-	
+
 	/** MOW-239 */
 	MOW_IMPROVE_CONTEXT_MENU,
 
@@ -100,7 +100,7 @@ public enum Feature {
 
 	/** GGB-1916 */
 	DEFAULT_OBJECT_STYLES,
-	
+
 	/** GGB-2008 */
 	OBJECT_DEFAULTS_AND_COLOR,
 
@@ -147,7 +147,7 @@ public enum Feature {
 
 	/** GGB-2394 */
 	SPLITTER_LOADING,
-	
+
 	/** GGB-2439 */
 	GRAPH_EXAM_MODE,
 
@@ -245,7 +245,7 @@ public enum Feature {
 
 	/** APPS-250 */
 	SHOW_DEFINITION_FOR_EQUATION_IN_EXAM,
-	
+
 	/** APPS-163 */
 	KEY_HANDLER_EV3D,
 
@@ -265,5 +265,8 @@ public enum Feature {
     G3D_TOOLS_SIMPLE_MORE_LESS,
 
     /** G3D-132 */
-    G3D_SHOW_IN_ALGEBRA_VIEW
+    G3D_SHOW_IN_ALGEBRA_VIEW,
+
+    /** APPS-393 */
+    SAFARI_CSS_ZOOM
 }
