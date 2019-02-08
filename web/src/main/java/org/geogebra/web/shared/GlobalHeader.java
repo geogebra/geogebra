@@ -312,4 +312,11 @@ public class GlobalHeader implements EventRenderable {
 		this.frame = frame;
 	}
 
+	/**
+	 * @return whether there is a header in DOM
+	 */
+	public static boolean isInDOM() {
+		return RootPanel.get("headerID") != null;
+	}
+
 }

@@ -37,7 +37,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
@@ -250,7 +249,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		toolbarPanel.getFrame().showKeyBoard(false, null, true);
 	}
-	
+
 	private void onClose() {
 		setAnimating(true);
 		removeOrientationStyles();
@@ -405,7 +404,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				onClosePressed();
 			}
 		});
-		
+
 		btnClose.addKeyDownHandler(this);
 
 		rightSide = new FlowPanel();
@@ -482,7 +481,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (btnMenu == null) {
 			return;
 		}
-		boolean external = needsHeader() && RootPanel.get("headerID") != null;
+		boolean external = needsHeader() && GlobalHeader.isInDOM();
 		btnMenu.setExternal(external);
 		if (external) {
 			btnMenu.addToGlobalHeader();
@@ -643,7 +642,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnRedo.addKeyDownHandler(this);
 		panel.add(btnRedo);
 	}
-	
+
 	/**
 	 * @return - true if toolbar is open
 	 */
@@ -658,7 +657,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	public void setOpen(boolean value) {
 		this.open = value;
 		updateDraggerStyle(value);
-		
+
 		if (app.isPortrait()) {
 			toolbarPanel.updateHeight();
 		} else {
@@ -801,7 +800,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	/**
 	 * Shrinks header width by dx.
-	 * 
+	 *
 	 * @param dx
 	 *            the step of shinking.
 	 */

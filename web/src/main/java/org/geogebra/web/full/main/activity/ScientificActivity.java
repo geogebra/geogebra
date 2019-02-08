@@ -53,9 +53,11 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	private static void initMenuToggleButton(AppW app) {
-		MenuToggleButton btn = new MenuToggleButton(app);
-		btn.setExternal(true);
-		btn.addToGlobalHeader();
+		if (GlobalHeader.isInDOM()) {
+			MenuToggleButton btn = new MenuToggleButton(app);
+			btn.setExternal(true);
+			btn.addToGlobalHeader();
+		}
 	}
 
 	@Override
