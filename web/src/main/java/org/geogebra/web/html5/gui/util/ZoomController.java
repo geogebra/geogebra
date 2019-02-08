@@ -133,7 +133,7 @@ public class ZoomController {
 
 	/**
 	 * Scales the applet to fit the screen.
-	 * 
+	 *
 	 * @param scaler
 	 *            the applet scaler element.
 	 * @param container
@@ -156,8 +156,7 @@ public class ZoomController {
 			Browser.scale(elem, 1 / scale, 120, 100);
 			container.getStyle().setPosition(useEmulatedFullscreen()
 					? Position.FIXED : Position.ABSOLUTE);
-			double marginLeft = 0;
-			double marginTop = 0;
+			double marginLeft = 0;			double marginTop = 0;
 			if (xscale > yscale) {
 				marginLeft = (Window.getClientWidth() - app.getWidth() * scale)
 						/ 2;
@@ -165,6 +164,12 @@ public class ZoomController {
 				marginTop = (Window.getClientHeight() - app.getHeight() * scale)
 						/ 2;
 			}
+
+			if (Browser.isZoomInSafari()) {
+				marginLeft /= scale;
+				marginTop /= scale;
+			}
+
 			scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
 			scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		}
@@ -220,7 +225,7 @@ public class ZoomController {
 
 	/**
 	 * Resetting position and margins.
-	 * 
+	 *
 	 * @param container
 	 *            to reset.
 	 */
@@ -256,7 +261,7 @@ public class ZoomController {
 
 	/**
 	 * Full screen button handler.
-	 * 
+	 *
 	 * @param elem
 	 *            element
 	 * @param fullscreenBtn
@@ -341,7 +346,7 @@ public class ZoomController {
 
 	/**
 	 * Handler that runs on switching to fullscreen.
-	 * 
+	 *
 	 * @param fullscreenBtn
 	 *            fullscreen button
 	 */
