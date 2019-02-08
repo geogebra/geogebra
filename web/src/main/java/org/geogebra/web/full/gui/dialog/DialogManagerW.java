@@ -449,11 +449,9 @@ public class DialogManagerW extends DialogManager
 	 */
 	public SaveDialogI getSaveDialog() {
 		if (saveDialog == null) {
-			if (app.isWhiteboardActive()) {
-				saveDialog = new SaveDialogMow((AppW) app);
-			} else {
-				saveDialog = new SaveDialogW((AppW) app);
-			}
+			saveDialog = app.isWhiteboardActive()
+					? new SaveDialogMow((AppW) app)
+					: new SaveDialogW((AppW) app);
 		}
 		// set default saveType
 		saveDialog.setSaveType(

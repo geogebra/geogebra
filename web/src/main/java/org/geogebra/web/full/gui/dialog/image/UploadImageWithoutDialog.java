@@ -41,10 +41,8 @@ public class UploadImageWithoutDialog {
 	 * sets move mode after image mode was cancelled
 	 */
 	public void setSelectMode() {
-		if (!(app.isWhiteboardActive()
-				&& app.getMode() == EuclidianConstants.MODE_IMAGE)) {
-			return;
+		if (app.getMode() == EuclidianConstants.MODE_IMAGE) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
 		}
-		app.setMode(EuclidianConstants.MODE_SELECT_MOW);
 	}
 }

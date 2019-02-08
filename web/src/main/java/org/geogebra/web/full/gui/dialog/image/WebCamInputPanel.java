@@ -14,13 +14,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Panel for HTML5 webcam input
  */
 public class WebCamInputPanel extends VerticalPanel {
-	
+
 	private SimplePanel inputWidget;
 	private Element video;
 	private JavaScriptObject stream;
 	private int canvasWidth = 640;
 	private int canvasHeight = 480; // overwritten by real
-														// dimensions
+									// dimensions
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private WebcamInputDialog webcamDialog;
@@ -31,9 +31,9 @@ public class WebCamInputPanel extends VerticalPanel {
 	 *            application
 	 */
 	public WebCamInputPanel(AppW app) {
-	    this.app = app;
-	    initGUI();
-    }
+		this.app = app;
+		initGUI();
+	}
 
 	/**
 	 * @param app
@@ -46,7 +46,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		this.webcamDialog = webcamDialog;
 	}
 
-	private void initGUI() {		
+	private void initGUI() {
 		inputWidget = new SimplePanel();
 		resetVideo();
 		add(inputWidget);
@@ -140,35 +140,35 @@ public class WebCamInputPanel extends VerticalPanel {
 									}-*/;
 
 	private native String shotcapture(Element video1) /*-{
-		var canvas = $doc.createElement("canvas");
-		canvas.width = Math
-				.max(video1.videoWidth || 0,
-						@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH);
-		canvas.height = video1.videoHeight ? Math.round(canvas.width
-				* video1.videoHeight / video1.videoWidth)
-				: 0.75 * @org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH;
-		var ctx = canvas.getContext('2d');
-		ctx.drawImage(video1, 0, 0);
-		this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasWidth = canvas.width;
-		this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasHeight = canvas.height;
-		return canvas.toDataURL('image/png');
-	}-*/;
+														var canvas = $doc.createElement("canvas");
+														canvas.width = Math
+														.max(video1.videoWidth || 0,
+														@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH);
+														canvas.height = video1.videoHeight ? Math.round(canvas.width
+														* video1.videoHeight / video1.videoWidth)
+														: 0.75 * @org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH;
+														var ctx = canvas.getContext('2d');
+														ctx.drawImage(video1, 0, 0);
+														this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasWidth = canvas.width;
+														this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasHeight = canvas.height;
+														return canvas.toDataURL('image/png');
+														}-*/;
 
 	/**
 	 * Stop recording
 	 */
 	public native void stopVideo() /*-{
-		var stream = this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::stream;
-		if (stream == null) {
-			return;
-		}
-		if (stream.stop) {
-			stream.stop();
-		} else {
-			stream.getVideoTracks()[0].stop();
-		}
-		stream = null;
-	}-*/;
+									var stream = this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::stream;
+									if (stream == null) {
+									return;
+									}
+									if (stream.stop) {
+									stream.stop();
+									} else {
+									stream.getVideoTracks()[0].stop();
+									}
+									stream = null;
+									}-*/;
 
 	/**
 	 * @return screenshot as data URL (png)
@@ -191,7 +191,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		stopVideo();
 		inputWidget.getElement().removeAllChildren();
 		resetVideo();
-    }
+	}
 
 	private void resetVideo() {
 		Localization loc = app.getLocalization();
@@ -199,7 +199,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		if (app.getVersion() == Versions.WEB_FOR_DESKTOP) {
 			message = "";
 		} else if (Browser.isFirefox()) {
-			message = loc.getMenu("Webcam.Firefox"); 
+			message = loc.getMenu("Webcam.Firefox");
 		} else if (Browser.isEdge()) {
 			message = loc.getMenu("Webcam.Edge");
 		} else {
@@ -231,9 +231,6 @@ public class WebCamInputPanel extends VerticalPanel {
 	}
 
 	private void hidePermissionDialog() {
-		if (!app.isWhiteboardActive()) {
-			return;
-		}
 		if (permissionDialog != null) {
 			permissionDialog.hide();
 		}
@@ -241,9 +238,6 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private void showPermissionDialog(
 			WebcamPermissionDialog.DialogType dialogType) {
-		if (!app.isWhiteboardActive()) {
-			return;
-		}
 		hidePermissionDialog();
 		permissionDialog = new WebcamPermissionDialog(app, dialogType);
 		permissionDialog.center();
@@ -283,9 +277,6 @@ public class WebCamInputPanel extends VerticalPanel {
 	}
 
 	private void resize() {
-		if (!app.isWhiteboardActive()) {
-			return;
-		}
 		webcamDialog.resize();
 	}
 }
