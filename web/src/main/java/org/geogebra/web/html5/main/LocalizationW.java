@@ -453,8 +453,10 @@ public final class LocalizationW extends Localization {
 	 * Call setLabels() on all registered UI elements
 	 */
 	public void notifySetLabels() {
-		for (SetLabels ui : setLabelsListeners) {
-			ui.setLabels();
+		if (setLabelsListeners != null) {
+			for (SetLabels ui : setLabelsListeners) {
+				ui.setLabels();
+			}
 		}
 	}
 }
