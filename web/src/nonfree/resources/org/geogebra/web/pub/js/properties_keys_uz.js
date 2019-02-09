@@ -1811,7 +1811,7 @@ __GGB__keysVar["uz"].menu = {
     "Finish": "Tamom",
     "FirstAxisLengthOfA": "%0 ning katta yarim o'qi uzunligi",
     "FirstAxisOfA": "%0 ning katta o'qi",
-    "FitCurve": "Best Fit Curve",
+    "FitCurve": "Approksimatsiyalovchi chiziq",
     "FitCurve.Help": "Select points using selection rectangle, or list of points",
     "FitLine": "Best Fit Line",
     "FitLine.Help": "Bir nechta nuqtani yoki nuqtalar ro'yxatini tanlang",
