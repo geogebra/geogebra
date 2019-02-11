@@ -83,4 +83,12 @@ public interface GeoGebraActivity {
 	 * @return provider of main menu actions
 	 */
 	MainMenuItemProvider getMenuItemProvider(AppW app);
+
+	/**
+	 * Show settings
+	 * 
+	 * @param app
+	 *            application
+	 */
+	void showSettingsView(AppW app);
 }

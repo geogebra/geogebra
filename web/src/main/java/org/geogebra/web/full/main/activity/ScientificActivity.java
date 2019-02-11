@@ -102,4 +102,9 @@ public class ScientificActivity extends BaseActivity {
 		return new ScientificMenuItemProvider(app);
 	}
 
+	@Override
+	public void showSettingsView(AppW app) {
+		app.getGuiManager().showSciSettingsView();
+	}
+
 }

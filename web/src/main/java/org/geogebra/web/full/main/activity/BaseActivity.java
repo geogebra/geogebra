@@ -2,6 +2,7 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
@@ -84,5 +85,10 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public MainMenuItemProvider getMenuItemProvider(AppW app) {
 		return new BaseMenuItemProvider(app);
+	}
+
+	@Override
+	public void showSettingsView(AppW app) {
+		app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
 	}
 }
