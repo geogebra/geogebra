@@ -154,6 +154,9 @@ public class GeoGebraColorConstants {
 			0x61, 0x61);
 	/** GEOGEBRA_OBJECT_BLACK */
 	public static final GColor GEOGEBRA_OBJECT_BLACK = GColor.BLACK;
+	/** GEOGEBRA_OBJECT_PINK */
+	public static final GColor GEOGEBRA_OBJECT_PINK = GColor.newColor(216, 27,
+			96);
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name

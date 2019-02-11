@@ -123,6 +123,8 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_POLYHEDRON = 3300;
 	/** default pyramids and cones type */
 	public static final int DEFAULT_PYRAMID_AND_CONE = 3310;
+	/** default prisms and cynlinders type */
+	public static final int DEFAULT_PRISM_AND_CYLINDER = 3311;
 
 	/** default curve cartesian */
 	public static final int DEFAULT_CURVE_CARTESIAN = 3400;
@@ -202,6 +204,9 @@ public class ConstructionDefaults {
 
 	/** default color for pyramids and cones */
 	public static final GColor colPyramidAndCone = GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE;
+
+	/** default color for prisms and cylinders */
+	public static final GColor colPrismAndCylinder = GeoGebraColorConstants.GEOGEBRA_OBJECT_PINK;
 
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;

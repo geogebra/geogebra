@@ -152,7 +152,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polyhedron.setDefaultGeoType(DEFAULT_POLYHEDRON);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
 
-		// polyhedron
+		// pyramid and cone
 		GeoPolyhedron pyramid = new GeoPolyhedron(cons,
 				GeoPolyhedron.TYPE_PYRAMID);
 		pyramid.setLocalVariableLabel("Pyramid");
@@ -160,6 +160,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		pyramid.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
 		pyramid.setDefaultGeoType(DEFAULT_PYRAMID_AND_CONE);
 		defaultGeoElements.put(DEFAULT_PYRAMID_AND_CONE, pyramid);
+
+		// prism and cylinder
+		GeoPolyhedron prism = new GeoPolyhedron(cons, GeoPolyhedron.TYPE_PRISM);
+		prism.setLocalVariableLabel("Prism");
+		prism.setObjColor(colPrismAndCylinder);
+		prism.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
+		prism.setDefaultGeoType(DEFAULT_PRISM_AND_CYLINDER);
+		defaultGeoElements.put(DEFAULT_PRISM_AND_CYLINDER, prism);
 
 		// polyhedron net
 		GeoPolyhedronNet polyhedronNet = new GeoPolyhedronNet(cons);
@@ -249,6 +257,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 				case GeoPolyhedron.TYPE_PYRAMID:
 				case GeoPolyhedron.TYPE_TETRAHEDRON:
 					return DEFAULT_PYRAMID_AND_CONE;
+				case GeoPolyhedron.TYPE_PRISM:
+				case GeoPolyhedron.TYPE_CUBE:
+					return DEFAULT_PRISM_AND_CYLINDER;
 				default:
 					return DEFAULT_POLYHEDRON;
 				}
@@ -260,6 +271,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 				switch (((GeoQuadricND) geo).getType()) {
 				case GeoQuadricNDConstants.QUADRIC_CONE:
 					return DEFAULT_PYRAMID_AND_CONE;
+				case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+					return DEFAULT_PRISM_AND_CYLINDER;
 				default:
 					return DEFAULT_POLYHEDRON;
 				}

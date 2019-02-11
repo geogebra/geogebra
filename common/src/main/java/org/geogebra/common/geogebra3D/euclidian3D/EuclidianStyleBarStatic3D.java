@@ -63,10 +63,19 @@ public class EuclidianStyleBarStatic3D {
 			defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
 					ConstructionDefaults.DEFAULT_POLYHEDRON);
 		}
-		defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
-				ConstructionDefaults.DEFAULT_POLYHEDRON);
-		defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
-				ConstructionDefaults.DEFAULT_POLYHEDRON);
+		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			defaultGeoMap.put(
+					EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
+					ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
+			defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
+					ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
+		} else {
+			defaultGeoMap.put(
+					EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
+					ConstructionDefaults.DEFAULT_POLYHEDRON);
+			defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
+					ConstructionDefaults.DEFAULT_POLYHEDRON);
+		}
 		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
 			defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
 					ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
@@ -83,8 +92,13 @@ public class EuclidianStyleBarStatic3D {
 			defaultGeoMap.put(EuclidianConstants.MODE_PYRAMID,
 					ConstructionDefaults.DEFAULT_POLYHEDRON);
 		}
-		defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
-				ConstructionDefaults.DEFAULT_POLYHEDRON);
+		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
+					ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
+		} else {
+			defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
+					ConstructionDefaults.DEFAULT_POLYHEDRON);
+		}
 		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
 			defaultGeoMap.put(EuclidianConstants.MODE_TETRAHEDRON,
 					ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
