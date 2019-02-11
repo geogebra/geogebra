@@ -338,7 +338,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		int pos = 0;
 		int col = view.getColumn(geo);
 		for (int i = 0; i < col; i++) {
-			pos += dimensions.getColumnWidth(col);
+			pos += getColumnWidth(dimensions, i);
 		}
 		setHorizontalScrollPosition(pos);
 	}
