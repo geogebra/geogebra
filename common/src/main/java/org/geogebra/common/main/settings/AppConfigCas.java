@@ -14,7 +14,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
     @Override
     public String getAppName() {
-        return "GeoGebraCasCalculator";
+		return "GeoGebraCASCalculator";
     }
 
     @Override

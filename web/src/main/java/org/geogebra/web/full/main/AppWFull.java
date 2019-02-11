@@ -36,7 +36,6 @@ import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
-import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -85,7 +84,7 @@ import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
-import org.geogebra.web.full.main.activity.BaseActivity;
+import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.GeometryActivity;
@@ -308,7 +307,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			activity = new MixedRealityActivity();
 			break;
 		case "cas":
-			activity = new BaseActivity(new AppConfigCas());
+			activity = new CASActivity();
 			break;
 		case "calculator":
 			activity = new ScientificActivity();
