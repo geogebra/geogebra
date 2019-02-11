@@ -317,7 +317,7 @@ public class SoundManagerD implements SoundManager {
 
 	@Override
 	public void play(GeoAudio geo) {
-		// not implemented here.
+		playFile(geo.getSrc());
 	}
 
 	@Override
