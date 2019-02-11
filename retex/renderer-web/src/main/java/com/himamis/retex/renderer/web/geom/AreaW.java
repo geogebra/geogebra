@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.geom.Area;
-import com.himamis.retex.renderer.share.platform.geom.AreaBase;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -15,23 +14,52 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
  * Rectangle2DW) or eg (Arrow + extension + Arrow)
  *
  */
-public class AreaW extends AreaBase {
+public class AreaW
+		implements com.himamis.retex.renderer.share.platform.geom.Area {
 
-	public AreaW(Shape shape) {
-		super(shape);
+	private ArrayList<Shape> shapes = new ArrayList<>();
+
+	double scale = 1;
+
+	public AreaW(Shape s) {
+		shapes.add(s);
 	}
 
-	public AreaW(ArrayList<Shape> shape) {
-		super(shape);
+	public AreaW(ArrayList<Shape> s) {
+		shapes.addAll(s);
 	}
 
 	public AreaW() {
-		super();
+		//
 	}
 
 	@Override
-	protected Rectangle2D createRectangle(double x, double y, double width, double height) {
-		return new Rectangle2DW(x, y, width, height);
+	public Rectangle2D getBounds2DX() {
+
+		double minX = Double.MAX_VALUE;
+		double minY = Double.MAX_VALUE;
+		double maxX = -Double.MAX_VALUE;
+		double maxY = -Double.MAX_VALUE;
+
+		int n = shapes.size();
+		for (int i = 0; i < n; i++) {
+			Shape shape = shapes.get(i);
+			Rectangle2D bounds = shape.getBounds2DX();
+
+			minX = Math.min(minX, bounds.getX());
+			minY = Math.min(minY, bounds.getY());
+			maxX = Math.max(maxX, bounds.getX() + bounds.getWidth());
+			maxY = Math.max(maxY, bounds.getY() + bounds.getHeight());
+
+		}
+
+		return new Rectangle2DW(minX * scale, minY * scale,
+				(maxX - minX) * scale, (maxY - minY) * scale);
+	}
+
+	@Override
+	public void add(Area a) {
+		shapes.addAll(((AreaW) a).getShapes());
 	}
 
 	@Override
@@ -46,14 +74,27 @@ public class AreaW extends AreaBase {
 			ctx.scale2(scale, scale);
 		}
 
-		for (Shape shape : shapes) {
-			ctx.fill(shape);
+		int n = shapes.size();
+		for (int i = 0; i < n; i++) {
+			ctx.fill(shapes.get(i));
 		}
 
 		if (scale != 1) {
 			ctx.restoreTransform();
 		}
 
+	}
+
+	public ArrayList<Shape> getShapes() {
+		return shapes;
+	}
+
+	/**
+	 * not needed in web
+	 */
+	@Override
+	public void scale(double x) {
+		scale *= x;
 	}
 
 	@Override
@@ -63,14 +104,16 @@ public class AreaW extends AreaBase {
 					.debug("warning: AreaW.translate not implemented when scale != 1"
 							+ scale + " " + x + " " + y);
 		}
-
-		for (Shape shape : shapes) {
+		int n = shapes.size();
+		for (int i = 0; i < n; i++) {
+			Shape shape = shapes.get(i);
 			if (shape instanceof ShapeW) {
 				((ShapeW) shape).translate(x, y);
 			} else if (shape instanceof Rectangle2DW) {
 				((Rectangle2DW) shape).translate(x, y);
 			}
 		}
+
 	}
 
 }
