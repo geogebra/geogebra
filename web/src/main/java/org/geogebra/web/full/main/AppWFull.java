@@ -37,7 +37,6 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.settings.AppConfigCas;
-import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -91,6 +90,7 @@ import org.geogebra.web.full.main.activity.ClassicActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.GeometryActivity;
 import org.geogebra.web.full.main.activity.Graphing3DActivity;
+import org.geogebra.web.full.main.activity.GraphingActivity;
 import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
@@ -296,7 +296,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		switch (articleElement.getDataParamAppName()) {
 		case "graphing":
-			activity = new BaseActivity(new AppConfigGraphing());
+			activity = new GraphingActivity();
 			break;
 		case "geometry":
 			activity = new GeometryActivity();

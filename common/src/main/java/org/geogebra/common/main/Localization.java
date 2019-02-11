@@ -1510,6 +1510,9 @@ public abstract class Localization {
 	 * @return url for current app
 	 */
 	public String getTutorialURL(AppConfig config) {
+		if (StringUtil.empty(config.getTutorialKey())) {
+			return "";
+		}
 		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/"
 				+ getMenu(config.getTutorialKey());
 	}
