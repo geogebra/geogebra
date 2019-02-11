@@ -98,7 +98,13 @@ public class DrawAudio extends Drawable {
 		int size = 2 * getPlaySize();
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
-		updateSlider(view.getBackgroundGraphics());
+
+		// NPE in Classic 5 on file loading
+		try {
+			updateSlider(view.getGraphicsForPen());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		playing = geoAudio.isPlaying();
 	}
 
