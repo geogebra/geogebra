@@ -274,11 +274,16 @@
     		}
     		
     		.checkMarkMenuItem {
-    			cursor: pointer;
+                cursor: pointer;
+                line-height: 32px;
+
+                .gwt-HTML {
+                    margin-left: -24px;
+                }
     		
     			img {
     				opacity: 0.54;
-    				margin-top: -2px;
+    				margin-top: -4px;
     			}	    				
     		}
     	}
