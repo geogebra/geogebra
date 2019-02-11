@@ -232,8 +232,12 @@ public class ConstructionDefaults {
 	// quadrics
 	/** default alpha for quadrics */
 	public static final float DEFAULT_QUADRIC_ALPHA = 0.75f;
+	/** new default alpha for quadrics */
+	public static final float DEFAULT_QUADRIC_ALPHA_NEW = 0.65f;
 	/** default color for quadrics */
 	public static final GColor colQuadric = GeoGebraColorConstants.GGB_RED;
+	/** new default color for quadrics */
+	public static final GColor colQuadricNew = GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
 
 	/** preview color */
 	public static final GColor colPreview = GColor.DARK_GRAY;

@@ -180,8 +180,13 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);
 		quadric.setLocalVariableLabel("Quadric");
-		quadric.setObjColor(colQuadric);
-		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+		if (cons.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			quadric.setObjColor(colQuadricNew);
+			quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA_NEW);
+		} else {
+			quadric.setObjColor(colQuadric);
+			quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+		}
 		quadric.setDefaultGeoType(DEFAULT_QUADRIC);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
 
