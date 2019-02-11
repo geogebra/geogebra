@@ -793,16 +793,31 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int mouseEventX(int clientX) {
-		int x = Browser.isZoomInSafari() ? clientX - getEnvXoffset() : clientX;
+		int x = Browser.isZoomInSafari() ? getXForZoom(clientX) : clientX;
 		return (int) Math.round(x * (1 / style.getScaleX()));
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
-		int y = Browser.isZoomInSafari() ? clientY - getEnvYoffset() : clientY;
+		int y = Browser.isZoomInSafari() ? getYForZoom(clientY) : clientY;
 		return (int) Math.round(y * (1 / style.getScaleY()));
 	}
 
+	private int getXForZoom(int x) {
+		if (style.getScaleX() == 1) {
+			return x;
+		}
+
+		return x - ec.getView().getAbsoluteLeft();
+	}
+
+	private int getYForZoom(int y) {
+		if (style.getScaleY() == 1) {
+			return y;
+		}
+
+		return y - ec.getView().getAbsoluteTop();
+	}
 	@Override
 	public int getEvID() {
 		return ec.getView().getViewID();
