@@ -45,6 +45,7 @@ public class ScientificActivity extends BaseActivity {
 				.setCommandSelector(commandSelector);
 		initHeaderButtons(app);
 		app.forceEnglishCommands();
+		app.setRightClickEnabledForAV(false);
 	}
 
 	private static void initHeaderButtons(AppW app) {
