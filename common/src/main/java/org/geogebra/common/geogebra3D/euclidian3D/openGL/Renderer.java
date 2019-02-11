@@ -2023,9 +2023,9 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * @return background for AR, null otherwise
+	 * @return background for AR, opaque otherwise
 	 */
 	public BackgroundStyle getBackgroundStyle() {
-		return null;
+		return BackgroundStyle.OPAQUE;
 	}
 }
