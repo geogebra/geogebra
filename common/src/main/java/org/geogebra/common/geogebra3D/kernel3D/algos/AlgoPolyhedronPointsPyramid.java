@@ -107,8 +107,11 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 			polyhedron.addPointToCurrentFace(topPoint); // apex
 			polyhedron.endCurrentFace();
 		}
+	}
 
-		polyhedron.setType(GeoPolyhedron.TYPE_PYRAMID);
+	@Override
+	protected int getPolyhedronType() {
+		return GeoPolyhedron.TYPE_PYRAMID;
 	}
 
 	@Override

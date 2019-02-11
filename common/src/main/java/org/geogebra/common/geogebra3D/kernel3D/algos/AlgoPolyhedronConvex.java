@@ -59,7 +59,8 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 				new ElementFactory<GeoPolyhedron>() {
 					@Override
 					public GeoPolyhedron newElement() {
-						GeoPolyhedron p = new GeoPolyhedron(cons);
+						GeoPolyhedron p = new GeoPolyhedron(cons,
+								GeoPolyhedron.TYPE_UNKNOWN);
 						p.setParentAlgorithm(AlgoPolyhedronConvex.this);
 						return p;
 					}

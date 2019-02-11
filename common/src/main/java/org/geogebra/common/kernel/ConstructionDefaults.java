@@ -121,6 +121,8 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_BOOLEAN = 120;
 	/** default polyhedron type (also used for limited quadrics) */
 	public static final int DEFAULT_POLYHEDRON = 3300;
+	/** default pyramids and cones type */
+	public static final int DEFAULT_PYRAMID_AND_CONE = 3310;
 
 	/** default curve cartesian */
 	public static final int DEFAULT_CURVE_CARTESIAN = 3400;
@@ -197,6 +199,9 @@ public class ConstructionDefaults {
 	public static final GColor colPolygon = GeoGebraColorConstants.GGB_BROWN;
 	/** new default color for polygons */
 	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
+
+	/** default color for pyramids and cones */
+	public static final GColor colPyramidAndCone = GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE;
 
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;

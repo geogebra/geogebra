@@ -39,14 +39,17 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 */
 	protected AlgoPolyhedron(Construction c) {
 		super(c);
+	}
 
+	protected void init() {
 		cons.addToAlgorithmList(this);
 
 		outputPolyhedron = new OutputHandler<>(
 				new ElementFactory<GeoPolyhedron>() {
 					@Override
 					public GeoPolyhedron newElement() {
-						GeoPolyhedron p = new GeoPolyhedron(cons);
+						GeoPolyhedron p = new GeoPolyhedron(cons,
+								getPolyhedronType());
 						p.setParentAlgorithm(AlgoPolyhedron.this);
 						return p;
 					}
@@ -62,6 +65,12 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		createOutputSegments();
 
 	}
+
+	/**
+	 * 
+	 * @return type for the output polyhedron
+	 */
+	abstract protected int getPolyhedronType();
 
 	/**
 	 * 

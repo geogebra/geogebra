@@ -53,8 +53,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		this.bottom = bottom;
 		this.height = height;
 
-		quadric = new GeoQuadric3DLimited(c);
-		quadric.setType(type);
+		quadric = new GeoQuadric3DLimited(c, type);
 
 		input = new GeoElement[] { bottom, (GeoElement) height };
 

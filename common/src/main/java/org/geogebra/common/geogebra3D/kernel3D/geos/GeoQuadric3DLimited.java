@@ -72,10 +72,12 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * 
 	 * @param c
 	 *            construction
+	 * @param type
+	 *            type
 	 */
-	public GeoQuadric3DLimited(Construction c) {
+	public GeoQuadric3DLimited(Construction c, int type) {
 		super(c);
-
+		setType(type);
 		setConstructionDefaults();
 	}
 
@@ -123,7 +125,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 *            original
 	 */
 	public GeoQuadric3DLimited(GeoQuadric3DLimited quadric) {
-		this(quadric.getConstruction());
+		this(quadric.getConstruction(), quadric.getType());
 		this.bottom = new GeoConic3D(quadric.getConstruction());
 		this.top = new GeoConic3D(quadric.getConstruction());
 		this.side = new GeoQuadric3DPart(quadric.getConstruction());

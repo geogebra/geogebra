@@ -2,10 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolid;
-import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolidsFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -78,31 +76,9 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		super(c);
 
 		this.name = name;
+		init();
 
-		// set polyhedron type
-		switch (name) {
-		default:
-		case Tetrahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_TETRAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getTetrahedron();
-			break;
-		case Cube:
-			polyhedron.setType(GeoPolyhedron.TYPE_CUBE);
-			solidDescription = PlatonicSolidsFactory.getCube();
-			break;
-		case Octahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_OCTAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getOctahedron();
-			break;
-		case Dodecahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_DODECAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getDodecahedron();
-			break;
-		case Icosahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_ICOSAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getIcosahedron();
-			break;
-		}
+		solidDescription = AlgoArchimedeanSolid.computeSolidDescription(name);
 
 		setVolumeAreaAndHeightFactors();
 
@@ -129,6 +105,11 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		setLabels(labels);
 
 		update();
+	}
+
+	@Override
+	protected int getPolyhedronType() {
+		return AlgoArchimedeanSolid.getPolyhedronType(name);
 	}
 
 	/**

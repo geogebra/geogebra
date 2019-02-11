@@ -63,6 +63,9 @@ public class GeoPolyhedron extends GeoElement3D
 		implements HasSegments, HasVolume, Traceable, RotateableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
 		Path, GeoPolyhedronInterface, GeoNumberValue {
+
+	/** unknown */
+	public static final int TYPE_UNKNOWN = 0;
 	/** pyramid */
 	public static final int TYPE_PYRAMID = 1;
 	/** prism */
@@ -77,6 +80,8 @@ public class GeoPolyhedron extends GeoElement3D
 	public static final int TYPE_DODECAHEDRON = 7;
 	/** icosahedron */
 	public static final int TYPE_ICOSAHEDRON = 8;
+	/** net */
+	public static final int TYPE_NET = 9;
 	/** one of the TYPE_* constants */
 	int type;
 
@@ -202,9 +207,15 @@ public class GeoPolyhedron extends GeoElement3D
 	 * 
 	 * @param c
 	 *            construction
+	 * @param polyhedronType
+	 *            polyhedron type
 	 */
-	public GeoPolyhedron(Construction c) {
+	public GeoPolyhedron(Construction c, int polyhedronType) {
 		super(c);
+
+		// needs to be done before setConstructionDefaults() as color depends on
+		// type
+		this.type = polyhedronType;
 
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
@@ -271,18 +282,8 @@ public class GeoPolyhedron extends GeoElement3D
 	 *            original
 	 */
 	public GeoPolyhedron(GeoPolyhedron polyhedron) {
-		this(polyhedron.getConstruction());
+		this(polyhedron.getConstruction(), polyhedron.getPolyhedronType());
 		set(polyhedron);
-	}
-
-	/**
-	 * set the type of polyhedron
-	 * 
-	 * @param type
-	 *            one of the TYPE_* constants
-	 */
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	/**
@@ -1332,6 +1333,14 @@ public class GeoPolyhedron extends GeoElement3D
 		default:
 			return "Polyhedron";
 		}
+	}
+
+	/**
+	 * 
+	 * @return polyhedron type
+	 */
+	public int getPolyhedronType() {
+		return type;
 	}
 
 	@Override

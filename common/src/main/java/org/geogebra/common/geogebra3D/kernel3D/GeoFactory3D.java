@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -83,7 +84,7 @@ public class GeoFactory3D extends GeoFactory {
 			} else if ("polyline3d".equals(type)) {
 				return new GeoPolyLine3D(cons1, null);
 			} else if ("polyhedron".equals(type)) {
-				return new GeoPolyhedron(cons1);
+				return new GeoPolyhedron(cons1, GeoPolyhedron.TYPE_UNKNOWN);
 			}
 
 		case 'q':
@@ -92,7 +93,8 @@ public class GeoFactory3D extends GeoFactory {
 			} else if ("quadric3dpart".equals(type)) {
 				return new GeoQuadric3DPart(cons1);
 			} else if ("quadric3dlimited".equals(type)) {
-				return new GeoQuadric3DLimited(cons1);
+				return new GeoQuadric3DLimited(cons1,
+						GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED);
 			}
 
 		case 'r':

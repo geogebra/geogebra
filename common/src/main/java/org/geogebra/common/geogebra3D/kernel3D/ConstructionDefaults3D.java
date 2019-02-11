@@ -17,6 +17,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -141,7 +144,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_PLANE3D, plane);
 
 		// polyhedron
-		GeoPolyhedron polyhedron = new GeoPolyhedron(cons);
+		GeoPolyhedron polyhedron = new GeoPolyhedron(cons,
+				GeoPolyhedron.TYPE_UNKNOWN);
 		polyhedron.setLocalVariableLabel("Polyhedron");
 		polyhedron.setObjColor(colPolyhedron());
 		polyhedron.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
@@ -149,6 +153,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
 
 		// polyhedron
+		GeoPolyhedron pyramid = new GeoPolyhedron(cons,
+				GeoPolyhedron.TYPE_PYRAMID);
+		pyramid.setLocalVariableLabel("Pyramid");
+		pyramid.setObjColor(colPyramidAndCone);
+		pyramid.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
+		pyramid.setDefaultGeoType(DEFAULT_PYRAMID_AND_CONE);
+		defaultGeoElements.put(DEFAULT_PYRAMID_AND_CONE, pyramid);
+
+		// polyhedron net
 		GeoPolyhedronNet polyhedronNet = new GeoPolyhedronNet(cons);
 		polyhedronNet.setLocalVariableLabel("Net");
 		polyhedronNet.setObjColor(colPolyhedron());
@@ -230,7 +243,27 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return getDefaultType(geo, GeoClass.POLYGON);
 
 		case POLYHEDRON:
+			if (geo.getKernel().getApplication()
+					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				switch(((GeoPolyhedron) geo).getPolyhedronType()) {
+				case GeoPolyhedron.TYPE_PYRAMID:
+				case GeoPolyhedron.TYPE_TETRAHEDRON:
+					return DEFAULT_PYRAMID_AND_CONE;
+				default:
+					return DEFAULT_POLYHEDRON;
+				}
+			}
+			return DEFAULT_POLYHEDRON;
 		case QUADRIC_LIMITED:
+			if (geo.getKernel().getApplication()
+					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				switch (((GeoQuadricND) geo).getType()) {
+				case GeoQuadricNDConstants.QUADRIC_CONE:
+					return DEFAULT_PYRAMID_AND_CONE;
+				default:
+					return DEFAULT_POLYHEDRON;
+				}
+			}
 			return DEFAULT_POLYHEDRON;
 
 		case NET:

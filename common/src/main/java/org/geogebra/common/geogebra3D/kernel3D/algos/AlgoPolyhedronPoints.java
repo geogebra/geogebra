@@ -149,6 +149,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	public AlgoPolyhedronPoints(Construction c, String[] labels,
 			GeoPointND[] points) {
 		super(c);
+		init();
 
 		initCoords();
 
@@ -197,6 +198,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	public AlgoPolyhedronPoints(Construction c, String[] labels,
 			GeoPolygon polygon, GeoPointND point) {
 		super(c);
+		init();
 
 		initCoords();
 
@@ -241,6 +243,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon,
 			NumberValue height) {
 		super(c);
+		init();
 
 		// create ChangeableCoordParent if possible
 		GeoNumeric changeableHeight = ChangeableCoordParent.getGeoNumeric(height);

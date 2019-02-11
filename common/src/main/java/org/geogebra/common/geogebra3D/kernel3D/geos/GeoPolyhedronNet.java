@@ -25,7 +25,7 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	 *            construction
 	 */
 	public GeoPolyhedronNet(Construction c) {
-		super(c);
+		super(c, TYPE_NET);
 	}
 
 	@Override

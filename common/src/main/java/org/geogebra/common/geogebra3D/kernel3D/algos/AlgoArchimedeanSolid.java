@@ -150,35 +150,59 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private AlgoArchimedeanSolid(Construction c, Commands name) {
 		super(c);
 		this.name = name;
+		init();
+		solidDescription = computeSolidDescription(name);
+		setVolumeAreaAndHeightFactors();
+		matrix = new CoordMatrix4x4();
+	}
 
-		// set polyhedron type
+	/**
+	 * 
+	 * @param name
+	 *            command name
+	 * @return solid description for the command name
+	 */
+	static public PlatonicSolid computeSolidDescription(Commands name) {
 		switch (name) {
 		default:
 		case Tetrahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_TETRAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getTetrahedron();
-			break;
+			return PlatonicSolidsFactory.getTetrahedron();
 		case Cube:
-			polyhedron.setType(GeoPolyhedron.TYPE_CUBE);
-			solidDescription = PlatonicSolidsFactory.getCube();
-			break;
+			return PlatonicSolidsFactory.getCube();
 		case Octahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_OCTAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getOctahedron();
-			break;
+			return PlatonicSolidsFactory.getOctahedron();
 		case Dodecahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_DODECAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getDodecahedron();
-			break;
+			return PlatonicSolidsFactory.getDodecahedron();
 		case Icosahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_ICOSAHEDRON);
-			solidDescription = PlatonicSolidsFactory.getIcosahedron();
-			break;
+			return PlatonicSolidsFactory.getIcosahedron();
 		}
+	}
 
-		setVolumeAreaAndHeightFactors();
+	@Override
+	protected int getPolyhedronType() {
+		return getPolyhedronType(name);
+	}
 
-		matrix = new CoordMatrix4x4();
+	/**
+	 * 
+	 * @param name
+	 *            command name
+	 * @return polyhedron type for the command name
+	 */
+	static public int getPolyhedronType(Commands name) {
+		switch (name) {
+		default:
+		case Tetrahedron:
+			return GeoPolyhedron.TYPE_TETRAHEDRON;
+		case Cube:
+			return GeoPolyhedron.TYPE_CUBE;
+		case Octahedron:
+			return GeoPolyhedron.TYPE_OCTAHEDRON;
+		case Dodecahedron:
+			return GeoPolyhedron.TYPE_DODECAHEDRON;
+		case Icosahedron:
+			return GeoPolyhedron.TYPE_ICOSAHEDRON;
+		}
 	}
 
 	private void initInputOutput(String[] labels, GeoElement... elements) {

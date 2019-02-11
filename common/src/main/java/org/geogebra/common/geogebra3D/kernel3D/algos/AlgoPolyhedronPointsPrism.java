@@ -117,11 +117,11 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		polyhedron.endCurrentFace();
 
 		polyhedron.setCurrentFaceIsTopFace();
+	}
 
-		// for (int i=0; i<faces.length; i++) Application.debug(faces[i]);
-
-		polyhedron.setType(GeoPolyhedron.TYPE_PRISM);
-
+	@Override
+	protected int getPolyhedronType() {
+		return GeoPolyhedron.TYPE_PRISM;
 	}
 
 	/**
