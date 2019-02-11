@@ -93,12 +93,8 @@ public class NthRoot extends Atom implements HasTrueBase {
 		Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env,
 				totalH + clr + drt);
 
-		// ShapeBox causes problems in web when fonts aren't loaded
-		// and also isn't necessary there anyway
-		if (!FactoryProvider.getInstance().isHTML5()) {
-			if (rootSign instanceof CharBox) {
-				rootSign = ShapeBox.create(rootSign);
-			}
+		if (rootSign instanceof CharBox) {
+			rootSign = FactoryProvider.getInstance().getBoxDecorator().decorate(rootSign);
 		}
 
 		// add half the excess to clr

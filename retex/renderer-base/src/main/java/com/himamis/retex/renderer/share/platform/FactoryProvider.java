@@ -44,6 +44,8 @@
 package com.himamis.retex.renderer.share.platform;
 
 import com.himamis.retex.renderer.share.Configuration;
+import com.himamis.retex.renderer.share.platform.box.BoxDecorator;
+import com.himamis.retex.renderer.share.platform.box.BoxDecoratorDummy;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
@@ -56,12 +58,17 @@ public abstract class FactoryProvider {
 	private GeomFactory geomFactory;
 	private FontFactory fontFactory;
 	private GraphicsFactory graphicsFactory;
+	private BoxDecorator boxDecorator;
 
 	protected abstract GeomFactory createGeomFactory();
 
 	protected abstract FontFactory createFontFactory();
 
 	protected abstract GraphicsFactory createGraphicsFactory();
+
+	protected BoxDecorator createBoxDecorator() {
+		return new BoxDecoratorDummy();
+	}
 
 	protected FactoryProvider() {
 	}
@@ -85,6 +92,13 @@ public abstract class FactoryProvider {
 			graphicsFactory = createGraphicsFactory();
 		}
 		return graphicsFactory;
+	}
+
+	public BoxDecorator getBoxDecorator() {
+		if (boxDecorator == null) {
+			boxDecorator = createBoxDecorator();
+		}
+		return boxDecorator;
 	}
 
 	public void debug(Object string) {
@@ -118,14 +132,6 @@ public abstract class FactoryProvider {
 	// TODO remove as part of Android / iOS cleanup
 	protected ResourceLoaderFactory createResourceLoaderFactory() {
 		return null;
-	}
-
-	/**
-	 * 
-	 * @return true for renderer-web only
-	 */
-	public boolean isHTML5() {
-		return false;
 	}
 
 }

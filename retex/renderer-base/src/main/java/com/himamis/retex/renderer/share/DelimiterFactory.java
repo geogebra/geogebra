@@ -83,8 +83,7 @@ public class DelimiterFactory {
 
 	/**
 	 *
-	 * @param symbol
-	 *            the name of the delimiter symbol
+	 * @param cf
 	 * @param env
 	 *            the TeXEnvironment in which to create the delimiter box
 	 * @param minHeight
@@ -148,12 +147,7 @@ public class DelimiterFactory {
 				}
 			}
 
-			// ShapeBox causes problems in web when fonts aren't loaded
-			// and also isn't necessary there anyway
-			if (FactoryProvider.getInstance().isHTML5()) {
-				return vBox;
-			}
-			return ShapeBox.create(vBox);
+			return FactoryProvider.getInstance().getBoxDecorator().decorate(vBox);
 
 		} else {
 			// no extensions, so return tallest possible character

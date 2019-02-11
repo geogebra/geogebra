@@ -353,13 +353,8 @@ public class RowAtom extends Atom implements Row {
 			}
 		}
 
-		// ShapeBox causes problems in web when fonts aren't loaded
-		// and also isn't necessary there anyway
-		if (FactoryProvider.getInstance().isHTML5()) {
-			return hBox.peek();
-		}
 		if (shape) {
-			return ShapeBox.create(hBox.peek());
+			return FactoryProvider.getInstance().getBoxDecorator().decorate(hBox.peek());
 		}
 
 		return hBox.peek();
