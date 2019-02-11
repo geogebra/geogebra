@@ -156,7 +156,8 @@ public class ZoomController {
 			Browser.scale(elem, 1 / scale, 120, 100);
 			container.getStyle().setPosition(useEmulatedFullscreen()
 					? Position.FIXED : Position.ABSOLUTE);
-			double marginLeft = 0;			double marginTop = 0;
+			double marginLeft = 0;
+			double marginTop = 0;
 			if (xscale > yscale) {
 				marginLeft = (Window.getClientWidth() - app.getWidth() * scale)
 						/ 2;

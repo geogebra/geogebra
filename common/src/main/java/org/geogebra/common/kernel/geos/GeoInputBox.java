@@ -537,6 +537,9 @@ public class GeoInputBox extends GeoButton {
 		return bgColor;
 	}
 
+	/**
+	 * @return description for the screen reader
+	 */
 	public String getAuralText() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		sb.append(getKernel().getLocalization().getMenu("Text Field"));

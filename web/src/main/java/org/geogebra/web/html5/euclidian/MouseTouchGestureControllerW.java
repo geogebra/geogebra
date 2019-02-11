@@ -815,9 +815,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (style.getScaleY() == 1) {
 			return y;
 		}
-
 		return y - ec.getView().getAbsoluteTop();
 	}
+
 	@Override
 	public int getEvID() {
 		return ec.getView().getViewID();
