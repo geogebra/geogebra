@@ -694,7 +694,7 @@ public class ToolCategorization {
 	private void build3DGrapherCommonTools() {
 		if (level.equals(ToolsetLevel.ADVANCED)) {
 			build3DGrapherAdvancedCommonTools();
-		} else {
+		} else if (!app.has(Feature.G3D_TOOLS_SIMPLE_MORE_LESS)) {
 			build3DGrapherStandardCommonTools();
 		}
 	}
