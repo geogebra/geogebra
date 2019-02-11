@@ -33,12 +33,12 @@ public class GeomFactoryAndroid extends GeomFactory {
 
 	@Override
 	public Area createArea(Shape rect) {
-		return rect == null ? new AreaA() : new AreaA(rect);
+		return null;
 	}
 
 	@Override
 	public Area newArea() {
-		return new AreaA();
+		return null;
 	}
 
 }
