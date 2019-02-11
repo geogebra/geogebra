@@ -152,6 +152,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		polyhedron.setDefaultGeoType(DEFAULT_POLYHEDRON);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
 
+		// archimedean solids (other than tetrahedron and cube)
+		GeoPolyhedron archimedean = new GeoPolyhedron(cons,
+				GeoPolyhedron.TYPE_UNKNOWN);
+		archimedean.setLocalVariableLabel("Archimedean");
+		archimedean.setObjColor(colQuadricAndArchimedeanSolid);
+		archimedean.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
+		archimedean.setDefaultGeoType(DEFAULT_ARCHIMDEAN_SOLID);
+		defaultGeoElements.put(DEFAULT_ARCHIMDEAN_SOLID, archimedean);
+
 		// pyramid and cone
 		GeoPolyhedron pyramid = new GeoPolyhedron(cons,
 				GeoPolyhedron.TYPE_PYRAMID);
@@ -181,7 +190,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);
 		quadric.setLocalVariableLabel("Quadric");
 		if (cons.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			quadric.setObjColor(colQuadricNew);
+			quadric.setObjColor(colQuadricAndArchimedeanSolid);
 			quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA_NEW);
 		} else {
 			quadric.setObjColor(colQuadric);
@@ -265,6 +274,10 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 				case GeoPolyhedron.TYPE_PRISM:
 				case GeoPolyhedron.TYPE_CUBE:
 					return DEFAULT_PRISM_AND_CYLINDER;
+				case GeoPolyhedron.TYPE_OCTAHEDRON:
+				case GeoPolyhedron.TYPE_DODECAHEDRON:
+				case GeoPolyhedron.TYPE_ICOSAHEDRON:
+					return DEFAULT_ARCHIMDEAN_SOLID;
 				default:
 					return DEFAULT_POLYHEDRON;
 				}

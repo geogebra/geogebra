@@ -123,8 +123,10 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_POLYHEDRON = 3300;
 	/** default pyramids and cones type */
 	public static final int DEFAULT_PYRAMID_AND_CONE = 3310;
-	/** default prisms and cynlinders type */
+	/** default prisms and cylinders type */
 	public static final int DEFAULT_PRISM_AND_CYLINDER = 3311;
+	/** default archimedean solids type */
+	public static final int DEFAULT_ARCHIMDEAN_SOLID = 3312;
 
 	/** default curve cartesian */
 	public static final int DEFAULT_CURVE_CARTESIAN = 3400;
@@ -237,7 +239,7 @@ public class ConstructionDefaults {
 	/** default color for quadrics */
 	public static final GColor colQuadric = GeoGebraColorConstants.GGB_RED;
 	/** new default color for quadrics */
-	public static final GColor colQuadricNew = GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
+	public static final GColor colQuadricAndArchimedeanSolid = GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
 
 	/** preview color */
 	public static final GColor colPreview = GColor.DARK_GRAY;
