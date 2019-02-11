@@ -106,9 +106,6 @@ public enum Feature {
 
 	SHOW_STEPS,
 
-	/** GGB-1910 */
-	LABEL_SETTING_ON_STYLEBAR,
-
 	CENTER_STANDARD_VIEW,
 
 	SURFACE_2D,

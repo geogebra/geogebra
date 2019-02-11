@@ -3912,9 +3912,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SHOW_STEPS:
 			return prerelease;
 
-		case LABEL_SETTING_ON_STYLEBAR:
-			return !whiteboard;
-
 		case SURFACE_2D:
 			return prerelease;
 

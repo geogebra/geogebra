@@ -562,7 +562,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			}
 		}
 
-		if (app.has(Feature.LABEL_SETTING_ON_STYLEBAR) && isDynamicStylebar()) {
+		if (!app.isWhiteboardActive() && isDynamicStylebar()) {
 			add(getLabelPopup());
 		}
 
