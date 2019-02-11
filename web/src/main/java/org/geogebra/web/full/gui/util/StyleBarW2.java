@@ -171,7 +171,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 
 		GColor originalColor;
-		if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR) && background) {
+		if (app.isUnbundledOrWhiteboard() && background) {
 			originalColor = geo0.getBackgroundColor();
 		} else {
 			originalColor = geo0.getObjectColor();
@@ -188,7 +188,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			@Override
 			public void onColorChange(GColor color) {
 				if (background) {
-					if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+					if (app.isUnbundledOrWhiteboard()) {
 						EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
 								geo0.getAlphaValue());
 					}

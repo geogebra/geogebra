@@ -419,7 +419,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianViewW)
-					&& app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+					&& app.isUnbundledOrWhiteboard()) {
 				// in view stylebar won't be appeared object stylebar
 				geos = new Object[0];
 			} else if (!isDynamicStylebar()
@@ -427,7 +427,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					&& (!EuclidianConstants
 							.isMoveOrSelectionMode(app.getMode()))
 					&& (app.getMode() != EuclidianConstants.MODE_PEN)
-					&& app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+					&& app.isUnbundledOrWhiteboard()) {
 				// show the object stylebar in 3D view, when the user selects a
 				// tool
 				geos = activeGeoList.toArray();
@@ -519,7 +519,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			btnLineStyle.setLabels();
 			btnPointStyle.setLabels();
 		}
-		if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			// order of button changed
 			add(btnTextSize);
 		}
@@ -531,7 +531,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		add(btnBold);
 		add(btnItalic);
-		if (!app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			add(btnTextSize);
 		}
 
@@ -868,7 +868,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		@Override
 		public void update(Object[] geos) {
-			if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+			if (app.isUnbundledOrWhiteboard()) {
 				super.setVisible(geos.length == 0);
 			} else {
 				super.setVisible(geos.length == 0
@@ -942,7 +942,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(Object[] geos) {
-				if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+				if (app.isUnbundledOrWhiteboard()) {
 					super.setVisible(geos.length == 0);
 				} else {
 					// same as axes
@@ -1024,7 +1024,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				GeoElement geo = EuclidianStyleBarStatic
 						.checkGeosForAngleInterval(geos);
 				boolean geosOK = (geo != null
-						&& !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR));
+						&& !app.isUnbundledOrWhiteboard());
 				super.setVisible(geosOK);
 				if (geosOK) {
 					setSelectedIndex(((AngleProperties) geo).getAngleStyle()
@@ -1204,7 +1204,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				} else {
 					boolean geosOK = (geos.length > 0 || (EuclidianView
 							.isPenMode(mode)
-							&& !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)));
+							&& !app.isUnbundledOrWhiteboard()));
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
@@ -1396,7 +1396,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)
+				boolean geosOK = !app.isUnbundledOrWhiteboard()
 						&& checkGeoText(geos);
 				super.setVisible(geosOK);
 

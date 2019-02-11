@@ -2,7 +2,6 @@ package org.geogebra.web.full.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -28,7 +27,7 @@ public class MyToggleButtonWforEV extends MyToggleButtonW {
 
 	@Override
 	public void update(Object[] geos) {
-		if (stylebar.app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
+		if (stylebar.app.isUnbundledOrWhiteboard()) {
 			this.setVisible(geos.length == 0);
 		} else {
 			int mode = stylebar.mode;
