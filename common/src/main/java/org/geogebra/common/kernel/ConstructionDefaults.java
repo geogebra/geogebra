@@ -239,7 +239,8 @@ public class ConstructionDefaults {
 	/** default color for quadrics */
 	public static final GColor colQuadric = GeoGebraColorConstants.GGB_RED;
 	/** new default color for quadrics */
-	public static final GColor colQuadricAndArchimedeanSolid = GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
+	public static final GColor colQuadricAndArchimedeanSolid = 
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED;
 
 	/** preview color */
 	public static final GColor colPreview = GColor.DARK_GRAY;

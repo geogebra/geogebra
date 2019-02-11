@@ -267,7 +267,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		case POLYHEDRON:
 			if (geo.getKernel().getApplication()
 					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-				switch(((GeoPolyhedron) geo).getPolyhedronType()) {
+				switch (((GeoPolyhedron) geo).getPolyhedronType()) {
 				case GeoPolyhedron.TYPE_PYRAMID:
 				case GeoPolyhedron.TYPE_TETRAHEDRON:
 					return DEFAULT_PYRAMID_AND_CONE;
