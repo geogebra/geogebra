@@ -86,7 +86,7 @@ public class DrawAudio extends Drawable {
 
 	@Override
 	public void update() {
-		isVisible = geoAudio.isDefined();
+		isVisible = geo.isEuclidianVisible() && geoAudio.isDefined();
 		if (!isVisible) {
 			return;
 		}
@@ -154,15 +154,17 @@ public class DrawAudio extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		drawBox(g2);
-		if (playing) {
-			drawPause(g2);
-		} else {
-			drawPlay(g2);
+		if (isVisible) {
+			drawBox(g2);
+			if (playing) {
+				drawPause(g2);
+			} else {
+				drawPlay(g2);
+			}
+			drawTime(g2);
+			updateStrokes(geoAudio);
+			drawSlider(g2);
 		}
-		drawTime(g2);
-		updateStrokes(geoAudio);
-		drawSlider(g2);
 	}
 
 	private void drawSlider(GGraphics2D g2) {
