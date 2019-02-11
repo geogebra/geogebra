@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.menubar;
+package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;

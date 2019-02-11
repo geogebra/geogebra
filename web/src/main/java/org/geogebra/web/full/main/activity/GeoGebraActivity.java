@@ -86,9 +86,14 @@ public interface GeoGebraActivity {
 
 	/**
 	 * Show settings
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
 	void showSettingsView(AppW app);
+
+	/**
+	 * @return icon for menu
+	 */
+	SVGResource getIcon();
 }

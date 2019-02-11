@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -34,20 +35,20 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		super("help", app);
 		addExpandableStyleWithColor(false);
 		Localization loc = app.getLocalization();
-
+		final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
 		// Tutorials
-		tutorials = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.tutorial_black(),
-						loc.getMenu("Tutorials")),
-				true, new MenuCommand(app) {
+		if (!StringUtil.empty(tutorialURL)) {
+			tutorials = addItem(
+					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.tutorial_black(),
+							loc.getMenu("Tutorials")),
+					true, new MenuCommand(app) {
 
-					@Override
-					public void doExecute() {
-						app.getFileManager().open(app.getLocalization()
-								.getTutorialURL(app.getConfig()));
-					}
-				});
+						@Override
+						public void doExecute() {
+							app.getFileManager().open(tutorialURL);
+						}
+					});
+		}
 		// Help
 		manual = addItem(
 				MainMenu.getMenuBarHtml(

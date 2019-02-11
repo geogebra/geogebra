@@ -132,11 +132,13 @@ $classicToolbar: 50px;
 				margin-left: -56px;	
 				opacity: 0.54;
 			}
-	
+
 			span {
-				font-size: 90%;	
+				font-size: 90%;
+				margin-right: 32px; // make sure expand icon has enough space
+				line-height: 24px;
 			}
-		
+
 			.expandImg, .collapseImg {
 				right: 16px;	
 				margin: 0px;

@@ -91,4 +91,10 @@ public class BaseActivity implements GeoGebraActivity {
 	public void showSettingsView(AppW app) {
 		app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
 	}
+
+	@Override
+	public SVGResource getIcon() {
+		// default implementation: never used
+		return MaterialDesignResources.INSTANCE.geogebra_color();
+	}
 }

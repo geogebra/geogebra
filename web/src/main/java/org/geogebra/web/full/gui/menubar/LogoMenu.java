@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -22,12 +21,7 @@ public class LogoMenu extends Submenu {
 
 	@Override
 	public SVGResource getImage() {
-		AppType appType = getApp().getSettings().getToolbarSettings().getType();
-		return appType.equals(AppType.GRAPHING_CALCULATOR)
-				? MaterialDesignResources.INSTANCE.graphing()
-				: (appType.equals(AppType.GRAPHER_3D)
-						? MaterialDesignResources.INSTANCE.graphing3D()
-						: MaterialDesignResources.INSTANCE.geometry());
+		return ((AppWFull) getApp()).getActivity().getIcon();
 	}
 
 	@Override

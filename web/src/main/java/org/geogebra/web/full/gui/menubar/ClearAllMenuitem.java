@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 

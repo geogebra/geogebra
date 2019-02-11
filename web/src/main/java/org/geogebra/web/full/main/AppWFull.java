@@ -37,9 +37,7 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.settings.AppConfigCas;
-import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
-import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -91,6 +89,8 @@ import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
 import org.geogebra.web.full.main.activity.BaseActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.full.main.activity.GeometryActivity;
+import org.geogebra.web.full.main.activity.Graphing3DActivity;
 import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
@@ -299,10 +299,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 			activity = new BaseActivity(new AppConfigGraphing());
 			break;
 		case "geometry":
-			activity = new BaseActivity(new AppConfigGeometry());
+			activity = new GeometryActivity();
 			break;
 		case "3d":
-			activity = new BaseActivity(new AppConfigGraphing3D());
+			activity = new Graphing3DActivity();
 			break;
 		case "mr":
 			activity = new MixedRealityActivity();
@@ -1855,13 +1855,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (needsUpdate) {
 			frame.getMenuBar(this).getMenubar().updateMenubar();
 		}
-		if (isFloatingMenu() && menuShowing) {
+		if (menuShowing) {
 			this.addFloatingMenu();
 			floatingMenuPanel.setVisible(true);
-
 			return;
 		}
 		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
+
 		floatingMenuPanel.add(menubar);
 		floatingMenuPanel.setVisible(menuShowing);
 		if (menuShowing) {
