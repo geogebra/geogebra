@@ -1634,6 +1634,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		inputPanelTreeItem = super.addItem(inputPanelLatex.getWidget());
+		inputPanelLatex.setIndexLast();
 		inputPanelTreeItem.addStyleName("avInputItem");
 		// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.getWidget().getElement().getParentElement()
