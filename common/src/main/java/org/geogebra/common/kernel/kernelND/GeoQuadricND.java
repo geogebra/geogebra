@@ -28,8 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.util.DoubleUtil;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 /**
  * Abstract class describing quadrics in n-dimension space. Extended by
  * GeoConic, GeoQuadric3D
@@ -533,19 +531,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	protected void buildSphereNDString(StringBuilder sbToValueString,
 			StringTemplate tpl) {
-		String squared;
-		switch (tpl.getStringType()) {
-		case LATEX:
-			squared = "^{2}";
-			break;
-
-		case GIAC:
-			squared = "^2";
-			break;
-
-		default:
-			squared = Unicode.SUPERSCRIPT_2 + "";
-		}
+		String squared = tpl.squared();
 
 		for (int i = 0; i < dimension; i++) {
 			if (DoubleUtil.isZero(getMidpoint().get(i + 1))) {
