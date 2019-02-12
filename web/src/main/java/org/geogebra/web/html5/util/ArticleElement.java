@@ -421,7 +421,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 					sx *= mul;
 					sy *= mul;
 				}
-				if (style.zoom) {
+				if (style.zoom && current != $doc.body.parentElement) {
 					sx *= style.zoom;
 					sy *= style.zoom;
 				}
