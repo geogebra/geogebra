@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Creates, deletes and resizes embedded applets.
- * 
+ *
  * @author Zbynek
  *
  */
@@ -73,12 +73,11 @@ public class EmbedManagerW implements EmbedManager {
 			}
 			return;
 		}
+		TestArticleElement parameters = new TestArticleElement("", "graphing");
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(
 				(AppletFactory) GWT.create(AppletFactory.class),
-				app.getLAF(), app.getDevice(), false);
-		TestArticleElement parameters = new TestArticleElement("",
-				"graphing");
-		fr.articleElement = parameters;
+				app.getLAF(), app.getDevice(), parameters);
+
 		parameters.attr("showToolBar", "true")
 				.attr("scaleContainerClass", "embedContainer")
 				.attr("allowUpscale", "true")
@@ -315,7 +314,7 @@ public class EmbedManagerW implements EmbedManager {
 					Log.warn("Problem loading embed " + entry.getKey());
 				}
 			}
-		}	
+		}
 	}
 
 	@Override

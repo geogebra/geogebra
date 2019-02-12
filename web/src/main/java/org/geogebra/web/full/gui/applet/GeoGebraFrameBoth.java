@@ -11,7 +11,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.HeaderPanelDeck;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
@@ -69,8 +68,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class GeoGebraFrameBoth
-		extends GeoGebraFrameW
-		implements HeaderPanelDeck, NativePreviewHandler, FrameWithHeaderAndKeyboard {
+		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -95,12 +93,12 @@ public class GeoGebraFrameBoth
 	 *            look and feel
 	 * @param device
 	 *            browser/tablet; if left null, defaults to browser
-	 * @param mainTag
-	 *            TODO remove, if GGB-2051 released.
+	 * @param articleElement
+	 *            article with parameters
 	 */
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeelI laf,
-			GDevice device, boolean mainTag) {
-		super(laf, mainTag);
+			GDevice device, ArticleElementInterface articleElement) {
+		super(laf, articleElement);
 		this.device = device;
 		this.factory = factory;
 		panelTransitioner = new PanelTransitioner(this);
@@ -147,10 +145,8 @@ public class GeoGebraFrameBoth
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
-					device,
-					ArticleElement.getDataParamFitToScreen(articleElement));
-			inst.articleElement = articleElement;
-			LoggerW.startLogger(inst.articleElement);
+					device, articleElement);
+			LoggerW.startLogger(articleElement);
 			inst.createSplash();
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
@@ -184,7 +180,7 @@ public class GeoGebraFrameBoth
 			GLookAndFeel laf, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
-				factory, laf, null, ArticleElement.getDataParamFitToScreen(el)),
+				factory, laf, null, ArticleElement.as(el)),
 				clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
@@ -986,7 +982,7 @@ public class GeoGebraFrameBoth
 
 	@Override
 	public void onPanelHidden() {
-		if (articleElement.getDataParamFitToScreen()) {
+		if (app.getArticleElement().getDataParamFitToScreen()) {
 			setSize(Window.getClientWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();

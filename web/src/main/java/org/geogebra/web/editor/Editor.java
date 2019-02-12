@@ -25,7 +25,7 @@ import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
 /**
  * Standalone editor with GGB keyboard
- * 
+ *
  * @author Zbynek
  *
  */
@@ -38,10 +38,8 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	@Override
 	public void onModuleLoad() {
-		app = new AppWsolver(
-				new TestArticleElement("true", "Solver"),
-				new GeoGebraFrameSimple(false)
-		);
+		TestArticleElement parameters = new TestArticleElement("true", "Solver");
+		app = new AppWsolver(parameters, new GeoGebraFrameSimple(parameters));
 
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());

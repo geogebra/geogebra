@@ -66,7 +66,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static HashMap<String, AppW> articleMap = new HashMap<>();
 	/** Article element */
-	public ArticleElementInterface articleElement;
+	private ArticleElementInterface articleElement;
 
 	private int computedWidth = 0;
 	private int computedHeight = 0;
@@ -79,15 +79,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private JavaScriptObject onLoadCallback = null;
 
-	/**
-	 * Creates new GeoGebraFrame
-	 *
-	 * @param laf
-	 *            look and feel
-	 * @param mainTag
-	 *            TODO
-	 */
-	public GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
+	private GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
 		super(mainTag ? "main" : DivElement.TAG);
 		this.laf = laf;
 		instances.add(this);
@@ -97,6 +89,19 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (mainTag) {
 			getElement().setAttribute("role", "main");
 		}
+	}
+
+	/**
+	 * Creates new GeoGebraFrame
+	 *
+	 * @param laf
+	 *            look and feel
+	 * @param articleElement
+	 *            applet parameters
+	 */
+	public GeoGebraFrameW(GLookAndFeelI laf, ArticleElementInterface articleElement) {
+		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
+		this.articleElement = articleElement;
 	}
 
 	/**
@@ -238,7 +243,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void forceHeaderVisibility(Visibility visible) {
 		forcedHeaderVisibility = visible;
-		app.fitSizeToScreen();
+		fitSizeToScreen();
 	}
 
 	/**
@@ -690,7 +695,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 		article.clear();
 		article.initID(0);
-		frame.articleElement = article;
 		frame.onLoadCallback = onLoadCallback;
 		frame.createSplash();
 		RootPanel root = RootPanel.get(article.getId());

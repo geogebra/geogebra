@@ -36,7 +36,7 @@ public class MockApp {
 				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
 		},
-				new GLookAndFeel(), new BrowserDevice(), false);
+				new GLookAndFeel(), new BrowserDevice(), ae);
 		Log.setLogger(new Log() {
 
 			@Override
@@ -50,7 +50,6 @@ public class MockApp {
 
 			}
 		});
-		fr.articleElement = ae;
 		fr.runAsyncAfterSplash();
 		AppWFull app = (AppWFull) fr.getApplication();
 		app.setUndoRedoEnabled(true);

@@ -61,7 +61,7 @@ public class PerformanceTest implements EntryPoint {
 		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		Log.setLogger(new LoggerW());
 		ArticleElement ae = ArticleElement.as(nodes.getItem(0));
-		GeoGebraFrameSimple gfs = new GeoGebraFrameSimple(false);
+		GeoGebraFrameSimple gfs = new GeoGebraFrameSimple(ae);
 		ae.setId("ggbPerfTest");
 		gfs.setComputedWidth(800);
 		gfs.setComputedHeight(600);
