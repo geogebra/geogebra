@@ -28,6 +28,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.util.DoubleUtil;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Abstract class describing quadrics in n-dimension space. Extended by
  * GeoConic, GeoQuadric3D
@@ -542,7 +544,7 @@ public abstract class GeoQuadricND extends GeoElement
 			break;
 
 		default:
-			squared = "\u00b2";
+			squared = Unicode.SUPERSCRIPT_2 + "";
 		}
 
 		for (int i = 0; i < dimension; i++) {
