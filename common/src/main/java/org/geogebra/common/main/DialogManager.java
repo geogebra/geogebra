@@ -19,11 +19,13 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
+import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -1012,5 +1014,19 @@ public abstract class DialogManager {
 	 */
 	public void openTableViewDialog(GeoElement geo) {
 		// only needed in web
+	}
+
+	/**
+	 * @param extension
+	 *            format extension
+	 * @param view
+	 *            exported view
+	 * @return dialog for export 3D settings
+	 * 
+	 */
+	public Export3dDialogInterface getExport3dDialog(String extension,
+			View view) {
+		// implemented only in web
+		return null;
 	}
 }

@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
+import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
@@ -17,6 +18,7 @@ import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -685,5 +687,11 @@ public class DialogManagerW extends DialogManager
 			tableViewDialog = new InputDialogTableView((AppW) app);
 		}
 		tableViewDialog.show(geo);
+	}
+
+	@Override
+	public Export3dDialogInterface getExport3dDialog(String extension,
+			View view) {
+		return new Export3dDialog((AppW) app, view, extension);
 	}
 }

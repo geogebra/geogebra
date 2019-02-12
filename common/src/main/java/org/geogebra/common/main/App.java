@@ -4059,6 +4059,10 @@ public abstract class App implements UpdateSelection, AppInterface {
         case G3D_SHOW_IN_ALGEBRA_VIEW:
 			return true;
 
+		/** G3D-177 */
+		case G3D_STL_EXPORT_DIALOG:
+			return prerelease;
+
         // **********************************************************************
         // G3D END
         //

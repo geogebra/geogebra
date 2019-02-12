@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
+import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.GeoFactory;
@@ -25,6 +26,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
+import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.Settings;
@@ -340,9 +343,28 @@ public abstract class App3DCompanion extends AppCompanion {
 				renderer.setReduceForClipping(!use2d);
 				renderer.setView(0, 0, width, height);
 			}
-			StringBuilder export = exportView3D.export3D(format);
-			app.getKernel().detach(exportView3D);
-			app.exportStringToFile(format.getExtension(), export.toString());
+			if (app.has(Feature.G3D_STL_EXPORT_DIALOG)) {
+				Export3dDialogInterface dialog = null;
+				DialogManager dialogManager = app.getDialogManager();
+				if (dialogManager != null) {
+					dialog = dialogManager.getExport3dDialog(
+							format.getExtension(), exportView3D);
+				}
+				if (dialog != null) {
+					exportView3D.export3D(format, dialog);
+					app.getKernel().detach(exportView3D);
+				} else {
+					StringBuilder export = exportView3D.export3D(format);
+					app.getKernel().detach(exportView3D);
+					app.exportStringToFile(format.getExtension(),
+							export.toString());
+				}
+			} else {
+				StringBuilder export = exportView3D.export3D(format);
+				app.getKernel().detach(exportView3D);
+				app.exportStringToFile(format.getExtension(),
+						export.toString());
+			}
 		} else {
 			if (app.isEuclidianView3Dinited()) {
 				EuclidianView3DInterface view3D = app.getEuclidianView3D();
