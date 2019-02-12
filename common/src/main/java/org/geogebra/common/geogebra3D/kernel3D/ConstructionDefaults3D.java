@@ -112,7 +112,11 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// line intersection
 		GeoConic3D intersectionCurve = new GeoConic3D(cons);
 		intersectionCurve.setLocalVariableLabel("Intersection curve");
-		intersectionCurve.setObjColor(colIntersectionCurve);
+		if (cons.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+			intersectionCurve.setObjColor(colPolygonG);
+		} else {
+			intersectionCurve.setObjColor(colIntersectionCurve);
+		}
 		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		intersectionCurve.setDefaultGeoType(DEFAULT_INTERSECTION_CURVE);
 		defaultGeoElements.put(DEFAULT_INTERSECTION_CURVE, intersectionCurve);

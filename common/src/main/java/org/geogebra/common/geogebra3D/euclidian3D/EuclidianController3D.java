@@ -48,6 +48,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
@@ -2918,7 +2919,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoElement intersection, Drawable3D d) {
 		intersection.setLineThickness(3);
 		intersection.setIsPickable(false);
-		intersection.setObjColor(ConstructionDefaults3D.colIntersectionCurve);
+		GeoElement defIntersectionCurve = null;
+		ConstructionDefaults consDef = getKernel().getConstruction().getConstructionDefaults();
+		if (consDef != null) {
+			defIntersectionCurve = consDef.getDefaultGeo(ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);
+		}
+		if (defIntersectionCurve != null) {
+			intersection.setObjColor(defIntersectionCurve.getObjectColor());
+		} else {
+			if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
+				intersection.setObjColor(ConstructionDefaults.colPolygonG);
+			} else {
+				intersection.setObjColor(
+						ConstructionDefaults3D.colIntersectionCurve);
+			}
+		}
 		intersectionCurveList.add(new IntersectionCurve(A, B, d));
 	}
 
