@@ -123,11 +123,14 @@ public class EuclidianControllerW extends EuclidianController implements
 	protected void createCompanions() {
 		super.createCompanions();
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
+		if (Browser.isZoomInSafari()) {
+			mtg.enableCssZoom();
+		}
 	}
 
 	/**
 	 * Creates a new controller
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -389,7 +392,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	/**
 	 * set whether the actual tool should be kept after the element was
 	 * constructed or not
-	 * 
+	 *
 	 * @param sticky
 	 *            keep the tool iff true
 	 */
@@ -402,8 +405,8 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void onDrop(DropEvent event) {
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 		app.setActiveView(App.VIEW_EUCLIDIAN2);
-			
-		EuclidianViewInterfaceCommon ev = 
+
+		EuclidianViewInterfaceCommon ev =
 				app.getActiveEuclidianView();
 
 		GeoElement geo = app.getAlgebraView().getDraggedGeo();
