@@ -293,7 +293,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		GeoElement geo;
 		if ((geo = tryPolygonOrLine()) != null || (geo = tryCircle()) != null) {
 			if (geo.isGeoConic()) {
-				geo.setIsShape(true);
+				geo.setIsShape(app.isWhiteboardActive());
 			}
 			return geo;
 		}
@@ -586,7 +586,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		if (conic != null) {
-			conic.setIsShape(true);
+			conic.setIsShape(app.isWhiteboardActive());
 			conic.setLabelVisible(false);
 		}
 		return conic;
@@ -1181,7 +1181,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		// poly.setObjColor(penColor);
 		if (view.getEuclidianController()
 				.getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
-			poly.setIsShape(true);
+			poly.setIsShape(app.isWhiteboardActive());
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
 			poly.setObjColor(GColor.BLACK);
@@ -1207,7 +1207,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		last.setEuclidianVisible(false);
 		GeoElement line = algo.getOutput(0);
 		line.updateRepaint();
-		line.setIsShape(true);
+		line.setIsShape(app.isWhiteboardActive());
 		line.setLabelVisible(false);
 		return line;
 	}
@@ -1216,7 +1216,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		ArrayList<GeoElement> circlePlusPoint = getCircleThreePoints();
 		if (circlePlusPoint != null) {
 			GeoConicND circle = (GeoConicND) circlePlusPoint.get(0);
-			circle.setIsShape(true);
+			circle.setIsShape(app.isWhiteboardActive());
 			if (app.isWhiteboardActive()) {
 				return circle;
 			}
