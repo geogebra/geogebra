@@ -205,6 +205,10 @@ public class CommandDispatcherGiac {
 
 		/** if returned from Giac -> error */
 		poly1(Operation.NO_OPERATION),
+		/** if returned from Giac -> error */
+		tran(Operation.NO_OPERATION),
+		/** if returned from Giac -> error */
+		jordan(Operation.NO_OPERATION),
 
 		/** fsolve, shouldn't get returned */
 		fsolve(Operation.NO_OPERATION),
@@ -632,6 +636,8 @@ public class CommandDispatcherGiac {
 			case invlaplace:
 			case fsolve:
 			case solve:
+			case jordan:
+			case tran:
 			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
 			case bounded_function: // eg Limit[cos(x),infinity]
