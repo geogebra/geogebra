@@ -62,6 +62,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };
 
+	private static String[] vars3DCAS = { "x\u00b2", "y\u00b2", "z\u00b2",
+			"x*y", "x*z", "y*z", "x", "y", "z" };
+
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.identity();
 	/** helper for 2d projection */
 	protected double[] tmpDouble2 = new double[2];
@@ -1970,7 +1973,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		coeffs[7] = 2 * matrix[8]; // y
 		coeffs[8] = 2 * matrix[9]; // z
 
-		return kernel.buildImplicitEquation(coeffs, vars3D, false, true, true,
+		String[] vars = tpl.getStringType().isGiac() ? vars3DCAS : vars3D;
+
+		return kernel.buildImplicitEquation(coeffs, vars, false, true, true,
 				'=', tpl, true);
 	}
 
