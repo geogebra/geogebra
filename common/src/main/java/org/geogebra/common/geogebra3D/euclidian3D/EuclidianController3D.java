@@ -2922,7 +2922,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		GeoElement defIntersectionCurve = null;
 		ConstructionDefaults consDef = getKernel().getConstruction().getConstructionDefaults();
 		if (consDef != null) {
-			defIntersectionCurve = consDef.getDefaultGeo(ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);
+			defIntersectionCurve = consDef.getDefaultGeo(
+					ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);
 		}
 		if (defIntersectionCurve != null) {
 			intersection.setObjColor(defIntersectionCurve.getObjectColor());
