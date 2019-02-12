@@ -1808,21 +1808,18 @@ public abstract class GeoConicND extends GeoQuadricND
 			return sbToValueString;
 		}
 
-		String squared;
+		final String squared = tpl.squared();
 		String[] myVars;
 		switch (tpl.getStringType()) {
 		case LATEX:
-			squared = "^{2}";
 			myVars = varsLateX;
 			break;
 
 		case GIAC:
-			squared = "^2";
 			myVars = varsCAS;
 			break;
 
 		default:
-			squared = "\u00b2";
 			myVars = vars;
 		}
 
