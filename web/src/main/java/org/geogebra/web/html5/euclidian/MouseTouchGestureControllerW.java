@@ -92,17 +92,29 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (ec.getView() == null) {
 			return;
 		}
+		Log.debug("CSSZoom: " + cssZoom);
 		style = new EnvironmentStyleW();
 		style.setxOffset(getEnvXoffset());
 		style.setyOffset(getEnvYoffset());
-		style.setScaleX(((AppW) app).getArticleElement().getScaleX());
+		double scaleX = ((AppW) app).getArticleElement().getScaleX();
+		style.setScaleX(scaleX);
 		style.setScaleY(((AppW) app).getArticleElement().getScaleY());
+
+		setZoomOffsets(scaleX);
+
 		style.setScrollLeft(Window.getScrollLeft());
 		style.setScrollTop(Window.getScrollTop());
 		ec.getView().setPixelRatio(((AppW) app).getPixelRatio());
+	}
 
-		style.setZoomXOffset(cssZoom ? ec.getView().getAbsoluteLeft() : 0);
-		style.setZoomYOffset(cssZoom ? ec.getView().getAbsoluteTop() : 0);
+	private void setZoomOffsets(double scale) {
+		if (!cssZoom || scale == 1) {
+			style.setZoomXOffset(0);
+			style.setZoomYOffset(0);
+		} else {
+			style.setZoomXOffset(ec.getView().getAbsoluteLeft());
+			style.setZoomYOffset(ec.getView().getAbsoluteTop());
+		}
 	}
 
 	private double getEnvWidthScale() {
