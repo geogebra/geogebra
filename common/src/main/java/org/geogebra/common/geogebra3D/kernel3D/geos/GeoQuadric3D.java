@@ -1398,17 +1398,18 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			double mu, Coords v) {
 
 		// lines are dependents
+		// eigen value mu is not zero
 
 		// first try, result maybe 0 if lines 1 & 2 are dependent
-		v.set(m[5] * (m[1] - mu) - m[4] * m[6],
-				m[6] * (m[0] - mu) - m[4] * m[5],
-				m[4] * m[4] - (m[0] - mu) * (m[1] - mu));
+		v.set(m[5] / mu * (m[1] / mu - 1) - m[4] / mu * m[6] / mu,
+				m[6] / mu * (m[0] / mu - 1) - m[4] / mu * m[5] / mu,
+				m[4] / mu * m[4] / mu - (m[0] / mu - 1) * (m[1] / mu - 1));
 
 		if (v.isZero()) {
 			// second try, result maybe 0 if lines 1 & 3 are dependent
-			v.set(m[5] * m[6] - m[4] * (m[2] - mu),
-					(m[0] - mu) * (m[2] - mu) - m[5] * m[5],
-					m[4] * m[5] - m[6] * (m[0] - mu));
+			v.set(m[5] / mu * m[6] / mu - m[4] / mu * (m[2] / mu - 1),
+					(m[0] / mu - 1) * (m[2] / mu - 1) - m[5] / mu * m[5] / mu,
+					m[4] / mu * m[5] / mu - m[6] / mu * (m[0] / mu - 1));
 
 			if (v.isZero()) {
 				// third try: lines 2 & 3 are not dependent, so line 1 equals 0
