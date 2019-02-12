@@ -517,32 +517,34 @@ var GGBApplet = function() {
         }
 
         loadedAppletType = null;
-        for (i=0; i<appletParent.childNodes.length;i++) {
-            var tag = appletParent.childNodes[i].tagName;
-            var className = appletParent.childNodes[i].className;
-            if (appletParent.childNodes[i].className === "applet_screenshot") {
+        var removedID = null;
+        for (i=0; i<appletParent.childNodes.length; i++) {
+            var currentChild = appletParent.childNodes[i];
+            var tag = currentChild.tagName;
+            var className = currentChild.className;
+            if (currentChild.className === "applet_screenshot") {
                 if (showScreenshot) {
                     // Show the screenshot instead of the removed applet
-                    appletParent.childNodes[i].style.display = "block";
+                    currentChild.style.display = "block";
                     loadedAppletType = "screenshot";
                 } else {
                     // Hide the screenshot
-                    appletParent.childNodes[i].style.display = "none";
+                    currentChild.style.display = "none";
                 }
-            } else if ((tag === "APPLET" || tag === "ARTICLE" || tag === "DIV") && className !== "applet_scaler prerender") {
+            } else if ((tag === "ARTICLE" || tag === "DIV") && className !== "applet_scaler prerender") {
                 // Remove the applet
-                appletParent.removeChild(appletParent.childNodes[i]);
+                appletParent.removeChild(currentChild);
+                removedID = tag === "ARTICLE" ? currentChild.id : null;
                 i--;
             }
         }
 
-        var appName = (parameters.id !== undefined ? parameters.id : "ggbApplet");
+        var appName = parameters.id !== undefined ? parameters.id : removedID;
         var app = window[appName];
-        if (app) {
-            if (typeof app === "object" && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
-                app.remove();
-                window[appName] = null;
-            }
+
+        if (typeof app === "object" && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
+            app.remove();
+            window[appName] = null;
         }
     };
 
