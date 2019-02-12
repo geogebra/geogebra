@@ -29,6 +29,9 @@
      <Match>
       <Package name="~com\.google.*" />
     </Match>
+    <Match>
+      <Package name="~android\.support.*" />
+    </Match>
      <Match>
       <Package name="~(org.geogebra.common.kernel.(parser|prover.polynomial)|com.himamis.retex.editor.share.io.latex)" />
       <Or>
@@ -43,5 +46,10 @@
 		<Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
       </Or>
     </Match>
-    
+    <Match>
+        <Or>
+            <Class name="~.*\.R\$.*"/>
+            <Class name="~.*\.Manifest\$.*"/>
+        </Or>
+    </Match>
 </FindBugsFilter>
