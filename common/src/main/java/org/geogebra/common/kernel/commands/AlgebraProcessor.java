@@ -2587,8 +2587,15 @@ public class AlgebraProcessor {
 			}
 		}
 		if (singleLeftVariable != null && equ.getLabel() == null) {
-			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(), null,
-					equ);
+
+			String varName;
+			if (lhs instanceof GeoDummyVariable) {
+				varName = ((GeoDummyVariable) lhs).getVarName();
+			} else {
+				varName = ((Variable) lhs).getName();
+			}
+
+			GeoCasCell c = this.checkCasEval(varName, null, equ);
 			if (c != null) {
 				return new GeoElement[0];
 			}
