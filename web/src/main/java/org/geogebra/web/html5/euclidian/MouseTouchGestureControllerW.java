@@ -92,7 +92,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (ec.getView() == null) {
 			return;
 		}
-		Log.debug("CSSZoom: " + cssZoom);
+
 		style = new EnvironmentStyleW();
 		style.setxOffset(getEnvXoffset());
 		style.setyOffset(getEnvYoffset());
@@ -112,6 +112,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			style.setZoomXOffset(0);
 			style.setZoomYOffset(0);
 		} else {
+			Log.debug("CSS Zoom");
+			style.setxOffset(0);
+			style.setyOffset(0);
+
 			style.setZoomXOffset(ec.getView().getAbsoluteLeft());
 			style.setZoomYOffset(ec.getView().getAbsoluteTop());
 		}
