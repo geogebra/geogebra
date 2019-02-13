@@ -114,8 +114,7 @@ public class Export3dDialog extends OptionDialog
 	@Override
 	public void setLabels() {
 		getCaption()
-				.setText(app.getLocalization().getPlain("DownloadAsA",
-						extension.toUpperCase()));
+				.setText(app.getLocalization().getMenu("DownloadAsStl"));
 		updateButtonLabels("Download");
 	}
 
