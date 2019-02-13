@@ -193,13 +193,17 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 					// 1unit = 10mm
 					scale = ((NumberValue) scaleGeo).getDouble() * 10;
 				}
+				double[] dimensions = new double[3];
+				for (int i = 0; i < 3; i++) {
+					dimensions[i] = (boundsMax.get(i + 1)
+							- boundsMin.get(i + 1))
+							* getScale(i) / getXscale();
+				}
 				if (scale < 0) {
-					double d = boundsMax.getX() - boundsMin.getX();
-					for (int i = 2; i <= 3; i++) {
-						double val = (boundsMax.get(i) - boundsMin.get(i))
-								* getScale(i - 1) / getXscale();
-						if (val > d) {
-							d = val;
+					double d = dimensions[0];
+					for (int i = 1; i < 3; i++) {
+						if (d < dimensions[i]) {
+							d = dimensions[i];
 						}
 					}
 					scale = EDGE_FOR_PRINT / d;
@@ -208,7 +212,9 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				if (dialog != null) {
 					final double t = thickness;
 					final double s = scale;
-					dialog.show(new Runnable() {
+					dialog.show(dimensions[0] * scale, dimensions[1] * scale,
+							dimensions[2] * scale, scale, thickness,
+							new Runnable() {
 						public void run() {
 							setThicknessAndScale(format, t, s);
 							ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(

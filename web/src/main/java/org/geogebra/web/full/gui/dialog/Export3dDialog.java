@@ -1,8 +1,10 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -19,6 +21,8 @@ import com.google.gwt.user.client.ui.Label;
 public class Export3dDialog extends OptionDialog
 		implements Export3dDialogInterface, SetLabels {
 
+	final static private double MM_TO_CM = 0.1;
+
 	private String extension;
 	private Runnable onExportButtonPressed;
 
@@ -28,6 +32,9 @@ public class Export3dDialog extends OptionDialog
 	private ComponentInputField scaleUnitValue;
 	private ComponentInputField scaleCmValue;
 	private ComponentInputField lineThicknessValue;
+
+	final private NumberFormatAdapter dimensionNF;
+	final private NumberFormatAdapter scaleNF;
 
 	/**
 	 * Constructor
@@ -43,6 +50,8 @@ public class Export3dDialog extends OptionDialog
 			String extension) {
 		super(app.getPanel(), app, false);
 		this.extension = extension;
+		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);
+		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
 		buildGui();
 		setPrimaryButtonEnabled(true);
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -118,8 +127,31 @@ public class Export3dDialog extends OptionDialog
 		updateButtonLabels("Download");
 	}
 
+	private void initValues(double width, double length, double height,
+			double scale, double thickness) {
+		setValue(widthValue, width * MM_TO_CM, dimensionNF);
+		setValue(lengthValue, length * MM_TO_CM, dimensionNF);
+		setValue(heightValue, height * MM_TO_CM, dimensionNF);
+		double s = scale * MM_TO_CM;
+		if (s > 1) {
+			setValue(scaleUnitValue, 1, scaleNF);
+			setValue(scaleCmValue, s, scaleNF);
+		} else {
+			setValue(scaleUnitValue, 1 / s, scaleNF);
+			setValue(scaleCmValue, 1, scaleNF);
+		}
+		setValue(lineThicknessValue, thickness * 2, dimensionNF);
+	}
+
+	static private void setValue(ComponentInputField input, double v,
+			NumberFormatAdapter nf) {
+		input.setInputText(nf.format(v));
+	}
+
 	@Override
-	public void show(Runnable exportAction) {
+	public void show(double width, double length, double height, double scale,
+			double thickness, Runnable exportAction) {
+		initValues(width, length, height, scale, thickness);
 		this.onExportButtonPressed = exportAction;
 		((AppW) app).registerPopup(this);
 		super.show();

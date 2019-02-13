@@ -6,10 +6,22 @@ package org.geogebra.common.gui.dialog;
 public interface Export3dDialogInterface {
 
 	/**
-	 * show dialog with action
+	 * show dialog with initial values and action
+	 * 
+	 * @param width
+	 *            width
+	 * @param length
+	 *            length
+	 * @param height
+	 *            height
+	 * @param scale
+	 *            scale
+	 * @param thickness
+	 *            thickness
 	 * 
 	 * @param exportAction
 	 *            action for export button pressed
 	 */
-	void show(Runnable exportAction);
+	void show(double width, double length, double height, double scale,
+			double thickness, Runnable exportAction);
 }
