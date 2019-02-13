@@ -3,12 +3,14 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Dialog for export 3D
@@ -19,6 +21,13 @@ public class Export3dDialog extends OptionDialog
 
 	private String extension;
 	private Runnable onExportButtonPressed;
+
+	private ComponentInputField widthValue;
+	private ComponentInputField lengthValue;
+	private ComponentInputField heightValue;
+	private ComponentInputField scaleUnitValue;
+	private ComponentInputField scaleCmValue;
+	private ComponentInputField lineThicknessValue;
 
 	/**
 	 * Constructor
@@ -50,9 +59,44 @@ public class Export3dDialog extends OptionDialog
 	private void buildGui() {
 		addStyleName("tableOfValuesDialog");
 		FlowPanel contentPanel = new FlowPanel();
+		buildDimensionsPanel(contentPanel);
+		buildScalePanel(contentPanel);
+		buildLineThicknessPanel(contentPanel);
 		buildButtonPanel(contentPanel);
 		add(contentPanel);
 		setLabels();
+	}
+
+	private void buildDimensionsPanel(FlowPanel root) {
+		FlowPanel dimensionsPanel = new FlowPanel();
+		dimensionsPanel.setStyleName("panelRowIndent");
+		widthValue = addTextField("Width", dimensionsPanel);
+		lengthValue = addTextField("Length", dimensionsPanel);
+		heightValue = addTextField("Height", dimensionsPanel);
+		root.add(dimensionsPanel);
+	}
+
+	private void buildScalePanel(FlowPanel root) {
+		FlowPanel scalePanel = new FlowPanel();
+		scalePanel.setStyleName("panelRowIndent");
+		scaleUnitValue = addTextField("Scale", scalePanel);
+		Label equalLabel = new Label();
+		equalLabel.setText("=");
+		equalLabel.setStyleName("label");
+		scalePanel.add(equalLabel);
+		scaleCmValue = addTextField(null, scalePanel);
+		root.add(scalePanel);
+	}
+
+	private void buildLineThicknessPanel(FlowPanel root) {
+		lineThicknessValue = addTextField("Thickness", root);
+	}
+
+	private ComponentInputField addTextField(String labelText, FlowPanel root) {
+		final ComponentInputField field = new ComponentInputField((AppW) app,
+				null, labelText, null, "", 4);
+		root.add(field);
+		return field;
 	}
 
 	private void buildButtonPanel(FlowPanel root) {
