@@ -721,7 +721,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return line.intersects(rect);
+		return line != null && line.intersects(rect);
 	}
 
 	@Override
