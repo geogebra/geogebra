@@ -245,6 +245,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		DEG_ATAN2("atan2d", "atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
 
+		COEFFICIENT_CONIC("ggbcoeffconic",
+				"ggbcoeffconic(coeffsarg):={coeffs(coeffsarg,[x,y],[2,0]),coeffs(coeffsarg,[x,y],[0,2]),coeffs(coeffsarg,[x,y],[0,0]),coeffs(coeffsarg,[x,y],[1,1]),coeffs(coeffsarg,[x,y],[1,0]),coeffs(coeffsarg,[x,y],[0,1])}"),
+
 		/**
 		 * subtype 27 is ggbvect[]
 		 * 
