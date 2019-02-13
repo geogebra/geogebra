@@ -2336,6 +2336,8 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate(round(-5.5))", result:"-6", notes:"round half up" },
 { cat:"Coefficients", cmd:"Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y)", result:"{1, 2, 3, 4, 5, 6}" },
 { cat:"Coefficients", cmd:"Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y=0)", result:"{1, 2, 3, 4, 5, 6}" },
+{ cat:"Coefficients", cmd:"Coefficients(x^2 + 2y^2 + 3z^2 + 6x z + 7y z + 5x y + 4 + 8x + 9y + 10z = 0)", result:"{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}" },
+{ cat:"Coefficients", cmd:"Coefficients(x^2 + 2y^2 + 3z^2 + 6x z + 7y z + 5x y + 4 + 8x + 9y + 10z)", result:"{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}" },
 { cat:"Coefficients", cmd:"Coefficients(2=3)", result:"?", notes:"expressions only (or ...=0), undefined for equations" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },

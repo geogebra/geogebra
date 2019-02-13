@@ -123,8 +123,8 @@ public class Ggb2giac {
 				+ "[coeffsarg:=when(coeffsarg[0]=='='&&right(coeffsarg)==0,left(coeffsarg),coeffsarg)]"
 
 				+ ",when(coeffsarg[0]=='=',?,when(is_polynomial(coeffsarg),when(degree(coeffsarg,x)==2&&degree(coeffsarg,y)==2,"
-				// special syntax for conics
-				+ "ggbcoeffconic(coeffsarg)"
+				// special syntax for conics / quadrics
+				+ "when(length(lname(coeffsarg))==2,ggbcoeffconic(coeffsarg),ggbcoeffquadric(coeffsarg))"
 				+ ",coeffs(coeffsarg)),{}))][-1]");
 
 		p("Coefficients.2", "coeffs(%0,%1)");

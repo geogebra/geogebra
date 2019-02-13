@@ -245,8 +245,16 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		DEG_ATAN2("atan2d", "atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
 
+		/**
+		 * Coefficient of Conic, same order as Algebra View command
+		 */
 		COEFFICIENT_CONIC("ggbcoeffconic",
 				"ggbcoeffconic(coeffsarg):={coeffs(coeffsarg,[x,y],[2,0]),coeffs(coeffsarg,[x,y],[0,2]),coeffs(coeffsarg,[x,y],[0,0]),coeffs(coeffsarg,[x,y],[1,1]),coeffs(coeffsarg,[x,y],[1,0]),coeffs(coeffsarg,[x,y],[0,1])}"),
+
+		/**
+		 * Coefficient of Quadric, same order as Algebra View command
+		 */
+		COEFFICIENT_QUADRIC("ggbcoeffquadric", "ggbcoeffquadric(coeffsarg):={coeffs(coeffsarg,[x,y,z],[2,0,0]),coeffs(coeffsarg,[x,y,z],[0,2,0]),coeffs(coeffsarg,[x,y,z],[0,0,2]),coeffs(coeffsarg,[x,y,z],[0,0,0]),coeffs(coeffsarg,[x,y,z],[1,1,0]),coeffs(coeffsarg,[x,y,z],[1,0,1]),coeffs(coeffsarg,[x,y,z],[0,1,1]),coeffs(coeffsarg,[x,y,z],[1,0,0]),coeffs(coeffsarg,[x,y,z],[0,1,0]),coeffs(coeffsarg,[x,y,z],[0,0,1])}"),
 
 		/**
 		 * subtype 27 is ggbvect[]
