@@ -93,25 +93,35 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		valueScroller.addScrollHandler(new ScrollHandler() {
 			@Override
 			public void onScroll(ScrollEvent event) {
-				syncScrollPosition(headerScroller, headerMain);
+				syncScrollPosition(valueScroller, headerScroller, headerMain);
+			}
+		});
+		headerScroller.addScrollHandler(new ScrollHandler() {
+			@Override
+			public void onScroll(ScrollEvent event) {
+				syncScrollPosition(headerScroller, valueScroller, headerMain);
 			}
 		});
 	}
 
 	/**
-	 * Sync scroll position of the header and the values table.
+	 * Sync the scroll position of the two scrollables.
 	 *
-	 * @param headerScroller
-	 *            scroll panel for the header.
-	 * @param headerMain
-	 *            Header main panel that contains the table.
+	 * @param scrolled
+	 *            	This view was scrolled and the toScroll view will be also scrolled accordingly.
+	 * @param toScroll
+	 * 				This view will be scrolled based on the scrolling of the scrolled parameter.
 	 */
-	void syncScrollPosition(ScrollPanel headerScroller, FlowPanel headerMain) {
-		int scrollPosition = valueScroller.getHorizontalScrollPosition();
-		if (headerMain.getOffsetWidth() < valueScroller.getOffsetWidth() + scrollPosition) {
-			headerMain.setWidth((valueScroller.getOffsetWidth() + scrollPosition) + "px");
+	 void syncScrollPosition(
+	 		ScrollPanel scrolled,
+			ScrollPanel toScroll,
+			FlowPanel headerMain) {
+
+		int scrollPosition = scrolled.getHorizontalScrollPosition();
+		if (headerMain.getOffsetWidth() < scrolled.getOffsetWidth() + scrollPosition) {
+			headerMain.setWidth((scrolled.getOffsetWidth() + scrollPosition) + "px");
 		}
-		headerScroller.setHorizontalScrollPosition(scrollPosition);
+		toScroll.setHorizontalScrollPosition(scrollPosition);
 	}
 
 	private void createDataProvider() {
