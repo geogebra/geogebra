@@ -1788,8 +1788,10 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append(kernel.format(coeffs[4], tpl));
 			sb.append(")*");
 			sb.append(y);
-			sb.append("=");
-			sb.append(kernel.format(-coeffs[5], tpl));
+			sb.append("+");
+			sb.append(kernel.format(coeffs[5], tpl));
+			// serialise to CAS as "...=0" so eg Coefficients(c) works
+			sb.append("=0");
 			return sb;
 		}
 		if (ExamEnvironment.isProtectedEquation(this)) {
