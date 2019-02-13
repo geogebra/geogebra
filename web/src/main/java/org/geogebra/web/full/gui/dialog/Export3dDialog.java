@@ -69,7 +69,7 @@ public class Export3dDialog extends OptionDialog
 
 	private void buildDimensionsPanel(FlowPanel root) {
 		FlowPanel dimensionsPanel = new FlowPanel();
-		dimensionsPanel.setStyleName("panelRowIndent");
+		dimensionsPanel.setStyleName("panelRow");
 		widthValue = addTextField("Width", dimensionsPanel);
 		lengthValue = addTextField("Length", dimensionsPanel);
 		heightValue = addTextField("Height", dimensionsPanel);
@@ -78,7 +78,7 @@ public class Export3dDialog extends OptionDialog
 
 	private void buildScalePanel(FlowPanel root) {
 		FlowPanel scalePanel = new FlowPanel();
-		scalePanel.setStyleName("panelRowIndent");
+		scalePanel.setStyleName("panelRow");
 		scaleUnitValue = addTextField("Scale", scalePanel);
 		Label equalLabel = new Label();
 		equalLabel.setText("=");
