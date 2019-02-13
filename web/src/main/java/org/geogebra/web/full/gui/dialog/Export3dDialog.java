@@ -23,7 +23,6 @@ public class Export3dDialog extends OptionDialog
 
 	final static private double MM_TO_CM = 0.1;
 
-	private String extension;
 	private Runnable onExportButtonPressed;
 
 	private ComponentInputField widthValue;
@@ -49,7 +48,6 @@ public class Export3dDialog extends OptionDialog
 	public Export3dDialog(final AppW app, final View view,
 			String extension) {
 		super(app.getPanel(), app, false);
-		this.extension = extension;
 		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);
 		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
 		buildGui();
