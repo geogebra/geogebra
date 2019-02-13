@@ -148,9 +148,6 @@ public enum TargetType {
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 			return isModeForCreatingPoint(mode) ? NOTHING_NO_HIT : NOT_USED;
 		case EuclidianView3D.PREVIEW_POINT_FREE:
-			if (mode == EuclidianConstants.MODE_INTERSECT) {
-				return NOTHING;
-			}
 			return isModeForCreatingPoint(mode) ? POINT_FREE : NOT_USED;
 
 		case EuclidianView3D.PREVIEW_POINT_PATH:
@@ -197,7 +194,6 @@ public enum TargetType {
 		switch (mode) {
 		case EuclidianConstants.MODE_POINT:
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-		case EuclidianConstants.MODE_INTERSECT:
 		case EuclidianConstants.MODE_SEGMENT:
 		case EuclidianConstants.MODE_SEGMENT_FIXED:
 		case EuclidianConstants.MODE_JOIN:
@@ -254,9 +250,6 @@ public enum TargetType {
 		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 		case EuclidianConstants.MODE_POLYLINE:
 			return onSuccess;
-
-		case EuclidianConstants.MODE_INTERSECT:
-			return NOTHING;
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
