@@ -426,10 +426,12 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 								double lower = bound.getLower();
 								double upper = bound.getUpper();
 								if (!bound.isInterval()) {
+									// eg f(x) = If(-2 <= x < 2, x, 2 <= x <= 3,
+									// 4 - x, 3 < x <= 6, 1)
 									Log.debug(
 											"non-linear condition "
 													+ bound);
-									standardIntegral(lowerLimit0, upperLimit0);
+									standardIntegral(lowerLimit, upperLimit);
 									return;
 								}
 								if (i == 0) {
