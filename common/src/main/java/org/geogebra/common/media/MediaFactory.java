@@ -5,10 +5,17 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
+/**
+ * Creates construction elements for audio and video
+ */
 public class MediaFactory {
 
 	private App app;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public MediaFactory(App app) {
 		this.app = app;
 	}
