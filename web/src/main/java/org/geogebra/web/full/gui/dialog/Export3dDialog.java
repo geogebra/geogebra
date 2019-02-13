@@ -66,7 +66,7 @@ public class Export3dDialog extends OptionDialog
 	}
 
 	private void buildGui() {
-		addStyleName("tableOfValuesDialog");
+		addStyleName("export3dDialog");
 		FlowPanel contentPanel = new FlowPanel();
 		buildDimensionsPanel(contentPanel);
 		buildScalePanel(contentPanel);
@@ -79,31 +79,31 @@ public class Export3dDialog extends OptionDialog
 	private void buildDimensionsPanel(FlowPanel root) {
 		FlowPanel dimensionsPanel = new FlowPanel();
 		dimensionsPanel.setStyleName("panelRow");
-		widthValue = addTextField("Width", dimensionsPanel);
-		lengthValue = addTextField("Length", dimensionsPanel);
-		heightValue = addTextField("Height", dimensionsPanel);
+		widthValue = addTextField("Width", "cm", dimensionsPanel);
+		lengthValue = addTextField("Length", "cm", dimensionsPanel);
+		heightValue = addTextField("Height", "cm", dimensionsPanel);
 		root.add(dimensionsPanel);
 	}
 
 	private void buildScalePanel(FlowPanel root) {
 		FlowPanel scalePanel = new FlowPanel();
 		scalePanel.setStyleName("panelRow");
-		scaleUnitValue = addTextField("Scale", scalePanel);
+		scaleUnitValue = addTextField("Scale", "units", scalePanel);
 		Label equalLabel = new Label();
 		equalLabel.setText("=");
 		equalLabel.setStyleName("label");
 		scalePanel.add(equalLabel);
-		scaleCmValue = addTextField(null, scalePanel);
+		scaleCmValue = addTextField(null, "cm", scalePanel);
 		root.add(scalePanel);
 	}
 
 	private void buildLineThicknessPanel(FlowPanel root) {
-		lineThicknessValue = addTextField("Thickness", root);
+		lineThicknessValue = addTextField("Thickness", "mm", root);
 	}
 
-	private ComponentInputField addTextField(String labelText, FlowPanel root) {
+	private ComponentInputField addTextField(String labelText, String suffixText, FlowPanel root) {
 		final ComponentInputField field = new ComponentInputField((AppW) app,
-				null, labelText, null, "", 4);
+				null, labelText, null, "", 2, suffixText);
 		root.add(field);
 		return field;
 	}

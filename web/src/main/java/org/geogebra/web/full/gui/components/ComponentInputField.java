@@ -31,10 +31,43 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	private String errorTextKey;
 	private String labelTextKey;
 	private String placeholderTextKey;
+	private String suffixTextKey;
 	private FlowPanel contentPanel;
 	private FormLabel labelText;
 	private InputPanelW inputTextField;
 	private Label errorLabel;
+	private Label suffixLabel;
+
+	/**
+	 * @param app
+	 *            see {@link AppW}
+	 * @param placeholder
+	 *            placeholder text (can be null)
+	 * @param labelTxt
+	 *            label of input field
+	 * @param errorTxt
+	 *            error label of input field
+	 * @param defaultValue
+	 *            default text of input text field
+	 * @param width
+	 *            of input text field
+	 * @param suffixTxt
+	 *            suffix at end of text field
+	 */
+	public ComponentInputField(AppW app, String placeholder, String labelTxt,
+			String errorTxt, String defaultValue, int width, String suffixTxt) {
+		this.loc = app.getLocalization();
+		this.labelTextKey = labelTxt;
+		this.errorTextKey = errorTxt;
+		this.placeholderTextKey = placeholder;
+		this.suffixTextKey = suffixTxt;
+		buildGui(width, app);
+		if (!StringUtil.empty(defaultValue)) {
+			setInputText(defaultValue);
+		}
+		addFocusBlurHandlers();
+		addHoverHandlers();
+	}
 
 	/**
 	 * @param app
@@ -52,16 +85,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width) {
-		this.loc = app.getLocalization();
-		this.labelTextKey = labelTxt;
-		this.errorTextKey = errorTxt;
-		this.placeholderTextKey = placeholder;
-		buildGui(width, app);
-		if (!StringUtil.empty(defaultValue)) {
-			setInputText(defaultValue);
-		}
-		addFocusBlurHandlers();
-		addHoverHandlers();
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, width, null);
 	}
 
 	/**
@@ -86,6 +110,8 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 				.setAttribute("placeholder",
 							app.getLocalization().getMenu(placeholderTextKey));
 		}
+		// suffix if there is any
+		addSuffix();
 		// build component
 		contentPanel.add(labelText);
 		contentPanel.add(inputTextField);
@@ -105,6 +131,19 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 			root.add(errorLabel); // root.getWidgetIndex(inputTextField)
 		} else if (errorLabel != null) {
 			errorLabel.removeFromParent();
+		}
+	}
+
+	private void addSuffix() {
+		if (!StringUtil.empty(suffixTextKey)) {
+			if (suffixLabel == null) {
+				suffixLabel = new Label();
+			}
+			suffixLabel.setText(suffixTextKey);
+			suffixLabel.addStyleName("suffix");
+			inputTextField.getTextComponent().add(suffixLabel);
+		} else if (suffixLabel != null) {
+			suffixLabel.removeFromParent();
 		}
 	}
 
