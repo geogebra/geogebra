@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
+import java.util.EnumSet;
+
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
@@ -7,8 +9,11 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,15 +30,162 @@ public class Export3dDialog extends OptionDialog
 
 	private Runnable onExportButtonPressed;
 
-	private ComponentInputField widthValue;
-	private ComponentInputField lengthValue;
-	private ComponentInputField heightValue;
-	private ComponentInputField scaleUnitValue;
-	private ComponentInputField scaleCmValue;
 	private ComponentInputField lineThicknessValue;
 
-	final private NumberFormatAdapter dimensionNF;
-	final private NumberFormatAdapter scaleNF;
+	/**
+	 * number formating for dimensions
+	 */
+	static final NumberFormatAdapter dimensionNF;
+	/**
+	 * number formating for scale
+	 */
+	static final NumberFormatAdapter scaleNF;
+
+	static {
+		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);
+		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
+	}
+
+	private enum DimensionField {
+		WIDTH(dimensionNF) {
+			@Override
+			protected void createUpdateSet() {
+				updateSet = EnumSet.of(LENGTH, HEIGHT, SCALE_CM);
+			}
+		},
+		LENGTH(dimensionNF) {
+			@Override
+			protected void createUpdateSet() {
+				updateSet = EnumSet.of(WIDTH, HEIGHT, SCALE_CM);
+			}
+		},
+		HEIGHT(dimensionNF) {
+			@Override
+			protected void createUpdateSet() {
+				updateSet = EnumSet.of(WIDTH, LENGTH, SCALE_CM);
+			}
+		},
+		SCALE_CM(scaleNF) {
+			@Override
+			protected void createUpdateSet() {
+				updateSet = EnumSet.of(WIDTH, LENGTH, HEIGHT);
+			}
+
+			@Override
+			protected void setValue(double v) {
+				if (v > 1) {
+					super.setValue(v);
+					SCALE_UNIT.setValue(1);
+				} else {
+					super.setValue(1);
+					SCALE_UNIT.setValue(1 / v);
+				}
+			}
+
+			@Override
+			protected double calcCurrentRatio() {
+				return super.calcCurrentRatio() / SCALE_UNIT.currentValue;
+			}
+
+		},
+		SCALE_UNIT(scaleNF) {
+			@Override
+			protected void createUpdateSet() {
+				updateSet = EnumSet.of(WIDTH, LENGTH, HEIGHT);
+			}
+
+			@Override
+			protected double calcCurrentRatio() {
+				return SCALE_CM.calcCurrentRatio();
+			}
+		};
+
+		ComponentInputField inputField;
+		double initValue;
+		double currentValue;
+		final private NumberFormatAdapter nf;
+		protected EnumSet<DimensionField> updateSet;
+
+		private DimensionField(NumberFormatAdapter nf) {
+			this.nf = nf;
+		}
+
+		public void setInputField(ComponentInputField field) {
+			this.inputField = field;
+		}
+
+		public void setInitValue(double v) {
+			this.initValue = v * MM_TO_CM;
+			setValue(initValue);
+		}
+
+		protected void setValue(double v) {
+			currentValue = v;
+			inputField.setInputText(nf.format(v));
+		}
+
+		public void setController() {
+			// from hardware keyboard
+			inputField.getTextField().getTextComponent()
+					.addKeyUpHandler(new KeyUpHandler() {
+						public void onKeyUp(KeyUpEvent e) {
+							parseAndUpdateOthers();
+						}
+					});
+
+			// from soft keyboard
+			inputField.getTextField().getTextComponent()
+					.addInsertHandler(new InsertHandler() {
+						public void onInsert(String text) {
+							parseAndUpdateOthers();
+						}
+					});
+		}
+
+		void parseAndUpdateOthers() {
+			String s = inputField.getText();
+			if (!s.isEmpty() && !".".equals(s.trim())) {
+				try {
+					double v = Double.parseDouble(s);
+					if (v > 0) {
+						currentValue = v;
+						updateOthers(calcCurrentRatio());
+					} else {
+						showError();
+					}
+				} catch (NumberFormatException nfe) {
+					showError();
+				}
+			}
+		}
+
+		private void updateOthers(double ratio) {
+			for (DimensionField dimension : getUpdateSet()) {
+				dimension.update(ratio);
+			}
+		}
+
+		protected double calcCurrentRatio() {
+			return currentValue / initValue;
+		}
+
+		abstract protected void createUpdateSet();
+		
+		private EnumSet<DimensionField> getUpdateSet() {
+			if (updateSet == null) {
+				createUpdateSet();
+			}
+			return updateSet;
+		}
+
+		private void update(double ratio) {
+			setValue(initValue * ratio);
+		}
+
+		void showError() {
+			// TODO
+		}
+	}
 
 	/**
 	 * Constructor
@@ -48,8 +200,6 @@ public class Export3dDialog extends OptionDialog
 	public Export3dDialog(final AppW app, final View view,
 			String extension) {
 		super(app.getPanel(), app, false);
-		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);
-		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
 		buildGui();
 		setPrimaryButtonEnabled(true);
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -72,26 +222,32 @@ public class Export3dDialog extends OptionDialog
 		buildButtonPanel(contentPanel);
 		add(contentPanel);
 		setLabels();
+		createController();
 	}
 
 	private void buildDimensionsPanel(FlowPanel root) {
 		FlowPanel dimensionsPanel = new FlowPanel();
 		dimensionsPanel.setStyleName("panelRow");
-		widthValue = addTextField("Width", "cm", dimensionsPanel);
-		lengthValue = addTextField("Length", "cm", dimensionsPanel);
-		heightValue = addTextField("Height", "cm", dimensionsPanel);
+		DimensionField.WIDTH
+				.setInputField(addTextField("Width", "cm", dimensionsPanel));
+		DimensionField.LENGTH
+				.setInputField(addTextField("Length", "cm", dimensionsPanel));
+		DimensionField.HEIGHT
+				.setInputField(addTextField("Height", "cm", dimensionsPanel));
 		root.add(dimensionsPanel);
 	}
 
 	private void buildScalePanel(FlowPanel root) {
 		FlowPanel scalePanel = new FlowPanel();
 		scalePanel.setStyleName("panelRow");
-		scaleUnitValue = addTextField("Scale", "units", scalePanel);
+		DimensionField.SCALE_UNIT
+				.setInputField(addTextField("Scale", "units", scalePanel));
 		Label equalLabel = new Label();
 		equalLabel.setText("=");
 		equalLabel.addStyleName("equal");
 		scalePanel.add(equalLabel);
-		scaleCmValue = addTextField(null, "cm", scalePanel);
+		DimensionField.SCALE_CM
+				.setInputField(addTextField(null, "cm", scalePanel));
 		root.add(scalePanel);
 	}
 
@@ -127,23 +283,11 @@ public class Export3dDialog extends OptionDialog
 
 	private void initValues(double width, double length, double height,
 			double scale, double thickness) {
-		setValue(widthValue, width * MM_TO_CM, dimensionNF);
-		setValue(lengthValue, length * MM_TO_CM, dimensionNF);
-		setValue(heightValue, height * MM_TO_CM, dimensionNF);
-		double s = scale * MM_TO_CM;
-		if (s > 1) {
-			setValue(scaleUnitValue, 1, scaleNF);
-			setValue(scaleCmValue, s, scaleNF);
-		} else {
-			setValue(scaleUnitValue, 1 / s, scaleNF);
-			setValue(scaleCmValue, 1, scaleNF);
-		}
-		setValue(lineThicknessValue, thickness * 2, dimensionNF);
-	}
-
-	static private void setValue(ComponentInputField input, double v,
-			NumberFormatAdapter nf) {
-		input.setInputText(nf.format(v));
+		DimensionField.WIDTH.setInitValue(width);
+		DimensionField.LENGTH.setInitValue(length);
+		DimensionField.HEIGHT.setInitValue(height);
+		DimensionField.SCALE_CM.setInitValue(scale);
+		lineThicknessValue.setInputText(dimensionNF.format(thickness * 2));
 	}
 
 	@Override
@@ -154,6 +298,12 @@ public class Export3dDialog extends OptionDialog
 		((AppW) app).registerPopup(this);
 		super.show();
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
+	}
+
+	static private void createController() {
+		for (DimensionField dimension : DimensionField.values()) {
+			dimension.setController();
+		}
 	}
 
 }
