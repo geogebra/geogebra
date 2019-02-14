@@ -347,8 +347,7 @@ public abstract class App3DCompanion extends AppCompanion {
 				Export3dDialogInterface dialog = null;
 				DialogManager dialogManager = app.getDialogManager();
 				if (dialogManager != null) {
-					dialog = dialogManager.getExport3dDialog(
-							format.getExtension(), exportView3D);
+					dialog = dialogManager.getExport3dDialog(exportView3D);
 				}
 				if (dialog != null) {
 					exportView3D.export3D(format, dialog);

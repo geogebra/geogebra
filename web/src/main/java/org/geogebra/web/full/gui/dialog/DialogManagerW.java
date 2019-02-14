@@ -691,8 +691,7 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public Export3dDialogInterface getExport3dDialog(String extension,
-			View view) {
-		return new Export3dDialog((AppW) app, view, extension);
+	public Export3dDialogInterface getExport3dDialog(View view) {
+		return new Export3dDialog((AppW) app, view);
 	}
 }

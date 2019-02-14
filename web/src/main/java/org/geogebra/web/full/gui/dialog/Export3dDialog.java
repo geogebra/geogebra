@@ -194,11 +194,8 @@ public class Export3dDialog extends OptionDialog
 	 *            app
 	 * @param view
 	 *            exported view
-	 * @param extension
-	 *            format extension
 	 */
-	public Export3dDialog(final AppW app, final View view,
-			String extension) {
+	public Export3dDialog(final AppW app, final View view) {
 		super(app.getPanel(), app, false);
 		buildGui();
 		setPrimaryButtonEnabled(true);

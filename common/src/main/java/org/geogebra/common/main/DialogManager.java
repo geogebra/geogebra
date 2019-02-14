@@ -1017,15 +1017,12 @@ public abstract class DialogManager {
 	}
 
 	/**
-	 * @param extension
-	 *            format extension
 	 * @param view
 	 *            exported view
 	 * @return dialog for export 3D settings
 	 * 
 	 */
-	public Export3dDialogInterface getExport3dDialog(String extension,
-			View view) {
+	public Export3dDialogInterface getExport3dDialog(View view) {
 		// implemented only in web
 		return null;
 	}
