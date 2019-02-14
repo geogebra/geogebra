@@ -123,9 +123,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	protected void createCompanions() {
 		super.createCompanions();
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
-		if (Browser.isZoomInSafari()) {
-			mtg.enableCssZoom();
-		}
 	}
 
 	/**

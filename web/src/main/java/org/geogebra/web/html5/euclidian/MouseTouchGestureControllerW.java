@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -112,11 +113,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			style.setZoomXOffset(0);
 			style.setZoomYOffset(0);
 		} else {
-			Log.debug("CSS Zoom");
-			style.setxOffset(0);
-			style.setyOffset(0);
-
-			style.setZoomXOffset(ec.getView().getAbsoluteLeft());
+			style.setZoomXOffset(
+					ec.getView().getAbsoluteLeft());
 			style.setZoomYOffset(ec.getView().getAbsoluteTop());
 		}
 	}
@@ -211,6 +209,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		});
 		app.addWindowResizeListener(this);
 		longTouchManager = LongTouchManager.getInstance();
+		if (app.has(Feature.SAFARI_CSS_ZOOM)) {
+			Browser.enableZoomInSafari();
+		}
+		this.cssZoom = Browser.preferZoomOverTransform();
 	}
 
 	/**
@@ -812,12 +814,14 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int mouseEventX(int clientX) {
-		return (int) Math.round((clientX - style.getZoomXOffset()) * (1 / style.getScaleX()));
+		return (int) Math.round((clientX - style.getZoomXOffset() * (style.getScaleX() - 1))
+				* (1 / style.getScaleX()));
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
-		return (int) Math.round((clientY - style.getZoomYOffset()) * (1 / style.getScaleY()));
+		return (int) Math.round((clientY - style.getZoomYOffset() * (style.getScaleY() - 1))
+				* (1 / style.getScaleY()));
 	}
 
 	@Override
@@ -847,7 +851,4 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		app.closePopups();
 	}
 
-	public void enableCssZoom() {
-		this.cssZoom = true;
-	}
 }

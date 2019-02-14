@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -506,9 +504,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// inst.app = inst.createApplicationSimple(articleElement, inst);
 		// else
 		inst.app = inst.createApplication(articleElement, this.laf);
-		if (app.has(Feature.SAFARI_CSS_ZOOM)) {
-			Browser.enableZoomInSafari();
-		}
 		inst.app.setCustomToolBar();
 		// useDataParamBorder(articleElement, inst);
 		// inst.add(inst.app.buildApplicationPanel());

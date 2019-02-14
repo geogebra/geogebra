@@ -1,5 +1,6 @@
 package org.geogebra.web.html5;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -314,7 +315,7 @@ public class Browser {
 			return;
 		}
 
-		if (isZoomInSafari()) {
+		if (preferZoomOverTransform()) {
 			zoom(parent, externalScale);
 			return;
 		}
@@ -843,10 +844,13 @@ public class Browser {
 	 *
 	 * @return if we use css zoom in Safari.
 	 */
-	public static boolean isZoomInSafari() {
+	public static boolean preferZoomOverTransform() {
 		return zoomInSafari && isSafariByVendor();
 	}
 
+	/**
+	 * Please remove this when {@link Feature#SAFARI_CSS_ZOOM} is removed
+	 */
 	public static void enableZoomInSafari() {
 		zoomInSafari = true;
 	}

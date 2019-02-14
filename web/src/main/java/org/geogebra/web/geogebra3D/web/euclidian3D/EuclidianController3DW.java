@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
@@ -90,9 +89,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	protected void createCompanions() {
 		super.createCompanions();
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
-		if (Browser.isZoomInSafari()) {
-			mtg.enableCssZoom();
-		}
 	}
 
 	/**
