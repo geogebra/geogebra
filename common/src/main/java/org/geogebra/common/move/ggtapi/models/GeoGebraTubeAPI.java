@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.ShareRequest;
@@ -74,7 +75,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	/**
 	 * Private method performing the request given by requestString
-	 * 
+	 *
 	 * @param requestString
 	 *            JSON request String for the GeoGebraTubeAPI
 	 */
@@ -107,7 +108,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	/**
 	 * Creates a new Http request
-	 * 
+	 *
 	 * @return The new http request
 	 */
 	protected abstract HttpRequest createHttpRequest();
@@ -155,7 +156,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	/**
 	 * Builds the request to check if the login token of a user is valid. This
 	 * request will send detailed user information as response.
-	 * 
+	 *
 	 * @param token
 	 *            The user that should be logged in
 	 * @param cookie
@@ -209,7 +210,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 * result is stored in a boolean variable. Subsequent calls to isAvailable()
 	 * will return the value of the stored variable and don't send the request
 	 * again.
-	 * 
+	 *
 	 * @return boolean if the request was successful.
 	 */
 	private boolean checkIfAvailable(final LogInOperation op,
@@ -412,7 +413,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	/**
 	 * Get all ggb elements from a worksheet.
-	 * 
+	 *
 	 * @param id
 	 *            worksheet id
 	 * @param cb
@@ -433,12 +434,12 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	/**
 	 * Uploads the actual opened application to ggt
-	 * 
+	 *
 	 * @param tubeID
 	 *            tube id
 	 * @param visibility
 	 *            visibility string
-	 * 
+	 *
 	 * @param filename
 	 *            String
 	 * @param base64
@@ -462,7 +463,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	/**
 	 * Search for materials containing the String query
-	 * 
+	 *
 	 * @param query
 	 *            search String
 	 * @param callback
@@ -608,4 +609,10 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	public boolean anonymousOpen() {
 		return true;
 	}
+
+	@Override
+	public URLChecker getURLChecker() {
+		return null;
+	}
+
 }
