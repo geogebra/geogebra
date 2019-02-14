@@ -17,7 +17,7 @@ public class CASActivity extends BaseActivity {
 	}
 
 	@Override
-	public SVGResource getIcon(){
+	public SVGResource getIcon() {
 		return SvgPerspectiveResources.INSTANCE.menu_icon_cas();
 	}
 

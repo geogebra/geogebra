@@ -17,7 +17,7 @@ public class Graphing3DActivity extends BaseActivity {
 	}
 
 	@Override
-	public SVGResource getIcon(){
+	public SVGResource getIcon() {
 		return MaterialDesignResources.INSTANCE.graphing();
 	}
 
