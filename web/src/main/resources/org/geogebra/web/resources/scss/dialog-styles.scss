@@ -1454,17 +1454,44 @@ $duration: 0.2s;
 	}
 	
 	.export3dDialog {
-		.inputTextField .textField {
-   			.AutoCompleteTextFieldW {
-   				// enforces baseline alignment (needed for mac osx)
-   				display: flex;
-   				align-items: baseline;
-   				.suffix {
-   					margin: 0px;
-                    font-size: 100%;
-                    float: right;
-   				}
-   			}
+		padding-right: 0px;
+		.Caption {
+			// with the extra 8px from the top 
+			// of input field is 20px as supposed to
+			margin-bottom: 12px; 	
+		}
+	   	.panelRow>* {
+			margin: 0px;	
+		}
+		.inputTextField { 
+			margin-left: 0px;	
+			margin-right: 24px;	
+			margin-top: 8px;	
+			margin-bottom: 8px;			
+			.textField {
+	   			.AutoCompleteTextFieldW {
+	   				margin: 0px;
+	   				// enforces baseline alignment (needed for mac osx)
+	   				display: flex;
+	   				align-items: baseline;
+	   				.suffix {
+	   					margin: 0px;
+	   					padding-left: 8px;
+	                    font-size: 100%;
+	   				}
+	   			}
+	   		}
    		}
+   		.equal {
+   			// margin top and bottom set to center it with text field
+   			margin-top: 0px;
+   			margin-bottom: 8px;
+   			// we already have 24px margin from text field
+   			margin-left: -8px;
+   			margin-right: 16px;
+   		}
+   		.DialogButtonPanel {
+			margin-right: 8px; 	
+		}
    	}
 }

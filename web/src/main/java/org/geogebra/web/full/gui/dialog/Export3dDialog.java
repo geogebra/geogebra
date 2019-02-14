@@ -89,7 +89,7 @@ public class Export3dDialog extends OptionDialog
 		scaleUnitValue = addTextField("Scale", "units", scalePanel);
 		Label equalLabel = new Label();
 		equalLabel.setText("=");
-		equalLabel.setStyleName("label");
+		equalLabel.addStyleName("equal");
 		scalePanel.add(equalLabel);
 		scaleCmValue = addTextField(null, "cm", scalePanel);
 		root.add(scalePanel);
@@ -101,7 +101,7 @@ public class Export3dDialog extends OptionDialog
 
 	private ComponentInputField addTextField(String labelText, String suffixText, FlowPanel root) {
 		final ComponentInputField field = new ComponentInputField((AppW) app,
-				null, labelText, null, "", 2, suffixText);
+				null, labelText, null, "", 3, suffixText);
 		root.add(field);
 		return field;
 	}
