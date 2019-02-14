@@ -80,7 +80,7 @@ ext.appSpecs = [
 	[id:'graphing', title:'Graphing Calculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico'],
 	[id:'3d', title:'3D Graphing Calculator'],
 	[id:'cas', title:'CAS Calculator'],
-	[id:'scientific', title:'Scientific Calculator', partials:["undo-redo"]],
+	[id:'calculator', title:'Scientific Calculator', partials:["undo-redo"]],
 	[id:'geometry', title:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
 	[id:'notes', title:'Notes', exe:'MebisNotes', pkg:'Mebis_Notes',  releases: 'Releases-notes', icon: 'notes.ico', 'vendor': "Mebis"]]
 
