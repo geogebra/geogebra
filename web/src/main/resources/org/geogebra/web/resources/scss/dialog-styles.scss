@@ -1456,15 +1456,10 @@ $duration: 0.2s;
 	.export3dDialog {
 		.inputTextField .textField {
    			.AutoCompleteTextFieldW {
-   				display: flex;
-   				align-items: baseline;
    				.suffix {
    					margin: 0px;
-   					padding-right: 0px;
-   					padding-left: 8px;
-   					padding-bottom: 8px;
-   					padding-top: 0px;
-   					font-size: 100%;
+                    font-size: 100%;
+                    float: right;
    				}
    			}
    		}
