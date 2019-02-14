@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.URLChecker;
@@ -19,6 +20,8 @@ import com.google.gwt.user.client.Window.Location;
  */
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
+	private URLChecker urlChecker = null;
+
 	/**
 	 * @param beta
 	 *            whether to use the beta site
@@ -34,6 +37,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		if (!StringUtil.empty(articleElement.getLoginAPIurl())) {
 			setLoginURL(articleElement.getLoginAPIurl());
 		}
+		urlChecker = new EmbedURLChecker(articleElement.getParamBackendURL());
 	}
 
 	@Override
@@ -69,7 +73,6 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
 	@Override
 	public URLChecker getURLChecker() {
-		// implement me
-		return null;
+		return urlChecker;
 	}
 }

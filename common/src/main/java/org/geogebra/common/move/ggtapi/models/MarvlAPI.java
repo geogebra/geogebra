@@ -33,6 +33,7 @@ public class MarvlAPI implements BackendAPI {
 	private String baseURL;
 	private AuthenticationModel model;
 	private String basicAuth = null; // for test only
+	private URLChecker urlChecker;
 
 	/**
 	 * @param baseURL
@@ -40,6 +41,7 @@ public class MarvlAPI implements BackendAPI {
 	 */
 	public MarvlAPI(String baseURL) {
 		this.baseURL = baseURL;
+		urlChecker = new MarvlURLChecker();
 	}
 
 	@Override
@@ -485,6 +487,6 @@ public class MarvlAPI implements BackendAPI {
 	@Override
 	public URLChecker getURLChecker() {
 		// implement me
-		return null;
+		return urlChecker;
 	}
 }
