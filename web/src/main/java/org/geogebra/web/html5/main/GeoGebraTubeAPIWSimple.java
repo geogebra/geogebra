@@ -3,6 +3,7 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
@@ -66,4 +67,9 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		return "";
 	}
 
+	@Override
+	public URLChecker getURLChecker() {
+		// implement me
+		return null;
+	}
 }

@@ -14,6 +14,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
@@ -215,6 +216,7 @@ public class MarvlAPI implements BackendAPI {
 	public boolean performCookieLogin(final LogInOperation op) {
 		op.passiveLogin(new AsyncOperation<Boolean>() {
 
+			@Override
 			public void callback(Boolean obj) {
 				authorizeUser(new GeoGebraTubeUser(""), op, true);
 			}
@@ -387,7 +389,7 @@ public class MarvlAPI implements BackendAPI {
 
 	/**
 	 * Set authentication for HTTP basic auth (used in tests).
-	 * 
+	 *
 	 * @param base64
 	 *            base64 encoded basic auth header
 	 */
@@ -478,5 +480,11 @@ public class MarvlAPI implements BackendAPI {
 	@Override
 	public boolean anonymousOpen() {
 		return false;
+	}
+
+	@Override
+	public URLChecker getURLChecker() {
+		// implement me
+		return null;
 	}
 }

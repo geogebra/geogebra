@@ -18,7 +18,7 @@ public interface BackendAPI {
 
 	/**
 	 * Return a specific Material by its ID
-	 * 
+	 *
 	 * @param id
 	 *            int ID or sharing key
 	 * @param callback
@@ -35,14 +35,14 @@ public interface BackendAPI {
 
 	/**
 	 * TODO get this from somewhere else, makes only sense for Tube API
-	 * 
+	 *
 	 * @return login API url
 	 */
 	String getLoginUrl();
 
 	/**
 	 * Set properties of user from JSON.
-	 * 
+	 *
 	 * @param user
 	 *            user object
 	 * @param loadLastUser
@@ -62,7 +62,7 @@ public interface BackendAPI {
 	/**
 	 * Sends a request to the GeoGebraTube API to check if the login token which
 	 * is defined in the specified GeoGebraTubeUser is valid.
-	 * 
+	 *
 	 * @param user
 	 *            The user that should be authorized.
 	 * @param logInOperation
@@ -80,7 +80,7 @@ public interface BackendAPI {
 
 	/**
 	 * Synchronize a material.
-	 * 
+	 *
 	 * @param timestamp
 	 *            timestamp
 	 * @param syncCallback
@@ -103,7 +103,7 @@ public interface BackendAPI {
 
 	/**
 	 * Share material with particular user and send an email about it.
-	 * 
+	 *
 	 * @param material
 	 *            material
 	 * @param to
@@ -125,14 +125,14 @@ public interface BackendAPI {
 
 	/**
 	 * TODO only makes sense for Tube API, get it from somewhere else
-	 * 
+	 *
 	 * @return base URL
 	 */
 	String getUrl();
 
 	/**
 	 * Log user out.
-	 * 
+	 *
 	 * @param token
 	 *            login token
 	 */
@@ -140,7 +140,7 @@ public interface BackendAPI {
 
 	/**
 	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
-	 * 
+	 *
 	 * @param mat
 	 *            {@link Material}
 	 * @param cb
@@ -157,7 +157,7 @@ public interface BackendAPI {
 
 	/**
 	 * Log user in using either cookie or given token.
-	 * 
+	 *
 	 * @param logInOperation
 	 *            login operation
 	 * @param token
@@ -175,7 +175,7 @@ public interface BackendAPI {
 
 	/**
 	 * Returns materials in the given amount and order
-	 * 
+	 *
 	 * @param callback
 	 *            {@link MaterialCallbackI}
 	 */
@@ -183,7 +183,7 @@ public interface BackendAPI {
 
 	/**
 	 * Get materials of currently logged in user
-	 * 
+	 *
 	 * @param cb
 	 *            callback
 	 * @param order
@@ -193,7 +193,7 @@ public interface BackendAPI {
 
 	/**
 	 * Get materials shared with currently logged in user
-	 * 
+	 *
 	 * @param cb
 	 *            callback
 	 * @param order
@@ -204,12 +204,12 @@ public interface BackendAPI {
 
 	/**
 	 * Uploads the actual opened application to ggt
-	 * 
+	 *
 	 * @param tubeID
 	 *            tube id
 	 * @param visibility
 	 *            visibility string
-	 * 
+	 *
 	 * @param filename
 	 *            String
 	 * @param base64
@@ -224,7 +224,7 @@ public interface BackendAPI {
 
 	/**
 	 * to rename materials on ggt; TODO no use of base64
-	 * 
+	 *
 	 * @param material
 	 *            {@link Material}
 	 * @param callback
@@ -234,7 +234,7 @@ public interface BackendAPI {
 
 	/**
 	 * Copy existing material.
-	 * 
+	 *
 	 * @param material
 	 *            Current material
 	 * @param title
@@ -246,7 +246,7 @@ public interface BackendAPI {
 
 	/**
 	 * Make material (not) shared with a group
-	 * 
+	 *
 	 * @param material
 	 *            material
 	 * @param groupID
@@ -286,4 +286,5 @@ public interface BackendAPI {
 	 */
 	boolean anonymousOpen();
 
+	URLChecker getURLChecker();
 }
