@@ -10,6 +10,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.OnBackSpaceHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -137,6 +138,12 @@ public class Export3dDialog extends OptionDialog
 			inputField.getTextField().getTextComponent()
 					.addInsertHandler(new InsertHandler() {
 						public void onInsert(String text) {
+							parseAndUpdateOthers();
+						}
+					});
+			inputField.getTextField().getTextComponent()
+					.addOnBackSpaceHandler(new OnBackSpaceHandler() {
+						public void onBackspace() {
 							parseAndUpdateOthers();
 						}
 					});

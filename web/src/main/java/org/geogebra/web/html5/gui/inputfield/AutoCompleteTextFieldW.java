@@ -123,6 +123,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private int columns = 0;
 	private boolean forCAS;
 	private InsertHandler insertHandler = null;
+	private OnBackSpaceHandler onBackSpaceHandler = null;
 	private boolean suggestionJustHappened = false;
 	private GeoInputBox geoUsedForInputBox;
 	/**
@@ -146,6 +147,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	public interface InsertHandler {
 		void onInsert(String text);
+	}
+
+	public interface OnBackSpaceHandler {
+		void onBackspace();
 	}
 
 	/**
@@ -1350,6 +1355,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	/**
+	 * add handler for back space event
+	 * 
+	 * @param handler
+	 *            handler
+	 */
+	public void addOnBackSpaceHandler(OnBackSpaceHandler handler) {
+		onBackSpaceHandler = handler;
+	}
+
+	/**
 	 * Remove a character and move virtual caret.
 	 */
 	public void onBackSpace() {
@@ -1363,6 +1378,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		if (start >= 0) {
 			setText(start, end, "");
+		}
+
+		if (onBackSpaceHandler != null) {
+			onBackSpaceHandler.onBackspace();
 		}
 	}
 
