@@ -157,7 +157,7 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * shows the {@link RecoverAutoSavedDialog}
-	 * 
+	 *
 	 * @param app2
 	 *            {@link AppWFull}
 	 * @param json
@@ -283,7 +283,7 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * show insert pdf dialog
-	 * 
+	 *
 	 * @param file
 	 *            PDF file
 	 */
@@ -320,7 +320,8 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app);
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app,
+				app.getLoginOperation().getGeoGebraTubeAPI().getURLChecker());
 		embedDialog.center();
 		embedDialog.show();
 	}
@@ -381,7 +382,7 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * Creates a new slider at given location (screen coords).
-	 * 
+	 *
 	 * @return whether a new slider (number) was create or not
 	 */
 	@Override
@@ -446,7 +447,7 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * 
+	 *
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog() {
@@ -537,7 +538,7 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * Shows alert dialog.
-	 * 
+	 *
 	 * @param text
 	 *            Alert message
 	 */
@@ -620,7 +621,7 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * Creates a new {@link ColorChooserDialog}.
-	 * 
+	 *
 	 * @param originalColor
 	 *            initial color
 	 * @param handler

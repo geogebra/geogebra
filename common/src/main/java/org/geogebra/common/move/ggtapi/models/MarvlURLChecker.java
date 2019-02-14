@@ -7,7 +7,7 @@ import org.geogebra.common.util.AsyncOperation;
 public class MarvlURLChecker implements URLChecker {
 
 	@Override
-	public void checkURL(String url, AsyncOperation<URLStatus> callback) {
+	public void check(String url, AsyncOperation<URLStatus> callback) {
 		// implement me
 	}
 

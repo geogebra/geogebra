@@ -27,7 +27,7 @@ public class EmbedURLChecker implements URLChecker {
 	}
 
 	@Override
-	public void checkURL(final String url,
+	public void check(final String url,
 			final AsyncOperation<URLStatus> callback) {
 		HttpRequest xhr = UtilFactory.getPrototype().newHttpRequest();
 		xhr.sendRequestPost("GET", baseURL + "/meta?url=" + url, null,

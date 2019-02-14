@@ -7,5 +7,5 @@ public interface URLChecker {
 	 * @param url      URL
 	 * @param callback webpage status handler handler
 	 */
-	void checkURL(final String url, final AsyncOperation<URLStatus> callback);
+	void check(final String url, final AsyncOperation<URLStatus> callback);
 }

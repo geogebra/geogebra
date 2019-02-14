@@ -24,10 +24,10 @@ public class EmbedCheckerTest {
 	public void echeck() {
 		Assume.assumeNotNull(System.getProperty("marvl.auth.basic"));
 		TestAsyncOperation<URLStatus> check = new TestAsyncOperation<>();
-		checker.checkURL("https://news.orf.at", check);
+		checker.check("https://news.orf.at", check);
 		Assert.assertEquals(check.await(5).getErrorKey(), null);
 		check = new TestAsyncOperation<>();
-		checker.checkURL("https://edition.cnn.com", check);
+		checker.check("https://edition.cnn.com", check);
 		Assert.assertEquals(check.await(5).getErrorKey(), "FrameLoadError");
 	}
 }
