@@ -5,55 +5,16 @@ import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.move.ggtapi.operations.URLChecker;
+import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
 
 /**
  * Binding for MARVL's meta API, checks whether a page can be embedded
  */
-public class EmbedURLChecker {
+public class EmbedURLChecker implements URLChecker {
 	private String baseURL = "https://api.geogebra.org/v1.0";
-
-	/**
-	 * Result of status check.
-	 */
-	public static class URLStatus {
-		private String errorKey;
-		private String url;
-
-		/**
-		 * @param errorKey
-		 *            key for Localization.getError or null if there is no error
-		 */
-		protected URLStatus(String errorKey) {
-			this.errorKey = errorKey;
-		}
-
-		/**
-		 * @return key for Localiyation.getError
-		 */
-		public String getErrorKey() {
-			return errorKey;
-		}
-
-		/**
-		 * @return page URL
-		 */
-		public String getUrl() {
-			return url;
-		}
-
-		/**
-		 * @param embedUrl
-		 *            URL for embedding
-		 * @return this
-		 */
-		public URLStatus withUrl(String embedUrl) {
-			this.url = embedUrl;
-			return this;
-		}
-
-	}
 
 	/**
 	 * @param materialsAPIurl
@@ -65,13 +26,8 @@ public class EmbedURLChecker {
 		}
 	}
 
-	/**
-	 * @param url
-	 *            URL
-	 * @param callback
-	 *            webpage status handler handler
-	 */
-	public void checkEmbedURL(final String url,
+	@Override
+	public void checkURL(final String url,
 			final AsyncOperation<URLStatus> callback) {
 		HttpRequest xhr = UtilFactory.getPrototype().newHttpRequest();
 		xhr.sendRequestPost("GET", baseURL + "/meta?url=" + url, null,

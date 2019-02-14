@@ -2,7 +2,7 @@ package org.geogebra.cloud;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.media.EmbedURLChecker;
-import org.geogebra.common.media.EmbedURLChecker.URLStatus;
+import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -24,10 +24,10 @@ public class EmbedCheckerTest {
 	public void echeck() {
 		Assume.assumeNotNull(System.getProperty("marvl.auth.basic"));
 		TestAsyncOperation<URLStatus> check = new TestAsyncOperation<>();
-		checker.checkEmbedURL("https://news.orf.at", check);
+		checker.checkURL("https://news.orf.at", check);
 		Assert.assertEquals(check.await(5).getErrorKey(), null);
 		check = new TestAsyncOperation<>();
-		checker.checkEmbedURL("https://edition.cnn.com", check);
+		checker.checkURL("https://edition.cnn.com", check);
 		Assert.assertEquals(check.await(5).getErrorKey(), "FrameLoadError");
 	}
 }
