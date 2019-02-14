@@ -62,7 +62,7 @@ public class CmdExecute extends CmdScripting {
 				app.showError(e);
 				break;
 			} catch (Exception e) {
-				app.showError(e.getLocalizedMessage());
+				app.showError(app.getLocalization().getError("InvalidInput"));
 				e.printStackTrace();
 				break;
 			}
