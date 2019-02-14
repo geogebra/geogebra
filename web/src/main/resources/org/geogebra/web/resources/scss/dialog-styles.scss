@@ -1456,6 +1456,9 @@ $duration: 0.2s;
 	.export3dDialog {
 		.inputTextField .textField {
    			.AutoCompleteTextFieldW {
+   				// enforces baseline alignment (needed for mac osx)
+   				display: flex;
+   				align-items: baseline;
    				.suffix {
    					margin: 0px;
                     font-size: 100%;
