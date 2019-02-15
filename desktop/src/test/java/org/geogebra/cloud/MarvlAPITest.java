@@ -70,7 +70,7 @@ public class MarvlAPITest {
 
 	private static MarvlAPI authAPI() {
 		MarvlAPI ret = new MarvlAPI(
-				"http://notes.dlb-dev01.alp-dlg.net/notes/api");
+				"http://tafel.dlb-dev01.alp-dlg.net/api");
 		try {
 			ret.setBasicAuth(Base64.encodeToString(
 					System.getProperty("marvl.auth.basic").getBytes("utf-8"),
