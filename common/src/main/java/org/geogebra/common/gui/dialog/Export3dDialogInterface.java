@@ -24,4 +24,16 @@ public interface Export3dDialogInterface {
 	 */
 	void show(double width, double length, double height, double scale,
 			double thickness, Runnable exportAction);
+
+	/**
+	 * 
+	 * @return currently updated scale
+	 */
+	double getCurrentScale();
+
+	/**
+	 * 
+	 * @return currently updated thickness
+	 */
+	double getCurrentThickness();
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.util.NumberFormatAdapter;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
@@ -31,7 +32,10 @@ public class Export3dDialog extends OptionDialog
 
 	private Runnable onExportButtonPressed;
 
-	private ComponentInputField lineThicknessValue;
+	private ParsableComponentInputField lineThicknessValue;
+
+	private double lastUpdatedScale;
+	private double lastUpdatedThickness;
 
 	/**
 	 * number formating for dimensions
@@ -45,6 +49,32 @@ public class Export3dDialog extends OptionDialog
 	static {
 		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);
 		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
+	}
+
+	private class ParsableComponentInputField extends ComponentInputField {
+
+		public ParsableComponentInputField(AppW app, String placeholder,
+				String labelTxt, String errorTxt, String defaultValue,
+				int width, String suffixTxt) {
+			super(app, placeholder, labelTxt, errorTxt, defaultValue, width,
+					suffixTxt);
+		}
+
+		public double parse() throws Exception {
+			return parse(getText());
+		}
+
+		public double parse(String s) throws Exception {
+			try {
+				double v = Double.parseDouble(s);
+				if (v > 0) {
+					return v;
+				}
+				throw new Exception();
+			} catch (NumberFormatException nfe) {
+				throw new Exception();
+			}
+		}
 	}
 
 	private enum DimensionField {
@@ -101,7 +131,7 @@ public class Export3dDialog extends OptionDialog
 			}
 		};
 
-		ComponentInputField inputField;
+		ParsableComponentInputField inputField;
 		double initValue;
 		double currentValue;
 		final private NumberFormatAdapter nf;
@@ -111,7 +141,7 @@ public class Export3dDialog extends OptionDialog
 			this.nf = nf;
 		}
 
-		public void setInputField(ComponentInputField field) {
+		public void setInputField(ParsableComponentInputField field) {
 			this.inputField = field;
 		}
 
@@ -153,15 +183,11 @@ public class Export3dDialog extends OptionDialog
 			String s = inputField.getText();
 			if (!s.isEmpty() && !".".equals(s.trim())) {
 				try {
-					double v = Double.parseDouble(s);
-					if (v > 0) {
-						currentValue = v;
-						updateOthers(calcCurrentRatio());
-					} else {
-						showError();
-					}
-				} catch (NumberFormatException nfe) {
-					showError();
+					double v = inputField.parse(s);
+					currentValue = v;
+					updateOthers(calcCurrentRatio());
+				} catch (Exception exception) {
+					// no feedback while typing
 				}
 			}
 		}
@@ -189,8 +215,9 @@ public class Export3dDialog extends OptionDialog
 			setValue(initValue * ratio);
 		}
 
-		void showError() {
-			// TODO
+		static public double calcScale() throws Exception {
+			return (SCALE_CM.inputField.parse() / SCALE_UNIT.inputField.parse())
+					/ MM_TO_CM;
 		}
 	}
 
@@ -259,9 +286,10 @@ public class Export3dDialog extends OptionDialog
 		lineThicknessValue = addTextField("Thickness", "mm", root);
 	}
 
-	private ComponentInputField addTextField(String labelText, String suffixText, FlowPanel root) {
-		final ComponentInputField field = new ComponentInputField((AppW) app,
-				null, labelText, null, "", 3, suffixText);
+	private ParsableComponentInputField addTextField(String labelText,
+			String suffixText, FlowPanel root) {
+		final ParsableComponentInputField field = new ParsableComponentInputField(
+				(AppW) app, null, labelText, null, "", 3, suffixText);
 		root.add(field);
 		return field;
 	}
@@ -272,9 +300,15 @@ public class Export3dDialog extends OptionDialog
 
 	@Override
 	protected void processInput() {
-		hide();
-		if (onExportButtonPressed != null) {
-			onExportButtonPressed.run();
+		try {
+			updateScaleAndThickness();
+			hide();
+			if (onExportButtonPressed != null) {
+				onExportButtonPressed.run();
+			}
+		} catch (Exception e) {
+			// TODO: show error
+			Log.error("something went wrong");
 		}
 	}
 
@@ -291,7 +325,7 @@ public class Export3dDialog extends OptionDialog
 		DimensionField.LENGTH.setInitValue(length);
 		DimensionField.HEIGHT.setInitValue(height);
 		DimensionField.SCALE_CM.setInitValue(scale);
-		lineThicknessValue.setInputText(dimensionNF.format(thickness * 2));
+		lineThicknessValue.setInputText(dimensionNF.format(thickness));
 	}
 
 	@Override
@@ -308,6 +342,21 @@ public class Export3dDialog extends OptionDialog
 		for (DimensionField dimension : DimensionField.values()) {
 			dimension.setController();
 		}
+	}
+
+	private void updateScaleAndThickness() throws Exception {
+		lastUpdatedScale = DimensionField.calcScale();
+		lastUpdatedThickness = lineThicknessValue.parse();
+	}
+
+	@Override
+	public double getCurrentScale() {
+		return lastUpdatedScale;
+	}
+
+	@Override
+	public double getCurrentThickness() {
+		return lastUpdatedThickness;
 	}
 
 }
