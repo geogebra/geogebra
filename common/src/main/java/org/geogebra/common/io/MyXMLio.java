@@ -117,10 +117,6 @@ public abstract class MyXMLio {
 	public final static synchronized StringBuilder getUndoXML(Construction c,
 			boolean getListenersToo) {
 
-		Kernel constructionKernel = c.getKernel();
-		final boolean kernelIsGettingUndo = constructionKernel.isGettingUndo();
-		constructionKernel.setIsGettingUndo(true);
-
 		App consApp = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
@@ -143,8 +139,6 @@ public abstract class MyXMLio {
 		}
 
 		sb.append("</geogebra>");
-
-		constructionKernel.setIsGettingUndo(kernelIsGettingUndo);
 
 		return sb;
 	}

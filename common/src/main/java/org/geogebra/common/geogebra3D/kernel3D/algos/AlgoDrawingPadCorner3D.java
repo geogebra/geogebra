@@ -3,8 +3,10 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDrawingPadCorner;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -124,15 +126,10 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 	}
 
 	@Override
-	public Commands getClassName() {
-		if (corner.isGeoElement3D()
-				&& (kernel.isSaving() || kernel.isGettingUndo()
-						|| getConstruction().isGettingXMLForReplace())) {
-			return Commands.CornerThreeD; // save in XML (and undo XML) this
-											// specific token to distinguish
-											// from 2D corner command
+	public String getDefinitionName(StringTemplate tpl) {
+		if (tpl.getStringType() == StringType.GEOGEBRA_XML) {
+			return Commands.CornerThreeD.name();
 		}
-
-		return super.getClassName();
+		return super.getDefinitionName(tpl);
 	}
 }

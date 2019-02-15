@@ -3143,10 +3143,20 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return getViewBoundsForGeo(geo)[3];
 	}
 
+	/**
+	 * @param geo
+	 *            construction element
+	 * @return maximal x-scale of all views displaying geo
+	 */
 	public double getViewsXScale(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[4];
 	}
 
+	/**
+	 * @param geo
+	 *            construction element
+	 * @return maximal y-scale of all views displaying geo
+	 */
 	public double getViewsYScale(GeoElementND geo) {
 		return getViewBoundsForGeo(geo)[5];
 	}
@@ -4321,18 +4331,17 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * *****************************
 	 */
 
-	public synchronized boolean isGettingUndo() {
-		return isGettingUndo;
-	}
-
-	public synchronized void setIsGettingUndo(boolean flag) {
-		isGettingUndo = flag;
-	}
-
+	/**
+	 * @param flag
+	 *            whether undo is active
+	 */
 	public void setUndoActive(boolean flag) {
 		undoActive = flag;
 	}
 
+	/**
+	 * @return whether undo is active
+	 */
 	public boolean isUndoActive() {
 		return undoActive;
 	}
