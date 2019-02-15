@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
-	private static final int LAST_COLUMN = 1;
 	// margin to align value cells to header - 3dot empty place
 	private static final int VALUE_RIGHT_MARGIN = 36;
 	private static final int X_LEFT_PADDING = 16;
@@ -96,6 +95,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 */
 	private class ColumnDelete implements Runnable {
+
+		protected ColumnDelete() {
+			// non-synthetic constructor
+		}
 
 		@Override
 		public void run() {
@@ -192,18 +195,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			w += X_LEFT_PADDING;
 		}
 		return Math.max(w, MIN_COLUMN_WIDTH + X_LEFT_PADDING);
-	}
-
-	private static Column<TVRowData, SafeHtml> getColumnName() {
-		Column<TVRowData, SafeHtml> nameColumn = new Column<TVRowData, SafeHtml>(
-				new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(TVRowData object) {
-				return SafeHtmlUtils.fromTrustedString(object.getHeader());
-			}
-		};
-		return nameColumn;
 	}
 
 	private static Column<TVRowData, SafeHtml> getColumnValue(final int col,
