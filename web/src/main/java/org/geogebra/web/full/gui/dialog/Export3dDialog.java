@@ -6,8 +6,10 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.validator.NumberValidator;
+import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.NumberFormatAdapter;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
@@ -31,9 +33,7 @@ public class Export3dDialog extends OptionDialog
 	final static private double MM_TO_CM = 0.1;
 
 	private Runnable onExportButtonPressed;
-
 	private ParsableComponentInputField lineThicknessValue;
-
 	private double lastUpdatedScale;
 	private double lastUpdatedThickness;
 
@@ -53,28 +53,56 @@ public class Export3dDialog extends OptionDialog
 
 	private class ParsableComponentInputField extends ComponentInputField {
 
+		private NumberValidator numberValidator;
+		private Localization localization;
+		private double parsedValue;
+
 		public ParsableComponentInputField(AppW app, String placeholder,
 				String labelTxt, String errorTxt, String defaultValue,
 				int width, String suffixTxt) {
 			super(app, placeholder, labelTxt, errorTxt, defaultValue, width,
 					suffixTxt);
+			numberValidator = new NumberValidator(
+					app.getKernel().getAlgebraProcessor());
+			localization = app.getLocalization();
 		}
 
-		public double parse() throws Exception {
-			return parse(getText());
+		public void setValue(double v, NumberFormatAdapter nf) {
+			parsedValue = v;
+			setInputText(nf.format(v));
 		}
 
-		public double parse(String s) throws Exception {
+		public double getParsedValue() {
+			return parsedValue;
+		}
+
+		/**
+		 * parse current input text to double value
+		 * 
+		 * @param showError
+		 *            if error should be shown
+		 * @return true if parsed ok
+		 */
+		public boolean parse(boolean showError) {
 			try {
-				double v = Double.parseDouble(s);
-				if (v > 0) {
-					return v;
+				parsedValue = numberValidator.getDouble(getText(), 0d);
+				setErrorResolved();
+				return true;
+			} catch (NumberValueOutOfBoundsException e) {
+				if (showError) {
+					showError(localization.getError(
+							NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
 				}
-				throw new Exception();
-			} catch (NumberFormatException nfe) {
-				throw new Exception();
+				return false;
+			} catch (Exception e) {
+				if (showError) {
+					showError(localization.getError(
+							NumberValidator.NUMBER_FORMAT_ERROR_MESSAGE_KEY));
+				}
+				return false;
 			}
 		}
+
 	}
 
 	private enum DimensionField {
@@ -115,7 +143,8 @@ public class Export3dDialog extends OptionDialog
 
 			@Override
 			protected double calcCurrentRatio() {
-				return super.calcCurrentRatio() / SCALE_UNIT.currentValue;
+				return super.calcCurrentRatio()
+						/ SCALE_UNIT.inputField.getParsedValue();
 			}
 
 		},
@@ -133,7 +162,6 @@ public class Export3dDialog extends OptionDialog
 
 		ParsableComponentInputField inputField;
 		double initValue;
-		double currentValue;
 		final private NumberFormatAdapter nf;
 		protected EnumSet<DimensionField> updateSet;
 
@@ -151,8 +179,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		protected void setValue(double v) {
-			currentValue = v;
-			inputField.setInputText(nf.format(v));
+			inputField.setValue(v, nf);
 		}
 
 		public void setController() {
@@ -180,15 +207,8 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		void parseAndUpdateOthers() {
-			String s = inputField.getText();
-			if (!s.isEmpty() && !".".equals(s.trim())) {
-				try {
-					double v = inputField.parse(s);
-					currentValue = v;
-					updateOthers(calcCurrentRatio());
-				} catch (Exception exception) {
-					// no feedback while typing
-				}
+			if (inputField.parse(false)) {
+				updateOthers(calcCurrentRatio());
 			}
 		}
 
@@ -199,7 +219,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		protected double calcCurrentRatio() {
-			return currentValue / initValue;
+			return inputField.getParsedValue() / initValue;
 		}
 
 		abstract protected void createUpdateSet();
@@ -215,8 +235,9 @@ public class Export3dDialog extends OptionDialog
 			setValue(initValue * ratio);
 		}
 
-		static public double calcScale() throws Exception {
-			return (SCALE_CM.inputField.parse() / SCALE_UNIT.inputField.parse())
+		static public double calcScale() {
+			return (SCALE_CM.inputField.getParsedValue()
+					/ SCALE_UNIT.inputField.getParsedValue())
 					/ MM_TO_CM;
 		}
 	}
@@ -300,15 +321,18 @@ public class Export3dDialog extends OptionDialog
 
 	@Override
 	protected void processInput() {
-		try {
+		// check if everything can be parsed ok
+		boolean ok = true;
+		for (DimensionField f : DimensionField.values()) {
+			ok = f.inputField.parse(true) & ok;
+		}
+		ok = lineThicknessValue.parse(true) & ok;
+		if (ok) {
 			updateScaleAndThickness();
 			hide();
 			if (onExportButtonPressed != null) {
 				onExportButtonPressed.run();
 			}
-		} catch (Exception e) {
-			// TODO: show error
-			Log.error("something went wrong");
 		}
 	}
 
@@ -348,9 +372,9 @@ public class Export3dDialog extends OptionDialog
 		}
 	}
 
-	private void updateScaleAndThickness() throws Exception {
+	private void updateScaleAndThickness() {
 		lastUpdatedScale = DimensionField.calcScale();
-		lastUpdatedThickness = lineThicknessValue.parse();
+		lastUpdatedThickness = lineThicknessValue.getParsedValue();
 	}
 
 	@Override

@@ -7,6 +7,12 @@ import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsExce
 
 public class NumberValidator {
 
+	public static final String NUMBER_FORMAT_ERROR_MESSAGE_KEY = "InputError.Enter_a_number";
+	public static final String NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY = "InputError."
+			+ "EndValueLessThanStartValue";
+	public static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY = "InputError."
+			+ "Enter_a_number_greater_than_0";
+
 	private StringParser stringParser;
 
 	public NumberValidator(AlgebraProcessor algebraProcessor) {

@@ -11,12 +11,6 @@ import org.geogebra.common.main.Localization;
  */
 public class TableValuesDialogValidator {
 
-	private static final String NUMBER_FORMAT_ERROR_MESSAGE_KEY = "InputError.Enter_a_number";
-	private static final String NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY = "InputError."
-			+ "EndValueLessThanStartValue";
-	private static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY = "InputError."
-			+ "Enter_a_number_greater_than_0";
-
 	private NumberValidator numberValidator;
 	private Localization localization;
 
@@ -37,7 +31,8 @@ public class TableValuesDialogValidator {
 			return value;
 		} catch (NumberFormatException e) {
 			input.showError(
-					localization.getError(NUMBER_FORMAT_ERROR_MESSAGE_KEY));
+					localization.getError(
+							NumberValidator.NUMBER_FORMAT_ERROR_MESSAGE_KEY));
 		} catch (NumberValueOutOfBoundsException e) {
 			input.showError(localization.getError(outOfBoundsKey));
 		}
@@ -56,8 +51,10 @@ public class TableValuesDialogValidator {
 	 */
 	public double[] getDoubles(Input minField, Input maxField, Input stepField) {
 		Double min = getDouble(minField, null, null);
-		Double max = getDouble(maxField, min, NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY);
-		Double step = getDouble(stepField, 0.0, NUMBER_NEGATIVE_ERROR_MESSAGE_KEY);
+		Double max = getDouble(maxField, min,
+				NumberValidator.NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY);
+		Double step = getDouble(stepField, 0.0,
+				NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY);
 
 		if (min == null || max == null || step == null) {
 			return null;
