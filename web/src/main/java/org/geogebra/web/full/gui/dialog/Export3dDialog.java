@@ -316,6 +316,10 @@ public class Export3dDialog extends OptionDialog
 	public void setLabels() {
 		getCaption()
 				.setText(app.getLocalization().getMenu("DownloadAsStl"));
+		for (DimensionField f : DimensionField.values()) {
+			f.inputField.setLabels();
+		}
+		lineThicknessValue.setLabels();
 		updateButtonLabels("Download");
 	}
 
