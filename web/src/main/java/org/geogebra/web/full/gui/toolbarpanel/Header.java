@@ -297,7 +297,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		toolbarPanel.app.getGuiManager().undo();
+		app.getGuiManager().undo();
 	}
 
 	/**
@@ -309,7 +309,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 
 		app.getAccessibilityManager().setAnchor(btnMenu);
-		toolbarPanel.app.getGuiManager().redo();
+		app.getGuiManager().redo();
 		app.getAccessibilityManager().cancelAnchor();
 	}
 
@@ -521,7 +521,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * update position of undo+redo panel
 	 */
 	public void updateUndoRedoPosition() {
-		final EuclidianView ev = toolbarPanel.app.getActiveEuclidianView();
+		final EuclidianView ev = app.getActiveEuclidianView();
 		if (ev != null && undoRedoPanel != null) {
 			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
 					/ app.getArticleElement().getScaleY();
@@ -587,9 +587,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			}
 		}
 		Dom.toggleClass(btnUndo, "buttonActive", "buttonInactive",
-				toolbarPanel.app.getKernel().undoPossible());
+				app.getKernel().undoPossible());
 
-		if (toolbarPanel.app.getKernel().redoPossible()) {
+		if (app.getKernel().redoPossible()) {
 			btnRedo.removeStyleName("hideButton");
 		} else {
 			if (!btnRedo.getElement().hasClassName("hideButton")) {
