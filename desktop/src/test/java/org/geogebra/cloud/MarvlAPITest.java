@@ -37,6 +37,8 @@ import org.junit.Test;
 
 public class MarvlAPITest {
 
+	private static final String BASE_URL = "http://tafel.dlb-dev01.alp-dlg.net/api";
+
 	@Test
 	public void testAuth() {
 		needsAuth();
@@ -69,8 +71,7 @@ public class MarvlAPITest {
 	}
 
 	private static MarvlAPI authAPI() {
-		MarvlAPI ret = new MarvlAPI(
-				"http://tafel.dlb-dev01.alp-dlg.net/api");
+		MarvlAPI ret = new MarvlAPI(BASE_URL);
 		try {
 			ret.setBasicAuth(Base64.encodeToString(
 					System.getProperty("marvl.auth.basic").getBytes("utf-8"),
@@ -91,8 +92,7 @@ public class MarvlAPITest {
 	@Test
 	public void testUploadLoggout() {
 		needsAuth();
-		MarvlAPI api = new MarvlAPI(
-				"http://notes.dlb-dev01.alp-dlg.net/notes/api");
+		MarvlAPI api = new MarvlAPI(BASE_URL);
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		TestMaterialCallback t = new TestMaterialCallback();
 		api.uploadMaterial("", "S", "This should fail",
