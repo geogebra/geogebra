@@ -71,7 +71,7 @@ public class MarvlAPITest {
 	}
 
 	private static MarvlAPI authAPI() {
-		MarvlAPI ret = new MarvlAPI(BASE_URL);
+		MarvlAPI ret = new MarvlAPI(BASE_URL, null);
 		try {
 			ret.setBasicAuth(Base64.encodeToString(
 					System.getProperty("marvl.auth.basic").getBytes("utf-8"),
@@ -92,7 +92,7 @@ public class MarvlAPITest {
 	@Test
 	public void testUploadLoggout() {
 		needsAuth();
-		MarvlAPI api = new MarvlAPI(BASE_URL);
+		MarvlAPI api = new MarvlAPI(BASE_URL, null);
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		TestMaterialCallback t = new TestMaterialCallback();
 		api.uploadMaterial("", "S", "This should fail",
