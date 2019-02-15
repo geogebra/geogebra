@@ -20,8 +20,6 @@ import com.google.gwt.user.client.ui.UIObject;
 public class TableValuesPanel extends FlowPanel
 		implements SetLabels, TableValuesListener {
 
-	private static final int TOOLBAR_HEADER_HEIGHT = 48;
-
 	/** view of table values */
 	TableValuesView view;
 	private StickyValuesTable table;

@@ -2,6 +2,9 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EnvironmentStyle;
 
+/**
+ * Properties of EuclidianView that affect coordinate transformations
+ */
 public class EnvironmentStyleW extends EnvironmentStyle {
 
 	private double scaleX;
@@ -155,6 +158,7 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	 * Sets y offset of css zoom.
 	 *
 	 * @param zoomYOffset
+	 *            zooming y-offset
 	 */
 	public void setZoomYOffset(int zoomYOffset) {
 		this.zoomYOffset = zoomYOffset;
