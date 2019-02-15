@@ -83,7 +83,7 @@ public class TableValuesPanel extends FlowPanel
 	 *            to set.
 	 */
 	public void setHeight(int height) {
-		table.setHeight(height - TOOLBAR_HEADER_HEIGHT);
+		table.setHeight(height);
 	}
 
 	/**
