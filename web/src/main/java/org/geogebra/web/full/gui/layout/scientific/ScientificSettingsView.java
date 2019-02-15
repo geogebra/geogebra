@@ -160,7 +160,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 
 	private void resizeHeader() {
 		boolean smallScreen = app.getAppletFrame()
-				.shouldHaveSmallScreenLayout();
+				.hasSmallWindowOrCompactHeader();
 		headerView.resizeTo(smallScreen);
 	}
 
