@@ -45,7 +45,7 @@ package com.himamis.retex.renderer.share.platform;
 
 import com.himamis.retex.renderer.share.Configuration;
 import com.himamis.retex.renderer.share.platform.box.BoxDecorator;
-import com.himamis.retex.renderer.share.platform.box.BoxDecoratorDummy;
+import com.himamis.retex.renderer.share.platform.box.DefaultBoxDecorator;
 import com.himamis.retex.renderer.share.platform.font.FontFactory;
 import com.himamis.retex.renderer.share.platform.geom.GeomFactory;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
@@ -67,7 +67,7 @@ public abstract class FactoryProvider {
 	protected abstract GraphicsFactory createGraphicsFactory();
 
 	protected BoxDecorator createBoxDecorator() {
-		return new BoxDecoratorDummy();
+		return new DefaultBoxDecorator();
 	}
 
 	protected FactoryProvider() {
