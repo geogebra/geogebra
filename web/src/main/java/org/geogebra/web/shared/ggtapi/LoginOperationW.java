@@ -79,7 +79,8 @@ public class LoginOperationW extends LogInOperation {
 			if (!StringUtil
 					.empty(app.getArticleElement().getParamBackendURL())) {
 				this.api = new MarvlAPI(
-						app.getArticleElement().getParamBackendURL());
+						app.getArticleElement().getParamBackendURL(),
+						new MarvlURLChecker());
 			} else {
 				this.api = new GeoGebraTubeAPIW(app.getClientInfo(),
 						app.has(Feature.TUBE_BETA), app.getArticleElement());

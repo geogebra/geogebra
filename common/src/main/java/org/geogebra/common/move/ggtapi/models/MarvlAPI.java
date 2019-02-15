@@ -39,9 +39,9 @@ public class MarvlAPI implements BackendAPI {
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it
 	 */
-	public MarvlAPI(String baseURL) {
+	public MarvlAPI(String baseURL, URLChecker urlChecker) {
 		this.baseURL = baseURL;
-		urlChecker = new MarvlURLChecker();
+		this.urlChecker = urlChecker;
 	}
 
 	@Override
