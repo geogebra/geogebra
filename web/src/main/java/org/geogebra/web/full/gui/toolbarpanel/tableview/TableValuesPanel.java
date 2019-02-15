@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.toolbarpanel;
+package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.table.TableValuesListener;

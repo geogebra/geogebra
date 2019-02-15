@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.toolbarpanel;
+package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
+import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
@@ -27,6 +29,8 @@ import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -78,9 +82,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 * @return cell HTML markup
 		 *
 		 */
-		SafeHtml getValue(String content, int width, int height) {
-			return makeCell(
-					SafeHtmlUtils.fromTrustedString(value.replace("%s", content)), width, height);
+		SafeHtmlHeader getHtmlHeader(String content, int width, int height) {
+			String stringHtmlContent = value.replace("%s", content);
+			SafeHtml safeHtmlContent = SafeHtmlUtils.fromTrustedString(stringHtmlContent);
+			return new SafeHtmlHeader(makeCell(safeHtmlContent, width, height));
 		}
 	}
 
@@ -91,25 +96,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *
 	 */
 	private class ColumnDelete implements Runnable {
-		private int column = -1;
-		private Element elem;
-
-		/**
-		 * Constructor.
-		 *
-		 * @param column
-		 *            the deleted column number.
-		 * @param elem
-		 *            the corresponding HTML element.
-		 */
-		ColumnDelete(int column, Element elem) {
-			this.column = column;
-			this.elem = elem;
-		}
 
 		@Override
 		public void run() {
-			onDeleteColumn(column, elem);
+			onDeleteColumn();
 		}
 	}
 
@@ -145,11 +135,15 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void addColumn(int column) {
-		Column<TVRowData, ?> colHeader = getColumnName();
-		getHeaderTable().addColumn(colHeader, headerCell.getValue(tableModel.getHeaderAt(column),
-				getColumnWidth(dimensions, column), dimensions.getHeaderHeight()));
 		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
-		getValuesTable().addColumn(colValue);
+		getTable().addColumn(colValue, getHeaderFor(column));
+	}
+
+	private Header getHeaderFor(int columnIndex) {
+		String content = tableModel.getHeaderAt(columnIndex);
+		int width = getColumnWidth(dimensions, columnIndex);
+		int height = dimensions.getHeaderHeight();
+		return headerCell.getHtmlHeader(content, width, height);
 	}
 
 	@Override
@@ -253,32 +247,28 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 *            column to delete.
 	 */
 	public void deleteColumn(int column) {
-		if (transitioning || column == LAST_COLUMN) {
-			// multiple simultaneous deletions or last column: reset the whole UI
-			resetAll();
+		if (transitioning) {
+			// multiple simultaneous deletions
+			reset();
 			return;
 		}
-		int col = column;
-		NodeList<Element> elems = getColumnElements(col);
-		Element header = getHeaderElement(col);
+		NodeList<Element> elems = getColumnElements(column);
+		Element header = getHeaderElement(column);
 
 		if (elems == null || elems.getLength() == 0 || header == null) {
-			removeColumn(column);
+			decreaseColumnNumber();
 			return;
 		}
 		transitioning = true;
-		int tableWidth = getValuesTable().getOffsetWidth() - header.getOffsetWidth();
 
 		header.addClassName("delete");
 
-		CSSEvents.runOnTransition(new ColumnDelete(col, header), header,
-				"delete");
+		CSSEvents.runOnTransition(new ColumnDelete(), header, "delete");
 
 		for (int i = 0; i < elems.getLength(); i++) {
 			Element e = elems.getItem(i);
 			e.addClassName("delete");
 		}
-		setHeaderWidth(tableWidth);
 	}
 
 	@Override
@@ -287,25 +277,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		transitioning = false;
 	}
 
-	private void resetAll() {
-		reset();
-		syncHeaderSizes();
-	}
-
 	/**
 	 * Runs on column delete.
-	 *
-	 * @param column
-	 *            the deleted column number.
-	 *
-	 * @param header
-	 *            The table header HTML element
-	 *
 	 */
-	void onDeleteColumn(int column, Element header) {
+	void onDeleteColumn() {
 		transitioning = false;
 		if (!isLastColumnDeleted()) {
-			removeColumn(column);
+			decreaseColumnNumber();
 		}
 	}
 
@@ -344,17 +322,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
-	protected void syncHeaderSizes() {
-		int sumWidth = 0;
-		for (int column = 0; column < tableModel.getColumnCount(); column++) {
-			int colWidth = getColumnWidth(dimensions, column);
-			getHeaderTable().setColumnWidth(column > 0 ? column - 1 : 0, colWidth + "px");
-			sumWidth += colWidth;
-		}
-		setHeaderWidth(sumWidth);
-	}
-
-	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
 		deleteColumn(column);
@@ -386,10 +353,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 * @param column to get
 	 * @return the header element.
 	 */
-	public static Element getHeaderElement(int column) {
+	private static Element getHeaderElement(int column) {
 		// gives the (column+1)th element of the header row.
 		NodeList<Element> list = Dom.querySelectorAll(
-				".header tr th:nth-child(" + (column + 1) + ") .cell");
+				".values tr th:nth-child(" + (column + 1) + ") .cell");
 		return list != null ? list.getItem(0) : null;
 	}
 }

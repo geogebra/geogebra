@@ -83,62 +83,60 @@ $deleteTime: 120ms;
 			transition: width $deleteTime, margin $deleteTime ease-in;
 		}
 		
-		.header {
-			background-color: transparent;
-			&.transitioning {
-				@extend .cellTransition;
-			}
-	
-			@include textSelect(none);
-			
-			colgroup {
-				col {
-					@extend .delete;
-				}
-			}
-	
-			th {
-				padding: 0;		
-				border: 0px;
-				.cell {
-					@extend .cellTransition;
-					margin-left: 0px;
-					margin-right: 0px;
-					border-bottom: 0px;	
-					text-align: center;
-					padding: 0px;
-					.content {
-						display: inline-flex;
-						margin-top: auto;
-						margin-bottom: auto;
-						float: right;
-						color: $text-secondary;
-				
-						.MyToggleButton {
-								margin: auto 0px auto 0px;
-								padding-left: 6px;
-								padding-right: 6px;
-								border: 0px;
-								img {
-									opacity: 0.54;
-								}
-						}
-					}
-				}
-				
-				.delete {
-					@extend %colDelete;
-					text-align: right;
-				}
-			}
-	
-			tbody {
-				display: none;
-			}
-		}
-		
 		.values {
 			@include textSelect(text);
+
+			thead {
+                &.transitioning {
+                    @extend .cellTransition;
+                }
+
+                @include textSelect(none);
+
+                colgroup {
+                    col {
+                        @extend .delete;
+                    }
+                }
+
+                th {
+                    padding: 0;
+                    border: 0px;
+                    position: sticky;
+                    top: 0;
+                    background: $white;
+
+                    .cell {
+                        @extend .cellTransition;
+                        margin-left: 0px;
+                        margin-right: 0px;
+                        border-bottom: 0px;
+                        text-align: center;
+                        padding: 0px;
+                        .content {
+                            display: inline-flex;
+                            margin: auto;
+                            float: right;
+                            color: $text-secondary;
+
+                            .MyToggleButton {
+                                    margin: auto 0px auto 0px;
+                                    padding-left: 6px;
+                                    padding-right: 6px;
+                                    border: 0px;
+                                    img {
+                                        opacity: 0.54;
+                                    }
+                            }
+                        }
+                    }
+
+                    .delete {
+                        @extend %colDelete;
+                        text-align: right;
+                    }
+                }
+            }
 			
 			td {
 				div {
