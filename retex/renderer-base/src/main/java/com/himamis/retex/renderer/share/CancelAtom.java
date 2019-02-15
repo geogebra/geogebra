@@ -54,7 +54,7 @@ public class CancelAtom extends Atom {
 
 	public static enum Type {
 		SLASH, BACKSLASH, X
-	};
+	}
 
 	private static Color cancelColor = null;
 

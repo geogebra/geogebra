@@ -78,11 +78,11 @@ public class MhchemParser extends TeXParser {
 		leftrightHarpoon, // <=>
 		leftrightSmallHarpoon, // <=>>
 		leftSmallHarpoonRight, // <<=>
-	};
+	}
 
 	private static enum ElementType {
 		none, greek, roman,
-	};
+	}
 
 	private final static class StopGroupConsumer extends GroupConsumer {
 

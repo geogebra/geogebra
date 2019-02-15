@@ -51,7 +51,7 @@ public class SubSupCom implements AtomConsumer {
 
 	private static enum State {
 		SUB_WAIT, SUB_OK, SUP_WAIT, SUP_OK
-	};
+	}
 
 	private Atom base;
 	private Atom sub;
@@ -68,7 +68,6 @@ public class SubSupCom implements AtomConsumer {
 
 	public void setBase(Atom base) {
 		this.base = base;
-		;
 	}
 
 	private static void addSSC(final TeXParser tp, final char c) {

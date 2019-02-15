@@ -62,7 +62,7 @@ public class XArrowAtom extends XAtom {
 
 	public static enum Kind {
 		Left, Right, LR, LeftAndRight, RightAndLeft, LeftHarpoonUp, LeftHarpoonDown, RightHarpoonUp, RightHarpoonDown, LeftRightHarpoons, RightLeftHarpoons, RightSmallLeftHarpoons, SmallRightLeftHarpoons,
-	};
+	}
 
 	private Kind kind;
 

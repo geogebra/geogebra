@@ -66,7 +66,7 @@ public class TeXLength {
 		CC, //
 		X8, // 1 x8 = 1 default rule thickness
 		NONE
-	};
+	}
 
 	private static final Map<String, TeXLength> map = new HashMap<String, TeXLength>() {
 		{

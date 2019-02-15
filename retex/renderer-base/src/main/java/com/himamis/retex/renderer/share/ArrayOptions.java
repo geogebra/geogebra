@@ -207,7 +207,6 @@ public final class ArrayOptions {
 			} else {
 				lastOption.separator = new RowAtom(last, a);
 			}
-			;
 		}
 		return this;
 	}
