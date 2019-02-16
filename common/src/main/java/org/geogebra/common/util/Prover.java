@@ -68,7 +68,6 @@ public abstract class Prover {
 		 */
 		AUTO,
 		/**
-		 * 
 		 * not a theorem prover, but an implicit locus calculator
 		 */
 		LOCUS_IMPLICIT,
