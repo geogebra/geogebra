@@ -51,7 +51,8 @@ public class Export3dDialog extends OptionDialog
 		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
 	}
 
-	private class ParsableComponentInputField extends ComponentInputField {
+	static private class ParsableComponentInputField
+			extends ComponentInputField {
 
 		private NumberValidator numberValidator;
 		private Localization localization;
