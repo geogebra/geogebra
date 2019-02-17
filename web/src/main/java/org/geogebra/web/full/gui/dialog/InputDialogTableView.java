@@ -11,8 +11,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -110,17 +108,6 @@ public class InputDialogTableView extends OptionDialog
 		centerAndResize(
 				((AppW) app).getAppletFrame().getKeyboardHeight());
 		focusDeferred(startValue);
-	}
-
-	private static void focusDeferred(final ComponentInputField inputField) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				inputField.getTextField().getTextComponent()
-						.setFocus(true);
-			}
-		});
 	}
 
 	/**

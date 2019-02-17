@@ -126,6 +126,17 @@ public class Export3dDialog extends OptionDialog
 				updateSet = EnumSet.of(WIDTH, LENGTH, SCALE_CM);
 			}
 		},
+		SCALE_UNIT(scaleNF) {
+			@Override
+			protected void createUpdateSet() {
+				updateSet = EnumSet.of(WIDTH, LENGTH, HEIGHT);
+			}
+
+			@Override
+			protected double calcCurrentRatio() {
+				return SCALE_CM.calcCurrentRatio();
+			}
+		},
 		SCALE_CM(scaleNF) {
 			@Override
 			protected void createUpdateSet() {
@@ -149,17 +160,6 @@ public class Export3dDialog extends OptionDialog
 						/ SCALE_UNIT.inputField.getParsedValue();
 			}
 
-		},
-		SCALE_UNIT(scaleNF) {
-			@Override
-			protected void createUpdateSet() {
-				updateSet = EnumSet.of(WIDTH, LENGTH, HEIGHT);
-			}
-
-			@Override
-			protected double calcCurrentRatio() {
-				return SCALE_CM.calcCurrentRatio();
-			}
 		};
 
 		ParsableComponentInputField inputField;
@@ -170,6 +170,7 @@ public class Export3dDialog extends OptionDialog
 
 		private DimensionField(NumberFormatAdapter nf) {
 			this.nf = nf;
+			isUsed = true;
 		}
 
 		public void setInputField(ParsableComponentInputField field) {
@@ -182,8 +183,6 @@ public class Export3dDialog extends OptionDialog
 			if (DoubleUtil.isZero(initValue)) {
 				isUsed = false;
 				inputField.setVisible(false);
-			} else {
-				isUsed = true;
 			}
 		}
 
@@ -332,14 +331,28 @@ public class Export3dDialog extends OptionDialog
 		root.add(getButtonPanel());
 	}
 
+	private static boolean checkOkAndSetFocus(boolean ok, boolean currentOk,
+			ComponentInputField inputField) {
+		if (ok) {
+			if (!currentOk) {
+				focusDeferred(inputField);
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	protected void processInput() {
 		// check if everything can be parsed ok
 		boolean ok = true;
 		for (DimensionField f : DimensionField.values()) {
-			ok = f.parse() & ok;
+			ok = checkOkAndSetFocus(ok, f.parse(), f.inputField);
+
 		}
-		ok = lineThicknessValue.parse(true) & ok;
+		ok = checkOkAndSetFocus(ok, lineThicknessValue.parse(true),
+				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
 			hide();

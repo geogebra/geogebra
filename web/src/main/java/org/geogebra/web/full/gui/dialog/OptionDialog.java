@@ -2,10 +2,13 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.DialogBoxW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -102,6 +105,22 @@ public abstract class OptionDialog extends DialogBoxW
 	 */
 	protected void focusPrimaryButton() {
 		insertBtn.getElement().focus();
+	}
+
+	/**
+	 * give focus to input field
+	 * 
+	 * @param inputField
+	 *            input field
+	 */
+	protected static void focusDeferred(final ComponentInputField inputField) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				inputField.getTextField().getTextComponent().setFocus(true);
+			}
+		});
 	}
 
 }
