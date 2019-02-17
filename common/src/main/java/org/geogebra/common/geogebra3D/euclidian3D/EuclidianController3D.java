@@ -2246,11 +2246,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 				if (view3D
 						.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_REGION) {
 					if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-						createPointAnywhere = (selPoints() == 0 && view3D
-								.getCursor3D().getRegion()
-								.isGeoPlane())
-								|| view3D.getCursor3D().getRegion() == kernel
-										.getXOYPlane();
+						Region region = view3D.getCursor3D().getRegion();
+						createPointAnywhere = (selPoints() == 0
+								&& (!(region instanceof GeoCoordSys2D)
+										|| region.isGeoPlane()))
+								|| (!(region instanceof GeoCoordSys2D)
+										|| region == kernel.getXOYPlane());
 					} else {
 						if (view3D.getCursor3D().getRegion() == kernel
 								.getXOYPlane()) {
@@ -3430,7 +3431,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 						if (selPoints() == 0) {
 							if (point.hasRegion()) {
 								GeoElement geo = (GeoElement) point.getRegion();
-								return geo.isGeoPlane();
+							return !(geo instanceof GeoCoordSys2D)
+									|| geo.isGeoPlane();
 							}
 							return point.isPointOnPath();
 						}
@@ -3440,7 +3442,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 						}
 						// on xOy plane: can create a point
 						if (point.hasRegion() 
-								&& point.getRegion() == kernel.getXOYPlane()) {
+							&& (!(point.getRegion() instanceof GeoCoordSys2D)
+									|| point.getRegion() == kernel
+											.getXOYPlane())) {
 							return true;
 						}
 						return false;
