@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.validator.NumberValidator;
 import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -165,6 +166,7 @@ public class Export3dDialog extends OptionDialog
 		double initValue;
 		final private NumberFormatAdapter nf;
 		protected EnumSet<DimensionField> updateSet;
+		private boolean isUsed;
 
 		private DimensionField(NumberFormatAdapter nf) {
 			this.nf = nf;
@@ -177,6 +179,12 @@ public class Export3dDialog extends OptionDialog
 		public void setInitValue(double v) {
 			this.initValue = v * MM_TO_CM;
 			setValue(initValue);
+			if (DoubleUtil.isZero(initValue)) {
+				isUsed = false;
+				inputField.setVisible(false);
+			} else {
+				isUsed = true;
+			}
 		}
 
 		protected void setValue(double v) {
@@ -240,6 +248,10 @@ public class Export3dDialog extends OptionDialog
 			return (SCALE_CM.inputField.getParsedValue()
 					/ SCALE_UNIT.inputField.getParsedValue())
 					/ MM_TO_CM;
+		}
+
+		public boolean parse() {
+			return isUsed ? inputField.parse(true) : true;
 		}
 	}
 
@@ -325,7 +337,7 @@ public class Export3dDialog extends OptionDialog
 		// check if everything can be parsed ok
 		boolean ok = true;
 		for (DimensionField f : DimensionField.values()) {
-			ok = f.inputField.parse(true) & ok;
+			ok = f.parse() & ok;
 		}
 		ok = lineThicknessValue.parse(true) & ok;
 		if (ok) {
