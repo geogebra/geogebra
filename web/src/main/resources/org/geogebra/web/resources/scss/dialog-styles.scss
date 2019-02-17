@@ -1469,6 +1469,7 @@ $duration: 0.2s;
 			margin-top: 8px;	
 			margin-bottom: 8px;			
 			.textField {
+				min-width: 96px;
 	   			.AutoCompleteTextFieldW {
 	   				margin: 0px;
 	   				// enforces baseline alignment (needed for mac osx)
@@ -1480,6 +1481,9 @@ $duration: 0.2s;
 	                    font-size: 100%;
 	   				}
 	   			}
+	   		}
+	   		.errorLabel {
+	   			max-width: 96px;
 	   		}
    		}
    		.equal {
