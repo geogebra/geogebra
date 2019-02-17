@@ -323,7 +323,7 @@ public class Export3dDialog extends OptionDialog
 	private ParsableComponentInputField addTextField(String labelText,
 			String suffixText, FlowPanel root) {
 		final ParsableComponentInputField field = new ParsableComponentInputField(
-				(AppW) app, null, labelText, null, "", 3, suffixText);
+				(AppW) app, null, labelText, null, "", 0, suffixText);
 		root.add(field);
 		return field;
 	}
