@@ -304,6 +304,9 @@ public enum TargetType {
 				GeoPoint3D point = view3D.getCursor3D();
 				if (point.hasRegion()) {
 					GeoElement geo = (GeoElement) point.getRegion();
+                    if (!(geo instanceof GeoCoordSys2D)) {
+                        return onSuccess;
+                    }
 					if (!geo.isGeoPolygon()) {
 						return geo.isGeoPlane() ? onSuccess : NOTHING;
 					}
@@ -337,7 +340,8 @@ public enum TargetType {
 			return onSuccess;
 		}
 		if (point.hasRegion()) {
-			if (point.getRegion() == ec.getKernel().getXOYPlane()) {
+            if (!(point.getRegion() instanceof GeoCoordSys2D)
+                    || point.getRegion() == ec.getKernel().getXOYPlane()) {
 				return onSuccess;
 			}
 		}
