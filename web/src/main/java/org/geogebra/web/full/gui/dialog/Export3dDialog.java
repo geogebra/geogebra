@@ -250,7 +250,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		public boolean parse() {
-			return isUsed ? inputField.parse(true) : true;
+			return !isUsed || inputField.parse(true);
 		}
 	}
 
