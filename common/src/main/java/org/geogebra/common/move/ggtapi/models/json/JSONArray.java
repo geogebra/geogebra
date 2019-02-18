@@ -126,6 +126,8 @@ public class JSONArray {
 
 	/**
 	 * Returns the number of values in this array.
+	 * 
+	 * @return length
 	 */
 	public int length() {
 		return values.size();
@@ -133,6 +135,9 @@ public class JSONArray {
 
 	/**
 	 * Appends {@code value} to the end of this array.
+	 * 
+	 * @param value
+	 *            boolean value
 	 *
 	 * @return this array.
 	 */
@@ -166,6 +171,9 @@ public class JSONArray {
 
 	/**
 	 * Appends {@code value} to the end of this array.
+	 * 
+	 * @param value
+	 *            value to add
 	 *
 	 * @return this array.
 	 */
@@ -276,6 +284,10 @@ public class JSONArray {
 	/**
 	 * Returns true if this array has no value at {@code index}, or if its value
 	 * is the {@code null} reference or {@link JSONObject#NULL}.
+	 * 
+	 * @param index
+	 *            index
+	 * @return whether value at index is null
 	 */
 	public boolean isNull(int index) {
 		Object value = opt(index);
@@ -284,6 +296,10 @@ public class JSONArray {
 
 	/**
 	 * Returns the value at {@code index}.
+	 * 
+	 * @param index
+	 *            index
+	 * @return value at index
 	 *
 	 * @throws JSONException
 	 *             if this array has no value at {@code index}, or if that value
@@ -306,6 +322,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index}, or null if the array has no value at
 	 * {@code index}.
+	 * 
+	 * @param index
+	 *            index
+	 * @return value at index or null
 	 */
 	public Object opt(int index) {
 		if (index < 0 || index >= values.size()) {
@@ -317,6 +337,10 @@ public class JSONArray {
 	/**
 	 * Removes and returns the value at {@code index}, or null if the array has
 	 * no value at {@code index}.
+	 * 
+	 * @param index
+	 *            index
+	 * @return value at index
 	 */
 	public Object remove(int index) {
 		if (index < 0 || index >= values.size()) {
@@ -328,6 +352,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean.
+	 * 
+	 * @param index
+	 *            index
+	 * @return boolean value at index
 	 *
 	 * @throws JSONException
 	 *             if the value at {@code index} doesn't exist or cannot be
@@ -345,6 +373,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean. Returns false otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @return boolean value at index, false if not set
 	 */
 	public boolean optBoolean(int index) {
 		return optBoolean(index, false);
@@ -353,6 +385,12 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean. Returns {@code fallback} otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @param fallback
+	 *            fallback value
+	 * @return boolean value at index or fallback
 	 */
 	public boolean optBoolean(int index, boolean fallback) {
 		Object object = opt(index);
@@ -363,6 +401,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double.
+	 * 
+	 * @param index
+	 *            index
+	 * @return double value at index
 	 *
 	 * @throws JSONException
 	 *             if the value at {@code index} doesn't exist or cannot be
@@ -380,6 +422,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double. Returns {@code NaN} otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @return double value at index or NaN
 	 */
 	public double optDouble(int index) {
 		return optDouble(index, Double.NaN);
@@ -388,6 +434,12 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double. Returns {@code fallback} otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @param fallback
+	 *            fallback
+	 * @return double value at index or fallback
 	 */
 	public double optDouble(int index, double fallback) {
 		Object object = opt(index);
@@ -398,6 +450,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int.
+	 * 
+	 * @param index
+	 *            index
+	 * @return int value at index
 	 *
 	 * @throws JSONException
 	 *             if the value at {@code index} doesn't exist or cannot be
@@ -415,6 +471,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int. Returns 0 otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @return int value or 0
 	 */
 	public int optInt(int index) {
 		return optInt(index, 0);
@@ -423,6 +483,12 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int. Returns {@code fallback} otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @param fallback
+	 *            fallback
+	 * @return int value at index or fallback
 	 */
 	public int optInt(int index, int fallback) {
 		Object object = opt(index);
@@ -433,6 +499,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long.
+	 * 
+	 * @param index
+	 *            index
+	 * @return long value at index
 	 *
 	 * @throws JSONException
 	 *             if the value at {@code index} doesn't exist or cannot be
@@ -450,6 +520,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long. Returns 0 otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @return long value at index or 0
 	 */
 	public long optLong(int index) {
 		return optLong(index, 0L);
@@ -458,6 +532,12 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long. Returns {@code fallback} otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @param fallback
+	 *            fallback
+	 * @return long value at index or fallback
 	 */
 	public long optLong(int index, long fallback) {
 		Object object = opt(index);
@@ -468,6 +548,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary.
+	 * 
+	 * @param index
+	 *            index
+	 * @return string value at index
 	 *
 	 * @throws JSONException
 	 *             if no such value exists.
@@ -484,6 +568,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary. Returns the empty string if no such value exists.
+	 * 
+	 * @param index
+	 *            index
+	 * @return string value at index or empty string
 	 */
 	public String optString(int index) {
 		return optString(index, "");
@@ -492,6 +580,12 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary. Returns {@code fallback} if no such value exists.
+	 * 
+	 * @param index
+	 *            index
+	 * @param fallback
+	 *            fallback
+	 * @return string value at index or fallback
 	 */
 	public String optString(int index, String fallback) {
 		Object object = opt(index);
@@ -502,6 +596,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONArray}.
+	 * 
+	 * @param index
+	 *            index
+	 * @return array value at index
 	 *
 	 * @throws JSONException
 	 *             if the value doesn't exist or is not a {@code
@@ -518,6 +616,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONArray}. Returns null otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @return array value at index
 	 */
 	public JSONArray optJSONArray(int index) {
 		Object object = opt(index);
@@ -527,6 +629,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONObject}.
+	 * 
+	 * @param index
+	 *            index
+	 * @return object value at index
 	 *
 	 * @throws JSONException
 	 *             if the value doesn't exist or is not a {@code
@@ -543,6 +649,10 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONObject}. Returns null otherwise.
+	 * 
+	 * @param index
+	 *            index
+	 * @return object value at index or null
 	 */
 	public JSONObject optJSONObject(int index) {
 		Object object = opt(index);
@@ -555,6 +665,10 @@ public class JSONArray {
 	 * index from 0 through to the shorter array's length. Names that are not
 	 * strings will be coerced to strings. This method returns null if either
 	 * array is empty.
+	 * 
+	 * @param names
+	 *            keys in resulting object
+	 * @return JSON object with given keys, using this array as values
 	 */
 	public JSONObject toJSONObject(JSONArray names) throws JSONException {
 		JSONObject result = new JSONObject();
@@ -578,6 +692,10 @@ public class JSONArray {
 	 * <pre>
 	 * "12\" pizza" + "taco" + "soda"
 	 * </pre>
+	 * 
+	 * @param separator
+	 *            separator
+	 * @return array items joined using separator
 	 */
 	public String join(String separator) throws JSONException {
 		JSONStringer stringer = new JSONStringer();
@@ -625,6 +743,7 @@ public class JSONArray {
 	 *
 	 * @param indentSpaces
 	 *            the number of spaces to indent for each level of nesting.
+	 * @return this array as formatted string
 	 */
 	public String toString(int indentSpaces) throws JSONException {
 		JSONStringer stringer = new JSONStringer(indentSpaces);

@@ -165,6 +165,10 @@ public interface JavaScriptAPI {
 
 	/**
 	 * returns true or false depending on whether the object is visible
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return whether object is visible
 	 */
 	public boolean getVisible(String objName);
 
@@ -173,7 +177,7 @@ public interface JavaScriptAPI {
 	 *            object name
 	 * @param view
 	 *            graphics view ID: 1 or 2
-	 * @return whether objcet is visible in given view
+	 * @return whether object is visible in given view
 	 */
 	public boolean getVisible(String objName, int view);
 
@@ -229,11 +233,22 @@ public interface JavaScriptAPI {
 	 */
 	public void setLabelVisible(String objName, boolean visible);
 
+	/**
+	 * @param objName
+	 *            object label
+	 * @return whether its label is visible
+	 */
 	public boolean getLabelVisible(String objName);
 
 	/**
 	 * Sets the label style of the object with the given name in the geometry
-	 * window. Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.
+	 * window.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param style
+	 *            Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE =
+	 *            2.
 	 */
 	public void setLabelStyle(String objName, int style);
 
@@ -253,6 +268,10 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns the line thickness of the object
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return line thickness
 	 */
 	public int getLineThickness(String objName);
 
@@ -263,6 +282,10 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns the lineType of the object
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return line style
 	 */
 	public int getLineStyle(String objName);
 
@@ -367,6 +390,10 @@ public interface JavaScriptAPI {
 	 * Returns the color of the object as an hex string. Note that the
 	 * hex-string starts with # and uses upper case letters, e.g. "#FF0000" for
 	 * red.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return hex color
 	 */
 	public String getColor(String objName);
 
@@ -377,6 +404,10 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns true if the object with the given name exists.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return whether object exists
 	 */
 	public boolean exists(String objName);
 
@@ -421,12 +452,16 @@ public interface JavaScriptAPI {
 	public void stopAnimation();
 
 	/**
-	 * Whether or not to show the mouse pointer (cursor) when dragging
+	 * @param hideCursorWhenDragging
+	 *            Whether or not to show the mouse pointer (cursor) when
+	 *            dragging
 	 */
 	public void hideCursorWhenDragging(boolean hideCursorWhenDragging);
 
 	/**
 	 * Returns whether automatic animation is currently running.
+	 * 
+	 * @return whether automatic animation is currently running.
 	 */
 	public boolean isAnimationRunning();
 
@@ -441,38 +476,73 @@ public interface JavaScriptAPI {
 	/**
 	 * Returns true if the object with the given name has a vaild value at the
 	 * moment.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return whether it's currently defined
 	 */
 	public boolean isDefined(String objName);
 
 	/**
 	 * Returns true if the object with the given name is independent.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return whether it is independent on other objects
 	 */
 	public boolean isIndependent(String objName);
 
+	/**
+	 * @param objName
+	 *            object label
+	 * @return whether it can be moved
+	 */
 	public boolean isMoveable(String objName);
 
 	/**
 	 * Returns the value of the object with the given name as a string.
+	 * 
+	 * @param objName
+	 *            object name
+	 * @return value string
 	 */
 	public String getValueString(String objName);
 
 	/**
-	 * Returns the definition of the object with the given name as a string.
+	 * Returns the description of the object with the given name as a string.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return description string
 	 */
 	public String getDefinitionString(String objName);
 
 	/**
-	 * Returns the definition of the object with the given name as a string.
+	 * Returns the description of the object with the given name as a string.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param localize
+	 *            whether to localize it
+	 * @return description string
 	 */
 	public String getDefinitionString(String objName, boolean localize);
 
 	/**
 	 * Returns the object with the given name as a LaTeX string.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return object value as LaTeX
 	 */
 	public String getLaTeXString(String objName);
 
 	/**
 	 * Returns the command of the object with the given name as a string.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return defining command
 	 */
 	public String getCommandString(String objName);
 
@@ -507,24 +577,43 @@ public interface JavaScriptAPI {
 	/**
 	 * Returns the x-coord of the object with the given name. Note: returns 0 if
 	 * the object is not a point or a vector.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return x-coordinate
 	 */
 	public double getXcoord(String objName);
 
 	/**
 	 * Returns the y-coord of the object with the given name. Note: returns 0 if
 	 * the object is not a point or a vector.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return y-coordinate
 	 */
 	public double getYcoord(String objName);
 
 	/**
 	 * Returns the z-coord of the object with the given name. Note: returns 0 if
 	 * the object is not a point or a vector.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return z-coordinate
 	 */
 	public double getZcoord(String objName);
 
 	/**
 	 * Sets the coordinates of the object with the given name. Note: if the
 	 * specified object is not a point or a vector, nothing happens.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param x
+	 *            x-coordinate
+	 * @param y
+	 *            y-coordinate
 	 */
 	public void setCoords(String objName, double x, double y);
 
@@ -533,15 +622,30 @@ public interface JavaScriptAPI {
 	/**
 	 * Returns the double value of the object with the given name. Note: returns
 	 * 0 if the object does not have a value.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return value or 0
 	 */
 	public double getValue(String objName);
 
 	/**
 	 * Sets the double value of the object with the given name. Note: if the
 	 * specified object is not a number, nothing happens.
+	 * 
+	 * @param objName
+	 *            object label
+	 * @param value
+	 *            value
 	 */
-	public void setValue(String objName, double x);
+	public void setValue(String objName, double value);
 
+	/**
+	 * @param objName
+	 *            object label
+	 * @param x
+	 *            text value
+	 */
 	public void setTextValue(String objName, String x);
 
 	/**
@@ -616,12 +720,22 @@ public interface JavaScriptAPI {
 	 */
 	public void setGridVisible(int view, boolean flag);
 
+	/**
+	 * @param view
+	 *            view number
+	 * @return whether grid is visible in that view
+	 */
 	public boolean getGridVisible(int view);
 
+	/**
+	 * @return whether grid is visible in graphics 1
+	 */
 	public boolean getGridVisible();
 
 	/**
 	 * Returns an array with all object names.
+	 * 
+	 * @return all object names
 	 */
 	public String[] getAllObjectNames();
 
@@ -636,22 +750,35 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Returns the number of objects in the construction.
+	 * 
+	 * @return number of objects
 	 */
 	public int getObjectNumber();
 
 	/**
 	 * Returns the name of the n-th object of this construction.
+	 * 
+	 * @param i
+	 *            index in construction
+	 * @return object label
 	 */
 	public String getObjectName(int i);
 
 	/**
 	 * Returns the type of the object with the given name as a string (e.g.
 	 * point, line, circle, ...)
+	 * 
+	 * @param objName
+	 *            object label
+	 * @return object type
 	 */
 	public String getObjectType(String objName);
 
 	/**
 	 * Sets the mode of the geometry window (EuclidianView).
+	 * 
+	 * @param mode
+	 *            app mode
 	 */
 	public void setMode(int mode);
 
@@ -797,6 +924,12 @@ public interface JavaScriptAPI {
 	 * Gets the double value of the specified index of the list.
 	 * 
 	 * Returns Double.NaN if the object is not a GeoNumeric/Angle
+	 * 
+	 * @param objName
+	 *            list label
+	 * @param index
+	 *            index
+	 * @return value at index
 	 */
 	public double getListValue(String objName, int index);
 

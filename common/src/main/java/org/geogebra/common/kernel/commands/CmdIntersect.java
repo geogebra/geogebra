@@ -248,11 +248,11 @@ public class CmdIntersect extends CommandProcessor {
 		} else if ((ok[0] = (arg[0].isGeoPolygon()))
 				&& (ok[1] = (arg[1].isGeoConic()))) {
 			return getAlgoDispatcher().intersectPolygonConic(c.getLabels(),
-					(GeoPolygon) arg[0], (GeoConic) arg[1], false);
+					(GeoPolygon) arg[0], (GeoConic) arg[1]);
 		} else if ((ok[0] = (arg[0].isGeoConic()))
 				&& (ok[1] = (arg[1].isGeoPolygon()))) {
 			return getAlgoDispatcher().intersectPolygonConic(c.getLabels(),
-					(GeoPolygon) arg[1], (GeoConic) arg[0], false);
+					(GeoPolygon) arg[1], (GeoConic) arg[0]);
 		} else if ((ok[0] = (arg[0].isGeoFunction()))
 				&& (ok[1] = (arg[1].isGeoConic()))) {
 			return getAlgoDispatcher().intersectPolynomialConic(c.getLabels(),

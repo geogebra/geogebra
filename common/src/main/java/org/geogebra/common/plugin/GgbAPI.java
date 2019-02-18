@@ -355,7 +355,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return ((GeoCasCell) geo).getTwinGeo() != null
 					&& ((GeoCasCell) geo).getTwinGeo().isEuclidianVisible();
 		}
-		return (geo.isEuclidianVisible());
+		return geo.isEuclidianVisible();
 	}
 
 	/**

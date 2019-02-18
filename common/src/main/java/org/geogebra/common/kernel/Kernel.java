@@ -167,7 +167,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected ArrayList<View> views = new ArrayList<>();
 	private boolean addingPolygon = false;
 	private GeoElement newPolygon;
-	private ArrayList<GeoElement> deleteList;
+	private final ArrayList<GeoElement> deleteList;
 	/** Construction */
 	protected Construction cons;
 	/** Algebra processor */
@@ -329,13 +329,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 	private AlgoDispatcher algoDispatcher;
-	private GeoFactory geoFactory;
+	private final GeoFactory geoFactory;
 
 	private GeoVec2D imaginaryUnit;
 
 	private Exercise exercise;
 
-	private Object concurrentModificationLock = new Object();
+	private final Object concurrentModificationLock = new Object();
 
 	private boolean showAnimationButton = true;
 	private boolean loadingMode;
@@ -347,7 +347,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private ArrayList<AlgoElement> renameListenerAlgos;
 	private boolean spreadsheetBatchRunning;
 	private StringBuilder stateForModeStarting;
-	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
+	private final GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
 	private final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 	private boolean userStopsLoading = false;
 	private AnimationManager animationManager;
@@ -385,7 +385,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private boolean notifyViewsActive = true;
 
 	// MOB-1304 cache axes numbers
-	private HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
+	private final HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
 
 	/**
 	 * @param app
@@ -5043,6 +5043,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
+	 * 
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            point
+	 * @param f
+	 *            curve
+	 * @return tangent
 	 */
 	final public GeoLine tangent(String label, GeoPointND P,
 			GeoCurveCartesian f) {

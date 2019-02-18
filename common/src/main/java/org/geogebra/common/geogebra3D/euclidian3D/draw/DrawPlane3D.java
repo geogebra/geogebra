@@ -31,15 +31,15 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private int gridOutlineIndex = -1;
 
 	double[] minmaxXFinal = new double[2];
-	private double[] minmaxYFinal = new double[2];
+	private final double[] minmaxYFinal = new double[2];
 
 	/** says if the view direction is parallel to the plane */
 	protected boolean viewDirectionIsParallel;
-	private Coords boundsMin = new Coords(3);
-	private Coords boundsMax = new Coords(3);
+	private final Coords boundsMin = new Coords(3);
+	private final Coords boundsMax = new Coords(3);
 
-	private Coords tmpCoords1 = Coords.createInhomCoorsInD3();
-	private Coords tmpCoords2 = Coords.createInhomCoorsInD3();
+	private final Coords tmpCoords1 = Coords.createInhomCoorsInD3();
+	private final Coords tmpCoords2 = Coords.createInhomCoorsInD3();
 	private Coords vn = new Coords(3);
 
 	/**
@@ -364,9 +364,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			if (ymin1 > 0) {
 				i0++;
 			}
+			Coords start = new Coords(4);
+			Coords end = new Coords(4);
 			for (int i = i0; i <= ymax1 / dy; i++) {
-				brush.segment(coordsys.getPointForDrawing(xmin1, i * dy),
-						coordsys.getPointForDrawing(xmax1, i * dy));
+				brush.segment(coordsys.getPointForDrawing(xmin1, i * dy, start),
+						coordsys.getPointForDrawing(xmax1, i * dy, end));
 			}
 			// along y axis
 			brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
@@ -375,8 +377,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				i0++;
 			}
 			for (int i = i0; i <= xmax1 / dx; i++) {
-				brush.segment(coordsys.getPointForDrawing(i * dx, ymin1),
-						coordsys.getPointForDrawing(i * dx, ymax1));
+				brush.segment(coordsys.getPointForDrawing(i * dx, ymin1, start),
+						coordsys.getPointForDrawing(i * dx, ymax1, end));
 			}
 
 			gridIndex = brush.end();
@@ -392,18 +394,26 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			} else {
 				brush.setPlainTexture();
 			}
-			brush.segment(coordsys.getPointForDrawing(xmin1, ymax1 - thickness),
-					coordsys.getPointForDrawing(xmax1, ymax1 - thickness));
-			brush.segment(coordsys.getPointForDrawing(xmin1, ymin1 + thickness),
-					coordsys.getPointForDrawing(xmax1, ymin1 + thickness));
+			brush.segment(
+					coordsys.getPointForDrawing(xmin1, ymax1 - thickness,
+							start),
+					coordsys.getPointForDrawing(xmax1, ymax1 - thickness, end));
+			brush.segment(
+					coordsys.getPointForDrawing(xmin1, ymin1 + thickness,
+							start),
+					coordsys.getPointForDrawing(xmax1, ymin1 + thickness, end));
 
 			if (showClippingCube) {
 				brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
 			}
-			brush.segment(coordsys.getPointForDrawing(xmin1 + thickness, ymin1),
-					coordsys.getPointForDrawing(xmin1 + thickness, ymax1));
-			brush.segment(coordsys.getPointForDrawing(xmax1 - thickness, ymin1),
-					coordsys.getPointForDrawing(xmax1 - thickness, ymax1));
+			brush.segment(
+					coordsys.getPointForDrawing(xmin1 + thickness, ymin1,
+							start),
+					coordsys.getPointForDrawing(xmin1 + thickness, ymax1, end));
+			brush.segment(
+					coordsys.getPointForDrawing(xmax1 - thickness, ymin1,
+							start),
+					coordsys.getPointForDrawing(xmax1 - thickness, ymax1, end));
 
 			gridOutlineIndex = brush.end();
 		}

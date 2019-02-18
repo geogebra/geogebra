@@ -371,7 +371,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
 	private int[] versionArray = null;
-	private List<SavedStateListener> savedListeners = new ArrayList<>();
+	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro macro;
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	/**
@@ -1593,6 +1593,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * @param idx
 	 *            secondary EV index, 1 for EV2
+	 * @return whether secondary EV with given index is showing
 	 */
 	public boolean hasEuclidianView2(int idx) {
 		return (getGuiManager() != null)
@@ -3152,7 +3153,8 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * text that is useful for tooltips.
 	 *
 	 * @param mode
-	 *            : tool ID
+	 *            tool ID
+	 * @return tool name
 	 */
 	public String getToolTooltipHTML(int mode) {
 		StringBuilder sbTooltip = new StringBuilder();
@@ -3459,6 +3461,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * @param mode
 	 *            app mode ID
+	 * @return icon
 	 */
 	public GImageIcon wrapGetModeIcon(int mode) {
 		// TODO: debug message commented out from Trunk version, probably loops
@@ -5124,6 +5127,13 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            old image
 	 * @param autoCorners
 	 *            whether to create corners
+	 * @param c1
+	 *            corner 1
+	 * @param c2
+	 *            corner 2
+	 * @param c4
+	 *            corner 4
+	 * @return image
 	 */
 	public GeoImage createImageFromString(final String imgFileName,
 			String imgBase64, GeoImage imageOld, boolean autoCorners, String c1,
@@ -5199,6 +5209,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * @param keyboardSettings
 	 *            parent settings
+	 * @return desktop keyboard settings, dummy settings in other platform
 	 */
 	public AbstractSettings getKeyboardSettings(
 			AbstractSettings keyboardSettings) {

@@ -182,8 +182,10 @@ public class JSONTokener {
 	 *
 	 * @param quote
 	 *            either ' or ".
+	 * @return string up to but not including quote
+	 * @throws JSONException
+	 *             if unexpected character is reached
 	 */
-
 	@SuppressFBWarnings({ "DM_STRING_CTOR",
 			"a new string avoids leaking memory" })
 	public String nextString(char quote) throws JSONException {
@@ -306,6 +308,7 @@ public class JSONTokener {
 		try {
 			return Double.valueOf(literal);
 		} catch (NumberFormatException ignored) {
+			// ignore
 		}
 		/* ... finally give up. We have an unquoted string */
 		return new String(literal); // a new string avoids leaking memory
@@ -418,6 +421,10 @@ public class JSONTokener {
 	/**
 	 * Returns an exception containing the given message plus the current
 	 * position and the entire input string.
+	 * 
+	 * @param message
+	 *            message
+	 * @return syntax error
 	 */
 	public JSONException syntaxError(String message) {
 		return new JSONException(message + this);
@@ -441,6 +448,8 @@ public class JSONTokener {
 	 */
 	/**
 	 * Returns true until the input has been exhausted.
+	 * 
+	 * @return whether there are chars not tokenized yet
 	 */
 	public boolean more() {
 		return pos < in.length();
@@ -450,6 +459,8 @@ public class JSONTokener {
 	 * Returns the next available character, or the null character '\0' if all
 	 * input has been exhausted. The return value of this method is ambiguous
 	 * for JSON strings that contain the character '\0'.
+	 * 
+	 * @return next character
 	 */
 	public char next() {
 		return pos < in.length() ? in.charAt(pos++) : '\0';
@@ -458,6 +469,12 @@ public class JSONTokener {
 	/**
 	 * Returns the next available character if it equals {@code c}. Otherwise an
 	 * exception is thrown.
+	 * 
+	 * @param c
+	 *            expected character
+	 * @return next character
+	 * @throws JSONException
+	 *             if characters differ
 	 */
 	public char next(char c) throws JSONException {
 		char result = next();
@@ -472,6 +489,10 @@ public class JSONTokener {
 	 * a comment. If the input is exhausted before such a character can be
 	 * found, the null character '\0' is returned. The return value of this
 	 * method is ambiguous for JSON strings that contain the character '\0'.
+	 * 
+	 * @return next JSON character
+	 * @throws JSONException
+	 *             if unfinished comment is found
 	 */
 	public char nextClean() throws JSONException {
 		int nextCleanInt = nextCleanInternal();
@@ -486,6 +507,10 @@ public class JSONTokener {
 	 * tokener's input string. If a reference to the returned string may be held
 	 * indefinitely, you should use {@code new String(result)} to copy it first
 	 * to avoid memory leaks.
+	 * 
+	 * @param length
+	 *            substring length
+	 * @return substring containing next {@code length} characters
 	 *
 	 * @throws JSONException
 	 *             if the remaining input is not long enough to satisfy this
@@ -514,6 +539,9 @@ public class JSONTokener {
 	 * tokener's input string. If a reference to the returned string may be held
 	 * indefinitely, you should use {@code new String(result)} to copy it first
 	 * to avoid memory leaks.
+	 * 
+	 * @param excluded
+	 *            sequence of excluded chars
 	 *
 	 * @return a possibly-empty string
 	 */
@@ -526,6 +554,10 @@ public class JSONTokener {
 
 	/**
 	 * Equivalent to {@code nextTo(String.valueOf(excluded))}.
+	 * 
+	 * @param excluded
+	 *            sequence of excluded chars
+	 * @return a possibly empty string
 	 */
 	public String nextTo(char excluded) {
 		return nextToInternal(String.valueOf(excluded)).trim();
@@ -535,6 +567,9 @@ public class JSONTokener {
 	 * Advances past all input up to and including the next occurrence of
 	 * {@code thru}. If the remaining input doesn't contain {@code thru}, the
 	 * input is exhausted.
+	 * 
+	 * @param thru
+	 *            substring
 	 */
 	public void skipPast(String thru) {
 		int thruStart = in.indexOf(thru, pos);
@@ -545,6 +580,10 @@ public class JSONTokener {
 	 * Advances past all input up to but not including the next occurrence of
 	 * {@code to}. If the remaining input doesn't contain {@code to}, the input
 	 * is unchanged.
+	 * 
+	 * @param to
+	 *            character we look for
+	 * @return {@code to} or zero char
 	 */
 	public char skipTo(char to) {
 		int index = in.indexOf(to, pos);
@@ -572,6 +611,7 @@ public class JSONTokener {
 	 * @param hex
 	 *            a character in the ranges [0-9], [A-F] or [a-f]. Any other
 	 *            character will yield a -1 result.
+	 * @return number represented by given hex char or -1
 	 */
 	public static int dehexchar(char hex) {
 		if (hex >= '0' && hex <= '9') {

@@ -39,26 +39,26 @@ public class CoordSys {
 	}
 
 	// matrix for the coord sys
-	private CoordMatrix matrix;
-	private int dimension;
+	private final CoordMatrix matrix;
+	private final int dimension;
 	private int madeCoordSys;
 	private CoordMatrix4x4 matrixOrthonormal;
 	private CoordMatrix4x4 drawingMatrix;
 	private CoordMatrix tempMatrix3x3;
 
 	/** vector used for equation of hyperplanes, like ax+by+cz+d=0 for planes */
-	private Coords equationVector;
+	private final Coords equationVector;
 
-	private Coords origin;
-	private Coords[] vectors;
+	private final Coords origin;
+	private final Coords[] vectors;
 
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
-	private int spaceDimension = 3;
+	private final int spaceDimension = 3;
 
-	private Coords tmpCoords1 = new Coords(4);
-	private Coords tmpCoords2 = new Coords(4);
-	private Coords tmpCoords3 = new Coords(4);
-	private Coords tmpCoords4 = new Coords(4);
+	private final Coords tmpCoords1 = new Coords(4);
+	private final Coords tmpCoords2 = new Coords(4);
+	private final Coords tmpCoords3 = new Coords(4);
+	private final Coords tmpCoords4 = new Coords(4);
 
 	/**
 	 * create a coord sys
@@ -161,6 +161,13 @@ public class CoordSys {
 		return getV(2);
 	}
 
+	/**
+	 * @param coords2D
+	 *            coords within this system
+	 * @param result
+	 *            output coords
+	 * @return result
+	 */
 	public Coords getPoint(Coords coords2D, Coords result) {
 		return getPoint(coords2D.getX(), coords2D.getY(), result);
 	}
@@ -214,16 +221,18 @@ public class CoordSys {
 
 	/**
 	 * deprecated use {@link #getPoint(double, double, Coords)} instead
+	 * 
+	 * @return global coords
 	 */
-
 	public Coords getPoint(double x, double y) {
 		return matrixOrthonormal.getOrigin().add(getVector(x, y));
 	}
 
 	/**
 	 * deprecated use {@link #getPoint(double, double, double, Coords)} instead
+	 * 
+	 * @return global coords
 	 */
-
 	public Coords getPoint(double x, double y, double z) {
 		if (DoubleUtil.isZero(z)) {
 			return getVector(x, y);
@@ -250,16 +259,6 @@ public class CoordSys {
 	}
 
 	/**
-	 * 
-	 * deprecated use {@link #getPointForDrawing(double, double, Coords)}
-	 * instead
-	 */
-
-	public Coords getPointForDrawing(double x, double y) {
-		return drawingMatrix.mul(new Coords(x, y, 0, 1));
-	}
-
-	/**
 	 * @param x
 	 *            x-coord in this system
 	 * @param y
@@ -279,12 +278,22 @@ public class CoordSys {
 	/**
 	 * 
 	 * deprecated use {@link #getPoint(double, Coords)} instead
+	 * 
+	 * @return global coords
 	 */
-
 	public Coords getPoint(double x) {
 		return getOrigin().add(getVx().mul(x));
 	}
 
+	/**
+	 * Computes O + x Vx
+	 * 
+	 * @param x
+	 *            single coordinate within the system
+	 * @param result
+	 *            output coordinates
+	 * @return result
+	 */
 	public Coords getPoint(double x, Coords result) {
 		return result.setAdd(getOrigin(), result.setMul(getVx(), x));
 	}
@@ -292,21 +301,32 @@ public class CoordSys {
 	/**
 	 * 
 	 * deprecated use {@link #getVector(Coords, Coords)} instead
+	 * 
+	 * @param coords2D
+	 *            coords in this coord system
+	 * @return global coords
 	 */
 
 	public Coords getVector(Coords coords2D) {
 		return getVector(coords2D.getX(), coords2D.getY());
 	}
 
+	/**
+	 * @param coords2D
+	 *            coords in this coord system
+	 * @param result
+	 *            output (global) coords
+	 * @return result
+	 */
 	public Coords getVector(Coords coords2D, Coords result) {
 		return getVector(coords2D.getX(), coords2D.getY(), result);
 	}
 
 	/**
-	 * 
 	 * deprecated use {@link #getVector(double, double, Coords)} instead
+	 * 
+	 * @return global coords
 	 */
-
 	public Coords getVector(double x, double y) {
 		return matrixOrthonormal.getVx().mul(x)
 				.add(matrixOrthonormal.getVy().mul(y));

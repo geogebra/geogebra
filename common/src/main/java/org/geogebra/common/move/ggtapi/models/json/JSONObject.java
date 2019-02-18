@@ -200,6 +200,11 @@ public class JSONObject {
 	 * Creates a new {@code JSONObject} by copying mappings for the listed names
 	 * from the given object. Names that aren't present in {@code copyFrom} will
 	 * be skipped.
+	 * 
+	 * @param copyFrom
+	 *            original
+	 * @param names
+	 *            key filter
 	 */
 	public JSONObject(JSONObject copyFrom, String[] names) {
 		this();
@@ -213,6 +218,8 @@ public class JSONObject {
 
 	/**
 	 * Returns the number of name/value mappings in this object.
+	 * 
+	 * @return number of keys
 	 */
 	public int length() {
 		return nameValuePairs.size();
@@ -221,6 +228,11 @@ public class JSONObject {
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name.
+	 * 
+	 * @param name
+	 *            key
+	 * @param value
+	 *            value
 	 *
 	 * @return this object.
 	 */
@@ -246,8 +258,15 @@ public class JSONObject {
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name.
+	 * 
+	 * @param name
+	 *            key
+	 * @param value
+	 *            value
 	 *
 	 * @return this object.
+	 * @throws JSONException
+	 *             if name is not valid (=null)
 	 */
 	public JSONObject put(String name, int value) throws JSONException {
 		nameValuePairs.put(checkName(name), value);
@@ -294,6 +313,12 @@ public class JSONObject {
 	/**
 	 * Equivalent to {@code put(name, value)} when both parameters are non-null;
 	 * does nothing otherwise.
+	 * 
+	 * @param name
+	 *            name
+	 * @param value
+	 *            value
+	 * @return this object
 	 */
 	public JSONObject putOpt(String name, Object value) throws JSONException {
 		if (name == null || value == null) {
@@ -316,12 +341,15 @@ public class JSONObject {
 	 * {@link JSONArray}. Using {@code accumulate} will result in either a
 	 * {@link JSONArray} or a mapping whose type is the type of {@code value}
 	 * depending on the number of calls to it.
-	 *
+	 * 
+	 * @param name
+	 *            key
 	 * @param value
 	 *            a {@link JSONObject}, {@link JSONArray}, String, Boolean,
 	 *            Integer, Long, Double, {@link #NULL} or null. May not be
 	 *            {@link Double#isNaN() NaNs} or {@link Double#isInfinite()
 	 *            infinities}.
+	 * @return this object
 	 */
 	// TODO: Change {@code append) to {@link #append} when append is
 	// unhidden.
@@ -348,6 +376,12 @@ public class JSONObject {
 	 * {@link JSONArray} mapping for {@code name} will be inserted if no mapping
 	 * exists. If the existing mapping for {@code name} is not a
 	 * {@link JSONArray}, a {@link JSONException} will be thrown.
+	 * 
+	 * @param name
+	 *            key
+	 * @param value
+	 *            value
+	 * @return this object
 	 *
 	 * @throws JSONException
 	 *             if {@code name} is {@code null} or if the mapping for
@@ -370,6 +404,13 @@ public class JSONObject {
 		return this;
 	}
 
+	/**
+	 * @param name
+	 *            name to check
+	 * @return name
+	 * @throws JSONException
+	 *             if name is null
+	 */
 	String checkName(String name) throws JSONException {
 		if (name == null) {
 			throw new JSONException("Names must be non-null");
@@ -379,7 +420,9 @@ public class JSONObject {
 
 	/**
 	 * Removes the named mapping if it exists; does nothing otherwise.
-	 *
+	 * 
+	 * @param name
+	 *            key
 	 * @return the value previously mapped by {@code name}, or null if there was
 	 *         no such mapping.
 	 */
@@ -390,6 +433,10 @@ public class JSONObject {
 	/**
 	 * Returns true if this object has no mapping for {@code name} or if it has
 	 * a mapping whose value is {@link #NULL}.
+	 * 
+	 * @param name
+	 *            key
+	 * @return whether corresponding value is one of null, NULL
 	 */
 	public boolean isNull(String name) {
 		Object value = nameValuePairs.get(name);
@@ -399,6 +446,10 @@ public class JSONObject {
 	/**
 	 * Returns true if this object has a mapping for {@code name}. The mapping
 	 * may be {@link #NULL}.
+	 * 
+	 * @param name
+	 *            key
+	 * @return whether corresponding object is null
 	 */
 	public boolean has(String name) {
 		return nameValuePairs.containsKey(name);
@@ -407,6 +458,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name}, or throws if no such mapping
 	 * exists.
+	 * 
+	 * @param name
+	 *            key
+	 * @return object value for given key
 	 *
 	 * @throws JSONException
 	 *             if no such mapping exists.
@@ -422,6 +477,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name}, or null if no such mapping
 	 * exists.
+	 * 
+	 * @param name
+	 *            key
+	 * @return object value for given key
 	 */
 	public Object opt(String name) {
 		return nameValuePairs.get(name);
@@ -430,7 +489,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a boolean or
 	 * can be coerced to a boolean, or throws otherwise.
-	 *
+	 * 
+	 * @param name
+	 *            key
+	 * @return object value for given key
 	 * @throws JSONException
 	 *             if the mapping doesn't exist or cannot be coerced to a
 	 *             boolean.
@@ -447,6 +509,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a boolean or
 	 * can be coerced to a boolean, or false otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @return boolean value for given key or null
 	 */
 	public boolean optBoolean(String name) {
 		return optBoolean(name, false);
@@ -455,6 +521,12 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a boolean or
 	 * can be coerced to a boolean, or {@code fallback} otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @param fallback
+	 *            fallback
+	 * @return boolean for given key or fallback
 	 */
 	public boolean optBoolean(String name, boolean fallback) {
 		Object object = opt(name);
@@ -465,6 +537,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a double or
 	 * can be coerced to a double, or throws otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @return double value for given key
 	 *
 	 * @throws JSONException
 	 *             if the mapping doesn't exist or cannot be coerced to a
@@ -482,6 +558,11 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a double or
 	 * can be coerced to a double, or {@code NaN} otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * 
+	 * @return number value for given key or NaN
 	 */
 	public double optDouble(String name) {
 		return optDouble(name, Double.NaN);
@@ -490,6 +571,13 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a double or
 	 * can be coerced to a double, or {@code fallback} otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @param fallback
+	 *            fallback
+	 * 
+	 * @return number value for given key or fallback
 	 */
 	public double optDouble(String name, double fallback) {
 		Object object = opt(name);
@@ -500,9 +588,13 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is an int or
 	 * can be coerced to an int, or throws otherwise.
+	 * 
+	 * @param name
+	 *            key
 	 *
 	 * @throws JSONException
 	 *             if the mapping doesn't exist or cannot be coerced to an int.
+	 * @return integer value for given key
 	 */
 	public int getInt(String name) throws JSONException {
 		Object object = get(name);
@@ -516,6 +608,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is an int or
 	 * can be coerced to an int, or 0 otherwise.
+	 * 
+	 * @param name
+	 *            key name
+	 * @return integer value
 	 */
 	public int optInt(String name) {
 		return optInt(name, 0);
@@ -524,6 +620,12 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is an int or
 	 * can be coerced to an int, or {@code fallback} otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @param fallback
+	 *            fallback
+	 * @return int value for given key or fallback
 	 */
 	public int optInt(String name, int fallback) {
 		Object object = opt(name);
@@ -536,6 +638,10 @@ public class JSONObject {
 	 * can be coerced to a long, or throws otherwise. Note that JSON represents
 	 * numbers as doubles, so this is <a href="#lossy">lossy</a>; use strings to
 	 * transfer numbers via JSON.
+	 * 
+	 * @param name
+	 *            key
+	 * @return long value for given key
 	 *
 	 * @throws JSONException
 	 *             if the mapping doesn't exist or cannot be coerced to a long.
@@ -554,6 +660,10 @@ public class JSONObject {
 	 * can be coerced to a long, or 0 otherwise. Note that JSON represents
 	 * numbers as doubles, so this is <a href="#lossy">lossy</a>; use strings to
 	 * transfer numbers via JSON.
+	 * 
+	 * @param name
+	 *            key
+	 * @return long value for given key or 0
 	 */
 	public long optLong(String name) {
 		return optLong(name, 0L);
@@ -564,6 +674,12 @@ public class JSONObject {
 	 * can be coerced to a long, or {@code fallback} otherwise. Note that JSON
 	 * represents numbers as doubles, so this is <a href="#lossy">lossy</a>; use
 	 * strings to transfer numbers via JSON.
+	 * 
+	 * @param name
+	 *            key
+	 * @param fallback
+	 *            fallback
+	 * @return long value for given key or fallback
 	 */
 	public long optLong(String name, long fallback) {
 		Object object = opt(name);
@@ -574,6 +690,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists, coercing it if
 	 * necessary, or throws if no such mapping exists.
+	 * 
+	 * @param name
+	 *            key
+	 * @return string value for given key
 	 *
 	 * @throws JSONException
 	 *             if no such mapping exists.
@@ -590,6 +710,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists, coercing it if
 	 * necessary, or the empty string if no such mapping exists.
+	 * 
+	 * @param name
+	 *            key
+	 * @return string value for given key or null
 	 */
 	public String optString(String name) {
 		return optString(name, "");
@@ -598,6 +722,12 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists, coercing it if
 	 * necessary, or {@code fallback} if no such mapping exists.
+	 * 
+	 * @param name
+	 *            key
+	 * @param fallback
+	 *            fallback
+	 * @return string value for given key or fallback
 	 */
 	public String optString(String name, String fallback) {
 		Object object = opt(name);
@@ -608,6 +738,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONArray}, or throws otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @return array value for given key
 	 *
 	 * @throws JSONException
 	 *             if the mapping doesn't exist or is not a {@code
@@ -624,6 +758,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONArray}, or null otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @return array value for given key
 	 */
 	public JSONArray optJSONArray(String name) {
 		Object object = opt(name);
@@ -633,6 +771,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONObject}, or throws otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @return object value for given key
 	 *
 	 * @throws JSONException
 	 *             if the mapping doesn't exist or is not a {@code
@@ -649,6 +791,10 @@ public class JSONObject {
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONObject}, or null otherwise.
+	 * 
+	 * @param name
+	 *            key
+	 * @return object value for given key or null
 	 */
 	public JSONObject optJSONObject(String name) {
 		Object object = opt(name);
@@ -659,6 +805,10 @@ public class JSONObject {
 	 * Returns an array with the values corresponding to {@code names}. The
 	 * array contains null for names that aren't mapped. This method returns
 	 * null if {@code names} is either null or empty.
+	 * 
+	 * @param names
+	 *            keys
+	 * @return array of values for given keys
 	 */
 	public JSONArray toJSONArray(JSONArray names) {
 		JSONArray result = new JSONArray();
@@ -682,6 +832,8 @@ public class JSONObject {
 	 * remove the corresponding mapping from this object. If this object is
 	 * modified after the iterator is returned, the iterator's behavior is
 	 * undefined. The order of the keys is undefined.
+	 * 
+	 * @return key iterator
 	 */
 	public Iterator<String> keys() {
 		return nameValuePairs.keySet().iterator();
@@ -694,6 +846,8 @@ public class JSONObject {
 	 * behaviour is undefined if this object is modified after it is returned.
 	 *
 	 * See {@link #keys()}.
+	 * 
+	 * @return set of keys
 	 *
 	 */
 	public Set<String> keySet() {
@@ -703,6 +857,8 @@ public class JSONObject {
 	/**
 	 * Returns an array containing the string names in this object. This method
 	 * returns null if this object contains no mappings.
+	 * 
+	 * @return keys as JSON array
 	 */
 	public JSONArray names() {
 		return nameValuePairs.isEmpty() ? null
@@ -745,6 +901,7 @@ public class JSONObject {
 	 *
 	 * @param indentSpaces
 	 *            the number of spaces to indent for each level of nesting.
+	 * @return serialized JSON
 	 */
 	public String toString(int indentSpaces) throws JSONException {
 		JSONStringer stringer = new JSONStringer(indentSpaces);
@@ -766,6 +923,9 @@ public class JSONObject {
 	 * @param number
 	 *            a finite value. May not be {@link Double#isNaN() NaNs} or
 	 *            {@link Double#isInfinite() infinities}.
+	 * @return formated number
+	 * @throws JSONException
+	 *             if number is null or not JSON permissible
 	 */
 	public static String numberToString(Number number) throws JSONException {
 		if (number == null) {
@@ -791,6 +951,7 @@ public class JSONObject {
 	 * @param data
 	 *            the string to encode. Null will be interpreted as an empty
 	 *            string.
+	 * @return escaped string in quotes
 	 */
 	public static String quote(String data) {
 		if (data == null) {
@@ -820,6 +981,10 @@ public class JSONObject {
 	 * the object is a primitive wrapper type or {@code String}, returns the
 	 * object. Otherwise if the object is from a {@code java} package, returns
 	 * the result of {@code toString}. If wrapping fails, returns null.
+	 * 
+	 * @param o
+	 *            Java object
+	 * @return JSON object
 	 */
 	public static Object wrap(Object o) {
 		if (o == null) {
