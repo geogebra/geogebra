@@ -330,9 +330,9 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+    synchronized public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		for (DrawableND d : drawables) {
-			((Drawable3D) d).enlargeBounds(min, max, reduceWhenClipped);
+			((Drawable3D) d).enlargeBounds(min, max, dontExtend);
 		}
 	}
 

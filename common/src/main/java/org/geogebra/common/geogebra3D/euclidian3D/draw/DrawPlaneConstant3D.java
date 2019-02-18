@@ -122,7 +122,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		// no bounds update
 	}
 

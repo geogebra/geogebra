@@ -100,7 +100,7 @@ public class DrawRay3D extends DrawCoordSys1D {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		if (!Double.isNaN(boundsMin.getX())) {
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}

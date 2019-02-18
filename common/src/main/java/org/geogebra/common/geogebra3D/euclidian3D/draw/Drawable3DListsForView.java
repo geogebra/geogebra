@@ -102,16 +102,16 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	 *            (x,y,z) min
 	 * @param max
 	 *            (x,y,z) max
-	 * @param reduceWhenClipped
+	 * @param dontExtend
 	 *            set to true if clipped curves/surfaces should not be larger
-	 *            than the view itself
+	 *            than the view itself; and when point radius should extend
 	 */
 	public void enlargeBounds(Coords min, Coords max,
-			boolean reduceWhenClipped) {
+			boolean dontExtend) {
 		for (Drawable3DList l : lists) {
 			for (Drawable3D d : l) {
 				if (d != null && d.isVisible()) {
-					d.enlargeBounds(min, max, reduceWhenClipped);
+					d.enlargeBounds(min, max, dontExtend);
 				}
 			}
 		}

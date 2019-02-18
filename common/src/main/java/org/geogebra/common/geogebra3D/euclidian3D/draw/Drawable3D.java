@@ -1816,16 +1816,15 @@ public abstract class Drawable3D extends DrawableND {
 
 	/**
 	 * enlarge min and max values to enclose object
-	 * 
-	 * @param min
+	 *  @param min
 	 *            (x,y,z) min
 	 * @param max
 	 *            (x,y,z) max
-	 * @param reduceWhenClipped
-	 *            set to true if clipped curves/surfaces should not be larger
-	 *            than the view itself
-	 */
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+     * @param dontExtend
+     *            set to true if clipped curves/surfaces should not be larger
+     *            than the view itself; and when point radius should extend
+     */
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		// nothing done by default
 	}
 

@@ -121,7 +121,7 @@ public class DrawVector3D extends DrawJoinPoints {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 

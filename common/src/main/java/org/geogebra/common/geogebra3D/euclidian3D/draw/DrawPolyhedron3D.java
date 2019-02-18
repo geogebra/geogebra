@@ -560,7 +560,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max,
-			boolean reduceWhenClipped) {
+			boolean dontExtend) {
 		if (!Double.isNaN(boundsMin.getX())) {
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}

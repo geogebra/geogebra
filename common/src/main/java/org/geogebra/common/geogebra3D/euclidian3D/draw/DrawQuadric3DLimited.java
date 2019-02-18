@@ -303,10 +303,10 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max,
-			boolean reduceWhenClipped) {
-		drawBottom.enlargeBounds(min, max, reduceWhenClipped);
-		drawTop.enlargeBounds(min, max, reduceWhenClipped);
-		drawSide.enlargeBounds(min, max, reduceWhenClipped);
+			boolean dontExtend) {
+		drawBottom.enlargeBounds(min, max, dontExtend);
+		drawTop.enlargeBounds(min, max, dontExtend);
+		drawSide.enlargeBounds(min, max, dontExtend);
 	}
 
 }

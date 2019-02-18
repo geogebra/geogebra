@@ -458,9 +458,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		if (!Double.isNaN(boundsMin.getX())) {
-            if (reduceWhenClipped) {
+            if (dontExtend) {
                 reduceBounds(boundsMin, boundsMax);
             }
 			enlargeBounds(min, max, boundsMin, boundsMax);

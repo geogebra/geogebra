@@ -121,7 +121,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	}
 
 	@Override
-	public void enlargeBounds(Coords min, Coords max, boolean reduceWhenClipped) {
+	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 
