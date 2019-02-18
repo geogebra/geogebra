@@ -12735,10 +12735,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #if 0
       n %= env;
 #endif
-      if (n*2>env)
+      if (n*2LL>env)
 	it->g -= env;
       else {
-	if (n*2<=-env)
+	if (n*2LL<=-env)
 	  it->g += env;
       }
     }
