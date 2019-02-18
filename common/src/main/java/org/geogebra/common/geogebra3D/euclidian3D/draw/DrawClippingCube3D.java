@@ -425,6 +425,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMax;
 	}
 
+    /**
+     *
+     * @return minimum z, large value
+     */
+	public double getZminLarge() {
+	    return minMaxLarge[Z][MIN];
+    }
+
 	private void setVertexWithBorder(int x, int y, int z, double border,
 			Coords c) {
 		Coords v = vertices[x + 2 * y + 4 * z];

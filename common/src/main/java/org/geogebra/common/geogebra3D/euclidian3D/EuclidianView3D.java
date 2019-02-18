@@ -4819,7 +4819,7 @@ public abstract class EuclidianView3D extends EuclidianView
                         clippingCubeDrawable.enlargeFor(boundsMax);
                     }
                     if (getShowAxis(AXIS_Z)) {
-                        translationZzeroForAR = -getZmin();
+                        translationZzeroForAR = -clippingCubeDrawable.getZminLarge();
                     } else if (boundsNeededUpdate) {
                         translationZzeroForAR = -boundsMin.getZ();
                         // ensure showing plane if visible and not too far
