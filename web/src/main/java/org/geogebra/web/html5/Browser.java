@@ -60,16 +60,13 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * Check if browser is Safari
+	 * Check if browser is Safari. Note: user agent string contains Safari also
+	 * in Chrome =&gt; use vendor instead
 	 *
 	 * check isiOS() && isSafari() if you want just iOS browser & not webview
 	 *
 	 * @return true if Safari browser
 	 */
-	private static native boolean isSafari() /*-{
-		return !!(/safari/.test($wnd.navigator.userAgent.toLowerCase()));
-	}-*/;
-
 	private static native boolean isSafariByVendor() /*-{
 		return "Apple Computer, Inc." === $wnd.navigator.vendor;
 	}-*/;
@@ -835,7 +832,7 @@ public class Browser {
 	 * @return valid data URL, browser dependent
 	 */
 	public static String addTxtMarker(String txt) {
-		return isiOS() && isSafari()
+		return isiOS() && isSafariByVendor()
 				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
 	}

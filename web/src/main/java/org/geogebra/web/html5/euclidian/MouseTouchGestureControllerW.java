@@ -814,14 +814,20 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int mouseEventX(int clientX) {
-		return (int) Math.round((clientX - style.getZoomXOffset() * (style.getScaleX() - 1))
-				* (1 / style.getScaleX()));
+		return getEventCoordInGraphics(clientX, style.getZoomXOffset(),
+				style.getScaleX());
+	}
+
+	private static int getEventCoordInGraphics(int relativePosition,
+			double zoomOffset, double scale) {
+		double absPosition = relativePosition + zoomOffset;
+		return (int) Math.round(absPosition / scale - zoomOffset);
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
-		return (int) Math.round((clientY - style.getZoomYOffset() * (style.getScaleY() - 1))
-				* (1 / style.getScaleY()));
+		return getEventCoordInGraphics(clientY, style.getZoomYOffset(),
+				style.getScaleY());
 	}
 
 	@Override
