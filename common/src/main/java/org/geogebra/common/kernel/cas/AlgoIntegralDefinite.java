@@ -817,7 +817,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			y2 = f2.value(x2);
 
 			// area of trapezium
-			return trapeziumArea(x1, x2, y1, y2);
+			return multiplier * trapeziumArea(x1, x2, y1, y2);
 
 		}
 
