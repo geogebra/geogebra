@@ -2186,6 +2186,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return user preferred language
 	 */
 	public String getLanguageFromCookie() {
+		if (has(Feature.LANG_PARAM_LAST))  {
+			return getLanguageParamLast();
+		}
 		String lCookieValue = articleElement.getDataParamApp()
 				? Location.getParameter("lang") : "";
 		if (StringUtil.empty(lCookieValue)) {
@@ -2201,6 +2204,26 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			lCookieValue = Browser.navigatorLanguage();
 		}
 		return lCookieValue;
+	}
+
+	public String getLanguageParamLast() {
+		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
+		if (!StringUtil.empty(cookieLang)) {
+			 return cookieLang;
+		 }
+		
+		 Storage localStorage = Storage.getLocalStorageIfSupported();
+		 String storageLang = localStorage.getItem("GeoGebraLangUI");
+		 if (!StringUtil.empty(storageLang)) {
+			 return storageLang;
+		 }
+		
+		 String urlLang = articleElement.getDataParamApp() ? Location.getParameter("lang"):"";
+		 if (!StringUtil.empty(urlLang) && !getLoginOperation().isLoggedIn()) {
+			 return urlLang;
+		 }
+	
+		 return Browser.navigatorLanguage();
 	}
 
 	@Override

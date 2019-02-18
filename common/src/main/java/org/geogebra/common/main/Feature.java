@@ -265,5 +265,8 @@ public enum Feature {
 	SAFARI_CSS_ZOOM,
 
 	/** G3D-177 */
-	G3D_STL_EXPORT_DIALOG
+	G3D_STL_EXPORT_DIALOG,
+	
+	/** APPS-91 */
+	LANG_PARAM_LAST
 }

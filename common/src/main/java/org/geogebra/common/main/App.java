@@ -4020,7 +4020,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SAFARI_CSS_ZOOM:
 			return prerelease;
 
-       // **********************************************************************
+	    /** APPS-91 */
+		case LANG_PARAM_LAST:
+			return prerelease;
+       
+	   // **********************************************************************
        // G3D START
        //
        // *********************************************************
