@@ -191,6 +191,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform3f(normalLocation, 2, 2, 2);
 	}
 
+	public void setNormalToNone() {
+        oneNormalForAllVertices = true;
+        glUniform3f(normalLocation, -2, -2, -2);
+    }
+
 	@Override
 	final public void enableTextures() {
 		texturesEnabled = true;
@@ -794,6 +799,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void drawFaceToScreenAbove() {
+	    setNormalToNone();
 		glUniform1i(labelRenderingLocation, 1);
 		resetCenter();
 	}

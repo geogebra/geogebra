@@ -759,4 +759,30 @@ public abstract class RendererWithImpl extends Renderer
 	protected void killARSession() {
 		// not used here
 	}
+
+    @Override
+    public void drawTarget(CoordMatrix4x4 dotMatrix,
+                           CoordMatrix4x4 circleMatrix) {
+	    rendererImpl.setNormalToNone();
+	    super.drawTarget(dotMatrix, circleMatrix);
+    }
+
+    @Override
+    public void drawCursor(int cursorType) {
+        rendererImpl.setNormalToNone();
+        super.drawCursor(cursorType);
+    }
+
+    @Override
+    public void drawCompletingCursor(double value, boolean out) {
+        rendererImpl.setNormalToNone();
+        super.drawCompletingCursor(value, out);
+    }
+
+    @Override
+    public void drawMouseCursor() {
+        rendererImpl.setNormalToNone();
+        super.drawMouseCursor();
+    }
+
 }

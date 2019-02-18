@@ -1100,7 +1100,7 @@ public abstract class Renderer implements RendererInterface {
 	 * @param cursorType
 	 *            cursor type
 	 */
-	final public void drawCursor(int cursorType) {
+	public void drawCursor(int cursorType) {
 
 		if (!PlotterCursor.isTypeAlready(cursorType)) {
 			disableLighting();
@@ -1124,7 +1124,7 @@ public abstract class Renderer implements RendererInterface {
 	 *            matrix for target circle
 	 *
 	 */
-	final public void drawTarget(CoordMatrix4x4 dotMatrix,
+	public void drawTarget(CoordMatrix4x4 dotMatrix,
 			CoordMatrix4x4 circleMatrix) {
 		disableLighting();
 		disableDepthMask();
@@ -1151,7 +1151,7 @@ public abstract class Renderer implements RendererInterface {
 	 * @param out
 	 *            out
 	 */
-	final public void drawCompletingCursor(double value, boolean out) {
+	public void drawCompletingCursor(double value, boolean out) {
 
 		initMatrix();
 		setLineWidth(PlotterCompletingCursor.WIDTH);
@@ -1166,7 +1166,7 @@ public abstract class Renderer implements RendererInterface {
 	/**
 	 * draws a view button
 	 */
-	public void drawViewInFrontOf() {
+	final public void drawViewInFrontOf() {
 		// Application.debug("ici");
 		initMatrix();
 		disableBlending();
@@ -1178,7 +1178,7 @@ public abstract class Renderer implements RendererInterface {
 	/**
 	 * draws mouse cursor
 	 */
-	final public void drawMouseCursor() {
+	public void drawMouseCursor() {
 
 		initMatrixForFaceToScreen();
 		disableBlending();

@@ -240,4 +240,11 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 		clearDepthBuffer();
 	}
 
+    /**
+     * next geometries have no normal
+     */
+    public void setNormalToNone() {
+	    // used only with shaders
+    }
+
 }
