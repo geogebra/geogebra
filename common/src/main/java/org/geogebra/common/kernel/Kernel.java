@@ -1517,18 +1517,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 			boolean useSF = tpl.useScientific(useSignificantFigures);
 
-			// ROUNDING hack
-			// NumberFormat and SignificantFigures use ROUND_HALF_EVEN as
-			// default which is not changeable, so we need to hack this
-			// to get ROUND_HALF_UP like in schools: increase abs(x) slightly
-			// x = x * ROUND_HALF_UP_FACTOR;
-			// We don't do this for large numbers as
-			if (!isLongInteger) {
-				double abs = Math.abs(x);
-				// increase abs(x) slightly to round up
-				x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
-			}
-
 			if (useSF) {
 				return formatSF(x, tpl);
 			}

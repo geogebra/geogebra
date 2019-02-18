@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.util;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -15,6 +16,7 @@ public class NumberFormat extends DecimalFormat implements NumberFormatAdapter {
 	public NumberFormat() {
 		super();
 		setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
+		setRoundingMode(RoundingMode.HALF_UP);
 	}
 
 	/**
