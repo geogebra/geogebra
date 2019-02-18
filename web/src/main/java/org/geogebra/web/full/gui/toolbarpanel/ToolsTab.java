@@ -56,7 +56,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	 */
 	public ToolsTab(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
-		this.app = toolbarPanel.app;
+		this.app = toolbarPanel.getApp();
 		createContents();
 		if (!isCustomToolbar) {
 			handleMoreLessButtons();

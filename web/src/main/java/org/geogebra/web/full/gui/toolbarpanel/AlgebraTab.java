@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
+	private App app;
 	private final ToolbarPanel toolbarPanel;
 	private SimplePanel simplep;
 	/** Algebra view **/
@@ -27,8 +29,9 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 */
 	public AlgebraTab(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
-		if (this.toolbarPanel.app != null) {
-			setAlgebraView((AlgebraViewW) this.toolbarPanel.app.getAlgebraView());
+		app = toolbarPanel.getApp();
+		if (app != null) {
+			setAlgebraView((AlgebraViewW) app.getAlgebraView());
 			aview.setInputPanel();
 		}
 	}
@@ -68,7 +71,7 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	protected void emptyAVclicked(AlgebraViewW av, int y) {
 		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
 		if (y > bt) {
-			this.toolbarPanel.app.getSelectionManager()
+			app.getSelectionManager()
 					.clearSelectedGeos();
 			av.resetItems(true);
 		}

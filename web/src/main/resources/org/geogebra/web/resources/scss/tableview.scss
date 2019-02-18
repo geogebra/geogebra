@@ -79,7 +79,7 @@ $deleteTime: 120ms;
 			border: 0px;
 		}
 
-		.cellTransition {
+		%cellTransition {
 			transition: width $deleteTime, margin $deleteTime ease-in;
 		}
 		
@@ -88,7 +88,7 @@ $deleteTime: 120ms;
 
 			thead {
                 &.transitioning {
-                    @extend .cellTransition;
+                    @extend %cellTransition;
                 }
 
                 @include textSelect(none);
@@ -107,7 +107,7 @@ $deleteTime: 120ms;
                     background: $white;
 
                     .cell {
-                        @extend .cellTransition;
+                        @extend %cellTransition;
                         margin-left: 0px;
                         margin-right: 0px;
                         border-bottom: 0px;
@@ -152,7 +152,7 @@ $deleteTime: 120ms;
 			}
 			
 			.cell {
-				@extend .cellTransition;
+				@extend %cellTransition;
 				margin-left: 0px;
 				margin-right: 0px;
 				text-align: right;

@@ -142,7 +142,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		getTable().addColumn(colValue, getHeaderFor(column));
 	}
 
-	private Header getHeaderFor(int columnIndex) {
+	private Header<SafeHtml> getHeaderFor(int columnIndex) {
 		String content = tableModel.getHeaderAt(columnIndex);
 		int width = getColumnWidth(dimensions, columnIndex);
 		int height = dimensions.getHeaderHeight();

@@ -64,7 +64,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
 
 	/** Application */
-	AppW app;
+	private AppW app;
 
 	/**
 	 * Tab ids.
