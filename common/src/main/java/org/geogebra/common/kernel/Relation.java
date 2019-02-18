@@ -110,8 +110,7 @@ public class Relation {
 					app.setWaitCursor();
 
 					Boolean result = null;
-					Kernel k = app.getKernel();
-					if (!(k.getApplication().has(Feature.PROVE_UNIFY))) {
+					if (!app.has(Feature.PROVE_UNIFY)) {
 						result = checkGenerally(relAlgo, ra, rb, rc, rd);
 					}
 					Localization loc = ra.getConstruction().getApplication()
