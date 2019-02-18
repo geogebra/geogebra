@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.algos;
 
-import java.text.DecimalFormat;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -9,6 +7,7 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
@@ -47,7 +46,6 @@ public class AlgoDensityPlot extends AlgoElement {
 	private double[] vals = new double[2];
 	private GGraphics2D g;
 	private FunctionNVar f;
-	private DecimalFormat df;
 	private GTextLayout t;
 	private GFont font = kernel.getApplication().getFontCanDisplay("-999")
 			.deriveFont(GFont.PLAIN, 8);
@@ -123,7 +121,6 @@ public class AlgoDensityPlot extends AlgoElement {
 		g.setFont(font);
 		g.setColor(GColor.WHITE);
 		g.fillRect(0, 0, imageSize + 2 * offset, offset);
-		df = new DecimalFormat("0.##");
 		imagePlusOffset = imageSize + offset;
 		outputImage.setAbsoluteScreenLocActive(true);
 		outputImage.setAbsoluteScreenLoc(
@@ -186,14 +183,18 @@ public class AlgoDensityPlot extends AlgoElement {
 		}
 		g.setColor(GColor.BLACK);
 		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
-			t = AwtFactory.getPrototype().newTextLayout(df.format(xx), font,
+			t = AwtFactory.getPrototype().newTextLayout(format(xx), font,
 					g.getFontRenderContext());
-			g.drawString(df.format(xx), i - t.getAdvance() / 2,
+			g.drawString(format(xx), i - t.getAdvance() / 2,
 					imageSize + 2 * offset - offset / 3);
-			g.drawString(df.format(yy), 1, i + 4);
+			g.drawString(format(yy), 1, i + 4);
 			yy -= incY * gridPixel * 5 / grade;
 			xx += incX * gridPixel * 5 / grade;
 		}
+	}
+
+	private String format(double xx) {
+		return kernel.format(xx, StringTemplate.defaultTemplate);
 	}
 
 	/**

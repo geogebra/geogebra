@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.text.DecimalFormat;
-
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.NumberFormatAdapter;
 
 public final class StepConstant extends StepExpression {
 
@@ -123,7 +123,7 @@ public final class StepConstant extends StepExpression {
 		} else if (Double.isInfinite(value)) {
 			return "inf";
 		}
-		return new DecimalFormat("#0.#########").format(value).replace(',', '.');
+		return format();
 	}
 
 	@Override
@@ -142,7 +142,13 @@ public final class StepConstant extends StepExpression {
 		} else if (Double.isInfinite(value)) {
 			return "\\infty";
 		}
-		return new DecimalFormat("#0.#########").format(value);
+		return format();
+	}
+
+	private String format() {
+		NumberFormatAdapter nf = FormatFactory.getPrototype()
+				.getNumberFormat(9);
+		return nf.format(value);
 	}
 
 	@Override

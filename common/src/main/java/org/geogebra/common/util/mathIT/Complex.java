@@ -39,7 +39,9 @@ import static java.lang.Math.log;
 import static java.lang.Math.sinh;
 import static java.lang.Math.tan;
 
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.util.NumberFormatAdapter;
 
 /**
  * This class enables the creation of objects representing complex numbers, as
@@ -1424,37 +1426,7 @@ public class Complex {
 	 * @see #toString(double[])
 	 */
 	public static String toString(Complex z) {
-		return toString(new double[] { z.z[0], z.z[1] },
-				new java.text.DecimalFormat("#,###.########"));
-	}
-
-	/**
-	 * displays a complex number to a "readable" standard format.
-	 * 
-	 * @param z
-	 *            the complex number to be formatted
-	 * @return a string representing <i>z</i>
-	 * @see #toString(double[],java.text.DecimalFormat)
-	 */
-	public static String toString(double[] z) {
-		java.text.DecimalFormat digit = new java.text.DecimalFormat(
-				"#,###.########");
-		return toString(z, digit);
-	}
-
-	/**
-	 * Returns a string representation of this complex number in a "readable"
-	 * standard format.
-	 * 
-	 * @param z
-	 *            the complex number to be formatted
-	 * @param digit
-	 *            the decimal format in which <i>z</i> is to be displayed
-	 * @return a string representing <i>z</i> in the specified decimal format
-	 * @see #toString(double[],java.text.DecimalFormat)
-	 */
-	public static String toString(Complex z, java.text.DecimalFormat digit) {
-		return toString(new double[] { z.z[0], z.z[1] }, digit);
+		return toString(new double[] { z.z[0], z.z[1] });
 	}
 
 	/**
@@ -1464,76 +1436,13 @@ public class Complex {
 	 * 
 	 * @param z
 	 *            the complex number to be formatted
-	 * @param digit
-	 *            the decimal format in which <i>z</i> is to be displayed
 	 * @return a string representing <i>z</i> in the specified decimal format
 	 * @see #toString(double[])
 	 */
-	public static String toString(double[] z, java.text.DecimalFormat digit) {
-		java.text.DecimalFormat scientific = new java.text.DecimalFormat(
-				"0.########E0");
-		double upLimit = 1e9, lowLimit = 1e-9;
-		boolean formatCondition;
-		String output = "";
-
-		if (Double.toString(z[0]).equals("NaN")
-				|| Double.toString(z[1]).equals("NaN")) {
-			output += "NaN";
-		} else if (Math.abs(z[0]) < ACCURACY && Math.abs(z[1]) < ACCURACY) { // z[0]
-																				// ==
-																				// 0
-																				// &&
-																				// z[1]
-																				// ==
-																				// 0
-			output += "0";
-		} else if (Math.abs(z[0]) >= ACCURACY && Math.abs(z[1]) < ACCURACY) {
-			formatCondition = (Math.abs(z[0]) < upLimit
-					&& Math.abs(z[0]) > lowLimit);
-			output += formatCondition ? digit.format(z[0])
-					: scientific.format(z[0]);
-		} else if (Math.abs(z[0]) >= ACCURACY && z[1] > 0) {
-			formatCondition = (Math.abs(z[0]) < upLimit
-					&& Math.abs(z[0]) > lowLimit);
-			output += formatCondition ? digit.format(z[0])
-					: scientific.format(z[0]);
-			output += " + ";
-			if (Math.abs(z[1] - 1) >= ACCURACY) {
-				formatCondition = (Math.abs(z[1]) < upLimit
-						&& Math.abs(z[1]) > lowLimit);
-				output += formatCondition ? digit.format(Math.abs(z[1]))
-						: scientific.format(z[1]);
-				output += " ";
-			}
-			output += "i";
-		} else if (Math.abs(z[0]) >= ACCURACY && z[1] < 0) {
-			formatCondition = (Math.abs(z[0]) < upLimit
-					&& Math.abs(z[0]) > lowLimit);
-			output += formatCondition ? digit.format(z[0])
-					: scientific.format(z[0]);
-			output += " - ";
-			if (Math.abs(z[1] + 1) >= ACCURACY) { // z[1] != -1
-				formatCondition = (Math.abs(z[1]) < upLimit
-						&& Math.abs(z[1]) > lowLimit);
-				output += formatCondition ? digit.format(Math.abs(z[1]))
-						: scientific.format(Math.abs(z[1]));
-				output += " ";
-			}
-			output += "i";
-		} else { // case z[0] == 0 && z[1] != 0:
-			if (Math.abs(z[1] + 1) < ACCURACY) {
-				output += "- ";
-			} else if (Math.abs(z[1] - 1) >= ACCURACY) {
-				formatCondition = (Math.abs(z[1]) < upLimit
-						&& Math.abs(z[1]) > lowLimit);
-				output += formatCondition ? digit.format(z[1])
-						: scientific.format(z[1]);
-				output += " ";
-			}
-			output += "i";
-		}
-
-		return output;
+	public static String toString(double[] z) {
+		NumberFormatAdapter nf = FormatFactory.getPrototype()
+				.getNumberFormat(13);
+		return nf.format(z[0]) + "+" + nf.format(z[1]) + "i";
 	}
 
 	/** for test purposes ... */
