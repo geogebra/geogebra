@@ -4014,7 +4014,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-393 */
 		case SAFARI_CSS_ZOOM:
-			return prerelease;
+			return true;
 
 	    /** APPS-91 */
 		case LANG_PARAM_LAST:
