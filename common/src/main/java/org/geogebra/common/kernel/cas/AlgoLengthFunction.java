@@ -103,7 +103,9 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		// First derivative of function f
-		algoCAS = new AlgoDerivative(cons, f, new EvalInfo(false));
+		// use fast non-CAS version!
+		algoCAS = new AlgoDerivative(cons, f, null, null, true,
+				new EvalInfo(false));
 		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 
 		// Integral of length function

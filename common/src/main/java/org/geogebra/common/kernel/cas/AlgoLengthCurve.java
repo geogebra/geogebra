@@ -90,7 +90,9 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, c, new EvalInfo(false));
+		// use fast non-CAS version!
+		algoCAS = new AlgoDerivative(cons, c, null, null, true,
+				new EvalInfo(false));
 		GeoCurveCartesianND c1 = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
 				.getResult();
 		cons.removeFromConstructionList(algoCAS);
