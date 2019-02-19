@@ -326,10 +326,7 @@ public class Browser {
 
 		Style style = parent.getStyle();
 		if (style != null) {
-			style.setProperty("webkitTransform", transform);
-			style.setProperty("mozTransform", transform);
-			style.setProperty("msTransform", transform);
-			style.setProperty("transform", transform);
+			setTransform(style, transform);
 			style.setProperty("msTransformOrigin", pos);
 			style.setProperty("mozTransformOrigin", pos);
 			style.setProperty("webkitTransformOrigin", pos);
@@ -337,12 +334,19 @@ public class Browser {
 		}
 	}
 
+	private static void setTransform(Style style, String transform) {
+		style.setProperty("webkitTransform", transform);
+		style.setProperty("mozTransform", transform);
+		style.setProperty("msTransform", transform);
+		style.setProperty("transform", transform);
+	}
+
 	private static void zoom(Element parent, double externalScale) {
 		Style style = parent.getStyle();
 		if (style == null) {
 			return;
 		}
-
+		setTransform(style, "none");
 		int zoomPercent = (int) Math.round(externalScale * 100);
 		style.setProperty("zoom", zoomPercent + "%");
 	}
@@ -815,7 +819,8 @@ public class Browser {
 	 * @return whether current browser is Chrome
 	 */
 	public static boolean isChrome() {
-		return Navigator.getUserAgent().matches(".*Chrome/.*");
+		// yep, Edge UA string contains Chrome too
+		return Navigator.getUserAgent().matches(".*Chrome/.*") && !isEdge();
 	}
 
 	/**
@@ -842,7 +847,7 @@ public class Browser {
 	 * @return if we use css zoom in Safari.
 	 */
 	public static boolean preferZoomOverTransform() {
-		return zoomInSafari && isSafariByVendor();
+		return zoomInSafari && (isSafariByVendor() || isChrome());
 	}
 
 	/**
