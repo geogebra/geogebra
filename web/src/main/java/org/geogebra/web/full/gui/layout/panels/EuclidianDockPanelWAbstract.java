@@ -10,8 +10,8 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigatio
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.speechRec.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
+import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;

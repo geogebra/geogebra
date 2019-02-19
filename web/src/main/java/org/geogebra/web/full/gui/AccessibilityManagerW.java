@@ -19,8 +19,8 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.speechRec.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
+import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FocusWidget;

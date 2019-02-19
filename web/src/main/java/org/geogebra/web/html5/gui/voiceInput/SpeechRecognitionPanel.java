@@ -1,10 +1,11 @@
-package org.geogebra.web.html5.gui.speechRec;
+package org.geogebra.web.html5.gui.voiceInput;
 
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.voiceInput.questResErr.QuestResErrConstants;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -19,15 +20,19 @@ import com.google.gwt.user.client.ui.Widget;
 public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 
 	private SpeechRecognitionController specRecContr;
+	private VoiceInputOutputController controller;
 	private StandardButton speechBtn;
 	private int viewID;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param viewID
+	 *            id of view
 	 */
 	public SpeechRecognitionPanel(AppW app, int viewID) {
 		specRecContr = new SpeechRecognitionController(app);
+		controller = new VoiceInputOutputController(app);
 		this.viewID = viewID;
 		buildGui(app);
 	}
@@ -48,12 +53,20 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 
 			@Override
 			public void onClick(Widget source) {
-				getSpecRecController().initSpeechSynth(
+				getController()
+						.initSpeechSynth(
 						"Please give the command.",
-						"command");
+								QuestResErrConstants.COMMAND);
 			}
 		});
 		this.add(speechBtn);
+	}
+
+	/**
+	 * @return controller
+	 */
+	public VoiceInputOutputController getController() {
+		return controller;
 	}
 
 	/**
@@ -81,6 +94,9 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		return true;
 	}
 
+	/**
+	 * @return view id
+	 */
 	public int getViewID() {
 		return viewID;
 	}
