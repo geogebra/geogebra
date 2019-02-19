@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
@@ -492,8 +491,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private boolean needsHeader() {
-		return app.has(Feature.MAT_DESIGN_HEADER)
-				&& !app.getAppletFrame().shouldHaveSmallScreenLayout();
+		return !app.getAppletFrame().shouldHaveSmallScreenLayout();
 	}
 
 	private void addShareButton() {

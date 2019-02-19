@@ -145,9 +145,6 @@ public enum Feature {
 	/** GGB-2439 */
 	GRAPH_EXAM_MODE,
 
-	/** GBB-2374 */
-	MAT_DESIGN_HEADER,
-
 	/** MOW-459 */
 	MOW_DOUBLE_CANVAS,
 

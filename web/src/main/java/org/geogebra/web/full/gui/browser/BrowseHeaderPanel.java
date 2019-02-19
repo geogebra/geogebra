@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.browser;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -67,8 +66,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	}
 
 	private boolean rightPanelNeeded() {
-		return !app.has(Feature.MAT_DESIGN_HEADER)
-				|| app.getAppletFrame().shouldHaveSmallScreenLayout();
+		return app.getAppletFrame().shouldHaveSmallScreenLayout();
 	}
 
 	private void addSearchPanel() {
@@ -134,7 +132,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		this.searchPanel.setWidth(getRemainingWidth(appWidth) + "px");
 		if (rightPanelNeeded()) {
 			this.add(this.rightPanel);
-		} else if (app.has(Feature.MAT_DESIGN_HEADER)) {
+		} else {
 			this.rightPanel.removeFromParent();
 		}
 	}

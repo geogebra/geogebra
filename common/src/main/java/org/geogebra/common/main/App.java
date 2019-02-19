@@ -3956,10 +3956,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 			// don't set true in ggb5
 			return !Versions.DESKTOP.equals(getVersion());
 
-		/** GBB-2374 */
-		case MAT_DESIGN_HEADER:
-			return true;
-
 		/** GBB-2394 */
 		case SPLITTER_LOADING:
 			return prerelease;
