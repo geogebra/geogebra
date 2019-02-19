@@ -245,6 +245,7 @@ public class VoiceInputOutputController {
 		if (dispatcher.getQuestList().isEmpty()) {
 			initSpeechSynth("Object created.", -1);
 			dispatcher.getCurrentCommand().createGeo(appW, results);
+			results.clear();
 		} else {
 			QuestResErrInterface currQuest = dispatcher.getQuestList().get(0);
 			initSpeechSynth(currQuest.getQuestion(), currQuest.getID());

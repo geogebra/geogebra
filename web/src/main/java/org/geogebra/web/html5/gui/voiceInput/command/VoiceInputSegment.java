@@ -2,9 +2,9 @@ package org.geogebra.web.html5.gui.voiceInput.command;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.web.html5.gui.voiceInput.questResErr.QuestResErrInterface;
 import org.geogebra.web.html5.gui.voiceInput.questResErr.XCoordQuestResErr;
 import org.geogebra.web.html5.gui.voiceInput.questResErr.YCoordQuestResErr;
@@ -46,12 +46,13 @@ public class VoiceInputSegment implements VoiceInputCommandInterface {
 		double yCoord1 = inputList.get(1);
 		GeoPoint point1 = new GeoPoint(appW.getKernel().getConstruction(), "A",
 				xCoord1, yCoord1, 1.0);
-		double xCoord2 = inputList.get(0);
-		double yCoord2 = inputList.get(1);
+		double xCoord2 = inputList.get(2);
+		double yCoord2 = inputList.get(3);
 		GeoPoint point2 = new GeoPoint(appW.getKernel().getConstruction(), "B",
 				xCoord2, yCoord2, 1.0);
-		return new GeoSegment(appW.getKernel().getConstruction(), point1,
-				point2);
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(
+				appW.getKernel().getConstruction(), "S", point1, point2);
+		return algo.getSegment();
 	}
 
 }
