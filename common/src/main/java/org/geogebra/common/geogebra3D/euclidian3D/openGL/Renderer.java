@@ -276,6 +276,16 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
+	 * may update the GL clear color
+	 */
+	public void mayUpdateClearColor() {
+		if (waitForUpdateClearColor) {
+			updateClearColor();
+			waitForUpdateClearColor = false;
+		}
+	}
+
+	/**
 	 * draw the scene
 	 */
 	public void drawScene() {
@@ -317,10 +327,7 @@ public abstract class Renderer implements RendererInterface {
 			disableStencilLines();
 		}
 
-		if (waitForUpdateClearColor) {
-			updateClearColor();
-			waitForUpdateClearColor = false;
-		}
+		mayUpdateClearColor();
 
 		// init rendering values
 		initRenderingValues();
