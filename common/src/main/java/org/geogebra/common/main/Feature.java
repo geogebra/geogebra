@@ -265,5 +265,8 @@ public enum Feature {
 	G3D_STL_EXPORT_DIALOG,
 	
 	/** APPS-91 */
-	LANG_PARAM_LAST
+	LANG_PARAM_LAST,
+
+	/** G3D-151 */
+	G3D_IOS_NATIVE_AR
 }

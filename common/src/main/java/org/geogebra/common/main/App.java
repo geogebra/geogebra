@@ -4066,6 +4066,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case G3D_STL_EXPORT_DIALOG:
 			return prerelease;
 
+		/** G3D-151 */
+		case G3D_IOS_NATIVE_AR:
+			return prerelease;
+
         // **********************************************************************
         // G3D END
         //
