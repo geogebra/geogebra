@@ -10,6 +10,8 @@ public class MarvlURLChecker implements URLChecker {
 	public void check(String url, AsyncOperation<URLStatus> callback) {
 		if (!isUrl(url)) {
 			callback.callback(new URLStatus("InvalidInput"));
+		} else {
+			callback.callback(new URLStatus(null).withUrl(url));
 		}
 	}
 
