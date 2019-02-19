@@ -191,6 +191,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform3f(normalLocation, 2, 2, 2);
 	}
 
+	@Override
 	public void setNormalToNone() {
         oneNormalForAllVertices = true;
         glUniform3f(normalLocation, -2, -2, -2);
