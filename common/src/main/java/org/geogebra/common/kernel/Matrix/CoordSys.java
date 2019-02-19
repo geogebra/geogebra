@@ -53,7 +53,7 @@ public class CoordSys {
 	private final Coords[] vectors;
 
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
-	private final int spaceDimension = 3;
+	static private final int spaceDimension = 3;
 
 	private final Coords tmpCoords1 = new Coords(4);
 	private final Coords tmpCoords2 = new Coords(4);
