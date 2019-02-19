@@ -175,6 +175,14 @@ public class KeyboardFactory {
 	 * Calls {@link #createLettersKeyboard(String, String, String, Map)} with a
 	 * null upper keys. In this case {@link Character#toUpperCase(char)} is
 	 * used.
+	 * 
+	 * @param topRow
+	 *            a list of characters that will be the buttons of the top row
+	 * @param middleRow
+	 *            a list of characters that will the buttons of the middle row
+	 * @param bottomRow
+	 *            a list of characters that will be the buttons of the last row
+	 * @return letter keyboard
 	 */
 	public Keyboard createLettersKeyboard(String topRow, String middleRow,
 			String bottomRow) {

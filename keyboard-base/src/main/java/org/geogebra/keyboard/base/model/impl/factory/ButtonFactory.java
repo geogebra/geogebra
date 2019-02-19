@@ -28,9 +28,14 @@ public class ButtonFactory {
 	/**
 	 * Creates an input button with string as resource.
 	 *
-	 * @param name name of the button
-	 * @param input the input from the button
-	 * @param weight weight of the button
+	 * @param name
+	 *            name of the button
+	 * @param altText
+	 *            description for screen reader
+	 * @param input
+	 *            the input from the button
+	 * @param weight
+	 *            weight of the button
 	 *
 	 * @return a button
 	 */
@@ -42,8 +47,18 @@ public class ButtonFactory {
 	}
 
 	/**
-	 * Calls {@link ButtonFactory#createConstantInputButton(String, String, float)}
+	 * Calls
+	 * {@link ButtonFactory#createConstantInputButton(String, String, float)}
 	 * with parameter {@code weight = 1.0f}
+	 * 
+	 * @param name
+	 *            the name of the resource
+	 * @param input
+	 *            the input from the button
+	 * @param altText
+	 *            description of the button
+	 *
+	 * @return a button
 	 */
 	public WeightedButton createInputButton(String name, String altText,
 			String input) {

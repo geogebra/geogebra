@@ -27,6 +27,9 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	private ListDataProvider<T> dataProvider;
 	private ScrollPanel scroller;
 
+	/**
+	 * Create a sticky table.
+	 */
 	public StickyTable() {
 		cellTable = new CellTable<>();
 
