@@ -423,4 +423,21 @@ public class DoubleUtil {
 		return root;
 	}
 
+    /**
+     *
+     * @param x number
+     * @return x rounded to 1/2/5 * 10^digits
+     */
+    final public static double round125(double x) {
+        double pot = Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
+        int n = (int) (x / pot);
+        if (n >= 5) {
+            return 5 * pot;
+        }
+        if (n >= 2) {
+            return 2 * pot;
+        }
+        return pot;
+    }
+
 }

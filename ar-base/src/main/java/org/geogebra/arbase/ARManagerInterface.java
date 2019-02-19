@@ -49,6 +49,10 @@ public interface ARManagerInterface<TouchEventType> {
 
     Coords getHittingOrigin();
 
+    Coords getHittingFloor();
+
+    double getHittingDistance();
+
     void setHittingOriginAndDirection(float x, float y);
 
     public void setHittingOriginAndDirectionFromScreenCenter();

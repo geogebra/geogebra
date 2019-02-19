@@ -147,7 +147,7 @@ public abstract class Renderer implements RendererInterface {
 	private CoordMatrix4x4 arCameraView;
 	private CoordMatrix4x4 arModelMatrix;
 	private CoordMatrix4x4 arCameraPerspective;
-	private float arScaleFactor;
+	protected float arScaleFactor;
     private boolean arShouldStart = false;
 
 	/**
@@ -219,6 +219,25 @@ public abstract class Renderer implements RendererInterface {
 	public void getHittingOriginAR(Coords ret) {
 		// nothing to do here
 	}
+
+    /**
+     * @param ret Hitting floor from AR. Override in RendererWithImplA
+     *
+     * @return true if there is an hitting on floor
+     */
+    public boolean getHittingFloorAR(Coords ret) {
+        // nothing to do here
+        return false;
+    }
+
+    /**
+     *
+     * @return current hitting distance (in AR)
+     */
+    public double getHittingDistanceAR() {
+        // nothing to do here
+        return 0;
+    }
 
 	/**
 	 * dummy renderer (when no GL available)

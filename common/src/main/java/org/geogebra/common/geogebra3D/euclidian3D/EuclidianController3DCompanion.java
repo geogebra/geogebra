@@ -11,10 +11,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -41,6 +41,8 @@ public class EuclidianController3DCompanion
 	private Coords tmpCoordsForOrigin = new Coords(4);
 	private Coords tmpCoordsForDirection = new Coords(4);
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
+
+    static final private double AR_ROUNDING_PRECISION_PERCENTAGE = 1.0 / 100.0;
 
 	/**
 	 * constructor
@@ -381,7 +383,29 @@ public class EuclidianController3DCompanion
 					0, 0,
 					0, false);
 		} else {
-			point3D = createNewFreePoint(complex);
+            if (ec3D.view3D.isAREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
+                    && !ec3D.view3D.getxOyPlane().isGridVisible()) {
+                if (ec3D.view3D.getRenderer().getHittingFloorAR(tmpCoords1)) {
+                    // round coordinates
+                    double distance = ec3D.view3D.getRenderer().getHittingDistanceAR()
+                            * AR_ROUNDING_PRECISION_PERCENTAGE;
+                    for (int i = 0; i < 3; i++) {
+                        double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE
+                                * distance / ec3D.view3D.getScale(i));
+                        double v = tmpCoords1.get(i + 1);
+                        if (DoubleUtil.isGreater(rounding, 0)) {
+                            v = ((int) (v / rounding)) * rounding;
+                        }
+                        tmpCoords1.set(i + 1, v);
+                    }
+                    point3D = ec3D.view3D.getCursor3D();
+                    point3D.setCoords(tmpCoords1);
+                } else {
+                    point3D = null;
+                }
+            } else {
+                point3D = createNewFreePoint(complex);
+            }
 			if (point3D == null) {
 				return null;
 			}
