@@ -222,6 +222,9 @@ public class VoiceInputOutputController {
 		case "Point":
 		case "point":
 			return QuestResErrConstants.CREATE_POINT;
+		case "Segment":
+		case "segment":
+			return QuestResErrConstants.CREATE_SEGMENT;
 		case "Circle":
 		case "circle":
 			return QuestResErrConstants.CREATE_CIRCLE;
