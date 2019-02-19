@@ -148,7 +148,12 @@ public class HTML5Export {
 
 		GBufferedImage preview = app.getActiveEuclidianView().getExportImage(1);
 
-		String base64 = preview.getBase64();
+		String base64 = null;
+
+		// eg 3D View in web
+		if (preview != null) {
+			base64 = preview.getBase64();
+		}
 
 		if (base64 != null) {
 			previewImage = base64;
