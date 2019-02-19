@@ -8,6 +8,13 @@ public class URLStatus {
 	private String url;
 
 	/**
+	 * Constructor
+	 */
+	public URLStatus() {
+		this.errorKey = null;
+	}
+
+	/**
 	 * @param errorKey key for Localization.getError or null if there is no error
 	 */
 	public URLStatus(String errorKey) {
@@ -15,7 +22,14 @@ public class URLStatus {
 	}
 
 	/**
-	 * @return key for Localiyation.getError
+	 * @param errorKey key for Localization.getError or null if there is no error
+	 */
+	public void setErrorKey(String errorKey) {
+		this.errorKey = errorKey;
+	}
+
+	/**
+	 * @return key for Localization.getError
 	 */
 	public String getErrorKey() {
 		return errorKey;
