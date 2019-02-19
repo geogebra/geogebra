@@ -1701,6 +1701,8 @@ public class CommandsTest extends AlgebraTest {
 		t("Length[ Curve(3t,4t,t,0,10), 2, 3 ]", "5");
 		tRound("Length[ Curve(3t,4t,t,0,10), (3,5),(6,9) ]", "5");
 		t("Length[ 3/4x, 0, 4 ]", "5");
+		t("round(Length[ x^2, 1, 4 ],5)", "15.33969");
+		t("round(Length[ sqrt(x), 1, 4 ],5)", "3.16784");
 		tRound("Length[ 3/4x, (0,1), (4,4) ]", "5");
 		t("Length[ Segment((1,0),(0,0))]", "1");
 		t("Length[ Segment((3,4,12),(0,0))]", "13");
