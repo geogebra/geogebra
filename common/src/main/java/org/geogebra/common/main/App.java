@@ -4042,10 +4042,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case G3D_IOS_FASTER_AV:
 			return true;
 
-		/** G3D-152, G3D-157 */
-		case G3D_TEST_IOS_AR:
-			return prerelease;
-
 		/** G3D-160 */
 		case G3D_AR_TARGET:
 			return prerelease;
