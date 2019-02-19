@@ -209,7 +209,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 		checkEquation("y^2=x +x -1+y", GeoConicND.EQUATION_PARAMETRIC,
 				"X = (0.38, 0.5) + (0.5 t^2, t)");
 		checkEquation("(x+y)^2=x +x -1+y", GeoConicND.EQUATION_PARAMETRIC,
-				"X = (0.81, -0.06) + (0.06 t^2 + 0.12 t, -0.06 t^2 + 0.12 t)");
+				"X = (0.81, -0.06) + (0.06 t^2 + 0.13 t, -0.06 t^2 + 0.13 t)");
 	}
 
 	@Test

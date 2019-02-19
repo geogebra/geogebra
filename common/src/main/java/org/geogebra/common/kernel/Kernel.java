@@ -1517,6 +1517,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 			boolean useSF = tpl.useScientific(useSignificantFigures);
 
+			// ROUNDING hack
+			// NumberFormat and SignificantFigures use ROUND_HALF_EVEN as
+			// default which is not changeable, so we need to hack this
+			// to get ROUND_HALF_UP like in schools: increase abs(x) slightly
+			// x = x * ROUND_HALF_UP_FACTOR;
+			// We don't do this for large numbers as
+			if (!isLongInteger && tpl.getPrecision(nf) > 1E-6) {
+				double abs = Math.abs(x);
+				// increase abs(x) slightly to round up
+				x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
+			}
+
 			if (useSF) {
 				return formatSF(x, tpl);
 			}
@@ -1532,7 +1544,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
 		double printPrecision = tpl.getPrecision(nf);
-		if (((-printPrecision / 2) <= x) && (x < (printPrecision / 2))) {
+		if (((-printPrecision / 2) < x) && (x < (printPrecision / 2))) {
 			// avoid output of "-0" for eg -0.0004
 			return "0";
 		}
