@@ -2210,20 +2210,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
 		if (!StringUtil.empty(cookieLang)) {
 			 return cookieLang;
-		 }
+		}
 		
-		 Storage localStorage = Storage.getLocalStorageIfSupported();
-		 String storageLang = localStorage.getItem("GeoGebraLangUI");
-		 if (!StringUtil.empty(storageLang)) {
-			 return storageLang;
-		 }
+		Storage localStorage = Storage.getLocalStorageIfSupported();
+		String storageLang = localStorage == null ? null
+				: localStorage.getItem("GeoGebraLangUI");
+		if (!StringUtil.empty(storageLang)) {
+			return storageLang;
+		}
 		
-		 String urlLang = articleElement.getDataParamApp() ? Location.getParameter("lang"):"";
-		 if (!StringUtil.empty(urlLang) && !getLoginOperation().isLoggedIn()) {
-			 return urlLang;
-		 }
+		String urlLang = articleElement.getDataParamApp()
+				? Location.getParameter("lang") : "";
+		if (!StringUtil.empty(urlLang) && !getLoginOperation().isLoggedIn()) {
+			return urlLang;
+		}
 	
-		 return Browser.navigatorLanguage();
+		return Browser.navigatorLanguage();
 	}
 
 	@Override
