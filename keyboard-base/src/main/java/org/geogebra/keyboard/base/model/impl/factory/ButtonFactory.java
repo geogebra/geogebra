@@ -188,9 +188,16 @@ public class ButtonFactory {
 	}
 
     /**
-     * Calls {@link ButtonFactory#createCustomButton(String, String, Background)}
-     * with parameter {@code background = }{@link Background#FUNCTIONAL}.
-     */
+	 * Calls
+	 * {@link ButtonFactory#createCustomButton(String, String, Background)} with
+	 * parameter {@code background = }{@link Background#FUNCTIONAL}.
+	 * 
+	 * @param resource
+	 *            resource name
+	 * @param action
+	 *            action
+	 * @return button
+	 */
 	public WeightedButton createCustomButton(String resource, String action) {
 	    return createCustomButton(resource, action, Background.FUNCTIONAL);
 	}

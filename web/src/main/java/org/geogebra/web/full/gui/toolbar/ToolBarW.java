@@ -39,7 +39,7 @@ public class ToolBarW extends FlowPanel
 	private FlowPanel submenuPanel;
 
 	private ArrayList<ModeToggleMenuW> modeToggleMenus;
-	protected UnorderedList menuList;
+	private UnorderedList menuList;
 	private GGWToolBar tb;
 	private boolean mobileToolbar;
 	private boolean isMouseDown = false;

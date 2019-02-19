@@ -215,7 +215,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			@Override
 			public void onClickStart(final int x, final int y,
 					PointerEventType type) {
-				app.getActiveEuclidianView().getEuclidianController()
+				getApp().getActiveEuclidianView().getEuclidianController()
 						.closePopups(x, y, type);
 			}
 		});
@@ -995,6 +995,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		getTabTools().updateContent();
 	}
 
+	/**
+	 * @return application
+	 */
 	public AppW getApp() {
 		return app;
 	}
