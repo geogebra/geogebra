@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -110,33 +111,34 @@ public class CopyPaste {
 	 * which depends on xAxis or yAxis, then copy & paste something else, points
 	 * may be repositioned)
 	 * 
+	 * @param geos
+	 *            elements
+	 * @param app
+	 *            application
 	 */
 	protected void removeDependentFromAxes(ArrayList<ConstructionElement> geos,
 			App app) {
 		TreeSet<GeoElement> ancestors = new TreeSet<>();
 		ConstructionElement geo;
+		Construction cons = app.getKernel().getConstruction();
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = geos.get(i);
 			ancestors.clear();
 			geo.addPredecessorsToSet(ancestors, true);
-			if (ancestors.contains(app.getKernel().getXAxis())) {
-				geos.remove(i);
-			} else if (ancestors.contains(app.getKernel().getYAxis())) {
-				geos.remove(i);
-			} else if (app.is3D()) {
-				Construction cons = app.getKernel().getConstruction();
-				if (ancestors.contains(app.getKernel().getZAxis3D())) {
+			if (contained(ancestors, app.getKernel().getXAxis())
+					|| contained(ancestors, app.getKernel().getYAxis())
+					|| contained(ancestors, app.getKernel().getZAxis3D())
+					|| contained(ancestors, cons.getXOYPlane())
+					|| contained(ancestors, cons.getClippingCube())
+					|| contained(ancestors, cons.getSpace())) {
 					geos.remove(i);
-				} else if (ancestors.contains(cons.getXOYPlane())) {
-					geos.remove(i);
-				} else if (ancestors
-						.contains(cons.getClippingCube())) {
-					geos.remove(i);
-				} else if (ancestors.contains(cons.getSpace())) {
-					geos.remove(i);
-				}
 			}
 		}
+	}
+
+	private static boolean contained(TreeSet<GeoElement> ancestors,
+			GeoElementND el) {
+		return el != null && ancestors.contains(el);
 	}
 
 	protected void removeHavingMacroPredecessors(
