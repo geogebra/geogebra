@@ -4898,12 +4898,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// axes color
 		sbxml.append("\t<axesColor");
 		XMLBuilder.appendRGB(sbxml, axesColor);
-		sbxml.append("\"/>\n");
+		sbxml.append("/>\n");
 
 		// grid color
 		sbxml.append("\t<gridColor");
 		XMLBuilder.appendRGB(sbxml, gridColor);
-		sbxml.append("\"/>\n");
+		sbxml.append("/>\n");
 
 		int rulerType = settings.getBackgroundType().value();
 		if (app.isWhiteboardActive()) {
