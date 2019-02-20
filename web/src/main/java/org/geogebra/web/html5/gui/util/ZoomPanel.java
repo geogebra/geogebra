@@ -22,6 +22,8 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -32,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ZoomPanel extends FlowPanel
-		implements CoordSystemListener, TabHandler {
+		implements CoordSystemListener, TabHandler, FocusHandler {
 
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
@@ -79,6 +81,11 @@ public class ZoomPanel extends FlowPanel
 		buttons.addAll(Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn));
 		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
+		}
+		for (StandardButton button : buttons) {
+			if (button != null) {
+				button.addFocusHandler(this);
+			}
 		}
 		setLabels();
 
@@ -477,5 +484,10 @@ public class ZoomPanel extends FlowPanel
 		} else if (fullscreenBtn != null) {
 			fullscreenBtn.removeFromParent();
 		}
+	}
+
+	@Override
+	public void onFocus(FocusEvent event) {
+		app.getGlobalKeyDispatcher().setFocused(true);
 	}
 }
