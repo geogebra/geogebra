@@ -97,6 +97,7 @@ public class LoadFilePresenter {
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
 			language = app.getLanguageFromCookie();
+
 			if (!StringUtil.empty(language) && app.getLAF() != null) {
 				app.getLAF().storeLanguage(language, app);
 			}
@@ -110,7 +111,6 @@ public class LoadFilePresenter {
 				app.setLanguage(language, country);
 			}
 		}
-
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
 		app.setUndoRedoEnabled(view.getDataParamEnableUndoRedo());

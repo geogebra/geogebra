@@ -37,7 +37,8 @@ public class UserPreferredLanguage {
 				Element e = (Element) child;
 				if (child.getChildCount() == 1) {
 					if (e.hasAttribute("data-trans-key")) {
-						e.setInnerText(app.getLocalization().getMenu(e.getAttribute("data-trans-key")));
+						String key = e.getAttribute("data-trans-key").replace(" ", "");
+						e.setInnerText(app.getLocalization().getMenu(key));
 					}
 				} else {
 					translate(app, e);
