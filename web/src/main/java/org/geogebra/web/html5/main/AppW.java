@@ -2222,7 +2222,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	protected void translateHeader() {
-		UserPreferredLanguage.translate(this, Dom.querySelector("GeoGebraHeader"));
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (header != null) {
+			UserPreferredLanguage.translate(this, header);
+		}
 	}
 
 	@Override
