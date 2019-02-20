@@ -189,9 +189,6 @@ public enum Feature {
 	/** GGB-2525 */
 	TAB_ON_EV_PLAY,
 
-	/** AND-1372 */
-	MOB_DEFAULT_ROUNDING_13,
-
 	/** GGB-2538 */
 	TOOLS_WITH_NAMES,
 

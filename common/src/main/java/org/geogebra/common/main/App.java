@@ -3722,10 +3722,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_CAS_CALC_IN_APPS_MENU:
 			return true;
 
-		/** AND-1372 */
-		case MOB_DEFAULT_ROUNDING_13:
-			return true;
-
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
