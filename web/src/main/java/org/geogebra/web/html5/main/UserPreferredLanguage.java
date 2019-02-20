@@ -10,6 +10,8 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window.Location;
 
 public class UserPreferredLanguage {
+	private static final String DATA_TRANS_KEY = "data-trans-key";
+
 	public static String get(AppW app) {
 		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
 		if (!StringUtil.empty(cookieLang)) {
@@ -37,9 +39,8 @@ public class UserPreferredLanguage {
 			if (child.getNodeType() == Node.ELEMENT_NODE) {
 				Element e = (Element) child;
 				if (child.getChildCount() == 1) {
-					if (e.hasAttribute("data-trans-key")) {
-						String key = e.getAttribute("data-trans-key").replace(" ", "");
-						e.setInnerText(app.getLocalization().getMenu(key));
+					if (e.hasAttribute(DATA_TRANS_KEY)) {
+						e.setInnerText(app.getLocalization().getMenu(e.getAttribute(DATA_TRANS_KEY)));
 					}
 				} else {
 					translate(app, e);
