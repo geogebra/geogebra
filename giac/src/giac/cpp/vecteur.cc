@@ -10611,15 +10611,30 @@ namespace giac {
   } 
 #endif
 
+  gen fieldcoeff(const gen &F){
+    if (F.type!=_VECT)
+      return F;
+    const vecteur & v=*F._VECTptr;
+    gen res;
+    for (size_t i=0;i<v.size();++i){
+      gen tmp(fieldcoeff(v[i]));
+      if (tmp.type==_USER)
+	return tmp;
+      if (tmp.type>=res.type)
+	res=tmp;
+    }
+    return res;
+  }
+
   void vranm(int n,const gen & F,vecteur & res,GIAC_CONTEXT){
-    gen f(F);
-    if (F.type==_USER)
-      f=symbolic(at_rand,F);
+    gen f(fieldcoeff(F));
+    if (f.type==_USER)
+      f=symbolic(at_rand,f);
     n=giacmax(1,n);
     if (n>LIST_SIZE_LIMIT)
       setstabilityerr();
     res.reserve(n);
-    if (is_zero(f,contextptr)){
+    if (f.type!=_MOD && f.type!=_USER && is_zero(f,contextptr)){
       for (int i=0;i<n;++i){
 	res.push_back((int) (2*randrange*giac_rand(contextptr)/(rand_max2+1.0)-randrange));
       }

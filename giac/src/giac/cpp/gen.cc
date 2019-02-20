@@ -10006,7 +10006,7 @@ namespace giac {
       vecteur & vtmp(*it->_VECTptr);
       gen & tmp = vtmp.back();
       gen coeff=eval(vtmp.front(),1,context0);
-      if (is_zero(coeff))
+      if (is_exactly_zero(coeff))
 	continue;
       if (tmp.is_symb_of_sommet(at_prod) && tmp._SYMBptr->feuille.type==_VECT && tmp._SYMBptr->feuille._VECTptr->size()==1){
 	res.push_back(coeff*tmp._SYMBptr->feuille._VECTptr->front());
@@ -12454,7 +12454,7 @@ namespace giac {
 	return ")";
       else
 	return "]";
-    case _POINT__VECT: case _VECTOR__VECT: 
+    case _POINT__VECT: case _VECTOR__VECT: case _POLY1__VECT: case _PNT__VECT:
       return "]";
     case _GGBVECT:
       return calc_mode(contextptr)==1?")":"]";

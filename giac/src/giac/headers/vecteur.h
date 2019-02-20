@@ -339,6 +339,7 @@ namespace giac {
   gen _idn(const gen & e,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_idn ;
 
+  gen fieldcoeff(const gen &F);
   vecteur vranm(int n,const gen & f,GIAC_CONTEXT); 
   matrice mranm(int n,int m,const gen & f,GIAC_CONTEXT); // random matrix using f
   gen _ranm(const gen & e,GIAC_CONTEXT);
