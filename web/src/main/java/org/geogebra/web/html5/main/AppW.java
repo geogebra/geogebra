@@ -348,6 +348,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
 			scaleTo(width, Window.getClientHeight());
 			resizeContainer();
+		} else {
+			scaleWithRatio(getArticleElement().getDataParamScale());
 		}
 		recalculateEnvironments();
 	}
@@ -374,6 +376,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (!upscale) {
 			scale = Math.min(scale, getArticleElement().getDataParamScale());
 		}
+		scaleWithRatio(scale);
+	}
+
+	/**
+	 * @param scale
+	 *            scale ratio
+	 */
+	public void scaleWithRatio(double scale) {
 		Browser.scale(articleElement.getParentElement(), scale, 0, 0);
 		getArticleElement().resetScale(scale);
 		deferredForceResize();
