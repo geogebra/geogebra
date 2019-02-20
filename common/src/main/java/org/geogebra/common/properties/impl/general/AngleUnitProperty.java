@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl.general;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractEnumerableProperty;
 
@@ -21,12 +20,9 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
     public AngleUnitProperty(Kernel kernel, Localization localization) {
         super(localization, "AngleUnit");
         this.kernel = kernel;
-        if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-			setValuesAndLocalize(new String[] { "Degree", "Radiant",
-					"DegreesMinutesSeconds" });
-        } else {
-            setValuesAndLocalize(new String[]{"Degree", "Radiant"});
-        }
+        setValuesAndLocalize(new String[]{"Degree", "Radiant",
+                "DegreesMinutesSeconds"});
+
     }
 
     @Override
@@ -37,11 +33,7 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
                 angleUnit = Kernel.ANGLE_RADIANT;
                 break;
             case 2:
-                if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-                    angleUnit = Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
-                } else {
-                    angleUnit = Kernel.ANGLE_DEGREE;
-                }
+                angleUnit = Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
                 break;
             case 0:
             default:
@@ -49,7 +41,7 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
                 break;
         }
         kernel.setAngleUnit(angleUnit);
-		kernel.updateConstruction(false);
+        kernel.updateConstruction(false);
     }
 
     @Override
@@ -58,10 +50,7 @@ public class AngleUnitProperty extends AbstractEnumerableProperty {
             case Kernel.ANGLE_RADIANT:
                 return 1;
             case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
-                if (kernel.getApplication().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-                    return 2;
-                }
-                return 0;
+                return 2;
             case Kernel.ANGLE_DEGREE:
             default:
                 return 0;

@@ -4755,23 +4755,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		// angle unit
 		sb.append("\t<angleUnit val=\"");
-		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-		    switch (getAngleUnit()) {
-                case Kernel.ANGLE_RADIANT:
-                    sb.append("radiant");
-                    break;
-                case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
-                    sb.append("degreesMinutesSeconds");
-                    break;
-                case Kernel.ANGLE_DEGREE:
-                default:
-                    sb.append("degree");
-                    break;
-            }
-        } else {
-            sb.append(
-                    getAngleUnit() == Kernel.ANGLE_RADIANT ? "radiant" : "degree");
-        }
+		switch (getAngleUnit()) {
+			case Kernel.ANGLE_RADIANT:
+				sb.append("radiant");
+				break;
+			case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
+				sb.append("degreesMinutesSeconds");
+				break;
+			case Kernel.ANGLE_DEGREE:
+			default:
+				sb.append("degree");
+				break;
+		}
 		sb.append("\"/>\n");
 
 		// algebra style

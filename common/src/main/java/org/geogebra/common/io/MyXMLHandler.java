@@ -1788,8 +1788,7 @@ public class MyXMLHandler implements DocHandler {
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
 		} else if ("radiant".equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
-		} else if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)
-				&& "degreesMinutesSeconds".equals(angleUnit)) {
+		} else if ("degreesMinutesSeconds".equals(angleUnit)) {
                 kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 		} else {
 			return false;
