@@ -77,6 +77,8 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.properties.Auxiliary;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -207,68 +209,6 @@ public abstract class GeoElement extends ConstructionElement
 	/** offset for label in EV */
 	public int labelOffsetY = 0;
 
-	/** enum for auxiliary state */
-	public enum Auxiliary {
-		/** is auxiliary */
-		YES_DEFAULT(true, false) {
-			@Override
-			public Auxiliary toggle() {
-				return Auxiliary.NO_SAVE;
-			}
-		},
-		/** is not auxiliary */
-		NO_DEFAULT(false, false) {
-			@Override
-			public Auxiliary toggle() {
-				return Auxiliary.YES_SAVE;
-			}
-		},
-		/** is not auxiliary, needs to save to XML */
-		NO_SAVE(false, true) {
-			@Override
-			public Auxiliary toggle() {
-				return YES_DEFAULT;
-			}
-		},
-		/** is auxiliary, needs to save to XML */
-		YES_SAVE(true, true) {
-			@Override
-			public Auxiliary toggle() {
-				return NO_DEFAULT;
-			}
-		};
-		
-		private boolean isOn;
-		private boolean needsSaveToXML;
-
-		private Auxiliary(boolean isOn, boolean needsSaveToXML) {
-			this.isOn = isOn;
-			this.needsSaveToXML = needsSaveToXML;
-		}
-		
-		/**
-		 * 
-		 * @return true if is auxiliary
-		 */
-		public boolean isOn() {
-			return isOn;
-		}
-
-		/**
-		 * 
-		 * @return true if it needs save to XML
-		 */
-		public boolean needsSaveToXML() {
-			return needsSaveToXML;
-		}
-
-		/**
-		 * 
-		 * @return the opposite value
-		 */
-		abstract public Auxiliary toggle();
-	}
-
 	private Auxiliary auxiliaryObject = Auxiliary.NO_DEFAULT;
 	private boolean selectionAllowed = true;
 	// on change: see setVisualValues()
@@ -363,81 +303,6 @@ public abstract class GeoElement extends ConstructionElement
 	protected AlgorithmSet algoUpdateSet;
 
 	private LabelManager labelManager;
-
-	/**
-	 * Fill types of elements
-	 * 
-	 * @author Giulliano Bellucci
-	 */
-	public enum FillType {
-
-		/**
-		 * Simple fill (color+opacity)
-		 * 
-		 * need to be in menu order here
-		 * 
-		 * the integer is used in the XML so can't be changed
-		 */
-		STANDARD(0, false),
-		/**
-		 * Hatched fill
-		 */
-		HATCH(1, true),
-		/**
-		 * Crosshatched fill
-		 */
-		CROSSHATCHED(2, true),
-		/**
-		 * Chessboard fill, upright or diagonal
-		 */
-		CHESSBOARD(3, true),
-		/**
-		 * Dotted fill
-		 */
-		DOTTED(4, true),
-		/**
-		 * Honeycomb fill
-		 */
-		HONEYCOMB(5, true),
-		/**
-		 * Brick fill
-		 */
-		BRICK(6, true),
-		/**
-		 * Weaving fill
-		 */
-		WEAVING(9, true),
-		/**
-		 * Unicode symbols fill
-		 */
-		SYMBOLS(7, true),
-		/**
-		 * Image background
-		 */
-		IMAGE(8, false);
-
-		private int value;
-		private boolean hatch;
-
-		/**
-		 * @return value for XML
-		 */
-		public int getValue() {
-			return value;
-		}
-
-		private FillType(int value, boolean hatch) {
-			this.value = value;
-			this.hatch = hatch;
-		}
-
-		/**
-		 * @return whether this is hatch or something else (image, standard)
-		 */
-		public boolean isHatch() {
-			return hatch;
-		}
-	}
 
 	/** fill type */
 	protected FillType fillType = FillType.STANDARD;

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -625,7 +626,7 @@ public class DrawInequality extends Drawable {
 				}
 
 			} else {
-				if (geo.getFillType() != GeoElement.FillType.IMAGE) {
+				if (geo.getFillType() != FillType.IMAGE) {
 					// make sure line thickness set for hatching
 					updateStrokes(geo);
 				}

@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.color;
 
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;

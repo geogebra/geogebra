@@ -29,8 +29,6 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.Auxiliary;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -48,6 +46,8 @@ import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.geos.properties.Auxiliary;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1688,7 +1688,7 @@ public class ConsElementXMLHandler {
 		String fillType = attrs.get("fillType");
 		if (fillType != null) {
 			geo.setFillType(
-					GeoElement.FillType.values()[Integer.parseInt(fillType)]);
+					FillType.values()[Integer.parseInt(fillType)]);
 		}
 		String fillSymbol = attrs.get("fillSymbol");
 		if (fillSymbol != null) {
@@ -1697,7 +1697,7 @@ public class ConsElementXMLHandler {
 		String filename = attrs.get("image");
 		if (filename != null) {
 			geo.setFillImage(filename);
-			geo.setFillType(GeoElement.FillType.IMAGE);
+			geo.setFillType(FillType.IMAGE);
 		}
 
 		alpha = attrs.get("alpha");

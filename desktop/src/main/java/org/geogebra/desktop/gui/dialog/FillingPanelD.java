@@ -42,7 +42,7 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;

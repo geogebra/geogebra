@@ -10,8 +10,8 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListene
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
-import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;

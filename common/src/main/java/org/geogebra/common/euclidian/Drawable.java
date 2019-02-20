@@ -35,6 +35,7 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -670,7 +671,7 @@ public abstract class Drawable extends DrawableND {
 						subImage2, geo.getKernel().getApplication());
 			}
 
-		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
+		} else if (geo.getFillType() == FillType.IMAGE) {
 			getHatchingHandler().setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(fillShape);
 		} else if (geo.getAlphaValue() > 0.0f) {
