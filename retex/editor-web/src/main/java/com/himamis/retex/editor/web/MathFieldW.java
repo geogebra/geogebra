@@ -482,10 +482,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	protected int getModifiers(
 			com.google.gwt.event.dom.client.KeyEvent<?> event) {
+
+		// AltGr -> Ctrl+Alt
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
 				+ (controlDown(event) || isRightAltDown() ? KeyEvent.CTRL_MASK
 						: 0)
-				+ (event.isAltKeyDown() ? KeyEvent.ALT_MASK : 0);
+				+ (event.isAltKeyDown() || isRightAltDown() ? KeyEvent.ALT_MASK
+						: 0);
 	}
 
 	/**

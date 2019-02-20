@@ -31,27 +31,33 @@ public class KeyListenerImpl {
 	 * @return whether event was handled
 	 */
 	public boolean onKeyPressed(KeyEvent keyEvent, EditorState editorState) {
+		
+		// Ctrl, not AltGr
+		boolean ctrlPressed = ((keyEvent.getKeyModifiers()
+				& KeyEvent.CTRL_MASK) > 0)
+				&& ((keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) == 0);
+		
 		switch (keyEvent.getKeyCode()) {
 		case JavaKeyCodes.VK_A:
-			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
+			if (ctrlPressed) {
 				editorState.selectAll();
 				return true;
 			}
 			return false;
 		case JavaKeyCodes.VK_V:
-			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
+			if (ctrlPressed) {
 				inputController.paste();
 				return inputController.getMathField().useCustomPaste();
 			}
 			return false;
 		case JavaKeyCodes.VK_C:
-			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
+			if (ctrlPressed) {
 				inputController.copy();
 				return true;
 			}
 			return false;
 		case JavaKeyCodes.VK_X:
-			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
+			if (ctrlPressed) {
 				inputController.copy();
 				InputController.deleteSelection(editorState);
 				return true;
