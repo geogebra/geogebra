@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -614,13 +615,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		// sb.append("\"/>\n");
 
 		// background color
-		sb.append("\t<bgColor r=\"");
-		sb.append(backgroundColor.getRed());
-		sb.append("\" g=\"");
-		sb.append(backgroundColor.getGreen());
-		sb.append("\" b=\"");
-		sb.append(backgroundColor.getBlue());
-		sb.append("\"/>\n");
+		sb.append("\t<bgColor");
+		XMLBuilder.appendRGB(sb, backgroundColor);
+		sb.append("/>\n");
 
 		// y axis is up
 		if (getYAxisVertical()) {

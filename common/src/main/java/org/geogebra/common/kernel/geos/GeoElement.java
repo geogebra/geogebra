@@ -5321,24 +5321,15 @@ public abstract class GeoElement extends ConstructionElement
 				sb.append("\t<auxiliary val=\"");
 				sb.append(auxiliaryObject.isOn());
 				sb.append("\"/>\n");
-			} else if (getMetasLength() > 0 && !auxiliaryObject.isOn()) { // force
-																			// save
-																			// "not
-																			// auxiliary"
-																			// for
-												// e.g. segments created by
-												// polygon algo
-				sb.append("\t<auxiliary val=\"");
-				sb.append("false");
-				sb.append("\"/>\n");
+			} else if (getMetasLength() > 0 && !auxiliaryObject.isOn()) {
+				// force save "not auxiliary" for e.g. segments created by
+				// polygon algo
+				sb.append("\t<auxiliary val=\"false\"/>\n");
 			}
-		} else { // needed for eg GeoTexts (in Algebra View but Auxilliary by
-					// default from ggb 4.0)
-			if (!auxiliaryObject.isOn()) {
-				sb.append("\t<auxiliary val=\"");
-				sb.append("false");
-				sb.append("\"/>\n");
-			}
+		} else if (!auxiliaryObject.isOn()) {
+				// needed for eg GeoTexts (in Algebra View but Auxilliary by
+				// default from ggb 4.0)
+			sb.append("\t<auxiliary val=\"false\"/>\n");
 		}
 	}
 
@@ -5358,21 +5349,11 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected void appendObjectColorXML(StringBuilder sb) {
 		sb.append("\t<objColor");
-		sb.append(" r=\"");
-		sb.append(objColor.getRed());
-		sb.append("\"");
-		sb.append(" g=\"");
-		sb.append(objColor.getGreen());
-		sb.append("\"");
-		sb.append(" b=\"");
-		sb.append(objColor.getBlue());
-		sb.append("\"");
+		XMLBuilder.appendRGB(sb, objColor);
 		sb.append(" alpha=\"");
-
 		// changed from alphavalue (don't want alpha="-1.0" in XML)
 		// see GeoList
 		sb.append(getAlphaValue());
-
 		sb.append("\"");
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		if ((colFunction != null) && kernel.getSaveScriptsToXML()) {

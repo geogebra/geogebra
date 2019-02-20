@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -113,18 +114,10 @@ public class XMLBuilder {
 
 		if (geo.bgColor != null) {
 			sb.append("\t<bgColor");
-			sb.append(" r=\"");
-			sb.append(geo.bgColor.getRed());
-			sb.append("\"");
-			sb.append(" g=\"");
-			sb.append(geo.bgColor.getGreen());
-			sb.append("\"");
-			sb.append(" b=\"");
-			sb.append(geo.bgColor.getBlue());
-			sb.append("\"");
+			XMLBuilder.appendRGB(sb, geo.bgColor);
 			sb.append(" alpha=\"");
 			sb.append(geo.bgColor.getAlpha());
-			sb.append("\"/>\n");
+			sb.append("/>\n");
 		}
 
 		// don't remove layer 0 information
@@ -334,5 +327,23 @@ public class XMLBuilder {
 	public static void dimension(StringBuilder sb, String width, String height) {
 		sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height
 				+ "\" />\n");
+	}
+
+	/**
+	 * @param sb
+	 *            string builder
+	 * @param color
+	 *            color
+	 */
+	public static void appendRGB(StringBuilder sb, GColor color) {
+		sb.append(" r=\"");
+		sb.append(color.getRed());
+		sb.append("\"");
+		sb.append(" g=\"");
+		sb.append(color.getGreen());
+		sb.append("\"");
+		sb.append(" b=\"");
+		sb.append(color.getBlue());
+		sb.append("\"");
 	}
 }

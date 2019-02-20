@@ -1,5 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -91,6 +96,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -116,11 +122,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -3015,13 +3016,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		// sb.append("\"/>\n");
 
 		// background color
-		sb.append("\t<bgColor r=\"");
-		sb.append(bgColor.getRed());
-		sb.append("\" g=\"");
-		sb.append(bgColor.getGreen());
-		sb.append("\" b=\"");
-		sb.append(bgColor.getBlue());
-		sb.append("\"/>\n");
+		sb.append("\t<bgColor");
+		XMLBuilder.appendRGB(sb, bgColor);
+		sb.append("/>\n");
 
 		// colored axes
 		if (!getSettings().getHasColoredAxes()) {

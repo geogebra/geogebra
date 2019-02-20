@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -4890,30 +4891,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		sbxml.append("\"/>\n");
 
 		// background color
-		sbxml.append("\t<bgColor r=\"");
-		sbxml.append(getBackgroundCommon().getRed());
-		sbxml.append("\" g=\"");
-		sbxml.append(getBackgroundCommon().getGreen());
-		sbxml.append("\" b=\"");
-		sbxml.append(getBackgroundCommon().getBlue());
-		sbxml.append("\"/>\n");
+		sbxml.append("\t<bgColor");
+		XMLBuilder.appendRGB(sbxml, getBackgroundCommon());
+		sbxml.append("/>\n");
 
 		// axes color
-		sbxml.append("\t<axesColor r=\"");
-		sbxml.append(axesColor.getRed());
-		sbxml.append("\" g=\"");
-		sbxml.append(axesColor.getGreen());
-		sbxml.append("\" b=\"");
-		sbxml.append(axesColor.getBlue());
+		sbxml.append("\t<axesColor");
+		XMLBuilder.appendRGB(sbxml, axesColor);
 		sbxml.append("\"/>\n");
 
 		// grid color
-		sbxml.append("\t<gridColor r=\"");
-		sbxml.append(gridColor.getRed());
-		sbxml.append("\" g=\"");
-		sbxml.append(gridColor.getGreen());
-		sbxml.append("\" b=\"");
-		sbxml.append(gridColor.getBlue());
+		sbxml.append("\t<gridColor");
+		XMLBuilder.appendRGB(sbxml, gridColor);
 		sbxml.append("\"/>\n");
 
 		int rulerType = settings.getBackgroundType().value();

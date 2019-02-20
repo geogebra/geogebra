@@ -2916,13 +2916,9 @@ public class GeoCasCell extends GeoElement
 		sb.append("\" ");
 		sb.append("/>\n");
 
-		sb.append("\t\t\t<FontColor r=\"");
-		sb.append(getFontColor().getRed());
-		sb.append("\" b=\"");
-		sb.append(getFontColor().getBlue());
-		sb.append("\" g=\"");
-		sb.append(getFontColor().getGreen());
-		sb.append("\"/>\n");
+		sb.append("\t\t\t<FontColor");
+		XMLBuilder.appendRGB(sb, getFontColor());
+		sb.append("/>\n");
 	}
 
 	@Override

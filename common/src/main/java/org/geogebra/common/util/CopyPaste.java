@@ -151,31 +151,30 @@ public class CopyPaste {
 			if (geos.get(i).isGeoElement()) {
 				geo = (GeoElement) geos.get(i);
 				found = false;
-				if (geo.getParentAlgorithm() != null) {
-					if (geo.getParentAlgorithm().getClassName()
+				if (geo.getParentAlgorithm() != null
+						&& geo.getParentAlgorithm().getClassName()
 							.equals(Algos.AlgoMacro)) {
-						found = true;
-						if (copymacro) {
-							copiedMacros
-									.add(((AlgoMacro) geo.getParentAlgorithm())
-											.getMacro());
-						}
+					found = true;
+					if (copymacro) {
+						copiedMacros.add(((AlgoMacro) geo.getParentAlgorithm())
+								.getMacro());
 					}
 				}
 				if (!found) {
 					it = geo.getAllPredecessors().iterator();
 					while (it.hasNext()) {
 						geo2 = it.next();
-						if (geo2.getParentAlgorithm() != null) {
-							if (geo2.getParentAlgorithm().getClassName()
+						if (geo2.getParentAlgorithm() != null
+								&& geo2.getParentAlgorithm().getClassName()
 									.equals(Algos.AlgoMacro)) {
-								found = true;
-								if (copymacro) {
-									copiedMacros.add(((AlgoMacro) geo2
-											.getParentAlgorithm()).getMacro());
-								}
-								break;
+							found = true;
+							if (copymacro) {
+								copiedMacros.add(
+										((AlgoMacro) geo2.getParentAlgorithm())
+												.getMacro());
 							}
+							break;
+
 						}
 					}
 				}
