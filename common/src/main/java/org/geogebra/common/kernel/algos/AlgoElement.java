@@ -1266,8 +1266,7 @@ public abstract class AlgoElement extends ConstructionElement
 		String cmd = geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
 			boolean needsWrapping = !geo.isLabelSet();
-			if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm()
-					.getClassName() == Commands.Vector) {
+			if (Algos.isUsedFor(Commands.Vector, geo)) {
 				needsWrapping = false;
 			}
 

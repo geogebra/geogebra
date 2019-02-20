@@ -794,9 +794,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	final public boolean isDefinedAsymptote(GeoConic c) {
 		boolean isAsymptote = false;
 
-		AlgoElement ob = getParentAlgorithm();
-		if (ob != null && ob.getClassName().equals(Commands.Asymptote)) {
-			GeoElement[] input = ob.getInput();
+		if (Algos.isUsedFor(Commands.Asymptote, this)) {
+			GeoElement[] input = getParentAlgorithm().getInput();
 			for (int i = 0; i < input.length; i++) {
 				if (input[i] == c) {
 					isAsymptote = true;

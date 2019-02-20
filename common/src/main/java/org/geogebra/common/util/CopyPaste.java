@@ -150,32 +150,12 @@ public class CopyPaste {
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			if (geos.get(i).isGeoElement()) {
 				geo = (GeoElement) geos.get(i);
-				found = false;
-				if (geo.getParentAlgorithm() != null
-						&& geo.getParentAlgorithm().getClassName()
-							.equals(Algos.AlgoMacro)) {
-					found = true;
-					if (copymacro) {
-						copiedMacros.add(((AlgoMacro) geo.getParentAlgorithm())
-								.getMacro());
-					}
-				}
+				found = checkMacros(geo, copymacro);
 				if (!found) {
 					it = geo.getAllPredecessors().iterator();
-					while (it.hasNext()) {
+					while (it.hasNext() && !found) {
 						geo2 = it.next();
-						if (geo2.getParentAlgorithm() != null
-								&& geo2.getParentAlgorithm().getClassName()
-									.equals(Algos.AlgoMacro)) {
-							found = true;
-							if (copymacro) {
-								copiedMacros.add(
-										((AlgoMacro) geo2.getParentAlgorithm())
-												.getMacro());
-							}
-							break;
-
-						}
+						found = checkMacros(geo2, copymacro);
 					}
 				}
 				if (found && !copymacro) {
@@ -183,6 +163,17 @@ public class CopyPaste {
 				}
 			}
 		}
+	}
+
+	private boolean checkMacros(GeoElement geo, boolean copymacro) {
+		if (Algos.isUsedFor(Algos.AlgoMacro, geo)) {
+			if (copymacro) {
+				copiedMacros
+						.add(((AlgoMacro) geo.getParentAlgorithm()).getMacro());
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -315,8 +306,7 @@ public class CopyPaste {
 					// nested
 					// lists in lists and GeoElements with subGeos in lists!
 					// (new ticket)
-					if (geo.getParentAlgorithm().getClassName()
-							.equals(Commands.Sequence)) {
+					if (Algos.isUsedFor(Commands.Sequence, geo)) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						if (pgeos.length > 1) {
@@ -814,24 +804,19 @@ public class CopyPaste {
 				// geo.setLabel(geo.getDefaultLabel(false));
 				app.getSelectionManager().addSelectedGeo(geo);
 
-				if (geo.getParentAlgorithm() != null) {
-					if (geo.getParentAlgorithm().getClassName()
-							.equals(Commands.Sequence)) {
-						// variable of AlgoSequence is not returned in
-						// lookupLabel!
-						// the old name of the variable may remain, as it is not
-						// part of the construction anyway
-						GeoElement[] pgeos = geo.getParentAlgorithm()
-								.getInput();
-						if (pgeos.length > 1 && pgeos[1].getLabelSimple()
-								.length() > labelPrefix.length()) {
-							if (pgeos[1].getLabelSimple()
-									.substring(0, labelPrefix.length())
-									.equals(labelPrefix)) {
-								pgeos[1].setLabelSimple(
-										pgeos[1].getLabelSimple().substring(
-												labelPrefix.length()));
-							}
+				if (Algos.isUsedFor(Commands.Sequence, geo)) {
+					// variable of AlgoSequence is not returned in
+					// lookupLabel!
+					// the old name of the variable may remain, as it is not
+					// part of the construction anyway
+					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+					if (pgeos.length > 1 && pgeos[1].getLabelSimple()
+							.length() > labelPrefix.length()) {
+						if (pgeos[1].getLabelSimple()
+								.substring(0, labelPrefix.length())
+								.equals(labelPrefix)) {
+							pgeos[1].setLabelSimple(pgeos[1].getLabelSimple()
+									.substring(labelPrefix.length()));
 						}
 					}
 				}

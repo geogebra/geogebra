@@ -536,8 +536,7 @@ public class AlgebraItem {
 						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)) {
 			if (geo1.isIndependent()) {
 				return getLatexStringValue(geo1, limit);
-			} else if (geo1.getParentAlgorithm()
-					.getClassName() == Algos.Expression) {
+			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {
 				return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
 					+ geo1.getLabelDelimiter()
 					+ geo1.getDefinition(StringTemplate.latexTemplateHideLHS);

@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.AlgoVertexConic;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -7950,9 +7951,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			moveDependent(repaint);
 			break;
 		case MOVE_DEPENDENT:
-			if (movedGeoElement.getParentAlgorithm() != null
-					&& movedGeoElement.getParentAlgorithm()
-							.getClassName() == Commands.AttachCopyToView) {
+			if (Algos.isUsedFor(Commands.AttachCopyToView, movedGeoElement)) {
 				moveAttached(repaint);
 			} else {
 				moveDependent(repaint);
