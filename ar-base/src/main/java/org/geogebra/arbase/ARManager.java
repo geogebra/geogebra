@@ -84,7 +84,7 @@ public class ARManager<TouchEventType> {
     }
 
     public CoordMatrix4x4 getAnchorMatrixForGGB() {
-        return null;
+        return mModelMatrix;
     }
 
     public float getDistance() {
