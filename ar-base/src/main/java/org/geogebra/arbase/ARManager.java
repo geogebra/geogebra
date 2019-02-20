@@ -140,6 +140,10 @@ public class ARManager<TouchEventType> {
     }
 
     protected void updateModelMatrixFields() {
+
+        /* Scaling */
+        scaleMatrix.setDiag(mScaleFactor);
+
         /* translating */
         translationOffset[0] = rayEndOrigin[0] - lastHitOrigin[0];
         translationOffset[1] = rayEndOrigin[1] - lastHitOrigin[1];
