@@ -53,46 +53,46 @@ public class VoiceInputOutputController {
 	 */
 	public native void initSpeechSynth(String toSay,
 			Integer outputType) /*-{
-								var synth = window.speechSynthesis;
-								var that = this;
-								if (!('webkitSpeechRecognition' in window)) {
-								toSay = "Speech recognition not supported in this browser, please use chrome.";
-								outputType = -1;
-								}
-								var action = outputType;
-								
-								if (synth.speaking) {
-								console.error('speechSynthesis.speaking');
-								return;
-								}
-								
-								var utterThis = new SpeechSynthesisUtterance(toSay);
-								utterThis.onend = function(event) {
-								console.log('SpeechSynthesisUtterance.onend');
-								if (action == 500 || action == -1) {
-								return;
-								}
-								that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::initSpeechRec(Ljava/lang/Integer;)(action);
-								that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::playBeep()();
-								}
-								utterThis.onerror = function(event) {
-								console.error('SpeechSynthesisUtterance.onerror');
-								}
-								utterThis.pitch = 1;
-								utterThis.rate = 1;
-								utterThis.lang = 'en-US';
-								that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::showMessage(Ljava/lang/String;)(toSay);
-								synth.speak(utterThis);
-								}-*/;
+		var synth = window.speechSynthesis;
+		var that = this;
+		if (!('webkitSpeechRecognition' in window)) {
+			toSay = "Speech recognition not supported in this browser, please use chrome.";
+			outputType = -1;
+		}
+		var action = outputType;
+
+		if (synth.speaking) {
+			console.error('speechSynthesis.speaking');
+			return;
+		}
+
+		var utterThis = new SpeechSynthesisUtterance(toSay);
+		utterThis.onend = function(event) {
+			console.log('SpeechSynthesisUtterance.onend');
+			if (action == 500 || action == -1) {
+				return;
+			}
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::initSpeechRec(Ljava/lang/Integer;)(action);
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::playBeep()();
+		}
+		utterThis.onerror = function(event) {
+			console.error('SpeechSynthesisUtterance.onerror');
+		}
+		utterThis.pitch = 1;
+		utterThis.rate = 1;
+		utterThis.lang = 'en-US';
+		that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::showMessage(Ljava/lang/String;)(toSay);
+		synth.speak(utterThis);
+	}-*/;
 
 	/**
 	 * play a beep if user can start speaking
 	 */
 	public native void playBeep() /*-{
-									var snd = new Audio();
-									snd.src = "https://soundbible.com/mp3/Short%20Beep%20Tone-SoundBible.com-1937840853.mp3";
-									snd.play();
-									}-*/;
+		var snd = new Audio();
+		snd.src = "https://soundbible.com/mp3/Short%20Beep%20Tone-SoundBible.com-1937840853.mp3";
+		snd.play();
+	}-*/;
 
 	/**
 	 * init speech recognition
@@ -101,65 +101,65 @@ public class VoiceInputOutputController {
 	 *            action
 	 */
 	public native void initSpeechRec(Integer actionID) /*-{
-																var that = this;
-																var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
-																var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
-																var SpeechRecognitionEvent = SpeechRecognitionEvent
-																|| webkitSpeechRecognitionEvent
-																
-																var recognition = new SpeechRecognition();
-																var speechRecognitionList = new SpeechGrammarList();
-																speechRecognitionList.addFromString("create", 1);
-																speechRecognitionList.addFromString("circle", 1);
-																recognition.grammars = speechRecognitionList;
-																recognition.lang = "en-US";
-																recognition.interimResults = false;
-																recognition.maxAlternatives = 1;
-																that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setAction(Ljava/lang/Integer;)(actionID);
-																
-																recognition.start();
-																console.log('SPEECH REC: Ready to receive a command.');
-																
-																recognition.onresult = function(event) {
-																console.log('SPEECH REC: im in on result');
-																that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setGotResult(Ljava/lang/String;)("true");
-																var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
-																var last = event.results.length - 1;
-																var result = event.results[last][0].transcript;
-																
-																console.log('SPEECH REC: Result received: ' + result + '.');
-																console.log('SPEECH REC: Confidence: '
-																+ event.results[0][0].confidence);
-																
-																that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,result);
-																}
-																
-																recognition.onspeechend = function() {
-																that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setGotResult(Ljava/lang/String;)("false");
-																recognition.stop();
-																console.log('SPEECH REC: Recognition stopped.');
-																setTimeout(
-																function() {
-																var gotResult = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::gotResult;
-																var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
-																if (gotResult === "false") {
-																that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,"");
-																}
-																}, 3000);
-																
-																}
-																
-																recognition.onnomatch = function(event) {
-																console.log("SPEECH REC: I didn't recognise the text.");
-																}
-																
-																recognition.onerror = function(event) {
-																console.log('SPEECH REC: Error occurred in recognition: '
-																+ event.error);
-																var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
-																that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,"");
-																}
-																}-*/;
+		var that = this;
+		var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+		var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+		var SpeechRecognitionEvent = SpeechRecognitionEvent
+				|| webkitSpeechRecognitionEvent
+
+		var recognition = new SpeechRecognition();
+		var speechRecognitionList = new SpeechGrammarList();
+		speechRecognitionList.addFromString("create", 1);
+		speechRecognitionList.addFromString("circle", 1);
+		recognition.grammars = speechRecognitionList;
+		recognition.lang = "en-US";
+		recognition.interimResults = false;
+		recognition.maxAlternatives = 1;
+		that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setAction(Ljava/lang/Integer;)(actionID);
+
+		recognition.start();
+		console.log('SPEECH REC: Ready to receive a command.');
+
+		recognition.onresult = function(event) {
+			console.log('SPEECH REC: im in on result');
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setGotResult(Ljava/lang/String;)("true");
+			var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
+			var last = event.results.length - 1;
+			var result = event.results[last][0].transcript;
+
+			console.log('SPEECH REC: Result received: ' + result + '.');
+			console.log('SPEECH REC: Confidence: '
+					+ event.results[0][0].confidence);
+
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,result);
+		}
+
+		recognition.onspeechend = function() {
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setGotResult(Ljava/lang/String;)("false");
+			recognition.stop();
+			console.log('SPEECH REC: Recognition stopped.');
+			setTimeout(
+					function() {
+						var gotResult = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::gotResult;
+						var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
+						if (gotResult === "false") {
+							that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,"");
+						}
+					}, 3000);
+
+		}
+
+		recognition.onnomatch = function(event) {
+			console.log("SPEECH REC: I didn't recognise the text.");
+		}
+
+		recognition.onerror = function(event) {
+			console.log('SPEECH REC: Error occurred in recognition: '
+					+ event.error);
+			var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,"");
+		}
+	}-*/;
 
 	/**
 	 * @param actionType
@@ -168,8 +168,8 @@ public class VoiceInputOutputController {
 	 *            from speech recognition
 	 */
 	public void onResponse(Integer actionType, String result) {
-		switch (actionType) {
-		case QuestResErrConstants.COMMAND:
+		if (actionType == QuestResErrConstants.COMMAND) {
+		
 			// this.speechRecResultTxt = result;
 			Log.debug("SPEECH REC: Result: " + result);
 			if (result.contains("create")) {
@@ -181,11 +181,9 @@ public class VoiceInputOutputController {
 								+ ". Please repeat command. Must contain create.",
 						QuestResErrConstants.COMMAND);
 			}
-			break;
 
-		default: 
+		} else {
 			validateResponse(result);
-			break;
 		}
 	}
 	
