@@ -847,7 +847,7 @@ public class Browser {
 	 * @return if we use css zoom in Safari.
 	 */
 	public static boolean preferZoomOverTransform() {
-		return zoomInSafari && (isSafariByVendor() || isChrome());
+		return zoomInSafari && isSafariByVendor();
 	}
 
 	/**
