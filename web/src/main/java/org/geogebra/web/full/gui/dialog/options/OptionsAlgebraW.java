@@ -188,11 +188,10 @@ public class OptionsAlgebraW
 			angleUnit.clear();
 			angleUnit.addItem(getApp().getLocalization().getMenu("Degree"));
 			angleUnit.addItem(getApp().getLocalization().getMenu("Radiant"));
-			if (getApp().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-				angleUnit.addItem(getApp().getLocalization()
-						.getMenu("DegreesMinutesSeconds"));
-				int index;
-				switch (getApp().getKernel().getAngleUnit()) {
+			angleUnit.addItem(getApp().getLocalization()
+					.getMenu("DegreesMinutesSeconds"));
+			int index;
+			switch (getApp().getKernel().getAngleUnit()) {
 				case Kernel.ANGLE_RADIANT:
 					index = 1;
 					break;
@@ -203,12 +202,9 @@ public class OptionsAlgebraW
 				default:
 					index = 0;
 					break;
-				}
-				angleUnit.setSelectedIndex(index);
-			} else {
-				angleUnit.setSelectedIndex(getApp().getKernel()
-						.getAngleUnit() == Kernel.ANGLE_RADIANT ? 1 : 0);
 			}
+			angleUnit.setSelectedIndex(index);
+
 			getApp().getKernel().updateConstruction(false);
 			getApp().setUnsaved();
 		}
@@ -265,9 +261,9 @@ public class OptionsAlgebraW
 				getApp().getKernel().updateConstruction(false);
 			} else if (source == getAngleUnit()) {
 				int i = getAngleUnit().getSelectedIndex();
-				if (getApp().has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-					int unit;
-					switch (i) {
+
+				int unit;
+				switch (i) {
 					case 1:
 						unit = Kernel.ANGLE_RADIANT;
 						break;
@@ -278,13 +274,8 @@ public class OptionsAlgebraW
 					default:
 						unit = Kernel.ANGLE_DEGREE;
 						break;
-					}
-					getApp().getKernel().setAngleUnit(unit);
-				} else {
-					getApp().getKernel()
-							.setAngleUnit(i == 0 ? Kernel.ANGLE_DEGREE
-									: Kernel.ANGLE_RADIANT);
 				}
+				getApp().getKernel().setAngleUnit(unit);
 				getApp().getKernel().updateConstruction(false);
 				getApp().setUnsaved();
 			}

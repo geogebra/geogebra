@@ -311,12 +311,10 @@ public class OptionsAdvancedD implements OptionPanelD,
 		angleUnitPanel.add(angleUnitRadioRadian);
 		angleUnitButtonGroup.add(angleUnitRadioRadian);
 
-		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-			angleUnitRadioDegreesMinutesSeconds = new JRadioButton();
-			angleUnitRadioDegreesMinutesSeconds.addActionListener(this);
-			angleUnitPanel.add(angleUnitRadioDegreesMinutesSeconds);
-			angleUnitButtonGroup.add(angleUnitRadioDegreesMinutesSeconds);
-		}
+		angleUnitRadioDegreesMinutesSeconds = new JRadioButton();
+		angleUnitRadioDegreesMinutesSeconds.addActionListener(this);
+		angleUnitPanel.add(angleUnitRadioDegreesMinutesSeconds);
+		angleUnitButtonGroup.add(angleUnitRadioDegreesMinutesSeconds);
 
 		// cbReturnAngleInverseTrig = new JCheckBox();
 		// cbReturnAngleInverseTrig.addActionListener(this);
@@ -430,16 +428,11 @@ public class OptionsAdvancedD implements OptionPanelD,
 		cbUseLocalDigits.setSelected(loc.isUsingLocalizedDigits());
 		cbUseLocalLabels.setSelected(loc.isUsingLocalizedLabels());
 
-		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-			int angleUnit = app.getKernel().getAngleUnit();
-			angleUnitRadioDegree.setSelected(angleUnit == Kernel.ANGLE_DEGREE);
-			angleUnitRadioRadian.setSelected(angleUnit == Kernel.ANGLE_RADIANT);
-			angleUnitRadioDegreesMinutesSeconds.setSelected(
-					angleUnit == Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
-		} else {
-			angleUnitRadioDegree.setSelected(app.getKernel().degreesMode());
-			angleUnitRadioRadian.setSelected(!app.getKernel().degreesMode());
-		}
+		int angleUnit = app.getKernel().getAngleUnit();
+		angleUnitRadioDegree.setSelected(angleUnit == Kernel.ANGLE_DEGREE);
+		angleUnitRadioRadian.setSelected(angleUnit == Kernel.ANGLE_RADIANT);
+		angleUnitRadioDegreesMinutesSeconds.setSelected(
+				angleUnit == Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
@@ -618,8 +611,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 			app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
-		} else if (source == angleUnitRadioDegreesMinutesSeconds
-				&& app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
+		} else if (source == angleUnitRadioDegreesMinutesSeconds) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 			app.getKernel().updateConstruction(false);
 			app.setUnsaved();
@@ -781,10 +773,9 @@ public class OptionsAdvancedD implements OptionPanelD,
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("AngleUnit")));
 		angleUnitRadioDegree.setText(loc.getMenu("Degree"));
 		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
-		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-			angleUnitRadioDegreesMinutesSeconds
-					.setText(loc.getMenu("DegreesMinutesSeconds"));
-		}
+		angleUnitRadioDegreesMinutesSeconds
+				.setText(loc.getMenu("DegreesMinutesSeconds"));
+
 
 		continuityPanel
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Continuity")));
@@ -997,9 +988,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		angleUnitPanel.setFont(font);
 		angleUnitRadioDegree.setFont(font);
 		angleUnitRadioRadian.setFont(font);
-		if (app.has(Feature.MOB_ANGLE_DEGREES_MINUTES_SECONDS)) {
-			angleUnitRadioDegreesMinutesSeconds.setFont(font);
-		}
+		angleUnitRadioDegreesMinutesSeconds.setFont(font);
 
 		continuityPanel.setFont(font);
 		continuityRadioOn.setFont(font);
