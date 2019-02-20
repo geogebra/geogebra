@@ -674,7 +674,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		Log.debug("setting language to:" + lang + ", browser lang:"
 				+ browserLang);
-
 		getLocalization().loadScript(lang, this);
 	}
 
@@ -2187,7 +2186,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public String getLanguageFromCookie() {
 		if (has(Feature.LANG_PARAM_LAST))  {
-			return getLanguageParamLast();
+			return UserPreferredLanguage.get(this);
 		}
 		String lCookieValue = articleElement.getDataParamApp()
 				? Location.getParameter("lang") : "";
@@ -2206,28 +2205,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return lCookieValue;
 	}
 
-	public String getLanguageParamLast() {
-		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
-		if (!StringUtil.empty(cookieLang)) {
-			 return cookieLang;
-		}
-		
-		Storage localStorage = Storage.getLocalStorageIfSupported();
-		String storageLang = localStorage == null ? null
-				: localStorage.getItem("GeoGebraLangUI");
-		if (!StringUtil.empty(storageLang)) {
-			return storageLang;
-		}
-		
-		String urlLang = articleElement.getDataParamApp()
-				? Location.getParameter("lang") : "";
-		if (!StringUtil.empty(urlLang) && !getLoginOperation().isLoggedIn()) {
-			return urlLang;
-		}
-	
-		return Browser.navigatorLanguage();
-	}
-
 	@Override
 	public void setLabels() {
 		if (initing) {
@@ -2241,6 +2218,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		getArticleElement().getElement().setAttribute("aria-label",
 				getLocalization().getMenu(key));
 		setAltText();
+		translateHeader();
+	}
+
+	protected void translateHeader() {
+		UserPreferredLanguage.translate(this, Dom.querySelector("GeoGebraHeader"));
 	}
 
 	@Override
