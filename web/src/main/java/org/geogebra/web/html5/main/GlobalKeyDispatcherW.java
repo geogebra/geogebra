@@ -37,7 +37,6 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Handles keyboard events.
@@ -656,127 +655,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	protected void showPrintPreview(App app2) {
 		Log.debug("unimplemented");
-	}
-
-	/**
-	 * @param keyCode
-	 *            GWT / JavaScript keycode
-	 * @return ug SUPERSCRIPT 2 for Alt-2
-	 */
-	public static String processAltCode(int keyCode) {
-		switch (keyCode) {
-
-		case GWTKeycodes.KEY_O:
-			return Unicode.DEGREE_STRING;
-
-		case GWTKeycodes.KEY_P:
-			if (shiftDown) {
-				return Unicode.Pi + "";
-			}
-			return Unicode.pi + "";
-
-		case GWTKeycodes.KEY_I:
-			return Unicode.IMAGINARY + "";
-
-		case GWTKeycodes.KEY_A:
-			if (shiftDown) {
-				return Unicode.Alpha + "";
-			}
-			return Unicode.alpha + "";
-
-		case GWTKeycodes.KEY_B:
-			if (shiftDown) {
-				return Unicode.Beta + "";
-			}
-			return Unicode.beta + "";
-
-		case GWTKeycodes.KEY_G:
-			if (shiftDown) {
-				return Unicode.Gamma + "";
-			}
-			return Unicode.gamma + "";
-
-		case GWTKeycodes.KEY_T:
-			if (shiftDown) {
-				return Unicode.Theta + "";
-			}
-			return Unicode.theta + "";
-
-		case GWTKeycodes.KEY_U:
-			// U, euro sign is shown on HU
-			return Unicode.INFINITY + "";
-
-		case GWTKeycodes.KEY_L:
-			// L, \u0141 sign is shown on HU
-			if (shiftDown) {
-				return Unicode.Lambda + "";
-			}
-			return Unicode.lambda + "";
-
-		case GWTKeycodes.KEY_M:
-			if (shiftDown) {
-				return Unicode.Mu + "";
-			}
-			return Unicode.mu + "";
-
-		case GWTKeycodes.KEY_N:
-			if (shiftDown) {
-				return Unicode.Nu + "";
-			}
-			return Unicode.nu + "";
-
-		case GWTKeycodes.KEY_W:
-			// Alt-W is | needed for abs()
-			if (shiftDown) {
-				return Unicode.Omega + "";
-			}
-			return Unicode.omega + "";
-
-		case GWTKeycodes.KEY_R:
-			return Unicode.SQUARE_ROOT + "";
-
-		case GWTKeycodes.KEY_ONE:
-			return Unicode.SUPERSCRIPT_1 + "";
-
-		case GWTKeycodes.KEY_TWO:
-			return Unicode.SUPERSCRIPT_2 + "";
-
-		case GWTKeycodes.KEY_THREE:
-			return Unicode.SUPERSCRIPT_3 + "";
-
-		case GWTKeycodes.KEY_FOUR:
-			return Unicode.SUPERSCRIPT_4 + "";
-
-		case GWTKeycodes.KEY_FIVE:
-			return Unicode.SUPERSCRIPT_5 + "";
-
-		case GWTKeycodes.KEY_SIX:
-			return Unicode.SUPERSCRIPT_6 + "";
-
-		case GWTKeycodes.KEY_SEVEN:
-			return Unicode.SUPERSCRIPT_7 + "";
-
-		case GWTKeycodes.KEY_EIGHT:
-			return Unicode.SUPERSCRIPT_8 + "";
-
-		case GWTKeycodes.KEY_NINE:
-			return Unicode.SUPERSCRIPT_9 + "";
-
-		case GWTKeycodes.KEY_ZERO:
-			return Unicode.SUPERSCRIPT_0 + "";
-
-		case GWTKeycodes.KEY_MINUS:
-			return Unicode.SUPERSCRIPT_MINUS + "";
-
-		case GWTKeycodes.KEY_X:
-			return "^x";
-
-		case GWTKeycodes.KEY_Y:
-			return "^y";
-
-		default:
-			return null;
-		}
 	}
 
 	/**
