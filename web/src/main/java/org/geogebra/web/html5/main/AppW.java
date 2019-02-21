@@ -2224,11 +2224,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		kernel.updateLocalAxesNames();
 		kernel.setViewsLabels();
 		updateCommandDictionary();
-		String key = getConfig().getAppTitle();
-		getArticleElement().getElement().setAttribute("aria-label",
-				getLocalization().getMenu(key));
+		setTitle();
 		setAltText();
 		translateHeader();
+	}
+
+	private void setTitle() {
+		String title = getLocalization().getMenu(getConfig().getAppTitle());
+		Browser.changeMetaTitle(title);
+		getArticleElement().getElement().setAttribute("aria-label", title);
 	}
 
 	protected void translateHeader() {
