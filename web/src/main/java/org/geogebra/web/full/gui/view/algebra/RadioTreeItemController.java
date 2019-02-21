@@ -23,6 +23,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -385,10 +387,21 @@ public class RadioTreeItemController implements ClickHandler,
 			if (item.isInputTreeItem()) {
 				// put earlier, maybe it freezes afterwards?
 				setFocus(true);
+				dispatchEditEvent(EventType.EDITOR_START);
 			}
 
 		}
 		updateSelection(event.isControlDown(), event.isShiftDown());
+	}
+
+	/**
+	 * Inform listeners about editing start
+	 * 
+	 * @param eventType
+	 *            editor event type
+	 */
+	protected void dispatchEditEvent(EventType eventType) {
+		app.dispatchEvent(new Event(eventType, item.getGeo(), null));
 	}
 
 	/**

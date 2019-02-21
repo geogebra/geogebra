@@ -99,6 +99,9 @@ public abstract class ScriptManager implements EventListener {
 		case EXPORT:
 		case ADD_MACRO:
 		case REMOVE_MACRO:
+		case EDITOR_KEY_TYPED:
+		case EDITOR_START:
+		case EDITOR_STOP:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -73,12 +74,15 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            whether to create sliders
 	 */
 	public void onEnter(final boolean keepFocus, boolean createSliders) {
+		if(isEditing()){
+			dispatchEditEvent(EventType.EDITOR_STOP);
+		}
 		if (item.isInputTreeItem() && item.isEmpty()) {
 			item.styleEditor();
 			item.addDummyLabel();
+			setEditing(false);
 			return;
 		}
-
 		item.setShowInputHelpPanel(false);
 		if (item.geo == null) {
 			if (StringUtil.empty(item.getText())) {
@@ -86,6 +90,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			}
 			item.getAV().setLaTeXLoaded();
 			createGeoFromInput(keepFocus, createSliders);
+			setEditing(false);
 			return;
 		}
 		if (!isEditing()) {
@@ -123,6 +128,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			app.getSelectionManager().clearSelectedGeos();
 		}
 		item.onKeyTyped();
+		this.dispatchEditEvent(EventType.EDITOR_KEY_TYPED);
 	}
 
 	@Override

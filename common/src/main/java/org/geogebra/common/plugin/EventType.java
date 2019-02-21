@@ -117,7 +117,13 @@ public enum EventType {
 	MOVE_SLIDE("moveSlide"),
 
 	/** Clear slide: slide ID */
-	CLEAR_SLIDE("clearSlide");
+	CLEAR_SLIDE("clearSlide"),
+	/** Key typed in editor */
+	EDITOR_KEY_TYPED("editorKeyTyped"),
+	/** Editing started for an object (or new input) */
+	EDITOR_START("editorStart"),
+	/** Editing stopped for an object (or new input) */
+	EDITOR_STOP("editorStop");
 
 	private String eventName;
 

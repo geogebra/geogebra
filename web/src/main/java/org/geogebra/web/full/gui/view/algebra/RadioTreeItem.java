@@ -36,6 +36,7 @@ import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -796,6 +797,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!onEditStart()) {
 			return false;
 		}
+		getLatexController().dispatchEditEvent(EventType.EDITOR_START);
 		if (controls != null) {
 			controls.setVisible(true);
 			updateButtonPanelPosition();
@@ -872,7 +874,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		kernel.notifyUpdatePreviewFromInputBar(null);
 		removeCloseButton();
-
 		controller.setEditing(false);
 
 		av.cancelEditItem();
@@ -881,7 +882,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (controls != null) {
 			controls.setVisible(true);
 		}
-
 		if (rawInput != null) {
 			String v = app.getKernel().getInputPreviewHelper()
 					.getInput(rawInput);
@@ -1680,7 +1680,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			latexItem.getElement().getStyle().setProperty("minHeight",
 					getController().getEditHeigth() + "px");
 		}
-
 		ensureCanvas();
 		appendCanvas();
 
@@ -1763,9 +1762,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			content.addStyleName("scrollableTextBox");
 			if (isInputTreeItem()) {
 				MinMaxPanel.closeMinMaxPanel();
-
 				getAV().restoreWidth(true);
-
 			}
 		} else {
 			if (isInputTreeItem()) {
@@ -2035,7 +2032,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		clearErrorLabel();
 		removeDummy();
-
 		renderLatex(text, true);
 		getMathField().requestViewFocus();
 		app.getGlobalKeyDispatcher().setFocused(true);
