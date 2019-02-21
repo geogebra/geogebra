@@ -3974,7 +3974,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-19 APPS-68 */
 		case TABLE_VIEW:
-			return prerelease;
+			return true;
 
 		/** APPS-31 */
 		case SPECIAL_POINTS_IN_CONTEXT_MENU:
