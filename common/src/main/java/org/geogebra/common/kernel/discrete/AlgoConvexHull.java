@@ -138,22 +138,22 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 			return;
 		}
 
-		List<Point2D> jarvisResult = ConvexHull.jarvisMarch(vl);
+		List<Point2D> hull = ConvexHull.makeHull(vl);
 
-		for (int i = 0; i < jarvisResult.size(); i++) {
-			Point2D p = jarvisResult.get(i);
+		for (int i = 0; i < hull.size(); i++) {
+			Point2D p = hull.get(i);
 			al.add(new MyPoint(p.getX(), p.getY(), i != 0 ? SegmentType.LINE_TO
 					: SegmentType.MOVE_TO));
 
 		}
 
-		if (jarvisResult.size() == 0) {
+		if (hull.size() == 0) {
 			locus.setDefined(false);
 			return;
 		}
 
 		// close the polygon
-		Point2D p = jarvisResult.get(0);
+		Point2D p = hull.get(0);
 		al.add(new MyPoint(p.getX(), p.getY(), SegmentType.LINE_TO));
 
 		locus.setPoints(al);
