@@ -2538,7 +2538,7 @@ __GGB__keysVar["yi"].menu = {
     "Relation.Help": "\u05d1\u05d0\u05b7\u05e9\u05d8\u05d9\u05de\u05d8 \u05e6\u05d5\u05d5\u05d9\u05d9 [\u05e4\u05bf\u05d0\u05b7\u05e8\u05d0\u05b7\u05e0\u05e2\u05e0\u05e2] \u05d0\u05b8\u05d1\u05d9\u05e2\u05e7\u05d8\u05df",
     "Relative": "\u05e8\u05e2\u05dc\u05d0\u05b7\u05d8\u05d9\u05d5\u05d5\u05e2",
     "Remove": "\u05d0\u05b8\u05e4\u05bc\u05de\u05e2\u05e7\u05df",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "\u05d0\u05b8\u05e4\u05bc\u05e9\u05d0\u05b7\u05e4\u05bf\u05df \u05d3\u05d9 \u05d0\u05b8\u05e4\u05bc\u05e9\u05d8\u05e2\u05dc\u05be\u05dc\u05d9\u05e0\u05d9\u05e2\u05e1",

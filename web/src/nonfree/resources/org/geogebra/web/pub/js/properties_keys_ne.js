@@ -2538,7 +2538,7 @@ __GGB__keysVar["ne"].menu = {
     "Relation.Help": "\u0926\u0941\u0907\u0935\u0938\u094d\u0924\u0941 \u091b\u093e\u0928\u094d\u0928\u0941\u0939\u094b\u0938",
     "Relative": "\u0938\u093e\u092a\u0947\u0915\u094d\u0937",
     "Remove": "\u0939\u091f\u093e\u0909\u0928\u0942",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "\u0905\u0935\u093f\u091b\u093f\u0928\u094d\u0928 \u0930\u0947\u0916\u093e \u0939\u091f\u093e\u0909\u0928\u0941\u0939\u094b\u0938",

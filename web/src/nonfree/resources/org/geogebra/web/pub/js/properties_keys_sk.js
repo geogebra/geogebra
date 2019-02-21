@@ -2538,7 +2538,7 @@ __GGB__keysVar["sk"].menu = {
     "Relation.Help": "Vyzna\u010d dva objekty!",
     "Relative": "Relat\xedvne",
     "Remove": "Odstr\xe1ni\u0165",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Odstr\xe1ni\u0165 Ob\u013e\xfaben\xe9",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Odst\xe1nenie zalomenia \u010diar",

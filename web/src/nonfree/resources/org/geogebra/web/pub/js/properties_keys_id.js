@@ -2538,7 +2538,7 @@ __GGB__keysVar["id"].menu = {
     "Relation.Help": "Pilih dua objek",
     "Relative": "Relatif",
     "Remove": "Hilangkan",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Hilangkan Garis Pemutus (Line Breaks)",

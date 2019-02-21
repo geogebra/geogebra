@@ -2538,7 +2538,7 @@ __GGB__keysVar["et"].menu = {
     "Relation.Help": "Valige kaks objekti",
     "Relative": "Suhteline",
     "Remove": "Eemalda",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Eemalda lemmikutest",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Eemalda rea v\xf5i joone katkestused",

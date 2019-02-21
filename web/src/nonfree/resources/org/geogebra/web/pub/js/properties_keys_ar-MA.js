@@ -2538,7 +2538,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "Relation.Help": "\u0623\u0646\u0642\u0631 \u0639\u0644\u0649 \u0639\u0646\u0635\u0631\u064a\u0646",
     "Relative": "\u0646\u0633\u0628\u064a",
     "Remove": "\u062d\u0630\u0641",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "\u062d\u0630\u0641 \u062e\u0637\u0648\u0637 \u0627\u0644\u0648\u0642\u0641",

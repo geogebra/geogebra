@@ -2538,7 +2538,7 @@ __GGB__keysVar["en-AU"].menu = {
     "Relation.Help": "Select two objects",
     "Relative": "Relative",
     "Remove": "Remove",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Remove Line Breaks",

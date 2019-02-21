@@ -2538,7 +2538,7 @@ __GGB__keysVar["sr"].menu = {
     "Relation.Help": "Izaberite dva objekta",
     "Relative": "Relativno",
     "Remove": "Ukloni",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Ukloni prelome redova",

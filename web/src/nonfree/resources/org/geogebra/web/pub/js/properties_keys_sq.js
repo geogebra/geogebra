@@ -2538,7 +2538,7 @@ __GGB__keysVar["sq"].menu = {
     "Relation.Help": "Zgjidh dy objekte",
     "Relative": "Relative",
     "Remove": "Largoj(Heq)",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Largo nderprerje drejtezash",

@@ -2538,7 +2538,7 @@ __GGB__keysVar["lv"].menu = {
     "Relation.Help": "Izv\u0113lies divus objektus",
     "Relative": "Attiec\u012bbas",
     "Remove": "Izgriezt",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "No\u0146emt rindstarpas",

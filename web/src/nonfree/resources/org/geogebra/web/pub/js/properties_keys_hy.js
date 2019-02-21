@@ -2538,7 +2538,7 @@ __GGB__keysVar["hy"].menu = {
     "Relation.Help": "\u0546\u0577\u0565\u0584 \u0565\u0580\u056f\u0578\u0582 \u0585\u0562\u0575\u0565\u056f\u057f",
     "Relative": "\u0540\u0561\u0580\u0561\u0562\u0565\u0580\u0561\u056f\u0561\u0576",
     "Remove": "\u054b\u0576\u057b\u0565\u0574",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "\u054e\u0565\u0580\u0561\u0581\u0576\u0565\u0574 \u056d\u0566\u0578\u0582\u0574\u0576\u0565\u0580\u0568",

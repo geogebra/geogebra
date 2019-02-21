@@ -2538,7 +2538,7 @@ __GGB__keysVar["vi"].menu = {
     "Relation.Help": "Ch\u1ecdn 2 \u0111\u1ed1i t\u01b0\u1ee3ng",
     "Relative": "T\u01b0\u01a1ng \u0111\u1ed1i",
     "Remove": "X\xf3a",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "B\u1ecf \u0111\u01b0\u1eddng th\u1eb3ng \u0111\u1ee9t \u0111o\u1ea1n",

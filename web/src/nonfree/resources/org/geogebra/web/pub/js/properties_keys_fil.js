@@ -2538,7 +2538,7 @@ __GGB__keysVar["fil"].menu = {
     "Relation.Help": "Pumili ng dalawang objects",
     "Relative": "Relative",
     "Remove": "Tanggalin",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Remove Line Breaks",

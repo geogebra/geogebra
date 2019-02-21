@@ -2538,7 +2538,7 @@ __GGB__keysVar["cy"].menu = {
     "Relation.Help": "Dewis ddau wrthrych",
     "Relative": "Cymharol",
     "Remove": "Dileu",
-    "RemoveColumn": "Remove Column",
+    "RemoveColumn": "Remove column",
     "RemoveFavorite": "Remove Favorite",
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Diddymu Toriadau Llinell",
