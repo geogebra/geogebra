@@ -25,9 +25,11 @@ public class UserPreferredLanguage {
 		}
 
 		Storage localStorage = Storage.getLocalStorageIfSupported();
-		String storageLang = localStorage.getItem("GeoGebraLangUI");
-		if (!StringUtil.empty(storageLang)) {
-			return storageLang;
+		if (localStorage != null) {
+			String storageLang = localStorage.getItem("GeoGebraLangUI");
+			if (!StringUtil.empty(storageLang)) {
+				return storageLang;
+			}
 		}
 
 		String urlLang = app.getArticleElement().getDataParamApp() ? Location.getParameter("lang") : "";
