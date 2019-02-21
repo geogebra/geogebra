@@ -113,7 +113,6 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 						return;
 					}
 					vl.add(new Point2D(inhom[0], inhom[1]));
-
 				}
 			}
 		}

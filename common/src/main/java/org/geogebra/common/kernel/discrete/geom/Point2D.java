@@ -31,6 +31,7 @@ public class Point2D implements Comparable<Point2D> {
 		return "(" + x + ", " + y + ")";
 	}
 
+	@Override
 	public int compareTo(Point2D other) {
 		if (x != other.x) {
 			return Double.compare(x, other.x);
@@ -38,13 +39,16 @@ public class Point2D implements Comparable<Point2D> {
 		return Double.compare(y, other.y);
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Point2D))
+		if (!(obj instanceof Point2D)) {
 			return false;
+		}
 		Point2D other = (Point2D) obj;
 		return x == other.x && y == other.y;
 	}
 
+	@Override
 	public int hashCode() {
 		return Objects.hash(x, y);
 	}

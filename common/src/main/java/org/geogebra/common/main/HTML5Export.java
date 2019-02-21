@@ -143,24 +143,8 @@ public class HTML5Export {
 		String applet_play = app.convertImageToDataURIIfPossible(
 				GeoGebraConstants.APPLET_PLAY_PNG);
 
-		// dummy (but valid) gif
-		String previewImage = StringUtil.gifMarker + "R0lGODlhAQABAAAAADs=";
-
-		GBufferedImage preview = app.getActiveEuclidianView().getExportImage(1);
-
-		String base64 = null;
-
-		// eg 3D View in web
-		if (preview != null) {
-			base64 = preview.getBase64();
-		}
-
-		if (base64 != null) {
-			previewImage = base64;
-		}
-
 		sb.append("applet.setPreviewImage('");
-		sb.append(previewImage);
+		sb.append(getPreviewImage(app));
 		sb.append("','");
 		sb.append(GeoGebra_loading);
 		sb.append("','");
@@ -172,6 +156,20 @@ public class HTML5Export {
 		sb.append("</html>\n");
 
 		return sb.toString();
+	}
+
+	private static Object getPreviewImage(App app) {
+		GBufferedImage preview = app.getActiveEuclidianView().getExportImage(1);
+		String base64 = null;
+		// eg 3D View in web
+		if (preview != null) {
+			base64 = preview.getBase64();
+		}
+		if (base64 != null) {
+			return base64;
+		}
+		// dummy (but valid) gif
+		return StringUtil.gifMarker + "R0lGODlhAQABAAAAADs=";
 	}
 
 }

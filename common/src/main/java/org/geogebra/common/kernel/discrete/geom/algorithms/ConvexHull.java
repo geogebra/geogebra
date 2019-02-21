@@ -53,8 +53,9 @@ public final class ConvexHull {
 	 *         + 1].
 	 */
 	public static List<Point2D> makeHullPresorted(List<Point2D> points) {
-		if (points.size() <= 1)
+		if (points.size() <= 1) {
 			return new ArrayList<>(points);
+		}
 
 		// Andrew's monotone chain algorithm. Positive y coordinates correspond
 		// to "up"
@@ -68,10 +69,11 @@ public final class ConvexHull {
 			while (upperHull.size() >= 2) {
 				Point2D q = upperHull.get(upperHull.size() - 1);
 				Point2D r = upperHull.get(upperHull.size() - 2);
-				if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x))
+				if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x)) {
 					upperHull.remove(upperHull.size() - 1);
-				else
+				} else {
 					break;
+				}
 			}
 			upperHull.add(p);
 		}
@@ -83,17 +85,19 @@ public final class ConvexHull {
 			while (lowerHull.size() >= 2) {
 				Point2D q = lowerHull.get(lowerHull.size() - 1);
 				Point2D r = lowerHull.get(lowerHull.size() - 2);
-				if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x))
+				if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x)) {
 					lowerHull.remove(lowerHull.size() - 1);
-				else
+				} else {
 					break;
+				}
 			}
 			lowerHull.add(p);
 		}
 		lowerHull.remove(lowerHull.size() - 1);
 
-		if (!(upperHull.size() == 1 && upperHull.equals(lowerHull)))
+		if (!(upperHull.size() == 1 && upperHull.equals(lowerHull))) {
 			upperHull.addAll(lowerHull);
+		}
 		return upperHull;
 	}
 
