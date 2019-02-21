@@ -117,7 +117,7 @@ public class XMLBuilder {
 			XMLBuilder.appendRGB(sb, geo.bgColor);
 			sb.append(" alpha=\"");
 			sb.append(geo.bgColor.getAlpha());
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 		}
 
 		// don't remove layer 0 information
