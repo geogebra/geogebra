@@ -387,7 +387,6 @@ public class RadioTreeItemController implements ClickHandler,
 			if (item.isInputTreeItem()) {
 				// put earlier, maybe it freezes afterwards?
 				setFocus(true);
-				dispatchEditEvent(EventType.EDITOR_START);
 			}
 
 		}
