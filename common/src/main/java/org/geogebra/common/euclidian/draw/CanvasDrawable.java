@@ -111,6 +111,25 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	/**
+	 * @param app
+	 *            application
+	 * @param geo0
+	 *            related geo
+	 * @param font
+	 *            font
+	 * @param text
+	 *            text
+	 * @param serif
+	 *            serif or sans-serif
+	 * @return size of text with given font
+	 */
+	public static GDimension measureLatex(App app, GeoElement geo0, GFont font,
+			String text, boolean serif) {
+		return app.getDrawEquation().measureEquation(app, geo0, text, font,
+				serif);
+	}
+
+	/**
 	 * @param g2
 	 *            graphics
 	 * @param geo0

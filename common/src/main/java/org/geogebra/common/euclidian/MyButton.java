@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 
 //import java.awt.Color;
 
@@ -111,7 +112,8 @@ public class MyButton implements Observer {
 		if (hasText) {
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, getCaption());
+						view.getApplication(), geoButton, font, getCaption(),
+						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
@@ -335,9 +337,11 @@ public class MyButton implements Observer {
 			App app = view.getApplication();
 			g.setPaint(GColor.BLACK);
 
+			String caption = getCaption();
+
+
 			app.getDrawEquation().drawEquation(app, geoButton, g, xPos, yPos,
-					geoButton.getCaption(StringTemplate.defaultTemplate), font,
-					false, geoButton.getObjectColor(),
+					caption, font, getSerif(), geoButton.getObjectColor(),
 					geoButton.getBackgroundColor(), false, false,
 					view.getCallBack(geoButton, firstCall));
 			firstCall = false;
@@ -363,7 +367,8 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, getCaption());
+						view.getApplication(), geoButton, font, getCaption(),
+						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 
@@ -382,7 +387,8 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, getCaption());
+						view.getApplication(), geoButton, font, getCaption(),
+						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 
@@ -396,6 +402,16 @@ public class MyButton implements Observer {
 		double ret = GeoText.getRelativeFontSize(i);
 		paintComponent(g, ret, false);
 
+	}
+
+	private boolean getSerif() {
+		boolean serif = geoButton.isSerifFont();
+
+		if (!serif) {
+			serif = StringUtil.startsWithFormattingCommand(getCaption());
+		}
+
+		return serif;
 	}
 
 	private boolean isSelected() {
