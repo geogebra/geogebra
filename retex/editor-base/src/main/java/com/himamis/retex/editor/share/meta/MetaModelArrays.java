@@ -57,8 +57,8 @@ public class MetaModelArrays {
 		components.add(apostrophes);
 
 		MetaArray line = new MetaArray(1, Tag.LINE);
-		line.setOpen(createArrayComponent(OPEN, '|', "|"));
-		line.setClose(createArrayComponent(CLOSE, '|', "|"));
+		line.setOpen(createArrayComponent(OPEN, '|', "\\left|"));
+		line.setClose(createArrayComponent(CLOSE, '|', "\\right|"));
 		line.setField(createArrayComponent(FIELD, ','));
 		line.setRow(createArrayComponent(ROW, ';'));
 		components.add(line);
