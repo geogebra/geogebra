@@ -126,6 +126,17 @@ public abstract class AuthenticationModel extends BaseModel {
 	}
 
 	/**
+	 * @return the language of the currently logged in user or empty string if no
+	 *         user is logged in
+	 */
+	public String getUserLanguage() {
+		if (loggedInUser != null) {
+			return loggedInUser.getLanguage();
+		}
+		return "";
+	}
+
+	/**
 	 * @return The currently logged in user or null if no user is logged in
 	 */
 	public GeoGebraTubeUser getLoggedInUser() {

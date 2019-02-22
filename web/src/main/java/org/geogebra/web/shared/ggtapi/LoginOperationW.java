@@ -2,6 +2,7 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
@@ -29,7 +30,16 @@ import com.google.gwt.user.client.ui.RootPanel;
  * @author stefan
  */
 public class LoginOperationW extends LogInOperation {
-
+	private class EventViewW extends BaseEventView {
+		public void onEvent(BaseEvent event) {
+			super.onEvent(event);
+			if (isLoggedIn()) {
+				app.setLanguage(getUserLanguage());
+			} else {
+				app.setLabels();
+			}
+		}
+	}
 	private AppW app;
 	private BackendAPI api;
 
@@ -43,7 +53,7 @@ public class LoginOperationW extends LogInOperation {
 	public LoginOperationW(AppW appWeb) {
 		super();
 		this.app = appWeb;
-		setView(new BaseEventView());
+		setView(new EventViewW());
 		setModel(new AuthenticationModelW(appWeb));
 
 		iniNativeEvents();

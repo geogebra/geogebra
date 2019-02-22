@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 
@@ -19,6 +20,15 @@ public class UserPreferredLanguage {
 	 * @return the preferred language.
 	 */
 	public static String get(AppW app) {
+		LogInOperation op = app.getLoginOperation();
+		boolean loggedIn = op != null && op.isLoggedIn();
+		if (loggedIn) {
+			String userLang = op.getUserLanguage();
+			if (!StringUtil.empty(userLang)) {
+				return userLang;
+			}
+		}
+
 		String cookieLang = Cookies.getCookie("GeoGebraLangUI");
 		if (!StringUtil.empty(cookieLang)) {
 			return cookieLang;
@@ -32,8 +42,9 @@ public class UserPreferredLanguage {
 			}
 		}
 
+
 		String urlLang = app.getArticleElement().getDataParamApp() ? Location.getParameter("lang") : "";
-		boolean loggedIn = app.getLoginOperation() != null && app.getLoginOperation().isLoggedIn();
+
 		if (!StringUtil.empty(urlLang) && !loggedIn) {
 			return urlLang;
 		}

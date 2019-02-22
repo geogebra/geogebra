@@ -33,6 +33,13 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	}
 
 	/**
+	 * @return the user language
+	 */
+	public String getUserLanguage() {
+		return getModel().getUserLanguage();
+	}
+
+	/**
 	 * @return boolean indicating that the user is already logged in.
 	 */
 	public final boolean isLoggedIn() {
