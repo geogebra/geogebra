@@ -327,7 +327,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return false;
 		}
 
-		focusGeo(app.getSelectionManager().getTabbingSet().last());
+		GeoElement last = app.getSelectionManager().getEVFilteredTabbingSet().last();
+		focusGeo(last);
 		return true;
 	}
 

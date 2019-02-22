@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -679,8 +678,7 @@ public class SelectionManager {
 	 * @return if select was successful or not.
 	 */
 	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
-		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree);
+		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 		if (tree.isEmpty()) {
 			getAccessibilityManager().onEmptyConstuction(true);
 			return true;
@@ -690,7 +688,6 @@ public class SelectionManager {
 
 		if (selectionSize == 0) {
 			addSelectedGeoForEV(tree.first());
-			Log.debug("[SM] next: " + tree.first());
 			return false;
 		}
 
@@ -700,10 +697,8 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (next != null) {
-			Log.debug("[SM] next: " + next);
 			addSelectedGeoForEV(next);
 		} else if (!getAccessibilityManager().onSelectLastGeo(true)) {
-			Log.debug("[SM] next: " + tree.first());
 			addSelectedGeoForEV(tree.first());
 		}
 
@@ -725,14 +720,11 @@ public class SelectionManager {
 			}
 			forceLast = true;
 		}
-		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree);
+		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 
 		int selectionSize = selectedGeos.size();
 		GeoElement last = tree.last();
 		if (forceLast) {
-			Log.debug("[SM] last: " + tree.last());
-
 			addSelectedGeoForEV(last);
 			return;
 		}
@@ -741,11 +733,9 @@ public class SelectionManager {
 		removeAllSelectedGeos();
 
 		if (prev != null) {
-			Log.debug("[SM] prev: " + prev);
 			addSelectedGeoForEV(prev);
 		} else if (!getAccessibilityManager().onSelectFirstGeo(false)) {
 			addSelectedGeoForEV(last);
-			Log.debug("[SM] last: " + last);
 		}
 	}
 
@@ -842,6 +832,16 @@ public class SelectionManager {
 			}
 		}
 		return kernel.getConstruction().getGeoSetLabelOrder();
+	}
+
+	/**
+	 * 
+	 * @return set over which TAB iterates and belongs to the active Euclidian View.
+	 */
+	public TreeSet<GeoElement> getEVFilteredTabbingSet() {
+		TreeSet<GeoElement> tree = new TreeSet<GeoElement>(getTabbingSet());
+		filterGeosForView(tree);
+		return tree;
 	}
 
 	/**
