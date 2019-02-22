@@ -30,7 +30,11 @@ import com.google.gwt.user.client.ui.RootPanel;
  * @author stefan
  */
 public class LoginOperationW extends LogInOperation {
+	private AppW app;
+	private BackendAPI api;
+
 	private class EventViewW extends BaseEventView {
+		@Override
 		public void onEvent(BaseEvent event) {
 			super.onEvent(event);
 			if (isLoggedIn()) {
@@ -40,8 +44,6 @@ public class LoginOperationW extends LogInOperation {
 			}
 		}
 	}
-	private AppW app;
-	private BackendAPI api;
 
 	/**
 	 * Initializes the SignInOperation for Web by creating the corresponding
