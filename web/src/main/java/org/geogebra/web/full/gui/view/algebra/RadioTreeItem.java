@@ -797,6 +797,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!onEditStart()) {
 			return false;
 		}
+		app.getGgbApi().setEditor(new AlgebraMathEditor(this));
 		getLatexController().dispatchEditEvent(EventType.EDITOR_START);
 		if (controls != null) {
 			controls.setVisible(true);
@@ -2030,9 +2031,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (text == null) {
 			return false;
 		}
-		clearErrorLabel();
-		removeDummy();
-		renderLatex(text, true);
+		prepareEdit(text);
 		getMathField().requestViewFocus();
 		app.getGlobalKeyDispatcher().setFocused(true);
 		// canvas.addBlurHandler(getLatexController());
@@ -2046,6 +2045,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		});
 
 		return true;
+	}
+
+	void prepareEdit(String text) {
+		clearErrorLabel();
+		removeDummy();
+		renderLatex(text, true);
 	}
 
 	/**
@@ -2139,7 +2144,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return this
 	 */
 	public RadioTreeItem initInput() {
-		this.insertHelpToggle();
+		insertHelpToggle();
 
 		content.addStyleName("scrollableTextBox");
 		if (isInputTreeItem()) {

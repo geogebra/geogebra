@@ -54,6 +54,8 @@ import com.google.gwt.json.client.JSONString;
  *
  */
 public class GgbAPIW extends GgbAPI {
+	private MathEditor editor;
+
 	/**
 	 * @param app
 	 *            application
@@ -63,6 +65,10 @@ public class GgbAPIW extends GgbAPI {
 		this.kernel = app.getKernel();
 		this.algebraprocessor = kernel.getAlgebraProcessor();
 		this.construction = kernel.getConstruction();
+	}
+
+	public void setEditor(MathEditor editor) {
+		this.editor = editor;
 	}
 
 	@Override
@@ -1460,6 +1466,18 @@ public class GgbAPIW extends GgbAPI {
 		} else {
 			login(token);
 		}
+	}
+
+	public void setEditorState(String text) {
+		// app.getAlgebraView().startEditItem(kernel.lookupLabel("f"));
+		if (editor != null) {
+			Log.debug("processing...");
+			editor.setState(text);
+		}
+	}
+
+	public String getEditorState() {
+		return editor == null ? "" : editor.getState();
 	}
 
 }

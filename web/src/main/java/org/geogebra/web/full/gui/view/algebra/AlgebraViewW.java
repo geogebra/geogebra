@@ -1554,6 +1554,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		boolean inputJustCreated = false;
 		if (inputPanelLatex == null) {
 			inputPanelLatex = createInputPanel();
+			app.getGgbApi().setEditor(new AlgebraMathEditor(inputPanelLatex));
 			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
 			inputJustCreated = true;
@@ -1624,7 +1625,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			suggestKeyboard = true;
 			forceKeyboard = forceKeyboard0 || GuiManagerW.mayForceKeyboard(app);
 			inputPanelLatex = createInputPanel();
-
+			app.getGgbApi().setEditor(new AlgebraMathEditor(inputPanelLatex));
 			// open the keyboard (or show the keyboard-open-button) at
 			// when the application is started
 
@@ -1882,7 +1883,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (node != null) {
 			cancelEditItem();
-
 			editItem = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {

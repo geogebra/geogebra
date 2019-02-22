@@ -74,7 +74,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            whether to create sliders
 	 */
 	public void onEnter(final boolean keepFocus, boolean createSliders) {
-		if(isEditing()){
+		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
 		}
 		if (item.isInputTreeItem() && item.isEmpty()) {
