@@ -256,5 +256,8 @@ public enum Feature {
 	LANG_PARAM_LAST,
 
 	/** G3D-151 */
-	G3D_IOS_NATIVE_AR
+	G3D_IOS_NATIVE_AR,
+
+	/** APPS-339 */
+	SHOW_SAVE_AFTER_CLOSE_SEARCH
 }
