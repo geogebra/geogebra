@@ -174,7 +174,9 @@ public class ZoomController {
 			scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
 			scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		}
-		app.scaleWithRatio(scale);
+		app.getArticleElement().resetScale(scale);
+		app.recalculateEnvironments();
+		app.deferredForceResize();
 	}
 
 	/**
