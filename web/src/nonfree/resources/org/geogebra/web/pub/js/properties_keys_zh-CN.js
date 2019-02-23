@@ -3320,7 +3320,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "page": "Page",
     "parallel": "\u5e73\u884c\u7ebf",
     "pasteLink": "\u7c98\u8d34\u94fe\u63a5",
-    "pdf": "\u4fbf\u643a\u5f0f\u6587\u6863\u683c\u5f0f(pdf)",
+    "pdf": "\u4fbf\u643a\u5f0f\u6587\u6863\u683c\u5f0f",
     "pdfClickOrDrag": "\u5355\u51fb\u9009\u62e9\u6216\u62d6\u653e PDF \u6587\u4ef6\u5230\u6b64\u5904",
     "pdfDialogTitle": "\u4ece PDF \u63d2\u5165\u9875\u9762",
     "permission.camera.denied": "\u65e0\u6cd5\u8bbf\u95ee\u6444\u50cf\u5934",

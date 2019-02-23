@@ -1629,7 +1629,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "DerivativeOfA": "Derivada de %0",
     "Descending": "Descendent",
     "Description": "Descripci\xf3",
-    "Description.AVRowInput": "Line %0: %1",
+    "Description.AVRowInput": "L\xednia %0: %1",
     "Description.AVRowOutputs": "En la finestra algebraica la fila %0 mostra %1",
     "Description.Done": "Tanca la visita guiada",
     "Description.FocusedInputContainsA": "L'entrada amb el focus cont\xe9: %0",

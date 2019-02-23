@@ -99,7 +99,7 @@ __GGB__keysVar["nl"].command = {
     "Assume": "Veronderstel",
     "Assume.SyntaxCAS": "[ <Voorwaarde>, <Uitdrukking> ]",
     "Asymptote": "Asymptoten",
-    "Asymptote.Syntax": "[ <Kegelsnede> ]\n[ <Functie> ]\n[ <Impliciete kromme> ]",
+    "Asymptote.Syntax": "[ <Object> ]",
     "AttachCopyToView": "Aanhechtenkopie",
     "AttachCopyToView.Syntax": "[ <Object>, <Tekenvenster 0|1|2> ]\n[ <Object>, <Tekenvenster 0|1|2>, <Punt 1>, <Punt 2>, <Schermpunt 1>, <Schermpunt 2> ]",
     "Axes": "Assen",
