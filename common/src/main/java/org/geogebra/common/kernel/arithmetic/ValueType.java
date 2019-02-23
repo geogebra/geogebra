@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Possible value types of expression after evaluation
@@ -88,6 +89,9 @@ public enum ValueType {
 			ExpressionValue right) {
 
 		switch (op) {
+		default:
+			Log.error("missing case in doResolve(): " + op);
+			break;
 		case PLUS:
 			if (right.evaluatesToText()) {
 				return ValueType.TEXT;
@@ -96,7 +100,15 @@ public enum ValueType {
 		case MINUS:
 			return plusMinusType(left, right);
 		case MULTIPLY:
+			ValueType leftType = left.getValueType();
 			ValueType rightType = right.getValueType();
+
+			// eg Evaluate((x,y)*(({{1,2},{4,5}})*(x,y))+({6,7})*(x,y))
+			// (x,y,z)(({{1,2,3},{4,5,6},{7,8,9}})(x,y,z))+({10,11,12})(x,y,z)
+			if (leftType == ValueType.TEXT || leftType == ValueType.LIST) {
+				return leftType;
+			}
+
 			if (rightType == ValueType.TEXT || rightType == ValueType.LIST) {
 				return rightType;
 			}
@@ -104,16 +116,19 @@ public enum ValueType {
 			// scalar product
 			if ((rightType == ValueType.NONCOMPLEX2D
 					|| rightType == ValueType.VECTOR3D)
-					&& (left.getValueType() == ValueType.NONCOMPLEX2D
-							|| left.getValueType() == ValueType.VECTOR3D)) {
+					&& (leftType == ValueType.NONCOMPLEX2D
+							|| leftType == ValueType.VECTOR3D)) {
+				// Log.debug(leftType + " " + rightType + " -> NUMBER");
 				return ValueType.NUMBER;
 			}
 			// number * vector
 			if (rightType == ValueType.NONCOMPLEX2D
 					|| rightType == ValueType.VECTOR3D) {
+				// Log.debug(leftType + " " + rightType + "-> " + rightType);
 				return rightType;
 			}
-			return left.getValueType();
+			// Log.debug(leftType + " " + rightType + " -> " + leftType);
+			return leftType;
 		case DIVIDE:
 			if (right.evaluatesToList()) {
 				return ValueType.LIST;
