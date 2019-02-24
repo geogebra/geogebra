@@ -2033,7 +2033,7 @@ __GGB__keysVar["ca"].menu = {
     "IntersectionCurve.Help": "Seleccioneu dues superf\xedcies",
     "IntersectionCurveOfAB": "Corba d\u2019intersecci\xf3 entre %0, %1",
     "IntersectionLineOfAB": "Recta d\u2019intersecci\xf3 entre %0, %1",
-    "IntersectionOfAandB": "Recorreguts d\u2019intersecci\xf3 entre %0 i %1",
+    "IntersectionOfAandB": "Intersecci\xf3 entre %0 i %1",
     "IntersectionPointOfAB": "Punt d'intersecci\xf3 entre %0 i %1",
     "IntersectionPointOfABNearC": "Punt d\u2019intersecci\xf3 entre %0, %1 a prop del punt %2",
     "IntersectionPointOfABWithInitialValueC": "Punt d'intersecci\xf3 entre %0 i %1 amb valor inicial %2",
