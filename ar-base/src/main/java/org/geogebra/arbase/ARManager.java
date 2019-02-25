@@ -35,6 +35,10 @@ abstract public class ARManager<TouchEventType> {
     protected Coords rayDirection = new Coords(4);
     protected Coords projection = Coords.createInhomCoorsInD3();
 
+    public ARManager() {
+        scaleMatrix = CoordMatrix4x4.IDENTITY;
+    }
+
     abstract public void onSurfaceCreated();
 
     abstract public void onSurfaceChanged(int width, int height);
