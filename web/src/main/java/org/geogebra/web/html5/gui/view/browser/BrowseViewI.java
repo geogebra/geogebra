@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.AsyncOperation;
 
 public interface BrowseViewI {
 
@@ -34,5 +35,7 @@ public interface BrowseViewI {
 	public void removeMaterial(Material material);
 
 	public void setHeaderVisible(boolean visible);
+
+	public void closeAndSave(AsyncOperation<Boolean> callback);
 
 }

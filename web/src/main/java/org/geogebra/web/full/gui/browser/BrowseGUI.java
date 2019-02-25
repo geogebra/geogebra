@@ -300,15 +300,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		}
 
 		if (app.has(Feature.SHOW_SAVE_AFTER_CLOSE_SEARCH)) {
-			app.getGuiManager().getBrowseView().close();
-			((DialogManagerW) app.getDialogManager()).getSaveDialog()
-					.showIfNeeded(new AsyncOperation<Boolean>() {
-
-						@Override
-						public void callback(Boolean activeMaterial) {
-							app.openFile(fileToHandle, callback);
-						}
-					});
+			app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
+				@Override
+				public void callback(Boolean obj) {
+					app.openFile(fileToHandle, callback);
+				}
+			});
 		} else {
 			app.openFile(fileToHandle, callback);
 		}
@@ -465,5 +462,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	@Override
 	public void setHeaderVisible(boolean b) {
 		// only for MOW
+	}
+
+	@Override
+	public void closeAndSave(AsyncOperation<Boolean> callback) {
+		close();
+		app.checkSaved(callback);
 	}
 }

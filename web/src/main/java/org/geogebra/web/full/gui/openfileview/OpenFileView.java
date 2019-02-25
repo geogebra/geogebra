@@ -513,6 +513,12 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	@Override
+	public void closeAndSave(AsyncOperation<Boolean> callback) {
+		close();
+		app.checkSaved(callback);
+	}
+
+	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			updateMaterials();
