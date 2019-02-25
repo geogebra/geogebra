@@ -21,19 +21,22 @@
            var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
            for(var index = dispatchNext; index < events.length; index++){
                var last = events[events.length - 1];
-               console.log(last);
-	           if(last && last.type == "evalXML"){
-	               evalXML(api1, last.content);
-	           }
-	           if(last && last.type == "evalCommand"){
-	               evalCommand(api1, last.content);
-	           }
-	           if(last && last.type == "deleteObject"){
-	               api1.deleteObject(last.content);
-	           }
-	           if(last && last.type == "setEditorState"){
-	               api1.setEditorState(last.content);
-	           }
+               if (last && last.client != clientId) {
+                   if(last.type == "evalXML"){
+                       evalXML(api1, last.content);
+                   }
+                   if(last.type == "evalCommand"){
+                       evalCommand(api1, last.content);
+                   }
+                   if(last.type == "deleteObject"){
+                       api1.deleteObject(last.content);
+                   }
+                   if(last.type == "setEditorState"){
+                       unregisterListeners();
+                       api1.setEditorState(last.content, last.label);
+                       registerListeners();
+                   }
+               }
            }
            dispatchNext = events.length;
         }
@@ -43,7 +46,11 @@
             var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
             var type = arguments[0];
             var content = arguments[1];
-            events.push({"type":type,"content":content,"client":clientId });
+            var event = {"type":type,"content":content,"client":clientId }
+            if (arguments[2]) {
+                 event.label = arguments[2];
+            }
+            events.push(event);
             localStorage.setItem("ggbEvents", JSON.stringify(events));
         }};
         var parameters1 = {
@@ -137,7 +144,7 @@
             if (definition) {
                 bus.send("evalXML", xapi1.getAlgorithmXML(label) + xml);
             }else{
-            	bus.send("evalXML", xml)
+                bus.send("evalXML", xml)
             }
         }
 
@@ -177,7 +184,7 @@
                 case "editorKeyTyped":
                      var state = xapi1.getEditorState();
                      console.log(state);
-                     bus.send("setEditorState", state);
+                     bus.send("setEditorState", state, event[1]);
                      break;
                 case "editorStop":
                     bus.send("setEditorState", "{content:\"\"}");
@@ -228,9 +235,8 @@
         applet1.setHTML5Codebase(codebase);
 
         window.onload = function() {
-        	localStorage.clear();
+            localStorage.clear();
             applet1.inject('ggbApplet1');
-
         };
     </script>
 </body>

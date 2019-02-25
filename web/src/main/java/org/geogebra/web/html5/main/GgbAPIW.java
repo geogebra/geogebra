@@ -1468,14 +1468,23 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	public void setEditorState(String text) {
-		// app.getAlgebraView().startEditItem(kernel.lookupLabel("f"));
+	/**
+	 * @param text
+	 *            JSON describing editor state
+	 * @param label
+	 *            label for geo element, empty string or null for new input
+	 */
+	public void setEditorState(String text, String label) {
 		if (editor != null) {
-			Log.debug("processing...");
-			editor.setState(text);
+			GeoElement geo = StringUtil.empty(label) ? null
+					: kernel.lookupLabel(label);
+			editor.setState(text, geo);
 		}
 	}
 
+	/**
+	 * @return JSON describing editor state
+	 */
 	public String getEditorState() {
 		return editor == null ? "" : editor.getState();
 	}

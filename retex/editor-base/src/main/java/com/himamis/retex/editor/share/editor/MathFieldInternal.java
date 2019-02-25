@@ -159,8 +159,16 @@ public class MathFieldInternal
 		mathFormula = formula;
 		editorState = new EditorState(mathField.getMetaModel());
 		editorState.setRootComponent(formula.getRootComponent());
+		setCursorPath(path);
+	}
+
+	/**
+	 * @param path
+	 *            cursor path
+	 */
+	public void setCursorPath(ArrayList<Integer> path) {
 		CursorController.setPath(path, getEditorState());
-		mathFieldController.update(formula, editorState, false);
+		mathFieldController.update(mathFormula, editorState, false);
 	}
 
 	public InputController getInputController() {

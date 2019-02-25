@@ -28,7 +28,7 @@ public interface AlgebraPanelInterface extends IsWidget {
 
 	int getAbsoluteTop();
 
-	void showStyleBarPanel(boolean blurtrue);
+	void showStyleBarPanel(boolean show);
 
 	boolean hasLongStyleBar();
 

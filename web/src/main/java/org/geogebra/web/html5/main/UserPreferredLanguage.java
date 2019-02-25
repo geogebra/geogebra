@@ -42,8 +42,8 @@ public class UserPreferredLanguage {
 			}
 		}
 
-
-		String urlLang = app.getArticleElement().getDataParamApp() ? Location.getParameter("lang") : "";
+		String urlLang = app.getArticleElement().getDataParamApp()
+				? Location.getParameter("lang") : "";
 
 		if (!StringUtil.empty(urlLang) && !loggedIn) {
 			return urlLang;

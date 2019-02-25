@@ -12,7 +12,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;

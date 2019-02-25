@@ -1124,4 +1124,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				mathFieldInternal.getEditorState().getRootComponent());
 	}
 
+	public ArrayList<Integer> getCaretPath() {
+		return CursorController.getPath(mathFieldInternal.getEditorState());
+	}
+
+	public void setCaretPath(ArrayList<Integer> path) {
+		mathFieldInternal.setCursorPath(path);
+	}
+
 }

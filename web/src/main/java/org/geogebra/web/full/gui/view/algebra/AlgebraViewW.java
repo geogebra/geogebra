@@ -148,7 +148,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
 
-	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<>(500);
+	private HashMap<GeoElement, RadioTreeItem> nodeTable = new HashMap<>(500);
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private StringBuilder sbXML;
@@ -197,6 +197,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						updateSelection();
 					}
 				});
+		app.getGgbApi().setEditor(new AlgebraMathEditor(this));
 	}
 
 	/**
@@ -1554,7 +1555,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		boolean inputJustCreated = false;
 		if (inputPanelLatex == null) {
 			inputPanelLatex = createInputPanel();
-			app.getGgbApi().setEditor(new AlgebraMathEditor(inputPanelLatex));
 			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
 			inputJustCreated = true;
@@ -1625,7 +1625,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			suggestKeyboard = true;
 			forceKeyboard = forceKeyboard0 || GuiManagerW.mayForceKeyboard(app);
 			inputPanelLatex = createInputPanel();
-			app.getGgbApi().setEditor(new AlgebraMathEditor(inputPanelLatex));
 			// open the keyboard (or show the keyboard-open-button) at
 			// when the application is started
 
@@ -2382,7 +2381,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            the element to look for.
 	 * @return the TreeItem with the geo.
 	 */
-	public TreeItem getNode(GeoElement geo) {
+	public RadioTreeItem getNode(GeoElement geo) {
 		return nodeTable.get(geo);
 	}
 
@@ -2422,9 +2421,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            to open settings for.
 	 */
 	public void openMenuFor(GeoElement geo) {
-		TreeItem ti = nodeTable.get(geo);
-		if (ti instanceof RadioTreeItem) {
-			((RadioTreeItem) ti).openMoreMenu();
+		RadioTreeItem ti = nodeTable.get(geo);
+		if (ti != null) {
+			ti.openMoreMenu();
 		}
 	}
 
@@ -2442,5 +2441,4 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public AppW getApp() {
 		return app;
 	}
-
 }

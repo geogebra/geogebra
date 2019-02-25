@@ -797,7 +797,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!onEditStart()) {
 			return false;
 		}
-		app.getGgbApi().setEditor(new AlgebraMathEditor(this));
 		getLatexController().dispatchEditEvent(EventType.EDITOR_START);
 		if (controls != null) {
 			controls.setVisible(true);
@@ -1932,8 +1931,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		app.getActiveEuclidianView().requestFocus();
 	}
 
-	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
-		if (!forceMQ) {
+	protected void renderLatex(String text0, Widget w, boolean isInput) {
+		if (!isInput) {
 			replaceToCanvas(text0, w);
 		}
 	}
