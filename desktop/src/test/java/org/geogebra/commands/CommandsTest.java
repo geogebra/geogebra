@@ -387,6 +387,10 @@ public class CommandsTest extends AlgebraTest {
 		intersect("(x+1)^2+(y-3)^2=1", "Polygon((-1,-2),(-1,3),(5,3))", false,
 				"(-1, 2)", "(0, 3)");
 		intersect("x^2+1", "x^3-x+2", true, "(-1, 2)", "(1, 2)");
+
+		// function with removable discontinuity
+		intersect("(x ln(x + 1)) / (exp(2x) - 1)", "xAxis", false, "(?, ?)");
+
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
 					"(1, 1, 0)");
