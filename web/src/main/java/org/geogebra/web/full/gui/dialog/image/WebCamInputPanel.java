@@ -87,8 +87,12 @@ public class WebCamInputPanel extends VerticalPanel {
 									browserAlreadyAllowed = true;
 									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 									if ($wnd.URL && $wnd.URL.createObjectURL) {
-										video.src = $wnd.URL
+										try {
+											video.srcObject = bs
+										} catch (error) {
+											video.src = $wnd.URL
 												.createObjectURL(bs);
+										}
 										el.firstChild.style.display = "none";
 										video.onloadedmetadata = function(e) {
 											that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasWidth = video.videoWidth;
