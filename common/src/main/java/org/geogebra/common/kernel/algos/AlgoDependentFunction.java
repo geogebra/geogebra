@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -394,16 +395,45 @@ public class AlgoDependentFunction extends AlgoElement
 		if (!(right instanceof MyList)) {
 			return null;
 		}
+
+		MyList rightList = (MyList) right;
+
 		// now replace every x in function by the expanded argument
 		for (int i = 0; i < xy.length; i++) {
 			funNExpression = funNExpression.replace(xy[i],
 					expandFunctionDerivativeNodes(
-							((MyList) right).getListElement(i + offset)
-									.unwrap(),
-							fast))
+							getListElement(rightList, i + offset), fast))
 					.wrap();
 		}
 		return (funNExpression);
+	}
+
+	// needed for eg f(x,y) = a(A) a(x, y)
+	private static ExpressionValue getListElement(MyList list, int i) {
+
+		Kernel kernel0 = list.getKernel();
+
+		if (list.getLength() == 1
+				&& list.getListElement(0).unwrap() instanceof GeoPointND) {
+			GeoPointND point = (GeoPointND) list.getListElement(0).unwrap();
+			if (i == 0) {
+				return new MyDouble(kernel0, point.getInhomX());
+			} else if (i == 1) {
+				return new MyDouble(kernel0, point.getInhomY());
+			} else if (i == 2) {
+				return new MyDouble(kernel0, point.getInhomZ());
+			} else {
+				Log.error("problem in AlgoDependentFunction");
+				return null;
+			}
+		}
+
+		if (i >= list.getLength()) {
+			Log.error("problem in AlgoDependentFunction");
+			return null;
+		}
+
+		return list.getListElement(i).unwrap();
 	}
 
 	private static ExpressionValue substituteFunction(Functional leftValue,
