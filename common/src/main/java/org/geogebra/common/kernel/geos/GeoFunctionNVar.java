@@ -798,13 +798,14 @@ public class GeoFunctionNVar extends GeoElement
 			}
 			RegionParameters rp = P.getRegionParameters();
 			if (!isInRegion(P)) {
-				double bestX = rp.getT1(), bestY = rp.getT2(), myX = P.getX2D(),
-						myY = P.getY2D();
+				double bestX = rp.getT1();
+				double bestY = rp.getT2();
+				double myX = P.getX2D();
+				double myY = P.getY2D();
 				double bestDist = (bestY - myY) * (bestY - myY)
 						+ (bestX - myX) * (bestX - myX);
-				if (DoubleUtil.isZero(bestDist)) { // not the best distance, since P
-												// is
-					// not in region
+				if (DoubleUtil.isZero(bestDist)) {
+					// not the best distance, since P is not in region
 					bestDist = Double.POSITIVE_INFINITY;
 				}
 
@@ -847,7 +848,10 @@ public class GeoFunctionNVar extends GeoElement
 					}
 					double myDist = (py - myY) * (py - myY)
 							+ (px - myX) * (px - myX);
-					if ((myDist < bestDist) && isInRegion(px, py)) {
+
+					// check for NaN for first call
+					if (Double.isNaN(bestX) || Double.isNaN(bestY)
+							|| (myDist < bestDist) && isInRegion(px, py)) {
 						bestDist = myDist;
 						bestX = px;
 						bestY = py;
