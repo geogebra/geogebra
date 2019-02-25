@@ -5,7 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 
-public class ARManager<TouchEventType> {
+abstract public class ARManager<TouchEventType> {
 
     protected CoordMatrix4x4 viewMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
@@ -35,33 +35,19 @@ public class ARManager<TouchEventType> {
     protected Coords rayDirection = new Coords(4);
     protected Coords projection = Coords.createInhomCoorsInD3();
 
-    public void onSurfaceCreated() {
+    abstract public void onSurfaceCreated();
 
-    }
+    abstract public void onSurfaceChanged(int width, int height);
 
-    public void onSurfaceChanged(int width, int height) {
+    abstract public void onResume();
 
-    }
+    abstract public void onPause();
 
-    public void onResume() {
+    abstract public void onDrawFrame();
 
-    }
+    abstract public void arButtonClicked() throws ARException;
 
-    public void onPause() {
-
-    }
-
-    public void onDrawFrame() {
-
-    }
-
-    public void arButtonClicked() throws ARException {
-
-    }
-
-    public void setSession() throws ARException {
-
-    }
+    abstract public void setSession() throws ARException;
 
     public boolean getARIsRendering(){
         return false;
@@ -91,21 +77,9 @@ public class ARManager<TouchEventType> {
         return mDistance;
     }
 
-    public float getScaleFactor() {
-        return mScaleFactor;
-    }
+    abstract public void setBackgroundColor();
 
-    public void freezeScreenRotation() {
-
-    }
-
-    public void setBackgroundColor() {
-
-    }
-
-    public void setBackgroundStyle(Renderer.BackgroundStyle backgroundStyle) {
-
-    }
+    abstract public void setBackgroundStyle(Renderer.BackgroundStyle backgroundStyle);
 
     public  Renderer.BackgroundStyle getBackgroundStyle() {
         return null;
@@ -127,17 +101,11 @@ public class ARManager<TouchEventType> {
         return hittingDistance;
     }
 
-    public void setHittingOriginAndDirection(float x, float y) {
+    abstract public void setHittingOriginAndDirection(float x, float y);
 
-    }
+    abstract public void setHittingOriginAndDirectionFromScreenCenter();
 
-    public void setHittingOriginAndDirectionFromScreenCenter() {
-
-    }
-
-    public void proceed(TouchEventType event) {
-
-    }
+    abstract public void proceed(TouchEventType event);
 
     protected void updateModelMatrixFields() {
 
