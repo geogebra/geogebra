@@ -99,9 +99,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		prefixedDefault.localizeCmds = false;
 		prefixedDefault.internationalizeDigits = false;
-		prefixedDefault.forceNF = true;
+		prefixedDefault.forceSF = true;
 		prefixedDefault.usePrefix = true;
-		prefixedDefault.nf = FormatFactory.getPrototype().getNumberFormat(15);
+		prefixedDefault.sf = FormatFactory.getPrototype()
+				.getScientificFormat(15, 20, false);
 	}
 
 	/**
