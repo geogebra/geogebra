@@ -342,6 +342,10 @@ public class CASTableCellEditorD extends CASTableCell
 	@Override
 	public void onEnter(boolean b) {
 		// only used in web
+	}
 
+	@Override
+	public void setPixelRatio(double ratio) {
+		// web only
 	}
 }

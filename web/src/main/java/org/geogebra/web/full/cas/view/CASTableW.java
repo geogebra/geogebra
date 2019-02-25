@@ -232,6 +232,7 @@ public class CASTableW extends Grid implements CASTable {
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
 			editor = new CASLaTeXEditor(app, ml);
+			editor.setPixelRatio(app.getPixelRatio());
 		}
 		return editor;
 	}

@@ -393,4 +393,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void setEditAsText(boolean asText) {
 		this.editAsText = asText;
 	}
+
+	@Override
+	public void setPixelRatio(double ratio) {
+		mf.setPixelRatio(ratio);
+	}
 }

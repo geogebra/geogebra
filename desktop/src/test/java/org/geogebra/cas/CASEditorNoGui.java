@@ -72,4 +72,9 @@ public class CASEditorNoGui implements CASTableCellEditor {
 		return false;
 	}
 
+	@Override
+	public void setPixelRatio(double ratio) {
+		// only in web
+	}
+
 }

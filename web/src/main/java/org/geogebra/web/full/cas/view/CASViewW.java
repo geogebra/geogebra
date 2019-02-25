@@ -210,6 +210,9 @@ public class CASViewW extends CASView implements PrintableW {
 							CASTableW.COL_CAS_CELLS_WEB)).setPixelRatio(ratio);
 				}
 			}
+			if (consoleTable.hasEditor()) {
+				consoleTable.getEditor().setPixelRatio(ratio);
+			}
 		}
 	}
 
