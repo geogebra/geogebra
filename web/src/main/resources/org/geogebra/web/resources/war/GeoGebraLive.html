@@ -13,9 +13,39 @@
     <div id="ggbApplet2"></div>
 
     <script>
+        var clientId = btoa(Math.random()).substring(0, 8);
+        var dispatchNext = 0;
         var api1;
-        var api2;
-
+        window.addEventListener('storage',function(e){
+        if(api1){
+           var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+           for(var index = dispatchNext; index < events.length; index++){
+               var last = events[events.length - 1];
+               console.log(last);
+	           if(last && last.type == "evalXML"){
+	               evalXML(api1, last.content);
+	           }
+	           if(last && last.type == "evalCommand"){
+	               evalCommand(api1, last.content);
+	           }
+	           if(last && last.type == "deleteObject"){
+	               api1.deleteObject(last.content);
+	           }
+	           if(last && last.type == "setEditorState"){
+	               api1.setEditorState(last.content);
+	           }
+           }
+           dispatchNext = events.length;
+        }
+        });
+        
+        var bus = {send:function(){
+            var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+            var type = arguments[0];
+            var content = arguments[1];
+            events.push({"type":type,"content":content,"client":clientId });
+            localStorage.setItem("ggbEvents", JSON.stringify(events));
+        }};
         var parameters1 = {
             //"id": "ggbApplet1",
             "width": 800,
@@ -69,42 +99,34 @@
             'macro': 0
         };
 
-        function evalXML(api, xml, label, definition) {
-
+        
+        function evalCommand(api, command) {
             unregisterListeners();
+            api.evalCommand(command);
+            registerListeners()
+        }
 
-            if (label && definition) {
-                api.evalCommand(label + ":" + definition);
-            }
-
+        function evalXML(api, xml) {
+            unregisterListeners();
             api.evalXML(xml);
             api.evalCommand("UpdateConstruction()");
-
             registerListeners()
-
         }
 
         // *** UPDATE LISTENERS ***
-        function updateListener(label, xapi1, xapi2) {
+        function updateListener(label, xapi1, bus) {
             console.log(label + " is updated");
-
             var xml = xapi1.getXML(label);
             console.log(xml);
-
-            evalXML(xapi2, xml);
-
+            bus.send("evalXML", xml)
         }
 
         function updateListener1(label) {
-            updateListener(label, api1, api2);
-        }
-
-        function updateListener2(label) {
-            updateListener(label, api2, api1);
+            updateListener(label, api1, bus);
         }
 
         // *** ADD LISTENERS ***
-        function addListener(label, xapi1, xapi2) {
+        function addListener(label, xapi1, bus) {
             console.log(label + " is added");
 
             var xml = xapi1.getXML(label);
@@ -112,38 +134,29 @@
 
             var definition = xapi1.getCommandString(label);
             console.log(definition);
-
-            evalXML(xapi2, xml, label, definition);
+            if (definition) {
+                bus.send("evalXML", xapi1.getAlgorithmXML(label) + xml);
+            }else{
+            	bus.send("evalXML", xml)
+            }
         }
 
         function addListener1(label) {
-            addListener(label, api1, api2);
+            addListener(label, api1, bus);
         }
-
-        function addListener2(label) {
-            addListener(label, api2, api1);
-        }
-
 
         // *** REMOVE LISTENERS ***
-        function removeListener(label, xapi1, xapi2) {
+        function removeListener(label, xapi1, bus) {
             console.log(label + " is removed");
-
-            xapi2.deleteObject(label);
-
+            bus.send("deleteObject", label);
         }
 
         function removeListener1(label) {
-            removeListener(label, api1, api2);
+            removeListener(label, api1, bus);
         }
-
-        function removeListener2(label) {
-            removeListener(label, api2, api1);
-        }
-
 
         // *** CLIENT LISTENERS ***
-        function clientListener(event, xapi1, xapi2) {
+        function clientListener(event, xapi1, bus) {
             switch (event[0]) {
 
                 case "updateStyle":
@@ -153,7 +166,7 @@
                     var xml = xapi1.getXML(label);
                     console.log(xml);
 
-                    evalXML(xapi2, xml);
+                    bus.send("evalXML", xml);
                     break;
 
                 case "setMode":
@@ -164,23 +177,19 @@
                 case "editorKeyTyped":
                      var state = xapi1.getEditorState();
                      console.log(state);
-                     xapi2.setEditorState(state);
+                     bus.send("setEditorState", state);
                      break;
                 case "editorStop":
-                    xapi2.setEditorState("{content:\"\"}");
+                    bus.send("setEditorState", "{content:\"\"}");
                     break;
 
                 case "deselect":
                     console.log("deselect", event);
-                    unregisterListeners();
-                    xapi2.evalCommand("SelectObjects[]");
-                    registerListeners();
+                    bus.send("evalCommand", "SelectObjects[]");
                     break;
                 case "select":
                     console.log("select", event);
-                    unregisterListeners();
-                    xapi2.evalCommand("SelectObjects[" + event[1] + "]");
-                    registerListeners();
+                    bus.send("evalCommand", "SelectObjects[" + event[1] + "]");
                     break;
 
                 default:
@@ -191,25 +200,14 @@
         }
 
         function clientListener1(event) {
-            clientListener(event, api1, api2);
+            clientListener(event, api1, bus);
         }
-
-        function clientListener2(event) {
-            clientListener(event, api2, api1);
-        }
-
-
 
         function registerListeners() {
             api1.registerUpdateListener("updateListener1");
             api1.registerRemoveListener("removeListener1");
             api1.registerAddListener("addListener1");
             api1.registerClientListener("clientListener1");
-
-            api2.registerUpdateListener("updateListener2");
-            api2.registerRemoveListener("removeListener2");
-            api2.registerAddListener("addListener2");
-            api2.registerClientListener("clientListener2");
         }
 
         function unregisterListeners() {
@@ -217,43 +215,22 @@
             api1.unregisterRemoveListener("removeListener1");
             api1.unregisterAddListener("addListener1");
             api1.unregisterClientListener("clientListener1");
-
-            api2.unregisterUpdateListener("updateListener2");
-            api2.unregisterRemoveListener("removeListener2");
-            api2.unregisterAddListener("addListener2");
-            api2.unregisterClientListener("clientListener2");
         }
 
         parameters1.id = "ggbApplet1";
         parameters1.appletOnLoad = function(api) {
             console.log("applet1 loaded");
             api1 = api;
-
-            if (api1 && api2) {
-                // both applets now loaded
-                registerListeners();
-            }
-
+            registerListeners();
         }
         var codebase = location.href.replace(/\/[^\/]*$/,"/web3d");
         var applet1 = new GGBApplet(parameters1, '5.0', views);
         applet1.setHTML5Codebase(codebase);
-        parameters2.id = "ggbApplet2";
-        parameters2.appletOnLoad = function(api) {
-            console.log("applet2 loaded");
-            api2 = api;
 
-            if (api1 && api2) {
-                // both applets now loaded
-                registerListeners();
-            }
-
-        }
-        var applet2 = new GGBApplet(parameters2, '5.0', views);
-        applet2.setHTML5Codebase(codebase);
         window.onload = function() {
+        	localStorage.clear();
             applet1.inject('ggbApplet1');
-            applet2.inject('ggbApplet2')
+
         };
     </script>
 </body>
