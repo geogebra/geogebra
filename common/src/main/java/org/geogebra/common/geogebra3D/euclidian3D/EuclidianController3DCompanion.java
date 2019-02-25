@@ -386,20 +386,27 @@ public class EuclidianController3DCompanion
             if (ec3D.view3D.isAREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
                     && !ec3D.view3D.getxOyPlane().isGridVisible()) {
                 if (ec3D.view3D.getRenderer().getHittingFloorAR(tmpCoords1)) {
+                    // re-center it
+                    ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
+                    ec3D.view3D.getHittingDirection(tmpCoordsForDirection);
+                    tmpCoordsForOrigin.projectPlaneThruVIfPossible(Coords.VX, Coords.VY, Coords.VZ,
+                            tmpCoords1, tmpCoordsForDirection, tmpCoords2);
                     // round coordinates
                     double distance = ec3D.view3D.getRenderer().getHittingDistanceAR()
                             * AR_ROUNDING_PRECISION_PERCENTAGE;
                     for (int i = 0; i < 3; i++) {
                         double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE
                                 * distance / ec3D.view3D.getScale(i));
-                        double v = tmpCoords1.get(i + 1);
+                        double v = tmpCoords2.get(i + 1);
                         if (DoubleUtil.isGreater(rounding, 0)) {
                             v = ((int) (v / rounding)) * rounding;
                         }
-                        tmpCoords1.set(i + 1, v);
+                        tmpCoords2.set(i + 1, v);
                     }
+                    tmpCoords2.setW(1);
+                    // set to 3D cursor
                     point3D = ec3D.view3D.getCursor3D();
-                    point3D.setCoords(tmpCoords1);
+                    point3D.setCoords(tmpCoords2);
                 } else {
                     point3D = null;
                 }
