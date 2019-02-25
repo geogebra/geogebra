@@ -11,7 +11,7 @@ abstract public class ARManager<TouchEventType> {
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
-    protected CoordMatrix4x4 scaleMatrix = new CoordMatrix4x4();
+    protected CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.IDENTITY;
     protected float mScaleFactor = 1;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -34,10 +34,6 @@ abstract public class ARManager<TouchEventType> {
     protected Coords rayOrigin = new Coords(4);
     protected Coords rayDirection = new Coords(4);
     protected Coords projection = Coords.createInhomCoorsInD3();
-
-    public ARManager() {
-        scaleMatrix = CoordMatrix4x4.IDENTITY;
-    }
 
     abstract public void onSurfaceCreated();
 
