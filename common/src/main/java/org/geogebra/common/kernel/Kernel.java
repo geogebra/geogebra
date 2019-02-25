@@ -1575,8 +1575,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
-		if (tpl.internationalizeDigits()
-				&& app.getLocalization().getZero() != '0') {
+		if (app.getLocalization().getZero() != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
 
@@ -1598,8 +1597,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				|| !getLocalization().isUsingLocalizedDigits()) {
 			return num;
 		}
-
-		Log.debug("before = " + num);
 
 		if (formatSB == null) {
 			formatSB = new StringBuilder(17);
@@ -1640,8 +1637,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (RTL) {
 			formatSB.append(Unicode.RIGHT_TO_LEFT_MARK);
 		}
-
-		Log.debug("after = " + formatSB.toString());
 
 		return formatSB.toString();
 	}
