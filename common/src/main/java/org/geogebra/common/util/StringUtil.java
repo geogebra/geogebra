@@ -1148,16 +1148,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		}
 
 		StringBuilder sb1 = new StringBuilder();
-		if (tpl == StringTemplate.giacTemplateInternal && kernel != null) {
-			sb1.append("(");
-			long[] l = kernel.doubleToRational(x);
-			sb1.append(l[0] + "/" + l[1]);
-			sb1.append(')');
-		} else {
-			sb1.append("exact(");
-			sb1.append(s);
-			sb1.append(')');
+		if (tpl == StringTemplate.giacTemplateInternal) {
+			return tpl.convertScientificNotationGiac(s0);
 		}
+
+		sb1.append("exact(");
+		sb1.append(s);
+		sb1.append(')');
 
 		return sb1.toString();
 	}
