@@ -119,11 +119,10 @@ abstract public class ARManager<TouchEventType> {
     }
 
     protected void updateModelMatrix() {
-
-        // Rotating not implemented - temporary
-
         /* Scaling */
         mModelMatrix.setMul(mAnchorMatrix, scaleMatrix);
+
+        updateModelMatrixForRotation();
 
         /* translating */
         Coords modelOrigin = mModelMatrix.getOrigin();
@@ -131,6 +130,10 @@ abstract public class ARManager<TouchEventType> {
         modelOrigin.setX(anchorOrigin.getX() + translationOffset[0] + previousTranslationOffset[0]);
         modelOrigin.setY(anchorOrigin.getY());
         modelOrigin.setZ(anchorOrigin.getZ() + translationOffset[2] + previousTranslationOffset[2]);
+    }
+
+    protected void updateModelMatrixForRotation() {
+        // TODO: remove this when G3D_AR_REGULAR_TOOLS released
     }
 
     protected float[] setRay() {
