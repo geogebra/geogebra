@@ -39,7 +39,7 @@ abstract public class ARManager<TouchEventType> {
     private Coords rayDirection = new Coords(4);
     private Coords projection = Coords.createInhomCoorsInD3();
 
-    protected ARGestureManager gestureListener;
+    protected ARGestureManager arGestureManager;
 
     abstract public void onSurfaceCreated();
 
@@ -115,7 +115,7 @@ abstract public class ARManager<TouchEventType> {
 
     protected void updateModelMatrixFields() {
         /* Scaling */
-        mScaleFactor = gestureListener.getScaleFactor();
+        mScaleFactor = arGestureManager.getScaleFactor();
 
         /* Scaling */
         scaleMatrix.setDiag(mScaleFactor);
@@ -156,8 +156,8 @@ abstract public class ARManager<TouchEventType> {
     }
 
     protected void updateTranslationIfNeeded() {
-        if (gestureListener.getUpdateOriginIsWanted()) {
-            gestureListener.setUpdateOriginIsWanted(false);
+        if (arGestureManager.getUpdateOriginIsWanted()) {
+            arGestureManager.setUpdateOriginIsWanted(false);
             Coords modelOrigin = mModelMatrix.getOrigin();
             Coords anchorOrigin = mAnchorMatrix.getOrigin();
             previousTranslationOffset[0] = modelOrigin.getX() - anchorOrigin.getX();
