@@ -2581,13 +2581,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public GFont getFontCoords() {
 		if (fontCoords == null) {
-			return app.getPlainFontCommon();
+			initFontCoords();
 		}
 		return fontCoords;
 	}
 
-	private void setFontCoords(GFont fontCoords) {
-		this.fontCoords = fontCoords;
+	private void setFontCoords(GFont fontCoords0) {
+		this.fontCoords = fontCoords0;
 	}
 
 	/**
@@ -3538,14 +3538,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				GFont.PLAIN, getFontSize()));
 
 		if (getSettings() != null) {
-
-			setFontCoords(getApplication().getFontCommon(
-					getSettings().getAxesLabelsSerif(),
-					getSettings().getAxisFontStyle(),
-					(int) Math.max(Math.round(getFontSize() * 0.75), 10)));
+			initFontCoords();
 		}
 		updateDrawableFontSize();
 		updateBackground();
+	}
+
+	private void initFontCoords() {
+		setFontCoords(getApplication().getFontCommon(
+				getSettings().getAxesLabelsSerif(),
+				getSettings().getAxisFontStyle(),
+				(int) Math.max(Math.round(getFontSize() * 0.75), 10)));
 	}
 
 	public void setKeepCenter(boolean center) {
