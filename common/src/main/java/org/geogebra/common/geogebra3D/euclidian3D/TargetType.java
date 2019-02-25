@@ -143,7 +143,15 @@ public enum TargetType {
 			if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
 				return NOTHING;
 			}
-			return isModeForCreatingPoint(mode) ? POINT_INTERSECTION : NOT_USED;
+			if (isModeForCreatingPoint(mode)) {
+				if (mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
+					return (ec.selPoints() == 0 || ec.selCS2D() == 1)
+							? POINT_INTERSECTION
+							: NOTHING;
+				}
+				return POINT_INTERSECTION;
+			}
+			return NOT_USED;
 
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 			return isModeForCreatingPoint(mode) ? NOTHING_NO_HIT : NOT_USED;
@@ -273,8 +281,8 @@ public enum TargetType {
 			return VIEW_IN_FRONT_OF;
 			
 		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			// one point, one region: can create a point
-			if (ec.selCS2D() == 1) {
+			// one point or one region: can create a point
+			if (ec.selPoints() == 0 || ec.selCS2D() == 1) {
 				return onSuccess;
 			}
 			// on xOy plane or path: can create a point
@@ -284,11 +292,10 @@ public enum TargetType {
 					return onSuccess;
 				}
 				if (point.getRegion() instanceof GeoCoordSys2D) {
-					return ec.selPoints() == 1 ? onFail : NOTHING;
+					return onFail;
 				}
-				return NOTHING;
 			}
-			return point.isPointOnPath() ? onSuccess : NOTHING;
+			return NOTHING;
 		default:
 			return NOT_USED;
 		}

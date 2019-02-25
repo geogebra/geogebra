@@ -2305,11 +2305,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			setViewHits(type);
 			hits = getView().getHits();
 			if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-				if ((selCS2D() == 1 && selPoints() != 0) || view3D.getCursor3D()
-						.getRegion() == kernel.getXOYPlane()) {
+				if (selCS2D() == 1 || selPoints() == 0
+						|| (view3D
+								.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_REGION
+								&& view3D.getCursor3D().getRegion() == kernel
+										.getXOYPlane())) {
 					createNewPoint(hits, true, true, true, true, false);
-				} else {
-					createNewPoint(hits, true, false, true, true, false);
 				}
 			} else {
 				hits.removePolygons();
@@ -3380,7 +3381,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				return true;
 
 			case EuclidianConstants.MODE_REGULAR_POLYGON:
-				return app.has(Feature.G3D_IMPROVE_SOLID_TOOLS);
+				return app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)
+						&& (selPoints() == 0 || selCS2D() == 1);
 
 			default:
 				return false;
@@ -3475,8 +3477,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				case EuclidianConstants.MODE_REGULAR_POLYGON:
 					if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-						// one point, one region: can create a point
-						if (selCS2D() == 1) {
+						// one point or one region: can create a point
+						if (selPoints() == 0 || selCS2D() == 1) {
 							return true;
 						}
 						// on xOy plane or path: can create a point
@@ -3484,7 +3486,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 						if (point.hasRegion()) {
 							return point.getRegion() == kernel.getXOYPlane();
 						}
-						return point.isPointOnPath();
 					}
 					return false;
 
