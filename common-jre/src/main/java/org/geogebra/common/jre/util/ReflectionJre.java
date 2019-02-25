@@ -2,7 +2,6 @@ package org.geogebra.common.jre.util;
 
 import org.geogebra.common.util.Reflection;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +25,12 @@ public class ReflectionJre implements Reflection {
 	}
 
 	@Override
-	public void call(Object object, String methodName, Object[] parameters) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+	public void call(Object object, String methodName, Object[] parameters) throws Exception {
 		Method method = getMethod(methodName);
 		method.invoke(object, parameters);
 	}
 
-	private Method getMethod(String methodName) throws NoSuchMethodException {
+	private Method getMethod(String methodName) throws Exception {
 		Method method = cache.get(methodName);
 		if (method == null) {
 			method = findMethod(methodName);
@@ -40,7 +39,7 @@ public class ReflectionJre implements Reflection {
 		return method;
 	}
 
-	private Method findMethod(String methodName) throws NoSuchMethodException {
+	private Method findMethod(String methodName) throws Exception {
 		for (int i = 0; i < methods.length; i++) {
 			if (methods[i].getName().equals(methodName)) {
 				return methods[i];
