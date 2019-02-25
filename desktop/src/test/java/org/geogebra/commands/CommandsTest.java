@@ -1190,6 +1190,13 @@ public class CommandsTest extends AlgebraTest {
 		t("Derivative[ cos(x), x ]", "(-sin(x))");
 		t("Derivative[ cos(x), x, 3 ]", "sin(x)");
 		t("Derivative[ x^4/3 ]", "(4 / 3 * x^(3))");
+		t("Derivative[exp(x)]", "\u212F^(x)");
+		t("Derivative[(x+1)exp(-x)]", "((-x) * \u212F^((-x)))");
+		t("fderiv:y=exp(x)", "exp(x)");
+		t("fderiv'(x)", "\u212F^(x)");
+		t("fderiv2:y=(x+1)exp(-x)", "((x + 1) * exp((-x)))");
+		t("fderiv2'(x)", "((-x) * \u212F^((-x)))");
+
 	}
 
 	@Test
