@@ -11,29 +11,35 @@ abstract public class ARManager<TouchEventType> {
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
-    protected CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.IDENTITY;
+    private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.IDENTITY;
     protected float mScaleFactor = 1;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
     protected double hittingDistance;
 
+    private Coords tmpCoords1 = new Coords(4);
+    private Coords tmpCoords2 = new Coords(4);
+    private Coords tmpCoords3 = new Coords(4);
+
     protected float[] hitMatrix = new float[16];
-    protected float[] lastHitOrigin = new float[3];
+    private float[] lastHitOrigin = new float[3];
     protected float[] rayEndOrigin = new float[3];
-    protected float[] translationOffset = new float[3];
-    protected double[] previousTranslationOffset = new double[3];
+    private float[] translationOffset = new float[3];
+    private double[] previousTranslationOffset = new double[3];
 
     protected float mDistance;
     protected boolean objectIsRendered = false;
     protected boolean mDrawing = false;
     protected boolean mARIsRendering = false;
 
-    protected float[] projectionFloats = new float[3];
+    private float[] projectionFloats = new float[3];
     protected CoordMatrix4x4 cHitMatrix = new CoordMatrix4x4();
-    protected Coords rayOrigin = new Coords(4);
-    protected Coords rayDirection = new Coords(4);
-    protected Coords projection = Coords.createInhomCoorsInD3();
+    private Coords rayOrigin = new Coords(4);
+    private Coords rayDirection = new Coords(4);
+    private Coords projection = Coords.createInhomCoorsInD3();
+
+    protected ARGestureManager gestureListener;
 
     abstract public void onSurfaceCreated();
 
@@ -108,6 +114,8 @@ abstract public class ARManager<TouchEventType> {
     abstract public void proceed(TouchEventType event);
 
     protected void updateModelMatrixFields() {
+        /* Scaling */
+        mScaleFactor = gestureListener.getScaleFactor();
 
         /* Scaling */
         scaleMatrix.setDiag(mScaleFactor);
@@ -145,5 +153,52 @@ abstract public class ARManager<TouchEventType> {
                 mModelMatrix.getOrigin(), projection);
         projection.get3ForGL(projectionFloats);
         return projectionFloats;
+    }
+
+    protected void updateTranslationIfNeeded() {
+        if (gestureListener.getUpdateOriginIsWanted()) {
+            gestureListener.setUpdateOriginIsWanted(false);
+            Coords modelOrigin = mModelMatrix.getOrigin();
+            Coords anchorOrigin = mAnchorMatrix.getOrigin();
+            previousTranslationOffset[0] = modelOrigin.getX() - anchorOrigin.getX();
+            previousTranslationOffset[1] = modelOrigin.getY() - anchorOrigin.getY();
+            previousTranslationOffset[2] = modelOrigin.getZ() - anchorOrigin.getZ();
+
+            lastHitOrigin[0] = rayEndOrigin[0];
+            lastHitOrigin[1] = rayEndOrigin[1];
+            lastHitOrigin[2] = rayEndOrigin[2];
+        }
+    }
+
+    protected void setClipCenterAndComputeRayDirection() {
+        // set clip center to projection matrix near plane location
+        tmpCoords2.setX(0);
+        tmpCoords2.setY(0);
+        tmpCoords2.setZ(projectMatrix.getOrigin().getZ()/(1-projectMatrix.getVz().getZ()));
+        tmpCoords2.setW(1);
+        viewMatrix.solve(tmpCoords2, rayOrigin);
+        // compute ray direction (which is z- in camera coord sys)
+        viewMatrix.solve(Coords.VZm, rayDirection);
+        rayDirection.normalize();
+    }
+
+    protected void countHittingOriginAndDirection() {
+        // "ground" hitting point
+        tmpCoords1.setMul(viewMatrix, cHitMatrix.getOrigin());
+        tmpCoords1.setW(0);
+        tmpCoords1.normalize();
+        // set clip center to projection matrix near plane location
+        tmpCoords2.setX(0);
+        tmpCoords2.setY(0);
+        tmpCoords2.setZ(projectMatrix.getOrigin().getZ()/(1-projectMatrix.getVz().getZ()));
+        tmpCoords2.setW(1);
+        // get clip hitting point
+        Coords.O.projectPlane(Coords.VX, Coords.VY, tmpCoords1, tmpCoords2, tmpCoords3);
+        // projection may not be possible
+        if (tmpCoords3.isDefined()) {
+            viewMatrix.solve(tmpCoords3, rayOrigin);
+            rayDirection.setSub3(cHitMatrix.getOrigin(), rayOrigin);
+            rayDirection.normalize();
+        }
     }
 }
