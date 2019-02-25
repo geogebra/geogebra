@@ -1431,8 +1431,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		long[] ret = new long[2];
 		ret[1] = precision();
 		ret[0] = Math.round(x * precision());
-		Log.error(ret[0] + "");
-		Log.error(ret[1] + "");
 
 		long gcd = gcd(ret[0], ret[1]);
 		ret[0] /= gcd;
@@ -1526,11 +1524,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			// to get ROUND_HALF_UP like in schools: increase abs(x) slightly
 			// x = x * ROUND_HALF_UP_FACTOR;
 			// We don't do this for large numbers as
-			// if (!isLongInteger && tpl.getPrecision(nf) > 1E-6) {
-			// double abs = Math.abs(x);
-			// // increase abs(x) slightly to round up
-			// x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
-			// }
+			if (!isLongInteger && tpl.getPrecision(nf) > 1E-6) {
+				double abs = Math.abs(x);
+				// increase abs(x) slightly to round up
+				x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
+			}
 
 			if (useSF) {
 				return formatSF(x, tpl);
