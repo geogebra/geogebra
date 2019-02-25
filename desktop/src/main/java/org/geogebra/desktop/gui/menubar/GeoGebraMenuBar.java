@@ -633,7 +633,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		dialog.setVisible(true);
 	}
 
-	private static void appendVersion(StringBuilder sb, AppD app) {
+	public static void appendVersion(StringBuilder sb, App app) {
 		sb.append(GeoGebraConstants.APPLICATION_NAME);
 		sb.append(" Classic ");
 		sb.append(app.getVersionString());
