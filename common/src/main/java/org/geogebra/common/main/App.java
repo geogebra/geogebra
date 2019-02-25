@@ -97,6 +97,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
+import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -5223,5 +5224,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 			labelManager = new LabelManager();
 		}
 		return labelManager;
+	}
+
+	public Reflection createReflection(Class clazz) {
+		return null;
 	}
 }
