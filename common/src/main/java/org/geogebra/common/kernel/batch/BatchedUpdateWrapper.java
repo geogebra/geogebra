@@ -34,7 +34,7 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 	 */
 	public BatchedUpdateWrapper(View wrappedView, App app) {
 		this.wrappedView = wrappedView;
-		this.reflection = app.createReflection(wrappedView.getClass());
+		this.reflection = app.createReflection(View.class);
 
 		pendingEvents = new EventOptimizedList();
 		timer = app.newTimer(this, DELAY);
