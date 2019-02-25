@@ -4,6 +4,7 @@ import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -603,5 +604,25 @@ public class AlgebraItem {
 	 */
 	public static HasLastItem getLastItemProvider(final App app) {
 		return new ConstructionItemProvider(app.getKernel().getConstruction());
+	}
+
+	/**
+	 *
+	 * @param element the GeoElement for what we need to get the preview for AV
+	 * @return the preview string for the given geoelement if there is any
+	 */
+	public static String getPreviewFormula(GeoElement element) {
+		int algebraStyle = element.getKernel().getAlgebraStyle();
+		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
+			return element.getAlgebraDescription(StringTemplate.latexTemplate);
+		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION ||
+				algebraStyle == Kernel.ALGEBRA_STYLE_VALUE) && !AlgebraItem.isTextItem(element)) {
+			return AlgebraItem.getDescriptionString(
+					element,
+					algebraStyle,
+					StringTemplate.latexTemplate);
+		} else {
+			return null;
+		}
 	}
 }
