@@ -242,6 +242,9 @@ public class EuclidianViewCompanion {
 		view.setAxesLineStyle(evs.getAxesLineStyle());
 		view.setGridLineStyle(evs.getGridLineStyle());
 
+		// bold/italic/size for axes labels
+		view.initFontCoords();
+
 		double[] d = evs.getGridDistances();
 		if (!evs.getAutomaticGridDistance() && (d == null)) {
 			view.setAutomaticGridDistance(false);

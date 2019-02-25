@@ -1565,6 +1565,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.setAxesLabelsSerif("true".equals(attrs.get("serif")));
 			return true;
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

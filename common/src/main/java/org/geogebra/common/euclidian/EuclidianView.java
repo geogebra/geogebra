@@ -3544,7 +3544,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		updateBackground();
 	}
 
-	private void initFontCoords() {
+	void initFontCoords() {
 		setFontCoords(getApplication().getFontCommon(
 				getSettings().getAxesLabelsSerif(),
 				getSettings().getAxisFontStyle(),
