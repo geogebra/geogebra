@@ -409,6 +409,7 @@ public class EuclidianController3DCompanion
                     point3D.setCoords(tmpCoords2);
                 } else {
                     point3D = null;
+                    ec3D.view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
                 }
             } else {
                 point3D = createNewFreePoint(complex);
