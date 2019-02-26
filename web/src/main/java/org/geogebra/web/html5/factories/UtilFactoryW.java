@@ -1,10 +1,9 @@
 package org.geogebra.web.html5.factories;
 
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.util.HttpRequest;
-import org.geogebra.common.util.Prover;
-import org.geogebra.common.util.URLEncoder;
+import org.geogebra.common.util.*;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.html5.util.ProverW;
 import org.geogebra.web.html5.util.URLEncoderW;
@@ -43,4 +42,15 @@ public class UtilFactoryW extends UtilFactory {
 		return GeoGebraProfilerW.getMillisecondTimeNative();
 	}
 
+	@Override
+	public Reflection newReflection(Class clazz) {
+		// used by BatchedUpdateWrapper
+		// not needed currently
+		return null;
+	}
+
+	@Override
+	public GTimer newTimer(GTimerListener listener, int delay) {
+		return new GTimerW(listener, delay);
+	}
 }
