@@ -1,10 +1,9 @@
 package org.geogebra.desktop.factories;
 
-import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
-import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
@@ -18,7 +17,7 @@ import org.geogebra.desktop.util.URLEncoderD;
  * @author Zoltan Kovacs <zoltan@geogebra.org> Desktop implementations for
  *         various utils
  */
-public class UtilFactoryD extends UtilFactory {
+public class UtilFactoryD extends UtilFactoryJre {
 
 	@Override
 	public HttpRequest newHttpRequest() {
@@ -43,13 +42,6 @@ public class UtilFactoryD extends UtilFactory {
 	@Override
 	public double getMillisecondTime() {
 		return System.nanoTime() / 1000000d;
-	}
-
-	@Override
-	public Reflection newReflection(Class clazz) {
-		// used by BatchedUpdateWrapper
-		// not needed currently
-		return null;
 	}
 
 	@Override
