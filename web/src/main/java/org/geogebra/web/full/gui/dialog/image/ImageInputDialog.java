@@ -6,10 +6,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Label;
 
-public class ImageInputDialog extends UploadImageDialog {
+public class ImageInputDialog extends UploadImageDialog implements WebcamDialogInterface {
 	
 	private static final int PREVIEW_HEIGHT = 155;
 	private static final int PREVIEW_WIDTH = 213;
@@ -60,6 +61,7 @@ public class ImageInputDialog extends UploadImageDialog {
 	    		webcamPanel = null;
 			}
 		}
+		setPreviewDimensions();
 		imageUnavailable();
 	}
 	
@@ -69,13 +71,15 @@ public class ImageInputDialog extends UploadImageDialog {
 		upload.removeStyleDependentName("highlighted");
 		mayCenter = false;
 		if (webcamPanel == null) {
-			webcamPanel = new WebCamInputPanel(appw);
+			webcamPanel = new WebCamInputPanel(appw, this);
 		} else {
 			webcamPanel.startVideo();
 		}
-    	inputPanel.setWidget(webcamPanel);
+	
+		inputPanel.setWidget(webcamPanel);
     	imageAvailable();
 	}
+	
 	
 	@Override
 	public void onClick(ClickEvent event) {
@@ -118,5 +122,17 @@ public class ImageInputDialog extends UploadImageDialog {
 		if (this.webcamPanel != null) {
 			this.webcamPanel.stopVideo();
 		}
+	}
+
+	@Override
+	public void resize() {
+		Style style = inputPanel.getElement().getStyle();
+		style.clearWidth();
+		style.clearHeight();
+	}
+
+	private void setPreviewDimensions() {
+		inputPanel.setHeight(PREVIEW_HEIGHT + "px");
+		inputPanel.setWidth(PREVIEW_WIDTH + "px");
 	}
 }

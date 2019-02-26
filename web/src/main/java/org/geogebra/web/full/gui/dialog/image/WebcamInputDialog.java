@@ -18,7 +18,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * 
  * @author Alicia
  */
-public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
+public class WebcamInputDialog extends DialogBoxW implements WebcamDialogInterface,
+	ClickHandler {
 
 	private AppW appW;
 	private FlowPanel mainPanel;
@@ -88,9 +89,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		resize();
 	}
 
-	/**
-	 * resizes the video and its container
-	 */
+	@Override
 	public void resize() {
 		if (!isShowing()) {
 			return;

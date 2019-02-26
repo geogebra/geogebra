@@ -23,17 +23,8 @@ public class WebCamInputPanel extends VerticalPanel {
 									// dimensions
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
-	private WebcamInputDialog webcamDialog;
+	private WebcamDialogInterface webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
-
-	/**
-	 * @param app
-	 *            application
-	 */
-	public WebCamInputPanel(AppW app) {
-		this.app = app;
-		initGUI();
-	}
 
 	/**
 	 * @param app
@@ -41,9 +32,10 @@ public class WebCamInputPanel extends VerticalPanel {
 	 * @param webcamDialog
 	 *            webcam dialog
 	 */
-	public WebCamInputPanel(AppW app, WebcamInputDialog webcamDialog) {
-		this(app);
+	public WebCamInputPanel(AppW app, WebcamDialogInterface webcamDialog) {
+		this.app = app;
 		this.webcamDialog = webcamDialog;
+		initGUI();
 	}
 
 	private void initGUI() {
