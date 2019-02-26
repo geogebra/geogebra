@@ -180,9 +180,6 @@ public enum Feature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 
-	/** GGB-2525 */
-	TAB_ON_EV_PLAY,
-
 	/** GGB-2538 */
 	TOOLS_WITH_NAMES,
 

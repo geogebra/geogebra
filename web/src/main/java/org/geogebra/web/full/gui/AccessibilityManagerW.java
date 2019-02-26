@@ -423,9 +423,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean handleTabExitGeos(boolean forward) {
-		if (!app.has(Feature.TAB_ON_EV_PLAY)) {
-			return false;
-		}
 		int firstViewId = nextID(-1);
 		if (!forward && selection.isFirstGeoSelected()) {
 			focusLastZoomOrSpeech(firstViewId);
