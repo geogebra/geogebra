@@ -611,16 +611,16 @@ public class AlgebraItem {
 	 * @param element the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	public static String getPreviewFormula(GeoElement element) {
+	public static String getPreviewFormula(GeoElement element, StringTemplate stringTemplate) {
 		int algebraStyle = element.getKernel().getAlgebraStyle();
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
-			return element.getAlgebraDescription(StringTemplate.latexTemplate);
+			return element.getAlgebraDescription(stringTemplate);
 		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION ||
 				algebraStyle == Kernel.ALGEBRA_STYLE_VALUE) && !AlgebraItem.isTextItem(element)) {
 			return AlgebraItem.getDescriptionString(
 					element,
 					algebraStyle,
-					StringTemplate.latexTemplate);
+					stringTemplate);
 		} else {
 			return null;
 		}
