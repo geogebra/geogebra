@@ -7,6 +7,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
@@ -787,6 +788,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void showBrowser(MyHeaderPanel bg) {
+		EuclidianController evController = getActiveEuclidianView().getEuclidianController();
+		if (evController != null) {
+			evController.hideDynamicStylebar();
+		}
 		getAppletFrame().setApplication(this);
 		getAppletFrame().showPanel(bg);
 	}
