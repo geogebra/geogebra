@@ -242,7 +242,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 				@Override
 				public void run() {
-					CursorBox.blink = !CursorBox.blink;
+					CursorBox.toggleBlink();
 					for (MathFieldW field : instances) {
 						field.repaintWeb();
 					}
@@ -690,7 +690,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			}
 			instances.remove(this);
 			// last repaint with no cursor
-			CursorBox.blink = false;
+			CursorBox.setBlink(false);
 			repaintWeb();
 			this.lastIcon = null;
 

@@ -8,8 +8,6 @@ import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.AppWFull;
 
-import com.google.gwt.user.client.ui.TreeItem;
-
 /**
  * Duplicates geo in AV and puts focus to the new input
  */
@@ -34,9 +32,9 @@ public class DuplicateAction extends MenuAction<GeoElement> {
 		} else {
 			dup = geo.getDefinitionNoLabel(StringTemplate.editorTemplate);
 		}
-		TreeItem currentNode = algebraView.getNode(geo);
-		if (currentNode instanceof RadioTreeItem) {
-			((RadioTreeItem) currentNode).selectItem(false);
+		RadioTreeItem currentNode = algebraView.getNode(geo);
+		if (currentNode != null) {
+			currentNode.selectItem(false);
 		}
 		input.setText(dup);
 		input.setFocus(true, true);

@@ -6,7 +6,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 public class CursorBox extends Box {
 
 	public static double startX, startY;
-	public static boolean blink = true;
+	private static boolean blink = true;
 	private Box content;
 
 	public CursorBox(Box content, double coeff, Color color) {
@@ -39,5 +39,13 @@ public class CursorBox extends Box {
 	@Override
 	public FontInfo getLastFont() {
 		return content.getLastFont();
+	}
+
+	public static void toggleBlink() {
+		blink = !blink;
+	}
+
+	public static void setBlink(boolean blink) {
+		CursorBox.blink = blink;
 	}
 }

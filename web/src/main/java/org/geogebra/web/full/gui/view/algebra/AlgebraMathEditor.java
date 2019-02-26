@@ -48,7 +48,7 @@ public class AlgebraMathEditor implements MathEditor {
 				caretPath.add(caretPathJson.getInt(index));
 			}
 			if (algebraItem.getMathField() != null) {
-				CursorBox.blink = true;
+				CursorBox.setBlink(true);
 				Log.debug(StringUtil.join(",", caretPath));
 				algebraItem.getMathField().setCaretPath(caretPath);
 				algebraItem.getMathField().repaintWeb();

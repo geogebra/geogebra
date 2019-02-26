@@ -85,7 +85,7 @@ public class MathFieldD extends JLabel implements MathField {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CursorBox.blink = !CursorBox.blink;
+				CursorBox.toggleBlink();
 				repaint();
 			}
 		});
