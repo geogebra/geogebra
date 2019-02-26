@@ -2,12 +2,13 @@ package org.geogebra.arbase;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.kernel.Matrix.Coords;
 
 abstract public class ARGestureManager{
 
     protected EuclidianView3D mView;
     protected float mScaleFactor = 1.0f;
-    protected float[] mPos = new float[2];
+    protected Coords mPos = new Coords(2);
     protected boolean isTouched = false;
     protected boolean mUpdateOriginIsWanted = false;
     protected float mAngle;
@@ -28,8 +29,9 @@ abstract public class ARGestureManager{
         return mScaleFactor;
     }
 
-    public float[] getXYPosition() {
-        return new float[]{mPos[0], mPos[1]};
+    public void copyXYPosition(Coords ret) {
+        ret.setX(mPos.getX());
+        ret.setY(mPos.getY());
     }
 
     public boolean getIsTouched() {
