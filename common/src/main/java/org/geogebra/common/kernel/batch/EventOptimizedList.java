@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.batch;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 import java.util.Arrays;
 import java.util.HashSet;
