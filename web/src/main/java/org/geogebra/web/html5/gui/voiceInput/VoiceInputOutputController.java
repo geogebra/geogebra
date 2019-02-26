@@ -17,7 +17,7 @@ public class VoiceInputOutputController {
 	private AppW appW;
 	private VoiceInputDispatcher dispatcher;
 	private String gotResult = "false";
-	private Integer action = -1;
+	private int action = -1;
 	private ArrayList<Double> results = new ArrayList<>();
 
 	/**
@@ -41,7 +41,7 @@ public class VoiceInputOutputController {
 	 * @param action
 	 *            id of the action
 	 */
-	public void setAction(Integer action) {
+	public void setAction(int action) {
 		this.action = action;
 	}
 
@@ -52,7 +52,7 @@ public class VoiceInputOutputController {
 	 *            type of the waited answer
 	 */
 	public native void initSpeechSynth(String toSay,
-			Integer outputType) /*-{
+			int outputType) /*-{
 		var synth = window.speechSynthesis;
 		var that = this;
 		if (!('webkitSpeechRecognition' in window)) {
@@ -72,7 +72,7 @@ public class VoiceInputOutputController {
 			if (action == 500 || action == -1) {
 				return;
 			}
-			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::initSpeechRec(Ljava/lang/Integer;)(action);
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::initSpeechRec(I)(action);
 			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::playBeep()();
 		}
 		utterThis.onerror = function(event) {
@@ -100,7 +100,7 @@ public class VoiceInputOutputController {
 	 * @param actionID
 	 *            action
 	 */
-	public native void initSpeechRec(Integer actionID) /*-{
+	public native void initSpeechRec(int actionID) /*-{
 		var that = this;
 		var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 		var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
@@ -115,7 +115,7 @@ public class VoiceInputOutputController {
 		recognition.lang = "en-US";
 		recognition.interimResults = false;
 		recognition.maxAlternatives = 1;
-		that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setAction(Ljava/lang/Integer;)(actionID);
+		that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::setAction(I)(actionID);
 
 		recognition.start();
 		console.log('SPEECH REC: Ready to receive a command.');
@@ -131,7 +131,7 @@ public class VoiceInputOutputController {
 			console.log('SPEECH REC: Confidence: '
 					+ event.results[0][0].confidence);
 
-			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,result);
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(ILjava/lang/String;)(actionType,result);
 		}
 
 		recognition.onspeechend = function() {
@@ -143,7 +143,7 @@ public class VoiceInputOutputController {
 						var gotResult = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::gotResult;
 						var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
 						if (gotResult === "false") {
-							that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,"");
+							that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(ILjava/lang/String;)(actionType,"");
 						}
 					}, 3000);
 
@@ -157,7 +157,7 @@ public class VoiceInputOutputController {
 			console.log('SPEECH REC: Error occurred in recognition: '
 					+ event.error);
 			var actionType = that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::action;
-			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(Ljava/lang/Integer;Ljava/lang/String;)(actionType,"");
+			that.@org.geogebra.web.html5.gui.voiceInput.VoiceInputOutputController::onResponse(ILjava/lang/String;)(actionType,"");
 		}
 	}-*/;
 
@@ -167,7 +167,7 @@ public class VoiceInputOutputController {
 	 * @param result
 	 *            from speech recognition
 	 */
-	public void onResponse(Integer actionType, String result) {
+	public void onResponse(int actionType, String result) {
 		if (actionType == QuestResErrConstants.COMMAND) {
 		
 			// this.speechRecResultTxt = result;
