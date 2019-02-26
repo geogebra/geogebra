@@ -42,7 +42,11 @@ public class EuclidianController3DCompanion
 	private Coords tmpCoordsForDirection = new Coords(4);
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
-    static final private double AR_ROUNDING_PRECISION_PERCENTAGE = 1.0 / 100.0;
+    static final private double[] AR_ROUNDING_PRECISION_PERCENTAGE = new double[] {
+            0.1 / 100.0, // precision in X
+            0.1 / 100.0, // precision in Y
+            10.0 / 100.0 // precision in Z
+    };
 
 	/**
 	 * constructor
@@ -392,10 +396,9 @@ public class EuclidianController3DCompanion
                     tmpCoordsForOrigin.projectPlaneThruVIfPossible(Coords.VX, Coords.VY, Coords.VZ,
                             tmpCoords1, tmpCoordsForDirection, tmpCoords2);
                     // round coordinates
-                    double distance = ec3D.view3D.getRenderer().getHittingDistanceAR()
-                            * AR_ROUNDING_PRECISION_PERCENTAGE;
+                    double distance = ec3D.view3D.getRenderer().getHittingDistanceAR();
                     for (int i = 0; i < 3; i++) {
-                        double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE
+                        double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE[i]
                                 * distance / ec3D.view3D.getScale(i));
                         double v = tmpCoords2.get(i + 1);
                         if (DoubleUtil.isGreater(rounding, 0)) {
