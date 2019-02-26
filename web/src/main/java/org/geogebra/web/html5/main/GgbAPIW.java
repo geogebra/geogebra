@@ -67,6 +67,12 @@ public class GgbAPIW extends GgbAPI {
 		this.construction = kernel.getConstruction();
 	}
 
+	/**
+	 * Register equation editor for the get/setEditorState methods.
+	 * 
+	 * @param editor
+	 *            equation editor API
+	 */
 	public void setEditor(MathEditorAPI editor) {
 		this.editor = editor;
 	}

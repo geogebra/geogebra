@@ -1,12 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.ArrayList;
-
+import org.geogebra.common.io.EditorStateDescription;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.move.ggtapi.models.json.JSONArray;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.web.html5.main.MathEditorAPI;
 
 import com.himamis.retex.editor.web.MathFieldW;
@@ -36,23 +31,16 @@ public class AlgebraMathEditorAPI implements MathEditorAPI {
 			algebraItem = algebraView.getInputTreeItem();
 		}
 		
-		try {
-			JSONObject jso = new JSONObject(new JSONTokener(text));
-			algebraItem.prepareEdit(jso.getString("content"));
-
-			JSONArray caretPathJson = jso.getJSONArray("caret");
-			ArrayList<Integer> caretPath = new ArrayList<>();
-			for (int index = 0; index < caretPathJson.length(); index++) {
-				caretPath.add(caretPathJson.getInt(index));
-			}
+		EditorStateDescription editorJsonHandler = EditorStateDescription
+				.fromJSON(text);
+		if (editorJsonHandler != null) {
+			algebraItem.prepareEdit(editorJsonHandler.getContent());
 			if (algebraItem.getMathField() != null) {
 				CursorBox.setBlink(true);
-				algebraItem.getMathField().setCaretPath(caretPath);
+				algebraItem.getMathField()
+						.setCaretPath(editorJsonHandler.getCaretPath());
 				algebraItem.getMathField().repaintWeb();
 			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -61,20 +49,8 @@ public class AlgebraMathEditorAPI implements MathEditorAPI {
 		RadioTreeItem algebraItem = algebraView.getActiveTreeItem();
 		MathFieldW mathField = algebraItem.getMathField();
 		if (mathField != null) {
-			try {
-				JSONObject jso = new JSONObject();
-				jso.put("content", mathField.getText());
-				ArrayList<Integer> caretPath = mathField.getCaretPath();
-				JSONArray caretPathJson = new JSONArray();
-				for (Integer pathElement : caretPath) {
-					caretPathJson.put(pathElement);
-				}
-				jso.put("caret", caretPathJson);
-				return jso.toString();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return new EditorStateDescription(mathField.getText(),
+					mathField.getCaretPath()).asJSON();
 		}
 		return "";
 	}

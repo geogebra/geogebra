@@ -41,10 +41,20 @@ public class CursorBox extends Box {
 		return content.getLastFont();
 	}
 
+	/**
+	 * Toggle temporary cursor visibility for blinking effect
+	 */
 	public static void toggleBlink() {
 		blink = !blink;
 	}
 
+	/**
+	 * Force cursor to be visible / invisible (gets switched periodically by
+	 * toggleBlink in web/desktop)
+	 * 
+	 * @param blink
+	 *            blink state
+	 */
 	public static void setBlink(boolean blink) {
 		CursorBox.blink = blink;
 	}

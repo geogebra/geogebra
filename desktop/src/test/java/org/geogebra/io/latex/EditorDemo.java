@@ -43,7 +43,7 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class Test {
+public class EditorDemo {
 
 	static {
 		FactoryProvider.setInstance(new FactoryProviderDesktop());

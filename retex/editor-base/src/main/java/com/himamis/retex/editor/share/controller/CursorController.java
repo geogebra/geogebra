@@ -332,6 +332,9 @@ public class CursorController {
 						current = (MathSequence) ((MathContainer) child)
 								.getArgument(list.get(i));
 						i--;
+					} else if (current instanceof MathSequence) {
+						editorState.setCurrentField((MathSequence) current);
+						editorState.setCurrentOffset(index);
 					}
 				}
 			} else if (index == current.size()) {

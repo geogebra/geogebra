@@ -159,7 +159,8 @@ public class MathFieldInternal
 		mathFormula = formula;
 		editorState = new EditorState(mathField.getMetaModel());
 		editorState.setRootComponent(formula.getRootComponent());
-		setCursorPath(path);
+		CursorController.setPath(path, getEditorState());
+		mathFieldController.update(mathFormula, editorState, false);
 	}
 
 	/**

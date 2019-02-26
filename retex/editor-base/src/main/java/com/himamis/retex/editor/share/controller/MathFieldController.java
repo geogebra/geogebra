@@ -20,6 +20,9 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
 
+/**
+ * Controller for equation editor
+ */
 public class MathFieldController {
 
 	@Weak
@@ -84,6 +87,14 @@ public class MathFieldController {
 		updateMathField(focusEvent);
 	}
 
+	/**
+	 * Update the field, render cursor without checking focus
+	 * 
+	 * @param mathFormula
+	 *            formula
+	 * @param editorState
+	 *            editor state
+	 */
 	public void updateWithCursor(MathFormula mathFormula,
 			EditorState editorState) {
 		updateFormula(mathFormula, editorState.getCurrentField(),
@@ -107,7 +118,6 @@ public class MathFieldController {
 			MathComponent selectionStart, MathComponent selectionEnd) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset, selectionStart, selectionEnd);
-		FactoryProvider.getInstance().debug(serializedFormula);
 		TeXFormula texFormula = null;
 		if (texBuilder != null) {
 			texFormula = new TeXFormula();
@@ -253,9 +263,12 @@ public class MathFieldController {
 
 	/**
 	 * Enables or disables line break in the editor.
+	 * 
+	 * @param breakLines
+	 *            whether to enable break lines
 	 */
-	public void setLineBreakEnabled(boolean b) {
-		texSerializer.setLineBeakEnabled(b);
+	public void setLineBreakEnabled(boolean breakLines) {
+		texSerializer.setLineBeakEnabled(breakLines);
 
 	}
 }
