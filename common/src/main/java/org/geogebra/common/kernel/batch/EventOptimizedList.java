@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.batch;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 import java.util.Arrays;
@@ -52,7 +53,7 @@ class EventOptimizedList {
 	// Removes all events which refer to this element
 	private void optimizeRemove(Iterator<Event> iterator, Event addedEvent) {
 		Object[] newParameters = addedEvent.getParameters();
-		GeoElementND removingGeo = (GeoElementND) newParameters[0];
+		GeoElement removingGeo = (GeoElement) newParameters[0];
 		while (iterator.hasNext()) {
 			Event event = iterator.next();
 			Object[] parameters = event.getParameters();
