@@ -22,16 +22,15 @@
            for(var index = dispatchNext; index < events.length; index++){
                var last = events[events.length - 1];
                if (last && last.client != clientId) {
-                   if(last.type == "evalXML"){
+                   if (last.type == "evalXML"){
                        evalXML(api1, last.content);
-                   }
-                   if(last.type == "evalCommand"){
+                   } else if (last.type == "setXML"){
+                       setXML(api1, last.content);
+                   } else if (last.type == "evalCommand"){
                        evalCommand(api1, last.content);
-                   }
-                   if(last.type == "deleteObject"){
+                   } else if (last.type == "deleteObject"){
                        api1.deleteObject(last.content);
-                   }
-                   if(last.type == "setEditorState"){
+                   } else if (last.type == "setEditorState"){
                        unregisterListeners();
                        api1.setEditorState(last.content, last.label);
                        registerListeners();
@@ -120,6 +119,13 @@
             registerListeners()
         }
 
+        function setXML(api, xml) {
+            unregisterListeners();
+            api.setXML(xml);
+            api.evalCommand("UpdateConstruction()");
+            registerListeners()
+        }
+
         // *** UPDATE LISTENERS ***
         function updateListener(label, xapi1, bus) {
             console.log(label + " is updated");
@@ -198,6 +204,21 @@
                     console.log("select", event);
                     bus.send("evalCommand", "SelectObjects[" + event[1] + "]");
                     break;
+					
+				case "addPolygon": 
+					console.log("addPolygon", event);
+					break;
+					
+				case "addPolygonComplete":
+					console.log("addPolygonComplete", event, event[1]);
+					
+                    var xml = xapi1.getXML();
+                    //console.log(xml);
+                    bus.send("setXML", xml);
+					break;
+				
+					
+					
 
                 default:
                     console.log("unhandled event ", event[0], event);
@@ -230,9 +251,12 @@
             api1 = api;
             registerListeners();
         }
-        var codebase = location.href.replace(/\/[^\/]*$/,"/web3d");
+		
         var applet1 = new GGBApplet(parameters1, '5.0', views);
-        applet1.setHTML5Codebase(codebase);
+		if (!location.href.startsWith("https://test.geogebra.org")) {
+			var codebase = location.href.replace(/\/[^\/]*$/,"/web3d");
+			applet1.setHTML5Codebase(codebase);
+		}
 
         window.onload = function() {
             localStorage.clear();
