@@ -572,8 +572,14 @@ public class ExportToPrinter3D {
 			}
 
 			// check if the polygon is convex
-			Convexity convexity = polygon.getPolygonTriangulation()
-					.checkIsConvex();
+			Convexity convexity;
+			try {
+				convexity = polygon.getPolygonTriangulation()
+						.checkIsConvex();
+			} catch (Exception e) {
+				// something went wrong: we don't export this one
+				return;
+			}
 			if (convexity != Convexity.NOT) {
 				int length = polygon.getPointsLength();
 
