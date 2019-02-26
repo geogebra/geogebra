@@ -4,7 +4,11 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
+import org.geogebra.common.util.Reflection;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.HttpRequestD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.ProverD;
@@ -41,4 +45,15 @@ public class UtilFactoryD extends UtilFactory {
 		return System.nanoTime() / 1000000d;
 	}
 
+	@Override
+	public Reflection newReflection(Class clazz) {
+		// used by BatchedUpdateWrapper
+		// not needed currently
+		return null;
+	}
+
+	@Override
+	public GTimer newTimer(GTimerListener listener, int delay) {
+		return new GTimerD(listener, delay);
+	}
 }
