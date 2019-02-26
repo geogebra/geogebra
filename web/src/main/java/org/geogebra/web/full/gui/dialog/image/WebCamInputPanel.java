@@ -5,6 +5,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -23,6 +24,7 @@ public class WebCamInputPanel extends VerticalPanel {
 									// dimensions
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
+	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	private WebcamDialogInterface webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
 
@@ -132,20 +134,31 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 		return null;
 	}-*/;
-
-	private native String shotcapture(Element video1) /*-{
-		var canvas = $doc.createElement("canvas");
-		canvas.width = Math
-				.max(video1.videoWidth || 0,
-						@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH);
-		canvas.height = video1.videoHeight ? Math.round(canvas.width
-				* video1.videoHeight / video1.videoWidth)
-				: 0.75 * @org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH;
-		var ctx = canvas.getContext('2d');
-		ctx.drawImage(video1, 0, 0);
-		this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasWidth = canvas.width;
-		this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::canvasHeight = canvas.height;
-		return canvas.toDataURL('image/png');
+	
+	private String makeAShot(Element video) {
+		Canvas c = Canvas.createIfSupported();
+		int w = 0;
+		int h = 0;
+		try {
+			w = Integer.parseInt(video.getAttribute("width"));
+			h = Integer.parseInt(video.getAttribute("height"));
+		} catch (NumberFormatException e) {
+			// w, h = 0
+		} finally {
+			int width = Math.max(w, MAX_CANVAS_WIDTH);
+			int height = h != 0 ? Math.round(width * h /w ) : MAX_CANVAS_HEIGHT;
+			c.setPixelSize(width, height);
+			c.setCoordinateSpaceHeight(height);
+			c.setCoordinateSpaceWidth(width);
+			drawVideoElement(c.getContext2d(), video);
+			
+		}
+		return c.toDataUrl("image/png");
+		
+	}
+	
+	public native void drawVideoElement(JavaScriptObject ctx, Element img) /*-{
+		ctx.drawImage(img, 0, 0);
 	}-*/;
 	
 	/**
@@ -171,7 +184,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		if (video == null) {
 			return null;
 		}
-		String capture = shotcapture(video);
+		String capture = makeAShot(video);
 		if (!app.isWhiteboardActive()) {
 			stopVideo();
 		}
