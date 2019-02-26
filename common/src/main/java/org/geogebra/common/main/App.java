@@ -5225,8 +5225,4 @@ public abstract class App implements UpdateSelection, AppInterface {
 		}
 		return labelManager;
 	}
-
-	public Reflection createReflection(Class clazz) {
-		return null;
-	}
 }

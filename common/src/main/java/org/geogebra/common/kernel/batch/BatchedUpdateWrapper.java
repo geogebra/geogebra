@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.batch;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -30,14 +31,14 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 	 * Create a wrapper around View.
 	 *
 	 * @param wrappedView view to wrap
-	 * @param app app
+	 * @param factory factory
 	 */
-	public BatchedUpdateWrapper(View wrappedView, App app) {
+	public BatchedUpdateWrapper(View wrappedView, UtilFactory factory) {
 		this.wrappedView = wrappedView;
-		this.reflection = app.createReflection(View.class);
+		this.reflection = factory.newReflection(View.class);
 
 		pendingEvents = new EventOptimizedList();
-		timer = app.newTimer(this, DELAY);
+		timer = factory.newTimer(this, DELAY);
 	}
 
 	private void addEvent(String name) {

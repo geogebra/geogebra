@@ -1,7 +1,10 @@
 package org.geogebra.common.factories;
 
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
 
@@ -60,4 +63,17 @@ public abstract class UtilFactory {
 	 * @return current time in milliseconds
 	 */
 	public abstract double getMillisecondTime();
+
+	/**
+	 * @param clazz parameter to reflect
+	 * @return new Reflection object
+	 */
+	public abstract Reflection newReflection(Class clazz);
+
+	/**
+	 * @param listener to notify when timer fires
+	 * @param delay delay to fire
+	 * @return new GTimer object
+	 */
+	public abstract GTimer newTimer(GTimerListener listener, int delay);
 }
