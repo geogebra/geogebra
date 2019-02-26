@@ -77,14 +77,19 @@ public class MathFieldController {
 	public void update(MathFormula mathFormula, EditorState editorState,
 			boolean focusEvent) {
 		if (mathField.hasFocus()) {
-			updateFormula(mathFormula, editorState.getCurrentField(),
-					editorState.getCurrentOffset(),
-					editorState.getSelectionStart(),
-					editorState.getSelectionEnd());
+			updateWithCursor(mathFormula, editorState);
 		} else {
 			updateFormula(mathFormula, null, 0, null, null);
 		}
 		updateMathField(focusEvent);
+	}
+
+	public void updateWithCursor(MathFormula mathFormula,
+			EditorState editorState) {
+		updateFormula(mathFormula, editorState.getCurrentField(),
+				editorState.getCurrentOffset(), editorState.getSelectionStart(),
+				editorState.getSelectionEnd());
+
 	}
 
 	private void updateMathField(boolean focusEvent) {
@@ -102,6 +107,7 @@ public class MathFieldController {
 			MathComponent selectionStart, MathComponent selectionEnd) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset, selectionStart, selectionEnd);
+		FactoryProvider.getInstance().debug(serializedFormula);
 		TeXFormula texFormula = null;
 		if (texBuilder != null) {
 			texFormula = new TeXFormula();

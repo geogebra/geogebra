@@ -328,9 +328,11 @@ public class CursorController {
 					i--;
 				} else {
 					i--;
-					current = (MathSequence) ((MathContainer) child)
-							.getArgument(list.get(i));
-					i--;
+					if (i >= 0) {
+						current = (MathSequence) ((MathContainer) child)
+								.getArgument(list.get(i));
+						i--;
+					}
 				}
 			} else if (index == current.size()) {
 				editorState.setCurrentField((MathSequence) current);

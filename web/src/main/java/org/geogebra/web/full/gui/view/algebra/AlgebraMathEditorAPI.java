@@ -7,9 +7,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.main.MathEditor;
+import org.geogebra.web.html5.main.MathEditorAPI;
 
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -17,7 +15,7 @@ import com.himamis.retex.renderer.share.CursorBox;
 /**
  * Editor API for algebra view
  */
-public class AlgebraMathEditor implements MathEditor {
+public class AlgebraMathEditorAPI implements MathEditorAPI {
 
 	private AlgebraViewW algebraView;
 
@@ -25,7 +23,7 @@ public class AlgebraMathEditor implements MathEditor {
 	 * @param algebraView
 	 *            algebra view
 	 */
-	public AlgebraMathEditor(AlgebraViewW algebraView) {
+	public AlgebraMathEditorAPI(AlgebraViewW algebraView) {
 		this.algebraView = algebraView;
 	}
 
@@ -49,7 +47,6 @@ public class AlgebraMathEditor implements MathEditor {
 			}
 			if (algebraItem.getMathField() != null) {
 				CursorBox.setBlink(true);
-				Log.debug(StringUtil.join(",", caretPath));
 				algebraItem.getMathField().setCaretPath(caretPath);
 				algebraItem.getMathField().repaintWeb();
 			}

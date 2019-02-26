@@ -197,7 +197,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						updateSelection();
 					}
 				});
-		app.getGgbApi().setEditor(new AlgebraMathEditor(this));
+		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
 	}
 
 	/**

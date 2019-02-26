@@ -168,7 +168,7 @@ public class MathFieldInternal
 	 */
 	public void setCursorPath(ArrayList<Integer> path) {
 		CursorController.setPath(path, getEditorState());
-		mathFieldController.update(mathFormula, editorState, false);
+		mathFieldController.updateWithCursor(mathFormula, editorState);
 	}
 
 	public InputController getInputController() {
@@ -643,9 +643,7 @@ public class MathFieldInternal
 			field = field.getParent();
 		}
 		reverse(path);
-		// for (int i : path) {
-		// FactoryProvider.getInstance().debug("" + i);
-		// }
+
 		if (listener != null) {
 			listener.onInsertString();
 		}

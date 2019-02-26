@@ -54,7 +54,7 @@ import com.google.gwt.json.client.JSONString;
  *
  */
 public class GgbAPIW extends GgbAPI {
-	private MathEditor editor;
+	private MathEditorAPI editor;
 
 	/**
 	 * @param app
@@ -67,7 +67,7 @@ public class GgbAPIW extends GgbAPI {
 		this.construction = kernel.getConstruction();
 	}
 
-	public void setEditor(MathEditor editor) {
+	public void setEditor(MathEditorAPI editor) {
 		this.editor = editor;
 	}
 

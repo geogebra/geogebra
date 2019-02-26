@@ -1124,10 +1124,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				mathFieldInternal.getEditorState().getRootComponent());
 	}
 
+	/**
+	 * Gets caret position as sequence of child indices in the tree
+	 * 
+	 * @return caret path
+	 */
 	public ArrayList<Integer> getCaretPath() {
 		return CursorController.getPath(mathFieldInternal.getEditorState());
 	}
 
+	/**
+	 * Setter for {@link #getCaretPath()}
+	 * 
+	 * @param path
+	 *            caret path
+	 */
 	public void setCaretPath(ArrayList<Integer> path) {
 		mathFieldInternal.setCursorPath(path);
 	}
