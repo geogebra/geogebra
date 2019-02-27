@@ -109,7 +109,7 @@
         function evalCommand(api, command) {
             unregisterListeners();
             api.evalCommand(command);
-            registerListeners()
+            registerListeners();
         }
 
         function evalXML(api, xml) {
@@ -123,15 +123,21 @@
             unregisterListeners();
             api.setXML(xml);
             api.evalCommand("UpdateConstruction()");
-            registerListeners()
+            registerListeners();
         }
 
         // *** UPDATE LISTENERS ***
         function updateListener(label, xapi1, bus) {
             console.log(label + " is updated");
-            var xml = xapi1.getXML(label);
-            console.log(xml);
-            bus.send("evalXML", xml)
+			
+			if (xapi1.isIndependent(label) || xapi1.isMoveable(label)) {
+				var xml = xapi1.getXML(label);
+				//console.log(xml);
+				bus.send("evalXML", xml);
+			} else {
+				console.log("not sending update for " + label + ", isIndependent()="+xapi1.isIndependent(label)+", is movable()="+xapi1.isMoveable(label));
+			}
+			
         }
 
         function updateListener1(label) {
@@ -143,14 +149,14 @@
             console.log(label + " is added");
 
             var xml = xapi1.getXML(label);
-            console.log(xml);
+            //console.log(xml);
 
             var definition = xapi1.getCommandString(label);
             console.log(definition);
             if (definition) {
                 bus.send("evalXML", xapi1.getAlgorithmXML(label) + xml);
-            }else{
-                bus.send("evalXML", xml)
+            } else {
+                bus.send("evalXML", xml);
             }
         }
 
@@ -177,7 +183,7 @@
                     console.log(label + " has changed style");
 
                     var xml = xapi1.getXML(label);
-                    console.log(xml);
+                    //console.log(xml);
 
                     bus.send("evalXML", xml);
                     break;
