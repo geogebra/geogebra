@@ -78,8 +78,11 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
 			mf.insertFunction("sqrt");
-		} else if ("log".equals(text)) {
-			mf.insertFunction("log10");
+		} else if ("log10".equals(text)) {
+			type("log_10");
+			mf.getKeyListener()
+					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
+			type("(");
 		} else if ("10^".equals(text)) {
 			type("10");
 			mf.insertFunction("^");
