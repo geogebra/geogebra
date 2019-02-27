@@ -46,7 +46,7 @@ public class KeyPanelBase extends VerticalPanel {
 			HorizontalPanel newRow = new HorizontalPanel();
 			newRow.addStyleName("KeyPanelRow");
 			rows.add(newRow);
-			this.add(newRow);
+			add(newRow);
 		}
 		rows.get(index).add(button);
 		buttons.add(button);

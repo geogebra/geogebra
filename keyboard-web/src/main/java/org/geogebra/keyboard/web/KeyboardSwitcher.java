@@ -147,12 +147,17 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
-	protected void select(KeyboardType idx) {
-		if (idx == KeyboardType.SPECIAL) {
+	/**
+	 * @param keyboardType
+	 *            keyboard type
+	 */
+	protected void select(KeyboardType keyboardType) {
+		if (keyboardType == KeyboardType.SPECIAL) {
 			tabbedkeyboard.hideTabs();
-			tabbedkeyboard.getTabs().getWidget(idx.getIndex()).setVisible(true);
+			tabbedkeyboard.getTabs().getWidget(keyboardType.getIndex())
+					.setVisible(true);
 		} else {
-			switches.get(idx.getIndex()).select();
+			switches.get(keyboardType.getIndex()).select();
 		}
 	}
 

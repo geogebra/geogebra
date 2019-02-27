@@ -45,7 +45,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 			ButtonHandler handler) {
 		this(handler);
 		this.label = new Label();
-		this.setWidget(label);
+		setWidget(label);
 		setCaption(checkThai(caption), altText);
 		this.feedback = feedback;
 	}
@@ -83,7 +83,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 		this(caption, caption, handler);
 	}
 
-	private void addWave(Element element) {
+	private static void addWave(Element element) {
 		element.addClassName("ripple");
 	}
 
@@ -108,13 +108,13 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 				handler.buttonPressEnded();
 			}
 		});
-		this.addDomHandler(this, MouseOutEvent.getType());
+		addDomHandler(this, MouseOutEvent.getType());
 		addStyleName("KeyBoardButton");
-		this.getElement().setAttribute("role", "button");
-		this.addStyleName("waves-effect");
-		this.addStyleName("waves-keyboard");
-		this.addStyleName("btn");
-		addWave(this.getElement());
+		getElement().setAttribute("role", "button");
+		addStyleName("waves-effect");
+		addStyleName("waves-keyboard");
+		addStyleName("btn");
+		addWave(getElement());
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 	 */
 	public void setCaption(String caption, String altText, String feedback1) {
 
-		this.getElement().setAttribute("aria-label", altText);
+		getElement().setAttribute("aria-label", altText);
 		this.caption = caption;
 		if (caption.length() > 5 && !caption.contains("_")) {
 			this.label.addStyleName("small");
@@ -151,7 +151,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 			sup.getStyle().setFontSize(14, Unit.PX);
 			sup.getStyle().setFontStyle(FontStyle.NORMAL);
 			this.label.getElement().appendChild(sup);
-			this.addStyleName("sup");
+			addStyleName("sup");
 		} else if (caption.length() > 1 && caption.indexOf('_') > -1) {
 			int index = caption.indexOf('_');
 			this.label.setText(caption.substring(0, index));
@@ -161,7 +161,7 @@ public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 			sub.getStyle().setFontSize(14, Unit.PX);
 			sub.getStyle().setFontStyle(FontStyle.NORMAL);
 			this.label.getElement().appendChild(sub);
-			this.addStyleName("sub");
+			addStyleName("sub");
 		} else {
 			this.label.setText(caption);
 		}

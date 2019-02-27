@@ -7,6 +7,6 @@ public enum KeyboardType {
 	 * @return index on the switcher
 	 */
 	public int getIndex() {
-		return this.ordinal();
+		return ordinal();
 	}
 }

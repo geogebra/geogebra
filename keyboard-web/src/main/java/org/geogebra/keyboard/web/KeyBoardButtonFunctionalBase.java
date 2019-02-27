@@ -49,11 +49,11 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		String altTextTranslated = loc.getAltText(altText);
 
 		this.image.setAltText(altTextTranslated);
-		this.getElement().setAttribute("aria-label", altTextTranslated);
+		getElement().setAttribute("aria-label", altTextTranslated);
 		this.action = action;
-		this.add(this.image);
+		add(this.image);
 		addStyleName("colored");
-		this.addStyleName("waves-light");
+		addStyleName("waves-light");
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.image = new Image(image);
 		this.image.setAltText(loc.getMenu(altText));
 		this.feedback = feedback;
-		this.add(this.image);
+		add(this.image);
 	}
 
 	/**
@@ -103,11 +103,11 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.image.setAltText(altTextTranslated);
 		this.image.getElement().setAttribute("role", "img");
 		this.feedback = feedback;
-		this.add(this.image);
+		add(this.image);
 		if (addSupSyle) {
-			this.addStyleName("sup");
+			addStyleName("sup");
 		}
-		this.getElement().setAttribute("aria-label", altTextTranslated);
+		getElement().setAttribute("aria-label", altTextTranslated);
 	}
 
 	/**
@@ -126,20 +126,6 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		super(caption, caption, handler);
 		this.action = action;
 		addStyleName("colored");
-	}
-
-	/**
-	 * sets the image of the button
-	 * 
-	 * @param keyboard_shiftDown
-	 *            {@link ImageResource}
-	 */
-	public void setPicture(ImageResource keyboard_shiftDown) {
-		if (this.image != null) {
-			this.remove(this.image);
-		}
-		this.image = new Image(keyboard_shiftDown);
-		this.add(this.image);
 	}
 
 	/**

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
@@ -77,10 +76,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 * true if keyboard wanted
 	 */
 	protected boolean keyboardWanted = false;
-	/**
-	 * has material tooltips
-	 */
-	boolean hasTooltips;
 	private boolean scientific;
 	private ButtonRepeater repeater;
 
@@ -89,6 +84,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 *            application
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
+	 * @param scientific
+	 *            whether to use scientific layout
 	 */
 	public TabbedKeyboard(App app, HasKeyboard appKeyboard,
 			boolean scientific) {
@@ -96,7 +93,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
-		this.hasTooltips = app.has(Feature.TOOLTIP_DESIGN);
 		this.switcher = new KeyboardSwitcher(this);
 		this.scientific = scientific;
 	}
@@ -603,13 +599,13 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			return;
 		}
 		// -2 for applet border
-		this.setWidth(hasKeyboard.getInnerWidth() + "px");
+		setWidth(hasKeyboard.getInnerWidth() + "px");
 		boolean shouldBeSmall = hasKeyboard.needsSmallKeyboard();
 		if (shouldBeSmall && !isSmallKeyboard) {
-			this.addStyleName("lowerHeight");
+			addStyleName("lowerHeight");
 			this.isSmallKeyboard = true;
 		} else if (!shouldBeSmall && isSmallKeyboard) {
-			this.removeStyleName("lowerHeight");
+			removeStyleName("lowerHeight");
 			this.isSmallKeyboard = false;
 		}
 		updateHeight();
@@ -681,8 +677,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		// do nothing
 	}
 
-	public void selectTab(KeyboardType idx) {
-		switcher.select(idx);
+	/**
+	 * @param keyboardType
+	 *            keyboard type
+	 */
+	public void selectTab(KeyboardType keyboardType) {
+		switcher.select(keyboardType);
 	}
 
 	/**
@@ -831,7 +831,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			processField.ansPressed();
 		case SWITCH_KEYBOARD:
 		}
-
 	}
 
 	private void startRepeater(Action action) {
@@ -839,6 +838,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		repeater.start();
 	}
 
+	/**
+	 * Execute action immediately without repeating
+	 * 
+	 * @param action
+	 *            key action
+	 */
 	public void executeOnce(Action action) {
 		switch (action) {
 		case BACKSPACE_DELETE:
@@ -874,6 +879,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		setVisible(true);
 	}
 
+	@Override
 	public void buttonPressEnded() {
 		if (repeater != null) {
 			repeater.cancel();
