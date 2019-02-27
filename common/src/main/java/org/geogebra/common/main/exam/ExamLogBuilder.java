@@ -1,4 +1,4 @@
-package org.geogebra.common.main;
+package org.geogebra.common.main.exam;
 
 /**
  * Builds formatted exam log; default implementation is just a wrapper for
