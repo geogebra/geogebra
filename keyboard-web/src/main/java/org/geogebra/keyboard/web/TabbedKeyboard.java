@@ -14,6 +14,7 @@ import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
@@ -35,12 +36,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * tabbed keyboard
  */
 public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
-
-	public static final int TAB_NUMBERS = 0;
-	public static final int TAB_FX = 1;
-	public static final int TAB_ABC = 2;
-	public static final int TAB_ALPHA = 3;
-	public static final int TAB_SPECIAL = 4;
 
 	/**
 	 * small height
@@ -87,6 +82,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 */
 	boolean hasTooltips;
 	private boolean scientific;
+	private ButtonRepeater repeater;
 
 	/**
 	 * @param app
@@ -161,7 +157,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, Unicode.ALPHA_BETA_GAMMA);
-		switcher.select(0);
+		switcher.select(KeyboardType.NUMBERS);
 		// add special char tab
 		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(),
 				this);
@@ -685,7 +681,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		// do nothing
 	}
 
-	private void selectTab(int idx) {
+	public void selectTab(KeyboardType idx) {
 		switcher.select(idx);
 	}
 
@@ -694,41 +690,6 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 */
 	public FlowPanel getTabs() {
 		return tabs;
-	}
-
-	/**
-	 * select numbers tab
-	 */
-	public void selectNumbers() {
-		selectTab(TAB_NUMBERS);
-	}
-
-	/**
-	 * select math tab with functions
-	 */
-	public void selectFunctions() {
-		selectTab(TAB_FX);
-	}
-
-	/**
-	 * select abc letters tab
-	 */
-	public void selectAbc() {
-		selectTab(TAB_ABC);
-	}
-
-	/**
-	 * select greek letters tab
-	 */
-	public void selectGreek() {
-		selectTab(TAB_ALPHA);
-	}
-
-	/**
-	 * select special characters tab
-	 */
-	public void selectSpecial() {
-		selectTab(TAB_SPECIAL);
 	}
 
 	/**
@@ -826,7 +787,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			processField.setFocus(true);
 		}
 		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
-			selectNumbers();
+			selectTab(KeyboardType.NUMBERS);
 		}
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -849,7 +810,9 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 			processShift();
 			break;
 		case BACKSPACE_DELETE:
-			processField.onBackSpace();
+		case LEFT_CURSOR:
+		case RIGHT_CURSOR:
+			startRepeater(action);
 			break;
 		case RETURN_ENTER:
 			// make sure enter is processed correctly
@@ -858,23 +821,36 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				getUpdateKeyBoardListener().keyBoardNeeded(false, null);
 			}
 			break;
-		case LEFT_CURSOR:
-			processField.onArrow(KeyboardListener.ArrowType.left);
-			break;
-		case RIGHT_CURSOR:
-			processField.onArrow(KeyboardListener.ArrowType.right);
-			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
-			selectSpecial();
+			selectTab(KeyboardType.SPECIAL);
 			break;
 		case SWITCH_TO_ABC:
-			selectAbc();
+			selectTab(KeyboardType.ABC);
 			break;
 		case ANS:
 			processField.ansPressed();
 		case SWITCH_KEYBOARD:
 		}
 
+	}
+
+	private void startRepeater(Action action) {
+		repeater = new ButtonRepeater(action, this);
+		repeater.start();
+	}
+
+	public void executeOnce(Action action) {
+		switch (action) {
+		case BACKSPACE_DELETE:
+			processField.onBackSpace();
+			break;
+		case LEFT_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.left);
+			break;
+		case RIGHT_CURSOR:
+			processField.onArrow(KeyboardListener.ArrowType.right);
+			break;
+		}
 	}
 
 	/**
@@ -896,5 +872,11 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	 */
 	public void show() {
 		setVisible(true);
+	}
+
+	public void buttonPressEnded() {
+		if (repeater != null) {
+			repeater.cancel();
+		}
 	}
 }

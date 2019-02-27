@@ -8,6 +8,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
@@ -232,7 +233,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	protected void onClickAction() {
 		model.setGeos(app.getSelectionManager().getSelectedGeos().toArray());
 		model.updateProperties();
-		kbd.selectAbc();
+		kbd.selectTab(KeyboardType.ABC);
 		tfName.requestFocus();
 	}
 

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -81,7 +82,7 @@ public class ContextMenuAVPlus implements SetLabels {
 					public void execute() {
 						item.getController().setInputAsText(false);
 						item.ensureEditing();
-						kbd.selectNumbers();
+						kbd.selectTab(KeyboardType.NUMBERS);
 					}
 				});
 		wrappedPopup.addItem(mi);
@@ -97,7 +98,7 @@ public class ContextMenuAVPlus implements SetLabels {
 					public void execute() {
 						item.getController().setInputAsText(true);
 						item.ensureEditing();
-						kbd.selectAbc();
+						kbd.selectTab(KeyboardType.ABC);
 					}
 				});
 		wrappedPopup.addItem(mi);

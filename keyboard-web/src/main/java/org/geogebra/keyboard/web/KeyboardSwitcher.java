@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -146,14 +147,14 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
-	protected void select(int idx) {
-        if (idx == TabbedKeyboard.TAB_SPECIAL) {
-            tabbedkeyboard.hideTabs();
-            tabbedkeyboard.getTabs().getWidget(idx).setVisible(true);
-        } else {
-            switches.get(idx).select();
-        }
-    }
+	protected void select(KeyboardType idx) {
+		if (idx == KeyboardType.SPECIAL) {
+			tabbedkeyboard.hideTabs();
+			tabbedkeyboard.getTabs().getWidget(idx.getIndex()).setVisible(true);
+		} else {
+			switches.get(idx.getIndex()).select();
+		}
+	}
 
     public FlowPanel getContent() {
         return contents;

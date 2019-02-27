@@ -17,4 +17,9 @@ public interface ButtonHandler {
 	 */
 	void onClick(KeyBoardButtonBase btn, PointerEventType type);
 
+	/**
+	 * Stop keyboard repeating command
+	 */
+	void buttonPressEnded();
+
 }

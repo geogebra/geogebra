@@ -9,13 +9,15 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.FontStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * A button of the {@link TabbedKeyboard}.
  */
-public class KeyBoardButtonBase extends SimplePanel {
+public class KeyBoardButtonBase extends SimplePanel implements MouseOutHandler {
 
 	private String caption;
 	/**
@@ -27,6 +29,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 */
 	protected Label label;
 	private String secondaryAction;
+	private ButtonHandler buttonHandler;
 
 	/**
 	 * @param caption
@@ -91,6 +94,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 *            {@link ClickHandler}
 	 */
 	protected KeyBoardButtonBase(final ButtonHandler handler) {
+		this.buttonHandler = handler;
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
@@ -101,9 +105,10 @@ public class KeyBoardButtonBase extends SimplePanel {
 		ClickEndHandler.init(this, new ClickEndHandler(true, true) {
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
-				// do nothing
+				handler.buttonPressEnded();
 			}
 		});
+		this.addDomHandler(this, MouseOutEvent.getType());
 		addStyleName("KeyBoardButton");
 		this.getElement().setAttribute("role", "button");
 		this.addStyleName("waves-effect");
@@ -192,5 +197,10 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 */
 	public void setSecondaryAction(String actionName) {
 		this.secondaryAction = actionName;
+	}
+
+	@Override
+	public void onMouseOut(MouseOutEvent event) {
+		buttonHandler.buttonPressEnded();
 	}
 }
