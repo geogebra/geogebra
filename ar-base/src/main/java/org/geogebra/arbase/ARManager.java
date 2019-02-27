@@ -22,7 +22,6 @@ abstract public class ARManager<TouchEventType> {
     private Coords tmpCoords2 = new Coords(4);
     private Coords tmpCoords3 = new Coords(4);
 
-    protected float[] hitMatrix = new float[16];
     private Coords lastHitOrigin = new Coords(3);
     protected Coords rayEndOrigin = new Coords(3);
     private Coords translationOffset = new Coords(3);
@@ -146,8 +145,6 @@ abstract public class ARManager<TouchEventType> {
     }
 
     protected Coords setRay() {
-        cHitMatrix.setFromGL(hitMatrix);
-
         viewMatrix.solve(Coords.O, rayOrigin);
         rayDirection.setSub3(cHitMatrix.getOrigin(), rayOrigin);
         rayOrigin.projectPlane(mModelMatrix.getVx(), mModelMatrix.getVz(), rayDirection,
