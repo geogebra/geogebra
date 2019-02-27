@@ -3220,6 +3220,10 @@ public class GeoList extends GeoElement
 		if (!"".equals(geoItem.getRawCaption())) {
 			return geoItem.getCaption(tpl);
 		} else if (geoItem.isGeoPoint() || geoItem.isGeoVector() || geoItem.isGeoList()) {
+			if (geoItem.getLabelSimple() == null) {
+				// eg Element of list
+				return geoItem.toValueString(tpl);
+			}
 			return geoItem.getLabel(tpl);
 		}
 
