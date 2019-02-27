@@ -1,60 +1,65 @@
-
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta name=viewport content="width=device-width,initial-scale=1">
-    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <head>
+        <meta name=viewport content="width=device-width,initial-scale=1">
+        <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
 
-</head>
+    </head>
 
-<body>
-    <div id="ggbApplet1"></div>
-    <div id="ggbApplet2"></div>
+    <body>
+        <div id="ggbApplet1"></div>
+        <div id="ggbApplet2"></div>
 
-    <script>
+        <script>
         var clientId = btoa(Math.random()).substring(0, 8);
         var dispatchNext = 0;
         var api1;
-        window.addEventListener('storage',function(e){
-        if (api1) {
-           var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
-           for (var index = dispatchNext; index < events.length; index++){
-               var last = events[events.length - 1];
-               if (last && last.client != clientId) {
-                   if (last.type == "evalXML"){
-                       evalXML(api1, last.content);
-                   } else if (last.type == "setXML"){
-                       setXML(api1, last.content);
-                   } else if (last.type == "evalCommand"){
-                       evalCommand(api1, last.content);
-                   } else if (last.type == "deleteObject"){
-                       api1.deleteObject(last.content);
-                   } else if (last.type == "setEditorState"){
-                       unregisterListeners();
-                       api1.setEditorState(last.content, last.label);
-                       registerListeners();
-                   }
-               }
-           }
-		   if (events.length > 0) {
-			api1.setUndoPoint();
-		   }
-           dispatchNext = events.length;
-        }
-        });
-        
-        var bus = {send:function(){
-            var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
-            var type = arguments[0];
-            var content = arguments[1];
-            var event = {"type":type,"content":content,"client":clientId }
-            if (arguments[2]) {
-                 event.label = arguments[2];
+        window.addEventListener('storage', function(e) {
+            if (api1) {
+                var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+                for (var index = dispatchNext; index < events.length; index++) {
+                    var last = events[events.length - 1];
+                    if (last && last.client != clientId) {
+                        if (last.type == "evalXML") {
+                            evalXML(api1, last.content);
+                        } else if (last.type == "setXML") {
+                            setXML(api1, last.content);
+                        } else if (last.type == "evalCommand") {
+                            evalCommand(api1, last.content);
+                        } else if (last.type == "deleteObject") {
+                            api1.deleteObject(last.content);
+                        } else if (last.type == "setEditorState") {
+                            unregisterListeners();
+                            api1.setEditorState(last.content, last.label);
+                            registerListeners();
+                        }
+                    }
+                }
+                if (events.length > 0) {
+                    api1.setUndoPoint();
+                }
+                dispatchNext = events.length;
             }
-            events.push(event);
-            localStorage.setItem("ggbEvents", JSON.stringify(events));
-        }};
+        });
+
+        var bus = {
+            send: function() {
+                var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+                var type = arguments[0];
+                var content = arguments[1];
+                var event = {
+                    "type": type,
+                    "content": content,
+                    "client": clientId
+                }
+                if (arguments[2]) {
+                    event.label = arguments[2];
+                }
+                events.push(event);
+                localStorage.setItem("ggbEvents", JSON.stringify(events));
+            }
+        };
         var parameters1 = {
             //"id": "ggbApplet1",
             "width": 800,
@@ -108,7 +113,7 @@
             'macro': 0
         };
 
-        
+
         function evalCommand(api, command) {
             unregisterListeners();
             api.evalCommand(command);
@@ -132,15 +137,15 @@
         // *** UPDATE LISTENERS ***
         function updateListener(label, xapi1, bus) {
             console.log(label + " is updated");
-			
-			if (xapi1.isIndependent(label) || xapi1.isMoveable(label)) {
-				var xml = xapi1.getXML(label);
-				//console.log(xml);
-				bus.send("evalXML", xml);
-			} else {
-				console.log("not sending update for " + label + ", isIndependent()="+xapi1.isIndependent(label)+", is movable()="+xapi1.isMoveable(label));
-			}
-			
+
+            if (xapi1.isIndependent(label) || xapi1.isMoveable(label)) {
+                var xml = xapi1.getXML(label);
+                //console.log(xml);
+                bus.send("evalXML", xml);
+            } else {
+                console.log("not sending update for " + label + ", isIndependent()=" + xapi1.isIndependent(label) + ", is movable()=" + xapi1.isMoveable(label));
+            }
+
         }
 
         function updateListener1(label) {
@@ -195,12 +200,12 @@
                     console.log("setMode(" + event[2] + ")");
                     //xapi2.setMode(event[2]);
                     break;
-                    
+
                 case "editorKeyTyped":
-                     var state = xapi1.getEditorState();
-                     console.log(state);
-                     bus.send("setEditorState", state, event[1]);
-                     break;
+                    var state = xapi1.getEditorState();
+                    console.log(state);
+                    bus.send("setEditorState", state, event[1]);
+                    break;
                 case "editorStop":
                     bus.send("setEditorState", "{content:\"\"}");
                     break;
@@ -213,23 +218,23 @@
                     console.log("select", event);
                     bus.send("evalCommand", "SelectObjects[" + event[1] + "]");
                     break;
-					
-				case "addPolygon": 
-					console.log("addPolygon", event);
-					break;
-					
-				case "undo": 
-				case "redo": 
-				case "addPolygonComplete":
-					console.log(event[0], "sending whole xml");
-					
+
+                case "addPolygon":
+                    console.log("addPolygon", event);
+                    break;
+
+                case "undo":
+                case "redo":
+                case "addPolygonComplete":
+                    console.log(event[0], "sending whole xml");
+
                     var xml = xapi1.getXML();
                     //console.log(xml);
                     bus.send("setXML", xml);
-					break;
-				
-					
-					
+                    break;
+
+
+
 
                 default:
                     console.log("unhandled event ", event[0], event);
@@ -262,18 +267,18 @@
             api1 = api;
             registerListeners();
         }
-		
+
         var applet1 = new GGBApplet(parameters1, '5.0', views);
-		if (!location.href.startsWith("https://test.geogebra.org")) {
-			var codebase = location.href.replace(/\/[^\/]*$/,"/web3d");
-			applet1.setHTML5Codebase(codebase);
-		}
+        if (!location.href.startsWith("https://test.geogebra.org")) {
+            var codebase = location.href.replace(/\/[^\/]*$/, "/web3d");
+            applet1.setHTML5Codebase(codebase);
+        }
 
         window.onload = function() {
             localStorage.clear();
             applet1.inject('ggbApplet1');
         };
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
