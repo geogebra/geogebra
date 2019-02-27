@@ -29,7 +29,6 @@ public class KeyboardInputAdapter {
         adapters.add(new StringCharAdapter(times, '*'));
         adapters.add(new StringCharAdapter(minus, '-'));
         adapters.add(new FunctionAdapter("|", "abs"));
-        adapters.add(new FunctionAdapter("log_{10}", "log10"));
         adapters.add(new FunctionAdapter("random"));
         adapters.add(new FunctionAdapter("nroot"));
 		adapters.add(new StringInput(Unicode.SUPERSCRIPT_2 + "") {
@@ -74,6 +73,21 @@ public class KeyboardInputAdapter {
             public void commit(MathFieldInternal mfi, String input) {
                 typeCharacter(mfi, e);
                 typeCharacter(mfi, '^');
+            }
+        });
+        adapters.add(new StringInput("log_{10}") {
+            @Override
+            public void commit(MathFieldInternal mfi, String input) {
+                typeCharacter(mfi, 'l');
+                typeCharacter(mfi, 'o');
+                typeCharacter(mfi, 'g');
+                typeCharacter(mfi, '_');
+                typeCharacter(mfi, '1');
+                typeCharacter(mfi, '0');
+                CursorController.nextCharacter(mfi.getEditorState());
+                typeCharacter(mfi, '(');
+                CursorController.nextCharacter(mfi.getEditorState());
+                mfi.getCursorController().prevCharacter(mfi.getEditorState());
             }
         });
         adapters.add(new StringInput("logb") {
