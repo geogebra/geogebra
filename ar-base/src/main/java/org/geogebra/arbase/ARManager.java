@@ -23,17 +23,16 @@ abstract public class ARManager<TouchEventType> {
     private Coords tmpCoords3 = new Coords(4);
 
     protected float[] hitMatrix = new float[16];
-    private float[] lastHitOrigin = new float[3];
-    protected float[] rayEndOrigin = new float[3];
-    private float[] translationOffset = new float[3];
-    private double[] previousTranslationOffset = new double[3];
+    private Coords lastHitOrigin = new Coords(3);
+    protected Coords rayEndOrigin = new Coords(3);
+    private Coords translationOffset = new Coords(3);
+    private Coords previousTranslationOffset = new Coords(3);
 
     protected float mDistance;
     protected boolean objectIsRendered = false;
     protected boolean mDrawing = false;
     protected boolean mARIsRendering = false;
 
-    private float[] projectionFloats = new float[3];
     protected CoordMatrix4x4 cHitMatrix = new CoordMatrix4x4();
     private Coords rayOrigin = new Coords(4);
     private Coords rayDirection = new Coords(4);
@@ -121,9 +120,9 @@ abstract public class ARManager<TouchEventType> {
         scaleMatrix.setDiag(mScaleFactor);
 
         /* translating */
-        translationOffset[0] = rayEndOrigin[0] - lastHitOrigin[0];
-        translationOffset[1] = rayEndOrigin[1] - lastHitOrigin[1];
-        translationOffset[2] = rayEndOrigin[2] - lastHitOrigin[2];
+        translationOffset.setX(rayEndOrigin.getX() - lastHitOrigin.getX());
+        translationOffset.setY(rayEndOrigin.getY() - lastHitOrigin.getY());
+        translationOffset.setZ(rayEndOrigin.getZ() - lastHitOrigin.getZ());
     }
 
     protected void updateModelMatrix() {
@@ -135,24 +134,25 @@ abstract public class ARManager<TouchEventType> {
         /* translating */
         Coords modelOrigin = mModelMatrix.getOrigin();
         Coords anchorOrigin = mAnchorMatrix.getOrigin();
-        modelOrigin.setX(anchorOrigin.getX() + translationOffset[0] + previousTranslationOffset[0]);
+        modelOrigin.setX(anchorOrigin.getX() + translationOffset.getX() +
+                previousTranslationOffset.getX());
         modelOrigin.setY(anchorOrigin.getY());
-        modelOrigin.setZ(anchorOrigin.getZ() + translationOffset[2] + previousTranslationOffset[2]);
+        modelOrigin.setZ(anchorOrigin.getZ() + translationOffset.getZ() +
+                previousTranslationOffset.getZ());
     }
 
     protected void updateModelMatrixForRotation() {
         // TODO: remove this when G3D_AR_REGULAR_TOOLS released
     }
 
-    protected float[] setRay() {
+    protected Coords setRay() {
         cHitMatrix.setFromGL(hitMatrix);
 
         viewMatrix.solve(Coords.O, rayOrigin);
         rayDirection.setSub3(cHitMatrix.getOrigin(), rayOrigin);
         rayOrigin.projectPlane(mModelMatrix.getVx(), mModelMatrix.getVz(), rayDirection,
                 mModelMatrix.getOrigin(), projection);
-        projection.get3ForGL(projectionFloats);
-        return projectionFloats;
+        return projection;
     }
 
     protected void updateTranslationIfNeeded() {
@@ -160,13 +160,13 @@ abstract public class ARManager<TouchEventType> {
             arGestureManager.setUpdateOriginIsWanted(false);
             Coords modelOrigin = mModelMatrix.getOrigin();
             Coords anchorOrigin = mAnchorMatrix.getOrigin();
-            previousTranslationOffset[0] = modelOrigin.getX() - anchorOrigin.getX();
-            previousTranslationOffset[1] = modelOrigin.getY() - anchorOrigin.getY();
-            previousTranslationOffset[2] = modelOrigin.getZ() - anchorOrigin.getZ();
+            previousTranslationOffset.setX(modelOrigin.getX() - anchorOrigin.getX());
+            previousTranslationOffset.setY(modelOrigin.getY() - anchorOrigin.getY());
+            previousTranslationOffset.setZ(modelOrigin.getZ() - anchorOrigin.getZ());
 
-            lastHitOrigin[0] = rayEndOrigin[0];
-            lastHitOrigin[1] = rayEndOrigin[1];
-            lastHitOrigin[2] = rayEndOrigin[2];
+            lastHitOrigin.setX(rayEndOrigin.getX());
+            lastHitOrigin.setY(rayEndOrigin.getY());
+            lastHitOrigin.setZ(rayEndOrigin.getZ());
         }
     }
 
