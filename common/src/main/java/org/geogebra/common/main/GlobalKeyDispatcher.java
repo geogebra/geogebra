@@ -991,11 +991,11 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private void handleEscForDropdown() {
-		Log.debug("handleEscForDropdown");
+		// Log.debug("handleEscForDropdown");
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
-			if (dl.isOptionsVisible()) {
+			if (dl != null && dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			}
 		}
