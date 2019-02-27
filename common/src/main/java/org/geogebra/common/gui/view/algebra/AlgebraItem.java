@@ -387,9 +387,9 @@ public class AlgebraItem {
 	 *            element
 	 * @return whether element should be represented by simple text item
 	 */
-	public static boolean isTextItem(GeoElement geo) {
+	public static boolean isTextItem(GeoElementND geo) {
 		return geo instanceof GeoText && !((GeoText) geo).isLaTeX()
-				&& !(geo).isTextCommand();
+				&& !((GeoText) geo).isTextCommand();
 	}
 
 	/**

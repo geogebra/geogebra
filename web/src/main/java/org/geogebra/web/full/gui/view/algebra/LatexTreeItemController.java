@@ -206,7 +206,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 
-					if (geos[0].isGeoText()) {
+					if (AlgebraItem.isTextItem(geos[0])) {
 						geos[0].setEuclidianVisible(false);
 					}
 
