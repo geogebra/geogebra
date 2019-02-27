@@ -44,7 +44,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 			ButtonHandler handler,
 			Action action, Localization loc, String altText) {
 		super(handler);
-		this.image = new Image(image);
+		this.image = new NoDragImage(image, image.getWidth());
 
 		String altTextTranslated = loc.getAltText(altText);
 
