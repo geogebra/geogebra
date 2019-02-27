@@ -1,7 +1,6 @@
 package org.geogebra.common.main.exam;
 
 import java.util.Date;
-import java.util.LinkedList;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.algos.Algos;
@@ -13,8 +12,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
-import org.geogebra.common.main.exam.event.CheatingAction;
 import org.geogebra.common.main.exam.event.CheatingEvent;
+import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
@@ -29,7 +28,7 @@ public class ExamEnvironment {
 	/** exam start timestamp (milliseconds) */
 	long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
-	private LinkedList<CheatingEvent> cheatingEvents;
+	private CheatingEvents cheatingEvents;
 	private long closed = -1;
 
 	private boolean hasGraph = false;
@@ -50,6 +49,7 @@ public class ExamEnvironment {
 	 */
 	public ExamEnvironment(App app) {
 		this.app = app;
+		cheatingEvents = new CheatingEvents();
 	}
 
 	public long getStart() {
@@ -74,41 +74,21 @@ public class ExamEnvironment {
 	}
 
 	public void windowLeft() {
-		addCheatingEvent(CheatingAction.WINDOW_LEFT);
-	}
-
-	private void addCheatingEvent(CheatingAction action) {
-		addCheatingEvent(action, System.currentTimeMillis());
-	}
-
-	private void addCheatingEvent(CheatingAction action, Long time) {
-		initCheatingEventsList();
-		cheatingEvents.add(new CheatingEvent(action, time));
-		Log.debug("STARTED CHEATING");
+		cheatingEvents.addWindowLeftEvent();
 	}
 
 	/**
 	 * Log end of cheating.
 	 */
 	public void stopCheating() {
-
-		//TODO: isCheating should be removed when the CheatingEvents class is implemented
-		boolean isCheating = cheatingEvents != null;
-
-		if (getStart() > 0 && isCheating) {
-			addCheatingEvent(CheatingAction.WINDOW_ENTERED);
+		if (getStart() > 0) {
+			cheatingEvents.addWindowEnteredEvent();
 			Log.debug("STOPPED CHEATING");
 		}
 	}
 
-	private void initCheatingEventsList() {
-		if (cheatingEvents == null) {
-			cheatingEvents = new LinkedList<>();
-		}
-	}
-
 	public boolean isCheating() {
-		return cheatingEvents != null;
+		return !cheatingEvents.isEmpty();
 	}
 
 	public boolean isClosed() {
@@ -179,7 +159,7 @@ public class ExamEnvironment {
 	 * @return The (cheating) activity log.
 	 */
 	public String getActivityLog(boolean withEndTime) {
-		if (cheatingEvents == null) {
+		if (cheatingEvents.isEmpty()) {
 			return "";
 		}
 		ExamLogBuilder logBuilder = new ExamLogBuilder();
@@ -271,15 +251,14 @@ public class ExamEnvironment {
 
 		builder.addLine(sb);
 
-		if (cheatingEvents != null) {
-			for (CheatingEvent cheatingEvent : cheatingEvents) {
-				sb.setLength(0);
-				sb.append(timeToString(cheatingEvent.getTime()));
-				sb.append(' ');
-				sb.append(cheatingEvent.getAction().toString(loc));
-				builder.addLine(sb);
-			}
-		}
+        for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
+            sb.setLength(0);
+            sb.append(timeToString(cheatingEvent.getTime()));
+            sb.append(' ');
+            sb.append(cheatingEvent.getAction().toString(loc));
+            builder.addLine(sb);
+        }
+
 		if (withEndTime && closed > 0) {
 			sb.setLength(0);
 			sb.append(timeToString(closed)); // get exit timestamp
@@ -291,7 +270,7 @@ public class ExamEnvironment {
 
 	/**
 	 * NEW LOG DIALOG
-	 * 
+	 *
 	 * @param loc
 	 *            localization
 	 * @param settings
@@ -427,7 +406,7 @@ public class ExamEnvironment {
 	public void taskUnlocked() {
 		if (getStart() > 0) {
 			if (wasTaskLocked) {
-				addCheatingEvent(CheatingAction.TASK_UNLOCKED);
+				cheatingEvents.addScreenUnlockedEvent();
 				Log.debug("STARTED CHEATING: task unlocked");
 			}
 		}
@@ -440,7 +419,7 @@ public class ExamEnvironment {
 	public void taskLocked() {
 		if (getStart() > 0) {
 			if (!wasTaskLocked) {
-				addCheatingEvent(CheatingAction.TASK_LOCKED);
+				cheatingEvents.addScreenUnlockedEvent();
 				Log.debug("STOPPED CHEATING: task locked");
 			}
 		}
@@ -452,7 +431,7 @@ public class ExamEnvironment {
 	 */
 	public void airplaneModeTurnedOff() {
 		if (getStart() > 0) {
-			addCheatingEvent(CheatingAction.AIRPLANE_MODE_OFF);
+			cheatingEvents.addAirplaneModeDisabledEvent();
 		}
 	}
 
@@ -461,7 +440,7 @@ public class ExamEnvironment {
 	 */
 	public void airplaneModeTurnedOn() {
 		if (getStart() > 0) {
-			addCheatingEvent(CheatingAction.AIRPLANE_MODE_ON);
+			cheatingEvents.addAirplaneModeEnabledEvent();
 		}
 	}
 
@@ -470,7 +449,7 @@ public class ExamEnvironment {
 	 */
 	public void wifiEnabled() {
 		if (getStart() > 0) {
-			addCheatingEvent(CheatingAction.WIFI_ENABLED);
+			cheatingEvents.addWifiEnabledEvent();
 		}
 	}
 
@@ -479,7 +458,7 @@ public class ExamEnvironment {
 	 */
 	public void wifiDisabled() {
 		if (getStart() > 0) {
-			addCheatingEvent(CheatingAction.WIFI_DISABLED);
+			cheatingEvents.addWifiDisabledEvent();
 		}
 	}
 
@@ -488,7 +467,7 @@ public class ExamEnvironment {
 	 */
 	public void bluetoothEnabled() {
 		if (getStart() > 0) {
-			addCheatingEvent(CheatingAction.BLUETOOTH_ENABLED);
+			cheatingEvents.addBluetoothEnabledEvent();
 		}
 	}
 
@@ -497,7 +476,7 @@ public class ExamEnvironment {
 	 */
 	public void bluetoothDisabled() {
 		if (getStart() > 0) {
-			addCheatingEvent(CheatingAction.BLUETOOTH_DISABLED);
+			cheatingEvents.addBluetoothDisabledEvent();
 		}
 	}
 
@@ -531,7 +510,7 @@ public class ExamEnvironment {
 	 * @return number of cheating events
 	 */
 	public int getEventCount() {
-		return cheatingEvents == null ? 0 : cheatingEvents.size();
+		return cheatingEvents.size();
 	}
 
 	/**
