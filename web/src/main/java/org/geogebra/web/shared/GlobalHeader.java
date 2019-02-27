@@ -7,7 +7,6 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -266,8 +265,6 @@ public class GlobalHeader implements EventRenderable {
 			@Override
 			public void execute(double timestamp) {
 				if (getApp().getExam() != null) {
-					String os = Browser.getMobileOperatingSystem();
-					getApp().getExam().checkCheating(os);
 					if (getApp().getExam().isCheating()) {
 						getApp().getGuiManager()
 								.setUnbundledHeaderStyle("examCheat");

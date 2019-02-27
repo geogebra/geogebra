@@ -3563,11 +3563,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	@Override
-	public void setNewExam() {
-		setExam(new ExamEnvironmentW(this));
-	}
-
 	/**
 	 *
 	 * @return 9999 (or 200 in web)

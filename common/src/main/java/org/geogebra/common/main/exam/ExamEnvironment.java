@@ -29,10 +29,8 @@ public class ExamEnvironment {
 	/** exam start timestamp (milliseconds) */
 	long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
-	protected LinkedList<CheatingEvent> cheatingEvents;
+	private LinkedList<CheatingEvent> cheatingEvents;
 	private long closed = -1;
-	private long maybeCheating = -1;
-	private boolean lastCheatingEventWindowWasLeft;
 
 	private boolean hasGraph = false;
 
@@ -73,52 +71,10 @@ public class ExamEnvironment {
 	public void setStart(long time) {
 		examStartTime = time;
 		closed = -1;
-		lastCheatingEventWindowWasLeft = false;
 	}
 
-	/**
-	 * @param os
-	 *            operating system
-	 */
-	public void startCheating(String os) {
-		maybeCheating = System.currentTimeMillis();
-		checkCheating(os); // needed for ctr+win+down
-	}
-
-	/**
-	 * @param os
-	 *            operating system
-	 */
-	public void checkCheating(String os) {
-		boolean delay;
-		// needed for GGB-1211
-		if (os.contains("iOS")) {
-			delay = maybeCheating < System.currentTimeMillis() - 100;
-		} else {
-			delay = true;
-		}
-
-		// if (maybeCheating > 0 && maybeCheating < System.currentTimeMillis() -
-		// 100) {
-		if (maybeCheating > 0 && delay) {
-			maybeCheating = -1;
-			if (getStart() > 0) {
-				if (cheatingEvents.size() == 0
-						|| !lastCheatingEventWindowWasLeft) {
-					addCheatingWindowsLeft(System.currentTimeMillis());
-					lastCheatingEventWindowWasLeft = true;
-					Log.debug("STARTED CHEATING");
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param time
-	 *            window left absolute timestamp
-	 */
-	protected void addCheatingWindowsLeft(long time) {
-		addCheatingEvent(CheatingAction.WINDOWS_LEFT, time);
+	public void windowLeft() {
+		addCheatingEvent(CheatingAction.WINDOW_LEFT);
 	}
 
 	private void addCheatingEvent(CheatingAction action) {
@@ -128,25 +84,24 @@ public class ExamEnvironment {
 	private void addCheatingEvent(CheatingAction action, Long time) {
 		initCheatingEventsList();
 		cheatingEvents.add(new CheatingEvent(action, time));
+		Log.debug("STARTED CHEATING");
 	}
 
 	/**
 	 * Log end of cheating.
 	 */
 	public void stopCheating() {
-		maybeCheating = -1;
-		if (cheatingEvents == null || getStart() < 0) {
-			return;
-		}
 
-		if (cheatingEvents.size() > 0 && lastCheatingEventWindowWasLeft) {
+		//TODO: isCheating should be removed when the CheatingEvents class is implemented
+		boolean isCheating = cheatingEvents != null;
+
+		if (getStart() > 0 && isCheating) {
 			addCheatingEvent(CheatingAction.WINDOW_ENTERED);
-			lastCheatingEventWindowWasLeft = false;
 			Log.debug("STOPPED CHEATING");
 		}
 	}
 
-	protected void initCheatingEventsList() {
+	private void initCheatingEventsList() {
 		if (cheatingEvents == null) {
 			cheatingEvents = new LinkedList<>();
 		}
@@ -317,11 +272,11 @@ public class ExamEnvironment {
 		builder.addLine(sb);
 
 		if (cheatingEvents != null) {
-			for (int i = 0; i < cheatingEvents.size(); i++) {
+			for (CheatingEvent cheatingEvent : cheatingEvents) {
 				sb.setLength(0);
-				sb.append(timeToString(cheatingEvents.get(i).getTime()));
+				sb.append(timeToString(cheatingEvent.getTime()));
 				sb.append(' ');
-				sb.append(cheatingEvents.get(i).getAction().toString(loc));
+				sb.append(cheatingEvent.getAction().toString(loc));
 				builder.addLine(sb);
 			}
 		}

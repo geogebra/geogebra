@@ -4,10 +4,10 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.main.ExamEnvironment;
-import org.geogebra.common.main.ExamLogBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -56,34 +56,23 @@ public class ExitExamAction extends MenuAction<Void> {
 		AsyncOperation<String[]> handler = null;
 		AsyncOperation<String[]> welcomeHandler = null;
 		if (examFile && !app.isUnbundledGraphing()) {
-			if (app.getVersion().isAndroidWebview()) {
-				handler = new AsyncOperation<String[]>() {
-					@Override
-					public void callback(String[] dialogResult) {
-						// for android tablets we just want to exit app
-						ExamDialog.exitApp();
-					}
-				};
-				buttonText = loc.getMenu("Exit");
-			} else {
-				handler = new AsyncOperation<String[]>() {
-					@Override
-					public void callback(String[] dialogResult) {
-						getApp().setNewExam();
-						ExamDialog.startExam(null, getApp());
-					}
-				};
-				welcomeHandler = new AsyncOperation<String[]>() {
+			handler = new AsyncOperation<String[]>() {
+				@Override
+				public void callback(String[] dialogResult) {
+					getApp().setNewExam();
+					ExamDialog.startExam(null, getApp());
+				}
+			};
+			welcomeHandler = new AsyncOperation<String[]>() {
 
-					@Override
-					public void callback(String[] obj) {
-						getApp().getLAF().toggleFullscreen(true);
-						getApp().setNewExam();
-						getApp().examWelcome();
-					}
-				};
-				buttonText = loc.getMenu("Restart");
-			}
+				@Override
+				public void callback(String[] obj) {
+					getApp().getLAF().toggleFullscreen(true);
+					getApp().setNewExam();
+					getApp().examWelcome();
+				}
+			};
+			buttonText = loc.getMenu("Restart");
 			exam.setHasGraph(true);
 			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 			boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();

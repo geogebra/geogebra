@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.ExamLogBuilder;
+import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;

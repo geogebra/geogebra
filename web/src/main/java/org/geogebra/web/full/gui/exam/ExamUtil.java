@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.exam;
 
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -95,8 +94,7 @@ public class ExamUtil {
 
 	private void startCheating() {
 		if (app.getExam() != null && !app.getExam().isClosed()) {
-			String os = Browser.getMobileOperatingSystem();
-			app.getExam().startCheating(os);
+			app.getExam().windowLeft();
 		}
 	}
 

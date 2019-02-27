@@ -11,7 +11,7 @@ public enum CheatingAction {
         }
     },
 
-    WINDOWS_LEFT {
+    WINDOW_LEFT {
         @Override
         public String toString(Localization loc) {
             return loc.getMenu("exam_log_window_left");

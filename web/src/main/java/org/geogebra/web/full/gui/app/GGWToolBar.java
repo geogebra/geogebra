@@ -7,8 +7,8 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
@@ -20,7 +20,6 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbar.ToolbarSubmenuP;
 import org.geogebra.web.full.gui.toolbar.images.ToolbarResources;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -249,8 +248,6 @@ public class GGWToolBar extends Composite
 			@Override
 			public void execute(double timestamp) {
 				if (app.getExam() != null) {
-					String os = Browser.getMobileOperatingSystem();
-					app.getExam().checkCheating(os);
 					if (app.getExam().isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
 						makeTimerWhite(getElement());

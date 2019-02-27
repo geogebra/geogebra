@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.app;
 
-import org.geogebra.common.main.ExamLogBuilder;
+import org.geogebra.common.main.exam.ExamLogBuilder;
 
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style.Unit;
