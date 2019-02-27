@@ -17,9 +17,9 @@
         var dispatchNext = 0;
         var api1;
         window.addEventListener('storage',function(e){
-        if(api1){
+        if (api1) {
            var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
-           for(var index = dispatchNext; index < events.length; index++){
+           for (var index = dispatchNext; index < events.length; index++){
                var last = events[events.length - 1];
                if (last && last.client != clientId) {
                    if (last.type == "evalXML"){
@@ -37,6 +37,9 @@
                    }
                }
            }
+		   if (events.length > 0) {
+			api1.setUndoPoint();
+		   }
            dispatchNext = events.length;
         }
         });
@@ -215,8 +218,10 @@
 					console.log("addPolygon", event);
 					break;
 					
+				case "undo": 
+				case "redo": 
 				case "addPolygonComplete":
-					console.log("addPolygonComplete", event, event[1]);
+					console.log(event[0], "sending whole xml");
 					
                     var xml = xapi1.getXML();
                     //console.log(xml);
