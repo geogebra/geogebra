@@ -799,11 +799,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public void insertString(String text) {
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
-
-		// mathFieldInternal.selectNextArgument();
-
-		// mathFieldInternal.update();
-
 	}
 
 	private Element getHiddenTextArea() {
@@ -1140,7 +1135,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            caret path
 	 */
 	public void setCaretPath(ArrayList<Integer> path) {
-		mathFieldInternal.setCursorPath(path);
+		mathFieldInternal.setCaretPath(path);
 	}
 
 }

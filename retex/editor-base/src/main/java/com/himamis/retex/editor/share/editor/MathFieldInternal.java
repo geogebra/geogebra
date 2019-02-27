@@ -165,9 +165,9 @@ public class MathFieldInternal
 
 	/**
 	 * @param path
-	 *            cursor path
+	 *            caret path
 	 */
-	public void setCursorPath(ArrayList<Integer> path) {
+	public void setCaretPath(ArrayList<Integer> path) {
 		CursorController.setPath(path, getEditorState());
 		mathFieldController.updateWithCursor(mathFormula, editorState);
 	}

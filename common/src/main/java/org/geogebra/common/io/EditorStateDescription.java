@@ -54,9 +54,11 @@ public class EditorStateDescription {
 		ArrayList<Integer> caretPath = new ArrayList<>();
 		try {
 			JSONObject jso = new JSONObject(new JSONTokener(text));
-			JSONArray caretPathJson = jso.getJSONArray("caret");
-			for (int index = 0; index < caretPathJson.length(); index++) {
-				caretPath.add(caretPathJson.getInt(index));
+			JSONArray caretPathJson = jso.optJSONArray("caret");
+			if (caretPathJson != null) {
+				for (int index = 0; index < caretPathJson.length(); index++) {
+					caretPath.add(caretPathJson.getInt(index));
+				}
 			}
 			return new EditorStateDescription(jso.getString("content"),
 					caretPath);
@@ -66,10 +68,16 @@ public class EditorStateDescription {
 		return null;
 	}
 
+	/**
+	 * @return editor content
+	 */
 	public String getContent() {
 		return text;
 	}
 
+	/**
+	 * @return caret path as list of indices in formula tree
+	 */
 	public ArrayList<Integer> getCaretPath() {
 		return caretPath;
 	}
