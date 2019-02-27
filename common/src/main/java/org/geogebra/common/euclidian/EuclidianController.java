@@ -10858,6 +10858,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else {
 				kernel.getAnimatonManager().startAnimation();
 			}
+
+			// make sure geo.updateRepaint(); doesn't trigger update scripts
+			boolean oldBlockUpdateScripts = app.isBlockUpdateScripts();
+			app.setBlockUpdateScripts(true);
+
+			// update sliders in AV
 			if (app.getGuiManager() != null
 					&& app.getGuiManager().hasAlgebraView()) {
 				for (GeoElement geo : kernel.getConstruction()
@@ -10867,6 +10873,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					}
 				}
 			}
+
+			app.setBlockUpdateScripts(oldBlockUpdateScripts);
+
 			view.repaintView();
 
 			app.setUnsaved();
