@@ -22,12 +22,18 @@ class Event {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Event event = (Event) o;
 
-		if (!name.equals(event.name)) return false;
+		if (!name.equals(event.name)) {
+			return false;
+		}
 		return Arrays.equals(parameters, event.parameters);
 	}
 

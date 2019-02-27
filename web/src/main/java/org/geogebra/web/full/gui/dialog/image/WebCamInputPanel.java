@@ -85,12 +85,15 @@ public class WebCamInputPanel extends VerticalPanel {
 											video.srcObject = bs
 										} catch (error) {
 											video.src = $wnd.URL
-												.createObjectURL(bs);
+													.createObjectURL(bs);
 										}
 										el.firstChild.style.display = "none";
 										video.onloadedmetadata = function(e) {
-											that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::onLoadedMetadata(II)(video.videoWidth,
-												video.videoHeight);
+											that
+													.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::onLoadedMetadata(
+															II)(
+															video.videoWidth,
+															video.videoHeight);
 										};
 									} else {
 										video.src = bs;
@@ -146,7 +149,8 @@ public class WebCamInputPanel extends VerticalPanel {
 			// w, h = 0
 		} finally {
 			int width = Math.max(w, MAX_CANVAS_WIDTH);
-			int height = h != 0 ? Math.round(width * h /w ) : MAX_CANVAS_HEIGHT;
+			int height = h != 0 ? (int) Math.round(width * h / ((double) w))
+					: MAX_CANVAS_HEIGHT;
 			c.setPixelSize(width, height);
 			c.setCoordinateSpaceHeight(height);
 			c.setCoordinateSpaceWidth(width);

@@ -18,6 +18,7 @@
  * along with this program (see COPYING.txt and COPYING.LESSER.txt).
  * If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.geogebra.common.kernel.discrete.geom.algorithms;
 
 import java.util.ArrayList;
@@ -26,12 +27,16 @@ import java.util.List;
 
 import org.geogebra.common.kernel.discrete.geom.Point2D;
 
+/**
+ * Convex hull algorithm
+ */
 public final class ConvexHull {
 
 	/**
 	 * This algorithm runs in O(n log n) time.
 	 * 
 	 * @param points
+	 *            points
 	 * @return Returns a new list of points representing the convex hull of the
 	 *         given set of points. The convex hull excludes collinear points.
 	 * 
@@ -42,8 +47,6 @@ public final class ConvexHull {
 		return makeHullPresorted(newPoints);
 	}
 
-	//
-	//
 	/**
 	 * Runs in O(n) time.
 	 * 
@@ -102,6 +105,3 @@ public final class ConvexHull {
 	}
 
 }
-
-
-

@@ -339,7 +339,6 @@ public class MyButton implements Observer {
 
 			String caption = getCaption();
 
-
 			app.getDrawEquation().drawEquation(app, geoButton, g, xPos, yPos,
 					caption, font, getSerif(), geoButton.getObjectColor(),
 					geoButton.getBackgroundColor(), false, false,
@@ -348,9 +347,7 @@ public class MyButton implements Observer {
 		} else {
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);
-
 		}
-
 	}
 
 	private void resize(GGraphics2D g, int imgGap) {
@@ -401,7 +398,6 @@ public class MyButton implements Observer {
 		}
 		double ret = GeoText.getRelativeFontSize(i);
 		paintComponent(g, ret, false);
-
 	}
 
 	private boolean getSerif() {
@@ -443,7 +439,6 @@ public class MyButton implements Observer {
 		y = (int) labelRectangle.getMinY();
 		geoButton.setWidth((int) labelRectangle.getWidth());
 		geoButton.setHeight((int) labelRectangle.getHeight());
-
 	}
 
 	/**
@@ -460,7 +455,6 @@ public class MyButton implements Observer {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
-
 	}
 
 	/**

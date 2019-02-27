@@ -41,7 +41,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 			webcam.addClickHandler(this);
 		}
 	}
-	
+
 	@Override
 	public void setLabels() {
 		super.setLabels();
@@ -49,7 +49,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 			webcam.setText(appw.getLocalization().getMenu("Webcam"));
 		}
 	}
-	
+
 	@Override
 	protected void uploadClicked() {
 		super.uploadClicked();
@@ -57,16 +57,15 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 			webcam.removeStyleDependentName("highlighted");
 			if (webcamPanel != null) {
 				webcamPanel.stopVideo();
-	    		webcamPanel.clear();
-	    		webcamPanel = null;
+				webcamPanel.clear();
+				webcamPanel = null;
 			}
 		}
 		setPreviewDimensions();
 		imageUnavailable();
 	}
-	
+
 	protected void webcamClicked() {
-		
 		webcam.addStyleDependentName("highlighted");
 		upload.removeStyleDependentName("highlighted");
 		mayCenter = false;
@@ -75,12 +74,11 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 		} else {
 			webcamPanel.startVideo();
 		}
-	
+
 		inputPanel.setWidget(webcamPanel);
-    	imageAvailable();
+		imageAvailable();
 	}
-	
-	
+
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
