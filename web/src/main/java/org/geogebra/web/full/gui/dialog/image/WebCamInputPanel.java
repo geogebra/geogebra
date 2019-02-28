@@ -2,12 +2,17 @@ package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -18,6 +23,7 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private SimplePanel inputWidget;
 	private Element video;
+	private Element errorPanel;
 	private JavaScriptObject stream;
 	private int canvasWidth = 640;
 	private int canvasHeight = 480; // overwritten by real
@@ -27,7 +33,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	private WebcamDialogInterface webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
-
+	private static final VideoTemplate TEMPLATE = GWT.create(VideoTemplate.class);
 	/**
 	 * @param app
 	 *            application
@@ -46,26 +52,12 @@ public class WebCamInputPanel extends VerticalPanel {
 		add(inputWidget);
 	}
 
-	private native Element populate(Element el, String message,
-			String errorMessage) /*-{
-
-		el.style.position = "relative";
-		var dependentStyle = this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::getStyle()();
-
-		var ihtml = "<span class=" + dependentStyle + "><br><br>" + message
-				+ "</span>\n";
-		ihtml += "<video autoplay class=" + dependentStyle + "><br><br>"
-				+ errorMessage + "</video>";
-
-		el.innerHTML = ihtml;
-		var video = el.lastChild;
-
+	private native void populate(Element elem, Element errorElem) /*-{
+		var video = elem.firstChild;
 		$wnd.navigator.getMedia = ($wnd.navigator.getUserMedia
 				|| $wnd.navigator.webkitGetUserMedia
 				|| $wnd.navigator.mozGetUserMedia || $wnd.navigator.msGetUserMedia);
 
-		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
-				|| $wnd.oURL || null;
 		var that = this;
 
 		if ($wnd.navigator.getMedia) {
@@ -79,44 +71,12 @@ public class WebCamInputPanel extends VerticalPanel {
 								},
 								function(bs) {
 									browserAlreadyAllowed = true;
-									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
-									if ($wnd.URL && $wnd.URL.createObjectURL) {
-										try {
-											video.srcObject = bs
-										} catch (error) {
-											video.src = $wnd.URL
-													.createObjectURL(bs);
-										}
-										el.firstChild.style.display = "none";
-										video.onloadedmetadata = function(e) {
-											that
-													.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::onLoadedMetadata(
-															II)(
-															video.videoWidth,
-															video.videoHeight);
-										};
-									} else {
-										video.src = bs;
-										el.firstChild.style.display = "none";
-									}
-									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::stream = bs;
+									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::
+									onVideoSuccess(Lcom/google/gwt/core/client/JavaScriptObject;)(bs);
 								},
 								function(err) {
 									accessDenied = true;
-									// camera not found or not working
-									if (err.name == "NotFoundError"
-											|| err.name == "DevicesNotFoundError"
-											|| err.name == "TrackStartError"
-											|| err.name == "NotReadableError"
-											|| err.name == "SourceUnavailableError"
-											|| err.name == "Error") {
-										that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
-										// permission denied by user
-									} else if (err.name == "PermissionDeniedError"
-											|| err.name == "NotAllowedError") {
-										that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showPermissionDeniedDialog()();
-									}
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: " + err.name);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(err.name);
 								});
 				function accessRequest() {
 					if (!browserAlreadyAllowed && !accessDenied) {
@@ -127,18 +87,24 @@ public class WebCamInputPanel extends VerticalPanel {
 
 				return video;
 			} catch (e) {
-				el.firstChild.innerHTML = "<br><br>" + errorMessage;
+				errorElem.innerHTML = "<br><br>" + errorMessage;
 				that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
 				return null;
 			}
 		} else {
-			el.firstChild.innerHTML = "<br><br>" + errorMessage;
+			errorElem.innerHTML = "<br><br>" + errorMessage;
 			that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showNotSupportedDialog()();
 		}
 		return null;
 	}-*/;
 	
-	private String makeAShot(Element video) {
+	private void onVideoSuccess(JavaScriptObject bs) {
+		hidePermissionDialog();
+		setVideoSource(bs, video, errorPanel);
+		stream = bs;
+	}
+
+	private String takeAShot(Element video) {
 		Canvas c = Canvas.createIfSupported();
 		int w = 0;
 		int h = 0;
@@ -188,7 +154,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		if (video == null) {
 			return null;
 		}
-		String capture = makeAShot(video);
+		String capture = takeAShot(video.getFirstChildElement());
 		if (!app.isWhiteboardActive()) {
 			stopVideo();
 		}
@@ -216,7 +182,15 @@ public class WebCamInputPanel extends VerticalPanel {
 		} else {
 			message = loc.getMenu("Webcam.Chrome");
 		}
-		video = populate(inputWidget.getElement(), message, loc.getMenu("Webcam.Problem"));
+		
+		errorPanel = DOM.createSpan();
+		video = DOM.createSpan();
+		errorPanel.setInnerSafeHtml(TEMPLATE.error(getStyle(), message));
+		inputWidget.getElement().appendChild(video);
+		inputWidget.getElement().appendChild(errorPanel);
+		video.setInnerSafeHtml(TEMPLATE.video(getStyle(),
+				loc.getMenu("Webcam.Problem")));
+		populate(video, errorPanel);
 	}
 
 	private String getStyle() {
@@ -291,7 +265,57 @@ public class WebCamInputPanel extends VerticalPanel {
 		canvasWidth = width;
 		canvasHeight = height;
 		showInputDialog();
+		Log.debug("VideoSize: " + width + " x " + height);
 		resize();
 	
+	}
+	
+	private void onCameraError(String errName) {
+		if ("NotFoundError".equals(errName)
+				|| "DevicesNotFoundError".equals(errName)
+				|| "TrackStartError".equals(errName)
+				|| "NotReadableError".equals(errName)
+				|| "SourceUnavailableError".equals(errName)
+				|| "Error".equals(errName)) {
+			showErrorDialog();
+			// permission denied by user
+		} else if ("PermissionDeniedError".equals(errName)
+				|| "NotAllowedError".equals(errName)) {
+			showPermissionDeniedDialog();
+		}
+		Log.debug("Error from WebCam: " + errName);
+	}
+
+	private native void setVideoSource(JavaScriptObject bs, Element el, Element errorElem) /*-{
+		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
+				|| $wnd.oURL || null;
+		var video = el.firstChild;
+		if ($wnd.URL && $wnd.URL.createObjectURL) {
+			try {
+				video.srcObject = bs
+			} catch (error) {
+				video.src = $wnd.URL
+					.createObjectURL(bs);
+			}
+			errorElem.style.display = "none";
+			var that = this;
+			video.onloadedmetadata = function(e) {
+				that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::onLoadedMetadata(II)(video.videoWidth,
+					video.videoHeight);
+			};
+		} else {
+			video.src = bs;
+			errorElem.style.display = "none";
+		}
+	}-*/;
+	
+	public interface VideoTemplate extends SafeHtmlTemplates {
+		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br><br>\"\r\n" + 
+				"  {1}</video>\"")
+		SafeHtml video(String style, String err);
+
+		@SafeHtmlTemplates.Template("<span class=\"{0}\"><br><br>\"\r\n" + 
+				"  {1}</span>\"")
+		SafeHtml error(String style, String message);
 	}
 }
