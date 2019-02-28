@@ -16,7 +16,7 @@ public class CursorController {
 
 	/**
 	 * Next character &rarr; key.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return whether we moved right
@@ -24,52 +24,64 @@ public class CursorController {
 	public static boolean nextCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentOffset < currentField.size()
-				&& currentField.getArgument(currentOffset) != null
-				&& currentField
-						.getArgument(currentOffset) instanceof MathContainer
-				&& ((MathContainer) currentField.getArgument(currentOffset))
-						.hasChildren()) {
+		if (currentOffset < currentField.size()) {
 			MathComponent component = currentField.getArgument(currentOffset);
-			firstField(editorState, (MathContainer) component);
-			return true;
-		} else if (currentOffset < currentField.size()) {
-			editorState.incCurrentOffset();
-			return true;
+			return nextCharacterInCurrentField(component, editorState);
 		} else {
 			return nextField(editorState);
 		}
 	}
 
+	private static boolean nextCharacterInCurrentField(
+			MathComponent component, EditorState editorState) {
+
+		MathContainer mathContainer = getMathContainer(component);
+		if (mathContainer != null && (mathContainer.hasChildren())) {
+			firstField(editorState, mathContainer);
+			return true;
+		} else {
+			editorState.incCurrentOffset();
+			return true;
+		}
+	}
+
+	private static MathContainer getMathContainer(MathComponent component) {
+		if (component instanceof MathContainer) {
+			return (MathContainer) component;
+		}
+		return null;
+	}
+
 	/**
 	 * Previous character &larr; key.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
 	public void prevCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentOffset - 1 >= 0
-				&& currentField.getArgument(currentOffset - 1) != null
-				&& currentField
-						.getArgument(currentOffset - 1) instanceof MathContainer
-				&& ((MathContainer) currentField.getArgument(currentOffset - 1))
-						.hasChildren()) {
-			MathComponent component = currentField
-					.getArgument(currentOffset - 1);
-			lastField(editorState, (MathContainer) component);
-
-		} else if (currentOffset > 0) {
-			editorState.decCurrentOffset();
+		if (currentOffset > 0) {
+			MathComponent component = currentField.getArgument(currentOffset - 1);
+			prevCharacterInCurrentFiled(component, editorState);
 		} else {
 			prevField(editorState);
 		}
 	}
 
+	private static void prevCharacterInCurrentFiled(
+			MathComponent component, EditorState editorState) {
+
+		MathContainer mathContainer = getMathContainer(component);
+		if (mathContainer != null && mathContainer.hasChildren()) {
+			lastField(editorState, mathContainer);
+		} else
+			editorState.decCurrentOffset();
+	}
+
 	/**
 	 * Move to the beginning of the whole expression
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -79,7 +91,7 @@ public class CursorController {
 
 	/**
 	 * Move to the beginning of a subexpression
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @param component0
@@ -99,7 +111,7 @@ public class CursorController {
 
 	/**
 	 * Move to the end of the whole expression
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -127,7 +139,7 @@ public class CursorController {
 
 	/**
 	 * Move cursor to the right..
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return whether current component has next field
@@ -138,7 +150,7 @@ public class CursorController {
 
 	/**
 	 * Move cursor to the right of a component.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @param component
@@ -174,7 +186,7 @@ public class CursorController {
 
 	/**
 	 * Find previous field.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -213,7 +225,7 @@ public class CursorController {
 
 	/**
 	 * Up field.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return whether move up is possible
@@ -224,7 +236,7 @@ public class CursorController {
 
 	/**
 	 * Down field.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @return whether move down is possible
@@ -303,7 +315,7 @@ public class CursorController {
 
 	/**
 	 * set position in editor state from tree path
-	 * 
+	 *
 	 * @param list
 	 *            tree path
 	 * @param ct
@@ -350,7 +362,7 @@ public class CursorController {
 
 	/**
 	 * set position in editor state from tree path, starting at root component
-	 * 
+	 *
 	 * @param list
 	 *            tree path
 	 * @param editorState
