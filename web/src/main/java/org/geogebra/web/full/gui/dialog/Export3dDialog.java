@@ -316,7 +316,7 @@ public class Export3dDialog extends OptionDialog
 	}
 
 	private void buildLineThicknessPanel(FlowPanel root) {
-		lineThicknessValue = addTextField("Thickness", "mm", root);
+		lineThicknessValue = addTextField("STL.Thickness", "mm", root);
 	}
 
 	private ParsableComponentInputField addTextField(String labelText,
