@@ -75,8 +75,9 @@ public class CursorController {
 		MathContainer mathContainer = getMathContainer(component);
 		if (mathContainer != null && mathContainer.hasChildren()) {
 			lastField(editorState, mathContainer);
-		} else
+		} else {
 			editorState.decCurrentOffset();
+		}
 	}
 
 	/**
