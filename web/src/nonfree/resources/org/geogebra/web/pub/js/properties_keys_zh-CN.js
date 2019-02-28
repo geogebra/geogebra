@@ -2588,7 +2588,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Ruling": "\u7f51\u683c",
     "SMARTBoardConnectionError": "\u65e0\u6cd5\u8fde\u63a5\u5230\u7535\u5b50\u767d\u677f, \u5b89\u88c5\u9a71\u52a8\u7a0b\u5e8f\u4e86\u5417?",
     "SMARTBoardDLLErrorA": "\u65e0\u6cd5\u627e\u5230\u5fc5\u9700\u7684\u6587\u4ef6 \"%0\"",
-    "STL.Thickness": "Thickness",
+    "STL.Thickness": "\u7ebf\u5f84",
     "Sample": "\u6837\u672c",
     "Sample1": "\u6837\u672c1",
     "Sample2": "\u6837\u672c2",
