@@ -17,6 +17,7 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.geogebra3D.euclidian3D.animator.RotationSpeedHandler;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
@@ -191,6 +192,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private List<GeoElement> hitsForSingleIntersectionPoint;
 
+	private RotationSpeedHandler rotationSpeedHandler;
+
 	/**
 	 * Store infos for intersection curve
 	 */
@@ -278,6 +281,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		zMinMax = new double[2];
 
 		hitsForSingleIntersectionPoint = new ArrayList<>();
+
+		rotationSpeedHandler = new RotationSpeedHandler();
 	}
 
 	@Override
@@ -1936,9 +1941,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		getView().rememberOrigins();
 		getView().setCursor(EuclidianCursor.DEFAULT);
 
-		timeOld = UtilFactory.getPrototype().getMillisecondTime();
-		xOld = startLoc.x;
-		animatedRotSpeed = 0;
+		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			rotationSpeedHandler.setStart(startLoc.x);
+		} else {
+			timeOld = UtilFactory.getPrototype().getMillisecondTime();
+			xOld = startLoc.x;
+			animatedRotSpeed = 0;
+		}
 	}
 
 	/**
@@ -1948,11 +1957,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	@Override
 	protected boolean processRotate3DView() {
-		double time = UtilFactory.getPrototype().getMillisecondTime();
 		int x = mouseLoc.x;
-		double dx = x - xOld;
-		animatedRotSpeed = dx / (time - timeOld);
-		timeOld = time;
+		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			rotationSpeedHandler.rotationOccurred(x);
+		} else {
+			double time = UtilFactory.getPrototype().getMillisecondTime();
+			double dx = x - xOld;
+			animatedRotSpeed = dx / (time - timeOld);
+			timeOld = time;
+		}
 
 		xOld = x;
 		getView().setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
@@ -1967,13 +1980,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
-	/**
-	 * right-release the mouse makes stop 3D rotation
-	 * 
-	 * @return true if a rotation occured
-	 */
 	@Override
-	protected boolean processReleaseForRotate3D(PointerEventType type) {
+	protected boolean processReleaseForRotate3D(int x, PointerEventType type) {
 		if (temporaryMode) {
 			getView().setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
 			temporaryMode = false;
@@ -1992,7 +2000,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			getView().setCursor(EuclidianCursor.HIT);
 			app.storeUndoInfo();
 
-			setRotContinueAnimation();
+			setRotContinueAnimation(x);
 
 			return true;
 		}
@@ -2000,10 +2008,25 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
+	private void setRotContinueAnimation(int x) {
+		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			rotationSpeedHandler.rotationOccurred(x);
+		}
+	}
+
+	/**
+	 * set animation for automatic rotation
+	 */
 	protected void setRotContinueAnimation() {
-		((EuclidianView3D) getView()).setRotContinueAnimation(
-				UtilFactory.getPrototype().getMillisecondTime() - timeOld,
-				animatedRotSpeed);
+		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			((EuclidianView3D) getView()).setRotContinueAnimation(
+					rotationSpeedHandler.getLastDelay(),
+					rotationSpeedHandler.getSpeed());
+		} else {
+			((EuclidianView3D) getView()).setRotContinueAnimation(
+					UtilFactory.getPrototype().getMillisecondTime() - timeOld,
+					animatedRotSpeed);
+		}
 	}
 
 	// /////////////////////////////////////////
@@ -4412,10 +4435,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	public void setTimeOld(double time) {
+		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
 		timeOld = time;
 	}
 
 	public double getTimeOld() {
+		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
 		return timeOld;
 	}
 
@@ -4424,6 +4449,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            rotation speed
 	 */
 	public void setAnimatedRotSpeed(double speed) {
+		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
 		animatedRotSpeed = speed;
 	}
 
@@ -4575,4 +4601,12 @@ public abstract class EuclidianController3D extends EuclidianController {
     protected void setMouseLocToNullIfNeeded() {
         // not needed for 3D view
     }
+
+	/**
+	 * 
+	 * @return rotation speed handler
+	 */
+	public RotationSpeedHandler getRotationSpeedHandler() {
+		return rotationSpeedHandler;
+	}
 }

@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.input3D.EuclidianControllerInput3DCompanion;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 
@@ -167,9 +168,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private boolean isNotMovingView = true;
 
 	private void processRightRelease() {
-		((EuclidianView3D) getView()).setRotContinueAnimation(
-				UtilFactory.getPrototype().getMillisecondTime() - timeOld,
-				animatedRotSpeed);
+		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			setRotContinueAnimation();
+		} else {
+			((EuclidianView3D) getView()).setRotContinueAnimation(
+					UtilFactory.getPrototype().getMillisecondTime() - timeOld,
+					animatedRotSpeed);
+		}
 	}
 
 

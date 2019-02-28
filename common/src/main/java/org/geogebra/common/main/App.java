@@ -4051,6 +4051,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case G3D_IOS_NATIVE_AR:
 			return prerelease;
 
+		/** G3D-66 */
+		case G3D_IMPROVE_AUTOMATIC_ROTATION:
+			return prerelease;
+
         // **********************************************************************
         // G3D END
         //

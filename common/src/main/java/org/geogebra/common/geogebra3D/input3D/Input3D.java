@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Quaternion;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
@@ -644,11 +645,15 @@ abstract public class Input3D implements Input3DConstants {
 			getEuclidianController().setViewRotationOccured(true);
 		}
 
-		getEuclidianController()
-				.setTimeOld(UtilFactory.getPrototype().getMillisecondTime());
-
-		getEuclidianController().setAnimatedRotSpeed(0);
-		angleOld = 0;
+		if (view3D.getApplication()
+				.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			getEuclidianController().getRotationSpeedHandler().setStart(0);
+		} else {
+			getEuclidianController().setTimeOld(
+					UtilFactory.getPrototype().getMillisecondTime());
+			getEuclidianController().setAnimatedRotSpeed(0);
+			angleOld = 0;
+		}
 
 		// start values
 		startMouse3DPosition.set(mouse3DPosition);
@@ -677,12 +682,18 @@ abstract public class Input3D implements Input3DConstants {
 
 		view3D.shiftRotAboutZ(angle);
 
-		double time = UtilFactory.getPrototype().getMillisecondTime();
-		getEuclidianController().setAnimatedRotSpeed((angleOld - angle)
-				/ (time - getEuclidianController().getTimeOld()));
-		((EuclidianController3D) view3D.getEuclidianController())
-				.setTimeOld(time);
-		angleOld = angle;
+		if (view3D.getApplication()
+				.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
+			getEuclidianController().getRotationSpeedHandler()
+					.rotationOccurred(angle);
+		} else {
+			double time = UtilFactory.getPrototype().getMillisecondTime();
+			getEuclidianController().setAnimatedRotSpeed((angleOld - angle)
+					/ (time - getEuclidianController().getTimeOld()));
+			((EuclidianController3D) view3D.getEuclidianController())
+					.setTimeOld(time);
+			angleOld = angle;
+		}
 	}
 
 	private void processRightDragQuaternions() {

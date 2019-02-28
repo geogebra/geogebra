@@ -5836,12 +5836,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * right-release the mouse makes stop 3D rotation
 	 *
+	 * @param x
+	 *            mouse location (x)
 	 * @param type
 	 *            event type
 	 *
 	 * @return false
 	 */
-	protected boolean processReleaseForRotate3D(PointerEventType type) {
+	protected boolean processReleaseForRotate3D(int x, PointerEventType type) {
 		return false;
 	}
 
@@ -10830,7 +10832,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// if rotate, set continue animation / stop it
-		if (processReleaseForRotate3D(type)) {
+		if (processReleaseForRotate3D(x, type)) {
 			return true;
 		}
 
