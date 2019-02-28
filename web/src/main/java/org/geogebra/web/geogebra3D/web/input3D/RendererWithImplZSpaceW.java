@@ -62,9 +62,8 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 					}
 
 				};
-				ResourcesInjector.addLoadHandler(zSpaceScript,
+				ResourcesInjector.loadJS(zSpaceScript,
 						scriptCallbackZspace);
-				Document.get().getBody().appendChild(zSpaceScript);
 			}
 
 			@Override
@@ -78,8 +77,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			}
 
 		};
-		ResourcesInjector.addLoadHandler(matrixScript, scriptCallback);
-		Document.get().getBody().appendChild(matrixScript);
+		ResourcesInjector.loadJS(matrixScript, scriptCallback);
 	}
 
 	/**

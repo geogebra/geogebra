@@ -426,8 +426,7 @@ public final class LocalizationW extends Localization {
 				}
 
 			};
-			ResourcesInjector.addLoadHandler(script, scriptCallback);
-			Document.get().getBody().appendChild(script);
+			ResourcesInjector.loadJS(script, scriptCallback);
 		}
 
 	}

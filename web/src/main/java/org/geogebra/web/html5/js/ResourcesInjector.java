@@ -9,6 +9,7 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.ScriptElement;
@@ -121,14 +122,7 @@ public class ResourcesInjector {
 		}
 	}
 
-	/**
-	 * @param el
-	 *            script element
-	 * @param handler
-	 *            if script loaded, calls the callback that implements interface
-	 *            ScriptLoadHandler
-	 */
-	public static native void addLoadHandler(ScriptElement el,
+	private static native void addLoadHandler(ScriptElement el,
 			ScriptLoadCallback handler) /*-{
 		el
 				.addEventListener(
@@ -143,6 +137,18 @@ public class ResourcesInjector {
 							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onError()();
 						}, false);
 	}-*/;
+
+	/**
+	 * @param el
+	 *            script element
+	 * @param handler
+	 *            if script loaded, calls the callback that implements interface
+	 *            ScriptLoadHandler
+	 */
+	public static void loadJS(ScriptElement el, ScriptLoadCallback handler) {
+		addLoadHandler(el, handler);
+		Document.get().getBody().appendChild(el);
+	}
 
 	/**
 	 * @param fontsCssUrl
