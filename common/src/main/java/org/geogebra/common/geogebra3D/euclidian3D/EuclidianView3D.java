@@ -4959,4 +4959,13 @@ public abstract class EuclidianView3D extends EuclidianView
         // reset rendering
         reset();
     }
+
+    /**
+     *
+     * @return factor for dip to px
+     */
+    public float dipToPxFactor() {
+        return 1f;
+    }
+
 }

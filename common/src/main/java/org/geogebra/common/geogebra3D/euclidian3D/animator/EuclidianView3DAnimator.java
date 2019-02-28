@@ -99,7 +99,7 @@ public class EuclidianView3DAnimator {
 		}
 
 		// if speed is too small, no animation
-		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED) {
+		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED * view3D.dipToPxFactor()) {
 			stopAnimation();
 			return;
 		}
