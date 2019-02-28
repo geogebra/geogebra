@@ -83,7 +83,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		String message = "";
 		String caption = "";
 		if (dialogType != DialogType.PERMISSION_REQUEST) {
-			dismissBtn.setText(loc.getMenu("dismiss"));
+			dismissBtn.setText(loc.getMenu("OK"));
 		}
 		switch (dialogType) {
 		case PERMISSION_REQUEST:
