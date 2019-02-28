@@ -4435,11 +4435,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 		viewRotationOccured = flag;
 	}
 
+	/**
+	 * set recorded time
+	 * 
+	 * @param time
+	 *            time
+	 */
 	public void setTimeOld(double time) {
 		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
 		timeOld = time;
 	}
 
+	/**
+	 * 
+	 * @return last recorded time
+	 */
 	public double getTimeOld() {
 		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
 		return timeOld;
