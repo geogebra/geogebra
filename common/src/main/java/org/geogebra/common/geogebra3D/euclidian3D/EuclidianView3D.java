@@ -1547,8 +1547,16 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public void reset() {
-		resetAllDrawables();
+    final public void reset() {
+	    reset(true);
+    }
+
+    /**
+     * reset view
+     * @param clearClippingEnlargement if we want to clear clipping cube enlargement
+     */
+	public void reset(boolean clearClippingEnlargement) {
+		resetAllDrawables(clearClippingEnlargement);
 		setViewChanged();
 		viewChangedOwnDrawables();
 		setWaitForUpdate();
@@ -3278,6 +3286,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * says all labels owned by the view that the view has changed
 	 */
 	public void resetOwnDrawables() {
+        resetOwnDrawables(true);
+    }
+
+    /**
+     * says all labels owned by the view that the view has changed
+     * @param clearClippingEnlargement if we want to clear clipping cube enlargement
+     */
+    public void resetOwnDrawables(boolean clearClippingEnlargement) {
 		xOyPlaneDrawable.setWaitForReset();
 
 		for (int i = 0; i < 3; i++) {
@@ -3286,18 +3302,28 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		pointDecorations.setWaitForReset();
 
-		clippingCubeDrawable.clearEnlarge();
+		if (clearClippingEnlargement) {
+            clippingCubeDrawable.clearEnlarge();
+        }
 		clippingCubeDrawable.setWaitForReset();
 
 		getCompanion().resetOwnDrawables();
 	}
 
+    /**
+     * says all labels to be recomputed
+     */
+    public void resetAllDrawables() {
+        resetAllDrawables(true);
+    }
+
 	/**
 	 * says all labels to be recomputed
+     * @param clearClippingEnlargement if we want to clear clipping cube enlargement
 	 */
-	public void resetAllDrawables() {
+	public void resetAllDrawables(boolean clearClippingEnlargement) {
 		drawable3DLists.setWaitForResetManagerBuffers();
-		resetOwnDrawables();
+		resetOwnDrawables(clearClippingEnlargement);
 		drawable3DLists.resetAllDrawables();
 
 	}
@@ -4829,15 +4855,16 @@ public abstract class EuclidianView3D extends EuclidianView
                     }
                     translationZzeroForAR -= getZZero();
                 }
-
                 getRenderer().setScaleFactor();
+                updateMatrix();
+                reset(false);
 			} else {
                 if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
                     translationZzeroForAR = 0;
                 }
+                updateMatrix();
+                reset();
             }
-			updateMatrix();
-			reset();
 		}
 	}
 
