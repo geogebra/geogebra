@@ -76,7 +76,8 @@ public class WebCamInputPanel extends VerticalPanel {
 								},
 								function(err) {
 									accessDenied = true;
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(err.name);
+									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::
+									onCameraError(Ljava/lang/String;)(err.name);
 								});
 				function accessRequest() {
 					if (!browserAlreadyAllowed && !accessDenied) {
