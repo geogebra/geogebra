@@ -2012,6 +2012,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
 			rotationSpeedHandler.rotationOccurred(x);
 		}
+		setRotContinueAnimation();
 	}
 
 	/**

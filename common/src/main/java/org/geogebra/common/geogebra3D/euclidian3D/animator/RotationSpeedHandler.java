@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * class for handling rotation speed
@@ -54,13 +53,10 @@ public class RotationSpeedHandler {
 			index = 0;
 		} else {
 			double dx = x - xOld;
-			Log.debug("dx / lastDelay = " + (dx / lastDelay));
 			speeds[index % SAMPLES] = dx / lastDelay;
 			index++;
 		}
 		xOld = x;
-		Log.debug("index = " + index + ", lastDelay = " + lastDelay
-				+ ", speed = " + getSpeed());
 	}
 
 	/**
