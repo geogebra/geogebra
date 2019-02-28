@@ -47,14 +47,13 @@ import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.util.Charsets;
-import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
 /**
  *
  * @author Markus Hohenwarter
  */
-public class UtilD extends Util {
+public class UtilD {
 
 
 	/**
