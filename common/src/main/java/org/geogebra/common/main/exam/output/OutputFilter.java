@@ -7,10 +7,15 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+/**
+ * Filters the output on the Algebra View
+ */
 public class OutputFilter {
 
     private List<Commands> fitCommands =
@@ -28,9 +33,14 @@ public class OutputFilter {
                     Commands.FitPow,
                     Commands.FitSin);
 
-    private List<GetCommand> allowedCommands;
+    private Set<GetCommand> allowedCommands;
 
-    public boolean isAllowed(GeoElement geoElement) {
+	/**
+	 * Checks whether the geo element's output is allowed.
+	 * @param geoElement geo element
+	 * @return True if the geo element's output can be shown, otherwise false.
+	 */
+	public boolean isAllowed(GeoElement geoElement) {
         App app = geoElement.getKernel().getApplication();
         boolean isCasEnabled = app.getSettings().getCasSettings().isEnabled();
         AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
@@ -41,9 +51,9 @@ public class OutputFilter {
         }
     }
 
-    private List<GetCommand> getAllowedCommands() {
+    private Collection<GetCommand> getAllowedCommands() {
         if (allowedCommands == null) {
-            allowedCommands = new ArrayList<>();
+            allowedCommands = new HashSet<>();
             allowedCommands.add(Algos.Expression);
             allowedCommands.addAll(fitCommands);
         }
