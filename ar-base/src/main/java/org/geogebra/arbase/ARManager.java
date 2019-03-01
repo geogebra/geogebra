@@ -101,6 +101,8 @@ abstract public class ARManager<TouchEventType> {
         return hittingFloorOk ? hittingFloor : null;
     }
 
+    abstract public double checkHittingFloorZ(double z);
+
     public double getHittingDistance() {
         return hittingDistance;
     }

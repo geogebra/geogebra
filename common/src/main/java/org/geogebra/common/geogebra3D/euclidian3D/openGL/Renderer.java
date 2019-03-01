@@ -239,6 +239,16 @@ public abstract class Renderer implements RendererInterface {
         return 0;
     }
 
+    /**
+     * Check if z coordinate should be changed regarding current hit (in AR)
+     * @param z calculated z value
+     * @return hit z value (if already computed)
+     */
+    public double checkHittingFloorZ(double z) {
+        // nothing to do here
+        return z;
+    }
+
 	/**
 	 * dummy renderer (when no GL available)
 	 */

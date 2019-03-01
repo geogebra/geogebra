@@ -387,12 +387,15 @@ public class EuclidianController3DCompanion
             if (ec3D.view3D.isAREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
                     && !ec3D.view3D.getxOyPlane().isGridVisible()) {
                 if (ec3D.view3D.getRenderer().getHittingFloorAR(tmpCoords1)) {
-                    // round z coordinate to keep points at the same level
+                    // round z coordinate and check if already existing hit
+                    // to keep points at the same level
                     double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE
                             * ec3D.view3D.getRenderer().getHittingDistanceAR()
                             / ec3D.view3D.getZscale());
                     if (DoubleUtil.isGreater(rounding, 0)) {
-                        tmpCoords1.setZ(((int) (tmpCoords1.getZ() / rounding)) * rounding);
+                        tmpCoords1.setZ(ec3D.view3D.getRenderer()
+                                .checkHittingFloorZ(
+                                        ((int) (tmpCoords1.getZ() / rounding)) * rounding));
                     }
                     tmpCoords1.setW(1);
                     // re-center it
