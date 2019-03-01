@@ -33,7 +33,6 @@ public class ExamEnvironment {
 
 	private boolean hasGraph = false;
 
-	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
 	private CommandFilter nonExamCommandFilter;
 	private static OutputFilter outputFilter = new OutputFilter();
@@ -395,23 +394,13 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * set task is currently locked
-	 */
-	protected void setTaskLocked() {
-		wasTaskLocked = true;
-	}
-
-	/**
 	 * Run this when unlocked task detected; notifies about cheating
 	 */
 	public void taskUnlocked() {
 		if (getStart() > 0) {
-			if (wasTaskLocked) {
-				cheatingEvents.addScreenUnlockedEvent();
-				Log.debug("STARTED CHEATING: task unlocked");
-			}
+			cheatingEvents.addScreenUnlockedEvent();
+			Log.debug("STARTED CHEATING: task unlocked");
 		}
-		wasTaskLocked = false;
 	}
 
 	/**
@@ -419,12 +408,9 @@ public class ExamEnvironment {
 	 */
 	public void taskLocked() {
 		if (getStart() > 0) {
-			if (!wasTaskLocked) {
-				cheatingEvents.addScreenUnlockedEvent();
-				Log.debug("STOPPED CHEATING: task locked");
-			}
+			cheatingEvents.addScreenLockedEvent();
+			Log.debug("STOPPED CHEATING: task locked");
 		}
-		wasTaskLocked = true;
 	}
 
 	/**
