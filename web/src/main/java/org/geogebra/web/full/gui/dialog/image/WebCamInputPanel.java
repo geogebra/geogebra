@@ -6,7 +6,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -19,29 +18,29 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends VerticalPanel {
+public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 
 	private SimplePanel inputWidget;
 	private Element video;
 	private Element errorPanel;
-	private JavaScriptObject stream;
 	private int canvasWidth = 640;
 	private int canvasHeight = 480; // overwritten by real
 									// dimensions
 	private AppW app;
-	private static final int MAX_CANVAS_WIDTH = 640;
-	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	private WebcamDialogInterface webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
 	private static final VideoTemplate TEMPLATE = GWT.create(VideoTemplate.class);
+	private WebCamAPI webCam;
 	/**
 	 * @param app
 	 *            application
+	 *       
 	 * @param webcamDialog
 	 *            webcam dialog
 	 */
 	public WebCamInputPanel(AppW app, WebcamDialogInterface webcamDialog) {
 		this.app = app;
+		webCam = new WebCamAPI(this);
 		this.webcamDialog = webcamDialog;
 		initGUI();
 	}
@@ -51,103 +50,16 @@ public class WebCamInputPanel extends VerticalPanel {
 		resetVideo();
 		add(inputWidget);
 	}
-
-	private native void populate(Element elem, Element errorElem) /*-{
-		var video = elem.firstChild;
-		$wnd.navigator.getMedia = ($wnd.navigator.getUserMedia
-				|| $wnd.navigator.webkitGetUserMedia
-				|| $wnd.navigator.mozGetUserMedia || $wnd.navigator.msGetUserMedia);
-
-		var that = this;
-
-		if ($wnd.navigator.getMedia) {
-			try {
-				var browserAlreadyAllowed = false;
-				var accessDenied = false;
-				$wnd.navigator
-						.getMedia(
-								{
-									video : true
-								},
-								function(bs) {
-									browserAlreadyAllowed = true;
-									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::
-									onVideoSuccess(Lcom/google/gwt/core/client/JavaScriptObject;)(bs);
-								},
-								function(err) {
-									accessDenied = true;
-									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::
-									onCameraError(Ljava/lang/String;)(err.name);
-								});
-				function accessRequest() {
-					if (!browserAlreadyAllowed && !accessDenied) {
-						that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showRequestDialog()();
-					}
-				}
-				setTimeout(accessRequest, 400);
-
-				return video;
-			} catch (e) {
-				errorElem.innerHTML = "<br><br>" + errorMessage;
-				that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
-				return null;
-			}
-		} else {
-			errorElem.innerHTML = "<br><br>" + errorMessage;
-			that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showNotSupportedDialog()();
-		}
-		return null;
-	}-*/;
 	
-	private void onVideoSuccess(JavaScriptObject bs) {
+	public void stopVideo() {
+		webCam.stop();
+	}
+	
+	@Override
+	public void onCameraSuccess(JavaScriptObject bs) {
 		hidePermissionDialog();
-		setVideoSource(bs, video, errorPanel);
-		stream = bs;
-	}
-
-	private String takeAShot(Element video) {
-		Canvas c = Canvas.createIfSupported();
-		int w = 0;
-		int h = 0;
-		try {
-			w = Integer.parseInt(video.getAttribute("width"));
-			h = Integer.parseInt(video.getAttribute("height"));
-		} catch (NumberFormatException e) {
-			// w, h = 0
-		} finally {
-			int width = Math.max(w, MAX_CANVAS_WIDTH);
-			int height = h != 0 ? (int) Math.round(width * h / ((double) w))
-					: MAX_CANVAS_HEIGHT;
-			c.setPixelSize(width, height);
-			c.setCoordinateSpaceHeight(height);
-			c.setCoordinateSpaceWidth(width);
-			drawVideoElement(c.getContext2d(), video);
-			
-		}
-		return c.toDataUrl("image/png");
-		
 	}
 	
-	public native void drawVideoElement(JavaScriptObject ctx, Element img) /*-{
-		ctx.drawImage(img, 0, 0);
-	}-*/;
-	
-	/**
-	 * Stop recording
-	 */
-	public native void stopVideo() /*-{
-		var stream = this.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::stream;
-		if (stream == null) {
-			return;
-		}
-		if (stream.stop) {
-			stream.stop();
-		} else {
-			stream.getVideoTracks()[0].stop();
-		}
-		stream = null;
-	}-*/;
-
 	/**
 	 * @return screenshot as data URL (png)
 	 */
@@ -155,9 +67,9 @@ public class WebCamInputPanel extends VerticalPanel {
 		if (video == null) {
 			return null;
 		}
-		String capture = takeAShot(video.getFirstChildElement());
+		String capture = webCam.takeScreenshot(video.getFirstChildElement());
 		if (!app.isWhiteboardActive()) {
-			stopVideo();
+			webCam.stop();
 		}
 		return capture;
 	}
@@ -166,7 +78,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	 * Starts recording
 	 */
 	public void startVideo() {
-		stopVideo();
+		webCam.stop();
 		inputWidget.getElement().removeAllChildren();
 		resetVideo();
 	}
@@ -191,7 +103,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		inputWidget.getElement().appendChild(errorPanel);
 		video.setInnerSafeHtml(TEMPLATE.video(getStyle(),
 				loc.getMenu("Webcam.Problem")));
-		populate(video, errorPanel);
+		webCam.start(video, errorPanel);
 	}
 
 	private String getStyle() {
@@ -205,7 +117,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	 * @return true if the video stream is empty
 	 */
 	public boolean isStreamEmpty() {
-		return stream == null;
+		return webCam.isStreamEmpty();
 	}
 
 	private void showInputDialog() {
@@ -262,7 +174,8 @@ public class WebCamInputPanel extends VerticalPanel {
 		webcamDialog.resize();
 	}
 	
-	private void onLoadedMetadata(int width, int height) {
+	@Override
+	public void onLoadedMetadata(int width, int height) {
 		canvasWidth = width;
 		canvasHeight = height;
 		showInputDialog();
@@ -271,7 +184,8 @@ public class WebCamInputPanel extends VerticalPanel {
 	
 	}
 	
-	private void onCameraError(String errName) {
+	@Override
+	public void onCameraError(String errName) {
 		if ("NotFoundError".equals(errName)
 				|| "DevicesNotFoundError".equals(errName)
 				|| "TrackStartError".equals(errName)
@@ -286,30 +200,12 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 		Log.debug("Error from WebCam: " + errName);
 	}
-
-	private native void setVideoSource(JavaScriptObject bs, Element el, Element errorElem) /*-{
-		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
-				|| $wnd.oURL || null;
-		var video = el.firstChild;
-		if ($wnd.URL && $wnd.URL.createObjectURL) {
-			try {
-				video.srcObject = bs
-			} catch (error) {
-				video.src = $wnd.URL
-					.createObjectURL(bs);
-			}
-			errorElem.style.display = "none";
-			var that = this;
-			video.onloadedmetadata = function(e) {
-				that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::onLoadedMetadata(II)(video.videoWidth,
-					video.videoHeight);
-			};
-		} else {
-			video.src = bs;
-			errorElem.style.display = "none";
-		}
-	}-*/;
 	
+	@Override
+	public void onRequest() {
+		showRequestDialog();
+	}
+
 	public interface VideoTemplate extends SafeHtmlTemplates {
 		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br><br>\"\r\n" + 
 				"  {1}</video>\"")

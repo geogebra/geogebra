@@ -1,0 +1,43 @@
+package org.geogebra.web.full.gui.dialog.image;
+
+import com.google.gwt.core.client.JavaScriptObject;
+
+/**
+ * Interface to interact with the WebCamAPI 
+ * 
+ * @author laszlo
+ *
+ */
+public interface WebCamInterface {
+	/**
+	 * Called when API requests permission to use the camera.
+	 */
+	void onRequest();
+	
+	/**
+	 * Called on API success.
+	 * 
+	 * @param mediaStream 
+	 * 				the video stream of the camera.
+	 */
+	void onCameraSuccess(JavaScriptObject mediaStream);
+	
+	/**
+	 * Called on camera error.
+	 * 
+	 * @param error
+	 * 			 the error message.	
+	 */
+	void onCameraError(String error);
+
+	/**
+	 * Called when video metadata is ready.
+	 * 
+	 * @param width
+	 * 				of the video.
+	 * 
+	 * @param height
+	 * 				of the video.
+	 */
+	void onLoadedMetadata(int width, int height);
+}
