@@ -1398,7 +1398,19 @@ public class GeoText extends GeoElement
 			return true;
 		}
 
-		// not visible: we set it
+		if (kernel.getApplication().getActiveEuclidianView()
+				.isEuclidianView3D() && hasAbsoluteLocation()) {
+			// visible only in 3D view
+			try {
+				kernel.getApplication().removeFromEuclidianView(this);
+			} catch (Exception e) {
+				// in case EV is null
+			}
+			visibleInView3D = ExtendedBoolean.TRUE;
+			return true;
+		}
+
+		// not visible: we don't set it
 		visibleInView3D = ExtendedBoolean.FALSE;
 		return false;
 	}
