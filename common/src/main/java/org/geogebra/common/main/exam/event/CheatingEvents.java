@@ -3,6 +3,9 @@ package org.geogebra.common.main.exam.event;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Stores the cheating events.
+ */
 public class CheatingEvents {
 
     private List<CheatingEvent> events;
@@ -30,6 +33,9 @@ public class CheatingEvents {
         return events.size();
     }
 
+    /**
+     * Adds a screen on event.
+     */
     public void addScreenOnEvent() {
         if (!isScreenOn) {
             addCheatingEvent(CheatingAction.SCREEN_ON);
@@ -37,6 +43,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a screen off event.
+     */
     public void addScreenOffEvent() {
         if (isScreenOn) {
             addCheatingEvent(CheatingAction.SCREEN_OFF);
@@ -44,6 +53,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a screen locked event.
+     */
     public void addScreenLockedEvent() {
         if (!isScreenLocked) {
             addCheatingEvent(CheatingAction.TASK_LOCKED);
@@ -51,6 +63,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a screen unlocked event.
+     */
     public void addScreenUnlockedEvent() {
         if (isScreenLocked) {
             addCheatingEvent(CheatingAction.TASK_UNLOCKED);
@@ -58,6 +73,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a window entered event.
+     */
     public void addWindowEnteredEvent() {
         if (!isOnWindow) {
             addCheatingEvent(CheatingAction.WINDOW_ENTERED);
@@ -65,6 +83,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a window left event.
+     */
     public void addWindowLeftEvent() {
         if (isOnWindow) {
             addCheatingEvent(CheatingAction.WINDOW_LEFT);
@@ -72,6 +93,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a WiFi enabled event.
+     */
     public void addWifiEnabledEvent() {
         if (!isWifiEnabled) {
             addCheatingEvent(CheatingAction.WIFI_ENABLED);
@@ -79,6 +103,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a WiFi disabled event.
+     */
     public void addWifiDisabledEvent() {
         if (isWifiEnabled) {
             addCheatingEvent(CheatingAction.WIFI_DISABLED);
@@ -86,6 +113,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds an airplane mode enabled event.
+     */
     public void addAirplaneModeEnabledEvent() {
         if (!isAirplaneModeEnabled) {
             addCheatingEvent(CheatingAction.AIRPLANE_MODE_ON);
@@ -93,6 +123,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds an airplane mode disabled event.
+     */
     public void addAirplaneModeDisabledEvent() {
         if (isAirplaneModeEnabled) {
             addCheatingEvent(CheatingAction.AIRPLANE_MODE_OFF);
@@ -100,6 +133,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a bluetooth enabled event.
+     */
     public void addBluetoothEnabledEvent() {
         if (!isBluetoothEnabled) {
             addCheatingEvent(CheatingAction.BLUETOOTH_ENABLED);
@@ -107,6 +143,9 @@ public class CheatingEvents {
         }
     }
 
+    /**
+     * Adds a bluetooth disabled event.
+     */
     public void addBluetoothDisabledEvent() {
         if (isBluetoothEnabled) {
             addCheatingEvent(CheatingAction.BLUETOOTH_DISABLED);
