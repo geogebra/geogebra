@@ -448,13 +448,6 @@ abstract public class Manager {
 	abstract protected void normal(double x, double y, double z);
 
 	/**
-	 * set normal towards Z+
-	 */
-	public void normalZ() {
-		normal(0, 0, 1);
-	}
-
-	/**
 	 * creates a normal at coordinates (x,y,z) (direct buffer mode)
 	 * 
 	 * @param x
