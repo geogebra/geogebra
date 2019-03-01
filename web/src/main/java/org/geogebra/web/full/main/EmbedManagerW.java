@@ -21,6 +21,9 @@ import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.full.main.embed.CalcEmbedElement;
+import org.geogebra.web.full.main.embed.EmbedElement;
+import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TestArticleElement;
@@ -29,12 +32,10 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Creates, deletes and resizes embedded applets.
@@ -45,7 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
-	private HashMap<DrawEmbed, Widget> widgets = new HashMap<>();
+	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
@@ -68,23 +69,21 @@ public class EmbedManagerW implements EmbedManager {
 		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			addExtension(drawEmbed);
 			if (content.get(drawEmbed.getEmbedID()) != null) {
-				setContent(widgets.get(drawEmbed).getElement(),
-						content.get(drawEmbed.getEmbedID()));
+				widgets.get(drawEmbed)
+						.setContent(content.get(drawEmbed.getEmbedID()));
 			}
 			return;
 		}
 		TestArticleElement parameters = new TestArticleElement("", "graphing");
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(
-				(AppletFactory) GWT.create(AppletFactory.class),
-				app.getLAF(), app.getDevice(), parameters);
+				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
+				app.getDevice(), parameters);
 
 		parameters.attr("showToolBar", "true")
 				.attr("scaleContainerClass", "embedContainer")
-				.attr("allowUpscale", "true")
-				.attr("showAlgebraInput", "true")
+				.attr("allowUpscale", "true").attr("showAlgebraInput", "true")
 				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
-				.attr("height",
-						drawEmbed.getGeoEmbed().getContentHeight() + "")
+				.attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
 				.attr("allowStyleBar", "true");
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
@@ -92,12 +91,10 @@ public class EmbedManagerW implements EmbedManager {
 			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
 
 		}
-		fr.setComputedWidth(
-				parameters.getDataParamWidth()
-						- parameters.getBorderThickness());
-		fr.setComputedHeight(
-				parameters.getDataParamHeight()
-						- parameters.getBorderThickness());
+		fr.setComputedWidth(parameters.getDataParamWidth()
+				- parameters.getBorderThickness());
+		fr.setComputedHeight(parameters.getDataParamHeight()
+				- parameters.getBorderThickness());
 		fr.runAsyncAfterSplash();
 
 		FlowPanel scaler = new FlowPanel();
@@ -105,6 +102,7 @@ public class EmbedManagerW implements EmbedManager {
 		parameters.setParentElement(scaler.getElement());
 
 		addToGraphics(scaler);
+		CalcEmbedElement calcEmbedElement = new CalcEmbedElement(fr);
 		if (currentBase64 != null) {
 			fr.getApplication().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
@@ -113,21 +111,8 @@ public class EmbedManagerW implements EmbedManager {
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
 		}
 
-		widgets.put(drawEmbed, fr);
+		widgets.put(drawEmbed, calcEmbedElement);
 	}
-
-	private native void setContent(Element element, String string) /*-{
-		$wnd.setTimeout(function() {
-			element.contentWindow.postMessage({
-				command : 'loadFromJSON',
-				gmm_id : 3,
-				args : {
-					json : string
-				}
-			}, 'https://graspablemath.com');
-		}, 5000);
-
-	}-*/;
 
 	private void addToGraphics(FlowPanel scaler) {
 		FlowPanel container = new FlowPanel();
@@ -140,17 +125,20 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {
-		Frame html = new Frame();
+		Frame iframe = new Frame();
 		FlowPanel scaler = new FlowPanel();
 		String id = "gm-div" + drawEmbed.getEmbedID();
-		html.getElement().setId(id);
-		scaler.add(html);
+		iframe.getElement().setId(id);
+		scaler.add(iframe);
 		scaler.setHeight("100%");
 		addToGraphics(scaler);
 
-		html.setUrl(drawEmbed.getGeoEmbed().getURL());
-		widgets.put(drawEmbed, html);
-		addListeners(html.getElement(), drawEmbed.getEmbedID());
+		String url = drawEmbed.getGeoEmbed().getURL();
+		iframe.setUrl(url);
+		EmbedElement value = url.contains("graspablemath.com")
+				? new GraspableEmbedElement(iframe) : new EmbedElement(iframe);
+		widgets.put(drawEmbed, value);
+		value.addListeners(drawEmbed.getEmbedID(), this);
 	}
 
 	/**
@@ -162,34 +150,6 @@ public class EmbedManagerW implements EmbedManager {
 	protected void storeContent(int embedID, String embedContent) {
 		this.content.put(embedID, embedContent);
 	}
-
-	private native void addListeners(Element element, int id) /*-{
-		$wnd.setTimeout(function() {
-			element.contentWindow.postMessage({
-				command : 'listen',
-				gmm_id : 1,
-				eventType : 'undoable-action'
-			}, 'https://graspablemath.com');
-		}, 5000);
-		var that = this;
-		window
-				.addEventListener(
-						'message',
-						function(msg) {
-							if (msg.data && msg.data.is_event) {
-								element.contentWindow.postMessage({
-									command : 'getAsJSON',
-									gmm_id : 2
-								}, 'https://graspablemath.com');
-							} else {
-								$wnd.console.log(msg);
-								if (msg.data && msg.data.gmm_id == 2) {
-									$wnd.console.log("store", msg.data.result);
-									that.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id,msg.data.result);
-								}
-							}
-						});
-	}-*/;
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
 			final TestArticleElement parameters) {
@@ -207,53 +167,37 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void update(DrawEmbed drawEmbed) {
-		Widget frame = widgets.get(drawEmbed);
-		Style style = frame.getParent().getParent().getElement().getStyle();
+		EmbedElement embedElement = widgets.get(drawEmbed);
+		Style style = embedElement.getGreatParent().getElement().getStyle();
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
-		frame.getParent().getParent().setSize(
+		embedElement.getGreatParent().setSize(
 				Math.abs(drawEmbed.getWidth()) + "px",
 				Math.abs(drawEmbed.getHeight()) + "px");
 		// above the oject canvas (50) and below MOW toolbar (51)
-		toggleBackground(frame, drawEmbed);
-		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
-			updateExtension();
-			return;
-		}
-		((GeoGebraFrameBoth) frame).getApplication().getGgbApi().setSize(
-				(int) drawEmbed.getGeoEmbed().getContentWidth(),
-				(int) drawEmbed.getGeoEmbed().getContentHeight());
-		frame.getElement().getStyle()
-				.setWidth((int) drawEmbed.getGeoEmbed().getContentWidth() - 2,
-						Unit.PX);
-		frame.getElement().getStyle()
-				.setHeight((int) drawEmbed.getGeoEmbed().getContentHeight() - 2,
-						Unit.PX);
-		((GeoGebraFrameBoth) frame).getApplication().checkScaleContainer();
+		toggleBackground(embedElement, drawEmbed);
+		int contentWidth = (int) drawEmbed.getGeoEmbed().getContentWidth();
+		int contentHeight = (int) drawEmbed.getGeoEmbed().getContentHeight();
+		embedElement.setSize(contentWidth, contentHeight);
 	}
 
-	private void updateExtension() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private static void toggleBackground(Widget frame,
+	private static void toggleBackground(EmbedElement frame,
 			DrawEmbed drawEmbed) {
-		Dom.toggleClass(frame.getParent().getParent(), "background",
+		Dom.toggleClass(frame.getGreatParent(), "background",
 				drawEmbed.getGeoEmbed().isBackground());
 	}
 
 	@Override
 	public void removeAll() {
-		for (Widget frame : widgets.values()) {
+		for (EmbedElement frame : widgets.values()) {
 			removeFrame(frame);
 		}
 		widgets.clear();
 	}
 
-	private static void removeFrame(Widget frame) {
-		frame.getParent().getParent().removeFromParent();
-		frame.getParent().getParent().getElement().removeFromParent();
+	private static void removeFrame(EmbedElement frame) {
+		frame.getGreatParent().removeFromParent();
+		frame.getGreatParent().getElement().removeFromParent();
 	}
 
 	@Override
@@ -264,11 +208,12 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void persist() {
-		for (Entry<DrawEmbed, Widget> e : widgets.entrySet()) {
-			if (e.getValue() instanceof GeoGebraFrameBoth) {
-				content.put(e.getKey().getEmbedID(),
-						getContent((GeoGebraFrameBoth) e.getValue()));
+		for (Entry<DrawEmbed, EmbedElement> e : widgets.entrySet()) {
+			String embedContent = e.getValue().getContentSync();
+			if (embedContent != null) {
+				content.put(e.getKey().getEmbedID(), embedContent);
 			}
+
 			// extensions have to update state asynchronously
 		}
 	}
@@ -295,13 +240,6 @@ public class EmbedManagerW implements EmbedManager {
 		}
 	}
 
-	private static String getContent(GeoGebraFrameBoth value) {
-
-		return JSON.stringify(
-				value.getApplication().getGgbApi().getFileJSON(false));
-
-	}
-
 	@Override
 	public void loadEmbeds(ZipFile archive) {
 		for (Entry<String, String> entry : ((GgbFile) archive).entrySet()) {
@@ -319,7 +257,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void backgroundAll() {
-		for (Entry<DrawEmbed, Widget> e : widgets.entrySet()) {
+		for (Entry<DrawEmbed, EmbedElement> e : widgets.entrySet()) {
 			e.getKey().getGeoEmbed().setBackground(true);
 			toggleBackground(e.getValue(), e.getKey());
 		}

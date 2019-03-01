@@ -173,12 +173,12 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public int getDataParamWidth() {
-		return Integer.parseInt(attributes.get("width"));
+		return getInt(attributes.get("width"));
 	}
 
 	@Override
 	public int getDataParamHeight() {
-		return Integer.parseInt(attributes.get("height"));
+		return getInt(attributes.get("height"));
 	}
 
 	@Override
@@ -446,6 +446,10 @@ public class TestArticleElement implements ArticleElementInterface {
 	@Override
 	public String getParamFullscreenContainer() {
 		return "";
+	}
+
+	private static int getInt(String number) {
+		return (int) Double.parseDouble(number);
 	}
 
 }
