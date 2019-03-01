@@ -3205,7 +3205,6 @@ __GGB__keysVar["ko"].menu = {
     "clockwise": "\uc2dc\uacc4 \ubc29\ud5a5",
     "counterClockwise": "\ubc18\uc2dc\uacc4 \ubc29\ud5a5",
     "dependent": "\uc758\uc874",
-    "dismiss": "dismiss",
     "emf": "emf",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["eo"].menu = {
     "clockwise": "dekstrume",
     "counterClockwise": "maldekstrume",
     "dependent": "dependa",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

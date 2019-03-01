@@ -3205,7 +3205,6 @@ __GGB__keysVar["sl"].menu = {
     "clockwise": "negativna smer (gibanje urinega kazalca)",
     "counterClockwise": "pozitivna smer (nasprotna smer gibanja urinega kazalca)",
     "dependent": "odvisno",
-    "dismiss": "dismiss",
     "emf": "Raz\u0161irjen meta format",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["xh"].menu = {
     "clockwise": "NgecalaLewotshi",
     "counterClockwise": "counterclockwise",
     "dependent": "xhomekeke",
-    "dismiss": "dismiss",
     "emf": "iMetafile eEnhanced",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

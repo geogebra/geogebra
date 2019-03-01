@@ -3205,7 +3205,6 @@ __GGB__keysVar["et"].menu = {
     "clockwise": "p\xe4rip\xe4eva",
     "counterClockwise": "vastup\xe4eva",
     "dependent": "s\xf5ltuv",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

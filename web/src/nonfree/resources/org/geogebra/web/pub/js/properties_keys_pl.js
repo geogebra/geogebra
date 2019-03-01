@@ -3205,7 +3205,6 @@ __GGB__keysVar["pl"].menu = {
     "clockwise": "zgodnie z ruchem wskaz\xf3wek zegara",
     "counterClockwise": "W kierunku przeciwnym do ruchu wskaz\xf3wek zegara",
     "dependent": "zale\u017cny",
-    "dismiss": "dismiss",
     "emf": "emf",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

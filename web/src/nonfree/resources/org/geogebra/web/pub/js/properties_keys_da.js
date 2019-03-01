@@ -3205,7 +3205,6 @@ __GGB__keysVar["da"].menu = {
     "clockwise": "med uret",
     "counterClockwise": "mod uret",
     "dependent": "afh\xe6ngig",
-    "dismiss": "dismiss",
     "emf": "Udvidet metafil",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

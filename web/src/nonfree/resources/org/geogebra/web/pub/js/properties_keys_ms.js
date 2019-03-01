@@ -3205,7 +3205,6 @@ __GGB__keysVar["ms"].menu = {
     "clockwise": "ikut arah jam",
     "counterClockwise": "lawan arah jam",
     "dependent": "bersandar",
-    "dismiss": "dismiss",
     "emf": "Metafile Dipertingkatkan",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

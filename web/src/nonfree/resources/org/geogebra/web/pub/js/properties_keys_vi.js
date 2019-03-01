@@ -3205,7 +3205,6 @@ __GGB__keysVar["vi"].menu = {
     "clockwise": "theo chi\u1ec1u kim \u0111\u1ed3ng h\u1ed3",
     "counterClockwise": "ng\u01b0\u1ee3c chi\u1ec1u kim \u0111\u1ed3ng h\u1ed3",
     "dependent": "s\u1ef1 ph\u1ee5 thu\u1ed9c",
-    "dismiss": "dismiss",
     "emf": "\u0111u\xf4i .emf",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["tr"].menu = {
     "clockwise": "saat y\xf6n\xfcnde",
     "counterClockwise": "saatin tersi y\xf6n\xfcnde",
     "dependent": "ba\u011f\u0131ml\u0131",
-    "dismiss": "dismiss",
     "emf": "Geli\u015ftirilmi\u015f Meta Bi\xe7im (emf)",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

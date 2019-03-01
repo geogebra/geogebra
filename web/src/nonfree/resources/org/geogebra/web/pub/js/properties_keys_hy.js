@@ -3205,7 +3205,6 @@ __GGB__keysVar["hy"].menu = {
     "clockwise": "\u053a\u0561\u0574\u057d\u056c\u0561\u0584\u056b \u0578\u0582\u0572\u0572\u0578\u0582\u0569\u0575\u0561\u0574\u0562",
     "counterClockwise": "\u053a\u0561\u0574\u057d\u056c\u0561\u0584\u056b \u0570\u0561\u056f\u0561\u057c\u0561\u056f \u0578\u0582\u0572\u0572\u0578\u0582\u0569\u0575\u0561\u0574\u0562",
     "dependent": "\u053f\u0561\u056d\u0575\u0561\u056c",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

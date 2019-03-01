@@ -3205,7 +3205,6 @@ __GGB__keysVar["nl-NL"].menu = {
     "clockwise": "wijzerzin",
     "counterClockwise": "tegenwijzerzin",
     "dependent": "afhankelijk",
-    "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

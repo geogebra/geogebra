@@ -3205,7 +3205,6 @@ __GGB__keysVar["cy"].menu = {
     "clockwise": "clocwedd",
     "counterClockwise": "gwrthglocwedd",
     "dependent": "dibynnol",
-    "dismiss": "dismiss",
     "emf": "EMF",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

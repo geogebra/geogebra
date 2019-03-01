@@ -3205,7 +3205,6 @@ __GGB__keysVar["sk"].menu = {
     "clockwise": "v smere hodinov\xfdch ru\u010di\u010diek",
     "counterClockwise": "proti smeru hodinov\xfdch ru\u010di\u010diek",
     "dependent": "z\xe1visl\xe1",
-    "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

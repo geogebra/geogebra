@@ -3205,7 +3205,6 @@ __GGB__keysVar["cs"].menu = {
     "clockwise": "ve sm\u011bru hodin(-)",
     "counterClockwise": "proti sm\u011bru hodin (+)",
     "dependent": "z\xe1visl\xfd",
-    "dismiss": "dismiss",
     "emf": "roz\u0161\xed\u0159en\xfd metaform\xe1t",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

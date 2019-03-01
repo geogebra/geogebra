@@ -3205,7 +3205,6 @@ __GGB__keysVar["id"].menu = {
     "clockwise": "searah jarum jam",
     "counterClockwise": "berlawanan arah jarum jam",
     "dependent": "terikat",
-    "dismiss": "dismiss",
     "emf": "Tingkatkan Kualitas Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

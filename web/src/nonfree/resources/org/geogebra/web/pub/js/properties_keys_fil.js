@@ -3205,7 +3205,6 @@ __GGB__keysVar["fil"].menu = {
     "clockwise": "clockwise",
     "counterClockwise": "counter clockwise",
     "dependent": "Umaasa",
-    "dismiss": "dismiss",
     "emf": "Pinalakas na Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

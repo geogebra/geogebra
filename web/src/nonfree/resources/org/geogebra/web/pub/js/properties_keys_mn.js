@@ -3205,7 +3205,6 @@ __GGB__keysVar["mn"].menu = {
     "clockwise": "\u0426\u0430\u0433\u0438\u0439\u043d \u0437\u04af\u04af\u043d\u0438\u0439 \u0434\u0430\u0433\u0443\u0443",
     "counterClockwise": "\u0426\u0430\u0433\u0438\u0439\u043d \u0437\u04af\u04af\u043d\u0438\u0439 \u044d\u0441\u0440\u044d\u0433",
     "dependent": "\u0425\u0430\u043c\u0430\u0430\u0440\u0430\u043b\u0442\u0430\u0439",
-    "dismiss": "dismiss",
     "emf": "\u0421\u0430\u0439\u0436\u0438\u0440\u0441\u0430\u043d \u041c\u0435\u0442\u0430\u0444\u0430\u0439\u043b",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["ca-XV"].menu = {
     "clockwise": "sentit horari",
     "counterClockwise": "sentit antihorari",
     "dependent": "dependent",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile Format (EMF)",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

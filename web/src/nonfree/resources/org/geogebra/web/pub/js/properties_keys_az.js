@@ -3205,7 +3205,6 @@ __GGB__keysVar["az"].menu = {
     "clockwise": "saat \u0259qr\u0259bi istiqam\u0259tind\u0259",
     "counterClockwise": "saat \u0259qr\u0259bi istiqam\u0259tinin \u0259ksin\u0259",
     "dependent": "dependent",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["lt"].menu = {
     "clockwise": "pagal laikrod\u017eio rodykl\u0119",
     "counterClockwise": "prie\u0161 laikrod\u017eio rodykl\u0119",
     "dependent": "priklausomas",
-    "dismiss": "dismiss",
     "emf": "Padidintas Meta-dokumentas",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

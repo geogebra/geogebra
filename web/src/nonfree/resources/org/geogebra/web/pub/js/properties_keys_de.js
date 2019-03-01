@@ -3205,7 +3205,6 @@ __GGB__keysVar["de"].menu = {
     "clockwise": "Im Uhrzeigersinn",
     "counterClockwise": "Gegen den Uhrzeigersinn",
     "dependent": "abh\xe4ngig",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "Keine Dateien",
     "emptyMaterialList.info.mow": "Dateien, die Sie hinzuf\xfcgen, werden hier angezeigt",

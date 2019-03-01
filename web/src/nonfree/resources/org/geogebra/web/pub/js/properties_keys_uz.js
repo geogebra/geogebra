@@ -3205,7 +3205,6 @@ __GGB__keysVar["uz"].menu = {
     "clockwise": "Soat mili bo'yicha",
     "counterClockwise": "soat miliga qarshi",
     "dependent": "erksiz",
-    "dismiss": "dismiss",
     "emf": "EMF fayl",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["ta"].menu = {
     "clockwise": "\u0bb5\u0bb2\u0b9e\u0bcd\u0b9a\u0bc1\u0bb4\u0bbf",
     "counterClockwise": "\u0b87\u0b9f\u0b9e\u0bcd\u0b9a\u0bc1\u0bb4\u0bbf",
     "dependent": "\u0b9a\u0bbe\u0bb0\u0bcd\u0ba8\u0bcd\u0ba4\u0bc1\u0bb3\u0bcd\u0bb3",
-    "dismiss": "dismiss",
     "emf": "\u0bae\u0bbf\u0b95\u0bc8\u0baa\u0bcd\u0baa\u0b9f\u0bc1\u0ba4\u0bcd\u0ba4\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

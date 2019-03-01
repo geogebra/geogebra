@@ -3205,7 +3205,6 @@ __GGB__keysVar["zh-CN"].menu = {
     "clockwise": "\u987a\u65f6\u9488",
     "counterClockwise": "\u9006\u65f6\u9488\u65b9\u5411",
     "dependent": "\u76f8\u5173",
-    "dismiss": "dismiss",
     "emf": "\u589e\u5f3a\u578b\u56fe\u5143\u6587\u4ef6",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

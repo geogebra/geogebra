@@ -3205,7 +3205,6 @@ __GGB__keysVar["sr"].menu = {
     "clockwise": "u smeru kazaljke na satu",
     "counterClockwise": "suprotno od smera kazaljke na satu",
     "dependent": "zavisno",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

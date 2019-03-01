@@ -3205,7 +3205,6 @@ __GGB__keysVar["pt-PT"].menu = {
     "clockwise": "sentido hor\xe1rio",
     "counterClockwise": "sentido anti-hor\xe1rio",
     "dependent": "dependente",
-    "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

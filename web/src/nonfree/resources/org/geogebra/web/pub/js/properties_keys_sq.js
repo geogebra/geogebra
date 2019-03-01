@@ -3205,7 +3205,6 @@ __GGB__keysVar["sq"].menu = {
     "clockwise": "Orar",
     "counterClockwise": "Kunder-Orar",
     "dependent": "i Varur",
-    "dismiss": "dismiss",
     "emf": "Pas-Dokument i Fuqizuar",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

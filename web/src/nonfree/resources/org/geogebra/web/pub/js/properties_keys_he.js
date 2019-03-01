@@ -3205,7 +3205,6 @@ __GGB__keysVar["he"].menu = {
     "clockwise": "\u05e2\u05dd \u05db\u05d9\u05d5\u05d5\u05df \u05d4\u05e9\u05e2\u05d5\u05df",
     "counterClockwise": "\u05e0\u05d2\u05d3 \u05db\u05d9\u05d5\u05d5\u05df \u05d4\u05e9\u05e2\u05d5\u05df",
     "dependent": "\u05ea\u05dc\u05d5\u05d9",
-    "dismiss": "dismiss",
     "emf": "emf",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

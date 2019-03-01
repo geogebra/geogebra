@@ -3205,7 +3205,6 @@ __GGB__keysVar["hu"].menu = {
     "clockwise": "\xf3raj\xe1r\xe1ssal egyez\u0151 ir\xe1nyba (-)",
     "counterClockwise": "\xf3raj\xe1r\xe1ssal ellent\xe9tes ir\xe1nyba (+)",
     "dependent": "f\xfcgg\u0151",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile (.emf)",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

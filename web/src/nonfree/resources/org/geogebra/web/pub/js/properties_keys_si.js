@@ -3205,7 +3205,6 @@ __GGB__keysVar["si"].menu = {
     "clockwise": "\u0daf\u0d9a\u0dca\u0dc2\u0dd2\u0dab\u0dcf\u0dc0\u0dbb\u0dca\u0dad",
     "counterClockwise": "\u0dc0\u0dcf\u0db8\u0dcf\u0dc0\u0dbb\u0dca\u0dad",
     "dependent": "\u0db4\u0dbb\u0dc0\u0dc1",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

@@ -3205,7 +3205,6 @@ __GGB__keysVar["lv"].menu = {
     "clockwise": "pulkste\u0146r\u0101d\u012bt\u0101jvierziens",
     "counterClockwise": "pret\u0113ji pulkste\u0146r\u0101d\u012bt\u0101ja virzienam",
     "dependent": "atkar\u012bgs",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

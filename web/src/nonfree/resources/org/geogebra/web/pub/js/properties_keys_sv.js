@@ -3205,7 +3205,6 @@ __GGB__keysVar["sv"].menu = {
     "clockwise": "medurs",
     "counterClockwise": "moturs",
     "dependent": "beroende",
-    "dismiss": "dismiss",
     "emf": "Enhanced Meta Format",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

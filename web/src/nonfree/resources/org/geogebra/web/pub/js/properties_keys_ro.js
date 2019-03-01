@@ -3205,7 +3205,6 @@ __GGB__keysVar["ro"].menu = {
     "clockwise": "sensul acelor de ceasornic",
     "counterClockwise": "Contor sensul acelor de ceasornic",
     "dependent": "dependent",
-    "dismiss": "dismiss",
     "emf": "Metafile consolidat",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",

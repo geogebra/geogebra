@@ -3205,7 +3205,6 @@ __GGB__keysVar["ru"].menu = {
     "clockwise": "\u043f\u043e \u0447\u0430\u0441\u043e\u0432\u043e\u0439 \u0441\u0442\u0440\u0435\u043b\u043a\u0435",
     "counterClockwise": "\u043f\u0440\u043e\u0442\u0438\u0432 \u0447\u0430\u0441\u043e\u0432\u043e\u0439 \u0441\u0442\u0440\u0435\u043b\u043a\u0438",
     "dependent": "\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u044b\u0439",
-    "dismiss": "dismiss",
     "emf": "Enhanced Metafile",
     "emptyMaterialList.caption.mow": "No Files",
     "emptyMaterialList.info.mow": "Files you add will appear here",
