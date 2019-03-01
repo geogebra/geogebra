@@ -3,7 +3,6 @@ package org.geogebra.common.main.exam;
 import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
-import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
+import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.settings.Settings;
@@ -36,6 +36,7 @@ public class ExamEnvironment {
 	private boolean wasTaskLocked;
 	private TimeFormatAdapter timeFormatter;
 	private CommandFilter nonExamCommandFilter;
+	private static OutputFilter outputFilter = new OutputFilter();
 
 	/**
 	 * application
@@ -541,10 +542,6 @@ public class ExamEnvironment {
 	 * @return whether the equation should be hidden
 	 */
 	public static boolean isProtectedEquation(GeoElement eqn) {
-		App app = eqn.getKernel().getApplication();
-		return app.isExamStarted()
-				&& !app.getSettings().getCasSettings().isEnabled()
-				&& eqn.getParentAlgorithm() != null
-				&& eqn.getParentAlgorithm().getClassName() != Algos.Expression;
+		return !outputFilter.isAllowed(eqn);
 	}
 }
