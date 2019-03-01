@@ -828,12 +828,16 @@ abstract public class ManagerShaders extends Manager {
 
 		startGeometry(Manager.Type.TRIANGLE_STRIP);
 		texture(0, 0);
+		normalZ();
 		vertexInt(x, y, z);
 		texture(1, 0);
+		normalZ();
 		vertexInt(x + width, y, z);
 		texture(0, 1);
+		normalZ();
 		vertexInt(x, y + height, z);
 		texture(1, 1);
+		normalZ();
 		vertexInt(x + width, y + height, z);
 		endGeometry();
 
