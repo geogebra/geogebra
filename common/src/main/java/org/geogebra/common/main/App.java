@@ -252,8 +252,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * geogebra.common.euclidian.DrawPoint)
 	 */
 	protected int capturingThreshold = DEFAULT_THRESHOLD;
+    /** factor mouse to touch events */
+	static final private int TOUCH_FACTOR = 3;
 	/** on touch devices we want larger threshold for point hit testing */
-	protected int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
+	protected int capturingThresholdTouch = TOUCH_FACTOR * DEFAULT_THRESHOLD;
 
 	/* Font settings */
 	/**
@@ -597,6 +599,15 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return type == PointerEventType.TOUCH ? this.capturingThresholdTouch
 				: this.capturingThreshold;
 	}
+
+    /**
+     * @param type
+     *            mouse or touch
+     * @return factor
+     */
+    public int getFactorFor(PointerEventType type) {
+        return type == PointerEventType.TOUCH ? TOUCH_FACTOR : 1;
+    }
 
 	/**
 	 * @param i

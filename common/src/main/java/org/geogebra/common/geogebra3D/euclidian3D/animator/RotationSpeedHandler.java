@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.UtilFactory;
 
 /**
@@ -19,6 +20,8 @@ public class RotationSpeedHandler {
 
 	private double[] speeds;
 
+	private PointerEventType pointerEventType;
+
 	/**
 	 * constructor
 	 */
@@ -32,11 +35,12 @@ public class RotationSpeedHandler {
 	 * @param x
 	 *            origin value
 	 */
-	public void setStart(double x) {
+	public void setStart(double x, PointerEventType pointerEventType) {
 		timeOld = UtilFactory.getPrototype().getMillisecondTime();
 		lastDelay = Double.POSITIVE_INFINITY;
 		xOld = x;
 		index = 0;
+		this.pointerEventType = pointerEventType;
 	}
 
 	/**
@@ -82,4 +86,11 @@ public class RotationSpeedHandler {
 		return sum / SAMPLES;
 	}
 
+    /**
+     *
+     * @return pointer event type for the current (last) rotation
+     */
+    public PointerEventType getPointerEventType() {
+        return pointerEventType;
+    }
 }

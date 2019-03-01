@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.input3D;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.factories.UtilFactory;
@@ -647,7 +648,7 @@ abstract public class Input3D implements Input3DConstants {
 
 		if (view3D.getApplication()
 				.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			getEuclidianController().getRotationSpeedHandler().setStart(0);
+			getEuclidianController().getRotationSpeedHandler().setStart(0, PointerEventType.MOUSE);
 		} else {
 			getEuclidianController().setTimeOld(
 					UtilFactory.getPrototype().getMillisecondTime());

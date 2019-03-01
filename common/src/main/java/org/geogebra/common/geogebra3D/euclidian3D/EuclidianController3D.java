@@ -1921,7 +1921,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (viewHasHitsForMouseDragged()) {
 			// maybe needed if geo hitted is not moveable
-			processPressForRotate3D();
+			processPressForRotate3D(event == null ? PointerEventType.MOUSE : event.getType());
 			return;
 		}
 		temporaryMode = true;
@@ -1930,7 +1930,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		switchModeForMousePressed(event);
 	}
 
-	private void processPressForRotate3D() {
+	private void processPressForRotate3D(PointerEventType pointerEventType) {
 		if (view3D.isRotAnimated()) {
 			view3D.stopAnimation();
 			viewRotationOccured = true;
@@ -1942,7 +1942,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		getView().setCursor(EuclidianCursor.DEFAULT);
 
 		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			rotationSpeedHandler.setStart(startLoc.x);
+			rotationSpeedHandler.setStart(startLoc.x, pointerEventType);
 		} else {
 			timeOld = UtilFactory.getPrototype().getMillisecondTime();
 			xOld = startLoc.x;
@@ -2212,11 +2212,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void switchModeForMousePressed(AbstractEvent e) {
-		// needed to stop animated rotation
-		processPressForRotate3D();
+        Hits hits;
+        PointerEventType type = e.getType();
 
-		Hits hits;
-		PointerEventType type = e.getType();
+		// needed to stop animated rotation
+		processPressForRotate3D(type);
+
 		switch (mode) {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:

@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
@@ -99,7 +100,10 @@ public class EuclidianView3DAnimator {
 		}
 
 		// if speed is too small, no animation
-		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED * view3D.dipToPxFactor()) {
+		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED
+                * view3D.getApplication().getFactorFor(
+                        ((EuclidianController3D )view3D.getEuclidianController())
+                                .getRotationSpeedHandler().getPointerEventType())) {
 			stopAnimation();
 			return;
 		}
