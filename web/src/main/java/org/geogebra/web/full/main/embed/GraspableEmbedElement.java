@@ -70,7 +70,8 @@ public class GraspableEmbedElement extends EmbedElement {
 		getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
 		getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
 		Browser.scale(getElement(),
-				contentWidth / getGreatParent().getElement().getOffsetWidth(),
+				getGreatParent().getElement().getOffsetWidth()
+						/ (double) contentWidth,
 				0, 0);
 	}
 
