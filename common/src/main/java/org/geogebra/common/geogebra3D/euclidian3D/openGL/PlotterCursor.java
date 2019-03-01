@@ -219,6 +219,12 @@ public class PlotterCursor {
 		manager.vertex(x, y, z);
 	}
 
+	private void tnv(float x, float y, float z) {
+		manager.texture(0, 0);
+		manager.normal(x, y, z);
+		vertex(x, y, z);
+	}
+
 	private void quad(float x1, float y1, float z1, float x2, float y2,
 			float z2, float x3, float y3, float z3, float x4, float y4,
 			float z4) {
@@ -230,6 +236,19 @@ public class PlotterCursor {
 		vertex(x1, y1, z1);
 		vertex(x3, y3, z3);
 		vertex(x4, y4, z4);
+	}
+
+	private void quadTNV(float x1, float y1, float z1, float x2, float y2,
+			float z2, float x3, float y3, float z3, float x4, float y4,
+			float z4) {
+
+		tnv(x1, y1, z1);
+		tnv(x2, y2, z2);
+		tnv(x3, y3, z3);
+
+		tnv(x1, y1, z1);
+		tnv(x3, y3, z3);
+		tnv(x4, y4, z4);
 	}
 
 	/**
@@ -520,11 +539,10 @@ public class PlotterCursor {
 		color(gray, gray, gray, alpha);
 
 		int latitude = 8;
-		float r1 = 1f;
 
 		float d = (float) (0.5 * Math.PI / latitude);
 
-		float rcjp = r1;
+		float rcjp = 1f;
 		float z3 = 0;
 
 		for (int j = 0; j < latitude; j++) {
@@ -534,10 +552,10 @@ public class PlotterCursor {
 			float y2 = 0f;
 			float z1 = z3;
 
-			rcjp = (float) (r1 * Math.cos((j + 1) * d));
+			rcjp = (float) (Math.cos((j + 1) * d));
 			float x3 = rcjp;
 			float y3 = 0f;
-			z3 = (float) (r1 * Math.sin((j + 1) * d));
+			z3 = (float) (Math.sin((j + 1) * d));
 
 			for (int i = 0; i < 4 * latitude; i++) {
 
@@ -556,9 +574,9 @@ public class PlotterCursor {
 				x3 = ci * rcjp;
 				y3 = si * rcjp;
 
-				quad(x1, y1, z1, x2, y2, z1, x3, y3, z3, x4, y4, z3);
+				quadTNV(x1, y1, z1, x2, y2, z1, x3, y3, z3, x4, y4, z3);
 
-				quad(x1, y1, -z1, x4, y4, -z3, x3, y3, -z3, x2, y2, -z1);
+				quadTNV(x1, y1, -z1, x4, y4, -z3, x3, y3, -z3, x2, y2, -z1);
 
 			}
 		}
