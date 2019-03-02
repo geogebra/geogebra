@@ -2588,7 +2588,7 @@ __GGB__keysVar["it"].menu = {
     "Ruling": "Rigatura",
     "SMARTBoardConnectionError": "Non \xe8 possibile collegarsi alla LIM SMART. Verifica che i driver siano correttamente installati.",
     "SMARTBoardDLLErrorA": "Non \xe8 possibile trovare il file necessario \"%0\"",
-    "STL.Thickness": "Thickness",
+    "STL.Thickness": "Spessore",
     "Sample": "Campione",
     "Sample1": "Campione 1",
     "Sample2": "Campione 2",
