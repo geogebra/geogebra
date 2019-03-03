@@ -3399,17 +3399,17 @@ __GGB__keysVar["ja"].menu = {
     "unequal": "\u7b49\u3057\u304f\u306a\u3044",
     "units": "\u5358\u4f4d\uff08\u79d2\uff09",
     "vertical": "\u925b\u76f4\u306a",
-    "xAxis": "xAxis",
+    "xAxis": "x\u8ef8",
     "xOyPlane": "xOy\u5e73\u9762",
     "xmax": "x\u6700\u5927",
     "xmin": "x \u6700\u5c0f",
     "xstep": "X \u5897\u5206",
-    "yAxis": "yAxis",
+    "yAxis": "y\u8ef8",
     "yIntercept": "y \u5207\u7247",
     "ymax": "y \u6700\u5927",
     "ymin": "y \u6700\u5c0f",
     "ystep": "Y \u5897\u5206",
-    "zAxis": "zAxis",
+    "zAxis": "z\u8ef8",
 };
 
 
