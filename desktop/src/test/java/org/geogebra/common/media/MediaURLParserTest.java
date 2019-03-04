@@ -123,6 +123,19 @@ public class MediaURLParserTest {
 
 	}
 
+	@Test
+	public void checkGMurls() {
+		Assert.assertEquals("https://graspablemath.com/canvas/embed",
+				MediaURLParser.getEmbedURL("https://graspablemath.com/canvas"));
+		Assert.assertEquals("https://graspablemath.com/canvas/embed",
+				MediaURLParser
+						.getEmbedURL("https://graspablemath.com/canvas/"));
+		Assert.assertEquals(
+				"https://graspablemath.com/canvas/embed?load=_cf2211995a50b4a0",
+				MediaURLParser.getEmbedURL(
+						"https://graspablemath.com/canvas?load=_cf2211995a50b4a0"));
+	}
+
 	public static void checkVideo(String url,
 			AsyncOperation<VideoURL> callback) {
 		callback.callback(MediaURLParser.checkVideo(url));
