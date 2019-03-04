@@ -69,7 +69,7 @@ public class LoginOperationW extends LogInOperation {
 						function(event) {
 							var data;
 							//later if event.origin....
-							if (event.data) {
+							if (typeof event.data == "string") {
 								try {
 									data = $wnd.JSON.parse(event.data);
 									if (data.action === "logintoken") {

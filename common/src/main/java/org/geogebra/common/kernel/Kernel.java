@@ -3287,26 +3287,56 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return getXmax();
 	}
 
+	/**
+	 * @param i
+	 *            view index
+	 * @return max x-coord
+	 */
 	final public double getXmax(int i) {
 		return xmax[i];
 	}
 
+	/**
+	 * @param i
+	 *            view index
+	 * @return min x-coord
+	 */
 	final public double getXmin(int i) {
 		return xmin[i];
 	}
 
+	/**
+	 * @param i
+	 *            view index
+	 * @return max y-coord
+	 */
 	final public double getYmax(int i) {
 		return ymax[i];
 	}
 
+	/**
+	 * @param i
+	 *            view index
+	 * @return min y-coord
+	 */
 	final public double getYmin(int i) {
 		return ymin[i];
 	}
 
+	/**
+	 * @param i
+	 *            view index
+	 * @return y-scale
+	 */
 	final public double getYscale(int i) {
 		return yscale[i];
 	}
 
+	/**
+	 * @param i
+	 *            view index
+	 * @return x-scale
+	 */
 	final public double getXscale(int i) {
 		return xscale[i];
 	}
@@ -3433,10 +3463,17 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return ggbCAS;
 	}
 
+	/**
+	 * @return coordinate style
+	 */
 	final public int getCoordStyle() {
 		return coordStyle;
 	}
 
+	/**
+	 * @param coordStlye
+	 *            coordinate style
+	 */
 	public void setCoordStyle(int coordStlye) {
 		coordStyle = coordStlye;
 	}
@@ -3594,19 +3631,24 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			viewBounds[4] = Math.max(viewBounds[4], ev.getXscale());
 			viewBounds[5] = Math.max(viewBounds[5], ev.getYscale());
 		}
-
 	}
 
+	/**
+	 * @return x-axis
+	 */
 	final public GeoAxis getXAxis() {
 		return cons.getXAxis();
 	}
 
+	/**
+	 * @return y-axis
+	 */
 	final public GeoAxis getYAxis() {
 		return cons.getYAxis();
 	}
 
 	final public boolean isAxis(GeoElement geo) {
-		return ((geo == cons.getXAxis()) || (geo == cons.getYAxis()));
+		return (geo == cons.getXAxis()) || (geo == cons.getYAxis());
 	}
 
 	/**
