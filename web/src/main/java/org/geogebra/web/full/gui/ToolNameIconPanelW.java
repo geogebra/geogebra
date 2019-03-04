@@ -52,6 +52,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	private Macro macro;
 	private MacroChangeListener listener;
 	
+	/**
+	 * Change listener
+	 */
 	public interface MacroChangeListener {
 		/**
 		 * @param macro
@@ -252,22 +255,37 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 
 	}
 
+	/**
+	 * @return command name
+	 */
 	public String getCommandName() {
 		return tfCmdName.getText();
 	}
 
+	/**
+	 * @return tool name
+	 */
 	public String getToolName() {
 		return tfToolName.getText();
 	}
 
+	/**
+	 * @return tool help
+	 */
 	public String getToolHelp() {
 		return tfToolHelp.getText();
 	}
 
+	/**
+	 * @return whether tool is shown in toolbar
+	 */
 	public boolean getShowTool() {
 		return showTool.getValue();
 	}
 
+	/**
+	 * @return icon filename
+	 */
 	public String getIconFileName() {
 		return iconFileName;
 	}
