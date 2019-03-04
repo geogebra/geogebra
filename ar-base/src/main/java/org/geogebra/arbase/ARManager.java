@@ -26,7 +26,7 @@ abstract public class ARManager<TouchEventType> {
     protected Coords rayEndOrigin = new Coords(3);
     private Coords translationOffset = new Coords(3);
     private Coords previousTranslationOffset = new Coords(3);
-    protected Coords mPosXY = new Coords(2);
+    private Coords mPosXY = new Coords(2);
 
     protected float mDistance;
     protected boolean objectIsRendered = false;
@@ -194,5 +194,17 @@ abstract public class ARManager<TouchEventType> {
             rayDirection.setSub3(cHitMatrix.getOrigin(), rayOrigin);
             rayDirection.normalize();
         }
+    }
+
+    protected void copyPosFromGestureManager() {
+        arGestureManager.copyXYPosition(mPosXY);
+    }
+
+    protected float getPosX() {
+        return (float) mPosXY.getX();
+    }
+
+    protected  float getPosY() {
+        return (float) mPosXY.getY();
     }
 }
