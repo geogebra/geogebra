@@ -605,10 +605,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		sb.append(f.getVarString(StringTemplate.defaultTemplate));
 		sb.append(",");
 		// #5130
-		sb.append(a.toValueString(StringTemplate.maxPrecision13));
+		sb.append(a.toValueString(StringTemplate.giacNumeric13));
 		sb.append(",");
 		// #5130
-		sb.append(b.toValueString(StringTemplate.maxPrecision13));
+		sb.append(b.toValueString(StringTemplate.giacNumeric13));
 		sb.append("))");
 
 		String result;

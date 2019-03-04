@@ -2345,6 +2345,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate((x,y,z) (({{1,2,3},{4,5,6},{7,8,9}}) (x,y,z)) + ({10, 11, 12}) (x,y,z))", result:"x\u00B2 + 5y\u00B2 + 9z\u00B2 + 6x y + 10x z + 14y z + 10x + 11y + 12z", notes:"https://help.geogebra.org/topic/applet-did-not-load" },
 { cat:"Solve", cmd:"Solve({(-3sin(a) + y = (-3a + x) cos(a)),TrigExpand((-cos(2a) + y = -2 (-a + x) sin(2a)))},{x,y})", result:"{{x = (3a tan(a / 2)\u2074 + 8a tan(a / 2)\u00B3 - 8a tan(a / 2) - 3a - tan(a / 2)\u2074 + 6tan(a / 2)\u00B3 + 6tan(a / 2)\u00B2 + 6tan(a / 2) - 1) / (tan(a / 2)\u2074 + 8tan(a / 2)\u00B3 - 8tan(a / 2) - 1), y = (16a tan(a / 2)\u00B3 - 16a tan(a / 2) + tan(a / 2)\u2074 + 42tan(a / 2)\u00B2 + 1) / (tan(a / 2)\u2074 + 8tan(a / 2)\u00B3 + 2tan(a / 2)\u00B2 + 8tan(a / 2) + 1)}}", notes:"result complex without TrigExpand(), CAS quirk" },
 { cat:"Solve", cmd:"Simplify(Solve({(-3sin(a) + y = (-3a + x) cos(a)),(-cos(2a) + y = -2 (-a + x) sin(2a))},{x,y}))", result:"{{x = (4a sin(a)\u00B3 + 3a sin(a)\u00B2 - 4a sin(a) - 3a + 2cos(a) sin(a)\u00B2 + 3cos(a) sin(a) - cos(a)) / (4sin(a)\u00B3 + sin(a)\u00B2 - 4sin(a) - 1), y = (-8a cos(a) sin(a) + 10sin(a)\u00B2 + 1) / (4sin(a) + 1)}}", notes:"result complex without Simplify(), CAS quirk" },
+{ cat:"Numeric", cmd:"Numeric(0.99999874^(16500))", result:"0.979424609317", round:"0.98" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },

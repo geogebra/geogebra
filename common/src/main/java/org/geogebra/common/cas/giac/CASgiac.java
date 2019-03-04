@@ -58,6 +58,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	protected static final Random rand = new Random();
 
 	/**
+	 * String that will force an error when evaluated in GeoGebra
+	 */
+	final public static String FORCE_ERROR = "(";
+
+	/**
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')
 	 * 
 	 */
@@ -698,13 +703,27 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 			return "true";
 		}
-
+		
 		// convert parsed input to Giac string
 		String giacInput = casParser.translateToCAS(casInput,
 				StringTemplate.giacTemplate, this);
 
 		// evaluate in Giac
 		String plainResult = evaluateCAS(giacInput);
+
+		// try again for undefined result
+		// eg Numeric(0.99999874^(16500))
+		// doesn't work in "exact" mode
+		if (isUndefined(plainResult) && cmd != null
+				&& "Numeric".equals(cmd.getName())) {
+			giacInput = casParser.translateToCAS(casInput,
+					StringTemplate.giacNumeric13, this);
+
+			// evaluate in Giac
+			plainResult = evaluateCAS(giacInput);
+
+		}
+
 		// get initial nr of vars
 		int nrOfVars = casParser.getNrOfVars();
 		StringBuilder newPlainResult = new StringBuilder();
@@ -733,6 +752,17 @@ public abstract class CASgiac implements CASGenericInterface {
 			return newPlainResult.toString();
 		}
 		return plainResult;
+	}
+
+	/**
+	 * 
+	 * @param result
+	 *            result from Giac to check
+	 * @return true if result is undefined
+	 */
+	public boolean isUndefined(String result) {
+		return "?".equals(result) || "".equals(result) || "undef".equals(result)
+				|| result == null;
 	}
 
 	/**

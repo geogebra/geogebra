@@ -234,6 +234,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacTemplate.localizeCmds = false;
 		giacTemplate.setType(StringType.GIAC);
 		giacTemplate.nf = FormatFactory.getPrototype().getNumberFormat(15);
+
 	}
 
 	/**
@@ -398,9 +399,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Default template, just increases precision to max 13 not 15 so that when
-	 * sent to Giac is treated as a double, not a multi-precision float (MPFR).
-	 * #5130
+	 * Just used for tests
 	 */
 	public static final StringTemplate maxPrecision13 = new StringTemplate(
 			"maxPrecision13");
@@ -411,13 +410,32 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxPrecision13.allowMoreDigits = true;
 		maxPrecision13.forceSF = true;
 		maxPrecision13.localizeCmds = false;
+		maxPrecision13.printFormPI = "3.141592653590";
+	}
+
+	/**
+	 * Default template, just increases precision to max 13 not 15 so that when
+	 * sent to Giac is treated as a double, not a multi-precision float (MPFR).
+	 * #5130
+	 */
+	public static final StringTemplate giacNumeric13 = new StringTemplate(
+			"giacNumeric13");
+
+	static {
+		giacNumeric13.sf = FormatFactory.getPrototype().getScientificFormat(13,
+				20, false);
+		giacNumeric13.allowMoreDigits = true;
+		giacNumeric13.forceSF = true;
+		giacNumeric13.localizeCmds = false;
+		giacNumeric13.setType(StringType.GIAC);
+
 		// don't want to use exact value otherwise Giac will do an exact
 		// calculation when we want approx
 		// eg Integral[sin(x) / (1 + a^2 - 2a cos(x)), 0, pi] in the Algebra
 		// View
 		// #5129, #5130
 
-		maxPrecision13.printFormPI = "3.141592653590";
+		giacNumeric13.printFormPI = "3.141592653590";
 	}
 
 	/**
