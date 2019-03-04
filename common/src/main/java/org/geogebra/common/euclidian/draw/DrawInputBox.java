@@ -278,7 +278,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void updateGeoInputBox() {
-		getGeoInputBox().updateText(getTextField());
+		AutoCompleteTextField tf = getTextField();
+		if (tf != null) {
+			getGeoInputBox().updateText(tf);
+		}
 
 	}
 
@@ -565,7 +568,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	/**
-	 * @return textfield
+	 * @return textfield (can be null if no implementation ie iOS, Android)
 	 */
 	public AutoCompleteTextField getTextField() {
 		return view.getTextField(getGeoInputBox(), this);
