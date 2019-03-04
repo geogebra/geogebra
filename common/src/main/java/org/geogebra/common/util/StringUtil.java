@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -1131,7 +1132,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			s = s.replace("E", "e");
 		}
 
-		if ("?".equals(s) || "undef".equals(s)) {
+		if (CASgiac.isUndefined(s)) {
 			return "undef";
 		}
 

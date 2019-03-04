@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.LegendreGaussIntegrator;
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -624,7 +625,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				result = result.split(",")[0];
 				result = result.substring(1);
 			}
-			if ("(".equals(result) || "undef".equals(result)) {
+			if (CASgiac.isUndefined(result)) {
 				this.validButUndefined = true;
 				n.setUndefined();
 				return;

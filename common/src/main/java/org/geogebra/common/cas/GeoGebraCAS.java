@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -239,8 +240,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				return null;
 			}
 			// invalid output -- don't cache
-			if ("?".equals(tmp) || "".equals(tmp) || "undef".equals(tmp)
-					|| tmp == null) {
+			if (CASgiac.isUndefined(tmp)) {
 				return null;
 			}
 

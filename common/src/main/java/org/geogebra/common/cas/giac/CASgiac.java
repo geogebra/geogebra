@@ -760,9 +760,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            result from Giac to check
 	 * @return true if result is undefined
 	 */
-	public boolean isUndefined(String result) {
+	public static boolean isUndefined(String result) {
 		return "?".equals(result) || "".equals(result) || "undef".equals(result)
-				|| result == null;
+				|| FORCE_ERROR.equals(result) || result == null;
 	}
 
 	/**
