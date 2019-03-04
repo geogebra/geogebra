@@ -26,6 +26,7 @@ abstract public class ARManager<TouchEventType> {
     protected Coords rayEndOrigin = new Coords(3);
     private Coords translationOffset = new Coords(3);
     private Coords previousTranslationOffset = new Coords(3);
+    protected Coords mPosXY = new Coords(2);
 
     protected float mDistance;
     protected boolean objectIsRendered = false;
@@ -121,9 +122,7 @@ abstract public class ARManager<TouchEventType> {
         scaleMatrix.setDiag(mScaleFactor);
 
         /* translating */
-        translationOffset.setX(rayEndOrigin.getX() - lastHitOrigin.getX());
-        translationOffset.setY(rayEndOrigin.getY() - lastHitOrigin.getY());
-        translationOffset.setZ(rayEndOrigin.getZ() - lastHitOrigin.getZ());
+        translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
     }
 
     protected void updateModelMatrix() {
@@ -159,13 +158,9 @@ abstract public class ARManager<TouchEventType> {
             arGestureManager.setUpdateOriginIsWanted(false);
             Coords modelOrigin = mModelMatrix.getOrigin();
             Coords anchorOrigin = mAnchorMatrix.getOrigin();
-            previousTranslationOffset.setX(modelOrigin.getX() - anchorOrigin.getX());
-            previousTranslationOffset.setY(modelOrigin.getY() - anchorOrigin.getY());
-            previousTranslationOffset.setZ(modelOrigin.getZ() - anchorOrigin.getZ());
+            previousTranslationOffset.setSub3(modelOrigin, anchorOrigin);
 
-            lastHitOrigin.setX(rayEndOrigin.getX());
-            lastHitOrigin.setY(rayEndOrigin.getY());
-            lastHitOrigin.setZ(rayEndOrigin.getZ());
+            lastHitOrigin.set3(rayEndOrigin);
         }
     }
 
