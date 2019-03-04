@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
@@ -206,7 +207,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 
-					if (AlgebraItem.isTextItem(geos[0])) {
+					if (AlgebraItem.isTextItem(geos[0]) && !(geos[0] instanceof AlgoFractionText)) {
 						geos[0].setEuclidianVisible(false);
 					}
 
