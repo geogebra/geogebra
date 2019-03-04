@@ -161,5 +161,5 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 			}
 			iterator.remove();
 		}
-	A}
+	}
 }
