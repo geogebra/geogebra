@@ -259,7 +259,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		setLabelFontSize((int) (view.getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier()));
 
-		updateGeoIntputBox();
+		updateGeoInputBox();
 		if (isSelectedForInput()) {
 			updateStyle(getTextField());
 		} else {
@@ -277,7 +277,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		getBox().setBounds(labelRectangle);
 	}
 
-	private void updateGeoIntputBox() {
+	private void updateGeoInputBox() {
 		getGeoInputBox().updateText(getTextField());
 
 	}
