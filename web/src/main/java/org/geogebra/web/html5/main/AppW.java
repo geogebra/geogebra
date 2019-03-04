@@ -3923,6 +3923,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// empty for webSimple
 	}
 
+	/**
+	 * Export in .obj 3D format
+	 */
 	public void exportObj() {
 		// empty for webSimple
 	}

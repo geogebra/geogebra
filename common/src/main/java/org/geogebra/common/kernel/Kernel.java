@@ -4439,7 +4439,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			getApplication().getVideoManager().storeVideos();
 		}
 		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().removeAll();
+			getApplication().getEmbedManager().storeEmbeds();
 		}
 	}
 
@@ -4449,6 +4449,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		app.getSelectionManager().recallSelectedGeosNames(this);
 		if (getApplication().getVideoManager() != null) {
 			getApplication().getVideoManager().clearStoredVideos();
+		}
+		if (getApplication().getEmbedManager() != null) {
+			getApplication().getEmbedManager().clearStoredEmbeds();
 		}
 	}
 

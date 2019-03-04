@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Undo manager common to Desktop and Web
@@ -420,5 +421,23 @@ public abstract class UndoManager {
 	 */
 	public void addUndoInfoStoredListener(UndoInfoStoredListener listener) {
 		undoInfoStoredListeners.add(listener);
+	}
+
+	/**
+	 * @param action
+	 *            action to be executed
+	 * @param id
+	 *            embed ID
+	 */
+	public void embeddedAction(EventType action, String id) {
+		if (app.getEmbedManager() != null) {
+			try {
+				int embedId = Integer.parseInt(id);
+				app.getEmbedManager().executeAction(action, embedId);
+			} catch(RuntimeException e){
+				Log.warn("Warn: No undo for " + id);
+			}
+			
+		}
 	}
 }

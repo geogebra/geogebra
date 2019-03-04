@@ -5,6 +5,9 @@ import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.dom.client.Style.Unit;
 
+/**
+ * Embedded GeoGebra calculator for Notes
+ */
 public class CalcEmbedElement extends EmbedElement {
 
 	private GeoGebraFrameBoth frame;

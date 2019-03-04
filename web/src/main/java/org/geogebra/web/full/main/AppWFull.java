@@ -1257,7 +1257,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void executeAction(EventType action, AppState state, String[] args) {
-		if (getPageController() != null) {
+		if (action == EventType.EMBEDDED_STORE_UNDO) {
+			getEmbedManager().executeAction(EventType.REDO,
+					Integer.parseInt(args[0]));
+		} else if (getPageController() != null) {
 			getPageController().executeAction(action, state, args);
 		}
 	}

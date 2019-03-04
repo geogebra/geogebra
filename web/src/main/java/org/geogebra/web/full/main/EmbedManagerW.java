@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -47,6 +48,8 @@ public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
 	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
+	// cache for undo: index by label, drawables will change on reload
+	private HashMap<String, EmbedElement> cache = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
@@ -168,6 +171,9 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void update(DrawEmbed drawEmbed) {
 		EmbedElement embedElement = widgets.get(drawEmbed);
+		if(embedElement == null){
+			return;
+		}
 		Style style = embedElement.getGreatParent().getElement().getStyle();
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
@@ -190,9 +196,41 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void removeAll() {
 		for (EmbedElement frame : widgets.values()) {
-			removeFrame(frame);
+				removeFrame(frame);
 		}
 		widgets.clear();
+	}
+
+	@Override
+	public void storeEmbeds() {
+		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+			cache.put(entry.getKey().getGeoElement().getLabelSimple(),
+					entry.getValue());
+		}
+		for (EmbedElement frame : widgets.values()) {
+			frame.setVisible(false);
+		}
+		widgets.clear();
+	}
+
+	@Override
+	public void clearStoredEmbeds() {
+		for (EmbedElement frame : cache.values()) {
+			removeFrame(frame);
+		}
+		cache.clear();
+	}
+
+	private void restoreEmbeds() {
+		for (Entry<String, EmbedElement> entry : cache.entrySet()) {
+			GeoElement geoEmbed = app.getKernel().lookupLabel(entry.getKey());
+			DrawEmbed drawEmbed = (DrawEmbed) app.getActiveEuclidianView()
+					.getDrawableFor(geoEmbed);
+			EmbedElement frame = entry.getValue();
+			widgets.put(drawEmbed, frame);
+			frame.setVisible(true);
+		}
+		cache.clear();
 	}
 
 	private static void removeFrame(EmbedElement frame) {
@@ -286,6 +324,28 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public MyImage getPreview(DrawEmbed drawEmbed) {
 		return preview;
+	}
+
+	/**
+	 * Store undo action in undo manager
+	 * 
+	 * @param id
+	 *            embed ID
+	 */
+	public void createUndoAction(int id) {
+		app.getKernel().getConstruction().getUndoManager()
+				.storeAction(EventType.EMBEDDED_STORE_UNDO,
+				String.valueOf(id));
+	}
+
+	@Override
+	public void executeAction(EventType action, int embedId) {
+		restoreEmbeds();
+		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+			if (entry.getKey().getEmbedID() == embedId) {
+				entry.getValue().executeAction(action);
+			}
+		}
 	}
 
 }

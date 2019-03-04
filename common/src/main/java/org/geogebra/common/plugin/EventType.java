@@ -123,7 +123,9 @@ public enum EventType {
 	/** Editing started for an object (or new input) */
 	EDITOR_START("editorStart"),
 	/** Editing stopped for an object (or new input) */
-	EDITOR_STOP("editorStop");
+	EDITOR_STOP("editorStop"),
+	/** Undoable event happened in external object */
+	EMBEDDED_STORE_UNDO("embeddedStoreUndo");
 
 	private String eventName;
 

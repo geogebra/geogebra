@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Updates, adds and removes embedded applets.
@@ -97,5 +98,23 @@ public interface EmbedManager {
 	 * @return preview image
 	 */
 	public MyImage getPreview(DrawEmbed drawEmbed);
+
+	/**
+	 * @param action
+	 *            event type
+	 * @param embedId
+	 *            ID of embedded element
+	 */
+	public void executeAction(EventType action, int embedId);
+
+	/**
+	 * Move embeds to chache so that they don't need rebuilding during undo
+	 */
+	public void storeEmbeds();
+
+	/**
+	 * Permanently remove cached embeds
+	 */
+	public void clearStoredEmbeds();
 
 }

@@ -78,9 +78,8 @@ public class EmbedInputDialog extends MediaDialog
 						@Override
 						public void onLoaded(List<Material> result,
 								ArrayList<Chapter> meta) {
-							getApplication().getEmbedManager()
-									.embed(result.get(0).getBase64());
-							hide();
+							String base64 = result.get(0).getBase64();
+							embedGeoGebraAndHide(base64);
 						}
 
 						@Override
@@ -91,6 +90,12 @@ public class EmbedInputDialog extends MediaDialog
 		} else {
 			urlChecker.check(url.replace("+", "%2B"), this);
 		}
+	}
+
+	protected void embedGeoGebraAndHide(String base64) {
+		getApplication().getEmbedManager().embed(base64);
+		app.storeUndoInfo();
+		hide();
 	}
 
 	@Override
@@ -126,6 +131,7 @@ public class EmbedInputDialog extends MediaDialog
 			ge.initPosition(app.getActiveEuclidianView());
 			ge.setEmbedId(app.getEmbedManager().nextID());
 			ge.setLabel(null);
+			app.storeUndoInfo();
 			hide();
 		} else {
 			showError(obj.getErrorKey());
