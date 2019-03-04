@@ -213,4 +213,10 @@ abstract public class ARManager<TouchEventType> {
         translationOffset.set(0,0,0);
         previousTranslationOffset.set(0,0,0);
     }
+
+    /**
+     * set first hit floor z value
+     * @param z altitude
+     */
+    abstract public void setFirstFloor(double z);
 }

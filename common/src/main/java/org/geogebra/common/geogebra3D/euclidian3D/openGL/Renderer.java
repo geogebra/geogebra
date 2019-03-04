@@ -2064,4 +2064,12 @@ public abstract class Renderer implements RendererInterface {
 	public BackgroundStyle getBackgroundStyle() {
 		return BackgroundStyle.OPAQUE;
 	}
+
+    /**
+     * set z-value for first floor hit in AR
+     * @param z altitude
+     */
+    public void setARFloorZ(double z) {
+        // only for AR
+    }
 }
