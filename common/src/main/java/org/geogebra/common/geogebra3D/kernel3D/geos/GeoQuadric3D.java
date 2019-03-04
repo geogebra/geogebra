@@ -62,7 +62,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };
 
-	private static String[] vars3DCAS = { "x\u00b2", "y\u00b2", "z\u00b2",
+	private static String[] vars3DCAS = { "x^2", "y^2", "z^2",
 			"x*y", "x*z", "y*z", "x", "y", "z" };
 
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.identity();

@@ -533,6 +533,8 @@ public abstract class GeoQuadricND extends GeoElement
 			StringTemplate tpl) {
 		String squared = tpl.squared();
 
+		String rsquared = kernel.format(getHalfAxis(0) * getHalfAxis(0), tpl);
+
 		for (int i = 0; i < dimension; i++) {
 			if (DoubleUtil.isZero(getMidpoint().get(i + 1))) {
 				sbToValueString.append(VAR_STRING[i]);
@@ -549,12 +551,21 @@ public abstract class GeoQuadricND extends GeoElement
 			if (i < dimension - 1) {
 				sbToValueString.append(" + ");
 			} else {
+
+				// want in ...=0 form for CAS
+				if (tpl.hasCASType()) {
+					sbToValueString.append("-");
+					sbToValueString.append(rsquared);
+					sbToValueString.append("=0");
+					return;
+
+				}
 				sbToValueString.append(" = ");
 			}
 		}
 
 		sbToValueString
-				.append(kernel.format(getHalfAxis(0) * getHalfAxis(0), tpl));
+				.append(rsquared);
 	}
 
 	/**
