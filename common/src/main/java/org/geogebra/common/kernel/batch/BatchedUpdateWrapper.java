@@ -149,8 +149,6 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 
 	@Override
 	public void onRun() {
-		wrappedView.startBatchUpdate();
-
 		Iterator<Event> iterator = pendingEvents.iterator();
 		while (iterator.hasNext()) {
 			Event event = iterator.next();
@@ -163,7 +161,5 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 			}
 			iterator.remove();
 		}
-
-		wrappedView.endBatchUpdate();
-	}
+	A}
 }
