@@ -29,8 +29,10 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
@@ -955,6 +957,39 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	private static boolean isEquation(ExpressionValue listElement,
 			MyList listOfVars) {
+
+		// eg Solve({c,d},{x,y})
+		// where c,d are Algebra View objects
+		if (listElement.unwrap() instanceof GeoConicND) {
+			if (listOfVars.size() == 2) {
+				String var0 = listOfVars.getListElement(0)
+						.toValueString(StringTemplate.defaultTemplate);
+				String var1 = listOfVars.getListElement(1)
+						.toValueString(StringTemplate.defaultTemplate);
+
+				// {x,y}
+				// {y,x} not checked
+				return "x".equals(var0) && "y".equals(var1);
+
+			}
+			return false;
+		} else if (listElement.unwrap() instanceof GeoQuadricND) {
+			if (listOfVars.size() == 3) {
+				String var0 = listOfVars.getListElement(0)
+						.toValueString(StringTemplate.defaultTemplate);
+				String var1 = listOfVars.getListElement(1)
+						.toValueString(StringTemplate.defaultTemplate);
+				String var2 = listOfVars.getListElement(2)
+						.toValueString(StringTemplate.defaultTemplate);
+
+				// {x,y,z}
+				// other orders eg {x,z,y} not checked
+				return "x".equals(var0) && "y".equals(var1) && "z".equals(var2);
+
+			}
+			return false;
+		}
+
 		boolean contains = true;
 		// fix for GGB-134
 		HashSet<GeoElement> varsInEqu = listElement
