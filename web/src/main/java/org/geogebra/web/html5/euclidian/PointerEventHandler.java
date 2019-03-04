@@ -168,12 +168,9 @@ public class PointerEventHandler {
 	 *            listening element (EV)
 	 * @param zoomer
 	 *            event handler
-	 * @param override
-	 *            whether to use the full pointer implementation that does not
-	 *            require further event handling
 	 */
-	public static native void attachTo(Element element, PointerEventHandler zoomer,
-			boolean override) /*-{
+	public static native void attachTo(Element element,
+			PointerEventHandler zoomer) /*-{
 		$wnd.first = {
 			id : -1
 		};
@@ -187,7 +184,7 @@ public class PointerEventHandler {
 			if(e.pointerType == 2 || e.pointerType == "touch"){
 				return 1;
 			}
-			if(e.pointerType == "pen" && override){
+			if(e.pointerType == "pen"){
 				return 2;
 			}
 			return 0;
@@ -229,14 +226,10 @@ public class PointerEventHandler {
 								}
 
 							}else{
-								if(override){
-									e.preventDefault();
-									zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
-								}
-							}
-							if(override){
 								e.preventDefault();
+								zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
 							}
+							e.preventDefault();
 							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::checkMoveLongTouch()();
 							
 						});
@@ -259,7 +252,7 @@ public class PointerEventHandler {
 								$wnd.first.y = e.y;
 							}
 							//prevent touch but not mouse: make sure focus is moved
-							if(override && getType(e) != 0){
+							if(getType(e) != 0){
 								e.preventDefault();
 							}
 							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(IZ)(getType(e), true);
@@ -268,7 +261,7 @@ public class PointerEventHandler {
 										.@org.geogebra.web.html5.euclidian.PointerEventHandler::twoPointersDown(DDDD)($wnd.first.x,
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
-							} else if(override){
+							} else {
 								zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleDown(DDII)(e.x, e.y, getType(e), getModifiers(e));
 							}
 							if (e.pointerType == 2 || e.pointerType == "touch") {
@@ -289,26 +282,19 @@ public class PointerEventHandler {
 			if(!out && $wnd.second.id < 0 && $wnd.first.id < 0){
 				$wnd.pointerCapture = null;
 			}
-			if(override){
 				if(stopPropagation){
 					e.stopPropagation();
 				}
 				if(!out){
 					zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleUp(DDII)(e.x, e.y, getType(e), getModifiers(e));
 				}
-			} else {
-				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::pointersUp()();
-			}
 			zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(IZ)(getType(e), false);
 		};
 		}
 				
 		element.addEventListener(fix("PointerOut"), removePointer(true));
-		if(override){
-			$wnd.addEventListener(fix("PointerUp"), removePointer(false));
-		}else{
-			element.addEventListener(fix("PointerUp"), removePointer(false));	
-		}
+		$wnd.addEventListener(fix("PointerUp"), removePointer(false));
+		
 	}-*/;
 
 }

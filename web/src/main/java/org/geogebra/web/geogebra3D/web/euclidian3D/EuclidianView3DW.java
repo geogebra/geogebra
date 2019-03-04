@@ -240,8 +240,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		if (Browser.supportsPointerEvents(true)) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler,
-					true);
+			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
 			return;
 		}
 		absPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());

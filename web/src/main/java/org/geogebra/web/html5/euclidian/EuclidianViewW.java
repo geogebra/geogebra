@@ -973,8 +973,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (Browser.supportsPointerEvents(true)) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler,
-					true);
+			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
 			CancelEventTimer.killTouch(absPanel);
 			return;
 		}
