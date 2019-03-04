@@ -207,12 +207,11 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	}
 
 	public interface VideoTemplate extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br><br>\"\r\n" + 
-				"  {1}</video>\"")
+		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br>\r\n" + 
+				"  {1}</video>")
 		SafeHtml video(String style, String err);
 
-		@SafeHtmlTemplates.Template("<span class=\"{0}\"><br><br>\"\r\n" + 
-				"  {1}</span>\"")
+		@SafeHtmlTemplates.Template("<span class=\"{0}\">{1}</span>")
 		SafeHtml error(String style, String message);
 	}
 }
