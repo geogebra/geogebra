@@ -128,7 +128,7 @@ public class MediaURLParser {
 	 * @return embed URL
 	 */
 	public static String getEmbedURL(String url) {
-		return url.replaceAll("graspablemath.com/canvas(/)?(\\?)?",
+		return url.replaceAll("graspablemath.com/canvas(/)?(\\?.*)?$",
 				"graspablemath.com/canvas/embed$2");
 	}
 

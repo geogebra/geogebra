@@ -134,6 +134,10 @@ public class MediaURLParserTest {
 				"https://graspablemath.com/canvas/embed?load=_cf2211995a50b4a0",
 				MediaURLParser.getEmbedURL(
 						"https://graspablemath.com/canvas?load=_cf2211995a50b4a0"));
+		Assert.assertEquals(
+				"https://graspablemath.com/canvas/embed?load=_cf2211995a50b4a0",
+				MediaURLParser.getEmbedURL(
+						"https://graspablemath.com/canvas/embed?load=_cf2211995a50b4a0"));
 	}
 
 	public static void checkVideo(String url,
