@@ -26,7 +26,7 @@ abstract public class ARManager<TouchEventType> {
     protected Coords rayEndOrigin = new Coords(3);
     private Coords translationOffset = new Coords(3);
     private Coords previousTranslationOffset = new Coords(3);
-    private Coords mPosXY = new Coords(2);
+    protected Coords mPosXY = new Coords(2);
 
     protected float mDistance;
     protected boolean objectIsRendered = false;
