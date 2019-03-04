@@ -41,7 +41,7 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 	}
 
 	private void addEvent(String name) {
-		addEvent(name, (Object[]) null);
+		addEvent(name, new Object[] {});
 	}
 
 	private void addEvent(String name, GeoElementND parameter) {
