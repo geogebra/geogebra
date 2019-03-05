@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -1507,8 +1506,7 @@ public class AlgoDispatcher {
 	 * @return stroke algo
 	 */
 	public AlgoElement getStrokeAlgo(List<MyPoint> p) {
-		return cons.getApplication().has(Feature.MOW_PEN_IS_LOCUS)
-				? new AlgoLocusStroke(cons, p) : new AlgoPenStroke(cons, p);
+		return new AlgoLocusStroke(cons, p);
 	}
 
 	/**

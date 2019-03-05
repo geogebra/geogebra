@@ -568,8 +568,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	ModeDelete getDeleteMode() {
 		if (deleteMode == null && view != null) {
-			deleteMode = view.getApplication().has(Feature.MOW_PEN_IS_LOCUS)
-					? new ModeDeleteLocus(view) : new ModeDelete(view);
+			deleteMode = new ModeDeleteLocus(view);
 		}
 		return deleteMode;
 	}

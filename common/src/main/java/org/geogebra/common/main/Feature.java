@@ -67,8 +67,6 @@ public enum Feature {
 	/** MOV-169 */
 	DYNAMIC_STYLEBAR,
 
-	MOW_PEN_IS_LOCUS,
-
 	MOW_PEN_EVENTS,
 
 	/** MOW-105 */

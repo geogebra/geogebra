@@ -3740,9 +3740,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_PIN_IMAGE:
 			return prerelease && whiteboard;
 
-		case MOW_PEN_IS_LOCUS:
-			return true;
-
 		case MOW_PEN_EVENTS:
 			return false;
 
