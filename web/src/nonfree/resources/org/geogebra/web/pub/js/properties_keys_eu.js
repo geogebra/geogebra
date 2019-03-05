@@ -3098,7 +3098,7 @@ __GGB__keysVar["eu"].menu = {
     "Webcam.Problem.Message": "GeoGebrak ezin du zure kamera erabili. Kamera-tresnak ezin du kamerarik gabe lan egin.",
     "Webcam.Problem.Message.Mebis": "Mebis is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Request": "Eman GeoGebrari zure kamera erabiltzeko baimena",
-    "Webcam.Request.Mebis": "Allow Mebis to use your camera",
+    "Webcam.Request.Mebis": "Allow mebis to use your camera",
     "Webcam.Request.Message": "Kamera-tresna erabili ahal izateko, GeoGebrak zure kamera erabili ahal izan behar du. GeoGebrak erabiltzen duzun ordenagailu eta nabigatzaile bakoitzean baimena eskatuko dizu.",
     "Webcam.Request.Message.Mebis": "Mebis needs access to your camera so that you can use the Camera Tool. Mebis will ask you to confirm this decision on each browser and computer you use.",
     "WelcomeExam": "Itxoin zure irakasleak azterketa hasteko esaten dizun arte, mesedez.",

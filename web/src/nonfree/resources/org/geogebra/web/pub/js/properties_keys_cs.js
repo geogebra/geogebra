@@ -3098,7 +3098,7 @@ __GGB__keysVar["cs"].menu = {
     "Webcam.Problem.Message": "GeoGebra nem\xe1 p\u0159\xedstup k va\u0161\xed kame\u0159e. Bez toho nelze tento n\xe1stroj pou\u017e\xedt.",
     "Webcam.Problem.Message.Mebis": "Mebis is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Request": "Povolit aplikaci GeoGebra p\u0159\xedstup ke kame\u0159e",
-    "Webcam.Request.Mebis": "Allow Mebis to use your camera",
+    "Webcam.Request.Mebis": "Allow mebis to use your camera",
     "Webcam.Request.Message": "GeoGebra pot\u0159ebuje p\u0159\xedstup k va\u0161\xed kame\u0159e pro vyu\u017eit\xed n\xe1stroje Kamera. GeoGebra v\xe1s o toto povolen\xed po\u017e\xe1d\xe1 zvl\xe1\u0161\u0165 pro ka\u017ed\xfd po\u010d\xedta\u010d a prohl\xed\u017ee\u010d, kter\xfd pou\u017e\xedv\xe1te.",
     "Webcam.Request.Message.Mebis": "Mebis needs access to your camera so that you can use the Camera Tool. Mebis will ask you to confirm this decision on each browser and computer you use.",
     "WelcomeExam": "Po\u010dkejte pros\xedm, a\u017e d\xe1 u\u010ditel pokyn k zah\xe1jen\xed testu.",

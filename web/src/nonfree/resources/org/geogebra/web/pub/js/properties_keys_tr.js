@@ -3098,7 +3098,7 @@ __GGB__keysVar["tr"].menu = {
     "Webcam.Problem.Message": "GeoGebra kameran\u0131za eri\u015femiyor. Bir kamera olmadan Kamera Arac\u0131 \xe7al\u0131\u015ft\u0131r\u0131lamaz.",
     "Webcam.Problem.Message.Mebis": "Mebis is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Request": "GeoGebra'n\u0131n kameran\u0131z\u0131 kullanmas\u0131na izin verin",
-    "Webcam.Request.Mebis": "Allow Mebis to use your camera",
+    "Webcam.Request.Mebis": "Allow mebis to use your camera",
     "Webcam.Request.Message": "GeoGebra kameran\u0131za eri\u015fime ihtiya\xe7 duyuyor b\xf6ylece Kamera Arac\u0131n\u0131 kullanabileceksiniz. GeoGebra her taray\u0131c\u0131 ve bilgisayar kulland\u0131\u011f\u0131n\u0131zda bu karar\u0131n\u0131z\u0131 onaylaman\u0131z\u0131 isteyecektir.",
     "Webcam.Request.Message.Mebis": "Mebis needs access to your camera so that you can use the Camera Tool. Mebis will ask you to confirm this decision on each browser and computer you use.",
     "WelcomeExam": "\xd6\u011fretmeniniz sizden s\u0131nava ba\u015flaman\u0131z\u0131 isteyinceye kadar l\xfctfen bekleyiniz.",

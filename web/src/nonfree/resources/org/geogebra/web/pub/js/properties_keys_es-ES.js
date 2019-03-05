@@ -3098,7 +3098,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Webcam.Problem.Message": "GeoGebra no puede acceder a tu c\xe1mara. Sin una c\xe1mara, la herramienta C\xe1mara no funciona.",
     "Webcam.Problem.Message.Mebis": "Mebis is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Request": "Permitir a Geogebra usar tu c\xe1mara",
-    "Webcam.Request.Mebis": "Allow Mebis to use your camera",
+    "Webcam.Request.Mebis": "Allow mebis to use your camera",
     "Webcam.Request.Message": "GeoGebra necesita acceder a tu c\xe1mara para poder usar la herramienta C\xe1mara. GeoGebra te pedir\xe1 confirmar este acceso en cada navegador y ordenador que uses.",
     "Webcam.Request.Message.Mebis": "Mebis needs access to your camera so that you can use the Camera Tool. Mebis will ask you to confirm this decision on each browser and computer you use.",
     "WelcomeExam": "Por favor, espera a que tu profesor te pida comenzar el examen.",

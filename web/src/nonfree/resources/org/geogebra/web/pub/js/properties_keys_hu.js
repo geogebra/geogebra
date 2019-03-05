@@ -3098,7 +3098,7 @@ __GGB__keysVar["hu"].menu = {
     "Webcam.Problem.Message": "GeoGebra is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Problem.Message.Mebis": "Mebis is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Request": "Allow GeoGebra to use your camera",
-    "Webcam.Request.Mebis": "Allow Mebis to use your camera",
+    "Webcam.Request.Mebis": "Allow mebis to use your camera",
     "Webcam.Request.Message": "GeoGebra needs access to your camera so that you can use the Camera Tool. GeoGebra will ask you to confirm this decision on each browser and computer you use.",
     "Webcam.Request.Message.Mebis": "Mebis needs access to your camera so that you can use the Camera Tool. Mebis will ask you to confirm this decision on each browser and computer you use.",
     "WelcomeExam": "A vizsga akkor kezdhet\u0151 meg, ha a tan\xe1r erre utas\xedt\xe1st ad.",
