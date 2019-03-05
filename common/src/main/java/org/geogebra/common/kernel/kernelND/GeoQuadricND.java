@@ -551,15 +551,6 @@ public abstract class GeoQuadricND extends GeoElement
 			if (i < dimension - 1) {
 				sbToValueString.append(" + ");
 			} else {
-
-				// want in ...=0 form for CAS
-				if (tpl.hasCASType()) {
-					sbToValueString.append("-");
-					sbToValueString.append(rsquared);
-					sbToValueString.append("=0");
-					return;
-
-				}
 				sbToValueString.append(" = ");
 			}
 		}
