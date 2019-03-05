@@ -5,6 +5,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.webcam.WebCamAPI;
+import org.geogebra.web.html5.webcam.WebCamInterface;
+import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;

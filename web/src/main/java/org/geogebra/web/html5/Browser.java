@@ -4,6 +4,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.webcam.WebCamAPI;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -354,14 +355,9 @@ public class Browser {
 	/**
 	 * @return whether webcam input is supported in the browser
 	 */
-	public static native boolean supportsWebcam() /*-{
-		if ($wnd.navigator.getUserMedia || $wnd.navigator.webkitGetUserMedia
-				|| $wnd.navigator.mozGetUserMedia
-				|| $wnd.navigator.msGetUserMedia) {
-			return true;
-		}
-		return false;
-	}-*/;
+	public static boolean supportsWebcam() {
+		return WebCamAPI.isSupported();
+	}
 
 	/**
 	 * @return true if Javascript CAS is supported.

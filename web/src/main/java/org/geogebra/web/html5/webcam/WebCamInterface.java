@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.dialog.image;
+package org.geogebra.web.html5.webcam;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
