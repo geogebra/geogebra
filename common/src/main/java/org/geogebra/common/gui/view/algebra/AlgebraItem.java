@@ -532,7 +532,9 @@ public class AlgebraItem {
 				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
-		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {
+			return geo1.getAlgebraDescription(StringTemplate.latexTemplate);
+		} else if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 				&& kernel
 						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)) {
 			if (geo1.isIndependent()) {

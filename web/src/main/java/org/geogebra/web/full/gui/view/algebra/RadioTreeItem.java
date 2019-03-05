@@ -23,6 +23,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -653,7 +654,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			content.remove(outputPanel);
 		}
 		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-				|| isDefinitionAndValue()) {
+				|| isDefinitionAndValue()
+				|| (geo != null && geo.getParentAlgorithm() instanceof AlgoFractionText)) {
 			String text = "";
 			if (geo != null) {
 				text = getLatexString(LATEX_MAX_EDIT_LENGHT, true);
