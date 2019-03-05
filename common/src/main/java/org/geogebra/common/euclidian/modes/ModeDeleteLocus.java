@@ -29,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Delete mode controller for locus based penstrokes
  */
-public class ModeDeleteLocus extends ModeDelete {
+public class ModeDeleteLocus {
 	private EuclidianView view;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false;
@@ -43,13 +43,19 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            EV
 	 */
 	public ModeDeleteLocus(EuclidianView view) {
-		super(view);
 		this.ec = view.getEuclidianController();
 		this.view = view;
 		this.interPoints = new ArrayList<>();
 	}
 
-	@Override
+	/**
+	 * @param e
+	 *            mouse event
+	 * @param deleteSize
+	 *            delete square size
+	 * @param forceOnlyStrokes
+	 *            whether to only delete strokes
+	 */
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -513,7 +519,10 @@ public class ModeDeleteLocus extends ModeDelete {
 		return coords;
 	}
 
-	@Override
+	/**
+	 * @param type
+	 *            event type
+	 */
 	public void mousePressed(PointerEventType type) {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
@@ -529,7 +538,15 @@ public class ModeDeleteLocus extends ModeDelete {
 			}
 	}
 
-	@Override
+	/**
+	 * @param hits
+	 *            hit objects
+	 * @param control
+	 *            control pressed
+	 * @param selPreview
+	 *            for preview
+	 * @return whether something was deleted
+	 */
 	public boolean process(Hits hits, boolean control,
 			boolean selPreview) {
 		if (hits.isEmpty() || this.penDeleteMode) {
@@ -838,7 +855,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		return index;
 	}
 
-	private void swap(List<MyPoint> dataPoints,
+	private static void swap(List<MyPoint> dataPoints,
 			List<MyPoint> newPolyLinePoints) {
 		dataPoints.clear();
 		dataPoints.addAll(newPolyLinePoints);

@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.modes.ModeDelete;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -365,7 +364,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	// Paste preview
 	private double vertexX = Double.NaN;
 	private double vertexY = Double.NaN;
-	private ModeDelete deleteMode;
+	private ModeDeleteLocus deleteMode;
 	private ModeShape shapeMode;
 	private GPoint2D.Double startPoint = new GPoint2D.Double();
 	private boolean externalHandling;
@@ -566,7 +565,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return true;
 	}
 
-	ModeDelete getDeleteMode() {
+	ModeDeleteLocus getDeleteMode() {
 		if (deleteMode == null && view != null) {
 			deleteMode = new ModeDeleteLocus(view);
 		}
