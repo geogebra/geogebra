@@ -53,6 +53,11 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
+	public boolean hasTableView(App app) {
+		return false;
+	}
+
+	@Override
 	public int[] getDecimalPlaces() {
 		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
 	}
