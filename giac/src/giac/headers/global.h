@@ -272,6 +272,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern unsigned simult_primes,simult_primes2,simult_primes_seuil2,simult_primes3,simult_primes_seuil3; 
   extern double gbasis_reinject_ratio;
   extern double gbasis_reinject_speed_ratio;
+  extern int gbasis_logz_age_sort,gbasis_stop;
   extern int PROOT_FACTOR_MAXDEG;
   extern int ABS_NBITS_EVALF;
   extern volatile bool ctrl_c,interrupted;

@@ -11275,6 +11275,18 @@ namespace giac {
     return read_binary(s,prec);
   }
 
+  gen unarchivezint(istream & is,GIAC_CONTEXT){
+    string s;
+    is >> s;
+    if (s.size()>2 && s[0]=='0' && s[1]=='x'){
+      ref_mpz_t * ptr= new ref_mpz_t;
+      mpz_set_str(ptr->z,s.c_str()+2,16);
+      gen res(ptr);
+      return res;
+    }
+    return gen(s,contextptr);
+  } 
+
   gen unarchive(istream & is,GIAC_CONTEXT){
     if (is.eof())
       return gentypeerr(gettext("End of stream"));
@@ -11344,6 +11356,8 @@ namespace giac {
       is >> type;
       if (type==_FL_WIDGET_POINTER && fl_widget_unarchive_function)
 	return fl_widget_unarchive_function(is);
+    case _ZINT:
+      return unarchivezint(is,contextptr);
     default:
       return unarchivedefault(is,contextptr);
     }
@@ -11420,6 +11434,8 @@ namespace giac {
     switch (et){
     case _INT_:
       return os << et << " " << e.val << " " << es << endl;
+    case _ZINT:
+      return os << et << " " << hexa_print_ZINT(*e._ZINTptr) << endl;
     case _DOUBLE_:
       if (my_isinf(e._DOUBLE_val) || my_isnan(e._DOUBLE_val) )
 	return archive(os,gen(e.print(contextptr),contextptr),contextptr);

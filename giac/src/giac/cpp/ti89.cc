@@ -133,7 +133,7 @@ namespace giac {
 
   static string getType(const gen & g){
     switch (g.type){
-    case _INT_: case _REAL: case _DOUBLE_:
+    case _INT_: case _REAL: case _DOUBLE_: case _FRAC:
       return "NUM";
     case _VECT:
       if (ckmatrix(g))

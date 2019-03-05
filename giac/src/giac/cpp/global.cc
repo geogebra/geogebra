@@ -1777,6 +1777,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   // gbasis modular algo on Q: if new basis element exceed this ratio, new elements are reinjected in the ideal generators for the remaining computations
   double gbasis_reinject_speed_ratio=1/6.;
   // gbasis modular algo on Q: new basis elements are reinjected if the 2nd run with learning CPU speed / 1st run without learning CPU speed is >=
+  int gbasis_logz_age_sort=0,gbasis_stop=0;
   unsigned short int GIAC_PADIC=50;
   const char cas_suffixe[]=".cas";
 #if defined RTOS_THREADX || defined BESTA_OS

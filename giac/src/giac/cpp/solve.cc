@@ -7046,6 +7046,23 @@ namespace giac {
 
   gen _gbasis_reinject(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    if (g==0){
+      int tmp1=gbasis_stop;
+      int tmp2=gbasis_logz_age_sort;
+      gbasis_stop=0;
+      gbasis_logz_age_sort=0;
+      return makevecteur(tmp1,tmp2);
+    }
+    if (g.type==_INT_ && g.val<=2){
+      if (g.val<0){
+	int tmp=gbasis_stop;
+	gbasis_stop=g.val;
+	return tmp;
+      }
+      int tmp=gbasis_logz_age_sort;
+      gbasis_logz_age_sort=g.val;
+      return tmp;
+    }
     gen args(evalf_double(g,1,contextptr));
     double old=gbasis_reinject_ratio,oldtime=gbasis_reinject_speed_ratio;
     if (g.type==_DOUBLE_){
