@@ -2022,7 +2022,7 @@ public abstract class Renderer implements RendererInterface {
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
-		return true;
+		return !view3D.isAREnabled();
 	}
 
 	/**
