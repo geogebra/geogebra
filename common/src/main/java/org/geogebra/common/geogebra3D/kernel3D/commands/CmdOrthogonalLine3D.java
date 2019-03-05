@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.kernel.Kernel;
@@ -103,10 +104,15 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	@Override
 	public GeoElement[] process3(Command c) throws MyError {
 
+		ExpressionValue arg0 = c.getArgument(0).unwrap();
+		ExpressionValue arg1 = c.getArgument(1).unwrap();
 		ExpressionValue arg2 = c.getArgument(2).unwrap();
 
-		// check if arg2 = xOyPlane
-		if (arg2 instanceof GeoPlane3DConstant) {
+		boolean threeD = arg0 instanceof GeoElement3D
+				|| arg1 instanceof GeoElement3D;
+
+		// if arg2 = xOyPlane then we can just handle as a 2D command
+		if (!threeD && arg0 instanceof GeoPlane3DConstant) {
 			c.setArgument(2,
 					new GeoDummyVariable(cons,
 							arg2.toString(StringTemplate.defaultTemplate))
