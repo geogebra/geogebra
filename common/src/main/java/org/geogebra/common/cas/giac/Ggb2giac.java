@@ -119,8 +119,8 @@ public class Ggb2giac {
 		// Giac syntax coeffs(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y,[x,y],[2,0])
 		// Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y)
 		p("Coefficients.1", "[[coeffsarg:=%0],"
-				// strip off "=0" from the right
-				+ "[coeffsarg:=when(coeffsarg[0]=='='&&right(coeffsarg)==0,left(coeffsarg),coeffsarg)]"
+				// rearrange equation to LHS-(RHS)
+				+ "[coeffsarg:=when(coeffsarg[0]=='=',left(coeffsarg)-right(coeffsarg),coeffsarg)]"
 
 				+ ",when(coeffsarg[0]=='=',?,when(is_polynomial(coeffsarg),when(degree(coeffsarg,x)==2&&degree(coeffsarg,y)==2,"
 				// special syntax for conics / quadrics
