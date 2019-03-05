@@ -3,6 +3,8 @@ package org.geogebra.arbase;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 abstract public class ARGestureManager{
 
@@ -12,6 +14,7 @@ abstract public class ARGestureManager{
     protected boolean isTouched = false;
     protected boolean mUpdateOriginIsWanted = false;
     protected float mAngle;
+    protected boolean actionPointerLeftPreviously = false;
 
     public ARGestureManager(EuclidianView3D view) {
         mView = view;
@@ -48,5 +51,18 @@ abstract public class ARGestureManager{
 
     public float getDAngle() {
         return mAngle;
+    }
+
+    protected void onMove(int pointerCount, App app) {
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            isTouched = pointerCount > 1;
+        } else {
+            isTouched = true;
+        }
+
+        if (actionPointerLeftPreviously) {
+            mUpdateOriginIsWanted = true;
+            actionPointerLeftPreviously = false;
+        }
     }
 }
