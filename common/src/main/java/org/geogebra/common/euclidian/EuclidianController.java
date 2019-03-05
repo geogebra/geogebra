@@ -8910,8 +8910,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			// Slider can be moved too on whiteboard without using right mouse
 			// button or selecting slider tool.
-			else if (app.isWhiteboardActive()
-					&& app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
+			else if (app.isWhiteboardActive()) {
 				setViewHits(event.getType());
 				Hits hits0 = view.getHits();
 				if (!hits0.isEmpty()) {

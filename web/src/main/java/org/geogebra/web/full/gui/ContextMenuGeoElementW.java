@@ -321,8 +321,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							.asString();
 				}
 
-				if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
-						|| app.isUnbundled()) {
+				if (app.isUnbundledOrWhiteboard()) {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img, ""),
 							loc.getMenu("DontRecordToSpreadsheet"),
@@ -363,21 +362,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				img = AppResources.INSTANCE.trace_on();
 			}
 
-			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU) && !app.isUnbundled()
-					&& !app.isUnbundledOrWhiteboard()) {
-				cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtml(img, ""),
-						loc.getMenu("HideTrace"), loc.getMenu("ShowTrace"),
-						new Command() {
-
-							@Override
-							public void execute() {
-								traceCmd();
-							}
-						}, true, app);
-				cbItem.setSelected(isTracing(), wrappedPopup.getPopupMenu());
-				wrappedPopup.addItem(cbItem);
-			} else if (app.isUnbundledOrWhiteboard()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 						MainMenu.getMenuBarHtml(img, loc.getMenu("ShowTrace")),
 						MaterialDesignResources.INSTANCE.check_black(),
@@ -458,8 +443,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			String img = AppResources.INSTANCE.objectFixed().getSafeUri()
 					.asString();
 
-			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
-					|| app.isUnbundled()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnlockObject"), loc.getMenu("LockObject"),
 						new Command() {
@@ -491,8 +475,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				String img = AppResources.INSTANCE.objectFixed().getSafeUri()
 						.asString();
 
-				if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
-						|| app.isUnbundled()) {
+				if (app.isUnbundledOrWhiteboard()) {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img, ""),
 							loc.getMenu("UnlockObject"),
@@ -672,16 +655,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			cmItem.setCommand(cmdLock);
 			wrappedPopup.addItem(cmItem);
 
-			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
-					&& !app.isWhiteboardActive()) {
-				GCheckBoxMenuItem mi = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtml(img, ""),
-						loc.getMenu("UnfixObject"), loc.getMenu("FixObject"),
-						cmd, true, app);
-				mi.setSelected(getGeo().isLocked(),
-						wrappedPopup.getPopupMenu());
-				wrappedPopup.addItem(mi);
-			} else if (!app.isUnbundledOrWhiteboard()) {
+			if (!app.isUnbundledOrWhiteboard()) {
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
 			}
 		}
@@ -765,8 +739,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			GCheckBoxMenuItem cbItem;
 			
-			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
-					|| app.isUnbundled()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnpinFromScreen"),

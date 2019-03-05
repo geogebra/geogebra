@@ -524,23 +524,13 @@ public abstract class ContextMenuGeoElement {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		// if there is at least 1 geo, which has no trace, all geo will have
 		// trace, otherwise, if all geo has trace, tracing will be set to false
-		if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
-			boolean istracing = isTracing();
-			for (int i = geos2.size() - 1; i >= 0; i--) {
-				GeoElement geo1 = geos2.get(i);
-				if (geo1.isTraceable()) {
-					((Traceable) geo1).setTrace(!istracing);
-					geo1.updateRepaint();
-				}
-			}
-		} else { // every geo's behaviour will be changed for the inverse
-			for (int i = geos2.size() - 1; i >= 0; i--) {
-				GeoElement geo1 = geos2.get(i);
-				if (geo1.isTraceable()) {
-					((Traceable) geo1).setTrace(!((Traceable) geo1).getTrace());
-					geo1.updateRepaint();
-				}
-
+		boolean istracing = isTracing();
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoElement geo1 = geos2.get(i);
+			if (geo1.isTraceable()) {
+				((Traceable) geo1).setTrace(app.isWhiteboardActive()
+						? !istracing : !((Traceable) geo1).getTrace());
+				geo1.updateRepaint();
 			}
 		}
 		app.storeUndoInfo();

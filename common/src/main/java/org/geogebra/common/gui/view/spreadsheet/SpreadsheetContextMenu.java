@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EventType;
@@ -257,7 +256,7 @@ public class SpreadsheetContextMenu {
 
 				if (doLabelMenu) {
 					cmdString = MenuCommand.ShowLabel.toString();
-					if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
+					if (app.isWhiteboardActive()) {
 						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
 								loc.getMenu(MenuCommand.HideLabel.toString()),
 								geo.isLabelVisible());
@@ -273,7 +272,7 @@ public class SpreadsheetContextMenu {
 			// Tracing
 			// ===============================================
 
-			if ((!app.isHTML5Applet() || !app.has(Feature.MOW_IMPROVE_CONTEXT_MENU))
+			if ((!app.isHTML5Applet() || !app.isWhiteboardActive())
 					&& geo.isSpreadsheetTraceable()
 					&& selectionType != MyTableInterface.ROW_SELECT) {
 
@@ -287,7 +286,7 @@ public class SpreadsheetContextMenu {
 				if (showRecordToSpreadsheet) {
 					cmdString = MenuCommand.RecordToSpreadsheet.toString();
 
-					if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
+					if (app.isWhiteboardActive()) {
 						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
 								MenuCommand.DontRecordToSpreadsheet.toString(),
 								geo.getSpreadsheetTrace());

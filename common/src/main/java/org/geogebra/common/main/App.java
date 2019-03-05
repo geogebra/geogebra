@@ -3749,9 +3749,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_PEN_SMOOTHING:
 			return prerelease;
 
-		case MOW_IMPROVE_CONTEXT_MENU:
-			return prerelease && whiteboard;
-
 		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
 

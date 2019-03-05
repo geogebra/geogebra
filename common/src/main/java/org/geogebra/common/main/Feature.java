@@ -83,9 +83,6 @@ public enum Feature {
 	/** MOW-320 */
 	MOW_PIN_IMAGE,
 
-	/** MOW-239 */
-	MOW_IMPROVE_CONTEXT_MENU,
-
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
