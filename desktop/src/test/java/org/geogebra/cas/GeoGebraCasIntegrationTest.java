@@ -997,6 +997,16 @@ public class GeoGebraCasIntegrationTest {
 		in("lsb:xx+yy+zz=1");
 		t("LeftSide[lsb]", "x^(2) + y^(2) + z^(2)");
 		t("RightSide[lsb]", "1");
+		t("Coefficients[lsb]", "{1, 1, 1, -1, 0, 0, 0, 0, 0, 0}");
+		in("lsb2:xx+2yy+3zz+4xy+5zy+6xz+7x+8y+9z=4");
+		t("LeftSide[lsb2]",
+				"x^(2) + 2 * y^(2) + 3 * z^(2) + 4 * x * y + 6 * x * z + 5 * y * z + 7 * x + 8 * y + 9 * z");
+		t("RightSide[lsb2]", "4");
+		t("Coefficients[lsb2]", "{1, 2, 3, -4, 4, 6, 5, 7, 8, 9}");
+		in("lsb3:xx+yy=1");
+		t("LeftSide[lsb3]", "x^(2) + y^(2) - 1");
+		t("RightSide[lsb3]", "0");
+		t("Coefficients[lsb3]", "{1, 1, -1, 0, 0, 0}");
 		in("lsc:x+y+0z=1");
 		t("LeftSide[lsc]", "x + y");
 		t("RightSide[lsc]", "1");
@@ -1005,6 +1015,11 @@ public class GeoGebraCasIntegrationTest {
 		t("RightSide[lsd]", "1");
 	}
 
+	/**
+	 * Make an object in the Algebra View (to test AV -> CAS handling)
+	 * 
+	 * @param string
+	 */
 	private static void in(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				false);
