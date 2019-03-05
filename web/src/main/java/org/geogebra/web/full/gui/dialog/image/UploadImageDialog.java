@@ -29,8 +29,8 @@ public abstract class UploadImageDialog extends DialogBoxW
 	protected Button cancelBtn;
 	protected Label upload;
 	protected GeoPoint location;
-	protected boolean mayCenter = true;
-	
+	protected boolean defaultToUpload = true;
+
 	int previewHeight;
 	int previewWidth;
 
@@ -109,7 +109,7 @@ public abstract class UploadImageDialog extends DialogBoxW
 		upload.addStyleDependentName("highlighted");
 		inputPanel.setWidget(uploadImagePanel);
 	}
-	
+
 	protected void imageAvailable() {
 		insertBtn.setEnabled(true);
 		insertBtn.removeStyleName("button-up-disabled");
@@ -129,11 +129,11 @@ public abstract class UploadImageDialog extends DialogBoxW
 
 	@Override
 	public void center() {
-		if (mayCenter) {
-			super.center();
+		super.center();
+		if (defaultToUpload) {
 			setLabels();
 			uploadClicked();
 		}
 	}
-	
+
 }

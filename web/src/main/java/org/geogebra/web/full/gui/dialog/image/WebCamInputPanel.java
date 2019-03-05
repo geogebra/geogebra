@@ -37,7 +37,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	/**
 	 * @param app
 	 *            application
-	 *       
+	 *
 	 * @param webcamDialog
 	 *            webcam dialog
 	 */
@@ -53,16 +53,16 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		resetVideo();
 		add(inputWidget);
 	}
-	
+
 	public void stopVideo() {
 		webCam.stop();
 	}
-	
+
 	@Override
 	public void onCameraSuccess(JavaScriptObject bs) {
 		hidePermissionDialog();
 	}
-	
+
 	/**
 	 * @return screenshot as data URL (png)
 	 */
@@ -98,7 +98,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		} else {
 			message = loc.getMenu("Webcam.Chrome");
 		}
-		
+
 		errorPanel = DOM.createSpan();
 		video = DOM.createSpan();
 		errorPanel.setInnerSafeHtml(TEMPLATE.error(getStyle(), message));
@@ -176,17 +176,16 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	private void resize() {
 		webcamDialog.resize();
 	}
-	
+
 	@Override
 	public void onLoadedMetadata(int width, int height) {
 		canvasWidth = width;
 		canvasHeight = height;
+		resize();
 		showInputDialog();
 		Log.debug("VideoSize: " + width + " x " + height);
-		resize();
-	
 	}
-	
+
 	@Override
 	public void onCameraError(String errName) {
 		if ("NotFoundError".equals(errName)
@@ -203,14 +202,14 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		}
 		Log.debug("Error from WebCam: " + errName);
 	}
-	
+
 	@Override
 	public void onRequest() {
 		showRequestDialog();
 	}
 
 	public interface VideoTemplate extends SafeHtmlTemplates {
-		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br>\r\n" + 
+		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br>\r\n" +
 				"  {1}</video>")
 		SafeHtml video(String style, String err);
 

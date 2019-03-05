@@ -12,17 +12,17 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.Label;
 
 public class ImageInputDialog extends UploadImageDialog implements WebcamDialogInterface {
-	
+
 	private static final int PREVIEW_HEIGHT = 155;
 	private static final int PREVIEW_WIDTH = 213;
-	
-	private WebCamInputPanel webcamPanel;	
+
+	private WebCamInputPanel webcamPanel;
 	private Label webcam;
-	
+
 	public ImageInputDialog(App app) {
 		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 	}
-	
+
 	@Override
 	protected void initGUI() {
 		super.initGUI();
@@ -30,7 +30,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 			listPanel.add(webcam = new Label(""));
 		}
 	}
-	
+
 	protected boolean webcamSupported() {
 		return Browser.supportsWebcam();
 	}
@@ -69,7 +69,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	protected void webcamClicked() {
 		webcam.addStyleDependentName("highlighted");
 		upload.removeStyleDependentName("highlighted");
-		mayCenter = false;
+		defaultToUpload = false;
 		if (webcamPanel == null) {
 			webcamPanel = new WebCamInputPanel(appw, this);
 		} else {
@@ -89,7 +89,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	    	if (webcamPanel == null) { // file upload
 	    		data = uploadImagePanel.getImageDataURL();
 	    		name = uploadImagePanel.getFileName();
-	    		
+
 	    	} else { // webcam
 	    		data = webcamPanel.getImageDataURL();
 	    		name = "webcam";
@@ -110,11 +110,11 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	    	webcamClicked();
 	    }
 	}
-	
+
 	@Override
 	public void hide() {
 		super.hide();
-		this.mayCenter = true;
+		this.defaultToUpload = true;
 		if (this.uploadImagePanel != null) {
 			this.uploadImagePanel.resetPreview();
 		}
