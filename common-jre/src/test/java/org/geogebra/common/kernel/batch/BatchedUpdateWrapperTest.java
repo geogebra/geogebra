@@ -104,15 +104,4 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 		verify(wrappedView, times(0)).add(line);
 		verify(wrappedView, times(0)).update(line);
 	}
-
-	@Test
-	public void testUpdatesAreDoneInBatch() {
-		GeoElement line = getElementFactory().createGeoLine();
-		wrapper.add(line);
-
-		wrapper.onRun();
-
-		verify(wrappedView, times(1)).startBatchUpdate();
-		verify(wrappedView, times(1)).endBatchUpdate();
-	}
 }
