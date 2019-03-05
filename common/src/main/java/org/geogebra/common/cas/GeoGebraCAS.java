@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
@@ -958,9 +959,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private static boolean isEquation(ExpressionValue listElement,
 			MyList listOfVars) {
 
+		ExpressionValue ev = listElement.unwrap();
+
 		// eg Solve({c,d},{x,y})
 		// where c,d are Algebra View objects
-		if (listElement.unwrap() instanceof GeoConicND) {
+		if (ev instanceof GeoConicND || ev instanceof GeoLineND) {
 			if (listOfVars.size() == 2) {
 				String var0 = listOfVars.getListElement(0)
 						.toValueString(StringTemplate.defaultTemplate);
@@ -973,7 +976,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 			}
 			return false;
-		} else if (listElement.unwrap() instanceof GeoQuadricND) {
+		} else if (ev instanceof GeoQuadricND) {
 			if (listOfVars.size() == 3) {
 				String var0 = listOfVars.getListElement(0)
 						.toValueString(StringTemplate.defaultTemplate);
