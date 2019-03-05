@@ -118,9 +118,6 @@ public enum Feature {
 
 	INITIAL_PORTRAIT,
 
-	/** MOW-261 */
-	MOW_COLOR_FILLING_LINE,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

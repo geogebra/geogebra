@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
@@ -68,7 +67,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
 
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+		if (app.isWhiteboardActive()) {
 			if (hasSlider) {
 				addSliderTitle();
 			}
@@ -108,7 +107,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+		if (app.isWhiteboardActive()) {
 			if (titleLabel != null) {
 				titleLabel.setVisible(hasSlider);
 			}
@@ -188,7 +187,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
-			if (!app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+			if (!app.isWhiteboardActive()) {
 				this.setIcon(
 						GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
 			}
@@ -268,11 +267,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);
-		if (!enableTable && app.isUnbundled()) {
-			getMyPopup().setHeight("30px");
-		}
-		if (!enableTable && app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-			getMyPopup().setHeight("65px");
+		if (!enableTable) {
+			getMyPopup().setHeight(app.isUnbundled()? "30px":"65px");
 		}
 	}
 
@@ -300,7 +296,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 
 	@Override
 	protected String getSliderPostfix() {
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+		if (app.isWhiteboardActive()) {
 			return " %";
 		}
 		return "";

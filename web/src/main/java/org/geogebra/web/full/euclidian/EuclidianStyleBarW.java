@@ -507,12 +507,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnBgColor);
 		add(btnTextBgColor);
 		add(btnTextColor);
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && btnFilling != null) {
+		if (btnFilling != null) {
 			add(btnFilling);
 		}
 		add(btnLineStyle);
 		add(btnPointStyle);
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+		if (app.isWhiteboardActive()) {
 			// update language of descriptions in color, line style and point
 			// style dialogs
 			btnColor.setLabels();
@@ -831,7 +831,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
 
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+		if (app.isWhiteboardActive()) {
 			createColorBtn();
 			createFillingBtn();
 		} else {

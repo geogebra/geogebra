@@ -35,14 +35,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
-		if (!app.isUnbundledOrWhiteboard()) {
-			addStyleName("DynamicStyleBar");
-		} else {
-			if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-				addStyleName("mowDynStyleBar");
-			}
-			addStyleName("matDynStyleBar");
-		}
+		addStyleName(app.isWhiteboardActive() ? "mowDynStyleBar matDynStyleBar"
+				: app.isUnbundled() ? "matDynStyleBar" : "DynamicStyleBar");
 
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {

@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.html5.main.AppW;
 
@@ -34,13 +33,10 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.add(sliderPanel);
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-			addSliderTitle();
-			panel.addStyleName("mowPopup");
-		} else {
-			panel.addStyleName("mowStylePopup");
-			sliderPanel.addStyleName("mowLinePopup");
-		}
+
+		addSliderTitle();
+		panel.addStyleName("mowPopup");
+
 		preview.addStyleName("preview");
 		setKeepVisible(true);
 		updatePreview();

@@ -9,14 +9,12 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.full.gui.color.MOWColorButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
@@ -39,7 +37,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createLineStyleBtn() {
-		btnLineStyle = app.has(Feature.MOW_COLOR_FILLING_LINE)
+		btnLineStyle = app.isWhiteboardActive()
 				? new MOWLineStyleButton(app)
 				: new EuclidianLineStylePopup(app, 5, true);
 		btnLineStyle.getMySlider().setMinimum(1);
@@ -86,52 +84,26 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 *            event source
 	 * @param targetGeos
 	 *            selected objects
+	 * @return processed successfully
 	 */
 	protected boolean processSource(Object source,
 			ArrayList<GeoElement> targetGeos) {
-
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 				openColorChooser(targetGeos, false);
 			} else {
-				if (app.isWhiteboardActive()
-						&& !app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-					FillType fillType = ((MOWColorButton) btnColor)
-							.getSelectedFillType();
-					EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
-				}
-
 				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
 						alpha, app);
-
 			}
 		} else if (source == btnLineStyle) {
-			// if (btnLineStyle.getSelectedValue() != null) {
-			// if (EuclidianView.isPenMode(mode)) {
-			// /*
-			// * ec.getPen().setPenLineStyle(
-			// * lineStyleArray[btnLineStyle.getSelectedIndex()]);
-			// * ec.getPen().setPenSize(btnLineStyle.getSliderValue());
-			// */
-			// // App.debug("Not MODE_PEN in EuclidianStyleBar yet");
-			// } else {
-			// // handled by the popup itself
-			// // int lineSize = btnLineStyle.getSliderValue();
-			// // needUndo =
-			// // EuclidianStyleBarStatic.applyLineStyle(targetGeos,
-			// // selectedIndex, lineSize);
-			// }
-			// }
-
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
 				needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos,
 						selectedIndex, lineSize);
 			}
-
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
 				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
