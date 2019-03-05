@@ -171,7 +171,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void update(DrawEmbed drawEmbed) {
 		EmbedElement embedElement = widgets.get(drawEmbed);
-		if(embedElement == null){
+		if (embedElement == null) {
 			return;
 		}
 		Style style = embedElement.getGreatParent().getElement().getStyle();
