@@ -8,11 +8,11 @@ import org.geogebra.common.main.Feature;
 
 abstract public class ARGestureManager{
 
-    protected EuclidianView3D mView;
+    private EuclidianView3D mView;
     protected float mScaleFactor = 1.0f;
     protected Coords mPos = new Coords(2);
-    protected boolean isTouched = false;
-    protected boolean mUpdateOriginIsWanted = false;
+    private boolean isTouched = false;
+    private boolean mUpdateOriginIsWanted = false;
     protected float mAngle;
     private boolean actionPointerLeftPreviously = false;
     private float x, y;
