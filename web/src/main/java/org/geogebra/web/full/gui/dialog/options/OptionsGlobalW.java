@@ -197,9 +197,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					String fontStr = languageList
+					String localeStr = languageList
 							.getValue(languageList.getSelectedIndex());
-					switchLanguage(fontStr, app);
+					switchLanguage(localeStr, app);
 				}
 			});
 		}
@@ -210,8 +210,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		void setLanguageInComboBox() {
 			String localeStr = app.getLocalization().getLocaleStr();
 			for (int i = 0; i < languageList.getItemCount(); i++) {
-				if (languageList.getValue(i)
-						.startsWith(String.valueOf(localeStr))) {
+				if (languageList.getValue(i).equals(localeStr)) {
 					languageList.setSelectedIndex(i);
 					return;
 				}
@@ -411,16 +410,16 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	}
 
 	/**
-	 * @param fontStr
+	 * @param localeStr
 	 *            selected language
 	 * @param app
 	 *            see {@link AppW}{
 	 */
-	public static void switchLanguage(String fontStr, AppW app) {
-		app.getLAF().storeLanguage(fontStr, app);
+	public static void switchLanguage(String localeStr, AppW app) {
+		app.getLAF().storeLanguage(localeStr, app);
 		if (app.getLoginOperation().isLoggedIn()) {
 			app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(
-					fontStr,
+					localeStr,
 					app.getLoginOperation().getModel().getLoginToken());
 		}
 		app.setUnsaved();
@@ -434,7 +433,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		// TODO change direction if Localization
 		// .rightToLeftReadingOrder(current.localeGWT) !=
 		// app.getLocalization().rightToLeftReadingOrder
-		app.setLanguage(fontStr);
+		app.setLanguage(localeStr);
 	}
 
 	/**
