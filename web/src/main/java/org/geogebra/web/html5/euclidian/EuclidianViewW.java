@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -277,7 +276,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
 		GGraphics2DWI g2w = null;
-		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+		if (app.isWhiteboardActive()) {
 			g2w = g2bg;
 			g2w.clearAll();
 		} else {
@@ -291,7 +290,6 @@ public class EuclidianViewW extends EuclidianView implements
 		} else {
 			g2w.fillWith(getBackgroundCommon());
 		}
-
 	}
 
 	/**
@@ -302,7 +300,7 @@ public class EuclidianViewW extends EuclidianView implements
 		long time = System.currentTimeMillis();
 		this.updateBackgroundIfNecessary();
 
-		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+		if (app.isWhiteboardActive()) {
 			g2p.clearAll();
 		}
 		paint(g2p, g2bg);
@@ -592,7 +590,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public void setCoordinateSpaceSize(int width, int height) {
 		g2p.setCoordinateSpaceSize(width, height);
-		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+		if (app.isWhiteboardActive()) {
 			g2bg.setCoordinateSpaceSize(width, height);
 		}
 		try {
@@ -748,7 +746,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = newEvNo;
-		if (app.has(Feature.MOW_DOUBLE_CANVAS)) {
+		if (app.isWhiteboardActive()) {
 			initBackgroundCanvas(euclidianViewPanel);
 		}
 

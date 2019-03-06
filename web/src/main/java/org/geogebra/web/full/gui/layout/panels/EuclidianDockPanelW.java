@@ -63,7 +63,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 *            whether to use stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
-		this(stylebar, application.has(Feature.MOW_DOUBLE_CANVAS));
+		this(stylebar, application.isWhiteboardActive());
 		attachApp(application);
 	}
 

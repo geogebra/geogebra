@@ -137,9 +137,6 @@ public enum Feature {
 	/** GGB-2439 */
 	GRAPH_EXAM_MODE,
 
-	/** MOW-459 */
-	MOW_DOUBLE_CANVAS,
-
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** MOB-1537 */
