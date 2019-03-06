@@ -3736,6 +3736,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// note: please use prefix MOW
 		// *********************************************************
 		// **********************************************************************
+		// distinguishing between pen and touch
 		case MOW_PEN_EVENTS:
 			return false;
 
