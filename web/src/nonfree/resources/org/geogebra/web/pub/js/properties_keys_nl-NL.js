@@ -1553,7 +1553,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "CreateSlidersForA": "Maak schuifknop voor: %0",
     "CreateTable": "Maak een tabel",
     "CreateTable.Help": "Selecteer de cellen de klik op de knop",
-    "CreateTableValues": "Waardetabel",
+    "CreateTableValues": "Dunctiewaardentabel",
     "CreateYourOwn": "GeoGebra klassiek",
     "CreatingAnimatedGIF": "Maak een Animated GIF:",
     "CrossAt": "Assenstelsel bij",
