@@ -2199,7 +2199,8 @@ namespace giac {
 	  if (!is_rewritable_as_f_of(fu,tmpu,tmpfx,gen_x,contextptr))
 	    return in_is_rewritable_as_f_of(fu,u,fx,gen_x,contextptr);;
 	  fx=complex_subst(tmpfx,gen_x,gen_x-alpha,contextptr);
-	  return true;
+	  if (!has_i(fx)) // FIX for int(x^3/sqrt(1-x^2),x,-1,0);
+	    return true;
 	}
       }
     }
