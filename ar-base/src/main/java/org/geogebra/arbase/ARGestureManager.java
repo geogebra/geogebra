@@ -105,7 +105,7 @@ abstract public class ARGestureManager{
         isTouched = false;
     }
 
-    private void updatePos(ARMotionEvent event) {
+    protected void updatePos(ARMotionEvent event) {
         if (event.getPointerCount() == 2) {
             float nfX, nfY, nsX, nsY;
             nsX = event.getX(0);
