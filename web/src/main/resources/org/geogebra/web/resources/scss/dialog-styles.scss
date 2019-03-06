@@ -1190,12 +1190,15 @@ $duration: 0.2s;
 	}
 
 	.MaterialDialogBox.camera {
+		max-width: 80%; 
+		max-height: 80%; 
 		.mowCameraSimplePanel{
+			position: relative;
+			margin-left: 16px;
 			margin-right: 16px;
 		}
 		.mowCameraInputPanel{
 			width: 100%;
-			position: absolute;
 			text-align: center;
 		}
 		.webcamInputPanel{
