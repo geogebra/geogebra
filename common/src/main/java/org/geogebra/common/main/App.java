@@ -3986,10 +3986,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case EQUATION_TYPE_SETTING:
 			return true;
 
-		/** APPS-393 */
-		case SAFARI_CSS_ZOOM:
-			return true;
-
 	    /** APPS-91 */
 		case LANG_PARAM_LAST:
 			return prerelease;

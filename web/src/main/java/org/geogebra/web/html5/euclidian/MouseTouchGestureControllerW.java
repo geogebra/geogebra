@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -209,10 +208,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		});
 		app.addWindowResizeListener(this);
 		longTouchManager = LongTouchManager.getInstance();
-		if (app.has(Feature.SAFARI_CSS_ZOOM)) {
-			Browser.enableZoomInSafari();
-		}
-		this.cssZoom = Browser.preferZoomOverTransform();
+		this.cssZoom = Browser.isSafariByVendor();
 	}
 
 	/**

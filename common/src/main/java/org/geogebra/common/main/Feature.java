@@ -226,9 +226,6 @@ public enum Feature {
     /** G3D-132 */
     G3D_SHOW_IN_ALGEBRA_VIEW,
 
-    /** APPS-393 */
-	SAFARI_CSS_ZOOM,
-
 	/** G3D-177 */
 	G3D_STL_EXPORT_DIALOG,
 	

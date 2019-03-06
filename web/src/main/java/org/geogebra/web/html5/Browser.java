@@ -1,6 +1,5 @@
 package org.geogebra.web.html5;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -18,7 +17,6 @@ public class Browser {
 	private static boolean webWorkerSupported = false;
 	private static boolean float64supported = true;
 	private static Boolean webglSupported = null;
-	private static boolean zoomInSafari = false;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -68,7 +66,7 @@ public class Browser {
 	 *
 	 * @return true if Safari browser
 	 */
-	private static native boolean isSafariByVendor() /*-{
+	public static native boolean isSafariByVendor() /*-{
 		return "Apple Computer, Inc." === $wnd.navigator.vendor;
 	}-*/;
 
@@ -313,7 +311,7 @@ public class Browser {
 			return;
 		}
 
-		if (preferZoomOverTransform()) {
+		if (isSafariByVendor()) {
 			zoom(parent, externalScale);
 			return;
 		}
@@ -836,20 +834,5 @@ public class Browser {
 		return isiOS() && isSafariByVendor()
 				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
-	}
-
-	/**
-	 *
-	 * @return if we use css zoom in Safari.
-	 */
-	public static boolean preferZoomOverTransform() {
-		return zoomInSafari && isSafariByVendor();
-	}
-
-	/**
-	 * Please remove this when {@link Feature#SAFARI_CSS_ZOOM} is removed
-	 */
-	public static void enableZoomInSafari() {
-		zoomInSafari = true;
 	}
 }

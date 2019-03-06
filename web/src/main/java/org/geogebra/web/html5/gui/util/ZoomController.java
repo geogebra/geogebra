@@ -166,7 +166,7 @@ public class ZoomController {
 						/ 2;
 			}
 
-			if (Browser.preferZoomOverTransform()) {
+			if (Browser.isSafariByVendor()) {
 				marginLeft /= scale;
 				marginTop /= scale;
 			}
