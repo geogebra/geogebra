@@ -79,7 +79,7 @@ public class LoginOperationW extends LogInOperation {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie()();
 									}
 								} catch (err) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + event.data);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + JSON.stringify(event.data));
 								}
 							}
 						}, false);
