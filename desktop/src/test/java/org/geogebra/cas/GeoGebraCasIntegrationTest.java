@@ -1015,6 +1015,33 @@ public class GeoGebraCasIntegrationTest {
 		t("RightSide[lsd]", "1");
 	}
 
+	@Test
+	/**
+	 * Tests for Solve(line/circle/quadric) defined in the Algebra View
+	 * 
+	 * https://dev.geogebra.org/trac/changeset/67205
+	 * https://dev.geogebra.org/trac/changeset/67218
+	 * 
+	 */
+	public void solveAlgebraView() {
+		in("solveline1:y=x");
+		in("solveline2:y=-x");
+		in("solvecircle1:x^2+y^2=4");
+		in("solvecircle2:(x-1)^2+y^2=4");
+		in("solvequaric1:x^2+y^2+z^2=3");
+		in("solvequaric2:x^2+3y^2-z^2=3");
+		in("solvequaric3:x^2+2y^2+3z^2=6");
+
+		t("Solve({solveline1,solveline2},{x,y})", "{{x = 0, y = 0}}");
+		t("Solve({solveline1,solvecircle1},{x,y})",
+				"{{x = sqrt(2), y = sqrt(2)}, {x = -sqrt(2), y = -sqrt(2)}}");
+		t("Solve({solvecircle2,solvecircle1},{x,y})",
+				"{{x = 1 / 2, y = sqrt(15) / 2}, {x = 1 / 2, y = (-sqrt(15)) / 2}}");
+		t("Solve({solvequaric1,solvequaric2,solvequaric3},{x,y,z})",
+				"{{x = -1, y = -1, z = 1}, {x = -1, y = 1, z = 1}, {x = -1, y = -1, z = -1}, {x = 1, y = -1, z = 1}, {x = -1, y = 1, z = -1}, {x = 1, y = 1, z = 1}, {x = 1, y = -1, z = -1}, {x = 1, y = 1, z = -1}}");
+
+	}
+
 	/**
 	 * Make an object in the Algebra View (to test AV -> CAS handling)
 	 * 
