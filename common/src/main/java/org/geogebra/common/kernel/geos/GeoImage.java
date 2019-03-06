@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -178,7 +177,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		hasAbsoluteScreenLocation = img.hasAbsoluteScreenLocation;
 
 		if (hasAbsoluteScreenLocation) {
-			if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			if (kernel.getApplication().isWhiteboardActive()) {
 				cornerScreenX[0] = img.cornerScreenX[0];
 				cornerScreenY[0] = img.cornerScreenY[0];
 			} else {
@@ -667,7 +666,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
-		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+		if (kernel.getApplication().isWhiteboardActive()) {
 			setAbsoluteScreenLoc(x, y, 0);
 		}
 		screenX = x;
@@ -697,18 +696,14 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
-			return getAbsoluteScreenLocX(0);
-		}
-		return screenX;
+		return kernel.getApplication().isWhiteboardActive()
+				? getAbsoluteScreenLocX(0) : screenX;
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
-			return getAbsoluteScreenLocY(0);
-		}
-		return screenY;
+		return kernel.getApplication().isWhiteboardActive()
+				? getAbsoluteScreenLocY(0) : screenY;
 	}
 
 	/**
@@ -859,7 +854,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
-			if (!kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			if (!kernel.getApplication().isWhiteboardActive()) {
 				// remove startpoints
 				for (int i = 0; i < 3; i++) {
 					if (corners[i] != null) {
@@ -905,7 +900,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation && !kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+		if (hasAbsoluteScreenLocation
+				&& !kernel.getApplication().isWhiteboardActive()) {
 			result.setUndefined();
 			return;
 		}

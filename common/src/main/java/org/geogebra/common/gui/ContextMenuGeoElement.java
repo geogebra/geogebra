@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 
@@ -598,13 +597,13 @@ public abstract class ContextMenuGeoElement {
 							.toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
 					if (geoText.isGeoImage() && geoText.getKernel()
-							.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+							.getApplication().isWhiteboardActive()) {
 						((GeoImage) geoText).updateScaleAndLocation();
 					}
 				} else {
 					// convert screen coords to real world
 					if (geoText.isGeoImage() && geoText.getKernel()
-							.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+							.getApplication().isWhiteboardActive()) {
 						((GeoImage) geoText).screenToReal();
 					} else {
 						double x = app.getActiveEuclidianView()

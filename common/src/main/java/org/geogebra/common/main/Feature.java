@@ -78,9 +78,6 @@ public enum Feature {
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
 
-	/** MOW-320 */
-	MOW_PIN_IMAGE,
-
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 

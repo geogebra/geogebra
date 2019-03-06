@@ -3736,10 +3736,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// note: please use prefix MOW
 		// *********************************************************
 		// **********************************************************************
-		/** MOW-320 */
-		case MOW_PIN_IMAGE:
-			return prerelease && whiteboard;
-
 		case MOW_PEN_EVENTS:
 			return false;
 

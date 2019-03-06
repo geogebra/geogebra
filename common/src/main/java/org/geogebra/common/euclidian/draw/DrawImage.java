@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
@@ -131,7 +130,7 @@ public final class DrawImage extends Drawable {
 			double scaleY = geoImage.getScaleY();
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = (int) (geoImage.getAbsoluteScreenLocY() - height * scaleY);
-			if (geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			if (geo.getKernel().getApplication().isWhiteboardActive()) {
 				classicBoundingBox.setBounds(screenX, screenY,
 						(int) (width * scaleX), (int) (height * scaleY));
 			}
@@ -269,12 +268,12 @@ public final class DrawImage extends Drawable {
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
 		}
-		if (geo.getKernel().getApplication().has(
-				Feature.MOW_PIN_IMAGE) && getBounds() != null) {
+		if (geo.getKernel().getApplication().isWhiteboardActive()
+				&& getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 		}
 
-		if (geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+		if (geo.getKernel().getApplication().isWhiteboardActive()) {
 			if (geoImage.isCropped() && geoImage.getCropBoxRelative() != null) {
 				getBoundingBox().setRectangle(getCropBox().getBounds());
 			} else if (getBounds() != null) {
@@ -534,38 +533,29 @@ public final class DrawImage extends Drawable {
 			EuclidianBoundingBoxHandler handler) {
 		if (!(geo.getKernel().getApplication().isWhiteboardActive())
 				|| (absoluteLocation && !geo.getKernel().getApplication()
-						.has(Feature.MOW_PIN_IMAGE))) {
+						.isWhiteboardActive())) {
 			return;
 		}
 		if (boundingBox.isCropBox()) {
-			if (!geo.getKernel().getApplication().isWhiteboardActive()) {
-				return;
-			}
 			geoImage.setCropped(true);
 			if (Double.isNaN(originalRatio)) {
 				updateOriginalRatio();
 			}
 			updateImageCrop(p, handler);
 		} else {
-			if (!geo.getKernel().getApplication().isWhiteboardActive()) {
-				return;
-			}
 			if (Double.isNaN(originalRatio)) {
 				updateOriginalRatio();
 			}
 			if (absoluteLocation && geo.getKernel().getApplication()
-					.has(Feature.MOW_PIN_IMAGE)) {
+					.isWhiteboardActive()) {
 				// updates the current coordinates of corner points
 				geoImage.screenToReal();
 			}
 			geoImage.updateScaleAndLocation();
 			updateImageResize(p, handler);
 
-			if (!geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
-				return;
-			}			
 			if (absoluteLocation && geo.getKernel().getApplication()
-					.has(Feature.MOW_PIN_IMAGE)) {
+					.isWhiteboardActive()) {
 				geoImage.updateScaleAndLocation();
 			}
 			geoImage.update();

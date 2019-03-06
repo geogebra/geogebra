@@ -730,7 +730,7 @@ public class ConsElementXMLHandler {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			if (absolute) {
-				if (app.has(Feature.MOW_PIN_IMAGE) && absLoc.isGeoImage()) {
+				if (app.isWhiteboardActive() && absLoc.isGeoImage()) {
 					((GeoImage) absLoc).setAbsoluteScreenLoc((int) x, (int) y,
 							0);
 				} else {
