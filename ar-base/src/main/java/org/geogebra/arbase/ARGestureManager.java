@@ -3,6 +3,8 @@ package org.geogebra.arbase;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 abstract public class ARGestureManager{
 
@@ -12,6 +14,8 @@ abstract public class ARGestureManager{
     protected boolean isTouched = false;
     protected boolean mUpdateOriginIsWanted = false;
     protected float mAngle;
+    private boolean actionPointerLeftPreviously = false;
+    private float x, y;
 
     public ARGestureManager(EuclidianView3D view) {
         mView = view;
@@ -48,5 +52,75 @@ abstract public class ARGestureManager{
 
     public float getDAngle() {
         return mAngle;
+    }
+
+    protected void firstFingerDown(ARMotionEvent event, App app){
+        mUpdateOriginIsWanted = true;
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            isTouched = false;
+        } else {
+            isTouched = true;
+        }
+        updatePos(event);
+    }
+
+    protected void secondFingerDown(ARMotionEvent event){
+        isTouched = true;
+        mUpdateOriginIsWanted = true;
+        updatePos(event);
+    }
+
+    protected void onMove(ARMotionEvent event, App app){
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            isTouched = event.getPointerCount() > 1;
+        } else {
+            isTouched = true;
+        }
+
+        if (actionPointerLeftPreviously) {
+            mUpdateOriginIsWanted = true;
+            actionPointerLeftPreviously = false;
+        }
+        updatePos(event);
+    }
+
+    protected void firstFingerUp(App app){
+        isTouched = false;
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            mView.getEuclidianController().clearSelections();
+        }
+    }
+
+    protected void secondFingerUp(App app){
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            isTouched = false;
+        } else {
+            isTouched = true;
+        }
+        mUpdateOriginIsWanted = true;
+        actionPointerLeftPreviously = true;
+    }
+
+    protected void actionCancelled(){
+        isTouched = false;
+    }
+
+    private void updatePos(ARMotionEvent event) {
+        if (event.getPointerCount() == 2) {
+            float nfX, nfY, nsX, nsY;
+            nsX = event.getX(0);
+            nsY = event.getY(0);
+            nfX = event.getX(1);
+            nfY = event.getY(1);
+
+            x = (nfX + nsX) / 2;
+            y = (nfY + nsY) / 2;
+
+        } else if (event.getPointerCount() == 1) {
+            x = event.getX(0);
+            y = event.getY(0);
+        }
+        mPos.setX(x);
+        mPos.setY(y);
     }
 }
