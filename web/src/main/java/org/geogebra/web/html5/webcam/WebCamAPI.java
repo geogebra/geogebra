@@ -134,7 +134,7 @@ public class WebCamAPI implements WebCamInterface {
 	}-*/;
 
 	private native void populateMedia(Element elem, Element errorElem) /*-{
-	var constraints = { video: true };
+	var constraints = { video: {facingMode: 'environment'} };
 	var that = this;
 	var browserAlreadyAllowed = false;
 	var accessDenied = false;
