@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.html5.euclidian.GGraphics2DE;
+import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -14,7 +16,7 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public abstract class StylePreview extends Composite {
 	/** The value canvas next to the slider */
-	protected GGraphics2DW g2;
+	protected GGraphics2DWI g2;
 	private int marginX = 0;
 	private int marginY;
 	protected AppW app;
@@ -28,12 +30,16 @@ public abstract class StylePreview extends Composite {
 	 *            height
 	 */
 	public StylePreview(AppW app, int width, int height) {
-		Canvas canvas = Canvas.createIfSupported();
-		canvas.setCoordinateSpaceWidth(width);
-		canvas.setCoordinateSpaceHeight(height);
-		initWidget(canvas);
 		this.app = app;
-		g2 = new GGraphics2DW(canvas);
+		Canvas canvas = Canvas.createIfSupported();
+		if (canvas != null) {
+			canvas.setCoordinateSpaceWidth(width);
+			canvas.setCoordinateSpaceHeight(height);
+			initWidget(canvas);
+			g2 = new GGraphics2DW(canvas);
+		} else {
+			g2 = new GGraphics2DE();
+		}
 		createPreviewGeo();
 		setMarginY(height / 2 - 1);
 	}
