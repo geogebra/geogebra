@@ -650,6 +650,12 @@ public class GeoCasCell extends GeoElement
 		}
 		latexInput = null;
 		input = inNotNull; // remember exact user input
+
+		// APPS-428 avoid problem with " " changing to " *"
+		while (input.indexOf("  ") > -1) {
+			input = input.replace("  ", " ");
+		}
+
 		prefix = "";
 		evalVE = getInputVE();
 		postfix = "";
