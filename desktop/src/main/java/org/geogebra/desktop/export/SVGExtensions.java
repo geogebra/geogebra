@@ -16,9 +16,10 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Adds support for grouping objects in SVG files.
  * 
- * Also now adds support for exporting size in cm from
- * <a href="http://forum.geogebra.org/viewtopic.php?f=8&t=38068">suggestion here</a>
- * and returning null from getTransform() (ie Identity matrix).
+ * Also now adds support for exporting size in cm from <a href=
+ * "https://help.geogebra.org/topic/incorrect-sizing-when-exporting-to-svg">
+ * suggestion here</a> and returning null from getTransform() (ie Identity
+ * matrix).
  * 
  * Needs this line changed in SVGGraphics2D.java (was private) protected
  * PrintWriter os;

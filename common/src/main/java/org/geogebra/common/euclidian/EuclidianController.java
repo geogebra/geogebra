@@ -3774,7 +3774,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		boolean repaintNeeded = clearHighlightedGeos();
 
 		// TODO - this can trigger a tool on mouse-move
-		// https://www.geogebra.org/forum/viewtopic.php?f=8&t=33719
+		// https://help.geogebra.org/topic/-trac-2518-bug-while-using-measuring-tool-
 		// removing breaks previews in trunk
 		boolean oldTranslateRectangle = this.allowSelectionRectangleForTranslateByVector;
 		processModeForHighlight(hits, isControlDown);

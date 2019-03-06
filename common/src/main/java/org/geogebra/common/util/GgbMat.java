@@ -174,7 +174,7 @@ public class GgbMat extends Array2DRowRealMatrix {
 			{
 				int i = r;
 				// make sure we don't use a leader which is almost zero
-				// http://www.geogebra.org/forum/viewtopic.php?f=1&t=25684
+				// https://help.geogebra.org/topic/bug-in-treppennormalform-
 				while (DoubleUtil.isZero(data[i][lead])) {
 					data[i][lead] = 0;
 					i++;

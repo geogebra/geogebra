@@ -638,7 +638,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			cmWidth = ev.getExportWidth() / 100.0 * screenPixels;
 			// not screenPixelsY
-			// eg http://forum.geogebra.org/viewtopic.php?f=8&t=38682
+			// eg
+			// https://help.geogebra.org/topic/picture-export-adds-huge-margin-when-axes-ratio-not-1-1
 			cmHeight = ev.getExportHeight() / 100.0 * screenPixels;
 
 			pixelWidth = (int) (cmWidth / 2.54 * getDPI());
@@ -657,7 +658,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// #4185 changed back to getYscale()
 			// * ev.getYscale() / ev.getXscale() added for when x:y ratio is not
 			// 1:1
-			// http://forum.geogebra.org/viewtopic.php?f=8&t=38682
+			// https://help.geogebra.org/topic/picture-export-adds-huge-margin-when-axes-ratio-not-1-1
 			cmHeight = printingScale * (ev.getExportHeight() / ev.getYscale())
 					* ev.getYscale() / ev.getXscale();
 

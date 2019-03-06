@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Orthogonal[ &lt;GeoPoint>, &lt;GeoVector> ]
@@ -101,6 +102,7 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	}
 
 	private boolean planeOrSpace(String name) {
+		Log.printStacktrace("");
 		return "xOyPlane".equals(name) || loc.getMenu("xOyPlane").equals(name)
 				|| "space".equals(name) || loc.getMenu("space").equals(name);
 	}

@@ -286,7 +286,7 @@ public class Macro {
 			case INTERVAL:
 			case POLYHEDRON:
 			case CURVE_CARTESIAN:// needed for
-									// http://www.geogebra.org/forum/viewtopic.php?t=7275
+				// https://help.geogebra.org/topic/tool-creator-confuses-curves-with-conics
 				// add parent algo and its input objects to
 				// macroConsOrigElements
 				addSpecialInputElement(input[i], macroConsOrigElements);

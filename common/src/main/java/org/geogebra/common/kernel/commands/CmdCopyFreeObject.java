@@ -52,7 +52,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 
 			} else {
 				// changed to deepCopyGeo() so that it works for lists
-				// https://www.geogebra.org/forum/viewtopic.php?f=8&t=26356
+				// https://help.geogebra.org/topic/copyfreeobject-a1-a3-not-free
 				geo = arg[0].deepCopyGeo();
 			}
 

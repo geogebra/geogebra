@@ -1381,7 +1381,7 @@ public class ExpressionNode extends ValidExpression
 
 			// we could group the factors of all possible numerators here.
 			// we won't do that.
-			// http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
+			// https://help.geogebra.org/topic/factor-disappearing
 			// numerGroup();
 
 			String leftStr = getCasString(left, tpl, symbolic, false);

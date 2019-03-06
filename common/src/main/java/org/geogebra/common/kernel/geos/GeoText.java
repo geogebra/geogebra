@@ -413,7 +413,7 @@ public class GeoText extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl1) {
-		// http://www.geogebra.org/forum/viewtopic.php?f=8&t=26139
+		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
 		return str == null ? "" : str;
 	}
 
