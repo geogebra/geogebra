@@ -26,6 +26,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	@Override
 	protected void initGUI() {
 		super.initGUI();
+		addStyleName("camera");
 		if (webcamSupported()) {
 			listPanel.add(webcam = new Label(""));
 		}

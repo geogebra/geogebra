@@ -1202,9 +1202,10 @@ $duration: 0.2s;
 			text-align: center;
 		}
 		.webcamInputPanel{
-			height: 160px;
-			width: 213px;
-			position: absolute;
+			width: 100%;
+			min-height: 160px;
+			min-width: 213px;
+			position: relative;
 			text-align: center;
 		}
 		button {
