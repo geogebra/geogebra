@@ -11,29 +11,37 @@ public class RadiusQuestResErr implements QuestResErrInterface {
 
 	private String response = "";
 
+	@Override
 	public int getID() {
 		return QuestResErrConstants.RADIUS;
 	}
 
+	@Override
 	public String getQuestion() {
 		return "Please give the radius.";
 	}
 
+	@Override
 	public String getResponse() {
 		return response;
 	}
 
+	@Override
 	public void setResponse(String response) {
 		this.response = response;
 	}
 
+	@Override
 	public Double getResponseAsNumber() {
 		return Double.valueOf(getResponse());
 	}
 
 	/**
-	 * check if input is valid (pos nr) and return OK, error message otherwise
+	 * check if input is valid (pos nr)
+	 * 
+	 * @return OK, error message otherwise
 	 */
+	@Override
 	public String checkValidity() {
 		if (StringUtil.isNumber(getResponse()) && getResponseAsNumber() > 0) {
 			return "OK";
@@ -43,5 +51,4 @@ public class RadiusQuestResErr implements QuestResErrInterface {
 			return QuestResErrConstants.ERR_MUST_BE_POSITIVE;
 		}
 	}
-
 }
