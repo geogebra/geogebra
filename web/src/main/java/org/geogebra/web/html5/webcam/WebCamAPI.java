@@ -43,8 +43,8 @@ public class WebCamAPI implements WebCamInterface {
 	 * @return true if web camera is supported.
 	 */
 	public native static boolean isSupported() /*-{
-		return $wnd.navigator.mediaDevices != undefined ||
-		   	(navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
+		return $wnd.navigator.mediaDevices != undefined
+				|| (navigator.webkitGetUserMedia || navigator.mozGetUserMedia);
 	}-*/;
 
 	/**
@@ -117,19 +117,21 @@ public class WebCamAPI implements WebCamInterface {
 
 	private native void checkLegacyAPI() /*-{
 		if ($wnd.navigator.mediaDevices === undefined) {
-  			$wnd.navigator.mediaDevices = {};
-  		}
+			$wnd.navigator.mediaDevices = {};
+		}
 
 		if ($wnd.navigator.mediaDevices.getUserMedia === undefined) {
-  			$wnd.navigator.mediaDevices.getUserMedia = function(constraints) {
-    			var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-    			if (!getUserMedia) {
-      				return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-    			}
-    			return new Promise(function(resolve, reject) {
-      			getUserMedia.call(navigator, constraints, resolve, reject);
-    		});
-  			}
+			$wnd.navigator.mediaDevices.getUserMedia = function(constraints) {
+				var getUserMedia = navigator.webkitGetUserMedia
+						|| navigator.mozGetUserMedia;
+				if (!getUserMedia) {
+					return Promise.reject(new Error(
+							'getUserMedia is not implemented in this browser'));
+				}
+				return new Promise(function(resolve, reject) {
+					getUserMedia.call(navigator, constraints, resolve, reject);
+				});
+			}
 		}
 	}-*/;
 
@@ -180,14 +182,14 @@ public class WebCamAPI implements WebCamInterface {
 			try {
 				video.srcObject = mediaStream
 			} catch (error) {
-				video.src = $wnd.URL
-					.createObjectURL(mediaStream);
+				video.src = $wnd.URL.createObjectURL(mediaStream);
 			}
 			errorElem.style.display = "none";
 			var that = this;
 			video.onloadedmetadata = function(e) {
-				that.@org.geogebra.web.html5.webcam.WebCamAPI::onLoadedMetadata(II)(video.videoWidth,
-					video.videoHeight);
+				that
+						.@org.geogebra.web.html5.webcam.WebCamAPI::onLoadedMetadata(
+								II)(video.videoWidth, video.videoHeight);
 			};
 		} else {
 			video.src = bs;

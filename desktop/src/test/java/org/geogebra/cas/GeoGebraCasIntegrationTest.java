@@ -1038,13 +1038,15 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve({solvecircle2,solvecircle1},{x,y})",
 				"{{x = 1 / 2, y = sqrt(15) / 2}, {x = 1 / 2, y = (-sqrt(15)) / 2}}");
 		// order not deterministic: only count elements
-		t("Length(Solve({solvequaric1,solvequaric2,solvequaric3},{x,y,z}))","8");
+		t("Length(Solve({solvequaric1,solvequaric2,solvequaric3},{x,y,z}))",
+				"8");
 	}
 
 	/**
 	 * Make an object in the Algebra View (to test AV -> CAS handling)
 	 * 
 	 * @param string
+	 *            AV input
 	 */
 	private static void in(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
