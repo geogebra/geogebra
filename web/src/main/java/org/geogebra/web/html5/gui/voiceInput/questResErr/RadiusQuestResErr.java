@@ -31,6 +31,9 @@ public class RadiusQuestResErr implements QuestResErrInterface {
 		return Double.valueOf(getResponse());
 	}
 
+	/**
+	 * check if input is valid (pos nr) and return OK, error message otherwise
+	 */
 	public String checkValidity() {
 		if (StringUtil.isNumber(getResponse()) && getResponseAsNumber() > 0) {
 			return "OK";

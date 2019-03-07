@@ -4841,10 +4841,11 @@ public abstract class EuclidianView3D extends EuclidianView
                         clippingCubeDrawable.enlargeFor(boundsMin);
                         clippingCubeDrawable.enlargeFor(boundsMax);
                     }
-                    if (getShowAxis(AXIS_Z)) {
-                        if (boundsNeededUpdate && boundsMin.getZ() < clippingCubeDrawable.getZminLarge()) {
-                            translationZzeroForAR = -boundsMin.getZ();
-                        } else {
+					if (getShowAxis(AXIS_Z)) {
+						if (boundsNeededUpdate && boundsMin
+								.getZ() < clippingCubeDrawable.getZminLarge()) {
+							translationZzeroForAR = -boundsMin.getZ();
+						} else {
                             translationZzeroForAR = -clippingCubeDrawable.getZminLarge();
                         }
                     } else if (boundsNeededUpdate) {

@@ -25,10 +25,12 @@ public class VoiceInputSegment implements VoiceInputCommandInterface {
 		initQuestList();
 	}
 
+	@Override
 	public ArrayList<QuestResErrInterface> getQuestResList() {
 		return questResList;
 	}
 
+	@Override
 	public void initQuestList() {
 		questResList = new ArrayList<>();
 		XCoordQuestResErr xCoord1 = new XCoordQuestResErr();
@@ -41,6 +43,7 @@ public class VoiceInputSegment implements VoiceInputCommandInterface {
 		questResList.add(yCoord2);
 	}
 
+	@Override
 	public GeoElement createGeo(AppW appW, ArrayList<Double> inputList) {
 		double xCoord1 = inputList.get(0);
 		double yCoord1 = inputList.get(1);

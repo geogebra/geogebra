@@ -1538,6 +1538,9 @@ public class GeoText extends GeoElement
 		editMode = EditMode.None;
 	}
 
+	/**
+	 * process in edit mode
+	 */
 	public void processEditMode() {
 		switch (editMode) {
 		case None:

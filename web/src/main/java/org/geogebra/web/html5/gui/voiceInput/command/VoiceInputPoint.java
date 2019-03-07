@@ -24,13 +24,12 @@ public class VoiceInputPoint implements VoiceInputCommandInterface {
 		initQuestList();
 	}
 
-	/**
-	 * @return list of needed questions to establish a point
-	 */
+	@Override
 	public ArrayList<QuestResErrInterface> getQuestResList() {
 		return questResList;
 	}
 
+	@Override
 	public void initQuestList() {
 		questResList = new ArrayList<>();
 		XCoordQuestResErr xCoord = new XCoordQuestResErr();
@@ -39,13 +38,7 @@ public class VoiceInputPoint implements VoiceInputCommandInterface {
 		questResList.add(yCoord);
 	}
 
-	/**
-	 * @param appW
-	 *            see {@link AppW}
-	 * @param inputList
-	 *            list of needed parameters for the geo
-	 * @return the create point
-	 */
+	@Override
 	public GeoElement createGeo(AppW appW, ArrayList<Double> inputList) {
 		double xCoord = inputList.get(0);
 		double yCoord = inputList.get(1);

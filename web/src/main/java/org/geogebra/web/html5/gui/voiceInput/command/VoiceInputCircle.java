@@ -27,10 +27,12 @@ public class VoiceInputCircle implements VoiceInputCommandInterface {
 		initQuestList();
 	}
 
+	@Override
 	public ArrayList<QuestResErrInterface> getQuestResList() {
 		return questResList;
 	}
 
+	@Override
 	public void initQuestList() {
 		questResList = new ArrayList<>();
 		XCoordQuestResErr xCoord = new XCoordQuestResErr();
@@ -41,6 +43,7 @@ public class VoiceInputCircle implements VoiceInputCommandInterface {
 		questResList.add(radius);
 	}
 
+	@Override
 	public GeoElement createGeo(AppW appW, ArrayList<Double> inputList) {
 		double xCoord = inputList.get(0);
 		double yCoord = inputList.get(1);
@@ -55,5 +58,4 @@ public class VoiceInputCircle implements VoiceInputCommandInterface {
 		circleAlgo.getCircle().setLabel("C");
 		return circleAlgo.getCircle();
 	}
-
 }

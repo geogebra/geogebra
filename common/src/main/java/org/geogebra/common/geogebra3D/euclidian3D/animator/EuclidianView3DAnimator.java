@@ -100,15 +100,17 @@ public class EuclidianView3DAnimator {
 		}
 
 		// if speed is too small, no animation
-		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED
-                * view3D.getApplication().getFactorFor(
-                        ((EuclidianController3D )view3D.getEuclidianController())
-                                .getRotationSpeedHandler().getPointerEventType())) {
+		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED * view3D
+				.getApplication()
+				.getFactorFor(((EuclidianController3D) view3D
+						.getEuclidianController()).getRotationSpeedHandler()
+								.getPointerEventType())) {
 			stopAnimation();
 			return;
 		}
 
-		addAnimation(new EuclidianView3DAnimationContinueRotation(view3D, this, delay, rotSpeed));
+		addAnimation(new EuclidianView3DAnimationContinueRotation(view3D, this,
+				delay, rotSpeed));
 	}
 
 	/**
