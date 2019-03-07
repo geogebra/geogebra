@@ -131,7 +131,7 @@ abstract public class ARGestureManager{
         return mTaped;
     }
 
-    public void clearTaps() {
-        mTaped = false;
+    public void setTaped(boolean taped) {
+        mTaped = taped;
     }
 }
