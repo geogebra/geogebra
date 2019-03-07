@@ -16,6 +16,7 @@ abstract public class ARGestureManager{
     protected float mAngle;
     private boolean actionPointerLeftPreviously = false;
     private float x, y;
+    private boolean mTaped;
 
     public ARGestureManager(EuclidianView3D view) {
         mView = view;
@@ -122,5 +123,15 @@ abstract public class ARGestureManager{
         }
         mPos.setX(x);
         mPos.setY(y);
+    }
+
+    abstract public void addGestureRecognizers();
+
+    public boolean isTaped() {
+        return mTaped;
+    }
+
+    public void clearTaps() {
+        mTaped = false;
     }
 }

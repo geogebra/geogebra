@@ -54,6 +54,10 @@ abstract public class ARManager<TouchEventType> {
 
     abstract public void setSession() throws ARException;
 
+    protected void addGestureRecognizers(){
+        arGestureManager.addGestureRecognizers();
+    }
+
     public boolean getARIsRendering(){
         return false;
     }
