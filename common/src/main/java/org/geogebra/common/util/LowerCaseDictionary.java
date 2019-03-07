@@ -136,9 +136,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
 			ArrayList<String> completions = new ArrayList<>();
-			Iterator<String> compIter = tailSet.iterator();
-			while (compIter.hasNext()) {
-				String comp = compIter.next();
+			for (String comp : tailSet) {
 				if (!comp.startsWith(currLowerCase)) {
 					break;
 				}
@@ -159,6 +157,8 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 *
 	 * @param curr
 	 *            The string to use as the base for the lookup
+	 * @param completions
+	 *            output array
 	 * @return the greatest common prefix
 	 */
 	public String setMatchingGreatestPrefix(final String curr,
@@ -175,9 +175,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(prefixLowerCase);
-			Iterator<String> compIter = tailSet.iterator();
-			while (compIter.hasNext()) {
-				String comp = compIter.next();
+			for (String comp : tailSet) {
 				if (!comp.startsWith(prefixLowerCase)) {
 					break;
 				}
@@ -217,9 +215,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 
 		ArrayList<String> completions = new ArrayList<>();
 		String koreanCurr = Korean.flattenKorean(curr);
-		Iterator<String> it = getIterator();
-		while (it.hasNext()) {
-			String str = it.next();
+		for (String str : treeSet) {
 			if (Korean.flattenKorean(str).startsWith(koreanCurr)) {
 				completions.add(Korean.unflattenKorean(str).toString());
 			}
@@ -240,9 +236,8 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	public ArrayList<String> getAllCommands() {
 		ArrayList<String> ret = new ArrayList<>();
 
-		Iterator<String> compIter = treeSet.iterator();
-		while (compIter.hasNext()) {
-			ret.add(get(compIter.next()));
+		for (String key : treeSet) {
+			ret.add(get(key));
 		}
 
 		if (ret.isEmpty()) {
