@@ -12,7 +12,7 @@ import com.google.gwt.dom.client.Element;
 public class WebCamAPI implements WebCamInterface {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
-
+	
 	private WebCamInterface dialog;
 	private JavaScriptObject stream;
 	private Element videoElement;
@@ -34,7 +34,7 @@ public class WebCamAPI implements WebCamInterface {
 	public void start(Element videoElem, Element errorElem) {
 		videoElement = videoElem;
 		errorElement = errorElem;
-		checkLegacyAPI();
+		createPolyfillIfNeeded();
 		populateMedia(videoElem, errorElem);
 	}
 
@@ -115,23 +115,22 @@ public class WebCamAPI implements WebCamInterface {
 		ctx.drawImage(img, 0, 0);
 	}-*/;
 
-	private native void checkLegacyAPI() /*-{
-		if ($wnd.navigator.mediaDevices === undefined) {
-			$wnd.navigator.mediaDevices = {};
-		}
+	private native void createPolyfillIfNeeded() /*-{
+		var mediaDevices = $wnd.navigator.mediaDevices;
+		if (mediaDevices === undefined) {
+  			mediaDevices = {};
+  		}
 
-		if ($wnd.navigator.mediaDevices.getUserMedia === undefined) {
-			$wnd.navigator.mediaDevices.getUserMedia = function(constraints) {
-				var getUserMedia = navigator.webkitGetUserMedia
-						|| navigator.mozGetUserMedia;
-				if (!getUserMedia) {
-					return Promise.reject(new Error(
-							'getUserMedia is not implemented in this browser'));
-				}
-				return new Promise(function(resolve, reject) {
-					getUserMedia.call(navigator, constraints, resolve, reject);
-				});
-			}
+		if (mediaDevices.getUserMedia === undefined) {
+  			mediaDevices.getUserMedia = function(constraints) {
+    			var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    			if (!getUserMedia) {
+      				return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+    			}
+    			return new Promise(function(resolve, reject) {
+      			getUserMedia.call(navigator, constraints, resolve, reject);
+    		});
+  			}
 		}
 	}-*/;
 
