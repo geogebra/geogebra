@@ -43,15 +43,6 @@ import java.util.HashMap;
  */
 public class MetaModel {
 
-    /* Arrays and matrices. */
-    public static final String ARRAYS = "Arrays";
-    public static final String MATRIX = "Matrix";
-    /* Categories. */
-    public static final String CHARACTERS = "Characters";
-    public static final String GENERAL = "General";
-    public static final String OPERATORS = "Operators";
-    public static final String SYMBOLS = "Symbols";
-    public static final String FUNCTIONS = "Functions";
     private final static MetaModelArrays arrays = new MetaModelArrays();
     private final static MetaModelFunctions functions = new MetaModelFunctions();
     private final static MetaModelSymbols symbols = new MetaModelSymbols();
@@ -83,9 +74,8 @@ public class MetaModel {
 
 		operatorGroup = symbols.createOperators(); // operators/operators
 		symbolGroup = symbols.createSymbols(); // symbols/symbols
-		for (MetaComponent operator : this.operatorGroup.getComponents()) {
-			mergeLookup.put(((MetaSymbol) operator).getCasName(),
-					(MetaCharacter) operator);
+		for (MetaSymbol operator : this.operatorGroup.getComponents()) {
+			mergeLookup.put(operator.getCasName(), operator);
 		}
     }
 
@@ -167,7 +157,7 @@ public class MetaModel {
 	 * @return operator
 	 */
     public MetaCharacter getOperator(String name) {
-		return (MetaCharacter) operatorGroup.getComponent(name);
+		return operatorGroup.getComponent(name);
     }
 
     /**
@@ -187,7 +177,7 @@ public class MetaModel {
 	 * @return symbol meta component
 	 */
     public MetaSymbol getSymbol(String name) {
-		return (MetaSymbol) symbolGroup.getComponent(name);
+		return symbolGroup.getComponent(name);
     }
 
     /**

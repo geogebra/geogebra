@@ -8,52 +8,52 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 class MetaModelSymbols {
 
-	private static MetaComponent createSymbol(String name, String cas,
+	private static MetaSymbol createSymbol(String name, String cas,
 			String tex, char key, char unicode, int type) {
 		return new MetaSymbol(name, cas, tex, key, unicode, type);
 	}
 
-	private static MetaComponent createOperator(String name, String cas,
+	private static MetaSymbol createOperator(String name, String cas,
 			String tex, char key, char unicode) {
 		return createSymbol(name, cas, tex, key, unicode, OPERATOR);
 	}
 
-	private static MetaComponent createOperator(String name, String cas,
+	private static MetaSymbol createOperator(String name, String cas,
 			String tex, char unicode) {
 		char key = name.length() == 1 ? name.charAt(0) : 0;
 
 		return createOperator(name, cas, tex, key, unicode);
 	}
 
-	private static MetaComponent createOperator(String name, String cas,
+	private static MetaSymbol createOperator(String name, String cas,
 			String tex) {
 		char key = name.length() == 1 ? name.charAt(0) : 0;
 
 		return createOperator(name, cas, tex, key, key);
 	}
 
-	private static MetaComponent createOperator(String name, String tex,
+	private static MetaSymbol createOperator(String name, String tex,
 			char unicode) {
 		return createOperator(name, name, tex, unicode);
 	}
 
-	private static MetaComponent createOperator(String name) {
+	private static MetaSymbol createOperator(String name) {
 		return createOperator(name, name, name);
 	}
 
-	private static MetaComponent createSymbol(String name, String cas,
+	private static MetaSymbol createSymbol(String name, String cas,
 			String tex, char unicode) {
 		char key = name.length() == 1 ? name.charAt(0) : 0;
 
 		return createSymbol(name, cas, tex, key, unicode, SYMBOL);
 	}
 
-	private static MetaComponent createSymbol(String name, String tex,
+	private static MetaSymbol createSymbol(String name, String tex,
 			char unicode) {
 		return createSymbol(name, name, tex, unicode);
 	}
 
-	private static MetaComponent createSymbol(String name, String cas,
+	private static MetaSymbol createSymbol(String name, String cas,
 			String tex) {
 		return createSymbol(name, cas, tex, '\0');
 	}

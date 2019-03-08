@@ -7,6 +7,6 @@ public interface MetaGroupCollection extends MetaGroup {
     /**
      * @return the components in this collection
      */
-    Collection<MetaComponent> getComponents();
+	Collection<? extends MetaComponent> getComponents();
 
 }

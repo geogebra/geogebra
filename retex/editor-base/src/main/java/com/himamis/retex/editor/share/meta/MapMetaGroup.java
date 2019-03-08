@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class MapMetaGroup implements MetaGroupCollection {
 
-    private Map<String, MetaComponent> components;
+	private Map<String, MetaSymbol> components;
 
     MapMetaGroup() {
         components = new HashMap<>();
@@ -19,7 +19,7 @@ public class MapMetaGroup implements MetaGroupCollection {
      * Adds a component to the map, with the name and unicode String as keys.
      * @param component the component to be added
      */
-    void addComponent(MetaComponent component) {
+	void addComponent(MetaSymbol component) {
         components.put(component.getName().toString(), component);
         components.put(component.getUnicodeString(), component);
     }
@@ -32,17 +32,17 @@ public class MapMetaGroup implements MetaGroupCollection {
 	 *            the name of the component
 	 * @return the component with name, otherwise null
 	 */
-    public MetaComponent getComponent(String componentName) {
+	public MetaSymbol getComponent(String componentName) {
         return components.get(componentName);
     }
 
     @Override
-    public MetaComponent getComponent(Tag tag) {
+	public MetaSymbol getComponent(Tag tag) {
         return getComponent(tag.toString());
     }
 
     @Override
-    public Collection<MetaComponent> getComponents() {
+	public Collection<MetaSymbol> getComponents() {
         return components.values();
     }
 }
