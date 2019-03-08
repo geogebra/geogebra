@@ -17,7 +17,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	private static final int PREVIEW_WIDTH = 213;
 
 	private WebCamInputPanel webcamPanel;
-	private Label webcam;
+	private Label webcamLabel;
 
 	public ImageInputDialog(App app) {
 		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
@@ -28,7 +28,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 		super.initGUI();
 		addStyleName("camera");
 		if (webcamSupported()) {
-			listPanel.add(webcam = new Label(""));
+			listPanel.add(webcamLabel = new Label(""));
 		}
 	}
 
@@ -39,24 +39,24 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	@Override
 	protected void initActions() {
 		super.initActions();
-		if (webcam != null) {
-			webcam.addClickHandler(this);
+		if (webcamLabel != null) {
+			webcamLabel.addClickHandler(this);
 		}
 	}
 
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		if (webcam != null) {
-			webcam.setText(appw.getLocalization().getMenu("Webcam"));
+		if (webcamLabel != null) {
+			webcamLabel.setText(appw.getLocalization().getMenu("Webcam"));
 		}
 	}
 
 	@Override
 	protected void uploadClicked() {
 		super.uploadClicked();
-		if (webcam != null) {
-			webcam.removeStyleDependentName("highlighted");
+		if (webcamLabel != null) {
+			webcamLabel.removeStyleDependentName("highlighted");
 			if (webcamPanel != null) {
 				webcamPanel.stopVideo();
 				webcamPanel.clear();
@@ -68,7 +68,7 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	}
 
 	protected void webcamClicked() {
-		webcam.addStyleDependentName("highlighted");
+		webcamLabel.addStyleDependentName("highlighted");
 		upload.removeStyleDependentName("highlighted");
 		defaultToUpload = false;
 		if (webcamPanel == null) {
@@ -107,7 +107,8 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	  	   	hide();
 	    } else if (source == upload) {
 	    	uploadClicked();
-	    } else if (webcam != null && source == webcam) {
+	    	centerAndResize(0);
+	    } else if (webcamLabel != null && source == webcamLabel) {
 	    	webcamClicked();
 	    }
 	}
@@ -134,5 +135,15 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	private void setPreviewDimensions() {
 		inputPanel.setHeight(PREVIEW_HEIGHT + "px");
 		inputPanel.setWidth(PREVIEW_WIDTH + "px");
+	}
+
+	@Override
+	public void onCameraSuccess() {
+		imageAvailable();
+	}
+
+	@Override
+	public void onCameraError() {
+		imageUnavailable();
 	}
 }

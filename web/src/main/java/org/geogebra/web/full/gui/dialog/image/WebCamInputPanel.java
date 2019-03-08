@@ -62,6 +62,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	@Override
 	public void onCameraSuccess(JavaScriptObject bs) {
 		hidePermissionDialog();
+		webcamDialog.onCameraSuccess();
 	}
 
 	/**
@@ -184,11 +185,12 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		canvasHeight = height;
 		resize();
 		showInputDialog();
-		Log.debug("VideoSize: " + width + " x " + height);
 	}
 
 	@Override
 	public void onCameraError(String errName) {
+		webcamDialog.onCameraError();
+		
 		if ("NotFoundError".equals(errName)
 				|| "DevicesNotFoundError".equals(errName)
 				|| "TrackStartError".equals(errName)

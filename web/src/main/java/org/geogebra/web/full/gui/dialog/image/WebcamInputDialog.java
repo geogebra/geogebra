@@ -158,4 +158,14 @@ public class WebcamInputDialog extends DialogBoxW implements WebcamDialogInterfa
 	public void startVideo() {
 		webcamInputPanel.startVideo();
 	}
+
+	@Override
+	public void onCameraSuccess() {
+		// not used
+	}
+
+	@Override
+	public void onCameraError() {
+		// not used
+	}
 }

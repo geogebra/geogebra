@@ -15,4 +15,9 @@ public interface WebcamDialogInterface {
 	/** center WebCam dialog */
 	void center();
 
+	/** Called if camera stream is available */
+	void onCameraSuccess();
+	
+	/** Called if something is wrong with the camera */
+	void onCameraError();
 }
