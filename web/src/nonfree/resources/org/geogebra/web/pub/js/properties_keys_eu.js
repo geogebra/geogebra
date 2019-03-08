@@ -3254,7 +3254,7 @@ __GGB__keysVar["eu"].menu = {
     "exam_log_window_entered": "Azterketa-leihoan sartu zara berriz",
     "exam_log_window_left": "Azterketa-leihotik irten zara",
     "exam_menu_enter": "Hasi Azterketa",
-    "exam_menu_enter_calculator_type": "Hasi azterketa: %0",
+    "exam_menu_enter_calculator_type": "Hasi Azterketa: %0",
     "exam_menu_entry": "Azterketa-modua",
     "exam_menu_exit": "Irten Azterketatik",
     "exam_not_supported": "Sentitzen dugu, GeoGebra-azterketa Modua Android 5 edo bertsio berriagoetan soilik dago erabilgarri.",
