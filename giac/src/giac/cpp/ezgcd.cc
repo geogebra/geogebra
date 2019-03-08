@@ -293,7 +293,7 @@ namespace giac {
     int unknowns=0;
     for (;vit!=vitend;++vit){
       if (vit->mult>1)
-	break;
+	break; // return false might be more appropriate here
       unknowns += int(vit->fact.coord.size())-1; // lcoeff is known
     }
     if (unknowns>=giacmax(5,pcur.lexsorted_degree()/2) || unknowns==0)
@@ -320,6 +320,8 @@ namespace giac {
       vector< monomial<gen> >::const_iterator it=fact.coord.begin(),itend=fact.coord.end();
       gen Pi=lc*pow(mainvar,it->index.front());
       for (++it;it!=itend;++it){
+	if (pos>la.size()) 
+	  return false;
 	Pi += la[pos]*pow(mainvar,it->index.front());
 	++pos;
       }

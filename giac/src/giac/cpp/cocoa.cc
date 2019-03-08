@@ -12309,16 +12309,18 @@ template<class modint_t,class modint_u>
       smallmodrref(parallel,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty(),0,!multimodular,0,-1); // disable rref optimization in multi-modular mode otherwise cyclic92 fails
 #else
       smallmodrref(parallel,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,0/* lower reduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty()/* reset */,0,!multimodular,-1); 
-      if (debug_infolevel>1)
-	CERR << CLOCK()*1e-6 << " rref_upper " << endl;
-      int Ksize=int(K.size());
-      if (//1
-	  usedcount<=2*Ksize 
-	  || parallel==1 || Ksize<50
-	  )
-	smallmodrref_upper(K,0,Ksize,0,usedcount,env);
-      else { 
-	thread_smallmodrref_upper(K,0,Ksize,0,usedcount,env,parallel);
+      if (1){
+	if (debug_infolevel>1)
+	  CERR << CLOCK()*1e-6 << " rref_upper " << endl;
+	int Ksize=int(K.size());
+	if (//1
+	    usedcount<=2*Ksize 
+	    || parallel==1 || Ksize<50
+	    )
+	  smallmodrref_upper(K,0,Ksize,0,usedcount,env);
+	else { 
+	  thread_smallmodrref_upper(K,0,Ksize,0,usedcount,env,parallel);
+	}
       }
     } // end if !interreduce
 #endif
@@ -14175,13 +14177,15 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	// if augmentgbasis>0 (at least) gbmod must be sorted
 	//if (augmentgbasis>0)
 	sort(gbmod.begin(),gbmod.end(),tripolymod_tri<polymod<tdeg_t> >(gbasis_logz_age));
+	if (!rur && gbasis_stop<0)
+	  gbmod.resize(-gbasis_stop);
 	if (debug_infolevel && count==0){
 	  CERR << "G= ";
 	  for (size_t i=0;i<G.size();++i){
 	    CERR << i << ":" << G[i] << "(" << resmod[G[i]].age<<"," << resmod[G[i]].logz << ":" << resmod[G[i]].fromleft << "," << resmod[G[i]].fromright << ")" << endl;
 	  }
 	  CERR << "sorted" << endl;
-	  for (size_t i=0;i<G.size();++i){
+	  for (size_t i=0;i<gbmod.size();++i){
 	    CERR << i << "(" << gbmod[i].age << "," << gbmod[i].logz << ":" << gbmod[i].fromleft << "," << gbmod[i].fromright << ")" << endl;
 	  }
 	  CERR << endl;
@@ -14272,7 +14276,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (jpos!=Wlast[i].size() || P[i].type==_INT_){
 	    // CERR << jpos << endl;
 	    // IMPROVE: make it work for rur!
-	    if (!rur && eps>0 && P[i].type==_INT_ && recon_added==0){
+	    if (!rur && eps>0 && P[i].type==_INT_ && recon_added==0 && gbasis_stop!=0){
 	      // check for non modular gb with early reconstruction */
 	      // first build a candidate in early with V[i]
 	      vectpoly8<tdeg_t> early(V[i]);
@@ -14431,7 +14435,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  P.push_back(p);
 	  continue; // next prime
 	}
-	if (!rur && gbasis_stop && recon_n2>=-gbasis_stop){
+	if (!rur && gbasis_stop<0 && recon_n2>=-gbasis_stop){
 	  // stop here
 	  W[i]=Wlast[i];
 	  W[i].resize(recon_n2);
