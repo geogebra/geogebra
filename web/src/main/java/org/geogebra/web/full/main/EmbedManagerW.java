@@ -92,7 +92,6 @@ public class EmbedManagerW implements EmbedManager {
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
 			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
-
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth()
 				- parameters.getBorderThickness());
@@ -164,7 +163,6 @@ public class EmbedManagerW implements EmbedManager {
 						.setAppName(parameters.getDataParamAppName());
 				return true;
 			}
-
 		};
 	}
 
@@ -251,7 +249,6 @@ public class EmbedManagerW implements EmbedManager {
 			if (embedContent != null) {
 				content.put(e.getKey().getEmbedID(), embedContent);
 			}
-
 			// extensions have to update state asynchronously
 		}
 	}
@@ -347,5 +344,4 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		}
 	}
-
 }

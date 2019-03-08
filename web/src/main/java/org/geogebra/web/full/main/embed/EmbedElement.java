@@ -89,5 +89,4 @@ public class EmbedElement {
 	public void setVisible(boolean visible) {
 		widget.setVisible(visible);
 	}
-
 }

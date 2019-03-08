@@ -92,7 +92,6 @@ public class GraspableEmbedElement extends EmbedElement {
 		} else {
 			content = string;
 		}
-
 	}
 
 	@Override
@@ -113,11 +112,11 @@ public class GraspableEmbedElement extends EmbedElement {
 				Log.warn("Could not load Graspable Math API");
 			}
 
+			@Override
 			public void cancel() {
 				// no need to cancel
 			}
 		});
-
 	}
 
 	@Override
@@ -146,5 +145,4 @@ public class GraspableEmbedElement extends EmbedElement {
 	private native void redoNative(JavaScriptObject core) /*-{
 		core.redo();
 	}-*/;
-
 }

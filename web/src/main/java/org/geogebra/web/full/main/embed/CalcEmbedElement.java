@@ -10,7 +10,7 @@ import com.google.gwt.dom.client.Style.Unit;
  */
 public class CalcEmbedElement extends EmbedElement {
 
-	private GeoGebraFrameBoth frame;
+	private final GeoGebraFrameBoth frame;
 
 	/**
 	 * @param widget
@@ -34,5 +34,4 @@ public class CalcEmbedElement extends EmbedElement {
 		return JSON.stringify(
 				frame.getApplication().getGgbApi().getFileJSON(false));
 	}
-
 }
