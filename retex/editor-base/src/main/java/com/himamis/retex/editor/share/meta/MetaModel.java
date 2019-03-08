@@ -54,8 +54,8 @@ public class MetaModel {
 	private MetaArray matrixGroup;
 	private FunctionGroup customFunctionGroup;
 	private CharacterGroup characterGroup;
-	private ListMetaGroup arrayGroup;
-	private ListMetaGroup generalFunctionGroup;
+	private ListMetaGroup<MetaArray> arrayGroup;
+	private ListMetaGroup<MetaFunction> generalFunctionGroup;
 	private MapMetaGroup operatorGroup;
 	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<>();
 	private MapMetaGroup symbolGroup;
@@ -79,18 +79,13 @@ public class MetaModel {
 		}
     }
 
-	private static MetaArray getMetaArray(ListMetaGroup metaGroup,
-			Tag name) {
-        return (MetaArray) metaGroup.getComponent(name);
-    }
-
 	/**
 	 * @param name
 	 *            array tag
 	 * @return array meta-component
 	 */
 	public MetaArray getArray(Tag name) {
-		return (MetaArray) getComponent(name, arrayGroup);
+		return getComponent(name, arrayGroup);
 	}
 
 	/**
@@ -99,8 +94,7 @@ public class MetaModel {
 	 * @return array with given parentheses
 	 */
     public MetaArray getArray(char arrayOpenKey) {
-		for (MetaComponent component : arrayGroup.getComponents()) {
-            MetaArray metaArray = (MetaArray) component;
+		for (MetaArray metaArray : arrayGroup.getComponents()) {
             if (metaArray.getOpenKey() == arrayOpenKey) {
                 return metaArray;
             }
@@ -199,7 +193,7 @@ public class MetaModel {
 	 * @return built infunction
 	 */
 	public MetaFunction getGeneral(Tag name) {
-		return (MetaFunction) getComponent(name, generalFunctionGroup);
+		return getComponent(name, generalFunctionGroup);
     }
 
     /**
@@ -236,10 +230,11 @@ public class MetaModel {
 	 * @throws ArrayIndexOutOfBoundsException
 	 *             when tag unknown in this group
 	 */
-	public MetaComponent getComponent(Tag name, ListMetaGroup group)
+	public <T extends MetaComponent> T getComponent(Tag name,
+			ListMetaGroup<T> group)
 			throws ArrayIndexOutOfBoundsException {
 
-		MetaComponent meta = group.getComponent(name);
+		T meta = group.getComponent(name);
 		if (meta != null) {
 			return meta;
 		}
@@ -286,9 +281,7 @@ public class MetaModel {
 	 * @return whether array with given open key exists
 	 */
     public boolean isArrayOpenKey(char key) {
-		ListMetaGroup metaGroup = arrayGroup;
-        for (MetaComponent metaComponent : metaGroup.getComponents()) {
-            MetaArray metaArray = (MetaArray) metaComponent;
+		for (MetaArray metaArray : arrayGroup.getComponents()) {
             if (metaArray.getOpenKey() == key) {
                 return true;
             }
@@ -302,10 +295,9 @@ public class MetaModel {
 	 * @return whether key is one of (, [
 	 */
     public boolean isFunctionOpenKey(char key) {
-		ListMetaGroup metaGroup = arrayGroup;
-		boolean isFunctionOpenKey = getMetaArray(metaGroup, Tag.REGULAR)
+		boolean isFunctionOpenKey = getArray(Tag.REGULAR)
 				.getOpenKey() == key;
-		isFunctionOpenKey |= getMetaArray(metaGroup, Tag.SQUARE)
+		isFunctionOpenKey |= getArray(Tag.SQUARE)
 				.getOpenKey() == key;
         return isFunctionOpenKey;
     }
@@ -316,16 +308,15 @@ public class MetaModel {
 	 * @return whether key is closing parenthesis of an array
 	 */
     public boolean isArrayCloseKey(char key) {
-		ListMetaGroup metaGroup = arrayGroup;
-		boolean isArrayCloseKey = getMetaArray(metaGroup, Tag.REGULAR)
+		boolean isArrayCloseKey = getArray(Tag.REGULAR)
 				.getCloseKey() == key;
-		isArrayCloseKey |= getMetaArray(metaGroup, Tag.SQUARE)
+		isArrayCloseKey |= getArray(Tag.SQUARE)
 				.getCloseKey() == key;
-		isArrayCloseKey |= getMetaArray(metaGroup, Tag.CURLY)
+		isArrayCloseKey |= getArray(Tag.CURLY)
 				.getCloseKey() == key;
-		isArrayCloseKey |= getMetaArray(metaGroup, Tag.FLOOR)
+		isArrayCloseKey |= getArray(Tag.FLOOR)
 				.getCloseKey() == key;
-		isArrayCloseKey |= getMetaArray(metaGroup, Tag.CEIL)
+		isArrayCloseKey |= getArray(Tag.CEIL)
 				.getCloseKey() == key;
 		return isArrayCloseKey;
 	}

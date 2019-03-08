@@ -35,22 +35,23 @@ import java.util.List;
  *
  * @author Bea Petrovicova
  */
-public class ListMetaGroup implements MetaGroupCollection {
+public class ListMetaGroup<T extends MetaComponent>
+		implements MetaGroupCollection {
 
-    private List<MetaComponent> components;
+	private List<T> components;
 
-	ListMetaGroup(List<MetaComponent> components) {
+	ListMetaGroup(List<T> components) {
         this.components = components;
     }
 
     @Override
-    public List<MetaComponent> getComponents() {
+	public List<T> getComponents() {
         return components;
     }
 
 	@Override
-	public MetaComponent getComponent(Tag tag) {
-		for (MetaComponent component : components) {
+	public T getComponent(Tag tag) {
+		for (T component : components) {
 			if (component.getName().equals(tag)) {
 				return component;
 			}
