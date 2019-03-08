@@ -135,29 +135,29 @@ public class WebCamAPI implements WebCamInterface {
 	}-*/;
 
 	private native void populateMedia(Element elem, Element errorElem) /*-{
-	var constraints = { video: {facingMode: 'environment'} };
-	var that = this;
-	var browserAlreadyAllowed = false;
-	var accessDenied = false;
-
-	$wnd.navigator.mediaDevices.getUserMedia(constraints)
-		.then(function(mediaStream) {
-			browserAlreadyAllowed = true;
-			that.@org.geogebra.web.html5.webcam.WebCamAPI::
-			onCameraSuccess(Lcom/google/gwt/core/client/JavaScriptObject;)(mediaStream);
-		}) // .catch workaround https://github.com/gwtproject/gwt/issues/9490
-		['catch'](function(err) {
-			accessDenied = true;
-			that.@org.geogebra.web.html5.webcam.WebCamAPI::
-			onCameraError(Ljava/lang/String;)(err.name);
-		});
-
-		function accessRequest() {
-				if (!browserAlreadyAllowed && !accessDenied) {
-					that.@org.geogebra.web.html5.webcam.WebCamAPI::onRequest()();
-				}
-		}
-		setTimeout(accessRequest, 400);
+		var constraints = { video: {facingMode: 'environment'} };
+		var that = this;
+		var browserAlreadyAllowed = false;
+		var accessDenied = false;
+	
+		$wnd.navigator.mediaDevices.getUserMedia(constraints)
+			.then(function(mediaStream) {
+				browserAlreadyAllowed = true;
+				that.@org.geogebra.web.html5.webcam.WebCamAPI::
+				onCameraSuccess(Lcom/google/gwt/core/client/JavaScriptObject;)(mediaStream);
+			}) // .catch workaround https://github.com/gwtproject/gwt/issues/9490
+			['catch'](function(err) {
+				accessDenied = true;
+				that.@org.geogebra.web.html5.webcam.WebCamAPI::
+				onCameraError(Ljava/lang/String;)(err.name);
+			});
+	
+			function accessRequest() {
+					if (!browserAlreadyAllowed && !accessDenied) {
+						that.@org.geogebra.web.html5.webcam.WebCamAPI::onRequest()();
+					}
+			}
+			setTimeout(accessRequest, 400);
 	}-*/;
 
 	private native void stopVideo() /*-{
