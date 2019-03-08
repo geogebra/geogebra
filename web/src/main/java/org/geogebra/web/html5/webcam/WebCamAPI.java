@@ -135,6 +135,11 @@ public class WebCamAPI implements WebCamInterface {
 	}-*/;
 
 	private native void populateMedia(Element elem, Element errorElem) /*-{
+		if (!$wnd.navigator.mediaDevices) {
+			this.@org.geogebra.web.html5.webcam.WebCamAPI::onNotSupported()();
+			return;
+		}
+	
 		var constraints = { video: {facingMode: 'environment'} };
 		var that = this;
 		var browserAlreadyAllowed = false;
@@ -151,7 +156,6 @@ public class WebCamAPI implements WebCamInterface {
 				that.@org.geogebra.web.html5.webcam.WebCamAPI::
 				onCameraError(Ljava/lang/String;)(err.name);
 			});
-	
 			function accessRequest() {
 					if (!browserAlreadyAllowed && !accessDenied) {
 						that.@org.geogebra.web.html5.webcam.WebCamAPI::onRequest()();
@@ -195,4 +199,9 @@ public class WebCamAPI implements WebCamInterface {
 			errorElem.style.display = "none";
 		}
 	}-*/;
+
+	@Override
+	public void onNotSupported() {
+		dialog.onNotSupported();
+	}
 }

@@ -211,6 +211,11 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		showRequestDialog();
 	}
 
+	@Override
+	public void onNotSupported() {
+		showNotSupportedDialog();
+	}
+	
 	public interface VideoTemplate extends SafeHtmlTemplates {
 		@SafeHtmlTemplates.Template("<video autoplay class=\"{0}\"><br>\r\n"
 				+ "  {1}</video>")

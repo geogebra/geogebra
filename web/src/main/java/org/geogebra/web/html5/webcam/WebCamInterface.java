@@ -40,4 +40,9 @@ public interface WebCamInterface {
 	 * 				of the video.
 	 */
 	void onLoadedMetadata(int width, int height);
+	
+	/**
+	 * Called whe webcam is not supported by browser.
+	 */
+	void onNotSupported();
 }
