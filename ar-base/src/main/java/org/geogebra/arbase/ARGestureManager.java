@@ -11,7 +11,7 @@ abstract public class ARGestureManager{
     private EuclidianView3D mView;
     protected float mScaleFactor = 1.0f;
     protected Coords mPos = new Coords(2);
-    private boolean isTouched = false;
+    protected boolean isTouched = false;
     private boolean mUpdateOriginIsWanted = false;
     protected float mAngle;
     private boolean actionPointerLeftPreviously = false;
