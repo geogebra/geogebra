@@ -58,7 +58,7 @@ class MetaModelSymbols {
 		return createSymbol(name, cas, tex, '\0');
 	}
 
-	MetaGroupCollection createOperators() {
+	MapMetaGroup createOperators() {
 		MapMetaGroup collection = new MapMetaGroup();
 
 		collection.addComponent(createOperator("-"));
@@ -191,7 +191,7 @@ class MetaModelSymbols {
 		return collection;
 	}
 
-	MetaGroupCollection createSymbols() {
+	MapMetaGroup createSymbols() {
 		MapMetaGroup collection = new MapMetaGroup();
 
 		collection

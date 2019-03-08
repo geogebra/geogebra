@@ -65,9 +65,9 @@ public class MetaModel {
 	private CharacterGroup characterGroup;
 	private ListMetaGroup arrayGroup;
 	private ListMetaGroup generalFunctionGroup;
-	private MetaGroupCollection operatorGroup;
+	private MapMetaGroup operatorGroup;
 	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<>();
-	private MetaGroupCollection symbolGroup;
+	private MapMetaGroup symbolGroup;
 
 	/**
 	 * Create new meta model.
@@ -94,15 +94,16 @@ public class MetaModel {
         return (MetaArray) metaGroup.getComponent(name);
     }
 
-    /**
-     * get array
-     */
+	/**
+	 * @param name
+	 *            array tag
+	 * @return array meta-component
+	 */
 	public MetaArray getArray(Tag name) {
 		return (MetaArray) getComponent(name, arrayGroup);
-    }
+	}
 
 	/**
-	 * 
 	 * @param arrayOpenKey
 	 *            open parenthesis
 	 * @return array with given parentheses
@@ -119,95 +120,122 @@ public class MetaModel {
     }
 
     /**
-     * get matrix
-     */
+	 * @return matrix
+	 */
     public MetaArray getMatrix() {
 		return matrixGroup;
     }
 
     /**
-     * Character.
-     */
+	 * @param name
+	 *            input
+	 * @return whether input is a character name
+	 */
     public boolean isCharacter(String name) {
+		// TODO never thrown?
         try {
             getCharacter(name);
             return true;
         } catch (ArrayIndexOutOfBoundsException e) {
-            return false;
+			return false;
         }
     }
 
     /**
-     * get character
-     */
+	 * @param name
+	 *            character name
+	 * @return character
+	 */
     public MetaCharacter getCharacter(String name) {
-		return (MetaCharacter) characterGroup.getComponent(name);
+		return characterGroup.getComponent(name);
     }
 
     /**
-     * Operator.
-     */
+	 * @param name
+	 *            operator name
+	 * @return Operator.
+	 */
     public boolean isOperator(String name) {
 		return operatorGroup.getComponent(name) != null;
     }
 
     /**
-     * get operator
-     */
+	 * get operator
+	 * 
+	 * @param name
+	 *            operator name
+	 * @return operator
+	 */
     public MetaCharacter getOperator(String name) {
-		return (MetaCharacter) getComponent(name, operatorGroup);
+		return (MetaCharacter) operatorGroup.getComponent(name);
     }
 
     /**
-     * Symbol.
-     */
+	 * @param name
+	 *            character name
+	 * @return whether it's a symbol
+	 */
     public boolean isSymbol(String name) {
 		return symbolGroup.getComponent(name) != null;
     }
 
     /**
-     * get symbol
-     */
+	 * get symbol
+	 * 
+	 * @param name
+	 *            symbol name
+	 * @return symbol meta component
+	 */
     public MetaSymbol getSymbol(String name) {
-		return (MetaSymbol) getComponent(name, symbolGroup);
+		return (MetaSymbol) symbolGroup.getComponent(name);
     }
 
     /**
-     * Custom Function.
-     */
+	 * Check for general x custom Function.
+	 * 
+	 * @param name
+	 *            function tag
+	 * @return whether it's a general (built in) function
+	 */
 	public boolean isGeneral(Tag name) {
 		return name != Tag.APPLY && name != Tag.APPLY_SQUARE;
     }
 
     /**
-     * get custom function
-     */
+	 * get custom function
+	 * 
+	 * @param name
+	 *            function name
+	 * @return built infunction
+	 */
 	public MetaFunction getGeneral(Tag name) {
 		return (MetaFunction) getComponent(name, generalFunctionGroup);
     }
 
     /**
-     * Function.
-     */
+	 * Function.
+	 * 
+	 * @param casName
+	 *            function name
+	 * @return whether it's acceptable
+	 */
     public boolean isFunction(String casName) {
 		return Tag.lookup(casName) != null
 				|| FunctionGroup.isAcceptable(casName);
     }
 
     /**
-     * get function
-     */
+	 * get function
+	 * 
+	 * @param name
+	 *            function name
+	 * @param square
+	 *            whether to use square brackets
+	 * @return function
+	 */
     public MetaFunction getFunction(String name, boolean square) {
-
 		return customFunctionGroup.getComponent(name, square);
     }
-
-    /**
-     * get component
-     */
-	public MetaComponent getComponent(String name, MetaGroupCollection group) {
-		return group.getComponent(name);
-	}
 
 	/**
 	 * @param name
@@ -309,8 +337,8 @@ public class MetaModel {
 				.getCloseKey() == key;
 		isArrayCloseKey |= getMetaArray(metaGroup, Tag.CEIL)
 				.getCloseKey() == key;
-        return isArrayCloseKey;
-    }
+		return isArrayCloseKey;
+	}
 
 	/**
 	 * @param prefix

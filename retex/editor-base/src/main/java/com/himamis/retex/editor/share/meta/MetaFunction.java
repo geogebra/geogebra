@@ -38,7 +38,6 @@ public class MetaFunction extends MetaComponent {
 	private int insertIndex;
 	private int initialIndex;
 	private MetaParameter[] arguments;
-	private String desc;
 
 	/**
 	 * @param name
@@ -59,64 +58,51 @@ public class MetaFunction extends MetaComponent {
     }
 
     /**
-     * Description.
-     */
-    public String getDescription() {
-        return desc;
-    }
-
-    /**
-     * Description.
-     */
-    public void setDescription(String desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * Parameter
-     */
-    public MetaParameter getParameter(int casOrder) {
-        return arguments[casOrder];
-    }
-
-    /**
-     * Number of arguments.
-     */
+	 * @return number of arguments.
+	 */
     public int size() {
         return arguments.length;
     }
 
     /**
-     * Insert Index
-     */
+	 * @return Insert Index
+	 */
     public int getInsertIndex() {
         return insertIndex;
     }
 
     /**
-     * Insert Index
-     */
+	 * Set insert index
+	 * 
+	 * @param insertIndex
+	 *            insert index
+	 */
     void setInsertIndex(int insertIndex) {
         this.insertIndex = insertIndex;
     }
 
     /**
-     * Initial Index
-     */
+	 * @return Initial Index
+	 */
     public int getInitialIndex() {
         return initialIndex;
     }
 
     /**
-     * Initial Index
-     */
+	 * @param initialIndex
+	 *            Initial Index
+	 */
     void setInitialIndex(int initialIndex) {
         this.initialIndex = initialIndex;
     }
 
     /**
-     * Up Index for n-th argument
-     */
+	 * Up Index for n-th argument
+	 * 
+	 * @param n
+	 *            current arg index
+	 * @return arg index after up key pressed
+	 */
     public int getUpIndex(int n) {
 		if (arguments.length <= n) {
 			return -1;
@@ -125,24 +111,34 @@ public class MetaFunction extends MetaComponent {
     }
 
     /**
-     * Down Index for n-th argument
-     */
-    public int getDownIndex(int n) {
+	 * Down Index for n-th argument
+	 * 
+	 * @param n
+	 *            current arg index
+	 * @return arg index after down key pressed
+	 */
+	public int getDownIndex(int n) {
 		if (arguments.length <= n) {
 			return -1;
 		}
-        return arguments[n].getDownIndex();
-    }
+		return arguments[n].getDownIndex();
+	}
 
 	/* Translate CAS argument order into input argument order. *
     public int getArgumentInputIndex(int casOrder) {
 		return order[casOrder];
 	} */
 
+	/**
+	 * @return opening bracket
+	 */
 	public String getOpeningBracket() {
 		return getName() == Tag.APPLY_SQUARE ? "[" : "(";
     }
 
+	/**
+	 * @return closing bracket
+	 */
 	public String getClosingBracket() {
 		return getName() == Tag.APPLY_SQUARE ? "]" : ")";
     }

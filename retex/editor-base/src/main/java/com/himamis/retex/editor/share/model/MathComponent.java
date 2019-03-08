@@ -50,22 +50,29 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 	private MathContainer parent;
 
     /**
-     * Gets parent of this component.
-     */
+	 * Gets parent of this component.
+	 * 
+	 * @return parent of this component.
+	 */
     public MathContainer getParent() {
         return parent;
     }
 
     /**
-     * Sets parent of this component.
-     */
+	 * Sets parent of this component.
+	 * 
+	 * @param container
+	 *            parent
+	 */
     void setParent(MathContainer container) {
         this.parent = container;
     }
 
     /**
-     * Gets index of this component within its parent component.
-     */
+	 * Gets index of this component within its parent component.
+	 * 
+	 * @return index within parent
+	 */
     public int getParentIndex() {
         if (parent == null) {
             return 0;

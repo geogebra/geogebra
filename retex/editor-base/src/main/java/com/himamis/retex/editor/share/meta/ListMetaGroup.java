@@ -49,16 +49,6 @@ public class ListMetaGroup implements MetaGroupCollection {
     }
 
 	@Override
-	public MetaComponent getComponent(String name) {
-		for (MetaComponent component : components) {
-			if (name.equals(component.getUnicodeString())) {
-				return component;
-			}
-		}
-		return null;
-	}
-
-	@Override
 	public MetaComponent getComponent(Tag tag) {
 		for (MetaComponent component : components) {
 			if (component.getName().equals(tag)) {

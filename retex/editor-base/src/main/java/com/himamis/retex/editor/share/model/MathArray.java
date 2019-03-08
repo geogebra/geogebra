@@ -144,6 +144,12 @@ public class MathArray extends MathContainer {
 
 	/**
 	 * Returns i-th row, j-th column cell.
+	 * 
+	 * @param i
+	 *            row
+	 * @param j
+	 *            column
+	 * @return matrix cell
 	 */
 	public MathSequence getArgument(int i, int j) {
 		return getArgument(i * columns + j);
@@ -153,14 +159,23 @@ public class MathArray extends MathContainer {
 		return meta.getOpen();
 	}
 
+	/**
+	 * @return open key
+	 */
 	public char getOpenKey() {
 		return meta.getOpenKey();
 	}
 
+	/**
+	 * @return close meta component
+	 */
 	public MetaComponent getClose() {
 		return meta.getClose();
 	}
 
+	/**
+	 * @return close key
+	 */
 	public char getCloseKey() {
 		return meta.getCloseKey();
 	}
@@ -211,6 +226,8 @@ public class MathArray extends MathContainer {
 	 *            leading empty rows
 	 * @param joffset
 	 *            leading empty columns.
+	 * @param array
+	 *            original array
 	 */
 	public void copy(int ioffset, int joffset, MathArray array) {
 		for (int i = 0; (i < (rows + joffset) || i < array.rows); i++) {
@@ -224,14 +241,14 @@ public class MathArray extends MathContainer {
 	}
 
 	/**
-	 * Number of columns.
+	 * @return Number of columns.
 	 */
 	public int columns() {
 		return columns;
 	}
 
 	/**
-	 * Number of rows.
+	 * @return Number of rows.
 	 */
 	public int rows() {
 		return rows;

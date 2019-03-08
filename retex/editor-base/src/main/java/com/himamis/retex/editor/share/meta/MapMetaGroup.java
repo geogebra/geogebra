@@ -24,7 +24,14 @@ public class MapMetaGroup implements MetaGroupCollection {
         components.put(component.getUnicodeString(), component);
     }
 
-    @Override
+	/**
+	 * Prefer using {@link MetaGroup#getComponent(Tag)} over this method.
+	 *
+	 * @see #getComponent(Tag)
+	 * @param componentName
+	 *            the name of the component
+	 * @return the component with name, otherwise null
+	 */
     public MetaComponent getComponent(String componentName) {
         return components.get(componentName);
     }

@@ -73,6 +73,16 @@ public class InputController {
 
 	/**
 	 * Insert array.
+	 * 
+	 * @param editorState
+	 *            editor state
+	 * @param size
+	 *            array size
+	 * @param arrayOpenKey
+	 *            array type
+	 * @param reverse
+	 *            whether to insert it left of the cursor
+	 * @return array
 	 */
 	public MathArray newArray(EditorState editorState, int size,
 			char arrayOpenKey, boolean reverse) {

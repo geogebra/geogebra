@@ -42,11 +42,15 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  */
 public class MathCharacter extends MathComponent {
 
+	private static final long serialVersionUID = 1L;
 	private MetaCharacter meta;
 
     /**
-     * Use MathFormula.newCharacter(...)
-     */
+	 * Use MathFormula.newCharacter(...)
+	 * 
+	 * @param meta
+	 *            meta compenent
+	 */
     public MathCharacter(MetaCharacter meta) {
         this.meta = meta;
     }
@@ -64,35 +68,44 @@ public class MathCharacter extends MathComponent {
         return new MathCharacter(meta);
     }
 
+	/**
+	 * @return name
+	 */
     public String getName() {
 		return meta.getCharName();
     }
 
+	/**
+	 * @return name for tex
+	 */
     public String getTexName() {
         return meta.getTexName();
     }
 
+	/**
+	 * @return unicode
+	 */
     public char getUnicode() {
         return meta.getUnicode();
     }
 
     /**
-     * Is Character.
-     */
+	 * @return whether this Is Character.
+	 */
     public boolean isCharacter() {
         return meta.getType() == MetaCharacter.CHARACTER;
     }
 
     /**
-     * Is Operator.
-     */
+	 * @return whether this is operator
+	 */
     public boolean isOperator() {
         return meta.getType() == MetaCharacter.OPERATOR;
     }
 
     /**
-     * Is Symbol.
-     */
+	 * @return whether this is a symbol.
+	 */
     public boolean isSymbol() {
         return meta.getType() == MetaCharacter.SYMBOL;
     }

@@ -53,6 +53,10 @@ public class Character {
 	/**
 	 * Character.isLetterOrDigit() doesn't work in GWT, see
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
+	 * 
+	 * @param c
+	 *            character
+	 * @return whether it's either letter or digit
 	 */
     public static boolean isLetterOrDigit(char c) {
         return java.lang.Character.isDigit(c) || isLetter(c);

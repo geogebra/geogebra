@@ -1,5 +1,13 @@
 package org.geogebra.keyboard.scientific.model;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
+
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Resource;
@@ -10,14 +18,6 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
 public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
 
@@ -72,8 +72,8 @@ public class ScientificFunctionKeyboardFactory implements KeyboardModelFactory {
                 if (primaryAction == ActionType.INPUT_TRANSLATE_MENU
                         || primaryAction == ActionType.INPUT_TRANSLATE_COMMAND
                         || primaryAction == ActionType.INPUT
-                        || (primaryAction == ActionType.CUSTOM &&
-                            button.getPrimaryActionName().equals(Action.RETURN_ENTER.name()))) {
+                        || (primaryAction == ActionType.CUSTOM 
+                            && button.getPrimaryActionName().equals(Action.RETURN_ENTER.name()))) {
                     button.addAction(Action.SWITCH_TO_123.toString(), ActionType.CUSTOM);
                 }
             }

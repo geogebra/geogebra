@@ -41,6 +41,11 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  */
 abstract public class MathContainer extends MathComponent {
 
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * List of arguments
+	 */
 	protected ArrayList<MathComponent> arguments = null;
 
 	/**
@@ -165,6 +170,11 @@ abstract public class MathContainer extends MathComponent {
 
 	/**
 	 * Sets i-th argument.
+	 * 
+	 * @param i
+	 *            index
+	 * @param argument
+	 *            argument
 	 */
 	public void setArgument(int i, MathComponent argument) {
 		if (arguments == null) {
@@ -243,14 +253,16 @@ abstract public class MathContainer extends MathComponent {
 	}
 
 	/**
-	 * Returns number of arguments.
+	 * @return number of arguments.
 	 */
 	public int size() {
 		return arguments != null ? arguments.size() : 0;
 	}
 
 	/**
-	 * Get index of first argument.
+	 * Get index of the first argument.
+	 * 
+	 * @return index of the first argument.
 	 */
 	public int first() {
 		// strange but correct
@@ -258,7 +270,9 @@ abstract public class MathContainer extends MathComponent {
 	}
 
 	/**
-	 * Get index of last argument.
+	 * Get index of the last argument.
+	 * 
+	 * @return index of the last argument.
 	 */
 	public int last() {
 		return prev(arguments != null ? arguments.size() : 0);
@@ -266,6 +280,10 @@ abstract public class MathContainer extends MathComponent {
 
 	/**
 	 * Is there a next argument?
+	 * 
+	 * @param current
+	 *            current index
+	 * @return whether there is a container after
 	 */
 	public boolean hasNext(int current) {
 		for (int i = current + 1; i < (arguments != null ? arguments.size()
@@ -279,6 +297,10 @@ abstract public class MathContainer extends MathComponent {
 
 	/**
 	 * Get index of next argument.
+	 * 
+	 * @param current
+	 *            current index
+	 * @return next container index
 	 */
 	public int next(int current) {
 		for (int i = current + 1; i < (arguments != null ? arguments.size()
@@ -292,6 +314,10 @@ abstract public class MathContainer extends MathComponent {
 
 	/**
 	 * Is there previous argument?
+	 * 
+	 * @param current
+	 *            current index
+	 * @return whether there is a container before
 	 */
 	public boolean hasPrev(int current) {
 		for (int i = current - 1; i >= 0; i--) {
@@ -304,6 +330,10 @@ abstract public class MathContainer extends MathComponent {
 
 	/**
 	 * Get index of previous argument.
+	 * 
+	 * @param current
+	 *            current index
+	 * @return index of previous container
 	 */
 	public int prev(int current) {
 		for (int i = current - 1; i >= 0; i--) {
@@ -316,6 +346,8 @@ abstract public class MathContainer extends MathComponent {
 
 	/**
 	 * Are there any arguments?
+	 * 
+	 * @return whether this contains containers
 	 */
 	public boolean hasChildren() {
 		for (int i = 0; i < (arguments != null ? arguments.size() : 0); i++) {
@@ -326,10 +358,16 @@ abstract public class MathContainer extends MathComponent {
 		return false;
 	}
 
+	/**
+	 * @return insert index
+	 */
 	public int getInsertIndex() {
 		return 0;
 	}
 
+	/**
+	 * @return initial index
+	 */
 	public int getInitialIndex() {
 		return 0;
 	}
@@ -364,6 +402,11 @@ abstract public class MathContainer extends MathComponent {
 	@Override
 	public abstract MathContainer copy();
 
+	/**
+	 * @param argument
+	 *            argument
+	 * @return index of the argument, -1 if not found
+	 */
 	public int indexOf(MathComponent argument) {
 		return arguments.indexOf(argument);
 	}

@@ -57,36 +57,38 @@ public class MetaComponent implements Serializable {
     }
 
 	/**
-	 * Uid name.
+	 * @return Uid name.
 	 */
 	public Tag getName() {
 		return name;
 	}
 
 	/**
-	 * TeX name.
+	 * @return TeX name.
 	 */
     public String getTexName() {
         return texName;
     }
 
     /**
-     * Input Key.
-     */
+	 * @return Input Key.
+	 */
     public char getKey() {
         return key;
     }
 
     /**
-     * Unicode char.
-     */
+	 * @return Unicode char.
+	 */
     public char getUnicode() {
         return unicode;
     }
 
     /**
-     * Unicode value in String format.
-     */
+	 * Unicode value in String format.
+	 * 
+	 * @return unicode string
+	 */
     public String getUnicodeString() {
         return unicodeString;
     }

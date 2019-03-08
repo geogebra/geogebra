@@ -9,12 +9,4 @@ public interface MetaGroupCollection extends MetaGroup {
      */
     Collection<MetaComponent> getComponents();
 
-    /**
-     * Prefer using {@link MetaGroup#getComponent(Tag)} over this method.
-     *
-     * @see #getComponent(Tag)
-     * @param name the name of the component
-     * @return the component with name, otherwise null
-     */
-    MetaComponent getComponent(String name);
 }

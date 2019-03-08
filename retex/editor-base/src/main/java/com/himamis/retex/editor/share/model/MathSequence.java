@@ -30,7 +30,12 @@ package com.himamis.retex.editor.share.model;
 
 import com.himamis.retex.editor.share.meta.Tag;
 
+/**
+ * Sequence of math expressions
+ */
 public class MathSequence extends MathContainer {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Use MathFormula.newSequence(...)
@@ -50,7 +55,6 @@ public class MathSequence extends MathContainer {
 
 	@Override
 	public boolean addArgument(int i, MathComponent argument) {
-
 		if (checkKorean(i, argument)) {
 			return false;
 		}
@@ -78,7 +82,7 @@ public class MathSequence extends MathContainer {
 	}
 
 	/**
-	 * has operator (including power).
+	 * @return whether sequence contains operator (including power).
 	 */
 	public boolean hasOperator() {
 		for (int i = 0; i < size(); i++) {
@@ -95,6 +99,10 @@ public class MathSequence extends MathContainer {
 
 	/**
 	 * Is i'th argument script.
+	 * 
+	 * @param i
+	 *            index
+	 * @return whether given argument is a sub/super-script
 	 */
 	public boolean isScript(int i) {
 		return i >= 0 && i < size() && getArgument(i) instanceof MathFunction
@@ -106,6 +114,10 @@ public class MathSequence extends MathContainer {
 
 	/**
 	 * Is i'th argument character.
+	 * 
+	 * @param i
+	 *            index
+	 * @return whether given argument is a character
 	 */
 	public boolean isCharacter(int i) {
 		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
@@ -114,6 +126,10 @@ public class MathSequence extends MathContainer {
 
 	/**
 	 * Is i'th argument operator.
+	 * 
+	 * @param i
+	 *            index
+	 * @return whether given argument is an operator
 	 */
 	public boolean isOperator(int i) {
 		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
@@ -122,6 +138,10 @@ public class MathSequence extends MathContainer {
 
 	/**
 	 * Is i'th argument symbol.
+	 * 
+	 * @param i
+	 *            index
+	 * @return whether given argument is a symbol
 	 */
 	public boolean isSymbol(int i) {
 		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
@@ -137,14 +157,14 @@ public class MathSequence extends MathContainer {
 			MathArray arg0 = ((MathArray) getArgument(0));
 			if (arg0.size() == 1 && arg0.getArgument(0) != null
 					&& arg0.getOpenKey() == '(') {
-				this.setArgument(0, arg0.getArgument(0));
+				setArgument(0, arg0.getArgument(0));
 			}
 		}
 		if (size() == 1 && getArgument(0) instanceof MathSequence) {
-			MathSequence arg0 = ((MathSequence) getArgument(0));
-			this.clearArguments();
+			MathSequence arg0 = (MathSequence) getArgument(0);
+			clearArguments();
 			for (int i = 0; i < arg0.size(); i++) {
-				this.addArgument(arg0.getArgument(i));
+				addArgument(arg0.getArgument(i));
 			}
 		}
 	}

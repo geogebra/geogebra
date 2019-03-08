@@ -31,11 +31,18 @@ package com.himamis.retex.editor.share.model;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.parser.Parser;
 
+/**
+ * Math editor content
+ */
 public class MathFormula {
 
     private MetaModel metaModel;
     private MathSequence rootContainer;
 
+	/**
+	 * @param metaModel
+	 *            model
+	 */
     public MathFormula(MetaModel metaModel) {
         this.metaModel = metaModel;
     }
@@ -68,12 +75,15 @@ public class MathFormula {
     }
 
     /**
-     * MetaModel
-     */
+	 * @return MetaModel
+	 */
     public MetaModel getMetaModel() {
         return metaModel;
     }
 
+	/**
+	 * @return root component
+	 */
     public MathSequence getRootComponent() {
         return rootContainer;
     }
@@ -87,6 +97,9 @@ public class MathFormula {
         rootContainer.setParent(null);
     }
 
+	/**
+	 * @return whether the content is empty
+	 */
     public boolean isEmpty() {
         return rootContainer.size() == 0;
     }

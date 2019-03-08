@@ -40,11 +40,15 @@ import com.himamis.retex.editor.share.meta.Tag;
  */
 public class MathFunction extends MathContainer {
 
-    private MetaFunction meta;
+	private static final long serialVersionUID = 1L;
+	private MetaFunction meta;
 
     /**
-     * Use MathFormula.newFunction(...)
-     */
+	 * Use MathFormula.newFunction(...)
+	 * 
+	 * @param meta
+	 *            meta-component
+	 */
     public MathFunction(MetaFunction meta) {
         super(meta.size());
         this.meta = meta;
@@ -63,20 +67,16 @@ public class MathFunction extends MathContainer {
         return (MathSequence) super.getArgument(i);
     }
 
-    public void setArgument(int i, MathSequence argument) {
-        super.setArgument(i, argument);
-    }
-
     /**
-     * Uid name.
-     */
+	 * @return Uid name.
+	 */
 	public Tag getName() {
         return meta.getName();
     }
 
     /**
-     * TeX name.
-     */
+	 * @return TeX name.
+	 */
     public String getTexName() {
         return meta.getTexName();
     }
@@ -97,16 +97,24 @@ public class MathFunction extends MathContainer {
         return meta.getInitialIndex();
     }
 
-    /**
-     * Up Index for n-th argument
-     */
+	/**
+	 * Up Index for n-th argument
+	 * 
+	 * @param n
+	 *            index
+	 * @return index to jump with "up" key
+	 */
     public int getUpIndex(int n) {
         return meta.getUpIndex(n);
     }
 
-    /**
-     * Down Index for n-th argument
-     */
+	/**
+	 * Down Index for n-th argument
+	 * 
+	 * @param n
+	 *            index
+	 * @return index to jump with "down" key
+	 */
     public int getDownIndex(int n) {
         return meta.getDownIndex(n);
     }
@@ -122,13 +130,19 @@ public class MathFunction extends MathContainer {
         return function;
     }
 
+	/**
+	 * @return opening bracket
+	 */
 	public String getOpeningBracket() {
 		return meta.getOpeningBracket();
-    }
+	}
 
+	/**
+	 * @return closing bracket
+	 */
 	public String getClosingBracket() {
 		return meta.getClosingBracket();
-    }
+	}
 
 	@Override
 	protected String getSimpleName() {

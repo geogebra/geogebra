@@ -71,9 +71,12 @@ public class TeXSerializer extends SerializerAdapter {
 
 	/**
 	 * Enables or disables line break in the editor.
+	 * 
+	 * @param lineBreaks
+	 *            whether to allow linebreaks
 	 */
-	public void setLineBeakEnabled(boolean b) {
-		lineBreakEnabled = b;
+	public void setLineBeakEnabled(boolean lineBreaks) {
+		lineBreakEnabled = lineBreaks;
 	}
 
 	@Override
