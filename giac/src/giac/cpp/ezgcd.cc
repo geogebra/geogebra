@@ -320,7 +320,7 @@ namespace giac {
       vector< monomial<gen> >::const_iterator it=fact.coord.begin(),itend=fact.coord.end();
       gen Pi=lc*pow(mainvar,it->index.front());
       for (++it;it!=itend;++it){
-	if (pos>la.size()) 
+	if (pos>=la.size()) 
 	  return false;
 	Pi += la[pos]*pow(mainvar,it->index.front());
 	++pos;
