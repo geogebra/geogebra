@@ -65,4 +65,29 @@ public class GBufferedImageD implements GBufferedImage {
 		return StringUtil.pngMarker + GgbAPID.base64encode(impl, 72);
 	}
 
+	/**
+	 * convert image to grayscale (monochrome)
+	 */
+	public void convertToGrayscale() {
+		int width = impl.getWidth();
+		int height = impl.getHeight();
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				int rgb = impl.getRGB(x, y);
+
+				int a = (rgb >> 24) & 0xff;
+				int r = (rgb >> 16) & 0xff;
+				int g = (rgb >> 8) & 0xff;
+				int b = rgb & 0xff;
+
+				int gray = (int) Math.round((r + g + b) / 3d);
+
+				rgb = (a << 24) | (gray << 16) | (gray << 8) | gray;
+
+				impl.setRGB(x, y, rgb);
+			}
+		}
+	}
+
 }
