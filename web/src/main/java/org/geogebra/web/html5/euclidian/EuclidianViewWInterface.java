@@ -80,10 +80,11 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public void resetPointerEventHandler();
 
-	public String getExportImageDataUrl(double scale, boolean b,
-			ExportType format);
+	public String getExportImageDataUrl(double scale, boolean transparent,
+			ExportType format, boolean greyscale);
 
-	public String getExportImageDataUrl(double scale, boolean b);
+	public String getExportImageDataUrl(double scale, boolean transparent,
+			boolean greyscale);
 
 	public App getApplication();
 

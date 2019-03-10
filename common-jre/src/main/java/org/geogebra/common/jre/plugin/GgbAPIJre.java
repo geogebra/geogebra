@@ -35,11 +35,13 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 *            true to make background color of EV transparent
 	 * @param DPI
 	 *            DPI, does not affect bitmap pixel size
+	 * @param greyscale
+	 *            true for monochrome
 	 * @return base64 encoded PNG
 	 */
 	final public synchronized String getPNGBase64(double exportScale,
-			boolean transparent, double DPI) {
-		return getPNGBase64(exportScale, transparent, DPI, false);
+			boolean transparent, double DPI, boolean greyscale) {
+		return getPNGBase64(exportScale, transparent, DPI, false, greyscale);
 	}
 
 	/*
@@ -47,7 +49,8 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 */
 	@Override
 	final public synchronized String getPNGBase64(double preferredScale,
-			boolean transparent, double DPI, boolean copyToClipboard) {
+			boolean transparent, double DPI, boolean copyToClipboard,
+			boolean greyscale) {
 		double exportScale = preferredScale;
 		EuclidianView ev = app.getActiveEuclidianView();
 

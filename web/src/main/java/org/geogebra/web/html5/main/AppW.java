@@ -2363,7 +2363,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            view
 	 */
 	public final void copyEVtoClipboard(EuclidianViewW ev) {
-		String image = ev.getExportImageDataUrl(3, true);
+		String image = ev.getExportImageDataUrl(3, true, false);
 		String title = ev.getApplication().getKernel().getConstruction()
 				.getTitle();
 		title = "".equals(title) ? "GeoGebraImage" : title;

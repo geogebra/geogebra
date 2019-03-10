@@ -337,7 +337,7 @@ public class AppCommon extends App {
 			}
 
 			public boolean writePNGtoFile(String filename, double exportScale,
-					boolean transparent, double DPI) {
+					boolean transparent, double DPI, boolean greyscale) {
 				// TODO Auto-generated method stub
 				return false;
 			}

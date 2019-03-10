@@ -165,7 +165,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            dots per inch eg. for paste to Word
 	 * @return png as String with "data:image/png;base64," header
 	 */
-	private String getPNG(double exportScale, boolean transparent, double dpi) {
+	private String getPNG(double exportScale, boolean transparent, double dpi,
+			boolean greyscale) {
 		String url;
 
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
@@ -174,7 +175,7 @@ public class GgbAPIW extends GgbAPI {
 		// get export image
 		// DPI ignored
 		url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(exportScale, transparent);
+				.getExportImageDataUrl(exportScale, transparent, greyscale);
 
 		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
@@ -190,15 +191,16 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public boolean writePNGtoFile(String filename, double exportScale,
-			boolean transparent, double dpi) {
+			boolean transparent, double dpi, boolean greyscale) {
 		// make browser save/download PNG file
-		Browser.exportImage(getPNG(exportScale, transparent, dpi), filename);
+		Browser.exportImage(getPNG(exportScale, transparent, dpi, greyscale),
+				filename);
 		return true;
 	}
 
 	@Override
 	public String getPNGBase64(double exportScale, boolean transparent,
-			double dpi, boolean copyToClipboard) {
+			double dpi, boolean copyToClipboard, boolean greyscale) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
 
@@ -206,10 +208,10 @@ public class GgbAPIW extends GgbAPI {
 					.getFocusedViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
 				return pngBase64(((EuclidianViewWInterface) app.getGuiManager()
 						.getPlotPanelEuclidanView()).getExportImageDataUrl(
-								exportScale, transparent));
+								exportScale, transparent, greyscale));
 			}
 		}
-		return pngBase64(getPNG(exportScale, transparent, dpi));
+		return pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
 	}
 
 	private static String pngBase64(String pngURL) {

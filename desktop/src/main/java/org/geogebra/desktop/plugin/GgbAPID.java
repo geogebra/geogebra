@@ -173,7 +173,7 @@ public class GgbAPID extends GgbAPIJre {
 	@Override
 	public synchronized boolean writePNGtoFile(String filename,
 			final double exportScale, final boolean transparent,
-			final double DPI0) {
+			final double DPI0, boolean greyscale) {
 		
 		final double DPI = DPI0 <= 0 ? 72 : DPI0;
 

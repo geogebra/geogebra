@@ -361,9 +361,12 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            scale
 	 * @param transparency
 	 *            transparency
+	 * @param greyscale
+	 *            true for monochrome
 	 * @return canvas containing copy of main canvas for this view
 	 */
-	public Canvas getExportImageCanvas(double scale, boolean transparency) {
+	public Canvas getExportImageCanvas(double scale, boolean transparency,
+			boolean greyscale) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
@@ -382,19 +385,50 @@ public class EuclidianViewW extends EuclidianView implements
 		drawObjects(g4copy);
 		this.appW.setExporting(ExportType.NONE, 1);
 
-		return g4copy.getCanvas();
+		Canvas ret = g4copy.getCanvas();
+
+		if (greyscale) {
+			convertToGreyScale(ret.getContext2d(),
+					ret.getCoordinateSpaceWidth(),
+					ret.getCoordinateSpaceHeight());
+		}
+
+		return ret;
 	}
 
+	private native void convertToGreyScale(Context2d ctx, int width,
+			int height) /*-{
+		var imageData = ctx.getImageData(0, 0, width, height);
+
+		for (y = 0; y < height; y++) {
+			for (x = 0; x < width; x++) {
+				var index = (y * 4) + (x * 4) * width;
+				var r = imageData.data[index];
+				var g = imageData.data[index + 1];
+				var b = imageData.data[index + 2];
+				var grey = Math.round((r + g + b) / 3);
+				imageData.data[index] = grey;
+				imageData.data[index + 1] = grey;
+				imageData.data[index + 2] = grey;
+			}
+		}
+
+		ctx.putImageData(imageData, 0, 0);
+	}-*/;
+
 	@Override
-	public String getExportImageDataUrl(double scale, boolean transparency) {
-		return getExportImageDataUrl(scale, transparency, ExportType.PNG);
+	public String getExportImageDataUrl(double scale, boolean transparency,
+			boolean greyscale) {
+		return getExportImageDataUrl(scale, transparency, ExportType.PNG,
+				greyscale);
 	}
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency,
-			ExportType format) {
+			ExportType format, boolean greyscale) {
 		appW.getVideoManager().setPreviewOnly(true);
-		String dataUrl = dataURL(getExportImageCanvas(scale, transparency),
+		String dataUrl = dataURL(
+				getExportImageCanvas(scale, transparency, greyscale),
 				format);
 		appW.getVideoManager().setPreviewOnly(false);
 		return dataUrl;
@@ -1417,7 +1451,7 @@ public class EuclidianViewW extends EuclidianView implements
 					origScale, origScale);
 		}
 		final Image prevImg = new Image();
-		String urlText = getExportImageDataUrl(scale, false);
+		String urlText = getExportImageDataUrl(scale, false, false);
 
 		if (app.isWhiteboardActive() && selectionRectangle == null) {
 			setCoordSystem(origXZero, getYZero(), origScale, origScale);

@@ -114,7 +114,7 @@ public class AnimationExporter {
 			public void addFrame(EuclidianViewWInterface view,
 					double exportScale, ExportType format) {
 				String url = view.getExportImageDataUrl(exportScale, false,
-						format);
+						format, false);
 				encoder.addFrame(url);
 			}
 

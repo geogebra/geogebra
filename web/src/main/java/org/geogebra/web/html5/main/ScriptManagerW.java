@@ -871,8 +871,8 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getPNGBase64 = function(exportScale, transparent, dpi,
-				copyToClipboard) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZ)(exportScale, !!transparent, dpi, !!copyToClipboard);
+				copyToClipboard, greyscale) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZZ)(exportScale, !!transparent, dpi, !!copyToClipboard, !!greyscale);
 		};
 		
 		api.exportGIF = function(sliderLabel, scale, timeBetweenFrames, isLoop, filename, rotate) {
@@ -928,8 +928,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCASObjectNumber()();
 		};
 
-		api.writePNGtoFile = function(filename, exportScale, transparent, DPI) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::writePNGtoFile(Ljava/lang/String;DZD)(filename + "", exportScale, !!transparent, DPI);
+		api.writePNGtoFile = function(filename, exportScale, transparent, DPI, greyscale) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::writePNGtoFile(Ljava/lang/String;DZDZ)(filename + "", exportScale, !!transparent, DPI, !!greyscale);
 		};
 
 		api.exportPGF = function(callback) {

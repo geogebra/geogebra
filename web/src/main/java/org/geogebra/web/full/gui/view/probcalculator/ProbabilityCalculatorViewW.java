@@ -1111,7 +1111,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						@Override
 						public void execute() {
 							String url = ((EuclidianViewW) getPlotPanel())
-									.getExportImageDataUrl(3, true);
+									.getExportImageDataUrl(3, true, false);
 							((FileManagerW) ((AppW) getApp()).getFileManager())
 									.showExportAsPictureDialog(url,
 											getApp().getExportTitle(),

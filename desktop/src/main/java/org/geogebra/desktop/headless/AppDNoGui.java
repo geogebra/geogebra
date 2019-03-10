@@ -489,7 +489,8 @@ public class AppDNoGui extends App implements AppDI {
 
 				@Override
 				public boolean writePNGtoFile(String filename,
-						double exportScale, boolean transparent, double DPI) {
+						double exportScale, boolean transparent, double DPI,
+						boolean greyscale) {
 					// TODO Auto-generated method stub
 					return false;
 				}

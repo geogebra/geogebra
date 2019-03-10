@@ -63,6 +63,7 @@ public class CmdExportImage extends CmdScripting {
 		double scaleCM = 1;
 		int view = 1;
 		boolean transparent = false;
+		boolean grayscale = false;
 		// boolean copyToClipboard = true;
 		String filename = null;
 		ExportType type = ExportType.PNG;
@@ -115,6 +116,11 @@ public class CmdExportImage extends CmdScripting {
 				break;
 			case "transparent":
 				transparent = "true".equals(
+						value.toValueString(StringTemplate.defaultTemplate));
+				break;
+			case "greyscale":
+			case "grayscale":
+				grayscale = "true".equals(
 						value.toValueString(StringTemplate.defaultTemplate));
 				break;
 			case "loop":
@@ -243,11 +249,12 @@ public class CmdExportImage extends CmdScripting {
 		default:
 		case PNG:
 			if (filename != null) {
-				api.writePNGtoFile(filename, exportScale, transparent, dpi);
+				api.writePNGtoFile(filename, exportScale, transparent, dpi,
+						grayscale);
 			} else {
 
 				String png = api.getPNGBase64(exportScale, transparent, dpi,
-						false);
+						false, grayscale);
 
 				if (label != null) {
 					addImageToConstruction(label, png, corner, corner2, false);

@@ -75,9 +75,12 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		int dpi = (int) (dpcm * 2.54);
 		double pixelWidth = Math.round(dpcm * widthRW * scaleCM);
 		double exportScale = pixelWidth / viewWidth;
+		boolean transparent = false;
+		boolean greyscale = false;
 
 		return StringUtil.pngMarker
-				+ app.getGgbApi().getPNGBase64(exportScale, false, dpi, false);
+				+ app.getGgbApi().getPNGBase64(exportScale, transparent, dpi,
+						false, greyscale);
 	}
 
 	private void initGui() {

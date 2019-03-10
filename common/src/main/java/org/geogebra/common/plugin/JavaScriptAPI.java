@@ -660,7 +660,7 @@ public interface JavaScriptAPI {
 	public void setRepaintingActive(boolean flag);
 
 	public boolean writePNGtoFile(String filename, double exportScale,
-			boolean transparent, double DPI);
+			boolean transparent, double DPI, boolean greyscale);
 
 	/**
 	 * @param exportScale
@@ -672,10 +672,12 @@ public interface JavaScriptAPI {
 	 * @param copyToClipboard
 	 *            only supported in desktop, waiting for
 	 *            https://code.google.com/p/chromium/issues/detail?id=150835
+	 * @param greyscale
+	 *            true for monochrome
 	 * @return base64 encoded picture of active view
 	 */
 	public String getPNGBase64(double exportScale, boolean transparent,
-			double dpi, boolean copyToClipboard);
+			double dpi, boolean copyToClipboard, boolean greyscale);
 
 	/**
 	 * Sets the Cartesian coordinate system in the graphics window.

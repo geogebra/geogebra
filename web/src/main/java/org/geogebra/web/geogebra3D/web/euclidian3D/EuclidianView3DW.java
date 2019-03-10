@@ -634,13 +634,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public String getExportImageDataUrl(double scale, boolean transparent) {
-		return getExportImageDataUrl(scale, transparent, ExportType.PNG);
+	public String getExportImageDataUrl(double scale, boolean transparent, boolean greyscale) {
+		return getExportImageDataUrl(scale, transparent, ExportType.PNG,
+				greyscale);
 	}
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparent,
-			ExportType format) {
+			ExportType format, boolean greyscale) {
 		((RendererWInterface) this.renderer).setBuffering(true);
 		this.doRepaint2();
 
