@@ -511,6 +511,10 @@ namespace giac {
     if (v.size()!=2)
       return gentypeerr(contextptr);
     gen l=v.front(),i=v.back();
+    if (i.is_symb_of_sommet(at_deuxpoints))
+      return _suppress(makesequence(l,i[1],i[2]-1),contextptr);
+    if (i.is_symb_of_sommet(at_interval))
+      return _suppress(makesequence(l,i[1],i[2]),contextptr);
     int ii=0;
     if (i.type==_VECT){
       i=sortad(*i._VECTptr,false,contextptr);

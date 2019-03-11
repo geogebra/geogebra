@@ -271,6 +271,7 @@ namespace giac {
   gen select_root(const vecteur & v,GIAC_CONTEXT){
     int n=decimal_digits(contextptr);
     if (n<12) n=12;
+    if (n>307) n=307;
     double eps=std::pow(0.1,n);
     int rprec=int(n*3.3);
     vecteur a=proot(v,eps,rprec);

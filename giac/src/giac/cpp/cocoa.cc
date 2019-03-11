@@ -12249,8 +12249,13 @@ template<class modint_t,class modint_u>
     int zres=zf4computeK1(N,nrows,mem,Bs,res,G,env, B,permuB,learning,learned_position,pairs_reducing_to_zero,leftshift,rightshift,  R ,Rhashptr,Rdegpos,firstpos,Mindex, coeffindex,Mcoeff,info_ptr,used,usedcount,bitmap,K,parallel,interreduce);
     if (zres!=0)
       return zres;
-    if (debug_infolevel>1)
+    if (debug_infolevel>1){
+#ifdef __APPLE__
       CERR << endl << CLOCK()*1e-6 << " Memory usage: " << memory_usage()*1e-6 << "M" << endl;
+#else
+      CERR << endl << CLOCK()*1e-6 << " Memory usage: " << memory_usage()*1e-3 << "M" << endl;
+#endif
+    }
     size_t Mindexsize=Mindex.size();
     Mindex.clear();
     Mcoeff.clear();
@@ -14185,10 +14190,12 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	    CERR << i << ":" << G[i] << "(" << resmod[G[i]].age<<"," << resmod[G[i]].logz << ":" << resmod[G[i]].fromleft << "," << resmod[G[i]].fromright << ")" << endl;
 	  }
 	  CERR << "sorted" << endl;
+	  ulonglong nmonoms=0;
 	  for (size_t i=0;i<gbmod.size();++i){
 	    CERR << i << "(" << gbmod[i].age << "," << gbmod[i].logz << ":" << gbmod[i].fromleft << "," << gbmod[i].fromright << ")" << endl;
+	    nmonoms += gbmod[i].coord.size();
 	  }
-	  CERR << endl;
+	  CERR << endl << "Partial number of monoms " << nmonoms << endl;
 	}
 	// compare gb to existing computed basis
 #if 1
