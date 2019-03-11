@@ -2451,4 +2451,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 	}
 
+	@Override
+	public boolean writePNGtoFile(String filename, double exportScale,
+			boolean transparent, double DPI, boolean grayscale) {
+		// not implemented in iOS / Android
+		return false;
+	}
+
 }
