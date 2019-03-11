@@ -329,6 +329,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case App.VIEW_EUCLIDIAN2:
 			// handled elsewhere
 			break;
+		case App.VIEW_TABLE_OF_VALUES:
+			attachTableOfValuesView();
+			break;
 		default:
 			// ignore 3D view
 			if (!App.isView3D(viewId) && (viewId < App.VIEW_EUCLIDIAN_FOR_PLANE_START

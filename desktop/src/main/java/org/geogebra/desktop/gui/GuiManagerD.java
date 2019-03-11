@@ -692,6 +692,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		getDataAnalysisView().detachView();
 	}
 
+	@Override
+	public void attachTableOfValuesView() {
+		// ignore
+	}
 
 	@Override
 	public void attachPropertiesView() {

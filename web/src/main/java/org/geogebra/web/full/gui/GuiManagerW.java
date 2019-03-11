@@ -1351,6 +1351,11 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
+	public void attachTableOfValuesView() {
+		// TODO Implement this
+	}
+
+	@Override
 	protected void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
