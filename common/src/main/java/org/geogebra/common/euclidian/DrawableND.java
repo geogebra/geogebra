@@ -165,14 +165,31 @@ public abstract class DrawableND {
 		return null;
 	}
 
+	/**
+	 * @return whether this is a 3D drawable
+	 */
 	public boolean is3D() {
 		return false;
 	}
 
+	/**
+	 * Checks for broken compatibility (eg if inequality changes to function,
+	 * drawable is invalid)
+	 * 
+	 * @return whether the drawable still fits the geo
+	 */
 	public boolean isCompatibleWithGeo() {
 		return true;
 	}
 
+	/**
+	 * By default create new drawable from view, overriden for composite
+	 * drawable to avoid deep nesting.
+	 * 
+	 * @param listElement
+	 *            element
+	 * @return drawable for element
+	 */
 	public abstract DrawableND createDrawableND(GeoElement listElement);
 
 }
