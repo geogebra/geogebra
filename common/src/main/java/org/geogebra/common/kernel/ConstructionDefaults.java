@@ -953,7 +953,7 @@ public class ConstructionDefaults {
 	 * @param setAuxiliaryProperty
 	 *            if auxiliary property should be set
 	 */
-	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset,
+	public void setDefaultVisualStyles(GeoElement geo, boolean isReset,
 			boolean setEuclidianVisible, boolean setAuxiliaryProperty) {
 		// all object types that are not specifically supported
 		// should get the default values of a line

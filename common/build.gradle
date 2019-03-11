@@ -19,6 +19,7 @@ dependencies {
         exclude module: 'jsr305'
         exclude module: 'jcip-annotations'
     }
+    testImplementation 'junit:junit:4.12'
 }
 
 sourceSets {

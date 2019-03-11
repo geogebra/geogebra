@@ -90,7 +90,7 @@ public class Construction {
 	protected UndoManager undoManager;
 
 	/** default elements */
-	private ConstructionDefaults consDefaults;
+	protected ConstructionDefaults consDefaults;
 	private String title;
 	private String author;
 	private String date;
@@ -303,7 +303,7 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	final private void newConstructionDefaults() {
+	protected void newConstructionDefaults() {
 		consDefaults = companion.newConstructionDefaults();
 	}
 

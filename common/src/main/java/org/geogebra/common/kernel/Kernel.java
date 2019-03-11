@@ -418,6 +418,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
+	 * For testing only.
+	 */
+	protected Kernel() {
+		scheduledPreviewFromInputBar = null;
+		deleteList = null;
+		sf = null;
+		geoFactory = null;
+	}
+
+	/**
 	 * Returns this kernel's algebra processor that handles all input and
 	 * commands.
 	 * 

@@ -83,6 +83,12 @@ public abstract class Localization {
 	}
 
 	/**
+	 * For testing only.
+	 */
+	protected Localization() {
+	}
+
+	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
 	 * 
 	 * @return whether current alnguage needs revverse order of type and name

@@ -165,6 +165,12 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
+	 * For testing only.
+	 */
+	protected EuclidianSettings() {
+	}
+
+	/**
 	 * some settings are not stored in XML, eg eg automaticGridDistance so we
 	 * need to clear these parameters to make sure the others are set OK see
 	 * EuclidianView.settingsChanged()

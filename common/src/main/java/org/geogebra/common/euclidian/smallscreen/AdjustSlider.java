@@ -52,8 +52,6 @@ public class AdjustSlider extends AdjustWidget {
 	}
 
 	private boolean isHSliderOnScreen() {
-		Log.debug(number + " origX: " + origX + " origY: " + origY
-				+ " viewHeight: " + view.getHeight());
 		if (origX == null) {
 			return true;
 		}
