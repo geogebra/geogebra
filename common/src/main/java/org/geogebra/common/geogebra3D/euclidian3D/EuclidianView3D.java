@@ -3436,7 +3436,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
-			double[][] minMax = isAREnabled()
+			double[][] minMax = (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled())
 					? clippingCubeDrawable.updateMinMaxLarge()
 					: updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
@@ -4955,25 +4955,29 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            point
 	 */
 	public void enlargeClippingForPoint(GeoPointND point) {
-		if (isAREnabled()) {
-			if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
-				setViewChangedByZoom();
-				setWaitForUpdate();
-			}
-		}
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            if (isAREnabled()) {
+                if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
+                    setViewChangedByZoom();
+                    setWaitForUpdate();
+                }
+            }
+        }
 	}
 
 	/**
 	 * enlarge clipping for AR
 	 */
 	public void enlargeClippingWhenAREnabled() {
-        if (isAREnabled()) {
-			if (updateObjectsBounds(true, true)) {
-                boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
-                boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
-                if (needsUpdate1 || needsUpdate2) {
-                    setViewChangedByZoom();
-                    setWaitForUpdate();
+        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            if (isAREnabled()) {
+                if (updateObjectsBounds(true, true)) {
+                    boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
+                    boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
+                    if (needsUpdate1 || needsUpdate2) {
+                        setViewChangedByZoom();
+                        setWaitForUpdate();
+                    }
                 }
             }
         }

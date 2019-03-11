@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  *
@@ -2022,7 +2023,7 @@ public abstract class Renderer implements RendererInterface {
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
-		return !view3D.isAREnabled();
+		return !(view3D.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view3D.isAREnabled());
 	}
 
 	/**

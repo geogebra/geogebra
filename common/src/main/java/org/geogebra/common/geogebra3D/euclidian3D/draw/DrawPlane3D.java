@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -507,7 +508,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().isAREnabled()) {
+		if (getView3D().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) &&
+                getView3D().isAREnabled()) {
             setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
         } else if (getView3D().useClippingCube() || !getView3D().getSettings().hasSameScales()) {
 			// make sure the plane goes more than the clipping cube

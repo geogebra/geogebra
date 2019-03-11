@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D constant planes.
@@ -165,7 +166,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double yr = (currentBounds[Y][MAX] - currentBounds[Y][MIN]);
         double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
 
-        if (view.isAREnabled()) {
+        if (view.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
             for (int i = 0; i < 3; i++) {
                 mayEnlarge(currentBounds[i], minMaxObjects[i]);
             }
@@ -185,7 +186,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
         double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
         double w, h, d;
-        if (view.isAREnabled()) {
+        if (view.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
             w = (currentBounds[X][MAX] - currentBounds[X][MIN]) * xscale;
             h = (currentBounds[Y][MAX] - currentBounds[Y][MIN]) * yscale;
             d = (currentBounds[Z][MAX] - currentBounds[Z][MIN]) * zscale;
