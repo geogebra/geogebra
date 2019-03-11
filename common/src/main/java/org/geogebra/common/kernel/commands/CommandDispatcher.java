@@ -198,8 +198,7 @@ public abstract class CommandDispatcher {
 
 	private void checkAllowedByFilter(Command command,
 			CommandProcessor commandProcessor) throws MyError {
-		if (app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS)
-				&& commandFilter != null) {
+		if (commandFilter != null) {
 			commandFilter.checkAllowed(command, commandProcessor);
 		}
 	}

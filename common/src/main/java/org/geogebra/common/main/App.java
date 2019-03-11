@@ -3959,10 +3959,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SPECIAL_POINTS_IN_CONTEXT_MENU:
 			return true;
 
-		/** APPS-117 */
-		case FIX_EQUATIONS_AND_FUNCTIONS:
-			return true;
-
 		/** APPS-250 */
 		case SHOW_DEFINITION_FOR_EQUATION_IN_EXAM:
 			return true;

@@ -649,8 +649,7 @@ abstract public class ObjectSettingsModel {
      * @return true, if the user is in exam mode so the Fix/Unfix button/setting should be hidden
      */
     public boolean shouldHideFixSetting() {
-        return app.has(Feature.FIX_EQUATIONS_AND_FUNCTIONS) && app.getExam() != null && app
-                .getExam().isStarted();
+        return app.getExam() != null && app.getExam().isStarted();
     }
 
     /**

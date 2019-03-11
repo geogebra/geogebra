@@ -187,9 +187,6 @@ public enum Feature {
 	/** APPS-31 */
 	SPECIAL_POINTS_IN_CONTEXT_MENU,
 
-	/** APPS-117 */
-	FIX_EQUATIONS_AND_FUNCTIONS,
-
 	/** G3D-89 */
 	G3D_IOS_FASTER_AV,
 
