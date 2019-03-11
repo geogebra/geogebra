@@ -12,7 +12,7 @@ abstract public class ARGestureManager{
     protected float mScaleFactor = 1.0f;
     protected Coords mPos = new Coords(2);
     protected boolean isTouched = false;
-    private boolean mUpdateOriginIsWanted = false;
+    protected boolean mUpdateOriginIsWanted = false;
     protected float mAngle;
     private boolean actionPointerLeftPreviously = false;
     private float x, y;
