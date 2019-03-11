@@ -86,4 +86,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
     public boolean showGridOnFileNew() {
         return false;
     }
+
+	@Override
+	public String getDefaultSearchTag() {
+		return "ft.phone-3d";
+	}
 }

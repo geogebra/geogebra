@@ -171,4 +171,9 @@ public class AppConfigDefault implements AppConfig {
 		return Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
+	@Override
+	public String getDefaultSearchTag() {
+		return "";
+	}
+
 }

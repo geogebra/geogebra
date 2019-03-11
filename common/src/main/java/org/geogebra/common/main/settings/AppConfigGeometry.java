@@ -176,4 +176,9 @@ public class AppConfigGeometry implements AppConfig {
 		return Kernel.ALGEBRA_STYLE_DESCRIPTION;
 	}
 
+	@Override
+	public String getDefaultSearchTag() {
+		return "ft.phone-2d";
+	}
+
 }

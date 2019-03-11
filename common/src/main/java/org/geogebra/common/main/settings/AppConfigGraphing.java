@@ -172,4 +172,9 @@ public class AppConfigGraphing implements AppConfig {
 		return Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
+	@Override
+	public String getDefaultSearchTag() {
+		return "ft.phone-2d";
+	}
+
 }
