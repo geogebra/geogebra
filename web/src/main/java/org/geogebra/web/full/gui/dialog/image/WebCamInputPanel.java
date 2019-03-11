@@ -125,8 +125,9 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		return webCam.isStreamEmpty();
 	}
 
-	private void showInputDialog() {
+	private void showAndResizeInputDialog() {
 		if (webcamDialog != null) {
+			webcamDialog.resize();
 			webcamDialog.center();
 			webcamDialog.show();
 		}
@@ -175,16 +176,11 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		return canvasHeight;
 	}
 
-	private void resize() {
-		webcamDialog.resize();
-	}
-
 	@Override
 	public void onLoadedMetadata(int width, int height) {
 		canvasWidth = width;
 		canvasHeight = height;
-		resize();
-		showInputDialog();
+		showAndResizeInputDialog();
 	}
 
 	@Override
