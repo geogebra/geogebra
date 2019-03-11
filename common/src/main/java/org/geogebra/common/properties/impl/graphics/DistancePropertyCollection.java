@@ -20,10 +20,15 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
     private PropertiesList collection;
 
     /**
-     * Constructs a numbering distances property collection.
-     *
-     * @param localization localization for the title
-     */
+	 * Constructs a numbering distances property collection.
+	 * 
+	 * @param app
+	 *            application
+	 * @param localization
+	 *            localization for the title
+	 * @param euclidianSettings
+	 *            EV settings
+	 */
     public DistancePropertyCollection(App app, Localization localization, EuclidianSettings
             euclidianSettings) {
         super(localization, "Distance");
@@ -38,7 +43,7 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
                 kernel, "xAxis", 0));
         properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
                 kernel, "yAxis", 1));
-        if ("3D".equals(app.getVersion().getAppName())) {
+		if (euclidianSettings.getDimension() > 2) {
             properties.add(
                     new AxisDistanceProperty(localization, euclidianSettings, euclidianView, kernel,
                             "zAxis", 2));

@@ -36,7 +36,7 @@ public class LabelsPropertyCollection extends AbstractProperty
 		properties.add(new AxesLabelsVisibilityProperty(localization, euclidianSettings));
 		properties.add(new AxisLabelProperty(localization, euclidianSettings, "xAxis", 0));
 		properties.add(new AxisLabelProperty(localization, euclidianSettings, "yAxis", 1));
-		if ("3D".equals(app.getVersion().getAppName())) {
+		if (euclidianSettings.getDimension() > 2) {
             properties.add(new AxisLabelProperty(localization, euclidianSettings, "zAxis", 2));
         }
 

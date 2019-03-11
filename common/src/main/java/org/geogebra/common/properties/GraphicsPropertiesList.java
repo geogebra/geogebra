@@ -1,8 +1,10 @@
 package org.geogebra.common.properties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -17,9 +19,6 @@ import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * List of properties for graphics views
  *
@@ -28,7 +27,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 
     private App mApp;
     private Localization mLocalization;
-    private Property[] propertiesListARView;
+	private Property[] propertiesArrayARView;
 
 	/**
 	 * @param app
@@ -66,7 +65,7 @@ public class GraphicsPropertiesList extends PropertiesList {
                             (EuclidianSettings3D) euclidianSettings));
         }
 
-		if (!"3D".equals(app.getVersion().getAppName())) {
+		if (!activeView.isEuclidianView3D()) {
 			propertyList.add(
 					new GridStyleProperty(localization, euclidianSettings));
         }
@@ -85,23 +84,17 @@ public class GraphicsPropertiesList extends PropertiesList {
     @Override
     public Property[] getPropertiesList() {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
-            if (propertiesListARView == null) {
-                propertiesListARView = new Property[mProperties.length + 1];
-                for (int i = 0; i < propertiesListARView.length; i++) {
-                    if (i > 1) {
-                        propertiesListARView[i] = mProperties[i - 1];
-                    } else if (i == 0) {
-                        propertiesListARView[i] = mProperties[i];
-                    } else {
-                        // i = 1 -> BackgroundProperty added below
-                        // GraphicsPositionProperty
-                        propertiesListARView[i] = new BackgroundProperty(
-                                mApp, mLocalization);
-                    }
-                }
-
-            }
-            return propertiesListARView;
+            if (propertiesArrayARView == null) {
+				ArrayList<Property> propertiesListARView = new ArrayList<>();
+				for (Property prop : mProperties) {
+					propertiesListARView.add(prop);
+				}
+				propertiesListARView.add(1,
+						new BackgroundProperty(mApp, mLocalization));
+				this.propertiesArrayARView = propertiesListARView
+						.toArray(new Property[0]);
+			}
+			return propertiesArrayARView;
         }
         return mProperties;
     }
