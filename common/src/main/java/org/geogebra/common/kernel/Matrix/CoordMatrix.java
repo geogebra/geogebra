@@ -211,39 +211,48 @@ public class CoordMatrix {
 	 */
 	public static final CoordMatrix rotation3DMatrix(int axe, double angle) {
 		CoordMatrix m = new CoordMatrix(4, 4);
-
-		switch (axe) {
-
-		case Z_AXIS:
-			m.set(1, 1, Math.cos(angle));
-			m.set(1, 2, -Math.sin(angle));
-			m.set(2, 1, Math.sin(angle));
-			m.set(2, 2, Math.cos(angle));
-			m.set(3, 3, 1.0);
-			break;
-		case X_AXIS:
-			m.set(1, 1, 1.0);
-			m.set(2, 2, Math.cos(angle));
-			m.set(2, 3, -Math.sin(angle));
-			m.set(3, 2, Math.sin(angle));
-			m.set(3, 3, Math.cos(angle));
-			break;
-		case Y_AXIS:
-			m.set(2, 2, 1.0);
-			m.set(3, 3, Math.cos(angle));
-			m.set(3, 1, -Math.sin(angle));
-			m.set(1, 3, Math.sin(angle));
-			m.set(1, 1, Math.cos(angle));
-			break;
-		default:
-			break;
-		}
-
-		m.set(4, 4, 1.0);
-
+        setRotation3DMatrix(axe, angle, m);
 		return m;
 
 	}
+
+    /**
+     * returns 3d rotation homogenic matrix, dim 4x4
+     *
+     * @param axe
+     *            axis of rotation
+     * @param angle
+     *            angle of rotation
+     */
+    public static final void setRotation3DMatrix(int axe, double angle, CoordMatrix m) {
+        m.set(0);
+        switch (axe) {
+            case Z_AXIS:
+                m.set(1, 1, Math.cos(angle));
+                m.set(1, 2, -Math.sin(angle));
+                m.set(2, 1, Math.sin(angle));
+                m.set(2, 2, Math.cos(angle));
+                m.set(3, 3, 1.0);
+                break;
+            case X_AXIS:
+                m.set(1, 1, 1.0);
+                m.set(2, 2, Math.cos(angle));
+                m.set(2, 3, -Math.sin(angle));
+                m.set(3, 2, Math.sin(angle));
+                m.set(3, 3, Math.cos(angle));
+                break;
+            case Y_AXIS:
+                m.set(2, 2, 1.0);
+                m.set(3, 3, Math.cos(angle));
+                m.set(3, 1, -Math.sin(angle));
+                m.set(1, 3, Math.sin(angle));
+                m.set(1, 1, Math.cos(angle));
+                break;
+            default:
+                break;
+        }
+        m.set(4, 4, 1.0);
+    }
 
 	/**
 	 * 3x3 rotation matrix around oz
