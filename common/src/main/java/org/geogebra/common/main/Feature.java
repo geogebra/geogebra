@@ -154,9 +154,6 @@ public enum Feature {
 	/** GGB-2255 */
 	GEOMETRIC_DISCOVERY,
 
-	/** GGB-2538 */
-	TOOLS_WITH_NAMES,
-
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 

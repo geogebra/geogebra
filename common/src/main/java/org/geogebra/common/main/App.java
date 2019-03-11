@@ -3939,10 +3939,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case PROVE_UNIFY:
 			return true;
 
-		/** GGB-2538 */
-		case TOOLS_WITH_NAMES:
-			return true;
-
 		/** GGB-2517 */
 		case TOOLBAR_FROM_APPCONFIG:
 			return prerelease;
