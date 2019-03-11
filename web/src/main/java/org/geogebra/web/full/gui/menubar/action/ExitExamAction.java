@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
@@ -198,7 +197,7 @@ public class ExitExamAction extends MenuAction<Void> {
 		// true to make this work
 		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
 
-		if (getApp().isUnbundledGraphing() && getApp().has(Feature.GRAPH_EXAM_MODE)) {
+		if (getApp().isUnbundledGraphing()) {
 			new ExamExitConfirmDialog(getApp(), new AsyncOperation<String>() {
 				@Override
 				public void callback(String obj) {

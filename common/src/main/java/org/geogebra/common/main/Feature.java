@@ -131,9 +131,6 @@ public enum Feature {
 	/** GGB-2394 */
 	SPLITTER_LOADING,
 
-	/** GGB-2439 */
-	GRAPH_EXAM_MODE,
-
 	COMMAND_HOLES, WEB_CLASSIC_FLOATING_MENU,
 
 	/** MOB-1537 */

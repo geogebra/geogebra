@@ -3939,10 +3939,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SPLITTER_LOADING:
 			return prerelease;
 
-		/** GGB-2439 */
-		case GRAPH_EXAM_MODE:
-			return true;
-
 		/** GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
