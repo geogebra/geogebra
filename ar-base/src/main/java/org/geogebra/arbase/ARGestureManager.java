@@ -23,7 +23,9 @@ abstract public class ARGestureManager{
     }
 
     public void onRotationStart() {
-        mView.rememberOrigins();
+        if (mView.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            mView.rememberOrigins();
+        }
     }
 
     protected void onRotation(double angle) {
