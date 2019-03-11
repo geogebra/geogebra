@@ -128,7 +128,7 @@ public class Unicode {
 	public static final char IS_ELEMENT_OF = '\u2208';
 	public static final char IS_SUBSET_OF = '\u2286';
 	public static final char IS_SUBSET_OF_STRICT = '\u2282';
-	// public static final String COLON_EQUALS = "\u2254";
+	public static final String COLON_EQUALS = "\u2254";
 	// public static final String ANGLE = "\u2220";
 	// public static final String ACCENT_ACUTE = "\u00b4";
 	// public static final String ACCENT_GRAVE = "\u0060";

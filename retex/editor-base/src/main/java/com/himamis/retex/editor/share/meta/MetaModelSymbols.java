@@ -72,6 +72,8 @@ class MetaModelSymbols {
 		// collection.addComponent(createOperator("!"));
 		collection.addComponent(createOperator(":"));
 		collection.addComponent(createOperator("="));
+		// APPS-557
+		collection.addComponent(createOperator(Unicode.COLON_EQUALS + ""));
 		collection.addComponent(createOperator("<"));
 		collection.addComponent(createOperator(">"));
 		collection.addComponent(createOperator(","));
