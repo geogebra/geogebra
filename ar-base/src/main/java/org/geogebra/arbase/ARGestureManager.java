@@ -17,6 +17,7 @@ abstract public class ARGestureManager{
     private boolean actionPointerLeftPreviously = false;
     private float x, y;
     private boolean mTaped;
+    private float rotationOffset;
 
     public ARGestureManager(EuclidianView3D view) {
         mView = view;
@@ -29,7 +30,11 @@ abstract public class ARGestureManager{
     }
 
     protected void onRotation(double angle) {
-        mView.setCoordSystemFromMouseMove((int) angle, 0, EuclidianController.MOVE_ROTATE_VIEW);
+        if (mView.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            mView.setCoordSystemFromMouseMove((int) angle, 0, EuclidianController.MOVE_ROTATE_VIEW);
+        } else {
+            mAngle = ((float) angle) + rotationOffset;
+        }
     }
 
     public float getScaleFactor() {
@@ -99,6 +104,7 @@ abstract public class ARGestureManager{
             isTouched = false;
         } else {
             isTouched = true;
+            rotationOffset = mAngle;
         }
         mUpdateOriginIsWanted = true;
         actionPointerLeftPreviously = true;
