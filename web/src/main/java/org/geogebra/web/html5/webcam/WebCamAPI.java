@@ -118,19 +118,21 @@ public class WebCamAPI implements WebCamInterface {
 	private native void createPolyfillIfNeeded() /*-{
 		var mediaDevices = $wnd.navigator.mediaDevices;
 		if (mediaDevices === undefined) {
-  			mediaDevices = {};
-  		}
+			mediaDevices = {};
+		}
 
 		if (mediaDevices.getUserMedia === undefined) {
-  			mediaDevices.getUserMedia = function(constraints) {
-    			var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-    			if (!getUserMedia) {
-      				return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-    			}
-    			return new Promise(function(resolve, reject) {
-      			getUserMedia.call(navigator, constraints, resolve, reject);
-    		});
-  			}
+			mediaDevices.getUserMedia = function(constraints) {
+				var getUserMedia = navigator.webkitGetUserMedia
+						|| navigator.mozGetUserMedia;
+				if (!getUserMedia) {
+					return Promise.reject(new Error(
+							'getUserMedia is not implemented in this browser'));
+				}
+				return new Promise(function(resolve, reject) {
+					getUserMedia.call(navigator, constraints, resolve, reject);
+				});
+			}
 		}
 	}-*/;
 
@@ -177,7 +179,8 @@ public class WebCamAPI implements WebCamInterface {
 		stream = null;
 	}-*/;
 
-	private native void setVideoSource(JavaScriptObject mediaStream, Element el, Element errorElem) /*-{
+	private native void setVideoSource(JavaScriptObject mediaStream, Element el,
+			Element errorElem) /*-{
 		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
 				|| $wnd.oURL || null;
 		var video = el.firstChild;
