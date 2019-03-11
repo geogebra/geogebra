@@ -1205,12 +1205,13 @@ $duration: 0.2s;
 			width: 100%;
 			min-height: 160px;
 			min-width: 213px;
+			max-height: calc(100vh - 320px);
 			position: relative;
 			text-align: center;
 		}
 		button {
-   			color: $mebis-teal-dark !important;	
-   		}
+			color: $mebis-teal-dark !important;	
+		}
 	}
 
 	.MaterialDialogBox.mowPrintPrew {
