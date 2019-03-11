@@ -151,9 +151,6 @@ public enum Feature {
 	/** MOW-189 */
 	MOW_TEXT_TOOL,
 
-	/** AND-1304 */
-	MOB_LIST_TOOL,
-
 	/** AND-1342, IGR-1010 */
 	MOB_STANDARD_VIEW_ZOOM_BUTTONS,
 
