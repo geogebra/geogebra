@@ -267,7 +267,7 @@ public interface ArticleElementInterface {
 	boolean getDataParamAllowStyleBar();
 
 	/**
-	 * @return whwether to use app mode (forces fit to screen and most UIs
+	 * @return whether to use app mode (forces fit to screen and most UIs
 	 *         visible)
 	 */
 	boolean getDataParamApp();

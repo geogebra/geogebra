@@ -77,7 +77,7 @@ public class GCheckBoxMenuItem extends AriaMenuItem {
 	 * @param html
 	 *            menuItems html
 	 * @param showCheckbox
-	 *            wether to show checkbox
+	 *            whether to show checkbox
 	 */
 	public GCheckBoxMenuItem(SafeHtml html, boolean showCheckbox) {
 		super(html.asString(), true, (ScheduledCommand) null);
@@ -85,7 +85,8 @@ public class GCheckBoxMenuItem extends AriaMenuItem {
 	}
 
 	/**
-	 * @param selected wether the checbox selected or not
+	 * @param selected
+	 *            whether the checkbox is selected or not
 	 */
 	public void setSelected(boolean selected) {
 		Log.debug("setselected called");
@@ -118,7 +119,7 @@ public class GCheckBoxMenuItem extends AriaMenuItem {
 	}
 
 	/**
-	 * @return wether the checbox selected or not
+	 * @return whether the checkbox is selected or not
 	 */
 	public boolean isSelected() {
 	    return checkbox.getValue();

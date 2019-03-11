@@ -1,10 +1,7 @@
 package org.geogebra.web.solver;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
@@ -17,7 +14,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.SharedResources;
 
-import java.util.List;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class WebStepGuiBuilder {
 
@@ -134,13 +135,14 @@ public class WebStepGuiBuilder {
     }
 
     /**
-     * Create a show or hide details button
-     * @param show wether show or hide button
-     * @param alternative the StepAlternative panel to switch
-     *                    on and off
-     * @return a StandardButton, that switches the state of
-     * alternative
-     */
+	 * Create a show or hide details button
+	 * 
+	 * @param show
+	 *            whether show or hide button
+	 * @param alternative
+	 *            the StepAlternative panel to switch on and off
+	 * @return a StandardButton, that switches the state of alternative
+	 */
 	StandardButton detailsButton(boolean show, final StepAlternative alternative) {
         StandardButton detailsButton;
         if (show) {

@@ -243,7 +243,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	/**
 	 * @param online
-	 *            wether the application is online renders a the online -
+	 *            whether the application is online renders a the online -
 	 *            offline state of the FileMenu
 	 */
 	@Override
