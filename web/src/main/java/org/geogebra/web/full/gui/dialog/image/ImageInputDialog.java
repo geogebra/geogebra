@@ -146,4 +146,11 @@ public class ImageInputDialog extends UploadImageDialog implements WebcamDialogI
 	public void onCameraError() {
 		imageUnavailable();
 	}
+
+	@Override
+	public void showAndResize() {
+		resize();
+		center();
+		show();
+	}
 }

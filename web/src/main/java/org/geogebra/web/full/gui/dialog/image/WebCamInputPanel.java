@@ -127,9 +127,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 
 	private void showAndResizeInputDialog() {
 		if (webcamDialog != null) {
-			webcamDialog.resize();
-			webcamDialog.center();
-			webcamDialog.show();
+			webcamDialog.showAndResize();
 		}
 	}
 

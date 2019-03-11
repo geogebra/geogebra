@@ -12,6 +12,8 @@ public interface WebcamDialogInterface {
 	/** resize the WebCam dialog */ 
 	void resize();
 	
+	void showAndResize();
+	
 	/** center WebCam dialog */
 	void center();
 
@@ -20,4 +22,5 @@ public interface WebcamDialogInterface {
 	
 	/** Called if something is wrong with the camera */
 	void onCameraError();
+	
 }

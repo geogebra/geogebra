@@ -168,4 +168,11 @@ public class WebcamInputDialog extends DialogBoxW implements WebcamDialogInterfa
 	public void onCameraError() {
 		// not used
 	}
+	
+	@Override
+	public void showAndResize() {
+		show();
+		resize();
+		center();
+	}
 }
