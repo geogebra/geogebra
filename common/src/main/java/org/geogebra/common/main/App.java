@@ -3714,10 +3714,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_EXPORT_STL:
 			return (prerelease || !Versions.DESKTOP.equals(version));
 
-		// AND-1342, IGR-1010
-		case MOB_STANDARD_VIEW_ZOOM_BUTTONS:
-			return true;
-
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

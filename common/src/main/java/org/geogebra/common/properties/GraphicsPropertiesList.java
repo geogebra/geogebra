@@ -49,11 +49,8 @@ public class GraphicsPropertiesList extends PropertiesList {
         EuclidianSettings euclidianSettings = activeView.getSettings();
         ArrayList<Property> propertyList = new ArrayList<>();
 
-		if (app.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
-			propertyList.add(new GraphicsPositionProperty(app));
-        }
-		propertyList.add(
-				new AxesVisibilityProperty(localization, euclidianSettings));
+		propertyList.add(new GraphicsPositionProperty(app));
+		propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
 
         if (activeView.isEuclidianView3D()) {
 			propertyList.add(new PlaneVisibilityProperty(localization,
@@ -74,10 +71,8 @@ public class GraphicsPropertiesList extends PropertiesList {
 					new GridStyleProperty(localization, euclidianSettings));
         }
 
-		propertyList.add(new DistancePropertyCollection(app, localization,
-				euclidianSettings));
-		propertyList.add(new LabelsPropertyCollection(app, localization,
-				euclidianSettings));
+		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
+		propertyList.add(new LabelsPropertyCollection(app, localization, euclidianSettings));
 
 		if (activeView.isEuclidianView3D()) {
 			propertyList.add(new AxesColoredProperty(localization,
@@ -91,25 +86,20 @@ public class GraphicsPropertiesList extends PropertiesList {
     public Property[] getPropertiesList() {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
             if (propertiesListARView == null) {
-                if (mApp.has(Feature.MOB_STANDARD_VIEW_ZOOM_BUTTONS)) {
-                    // MOB_STANDARD_VIEW_ZOOM_BUTTONS checked here just in case it would be
-                    // temporarily removed
-                    propertiesListARView = new Property[mProperties.length + 1];
-                    for (int i = 0; i < propertiesListARView.length; i++) {
-                        if (i > 1) {
-                            propertiesListARView[i] = mProperties[i - 1];
-						} else if (i == 0) {
-                                propertiesListARView[i] = mProperties[i];
-						} else {
-							// i = 1 -> BackgroundProperty added below
-							// GraphicsPositionProperty
-							propertiesListARView[i] = new BackgroundProperty(
-									mApp, mLocalization);
-						}
+                propertiesListARView = new Property[mProperties.length + 1];
+                for (int i = 0; i < propertiesListARView.length; i++) {
+                    if (i > 1) {
+                        propertiesListARView[i] = mProperties[i - 1];
+                    } else if (i == 0) {
+                        propertiesListARView[i] = mProperties[i];
+                    } else {
+                        // i = 1 -> BackgroundProperty added below
+                        // GraphicsPositionProperty
+                        propertiesListARView[i] = new BackgroundProperty(
+                                mApp, mLocalization);
                     }
-                } else {
-                    propertiesListARView = mProperties;
                 }
+
             }
             return propertiesListARView;
         }
