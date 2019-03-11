@@ -89,7 +89,7 @@ abstract public class ARGestureManager{
 
     protected void firstFingerUp(App app){
         isTouched = false;
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+        if (!app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
             mView.getEuclidianController().clearSelections();
         }
     }
