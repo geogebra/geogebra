@@ -2,8 +2,11 @@ package org.geogebra.arbase;
 
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 abstract public class ARManager<TouchEventType> {
 
@@ -12,6 +15,8 @@ abstract public class ARManager<TouchEventType> {
     protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
+    protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
+    protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     protected float mScaleFactor = 1;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -129,11 +134,11 @@ abstract public class ARManager<TouchEventType> {
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
     }
 
-    protected void updateModelMatrix() {
+    protected void updateModelMatrix(App app) {
         /* Scaling */
         mModelMatrix.setMul(mAnchorMatrix, scaleMatrix);
 
-        updateModelMatrixForRotation();
+        updateModelMatrixForRotation(app);
 
         /* translating */
         Coords modelOrigin = mModelMatrix.getOrigin();
@@ -145,8 +150,15 @@ abstract public class ARManager<TouchEventType> {
                 previousTranslationOffset.getZ());
     }
 
-    protected void updateModelMatrixForRotation() {
+    private void updateModelMatrixForRotation(App app) {
         // TODO: remove this when G3D_AR_REGULAR_TOOLS released
+        if (!app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            // below not-so-nice (but temporary) code
+            CoordMatrix.setRotation3DMatrix(CoordMatrix.Y_AXIS,
+                    rotateAngel * Math.PI / 180.0, tmpMatrix1);
+            tmpMatrix2.set(mModelMatrix);
+            mModelMatrix.setMul(tmpMatrix2, tmpMatrix1);
+        }
     }
 
     protected Coords setRay() {
