@@ -121,4 +121,9 @@ public interface AppConfig {
 	 */
 	int getDefaultAlgebraStyle();
 
+	/**
+	 * @return search tag for Open Material screen
+	 */
+	String getDefaultSearchTag();
+
 }
