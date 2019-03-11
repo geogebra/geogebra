@@ -154,9 +154,6 @@ public enum Feature {
 	/** AND-1304 */
 	MOB_LIST_TOOL,
 
-	/** MOB-1771 */
-	MOB_LIST_LABEL,
-
 	/** AND-1342, IGR-1010 */
 	MOB_STANDARD_VIEW_ZOOM_BUTTONS,
 

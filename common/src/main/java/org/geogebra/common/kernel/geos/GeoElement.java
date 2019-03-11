@@ -3178,12 +3178,8 @@ public abstract class GeoElement extends ConstructionElement
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
 
-				if (kernel.getApplication().has(Feature.MOB_LIST_LABEL)) {
-					String prefix = list.isMatrix() ? "m" : "l";
-					return defaultNumberedLabel(prefix, false);
-				}
-				return getIndexLabel(kernel.getLocalization()
-						.getMenu("Name." + (list.isMatrix() ? "matrix" : "list")));
+				String prefix = list.isMatrix() ? "m" : "l";
+				return defaultNumberedLabel(prefix, false);
 			} else if (isInteger && isGeoNumeric()) {
 				chars = LabelType.integerLabels;
 			} else {
