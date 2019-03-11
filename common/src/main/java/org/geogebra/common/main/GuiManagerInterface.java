@@ -208,8 +208,6 @@ public interface GuiManagerInterface {
 
 	void detachDataAnalysisView();
 
-	void attachTableOfValuesView();
-
 	boolean hasDataAnalysisView();
 
 	/**

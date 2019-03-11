@@ -693,11 +693,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void attachTableOfValuesView() {
-		// ignore
-	}
-
-	@Override
 	public void attachPropertiesView() {
 		getPropertiesView();
 		propertiesView.attachView();
