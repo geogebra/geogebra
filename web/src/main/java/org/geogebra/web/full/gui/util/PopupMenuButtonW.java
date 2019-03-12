@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Table popup for selecting properties of objects
@@ -523,12 +524,13 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            true if slider should be shown
 	 */
 	public void showSlider(boolean show) {
-		getMySlider().setVisible(show);
+		Slider slider = getMySlider();
+		slider.setVisible(show);
 		sliderLabel.setVisible(show);
-		if (getMySlider().getParent() != null) {
-			getMySlider().getParent()
-					.addStyleName(show ? "showSlider" : "hideSlider");
-			getMySlider().getParent().removeStyleName(show ? "hideSlider" : "showSlider");
+		Widget parent = slider.getParent();
+		if (parent != null) {
+			parent.setStyleName("showSlider", show);
+			parent.setStyleName("hideSlider", !show);
 		}
 	}
 
