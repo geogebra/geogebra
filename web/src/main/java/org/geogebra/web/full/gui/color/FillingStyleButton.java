@@ -53,7 +53,6 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	}
 
 	private static ImageOrText[] createDummyIcons(int count) {
-
 		ImageOrText[] a = new ImageOrText[count];
 		for (int i = 0; i < count; i++) {
 			a[i] = new ImageOrText();
@@ -69,9 +68,6 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	 */
 	public void setFillEnabled(boolean b) {
 		getMyTable().setVisible(b);
-		if (!b) {
-			getMyPopup().setHeight("125px");
-		}
 	}
 
 	/**

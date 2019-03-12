@@ -528,11 +528,7 @@ public class PopupMenuButtonW extends MyCJButton
 		if (getMySlider().getParent() != null) {
 			getMySlider().getParent()
 					.addStyleName(show ? "showSlider" : "hideSlider");
-			if (show) {
-				getMySlider().getParent().removeStyleName("hideSlider");
-			} else {
-				getMySlider().getParent().removeStyleName("showSlider");
-			}
+			getMySlider().getParent().removeStyleName(show ? "hideSlider" : "showSlider");
 		}
 	}
 
