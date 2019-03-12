@@ -37,8 +37,10 @@ abstract public class ARGestureManager{
     }
 
     public void copyXYPosition(Coords ret) {
-        ret.setX(mPos.getX());
-        ret.setY(mPos.getY());
+        synchronized (mPos) {
+            ret.setX(mPos.getX());
+            ret.setY(mPos.getY());
+        }
     }
 
     public boolean getIsTouched() {
@@ -123,8 +125,14 @@ abstract public class ARGestureManager{
             x = event.getX(0);
             y = event.getY(0);
         }
-        mPos.setX(x);
-        mPos.setY(y);
+        setPos(x, y);
+    }
+
+    protected void setPos(double x, double y) {
+        synchronized (mPos) {
+            mPos.setX(x);
+            mPos.setY(y);
+        }
     }
 
     abstract public void addGestureRecognizers();
