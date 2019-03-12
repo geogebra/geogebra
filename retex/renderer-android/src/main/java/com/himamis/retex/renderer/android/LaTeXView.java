@@ -328,7 +328,10 @@ public class LaTeXView extends View {
 
         @Override
         public void run() {
-            latexView.get().requestLayout();
+            View view = latexView.get();
+            if (view != null) {
+                view.requestLayout();
+            }
         }
     }
 
