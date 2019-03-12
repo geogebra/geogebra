@@ -3,6 +3,8 @@ package org.geogebra.web.full.cas.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -406,6 +408,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		int targetFontSize = app.getFontSizeWeb();
 
 		mf.setFontSize(targetFontSize);
-		dummy.getElement().getStyle().setFontSize(targetFontSize, Unit.PX);
+		setDummyFontSize(targetFontSize);
+	}
+
+	private void setDummyFontSize(int size) {
+		Element element = dummy.getElement();
+		Style style = element.getStyle();
+		style.setFontSize(size, Unit.PX);
+		style.setLineHeight(size, Unit.PX);
 	}
 }
