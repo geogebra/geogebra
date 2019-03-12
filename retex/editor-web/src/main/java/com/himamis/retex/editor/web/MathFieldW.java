@@ -578,7 +578,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private int getMargin(TeXIcon lastIcon2) {
 		return (int) Math.max(0, roundUp(-lastIcon2.getTrueIconHeight()
 				+ lastIcon2.getTrueIconDepth()
-				+ mathFieldInternal.getMathFieldController().getFontSize()));
+				+ getFontSize()));
 	}
 
 	private native boolean active(Element element) /*-{
