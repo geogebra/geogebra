@@ -4,11 +4,11 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GlobalKeyDispatcher;
+import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
-import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -33,7 +33,7 @@ public class SpreadsheetKeyListenerW
 	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
-	private SpreadsheetTableModelW model;
+	private SpreadsheetTableModelSimple model;
 	private MyCellEditorW editor;
 	boolean keyDownSomething = false;
 
@@ -48,7 +48,7 @@ public class SpreadsheetKeyListenerW
 		this.kernel = app.getKernel();
 		this.table = table;
 		this.view = (SpreadsheetViewW) table.getView();
-		this.model = (SpreadsheetTableModelW) table.getModel();
+		this.model = (SpreadsheetTableModelSimple) table.getModel();
 		this.editor = table.getEditor();
 	}
 

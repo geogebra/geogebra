@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -24,7 +25,6 @@ import org.geogebra.web.full.gui.util.AdvancedFocusPanelI;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
-import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Touch;
@@ -51,7 +51,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// spreadsheet table and row header
 	MyTableW table;
-	protected SpreadsheetTableModelW tableModel;
+	protected SpreadsheetTableModelSimple tableModel;
 
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
 
@@ -155,7 +155,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	private void buildSpreadsheet() {
 
 		// Create the spreadsheet table model and the table
-		tableModel = (SpreadsheetTableModelW) app.getSpreadsheetTableModel();
+		tableModel = (SpreadsheetTableModelSimple) app.getSpreadsheetTableModel();
 		table = new MyTableW(this, tableModel);
 
 		spreadsheet = new AbsolutePanel();

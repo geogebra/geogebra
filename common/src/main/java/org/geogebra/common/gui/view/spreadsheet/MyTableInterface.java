@@ -39,4 +39,6 @@ public interface MyTableInterface {
 
 	public CellRangeProcessor getCellRangeProcessor();
 
+	public void updateTableCellValue(Object value, int row, int column);
+
 }

@@ -1,19 +1,17 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.common.main;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.main.AppW;
 
 /**
  * Web implementation of the table model
  *
  */
-public class SpreadsheetTableModelW extends SpreadsheetTableModel {
+public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 
-	private MyTable table;
+	private MyTableInterface table;
 
 	private ChangeListener listener = null;
 
@@ -49,7 +47,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	 * @param columns
 	 *            number of columns
 	 */
-	public SpreadsheetTableModelW(AppW app, int rows, int columns) {
+	public SpreadsheetTableModelSimple(App app, int rows, int columns) {
 		super(app);
 		rowNum = rows;
 		colNum = columns;
@@ -71,13 +69,13 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	}
 
 	/**
-	 * Estabilishes connection to the table and synces all values from model to
+	 * Establishes connection to the table and synces all values from model to
 	 * table
 	 * 
 	 * @param newTable
 	 *            table implementation
 	 */
-	public void attachMyTable(MyTable newTable) {
+	public void attachMyTable(MyTableInterface newTable) {
 		this.table = newTable;
 		Object value;
 		if (newTable != null) {

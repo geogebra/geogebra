@@ -50,6 +50,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -120,7 +121,6 @@ import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.NetworkW;
-import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -178,7 +178,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected GoogleDriveOperation googleDriveOperation;
 
 	protected FontManagerW fontManager;
-	private SpreadsheetTableModelW tableModel;
+	private SpreadsheetTableModelSimple tableModel;
 	private SoundManagerW soundManager;
 	private VideoManagerW videoManager;
 	private AsyncManager asyncManager;
@@ -1947,7 +1947,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		if (tableModel == null) {
-			tableModel = new SpreadsheetTableModelW(this, SPREADSHEET_INI_ROWS,
+			tableModel = new SpreadsheetTableModelSimple(this, SPREADSHEET_INI_ROWS,
 					SPREADSHEET_INI_COLS);
 		}
 		return tableModel;

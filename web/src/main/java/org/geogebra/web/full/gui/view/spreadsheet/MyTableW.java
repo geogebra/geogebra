@@ -26,6 +26,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -36,7 +37,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
-import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -239,7 +239,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        (CellFormat) getCellFormatHandler());
 
 		// this needs defaultTableCellRenderer now
-		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
+		((SpreadsheetTableModelSimple) tableModel).attachMyTable(this);
 
 		// :NEXT:Grid.setCellFormatter
 		editor = new MyCellEditorW(kernel, editorPanel,
@@ -276,7 +276,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
 
 		// add table model listener
-		((SpreadsheetTableModelW) tableModel)
+		((SpreadsheetTableModelSimple) tableModel)
 		        .setChangeListener(new MyTableModelListener());
 
 		copyPasteCut = new CopyPasteCutW(app);
@@ -810,7 +810,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public class MyTableModelListener implements
-	        SpreadsheetTableModelW.ChangeListener {
+	        SpreadsheetTableModelSimple.ChangeListener {
 
 		@Override
 		public void dimensionChange() {

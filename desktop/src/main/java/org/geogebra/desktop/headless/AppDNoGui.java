@@ -60,6 +60,7 @@ import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -88,7 +89,6 @@ import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.main.SpreadsheetTableModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -110,7 +110,7 @@ import org.geogebra.desktop.util.StringUtilD;
 public class AppDNoGui extends App implements AppDI {
 	private GgbAPI ggbapi;
 	private LocalizationD loc;
-	private SpreadsheetTableModelD tableModel;
+	private SpreadsheetTableModelSimple tableModel;
 	private DrawEquationD drawEquation;
 	private boolean is3Dactive;
 	private EuclidianView3DNoGui ev3d;
@@ -420,7 +420,8 @@ public class AppDNoGui extends App implements AppDI {
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		if (tableModel == null) {
-			tableModel = new SpreadsheetTableModelD(this, SPREADSHEET_INI_ROWS,
+			tableModel = new SpreadsheetTableModelSimple(this,
+					SPREADSHEET_INI_ROWS,
 					SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
