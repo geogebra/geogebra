@@ -63,6 +63,8 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
+import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -756,6 +758,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
+		boolean noCAS = !getSettings().getCasSettings().isEnabled();
 		// translation table for all command names in command.properties
 		getLocalization().initTranslateCommand();
 		// command dictionary for all public command names available in
@@ -770,7 +773,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// =====================================
 		// init sub command dictionaries
-
+		CommandSelector cs = new NoCASCommandSelectorFactory()
+				.createCommandSelector();
+		
 		if (subCommandDict == null) {
 			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
 			for (int i = 0; i < subCommandDict.length; i++) {
@@ -784,6 +789,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
 		for (Commands comm : Commands.values()) {
+			if (noCAS && !cs.isCommandAllowed(comm)) {
+				continue;
+			}
+		
 			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())
 					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
@@ -792,7 +801,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 				}
 				continue;
 			}
-
+		
 			// Log.debug(internal);
 			String local = getLocalization().getCommand(internal);
 			putInTranslateCommandTable(comm, local);
@@ -800,10 +809,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 			if (local != null) {
 				local = local.trim();
 				// case is ignored in translating local command names to
-				// internal names!
+				// internal names!0
 				translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 						internal);
-
+				
 				commandDict.addEntry(local);
 				// add public commands to the sub-command dictionaries
 				subCommandDict[comm.getTable()].addEntry(local);

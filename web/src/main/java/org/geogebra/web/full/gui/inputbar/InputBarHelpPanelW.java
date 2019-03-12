@@ -57,7 +57,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private InlineLabel lblSyntax;
 	private MyTreeItem itmFunction;
 	private AutoCompleteW inputField;
-
+	private InputBarHelpPanel hp;
 	/**
 	 * @param app
 	 *            application
@@ -66,7 +66,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		super();
 		this.app = app;
 		comparator = new LocaleSensitiveComparator();
-
+		hp = new InputBarHelpPanel(app);
 		createGUI();
 		setLabels();
 	}
@@ -397,7 +397,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	}
 
 	private TreeMap<String, TreeSet<String>> getCommandTreeMap() {
-		return InputBarHelpPanel.getCommandTreeMap(app, comparator);
+		return hp.getCommandTreeMap(app, comparator);
 	}
 
 	private TreeSet<String> getAllCommandsTreeSet() {

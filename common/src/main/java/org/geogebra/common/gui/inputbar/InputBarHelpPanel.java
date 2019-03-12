@@ -58,7 +58,6 @@ public class InputBarHelpPanel {
 
 			String cmdSetName = app.getKernel().getAlgebraProcessor()
 					.getSubCommandSetName(i);
-
 			TreeSet<String> cmdTree = new TreeSet<>(comparator);
 
 			Iterator<?> it = subDict[i].getIterator();
@@ -104,6 +103,7 @@ public class InputBarHelpPanel {
 		// math functions
 		String[] translatedFunctions = TableSymbols
 				.getTranslatedFunctions(mApp);
+		boolean noCAS = !mApp.getSettings().getCasSettings().isEnabled();
 		mMathFuncDict = mApp.newLowerCaseDictionary();
 		for (String function : translatedFunctions) {
 			// remove start space char
@@ -116,14 +116,14 @@ public class InputBarHelpPanel {
 			}
 			mMathFuncDict.addEntry(insert);
 		}
-		mMathFunc = mMathFuncDict.getAllCommands();
+		mMathFunc = mMathFuncDict.getAllCommands(noCAS);
 
 		// all commands dictionary (with math functions){
-		mDict = (LowerCaseDictionary) mApp.getCommandDictionary().clone();
+		mDict = new LowerCaseDictionary(mApp.getCommandDictionary());
 		for (String function : mMathFunc) {
 			mDict.addEntry(function);
 		}
-		mAllCommands = mDict.getAllCommands();
+		mAllCommands = mDict.getAllCommands(noCAS);
 
 		// by category dictionaries
 		mSubDict = mApp.getSubCommandDictionary();
@@ -134,7 +134,7 @@ public class InputBarHelpPanel {
 
 		for (int i = 0; i < n; i++) {
 			String categoryName = getCategoryName(i);
-			Collection<String> list = getSubDictionary(i).getAllCommands();
+			Collection<String> list = getSubDictionary(i).getAllCommands(noCAS);
 			if (list != null) {
 				mCategoryNameToTableIndex.put(categoryName, i);
 				mCommands.add(list);
@@ -200,6 +200,19 @@ public class InputBarHelpPanel {
 
 	public TreeMap<String, Integer> getCategories() {
 		return mCategoryNameToTableIndex;
+	}
+
+	/**
+	 * @param category
+	 *            category name
+	 * @return all commands in category
+	 */
+	public Collection<String> getCommandsFromCategory(String name) {
+		TreeMap<String, Integer> categories = getCategories();
+		if (categories == null || !categories.containsKey(name)) {
+			return null;
+		}
+		return getCommandsFromCategory(categories.get(name));
 	}
 
 	/**

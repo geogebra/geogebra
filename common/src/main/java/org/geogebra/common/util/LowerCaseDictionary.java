@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
+import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
+
 import com.himamis.retex.editor.share.model.Korean;
 
 /**
@@ -23,6 +27,9 @@ public class LowerCaseDictionary extends HashMap<String, String>
 
 	private transient NormalizerMinimal normalizer;
 
+	private CommandSelector cs = new NoCASCommandSelectorFactory()
+			.createCommandSelector();
+
 	/**
 	 * constructor
 	 * 
@@ -33,6 +40,15 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		this.normalizer = normalizer;
 	}
 
+	/**
+	 * copy constructor
+	 * 
+	 * @param dict the dictionary to copy from.
+	 */
+	public LowerCaseDictionary(LowerCaseDictionary dict) {
+		this.normalizer = dict.normalizer;
+		this.treeSet = new TreeSet<String>(dict.treeSet);
+	}
 	private static final String greatestCommonPrefix(String possiblyNull,
 			String notNull) {
 		if (possiblyNull == null) {
@@ -233,11 +249,17 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	/**
 	 * @return all commands in the dictionary
 	 */
-	public ArrayList<String> getAllCommands() {
-		ArrayList<String> ret = new ArrayList<>();
+	public ArrayList<String> getAllCommands(boolean noCAS) {
 
+		ArrayList<String> ret = new ArrayList<>();
+		
 		for (String key : treeSet) {
-			ret.add(get(key));
+			
+			boolean allowed = cs.isCommandAllowed(Commands.stringToCommand(key));
+			
+			if (allowed) {
+				ret.add(get(key));
+			}
 		}
 
 		if (ret.isEmpty()) {
