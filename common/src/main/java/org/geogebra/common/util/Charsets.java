@@ -1,24 +1,27 @@
 package org.geogebra.common.util;
 
 import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
 
-import org.geogebra.common.util.debug.Log;
-
+/**
+ * Constants for specifying Charsets.
+ * 
+ * Workaround for missing StandardCharsets on Android API 18-
+ * 
+ */
 public class Charsets {
 
+	/**
+	 * Name of the UTF-8 charset
+	 */
 	public static final String UTF_8 = "UTF-8";
 
 	/**
+	 * Returns UTF-8 charset, guaranteed to work on all Java implementations
+	 * 
 	 * @return UTF charset
 	 */
 	public static Charset getUtf8() {
-		try {
-			return Charset.forName(UTF_8);
-		} catch (UnsupportedCharsetException ex) {
-			Log.warn("UTF-8 not available");
-		}
-		return Charset.defaultCharset();
+		return Charset.forName(UTF_8);
 	}
 
 }
