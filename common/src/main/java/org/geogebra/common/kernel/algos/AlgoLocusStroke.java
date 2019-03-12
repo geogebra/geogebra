@@ -375,7 +375,7 @@ public class AlgoLocusStroke extends AlgoElement
 			xmlPoints.append("]\" />\n");
 		}
 		poly.setXMLPointBuilder(xmlPoints);
-		sb.append(xmlPoints.toString());
+		sb.append(xmlPoints);
 	}
 
 	private void appendPoints(StringBuilder sb, StringTemplate tpl) {
