@@ -20,7 +20,6 @@ import java.util.prefs.Preferences;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
@@ -405,7 +404,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		String objectPrefsXML = sb.toString();
 		byte[] macros = app.getMacroFileAsByteArray();
 
-		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
+		if (isSaveSettingsToFile()) {
 
 			// make sure folder exists
 			new File(PREFS_PATH).mkdirs();
@@ -555,7 +554,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public void loadXMLPreferences(AppD app) {
 		app.setWaitCursor();
 
-		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
+		if (isSaveSettingsToFile()) {
 			Log.debug("Preferences loaded from " + WINDOWS_USERS_PREFS);
 			String userPrefsXML = UtilD.loadFileIntoString(WINDOWS_USERS_PREFS);
 			String objectPrefsXML = UtilD
@@ -637,7 +636,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			"don't need to check return value of delete()" })
 	public void clearPreferences(App app) {
 
-		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
+		if (isSaveSettingsToFile()) {
 			try {
 				new File(WINDOWS_OBJECTS_PREFS).delete();
 				new File(WINDOWS_USERS_PREFS).delete();
@@ -656,6 +655,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		} catch (Exception e) {
 			Log.debug(e + "");
 		}
+	}
+
+	private boolean isSaveSettingsToFile() {
+		return AppD.WINDOWS || AppD.MAC_OS;
 	}
 
 	/**

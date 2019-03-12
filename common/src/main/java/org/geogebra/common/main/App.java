@@ -3831,8 +3831,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case COMMAND_HOLES:
 			return prerelease;
 
-		case HANDWRITING:
-			return false;
 		case WEB_CLASSIC_FLOATING_MENU:
 			return canary;
 		// GGB-92
@@ -3842,10 +3840,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case DATA_COLLECTION:
 			return version != null && version != Versions.WEB_FOR_DESKTOP
 					&& !isExam();
-
-		case SAVE_SETTINGS_TO_FILE:
-			// not enabled for linux
-			return isWindows() || isMacOS() || prerelease;
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
@@ -3881,9 +3875,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		case OBJECT_DEFAULTS_AND_COLOR:
 			return isUnbundledOrWhiteboard();
-
-		case SHOW_STEPS:
-			return prerelease;
 
 		case SURFACE_2D:
 			return prerelease;
