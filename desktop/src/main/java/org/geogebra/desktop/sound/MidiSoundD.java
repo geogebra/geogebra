@@ -355,9 +355,9 @@ public class MidiSoundD implements MetaEventListener {
 		try {
 			reader = file == null
 					? new BufferedReader(new InputStreamReader(url.openStream(),
-							Charsets.UTF_8))
+							Charsets.getUtf8()))
 					: new BufferedReader(new InputStreamReader(
-							new FileInputStream(file), Charsets.UTF_8));
+							new FileInputStream(file), Charsets.getUtf8()));
 			String text = null;
 			while ((text = reader.readLine()) != null) {
 				contents.append(text);

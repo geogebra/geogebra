@@ -78,7 +78,7 @@ public class HttpRequestD extends HttpRequest {
 			if (post != null) {
 				huc.setDoOutput(true);
 				OutputStreamWriter osw = new OutputStreamWriter(
-					huc.getOutputStream(), Charsets.UTF_8);
+						huc.getOutputStream(), Charsets.getUtf8());
 
 				osw.write(post);
 				osw.flush();
@@ -122,7 +122,7 @@ public class HttpRequestD extends HttpRequest {
 		try {
 			in = new BufferedReader(
 					new InputStreamReader(inputStream,
-					Charsets.UTF_8));
+							Charsets.getUtf8()));
 			String s = in.readLine();
 			if (s == null) {
 				return null;

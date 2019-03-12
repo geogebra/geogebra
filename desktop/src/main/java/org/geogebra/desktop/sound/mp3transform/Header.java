@@ -160,7 +160,7 @@ public final class Header {
 		}
 		try {
 			System.arraycopy(firstFrame, offset, tmp, 0, 4);
-			if ("Xing".equals(new String(tmp, Charsets.UTF_8))) {
+			if ("Xing".equals(new String(tmp, Charsets.getUtf8()))) {
 				vbr = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -169,7 +169,7 @@ public final class Header {
 		offset = 36 - 4;
 		try {
 			System.arraycopy(firstFrame, offset, tmp, 0, 4);
-			if ("VBRI".equals(new String(tmp, Charsets.UTF_8))) {
+			if ("VBRI".equals(new String(tmp, Charsets.getUtf8()))) {
 				vbr = true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {

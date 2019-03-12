@@ -235,7 +235,7 @@ public final class MatchingBlockScanner {
 	 */
 	public MatchingBlockScanner(java.io.InputStream in)
 			throws UnsupportedEncodingException {
-		this(new java.io.InputStreamReader(in, Charsets.UTF_8));
+		this(new java.io.InputStreamReader(in, Charsets.getUtf8()));
 	}
 
 	/**

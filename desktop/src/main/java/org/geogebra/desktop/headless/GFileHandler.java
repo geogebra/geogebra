@@ -45,7 +45,7 @@ public class GFileHandler {
 			if (bis.markSupported()) {
 				bis.mark(Integer.MAX_VALUE);
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(bis, Charsets.UTF_8));
+						new InputStreamReader(bis, Charsets.getUtf8()));
 				String str = reader.readLine();
 
 				// check if .ggb file is actually a base64 file from 4.2 Chrome

@@ -48,7 +48,7 @@ public class Service {
 			try {
 				input = url.openStream();
 				reader = new BufferedReader(
-						new InputStreamReader(input, Charsets.UTF_8));
+						new InputStreamReader(input, Charsets.getUtf8()));
 				String line = reader.readLine();
 				while (line != null) {
 					int ci = line.indexOf('#');

@@ -145,7 +145,7 @@ public class PackageSize {
 
 	public static String loadIntoString(InputStream is) throws IOException {
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, Charsets.UTF_8));
+				new InputStreamReader(is, Charsets.getUtf8()));
 		StringBuilder sb = new StringBuilder();
 
 		String line = null;

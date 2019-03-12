@@ -3,7 +3,6 @@ package org.freehep.util.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -225,13 +224,9 @@ public class RoutedInputStream extends InputStream {
 	 *            listener to inform about the route
 	 */
 	public void addRoute(String start, String end, RouteListener listener) {
-		try {
-			addRoute(start.getBytes(Charsets.UTF_8),
-					(end == null) ? null : end.getBytes(Charsets.UTF_8),
-					listener);
-		} catch (UnsupportedEncodingException e) {
-			// do nothing
-		}
+		addRoute(start.getBytes(Charsets.getUtf8()),
+				(end == null) ? null : end.getBytes(Charsets.getUtf8()),
+				listener);
 	}
 
 	/**
@@ -252,19 +247,13 @@ public class RoutedInputStream extends InputStream {
 	 */
 	public void addRoute(byte[] start, byte[] end, RouteListener listener) {
 		for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
-			String key;
-			try {
-				key = new String((byte[]) i.next(), Charsets.UTF_8);
-				String name = new String(start, Charsets.UTF_8);
-				if (key.startsWith(name) || name.startsWith(key)) {
-					throw new IllegalArgumentException("Route '" + name
-							+ "' cannot be added since it overlaps with '" + key
-							+ "'.");
-				}
-			} catch (UnsupportedEncodingException e) {
-				// do nothing
+			String key = new String((byte[]) i.next(), Charsets.getUtf8());
+			String name = new String(start, Charsets.getUtf8());
+			if (key.startsWith(name) || name.startsWith(key)) {
+				throw new IllegalArgumentException("Route '" + name
+						+ "' cannot be added since it overlaps with '" + key
+						+ "'.");
 			}
-
 		}
 
 		routes.put(start, end);

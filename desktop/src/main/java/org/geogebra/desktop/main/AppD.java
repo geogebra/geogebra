@@ -946,7 +946,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			try {
 				fstream = new FileInputStream(filename);
 				BufferedReader br = new BufferedReader(
-						new InputStreamReader(fstream, Charsets.UTF_8));
+						new InputStreamReader(fstream, Charsets.getUtf8()));
 
 				String strLine;
 
@@ -1752,7 +1752,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(
-					new InputStreamReader(url.openStream(), Charsets.UTF_8));
+					new InputStreamReader(url.openStream(),
+							Charsets.getUtf8()));
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -2155,7 +2156,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		BufferedReader br = null;
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
-			br = new BufferedReader(new InputStreamReader(is, Charsets.UTF_8));
+			br = new BufferedReader(
+					new InputStreamReader(is, Charsets.getUtf8()));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
@@ -5238,7 +5240,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		byte[] png;
 		try {
-			png = Base64.decode(base64image.getBytes(Charsets.UTF_8));
+			png = Base64.decode(base64image.getBytes(Charsets.getUtf8()));
 			ByteArrayInputStream bis = new ByteArrayInputStream(png);
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
@@ -5292,11 +5294,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (getMd5Encrypter() == null) {
 			return UUID.randomUUID().toString();
 		}
-		try {
-			getMd5Encrypter().update(s.getBytes(Charsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {
-			return UUID.randomUUID().toString();
-		}
+		getMd5Encrypter().update(s.getBytes(Charsets.getUtf8()));
 		byte[] md5hash = md5EncrypterD.digest();
 		return StringUtil.convertToHex(md5hash);
 	}

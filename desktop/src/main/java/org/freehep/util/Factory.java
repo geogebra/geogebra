@@ -101,7 +101,7 @@ public class Factory {
 
 			if (stream != null) {
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(stream, Charsets.UTF_8));
+						new InputStreamReader(stream, Charsets.getUtf8()));
 				factory = reader.readLine();
 				reader.close();
 				if (factory != null && !factory.equals("")) {

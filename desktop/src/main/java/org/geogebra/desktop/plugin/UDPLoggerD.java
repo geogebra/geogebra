@@ -1,7 +1,6 @@
 package org.geogebra.desktop.plugin;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -61,7 +60,7 @@ public class UDPLoggerD extends SensorLogger {
 		// TODO: convert to-from string by a specific encoding, e.g. UTF-8
 		try {
 			JSONArray ja = new JSONArray(
-					new String(buffer, 0, length, Charsets.UTF_8));
+					new String(buffer, 0, length, Charsets.getUtf8()));
 			JSONObject jo;
 			String key;
 
@@ -182,12 +181,7 @@ public class UDPLoggerD extends SensorLogger {
 			// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp
 			Log.debug("Assume data is from Android/SensorUDP");
 
-			String msg;
-			try {
-				msg = new String(buffer, 0, length, Charsets.UTF_8);
-			} catch (UnsupportedEncodingException e) {
-				return;
-			}
+			String msg = new String(buffer, 0, length, Charsets.getUtf8());
 
 			Log.debug(msg);
 
@@ -370,26 +364,22 @@ public class UDPLoggerD extends SensorLogger {
 
 							// SwingUtilities.invokeLater(new Runnable() {
 							// public void run() {
-							try {
-								if ("[".getBytes(
-										Charsets.UTF_8)[0] == buffer[0]) {
-									handleJSON(buffer, length,
-											packet.getAddress().getHostAddress()
-													+ " "
-													+ packet.getAddress()
-															.getHostName(),
-											false);
-								} else {
-									handle(buffer, length,
-											packet.getAddress().getHostAddress()
-													+ " "
-													+ packet.getAddress()
-															.getHostName(),
-											false);
-								}
-							} catch (UnsupportedEncodingException e) {
-								// do nothing
+
+							if ("[".getBytes(
+									Charsets.getUtf8())[0] == buffer[0]) {
+								handleJSON(buffer, length,
+										packet.getAddress().getHostAddress()
+												+ " " + packet.getAddress()
+														.getHostName(),
+										false);
+							} else {
+								handle(buffer, length,
+										packet.getAddress().getHostAddress()
+												+ " " + packet.getAddress()
+														.getHostName(),
+										false);
 							}
+
 							// }
 							// });
 							// Reset the length of the packet before reusing

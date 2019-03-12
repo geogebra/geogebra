@@ -261,7 +261,7 @@ public final class JavascriptLexer extends Lexer
 	 */
 	public JavascriptLexer(java.io.InputStream in)
 			throws UnsupportedEncodingException {
-		this(new java.io.InputStreamReader(in, Charsets.UTF_8));
+		this(new java.io.InputStreamReader(in, Charsets.getUtf8()));
 	}
 
 	/**

@@ -272,7 +272,7 @@ public final class GeoGebraLexer extends Lexer
 	 */
 	public GeoGebraLexer(java.io.InputStream in)
 			throws UnsupportedEncodingException {
-		this(new java.io.InputStreamReader(in, Charsets.UTF_8));
+		this(new java.io.InputStreamReader(in, Charsets.getUtf8()));
 	}
 
 	/**

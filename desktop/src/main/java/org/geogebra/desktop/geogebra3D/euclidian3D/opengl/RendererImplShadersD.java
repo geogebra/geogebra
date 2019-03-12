@@ -1,7 +1,5 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
@@ -112,12 +110,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 			jogl.getGL2ES2().glGetShaderInfoLog( vertShader,
 					logLength[0], (int[]) null, 0, log, 0);
 
-			try {
-				Log.error("Error compiling the vertex shader: "
-						+ new String(log, Charsets.UTF_8));
-			} catch (UnsupportedEncodingException e) {
-				// do nothing
-			}
+			Log.error("Error compiling the vertex shader: "
+					+ new String(log, Charsets.getUtf8()));
 			AppD.exit(1);
 		}
 
@@ -142,12 +136,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 			jogl.getGL2ES2().glGetShaderInfoLog(fragShader,
 					logLength[0], (int[]) null, 0, log, 0);
 
-			try {
-				Log.error("Error compiling the fragment shader: "
-						+ new String(log, Charsets.UTF_8));
-			} catch (UnsupportedEncodingException e) {
-				// do nothing
-			}
+			Log.error("Error compiling the fragment shader: "
+					+ new String(log, Charsets.getUtf8()));
 			AppD.exit(1);
 		}
 

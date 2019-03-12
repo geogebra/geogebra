@@ -182,7 +182,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 				if (responseCode == HttpURLConnection.HTTP_OK) {
 					// get response and read it into a string buffer
 					input = new BufferedReader(new InputStreamReader(
-							urlConn.getInputStream(), Charsets.UTF_8));
+							urlConn.getInputStream(), Charsets.getUtf8()));
 
 					StringBuffer output = new StringBuffer();
 
@@ -234,7 +234,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 					BufferedReader errors = new BufferedReader(
 							new InputStreamReader(urlConn.getErrorStream(),
-									Charsets.UTF_8));
+									Charsets.getUtf8()));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;

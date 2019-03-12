@@ -209,7 +209,7 @@ public class UtilD {
 	 */
 	public static String loadIntoString(InputStream is) throws IOException {
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, Charsets.UTF_8));
+				new InputStreamReader(is, Charsets.getUtf8()));
 		StringBuilder sb = new StringBuilder();
 
 		String line = null;
@@ -339,7 +339,7 @@ public class UtilD {
 		try {
 
 			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(filename), Charsets.UTF_8));
+					new FileOutputStream(filename), Charsets.getUtf8()));
 
 			try {
 				out.write(s);
@@ -369,7 +369,7 @@ public class UtilD {
 		try {
 
 			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), Charsets.UTF_8));
+					new FileOutputStream(file), Charsets.getUtf8()));
 
 			try {
 				out.write(s);

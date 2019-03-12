@@ -66,7 +66,7 @@ public class CAStestJSON {
 	private static String readFileAsString(String filePath) throws IOException {
 		StringBuffer fileData = new StringBuffer();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				new FileInputStream(filePath), Charsets.UTF_8));
+				new FileInputStream(filePath), Charsets.getUtf8()));
 		char[] buf = new char[1024];
 		int numRead = 0;
 		while ((numRead = reader.read(buf)) != -1) {

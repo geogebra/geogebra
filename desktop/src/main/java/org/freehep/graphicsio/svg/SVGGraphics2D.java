@@ -264,7 +264,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			ros = new GZIPOutputStream(ros);
 		}
 
-		os = new PrintWriter(new OutputStreamWriter(ros, Charsets.UTF_8), true);
+		os = new PrintWriter(new OutputStreamWriter(ros, Charsets.getUtf8()),
+				true);
 		fontTable = new SVGFontTable();
 
 		// Do the bounding box calculation.

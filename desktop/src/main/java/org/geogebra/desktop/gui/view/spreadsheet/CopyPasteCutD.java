@@ -172,7 +172,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		try {
 			InputStream is = url.openStream();
 			BufferedReader input = new BufferedReader(
-					new InputStreamReader(is, Charsets.UTF_8));
+					new InputStreamReader(is, Charsets.getUtf8()));
 			try {
 				String line = null;
 				while ((line = input.readLine()) != null) {

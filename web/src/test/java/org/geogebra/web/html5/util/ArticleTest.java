@@ -36,7 +36,7 @@ public class ArticleTest {
 			huc.connect();
 			String answer = "", s;
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					huc.getInputStream(), Charsets.UTF_8));
+					huc.getInputStream(), Charsets.getUtf8()));
 			answer = in.readLine(); // the last line will never get a "\n" on
 			// its end
 			while ((s = in.readLine()) != null) {

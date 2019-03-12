@@ -49,7 +49,7 @@ public class OFFReader {
 		try {
 			InputStream stream = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(
-					new InputStreamReader(stream, Charsets.UTF_8));
+					new InputStreamReader(stream, Charsets.getUtf8()));
 			parse(br, handler);
 
 			br.close();

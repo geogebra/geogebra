@@ -51,7 +51,7 @@ public class TTFFile extends TTFFont {
 			ttf.seek(12 + i * 16);
 			byte b[] = new byte[4];
 			ttf.readFully(b);
-			String tag = new String(b, Charsets.UTF_8);
+			String tag = new String(b, Charsets.getUtf8());
 			int checksum = ttf.readInt();
 			int offset = ttf.readInt();
 			int len = ttf.readInt();

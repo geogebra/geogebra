@@ -371,7 +371,7 @@ public class GeoGebraFileChooser extends JFileChooser
 
 			try {
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(file), Charsets.UTF_8));
+						new FileInputStream(file), Charsets.getUtf8()));
 				String text = null;
 				int lineCount = 0;
 				// read at most 20 lines

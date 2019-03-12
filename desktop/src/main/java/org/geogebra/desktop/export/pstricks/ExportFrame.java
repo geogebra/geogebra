@@ -213,7 +213,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					 * +System.getProperty(s)); }
 					 */
 					OutputStreamWriter osw = new OutputStreamWriter(b,
-							Charsets.UTF_8);
+							Charsets.getUtf8());
 					StringBuilder sb = new StringBuilder(textarea.getText());
 					if (isLaTeX()) {
 						int id = sb.indexOf("\\usepackage{");

@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -59,10 +58,8 @@ public class MyImageD implements MyImageJre {
 		svg.append(svgStr);
 
 		InputStream stream = null;
-		try {
-			stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.UTF_8));
-		} catch (UnsupportedEncodingException e1) {
-		}
+
+		stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.getUtf8()));
 
 		SVGUniverse universe = SVGCache.getSVGUniverse();
 		URI uri;
@@ -72,7 +69,6 @@ public class MyImageD implements MyImageJre {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public String getMD5() {
@@ -110,7 +106,7 @@ public class MyImageD implements MyImageJre {
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(imageFile), Charsets.UTF_8));
+						new FileInputStream(imageFile), Charsets.getUtf8()));
 				for (String line = reader
 						.readLine(); line != null; line = reader.readLine()) {
 					svg.append(line);
