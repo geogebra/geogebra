@@ -3724,9 +3724,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// note: please use prefix MOW
 		// *********************************************************
 		// **********************************************************************
-		case MOW_PEN_SMOOTHING:
-			return true;
-
 		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
 

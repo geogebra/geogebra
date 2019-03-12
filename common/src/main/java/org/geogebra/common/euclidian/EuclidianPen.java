@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -439,7 +438,7 @@ public class EuclidianPen implements GTimerListener {
 		} else {
 			GPoint p1 = penPoints.get(penPoints.size() - 1);
 			double dist = p1.distance(newPoint);
-			if (!app.has(Feature.MOW_PEN_SMOOTHING) || isFreehand()) {
+			if (isFreehand()) {
 				if (dist > MIN_POINT_DIST) {
 					penPoints.add(newPoint);
 					addPointRepaint();
@@ -589,8 +588,7 @@ public class EuclidianPen implements GTimerListener {
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
 
-			if (app.has(Feature.MOW_PEN_SMOOTHING)
-					&& algo instanceof AlgoLocusStroke) {
+			if (algo instanceof AlgoLocusStroke) {
 				ArrayList<MyPoint> pointsNoControl = ((AlgoLocusStroke) algo)
 						.getPoints();
 				ptsLength = pointsNoControl.size();

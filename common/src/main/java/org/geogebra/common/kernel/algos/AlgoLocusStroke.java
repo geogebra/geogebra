@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -117,8 +116,7 @@ public class AlgoLocusStroke extends AlgoElement
 		poly.getPoints().clear();
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
-		if (canBeBezierCurve(data) && poly.getKernel().getApplication()
-				.has(Feature.MOW_PEN_SMOOTHING)) {
+		if (canBeBezierCurve(data)) {
 			pointList.clear();
 			for (int i = 0; i < initialIndex; i++) {
 				pointList.add(data.get(i));

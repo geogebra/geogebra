@@ -67,9 +67,6 @@ public enum Feature {
 	/** MOV-169 */
 	DYNAMIC_STYLEBAR,
 
-	/** MOW-105 */
-	MOW_PEN_SMOOTHING,
-
 	/** GGB-1617 */
 	AUTOMATIC_DERIVATIVES,
 

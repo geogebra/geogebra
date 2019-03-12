@@ -115,14 +115,8 @@ public class ModeDeleteLocus {
 
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
-						dataPoints = ((AlgoLocusStroke) gps
-								.getParentAlgorithm())
-										.getPointsWithoutControl();
-					} else {
-						dataPoints = ((AlgoLocusStroke) gps
-								.getParentAlgorithm()).getPoints();
-					}
+					dataPoints = ((AlgoLocusStroke) gps
+							.getParentAlgorithm()).getPointsWithoutControl();
 				} else {
 					dataPoints = gps.getPoints();
 				}
@@ -191,8 +185,7 @@ public class ModeDeleteLocus {
 					deleteUnnecessaryUndefPoints(dataPoints);
 
 					updatePolyLineDataPoints(dataPoints, gps);
-					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)
-							&& gps.getParentAlgorithm() != null
+					if (gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
 								.updatePointArray(dataPoints, 0,
@@ -586,15 +579,9 @@ public class ModeDeleteLocus {
 				}
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
-						dataPoints = ((AlgoLocusStroke) gps
-								.getParentAlgorithm())
-										.getPointsWithoutControl();
-					} else {
-						dataPoints = ((AlgoLocusStroke) gps
-							.getParentAlgorithm())
-									.getPoints();
-					}
+					dataPoints = ((AlgoLocusStroke) gps
+							.getParentAlgorithm()).getPointsWithoutControl();
+
 				} else {
 					dataPoints = gps.getPoints();
 				}
@@ -665,8 +652,7 @@ public class ModeDeleteLocus {
 					deleteUnnecessaryUndefPoints(dataPoints);
 
 					updatePolyLineDataPoints(dataPoints, gps);
-					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)
-							&& gps.getParentAlgorithm() != null
+					if (gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
 								.updatePointArray(dataPoints, 0, 0);
