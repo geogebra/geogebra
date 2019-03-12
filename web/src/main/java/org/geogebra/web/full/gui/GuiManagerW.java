@@ -455,6 +455,9 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void updateFonts() {
+		if (hasCasView()) {
+			((CASViewW) getCasView()).updateFonts();
+		}
 		/*
 		 * ((AppW)
 		 * app).getFrameElement().getStyle().setFontSize(app.getFontSize(),

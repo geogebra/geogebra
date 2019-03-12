@@ -948,6 +948,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
+	 * Returns the font size
+	 * @return font size
+	 */
+	public double getFontSize() {
+		return mathFieldInternal.getMathFieldController().getFontSize();
+	}
+
+	/**
 	 * Move caret after pointer event; event may be outside the editor.
 	 * 
 	 * @param absX

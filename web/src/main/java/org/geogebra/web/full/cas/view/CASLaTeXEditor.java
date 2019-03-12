@@ -398,4 +398,14 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void setPixelRatio(double ratio) {
 		mf.setPixelRatio(ratio);
 	}
+
+	/**
+	 * Updates the font size.
+	 */
+	public void updateFontSize() {
+		int targetFontSize = app.getFontSizeWeb();
+
+		mf.setFontSize(targetFontSize);
+		dummy.getElement().getStyle().setFontSize(targetFontSize, Unit.PX);
+	}
 }

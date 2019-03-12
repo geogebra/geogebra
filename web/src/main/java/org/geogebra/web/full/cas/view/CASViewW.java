@@ -1,6 +1,7 @@
 package org.geogebra.web.full.cas.view;
 
 import org.geogebra.common.cas.view.CASInputHandler;
+import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
@@ -245,4 +246,13 @@ public class CASViewW extends CASView implements PrintableW {
 		this.getConsoleTable().getEditor().onEnter(false);
 	}
 
+	/**
+	 * Update the fonts of the editor
+	 */
+	public void updateFonts() {
+		CASTableCellEditor editor = consoleTable.getEditor();
+		if (editor instanceof CASLaTeXEditor) {
+			((CASLaTeXEditor) editor).updateFontSize();
+		}
+	}
 }
