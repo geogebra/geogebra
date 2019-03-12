@@ -184,9 +184,6 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** APPS-250 */
-	SHOW_DEFINITION_FOR_EQUATION_IN_EXAM,
-
 	/** APPS-163 */
 	KEY_HANDLER_EV3D,
 

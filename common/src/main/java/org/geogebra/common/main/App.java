@@ -3948,10 +3948,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SPECIAL_POINTS_IN_CONTEXT_MENU:
 			return true;
 
-		/** APPS-250 */
-		case SHOW_DEFINITION_FOR_EQUATION_IN_EXAM:
-			return true;
-
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
 			return prerelease;
