@@ -99,7 +99,7 @@ public class Unicode {
 	public static final char Omicron = '\u039F';
 	public static final char Pi = '\u03A0';
 	public static final char Rho = '\u03A1';
-	// there is no Sigmaf, and no \U03A2 character either
+	// there is no Sigmaf, and no \u03A2 character either
 	public static final char Sigma = '\u03A3';
 	public static final char Tau = '\u03A4';
 	public static final char Upsilon = '\u03A5';
@@ -129,11 +129,11 @@ public class Unicode {
 	public static final char IS_SUBSET_OF = '\u2286';
 	public static final char IS_SUBSET_OF_STRICT = '\u2282';
 	public static final char COLON_EQUALS = '\u2254';
-	// public static final String ANGLE = "\u2220";
-	// public static final String ACCENT_ACUTE = "\u00b4";
-	// public static final String ACCENT_GRAVE = "\u0060";
-	// public static final String ACCENT_CARON = "\u02c7";
-	// public static final String ACCENT_CIRCUMFLEX = "\u005e";
+	// public static final char ANGLE = '\u2220';
+	// public static final char ACCENT_ACUTE = '\u00b4';
+	// public static final char ACCENT_GRAVE = '\u0060';
+	// public static final char ACCENT_CARON = '\u02c7';
+	// public static final char ACCENT_CIRCUMFLEX = '\u005e';
 	public static final char QUESTEQ = '\u225f';
 
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
