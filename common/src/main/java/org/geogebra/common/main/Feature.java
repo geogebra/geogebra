@@ -175,9 +175,6 @@ public enum Feature {
 	/** unify prove commands */
 	PROVE_UNIFY,
 
-	/** APPS-31 */
-	SPECIAL_POINTS_IN_CONTEXT_MENU,
-
 	/** G3D-89 */
 	G3D_IOS_FASTER_AV,
 

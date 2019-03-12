@@ -3944,10 +3944,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TABLE_VIEW:
 			return true;
 
-		/** APPS-31 */
-		case SPECIAL_POINTS_IN_CONTEXT_MENU:
-			return true;
-
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
 			return prerelease;
