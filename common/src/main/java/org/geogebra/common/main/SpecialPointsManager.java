@@ -225,8 +225,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 		Command cmd = new Command(kernel, "Intersect", false);
 		CmdIntersect intersect = new CmdIntersect(kernel);
-		boolean wasSuppressLabelActive = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
+		boolean silentMode = kernel.isSilentMode();
+		kernel.setSilentMode(true);
 
 		Set<GeoElement> elements = new TreeSet<>(cons.getGeoSetConstructionOrder());
 		for (GeoElement element: elements) {
@@ -235,7 +235,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		}
 
-		cons.setSuppressLabelCreation(wasSuppressLabelActive);
+		kernel.setSilentMode(silentMode);
 	}
 
 	private void getSpecialPointsIntersect(GeoElement element, GeoElement secondElement,
