@@ -249,6 +249,13 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	/**
 	 * @return all commands in the dictionary
 	 */
+	public ArrayList<String> getAllCommands() {
+		return getAllCommands(false);
+	}
+
+	/**
+	 * @return all commands in the dictionary
+	 */
 	public ArrayList<String> getAllCommands(boolean noCAS) {
 
 		ArrayList<String> ret = new ArrayList<>();
