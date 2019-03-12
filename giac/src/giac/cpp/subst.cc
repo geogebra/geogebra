@@ -429,7 +429,12 @@ namespace giac {
       }
       return symbolic((intg==0?at_sum:at_integrate),gen(v,_SEQ__VECT));
     }
-    return symbolic((intg==0?at_sum:at_integrate),gen(subst(v,i,newi,quotesubst,contextptr),_SEQ__VECT));
+    v=subst(v,i,newi,quotesubst,contextptr);
+    if (intg && s>=3 && v[2]==v[3]){
+      // *logptr(contextptr) << "Warning, assuming that " << v[0] << " is regular at " << v[2] << endl;
+      return 0; 
+    }
+    return symbolic((intg==0?at_sum:at_integrate),gen(v,_SEQ__VECT));
   }
 
   static gen subst_derive(const gen & e,const gen & i,const gen & newi,bool quotesubst,GIAC_CONTEXT){
@@ -2237,7 +2242,7 @@ namespace giac {
   gen ataninv2atan(const gen & g,GIAC_CONTEXT){
     const vector< const unary_function_ptr *> atan_v(1,at_atan);
     const vector< gen_op_context > ataninv2atan_v(1,ataninvtoatan);
-    return subst(g,atan_v,ataninv2atan_v,quotesubst,contextptr);
+    return subst(g,atan_v,ataninv2atan_v,false,contextptr);
   }
   bool in_cklin(const gen & tmp){	
     if (tmp.is_symb_of_sommet(at_neg))

@@ -46,8 +46,11 @@ namespace giac {
     gen current_derf(f_x),value,factorielle(1);
     for (int i=0;;++i){
       value=subst(current_derf,x,lim_point,false,contextptr);
-      if (is_undef(value))
-	return false;
+      if (is_undef(value)){
+	// if (x.type==_IDNT) value=limit(current_derf,*x._IDNTptr,lim_point,0,contextptr);
+	if (is_undef(value))
+	  return false;
+      }
       v.push_back(ratnormal(rdiv(value,factorielle,contextptr),contextptr));
       if (i==ordre){
 	v.push_back(undef);
@@ -1723,6 +1726,32 @@ namespace giac {
 	    invalidserieserr(gettext("Integration variable must be != from series expansion variable"));
 	    return false;
 	  }
+#if 1
+	  if (!contains(tempfv[0],x)){
+	    vecteur v;
+	    // int(f(t),t,m(x),M(x))=F(M(x))-F(m(x))
+	    // hence derivative is M'(x)*f(M(x))-m'(x)*f(m(x))
+	    gen g=derive(tempfv[3],x,contextptr)*subst(tempfv[0],tempfv[1],tempfv[3],false,contextptr)-derive(tempfv[2],x,contextptr)*subst(tempfv[0],tempfv[1],tempfv[2],false,contextptr);
+	    g=exp2pow(g,contextptr);
+	    s.clear();
+	    if (!series__SPOL1(g,x,lim_point,ordre,direction,s,contextptr)){
+	      return false;
+	    }
+	    gen s0=eval(subst(temp__SYMB,x,lim_point,false,contextptr),1,contextptr);
+	    sparse_poly1 p; 
+	    if (!is_zero(s0))
+	      p.push_back(monome(s0,0));
+	    sparse_poly1::const_iterator it=s.begin(),itend=s.end();
+	    for (;it!=itend;++it){
+	      gen i=it->exponent;
+	      if (i==-1) // should be i<=-1?
+		return false;
+	      p.push_back(monome(it->coeff/(i+1),i+1));
+	    }
+	    lvx_s.push_back(p);
+	    continue;
+	  }
+#else // old code
 	  if (!contains(tempfv[0],x)){
 	    vecteur v;
 	    if (!taylor(temp__SYMB,x,lim_point,ordre,v,contextptr))
@@ -1734,6 +1763,7 @@ namespace giac {
 	    lvx_s.push_back(s);
 	    continue;
 	  }
+#endif
 	  if (!in_series__SPOL1(tempfv[0],x,lvx,lvx_s,ordre,direction,s,contextptr))
 	    return false;
 	  // FIXME if tempfv[3] and tempfv[2] tends to the same limit l
@@ -2744,6 +2774,16 @@ namespace giac {
 	  if (!mrv(f[0],x,faster_var,coeff_ln,slower_var,contextptr) ||
 	      !mrv(f[3],x,faster_var,coeff_ln,slower_var,contextptr) ||
 	      !mrv(f[4],x,faster_var,coeff_ln,slower_var,contextptr))
+	    return false;
+	  continue;
+	}
+      }
+      if (temp._SYMBptr->sommet==at_integrate){
+	gen & f = temp._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==4){
+	  if (!mrv(f[0],x,faster_var,coeff_ln,slower_var,contextptr) ||
+	      !mrv(f[2],x,faster_var,coeff_ln,slower_var,contextptr) ||
+	      !mrv(f[3],x,faster_var,coeff_ln,slower_var,contextptr))
 	    return false;
 	  continue;
 	}
