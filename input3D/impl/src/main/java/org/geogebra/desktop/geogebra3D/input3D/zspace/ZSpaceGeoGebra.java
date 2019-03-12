@@ -11,6 +11,7 @@ import com.zspace.Sdk4.ZCError;
 import com.zspace.Sdk4.ZCTargetType;
 import com.zspace.ZCEventListener;
 import com.zspace.ZCTrackerEventData;
+import com.zspace.ZCTrackerPose;
 import com.zspace.ZSMatrix4;
 import com.zspace.ZSVector2;
 import com.zspace.ZSVector3;
@@ -72,14 +73,15 @@ public class ZSpaceGeoGebra {
 	
 	private abstract class ZJEventListener extends ZCEventListener {
 		
-		public ZSMatrix4Ggb matrix, viewPortMatrix;
+		public ZSMatrix4Ggb viewPortMatrix;
 		
 		protected ZSpaceGeoGebra zsggb;
+		private ZCTrackerPose trackerPose;
 		
 		public ZJEventListener(ZSpaceGeoGebra zsggb) {
 			this.zsggb = zsggb;
-			matrix = new ZSMatrix4Ggb();
 			viewPortMatrix = new ZSMatrix4Ggb();
+			trackerPose = new ZCTrackerPose();
 		}
 
 		@Override
@@ -87,19 +89,20 @@ public class ZSpaceGeoGebra {
 				ZCTrackerEventData eventData, Object userData) {
 			
 			zsggb.setEventOccured();
-			
-			matrix.set(eventData.poseMatrix);
+			setTrackerPose(trackerPose);
 			updateViewPortMatrix();
 			
 		}
 		
+		abstract protected void setTrackerPose(ZCTrackerPose trackerPose);
+
 		/**
 		 * update matrix in viewport space
 		 * 
 		 */
 		public void updateViewPortMatrix(){
 
-			viewPortMatrix.set(matrix.f);
+			viewPortMatrix.set(trackerPose.matrix.f);
 			Sdk4.zcTransformMatrix(
 					zsggb.zViewport,
 					ZCCoordinateSpace.ZC_COORDINATE_SPACE_TRACKER,
@@ -186,6 +189,11 @@ public class ZSpaceGeoGebra {
 				qz = 0.25 * S;
 			}
 		}
+
+		@Override
+		protected void setTrackerPose(ZCTrackerPose trackerPose) {
+			Sdk4.zcGetTargetPose(targetHandle, trackerPose);
+		}
 		
 	}
 	
@@ -226,6 +234,11 @@ public class ZSpaceGeoGebra {
 			rightY = (y + dy) * zsggb.toPixelRatio;
 			rightZ = (z + dz) * zsggb.toPixelRatio;
 
+		}
+
+		@Override
+		protected void setTrackerPose(ZCTrackerPose trackerPose) {
+			Sdk4.zcGetFrustumHeadPose(frustumHandle, trackerPose);
 		}
 		
 	}
@@ -350,6 +363,7 @@ public class ZSpaceGeoGebra {
 	double toPixelRatio = 3600;
     
 	private long displayHandle;
+	long frustumHandle;
     
     private void init(){
     	
@@ -384,6 +398,8 @@ public class ZSpaceGeoGebra {
 				Sdk4.ZCRenderer.ZC_RENDERER_QUAD_BUFFER_GL, 0);
 		zViewport = Sdk4.zcCreateViewport(zContext);
 		
+		frustumHandle = Sdk4.zcGetFrustum(zViewport);
+
 		// initialize head tracking
 		zHead = Sdk4.zcGetTargetByType(
 				zContext,
