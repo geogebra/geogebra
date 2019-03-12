@@ -531,9 +531,7 @@ public final class DrawImage extends Drawable {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		if (!(geo.getKernel().getApplication().isWhiteboardActive())
-				|| (absoluteLocation && !geo.getKernel().getApplication()
-						.isWhiteboardActive())) {
+		if (!geo.getKernel().getApplication().isWhiteboardActive()) {
 			return;
 		}
 		if (boundingBox.isCropBox()) {
@@ -546,16 +544,14 @@ public final class DrawImage extends Drawable {
 			if (Double.isNaN(originalRatio)) {
 				updateOriginalRatio();
 			}
-			if (absoluteLocation && geo.getKernel().getApplication()
-					.isWhiteboardActive()) {
+			if (absoluteLocation) {
 				// updates the current coordinates of corner points
 				geoImage.screenToReal();
 			}
 			geoImage.updateScaleAndLocation();
 			updateImageResize(p, handler);
 
-			if (absoluteLocation && geo.getKernel().getApplication()
-					.isWhiteboardActive()) {
+			if (absoluteLocation) {
 				geoImage.updateScaleAndLocation();
 			}
 			geoImage.update();
