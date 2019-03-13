@@ -374,7 +374,7 @@ public class InputDialogW extends InputDialog
 	 * Handles button clicks for dialog.
 	 */
 	@Override
-	public void onClick(ClickEvent e) {
+	public final void onClick(ClickEvent e) {
 		actionPerformed(e);
 	}
 
