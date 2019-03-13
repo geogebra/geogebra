@@ -775,7 +775,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// init sub command dictionaries
 		CommandSelector cs = new NoCASCommandSelectorFactory()
 				.createCommandSelector();
-		
+
 		if (subCommandDict == null) {
 			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
 			for (int i = 0; i < subCommandDict.length; i++) {
@@ -792,7 +792,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			if (noCAS && !cs.isCommandAllowed(comm)) {
 				continue;
 			}
-		
+
 			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())
 					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
@@ -801,7 +801,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 				}
 				continue;
 			}
-		
+
 			// Log.debug(internal);
 			String local = getLocalization().getCommand(internal);
 			putInTranslateCommandTable(comm, local);
@@ -812,7 +812,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 				// internal names!0
 				translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 						internal);
-				
+
 				commandDict.addEntry(local);
 				// add public commands to the sub-command dictionaries
 				subCommandDict[comm.getTable()].addEntry(local);
@@ -3955,7 +3955,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** APPS-339 */
 		case SHOW_SAVE_AFTER_CLOSE_SEARCH:
 			return true;
-       
+
+		/** APPS-450 */
+		case AV_INPUT_3DOT:
+			return prerelease;
+
 	   // **********************************************************************
        // G3D START
        //

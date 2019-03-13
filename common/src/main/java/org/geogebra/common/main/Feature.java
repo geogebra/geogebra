@@ -195,7 +195,7 @@ public enum Feature {
 
 	/** G3D-177 */
 	G3D_STL_EXPORT_DIALOG,
-	
+
 	/** APPS-91 */
 	LANG_PARAM_LAST,
 
@@ -206,5 +206,8 @@ public enum Feature {
 	SHOW_SAVE_AFTER_CLOSE_SEARCH,
 
 	/** G3D-66 */
-	G3D_IMPROVE_AUTOMATIC_ROTATION
+	G3D_IMPROVE_AUTOMATIC_ROTATION,
+
+	/** APPS-450 */
+	AV_INPUT_3DOT
 }

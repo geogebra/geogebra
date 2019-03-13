@@ -1453,7 +1453,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		if (isInputTreeItem()) {
-			content.insert(getClearInputButton(), 0);
+			if (!app.has(Feature.AV_INPUT_3DOT)) {
+				content.insert(getClearInputButton(), 0);
+			}
 
 			if (controls != null) {
 				controls.setVisible(true);
@@ -1510,6 +1512,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected GPushButton getClearInputButton() {
+		if (app.has(Feature.AV_INPUT_3DOT)) {
+			return null;
+		}
+
 		if (btnClearInput == null) {
 			btnClearInput = new GPushButton(
 					new NoDragImage(MaterialDesignResources.INSTANCE.clear(), 24));
