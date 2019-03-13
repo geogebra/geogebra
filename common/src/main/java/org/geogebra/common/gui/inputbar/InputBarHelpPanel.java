@@ -103,7 +103,6 @@ public class InputBarHelpPanel {
 		// math functions
 		String[] translatedFunctions = TableSymbols
 				.getTranslatedFunctions(mApp);
-		boolean noCAS = !mApp.getSettings().getCasSettings().isEnabled();
 		mMathFuncDict = mApp.newLowerCaseDictionary();
 		for (String function : translatedFunctions) {
 			// remove start space char
@@ -116,14 +115,14 @@ public class InputBarHelpPanel {
 			}
 			mMathFuncDict.addEntry(insert);
 		}
-		mMathFunc = mMathFuncDict.getAllCommands(noCAS);
+		mMathFunc = mMathFuncDict.getAllCommands();
 
 		// all commands dictionary (with math functions){
 		mDict = new LowerCaseDictionary(mApp.getCommandDictionary());
 		for (String function : mMathFunc) {
 			mDict.addEntry(function);
 		}
-		mAllCommands = mDict.getAllCommands(noCAS);
+		mAllCommands = mDict.getAllCommands();
 
 		// by category dictionaries
 		mSubDict = mApp.getSubCommandDictionary();
@@ -134,7 +133,7 @@ public class InputBarHelpPanel {
 
 		for (int i = 0; i < n; i++) {
 			String categoryName = getCategoryName(i);
-			Collection<String> list = getSubDictionary(i).getAllCommands(noCAS);
+			Collection<String> list = getSubDictionary(i).getAllCommands();
 			if (list != null) {
 				mCategoryNameToTableIndex.put(categoryName, i);
 				mCommands.add(list);
@@ -285,7 +284,7 @@ public class InputBarHelpPanel {
 
 	/**
 	 * verify that word is not reserved or an existing geo
-	 * 
+	 *
 	 * @param word
 	 *            word arround cursor
 	 * @return whether it's a function or geo
