@@ -44,6 +44,10 @@ abstract public class ARGestureManager{
         return isTouched;
     }
 
+    synchronized public void setIsTouched(boolean flag) {
+        isTouched = flag;
+    }
+
     synchronized public boolean getUpdateOriginIsWanted() {
         return mUpdateOriginIsWanted;
     }
