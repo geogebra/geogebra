@@ -14,28 +14,20 @@ public class FocusListener {
 		listenerClass = listener;
 	}
 
-	protected void wrapFocusGained(GFocusEvent event) {
-		if (listenerClass instanceof FocusListenerDelegate) {
-			((FocusListenerDelegate) listenerClass).focusGained(event);
-		} else {
-			Log.debug("other type");
-		}
-	}
-
 	protected void wrapFocusGained() {
-		wrapFocusGained(null);
-	}
-
-	protected void wrapFocusLost(GFocusEvent event) {
 		if (listenerClass instanceof FocusListenerDelegate) {
-			((FocusListenerDelegate) listenerClass).focusLost(event);
+			((FocusListenerDelegate) listenerClass).focusGained();
 		} else {
 			Log.debug("other type");
 		}
 	}
 
 	protected void wrapFocusLost() {
-		wrapFocusLost(null);
+		if (listenerClass instanceof FocusListenerDelegate) {
+			((FocusListenerDelegate) listenerClass).focusLost();
+		} else {
+			Log.debug("other type");
+		}
 	}
 
 	public Object getListenerClass() {

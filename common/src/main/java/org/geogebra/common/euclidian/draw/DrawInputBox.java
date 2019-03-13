@@ -23,7 +23,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
-import org.geogebra.common.euclidian.event.GFocusEvent;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.factories.AwtFactory;
@@ -107,7 +106,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 *            focus event
 		 */
 		@Override
-		public void focusGained(GFocusEvent e) {
+		public void focusGained() {
 			if (!isSelectedForInput()) {
 				return;
 			}
@@ -125,7 +124,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 *            focus event
 		 */
 		@Override
-		public void focusLost(GFocusEvent e) {
+		public void focusLost() {
 			if (!isSelectedForInput()) {
 				return;
 			}

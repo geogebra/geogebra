@@ -16,16 +16,12 @@ public class FocusListenerD
 
 	@Override
 	public void focusGained(FocusEvent e) {
-		GFocusEventD event = GFocusEventD.wrapEvent(e);
-		wrapFocusGained(event);
-		event.release();
+		wrapFocusGained();
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		GFocusEventD event = GFocusEventD.wrapEvent(e);
-		wrapFocusLost(event);
-		event.release();
+		wrapFocusLost();
 	}
 
 }
