@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
@@ -56,7 +57,8 @@ public class ItemControls extends FlowPanel
 		addStyleName("smallStylebar");
 		addStyleName("withContextMenu");
 		buildGUI();
-		if (hasMoreMenu() && radioTreeItem.geo != null) {
+		if (radioTreeItem.app.has(Feature.AV_INPUT_3DOT)||
+				(!radioTreeItem.isInputTreeItem() && hasMoreMenu())) {
 			add(getMoreButton());
 			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}
@@ -143,14 +145,23 @@ public class ItemControls extends FlowPanel
 			radioTreeItem.getApplication().toggleMenu();
 		}
 		if (cmMore == null) {
-			MenuActionCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
-					.getActivity().getAVMenuItems(radioTreeItem.getAV());
-			cmMore = new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
+			cmMore = createMoreContextMenu();
 		} else {
 			cmMore.buildGUI();
 		}
 		radioTreeItem.cancelEditing();
-		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
+		if (cmMore != null) {
+				cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
+		}
+	}
+
+	private ContextMenuAVItemMore createMoreContextMenu() {
+		if (radioTreeItem.app.has(Feature.AV_INPUT_3DOT) && radioTreeItem.isInputTreeItem()) {
+			return null;
+		}
+		MenuActionCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
+				.getActivity().getAVMenuItems(radioTreeItem.getAV());
+		return new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
 	}
 
 	/**
@@ -377,6 +388,23 @@ public class ItemControls extends FlowPanel
 	 */
 	public void show(boolean value) {
 		super.setVisible(true); // radioTreeItem.app.has(Feature.AV_ITEM_DESIGN)
+	}
+
+	/**
+	 *  Shows 3-dot button
+	 *
+	 */
+	public void showMoreButton() {
+		btnMore.removeStyleName("hidden");
+	}
+
+	/**
+	 *  Hides 3-dot button
+	 *
+	 */
+	public void hideMoreButton() {
+		btnMore.addStyleName("hidden");
+
 	}
 
 	/**

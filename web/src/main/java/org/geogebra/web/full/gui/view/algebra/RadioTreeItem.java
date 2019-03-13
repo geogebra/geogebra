@@ -882,7 +882,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getAV().setLaTeXLoaded();
 
 		if (controls != null) {
-			controls.setVisible(true);
+			if (app.has(Feature.AV_INPUT_3DOT) && isInputTreeItem()) {
+				controls.hideMoreButton();
+	 		} else {
+	 			controls.setVisible(true);
+	 		}
 		}
 		if (rawInput != null) {
 			String v = app.getKernel().getInputPreviewHelper()
@@ -1427,7 +1431,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		content.insert(dummyLabel, 0);
 		removeOutput();
-
+		if (app.has(Feature.AV_INPUT_3DOT) && isInputTreeItem()) {
+			controls.hideMoreButton();
+		}
 		if (btnClearInput != null) {
 			btnClearInput.removeFromParent();
 			btnClearInput = null;
@@ -1874,12 +1880,29 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void onKeyTyped() {
 		this.removeDummy();
+		ensureInputMoreMenu();
 		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
 		onCursorMove();
 		if (mf != null) {
 			updateEditorAriaLabel(getText());
+		}
+	}
+
+	public void ensureInputMoreMenu() {
+	 	if (!app.has(Feature.AV_INPUT_3DOT)) {
+			return;
+		}
+
+		if (!isInputTreeItem()) {
+			return;
+		}
+
+		if (StringUtil.empty(getText())) {
+			controls.hideMoreButton();
+		} else {
+			controls.showMoreButton();
 		}
 	}
 
@@ -1952,6 +1975,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void updateGUIfocus(boolean blurtrue) {
 		if (geo == null) {
 			updateEditorFocus(blurtrue);
+		}
+
+	}
+
+	private void hideInputMoreButton() {
+		if (app.has(Feature.AV_INPUT_3DOT) && isInputTreeItem()) {
+			controls.hideMoreButton();
 		}
 	}
 
@@ -2038,6 +2068,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (text == null) {
 			return false;
 		}
+
+		hideInputMoreButton();
 		prepareEdit(text);
 		getMathField().requestViewFocus();
 		app.getGlobalKeyDispatcher().setFocused(true);
@@ -2163,7 +2195,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		renderLatex("", false);
 		content.getElement().setTabIndex(GUITabs.AV_INPUT);
 		getHelpToggle().setIndex(1);
-		return this;
+		if (app.has(Feature.AV_INPUT_3DOT)) {
+			addControls();
+			controls.hideMoreButton();
+		}
+ 		return this;
 	}
 
 	/**

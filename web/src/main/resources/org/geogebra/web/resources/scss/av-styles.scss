@@ -520,9 +520,16 @@ $duration: 0.2s;
 			}
 		}
 
+		.hidden {
+			display: none;
+		}
+		
 		.more-hidden {
 			opacity: 0 !important;
 			transition: 0.3s ease;
+			&:hover {
+				opacity:  !important;
+			}
 		}
 
 		.NewRadioButtonTreeItemParent {
