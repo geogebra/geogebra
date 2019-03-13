@@ -31,7 +31,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private int gridIndex = -1;
 	private int gridOutlineIndex = -1;
 
-	double[] minmaxXFinal = new double[2];
+	private final double[] minmaxXFinal = new double[2];
 	private final double[] minmaxYFinal = new double[2];
 
 	/** says if the view direction is parallel to the plane */
@@ -422,6 +422,18 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return true;
 	}
 
+	/**
+	 * Update x, y, z range of bounds given the x-range and y-range of the view
+	 * 
+	 * @param xmin
+	 *            x-min
+	 * @param xmax
+	 *            x-max
+	 * @param ymin
+	 *            y-min
+	 * @param ymax
+	 *            y-max
+	 */
 	protected void updateBounds(double xmin, double xmax, double ymin,
 			double ymax) {
 
@@ -444,7 +456,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		// update y min/max
 		boundsMin.setY(ymin);
 		boundsMax.setY(ymax);
-
 	}
 
 	private void updateZMinMax(CoordSys coordsys, double x, double y) {
@@ -508,14 +519,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) &&
-                getView3D().isAREnabled()) {
-            setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
-        } else if (getView3D().useClippingCube() || !getView3D().getSettings().hasSameScales()) {
+		if (getView3D().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)
+				&& getView3D().isAREnabled()) {
+			setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
+		} else if (getView3D().useClippingCube()
+				|| !getView3D().getSettings().hasSameScales()) {
 			// make sure the plane goes more than the clipping cube
 			setMinMax(getView3D().getClippingCubeDrawable().getVertices());
 		} else { // use interior clipping cube radius
-			setMinMax(getView3D().getCenter(), getView3D().getFrustumInteriorRadius());
+			setMinMax(getView3D().getCenter(),
+					getView3D().getFrustumInteriorRadius());
 		}
 
 	}
@@ -598,6 +611,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		super.removeFromDrawable3DLists(lists);
 	}
 
+	/**
+	 * Update the {@link #viewDirectionIsParallel} flag
+	 */
 	protected void checkViewDirectionIsParallel() {
 		viewDirectionIsParallel = getView3D().showPlaneOutlineIfNeeded()
 				&& DoubleUtil

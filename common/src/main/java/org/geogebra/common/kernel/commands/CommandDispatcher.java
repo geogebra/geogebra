@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;

@@ -71,7 +71,8 @@ public class GraphicsPropertiesList extends PropertiesList {
         }
 
 		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
-		propertyList.add(new LabelsPropertyCollection(app, localization, euclidianSettings));
+		propertyList.add(
+				new LabelsPropertyCollection(localization, euclidianSettings));
 
 		if (activeView.isEuclidianView3D()) {
 			propertyList.add(new AxesColoredProperty(localization,

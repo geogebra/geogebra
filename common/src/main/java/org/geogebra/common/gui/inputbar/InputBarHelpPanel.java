@@ -202,16 +202,16 @@ public class InputBarHelpPanel {
 	}
 
 	/**
-	 * @param category
+	 * @param categoryName
 	 *            category name
 	 * @return all commands in category
 	 */
-	public Collection<String> getCommandsFromCategory(String name) {
+	public Collection<String> getCommandsFromCategory(String categoryName) {
 		TreeMap<String, Integer> categories = getCategories();
-		if (categories == null || !categories.containsKey(name)) {
+		if (categories == null || !categories.containsKey(categoryName)) {
 			return null;
 		}
-		return getCommandsFromCategory(categories.get(name));
+		return getCommandsFromCategory(categories.get(categoryName));
 	}
 
 	/**

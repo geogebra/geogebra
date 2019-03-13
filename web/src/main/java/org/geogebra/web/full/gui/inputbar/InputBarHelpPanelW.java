@@ -58,6 +58,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private MyTreeItem itmFunction;
 	private AutoCompleteW inputField;
 	private InputBarHelpPanel hp;
+
 	/**
 	 * @param app
 	 *            application
@@ -70,7 +71,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		createGUI();
 		setLabels();
 	}
-	
+
 	/**
 	 * @param field
 	 *            input field
@@ -176,7 +177,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	@Override
 	public void render(boolean online) {
 		btnOnlineHelp.setEnabled(online);
-    }
+	}
 
 	private void showOnlineHelpButton(boolean show) {
 		btnOnlineHelp.setVisible(show);
