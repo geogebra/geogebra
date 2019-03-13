@@ -41,35 +41,29 @@ public class InputBarHelpPanel {
 	 *            app
 	 * @param comparator
 	 *            String comparator
+	 * @param index
+	 *            category index
 	 * @return commands tree map
 	 */
-	final static public TreeMap<String, TreeSet<String>> getCommandTreeMap(
-			App app, Comparator<String> comparator) {
+	final static public TreeSet<String> getCommandTreeMap(
+			App app, Comparator<String> comparator, int index) {
 
-		TreeMap<String, TreeSet<String>> cmdTreeMap = new TreeMap<>(
-				comparator);
 		LowerCaseDictionary[] subDict = app.getSubCommandDictionary();
 
-		for (int i = 0; i < subDict.length; i++) {
-
-			if (subDict[i].isEmpty()) {
-				continue;
-			}
-
-			String cmdSetName = app.getKernel().getAlgebraProcessor()
-					.getSubCommandSetName(i);
-			TreeSet<String> cmdTree = new TreeSet<>(comparator);
-
-			Iterator<?> it = subDict[i].getIterator();
-			while (it.hasNext()) {
-				String cmd = subDict[i].get(it.next());
-				if (cmd != null && cmd.length() > 0) {
-					cmdTree.add(cmd);
-				}
-			}
-			cmdTreeMap.put(cmdSetName, cmdTree);
+		if (subDict[index].isEmpty()) {
+			return null;
 		}
-		return cmdTreeMap;
+
+		TreeSet<String> cmdTree = new TreeSet<>(comparator);
+
+		Iterator<?> it = subDict[index].getIterator();
+		while (it.hasNext()) {
+			String cmd = subDict[index].get(it.next());
+			if (cmd != null && cmd.length() > 0) {
+				cmdTree.add(cmd);
+			}
+		}
+		return cmdTree;
 	}
 
 	/**

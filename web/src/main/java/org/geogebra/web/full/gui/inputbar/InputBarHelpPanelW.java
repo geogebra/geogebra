@@ -3,8 +3,6 @@ package org.geogebra.web.full.gui.inputbar;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.SetLabels;
@@ -300,24 +298,21 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		addCmdNames(itmAllCommands, getAllCommandsTreeSet());
 		indexTree.addItem(itmAllCommands);
 
-		TreeMap<String, TreeSet<String>> cmdMap = getCommandTreeMap();
+		for (int index = 0; index < hp.getCategoriesCount(); index++) {
+			TreeSet<String> cmdNames = InputBarHelpPanel.getCommandTreeMap(app,
+					comparator, index);
 
-		Iterator<Entry<String, TreeSet<String>>> i = cmdMap.entrySet()
-		        .iterator();
-		while (i.hasNext()) {
-
-			Entry<String, TreeSet<String>> entry = i.next();
-
-			// add command set branch to tree
-			String cmdSetName = entry.getKey();
-			TreeItem itmCmdSet = new MyTreeItem();
-			itmCmdSet
-			        .setWidget(new TreeItemButton(cmdSetName, itmCmdSet, false));
-			indexTree.addItem(itmCmdSet);
-
-			// add command names to this branch
-			TreeSet<String> cmdNames = entry.getValue();
-			addCmdNames(itmCmdSet, cmdNames);
+			if (cmdNames != null) {
+				String cmdSetName = app.getKernel().getAlgebraProcessor()
+						.getSubCommandSetName(index);
+				TreeItem itmCmdSet = new MyTreeItem();
+				itmCmdSet.setWidget(
+						new TreeItemButton(cmdSetName, itmCmdSet, false));
+				// add command set branch to tree
+				indexTree.addItem(itmCmdSet);
+				// add command names to this branch
+				addCmdNames(itmCmdSet, cmdNames);
+			}
 		}
 	}
 
@@ -395,10 +390,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		public native int compare(String source, String target) /*-{
 			return source.localeCompare(target);
 		}-*/;
-	}
-
-	private TreeMap<String, TreeSet<String>> getCommandTreeMap() {
-		return hp.getCommandTreeMap(app, comparator);
 	}
 
 	private TreeSet<String> getAllCommandsTreeSet() {
