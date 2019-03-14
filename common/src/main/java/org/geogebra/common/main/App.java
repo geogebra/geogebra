@@ -3723,6 +3723,14 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_EXPORT_STL:
 			return (prerelease || !Versions.DESKTOP.equals(version));
 
+		/** MOB-1310 */
+		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
+			return prerelease;
+
+		/** MOB-1293 */
+		case SELECT_TOOL_NEW_BEHAVIOUR:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
@@ -3899,10 +3907,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case DIALOG_DESIGN:
 			return isUnbundledOrWhiteboard();
 
-		/** MOB-1293 */
-		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease;
-
 		/** GGB-2183 */
 		case AUTO_ADD_DEGREE:
 			return getKernel().degreesMode();
@@ -3910,10 +3914,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** GGB-2222 */
 		case CHANGE_INVERSE_TRIG_TO_DEGREES:
 			return getKernel().degreesMode();
-
-		/** MOB-1310 */
-		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
-			return prerelease;
 
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
