@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.util.slider;
 
 import org.geogebra.common.spy.SpyBuilder;
-import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -10,11 +9,10 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(FormatFactory.class)
+
+@RunWith(MockitoJUnitRunner.class)
 public class SliderBuilderTest {
 
 	private SpyBuilder spyBuilder;
