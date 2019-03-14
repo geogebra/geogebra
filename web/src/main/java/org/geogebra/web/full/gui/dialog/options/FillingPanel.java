@@ -119,13 +119,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			};
 		}-*/;
 
-		@Override
-		public void onClick(ClickEvent event) {
-			if (event.getSource() == btCancel) {
-				hideAndFocus();
-			}
-		}
-
 		public native boolean openFileAsImage(JavaScriptObject fileToHandle,
 				JavaScriptObject callback) /*-{
 

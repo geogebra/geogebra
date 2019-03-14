@@ -71,27 +71,19 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 							// wrappedPopup.show();
 							inputPanel.getTextComponent().hideTablePopup();
 						} else {
-							wrappedPopup.hide();
-							inputPanel.getTextComponent().hideTablePopup();
-							app.getActiveEuclidianView().requestFocusInWindow();
+							setVisible(false);
+
 						}
 					}
 				});
 
-			//} else if (source == btApply) {
-			//	processInput();
 			} else if (source == btCancel) {
-				//FIXME setVisibleForTools(false);
-				wrappedPopup.hide();
-				inputPanel.getTextComponent().hideTablePopup();
-				app.getActiveEuclidianView().requestFocusInWindow();
+				setVisible(false);
+
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			//FIXME setVisibleForTools(false);
-			wrappedPopup.hide();
-			inputPanel.getTextComponent().hideTablePopup();
-			app.getActiveEuclidianView().requestFocusInWindow();
+			setVisible(false);
 		}
 	}
 

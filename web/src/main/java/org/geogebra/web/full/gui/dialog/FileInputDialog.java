@@ -11,6 +11,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Dialog for selecting files
+ */
 public class FileInputDialog extends GPopupPanel implements ClickHandler {
 
 	private FileUpload inputWidget;
@@ -45,7 +48,7 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 	}
 
 	@Override
-	public void onClick(ClickEvent event) {
+	public final void onClick(ClickEvent event) {
 		if (event.getSource() == btCancel) {
 			hideAndFocus();
 		}

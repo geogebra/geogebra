@@ -32,6 +32,8 @@ public class InputDialogRegularPolygonW extends InputDialogW {
 	 *            first vertex
 	 * @param point2
 	 *            second vertex
+	 * @param direction
+	 *            orientation
 	 */
 	public InputDialogRegularPolygonW(AppW app, EuclidianController ec, String title,
 			InputHandler handler, GeoPointND point1, GeoPointND point2,

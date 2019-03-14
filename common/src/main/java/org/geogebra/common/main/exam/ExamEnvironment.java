@@ -11,9 +11,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
-import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
@@ -41,6 +41,8 @@ public class ExamEnvironment {
 	 * application
 	 */
 	protected App app;
+
+	private long ignoreBlurUntil = -1;
 
 	/**
 	 *
@@ -73,7 +75,13 @@ public class ExamEnvironment {
 		closed = -1;
 	}
 
+	/**
+	 * Start cheating when window left
+	 */
 	public void windowLeft() {
+		if (ignoreBlurUntil > System.currentTimeMillis()) {
+			return;
+		}
 		cheatingEvents.addWindowLeftEvent();
 	}
 
@@ -529,5 +537,13 @@ public class ExamEnvironment {
 	 */
 	public static boolean isProtectedEquation(GeoElement eqn) {
 		return !outputFilter.isAllowed(eqn);
+	}
+
+	/**
+	 * @param ignoreBlurUntil
+	 *            expiration timestamp of blur free pass
+	 */
+	public void setIgnoreBlurUntil(long ignoreBlurUntil) {
+		this.ignoreBlurUntil = ignoreBlurUntil;
 	}
 }

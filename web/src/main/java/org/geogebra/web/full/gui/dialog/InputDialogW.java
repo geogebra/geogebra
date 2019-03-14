@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.util.WindowsNativeUIController;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
@@ -442,22 +443,16 @@ public class InputDialogW extends InputDialog
 	 *            whether this should be visible
 	 */
 	public void setVisible(boolean visible) {
-		inputPanel.setVisible(visible);
 		if (visible) {
 			wrappedPopup.show();
 			inputPanel.setTextComponentFocus();
 		} else {
-			forceHideKeyboard();
+			new WindowsNativeUIController(app).hideKeyboard();
 			wrappedPopup.hide();
+			inputPanel.getTextComponent().hideTablePopup();
+			app.getActiveEuclidianView().requestFocusInWindow();
 		}
 	}
-
-	private native void forceHideKeyboard() /*-{
-		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin("CloseKeyboard", []);
-		}
-
-	}-*/;
 
 	@Override
 	public void setLabels() {
