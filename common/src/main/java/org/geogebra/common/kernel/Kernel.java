@@ -418,35 +418,25 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * For testing only.
-	 */
-	protected Kernel() {
-		scheduledPreviewFromInputBar = null;
-		deleteList = null;
-		sf = null;
-		geoFactory = null;
-	}
-
-	/**
 	 * Returns this kernel's algebra processor that handles all input and
 	 * commands.
-	 * 
+	 *
 	 * @return Algebra processor
 	 */
 	public AlgebraProcessor getAlgebraProcessor() {
 		if (algProcessor == null) {
-			algProcessor = newAlgebraProcessor(this);
+			algProcessor = newAlgebraProcessor(cons);
 		}
 		return algProcessor;
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
+	 * @param construction
+	 *            construction
 	 * @return a new algebra processor (used for 3D)
 	 */
-	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor(kernel, app.getCommandDispatcher(kernel));
+	public AlgebraProcessor newAlgebraProcessor(Construction construction) {
+		return new AlgebraProcessor(construction, app.getCommandDispatcher(construction));
 	}
 
 	/**
@@ -550,7 +540,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return app
 	 */
-	final public App getApplication() {
+	public App getApplication() {
 		return app;
 	}
 
@@ -1550,7 +1540,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Uses current NumberFormat nf to format a number.
 	 */
-	final private String formatNF(double x, StringTemplate tpl) {
+	private String formatNF(double x, StringTemplate tpl) {
 		// "<=" catches -0.0000000000000005
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
@@ -1579,7 +1569,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return formated string
 	 */
 
-	final public String format(double x, StringTemplate tpl) {
+	public String format(double x, StringTemplate tpl) {
 		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
@@ -3536,7 +3526,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            variable resolution mode
 	 * @return GeoElement with given label
 	 */
-	final public GeoElement lookupLabel(String label, boolean autoCreate,
+	public GeoElement lookupLabel(String label, boolean autoCreate,
 			SymbolicMode resMode) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 

@@ -63,13 +63,6 @@ public class Settings {
 		resetSettings(app);
 	}
 
-	/**
-	 * For testing only.
-	 */
-	protected Settings() {
-
-	}
-
 	private static EuclidianSettings createEuclidanSettings(App app, int i) {
 		if (i == 2) { // 3D view
 			return new EuclidianSettings3D(app);

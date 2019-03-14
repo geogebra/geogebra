@@ -2,7 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
 import org.geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
@@ -25,12 +25,12 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	private CommandDispatcher commandDispatcher;
 
 	/**
-	 * @param kernel
-	 *            kernel
+	 * @param construction
+	 *            construction
 	 */
-	public CommandDispatcher3D(Kernel kernel) {
-		super(kernel);
-		commandDispatcher = kernel.getApplication().getCommandDispatcher(kernel);
+	public CommandDispatcher3D(Construction construction) {
+		super(construction);
+		commandDispatcher = kernel.getApplication().getCommandDispatcher(construction);
 	}
 
 	@Override

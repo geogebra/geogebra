@@ -234,7 +234,7 @@ public class Construction {
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
 		} else {
-			newConstructionDefaults();
+			consDefaults = newConstructionDefaults();
 		}
 		// consDefaults = new ConstructionDefaults(this);
 		setIgnoringNewTypes(true);
@@ -303,8 +303,15 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	protected void newConstructionDefaults() {
-		consDefaults = companion.newConstructionDefaults();
+	protected ConstructionDefaults newConstructionDefaults() {
+		return companion.newConstructionDefaults();
+	}
+
+	/**
+	 * @param constructionDefaults construction defaults
+	 */
+	public void setConstructionDefaults(ConstructionDefaults constructionDefaults) {
+		consDefaults = constructionDefaults;
 	}
 
 	/**

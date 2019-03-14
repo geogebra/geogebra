@@ -1,12 +1,12 @@
 package org.geogebra.common.jre.kernel.commands;
 
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.*;
 
 public class CommandDispatcherJre extends CommandDispatcher {
 
-	public CommandDispatcherJre(Kernel kernel2) {
-		super(kernel2);
+	public CommandDispatcherJre(Construction construction) {
+		super(construction);
 	}
 
 	@Override

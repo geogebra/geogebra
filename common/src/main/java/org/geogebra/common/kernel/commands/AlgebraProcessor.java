@@ -174,21 +174,24 @@ public class AlgebraProcessor {
 	private CommandSelector noCASselector;
 
 	/**
-	 * @param kernel
-	 *            kernel
+	 * @param construction
+	 *            construction
 	 * @param commandDispatcher
 	 *            command dispatcher
 	 */
-	public AlgebraProcessor(Kernel kernel,
-			CommandDispatcher commandDispatcher) {
-		this.kernel = kernel;
-		cons = kernel.getConstruction();
+	public AlgebraProcessor(Construction construction, CommandDispatcher commandDispatcher) {
+		cons = construction;
+		kernel = construction.getKernel();
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
+	}
+
+	public Construction getConstruction() {
+		return cons;
 	}
 
 	/**
@@ -732,8 +735,7 @@ public class AlgebraProcessor {
 
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
 				.withSliders(autoCreateSliders)
-				.addDegree(addDegreesIfKernelInDegrees && app.getKernel()
-						.getAngleUnitUsesDegrees())
+				.addDegree(addDegreesIfKernelInDegrees && app.getKernel().getAngleUnitUsesDegrees())
 				.withSymbolicMode(kernel.getSymbolicMode());
 
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
@@ -785,6 +787,9 @@ public class AlgebraProcessor {
 					handler, callback0,
 					info);
 
+		} catch (ParseException e) {
+			e.printStackTrace(System.out);
+			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ErrorHelper.handleException(e, app, handler);
@@ -1888,7 +1893,6 @@ public class AlgebraProcessor {
 				if (isFreehandFunction(ve)) {
 					return kernel.lookupLabel(ve.getLabel()).asArray();
 				}
-				Log.warn("Unhandled ValidExpression : " + ve);
 				throw new MyError(loc,
 						loc.getError("InvalidInput") + ":\n" + ve);
 			}

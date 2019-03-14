@@ -1,14 +1,12 @@
 package org.geogebra.common.gui.util.slider;
 
-import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.discrete.geom.Point2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -17,7 +15,8 @@ import org.geogebra.common.util.AsyncOperation;
  */
 public class SliderBuilder {
 
-	private App app;
+	private GeoNumeric slider;
+
 	private NumberInputHandler inputHandler;
 	private ErrorHandler errorHandler;
 	private Construction construction;
@@ -27,15 +26,14 @@ public class SliderBuilder {
 	private Point2D location;
 
 	/**
-	 * @param app The app.
+	 * @param algebraProcessor algebra processor
+	 * @param errorHandler error handler
 	 */
-	public SliderBuilder(App app) {
-		this.app = app;
-		errorHandler = app.getDefaultErrorHandler();
+	public SliderBuilder(AlgebraProcessor algebraProcessor, ErrorHandler errorHandler) {
 
-		Kernel kernel = app.getKernel();
-		inputHandler = new NumberInputHandler(kernel.getAlgebraProcessor());
-		construction = kernel.getConstruction();
+		this.construction = algebraProcessor.getConstruction();
+		inputHandler = new NumberInputHandler(algebraProcessor);
+		this.errorHandler = errorHandler;
 
 		input = new SliderData<>();
 		processedData = new SliderData<>();
@@ -81,11 +79,12 @@ public class SliderBuilder {
 	/**
 	 * Creates the slider if the inputs are correct.
 	 */
-	public void create() {
+	public GeoNumeric create() {
 		boolean wasSuppressLabelsActive = construction.isSuppressLabelsActive();
 		construction.setSuppressLabelCreation(true);
 		processInputs();
 		construction.setSuppressLabelCreation(wasSuppressLabelsActive);
+		return slider;
 	}
 
 	private void processInputs() {
@@ -138,11 +137,11 @@ public class SliderBuilder {
 	}
 
 	private GeoNumeric createSlider() {
+		boolean wasSuppressLabelsActive = construction.isSuppressLabelsActive();
 		construction.setSuppressLabelCreation(false);
-		final GeoNumeric slider =
-				GeoNumeric.setSliderFromDefault(new GeoNumeric(construction), false);
+		slider = GeoNumeric.setSliderFromDefault(new GeoNumeric(construction), false);
 		slider.setLabel(null);
-		construction.setSuppressLabelCreation(true);
+		construction.setSuppressLabelCreation(wasSuppressLabelsActive);
 		return slider;
 	}
 
@@ -156,9 +155,6 @@ public class SliderBuilder {
 		slider.setEuclidianVisible(true);
 		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 		slider.setLabelVisible(true);
-		AdjustSlider.ensureOnScreen(slider, app.getActiveEuclidianView());
 		slider.update();
-
-		app.storeUndoInfo();
 	}
 }

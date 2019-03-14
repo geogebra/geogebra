@@ -175,8 +175,8 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return parentKernel.newAlgebraProcessor(kernel);
+	public AlgebraProcessor newAlgebraProcessor(Construction construction) {
+		return parentKernel.newAlgebraProcessor(construction);
 	}
 
 	@Override
@@ -247,12 +247,6 @@ public class MacroKernel extends Kernel {
 	@Override
 	public GeoDirectionND getSpace() {
 		return parentKernel.getSpace();
-	}
-
-	@Override
-	public ConstructionCompanion createConstructionCompanion(
-			Construction cons1) {
-		return parentKernel.createConstructionCompanion(cons1);
 	}
 
 }

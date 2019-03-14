@@ -51,6 +51,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -729,7 +730,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * Initializes the translated command names for this application. Note: this
 	 * will load the properties files first.
 	 */
-	final public void initTranslatedCommands() {
+	public void initTranslatedCommands() {
 		synchronized (commandDictLock) {
 			if (getLocalization().isCommandNull() || subCommandDict == null) {
 				getLocalization().initCommand();
@@ -2228,7 +2229,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * @return kernel for this window
 	 */
-	public final Kernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
@@ -3510,9 +3511,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return loginOperation;
 	}
 
-	public abstract CommandDispatcher getCommandDispatcher(Kernel k);
+	public abstract CommandDispatcher getCommandDispatcher(Construction construction);
 
-	public abstract CommandDispatcher getCommand3DDispatcher(Kernel k);
+	public abstract CommandDispatcher getCommand3DDispatcher(Construction construction);
 
 	/**
 	 * Should lose focus on Web applets, implement only where appropriate

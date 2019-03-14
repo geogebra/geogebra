@@ -138,13 +138,13 @@ public abstract class CommandDispatcher {
 	/**
 	 * Creates new command dispatcher
 	 * 
-	 * @param kernel2
-	 *            Kernel of current application
+	 * @param construction
+	 *            Construction of current application
 	 */
-	public CommandDispatcher(Kernel kernel2) {
-		this.kernel = kernel2;
-		cons = kernel2.getConstruction();
-		app = kernel2.getApplication();
+	public CommandDispatcher(Construction construction) {
+		cons = construction;
+		kernel = construction.getKernel();
+		app = kernel.getApplication();
 	}
 
 	/**
