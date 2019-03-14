@@ -682,13 +682,13 @@ public class AppDNoGui extends App implements AppDI {
 	}
 
 	@Override
-	public CommandDispatcher getCommandDispatcher(Kernel k) {
-		return new CommandDispatcherJre(k);
+	public CommandDispatcher getCommandDispatcher(Construction construction) {
+		return new CommandDispatcherJre(construction);
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
-		return new CommandDispatcher3DJre(k);
+	public CommandDispatcher3D getCommand3DDispatcher(Construction construction) {
+		return new CommandDispatcher3DJre(construction);
 	}
 
 	@Override

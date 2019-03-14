@@ -1436,8 +1436,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public CommandDispatcherW getCommandDispatcher(Kernel k) {
-		CommandDispatcherW cmd = new CommandDispatcherW(k);
+	public CommandDispatcherW getCommandDispatcher(Construction construction) {
+		CommandDispatcherW cmd = new CommandDispatcherW(construction);
 		if (!enableGraphing()) {
 			cmd.setEnabled(false);
 		}
@@ -1445,7 +1445,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
+	public CommandDispatcher3D getCommand3DDispatcher(Construction construction) {
 		return null;
 	}
 

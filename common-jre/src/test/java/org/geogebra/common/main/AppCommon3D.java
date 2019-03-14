@@ -4,7 +4,7 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -30,8 +30,8 @@ public class AppCommon3D extends AppCommon {
 	}
 
 	@Override
-	public CommandDispatcher getCommand3DDispatcher(Kernel k) {
-		return new CommandDispatcher3DJre(k);
+	public CommandDispatcher getCommand3DDispatcher(Construction construction) {
+		return new CommandDispatcher3DJre(construction);
 	}
 	
 	public boolean is3D(){

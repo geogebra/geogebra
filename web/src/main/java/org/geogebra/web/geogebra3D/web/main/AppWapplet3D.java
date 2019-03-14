@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -150,8 +151,8 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Kernel k) {
-		CommandDispatcher3DW cmd = new CommandDispatcher3DW(k);
+	public CommandDispatcher3D getCommand3DDispatcher(Construction construction) {
+		CommandDispatcher3DW cmd = new CommandDispatcher3DW(construction);
 		if (!enableGraphing()) {
 			cmd.setEnabled(false);
 		}
