@@ -11,10 +11,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+/**
+ * Creates an AlgebraProcessor spy.
+ */
 public class AlgebraProcessorBuilder extends SpyBuilder<AlgebraProcessor> {
 
 	private SpyBuilder<Construction> constructionBuilder;
 
+	/**
+	 * @param constructionBuilder
+	 * The AlgebraProcessor needs a Construction in order to be mocked properly,
+	 * so this construction builder will provide a Construction spy for the AlgebraProcessor spy.
+	 */
 	public AlgebraProcessorBuilder(SpyBuilder<Construction> constructionBuilder) {
 		this.constructionBuilder = constructionBuilder;
 	}

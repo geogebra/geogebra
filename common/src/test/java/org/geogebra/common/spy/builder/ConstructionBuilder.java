@@ -10,11 +10,19 @@ import org.mockito.stubbing.Answer;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+/**
+ * Creates a Construction spy.
+ */
 public class ConstructionBuilder extends SpyBuilder<Construction> {
 
 	private SpyBuilder<Kernel> kernelBuilder;
 	private AlgoDispatcher algoDispatcher;
 
+	/**
+	 * @param kernelBuilder
+	 * The Construction needs a Kernel in order to be mocked properly,
+	 * so this kernel builder will provide an Kernel mock for the Construction spy.
+	 */
 	public ConstructionBuilder(SpyBuilder<Kernel> kernelBuilder) {
 		this.kernelBuilder = kernelBuilder;
 	}

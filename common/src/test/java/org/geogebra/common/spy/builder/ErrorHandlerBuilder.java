@@ -4,6 +4,9 @@ import org.geogebra.common.main.error.ErrorHandler;
 
 import static org.mockito.Mockito.mock;
 
+/**
+ * Creates an ErrorHandler mock.
+ */
 public class ErrorHandlerBuilder extends SpyBuilder<ErrorHandler> {
 
 	@Override
