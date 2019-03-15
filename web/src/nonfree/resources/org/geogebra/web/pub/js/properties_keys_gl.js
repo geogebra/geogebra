@@ -2443,7 +2443,7 @@ __GGB__keysVar["gl"].menu = {
     "PressEnterToSelect": "Preme Intro para seleccionar.",
     "PressPlusMinusToMove": "Press plus and minus to move the object",
     "PressSlashToHide": "Preme a barra para ocultar o obxecto",
-    "PressSlashToShow": "Press / to show object",
+    "PressSlashToShow": "Press slash to show object",
     "PressSpaceCheckboxOff": "Prema espazo para desmarcar a caixa de verificaci\xf3n",
     "PressSpaceCheckboxOn": "Prema espazo para marcar a caixa de verificaci\xf3n",
     "PressSpaceStartAnimation": "Press space to start animation",

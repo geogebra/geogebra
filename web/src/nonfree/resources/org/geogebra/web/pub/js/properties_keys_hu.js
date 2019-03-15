@@ -2443,7 +2443,7 @@ __GGB__keysVar["hu"].menu = {
     "PressEnterToSelect": "Nyomd meg az ENTER-t a v\xe1laszt\xe1shoz.",
     "PressPlusMinusToMove": "A plusz \xe9s m\xednusz gombokkal mozgathat\xf3 az alakzat",
     "PressSlashToHide": "Press slash to hide object",
-    "PressSlashToShow": "Press / to show object",
+    "PressSlashToShow": "Press slash to show object",
     "PressSpaceCheckboxOff": "A sz\xf3k\xf6zzel a jel\xf6l\u0151n\xe9gyzet kikapcsolhat\xf3",
     "PressSpaceCheckboxOn": "Press space to check checkbox",
     "PressSpaceStartAnimation": "Nyomd meg a sz\xf3k\xf6zt az anim\xe1ci\xf3 ind\xedt\xe1s\xe1hoz.",
