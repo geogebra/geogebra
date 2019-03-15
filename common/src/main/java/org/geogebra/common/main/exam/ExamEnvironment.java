@@ -86,7 +86,9 @@ public class ExamEnvironment {
 	 * Start cheating when window left
 	 */
 	public void windowLeft() {
-		cheatingEvents.addWindowLeftEvent();
+		if (isStarted()) {
+			cheatingEvents.addWindowLeftEvent();
+		}
 	}
 
 	/**
