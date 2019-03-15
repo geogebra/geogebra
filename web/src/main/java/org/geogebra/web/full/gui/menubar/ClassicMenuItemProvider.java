@@ -22,23 +22,20 @@ public class ClassicMenuItemProvider implements MainMenuItemProvider {
 	@Override
 	public void addMenus(ArrayList<Submenu> menus) {
 		boolean exam = app.isExam();
-		if (!exam) {
-			if (app.enableFileFeatures()) {
-				menus.add(new FileMenuW(app));
-			}
-			menus.add(new EditMenuW(app));
-			menus.add(new PerspectivesMenuW(app));
-			menus.add(new ViewMenuW(app));
-			menus.add(new SettingsMenu(app));
-			if (!app.getLAF().isSmart()) {
-				menus.add(new ToolsMenuW(app));
-			}
-			menus.add(new HelpMenuW(app));
-		} else {
+		if (app.enableFileFeatures()) {
 			menus.add(new FileMenuW(app));
-			menus.add(new SettingsMenu(app));
 		}
-
+		menus.add(new EditMenuW(app));
+		menus.add(new PerspectivesMenuW(app));
+		menus.add(new ViewMenuW(app));
+		menus.add(new SettingsMenu(app));
+		if (!app.getLAF().isSmart()) {
+			menus.add(new ToolsMenuW(app));
+		}
+		if (!exam) {
+			// exam -> assume offline, no help
+			menus.add(new HelpMenuW(app));
+		}
 	}
 
 	@Override
