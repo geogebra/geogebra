@@ -1,5 +1,6 @@
 package org.geogebra.commands;
 
+import org.geogebra.common.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -91,7 +92,8 @@ public class ArithmeticTest extends AlgebraTest {
 		t("(1,1..5,6..2)",
 				"{(1, 1, 6), (1, 2, 5), (1, 3, 4), (1, 4, 3), (1, 5, 2)}");
 		t("(1;(1..5)*2pi/5)",
-				unicode("{(1; 72deg), (1; 144deg), (1; 216deg), (1; 288deg), (1; 0deg)}"),
+				TestStringUtil.unicode(
+						"{(1; 72deg), (1; 144deg), (1; 216deg), (1; 288deg), (1; 0deg)}"),
 				StringTemplate.editTemplate);
 	}
 
@@ -100,7 +102,8 @@ public class ArithmeticTest extends AlgebraTest {
 		t("x+y=1..5",
 				"{x + y = 1, x + y = 2, x + y = 3, x + y = 4, x + y = 5}");
 		t("x^2+y^2=1..5",
-				unicode("{x^2 + y^2 = 1, x^2 + y^2 = 2, x^2 + y^2 = 3, x^2 + y^2 = 4, x^2 + y^2 = 5}"),
+				TestStringUtil.unicode(
+						"{x^2 + y^2 = 1, x^2 + y^2 = 2, x^2 + y^2 = 3, x^2 + y^2 = 4, x^2 + y^2 = 5}"),
 				StringTemplate.editTemplate);
 		t("f(r)=(r,sin(r)*(1..5))",
 				"{(r, sin(r)), (r, (sin(r) * 2)), (r, (sin(r) * 3)), (r, (sin(r) * 4)), (r, (sin(r) * 5))}");

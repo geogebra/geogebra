@@ -1,5 +1,7 @@
 package org.geogebra.commands;
 
+import static org.geogebra.common.TestStringUtil.unicode;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;

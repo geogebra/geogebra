@@ -1,6 +1,7 @@
 package org.geogebra.common.properties;
 
 import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
@@ -57,7 +58,7 @@ public class AlgebraPropertiesTest {
 	}
 
 	private static void valueTextShouldBe(String label, String expectedValue) {
-		Assert.assertEquals(CommandsTest.unicode(expectedValue),
+		Assert.assertEquals(TestStringUtil.unicode(expectedValue),
 				get(label).getAlgebraDescriptionDefault());
 	}
 

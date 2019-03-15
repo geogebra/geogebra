@@ -1,4 +1,4 @@
-package org.geogebra.euclidian;
+package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;

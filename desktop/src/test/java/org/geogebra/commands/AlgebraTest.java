@@ -12,8 +12,6 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 public class AlgebraTest extends Assert {
 	/**
 	 * @return test app
@@ -87,19 +85,6 @@ public class AlgebraTest extends Assert {
 
 	}
 
-	/**
-	 * @param ascii
-	 *            ascii math
-	 * @return unicode math (superscript powers)
-	 */
-	public static String unicode(String ascii) {
-		return ascii.replace("^2", Unicode.SUPERSCRIPT_2 + "")
-				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
-				.replace("^4", Unicode.SUPERSCRIPT_4 + "")
-				.replace("^-1",
-						Unicode.SUPERSCRIPT_MINUS + "" + Unicode.SUPERSCRIPT_1)
-				.replace("deg", Unicode.DEGREE_STRING);
-	}
 
 	static boolean mayHaveZeroArgs(String cmdName) {
 		return Arrays

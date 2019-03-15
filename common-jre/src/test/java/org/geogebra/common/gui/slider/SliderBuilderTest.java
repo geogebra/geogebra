@@ -1,20 +1,21 @@
 package org.geogebra.common.gui.slider;
 
+import static org.mockito.Mockito.mock;
+
 import org.geogebra.common.gui.util.slider.SliderBuilder;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppCommon;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCommon;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import static org.mockito.Mockito.mock;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,8 +59,8 @@ public class SliderBuilderTest {
 		sliderBuilder.withMin("");
 		try {
 			sliderBuilder.create();
-			assert false;
-		} catch (Throwable ignored) {
+			Assert.fail("wrong");
+		} catch (Exception ignored) {
 		}
 		assert !isSliderInConstructionList();
 		assert wasSuppressLabelsActive == construction.isSuppressLabelsActive();

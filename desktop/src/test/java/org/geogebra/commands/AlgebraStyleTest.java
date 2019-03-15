@@ -1,7 +1,10 @@
 package org.geogebra.commands;
 
+import static org.geogebra.common.TestStringUtil.unicode;
+
 import java.util.Locale;
 
+import org.geogebra.common.TestStringUtil;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
@@ -281,23 +284,23 @@ public class AlgebraStyleTest extends AlgebraTest {
 		t("a = 7");
 		t("f: y = x^3");
 		t("g: y = x^3 + a");
-		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
+		assertEquals(TestStringUtil.unicode("f: \\,y = x^3"),
 				getGeo("f").getLaTeXAlgebraDescription(false,
 						StringTemplate.defaultTemplate));
-		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
+		assertEquals(TestStringUtil.unicode("f: \\,y = x^3"),
 				getGeo("f").getLaTeXAlgebraDescription(true,
 						StringTemplate.defaultTemplate));
-		assertEquals(CommandsTest.unicode("f: y = x^3"),
+		assertEquals(TestStringUtil.unicode("f: y = x^3"),
 				getGeo("f").getDefinitionForEditor());
-		assertEquals(CommandsTest.unicode("g: \\,y = x^3 + a"),
+		assertEquals(TestStringUtil.unicode("g: \\,y = x^3 + a"),
 				getGeo("g").getLaTeXAlgebraDescription(false,
 						StringTemplate.defaultTemplate));
 		// TODO missing y =
-		assertEquals(CommandsTest.unicode("g: x^3 + a"),
+		assertEquals(TestStringUtil.unicode("g: x^3 + a"),
 				getGeo("g").getDefinitionForEditor());
 
 		t("in:x>a");
-		assertEquals(CommandsTest.unicode("in: x > a"),
+		assertEquals(TestStringUtil.unicode("in: x > a"),
 				getGeo("in").getDefinitionForEditor());
 
 		t("ff: z = y + x^3");
@@ -332,7 +335,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 	public void operatorsShouldHaveOneSpace() {
 		t("f(x)=If[3 < x <= 5,x^(2)]");
 		assertEquals(
-				CommandsTest.unicode(
+				TestStringUtil.unicode(
 						"f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
 
 				getGeo("f").getDefinitionForEditor());
@@ -382,7 +385,8 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 		t("h(x) = a(x, f) - a(x, g)");
 
-		assertEquals(CommandsTest.unicode(
+		assertEquals(
+				TestStringUtil.unicode(
 				"-(x / 2)^2 - x x / 2 + 2x / 2 - (-(1 - x / 2)^2 - x (1 - x / 2) + 2 (1 - x / 2))"),
 				getGeo("h").toValueString(StringTemplate.defaultTemplate));
 

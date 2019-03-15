@@ -1,5 +1,6 @@
 package org.geogebra.commands;
 
+import org.geogebra.common.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -168,7 +169,7 @@ public class RedefineTest extends Assert {
 	@Test
 	public void functionLHSShouldRemainConic() {
 		t("f(x,y)=xx+y", "x^(2) + y");
-		t("a:f(x,y)=0", AlgebraTest.unicode("x^2 + y = 0"));
+		t("a:f(x,y)=0", TestStringUtil.unicode("x^2 + y = 0"));
 		Assert.assertEquals(get("a").getGeoClassType(), GeoClass.CONIC);
 		app.setXML(app.getXML(), true);
 		hasType("a", GeoClass.CONIC);
@@ -181,8 +182,8 @@ public class RedefineTest extends Assert {
 	@Test
 	public void copyOfConicShouldNotBeCellRange() {
 
-		t("B20:x^2+y=0", AlgebraTest.unicode("x^2 + y = 0"));
-		t("D20=B20", AlgebraTest.unicode("x^2 + y = 0"));
+		t("B20:x^2+y=0", TestStringUtil.unicode("x^2 + y = 0"));
+		t("D20=B20", TestStringUtil.unicode("x^2 + y = 0"));
 		Assert.assertEquals(
 				app.getKernel().lookupLabel("D20").getGeoClassType(),
 				GeoClass.CONIC);
@@ -195,7 +196,7 @@ public class RedefineTest extends Assert {
 	@Test
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
-		t("b:Spline({(0, 1),A,(1, 0)})", AlgebraTest.unicode(
+		t("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
 				"(If(t < 0.5, -2t^3 + 0t^2 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0t^2 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
 				StringTemplate.editTemplate);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
@@ -286,11 +287,13 @@ public class RedefineTest extends Assert {
 		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 4) / x^(2)");
 		Assert.assertTrue("Implicit curve without vars should be independent.",
 				get("c1").isIndependent());
-		Assert.assertEquals(AlgebraTest.unicode("c: y^2 = (x^2 - 2^2) / x^2"),
+		Assert.assertEquals(
+				TestStringUtil.unicode("c: y^2 = (x^2 - 2^2) / x^2"),
 				get("c").getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true)));
 		t("a=3", "3");
-		Assert.assertEquals(AlgebraTest.unicode("c: y^2 = (x^2 - 3^2) / x^2"),
+		Assert.assertEquals(
+				TestStringUtil.unicode("c: y^2 = (x^2 - 3^2) / x^2"),
 				get("c").getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true)));
 	}

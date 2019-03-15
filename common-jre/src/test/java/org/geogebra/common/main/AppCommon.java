@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.CASFactory;
+import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.Layout;
@@ -472,7 +473,7 @@ public class AppCommon extends App {
 
     @Override
     public CASFactory getCASFactory() {
-        return null;
+		return new CASFactoryDummy();
     }
 
     @Override
@@ -522,7 +523,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean isSelectionRectangleAllowed() {
-        return false;
+		return true;
     }
 
     @Override
