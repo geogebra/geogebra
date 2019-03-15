@@ -1,6 +1,9 @@
-package org.geogebra.common.gui.util.slider;
+package org.geogebra.common.gui.slider;
 
-import org.geogebra.common.spy.SpyProvider;
+import org.geogebra.common.gui.util.slider.SliderBuilder;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -11,23 +14,26 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.mock;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class SliderBuilderTest {
 
-	private SpyProvider spyProvider;
+	private App app;
 	private SliderBuilder sliderBuilder;
 	private Construction construction;
 
 	public SliderBuilderTest() {
-		spyProvider = new SpyProvider();
+		app = new AppCommon();
 	}
 
 	@Before
 	public void setUp() {
-		construction = spyProvider.getConstruction();
-		AlgebraProcessor algebraProcessor = spyProvider.getAlgebraProcessor();
-		ErrorHandler errorHandler = spyProvider.getErrorHandler();
+		Kernel kernel = app.getKernel();
+		construction = kernel.getConstruction();
+		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+		ErrorHandler errorHandler = mock(ErrorHandler.class);
 
 		sliderBuilder = new SliderBuilder(algebraProcessor, errorHandler);
 		sliderBuilder.withMin("-5").withMax("5").withStep("1").withLocation(0, 0);
