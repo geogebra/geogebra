@@ -802,7 +802,7 @@ namespace giac {
       const lp_entry_t * lpit=&lp_tab[0],*lpitend=lpit+lp_tab.size(),*lpitend1=lpitend-8;
       if (lpitend-lpit>8){
 	for (;lpit<lpitend1;lpit+=8){
-	  PREFETCH(lpit + 16);
+	  //PREFETCH(lpit + 16);
 	  slice[lpit->pos] -= 16;
 	  slice[lpit[1].pos] -= 16;
 	  slice[lpit[2].pos] -= 16;

@@ -8656,7 +8656,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   void draw_filled_polygon(vector< vector<int> > &L,int xmin,int xmax,int ymin,int ymax,int color,GIAC_CONTEXT){
     int n=L.size();
     // close polygon if it is open
-    if (L[n-1]!=L[0])
+    if (!(L[n-1]==L[0]))
       L.push_back(L[0]);
     else
       n--;
@@ -8737,7 +8737,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   void draw_polygon(vector< vector<int> > & v1,int color,GIAC_CONTEXT){
-    if (v1.back()!=v1.front())
+    if (!(v1.back()==v1.front()))
       v1.push_back(v1.front());
     int n=v1.size()-1;
     for (int i=0;i<n;++i){

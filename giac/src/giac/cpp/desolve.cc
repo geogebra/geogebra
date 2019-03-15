@@ -1022,6 +1022,7 @@ namespace giac {
 	  }
 	}
       } // end polynomial a,b,c
+#ifndef USE_GMP_REPLACEMENTS
       a=aa; b=bb; c=cc;
       if (d==0 && lvarx(makevecteur(a,b,c),x,contextptr)==vecteur(1,x)){
 	// if a,b,c are rationals and d==0, Kovacic
@@ -1048,6 +1049,7 @@ namespace giac {
 	  }
 	}
       }
+#endif
     } // end 2nd order eqdiff
     return false;
   }

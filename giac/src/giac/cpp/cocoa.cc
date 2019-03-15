@@ -14405,8 +14405,10 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 		cleardeno(tmp);
 		for (;insertpos<current_gbasis.size();++insertpos){
 		  if (tdeg_t_greater(current_gbasis[insertpos].coord.front().u,tmp.coord.front().u,order)){
-		    current_gbasis.insert(current_gbasis.begin()+insertpos,tmp);
-		    ++insertpos;
+		    if (!(current_gbasis[insertpos]==tmp)){
+		      current_gbasis.insert(current_gbasis.begin()+insertpos,tmp);
+		      ++insertpos;
+		    }
 		    break;
 		  }		    
 		}

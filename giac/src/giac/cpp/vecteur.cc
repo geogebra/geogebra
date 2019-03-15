@@ -10584,6 +10584,7 @@ namespace giac {
       ++randvar_count;
       return v;
     }
+#ifndef USE_GMP_REPLACEMENTS
     if (g.is_symb_of_sommet(at_discreted) || is_distribution(g)>0) {
       ss << " tmp" << randvar_count;
       identificateur t(ss.str().c_str());
@@ -10595,6 +10596,7 @@ namespace giac {
       ++randvar_count;
       return v;
     }
+#endif
     if (g.type==_SYMB) {
       gen &f=g._SYMBptr->feuille;
       if (f.type==_VECT) {
@@ -10992,6 +10994,7 @@ namespace giac {
 	}
       }
     }
+#ifndef USE_GMP_REPLACEMENTS
     if (f.is_symb_of_sommet(at_discreted)) {
       const vecteur &args=*f._SYMBptr->feuille._VECTptr;
       for (int i=0;i<n;++i) {
@@ -10999,7 +11002,6 @@ namespace giac {
       }
       return;
     }
-#ifndef USE_GMP_REPLACEMENTS
     if (f.type==_SYMB) {
       gen_map rv;
       randvar_count=0;
@@ -16118,7 +16120,7 @@ namespace giac {
 	L[k]=subvecteur(*L[k]._VECTptr,multvecteur(alpha,*L[j]._VECTptr));
       }
       gen lastalpha=dotvecteur(conj(O[k-1],contextptr),res[k])/dotvecteur(conj(O[k-1],contextptr),O[k-1]);
-      if (ck_is_greater(dotvecteur(conj(O[k],contextptr),O[k]),(gen(3)/4-lastalpha*lastalpha)*dotvecteur(conj(O[k-1],contextptr),O[k-1]),contextptr)){
+      if (ck_is_greater(dotvecteur(conj(O[k],contextptr),O[k]),(gen(3)/4-lastalpha*conj(lastalpha,contextptr))*dotvecteur(conj(O[k-1],contextptr),O[k-1]),contextptr)){
 	// Ok, continue the reduction
 	++k;
       }

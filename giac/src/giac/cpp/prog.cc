@@ -3993,8 +3993,10 @@ namespace giac {
       return args._USERptr->rand(contextptr);
     if (args.is_symb_of_sommet(at_rootof))
       return vranm(1,args,contextptr)[0];
+#ifndef USE_GMP_REPLACEMENTS
     if (args.is_symb_of_sommet(at_discreted))
       return vranm(1,args,contextptr)[0];
+#endif
     if (args.type==_VECT && args._VECTptr->front()==at_multinomial) {
       vecteur v=*args._VECTptr;
       v.insert(v.begin(),1);
