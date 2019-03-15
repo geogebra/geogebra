@@ -637,7 +637,8 @@ public class MainMenu extends FlowPanel
 	 *            localized text
 	 * @return HTML
 	 */
-	public static String getMenuBarHtml(final ResourcePrototype imgRes, String name) {
+	public static String getMenuBarHtml(final ResourcePrototype imgRes,
+			String name) {
 		final String iconString = NoDragImage.safeURI(imgRes);
 		return MainMenu.getMenuBarHtml(iconString, name, true);
 	}
