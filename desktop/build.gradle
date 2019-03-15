@@ -73,7 +73,7 @@ dependencies {
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 
     testCompile project(':keyboard-base')    
-    testCompile files(this.project(':common-jre').sourceSets.test.runtimeClasspath)
+    testCompile project(':common-jre').sourceSets.test.output
     testCompile 'junit:junit:4.+'
 }
 
