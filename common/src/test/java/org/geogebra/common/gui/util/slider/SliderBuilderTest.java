@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.util.slider;
 
-import org.geogebra.common.spy.SpyBuilder;
+import org.geogebra.common.spy.SpyProvider;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -15,19 +15,19 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class SliderBuilderTest {
 
-	private SpyBuilder spyBuilder;
+	private SpyProvider spyProvider;
 	private SliderBuilder sliderBuilder;
 	private Construction construction;
 
 	public SliderBuilderTest() {
-		spyBuilder = new SpyBuilder();
+		spyProvider = new SpyProvider();
 	}
 
 	@Before
 	public void setUp() {
-		construction = spyBuilder.getConstruction();
-		AlgebraProcessor algebraProcessor = spyBuilder.getAlgebraProcessor();
-		ErrorHandler errorHandler = spyBuilder.getErrorHandler();
+		construction = spyProvider.getConstruction();
+		AlgebraProcessor algebraProcessor = spyProvider.getAlgebraProcessor();
+		ErrorHandler errorHandler = spyProvider.getErrorHandler();
 
 		sliderBuilder = new SliderBuilder(algebraProcessor, errorHandler);
 		sliderBuilder.withMin("-5").withMax("5").withStep("1").withLocation(0, 0);

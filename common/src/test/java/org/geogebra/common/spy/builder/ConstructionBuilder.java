@@ -1,4 +1,4 @@
-package org.geogebra.common.spy;
+package org.geogebra.common.spy.builder;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -10,24 +10,18 @@ import org.mockito.stubbing.Answer;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-class ConstructionBuilder {
+public class ConstructionBuilder extends SpyBuilder<Construction> {
 
-	private Construction construction;
-	private KernelBuilder kernelBuilder;
+	private SpyBuilder<Kernel> kernelBuilder;
 	private AlgoDispatcher algoDispatcher;
 
-	ConstructionBuilder(KernelBuilder kernelBuilder) {
+	public ConstructionBuilder(SpyBuilder<Kernel> kernelBuilder) {
 		this.kernelBuilder = kernelBuilder;
 	}
 
-	Construction getConstruction() {
-		if (construction == null) {
-			construction = createConstruction(kernelBuilder.getKernel());
-		}
-		return construction;
-	}
-
-	private Construction createConstruction(final Kernel kernel) {
+	@Override
+	Construction createSpy() {
+		Kernel kernel = kernelBuilder.getSpy();
 		final Construction construction = spy(new Construction(kernel));
 		construction.setConstructionDefaults(spy(new ConstructionDefaults(construction)));
 

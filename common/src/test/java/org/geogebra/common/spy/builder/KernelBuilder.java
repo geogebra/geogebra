@@ -1,4 +1,4 @@
-package org.geogebra.common.spy;
+package org.geogebra.common.spy.builder;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionCompanion;
@@ -9,31 +9,34 @@ import org.geogebra.common.main.Localization;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-class KernelBuilder {
+/**
+ * Creates a Kernel mock.
+ */
+public class KernelBuilder extends SpyBuilder<Kernel>{
 
-	private Kernel kernel;
-	private AppBuilder appBuilder;
+	private SpyBuilder<App> appBuilder;
 	private Localization localization;
 	private ExpressionNodeEvaluator expressionNodeEvaluator;
 
-	KernelBuilder(AppBuilder appBuilder) {
+	/**
+	 * @param appBuilder
+	 * The Kernel needs an App in order to be mocked properly,
+	 * so this app builder will provide an App mock for the Kernel mock.
+	 */
+	public KernelBuilder(SpyBuilder<App> appBuilder) {
 		this.appBuilder = appBuilder;
 	}
 
-	Kernel getKernel() {
-		if (kernel == null) {
-			kernel = createKernel(appBuilder.getApp());
-		}
-		return kernel;
-	}
-
-	private Kernel createKernel(final App app) {
+	@Override
+	Kernel createSpy() {
+		final App app = appBuilder.getSpy();
 		final Kernel kernel = mock(Kernel.class);
+
 		when(kernel.getApplication()).then(new Answer<App>() {
 			@Override
 			public App answer(InvocationOnMock invocationOnMock) {
@@ -52,7 +55,8 @@ class KernelBuilder {
 				return getExpressionNodeEvaluator(kernel);
 			}
 		});
-		when(kernel.createConstructionCompanion((Construction) anyObject())).then(new Answer<ConstructionCompanion>() {
+		when(kernel.createConstructionCompanion((Construction) any()))
+				.then(new Answer<ConstructionCompanion>() {
 			@Override
 			public ConstructionCompanion answer(InvocationOnMock invocation) {
 				return mock(ConstructionCompanion.class);

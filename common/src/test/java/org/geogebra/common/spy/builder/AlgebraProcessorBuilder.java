@@ -1,4 +1,4 @@
-package org.geogebra.common.spy;
+package org.geogebra.common.spy.builder;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -11,23 +11,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-class AlgebraProcessorBuilder {
+public class AlgebraProcessorBuilder extends SpyBuilder<AlgebraProcessor> {
 
-	private AlgebraProcessor algebraProcessor;
-	private ConstructionBuilder constructionBuilder;
+	private SpyBuilder<Construction> constructionBuilder;
 
-	AlgebraProcessorBuilder(ConstructionBuilder constructionBuilder) {
+	public AlgebraProcessorBuilder(SpyBuilder<Construction> constructionBuilder) {
 		this.constructionBuilder = constructionBuilder;
 	}
 
-	AlgebraProcessor getAlgebraProcessor() {
-		if (algebraProcessor == null) {
-			algebraProcessor = createAlgebraProcessor(constructionBuilder.getConstruction());
-		}
-		return algebraProcessor;
-	}
-
-	private AlgebraProcessor createAlgebraProcessor(final Construction construction) {
+	@Override
+	AlgebraProcessor createSpy() {
+		Construction construction = constructionBuilder.getSpy();
 		final AlgebraProcessor algebraProcessor =
 				spy(new AlgebraProcessor(construction, mock(CommandDispatcher.class)));
 
