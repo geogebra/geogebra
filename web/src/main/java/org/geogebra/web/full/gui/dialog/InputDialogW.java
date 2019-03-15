@@ -52,7 +52,6 @@ public class InputDialogW extends InputDialog
 	protected Button btProperties;
 	protected Button btCancel;
 	protected Button btOK;
-	protected Button btHelp;
 	protected GDialogBox wrappedPopup;
 
 	protected GeoElement geo;

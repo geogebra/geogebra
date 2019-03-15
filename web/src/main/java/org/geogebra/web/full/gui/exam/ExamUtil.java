@@ -94,7 +94,7 @@ public class ExamUtil {
 
 	private void startCheating() {
 		if (app.getExam() != null && !app.getExam().isClosed()) {
-			app.getExam().windowLeft();
+			app.getExam().checkedWindowLeft();
 		}
 	}
 

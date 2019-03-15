@@ -6,7 +6,7 @@ import org.geogebra.web.html5.main.AppW;
  * Connector for native APIs in WinStore apps
  */
 public class WindowsNativeUIController {
-	private static final long BLUR_DELAY = 300;
+	private static final int BLUR_DELAY = 300;
 	private AppW app;
 
 	/**
@@ -19,8 +19,7 @@ public class WindowsNativeUIController {
 
 	private void freezeBlurEvents() {
 		if (app.getExam() != null) {
-			app.getExam().setIgnoreBlurUntil(
-					System.currentTimeMillis() + BLUR_DELAY);
+			app.getExam().setIgnoreBlurInterval(BLUR_DELAY);
 		}
 	}
 

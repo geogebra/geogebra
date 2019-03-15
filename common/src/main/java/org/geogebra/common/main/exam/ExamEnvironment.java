@@ -3,6 +3,7 @@ package org.geogebra.common.main.exam;
 import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
@@ -15,6 +16,8 @@ import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
@@ -43,6 +46,7 @@ public class ExamEnvironment {
 	protected App app;
 
 	private long ignoreBlurUntil = -1;
+	private boolean temporaryBlur;
 
 	/**
 	 *
@@ -54,6 +58,9 @@ public class ExamEnvironment {
 		cheatingEvents = new CheatingEvents();
 	}
 
+	/**
+	 * @return exam start timestamp
+	 */
 	public long getStart() {
 		return examStartTime;
 	}
@@ -79,26 +86,42 @@ public class ExamEnvironment {
 	 * Start cheating when window left
 	 */
 	public void windowLeft() {
+		cheatingEvents.addWindowLeftEvent();
+	}
+
+	/**
+	 * Start cheating when window left, checks if the blur events are
+	 * temporarily allowed
+	 */
+	public void checkedWindowLeft() {
 		if (ignoreBlurUntil > System.currentTimeMillis()) {
+			temporaryBlur = true;
 			return;
 		}
-		cheatingEvents.addWindowLeftEvent();
+		windowLeft();
 	}
 
 	/**
 	 * Log end of cheating.
 	 */
 	public void stopCheating() {
+		this.temporaryBlur = false;
 		if (getStart() > 0) {
 			cheatingEvents.addWindowEnteredEvent();
 			Log.debug("STOPPED CHEATING");
 		}
 	}
 
+	/**
+	 * @return whether some cheating events occured since exam mode was started
+	 */
 	public boolean isCheating() {
 		return !cheatingEvents.isEmpty();
 	}
 
+	/**
+	 * @return whether the exam was ended
+	 */
 	public boolean isClosed() {
 		return closed != -1;
 	}
@@ -188,10 +211,14 @@ public class ExamEnvironment {
 				loc);
 	}
 
-	protected String lineBreak() {
-		return "<br>";
-	}
-
+	/**
+	 * @param loc
+	 *            localization
+	 * @param settings
+	 *            settings
+	 * @param builder
+	 *            log builder
+	 */
 	protected void appendSettings(Localization loc, Settings settings,
 			ExamLogBuilder builder) {
 		// Deactivated Views
@@ -215,7 +242,6 @@ public class ExamEnvironment {
 			}
 			builder.addLine(sb);
 		}
-
 	}
 
 	private void appendStartEnd(Localization loc, ExamLogBuilder builder,
@@ -309,6 +335,11 @@ public class ExamEnvironment {
 		appendLogTimes(loc, sb, true);
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @return exam start and end
+	 */
 	public String getLogStartEnd(Localization loc) {
 		return getLogStartEnd(loc, true);
 	}
@@ -326,6 +357,11 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @return log times with description separated by newline
+	 */
 	public String getLogTimes(Localization loc) {
 		return getLogTimes(loc, true);
 	}
@@ -335,7 +371,7 @@ public class ExamEnvironment {
 	 *            localization
 	 * @param showEndTime
 	 *            whether to show end time
-	 * @return log times
+	 * @return log times with description separated by newline
 	 */
 	public String getLogTimes(Localization loc, boolean showEndTime) {
 		ExamLogBuilder sb = new ExamLogBuilder();
@@ -373,6 +409,9 @@ public class ExamEnvironment {
 		this.closed = System.currentTimeMillis();
 	}
 
+	/**
+	 * Store end time
+	 */
 	public void exit() {
 		storeEndTime();
 	}
@@ -540,10 +579,28 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * @param ignoreBlurUntil
+	 * @param ignoreBlurFor
 	 *            expiration timestamp of blur free pass
 	 */
-	public void setIgnoreBlurUntil(long ignoreBlurUntil) {
-		this.ignoreBlurUntil = ignoreBlurUntil;
+	public void setIgnoreBlurInterval(int ignoreBlurFor) {
+		this.ignoreBlurUntil = System.currentTimeMillis() + ignoreBlurFor;
+		GTimer timer = UtilFactory.getPrototype()
+				.newTimer(new GTimerListener() {
+
+					@Override
+					public void onRun() {
+						onBlurTimer();
+					}
+				}, ignoreBlurFor);
+		timer.start();
+	}
+
+	/**
+	 * Handler for blur timer
+	 */
+	protected void onBlurTimer() {
+		if (temporaryBlur) {
+			windowLeft();
+		}
 	}
 }
