@@ -29,7 +29,7 @@ public class ClassicMenuItemProvider implements MainMenuItemProvider {
 		menus.add(new PerspectivesMenuW(app));
 		menus.add(new ViewMenuW(app));
 		menus.add(new SettingsMenu(app));
-		if (!exam && !app.getLAF().isSmart()) {
+		if (!app.getLAF().isSmart()) {
 			menus.add(new ToolsMenuW(app));
 		}
 		if (!exam) {
