@@ -5,6 +5,7 @@
 project.setDescription('Giac CAS for GeoGebra')
 
 apply from: 'gradle-scripts/repositories.gradle'
+apply from: 'gradle-scripts/versions.gradle'
 
 apply plugin: 'cpp'
 apply plugin: 'visual-studio'
@@ -70,6 +71,8 @@ if (System.env['EMSCRIPTEN_VER'] != null) {
     emscriptenVer[0] = System.env['EMSCRIPTEN_VER'];
 }
 
+
+
 def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('emsdk')
@@ -85,6 +88,7 @@ def emccCommand = emscriptenDir.collect({dir -> "${dir}/emcc"})
 // End of emscripten related settings. Huh.
 
 def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
+def giacVersion = '"1.2.3-' + javaGiacVersion + '"'
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
@@ -138,7 +142,8 @@ def giacCommonDefines(cppCompiler) {
     cppCompiler.define "HAVE_LIBPTHREAD"
     cppCompiler.define "HAVE_SYSCONF"
     cppCompiler.define "HAVE_NO_HOME_DIRECTORY"
-    cppCompiler.define "VERSION", '"1.2.3"'
+    // cppCompiler.define "VERSION", giacVersion
+    cppCompiler.define "VERSION", '"dummy"' // will be overwritten later, see below
     cppCompiler.define "TIMEOUT"
     cppCompiler.define 'HAVE_SYS_TIMES_H'
     cppCompiler.define 'HAVE_SYS_TIME_H'
@@ -355,6 +360,7 @@ model {
                 cppCompiler.define 'HAVE_UNISTD_H'
                 cppCompiler.define 'HAVE_SYS_TIMES_H'
                 cppCompiler.define 'HAVE_SYS_TIME_H'
+                cppCompiler.define 'VERSION', giacVersion
                 cppCompiler.args '-fpermissive' // needed for recent G++
             }
             sources.all {
