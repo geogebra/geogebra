@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -40,8 +41,24 @@ public class CmdSetDecoration extends CmdScripting {
 			if (style < 0) {
 				style = 0;
 			}
+			if (arg[0].isGeoAngle() || arg[0].isGeoSegment()) {
 
-			arg[0].setDecorationType(style);
+				arg[0].setDecorationType(style);
+			} else if (arg[0].isFillable()) {
+				FillType[] types = FillType.values();
+				if (style >= types.length) {
+					style = 0;
+				}
+				FillType type = types[style];
+				if (type == FillType.SYMBOLS || type == FillType.IMAGE) {
+					// we could add SetDecoration(poly1, 8 pic1),
+					// SetDecoration(poly1, 7, text) for these
+					// also SetDecoration(poly1, 1, hatchAngle)
+					style = 0;
+				}
+				arg[0].setFillType(types[style]);
+			}
+
 			arg[0].updateRepaint();
 
 			return arg;
