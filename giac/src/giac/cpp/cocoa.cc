@@ -9405,6 +9405,14 @@ namespace giac {
   void cleardeno(vectpoly8<tdeg_t> & P){
     for (unsigned i=0;i<P.size();++i){
       cleardeno(P[i]);
+      if (debug_infolevel){
+	if (i%10==9){
+	  COUT << "+";
+	  COUT.flush();
+	}
+	if (i%500==499) 
+	  COUT << " " << CLOCK()*1e-6 << " remaining " << P.size()-i << endl;
+      }
     }
   }
 
@@ -13880,13 +13888,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   template<class tdeg_t>
   bool check_initial_generators(vectpoly8<tdeg_t> & res,const vectpoly8<tdeg_t> & Wi,vector<unsigned> & G,double eps){
     int initial=int(res.size());
-    if (debug_infolevel)
-      CERR << CLOCK()*1e-6 << " begin final check, checking that the " << initial << " initial generators belongs to the ideal" << endl;
     poly8<tdeg_t> tmp0,tmp1,tmp2;
     vectpoly8<tdeg_t> wtmp;
     unsigned j=0,finalchecks=initial;
     if (eps>0)
       finalchecks=giacmin(2*Wi.front().dim,initial);
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " begin final check, checking that " << finalchecks << " initial generators belongs to the ideal" << endl;
     G.resize(Wi.size());
     for (j=0;j<Wi.size();++j)
       G[j]=j;
@@ -14390,16 +14398,16 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	      // recon_n2==recon_n1 && recon_n1==recon_n0 &&
 	      zdata && augmentgbasis && t==th && i==0){
 	    double reconpart=recon_n2/double(V[i].size());
-	    if (reconpart<0.95 && 
-		(reconpart-prevreconpart>augmentgbasis || recon_count>=giacmax(128,th*4))
+	    if (recon_n0/double(V[i].size())<0.95 && 
+		(reconpart-prevreconpart>augmentgbasis || 
+		 (reconpart>prevreconpart && recon_count>=giacmax(128,th*4)) )
 		){
+	      CERR << CLOCK()*1e-6 << " adding reconstructed ideal generators " << recon_n2 << " (reconpart " << reconpart << " prev " << prevreconpart << " augment " << augmentgbasis << " recon_count " << recon_count << " th " << th << " recon_n2 " << recon_n2 << " V[i] " << V[i].size() << ")" << endl;
 	      recon_count=0;
-	      recon_added=Wlast[i].size();
-	      CERR << CLOCK()*1e-6 << " adding reconstructed ideal generators " << recon_added << endl;
 	      prevreconpart=reconpart;
-	      current_gbasis=current_orig;
+	      //current_gbasis=current_orig;
 	      int insertpos=0;
-	      for (int k=0;k<recon_n2;++k){
+	      for (int k=recon_added;k<recon_n2;++k){
 		V[i][k].coord.clear();
 		poly8<tdeg_t> tmp=Wlast[i][k];
 		cleardeno(tmp);
@@ -14412,7 +14420,13 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 		    break;
 		  }		    
 		}
+		if (insertpos==current_gbasis.size()){
+		  current_gbasis.push_back(tmp);
+		  ++insertpos;
+		}
 	      }
+	      recon_added=recon_n2; // Wlast[i].size();
+	      CERR << CLOCK()*1e-6 << " # new ideal generators " << current_gbasis.size() << endl;
 	      reduceto0.clear();
 	      zf4buchberger_info.clear();
 	      if (gbasis_logz_age){
@@ -14647,14 +14661,14 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (debug_infolevel)
 	    CERR << CLOCK()*1e-6 << " end rational reconstruction " << endl;
 	  // now check if W[i] is a Groebner basis over Q, if so it's the answer
-	  if (debug_infolevel)
-	    CERR << CLOCK()*1e-6 << " begin final check, checking that the " << initial << " initial generators belongs to the ideal" << endl;
 	  // first verify that the initial generators reduce to 0
 	  poly8<tdeg_t> tmp0,tmp1,tmp2;
 	  vectpoly8<tdeg_t> wtmp;
 	  unsigned j=0,finalchecks=initial;
 	  if (eps>0)
 	    finalchecks=giacmin(2*W[i].front().dim,initial);
+	  if (debug_infolevel)
+	    CERR << CLOCK()*1e-6 << " begin final check, checking that " << finalchecks << " initial generators belongs to the ideal" << endl;
 	  G.resize(W[i].size());
 	  for (j=0;j<W[i].size();++j)
 	    G[j]=j;
