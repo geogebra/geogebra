@@ -3248,7 +3248,7 @@ __GGB__keysVar["eu"].menu = {
     "exam_log_screen_off": "Pantaila itzalita",
     "exam_log_screen_on": "Pantaila piztuta",
     "exam_log_show_screen_to_teacher": "Erakutsi pantaila hau zure irakasleari",
-    "exam_log_unpin": "Ez da aplikazioa atxiki",
+    "exam_log_unpin": "Aplikazioa ez dago atxikituta",
     "exam_log_wifi_disabled": "WiFia desgaitua",
     "exam_log_wifi_enabled": "WiFia gaitua",
     "exam_log_window_entered": "Azterketa-leihoan sartu zara berriz",
