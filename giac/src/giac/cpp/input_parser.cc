@@ -4705,6 +4705,7 @@ yyparse (scanner)
 #endif
 #endif
 {
+  //yydebug=1;
 /* The lookahead symbol.  */
 int yychar;
 

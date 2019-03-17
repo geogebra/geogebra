@@ -7618,6 +7618,9 @@ namespace giac {
 	  }
 	  g.subtype=0;
 	  return g;
+	case _SET__VECT:
+	  g.subtype=_SET__VECT;
+	  return g;
 	default:
 	  return gensizeerr(contextptr);
 	}

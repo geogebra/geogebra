@@ -5276,6 +5276,8 @@ namespace giac {
     gen b(b0);
     if (b0.type==_VECT && b0.subtype==_SEQ__VECT && b0._VECTptr->size()==1)
       b=b0._VECTptr->front();
+    if (a.type==_INT_ && a.subtype==_INT_MAPLECONVERSION && a.val==_MAPLE_LIST || a== _SET__VECT)
+      return symbolic(at_convert,makesequence(gen2vecteur(b),a));
     if (a.type<_IDNT || a.type==_FLOAT_){
       if (!warn_implicit(a,b,contextptr))
 	return gensizeerr("Invalid implicit multiplication for ("+ a.print(contextptr)+")(" + b.print(contextptr)+')');
