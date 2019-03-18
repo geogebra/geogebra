@@ -4011,6 +4011,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case G3D_IMPROVE_AUTOMATIC_ROTATION:
 			return true;
 
+		/** G3D-265 */
+		case G3D_ARMotionEvent:
+			return false;
+
         // **********************************************************************
         // G3D END
         //
