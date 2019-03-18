@@ -2,10 +2,17 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.util.StringUtil;
 
+/**
+ * Input control with more button
+ */
 public class InputMoreControl implements InputItemControl {
 
 	private RadioTreeItem item;
 	
+	/**
+	 * @param item
+	 *            algebra view item
+	 */
 	public InputMoreControl(RadioTreeItem item) {
 		this.item = item;
 	}

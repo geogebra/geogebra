@@ -6,10 +6,17 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
+/**
+ * Input delete control
+ */
 public class InputXControl implements InputItemControl {
 
 	private RadioTreeItem item;
 
+	/**
+	 * @param item
+	 *            algebra view item
+	 */
 	public InputXControl(RadioTreeItem item) {
 		this.item = item;
 	}
@@ -50,14 +57,20 @@ public class InputXControl implements InputItemControl {
 						@Override
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
-							item.clearInput();
-							item.getController().setFocus(true);
-
+							clearAndFocus();
 						}
 					});
 			item.btnClearInput.addStyleName("ggb-btnClearAVInput");
 		}
 		return item.btnClearInput;
+	}
+
+	/**
+	 * Clear input and move focus to it
+	 */
+	protected void clearAndFocus() {
+		item.clearInput();
+		item.getController().setFocus(true);
 	}
 
 	@Override

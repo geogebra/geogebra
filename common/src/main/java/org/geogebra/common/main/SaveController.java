@@ -77,6 +77,9 @@ public interface SaveController {
 
 	/**
 	 * Run callback after save.
+	 * 
+	 * @param activeMaterial
+	 *            active material
 	 */
 	void runAfterSaveCallback(boolean activeMaterial);
 }

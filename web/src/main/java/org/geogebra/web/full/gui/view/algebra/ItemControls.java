@@ -389,7 +389,10 @@ public class ItemControls extends FlowPanel
 	}
 
 	/**
-	 *  Shows/Hides 3-dot button
+	 * Shows/Hides 3-dot button
+	 * 
+	 * @param visible
+	 *            whether to show it
 	 *
 	 */
 	public void setMoreButtonVisible(boolean visible) {
