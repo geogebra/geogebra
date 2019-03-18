@@ -1722,6 +1722,7 @@ __GGB__keysVar["de"].menu = {
     "Ellipsoid": "Ellipsoid",
     "Email": "E-Mail",
     "Embed": "Einbetten",
+    "EmbedFrameWarning": "Falls eine Webseite nicht eingebettet werden kann, wird ein leerer Rahmen angezeigt, der gel\xf6scht werden kann.",
     "EmphasizeRightAngle": "Rechten Winkel markieren",
     "EmptyBox": "(kein Inhalt)",
     "EmptyItem": "Leeres Element",

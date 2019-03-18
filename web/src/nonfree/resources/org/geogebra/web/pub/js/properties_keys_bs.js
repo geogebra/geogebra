@@ -1722,6 +1722,7 @@ __GGB__keysVar["bs"].menu = {
     "Ellipsoid": "Elipsoid",
     "Email": "Email",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "Istakni pravi ugao",
     "EmptyBox": "(prazan okvir)",
     "EmptyItem": "Empty Item",

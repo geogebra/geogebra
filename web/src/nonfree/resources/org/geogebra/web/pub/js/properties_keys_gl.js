@@ -1722,6 +1722,7 @@ __GGB__keysVar["gl"].menu = {
     "Ellipsoid": "Elipsoide",
     "Email": "Correo electr\xf3nico",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "Salientar angulo recto",
     "EmptyBox": "(caixa baleira)",
     "EmptyItem": "\xcdtem baleiro",

@@ -1722,6 +1722,7 @@ __GGB__keysVar["kn"].menu = {
     "Ellipsoid": "\u0c85\u0c82\u0ca1\u0cbe\u0c95\u0cc3\u0ca4\u0cbf",
     "Email": "\u0c88\u0cae\u0cc7\u0cb2\u0ccd\u200c",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "\u0cb2\u0c82\u0cac \u0c95\u0ccb\u0ca8\u0cb5\u0cc6\u0c82\u0ca6\u0cc1 \u0c92\u0ca4\u0ccd\u0ca4\u0cbf\u0cb9\u0cc7\u0cb3\u0cbf",
     "EmptyBox": "(\u0c96\u0cbe\u0cb2\u0cbf \u0cac\u0cbe\u0c95\u0ccd\u0cb8\u0ccd)",
     "EmptyItem": "\u0c96\u0cbe\u0cb2\u0cbf \u0cb5\u0cb8\u0ccd\u0ca4\u0cc1",

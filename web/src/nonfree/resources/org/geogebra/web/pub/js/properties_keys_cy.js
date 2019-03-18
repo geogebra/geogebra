@@ -1722,6 +1722,7 @@ __GGB__keysVar["cy"].menu = {
     "Ellipsoid": "Ellipsoid",
     "Email": "Email",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "Pwysleisio ongl sgw\xe2r",
     "EmptyBox": "(empty box)",
     "EmptyItem": "Empty Item",

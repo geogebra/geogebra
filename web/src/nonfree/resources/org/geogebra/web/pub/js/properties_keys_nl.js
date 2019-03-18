@@ -1722,6 +1722,7 @@ __GGB__keysVar["nl"].menu = {
     "Ellipsoid": "Ellipso\xefde",
     "Email": "email",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "Beklemtoon rechte hoek",
     "EmptyBox": "(leeg vakje)",
     "EmptyItem": "Leeg onderwerp",

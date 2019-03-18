@@ -1722,6 +1722,7 @@ __GGB__keysVar["si"].menu = {
     "Ellipsoid": "Ellipsoid",
     "Email": "Email",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "\u0daf\u0d9a\u0dd4\u0dab\u0dd4 \u0d9a\u0ddd\u0dab\u0dba \u0d85\u0dc0\u0db0\u0dcf\u0dbb\u0dab\u0dba \u0d9a\u0dbb\u0db1\u0dc0\u0dcf",
     "EmptyBox": "(\u0dc4\u0dd2\u0dc3\u0dca \u0db4\u0dd9\u0da7\u0dca\u0da7\u0dd2\u0dba)",
     "EmptyItem": "Empty Item",

@@ -1722,6 +1722,7 @@ __GGB__keysVar["sv"].menu = {
     "Ellipsoid": "Ellipsoid",
     "Email": "Emejl",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "Betona r\xe4t vinkel",
     "EmptyBox": "(tomt formelf\xe4lt)",
     "EmptyItem": "Tomt objekt",

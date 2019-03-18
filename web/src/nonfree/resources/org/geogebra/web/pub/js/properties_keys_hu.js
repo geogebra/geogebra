@@ -1722,6 +1722,7 @@ __GGB__keysVar["hu"].menu = {
     "Ellipsoid": "Ellipszoid",
     "Email": "E-mail",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "Der\xe9ksz\xf6g kiemel\xe9se",
     "EmptyBox": "\xfcres doboz",
     "EmptyItem": "\xdcres elem",

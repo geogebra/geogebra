@@ -1722,6 +1722,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "Ellipsoid": "Ellipsoid",
     "Email": "Email",
     "Embed": "Embed",
+    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
     "EmphasizeRightAngle": "\u062d\u062f\u062f \u0627\u0644\u0632\u0627\u0648\u064a\u0629 \u0627\u0644\u0642\u0627\u0626\u0645\u0629",
     "EmptyBox": "(\u0639\u0644\u0628\u0629 \u0641\u0627\u0631\u063a\u0629)",
     "EmptyItem": "Empty Item",
