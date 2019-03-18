@@ -1,16 +1,17 @@
 package org.geogebra.common.kernel.batch;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 class EventOptimizedList {
 
-	private static final Set<String> SINGLE = new HashSet<>(Arrays.asList("update", "updateAuxiliaryObject",
+	private static final Set<String> SINGLE = new HashSet<>(
+			Arrays.asList("update", "updateAuxiliaryObject", 
 			"updateHighlight", "rename", "repaintView"));
 
 	private final LinkedList<Event> events;
@@ -44,7 +45,7 @@ class EventOptimizedList {
 	}
 
 	// Removes all previous occurences of this event with these parameter
-	private void optimizeSingle(Iterator<Event> iterator, Event addedEvent) {
+	private static void optimizeSingle(Iterator<Event> iterator, Event addedEvent) {
 		while (iterator.hasNext()) {
 			Event event = iterator.next();
 			if (event.equals(addedEvent)) {
@@ -54,7 +55,7 @@ class EventOptimizedList {
 	}
 
 	// Removes all events which refer to this element
-	private void optimizeRemove(Iterator<Event> iterator, Event addedEvent) {
+	private static void optimizeRemove(Iterator<Event> iterator, Event addedEvent) {
 		Object[] newParameters = addedEvent.getParameters();
 		GeoElement removingGeo = (GeoElement) newParameters[0];
 		while (iterator.hasNext()) {
