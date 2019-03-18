@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,16 +37,19 @@ public class SliderBuilderTest {
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 		ErrorHandler errorHandler = mock(ErrorHandler.class);
 
-		//sliderBuilder = new SliderBuilder(algebraProcessor, errorHandler);
-		//sliderBuilder.withMin("-5").withMax("5").withStep("1").withLocation(0, 0);
+		sliderBuilder = new SliderBuilder(algebraProcessor, errorHandler);
+		sliderBuilder.withMin("-5").withMax("5").withStep("1").withLocation(0, 0);
+	}
+
+	@After
+	public void tearDown() {
+		construction.clearConstruction();
 	}
 
 	@Test
 	public void createSimple() {
-		boolean wasSuppressedLabelsActive = construction.isSuppressLabelsActive();
-		//assert sliderBuilder.create() != null;
-		assert isSliderInConstructionList();
-		assert wasSuppressedLabelsActive == construction.isSuppressLabelsActive();
+		Assert.assertNotNull(sliderBuilder.create());
+		Assert.assertTrue(isSliderInConstructionList());
 	}
 
 	private boolean isSliderInConstructionList() {
@@ -55,14 +59,26 @@ public class SliderBuilderTest {
 
 	@Test
 	public void createWithEmptyInput() {
-		boolean wasSuppressLabelsActive = construction.isSuppressLabelsActive();
-		//liderBuilder.withMin("");
-		//try {
-		//	sliderBuilder.create();
-		//	Assert.fail("wrong");
-		//} catch (Exception ignored) {
-		//}
-		assert !isSliderInConstructionList();
-		assert wasSuppressLabelsActive == construction.isSuppressLabelsActive();
+		sliderBuilder.withMin("");
+		Assert.assertNull(sliderBuilder.create());
+		Assert.assertFalse(isSliderInConstructionList());
+	}
+
+	@Test
+	public void testSuppressLabelFlagAfterCreated() {
+		boolean wasSuppressedLabelsActive = construction.isSuppressLabelsActive();
+		createSimple();
+		boolean isFlagSetBack =
+				(wasSuppressedLabelsActive == construction.isSuppressLabelsActive());
+		Assert.assertTrue(isFlagSetBack);
+	}
+
+	@Test
+	public void testSuppressLabelFlagAfterEmptyInput() {
+		boolean wasSuppressedLabelsActive = construction.isSuppressLabelsActive();
+		createWithEmptyInput();
+		boolean isFlagSetBack =
+				(wasSuppressedLabelsActive == construction.isSuppressLabelsActive());
+		Assert.assertTrue(isFlagSetBack);
 	}
 }
