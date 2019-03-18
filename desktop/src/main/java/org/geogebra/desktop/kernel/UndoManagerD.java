@@ -14,13 +14,13 @@ package org.geogebra.desktop.kernel;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 import javax.swing.DefaultListSelectionModel;
 
+import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.UndoCommand;
@@ -207,14 +207,7 @@ public class UndoManagerD extends UndoManager {
 		} catch (java.lang.OutOfMemoryError err) {
 			Log.error("UndoManager.loadUndoInfo: " + err.toString());
 		} finally {
-			try {
-				if (is != null) {
-					is.close();
-				}
-			} catch (IOException e) {
-				Log.error("setUndoInfo: " + e.toString());
-				e.printStackTrace();
-			}
+			StreamUtil.closeSilent(is);
 		}
 
 	}

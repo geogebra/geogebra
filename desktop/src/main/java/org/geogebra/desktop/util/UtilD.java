@@ -46,6 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
@@ -161,13 +162,7 @@ public class UtilD {
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
 		} finally {
-			try {
-				if (ios != null) {
-					ios.close();
-				}
-			} catch (IOException e) {
-				Log.error("problem loading " + filename);
-			}
+			StreamUtil.closeSilent(ios);
 		}
 
 		return null;
