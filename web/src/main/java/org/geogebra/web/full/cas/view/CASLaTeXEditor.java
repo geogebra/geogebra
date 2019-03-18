@@ -77,7 +77,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		add(mf);
 		dummy = new Label(
 				app.getLocalization().getMenu("InputLabel") + Unicode.ELLIPSIS);
-		dummy.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		dummy.addStyleName("CAS_dummyLabel");
 		this.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		updateWidth();
 	}
@@ -415,6 +415,5 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		Element element = dummy.getElement();
 		Style style = element.getStyle();
 		style.setFontSize(size, Unit.PX);
-		style.setLineHeight(size, Unit.PX);
 	}
 }
