@@ -149,7 +149,10 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 
 	@Override
 	public void onRun() {
-		Iterator<Event> iterator = pendingEvents.iterator();
+		EventOptimizedList copiedEvents = pendingEvents.copy();
+		pendingEvents.clear();
+
+		Iterator<Event> iterator = copiedEvents.iterator();
 		while (iterator.hasNext()) {
 			Event event = iterator.next();
 			String name = event.getName();

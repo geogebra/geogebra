@@ -10,13 +10,17 @@ import java.util.Set;
 
 class EventOptimizedList {
 
+	private static final Set<String> SINGLE = new HashSet<>(Arrays.asList("update", "updateAuxiliaryObject",
+			"updateHighlight", "rename", "repaintView"));
+
 	private final LinkedList<Event> events;
-	private final Set<String> single;
 
 	EventOptimizedList() {
 		events = new LinkedList<>();
-		single = new HashSet<>(Arrays.asList("update", "updateAuxiliaryObject",
-				"updateHighlight", "rename", "repaintView"));
+	}
+
+	private EventOptimizedList(LinkedList<Event> events) {
+		this.events = events;
 	}
 
 	void add(Event event) {
@@ -32,7 +36,7 @@ class EventOptimizedList {
 		Iterator<Event> iterator = events.descendingIterator();
 		Event event = iterator.next();
 		String name = event.getName();
-		if (single.contains(name)) {
+		if (SINGLE.contains(name)) {
 			optimizeSingle(iterator, event);
 		} else if ("remove".equals(name)) {
 			optimizeRemove(iterator, event);
@@ -64,5 +68,9 @@ class EventOptimizedList {
 
 	Iterator<Event> iterator() {
 		return events.iterator();
+	}
+
+	EventOptimizedList copy() {
+		return new EventOptimizedList(new LinkedList<Event>(events));
 	}
 }
