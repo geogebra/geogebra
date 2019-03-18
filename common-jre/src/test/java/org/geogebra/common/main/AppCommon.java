@@ -127,12 +127,12 @@ public class AppCommon extends App {
     }
 
     @Override
-    public CommandDispatcher getCommandDispatcher(Construction construction) {
-		return new CommandDispatcherJre(construction);
+    public CommandDispatcher getCommandDispatcher(Kernel kernel) {
+		return new CommandDispatcherJre(kernel);
     }
 
     @Override
-    public CommandDispatcher getCommand3DDispatcher(Construction construction) {
+    public CommandDispatcher getCommand3DDispatcher(Kernel kernel) {
         return null;
     }
 

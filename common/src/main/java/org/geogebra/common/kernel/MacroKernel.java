@@ -175,8 +175,8 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public AlgebraProcessor newAlgebraProcessor(Construction construction) {
-		return parentKernel.newAlgebraProcessor(construction);
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
+		return parentKernel.newAlgebraProcessor(kernel);
 	}
 
 	@Override

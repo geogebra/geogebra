@@ -3511,9 +3511,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return loginOperation;
 	}
 
-	public abstract CommandDispatcher getCommandDispatcher(Construction construction);
+	public abstract CommandDispatcher getCommandDispatcher(Kernel kernel);
 
-	public abstract CommandDispatcher getCommand3DDispatcher(Construction construction);
+	public abstract CommandDispatcher getCommand3DDispatcher(Kernel kernel);
 
 	/**
 	 * Should lose focus on Web applets, implement only where appropriate

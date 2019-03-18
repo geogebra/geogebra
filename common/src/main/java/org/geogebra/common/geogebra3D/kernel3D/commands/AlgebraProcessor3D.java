@@ -17,7 +17,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoDependentImplicitSurface;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -42,13 +41,13 @@ import org.geogebra.common.util.StringUtil;
 public class AlgebraProcessor3D extends AlgebraProcessor {
 
 	/**
-	 * @param construction
-	 *            construction
+	 * @param kernel
+	 *            kernel
 	 * @param cd
 	 *            commands dispatcher
 	 */
-	public AlgebraProcessor3D(Construction construction, CommandDispatcher cd) {
-		super(construction, cd);
+	public AlgebraProcessor3D(Kernel kernel, CommandDispatcher cd) {
+		super(kernel, cd);
 	}
 
 	/**

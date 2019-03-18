@@ -166,13 +166,13 @@ public class Kernel3D extends Kernel {
 	}
 
 	/**
-	 * @param construction
-	 *            construction
+	 * @param kernel
+	 *            kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
 	@Override
-	public AlgebraProcessor newAlgebraProcessor(Construction construction) {
-		return new AlgebraProcessor3D(construction, app.getCommand3DDispatcher(construction));
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
+		return new AlgebraProcessor3D(kernel, app.getCommand3DDispatcher(kernel));
 	}
 
 	/** return all points of the current construction */

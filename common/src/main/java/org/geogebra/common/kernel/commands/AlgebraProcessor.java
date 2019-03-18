@@ -174,14 +174,14 @@ public class AlgebraProcessor {
 	private CommandSelector noCASselector;
 
 	/**
-	 * @param construction
-	 *            construction
+	 * @param kernel
+	 *            kernel
 	 * @param commandDispatcher
 	 *            command dispatcher
 	 */
-	public AlgebraProcessor(Construction construction, CommandDispatcher commandDispatcher) {
-		cons = construction;
-		kernel = construction.getKernel();
+	public AlgebraProcessor(Kernel kernel, CommandDispatcher commandDispatcher) {
+		cons = kernel.getConstruction();
+		this.kernel = kernel;
 
 		this.cmdDispatcher = commandDispatcher;
 		app = kernel.getApplication();
