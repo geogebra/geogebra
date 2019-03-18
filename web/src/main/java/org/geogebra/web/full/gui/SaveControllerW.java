@@ -98,6 +98,12 @@ public class SaveControllerW implements SaveController {
 		} else {
 			if (app.getActiveMaterial() == null || isMacro()) {
 				app.setActiveMaterial(new Material(0, saveType));
+			} else {
+				if (!app.getLoginOperation()
+						.canUserWrite(app.getActiveMaterial())) {
+					app.getActiveMaterial().setId(0);
+					app.getActiveMaterial().setSharingKey(null);
+				}
 			}
 			app.getActiveMaterial().setVisibility(visibility.getToken());
 			uploadToGgt(app.getActiveMaterial().getVisibility());

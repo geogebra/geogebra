@@ -227,4 +227,14 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		asyncOperation.callback(true);
 	}
 
+	/**
+	 * @param activeMaterial
+	 *            material
+	 * @return whether material can be overwritten
+	 */
+	public boolean canUserWrite(Material activeMaterial) {
+		int authorID = activeMaterial.getAuthorID();
+		return authorID <= 0 && authorID != getModel().getUserId();
+	}
+
 }

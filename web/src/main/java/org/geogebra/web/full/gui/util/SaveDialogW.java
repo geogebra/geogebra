@@ -400,11 +400,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
+			if (!app.getLoginOperation()
+					.canUserWrite(appW.getActiveMaterial())) {
+				consTitle = loc.getPlain("CopyOfA", consTitle);
+				selectTitle();
+			}
 			this.title.setText(consTitle);
 		} else {
 			this.title.setText(loc.getMenu("Untitled"));
-			this.title.setSelectionRange(0, this.title.getText().length());
+			selectTitle();
 		}
+	}
+
+	private void selectTitle() {
+		this.title.setSelectionRange(0, this.title.getText().length());
 	}
 
 	private static String getTitleOnly(String key) {
