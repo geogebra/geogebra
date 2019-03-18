@@ -16,17 +16,13 @@ public class InputMoreControl implements InputItemControl {
 			return;
 		}
 
-		if (StringUtil.empty(item.getText())) {
-			item.controls.hideMoreButton();
-		} else {
-			item.controls.showMoreButton();
-		}		
+		item.controls.setMoreButtonVisible(!StringUtil.empty(item.getText()));
 	}
 
 	@Override
 	public void hideInputMoreButton() {
 		if (item.isInputTreeItem()) {
-			item.controls.hideMoreButton();	
+			item.controls.setMoreButtonVisible(false);	
 		}
 	}
 	
@@ -37,7 +33,7 @@ public class InputMoreControl implements InputItemControl {
 		}
 		
 		if (item.isInputTreeItem()) {
-			item.controls.hideMoreButton();
+			item.controls.setMoreButtonVisible(false);
 		} else {
 			item.controls.setVisible(true);
 		}
@@ -51,7 +47,7 @@ public class InputMoreControl implements InputItemControl {
 	@Override
 	public void addInputControls() {
 		item.addControls();
-		item.controls.hideMoreButton();
+		item.controls.setMoreButtonVisible(false);
 	}
 
 	@Override

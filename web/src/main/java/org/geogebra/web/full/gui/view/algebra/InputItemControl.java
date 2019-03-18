@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.view.algebra;
+package	 org.geogebra.web.full.gui.view.algebra;
 
 /**
  * Interface for control of the input row.

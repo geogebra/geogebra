@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -388,20 +389,11 @@ public class ItemControls extends FlowPanel
 	}
 
 	/**
-	 *  Shows 3-dot button
+	 *  Shows/Hides 3-dot button
 	 *
 	 */
-	public void showMoreButton() {
-		btnMore.removeStyleName("hidden");
-	}
-
-	/**
-	 *  Hides 3-dot button
-	 *
-	 */
-	public void hideMoreButton() {
-		btnMore.addStyleName("hidden");
-
+	public void setMoreButtonVisible(boolean visible) {
+		Dom.toggleClass(btnMore, "hidden", !visible);
 	}
 
 	/**
