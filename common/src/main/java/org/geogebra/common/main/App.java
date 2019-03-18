@@ -3726,7 +3726,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** MOB-1310 */
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
-			return prerelease;
+			return true;
 
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
