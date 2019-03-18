@@ -2356,6 +2356,7 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric((exp(-LambertW((-1) / 2 ln(2),-1))),15)", result:"4" },
 { cat:"Numeric", cmd:"Numeric((exp(-LambertW((-ln(2)) / 2))),14)", result:"2" },
 { cat:"Numeric", cmd:"Numeric((exp(-LambertW((-ln(2)) / 2))),15)", result:"2" },
+{ cat:"Solve", cmd:"Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/exp(1)]", result:"{x = (y sin(y) + LambertW((-\u212F^(-y sin(y) / cos(y))) / (cos(y) \u212F),-1) cos(y)) / cos(y), x = (y sin(y) + LambertW((-\u212F^(-y sin(y) / cos(y))) / (cos(y) \u212F)) cos(y)) / cos(y)}" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
@@ -2486,7 +2487,6 @@ var differentJNI = [
 // either kill Java or giac.js
 var problems = [
 
-{ cat:"PROBLEM", cmd:"Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/exp(1)]", result:"" },
 { cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
 { cat:"PROBLEM", cmd:"Evaluate[s/(sqrt(2+sqrt(4-s^2)))-sqrt(2-sqrt(4-s^2))]", result:"-sqrt(-sqrt(-s\u00B2 + 4) + 2) + s / sqrt(sqrt(-s\u00B2 + 4) + 2)", notes:"GGB-327 freezes giac.js" },
 
