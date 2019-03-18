@@ -1716,7 +1716,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						}
 					});
 
-					if (Browser.isAndroid() || Browser.isIPad()) {
+					if (Browser.isTabletBrowser()) {
 						w.setEnabled(false);
 						w.addDummyCursor(w.getCaretPosition());
 					}

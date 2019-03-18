@@ -341,7 +341,7 @@ public class ZoomController {
 	}
 
 	private boolean useEmulatedFullscreen() {
-		return Browser.isIPad() || !StringUtil
+		return Browser.isiOS() || !StringUtil
 				.empty(app.getArticleElement().getParamFullscreenContainer());
 	}
 

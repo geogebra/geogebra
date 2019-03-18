@@ -639,7 +639,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 				if (keyUpNeeded(field.getText())) {
 					doTextFieldActionPerformed();
 				}
-				if (Browser.isAndroid() || Browser.isIPad()) {
+				if (Browser.isTabletBrowser()) {
 					field.addDummyCursor(field.getCaretPosition());
 				}
 			}

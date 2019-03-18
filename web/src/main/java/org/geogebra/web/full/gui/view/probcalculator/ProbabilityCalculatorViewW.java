@@ -995,7 +995,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			public void onInsert(String text) {
 				int cursorPos = field.removeDummyCursor();
 				doTextFieldActionPerformed((TextBox) field.getTextBox(), false);
-				if (Browser.isAndroid() || Browser.isIPad()) {
+				if (Browser.isTabletBrowser()) {
 					field.addDummyCursor(cursorPos);
 				}
 			}

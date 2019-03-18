@@ -467,7 +467,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			public void onInsert(String text) {
 				int cursorPos = field.removeDummyCursor();
 				actionPerformed(field);
-				if (Browser.isAndroid() || Browser.isIPad()) {
+				if (Browser.isTabletBrowser()) {
 					field.addDummyCursor(cursorPos);
 				}
 			}

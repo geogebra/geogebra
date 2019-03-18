@@ -635,8 +635,10 @@ public class Browser {
 	}-*/;
 
 	/**
+	 * @deprecated you most likely want to use isiOS() instead
 	 * @return check this is an iPad browser
 	 */
+	@Deprecated
 	public native static boolean isIPad()/*-{
 		var userAgent = $wnd.navigator.userAgent;
 		if (userAgent) {
@@ -645,8 +647,16 @@ public class Browser {
 		return false;
 	}-*/;
 
+	/**
+	 * it's true for android phones and iPads but false for iPhone
+	 * 
+	 * @deprected isMobile might work better, alternatively isiOS() ||
+	 *            isAndroid()
+	 * @return whether this is iPad or Android
+	 */
+	@Deprecated
 	public static boolean isTabletBrowser() {
-		return (isAndroid() || isIPad());
+		return isAndroid() || isIPad();
 	}
 
 	public static void setWebWorkerSupported(boolean b) {
