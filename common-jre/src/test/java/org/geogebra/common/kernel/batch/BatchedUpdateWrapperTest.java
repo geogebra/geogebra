@@ -104,4 +104,22 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 		verify(wrappedView, times(0)).add(line);
 		verify(wrappedView, times(0)).update(line);
 	}
+
+	@Test
+	public void testRecursiveAdd() {
+		GeoElement line1 = getElementFactory().createGeoLine();
+
+		wrapper.add(line1);
+
+		doAnswer(new Answer() {
+			@Override
+			public Object answer(InvocationOnMock invocation) throws Throwable {
+				GeoElement line2 = getElementFactory().createGeoLine();
+				wrapper.add(line2);
+				return null;
+			}
+		}).when(wrappedView).add(eq(line1));
+
+		wrapper.onRun();
+	}
 }
