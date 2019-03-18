@@ -40,7 +40,7 @@ public class InputXControl implements InputItemControl {
 		
 	}
 
-	protected GPushButton getClearInputButton() {
+	private GPushButton getClearInputButton() {
 		if (item.btnClearInput == null) {
 			item.btnClearInput = new GPushButton(
 					new NoDragImage(MaterialDesignResources.INSTANCE.clear(), 24));

@@ -178,6 +178,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private String ariaPreview;
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
+
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -206,7 +207,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private InputItemControl createInputControl() {
-		return app.has(Feature.AV_INPUT_3DOT) ? new InputMoreControl(this): new InputXControl(this);
+		return app.has(Feature.AV_INPUT_3DOT) ? new InputMoreControl(this)
+				: new InputXControl(this);
 	}
 
 	/**
@@ -276,7 +278,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void createControls() {
 		controls = new ItemControls(this);
 	}
-
 
 	protected void addControls() {	
 		if (controls != null) {
@@ -1512,7 +1513,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
-	
 	public boolean isForceControls() {
 		return forceControls;
 	}

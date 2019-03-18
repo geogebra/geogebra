@@ -12,7 +12,6 @@ public class InputMoreControl implements InputItemControl {
 
 	@Override
 	public void ensureInputMoreMenu() {
-
 		if (!item.isInputTreeItem()) {
 			return;
 		}
@@ -21,9 +20,7 @@ public class InputMoreControl implements InputItemControl {
 			item.controls.hideMoreButton();
 		} else {
 			item.controls.showMoreButton();
-		}
-
-		
+		}		
 	}
 
 	@Override
@@ -31,7 +28,6 @@ public class InputMoreControl implements InputItemControl {
 		if (item.isInputTreeItem()) {
 			item.controls.hideMoreButton();	
 		}
-		
 	}
 	
 	@Override
