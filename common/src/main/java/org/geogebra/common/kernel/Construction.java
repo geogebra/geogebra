@@ -90,7 +90,7 @@ public class Construction {
 	protected UndoManager undoManager;
 
 	/** default elements */
-	protected ConstructionDefaults consDefaults;
+	private ConstructionDefaults consDefaults;
 	private String title;
 	private String author;
 	private String date;
@@ -234,7 +234,7 @@ public class Construction {
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
 		} else {
-			consDefaults = newConstructionDefaults();
+			newConstructionDefaults();
 		}
 		// consDefaults = new ConstructionDefaults(this);
 		setIgnoringNewTypes(true);
@@ -303,15 +303,8 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	protected ConstructionDefaults newConstructionDefaults() {
-		return companion.newConstructionDefaults();
-	}
-
-	/**
-	 * @param constructionDefaults construction defaults
-	 */
-	public void setConstructionDefaults(ConstructionDefaults constructionDefaults) {
-		consDefaults = constructionDefaults;
+	final private void newConstructionDefaults() {
+		consDefaults = companion.newConstructionDefaults();
 	}
 
 	/**

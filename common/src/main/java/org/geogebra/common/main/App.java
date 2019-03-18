@@ -730,7 +730,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * Initializes the translated command names for this application. Note: this
 	 * will load the properties files first.
 	 */
-	public void initTranslatedCommands() {
+	final public void initTranslatedCommands() {
 		synchronized (commandDictLock) {
 			if (getLocalization().isCommandNull() || subCommandDict == null) {
 				getLocalization().initCommand();
@@ -2229,7 +2229,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	/**
 	 * @return kernel for this window
 	 */
-	public Kernel getKernel() {
+	public final Kernel getKernel() {
 		return kernel;
 	}
 

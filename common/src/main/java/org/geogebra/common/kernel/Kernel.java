@@ -540,7 +540,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * @return app
 	 */
-	public App getApplication() {
+	final public App getApplication() {
 		return app;
 	}
 
@@ -1540,7 +1540,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/**
 	 * Uses current NumberFormat nf to format a number.
 	 */
-	private String formatNF(double x, StringTemplate tpl) {
+	final private String formatNF(double x, StringTemplate tpl) {
 		// "<=" catches -0.0000000000000005
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
@@ -1569,7 +1569,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return formated string
 	 */
 
-	public String format(double x, StringTemplate tpl) {
+	final public String format(double x, StringTemplate tpl) {
 		// Log.printStacktrace(x + "");
 		String ret = formatRaw(x, tpl);
 
@@ -3526,7 +3526,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            variable resolution mode
 	 * @return GeoElement with given label
 	 */
-	public GeoElement lookupLabel(String label, boolean autoCreate,
+	final public GeoElement lookupLabel(String label, boolean autoCreate,
 			SymbolicMode resMode) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 

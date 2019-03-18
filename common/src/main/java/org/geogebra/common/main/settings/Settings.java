@@ -17,7 +17,7 @@ import org.geogebra.common.main.App;
  * @author Florian Sonner
  */
 public class Settings {
-	protected EuclidianSettings[] euclidianSettings;
+	private final EuclidianSettings[] euclidianSettings;
 
 	private HashMap<String, EuclidianSettings> euclidianSettingsForPlane;
 
