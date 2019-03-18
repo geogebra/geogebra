@@ -52,7 +52,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (preventBlur) {
+		if (preventBlur || noEvaluationOnBlur()) {
 			return;
 		}
 
@@ -66,6 +66,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 			// #5245#comment:8, cases B and C excluded
 			item.updateGUIfocus(true);
 		}
+	}
+
+	private boolean noEvaluationOnBlur() {
+		return item.isInputTreeItem();
 	}
 
 	/**

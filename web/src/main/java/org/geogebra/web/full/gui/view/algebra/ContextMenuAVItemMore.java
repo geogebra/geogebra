@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -64,8 +65,29 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		wrappedPopup.clearItems();
+		if (item.isInputTreeItem()) {
+			buildForInputItem();
+		} else {
+			buildForGeo(item.geo);
+		}
+	}
+	
+
+	private void buildForInputItem() {
+		AriaMenuItem mi = new AriaMenuItem("Foo", true, new Command() {
+
+			@Override
+			public void execute() {
+				Log.debug("foo: implement me");
+			}
+
+		});
+		wrappedPopup.addItem(mi);
+	}
+
+	private void buildForGeo(GeoElement geo) {
 		for (MenuAction<GeoElement> action : actions) {
-			if (action.isAvailable(item.geo)) {
+			if (action.isAvailable(geo)) {
 				addAction(action);
 			}
 		}
