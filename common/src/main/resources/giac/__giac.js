@@ -2369,13 +2369,11 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
 { cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ \u03AF *0.30570723126530347),6]", result:"-0.257278 - 0.148498\u03AF|OR|-0.257278 - 0.148498 * \u03AF" },
 { cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - ln(abs(x)) + c_0 - 1 / x|OR|2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0", notes:"+c not at end in JNI. OK in WebAssembly!" },
+{ cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = n_0 π, x = 1 / 2 n_0 π + 1 / 4 π}" },
 //JSONEND
-// { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
-// { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
-//{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2" },
 
 // gives odd result, tricky to fix
 //{ cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
@@ -2387,11 +2385,13 @@ var __giac = [ {},
 // 
 //{ cat:"Evaluate", cmd:"", result:"", notes:"" },
 //{ cat:"Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
-//{ cat:"Integral", cmd:"Integral[1/(x\u2075 - 3x\u2074 + x\u00B3 + x\u00B2 + x + 1)]", result:"?" },
+//{ cat:"Integral", cmd:"Integral[1/(x^5 - 3x^4 + x^3 + x^2 + x + 1)]", result:"?" },
 ];
 
 // giac/ggb bugs
 var bugs = [
+{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2", notes:"doesn't work with x(A) syntax. xcoord(A) OK (in GUI)" },
+{ cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}", notes:"doesn't work with x(A) or xcoord(A) syntax" },
 { cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"atan(cbrt(3) / sqrt(7)) + 5", result:"", notes:"from Integral((x^4-3x)/(x^3+22x),cbrt(3),8), gives ? currently" },
 { cat:"Substitute", cmd:"Substitute[(x\u00B2 / a\u00B2 - y\u00B2 / b\u00B2 = 1),({a = 0, b = 0})]", result:"?=1" },
 { cat: "Solve", cmd:"Solve[{t^2<=p},{p}]", result:"{p \u2265 t\u00B2}", notes:"#5521, TRAC-4161" },
