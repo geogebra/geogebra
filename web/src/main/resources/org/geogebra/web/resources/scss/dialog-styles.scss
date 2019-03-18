@@ -456,7 +456,7 @@ $duration: 0.2s;
    					font-size: 75%;
    					margin-top: 9px;
    					min-height: 20px;
-   					padding-right: 16px; //align long text with input
+   					max-width: 25em * 4 / 3;
    				}
    			
    				&.hoverState {	
