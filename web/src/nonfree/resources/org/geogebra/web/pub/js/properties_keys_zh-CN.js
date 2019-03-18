@@ -1722,7 +1722,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Ellipsoid": "\u692d\u7403\u9762",
     "Email": "\u7535\u5b50\u90ae\u4ef6",
     "Embed": "Embed",
-    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
+    "EmbedFrameWarning": "\u5982\u679c\u65e0\u6cd5\u5d4c\u5165\u7f51\u9875, \u5219\u4f1a\u663e\u793a\u4e00\u4e2a\u53ef\u4ee5\u5220\u9664\u7684\u7a7a\u6846\u67b6.",
     "EmphasizeRightAngle": "\u663e\u793a\u76f4\u89d2\u7b26\u53f7",
     "EmptyBox": "(\u7a7a\u767d\u516c\u5f0f\u6846)",
     "EmptyItem": "\u7a7a\u9879",
