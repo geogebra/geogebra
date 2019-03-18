@@ -1,9 +1,9 @@
 package org.geogebra.common.gui.util.slider;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.discrete.geom.Point2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -23,7 +23,7 @@ public class SliderBuilder {
 
 	private SliderData<String> input;
 	private SliderData<GeoNumberValue> processedData;
-	private Point2D location;
+	private GPoint2D.Double location;
 
 	/**
 	 * @param algebraProcessor algebra processor
@@ -72,7 +72,7 @@ public class SliderBuilder {
 	 * @return Itself
 	 */
 	public SliderBuilder withLocation(double x, double y) {
-		location = new Point2D(x, y);
+		location = new GPoint2D.Double(x, y);
 		return this;
 	}
 
