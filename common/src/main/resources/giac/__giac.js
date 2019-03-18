@@ -2367,6 +2367,7 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Assume[x>0 && n>0,Solve[log(n^2*(x/n)^lg(x))=log(x^2),x]]", result:"{x = 100, x = n}", notes:"#4330 / TRAC-5530 Giac will not solve the equation without additional assumptions, here assume(x>0) and assume(n>0)" },
 { cat:"Evaluate", cmd:"Evaluate[(4*x*y)^(1/2)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
+{ cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ \u03AF *0.30570723126530347),6]", result:"-0.257278 - 0.148498|OR|-0.257278 - 0.148498 * \u03AF" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
@@ -2394,7 +2395,6 @@ var bugs = [
 { cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"atan(cbrt(3) / sqrt(7)) + 5", result:"", notes:"from Integral((x^4-3x)/(x^3+22x),cbrt(3),8), gives ? currently" },
 { cat:"Substitute", cmd:"Substitute[(x\u00B2 / a\u00B2 - y\u00B2 / b\u00B2 = 1),({a = 0, b = 0})]", result:"?=1" },
 { cat: "Solve", cmd:"Solve[{t^2<=p},{p}]", result:"{p \u2265 t\u00B2}", notes:"#5521, TRAC-4161" },
-{ cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ \u03AF *0.30570723126530347)]", result:"", notes:"gives answer in terms of Eta()" },
 { cat:"Integral", cmd:"Integral[exp(x^3)+x^2]", result:"?", notes:"gamma needs extending to negative numbers in GeoGebra" },
 { cat:"NSolutions", cmd:"NSolutions[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c=1,a=1}]", result:"", notes:"Bavarian 50-1.ggb" },
 { cat:"Integral", cmd:"Integral[y'(x)]", result:"y + c_0" },
@@ -2422,6 +2422,7 @@ var bugs = [
 { cat:"Evaluate", cmd:"Evaluate[z(x=4)]", result:"-4" },
 { cat:"SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521, TRAC-4161" },
 { cat:"Solve", cmd:"Solve[{X=(t,t),X=(2s-1,3s+3)}]", result:"{{s = -4, t = -9}}", notes:"#5332 OK in GUI" },
+{ cat:"Substitute", cmd:"Substitute(Sum(1/n*sqrt(1-(k/n)^2),k,1,n), {n=6})", result:"works in GUI" },
 { cat:"LimitBelow", cmd:"LimitBelow[ln(x),0]", result:"?" },
 { cat:"Solve", cmd:"Solve((((2)*(log(x)))-(4))/((log(x))-(1)) >= 0,x)", result:"", notes:"{(x>0) && (x<(e)),x>=(e^2)} would be better but won't be changed in Giac"},
 ];
@@ -2497,7 +2498,7 @@ var differentJNI = [
 var problems = [
 
 { cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
-{ cat:"PROBLEM", cmd:"Evaluate[s/(sqrt(2+sqrt(4-s^2)))-sqrt(2-sqrt(4-s^2))]", result:"-sqrt(-sqrt(-s\u00B2 + 4) + 2) + s / sqrt(sqrt(-s\u00B2 + 4) + 2)", notes:"GGB-327 freezes giac.js" },
+{ cat:"PROBLEM", cmd:"Assume[0<x<2,x/(sqrt(2+sqrt(4-x^2)))-sqrt(2-sqrt(4-x^2))]", result:"-sqrt(-sqrt(-s\u00B2 + 4) + 2) + s / sqrt(sqrt(-s\u00B2 + 4) + 2)", notes:"GGB-327 can give 0 or (s)/(sqrt(sqrt(-s^(2)+4)+2))- sqrt(-sqrt(-s^(2)+4)+2)" },
 
 
 // no starting point, so answers a bit random
@@ -2518,17 +2519,4 @@ var problems = [
 ];
 
 
-
-
-
-
-
-
-
-
-
-
-// n:=6;normal(sum(1/n*sqrt(1-(k/n)^2),k,1,n))
-
-//727: { cmd:"", result:"" },
 
