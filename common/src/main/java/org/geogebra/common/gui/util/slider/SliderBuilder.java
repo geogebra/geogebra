@@ -78,6 +78,7 @@ public class SliderBuilder {
 
 	/**
 	 * Creates the slider if the inputs are correct.
+	 * @return The created slider.
 	 */
 	public GeoNumeric create() {
 		boolean wasSuppressLabelsActive = construction.isSuppressLabelsActive();
