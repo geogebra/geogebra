@@ -47,6 +47,7 @@ public abstract class MediaDialog extends OptionDialog
 	/** input */
 	protected InputPanelW inputField;
 	private FlowPanel inputPanel;
+	private Label infoLabel;
 
 	/**
 	 * @param root
@@ -74,8 +75,11 @@ public abstract class MediaDialog extends OptionDialog
 		inputField.addStyleName("inputText");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
+		infoLabel = new Label();
+		infoLabel.addStyleName("msgLabel");
+		inputPanel.add(infoLabel);
 		errorLabel = new Label();
-		errorLabel.addStyleName("errorLabel");
+		errorLabel.addStyleName("msgLabel errorLabel");
 		inputPanel.add(errorLabel);
 		// add panels
 		add(mainPanel);
@@ -176,6 +180,7 @@ public abstract class MediaDialog extends OptionDialog
 	 */
 	public void setLabels() {
 		inputLabel.setText(appW.getLocalization().getMenu("Link"));
+		infoLabel.setText("");
 		errorLabel.setText(""); // actual error set in showError
 		updateButtonLabels("Insert");
 	}
@@ -237,6 +242,10 @@ public abstract class MediaDialog extends OptionDialog
 		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
 				+ appW.getLocalization().getError(msg));
 		setPrimaryButtonEnabled(false);
+	}
+
+	public void showInfo(String info) {
+		infoLabel.setText(info);
 	}
 
 	@Override

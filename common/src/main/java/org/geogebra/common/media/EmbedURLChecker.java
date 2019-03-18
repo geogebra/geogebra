@@ -59,4 +59,9 @@ public class EmbedURLChecker implements URLChecker {
 
 		});
 	}
+
+	@Override
+	public boolean hasFrameOptionCheck() {
+		return false;
+	}
 }

@@ -38,6 +38,13 @@ public class EmbedInputDialog extends MediaDialog
 	public EmbedInputDialog(AppW app, URLChecker urlChecker) {
 		super(app.getPanel(), app);
 		this.urlChecker = urlChecker;
+		updateInfo();
+	}
+
+	private void updateInfo() {
+		if (urlChecker != null && !urlChecker.hasFrameOptionCheck()) {
+			showInfo(app.getLocalization().getMenu("EmbedFrameWarning"));
+		}
 	}
 
 	/**
@@ -48,6 +55,7 @@ public class EmbedInputDialog extends MediaDialog
 		super.setLabels();
 		// dialog title
 		getCaption().setText(appW.getLocalization().getMenu("Web"));
+		updateInfo();
 	}
 
 	@Override

@@ -449,10 +449,15 @@ $duration: 0.2s;
  				}
    					
    				.errorLabel {
-   					color: $white;
+   					display: none;
+   				}
+   				
+   				.msgLabel {
    					font-size: 75%;
    					margin-top: 9px;
-   				}  	
+   					min-height: 20px;
+   					padding-right: 16px; //align long text with input
+   				}
    			
    				&.hoverState {	
    					.inputLabel {
@@ -463,11 +468,11 @@ $duration: 0.2s;
  						border-bottom: 2px solid $black-87;
  					}
  				
- 					.errorLabel {
+ 					.msgLabel {
    						margin-top: 8px;
    					}
- 				} 				
-   			}    
+ 				}
+   			}
    			
    			&.errorState, &.errorState:hover {
    				@extend .emptyState;
@@ -478,11 +483,14 @@ $duration: 0.2s;
  				.AutoCompleteTextFieldW {	
  					border-bottom: 2px solid $red;
  				}
-   					
+   				.msgLabel{
+   					margin-top: 8px;
+   					display: none;
+   				}	
    				.errorLabel {
    					color: $red-A400-87;
-   					margin-top: 8px;
-   				}   				
+   					display: block;
+   				}
    			}
    		
    			&.focusState, &.focusState:hover {
@@ -495,7 +503,7 @@ $duration: 0.2s;
  					border-bottom: 2px solid $mebis-teal-dark;
  				} 		
  			
- 				.errorLabel {
+ 				.msgLabel {
    					margin-top: 8px;
    				} 		
    			}		

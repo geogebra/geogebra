@@ -3965,7 +3965,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	}
 
-	public void registerPopup(GPopupPanel popup) {
+	/**
+	 * @param popup
+	 *            popup that should close on resize
+	 */
+	public void registerAutoclosePopup(GPopupPanel popup) {
 		popupRegistry.add(popup);
 	}
 
