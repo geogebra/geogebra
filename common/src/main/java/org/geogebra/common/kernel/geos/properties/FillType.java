@@ -3,6 +3,11 @@ package org.geogebra.common.kernel.geos.properties;
 /**
  * Fill types of elements
  * 
+ * need to be in menu order here
+ * 
+ * the order here gives the integer for the XML so new ones MUST be added at the
+ * end
+ * 
  * @author Giulliano Bellucci
  */
 public enum FillType {
@@ -10,60 +15,49 @@ public enum FillType {
 	/**
 	 * Simple fill (color+opacity)
 	 * 
-	 * need to be in menu order here
-	 * 
-	 * the integer is used in the XML so can't be changed
 	 */
-	STANDARD(0, false),
+	STANDARD(false),
 	/**
 	 * Hatched fill
 	 */
-	HATCH(1, true),
+	HATCH(true),
 	/**
 	 * Crosshatched fill
 	 */
-	CROSSHATCHED(2, true),
+	CROSSHATCHED(true),
 	/**
 	 * Chessboard fill, upright or diagonal
 	 */
-	CHESSBOARD(3, true),
+	CHESSBOARD(true),
 	/**
 	 * Dotted fill
 	 */
-	DOTTED(4, true),
+	DOTTED(true),
 	/**
 	 * Honeycomb fill
 	 */
-	HONEYCOMB(5, true),
+	HONEYCOMB(true),
 	/**
 	 * Brick fill
 	 */
-	BRICK(6, true),
+	BRICK(true),
 	/**
 	 * Weaving fill
 	 */
-	WEAVING(9, true),
+	WEAVING(true),
 	/**
 	 * Unicode symbols fill
 	 */
-	SYMBOLS(7, true),
+	SYMBOLS(true),
 	/**
 	 * Image background
 	 */
-	IMAGE(8, false);
+	IMAGE(false);
 
 	private int value;
 	private boolean hatch;
 
-	/**
-	 * @return value for XML
-	 */
-	public int getValue() {
-		return value;
-	}
-
-	private FillType(int value, boolean hatch) {
-		this.value = value;
+	private FillType(boolean hatch) {
 		this.hatch = hatch;
 	}
 
