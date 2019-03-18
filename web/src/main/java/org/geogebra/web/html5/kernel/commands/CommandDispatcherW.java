@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.kernel.commands;
 
-import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
 import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
@@ -26,11 +26,11 @@ import com.google.gwt.core.client.RunAsyncCallback;
 public class CommandDispatcherW extends CommandDispatcher {
 
 	/**
-	 * @param construction
+	 * @param kernel
 	 *            kernel
 	 */
-	public CommandDispatcherW(Construction construction) {
-		super(construction);
+	public CommandDispatcherW(Kernel kernel) {
+		super(kernel);
 	}
 
 	@Override

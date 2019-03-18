@@ -2,7 +2,7 @@ package org.geogebra.web.geogebra3D.web.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherCommands3D;
-import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.util.debug.Log;
@@ -19,11 +19,11 @@ import com.google.gwt.core.client.RunAsyncCallback;
 public class CommandDispatcher3DW extends CommandDispatcher3D {
 
 	/**
-	 * @param construction
-	 *            construction
+	 * @param kernel
+	 *            kernel
 	 */
-	public CommandDispatcher3DW(Construction construction) {
-		super(construction);
+	public CommandDispatcher3DW(Kernel kernel) {
+		super(kernel);
 	}
 
 	@Override

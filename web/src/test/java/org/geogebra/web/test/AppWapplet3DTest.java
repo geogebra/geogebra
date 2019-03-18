@@ -2,7 +2,7 @@ package org.geogebra.web.test;
 
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherCommands3D;
-import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
 import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
 import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
@@ -41,8 +41,8 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Construction construction) {
-		return new CommandDispatcher3DW(construction) {
+	public CommandDispatcher3D getCommand3DDispatcher(Kernel kernel) {
+		return new CommandDispatcher3DW(kernel) {
 			@Override
 			public CommandDispatcherInterface get3DDispatcher() {
 				return new CommandDispatcherCommands3D();
@@ -51,8 +51,8 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	}
 
 	@Override
-	public CommandDispatcherW getCommandDispatcher(Construction construction) {
-		return new CommandDispatcherW(construction) {
+	public CommandDispatcherW getCommandDispatcher(Kernel kernel) {
+		return new CommandDispatcherW(kernel) {
 
 			@Override
 			public CommandDispatcherInterface getStatsDispatcher() {
