@@ -57,8 +57,8 @@ public class ItemControls extends FlowPanel
 		addStyleName("smallStylebar");
 		addStyleName("withContextMenu");
 		buildGUI();
-		if (radioTreeItem.app.has(Feature.AV_INPUT_3DOT)||
-				(!radioTreeItem.isInputTreeItem() && hasMoreMenu())) {
+		if (radioTreeItem.app.has(Feature.AV_INPUT_3DOT)
+				|| (!radioTreeItem.isInputTreeItem() && hasMoreMenu())) {
 			add(getMoreButton());
 			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}

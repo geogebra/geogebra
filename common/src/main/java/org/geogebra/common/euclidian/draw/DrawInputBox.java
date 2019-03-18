@@ -101,10 +101,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		private String initialText;
 
-		/**
-		 * @param e
-		 *            focus event
-		 */
 		@Override
 		public void focusGained() {
 			if (!isSelectedForInput()) {
@@ -119,10 +115,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			getBox().setVisible(true);
 		}
 
-		/**
-		 * @param e
-		 *            focus event
-		 */
 		@Override
 		public void focusLost() {
 			if (!isSelectedForInput()) {

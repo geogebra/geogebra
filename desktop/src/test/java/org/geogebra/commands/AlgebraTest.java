@@ -82,9 +82,7 @@ public class AlgebraTest extends Assert {
 		if (syntaxLines.length > 0 && !AlgebraTest.mayHaveZeroArgs(cmdName)) {
 			shouldFail(cmdName + "()", "Illegal number of arguments: 0", app);
 		}
-
 	}
-
 
 	static boolean mayHaveZeroArgs(String cmdName) {
 		return Arrays
