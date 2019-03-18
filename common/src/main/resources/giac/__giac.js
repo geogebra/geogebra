@@ -2367,7 +2367,8 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Assume[x>0 && n>0,Solve[log(n^2*(x/n)^lg(x))=log(x^2),x]]", result:"{x = 100, x = n}", notes:"#4330 / TRAC-5530 Giac will not solve the equation without additional assumptions, here assume(x>0) and assume(n>0)" },
 { cat:"Evaluate", cmd:"Evaluate[(4*x*y)^(1/2)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
-{ cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ \u03AF *0.30570723126530347),6]", result:"-0.257278 - 0.148498|OR|-0.257278 - 0.148498 * \u03AF" },
+{ cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ \u03AF *0.30570723126530347),6]", result:"-0.257278 - 0.148498\u03AF|OR|-0.257278 - 0.148498 * \u03AF" },
+{ cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - ln(abs(x)) + c_0 - 1 / x|OR|2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0", notes:"+c not at end in JNI. OK in WebAssembly!" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
@@ -2375,7 +2376,6 @@ var __giac = [ {},
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
 //{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2" },
-// +c not at end { cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0" },
 
 // gives odd result, tricky to fix
 //{ cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
