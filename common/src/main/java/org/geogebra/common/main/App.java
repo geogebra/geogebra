@@ -3859,7 +3859,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return prerelease;
 
 		case AUTOSCROLLING_SPREADSHEET:
-			return prerelease;
+			return true;
 
 		case ERASER:
 			return prerelease;
