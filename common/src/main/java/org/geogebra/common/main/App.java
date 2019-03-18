@@ -3862,7 +3862,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return true;
 
 		case ERASER:
-			return prerelease;
+			return isWhiteboardActive();
 
 		case ROUNDED_POLYGON:
 			return prerelease;
