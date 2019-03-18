@@ -3947,7 +3947,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
-			return prerelease;
+			return true;
 
 	    /** APPS-91 */
 		case LANG_PARAM_LAST:
