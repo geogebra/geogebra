@@ -44,7 +44,6 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.HasHelpButton;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
@@ -178,7 +177,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected boolean first = false;
 	private String ariaPreview;
 	private Label ariaLabel = null;
-
+	InputItemControl inputControl;
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -198,11 +197,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		main = new FlowPanel();
 		content = new FlowPanel();
 		plainTextItem = new FlowPanel();
+		inputControl = createInputControl();
 		setWidget(main);
 		setController(createController());
 
 		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
+	}
+
+	private InputItemControl createInputControl() {
+		return app.has(Feature.AV_INPUT_3DOT) ? new InputMoreControl(this): new InputXControl(this);
 	}
 
 	/**
@@ -273,7 +277,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		controls = new ItemControls(this);
 	}
 
-	protected void addControls() {
+
+	protected void addControls() {	
 		if (controls != null) {
 			return;
 		}
@@ -881,13 +886,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		av.cancelEditItem();
 		getAV().setLaTeXLoaded();
 
-		if (controls != null) {
-			if (app.has(Feature.AV_INPUT_3DOT) && isInputTreeItem()) {
-				controls.hideMoreButton();
-	 		} else {
-	 			controls.setVisible(true);
-	 		}
-		}
+		inputControl.ensureControlVisibility();
+
 		if (rawInput != null) {
 			String v = app.getKernel().getInputPreviewHelper()
 					.getInput(rawInput);
@@ -1431,9 +1431,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		content.insert(dummyLabel, 0);
 		removeOutput();
-		if (app.has(Feature.AV_INPUT_3DOT) && isInputTreeItem()) {
-			controls.hideMoreButton();
-		}
+		inputControl.hideInputMoreButton();
 		if (btnClearInput != null) {
 			btnClearInput.removeFromParent();
 			btnClearInput = null;
@@ -1459,10 +1457,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		if (isInputTreeItem()) {
-			if (!app.has(Feature.AV_INPUT_3DOT)) {
-				content.insert(getClearInputButton(), 0);
-			}
-
+			inputControl.addClearButtonIfSupported();
 			if (controls != null) {
 				controls.setVisible(true);
 			}
@@ -1517,30 +1512,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
-	protected GPushButton getClearInputButton() {
-		if (app.has(Feature.AV_INPUT_3DOT)) {
-			return null;
-		}
-
-		if (btnClearInput == null) {
-			btnClearInput = new GPushButton(
-					new NoDragImage(MaterialDesignResources.INSTANCE.clear(), 24));
-			ClickStartHandler.init(btnClearInput,
-					new ClickStartHandler(false, true) {
-
-						@Override
-						public void onClickStart(int x, int y,
-								PointerEventType type) {
-							clearInput();
-							getController().setFocus(true);
-
-						}
-					});
-			btnClearInput.addStyleName("ggb-btnClearAVInput");
-		}
-		return btnClearInput;
-	}
-
+	
 	public boolean isForceControls() {
 		return forceControls;
 	}
@@ -1880,29 +1852,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void onKeyTyped() {
 		this.removeDummy();
-		ensureInputMoreMenu();
+		inputControl.ensureInputMoreMenu();
 		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
 		onCursorMove();
 		if (mf != null) {
 			updateEditorAriaLabel(getText());
-		}
-	}
-
-	public void ensureInputMoreMenu() {
-	 	if (!app.has(Feature.AV_INPUT_3DOT)) {
-			return;
-		}
-
-		if (!isInputTreeItem()) {
-			return;
-		}
-
-		if (StringUtil.empty(getText())) {
-			controls.hideMoreButton();
-		} else {
-			controls.showMoreButton();
 		}
 	}
 
@@ -1977,12 +1933,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			updateEditorFocus(blurtrue);
 		}
 
-	}
-
-	private void hideInputMoreButton() {
-		if (app.has(Feature.AV_INPUT_3DOT) && isInputTreeItem()) {
-			controls.hideMoreButton();
-		}
 	}
 
 	@Override
@@ -2069,7 +2019,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return false;
 		}
 
-		hideInputMoreButton();
+		inputControl.hideInputMoreButton();
 		prepareEdit(text);
 		getMathField().requestViewFocus();
 		app.getGlobalKeyDispatcher().setFocused(true);
@@ -2195,10 +2145,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		renderLatex("", false);
 		content.getElement().setTabIndex(GUITabs.AV_INPUT);
 		getHelpToggle().setIndex(1);
-		if (app.has(Feature.AV_INPUT_3DOT)) {
-			addControls();
-			controls.hideMoreButton();
-		}
+		inputControl.addInputControls();
  		return this;
 	}
 
@@ -2292,6 +2239,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void openMoreMenu() {
 		controls.showMoreContexMenu();
+	}
+	
+	public boolean hasMoreMenu() {
+		return inputControl.hasMoreMenu();
 	}
 
 }

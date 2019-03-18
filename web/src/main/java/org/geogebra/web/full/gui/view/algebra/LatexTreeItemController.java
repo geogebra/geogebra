@@ -234,7 +234,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 				item.setText("");
 				item.removeOutput();
-				item.ensureInputMoreMenu();
+				item.inputControl.ensureInputMoreMenu();
 				item.runSuggestionCallbacks(geos[0]);
 			}
 		};

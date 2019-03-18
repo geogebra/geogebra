@@ -144,7 +144,7 @@ public class ItemControls extends FlowPanel
 				&& radioTreeItem.getApplication().isMenuShowing()) {
 			radioTreeItem.getApplication().toggleMenu();
 		}
-		if (cmMore == null) {
+		if (cmMore == null && radioTreeItem.hasMoreMenu()) {
 			cmMore = createMoreContextMenu();
 		} else {
 			cmMore.buildGUI();
@@ -156,9 +156,6 @@ public class ItemControls extends FlowPanel
 	}
 
 	private ContextMenuAVItemMore createMoreContextMenu() {
-		if (radioTreeItem.app.has(Feature.AV_INPUT_3DOT) && radioTreeItem.isInputTreeItem()) {
-			return null;
-		}
 		MenuActionCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
 				.getActivity().getAVMenuItems(radioTreeItem.getAV());
 		return new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
