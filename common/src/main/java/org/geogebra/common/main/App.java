@@ -3874,7 +3874,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return false;
 
 		case EXPORT_COLLADA_IN_MENU:
-			return prerelease;
+			return true;
 
 		case EXPORT_OBJ_IN_MENU:
 			return false;
