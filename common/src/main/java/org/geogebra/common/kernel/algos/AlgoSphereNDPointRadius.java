@@ -117,7 +117,8 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		}
 
 		// Otherwise do auto-coloring by using the next color.
-		this.sphereND.setObjColor(cons.getConstructionDefaults().getNextColor());
+		this.sphereND.setObjColor(this.sphereND.getAutoColorScheme()
+				.getNext(!cons.getKernel().isSilentMode()));
 	}
 
 	private void copyStyle(GeoElement from) {

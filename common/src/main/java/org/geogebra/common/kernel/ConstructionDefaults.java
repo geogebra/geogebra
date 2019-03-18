@@ -134,20 +134,6 @@ public class ConstructionDefaults {
 	/** default */
 	public static final int DEFAULT_LIST = 130;
 
-	private static final GColor[] colorSequence = new GColor[] {
-			GeoGebraColorConstants.GGB_GREEN, GeoGebraColorConstants.GGB_RED,
-			GColor.BLUE, GeoGebraColorConstants.GGB_ORANGE,
-			GeoGebraColorConstants.GGB_PURPLE,
-			GeoGebraColorConstants.GGB_GRAY, GeoGebraColorConstants.GGB_BROWN };
-
-	private static final GColor[] colorSequenceGraphing = new GColor[] {
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY };
-
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
@@ -289,7 +275,6 @@ public class ConstructionDefaults {
 	protected String strFree = " (free)";
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
-	private int colorIndex = 0;
 
 	private final GColor getLineColor() {
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
@@ -1278,25 +1263,6 @@ public class ConstructionDefaults {
 				geo.setVisualStyle(otherGeo);
 			}
 		}
-	}
-
-	/**
-	 * @return next color in sequence
-	 */
-	public GColor getNextColor() {
-		GColor color = getColorSequence()[colorIndex];
-		if (!cons.getKernel().isSilentMode()) {
-			colorIndex = (colorIndex + 1) % getColorSequence().length;
-		}
-		return color;
-	}
-
-	private GColor[] getColorSequence() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundled()) {
-			return colorSequenceGraphing;
-		}
-		return colorSequence;
 	}
 
 }

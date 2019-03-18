@@ -2802,7 +2802,8 @@ public class AlgebraProcessor {
 			String label, EvalInfo info) {
 		if (app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 				&& kernel.getApplication().isUnbundledGraphing()) {
-			line.setObjColor(cons.getConstructionDefaults().getNextColor());
+			line.setObjColor(line.getAutoColorScheme()
+					.getNext(!cons.getKernel().isSilentMode()));
 			line.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}

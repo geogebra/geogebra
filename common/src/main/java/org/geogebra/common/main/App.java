@@ -4015,6 +4015,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case G3D_ARMotionEvent:
 			return false;
 
+		/** G3D-272 */
+		case G3D_NEW_SURFACE_FUNCTIONS_COLORS:
+			return prerelease;
+
         // **********************************************************************
         // G3D END
         //

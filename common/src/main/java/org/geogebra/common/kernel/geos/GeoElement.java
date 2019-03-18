@@ -40,6 +40,7 @@ import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.AnimationManager;
+import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -1379,7 +1380,8 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected void setColorVisualStyle(final GeoElement geo) {
 		if (geo.isAutoColor()) {
-			setObjColor(cons.getConstructionDefaults().getNextColor());
+			setObjColor(geo.getAutoColorScheme()
+					.getNext(!cons.getKernel().isSilentMode()));
 		} else {
 			objColor = geo.objColor;
 			selColor = geo.selColor;
@@ -1421,6 +1423,18 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void setAutoColor(boolean sequential) {
 		this.autoColor = sequential;
+	}
+
+	/**
+	 * 
+	 * @return auto color scheme
+	 */
+	public AutoColor getAutoColorScheme() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundled()) {
+			return AutoColor.CURVES_GRAPHING;
+		}
+		return AutoColor.CURVES;
 	}
 
 	@Override

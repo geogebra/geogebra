@@ -21,6 +21,7 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -1559,4 +1560,10 @@ public interface GeoElementND extends ExpressionValue {
 	 *         in the Table Values view
 	 */
 	boolean hasTableOfValues();
+
+	/**
+	 * 
+	 * @return auto color scheme
+	 */
+	AutoColor getAutoColorScheme();
 }

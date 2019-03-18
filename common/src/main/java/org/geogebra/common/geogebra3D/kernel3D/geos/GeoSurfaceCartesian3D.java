@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import java.util.TreeMap;
 
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
+import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Region;
@@ -756,6 +757,15 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
 
+	}
+
+	@Override
+	public AutoColor getAutoColorScheme() {
+		if (kernel.getApplication()
+				.has(Feature.G3D_NEW_SURFACE_FUNCTIONS_COLORS)) {
+			return AutoColor.SURFACES;
+		}
+		return super.getAutoColorScheme();
 	}
 
 }
