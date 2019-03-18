@@ -2364,7 +2364,9 @@ var __giac = [ {},
 { cat:"Limit", cmd:"Limit[(3^x+5^x)^(1/x),infinity]", result:"5" },
 { cat:"Factor", cmd:"Factor[2^(2^7)+1]", result:"59649589127497217 * 5704689200685129054721", notes:"OK in JNI" },
 { cat:"Solve", cmd:"SolveCubic[x^3-x]", result:"{0, 1, -1}" },
-{ cat:"Solve", cmd:"Assume[x>0 && n>0,Solve[log(n^2*(x/n)^lg(x))=log(x^2),x]]", result:"{x = 100, x = n}", notes:"#4330 Giac will not solve the equation without additional assumptions, here assume(x>0) and assume(n>0)" },
+{ cat:"Solve", cmd:"Assume[x>0 && n>0,Solve[log(n^2*(x/n)^lg(x))=log(x^2),x]]", result:"{x = 100, x = n}", notes:"#4330 / TRAC-5530 Giac will not solve the equation without additional assumptions, here assume(x>0) and assume(n>0)" },
+{ cat:"Evaluate", cmd:"Evaluate[(4*x*y)^(1/2)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
+{ cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"2x sqrt(y) / (2x)" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sin(x)=sin(3x))", result:"{x = k_0 π, x = 1 / 2 k_0 π + 1 / 4 π}" },
 // { cat:"KeepIf", cmd:"KeepIf(x(P)>0,P,{(-2,3),(3,4)})", result:"{(3,4)}" },
@@ -2497,13 +2499,6 @@ var problems = [
 { cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
 { cat:"PROBLEM", cmd:"Evaluate[s/(sqrt(2+sqrt(4-s^2)))-sqrt(2-sqrt(4-s^2))]", result:"-sqrt(-sqrt(-s\u00B2 + 4) + 2) + s / sqrt(sqrt(-s\u00B2 + 4) + 2)", notes:"GGB-327 freezes giac.js" },
 
-// 
-
-
-// crashes JS, OK in JNI
-{ cat:"Evaluate", cmd:"Evaluate[(4*x*y)^(1/2)/(2*x^(1/2))]", result:"sqrt(x) sqrt(4x y) / (2x)", notes:"works better with sqrt() rather than ^(1/2) freezes?" },
-// also sometimes give +, sometimes - (same in giac.js and JNI)
-{ cat:"Evaluate", cmd:"Evaluate[sqrt(4*x*y)/(2*x^(1/2))]", result:"", notes:"freezes?" },
 
 // no starting point, so answers a bit random
 { cat:"NSolutions", cmd:"NSolutions[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}]", result:"", notes:"x=0, y=0 doesn't work as initial starting point" },
