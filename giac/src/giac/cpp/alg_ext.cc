@@ -911,7 +911,7 @@ namespace giac {
 			    vb[j]=a+decal;
 			  else {
 			    if (a+b==0)
-			      vb[j]=b/(decal+1);
+			      vb[j]=(decal%2?a:b)/(decal+1);
 			    else
 			      vb[j]=(decal*a+b)/(decal+1);
 			  }
