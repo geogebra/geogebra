@@ -278,4 +278,19 @@ public class AlgebraController {
 			return true;
 		}
 	}
+
+	/**
+	 * 
+	 * @param app
+	 *            app
+	 * @param geoElement
+	 *            geo
+	 * @return true if geo is shown in AV
+	 */
+	static public boolean show(App app, GeoElement geoElement) {
+		return geoElement.isLabelSet() && geoElement.showInAlgebraView()
+				&& geoElement.isSetAlgebraVisible()
+				&& (app.showAuxiliaryObjects()
+						|| !geoElement.isAuxiliaryObject());
+	}
 }
