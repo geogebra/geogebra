@@ -12,6 +12,7 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
@@ -402,7 +403,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 			if (!app.getLoginOperation()
 					.canUserWrite(appW.getActiveMaterial())) {
-				consTitle = loc.getPlain("CopyOfA", consTitle);
+				consTitle = MarvlAPI.getCopyTitle(loc, consTitle);
 				selectTitle();
 			}
 			this.title.setText(consTitle);
