@@ -1722,7 +1722,7 @@ __GGB__keysVar["eu"].menu = {
     "Ellipsoid": "Elipsoidea",
     "Email": "E-maila",
     "Embed": "Embed",
-    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
+    "EmbedFrameWarning": "Ezin bada web-orria txertatu, ezaba daitekeen marko hutsa azalduko da.",
     "EmphasizeRightAngle": "Nabarmendu angelu zuzena",
     "EmptyBox": "(kutxa hutsa)",
     "EmptyItem": "Item Hutsa",
