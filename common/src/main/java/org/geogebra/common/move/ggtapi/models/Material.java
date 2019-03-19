@@ -812,14 +812,6 @@ public class Material implements Comparable<Material>, Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public int getCreatorId() {
-		return creatorID;
-	}
-
-	public void setCreatorId(int creator_id) {
-		this.creatorID = creator_id;
-	}
-
 	public UserPublic getCreator() {
 		return creator;
 	}

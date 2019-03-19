@@ -385,15 +385,15 @@ public class MarvlAPITest {
 		LoginOperationD loginOp = buildLoginOperation();
 
 		Assert.assertTrue("Should overwrite anonymous materials",
-				loginOp.canUserWrite(mat));
+				loginOp.owns(mat));
 		authorise(usr, loginOp);
 		mat.setAuthorId(42);
 		Assert.assertFalse("Should not overwrite foreign materials",
-				loginOp.canUserWrite(mat));
+				loginOp.owns(mat));
 		Assert.assertTrue("User ID should be set", usr.getUserId() > 0);
 		mat.setAuthorId(usr.getUserId());
 		Assert.assertTrue("Should overwrite own materials",
-				loginOp.canUserWrite(mat));
+				loginOp.owns(mat));
 
 	}
 
