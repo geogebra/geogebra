@@ -19,7 +19,7 @@ public class LabelHiderCallback implements AsyncOperation<GeoElementND[]> {
         if (geoElements instanceof GeoElement[]) {
             hideLabels((GeoElement[]) geoElements);
         }
-        if (geoElements.length > 0) {
+        if (geoElements != null && geoElements.length > 0) {
             geoElements[0].getKernel().storeUndoInfo();
         }
     }
