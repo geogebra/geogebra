@@ -72,8 +72,7 @@ dependencies {
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 
-    testCompile project(':keyboard-base')    
-    testCompile project(':common-jre').sourceSets.test.output
+    testCompile project(':keyboard-base')
     testCompile 'junit:junit:4.+'
 }
 

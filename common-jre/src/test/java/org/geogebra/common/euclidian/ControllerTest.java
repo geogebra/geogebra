@@ -2,9 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.TestStringUtil;
-import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
