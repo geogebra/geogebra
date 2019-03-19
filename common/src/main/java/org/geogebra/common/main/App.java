@@ -3128,10 +3128,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public void setShowAlgebraInput(boolean flag, boolean update) {
 
-		if (showAlgebraInput == flag) {
-			return;
-		}
-
 		showAlgebraInput = flag;
 
 		if (update) {
