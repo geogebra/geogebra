@@ -102,7 +102,7 @@ public class SaveControllerW implements SaveController {
 			if (app.getActiveMaterial() == null || isMacro()) {
 				app.setActiveMaterial(new Material(0, saveType));
 			} else if (!app.getLoginOperation()
-						.canUserWrite(app.getActiveMaterial())) {
+					.owns(app.getActiveMaterial())) {
 				app.getActiveMaterial().setId(0);
 				app.getActiveMaterial().setSharingKey(null);
 			}
@@ -473,7 +473,7 @@ public class SaveControllerW implements SaveController {
 				consTitle = getTitleOnly(consTitle);
 			}
 			if (!app.getLoginOperation()
-					.canUserWrite(app.getActiveMaterial())) {
+					.owns(app.getActiveMaterial())) {
 				consTitle = MarvlAPI.getCopyTitle(loc, consTitle);
 				title.setText(consTitle);
 				return true;
