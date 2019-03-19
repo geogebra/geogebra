@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -208,11 +207,7 @@ public class SaveDialogMow extends DialogBoxW
 		defaultSaveCaption();
 		super.show();
 		center();
-		this.setTitle();
-		Material mat = ((AppW) app).getActiveMaterial();
-		if (mat != null) {
-			getInputField().getTextComponent().setText(mat.getTitle());
-		}
+		setTitle();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
