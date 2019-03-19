@@ -22,7 +22,6 @@ import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
-import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -33,6 +32,7 @@ import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MarvlAPITest {
@@ -43,9 +43,19 @@ public class MarvlAPITest {
 	public void testAuth() {
 		needsAuth();
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
+		LoginOperationD loginOp = buildLoginOperation();
+		authorise(usr, loginOp);
+		Assert.assertEquals("GGBTest-Student", usr.getRealName());
+		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() == 0);
+	}
+
+	private LoginOperationD buildLoginOperation() {
+		return new LoginOperationD(new AppDNoGui(new LocalizationD(3), false));
+	}
+
+	private static void authorise(GeoGebraTubeUser usr,
+			LoginOperationD loginOp) {
 		MarvlAPI api = authAPI();
-		LogInOperation loginOp = new LoginOperationD(
-				new AppDNoGui(new LocalizationD(3), false));
 		final TestAsyncOperation<Boolean> callback = new TestAsyncOperation<>();
 		loginOp.getView().add(new EventRenderable() {
 
@@ -58,8 +68,6 @@ public class MarvlAPITest {
 		});
 		api.authorizeUser(usr, loginOp, true);
 		callback.await(5);
-		Assert.assertEquals("GGBTest-Student", usr.getRealName());
-		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() == 0);
 	}
 
 	private static void pause(int i) {
@@ -103,7 +111,11 @@ public class MarvlAPITest {
 		t.verifyError(".*401.*");
 	}
 
+	/**
+	 * TODO groups are shibboleth feature and can't be tested with simple login
+	 */
 	@Test
+	@Ignore
 	public void testmaterialGroup() {
 		needsAuth();
 		final MarvlAPI api = authAPI();
@@ -362,6 +374,27 @@ public class MarvlAPITest {
 		reuploadCallback.verify("Test material");
 		materialCountShouldBe(api, 1);
 		Assert.assertNotEquals(filenames[0], filenames[1]);
+	}
+
+	@Test
+	public void writePermissionsTest() {
+		needsAuth();
+
+		Material mat = new Material(1, MaterialType.ggs);
+		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
+		LoginOperationD loginOp = buildLoginOperation();
+
+		Assert.assertTrue("Should overwrite anonymous materials",
+				loginOp.canUserWrite(mat));
+		authorise(usr, loginOp);
+		mat.setAuthorId(42);
+		Assert.assertFalse("Should not overwrite foreign materials",
+				loginOp.canUserWrite(mat));
+		Assert.assertTrue("User ID should be set", usr.getUserId() > 0);
+		mat.setAuthorId(usr.getUserId());
+		Assert.assertTrue("Should overwrite own materials",
+				loginOp.canUserWrite(mat));
+
 	}
 
 	private static void needsAuth() {
