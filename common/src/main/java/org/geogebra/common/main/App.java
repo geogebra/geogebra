@@ -51,7 +51,6 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.AppState;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -3123,11 +3122,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * Show or hide the input bar.
 	 *
 	 * @param flag
-	 *            whwther to show
+	 *            whether to show
 	 * @param update
 	 *            whether to update UI
 	 */
 	public void setShowAlgebraInput(boolean flag, boolean update) {
+
+		if (showAlgebraInput == flag) {
+			return;
+		}
+
 		showAlgebraInput = flag;
 
 		if (update) {
