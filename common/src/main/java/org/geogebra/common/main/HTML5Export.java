@@ -22,6 +22,9 @@ public class HTML5Export {
 		sb.append(
 				"<meta name=viewport content=\"width=device-width,initial-scale=1\">\n");
 
+		// make sure translation files loaded OK
+		sb.append("<meta charset=\"utf-8\"/>\n");
+
 		if (app.has(Feature.TUBE_BETA)) {
 			sb.append(
 					"<script src=\"https://beta.geogebra.org/scripts/deployggb.js\"></script>\n\n");
