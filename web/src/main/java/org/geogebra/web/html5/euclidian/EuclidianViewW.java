@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -16,6 +17,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -55,7 +57,6 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -162,6 +163,10 @@ public class EuclidianViewW extends EuclidianView implements
 	private Timer timerClearDummyDiv = null;
 
 	private ReaderWidget screenReader;
+
+	// needed to make sure outline doesn't get dashed
+	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
+			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
 
 	/**
 	 * @param euclidianViewPanel
@@ -1700,8 +1705,7 @@ public class EuclidianViewW extends EuclidianView implements
 			GGraphics2DW g2 = (GGraphics2DW) g2c;
 			g2.setColor(getBackgroundCommon());
 			String old = g2.getContext().getLineJoin();
-			g2.getContext().setLineJoin(LineJoin.BEVEL);
-			g2.setStrokeLineWidth(3);
+			g2.setStroke(outlineStroke);
 			g2.drawStringStroke(text, x, y);
 			g2.getContext().setLineJoin(old);
 		}
