@@ -48,6 +48,14 @@ public class EvaluateInput {
 		evaluate(keepFocus, withSlider, createCallback(keepFocus));
 	}
 
+	/**
+	 * Just evaulate input.
+	 * @return the evaulated geo.
+	 */
+	public GeoElementND evaluateToGeo() {
+		return app.getKernel().getAlgebraProcessor().evaluateToGeoElement(item.getText(), false);
+	}
+
 	private void evaluate(final boolean keepFocus,
 			boolean withSliders, AsyncOperation<GeoElementND[]> cbEval) {
 		String newValue = item.getText();

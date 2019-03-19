@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -71,9 +72,14 @@ public class ContextMenuAVItemMore implements SetLabels {
 			buildForGeo(item.geo);
 		}
 	}
-	
+
 
 	private void buildForInputItem() {
+		GeoElementND geo = item.getLatexController().evaluateToGeo();
+		if (geo != null) {
+			buildForGeo((GeoElement) geo);
+			return;
+		}
 		AriaMenuItem mi = new AriaMenuItem("Foo", true, new Command() {
 
 			@Override
