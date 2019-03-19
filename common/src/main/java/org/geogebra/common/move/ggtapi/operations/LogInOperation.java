@@ -234,7 +234,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 */
 	public boolean canUserWrite(Material activeMaterial) {
 		int authorID = activeMaterial.getAuthorID();
-		return authorID <= 0 && authorID != getModel().getUserId();
+		return authorID <= 0 || authorID == getModel().getUserId();
 	}
 
 }
