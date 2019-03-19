@@ -5,7 +5,7 @@ import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ColorMask;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
@@ -29,7 +29,7 @@ import com.googlecode.gwtgl.binding.WebGLRenderingContext;
  * @author mathieu
  *
  */
-public class RendererWithImplW extends RendererWithImpl implements
+public class RendererWithImplW extends Renderer implements
 		RendererWInterface {
 	/** canvas */
 	protected Canvas webGLCanvas;

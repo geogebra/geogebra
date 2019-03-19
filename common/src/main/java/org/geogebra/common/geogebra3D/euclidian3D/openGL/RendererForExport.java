@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
  * Renderer in the background (no visible 3D view)
  *
  */
-public class RendererForExport extends RendererWithImpl {
+public class RendererForExport extends Renderer {
 
 	private boolean reduceForClipping;
 

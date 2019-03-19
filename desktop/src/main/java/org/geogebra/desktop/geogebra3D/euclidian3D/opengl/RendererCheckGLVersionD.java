@@ -15,7 +15,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.kernel.Kernel;
@@ -32,7 +32,7 @@ import org.geogebra.desktop.util.FrameCollector;
  * @author mathieu
  * 
  */
-public class RendererCheckGLVersionD extends RendererWithImpl
+public class RendererCheckGLVersionD extends Renderer
 		implements GLEventListener {
 
 	protected RendererJogl jogl;

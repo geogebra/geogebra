@@ -1,18 +1,26 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -27,7 +35,8 @@ import org.geogebra.common.main.Feature;
  * @author ggb3D
  *
  */
-public abstract class Renderer implements RendererInterface {
+public abstract class Renderer
+		implements RendererInterface, RendererShadersInterface {
 
 	/**
 	 * renderer type (shader or not)
@@ -151,6 +160,12 @@ public abstract class Renderer implements RendererInterface {
 	protected float arScaleFactor;
     private boolean arShouldStart = false;
 
+	/** shift for getting alpha value */
+	private static final int ALPHA_SHIFT = 24;
+
+	private RendererImpl rendererImpl;
+	private Hitting hitting;
+
 	/**
 	 * background type (only for AR)
      * Order matters and corresponds to order in settings
@@ -168,12 +183,9 @@ public abstract class Renderer implements RendererInterface {
 	 *            renderer type
 	 */
 	public Renderer(EuclidianView3D view, RendererType type) {
-
-		// link to 3D view
 		this.view3D = view;
-
-		// type
 		this.type = type;
+		hitting = new Hitting(view3D);
 	}
 
 	/**
@@ -293,6 +305,8 @@ public abstract class Renderer implements RendererInterface {
 		}
 		initLighting();
 		disableOpaqueSurfaces();
+
+		rendererImpl.initRenderingValues();
 	}
 
 	/**
@@ -535,36 +549,6 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * says that we need an export image with scale, width and height
-	 *
-	 * @param scale
-	 *            scale factor
-	 * @param w
-	 *            width
-	 * @param h
-	 *            height
-	 */
-	abstract protected void needExportImage(double scale, int w, int h);
-
-	/**
-	 * set export image width and height
-	 *
-	 * @param w
-	 *            width
-	 * @param h
-	 *            height
-	 */
-	abstract protected void setExportImageDimension(int w, int h);
-
-	protected void selectFBO() {
-		// to be overridden
-	}
-
-	protected void unselectFBO() {
-		// to be overridden
-	}
-
-	/**
 	 * set drawing for left eye
 	 */
 	final protected void setDrawLeft() {
@@ -603,53 +587,7 @@ public abstract class Renderer implements RendererInterface {
 		setColorMask();
 	}
 
-	/**
-	 * set drawing to left buffer (when stereo buffered)
-	 */
-	abstract protected void setBufferLeft();
-
-	/**
-	 * set drawing to right buffer (when stereo buffered)
-	 */
-	abstract protected void setBufferRight();
-
-	/**
-	 * clear color buffer
-	 */
-	abstract protected void clearColorBuffer();
-
-	/**
-	 * clear depth buffer
-	 */
-	abstract protected void clearDepthBuffer();
-
-	/**
-	 * clear depth buffer for anaglyph glasses, between first and second eye
-	 */
-	abstract protected void clearDepthBufferForSecondAnaglyphFilter();
-
-	/**
-	 * set value for the stencil function (equal to value)
-	 *
-	 * @param value
-	 *            stencil value
-	 */
-	abstract protected void setStencilFunc(int value);
-
-	/**
-	 * do export image if needed
-	 */
-	abstract protected void exportImage();
-
-	protected void drawTranspNotCurved() {
-		disableCulling();
-		drawable3DLists.drawTransp(this);
-		drawable3DLists.drawTranspClosedNotCurved(this);
-		enableCulling();
-	}
-
 	private void drawTransp() {
-
 		setLight(1);
 
 		drawTranspNotCurved();
@@ -675,16 +613,7 @@ public abstract class Renderer implements RendererInterface {
 
 	}
 
-	/**
-	 * switch GL_LIGHT0 / GL_LIGHT1
-	 *
-	 * @param light
-	 *            GL_LIGHT0 or GL_LIGHT1
-	 */
-	abstract protected void setLight(int light);
-
 	private void drawNotTransp() {
-
 		setLight(1);
 
 		enableBlending();
@@ -718,39 +647,11 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * disable shine (specular)
-	 */
-	public void disableShine() {
-		// only implemented with shaders
-	}
-
-	/**
-	 * enable shine (specular)
-	 */
-	public void enableShine() {
-		// only implemented with shaders
-	}
-
-	/**
-	 * disable opaque surfaces
-	 */
-	public void disableOpaqueSurfaces() {
-		// only implemented with shaders
-	}
-
-	/**
-	 * enable opaque surfaces
-	 */
-	public void enableOpaqueSurfaces() {
-		// only implemented with shaders
-	}
-
-	/**
 	 * draw face-to screen parts (labels, ...)
 	 */
 	protected void drawFaceToScreen() {
-
 		// drawing labels and texts
+		rendererImpl.drawFaceToScreenAbove();
 
 		enableAlphaTest();
 		disableLighting();
@@ -772,6 +673,7 @@ public abstract class Renderer implements RendererInterface {
 			enableClipPlanes();
 		}
 
+		rendererImpl.drawFaceToScreenBelow();
 	}
 
 	/**
@@ -780,6 +682,7 @@ public abstract class Renderer implements RendererInterface {
 	protected void drawFaceToScreenEnd() {
 
 		// drawing texts
+		rendererImpl.drawFaceToScreenAbove();
 
 		enableAlphaTest();
 		disableLighting();
@@ -791,6 +694,7 @@ public abstract class Renderer implements RendererInterface {
 
 		disableTextures();
 
+		rendererImpl.drawFaceToScreenBelow();
 	}
 
 	/**
@@ -803,16 +707,6 @@ public abstract class Renderer implements RendererInterface {
 		waitForUpdateClipPlanes = true;
 		enableClipPlanes = flag;
 	}
-
-	/**
-	 * enables clip planes
-	 */
-	abstract protected void enableClipPlanes();
-
-	/**
-	 * disables clip planes
-	 */
-	abstract protected void disableClipPlanes();
 
 	/**
 	 * enable clipping if needed
@@ -832,29 +726,12 @@ public abstract class Renderer implements RendererInterface {
 		}
 	}
 
-	/**
-	 * init drawing matrix to view3D toScreen matrix
-	 */
-	abstract protected void setMatrixView();
-
-	abstract protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-                                                         CoordMatrix4x4 cameraPerspective,
-                                                         CoordMatrix4x4 modelMatrix,
-                                                         float scaleFactor);
-
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
 		fromARCoreCoordsToGGBCoords(coords, arModelMatrix, arScaleFactor, ret);
 	}
 
-	abstract protected void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
-                                                        float scaleFactor, Coords ret);
-
-	/**
-	 * reset to projection matrix only
-	 */
-	abstract protected void unsetMatrixView();
-
 	protected void draw() {
+		rendererImpl.draw();
 
 		// labels
 		if (enableClipPlanes) {
@@ -1021,36 +898,6 @@ public abstract class Renderer implements RendererInterface {
 		}
 	}
 
-	/**
-	 * draw outline for surfaces
-	 */
-	abstract protected void drawSurfacesOutline();
-
-	/*
-	 * private void drawWireFrame() {
-	 *
-	 * getGL().glPushAttrib(GLlocal.GL_ALL_ATTRIB_BITS);
-	 *
-	 * getGL().glDepthMask(false); getGL().glPolygonMode(GLlocal.GL_FRONT,
-	 * GLlocal.GL_LINE);getGL().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
-	 *
-	 * getGL().glLineWidth(5f);
-	 *
-	 * getGL().glEnable(GLlocal.GL_LIGHTING);
-	 * getGL().glDisable(GLlocal.GL_LIGHT0);
-	 * getGL().glDisable(GLlocal.GL_CULL_FACE);
-	 * getGL().glDisable(GLlocal.GL_BLEND);
-	 * getGL().glEnable(GLlocal.GL_ALPHA_TEST);
-	 *
-	 * drawable3DLists.drawTransp(this);
-	 * drawable3DLists.drawTranspClosedNotCurved(this);
-	 * drawable3DLists.drawTranspClosedCurved(this); if
-	 * (drawable3DLists.containsClippedSurfaces()){ enableClipPlanesIfNeeded();
-	 * drawable3DLists.drawTranspClipped(this); disableClipPlanesIfNeeded(); }
-	 *
-	 * getGL().glPopAttrib(); }
-	 */
-
 	// /////////////////////////////////////////////////
 	//
 	// pencil methods
@@ -1080,23 +927,6 @@ public abstract class Renderer implements RendererInterface {
 		setColor(color.getRed() / 255f, color.getGreen() / 255f,
 				color.getBlue() / 255f, color.getAlpha() / 255f);
 	}
-
-	/**
-	 * sets the color
-	 *
-	 * @param r
-	 *            red
-	 * @param g
-	 *            green
-	 * @param b
-	 *            blue
-	 * @param a
-	 *            alpha
-	 *
-	 */
-	abstract protected void setColor(float r, float g, float b, float a);
-
-	// drawing matrix
 
 	/**
 	 * sets the matrix in which coord sys the pencil draws.
@@ -1138,6 +968,7 @@ public abstract class Renderer implements RendererInterface {
 	 *            cursor type
 	 */
 	public void drawCursor(int cursorType) {
+		rendererImpl.setNormalToNone();
 
 		if (!PlotterCursor.isTypeAlready(cursorType)) {
 			disableLighting();
@@ -1163,6 +994,7 @@ public abstract class Renderer implements RendererInterface {
 	 */
 	public void drawTarget(CoordMatrix4x4 dotMatrix,
 			CoordMatrix4x4 circleMatrix) {
+		rendererImpl.setNormalToNone();
 		disableLighting();
 		disableDepthMask();
 		enableBlending();
@@ -1189,7 +1021,7 @@ public abstract class Renderer implements RendererInterface {
 	 *            out
 	 */
 	public void drawCompletingCursor(double value, boolean out) {
-
+		rendererImpl.setNormalToNone();
 		initMatrix();
 		setLineWidth(PlotterCompletingCursor.WIDTH);
 		enableBlending();
@@ -1216,7 +1048,7 @@ public abstract class Renderer implements RendererInterface {
 	 * draws mouse cursor
 	 */
 	public void drawMouseCursor() {
-
+		rendererImpl.setNormalToNone();
 		initMatrixForFaceToScreen();
 		disableBlending();
 		disableCulling();
@@ -1226,137 +1058,14 @@ public abstract class Renderer implements RendererInterface {
 		resetMatrix();
 	}
 
-	/*
-	 * draws the text s
-	 *
-	 * @param x x-coord
-	 *
-	 * @param y y-coord
-	 *
-	 * @param s text
-	 *
-	 * @param colored says if the text has to be colored
-	 *
-	 * public void drawText(float x, float y, String s, boolean colored){
-	 *
-	 *
-	 * //if (true) return;
-	 *
-	 * getGL().glMatrixMode(GLlocal.GL_TEXTURE); getGL().glLoadIdentity();
-	 *
-	 * getGL().glMatrixMode(GLlocal.GL_MODELVIEW);
-	 *
-	 *
-	 * initMatrix(); initMatrix(view3D.getUndoRotationMatrix());
-	 *
-	 *
-	 * textRenderer.begin3DRendering();
-	 *
-	 * if (colored) textRenderer.setColor(textColor);
-	 *
-	 *
-	 * float textScaleFactor = DEFAULT_TEXT_SCALE_FACTOR/((float)
-	 * view3D.getScale());
-	 *
-	 *
-	 * if (x<0) x=x-(s.length()-0.5f)*8; //TODO adapt to police size
-	 *
-	 * textRenderer.draw3D(s, x*textScaleFactor,//w / -2.0f * textScaleFactor,
-	 * y*textScaleFactor,//h / -2.0f * textScaleFactor, 0, textScaleFactor);
-	 *
-	 * textRenderer.end3DRendering();
-	 *
-	 *
-	 *
-	 * resetMatrix(); //initMatrix(m_view3D.getUndoRotationMatrix());
-	 * resetMatrix(); //initMatrix();
-	 *
-	 * }
-	 */
-
-	// ///////////////////////
-	// FPS
-
-	/*
-	 * double displayTime = 0; int nbFrame = 0; double fps = 0;
-	 *
-	 * private void drawFPS(){
-	 *
-	 * if (displayTime==0) displayTime = System.currentTimeMillis();
-	 *
-	 * nbFrame++;
-	 *
-	 * double newDisplayTime = System.currentTimeMillis();
-	 *
-	 *
-	 * //displayTime = System.currentTimeMillis(); if (newDisplayTime >
-	 * displayTime+1000){
-	 *
-	 *
-	 *
-	 * fps = 1000*nbFrame/(newDisplayTime - displayTime); displayTime =
-	 * newDisplayTime; nbFrame = 0; }
-	 *
-	 *
-	 *
-	 *
-	 * getGL().glMatrixMode(GLlocal.GL_TEXTURE); getGL().glLoadIdentity();
-	 *
-	 * getGL().glMatrixMode(GLlocal.GL_MODELVIEW);
-	 *
-	 * getGL().glPushMatrix(); getGL().glLoadIdentity();
-	 *
-	 *
-	 * textRenderer.begin3DRendering();
-	 *
-	 *
-	 * textRenderer.setColor(Color.BLACK);
-	 *
-	 *
-	 * textRenderer.draw3D("FPS="+ ((int) fps),left,bottom,0,1);
-	 *
-	 * textRenderer.end3DRendering();
-	 *
-	 * getGL().glPopMatrix(); }
-	 */
-
-	abstract protected void pushSceneMatrix();
-
 	public enum PickingType {
 		POINT_OR_CURVE, SURFACE, LABEL
 	}
-
-	// ////////////////////////////////
-	// LIGHTS
-	// ////////////////////////////////
 
 	protected void setLightPosition() {
 		setLightPosition(getLightPosition());
 	}
 
-	/**
-	 *
-	 * @return light position
-	 */
-	abstract protected float[] getLightPosition();
-
-	/**
-	 * set light position
-	 *
-	 * @param values
-	 *            attribute values
-	 */
-	abstract protected void setLightPosition(float[] values);
-
-	/**
-	 * set light ambiant and diffuse values (white lights)
-	 *
-	 */
-	abstract protected void setLightAmbiantDiffuse(float ambiant0,
-			float diffuse0, float ambiant1, float diffuse1);
-
-	// ////////////////////////////////
-	// clear color
 	public void setWaitForUpdateClearColor() {
 		waitForUpdateClearColor = true;
 	}
@@ -1381,37 +1090,6 @@ public abstract class Renderer implements RendererInterface {
 
 		setClearColor(r, g, b, 1.0f);
 	}
-
-	// ////////////////////////////////
-	// initializations
-
-	/**
-	 * init shaders (when used)
-	 */
-	protected void initShaders() {
-		// no shader here
-	}
-
-	/**
-	 * Use the shaderProgram that got linked during the init part.
-	 */
-	protected void useShaderProgram() {
-		// no shader here
-	}
-
-	/**
-	 *
-	 * @return new geometry manager
-	 */
-	abstract protected Manager createManager();
-
-	abstract protected void setColorMaterial();
-
-	abstract protected void setLightModel();
-
-	abstract protected void setAlphaFunc();
-
-	// projection mode
 
 	public int getLeft() {
 		return left;
@@ -1532,11 +1210,6 @@ public abstract class Renderer implements RendererInterface {
 		return minmax;
 	}
 
-	/**
-	 * set up the view
-	 */
-	abstract protected void setView();
-
 	public void setWaitForDisableStencilLines() {
 		waitForDisableStencilLines = true;
 	}
@@ -1546,8 +1219,6 @@ public abstract class Renderer implements RendererInterface {
 	public void setWaitForSetStencilLines() {
 		waitForSetStencilLines = true;
 	}
-
-	abstract protected void setStencilLines();
 
 	protected void setProjectionMatrixForPicking() {
 
@@ -1596,12 +1267,6 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	/**
-	 * Set Up An Ortho View regarding left, right, bottom, front values
-	 *
-	 */
-	abstract protected void viewOrtho();
-
-	/**
 	 * Update perspective for eye position.
 	 *
 	 * @param left
@@ -1617,7 +1282,6 @@ public abstract class Renderer implements RendererInterface {
 	}
 
 	protected void updatePerspValues() {
-
 		for (int i = 0; i < 2; i++) {
 			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2.0;
 			if (perspNear[i] < PERSP_NEAR_MIN) {
@@ -1637,6 +1301,9 @@ public abstract class Renderer implements RendererInterface {
 
 			// distance camera-far plane
 			perspFar[i] = perspNear[i] + getVisibleDepth();
+		}
+		if (rendererImpl != null) {
+			rendererImpl.updatePerspValues();
 		}
 	}
 
@@ -1661,8 +1328,6 @@ public abstract class Renderer implements RendererInterface {
 		return (glassesEyeX[0] - glassesEyeX[1]) / 2;
 	}
 
-	abstract protected void viewPersp();
-
 	/**
 	 * Update glasses coordinates.
 	 */
@@ -1675,9 +1340,10 @@ public abstract class Renderer implements RendererInterface {
 			glassesEyeX1[i] = glassesEyeX[i] * perspDistratio[i];
 			glassesEyeY1[i] = glassesEyeY[i] * perspDistratio[i];
 		}
+		if (rendererImpl != null) {
+			rendererImpl.updateGlassesValues();
+		}
 	}
-
-	abstract protected void viewGlasses();
 
 	protected void setColorMask() {
 
@@ -1696,8 +1362,6 @@ public abstract class Renderer implements RendererInterface {
 
 	}
 
-	abstract public void setColorMask(final int type);
-
 	public enum ExportType {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
 	}
@@ -1710,9 +1374,10 @@ public abstract class Renderer implements RendererInterface {
 		obliqueX = -view3D.getProjectionObliqueFactor() * Math.cos(angle);
 		obliqueY = -view3D.getProjectionObliqueFactor() * Math.sin(angle);
 		obliqueOrthoDirection = new Coords(obliqueX, obliqueY, -1, 0);
+		if (rendererImpl != null) {
+			rendererImpl.updateProjectionObliqueValues();
+		}
 	}
-
-	abstract protected void viewOblique();
 
 	/**
 	 *
@@ -1886,13 +1551,8 @@ public abstract class Renderer implements RendererInterface {
 		textures.init();
 	}
 
-	protected void enableLightingOnInit() {
-		enableLighting();
-	}
-
 	protected void initCulling() {
-		enableCulling();
-		setCullFaceBack();
+		rendererImpl.initCulling();
 	}
 
 	/**
@@ -1911,30 +1571,11 @@ public abstract class Renderer implements RendererInterface {
 	abstract protected void setBlendFunc();
 
 	/**
-	 * enables normalization for normals
-	 */
-	abstract protected void enableNormalNormalized();
-
-	/**
 	 * enable text textures
 	 */
 	public void enableTexturesForText() {
 		enableTextures();
-	}
-
-	/**
-	 *
-	 * @return hitting
-	 */
-	public Hitting getHitting() {
-		return null;
-	}
-
-	/**
-	 * reset the point center
-	 */
-	public void resetCenter() {
-		// only used with shaders
+		rendererImpl.enableTexturesForText();
 	}
 
 	/**
@@ -2073,4 +1714,733 @@ public abstract class Renderer implements RendererInterface {
     public void setARFloorZ(double z) {
         // only for AR
     }
+
+	@Override
+	final public void setClipPlanes(double[][] minMax) {
+		if (rendererImpl != null) {
+			rendererImpl.setClipPlanes(minMax);
+		}
+	}
+
+	/**
+	 * init drawing matrix to view3D toScreen matrix
+	 */
+	final protected void setMatrixView() {
+		rendererImpl.setMatrixView();
+	}
+
+	final protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
+			float scaleFactor) {
+		rendererImpl.setProjectionMatrixViewForAR(cameraView, cameraPerspective,
+				modelMatrix, scaleFactor);
+	}
+
+	final protected void fromARCoreCoordsToGGBCoords(Coords coords,
+			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
+		rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix,
+				scaleFactor, ret);
+	}
+
+	/**
+	 * reset to projection matrix only
+	 */
+	final protected void unsetMatrixView() {
+		rendererImpl.unsetMatrixView();
+	}
+
+	/**
+	 * sets the color
+	 *
+	 * @param r
+	 *            red
+	 * @param g
+	 *            green
+	 * @param b
+	 *            blue
+	 * @param a
+	 *            alpha
+	 *
+	 */
+	final public void setColor(float r, float g, float b, float a) {
+		rendererImpl.setColor(r, g, b, a);
+	}
+
+	@Override
+	final public void initMatrix() {
+		rendererImpl.initMatrix();
+	}
+
+	@Override
+	final public void initMatrixForFaceToScreen() {
+		rendererImpl.initMatrixForFaceToScreen();
+	}
+
+	@Override
+	final public void resetMatrix() {
+		rendererImpl.resetMatrix();
+	}
+
+	final protected void pushSceneMatrix() {
+		rendererImpl.pushSceneMatrix();
+	}
+
+	/**
+	 * set light position
+	 *
+	 * @param values
+	 *            attribute values
+	 */
+	final protected void setLightPosition(float[] values) {
+		rendererImpl.setLightPosition(values);
+	}
+
+	/**
+	 * set light ambiant and diffuse values (white lights)
+	 *
+	 */
+	final protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
+			float ambiant1, float diffuse1) {
+
+		rendererImpl.setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1,
+				diffuse1);
+	}
+
+	/**
+	 * switch GL_LIGHT0 / GL_LIGHT1
+	 *
+	 * @param light
+	 *            GL_LIGHT0 or GL_LIGHT1
+	 */
+	final protected void setLight(int light) {
+		rendererImpl.setLight(light);
+	}
+
+	final protected void setColorMaterial() {
+		rendererImpl.setColorMaterial();
+	}
+
+	final protected void setLightModel() {
+		rendererImpl.setLightModel();
+	}
+
+	final protected void setAlphaFunc() {
+		rendererImpl.setAlphaFunc();
+	}
+
+	/**
+	 * set up the view
+	 */
+	protected void setView() {
+		rendererImpl.setView();
+	}
+
+	final protected void setStencilLines() {
+		rendererImpl.setStencilLines();
+	}
+
+	/**
+	 * Set Up An Ortho View regarding left, right, bottom, front values
+	 *
+	 */
+	final protected void viewOrtho() {
+		rendererImpl.viewOrtho();
+	}
+
+	final protected void viewPersp() {
+		rendererImpl.viewPersp();
+	}
+
+	final protected void viewGlasses() {
+		rendererImpl.viewGlasses();
+	}
+
+	final protected void viewOblique() {
+		rendererImpl.viewOblique();
+	}
+
+	/**
+	 *
+	 * @return new geometry manager
+	 */
+	protected Manager createManager() {
+		return rendererImpl.createManager();
+	}
+
+	@Override
+	final public void enableTextures() {
+		rendererImpl.enableTextures();
+	}
+
+	@Override
+	final public void disableTextures() {
+		rendererImpl.disableTextures();
+
+	}
+
+	/**
+	 * Use the shaderProgram that got linked during the init part.
+	 */
+	protected void useShaderProgram() {
+		rendererImpl.useShaderProgram();
+	}
+
+	@Override
+	final public void updateOrthoValues() {
+		if (rendererImpl != null) {
+			rendererImpl.updateOrthoValues();
+		}
+	}
+
+	final protected void enableLightingOnInit() {
+		rendererImpl.enableLightingOnInit();
+	}
+
+	final protected void drawTranspNotCurved() {
+		rendererImpl.drawTranspNotCurved();
+	}
+
+	@Override
+	final public void disableCulling() {
+		rendererImpl.disableCulling();
+	}
+
+	@Override
+	final public void setCullFaceFront() {
+		rendererImpl.setCullFaceFront();
+	}
+
+	@Override
+	final public void setCullFaceBack() {
+		rendererImpl.setCullFaceBack();
+	}
+
+	@Override
+	final public void loadColorBuffer(GLBuffer fbColors, int length) {
+		rendererImpl.loadColorBuffer(fbColors, length);
+
+	}
+
+	@Override
+	final public void loadNormalBuffer(GLBuffer fbNormals, int length) {
+		rendererImpl.loadNormalBuffer(fbNormals, length);
+
+	}
+
+	@Override
+	final public void loadTextureBuffer(GLBuffer fbTextures, int length) {
+		rendererImpl.loadTextureBuffer(fbTextures, length);
+
+	}
+
+	@Override
+	final public void disableTextureBuffer() {
+		rendererImpl.disableTextureBuffer();
+	}
+
+	@Override
+	final public void loadVertexBuffer(GLBuffer fbVertices, int length) {
+		rendererImpl.loadVertexBuffer(fbVertices, length);
+
+	}
+
+	@Override
+	final public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
+		rendererImpl.loadIndicesBuffer(arrayI, length);
+
+	}
+
+	@Override
+	final public void setCenter(Coords center) {
+		rendererImpl.setCenter(center);
+
+	}
+
+	/**
+	 * reset the point center
+	 */
+	final public void resetCenter() {
+		rendererImpl.resetCenter();
+	}
+
+	@Override
+	final public boolean areTexturesEnabled() {
+		return rendererImpl.areTexturesEnabled();
+	}
+
+	@Override
+	final public void draw(Type type, int length) {
+		rendererImpl.draw(type, length);
+
+	}
+
+	@Override
+	final public void bindBufferForIndices(int buffer) {
+		rendererImpl.bindBufferForIndices(buffer);
+
+	}
+
+	/**
+	 * init shaders (when used)
+	 */
+	final protected void initShaders() {
+		rendererImpl.initShaders();
+	}
+
+	/**
+	 * disable shine (specular)
+	 */
+	final public void disableShine() {
+		rendererImpl.disableShine();
+	}
+
+	/**
+	 * enable shine (specular)
+	 */
+	final public void enableShine() {
+		rendererImpl.enableShine();
+	}
+
+	/**
+	 * disable opaque surfaces
+	 */
+	final public void disableOpaqueSurfaces() {
+		rendererImpl.disableOpaqueSurfaces();
+	}
+
+	/**
+	 * enable opaque surfaces
+	 */
+	final public void enableOpaqueSurfaces() {
+		rendererImpl.enableOpaqueSurfaces();
+	}
+
+	/**
+	 * set drawing to left buffer (when stereo buffered)
+	 */
+	protected void setBufferLeft() {
+		rendererImpl.setBufferLeft();
+	}
+
+	/**
+	 * set drawing to right buffer (when stereo buffered)
+	 */
+	protected void setBufferRight() {
+		rendererImpl.setBufferRight();
+	}
+
+	/**
+	 * clear color buffer
+	 */
+	protected void clearColorBuffer() {
+		rendererImpl.glClear(rendererImpl.getGL_COLOR_BUFFER_BIT());
+	}
+
+	/**
+	 * clear depth buffer
+	 */
+	final protected void clearDepthBuffer() {
+		rendererImpl.clearDepthBuffer();
+	}
+
+	/**
+	 * clear depth buffer for anaglyph glasses, between first and second eye
+	 */
+	protected void clearDepthBufferForSecondAnaglyphFilter() {
+		rendererImpl.clearDepthBufferForSecondAnaglyphFilter();
+	}
+
+	/**
+	 * set value for the stencil function (equal to value)
+	 *
+	 * @param value
+	 *            stencil value
+	 */
+	final protected void setStencilFunc(int value) {
+		rendererImpl.setStencilFunc(value);
+	}
+
+	@Override
+	final public void enableCulling() {
+		rendererImpl.glEnable(rendererImpl.getGL_CULL_FACE());
+	}
+
+	@Override
+	final public void disableBlending() {
+		rendererImpl.glDisable(rendererImpl.getGL_BLEND());
+	}
+
+	@Override
+	final public void enableBlending() {
+		rendererImpl.glEnable(rendererImpl.getGL_BLEND());
+	}
+
+	@Override
+	final public void enableMultisample() {
+		rendererImpl.enableMultisample();
+	}
+
+	@Override
+	public final void disableMultisample() {
+		rendererImpl.disableMultisample();
+	}
+
+	@Override
+	final public void enableAlphaTest() {
+		rendererImpl.enableAlphaTest();
+	}
+
+	@Override
+	final public void disableAlphaTest() {
+		rendererImpl.disableAlphaTest();
+	}
+
+	@Override
+	final public void enableDepthMask() {
+		rendererImpl.enableDepthMask();
+	}
+
+	@Override
+	final public void disableDepthMask() {
+		rendererImpl.disableDepthMask();
+	}
+
+	@Override
+	final public void enableDepthTest() {
+		rendererImpl.glEnable(rendererImpl.getGL_DEPTH_TEST());
+	}
+
+	@Override
+	final public void disableDepthTest() {
+		rendererImpl.glDisable(rendererImpl.getGL_DEPTH_TEST());
+	}
+
+	public void setColorMask(final int colorMask) {
+		rendererImpl.setColorMask(colorMask);
+	}
+
+	@Override
+	final public void setClearColor(float r, float g, float b, float a) {
+		rendererImpl.setClearColor(r, g, b, a);
+	}
+
+	@Override
+	final public void setLayer(int l) {
+		rendererImpl.setLayer(l);
+	}
+
+	@Override
+	final public void genTextures2D(int number, int[] index) {
+		rendererImpl.genTextures2D(number, index);
+	}
+
+	@Override
+	final public void bindTexture(int index) {
+		rendererImpl.bindTexture(index);
+	}
+
+	/**
+	 * enables clip planes
+	 */
+	final protected void enableClipPlanes() {
+		rendererImpl.enableClipPlanes();
+	}
+
+	/**
+	 * disables clip planes
+	 */
+	final protected void disableClipPlanes() {
+		rendererImpl.disableClipPlanes();
+	}
+
+	@Override
+	final public void setLabelOrigin(float[] origin) {
+		rendererImpl.setLabelOrigin(origin);
+	}
+
+	@Override
+	final public void enableLighting() {
+		rendererImpl.enableLighting();
+	}
+
+	@Override
+	final public void disableLighting() {
+		rendererImpl.disableLighting();
+	}
+
+	@Override
+	final public void initLighting() {
+		rendererImpl.initLighting();
+	}
+
+	@Override
+	public boolean useShaders() {
+		return rendererImpl.useShaders();
+	}
+
+	@Override
+	final public void enableFading() {
+		rendererImpl.enableFading();
+	}
+
+	@Override
+	final public void enableDash() {
+		rendererImpl.enableDash();
+	}
+
+	@Override
+	final public void enableDashHidden() {
+		rendererImpl.enableDashHidden();
+	}
+
+	/**
+	 *
+	 * @return light position
+	 */
+	final protected float[] getLightPosition() {
+		return rendererImpl.getLightPosition();
+	}
+
+	@Override
+	final public void setDashTexture(int index) {
+		rendererImpl.setDashTexture(index);
+	}
+
+	/**
+	 * draw outline for surfaces
+	 */
+	final protected void drawSurfacesOutline() {
+		rendererImpl.drawSurfacesOutline();
+	}
+
+	@Override
+	final public void setHits(GPoint mouseLoc, int threshold) {
+
+		if (mouseLoc == null) {
+			return;
+		}
+
+		hitting.setHits(mouseLoc, threshold);
+
+	}
+
+	/**
+	 *
+	 * @return hitting
+	 */
+	final public Hitting getHitting() {
+		return hitting;
+	}
+
+	@Override
+	final public GeoElement getLabelHit(GPoint mouseLoc) {
+		if (mouseLoc == null) {
+			return null;
+		}
+
+		return hitting.getLabelHit(mouseLoc);
+	}
+
+	@Override
+	final public void pickIntersectionCurves() {
+
+		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
+				.getEuclidianController()).getIntersectionCurves();
+
+		// picking objects
+		for (IntersectionCurve intersectionCurve : curves) {
+			Drawable3D d = intersectionCurve.drawable;
+			if (!d.hit(hitting)
+					|| d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
+																			// assume
+																			// that
+																			// hitting
+																			// infos
+																			// are
+																			// updated
+																			// from
+																			// last
+																			// mouse
+																			// move
+				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
+						hitting.discardPositiveHits());
+			}
+		}
+	}
+
+	/**
+	 * get alpha channel of the array ARGB description
+	 * 
+	 * @param label
+	 *            label
+	 * 
+	 * @param pix
+	 *            bitmap
+	 * @return the alpha channel of the array ARGB description
+	 */
+	protected static byte[] argbToAlpha(DrawLabel3D label, int[] pix) {
+		return argbToAlpha(label, label.getWidth(), label.getHeight(), pix);
+	}
+
+	/**
+	 * get alpha channel of the array ARGB description
+	 * 
+	 * @param label
+	 *            label
+	 * @param labelWidthRes
+	 *            width
+	 * @param labelHeightRes
+	 *            height
+	 * @param pix
+	 *            bitmap
+	 * @return the alpha channel of the array ARGB description
+	 */
+	protected static byte[] argbToAlpha(DrawLabel3D label, int labelWidthRes,
+			int labelHeightRes, int[] pix) {
+
+		// calculates 2^n dimensions
+		int w = firstPowerOfTwoGreaterThan(labelWidthRes);
+		int h = firstPowerOfTwoGreaterThan(labelHeightRes);
+
+		// Application.debug("width="+width+",height="+height+"--w="+w+",h="+h);
+
+		// get alpha channel and extends to 2^n dimensions
+		byte[] bytes = new byte[w * h];
+		byte b;
+		int bytesIndex = 0;
+		int pixIndex = 0;
+		int xmin = w, xmax = 0, ymin = h, ymax = 0;
+		for (int y = 0; y < labelHeightRes; y++) {
+			for (int x = 0; x < labelWidthRes; x++) {
+				b = (byte) (pix[pixIndex] >> ALPHA_SHIFT);
+				if (b != 0) {
+					if (x < xmin) {
+						xmin = x;
+					}
+					if (x > xmax) {
+						xmax = x;
+					}
+					if (y < ymin) {
+						ymin = y;
+					}
+					if (y > ymax) {
+						ymax = y;
+					}
+
+				}
+				bytes[bytesIndex] = b;
+				bytesIndex++;
+				pixIndex++;
+			}
+			bytesIndex += w - labelWidthRes;
+		}
+
+		// values for picking (ignore transparent bytes)
+		label.setPickingDimension(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
+
+		// update width and height
+		label.setDimensionPowerOfTwo(w, h);
+
+		return bytes;
+	}
+
+	/**
+	 * enables normalization for normals
+	 */
+	protected void enableNormalNormalized() {
+		// only need for non-shader renderers
+	}
+
+	// //////////////////////////////////////////////////
+	// TODO implement methods below for export image (see
+	// RendererCheckGLVersionD)
+
+	@Override
+	public void display() {
+		// used in desktop and for export image
+	}
+
+	/**
+	 * do export image if needed
+	 */
+	protected void exportImage() {
+		// only in Desktop; Web uses canvas methods
+	}
+
+	protected void selectFBO() {
+		rendererImpl.selectFBO();
+	}
+
+	protected void unselectFBO() {
+		rendererImpl.unselectFBO();
+	}
+
+	/**
+	 * says that we need an export image with scale, width and height
+	 *
+	 * @param scale
+	 *            scale factor
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 */
+	protected void needExportImage(double scale, int w, int h) {
+		if (rendererImpl != null) {
+			rendererImpl.needExportImage(scale, w, h);
+		} else {
+			Log.error("rendererImpl null in needExportImage()");
+		}
+
+	}
+
+	/**
+	 * set export image width and height
+	 *
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 */
+	protected void setExportImageDimension(int w, int h) {
+		rendererImpl.setExportImageDimension(w, h);
+	}
+
+	/**
+	 * @return implementation
+	 */
+	protected RendererImpl getRendererImpl() {
+		return rendererImpl;
+	}
+
+	/**
+	 * @param rendererImpl
+	 *            implementation
+	 */
+	protected void setRendererImpl(RendererImpl rendererImpl) {
+		this.rendererImpl = rendererImpl;
+	}
+
+	@Override
+	public void createDummyTexture() {
+		rendererImpl.createDummyTexture();
+	}
+
+	/**
+	 * set AR to end
+	 */
+	public void setARShouldEnd() {
+		killARSession();
+		view3D.setARDrawing(false);
+		view3D.setAREnabled(false);
+		view3D.resetViewFromAR();
+	}
+
+	/**
+	 * kill AR session
+	 */
+	protected void killARSession() {
+		// not used here
+	}
+
 }
