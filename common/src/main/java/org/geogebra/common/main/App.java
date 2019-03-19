@@ -3927,7 +3927,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** GBB-2394 */
 		case SPLITTER_LOADING:
-			return prerelease;
+			return true;
 
 		/** GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
