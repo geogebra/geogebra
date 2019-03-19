@@ -898,9 +898,7 @@ public class AlgebraProcessor {
 				// eg from Spreadsheet we don't want a popup
 				if (!info.isAutocreateSliders()) {
 					GeoElementND[] rett = tryReplacingProducts(ve, handler);
-					if (rett != null) {
-						runCallback(callback0, rett, step);
-					}
+					runCallback(callback0, rett, step);
 					return rett;
 				}
 
