@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.jre.util.TestEvent;
 import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
