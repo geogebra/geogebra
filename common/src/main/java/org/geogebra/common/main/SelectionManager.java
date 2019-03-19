@@ -679,6 +679,7 @@ public class SelectionManager {
 	 */
 	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
+
 		if (tree.isEmpty()) {
 			getAccessibilityManager().onEmptyConstuction(true);
 			return true;
@@ -783,9 +784,7 @@ public class SelectionManager {
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
 
 		App app = kernel.getApplication();
-		boolean avShowing = kernel.getApplication().getGuiManager() != null
-				&& this.kernel.getApplication().getGuiManager()
-						.hasAlgebraViewShowing();
+		boolean avShowing = algebraViewShowing();
 
 		TreeSet<GeoElement> copy = new TreeSet<>(tree);
 
@@ -817,6 +816,11 @@ public class SelectionManager {
 
 	}
 
+	private boolean algebraViewShowing() {
+		return kernel.getApplication().getGuiManager() != null && this.kernel
+				.getApplication().getGuiManager().hasAlgebraViewShowing();
+	}
+
 	/**
 	 * TODO add support for layer / object type sorting of AV
 	 *
@@ -824,8 +828,7 @@ public class SelectionManager {
 	 *         order
 	 */
 	public TreeSet<GeoElement> getTabbingSet() {
-		if (this.kernel.getApplication().getGuiManager() != null && this.kernel
-				.getApplication().getGuiManager().hasAlgebraViewShowing()) {
+		if (algebraViewShowing()) {
 			if (this.kernel.getApplication().getSettings().getAlgebra()
 					.getTreeMode() == SortMode.ORDER) {
 				return kernel.getConstruction().getGeoSetConstructionOrder();
