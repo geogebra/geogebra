@@ -75,12 +75,13 @@ public abstract class MediaDialog extends OptionDialog
 		inputField.addStyleName("inputText");
 		inputPanel.add(inputLabel);
 		inputPanel.add(inputField);
-		infoLabel = new Label();
-		infoLabel.addStyleName("msgLabel");
-		inputPanel.add(infoLabel);
 		errorLabel = new Label();
 		errorLabel.addStyleName("msgLabel errorLabel");
 		inputPanel.add(errorLabel);
+
+		infoLabel = new Label();
+		infoLabel.addStyleName("msgLabel");
+		inputPanel.add(infoLabel);
 		// add panels
 		add(mainPanel);
 		mainPanel.add(inputPanel);

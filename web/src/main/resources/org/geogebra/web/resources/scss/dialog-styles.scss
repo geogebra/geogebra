@@ -2,27 +2,27 @@
 $duration: 0.2s;
 
 .GeoGebraFrame {
-	
+
 	.MaterialDialogBox {
-		input[type="text"]:focus, 
-		input[type="number"]:focus, 
+		input[type="text"]:focus,
+		input[type="number"]:focus,
 		.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
-		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus, 
-		iframe.objectPropertiesTextEditor:focus, 
-		input[type="text"]:focus:not([readonly]), 
+		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus,
+		iframe.objectPropertiesTextEditor:focus,
+		input[type="text"]:focus:not([readonly]),
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
-		select:focus:not([readonly]), 
-		textarea:focus:not([readonly]), 
-		.gwt-TextArea:focus:not([readonly]), 
+		select:focus:not([readonly]),
+		textarea:focus:not([readonly]),
+		.gwt-TextArea:focus:not([readonly]),
 		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
 			border: 1px $teal-default solid;
-		}	
-	}	
+		}
+	}
 
 	.MaterialDialogBox {
 		.gwt-Label {
-			cursor: default;	
+			cursor: default;
 		}
 
 		.message {
@@ -36,29 +36,29 @@ $duration: 0.2s;
 	}
 
 	/* color chooser dialog */
-	.MaterialDialogBox.ColorChooser { 
+	.MaterialDialogBox.ColorChooser {
 		.ColorDialog-content {
 			.gwt-Label {
 				margin-top: 0px;
-				font-size: initial;	
+				font-size: initial;
 			}
-			
+
 			input[type="range"] {
-				cursor: pointer;	
+				cursor: pointer;
 			}
-		
-			.ggbSpinner { 
+
+			.ggbSpinner {
 				margin-right: 16px;
 				border-radius: 2px;
 				box-shadow: none;
 			}
-		
+
 			.CustomColorPreview {
 				canvas {
 					width: 266px;
 					border-radius: 2px;
 				}
-			
+
 				.gwt-Label {
 					font-size: 80%;
 					color: $teal-default;
@@ -73,10 +73,10 @@ $duration: 0.2s;
 		.gwt-Label:hover {
 			color: $teal-default;
 		}
-		
+
 		.gwt-Label-highlighted {
 			color: $teal-default;
-			cursor: pointer;	
+			cursor: pointer;
 		}
 	}
 
@@ -86,24 +86,24 @@ $duration: 0.2s;
 			margin-right: 16px;
 			width: calc(100% - 16px) !important;
 		}
-	
+
 		.panelTitle {
   	  		margin-right: 16px;
     		color: $teal-default;
     		display: block;
     		cursor: default;
     		border-bottom: 1px solid $teal-light;
-		}		
+		}
 	}
-	
+
 	/* button tool dialog*/
 	.MaterialDialogBox.buttonDialog {
 		.scriptArea {
-			margin-right: 16px;	
+			margin-right: 16px;
 			border-radius: 2px;
 			width: calc(100% - 16px) !important;
-		}	
-	
+		}
+
 		.gwt-ListBox {
 			margin-right: 16px;
 			width: calc(100% - 16px) !important;
@@ -115,7 +115,7 @@ $duration: 0.2s;
 		.infotext {
 			font-size: 95%;
 			margin-right: 16px;
-		} 
+		}
 		.buttonPanel {
    			height: 36px;
    			text-align: right;
@@ -123,22 +123,22 @@ $duration: 0.2s;
     		padding-right: 0px;
     		padding-bottom: 8px;
     		padding-left: 0px;
-    		
+
     		.gwt-Button,.button {
     			@extend .flatDialogBtn;
    			}
-   		
+
    			.visibility {
    				top: 130px;
    				left: 76px;
    			 }
-   			
+
    			.MyCanvasButton {
    				border-radius: 2px;
    				bottom: 15px;
    				left: 24px !important;
    			}
-   		
+
    			input.gwt-TextBox {
     			opacity: 0.7;
 			}
@@ -147,9 +147,9 @@ $duration: 0.2s;
 
 	/* text tool dialog */
 	.MaterialDialogBox.TextInputDialog {
-		
+
 		 .MyToggleButton {
-		 	border-radius: 2px;	
+		 	border-radius: 2px;
 		 	line-height: 24px;
     		vertical-align: middle;
     		text-align: center;
@@ -164,25 +164,25 @@ $duration: 0.2s;
    			box-shadow: none;
    			padding: 3px;
    			margin-right: 8px;
-   			
+
    			img {
    				opacity: 0.54;
    			}
 		 }
-		
-		.MyToggleButton.gwt-ToggleButton-down, .MyToggleButton.gwt-ToggleButton-down-hovering { 
+
+		.MyToggleButton.gwt-ToggleButton-down, .MyToggleButton.gwt-ToggleButton-down-hovering {
 			border-color: $teal-default;
 		}
-	
+
 		.MyToggleButton.gwt-ToggleButton-up-hovering {
 			border-color: $teal-light;
 		}
-		
+
 		.textEditor {
-			margin-right: 16px;	
+			margin-right: 16px;
 			margin-top: 10px;
 		}
-	
+
 		.gwt-DisclosurePanel {
 			.textEditorAdvancedPanel.textEditorDisclosurePanelContent {
 				.gwt-TabLayoutPanelTabInner {
@@ -190,51 +190,51 @@ $duration: 0.2s;
 						margin-top: 0px !important;
 					}
 				}
-				
-				.ggbTab { 
+
+				.ggbTab {
 					top: 4px;
     				padding-top: 6px;
 				}
-			
+
 				.latexPanel canvas:hover {
     				background-color: $teal-light;
     				cursor: pointer;
     			}
 			}
-		
+
 			.gwt-TabLayoutPanelTab.com-google-gwt-resources-client-CommonResources-InlineBlockStyle-inlineBlock {
 				height: 28px;
 			}
-		
+
 			.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
    				background: $white;
     			color: $teal-default;
-    		}    		
+    		}
 		}
-	
+
 		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
 			 .GeoGebraFrame .gwt-TabBar .gwt-TabBarItem-selected {
-			color: $teal-default; 
+			color: $teal-default;
 		}
-	
+
 		.gwt-TabLayoutPanelTabInner:hover {
-			color: $teal-light; 
+			color: $teal-light;
 		}
 	}
-	
+
 	.MaterialDialogBox {
-		z-index: 501;	
+		z-index: 501;
 		background-color: $white;
 		border-radius: 2px;
 		padding-left: 24px;
 		padding-right: 8px;
 		padding-top: 24px;
-		
+
 	 /*   -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
    		box-shadow: 0 2px 10px rgba(0,0,0,.2);*/
    		box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
    		-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-   		
+
    		.flatDialogBtn {
 			display: inline-block;
     		position: relative;
@@ -259,55 +259,55 @@ $duration: 0.2s;
    			box-shadow: none;
    			font-family: Roboto,sans-serif;
     		font-weight: 400 !important;
-    			
+
     		&:hover {
     			background: $mow_card_background_hover !important;
     			color: $teal-dark;
     		}
     	}
-   		
-   		.Caption { 
-   			font-size: 125%;	
+
+   		.Caption {
+   			font-size: 125%;
    			margin-bottom: 20px;
    			color: $text-primary;
     		border: none;
     		cursor: default;
    		}
-   	
-   		.SymbolToggleButton:hover, .SymbolToggleButton:focus { 
+
+   		.SymbolToggleButton:hover, .SymbolToggleButton:focus {
 			color: $teal-default;
 		}
-	
-		.Dialog-messagePanel { 
+
+		.Dialog-messagePanel {
 			margin-bottom: 0px;
-			
+
 			.gwt-Label {
 				margin-top: 0px;
 				color: $teal-default;
 			}
 		}
-   	
+
    		.coloredLabel {
    			font-size: 80%;
    			color: $teal-default;
    		}
-   		
+
    		.gwt-RadioButton label {
     		padding-left: 8px;
 		}
-	
+
 		.gwt-CheckBox label {
     		padding-left: 8px;
 		}
-	
+
 		.gwt-CheckBox {
     		margin-right: 16px;
 		}
-	
+
 		.gwt-ListBox {
    			border-radius: 2px;
     		box-shadow: none;
-   		}	
+   		}
 
    		input[type="text"] {
     		border: none !important;
@@ -315,86 +315,86 @@ $duration: 0.2s;
    			margin-bottom: 0px;
    			padding-left: 4px;
 		}
-	
+
 		.gwt-Label {
    			font-size: 80%;
    			color: $text-secondary;
    			margin-top: 10px;
 		}
-	
-		.sliderIntervalPanel { 
+
+		.sliderIntervalPanel {
 			margin-top: 10px;
-			
+
 			.gwt-TextBox {
 				border-bottom: 1px solid $teal-default !important;
     			border-radius: 0px;
 			}
-			
+
 			.gwt-Label {
     			margin-top: 0px;
 			}
-		
+
 		}
-   		
+
    		.gwt-TabBar {
    			.gwt-Label {
    				font-size: 100% !important;
 			}
-   			
+
    		}
-   		
-   		.gwt-TabBar .gwt-TabBarItem-selected { 
+
+   		.gwt-TabBar .gwt-TabBarItem-selected {
    			color: $teal-default;
    		}
-   	
+
    		.gwt-TabPanelBottom {
    			padding: 0px;
    			select:focus {
-   				border: 1px $teal-default solid;		
+   				border: 1px $teal-default solid;
    			}
-   		
+
    			.optionsPanel {
    				margin-top: 10px;
    				margin-bottom: 0px;
    				.gwt-ListBox {
    					border-radius: 2px;
     				box-shadow: none;
-   				}	
+   				}
    			}
-   		
+
    			.sliderWidthPanel {
    				.AutoCompleteTextFieldW {
    					 display: block;
-   					 
+
    					 .unitLabel {
-   					 	float: right;	
+   					 	float: right;
    					 }
    				}
    			}
    		}
-   	
+
    		:not(.textField)>.AutoCompleteTextFieldW {
-   			margin-right: 16px;	
+   			margin-right: 16px;
    			margin-bottom: 10px;
    			border-radius: 0px;
    			border: none;
-   			border-bottom: 1px solid $teal-default; 
+   			border-bottom: 1px solid $teal-default;
    		}
-   	
+
    		.DialogRbPanel {
-   			padding-right: 16px;	
+   			padding-right: 16px;
    			margin-top: 16px;
    		}
-   	
+
    		.sliderPanelWidget {
    			padding-right: 16px;
-   			margin-top: 16px;	
+   			margin-top: 16px;
    		}
-   	
-   		.scriptArea { 
-   			padding-right: 16px;	
+
+   		.scriptArea {
+   			padding-right: 16px;
    		}
-   	
+
    		.DialogButtonPanel {
    			height: 36px;
    			text-align: right;
@@ -402,38 +402,38 @@ $duration: 0.2s;
     		padding-right: 0px;
     		padding-bottom: 8px;
     		padding-left: 0px;
-    		
+
     		.gwt-Button, .button {
     			@extend .flatDialogBtn;
-    			
+
     			.html-face {
-    				text-align: center;	
+    				text-align: center;
     			}
    			}
    		}
-   	
+
    		.moreBtn {
    			@extend .flatDialogBtn;
    		}
-   	
+
    		.dialogBtn {
    			@extend .flatDialogBtn;
    			float: right;
-   		}   	
+   		}
 	}
 
 	.MaterialDialogBox.mediaDialog {
    		.mowMediaDialogContent {
    			.AutoCompleteTextFieldW {
-   				margin: 8px 16px 8px 0px;	
+   				margin: 8px 16px 8px 0px;
    			}
-   			
+
    			&.emptyState {
    				.inputLabel {
    					color: $text-secondary;
    					font-size: 75%;
    				}
-   			
+
  				.AutoCompleteTextFieldW {
  					border-bottom: 1px solid $black-42;
  					.TextField {
@@ -443,102 +443,104 @@ $duration: 0.2s;
  						font-size: 100%;
  						color: $text-primary;
  						&::placeholder {
- 							color: $text-secondary;	
+ 							color: $text-secondary;
  						}
  					}
  				}
-   					
+
    				.errorLabel {
-   					display: none;
+   					opacity: 0;
    				}
-   				
+
    				.msgLabel {
+   					margin-top: 0;
    					font-size: 75%;
-   					margin-top: 9px;
    					min-height: 20px;
+   					line-height: 20px;
    					max-width: 25em * 4 / 3;
    				}
-   			
-   				&.hoverState {	
+
+   				&.hoverState {
    					.inputLabel {
    						color: $black-87;
    					}
-   			
+
  					.AutoCompleteTextFieldW {
  						border-bottom: 2px solid $black-87;
  					}
- 				
- 					.msgLabel {
-   						margin-top: 8px;
+
+ 					.errorLabel {
+   						line-height: 19px;
+   						min-height: 19px;
    					}
  				}
    			}
-   			
+
    			&.errorState, &.errorState:hover {
    				@extend .emptyState;
    				.inputLabel {
    					color: $red-A400-87;
    				}
-   			
- 				.AutoCompleteTextFieldW {	
+
+ 				.AutoCompleteTextFieldW {
  					border-bottom: 2px solid $red;
  				}
-   				.msgLabel{
-   					margin-top: 8px;
-   					display: none;
-   				}	
+
    				.errorLabel {
+   					line-height: 19px;
+   					min-height: 19px;
    					color: $red-A400-87;
-   					display: block;
+   					opacity: 1;
    				}
    			}
-   		
+
    			&.focusState, &.focusState:hover {
    				@extend .emptyState;
    				.inputLabel {
    					color: $mebis-teal-dark-87;
    				}
-   			
+
  				.AutoCompleteTextFieldW {
  					border-bottom: 2px solid $mebis-teal-dark;
- 				} 		
- 			
- 				.msgLabel {
-   					margin-top: 8px;
-   				} 		
-   			}		
+ 				}
+
+ 				.errorLabel {
+   					line-height: 19px;
+   					min-height: 19px;
+   				}
+   			}
    		}
-   	
+
    		.DialogButtonPanel {
    			padding-top: 8px !important;
-   			
+
    			.button {
-   				color: $mebis-teal-dark;	
+   				color: $mebis-teal-dark;
    			}
-   			
+
    			.insertBtn.button-up-disabled {
    				opacity: 1;
    				color: $mebis-teal-dark-26;
-   				
+
    				&:hover {
-   					background: none !important;	
+   					background: none !important;
    				}
    			}
    		}
    	}
-   
+
    	.MaterialDialogBox.optionDialog {
    		.mowRenameDialogContent {
    			.AutoCompleteTextFieldW {
-   				margin: 8px 16px 16px 0px;	
+   				margin: 8px 16px 16px 0px;
    			}
-   			
+
    			&.emptyState {
    				.inputLabel {
    					color: $text-secondary;
    					font-size: 75%;
    				}
-   			
+
  				.AutoCompleteTextFieldW {
  					border-bottom: 1px solid $black-42;
  					.TextField {
@@ -548,52 +550,52 @@ $duration: 0.2s;
  						font-size: 100%;
  						color: $text-primary;
  						&::placeholder {
- 							color: $text-secondary;	
+ 							color: $text-secondary;
  						}
  					}
  				}
 
-   				&.hoverState {	
+   				&.hoverState {
    					.inputLabel {
    						color: $black-87;
    					}
-   			
+
  					.AutoCompleteTextFieldW {
  						border-bottom: 2px solid $black-87;
- 						margin: 8px 16px 15px 0px;	
+ 						margin: 8px 16px 15px 0px;
  					}
- 				} 				
+ 				}
    			}
-   		
+
    			&.focusState, &.focusState:hover {
    				@extend .emptyState;
    				.inputLabel {
    					color: $mebis-teal-dark-87;
    				}
-   			
+
  				.AutoCompleteTextFieldW {
  					border-bottom: 2px solid $mebis-teal-dark;
- 					margin: 8px 16px 15px 0px;	
+ 					margin: 8px 16px 15px 0px;
  				}
-   			}		
+   			}
    		}
-   	
+
 		.DialogButtonPanel {
 			padding-top: 8px !important;
-			
+
 			.button-up-disabled {
 				opacity: 1;
 				&:hover {
-					background: none !important;	
+					background: none !important;
 				}
 			}
 		}
 
 		&.mebis .DialogButtonPanel {
 			.button {
-				color: $mebis-teal-dark;	
+				color: $mebis-teal-dark;
 			}
-			
+
 			.button-up-disabled {
 				color: $mebis-teal-dark-26;
 			}
@@ -611,14 +613,14 @@ $duration: 0.2s;
 
    .exportImgDialog {
    		.expImgContent {
-   			margin-right: 16px;	
+   			margin-right: 16px;
    		}
-   	
+
    		.rightClickHelpText {
    			margin: 0px;
    			margin-bottom: 20px;
    		}
-   		
+
    		.prevImg {
    			max-width: 420px;
    			max-height: 420px;
@@ -626,57 +628,57 @@ $duration: 0.2s;
 			border-radius: 2px 2px 0 0 ;
 			cursor: pointer;
    		}
-   	
+
    		.DialogButtonPanel.withCopyToClip {
    			height: 96px;
    			padding-top: 24px;
    			/*display: grid;*/
     		float: right;
-    		
+
    			.button {
    				height: 48px;
    				line-height: 48px;
    				position: absolute;
    				right: 8px;
    				bottom: 8px;
-   				
+
    				&.copyToClipBtn {
-   					bottom: 56px;	
+   					bottom: 56px;
    					min-width: 148px;
    					line-height: 48px;
    				}
    			}
-   		
+
    			&.classic {
    				height: 56px;
-   				
+
    				.button {
    					min-width: 116px;
    					max-height: 24px;
    					line-height: 16px;
-   					
+
    					&.copyToClipBtn {
    						bottom: 50px;
    					}
-   					
+
    					.html-face {
-   						text-align: center;	
+   						text-align: center;
    						padding: 4px 0px;
    					}
    				}
    			}
    		}
    }
-  	
+
   	.pdfDialog {
   		.pdfContainer {
    			width: 450px;
     		height: 400px;
     		margin-right: 16px;
     		border: 4px dashed $mow_pdf_dialog_border;
-    		
+
     		&.withPdf {
-    			border-color: transparent;	
+    			border-color: transparent;
     		}
 		}
 
@@ -687,31 +689,31 @@ $duration: 0.2s;
     		margin-top: 100px;
     		opacity: 0.54;
     	}
-	
+
 		.pdfDialogText {
     		margin-top: 20px;
     		text-align: center;
     		max-width: 190px;
     		margin-left: auto;
-    		margin-right: auto;		
+    		margin-right: auto;
 		}
-	
+
 		.clickOrDragText {
     		font-size: 100% !important;
     	}
-    	
+
     	.errorText {
     		font-size: 12px;
 			color: $red-A400;
-		}	
-    
+		}
+
     	.loadText {
     		font-size: 12px;
 		}
-    
+
     	.pdfPreview {
     		 display: flex;
-    
+
     		.leftBtn,.rightBtn {
     			width: 24px;
     			height: 24px;
@@ -720,31 +722,31 @@ $duration: 0.2s;
     			border-radius: 24px;
     			margin-top: 150px;
     		}
-    	
+
     		.rightBtn {
     			right: 60px;
     			position: absolute;
 			}
-			
+
 			.leftBtn {
 				left: 60px;
     			position: absolute;
 			}
-    		
+
     		.leftBtn:hover, .rightBtn:hover {
     			background: $mow_pdf_left_right_hover;
     			opacity: 1;
     		}
-    		
+
     		.previewImage {
     			position: absolute;
 			    left: 50%;
 			    max-width: 300px;
 			    max-height: 360px;
-			    transform: translateX(-50%);  			
+			    transform: translateX(-50%);
     		}
     	}
-    
+
     	.pdfPageText {
     			display: flex;
    				width: fit-content;
@@ -754,19 +756,19 @@ $duration: 0.2s;
     			margin-right: auto;
     			margin-top: 20px;
     			top: 356px;
-    			
+
     			.gwt-Label {
-    				margin: 0px;	
+    				margin: 0px;
     				font-size: 100%;
-   					height: fit-content;  
-					font-family: Roboto Regular;				
+   					height: fit-content;
+					font-family: Roboto Regular;
     			}
-    			
+
     			.curPageField {
     				margin-left: 16px;
    		 			margin-bottom: 0px;
    		 			border-bottom-color: $black-42;
-   		 			
+
    		 			.TextField {
    		 				margin: 0px;
    		 				text-align: center;
@@ -775,44 +777,44 @@ $duration: 0.2s;
    		 				border-radius: 0px;
    		 				font-family: Roboto Regular;
    		 			}
-   		 		
+
    		 			&.default {
  						border-bottom: 1px solid $black-42;
  					}
-   		 		
+
    		 			&.hover {
    	 					border-bottom: 2px solid $black-87;
    		 			}
-   		 		
+
    		 			&.focus, &.focus:hover {
    	 					border-bottom: 2px solid $mebis-teal-dark-87;
-   		 			}   		 			
+   		 			}
     			}
 
     			&.hidden {
    	 				visibility: hidden;
-    			}	
+    			}
 		}
-    
+
 		.DialogButtonPanel {
-   			
+
    			.button {
-   				color: $mebis-teal-dark;	
+   				color: $mebis-teal-dark;
    				&:hover {
    					color: $mebis-teal-dark;
    				}
    			}
-   			
+
    			.insertBtn.button-up-disabled {
    				opacity: 1;
    				color: $mebis-teal-dark-26;
-   				
+
    				&:hover {
-   					background: none !important;	
+   					background: none !important;
    				}
    			}
    		}
-   		
+
    		.progressBar {
    			margin-top: 192px;
    			margin-left: auto;
@@ -820,7 +822,7 @@ $duration: 0.2s;
    			background: $mebis-teal-light;
    			height: 4px;
    			width: 300px;
-   			
+
    			div {
    				background: $mebis-teal-dark;
    				height: 100%;
@@ -830,7 +832,7 @@ $duration: 0.2s;
 	.MaterialDialogBox.shareLinkGgb {
 		padding-bottom: 24px;
 		padding-right: 24px;
-		
+
 		>div>table {
 			padding-right: 0px;
 		}
@@ -841,7 +843,7 @@ $duration: 0.2s;
 		}
 		.linkPanel {
 			display: flex;
-			
+
 			.linkBox {
 				padding: 8px 0 8px 0;
 				margin: 0;
@@ -859,13 +861,13 @@ $duration: 0.2s;
 				padding: 0 8px;
 				margin-left: 32px;
 				display: inline-flex;
-				align-items: center;       
+				align-items: center;
 				justify-content: center;
 				vertical-align: middle;
 				color: $text-primary;
 				text-transform: uppercase;
 				transition: background-color 0.15s;
-				
+
 				&:hover {
 					background-color: $mow_card_background_hover;
 				}
@@ -873,7 +875,7 @@ $duration: 0.2s;
 		}
 		.buttonPanel {
   			padding-top: 20px;
-  			
+
 			.roundButton {
 			    cursor: pointer;
 			    display: inline-flex;
@@ -915,7 +917,7 @@ $duration: 0.2s;
 				margin: 0px;
 				padding-right: 16px;
 			}
-		
+
 			.DialogButtonPanel {
 				.button {
 					cursor: pointer;
@@ -936,86 +938,86 @@ $duration: 0.2s;
 
 	.MaterialDialogBox.examExitDialog {
 		padding: 0px;
-		
+
 		.dialogContent {
 			width: 316px;
 		}
-		
+
 		.titlePanel {
 			background-color: $teal-default;
 			padding: 20px 24px;
-			
+
 			&.cheating {
 				background-color: $exam-red;
-				
+
 				.panelRowIndent {
-					padding: 0px;	
-					
-					.examTitle {   
+					padding: 0px;
+
+					.examTitle {
     					margin-left: 8px;
 					}
 				}
-			
+
 				.panelRowIndent>* {
-					margin: 0px;	
+					margin: 0px;
 				}
 			}
-			
+
 			.calcType {
-				font-size: 75%;	
+				font-size: 75%;
     			color: $text-light-secondary;
 			}
-		
+
 			.examTitle {
-				font-size: 100%;	
+				font-size: 100%;
 				color: $text-light-primary;
 			}
 		}
-		
+
 		.contentPanel {
 			height: 252px;
     		padding: 20px 24px 24px 24px;
-    		
+
     		.textStyle {
     			color: $text-primary;
     		}
-    	
+
     		.captionStyle {
-    			margin-top: 20px;	
-    			font-size: 75%;	
+    			margin-top: 20px;
+    			font-size: 75%;
     			color: $text-secondary;
-    			
+
     			&.noMargin {
-    				margin-top: 0px;	
+    				margin-top: 0px;
     			}
-    		}	
+    		}
     	}
-    
+
     	.DialogButtonPanel {
     		padding-right: 8px;
     		padding-top: 8px;
-    		
+
     		&.withDivider {
-    			border-top: 1px solid $black-12;	
+    			border-top: 1px solid $black-12;
     		}
-    	}		
+    	}
 	}
 
 	.MaterialDialogBox.examLogDialog {
 		@extend .MaterialDialogBox.examExitDialog;
-	
+
 		.contentPanel {
 			min-height: 0;
 			height: unset;
-			
+
 			&.cheating {
 				min-height: 0px;
 			    max-height: 252px;
 			    height: unset;
 			}
-			
-			div:first-of-type > .captionStyle:first-child { 
-				margin: 0px;	
+
+			div:first-of-type > .captionStyle:first-child {
+				margin: 0px;
 			}
 		}
 	}
@@ -1023,81 +1025,81 @@ $duration: 0.2s;
 	.MaterialDialogBox.mowShareDialog {
 		padding: 24px 0px 24px 0px;
 		width: 350px;
-		
+
 		.Caption {
-			padding: 0px 24px 0px 24px;	
+			padding: 0px 24px 0px 24px;
 		}
-	
+
 		.dialogContent {
     	   width: 350px;
     	}
-		
+
 		.chooseGrTxt {
 			color: $text-secondary;
 			font-size: 100%;
-			margin: 0px 24px 10px 24px;	
+			margin: 0px 24px 10px 24px;
 		}
-	
+
 		.noGrTxt {
 			@extend .chooseGrTxt;
 			margin-bottom: 0px;
 			text-align: center; /* for IE*/
 		}
-	
+
 		.groupList {
 			height: unset;
 			max-height: 216px;
 			border-bottom: 1px solid $black-12;
-			border-top: 1px solid $black-12;	
-			padding: 0px;	
+			border-top: 1px solid $black-12;
+			padding: 0px;
 			width: 350px;
 			cursor: pointer;
-			
+
 			.groupContent {
 			    display: flex;
 			    height: 40px;
 			    padding: 16px 24px;
-			    
+
 			    img {
-					opacity: 0.54;	
+					opacity: 0.54;
 				}
-		
+
 				.groupInfo {
 				    /*padding-left: 16px;*/
 				    padding: 12px 0px 12px 16px;
-				    
+
 				    .groupName {
 				    	font-size: 100%;
 				    	color: $text-primary;
 				    	line-height: 16px;
-	    				height: 16px;	
+	    				height: 16px;
 				    }
-				   
+
 				   	.groupMember {
 					   	font-size: 88%;
-					    color: $text-secondary;	
+					    color: $text-secondary;
 					    line-height: 14px;
 			   			height: 14px;
 			   			padding-top: 6px;
 				   	}
 				}
-			
+
 				&:hover {
-					background-color: $white-5-overlay;	
-				} 
+					background-color: $white-5-overlay;
+				}
 			}
 		}
-	
+
 		.buttonPanel {
 			margin: 20px auto 0px auto;
     		width: fit-content;
     		// auto margin fix for firefox
     		display: table;
-			
+
 			.getLinkBtn {
 				cursor: pointer;
 				transition: background-color 0.15s;
-				
+
 				img {
 					padding: 8px;
 	    			background-color: $mebis-teal;
@@ -1105,7 +1107,7 @@ $duration: 0.2s;
 	    			display: block;
     				margin: 0px auto;
 	    		}
-	    		
+
 	    		.gwt-Label {
 	    			text-align: center;
 	    			margin: 4px 0px 0px 0px;
@@ -1113,24 +1115,24 @@ $duration: 0.2s;
 	    			font-size: 88%;
 	    			cursor: pointer;
 	    		}
-	    	
+
 	    		&:hover {
 	    			img {
 	    				background-color: $mebis-teal-hover;
-	    			}	
+	    			}
 	    		}
-			}	
-		}	
+			}
+		}
 	}
 
 	.MaterialDialogBox.shareLinkMow {
 		@extend .shareLinkGgb;
-		
+
 		padding: 24px 8px 0px 24px;
-		
-		.linkPanel {	
+
+		.linkPanel {
 			margin-right: 16px;
-					
+
 			.linkBox {
 			    border-bottom: 2px solid $mebis-teal-dark !important;
 			}
@@ -1138,33 +1140,33 @@ $duration: 0.2s;
   				background: $mebis-teal-20;
   			}
   		}
-  	
+
   		.shareHelpTxt {
   			font-size: 100%;
-  			margin-top: 12px;	
+  			margin-top: 12px;
   			width: 478px;
   		}
-  	
+
   		.DialogButtonPanel {
   			.button {
-   				color: $mebis-teal-dark;	
-   			}	
+   				color: $mebis-teal-dark;
+   			}
   		}
 	}
 
 	.MaterialDialogBox.saveDialogMow {
 		@extend .mediaDialog;
-		
+
 		.mowMediaDialogContent {
 				.AutoCompleteTextFieldW {
-   					margin: 8px 16px 16px 0px !important;	
+   					margin: 8px 16px 16px 0px !important;
    				}
    		}
-		
-		.mowMediaDialogContent.hoverState, 
+
+		.mowMediaDialogContent.hoverState,
 			.mowMediaDialogContent.focusState {
 				.AutoCompleteTextFieldW {
-   					margin: 8px 16px 15px 0px !important;	
+   					margin: 8px 16px 15px 0px !important;
    				}
    		}
 	}
@@ -1185,7 +1187,7 @@ $duration: 0.2s;
 			margin-right: 16px;
 		}
 		button {
-   			color: $mebis-teal-dark !important;	
+   			color: $mebis-teal-dark !important;
    		}
    		&.narrowDialog {
 			max-width: 376px; // 400px - (8px + 16px) padding
@@ -1198,8 +1200,8 @@ $duration: 0.2s;
 	}
 
 	.MaterialDialogBox.camera {
-		max-width: 80%; 
-		max-height: 80%; 
+		max-width: 80%;
+		max-height: 80%;
 		.mowCameraSimplePanel{
 			position: relative;
 			margin-left: 16px;
@@ -1218,30 +1220,30 @@ $duration: 0.2s;
 			text-align: center;
 		}
 		button {
-			color: $mebis-teal-dark !important;	
+			color: $mebis-teal-dark !important;
 		}
 	}
 
 	.MaterialDialogBox.mowPrintPrew {
 		 button {
-   			color: $mebis-teal-dark !important;	
+   			color: $mebis-teal-dark !important;
    		}
    		select:focus:not([readonly]) {
    			    border: 1px $mebis-teal-dark solid;
    		}
 	}
 
-	.MaterialDialogBox.mow, 
+	.MaterialDialogBox.mow,
 		.MaterialDialogBox.ColorChooser.mow {
 			.previewLbl {
-				color: $mebis-teal-dark !important;	
+				color: $mebis-teal-dark !important;
 			}
 			.CustomColorButton:hover {
 				background-color: $mebis-teal-light !important;
 			}
 			.DialogButtonPanel {
 				.gwt-Button {
-	   				color: $mebis-teal-dark;	
+	   				color: $mebis-teal-dark;
 	   				&:hover {
 	   					color: $mebis-teal-dark;
 	   				}
@@ -1255,31 +1257,31 @@ $duration: 0.2s;
 	.shareDialogMow {
 		padding-right: 0px !important;
 		padding-left: 0px !important;
-		
+
 		.Caption {
-			padding-left: 24px !important;	
+			padding-left: 24px !important;
 			margin-bottom: 0px !important;
 		}
-	
+
 		.selGrLbl {
 			font-size: 100%;
 			margin-top: 0px;
 			margin-bottom: 20px;
 			margin-left: 24px;
 		}
-		
+
 		.groupPanel {
-			border-top: 1px solid $black-12;	
-			border-bottom: 1px solid $black-12;		
+			border-top: 1px solid $black-12;
+			border-bottom: 1px solid $black-12;
 			max-height: 200px;
 		    overflow: auto;
 		    width: 494px;
     		padding: 16px 0px 0px 20px;
 		}
-	
+
 		.noGroupPanel {
-			border-bottom: 1px solid $black-12;		
-			
+			border-bottom: 1px solid $black-12;
+
 			.groupImgHolder {
 				width: 48px;
 				height: 48px;
@@ -1289,12 +1291,12 @@ $duration: 0.2s;
 				display: block;
 				margin: 0px auto;
 				margin-top: 16px;
-				
+
 				img {
-					opacity: 0.38;	
-				}	
+					opacity: 0.38;
+				}
 			}
-		
+
 			.noGroupsLbl {
 			    font-size: 100%;
 			    width: fit-content;
@@ -1303,7 +1305,7 @@ $duration: 0.2s;
 			    margin-top: 16px;
 			    color: $text-primary;
 			}
-		
+
 			.noGroupsHelpLbl {
 			    width: 262px;
 			    height: fit-content;
@@ -1316,21 +1318,21 @@ $duration: 0.2s;
 			    color: $text-secondary;
 			}
 		}
-	
+
 		.shareByLink {
 		    width: 474px;
 		    margin: 16px 8px 0px 24px;
-		    
+
 		    .linkImg {
 			    opacity: 0.54;
 			    margin: 0px 32px 2px 0px;
 			}
-		    
+
 		    .textPanel {
 			    position: relative;
 			    width: 356px;
 			    display: inline-block;
-			    
+
 			    .linkShareOnOff {
 				    margin-top: 0px;
 				    font-size: 100%;
@@ -1338,7 +1340,7 @@ $duration: 0.2s;
 				    height: 16px;
     				line-height: 16px;
 				}
-			
+
 				.linkShareHelp {
 				    margin-top: 0px;
 				    font-size: 87%;
@@ -1347,11 +1349,11 @@ $duration: 0.2s;
 				    color: $text-secondary;
 				}
 			}
-		
+
 			.linkPanel {
 				margin-top: 16px;
 				display: flex;
-						
+
 				.linkBox {
 					width: 362px;
 					padding: 8px 0 8px 0;
@@ -1362,7 +1364,7 @@ $duration: 0.2s;
 				.linkBox::selection {
 	  				background: $mebis-teal-20;
 	  			}
-	  		
+
 	  			.copyButton {
 					cursor: pointer;
 					min-width: 64px;
@@ -1371,25 +1373,25 @@ $duration: 0.2s;
 					padding: 0 8px;
 					margin-left: 32px;
 					display: inline-flex;
-					align-items: center;       
+					align-items: center;
 					justify-content: center;
 					vertical-align: middle;
 					color: $text-primary;
 					text-transform: uppercase;
 					transition: background-color 0.15s;
-					
+
 					&:hover {
 						background-color: $mow_card_background_hover;
 					}
 				}
 	  		}
 		}
-		
+
 		.DialogButtonPanel {
 			padding-right: 8px !important;
-			
+
 			.button {
-	   			color: $mebis-teal-dark !important;	
+	   			color: $mebis-teal-dark !important;
 	   			&:hover {
 	   				color: $mebis-teal-dark !important;
 	   			}
@@ -1403,13 +1405,13 @@ $duration: 0.2s;
     	width: 90px;
     	margin: 0px 2px 4px 2px;
     	display: inline-flex;
-    	
+
     	.content {
     		height: 96px;
     		width: 90px;
     		overflow: hidden;
     	}
-    	
+
     	.groupImgHolder {
     		width: 24px;
     		height: 24px;
@@ -1419,12 +1421,12 @@ $duration: 0.2s;
 		    display: block;
     		margin: 0px auto;
     		margin-top: 4px;
-			
+
 			.groupImg {
 	    		opacity: 0.54;
-			}	
+			}
 		}
-	
+
 		.groupName {
 		    margin-top: 8px;
     		padding-bottom: 4px;
@@ -1437,7 +1439,7 @@ $duration: 0.2s;
 		    position: relative;
     		top: -20px;
 		}
-	
+
 		.checkMark {
 			padding: 1px;
    			border-radius: 50%;
@@ -1447,41 +1449,41 @@ $duration: 0.2s;
     		right: -56px;
     		visibility: hidden;
 		}
-	
+
 		&.selected {
 			.groupImgHolder {
-				border: 2px solid $mebis-teal;	
+				border: 2px solid $mebis-teal;
 			}
 			.checkMark {
-				visibility: visible;	
+				visibility: visible;
 			}
 		}
 	}
 
 	.MaterialDialogBox.tableOfValuesDialog {
 		.Caption {
-			// with the extra 8px from the top 
+			// with the extra 8px from the top
 			// of input field is 20px as supposed to
-			margin-bottom: 12px; 	
+			margin-bottom: 12px;
 		}
 	}
-	
+
 	.export3dDialog {
 		padding-right: 0px;
 		.Caption {
-			// with the extra 8px from the top 
+			// with the extra 8px from the top
 			// of input field is 20px as supposed to
-			margin-bottom: 12px; 	
+			margin-bottom: 12px;
 		}
 	   	.panelRow>* {
-			margin: 0px;	
+			margin: 0px;
 		}
-		.inputTextField { 
-			margin-left: 0px;	
-			margin-right: 24px;	
-			margin-top: 8px;	
-			margin-bottom: 8px;	
-			width: 96px;	
+		.inputTextField {
+			margin-left: 0px;
+			margin-right: 24px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+			width: 96px;
 			.textField {
 	   			.AutoCompleteTextFieldW {
 	   				margin: 0px;
@@ -1508,7 +1510,7 @@ $duration: 0.2s;
    			margin-right: 16px;
    		}
    		.DialogButtonPanel {
-			margin-right: 8px; 	
+			margin-right: 8px;
 		}
    	}
 }
