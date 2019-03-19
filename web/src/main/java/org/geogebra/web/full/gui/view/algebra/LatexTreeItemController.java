@@ -1,13 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.gui.inputfield.InputHelper;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
-import org.geogebra.common.kernel.algos.AlgoFractionText;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -15,7 +9,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.InputSuggestions;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -32,6 +25,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	private InputSuggestions sug;
 	private RetexKeyboardListener retexListener;
+	private EvaluateInput evalInput;
 
 	/**
 	 * @param item
@@ -39,6 +33,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public LatexTreeItemController(RadioTreeItem item) {
 		super(item);
+		evalInput = new EvaluateInput(item, this);
 	}
 
 	@Override
@@ -180,87 +175,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            whether to create sliders
 	 */
 	public void createGeoFromInput(final boolean keepFocus,
-			boolean withSliders) {
-		String newValue = item.getText();
-		final String rawInput = app.getKernel().getInputPreviewHelper()
-				.getInput(newValue);
-		boolean textInput = isInputAsText();
-		final String input = textInput ? "\"" + rawInput + "\"" : rawInput;
-
-		setInputAsText(false);
-		final boolean valid = input.equals(newValue);
-
-		app.setScrollToShow(true);
-		final int oldStep = app.getKernel().getConstructionStep();
-		AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
-
-			@Override
-			public void callback(GeoElementND[] geos) {
-				if (geos == null) {
-					setFocus(true);
-					return;
-				}
-
-				if (!app.getConfig().hasAutomaticLabels()) {
-					new LabelHiderCallback().callback(geos);
-				}
-				if (geos.length == 1) {
-					// need label if we type just eg
-					// lnx
-					if (!geos[0].isLabelSet()) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
-
-					if (AlgebraItem.isTextItem(geos[0]) && !(geos[0] instanceof AlgoFractionText)) {
-						geos[0].setEuclidianVisible(false);
-					}
-
-					AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
-				}
-
-				InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
-						oldStep);
-				app.storeUndoInfo();
-				app.setScrollToShow(false);
-
-				Scheduler.get()
-						.scheduleDeferred(new Scheduler.ScheduledCommand() {
-							@Override
-							public void execute() {
-								item.scrollIntoView();
-								if (keepFocus) {
-									setFocus(true);
-								} else {
-									item.setFocus(false, true);
-								}
-							}
-						});
-
-				item.setText("");
-				item.removeOutput();
-				item.inputControl.ensureInputMoreMenu();
-				item.runSuggestionCallbacks(geos[0]);
-			}
-		};
-		// keepFocus==false: this was called from blur, don't use modal slider
-		// dialog
-		ErrorHandler err = null;
-		if (!textInput) {
-			err = item.getErrorHandler(valid, keepFocus, withSliders);
-			err.resetError();
-		}
-		EvalInfo info = new EvalInfo(true, true).withSliders(true)
-				.withFractions(true).addDegree(app.has(Feature.AUTO_ADD_DEGREE))
-				.withUserEquation(true)
-				.withSymbolicMode(app.getKernel().getSymbolicMode());
-		// undo point stored in callback
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(input, false, err,
-						info, callback);
-		if (!keepFocus) {
-			item.setFocus(false, false);
-		}
+			boolean withSlider) {
+		evalInput.createGeoFromInput(keepFocus, withSlider);
 	}
+
 
 	/**
 	 * @param text
