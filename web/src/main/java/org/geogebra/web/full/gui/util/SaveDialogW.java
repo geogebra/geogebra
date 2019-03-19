@@ -6,13 +6,11 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
-import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
@@ -43,7 +41,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -57,7 +54,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	/** appWlication */
 	protected AppW appW;
 	/** title box */
-	protected TextBox title;
+	protected GTextBox title;
 	private StandardButton dontSaveButton;
 	private StandardButton saveButton;
 	private Label titleLabel;
@@ -395,26 +392,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	@Override
 	public void setTitle() {
-		String consTitle = appW.getKernel().getConstruction().getTitle();
-		if (consTitle != null && !"".equals(consTitle)
-				&& !appW.getSaveController().isMacro()) {
-			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
-				consTitle = getTitleOnly(consTitle);
-			}
-			if (!app.getLoginOperation()
-					.canUserWrite(appW.getActiveMaterial())) {
-				consTitle = MarvlAPI.getCopyTitle(loc, consTitle);
-				selectTitle();
-			}
-			this.title.setText(consTitle);
-		} else {
-			this.title.setText(loc.getMenu("Untitled"));
-			selectTitle();
+		boolean selection = app.getSaveController().updateSaveTitle(title,
+				loc.getMenu("Untitled"));
+		if (selection) {
+			this.title.setSelectionRange(0, this.title.getText().length());
 		}
-	}
-
-	private void selectTitle() {
-		this.title.setSelectionRange(0, this.title.getText().length());
 	}
 
 	private static String getTitleOnly(String key) {

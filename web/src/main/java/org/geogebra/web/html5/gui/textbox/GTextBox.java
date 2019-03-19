@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.textbox;
 
+import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.dom.client.Document;
@@ -18,7 +19,8 @@ import com.google.gwt.user.client.ui.TextBox;
  * 
  * @author Balazs
  */
-public class GTextBox extends TextBox implements NativePreviewHandler, MathKeyboardListener {
+public class GTextBox extends TextBox
+		implements NativePreviewHandler, MathKeyboardListener, TextObject {
 	// On iOS when using a bluetooth keyboard, the onkeyup event reports
 	// the charcode to be 0. To solve this, we save the character code
 	// in the onkeydown event, and we use that for the onkeyup
@@ -105,5 +107,13 @@ public class GTextBox extends TextBox implements NativePreviewHandler, MathKeybo
 	@Override
 	public boolean needsAutofocus() {
 		return false;
+	}
+
+	public void setColumns(int fieldWidth) {
+		// not needed
+	}
+
+	public void setEditable(boolean editable) {
+		this.setReadOnly(!editable);
 	}
 }

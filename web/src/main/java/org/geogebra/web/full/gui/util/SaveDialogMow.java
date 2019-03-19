@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.MaterialVisibility;
-import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -227,18 +226,8 @@ public class SaveDialogMow extends DialogBoxW
 	 */
 	@Override
 	public void setTitle() {
-		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (consTitle != null
-				&& !app.getSaveController().isMacro()) {
-			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
-				consTitle = getTitleOnly(consTitle);
-			}
-			getInputField().getTextComponent().setText(consTitle);
-		}
-	}
-
-	private static String getTitleOnly(String key) {
-		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
+		app.getSaveController()
+				.updateSaveTitle(getInputField().getTextComponent(), "");
 	}
 
 	/**

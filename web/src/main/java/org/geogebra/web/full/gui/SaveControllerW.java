@@ -6,14 +6,17 @@ import java.util.List;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Chapter;
+import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
@@ -98,16 +101,19 @@ public class SaveControllerW implements SaveController {
 		} else {
 			if (app.getActiveMaterial() == null || isMacro()) {
 				app.setActiveMaterial(new Material(0, saveType));
-			} else {
-				if (!app.getLoginOperation()
+			} else if (!app.getLoginOperation()
 						.canUserWrite(app.getActiveMaterial())) {
-					app.getActiveMaterial().setId(0);
-					app.getActiveMaterial().setSharingKey(null);
-				}
+				app.getActiveMaterial().setId(0);
+				app.getActiveMaterial().setSharingKey(null);
 			}
+
 			app.getActiveMaterial().setVisibility(visibility.getToken());
 			uploadToGgt(app.getActiveMaterial().getVisibility());
 		}
+	}
+
+	private static String getTitleOnly(String key) {
+		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
 	private boolean checkActiveMaterial() {
@@ -456,6 +462,28 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public void setRunAfterSave(AsyncOperation<Boolean> runAfterSave) {
 		this.runAfterSave = runAfterSave;
+	}
+
+	@Override
+	public boolean updateSaveTitle(TextObject title, String fallback) {
+		String consTitle = app.getKernel().getConstruction().getTitle();
+		if (consTitle != null && !"".equals(consTitle)
+				&& !app.getSaveController().isMacro()) {
+			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
+				consTitle = getTitleOnly(consTitle);
+			}
+			if (!app.getLoginOperation()
+					.canUserWrite(app.getActiveMaterial())) {
+				consTitle = MarvlAPI.getCopyTitle(loc, consTitle);
+				title.setText(consTitle);
+				return true;
+			}
+			title.setText(consTitle);
+		} else {
+			title.setText(fallback);
+			return true;
+		}
+		return false;
 	}
 
 }

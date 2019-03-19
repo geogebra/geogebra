@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.TextObject;
 
 /**
  * Handles materials save.
@@ -82,4 +83,13 @@ public interface SaveController {
 	 *            active material
 	 */
 	void runAfterSaveCallback(boolean activeMaterial);
+
+	/**
+	 * @param title
+	 *            title component
+	 * @param fallback
+	 *            fallback if title is empty
+	 * @return whether selection is needed
+	 */
+	public boolean updateSaveTitle(TextObject title, String fallback);
 }
