@@ -2,7 +2,7 @@ package org.geogebra.io.latex;
 
 import java.text.Normalizer;
 
-import org.geogebra.common.TestStringUtil;
+import org.geogebra.common.jre.util.TestStringUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

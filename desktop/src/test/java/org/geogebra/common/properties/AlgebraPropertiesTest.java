@@ -1,7 +1,7 @@
 package org.geogebra.common.properties;
 
 import org.geogebra.commands.CommandsTest;
-import org.geogebra.common.TestStringUtil;
+import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;

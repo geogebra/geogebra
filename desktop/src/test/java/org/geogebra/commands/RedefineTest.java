@@ -1,6 +1,6 @@
 package org.geogebra.commands;
 
-import org.geogebra.common.TestStringUtil;
+import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;

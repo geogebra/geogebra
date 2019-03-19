@@ -1,13 +1,11 @@
 package org.geogebra.commands;
 
-import static org.geogebra.common.TestStringUtil.unicode;
-
 import java.util.Locale;
 
-import org.geogebra.common.TestStringUtil;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
+import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -52,7 +50,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, false, null);
 		((GeoConicND) el[0]).setToStringMode(mode);
-		assertEquals(unicode(check),
+		assertEquals(TestStringUtil.unicode(check),
 				el[0].toValueString(StringTemplate.defaultTemplate));
 		return el[0].getLabelSimple();
 	}
@@ -62,7 +60,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 		String label = checkEquation(def, mode, check);
 		app.setXML(app.getXML(), true);
 		GeoElement reloaded = app.getKernel().lookupLabel(label);
-		assertEquals(unicode(check),
+		assertEquals(TestStringUtil.unicode(check),
 				reloaded.toValueString(StringTemplate.defaultTemplate));
 	}
 
