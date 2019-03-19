@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -231,5 +232,50 @@ public class AlgebraController {
 
 	protected AlgebraView getView() {
 		return view;
+	}
+
+	/**
+	 * 
+	 * @param property
+	 *            visual style property
+	 * @return true if changes for this property needs update in AV
+	 */
+	static public boolean needsUpdateVisualstyle(GProperty property) {
+		switch (property) {
+		case FONT:
+			return true;
+		case COLOR:
+			return true;
+		case POSITION:
+			return false;
+		case CAPTION:
+			return false;
+		case COMBINED:
+			return true;
+		case ANGLE_INTERVAL:
+			return false;
+		case COLOR_BG:
+			return true;
+		case LINE_STYLE:
+			return false;
+		case POINT_STYLE:
+			return false;
+		case VISIBLE:
+			return true;
+		case LAYER:
+			return false;
+		case ANGLE_STYLE:
+			return false;
+		case LABEL_STYLE:
+			return true;
+		case LENGTH:
+			return true;
+		case HATCHING:
+			return false;
+		case HIGHLIGHT:
+			return true;
+		default:
+			return true;
+		}
 	}
 }
