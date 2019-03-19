@@ -13,6 +13,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
@@ -141,25 +142,41 @@ public class ItemControls extends FlowPanel
 	 * Show the More context menu
 	 */
 	protected void showMoreContexMenu() {
-		if (radioTreeItem.getApplication().isUnbundled()
-				&& radioTreeItem.getApplication().isMenuShowing()) {
-			radioTreeItem.getApplication().toggleMenu();
+		if (!radioTreeItem.hasMoreMenu()) {
+			return;
 		}
-		if (cmMore == null && radioTreeItem.hasMoreMenu()) {
-			cmMore = createMoreContextMenu();
-		} else {
-			cmMore.buildGUI();
+
+		cancelEditItem();
+		closeBurgerMenu();
+		createMoreContextMenu();
+
+		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
+	}
+
+	private void cancelEditItem() {
+		if (radioTreeItem.isInputTreeItem()) {
+			return;
 		}
+
 		radioTreeItem.cancelEditing();
-		if (cmMore != null) {
-				cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
+	}
+
+	private void closeBurgerMenu() {
+		AppWFull app = radioTreeItem.getApplication();
+		if (app.isUnbundled() && app.isMenuShowing()) {
+			app.toggleMenu();
 		}
 	}
 
-	private ContextMenuAVItemMore createMoreContextMenu() {
+	private void createMoreContextMenu() {
+		if (cmMore != null) {
+			cmMore.buildGUI();
+			return;
+		}
+
 		MenuActionCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
 				.getActivity().getAVMenuItems(radioTreeItem.getAV());
-		return new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
+		cmMore = new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
 	}
 
 	/**
@@ -390,7 +407,7 @@ public class ItemControls extends FlowPanel
 
 	/**
 	 * Shows/Hides 3-dot button
-	 * 
+	 *
 	 * @param visible
 	 *            whether to show it
 	 *
