@@ -47,7 +47,7 @@ public class CmdInvert extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (arg[0].isGeoList() && !numeric) {
+			} else if (arg[0].isGeoList() && !"NInvert".equals(c.getName())) {
 
 				AlgoInvert algo = new AlgoInvert(cons, c.getLabel(),
 						(GeoList) arg[0]);
