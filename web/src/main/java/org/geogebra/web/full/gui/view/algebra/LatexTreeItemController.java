@@ -186,6 +186,14 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public GeoElementND evaluateToGeo() {
 		return evalInput.evaluateToGeo();
 	}
+	
+	/**
+	 * @param afterCb 
+	 * 				additional callback that runs after creation.
+	 */
+	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
+		evalInput.createGeoFromInput(afterCb);
+	}
 
 	/**
 	 * @param text

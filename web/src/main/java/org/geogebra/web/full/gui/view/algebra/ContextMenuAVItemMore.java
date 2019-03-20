@@ -5,8 +5,9 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -31,6 +32,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	/** parent item */
 	private RadioTreeItem item;
 	private MenuActionCollection<GeoElement> actions;
+	private GeoElement inputGeo;
 
 	/**
 	 * Creates new context menu
@@ -73,22 +75,14 @@ public class ContextMenuAVItemMore implements SetLabels {
 		}
 	}
 
-
 	private void buildForInputItem() {
 		GeoElementND geo = item.getLatexController().evaluateToGeo();
 		if (geo != null) {
-			buildForGeo((GeoElement) geo);
-			return;
+			inputGeo = (GeoElement) geo;
+			buildForGeo(inputGeo);
+		} else {
+			addAction(new DeleteAction());
 		}
-		AriaMenuItem mi = new AriaMenuItem("Foo", true, new Command() {
-
-			@Override
-			public void execute() {
-				Log.debug("foo: implement me");
-			}
-
-		});
-		wrappedPopup.addItem(mi);
 	}
 
 	private void buildForGeo(GeoElement geo) {
@@ -128,8 +122,26 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * @param menuAction
 	 *            action to be executed
 	 */
-	protected void select(MenuAction<GeoElement> menuAction) {
-		menuAction.execute(item.geo, mApp);
+	protected void select(final MenuAction<GeoElement> menuAction) {
+		if (item.isInputTreeItem()) {
+			createdGeoAndSelect(menuAction);
+		} else {
+			menuAction.execute(item.geo, mApp);
+		}
+	}
+
+	private void createdGeoAndSelect(final MenuAction<GeoElement> menuAction) {
+		item.getLatexController().createGeoFromInput(new AsyncOperation<GeoElementND[]>() {
+			
+			@Override
+			public void callback(GeoElementND[] obj) {
+				if (obj == null) {
+					item.clearInput();
+					return;
+				}
+				menuAction.execute((GeoElement)obj[0], mApp);
+			}
+		});
 	}
 
 	@Override
