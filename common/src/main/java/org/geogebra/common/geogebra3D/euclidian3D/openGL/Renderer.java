@@ -159,6 +159,7 @@ public abstract class Renderer
 	private CoordMatrix4x4 arCameraPerspective;
 	protected float arScaleFactor;
     private boolean arShouldStart = false;
+	protected float mScaleFactor;
 
 	/** shift for getting alpha value */
 	private static final int ALPHA_SHIFT = 24;
@@ -2443,4 +2444,7 @@ public abstract class Renderer
 		// not used here
 	}
 
+	public float getScaleFactorForAR() {
+		return mScaleFactor;
+	}
 }

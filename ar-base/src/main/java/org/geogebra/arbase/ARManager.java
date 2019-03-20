@@ -134,7 +134,7 @@ abstract public class ARManager<TouchEventType> {
 
     }
 
-    public void onDrawFrame(Renderer renderer, float scaleFactor) {
+    public void onDrawFrame(Renderer renderer) {
         renderer.getRendererImpl().glViewPort();
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
         ARMotionEvent arMotionEvent = null;
@@ -145,7 +145,7 @@ abstract public class ARManager<TouchEventType> {
         if (isDrawing()) {
             renderer.getView().setARDrawing(true);
             renderer.setARMatrix(getViewMatrix(), getProjectMatrix(),
-                    getAnchorMatrixForGGB(), scaleFactor);
+                    getAnchorMatrixForGGB(), renderer.getScaleFactorForAR());
             if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
                 if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
                     if (((EuclidianController3D) renderer.getView().getEuclidianController())
