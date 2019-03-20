@@ -327,7 +327,8 @@ public class Browser {
 			return;
 		}
 
-		String transform = "scale(" + externalScale + "," + externalScale + ")";
+		String transform = "scale(" + externalScale + ")";
+		parent.addClassName("ggbTransform");
 
 		if (DoubleUtil.isEqual(externalScale, 1)) {
 			transform = "none";

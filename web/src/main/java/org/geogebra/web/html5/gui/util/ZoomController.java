@@ -10,10 +10,12 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
@@ -22,6 +24,7 @@ import com.google.gwt.user.client.Window;
  *
  */
 public class ZoomController {
+	private StyleElement transformOverride;
 	private AppW app;
 	/**
 	 * is in fullscreen mode
@@ -310,6 +313,7 @@ public class ZoomController {
 				scaler.addClassName("fullscreen");
 				setCssScale(ae.getParentScaleX());
 				if (ipad) {
+					overrideParentTransform();
 					setContainerProp(container, "left", "0px");
 					container.addClassName("GeoGebraFullscreenContainer");
 				}
@@ -325,6 +329,7 @@ public class ZoomController {
 				t.schedule(50);
 			} else {
 				if (ipad) {
+					removeTransformOverride();
 					container.removeClassName("GeoGebraFullscreenContainer");
 					onExitFullscreen(elem, fullscreenBtn);
 					if (getCssScale() != 0) {
@@ -338,6 +343,21 @@ public class ZoomController {
 			setFullScreenActive(!isFullScreenActive());
 			Browser.toggleFullscreen(isFullScreenActive(), container);
 		}
+	}
+
+	/**
+	 * Remove the inline style for transform overriding
+	 */
+	protected void removeTransformOverride() {
+		if (transformOverride != null) {
+			transformOverride.removeFromParent();
+		}
+	}
+
+	private void overrideParentTransform() {
+		transformOverride = new StyleInjector.StyleInjectorImpl()
+				.injectStyleSheet(
+						"*:not(.ggbTransform){transform: none !important;}");
 	}
 
 	private boolean useEmulatedFullscreen() {
