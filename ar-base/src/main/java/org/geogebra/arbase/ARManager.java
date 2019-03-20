@@ -1,6 +1,7 @@
 package org.geogebra.arbase;
 
 
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -53,7 +54,7 @@ abstract public class ARManager<TouchEventType> {
 
     abstract public void onPause();
 
-    abstract public void onDrawFrame();
+    abstract public void proceedARLogic();
 
     abstract public void arButtonClicked() throws ARException;
 
@@ -122,6 +123,90 @@ abstract public class ARManager<TouchEventType> {
     abstract public void setHittingOriginAndDirectionFromScreenCenter();
 
     abstract public void proceed(TouchEventType event);
+
+    protected void wrapMouseMoved(int x, int y) {
+
+    }
+
+    protected MouseTouchGestureQueueHelper mouseTouchGestureQueueHelper;
+
+    protected void setMouseTouchGestureController() {
+
+    }
+
+    public void onDrawFrame(Renderer renderer, float scaleFactor) {
+        renderer.getRendererImpl().glViewPort();
+        proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
+        ARMotionEvent arEvent = null;
+        if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
+            arEvent = mouseTouchGestureQueueHelper.poll();
+        }
+        // to update hitting o&d
+        if (isDrawing()) {
+            renderer.getView().setARDrawing(true);
+            renderer.setARMatrix(getViewMatrix(), getProjectMatrix(),
+                    getAnchorMatrixForGGB(), scaleFactor);
+            if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
+                if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
+                    if (((EuclidianController3D) renderer.getView().getEuclidianController())
+                            .isCurrentModeForCreatingPoint()) {
+                        if (arEvent == null) {
+                            if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
+                                // create a "mouse move" event
+                                setHittingOriginAndDirectionFromScreenCenter();
+                                wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
+                            } else {
+                                // force a drag (device may have moved)
+                                arEvent = createARMotion3D(renderer.getWidthInPixels() / 2,
+                                        renderer.getHeightInPixels() / 2);
+                                arEvent.setAction(ARMotionEvent.ON_MOVE);
+                                setHittingOriginAndDirectionFromScreenCenter();
+                            }
+                        } else {
+                            // force event to be screen-centered
+                            arEvent.setLocation(renderer.getWidthInPixels() / 2,
+                                    renderer.getHeightInPixels() / 2);
+                            setHittingOriginAndDirectionFromScreenCenter();
+                        }
+                    } else {
+                        // process motionEvent at touch location (if exists)
+                        if (arEvent != null) {
+                            setHittingOriginAndDirection(
+                                    arEvent.getX(),
+                                    arEvent.getY());
+                        }
+                    }
+                } else {
+                    if (arEvent != null) {
+                        setHittingOriginAndDirection(arEvent
+                                        .getX(),
+                                arEvent.getY());
+                    }
+                }
+                renderer.getView().setEuclidianPanelOnTouchListener();
+                setMouseTouchGestureController();
+            }
+            if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
+                proceedARMotionEvent(arEvent);
+            }
+            renderer.drawScene();
+        } else {
+            renderer.getView().setARDrawing(false);
+            renderer.endOfDrawScene();
+        }
+    }
+
+    public MouseTouchGestureQueueHelper getMouseTouchGestureQueueHelper() {
+        return mouseTouchGestureQueueHelper;
+    }
+
+    protected void proceedARMotionEvent(ARMotionEvent arEvent) {
+
+    }
+
+    protected ARMotionEvent createARMotion3D(int x, int y) {
+        return null;
+    }
 
     protected void updateModelMatrixFields() {
         /* Scaling */

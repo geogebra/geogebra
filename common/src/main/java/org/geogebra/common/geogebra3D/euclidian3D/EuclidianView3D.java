@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
@@ -4996,5 +4997,18 @@ public abstract class EuclidianView3D extends EuclidianView
         // reset rendering
         reset();
     }
+
+	public void setEuclidianPanelOnTouchListener() {
+		// overriden in EuclidianView3DA
+	}
+
+	public Object getRootView() {
+		// overriden in EuclidianView3DA
+		return null;
+	}
+	public MouseTouchGestureController getEuclidianPanelOnTouchListner() {
+		// overriden in EuclidianView3DA
+		return null;
+	}
 
 }

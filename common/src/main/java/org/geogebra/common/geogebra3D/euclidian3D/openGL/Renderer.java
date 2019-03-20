@@ -421,7 +421,7 @@ public abstract class Renderer
         endOfDrawScene();
 	}
 
-	protected void endOfDrawScene() {
+	public void endOfDrawScene() {
         boolean nei = needExportImage;
 
         exportImage();
@@ -2409,7 +2409,7 @@ public abstract class Renderer
 	/**
 	 * @return implementation
 	 */
-	protected RendererImpl getRendererImpl() {
+	public RendererImpl getRendererImpl() {
 		return rendererImpl;
 	}
 
