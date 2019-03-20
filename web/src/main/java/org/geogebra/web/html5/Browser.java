@@ -204,6 +204,11 @@ public class Browser {
 		return $wnd.location.protocol != 'file:';
 	}-*/;
 
+	/**
+	 * Check this to avoid exceptions thrown from Storage.get*StorageIfSupported
+	 * 
+	 * @return whether session storage is supported
+	 */
 	public static boolean supportsSessionStorage() {
 		return !Browser.isIE() || Browser.isHTTP();
 	}
@@ -242,6 +247,9 @@ public class Browser {
 		return webglSupported.booleanValue();
 	}
 
+	/**
+	 * For tests, circumvent the WebGL availability check
+	 */
 	public static void mockWebGL() {
 		webglSupported = true;
 	}
@@ -265,6 +273,9 @@ public class Browser {
 		}
 	}-*/;
 
+	/**
+	 * @return whether TRIANGLE_FAN is supported in WebGL
+	 */
 	public static native boolean supportsWebGLTriangleFan()/*-{
 		return $wnd.WebGLRenderingContext
 				&& (!!$wnd.WebGLRenderingContext.TRIANGLE_FAN);
