@@ -1694,9 +1694,10 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			e.printStackTrace();
 			ErrorHelper.handleException(new Exception(e), app, handler);
+		} finally {
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return num;
 	}
 
