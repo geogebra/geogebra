@@ -8,12 +8,18 @@ public class TestEvent extends AbstractEvent {
 
 	private int x;
 	private int y;
-	public String command;
-	public String[] inputs;
+	private String command;
+	private String[] inputs;
 
-	public TestEvent(int i, int j) {
-		x = i;
-		y = j;
+	/**
+	 * @param x
+	 *            screen x-coord
+	 * @param y
+	 *            screen y-coord
+	 */
+	public TestEvent(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	@Override
@@ -43,55 +49,59 @@ public class TestEvent extends AbstractEvent {
 
 	@Override
 	public int getY() {
-		// TODO Auto-generated method stub
 		return y;
 	}
 
 	@Override
 	public boolean isRightClick() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isControlDown() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public int getClickCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public boolean isMetaDown() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isMiddleClick() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isPopupTrigger() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public PointerEventType getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public TestEvent withInput(String[] string) {
-		this.inputs = string;
+		inputs = string;
 		return this;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
+	public String[] getInputs() {
+		return inputs == null ? null : inputs.clone();
 	}
 
 }

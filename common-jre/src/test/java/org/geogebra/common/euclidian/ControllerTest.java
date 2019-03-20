@@ -41,7 +41,7 @@ public class ControllerTest {
 
 	private static void t(String s) {
 		TestEvent evt = new TestEvent(0, 0);
-		evt.command = s;
+		evt.setCommand(s);
 		events.add(evt);
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false);
 	}
@@ -54,11 +54,11 @@ public class ControllerTest {
 		if (!events.isEmpty()) {
 			reset();
 			for (TestEvent evt : events) {
-				if (evt.inputs != null) {
-					app.initDialogManager(false, evt.inputs);
-				} else if (evt.command != null) {
+				if (evt.getInputs() != null) {
+					app.initDialogManager(false, evt.getInputs());
+				} else if (evt.getCommand() != null) {
 					app.getKernel().getAlgebraProcessor()
-							.processAlgebraCommand(evt.command, false);
+							.processAlgebraCommand(evt.getCommand(), false);
 				} else {
 					ec.setLastMouseUpLoc(null);
 					app.getActiveEuclidianView().getEuclidianController()
