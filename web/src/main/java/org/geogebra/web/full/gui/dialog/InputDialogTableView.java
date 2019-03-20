@@ -31,6 +31,7 @@ public class InputDialogTableView extends OptionDialog
 	private GeoElement geo;
 	private Label errorLabel;
 	private TableValuesDialogValidator validator;
+	private FlowPanel scrollContent;
 
 	/**
 	 * Create new dialog. NOT modal to make sure onscreen keyboard still works.
@@ -65,8 +66,11 @@ public class InputDialogTableView extends OptionDialog
 		FlowPanel contentPanel = new FlowPanel();
 		errorLabel = new Label();
 		errorLabel.setStyleName("globalErrorLabel");
-		buildTextFieldPanel(contentPanel);
-		contentPanel.add(errorLabel);
+		scrollContent = new FlowPanel();
+		scrollContent.addStyleName("verticalScroll");
+		buildTextFieldPanel(scrollContent);
+		scrollContent.add(errorLabel);
+		contentPanel.add(scrollContent);
 		buildButtonPanel(contentPanel);
 		add(contentPanel);
 		setLabels();
@@ -110,6 +114,17 @@ public class InputDialogTableView extends OptionDialog
 		focusDeferred(startValue);
 	}
 
+	@Override
+	public void centerAndResize(double height) {
+		// reset so that resizing to bigger screen allows expansion of the
+		// scroll content
+		scrollContent.setHeight("auto");
+		super.centerAndResize(height);
+		int dheight = getOffsetHeight() - getButtonPanel().getOffsetHeight()
+				- getCaption().asWidget().getOffsetHeight()
+				- GPopupPanel.VERTICAL_PADDING;
+		scrollContent.setHeight(Math.max(56, dheight) + "px");
+	}
 	/**
 	 * @param functionGeo
 	 *            function

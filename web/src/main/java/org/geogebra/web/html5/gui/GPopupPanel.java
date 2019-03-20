@@ -115,6 +115,11 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	private static final PopupImpl impl = GWT.create(PopupImpl.class);
 
 	/**
+	 * Total of top + bottom paddings
+	 */
+	protected static final int VERTICAL_PADDING = 32;
+
+	/**
 	 * Window resize handler used to keep the glass the proper size.
 	 */
 	private ResizeHandler glassResizer = new ResizeHandler() {
@@ -600,7 +605,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		center(keyboardHeight);
 
-		int paddings = 30; //TODO: get sum of top and bottom paddings
+		int paddings = VERTICAL_PADDING;
 		int maxHeight = (int) (getRootPanel().getOffsetHeight() - keyboardHeight
 				- paddings);
 
