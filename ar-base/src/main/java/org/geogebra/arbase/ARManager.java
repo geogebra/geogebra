@@ -137,9 +137,9 @@ abstract public class ARManager<TouchEventType> {
     public void onDrawFrame(Renderer renderer, float scaleFactor) {
         renderer.getRendererImpl().glViewPort();
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
-        ARMotionEvent arEvent = null;
+        ARMotionEvent arMotionEvent = null;
         if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            arEvent = mouseTouchGestureQueueHelper.poll();
+            arMotionEvent = mouseTouchGestureQueueHelper.poll();
         }
         // to update hitting o&d
         if (isDrawing()) {
@@ -150,44 +150,44 @@ abstract public class ARManager<TouchEventType> {
                 if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
                     if (((EuclidianController3D) renderer.getView().getEuclidianController())
                             .isCurrentModeForCreatingPoint()) {
-                        if (arEvent == null) {
+                        if (arMotionEvent == null) {
                             if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
                                 // create a "mouse move" event
                                 setHittingOriginAndDirectionFromScreenCenter();
                                 wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                             } else {
                                 // force a drag (device may have moved)
-                                arEvent = createARMotion3D(renderer.getWidthInPixels() / 2,
+                                arMotionEvent = new ARMotionEvent(renderer.getWidthInPixels() / 2,
                                         renderer.getHeightInPixels() / 2);
-                                arEvent.setAction(ARMotionEvent.ON_MOVE);
+                                arMotionEvent.setAction(ARMotionEvent.ON_MOVE);
                                 setHittingOriginAndDirectionFromScreenCenter();
                             }
                         } else {
                             // force event to be screen-centered
-                            arEvent.setLocation(renderer.getWidthInPixels() / 2,
+                            arMotionEvent.setLocation(renderer.getWidthInPixels() / 2,
                                     renderer.getHeightInPixels() / 2);
                             setHittingOriginAndDirectionFromScreenCenter();
                         }
                     } else {
                         // process motionEvent at touch location (if exists)
-                        if (arEvent != null) {
+                        if (arMotionEvent != null) {
                             setHittingOriginAndDirection(
-                                    arEvent.getX(),
-                                    arEvent.getY());
+                                    arMotionEvent.getX(),
+                                    arMotionEvent.getY());
                         }
                     }
                 } else {
-                    if (arEvent != null) {
-                        setHittingOriginAndDirection(arEvent
+                    if (arMotionEvent != null) {
+                        setHittingOriginAndDirection(arMotionEvent
                                         .getX(),
-                                arEvent.getY());
+                                arMotionEvent.getY());
                     }
                 }
                 renderer.getView().setEuclidianPanelOnTouchListener();
                 setMouseTouchGestureController();
             }
             if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
-                proceedARMotionEvent(arEvent);
+                proceedARMotionEvent(arMotionEvent);
             }
             renderer.drawScene();
         } else {
@@ -200,12 +200,8 @@ abstract public class ARManager<TouchEventType> {
         return mouseTouchGestureQueueHelper;
     }
 
-    protected void proceedARMotionEvent(ARMotionEvent arEvent) {
+    protected void proceedARMotionEvent(ARMotionEvent arMotionEvent) {
 
-    }
-
-    protected ARMotionEvent createARMotion3D(int x, int y) {
-        return null;
     }
 
     protected void updateModelMatrixFields() {
