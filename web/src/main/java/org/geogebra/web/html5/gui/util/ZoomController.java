@@ -157,7 +157,7 @@ public class ZoomController {
 			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
-			container.getStyle().setPosition(useEmulatedFullscreen()
+			container.getStyle().setPosition(useEmulatedFullscreen(app)
 					? Position.FIXED : Position.ABSOLUTE);
 			double marginLeft = 0;
 			double marginTop = 0;
@@ -277,7 +277,7 @@ public class ZoomController {
 			app.toggleMenu();
 		}
 		final Element container;
-		final boolean ipad = useEmulatedFullscreen();
+		final boolean emulated = useEmulatedFullscreen(app);
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 			if (!isFullScreenActive()) {
@@ -312,7 +312,7 @@ public class ZoomController {
 				setOldSize(app.getPreferredSize());
 				scaler.addClassName("fullscreen");
 				setCssScale(ae.getParentScaleX());
-				if (ipad) {
+				if (emulated) {
 					overrideParentTransform();
 					setContainerProp(container, "left", "0px");
 					container.addClassName("GeoGebraFullscreenContainer");
@@ -328,7 +328,7 @@ public class ZoomController {
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
 			} else {
-				if (ipad) {
+				if (emulated) {
 					removeTransformOverride();
 					container.removeClassName("GeoGebraFullscreenContainer");
 					onExitFullscreen(elem, fullscreenBtn);
@@ -339,7 +339,7 @@ public class ZoomController {
 				}
 			}
 		}
-		if (!ipad) {
+		if (!emulated) {
 			setFullScreenActive(!isFullScreenActive());
 			Browser.toggleFullscreen(isFullScreenActive(), container);
 		}
@@ -360,7 +360,13 @@ public class ZoomController {
 						"*:not(.ggbTransform){transform: none !important;}");
 	}
 
-	private boolean useEmulatedFullscreen() {
+	/**
+	 * @param app
+	 *            application
+	 * @return whether emulated fullscreen mode is needed (enforced by browser
+	 *         or applet parameter)
+	 */
+	public static boolean useEmulatedFullscreen(AppW app) {
 		return Browser.isiOS() || !StringUtil
 				.empty(app.getArticleElement().getParamFullscreenContainer());
 	}

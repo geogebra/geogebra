@@ -312,10 +312,23 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private static boolean needsFullscreenButton(AppW app) {
+		return isFullscreenButtonRequested(app) && isFullscreenAvailable(app);
+	}
+
+	private static boolean isFullscreenButtonRequested(AppW app) {
 		return app.getArticleElement().getDataParamShowFullscreenButton()
 				|| (app.getArticleElement().getDataParamApp()
 						&& !Browser.isMobile());
 	}
+
+	private static boolean isFullscreenAvailable(AppW app) {
+		return !ZoomController.useEmulatedFullscreen(app)
+				|| !isRunningInIframe();
+	}
+
+	private static native boolean isRunningInIframe() /*-{
+		return $wnd != $wnd.parent;
+	}-*/;
 
 	private static boolean needsZoomButtons(AppW app) {
 		return (app.getArticleElement().getDataParamShowZoomButtons()
