@@ -372,6 +372,7 @@ public class MyList extends ValidExpression
 		}
 		if (valueList != null && valueList.size() != size) {
 			listElements.clear();
+			kernel.getConstruction().setSuppressLabelCreation(b);
 			return;
 
 		}
@@ -385,21 +386,8 @@ public class MyList extends ValidExpression
 					? value.deepCopy(kernel) : valueList.getListElement(i);
 			addResult(listElements.get(i), i, tempNode, singleValue, right,
 					tpl);
-
-			// }
-			// catch (MyError err) {
-			// err.printStackTrace();
-			// Application.debug(err.getLocalizedMessage());
-
-			// return empty list if any of the elements aren't numbers
-			// listElements.clear();
-			// return;
-			// }
 		}
 		kernel.getConstruction().setSuppressLabelCreation(b);
-
-		// Application.debug(" gives : " + this);
-
 	}
 
 	private boolean needsExpand() {
