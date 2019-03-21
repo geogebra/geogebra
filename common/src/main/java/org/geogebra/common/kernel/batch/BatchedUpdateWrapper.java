@@ -173,10 +173,12 @@ public class BatchedUpdateWrapper
 		}
 	}
 
+	@Override
 	public boolean needsUpdateVisualstyle(GProperty property) {
 		return wrappedView.needsUpdateVisualstyle(property);
 	}
 
+	@Override
 	public boolean show(GeoElement geo) {
 		return wrappedView.show(geo);
 	}
