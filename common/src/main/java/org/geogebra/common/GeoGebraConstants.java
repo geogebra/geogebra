@@ -164,7 +164,7 @@ public interface GeoGebraConstants {
 
 	// This is used for checking whether a major update exists (monthly):
 	// DON'T change to https (causes problems)
-	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
+	public static final String VERSION_URL = "https://download.geogebra.org/installers/version.txt";
 
 	public static final String INSTALLERS_URL = "https://www.geogebra.org/download";
 
