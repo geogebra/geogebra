@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.util.UtilFactoryJre;
-import org.geogebra.common.kernel.CheckBeforeUpdateView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.GTimer;
@@ -30,7 +29,7 @@ import org.mockito.stubbing.Answer;
 public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 	static abstract private class WrappedViewTest
-			implements CheckBeforeUpdateView {
+			implements WrappableView {
 
 		public boolean needsUpdateVisualstyle(GProperty property) {
 			return true;
