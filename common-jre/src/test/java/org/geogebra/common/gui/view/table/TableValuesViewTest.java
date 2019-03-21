@@ -597,8 +597,8 @@ public class TableValuesViewTest extends BaseUnitTest {
 		createFunction("fRed(x)=x+aRed");
 		Assert.assertEquals(true, tablePoints.arePointsVisible(1));
 		createFunction("gRed:x+aRed+y=0");
-		Assert.assertEquals(false, tablePoints.arePointsVisible(1));
-		Assert.assertEquals(true, tablePoints.arePointsVisible(2));
+		Assert.assertEquals(true, tablePoints.arePointsVisible(1));
+		Assert.assertEquals(false, tablePoints.arePointsVisible(2));
 		// Assert.assertEquals(true, tablePoints.arePointsVisible(2));
 		Assert.assertEquals(false, tablePoints.arePointsVisible(3));
 	}

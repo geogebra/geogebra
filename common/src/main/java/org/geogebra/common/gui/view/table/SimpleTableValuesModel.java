@@ -123,11 +123,22 @@ class SimpleTableValuesModel implements TableValuesModel {
 				idx++;
 			}
 			evaluatables.add(idx, evaluatable);
+			ensureIncreasingIndices(idx);
 			int column = idx + 1;
 			columns.add(column, new String[values.length]);
 			doubleColumns.add(column, new Double[values.length]);
 			header.add(column, getHeaderName(evaluatable));
 			notifyColumnAdded(evaluatable, column);
+		}
+	}
+
+	private void ensureIncreasingIndices(int idx) {
+		int lastColumn = evaluatables.get(idx).getTableColumn();
+		for (int i = idx + 1; i < evaluatables.size(); i++) {
+			if (evaluatables.get(i).getTableColumn() <= lastColumn) {
+				lastColumn++;
+				evaluatables.get(i).setTableColumn(lastColumn);
+			}
 		}
 	}
 
