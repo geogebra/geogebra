@@ -156,6 +156,7 @@ public class InputDialogTableView extends OptionDialog
 			} catch (InvalidValuesException ex) {
 				errorLabel
 						.setText(ex.getLocalizedMessage(app.getLocalization()));
+				errorLabel.getElement().scrollIntoView();
 				focusPrimaryButton();
 			}
 		} else {
