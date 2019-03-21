@@ -87,8 +87,15 @@ public class TestEvent extends AbstractEvent {
 		return null;
 	}
 
-	public TestEvent withInput(String[] string) {
-		inputs = string;
+	/**
+	 * Builder method for user input events
+	 * 
+	 * @param inputTexts
+	 *            emulated user inputs
+	 * @return this
+	 */
+	public TestEvent withInput(String[] inputTexts) {
+		inputs = inputTexts;
 		return this;
 	}
 

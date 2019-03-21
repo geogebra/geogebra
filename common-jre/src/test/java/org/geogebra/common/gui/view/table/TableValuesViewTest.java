@@ -4,11 +4,9 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.Stopwatch;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -45,6 +43,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
     @Before
     public void setupTest() {
+		getKernel().clearConstruction(true);
 		getKernel().detach(view);
         view = new TableValuesView(getKernel());
 		getKernel().attach(view);
@@ -584,27 +583,23 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void replaceShouldPreservePointOrder() {
-		GeoFunction f = (GeoFunction) createFunction("fRed(x)=x");
-		GeoLine g = (GeoLine) createFunction("gRed:x+y=0");
-		createFunction("aRed=1");
+	public void replaceShouldPreserveTableContent() {
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction f = factory.createFunction("f(x)=x");
+		GeoLine g = factory.createGeoLine();
+		g.setLabel("g");
+		factory.create("a=1");
 		setupPointListener();
 		showColumn(f);
 		g.setPointsVisible(false);
 		showColumn(g);
 		Assert.assertEquals(true, tablePoints.arePointsVisible(1));
-		// Assert.assertEquals(false, tablePoints.arePointsVisible(2));
-		createFunction("fRed(x)=x+aRed");
+		factory.create("f(x)=x+a");
 		Assert.assertEquals(true, tablePoints.arePointsVisible(1));
-		createFunction("gRed:x+aRed+y=0");
+		factory.create("g:x+a+y=0");
 		Assert.assertEquals(true, tablePoints.arePointsVisible(1));
 		Assert.assertEquals(false, tablePoints.arePointsVisible(2));
-		// Assert.assertEquals(true, tablePoints.arePointsVisible(2));
 		Assert.assertEquals(false, tablePoints.arePointsVisible(3));
 	}
 
-	private GeoElementND createFunction(String string) {
-		AlgebraProcessor ap = getKernel().getAlgebraProcessor();
-		return ap.processAlgebraCommand(string, false)[0];
-	}
 }

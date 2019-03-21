@@ -1,10 +1,10 @@
 package org.geogebra.common;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Class for creating geo elements.
@@ -27,10 +27,19 @@ public class GeoElementFactory {
      *
      * @return line
      */
-    public GeoLine createGeoLine() {
+	public GeoLine createGeoLine() {
+		return (GeoLine) create("x=y");
+	}
+
+	/**
+	 * @param definition
+	 *            definition
+	 * @return element added to construction
+	 */
+	public GeoElementND create(String definition) {
 		AlgebraProcessor processor = unitTest.getKernel().getAlgebraProcessor();
-		return (GeoLine) processor.processAlgebraCommand("x=y", false)[0];
-    }
+		return processor.processAlgebraCommand(definition, false)[0];
+	}
 
     /**
      * Create a GeoFunction based on function definition.
@@ -39,10 +48,7 @@ public class GeoElementFactory {
      * @return function
      */
     public GeoFunction createFunction(String definition) {
-        Kernel kernel = unitTest.getKernel();
-        AlgebraProcessor processor = kernel.getAlgebraProcessor();
-		return (GeoFunction) processor.processAlgebraCommand(definition,
-				false)[0];
+		return (GeoFunction) create(definition);
     }
 
     /**
