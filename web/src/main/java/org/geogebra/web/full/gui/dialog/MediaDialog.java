@@ -245,6 +245,10 @@ public abstract class MediaDialog extends OptionDialog
 		setPrimaryButtonEnabled(false);
 	}
 
+	/**
+	 * @param info
+	 *            permanent information message
+	 */
 	public void showInfo(String info) {
 		infoLabel.setText(info);
 	}

@@ -125,6 +125,7 @@ public class InputDialogTableView extends OptionDialog
 				- GPopupPanel.VERTICAL_PADDING;
 		scrollContent.setHeight(Math.max(56, dheight) + "px");
 	}
+
 	/**
 	 * @param functionGeo
 	 *            function
