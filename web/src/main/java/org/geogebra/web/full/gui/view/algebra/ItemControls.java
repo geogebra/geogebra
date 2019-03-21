@@ -9,7 +9,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
@@ -128,7 +130,7 @@ public class ItemControls extends FlowPanel
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					showMoreContexMenu();
+					openMoreMenu();
 				}
 
 			});
@@ -141,7 +143,7 @@ public class ItemControls extends FlowPanel
 	/**
 	 * Show the More context menu
 	 */
-	protected void showMoreContexMenu() {
+	public void openMoreMenu() {
 		if (!radioTreeItem.hasMoreMenu()) {
 			return;
 		}
@@ -149,7 +151,34 @@ public class ItemControls extends FlowPanel
 		cancelEditItem();
 		closeBurgerMenu();
 		createMoreContextMenu();
+		if (radioTreeItem.isInputTreeItem()) {
+			showMoreMenuForInput();
+		} else {
+			showMoreMenu();
+		}
+	}
 
+	private void showMoreMenuForInput() {
+		radioTreeItem.getLatexController().createGeoFromInput(new AsyncOperation<GeoElementND[]>() {
+			
+			@Override
+			public void callback(GeoElementND[] obj) {
+				if (obj == null) {
+					showDeleteItem();
+				} else {
+					GeoElement geo = (GeoElement) obj[0];
+					radioTreeItem.getAV().openMenuFor(geo);
+				}
+			}
+		});		
+	}
+
+	private void showDeleteItem() {
+		cmMore.addClearInputItem();
+		showMoreMenu();
+	}
+
+	private void showMoreMenu() {
 		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
 	}
 

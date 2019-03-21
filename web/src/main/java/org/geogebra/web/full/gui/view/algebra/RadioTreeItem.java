@@ -2238,7 +2238,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Open settings context menu for this item.
 	 */
 	public void openMoreMenu() {
-		controls.showMoreContexMenu();
+		controls.openMoreMenu();
 	}
 	
 	public boolean hasMoreMenu() {

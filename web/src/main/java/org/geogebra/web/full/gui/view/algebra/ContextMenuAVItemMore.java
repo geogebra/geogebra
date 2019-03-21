@@ -3,10 +3,9 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.ClearInputAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -29,10 +28,9 @@ public class ContextMenuAVItemMore implements SetLabels {
 	/** localization */
 	private Localization loc;
 	private AppWFull mApp;
-	/** parent item */
-	private RadioTreeItem item;
 	private MenuActionCollection<GeoElement> actions;
-	private GeoElement inputGeo;
+	private GeoElement geo;
+	private ClearInputAction clearInputAction;  
 
 	/**
 	 * Creates new context menu
@@ -45,7 +43,6 @@ public class ContextMenuAVItemMore implements SetLabels {
 	ContextMenuAVItemMore(RadioTreeItem item, MenuActionCollection<GeoElement> collection) {
 		mApp = item.getApplication();
 		loc = mApp.getLocalization();
-		this.item = item;
 		wrappedPopup = new GPopupMenuW(mApp);
 		if (mApp.isUnbundled()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
@@ -53,7 +50,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 			wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		}
 		this.actions = collection;
-		buildGUI();
+		setGeo(item.geo);
+		if (item.isInputTreeItem()) {
+			clearInputAction = new ClearInputAction(item);
+		}
 	}
 
 	/**
@@ -67,25 +67,12 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * Rebuild the UI
 	 */
 	public void buildGUI() {
-		wrappedPopup.clearItems();
-		if (item.isInputTreeItem()) {
-			buildForInputItem();
-		} else {
-			buildForGeo(item.geo);
-		}
-	}
-
-	private void buildForInputItem() {
-		GeoElementND geo = item.getLatexController().evaluateToGeo();
-		if (geo != null) {
-			inputGeo = (GeoElement) geo;
-			buildForGeo(inputGeo);
-		} else {
+		if (geo == null) {
 			addAction(new DeleteAction());
+			return;
 		}
-	}
-
-	private void buildForGeo(GeoElement geo) {
+		
+		wrappedPopup.clearItems();
 		for (MenuAction<GeoElement> action : actions) {
 			if (action.isAvailable(geo)) {
 				addAction(action);
@@ -93,6 +80,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 		}
 	}
 
+	public void setGeo(GeoElement geo) {
+		this.geo = geo;
+		buildGUI();
+	}
 	/**
 	 * @param x
 	 *            screen x-coordinate
@@ -123,25 +114,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 *            action to be executed
 	 */
 	protected void select(final MenuAction<GeoElement> menuAction) {
-		if (item.isInputTreeItem()) {
-			createdGeoAndSelect(menuAction);
-		} else {
-			menuAction.execute(item.geo, mApp);
-		}
-	}
-
-	private void createdGeoAndSelect(final MenuAction<GeoElement> menuAction) {
-		item.getLatexController().createGeoFromInput(new AsyncOperation<GeoElementND[]>() {
-			
-			@Override
-			public void callback(GeoElementND[] obj) {
-				if (obj == null) {
-					item.clearInput();
-					return;
-				}
-				menuAction.execute((GeoElement)obj[0], mApp);
-			}
-		});
+		menuAction.execute(geo, mApp);
 	}
 
 	@Override
@@ -156,5 +129,10 @@ public class ContextMenuAVItemMore implements SetLabels {
 				wrappedPopup.getPopupMenu().getElement().focus();
 			}
 		});
+	}
+
+	public void addClearInputItem() {
+		wrappedPopup.clearItems();
+		addAction(clearInputAction);
 	}
 }
