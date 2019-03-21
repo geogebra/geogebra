@@ -1,8 +1,17 @@
 package org.geogebra.common.kernel.batch;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.util.UtilFactoryJre;
-import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.CheckPropertyAndGeoElementView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.GTimer;
@@ -16,13 +25,11 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import static org.mockito.Mockito.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 	@Mock
-	private View wrappedView;
+	private CheckPropertyAndGeoElementView wrappedView;
 
 	@Mock
 	private GTimer timer;
