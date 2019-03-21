@@ -159,7 +159,8 @@ public interface GeoGebraConstants {
 
 	// This is used for checking if a minor update exists (on each run):
 	// DON'T change to https (causes problems)
-	public static final String VERSION_URL_MINOR = "http://www.geogebra.org/download/version50.txt";
+	public static final String VERSION_URL_MINOR =
+			"https://download.geogebra.org/installers/5.0/version.txt";
 
 	// This is used for checking whether a major update exists (monthly):
 	// DON'T change to https (causes problems)
@@ -182,7 +183,7 @@ public interface GeoGebraConstants {
 	// public static final String GEOGEBRA_HTML5_BASE_OFFLINE =
 	// "web/web.nocache.js";
 	/** URL of GeoGebra jars */
-	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "http://jars.geogebra.org/webstart/"
+	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "https://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
 	/** URL of GeoGebra jars, zipped */
 	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE
