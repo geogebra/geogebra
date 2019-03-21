@@ -62,7 +62,7 @@ public class GLBufferManagerSurfacesClipped
 	 * @param r
 	 *            renderer
 	 */
-	public void draw(RendererShadersInterface r) {
+	public void draw(Renderer r) {
 		drawBufferPacks(r);
 	}
 

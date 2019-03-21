@@ -223,20 +223,21 @@ class BufferPack extends BufferPackAbstract {
 	 * @see org.geogebra.common.geogebra3D.euclidian3D.openGL.BufferPackInterface#draw(org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface)
 	 */
 	@Override
-	public void draw(RendererShadersInterface r) {
+	public void draw(Renderer r) {
 		vertexBuffer.rewind();
 		normalBuffer.rewind();
 		indicesBuffer.rewind();
-		r.loadVertexBuffer(vertexBuffer, elementsLength);
-		r.loadNormalBuffer(normalBuffer, elementsLength);
-		r.loadColorBuffer(colorBuffer, elementsLength);
-		if (r.areTexturesEnabled()) {
-			r.loadTextureBuffer(textureBuffer, elementsLength);
+		r.getRendererImpl().loadVertexBuffer(vertexBuffer, elementsLength);
+		r.getRendererImpl().loadNormalBuffer(normalBuffer, elementsLength);
+		r.getRendererImpl().loadColorBuffer(colorBuffer, elementsLength);
+		if (r.getRendererImpl().areTexturesEnabled()) {
+			r.getRendererImpl().loadTextureBuffer(textureBuffer,
+					elementsLength);
 		} else {
-			r.disableTextureBuffer();
+			r.getRendererImpl().disableTextureBuffer();
 		}
-		r.loadIndicesBuffer(indicesBuffer, indicesLength);
-		r.draw(Type.TRIANGLES, indicesLength);
+		r.getRendererImpl().loadIndicesBuffer(indicesBuffer, indicesLength);
+		r.getRendererImpl().draw(Type.TRIANGLES, indicesLength);
 	}
 
 	/* (non-Javadoc)

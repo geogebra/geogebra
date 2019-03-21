@@ -435,7 +435,8 @@ public class RendererImplGL2 extends RendererImpl
 		}
 
 		currentDash = index;
-		renderer.bindTexture(renderer.getTextures().getIndex(index));
+		renderer.getRendererImpl()
+				.bindTexture(renderer.getTextures().getIndex(index));
 		renderer.setTextureNearest();
 	}
 
@@ -445,7 +446,7 @@ public class RendererImplGL2 extends RendererImpl
 		jogl.getGL2().glPolygonMode(GL.GL_BACK, GL2GL3.GL_LINE);
 		renderer.setLineWidth(5f);
 
-		renderer.setCullFaceFront();
+		renderer.getRendererImpl().setCullFaceFront();
 		disableLighting();
 		renderer.disableBlending();
 
@@ -460,7 +461,7 @@ public class RendererImplGL2 extends RendererImpl
 
 		renderer.enableBlending();
 		enableLighting();
-		renderer.setCullFaceBack();
+		renderer.getRendererImpl().setCullFaceBack();
 
 		jogl.getGL2().glPolygonMode(GL.GL_BACK, GL2GL3.GL_FILL);
 
@@ -592,13 +593,13 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void initCulling() {
 		renderer.enableCulling();
-		renderer.setCullFaceBack();
+		renderer.getRendererImpl().setCullFaceBack();
 
 	}
 
 	@Override
 	public void drawTranspNotCurved() {
-		renderer.disableCulling();
+		renderer.getRendererImpl().disableCulling();
 		renderer.drawable3DLists.drawTransp(renderer);
 		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
 		renderer.enableCulling();

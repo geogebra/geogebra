@@ -74,9 +74,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-		renderer.setLayer(getLayer());
+		renderer.getRendererImpl().setLayer(getLayer());
 		renderer.getGeometryManager().draw(getGeometryIndex());
-		renderer.setLayer(Renderer.LAYER_DEFAULT);
+		renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 	}
 
 	@Override
@@ -119,9 +119,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer) {
-		renderer.setLayer(getLayer());
+		renderer.getRendererImpl().setLayer(getLayer());
 		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(Renderer.LAYER_DEFAULT);
+		renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 	}
 
 	@Override

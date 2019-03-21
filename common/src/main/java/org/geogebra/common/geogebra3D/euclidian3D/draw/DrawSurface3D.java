@@ -259,9 +259,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-		renderer.setLayer(getLayer());
+		renderer.getRendererImpl().setLayer(getLayer());
 		renderer.getGeometryManager().draw(getSurfaceIndex());
-		renderer.setLayer(Renderer.LAYER_DEFAULT);
+		renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 	}
 
 	@Override

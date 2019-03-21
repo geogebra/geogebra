@@ -102,7 +102,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 	@Override
 	protected void setLineTextureHidden(Renderer renderer) {
-		renderer.setDashTexture(Textures.DASH_SHORT);
+		renderer.getRendererImpl().setDashTexture(Textures.DASH_SHORT);
 	}
 
 	@Override

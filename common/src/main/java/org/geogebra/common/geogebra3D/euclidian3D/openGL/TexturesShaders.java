@@ -64,7 +64,7 @@ public class TexturesShaders extends Textures {
 	 * set texture for dashing
 	 */
 	public void setPackedDash() {
-		renderer.bindTexture(packedDashIndex);
+		renderer.getRendererImpl().bindTexture(packedDashIndex);
 		renderer.setTextureNearest();
 	}
 

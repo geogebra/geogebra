@@ -111,9 +111,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 */
 	protected void drawPlate(Renderer renderer) {
 		if (getPlane().isPlateVisible()) {
-			renderer.setLayer(getLayer());
+			renderer.getRendererImpl().setLayer(getLayer());
 			renderer.getGeometryManager().draw(getSurfaceIndex());
-			renderer.setLayer(Renderer.LAYER_DEFAULT);
+			renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 		}
 	}
 
@@ -154,7 +154,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 
 		if (viewDirectionIsParallel) {
-			renderer.setDashTexture(Textures.DASH_LONG);
+			renderer.getRendererImpl().setDashTexture(Textures.DASH_LONG);
 			renderer.getGeometryManager().draw(gridOutlineIndex);
 		} else {
 			setLineTextureHidden(renderer);

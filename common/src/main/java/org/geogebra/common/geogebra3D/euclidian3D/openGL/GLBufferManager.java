@@ -412,7 +412,7 @@ abstract class GLBufferManager {
 	 * @param r
 	 *            renderer
 	 */
-	protected void drawBufferPacks(RendererShadersInterface r) {
+	protected void drawBufferPacks(Renderer r) {
 
 		for (BufferPackAbstract bufferPack : bufferPackList) {
 			if (bufferPack.elementsLength > 0) {

@@ -89,7 +89,7 @@ abstract class BufferPackAbstract {
 	 * @param r
 	 *            renderer
 	 */
-	abstract void draw(RendererShadersInterface r);
+	abstract void draw(Renderer r);
 
 	/**
 	 * reset buffers and lengths

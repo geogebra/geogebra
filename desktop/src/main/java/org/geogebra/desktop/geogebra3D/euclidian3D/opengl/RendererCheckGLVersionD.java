@@ -433,9 +433,9 @@ public class RendererCheckGLVersionD extends Renderer
 		enableTextures2D();
 
 		int[] index = new int[1];
-		genTextures2D(1, index);
+		getRendererImpl().genTextures2D(1, index);
 
-		bindTexture(index[0]);
+		getRendererImpl().bindTexture(index[0]);
 
 		textureImage2D(sizeX, sizeY, buf);
 

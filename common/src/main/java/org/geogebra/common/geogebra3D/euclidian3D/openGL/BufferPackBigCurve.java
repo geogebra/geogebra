@@ -128,7 +128,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	}
 
 	@Override
-	public void draw(RendererShadersInterface r) {
+	public void draw(Renderer r) {
 		for (BufferPack bufferPack : bufferPacks) {
 			bufferPack.draw(r);
 		}

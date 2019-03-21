@@ -77,7 +77,7 @@ abstract public class ManagerShadersWithTemplates extends ManagerShaders {
 
 	@Override
 	public void draw(int index, Coords center) {
-		((RendererShadersInterface) renderer).setCenter(center);
+		renderer.getRendererImpl().setCenter(center);
 		super.draw(index);
 	}
 

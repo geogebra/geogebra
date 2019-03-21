@@ -324,14 +324,15 @@ abstract public class ManagerShaders extends Manager {
 		 * @param r
 		 *            renderer to draw into
 		 */
-		public void draw(RendererShadersInterface r) {
-			r.loadVertexBuffer(getVertices(), getLength());
-			r.loadNormalBuffer(getNormals(), getLength());
-			r.loadColorBuffer(getColors(), getLength());
-			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(getTextures(), getLength());
+		public void draw(Renderer r) {
+			r.getRendererImpl().loadVertexBuffer(getVertices(), getLength());
+			r.getRendererImpl().loadNormalBuffer(getNormals(), getLength());
+			r.getRendererImpl().loadColorBuffer(getColors(), getLength());
+			if (r.getRendererImpl().areTexturesEnabled()) {
+				r.getRendererImpl().loadTextureBuffer(getTextures(),
+						getLength());
 			}
-			r.draw(getType(), getLength());
+			r.getRendererImpl().draw(getType(), getLength());
 		}
 
 		/**
@@ -340,12 +341,13 @@ abstract public class ManagerShaders extends Manager {
 		 * @param r
 		 *            renderer to draw into
 		 */
-		public void drawLabel(RendererShadersInterface r) {
-			r.loadVertexBuffer(getVertices(), getLength());
-			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(getTextures(), getLength());
+		public void drawLabel(Renderer r) {
+			r.getRendererImpl().loadVertexBuffer(getVertices(), getLength());
+			if (r.getRendererImpl().areTexturesEnabled()) {
+				r.getRendererImpl().loadTextureBuffer(getTextures(),
+						getLength());
 			}
-			r.draw(getType(), getLength());
+			r.getRendererImpl().draw(getType(), getLength());
 		}
 
 	}
@@ -691,8 +693,7 @@ abstract public class ManagerShaders extends Manager {
 		if (currentGeometriesSet != null) {
 			for (int i = 0; i < currentGeometriesSet
 					.getGeometriesLength(); i++) {
-				currentGeometriesSet.get(i)
-						.draw((RendererShadersInterface) renderer);
+				currentGeometriesSet.get(i).draw(renderer);
 			}
 		}
 	}
@@ -722,8 +723,7 @@ abstract public class ManagerShaders extends Manager {
 		if (currentGeometriesSet != null && !currentGeometriesSet.usePacking()) {
 			for (int i = 0; i < currentGeometriesSet
 					.getGeometriesLength(); i++) {
-				currentGeometriesSet.get(i)
-						.drawLabel((RendererShadersInterface) renderer);
+				currentGeometriesSet.get(i).drawLabel(renderer);
 			}
 		}
 	}

@@ -309,7 +309,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 *            if hidden
 	 */
 	public void drawCurves(Renderer renderer1, boolean hidden) {
-		bufferManagerCurves.draw((RendererShadersInterface) renderer1, hidden);
+		bufferManagerCurves.draw(renderer1, hidden);
 	}
 
 	/**
@@ -322,8 +322,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawCurvesClipped(Renderer renderer1, boolean hidden) {
 		renderer1.enableClipPlanesIfNeeded();
-		bufferManagerCurvesClipped.draw((RendererShadersInterface) renderer1,
-				hidden);
+		bufferManagerCurvesClipped.draw(renderer1, hidden);
 		renderer1.disableClipPlanesIfNeeded();
 	}
 
@@ -334,7 +333,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 *            renderer
 	 */
 	public void drawSurfaces(Renderer renderer1) {
-		bufferManagerSurfaces.draw((RendererShadersInterface) renderer1);
+		bufferManagerSurfaces.draw(renderer1);
 	}
 
 	/**
@@ -344,7 +343,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 *            renderer
 	 */
 	public void drawPoints(Renderer renderer1) {
-		bufferManagerPoints.draw((RendererShadersInterface) renderer1);
+		bufferManagerPoints.draw(renderer1);
 	}
 
 	/**
@@ -354,7 +353,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 *            renderer
 	 */
 	public void drawSurfacesClosed(Renderer renderer1) {
-		bufferManagerSurfacesClosed.draw((RendererShadersInterface) renderer1);
+		bufferManagerSurfacesClosed.draw(renderer1);
 	}
 
 	/**
@@ -365,7 +364,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawSurfacesClipped(Renderer renderer1) {
 		renderer1.enableClipPlanesIfNeeded();
-		bufferManagerSurfacesClipped.draw((RendererShadersInterface) renderer1);
+		bufferManagerSurfacesClipped.draw(renderer1);
 		renderer1.disableClipPlanesIfNeeded();
 	}
 

@@ -488,7 +488,7 @@ public class DrawLabel3D {
 			return;
 		}
 
-		renderer.setLabelOrigin(labelOrigin);
+		renderer.getRendererImpl().setLabelOrigin(labelOrigin);
 
 		if (forPicking) {
 			// renderer.getGeometryManager().rectangle(drawX + pickingX, drawY +
@@ -503,7 +503,7 @@ public class DrawLabel3D {
 			// draw background
 			if (backgroundColor != null) {
 				renderer.setColor(backgroundColor);
-				renderer.disableTextures();
+				renderer.getRendererImpl().disableTextures();
 				// renderer.getGeometryManager().rectangle(drawX, drawY, drawZ,
 				// width, height);
 				renderer.getGeometryManager().draw(backgroundIndex);
@@ -525,11 +525,11 @@ public class DrawLabel3D {
 	protected void drawText(Renderer renderer) {
 		// draw text
 		renderer.setColor(color);
-		renderer.enableTextures();
-        renderer.setLayer(Renderer.LAYER_FOR_TEXTS);
+		renderer.getRendererImpl().enableTextures();
+		renderer.getRendererImpl().setLayer(Renderer.LAYER_FOR_TEXTS);
 		renderer.getTextures().setTextureLinear(textureIndex);
 		renderer.getGeometryManager().drawLabel(textIndex);
-        renderer.setLayer(Renderer.LAYER_DEFAULT);
+		renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 
 	}
 

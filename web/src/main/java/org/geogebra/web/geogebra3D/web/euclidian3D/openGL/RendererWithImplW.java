@@ -284,9 +284,9 @@ public class RendererWithImplW extends Renderer implements
 		super.drawScene();
 
 		// clear alpha channel to 1.0 to avoid transparency to html background
-		setColorMask(ColorMask.ALPHA);
+		getRendererImpl().setColorMask(ColorMask.ALPHA);
 		clearColorBuffer();
-		setColorMask(ColorMask.ALL);
+		getRendererImpl().setColorMask(ColorMask.ALL);
 	}
 
 	/**
@@ -334,26 +334,6 @@ public class RendererWithImplW extends Renderer implements
 	@Override
 	public void setBuffering(boolean b) {
 		this.createGLContext(b);
-	}
-
-	@Override
-	protected final void selectFBO() {
-		// TODO implement?
-	}
-
-	@Override
-	protected final void unselectFBO() {
-		// TODO implement?
-	}
-
-	@Override
-	protected void needExportImage(double scale, int w, int h) {
-		// TODO implement?
-	}
-
-	@Override
-	protected void setExportImageDimension(int w, int h) {
-		// TODO implement?
 	}
 
 	@Override

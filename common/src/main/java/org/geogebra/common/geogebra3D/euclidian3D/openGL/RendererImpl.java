@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class RendererImpl implements RendererShadersInterface, RendererImplInterface {
@@ -45,7 +46,7 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	 * @param h
 	 *            pixel height
 	 */
-	final public void needExportImage(double scale, int w, int h) {
+	public void needExportImage(double scale, int w, int h) {
 
 		view3D.setFontScale(scale);
 		setExportImageDimension(w, h);
@@ -61,7 +62,7 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	 * @param h
 	 *            pixel height
 	 */
-	final public void setExportImageDimension(int w, int h) {
+	protected void setExportImageDimension(int w, int h) {
 		fboWidth = w;
 		fboHeight = h;
 	}
@@ -79,7 +80,7 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	/**
 	 * Select frame buffer object.
 	 */
-	public final void selectFBO() {
+	public void selectFBO() {
 
 		if (fboID == null) {
 			view3D.setFontScale(1);
@@ -104,7 +105,7 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
 	/**
 	 * Unselect frame buffer object.
 	 */
-	public final void unselectFBO() {
+	public void unselectFBO() {
 
 		if (fboID == null) {
 			return;
@@ -246,5 +247,36 @@ public abstract class RendererImpl implements RendererShadersInterface, Renderer
     public void setNormalToNone() {
 	    // used only with shaders
     }
+
+	/**
+	 * set dash texture
+	 * 
+	 * @param i
+	 *            texture id
+	 */
+	abstract public void setDashTexture(int i);
+
+	abstract public void draw(Manager.Type type, int length);
+
+	abstract public void bindBufferForIndices(int buffer);
+
+	abstract public boolean areTexturesEnabled();
+
+	abstract public void loadVertexBuffer(GLBuffer fbVertices, int length);
+
+	abstract public void loadColorBuffer(GLBuffer fbColors, int length);
+
+	abstract public void loadTextureBuffer(GLBuffer fbTextures, int length);
+
+	abstract public void disableTextureBuffer();
+
+	abstract public void loadNormalBuffer(GLBuffer fbNormals, int length);
+
+	abstract public void loadIndicesBuffer(GLBufferIndices arrayI, int length);
+
+	abstract public void setCenter(Coords center);
+
+	abstract public void resetCenter();
+
 
 }

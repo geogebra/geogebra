@@ -55,7 +55,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @param r
 	 *            renderer
 	 */
-	public void draw(RendererShadersInterface r) {
+	public void draw(Renderer r) {
 		drawBufferPacks(r);
 	}
 

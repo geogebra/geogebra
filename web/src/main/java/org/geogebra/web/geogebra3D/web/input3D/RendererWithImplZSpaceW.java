@@ -138,7 +138,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 		zSpace.zspaceUpdate();
 
 		clearColorBuffer();
-		clearDepthBuffer();
+		getRendererImpl().clearDepthBuffer();
 
 		super.drawScene();
 

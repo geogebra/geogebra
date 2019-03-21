@@ -307,38 +307,40 @@ public class ManagerShadersElementsGlobalBuffer
 		}
 
 		@Override
-		public void draw(RendererShadersInterface r) {
+		public void draw(Renderer r) {
 
 			if (arrayI == null) {
 				return;
 			}
 
-			r.loadVertexBuffer(getVertices(), getLength());
-			r.loadNormalBuffer(getNormals(), getLength());
-			r.loadColorBuffer(getColors(), getLength());
-			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(getTextures(), getLength());
+			r.getRendererImpl().loadVertexBuffer(getVertices(), getLength());
+			r.getRendererImpl().loadNormalBuffer(getNormals(), getLength());
+			r.getRendererImpl().loadColorBuffer(getColors(), getLength());
+			if (r.getRendererImpl().areTexturesEnabled()) {
+				r.getRendererImpl().loadTextureBuffer(getTextures(),
+						getLength());
 			} else {
-				r.disableTextureBuffer();
+				r.getRendererImpl().disableTextureBuffer();
 			}
-			r.loadIndicesBuffer(arrayI, indicesLength);
-			r.draw(getType(), indicesLength);
+			r.getRendererImpl().loadIndicesBuffer(arrayI, indicesLength);
+			r.getRendererImpl().draw(getType(), indicesLength);
 
 		}
 
 		@Override
-		public void drawLabel(RendererShadersInterface r) {
+		public void drawLabel(Renderer r) {
 
 			if (arrayI == null) {
 				return;
 			}
 
-			r.loadVertexBuffer(getVertices(), getLength());
-			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(getTextures(), getLength());
+			r.getRendererImpl().loadVertexBuffer(getVertices(), getLength());
+			if (r.getRendererImpl().areTexturesEnabled()) {
+				r.getRendererImpl().loadTextureBuffer(getTextures(),
+						getLength());
 			}
-			r.loadIndicesBuffer(arrayI, indicesLength);
-			r.draw(getType(), indicesLength);
+			r.getRendererImpl().loadIndicesBuffer(arrayI, indicesLength);
+			r.getRendererImpl().draw(getType(), indicesLength);
 		}
 
 		/**

@@ -73,9 +73,10 @@ public class GLBufferManagerCurves extends GLBufferManager {
 	 * @param hidden
 	 *            if hidden
 	 */
-	public void draw(RendererShadersInterface r, boolean hidden) {
+	public void draw(Renderer r, boolean hidden) {
 		((TexturesShaders) r.getTextures()).setPackedDash();
-		r.setDashTexture(hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
+		r.getRendererImpl().setDashTexture(
+				hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
 		drawBufferPacks(r);
 	}
 

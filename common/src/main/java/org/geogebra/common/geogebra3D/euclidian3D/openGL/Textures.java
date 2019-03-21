@@ -105,7 +105,8 @@ public class Textures {
 		renderer.enableTextures2D();
 
 		texturesIndex = new int[TEXTURES_NUMBER];
-		renderer.genTextures2D(TEXTURES_NUMBER, texturesIndex);
+		renderer.getRendererImpl().genTextures2D(TEXTURES_NUMBER,
+				texturesIndex);
 
 		// dash textures
 		for (int i = 0; i < DASH_NUMBER; i++) {
@@ -135,7 +136,7 @@ public class Textures {
 	 *            index
 	 */
 	public void setTextureLinear(int index) {
-		renderer.bindTexture(index);
+		renderer.getRendererImpl().bindTexture(index);
 		setTextureLinear();
 	}
 
@@ -161,7 +162,7 @@ public class Textures {
 				bytes[i] = (byte) 255;
 			}
 		}
-		renderer.bindTexture(n);
+		renderer.getRendererImpl().bindTexture(n);
 		renderer.textureImage2D(sizeX, 1, bytes);
 	}
 
@@ -172,7 +173,8 @@ public class Textures {
 	 *            line type (EuclidianStyleConstants.LINE_TYPE_*)
 	 */
 	public void setDashFromLineType(int lineType) {
-		renderer.setDashTexture(getDashFromLineType(lineType));
+		renderer.getRendererImpl()
+				.setDashTexture(getDashFromLineType(lineType));
 	}
 
 	/**
@@ -204,7 +206,8 @@ public class Textures {
 	 *            line type
 	 */
 	public void setDashFromLineTypeHidden(int lineType) {
-		renderer.setDashTexture(getDashFromLineTypeHidden(lineType));
+		renderer.getRendererImpl()
+				.setDashTexture(getDashFromLineTypeHidden(lineType));
 	}
 
 	/**
@@ -283,7 +286,7 @@ public class Textures {
 			}
 		}
 
-		renderer.bindTexture(index);
+		renderer.getRendererImpl().bindTexture(index);
 
 		renderer.textureImage2D(sizeX, sizeY, bytes);
 

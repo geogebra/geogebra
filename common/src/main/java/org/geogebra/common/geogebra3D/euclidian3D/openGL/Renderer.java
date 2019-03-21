@@ -12,7 +12,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -20,7 +19,6 @@ import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -304,8 +302,8 @@ public abstract class Renderer
 		if (!view3D.getCompanion().isStereoBuffered()) {
 			clearColorBuffer();
 		}
-		initLighting();
-		disableOpaqueSurfaces();
+		rendererImpl.initLighting();
+		rendererImpl.disableOpaqueSurfaces();
 
 		rendererImpl.initRenderingValues();
 	}
@@ -339,15 +337,15 @@ public abstract class Renderer
 		((EuclidianController3D) view3D.getEuclidianController())
 				.updateInput3D();
 
-		useShaderProgram();
+		rendererImpl.useShaderProgram();
 
 		// clip planes
 		if (waitForUpdateClipPlanes) {
 			// Application.debug(enableClipPlanes);
 			if (enableClipPlanes) {
-				enableClipPlanes();
+				rendererImpl.enableClipPlanes();
 			} else {
-				disableClipPlanes();
+				rendererImpl.disableClipPlanes();
 			}
 			waitForUpdateClipPlanes = false;
 		}
@@ -361,11 +359,11 @@ public abstract class Renderer
 		// Log.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
 
 		if (needExportImage) {
-			selectFBO();
+			rendererImpl.selectFBO();
 		}
 
 		if (waitForSetStencilLines) {
-			setStencilLines();
+			rendererImpl.setStencilLines();
 		}
 
 		if (waitForDisableStencilLines) {
@@ -383,13 +381,13 @@ public abstract class Renderer
 
 			// left eye
 			setDrawLeft();
-			clearDepthBuffer();
+			rendererImpl.clearDepthBuffer();
 			setView();
 			draw();
 
 			// right eye
 			setDrawRight();
-			clearDepthBufferForSecondAnaglyphFilter();
+			rendererImpl.clearDepthBufferForSecondAnaglyphFilter();
 			setView();
 			draw();
 
@@ -398,17 +396,17 @@ public abstract class Renderer
 				// we draw the same image on both left/right buffers
 				setBufferLeft();
 				clearColorBuffer();
-				clearDepthBuffer();
+				rendererImpl.clearDepthBuffer();
 				setView();
 				draw();
 
 				setBufferRight();
 				clearColorBuffer();
-				clearDepthBuffer();
+				rendererImpl.clearDepthBuffer();
 				setView();
 				draw();
 			} else {
-				clearDepthBuffer();
+				rendererImpl.clearDepthBuffer();
 				setView();
 				draw();
 			}
@@ -417,7 +415,7 @@ public abstract class Renderer
 		// Log.debug("======= DRAW : "+(System.currentTimeMillis() - time));
 
 		// prepare correct color mask for next clear
-		setColorMask(ColorMask.ALL);
+		rendererImpl.setColorMask(ColorMask.ALL);
 
         endOfDrawScene();
 	}
@@ -428,7 +426,7 @@ public abstract class Renderer
         exportImage();
 
         if (nei) {
-            unselectFBO();
+			rendererImpl.unselectFBO();
         }
 
         if (export3DRunnable != null) {
@@ -555,7 +553,7 @@ public abstract class Renderer
 	final protected void setDrawLeft() {
 		if (view3D.getCompanion().isPolarized()) {
 			// draw where stencil's value is 0
-			setStencilFunc(0);
+			rendererImpl.setStencilFunc(0);
 		} else if (view3D.getCompanion().isStereoBuffered()) {
 			setBufferLeft();
 			clearColorBuffer();
@@ -571,7 +569,7 @@ public abstract class Renderer
 	final protected void setDrawRight() {
 		if (view3D.getCompanion().isPolarized()) {
 			// draw where stencil's value is 1
-			setStencilFunc(1);
+			rendererImpl.setStencilFunc(1);
 		} else if (view3D.getCompanion().isStereoBuffered()) {
 			setBufferRight();
 			clearColorBuffer();
@@ -589,11 +587,11 @@ public abstract class Renderer
 	}
 
 	private void drawTransp() {
-		setLight(1);
+		rendererImpl.setLight(1);
 
-		drawTranspNotCurved();
+		rendererImpl.drawTranspNotCurved();
 
-		setCullFaceFront();
+		rendererImpl.setCullFaceFront();
 		drawable3DLists.drawTranspClosedCurved(this); // draws inside parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
@@ -601,7 +599,7 @@ public abstract class Renderer
 														// back-faces
 			disableClipPlanesIfNeeded();
 		}
-		setCullFaceBack();
+		rendererImpl.setCullFaceBack();
 		drawable3DLists.drawTranspClosedCurved(this); // draws outside parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
@@ -610,18 +608,18 @@ public abstract class Renderer
 			disableClipPlanesIfNeeded();
 		}
 
-		setLight(0);
+		rendererImpl.setLight(0);
 
 	}
 
 	private void drawNotTransp() {
-		setLight(1);
+		rendererImpl.setLight(1);
 
 		enableBlending();
 
 		// TODO improve this !
 		enableCulling();
-		setCullFaceFront();
+		rendererImpl.setCullFaceFront();
 		drawable3DLists.drawNotTransparentSurfaces(this);
 		drawable3DLists.drawNotTransparentSurfacesClosed(this); // draws inside
 																// parts
@@ -632,7 +630,7 @@ public abstract class Renderer
 																		// back-faces
 			disableClipPlanesIfNeeded();
 		}
-		setCullFaceBack();
+		rendererImpl.setCullFaceBack();
 		drawable3DLists.drawNotTransparentSurfaces(this);
 		drawable3DLists.drawNotTransparentSurfacesClosed(this); // draws outside
 																// parts
@@ -644,7 +642,7 @@ public abstract class Renderer
 			disableClipPlanesIfNeeded();
 		}
 
-		setLight(0);
+		rendererImpl.setLight(0);
 	}
 
 	/**
@@ -654,24 +652,24 @@ public abstract class Renderer
 		// drawing labels and texts
 		rendererImpl.drawFaceToScreenAbove();
 
-		enableAlphaTest();
-		disableLighting();
+		rendererImpl.enableAlphaTest();
+		rendererImpl.disableLighting();
 		enableBlending();
 
 		enableTexturesForText();
 		drawable3DLists.drawLabel(this);
 		drawable3DLists.drawForAbsoluteText(this, false);
 
-		disableTextures();
+		rendererImpl.disableTextures();
 
 		if (enableClipPlanes) {
-			disableClipPlanes();
+			rendererImpl.disableClipPlanes();
 		}
 
 		view3D.drawMouseCursor(this);
 
 		if (enableClipPlanes) {
-			enableClipPlanes();
+			rendererImpl.enableClipPlanes();
 		}
 
 		rendererImpl.drawFaceToScreenBelow();
@@ -685,15 +683,15 @@ public abstract class Renderer
 		// drawing texts
 		rendererImpl.drawFaceToScreenAbove();
 
-		enableAlphaTest();
-		disableLighting();
+		rendererImpl.enableAlphaTest();
+		rendererImpl.disableLighting();
 		enableBlending();
 
 		enableTexturesForText();
 
 		drawable3DLists.drawForAbsoluteText(this, true);
 
-		disableTextures();
+		rendererImpl.disableTextures();
 
 		rendererImpl.drawFaceToScreenBelow();
 	}
@@ -714,7 +712,7 @@ public abstract class Renderer
 	 */
 	public void enableClipPlanesIfNeeded() {
 		if (!enableClipPlanes) {
-			enableClipPlanes();
+			rendererImpl.enableClipPlanes();
 		}
 	}
 
@@ -723,12 +721,13 @@ public abstract class Renderer
 	 */
 	public void disableClipPlanesIfNeeded() {
 		if (!enableClipPlanes) {
-			disableClipPlanes();
+			rendererImpl.disableClipPlanes();
 		}
 	}
 
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-		fromARCoreCoordsToGGBCoords(coords, arModelMatrix, arScaleFactor, ret);
+		rendererImpl.fromARCoreCoordsToGGBCoords(coords, arModelMatrix,
+				arScaleFactor, ret);
 	}
 
 	protected void draw() {
@@ -736,48 +735,49 @@ public abstract class Renderer
 
 		// labels
 		if (enableClipPlanes) {
-			enableClipPlanes();
+			rendererImpl.enableClipPlanes();
 		}
 		drawFaceToScreen();
 
 		// init drawing matrix to view3D toScreen matrix
-		setMatrixView();
+		rendererImpl.setMatrixView();
 
 		setLightPosition();
-		setLight(0);
+		rendererImpl.setLight(0);
 
 		// drawing the cursor
-		enableLighting();
-		disableAlphaTest();
+		rendererImpl.enableLighting();
+		rendererImpl.disableAlphaTest();
 		enableCulling();
 		if (needExportImage) {
 			// we don't want mouse cursor on export image
-			setCullFaceBack(); // needed for further calculations
+			rendererImpl.setCullFaceBack(); // needed for further calculations
 		} else {
 			drawCursor();
 		}
 
 		// drawing hidden part
-		enableAlphaTest();
-		disableTextures();
+		rendererImpl.enableAlphaTest();
+		rendererImpl.disableTextures();
 		drawable3DLists.drawHiddenNotTextured(this);
-		enableDashHidden();
+		rendererImpl.enableDashHidden();
 		drawable3DLists.drawHiddenTextured(this);
 
 		// ////////////////////////////
 		// draw surfaces
-		enableShine();
+		rendererImpl.enableShine();
 
 		// draw hidden surfaces
-		enableFading(); // from RendererShaders -- check when enable textures if
+		rendererImpl.enableFading(); // from RendererShaders -- check when
+										// enable textures if
 						// already done
 		drawNotTransp();
 
 		// draw opaque surfaces for packed buffers
 		if (geometryManager.packBuffers()) {
-			setLight(1);
-			enableOpaqueSurfaces();
-			disableCulling();
+			rendererImpl.setLight(1);
+			rendererImpl.enableOpaqueSurfaces();
+			rendererImpl.disableCulling();
 			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
 					.drawSurfaces(this);
 			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
@@ -787,25 +787,25 @@ public abstract class Renderer
 					.drawSurfacesClipped(this);
 			disableClipPlanesIfNeeded();
 			enableCulling();
-			disableOpaqueSurfaces();
-			setLight(0);
+			rendererImpl.disableOpaqueSurfaces();
+			rendererImpl.setLight(0);
 		}
-		disableTextures();
-		disableAlphaTest();
+		rendererImpl.disableTextures();
+		rendererImpl.disableAlphaTest();
 
 		// drawing transparents parts
-		disableDepthMask();
-		enableFading();
+		rendererImpl.disableDepthMask();
+		rendererImpl.enableFading();
 		drawTransp();
-		enableDepthMask();
+		rendererImpl.enableDepthMask();
 
-		disableTextures();
+		rendererImpl.disableTextures();
 		enableCulling();
 		disableBlending();
 
 		// drawing hiding parts
-		setColorMask(ColorMask.NONE); // no writing in color buffer
-		setCullFaceFront(); // draws inside parts
+		rendererImpl.setColorMask(ColorMask.NONE); // no writing in color buffer
+		rendererImpl.setCullFaceFront(); // draws inside parts
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// back-faces
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
@@ -815,25 +815,25 @@ public abstract class Renderer
 																// back-faces
 			disableClipPlanesIfNeeded();
 		}
-		disableCulling();
+		rendererImpl.disableCulling();
 		drawable3DLists.drawSurfacesForHiding(this); // non closed surfaces
 		// getGL().glColorMask(true,true,true,true);
 		setColorMask();
 
 		// re-drawing transparents parts for better transparent effect
 		// TODO improve it !
-		enableFading();
-		disableDepthMask();
+		rendererImpl.enableFading();
+		rendererImpl.disableDepthMask();
 		enableBlending();
 		drawTransp();
-		enableDepthMask();
-		disableTextures();
+		rendererImpl.enableDepthMask();
+		rendererImpl.disableTextures();
 
 		// drawing hiding parts
-		setColorMask(ColorMask.NONE); // no writing in color buffer
+		rendererImpl.setColorMask(ColorMask.NONE); // no writing in color buffer
 		disableBlending();
 		enableCulling();
-		setCullFaceBack(); // draws inside parts
+		rendererImpl.setCullFaceBack(); // draws inside parts
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// front-faces
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
@@ -847,40 +847,40 @@ public abstract class Renderer
 
 		// re-drawing transparents parts for better transparent effect
 		// TODO improve it !
-		enableFading();
-		disableDepthMask();
+		rendererImpl.enableFading();
+		rendererImpl.disableDepthMask();
 		enableBlending();
 		drawTransp();
-		enableDepthMask();
+		rendererImpl.enableDepthMask();
 
 		// ////////////////////////
 		// end of surfaces
-		disableShine();
+		rendererImpl.disableShine();
 
 		// drawing not hidden parts
-		enableDash();
+		rendererImpl.enableDash();
 		enableCulling();
-		setCullFaceBack();
+		rendererImpl.setCullFaceBack();
 		drawable3DLists.draw(this);
 
 		// draw cursor at end
 		if (enableClipPlanes) {
-			disableClipPlanes();
+			rendererImpl.disableClipPlanes();
 		}
 		if (!needExportImage) {
 			view3D.drawCursorAtEnd(this);
 		}
 
-		disableLighting();
+		rendererImpl.disableLighting();
 		disableDepthTest();
-		unsetMatrixView();
+		rendererImpl.unsetMatrixView();
 
 		// absolute texts
 		enableTexturesForText();
 		drawFaceToScreenEnd();
 
 		enableDepthTest();
-		enableLighting();
+		rendererImpl.enableLighting();
 	}
 
 	/**
@@ -890,12 +890,12 @@ public abstract class Renderer
 	 */
 	protected void drawCursor() {
 		if (enableClipPlanes) {
-			disableClipPlanes();
+			rendererImpl.disableClipPlanes();
 		}
-		setCullFaceBack();
+		rendererImpl.setCullFaceBack();
 		view3D.drawCursor(this);
 		if (enableClipPlanes) {
-			enableClipPlanes();
+			rendererImpl.enableClipPlanes();
 		}
 	}
 
@@ -913,7 +913,7 @@ public abstract class Renderer
 	 *
 	 */
 	final public void setColor(Coords color) {
-		setColor((float) color.getX(), (float) color.getY(),
+		rendererImpl.setColor((float) color.getX(), (float) color.getY(),
 				(float) color.getZ(), (float) color.getW());
 
 	}
@@ -925,7 +925,7 @@ public abstract class Renderer
 	 *            (r,g,b,a)
 	 */
 	final public void setColor(GColor color) {
-		setColor(color.getRed() / 255f, color.getGreen() / 255f,
+		rendererImpl.setColor(color.getRed() / 255f, color.getGreen() / 255f,
 				color.getBlue() / 255f, color.getAlpha() / 255f);
 	}
 
@@ -972,15 +972,15 @@ public abstract class Renderer
 		rendererImpl.setNormalToNone();
 
 		if (!PlotterCursor.isTypeAlready(cursorType)) {
-			disableLighting();
+			rendererImpl.disableLighting();
 		}
 
-		initMatrix();
+		rendererImpl.initMatrix();
 		geometryManager.draw(geometryManager.cursor.getIndex(cursorType));
-		resetMatrix();
+		rendererImpl.resetMatrix();
 
 		if (!PlotterCursor.isTypeAlready(cursorType)) {
-			enableLighting();
+			rendererImpl.enableLighting();
 		}
 	}
 
@@ -996,21 +996,21 @@ public abstract class Renderer
 	public void drawTarget(CoordMatrix4x4 dotMatrix,
 			CoordMatrix4x4 circleMatrix) {
 		rendererImpl.setNormalToNone();
-		disableLighting();
-		disableDepthMask();
+		rendererImpl.disableLighting();
+		rendererImpl.disableDepthMask();
 		enableBlending();
 		setMatrix(dotMatrix);
-		initMatrix();
+		rendererImpl.initMatrix();
 		geometryManager.draw(
 				geometryManager.cursor.getIndex(PlotterCursor.TYPE_SPHERE));
 		setMatrix(circleMatrix);
-		initMatrix();
+		rendererImpl.initMatrix();
 		geometryManager.draw(geometryManager.cursor
 				.getIndex(PlotterCursor.TYPE_TARGET_CIRCLE));
-		resetMatrix();
+		rendererImpl.resetMatrix();
 		disableBlending();
-		enableDepthMask();
-		enableLighting();
+		rendererImpl.enableDepthMask();
+		rendererImpl.enableLighting();
 	}
 
 	/**
@@ -1023,13 +1023,13 @@ public abstract class Renderer
 	 */
 	public void drawCompletingCursor(double value, boolean out) {
 		rendererImpl.setNormalToNone();
-		initMatrix();
+		rendererImpl.initMatrix();
 		setLineWidth(PlotterCompletingCursor.WIDTH);
 		enableBlending();
 		geometryManager.getCompletingCursor().drawCircle(out);
 		geometryManager.getCompletingCursor().drawCompleting(value, out);
 		disableBlending();
-		resetMatrix();
+		rendererImpl.resetMatrix();
 
 	}
 
@@ -1038,11 +1038,11 @@ public abstract class Renderer
 	 */
 	final public void drawViewInFrontOf() {
 		// Application.debug("ici");
-		initMatrix();
+		rendererImpl.initMatrix();
 		disableBlending();
 		geometryManager.draw(geometryManager.getViewInFrontOf().getIndex());
 		enableBlending();
-		resetMatrix();
+		rendererImpl.resetMatrix();
 	}
 
 	/**
@@ -1050,13 +1050,13 @@ public abstract class Renderer
 	 */
 	public void drawMouseCursor() {
 		rendererImpl.setNormalToNone();
-		initMatrixForFaceToScreen();
+		rendererImpl.initMatrixForFaceToScreen();
 		disableBlending();
-		disableCulling();
+		rendererImpl.disableCulling();
 		geometryManager.draw(geometryManager.getMouseCursor().getIndex());
 		enableCulling();
 		enableBlending();
-		resetMatrix();
+		rendererImpl.resetMatrix();
 	}
 
 	public enum PickingType {
@@ -1064,7 +1064,7 @@ public abstract class Renderer
 	}
 
 	protected void setLightPosition() {
-		setLightPosition(getLightPosition());
+		rendererImpl.setLightPosition(rendererImpl.getLightPosition());
 	}
 
 	public void setWaitForUpdateClearColor() {
@@ -1089,7 +1089,7 @@ public abstract class Renderer
 			b = (float) c.getBlue() / 255;
 		}
 
-		setClearColor(r, g, b, 1.0f);
+		rendererImpl.setClearColor(r, g, b, 1.0f);
 	}
 
 	public int getLeft() {
@@ -1226,16 +1226,16 @@ public abstract class Renderer
 		switch (view3D.getProjection()) {
 		default:
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-			viewOrtho();
+			rendererImpl.viewOrtho();
 			break;
 		case EuclidianView3D.PROJECTION_GLASSES:
-			viewGlasses();
+			rendererImpl.viewGlasses();
 			break;
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
-			viewPersp();
+			rendererImpl.viewPersp();
 			break;
 		case EuclidianView3D.PROJECTION_OBLIQUE:
-			viewOblique();
+			rendererImpl.viewOblique();
 			break;
 		}
 
@@ -1246,22 +1246,23 @@ public abstract class Renderer
 	 */
 	public final void setProjectionMatrix() {
 		if (view3D.isARDrawing()) {
-			setProjectionMatrixViewForAR(arCameraView, arCameraPerspective, arModelMatrix,
+			rendererImpl.setProjectionMatrixViewForAR(arCameraView,
+					arCameraPerspective, arModelMatrix,
 					arScaleFactor);
 		} else {
 			switch (view3D.getProjection()) {
 				default:
 				case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-					viewOrtho();
+				rendererImpl.viewOrtho();
 					break;
 				case EuclidianView3D.PROJECTION_PERSPECTIVE:
-					viewPersp();
+				rendererImpl.viewPersp();
 					break;
 				case EuclidianView3D.PROJECTION_GLASSES:
-					viewGlasses();
+				rendererImpl.viewGlasses();
 					break;
 				case EuclidianView3D.PROJECTION_OBLIQUE:
-					viewOblique();
+				rendererImpl.viewOblique();
 					break;
 			}
 		}
@@ -1352,13 +1353,14 @@ public abstract class Renderer
 				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) {
 			if (eye == EYE_LEFT) {
-				setColorMask(ColorMask.RED); // cyan
+				rendererImpl.setColorMask(ColorMask.RED); // cyan
 			} else {
-				setColorMask(view3D.isGlassesShutDownGreen() ? ColorMask.BLUE
+				rendererImpl.setColorMask(
+						view3D.isGlassesShutDownGreen() ? ColorMask.BLUE
 						: ColorMask.BLUE_AND_GREEN); // red
 			}
 		} else {
-			setColorMask(ColorMask.ALL);
+			rendererImpl.setColorMask(ColorMask.ALL);
 		}
 
 	}
@@ -1503,36 +1505,37 @@ public abstract class Renderer
 	 */
 	public void init() {
 
-		initShaders();
+		rendererImpl.initShaders();
 
 		textures = newTextures();
-		geometryManager = createManager();
+		geometryManager = rendererImpl.createManager();
 
 		// GL_LIGHT0 & GL_LIGHT1
 		float diffuse0 = 1f - AMBIENT_0;
 		float diffuse1 = 1f - AMBIENT_1;
 
-		setLightAmbiantDiffuse(AMBIENT_0, diffuse0, AMBIENT_1, diffuse1);
+		rendererImpl.setLightAmbiantDiffuse(AMBIENT_0, diffuse0, AMBIENT_1,
+				diffuse1);
 
 		// material and light
-		setColorMaterial();
+		rendererImpl.setColorMaterial();
 
 		// setLight(GLlocal.GL_LIGHT0);
-		setLightModel();
-		enableLightingOnInit();
+		rendererImpl.setLightModel();
+		rendererImpl.enableLightingOnInit();
 
 		// common enabling
 		enableDepthTest();
 		setDepthFunc();
 		enablePolygonOffsetFill();
-		initCulling();
+		rendererImpl.initCulling();
 
 		// blending
 		setBlendFunc();
 		enableBlending();
 		updateClearColor();
 
-		setAlphaFunc();
+		rendererImpl.setAlphaFunc();
 
 		// normal anti-scaling
 		enableNormalNormalized();
@@ -1550,10 +1553,6 @@ public abstract class Renderer
 
 	protected void initTextures() {
 		textures.init();
-	}
-
-	protected void initCulling() {
-		rendererImpl.initCulling();
 	}
 
 	/**
@@ -1575,7 +1574,7 @@ public abstract class Renderer
 	 * enable text textures
 	 */
 	public void enableTexturesForText() {
-		enableTextures();
+		rendererImpl.enableTextures();
 		rendererImpl.enableTexturesForText();
 	}
 
@@ -1716,7 +1715,12 @@ public abstract class Renderer
         // only for AR
     }
 
-	@Override
+	/**
+	 * sets the clip planes
+	 *
+	 * @param minMax
+	 *            min/max for x/y/z
+	 */
 	final public void setClipPlanes(double[][] minMax) {
 		if (rendererImpl != null) {
 			rendererImpl.setClipPlanes(minMax);
@@ -1724,140 +1728,10 @@ public abstract class Renderer
 	}
 
 	/**
-	 * init drawing matrix to view3D toScreen matrix
-	 */
-	final protected void setMatrixView() {
-		rendererImpl.setMatrixView();
-	}
-
-	final protected void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
-			float scaleFactor) {
-		rendererImpl.setProjectionMatrixViewForAR(cameraView, cameraPerspective,
-				modelMatrix, scaleFactor);
-	}
-
-	final protected void fromARCoreCoordsToGGBCoords(Coords coords,
-			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
-		rendererImpl.fromARCoreCoordsToGGBCoords(coords, modelMatrix,
-				scaleFactor, ret);
-	}
-
-	/**
-	 * reset to projection matrix only
-	 */
-	final protected void unsetMatrixView() {
-		rendererImpl.unsetMatrixView();
-	}
-
-	/**
-	 * sets the color
-	 *
-	 * @param r
-	 *            red
-	 * @param g
-	 *            green
-	 * @param b
-	 *            blue
-	 * @param a
-	 *            alpha
-	 *
-	 */
-	final public void setColor(float r, float g, float b, float a) {
-		rendererImpl.setColor(r, g, b, a);
-	}
-
-	@Override
-	final public void initMatrix() {
-		rendererImpl.initMatrix();
-	}
-
-	@Override
-	final public void initMatrixForFaceToScreen() {
-		rendererImpl.initMatrixForFaceToScreen();
-	}
-
-	@Override
-	final public void resetMatrix() {
-		rendererImpl.resetMatrix();
-	}
-
-	final protected void pushSceneMatrix() {
-		rendererImpl.pushSceneMatrix();
-	}
-
-	/**
-	 * set light position
-	 *
-	 * @param values
-	 *            attribute values
-	 */
-	final protected void setLightPosition(float[] values) {
-		rendererImpl.setLightPosition(values);
-	}
-
-	/**
-	 * set light ambiant and diffuse values (white lights)
-	 *
-	 */
-	final protected void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
-			float ambiant1, float diffuse1) {
-
-		rendererImpl.setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1,
-				diffuse1);
-	}
-
-	/**
-	 * switch GL_LIGHT0 / GL_LIGHT1
-	 *
-	 * @param light
-	 *            GL_LIGHT0 or GL_LIGHT1
-	 */
-	final protected void setLight(int light) {
-		rendererImpl.setLight(light);
-	}
-
-	final protected void setColorMaterial() {
-		rendererImpl.setColorMaterial();
-	}
-
-	final protected void setLightModel() {
-		rendererImpl.setLightModel();
-	}
-
-	final protected void setAlphaFunc() {
-		rendererImpl.setAlphaFunc();
-	}
-
-	/**
 	 * set up the view
 	 */
 	protected void setView() {
 		rendererImpl.setView();
-	}
-
-	final protected void setStencilLines() {
-		rendererImpl.setStencilLines();
-	}
-
-	/**
-	 * Set Up An Ortho View regarding left, right, bottom, front values
-	 *
-	 */
-	final protected void viewOrtho() {
-		rendererImpl.viewOrtho();
-	}
-
-	final protected void viewPersp() {
-		rendererImpl.viewPersp();
-	}
-
-	final protected void viewGlasses() {
-		rendererImpl.viewGlasses();
-	}
-
-	final protected void viewOblique() {
-		rendererImpl.viewOblique();
 	}
 
 	/**
@@ -1868,154 +1742,16 @@ public abstract class Renderer
 		return rendererImpl.createManager();
 	}
 
-	@Override
-	final public void enableTextures() {
-		rendererImpl.enableTextures();
-	}
-
-	@Override
-	final public void disableTextures() {
-		rendererImpl.disableTextures();
-
-	}
-
 	/**
-	 * Use the shaderProgram that got linked during the init part.
+	 * for shaders : update projection matrix
 	 */
-	protected void useShaderProgram() {
-		rendererImpl.useShaderProgram();
-	}
-
-	@Override
 	final public void updateOrthoValues() {
 		if (rendererImpl != null) {
 			rendererImpl.updateOrthoValues();
 		}
 	}
 
-	final protected void enableLightingOnInit() {
-		rendererImpl.enableLightingOnInit();
-	}
-
-	final protected void drawTranspNotCurved() {
-		rendererImpl.drawTranspNotCurved();
-	}
-
-	@Override
-	final public void disableCulling() {
-		rendererImpl.disableCulling();
-	}
-
-	@Override
-	final public void setCullFaceFront() {
-		rendererImpl.setCullFaceFront();
-	}
-
-	@Override
-	final public void setCullFaceBack() {
-		rendererImpl.setCullFaceBack();
-	}
-
-	@Override
-	final public void loadColorBuffer(GLBuffer fbColors, int length) {
-		rendererImpl.loadColorBuffer(fbColors, length);
-
-	}
-
-	@Override
-	final public void loadNormalBuffer(GLBuffer fbNormals, int length) {
-		rendererImpl.loadNormalBuffer(fbNormals, length);
-
-	}
-
-	@Override
-	final public void loadTextureBuffer(GLBuffer fbTextures, int length) {
-		rendererImpl.loadTextureBuffer(fbTextures, length);
-
-	}
-
-	@Override
-	final public void disableTextureBuffer() {
-		rendererImpl.disableTextureBuffer();
-	}
-
-	@Override
-	final public void loadVertexBuffer(GLBuffer fbVertices, int length) {
-		rendererImpl.loadVertexBuffer(fbVertices, length);
-
-	}
-
-	@Override
-	final public void loadIndicesBuffer(GLBufferIndices arrayI, int length) {
-		rendererImpl.loadIndicesBuffer(arrayI, length);
-
-	}
-
-	@Override
-	final public void setCenter(Coords center) {
-		rendererImpl.setCenter(center);
-
-	}
-
-	/**
-	 * reset the point center
-	 */
-	final public void resetCenter() {
-		rendererImpl.resetCenter();
-	}
-
-	@Override
-	final public boolean areTexturesEnabled() {
-		return rendererImpl.areTexturesEnabled();
-	}
-
-	@Override
-	final public void draw(Type type, int length) {
-		rendererImpl.draw(type, length);
-
-	}
-
-	@Override
-	final public void bindBufferForIndices(int buffer) {
-		rendererImpl.bindBufferForIndices(buffer);
-
-	}
-
-	/**
-	 * init shaders (when used)
-	 */
-	final protected void initShaders() {
-		rendererImpl.initShaders();
-	}
-
-	/**
-	 * disable shine (specular)
-	 */
-	final public void disableShine() {
-		rendererImpl.disableShine();
-	}
-
-	/**
-	 * enable shine (specular)
-	 */
-	final public void enableShine() {
-		rendererImpl.enableShine();
-	}
-
-	/**
-	 * disable opaque surfaces
-	 */
-	final public void disableOpaqueSurfaces() {
-		rendererImpl.disableOpaqueSurfaces();
-	}
-
-	/**
-	 * enable opaque surfaces
-	 */
-	final public void enableOpaqueSurfaces() {
-		rendererImpl.enableOpaqueSurfaces();
-	}
-
+	
 	/**
 	 * set drawing to left buffer (when stereo buffered)
 	 */
@@ -2037,181 +1773,33 @@ public abstract class Renderer
 		rendererImpl.glClear(rendererImpl.getGL_COLOR_BUFFER_BIT());
 	}
 
-	/**
-	 * clear depth buffer
-	 */
-	final protected void clearDepthBuffer() {
-		rendererImpl.clearDepthBuffer();
-	}
-
-	/**
-	 * clear depth buffer for anaglyph glasses, between first and second eye
-	 */
-	protected void clearDepthBufferForSecondAnaglyphFilter() {
-		rendererImpl.clearDepthBufferForSecondAnaglyphFilter();
-	}
-
-	/**
-	 * set value for the stencil function (equal to value)
-	 *
-	 * @param value
-	 *            stencil value
-	 */
-	final protected void setStencilFunc(int value) {
-		rendererImpl.setStencilFunc(value);
-	}
-
-	@Override
 	final public void enableCulling() {
 		rendererImpl.glEnable(rendererImpl.getGL_CULL_FACE());
 	}
 
-	@Override
 	final public void disableBlending() {
 		rendererImpl.glDisable(rendererImpl.getGL_BLEND());
 	}
 
-	@Override
 	final public void enableBlending() {
 		rendererImpl.glEnable(rendererImpl.getGL_BLEND());
 	}
 
-	@Override
-	final public void enableMultisample() {
-		rendererImpl.enableMultisample();
-	}
-
-	@Override
-	public final void disableMultisample() {
-		rendererImpl.disableMultisample();
-	}
-
-	@Override
-	final public void enableAlphaTest() {
-		rendererImpl.enableAlphaTest();
-	}
-
-	@Override
-	final public void disableAlphaTest() {
-		rendererImpl.disableAlphaTest();
-	}
-
-	@Override
-	final public void enableDepthMask() {
-		rendererImpl.enableDepthMask();
-	}
-
-	@Override
-	final public void disableDepthMask() {
-		rendererImpl.disableDepthMask();
-	}
-
-	@Override
 	final public void enableDepthTest() {
 		rendererImpl.glEnable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
-	@Override
 	final public void disableDepthTest() {
 		rendererImpl.glDisable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
-	public void setColorMask(final int colorMask) {
-		rendererImpl.setColorMask(colorMask);
-	}
-
-	@Override
-	final public void setClearColor(float r, float g, float b, float a) {
-		rendererImpl.setClearColor(r, g, b, a);
-	}
-
-	@Override
-	final public void setLayer(int l) {
-		rendererImpl.setLayer(l);
-	}
-
-	@Override
-	final public void genTextures2D(int number, int[] index) {
-		rendererImpl.genTextures2D(number, index);
-	}
-
-	@Override
-	final public void bindTexture(int index) {
-		rendererImpl.bindTexture(index);
-	}
-
+	
 	/**
-	 * enables clip planes
+	 * 
+	 * @return true if uses shaders
 	 */
-	final protected void enableClipPlanes() {
-		rendererImpl.enableClipPlanes();
-	}
-
-	/**
-	 * disables clip planes
-	 */
-	final protected void disableClipPlanes() {
-		rendererImpl.disableClipPlanes();
-	}
-
-	@Override
-	final public void setLabelOrigin(float[] origin) {
-		rendererImpl.setLabelOrigin(origin);
-	}
-
-	@Override
-	final public void enableLighting() {
-		rendererImpl.enableLighting();
-	}
-
-	@Override
-	final public void disableLighting() {
-		rendererImpl.disableLighting();
-	}
-
-	@Override
-	final public void initLighting() {
-		rendererImpl.initLighting();
-	}
-
-	@Override
 	public boolean useShaders() {
 		return rendererImpl.useShaders();
-	}
-
-	@Override
-	final public void enableFading() {
-		rendererImpl.enableFading();
-	}
-
-	@Override
-	final public void enableDash() {
-		rendererImpl.enableDash();
-	}
-
-	@Override
-	final public void enableDashHidden() {
-		rendererImpl.enableDashHidden();
-	}
-
-	/**
-	 *
-	 * @return light position
-	 */
-	final protected float[] getLightPosition() {
-		return rendererImpl.getLightPosition();
-	}
-
-	@Override
-	final public void setDashTexture(int index) {
-		rendererImpl.setDashTexture(index);
-	}
-
-	/**
-	 * draw outline for surfaces
-	 */
-	final protected void drawSurfacesOutline() {
-		rendererImpl.drawSurfacesOutline();
 	}
 
 	@Override
@@ -2356,7 +1944,6 @@ public abstract class Renderer
 	// TODO implement methods below for export image (see
 	// RendererCheckGLVersionD)
 
-	@Override
 	public void display() {
 		// used in desktop and for export image
 	}
@@ -2368,14 +1955,7 @@ public abstract class Renderer
 		// only in Desktop; Web uses canvas methods
 	}
 
-	protected void selectFBO() {
-		rendererImpl.selectFBO();
-	}
-
-	protected void unselectFBO() {
-		rendererImpl.unselectFBO();
-	}
-
+	
 	/**
 	 * says that we need an export image with scale, width and height
 	 *
@@ -2389,24 +1969,9 @@ public abstract class Renderer
 	protected void needExportImage(double scale, int w, int h) {
 		if (rendererImpl != null) {
 			rendererImpl.needExportImage(scale, w, h);
-		} else {
-			Log.error("rendererImpl null in needExportImage()");
 		}
-
 	}
-
-	/**
-	 * set export image width and height
-	 *
-	 * @param w
-	 *            width
-	 * @param h
-	 *            height
-	 */
-	protected void setExportImageDimension(int w, int h) {
-		rendererImpl.setExportImageDimension(w, h);
-	}
-
+	
 	/**
 	 * @return implementation
 	 */
@@ -2422,7 +1987,9 @@ public abstract class Renderer
 		this.rendererImpl = rendererImpl;
 	}
 
-	@Override
+	/**
+	 * create dummy texture
+	 */
 	public void createDummyTexture() {
 		rendererImpl.createDummyTexture();
 	}

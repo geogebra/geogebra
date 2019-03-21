@@ -932,10 +932,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void drawTranspNotCurved() {
 		renderer.enableCulling();
-		renderer.setCullFaceFront();
+		setCullFaceFront();
 		renderer.drawable3DLists.drawTransp(renderer);
 		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
-		renderer.setCullFaceBack();
+		setCullFaceBack();
 		renderer.drawable3DLists.drawTransp(renderer);
 		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
 	}

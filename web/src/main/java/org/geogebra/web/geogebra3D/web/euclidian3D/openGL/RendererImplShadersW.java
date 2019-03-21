@@ -620,4 +620,24 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glUseProgram(null);
 	}
 
+	@Override
+	public final void selectFBO() {
+		// TODO implement?
+	}
+
+	@Override
+	public final void unselectFBO() {
+		// TODO implement?
+	}
+
+	@Override
+	public void needExportImage(double scale, int w, int h) {
+		// TODO implement?
+	}
+
+	@Override
+	protected void setExportImageDimension(int w, int h) {
+		// TODO implement?
+	}
+
 }

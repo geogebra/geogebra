@@ -77,9 +77,10 @@ public enum TargetType {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d, Target target) {
 		    // avoid z-fighting
-            renderer.setLayer(view3d.getCursor3D().getLayer() + 1);
+			renderer.getRendererImpl()
+					.setLayer(view3d.getCursor3D().getLayer() + 1);
 			doDrawTarget(renderer, target);
-            renderer.setLayer(Renderer.LAYER_DEFAULT);
+			renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 		}
 	},
 	/** target free point (3D input devices) */

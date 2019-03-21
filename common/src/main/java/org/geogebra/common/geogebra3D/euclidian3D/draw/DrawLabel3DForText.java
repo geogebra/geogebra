@@ -76,13 +76,13 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		if (geo.doHighlighting()) {
 			// draw bounds if highlighted
-			renderer.disableTextures();
-			renderer.disableMultisample();
+			renderer.getRendererImpl().disableTextures();
+			renderer.getRendererImpl().disableMultisample();
 			renderer.setLineWidth(geo.getLineThickness() / 2.0);
 			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
 			renderer.getGeometryManager().draw(highLightIndex);
-			renderer.enableMultisample();
-			renderer.enableTextures();
+			renderer.getRendererImpl().enableMultisample();
+			renderer.getRendererImpl().enableTextures();
 		}
 	}
 
