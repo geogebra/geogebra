@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -28,8 +29,20 @@ import org.mockito.stubbing.Answer;
 @RunWith(MockitoJUnitRunner.class)
 public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
-	@Mock
-	private CheckPropertyAndGeoElementView wrappedView;
+	static abstract private class WrappedViewTest
+			implements CheckPropertyAndGeoElementView {
+
+		public boolean needsUpdateVisualstyle(GProperty property) {
+			return true;
+		}
+
+		public boolean show(GeoElement geo) {
+			return true;
+		}
+
+	}
+
+	private WrappedViewTest wrappedView;
 
 	@Mock
 	private GTimer timer;
@@ -47,6 +60,8 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 				return timer;
 			}
 		});
+		wrappedView = Mockito.mock(WrappedViewTest.class,
+				Mockito.CALLS_REAL_METHODS);
 		wrapper = new BatchedUpdateWrapper(wrappedView, utilFactory);
 	}
 
