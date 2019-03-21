@@ -93,7 +93,7 @@ public class BatchedUpdateWrapper
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
-		addEvent("updateHighlight", geo);
+		addEvent("updateHighlight", (GeoElement) geo);
 	}
 
 	@Override
