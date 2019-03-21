@@ -198,13 +198,13 @@ public abstract class RendererImplShaders extends RendererImpl {
     }
 
 	@Override
-	final public void enableTextures() {
+	public void enableTextures() {
 		texturesEnabled = true;
 		setCurrentGeometryHasNoTexture(); // let first geometry init textures
 	}
 
 	@Override
-	final public void disableTextures() {
+	public void disableTextures() {
 		texturesEnabled = false;
 		setCurrentTextureType(TEXTURE_TYPE_NONE);
 		glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
@@ -906,7 +906,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	final public void disableCulling() {
+	public void disableCulling() {
 		glDisable(getGL_CULL_FACE());
 		glUniform1i(cullingLocation, 1);
 	}
@@ -918,13 +918,13 @@ public abstract class RendererImplShaders extends RendererImpl {
 	abstract protected int getGL_BACK();
 
 	@Override
-	final public void setCullFaceFront() {
+	public void setCullFaceFront() {
 		glCullFace(getGL_FRONT());
 		glUniform1i(cullingLocation, -1);
 	}
 
 	@Override
-	final public void setCullFaceBack() {
+	public void setCullFaceBack() {
 		glCullFace(getGL_BACK());
 		glUniform1i(cullingLocation, 1);
 	}
@@ -1017,7 +1017,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	final public void initShaders() {
+	public void initShaders() {
 		compileShadersProgram();
 
 		// Each shaderProgram must have
