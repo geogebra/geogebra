@@ -143,7 +143,6 @@ public class EvaluateInput {
 
 				item.setText("");
 				item.removeOutput();
-				item.inputControl.ensureInputMoreMenu();
 				item.runSuggestionCallbacks(geos[0]);
 			}
 		};

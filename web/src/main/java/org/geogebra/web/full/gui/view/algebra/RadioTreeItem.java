@@ -1814,6 +1814,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (mf != null) {
 			mf.setText(text0, this.isTextItem());
 		}
+		inputControl.ensureInputMoreMenu();
 		updateEditorAriaLabel(text0);
 		updatePreview();
 	}
