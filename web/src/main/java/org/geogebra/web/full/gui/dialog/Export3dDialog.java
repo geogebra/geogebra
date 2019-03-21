@@ -13,6 +13,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.OnBackSpaceHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -29,7 +30,7 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class Export3dDialog extends OptionDialog
-		implements Export3dDialogInterface, SetLabels {
+		implements Export3dDialogInterface, SetLabels, HasKeyboardPopup {
 
 	final static private double MM_TO_CM = 0.1;
 
