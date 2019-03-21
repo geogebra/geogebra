@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.batch;
 
+import java.util.Iterator;
+
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.kernel.CheckPropertyAndGeoElementView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -11,17 +14,16 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.Iterator;
-
 /**
  * This class can wrap a view, and post the notifications
  * in a batch every DELAY seconds.
  */
-public class BatchedUpdateWrapper implements View, GTimerListener {
+public class BatchedUpdateWrapper
+		implements CheckPropertyAndGeoElementView, GTimerListener {
 
 	private static final int DELAY = 80;
 
-	private final View wrappedView;
+	private final CheckPropertyAndGeoElementView wrappedView;
 	private final Reflection reflection;
 	private final EventOptimizedList pendingEvents;
 	private final GTimer timer;
@@ -32,7 +34,8 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 	 * @param wrappedView view to wrap
 	 * @param factory factory
 	 */
-	public BatchedUpdateWrapper(View wrappedView, UtilFactory factory) {
+	public BatchedUpdateWrapper(CheckPropertyAndGeoElementView wrappedView,
+			UtilFactory factory) {
 		this.wrappedView = wrappedView;
 		this.reflection = factory.newReflection(View.class);
 
@@ -44,9 +47,11 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 		addEvent(name, new Object[] {});
 	}
 
-	private void addEvent(String name, GeoElementND parameter) {
-		Event event = new Event(name, new Object[] { parameter });
-		addEvent(event);
+	private void addEvent(String name, GeoElement parameter) {
+		if (show(parameter)) {
+			Event event = new Event(name, new Object[] { parameter });
+			addEvent(event);
+		}
 	}
 
 	private void addEvent(String name, Object[] parameters) {
@@ -164,5 +169,13 @@ public class BatchedUpdateWrapper implements View, GTimerListener {
 			}
 			iterator.remove();
 		}
+	}
+
+	public boolean needsUpdateVisualstyle(GProperty property) {
+		return wrappedView.needsUpdateVisualstyle(property);
+	}
+
+	public boolean show(GeoElement geo) {
+		return wrappedView.show(geo);
 	}
 }
