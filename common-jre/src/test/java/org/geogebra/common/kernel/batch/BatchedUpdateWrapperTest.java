@@ -39,6 +39,10 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 			return true;
 		}
 
+		public boolean getIsWrapped() {
+			return true;
+		}
+
 	}
 
 	private WrappedViewTest wrappedView;
