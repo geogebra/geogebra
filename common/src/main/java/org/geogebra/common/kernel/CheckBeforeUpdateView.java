@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * View that checks if it needs to update visual style for a specific property,
  * and if it will show a specific geo
  */
-public interface CheckPropertyAndGeoElementView extends View {
+public interface CheckBeforeUpdateView extends View {
 
 	/**
 	 * 

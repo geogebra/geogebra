@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.batch;
 import java.util.Iterator;
 
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.kernel.CheckPropertyAndGeoElementView;
+import org.geogebra.common.kernel.CheckBeforeUpdateView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -19,11 +19,11 @@ import org.geogebra.common.util.debug.Log;
  * in a batch every DELAY seconds.
  */
 public class BatchedUpdateWrapper
-		implements CheckPropertyAndGeoElementView, GTimerListener {
+		implements CheckBeforeUpdateView, GTimerListener {
 
 	private static final int DELAY = 80;
 
-	private final CheckPropertyAndGeoElementView wrappedView;
+	private final CheckBeforeUpdateView wrappedView;
 	private final Reflection reflection;
 	private final EventOptimizedList pendingEvents;
 	private final GTimer timer;
@@ -34,9 +34,10 @@ public class BatchedUpdateWrapper
 	 * @param wrappedView view to wrap
 	 * @param factory factory
 	 */
-	public BatchedUpdateWrapper(CheckPropertyAndGeoElementView wrappedView,
+	public BatchedUpdateWrapper(WrappableView wrappedView,
 			UtilFactory factory) {
 		this.wrappedView = wrappedView;
+		wrappedView.setIsWrapped(true);
 		this.reflection = factory.newReflection(View.class);
 
 		pendingEvents = new EventOptimizedList();
@@ -88,7 +89,7 @@ public class BatchedUpdateWrapper
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		if (needsUpdateVisualstyle(prop)) {
+		if (needsUpdateVisualstyle(prop) && show(geo)) {
 			addEvent("updateVisualStyle", new Object[] { geo, prop });
 		}
 	}
