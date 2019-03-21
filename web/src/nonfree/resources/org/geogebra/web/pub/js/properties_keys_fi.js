@@ -1722,7 +1722,7 @@ __GGB__keysVar["fi"].menu = {
     "Ellipsoid": "Ellipsoidi",
     "Email": "S\xe4hk\xf6posti",
     "Embed": "Embed",
-    "EmbedFrameWarning": "If a web page can not be embedded, an empty frame is displayed that can be deleted.",
+    "EmbedFrameWarning": "Jos web-sivua ei saa upotettua, niin paikalle tulee tyhj\xe4 kehys, joka voidaan poistaa.",
     "EmphasizeRightAngle": "Korosta suoraa kulmaa",
     "EmptyBox": "(tyhj\xe4)",
     "EmptyItem": "Tyhj\xe4",
