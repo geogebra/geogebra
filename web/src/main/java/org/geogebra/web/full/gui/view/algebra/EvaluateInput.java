@@ -29,7 +29,6 @@ public class EvaluateInput {
 	 *
 	 * @param item to evaluate.
 	 * @param ctrl the controller.
-	 * @param app {@Link App}
 	 */
 	public EvaluateInput(RadioTreeItem item, LatexTreeItemController ctrl) {
 		this.item = item;
@@ -44,8 +43,8 @@ public class EvaluateInput {
 	 *            whether to create sliders
 	 */
 	public void createGeoFromInput(final boolean keepFocus,
-			boolean withSlider) {
-		evaluate(keepFocus, withSlider, createCallback(keepFocus));
+			boolean withSliders) {
+		evaluate(keepFocus, withSliders, createCallback(keepFocus));
 	}
 
 	/**

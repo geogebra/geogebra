@@ -175,8 +175,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            whether to create sliders
 	 */
 	public void createGeoFromInput(final boolean keepFocus,
-			boolean withSlider) {
-		evalInput.createGeoFromInput(keepFocus, withSlider);
+			boolean withSliders) {
+		evalInput.createGeoFromInput(keepFocus, withSliders);
 	}
 
 	/**

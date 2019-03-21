@@ -80,10 +80,15 @@ public class ContextMenuAVItemMore implements SetLabels {
 		}
 	}
 
+	/**
+	 * Sets geo for menu building the menu items
+	 * @param geo for
+	 */
 	public void setGeo(GeoElement geo) {
 		this.geo = geo;
 		buildGUI();
 	}
+	
 	/**
 	 * @param x
 	 *            screen x-coordinate
@@ -131,6 +136,9 @@ public class ContextMenuAVItemMore implements SetLabels {
 		});
 	}
 
+	/**
+	 * Adds menu for clearing input.
+	 */
 	public void addClearInputItem() {
 		wrappedPopup.clearItems();
 		addAction(clearInputAction);
