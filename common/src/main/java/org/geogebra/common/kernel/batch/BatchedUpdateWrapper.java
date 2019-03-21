@@ -88,7 +88,9 @@ public class BatchedUpdateWrapper
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		addEvent("updateVisualStyle", new Object[] { geo, prop });
+		if (needsUpdateVisualstyle(prop)) {
+			addEvent("updateVisualStyle", new Object[] { geo, prop });
+		}
 	}
 
 	@Override
