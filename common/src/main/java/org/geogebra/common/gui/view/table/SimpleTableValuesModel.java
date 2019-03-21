@@ -145,7 +145,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param evaluatable evaluatable
 	 */
 	void removeEvaluatable(GeoEvaluatable evaluatable) {
-		evaluatable.setTableColumn(-1);
 		if (evaluatables.contains(evaluatable)) {
 			int index = evaluatables.indexOf(evaluatable);
 			evaluatables.remove(evaluatable);

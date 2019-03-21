@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.properties.TableProperties;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -61,8 +62,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -2987,6 +2988,16 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
+			boolean keepAdvanced, boolean setAuxiliaryProperty) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
+				setAuxiliaryProperty);
+		if (geo instanceof GeoEvaluatable) {
+			TableProperties.transfer(geo, this);
+		}
+	}
+
+	@Override
 	public boolean isPointsVisible() {
 		return pointsVisible;
 	}
@@ -2998,15 +3009,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public double getX() {
-
 		try {
 			PolyFunction poly = fun
 					.expandToPolyFunction(fun.getExpression(), false, true);
 			if (poly.getDegree() <= 1) {
-
 				// gradient of line
 				return poly.getCoeffs()[1];
-
 			}
 		} catch (Exception e) {
 			//
@@ -3014,7 +3022,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 		// not a line
 		return Double.NaN;
-
 	}
 
 	@Override

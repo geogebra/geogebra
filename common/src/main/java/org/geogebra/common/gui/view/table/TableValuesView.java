@@ -83,6 +83,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
+		evaluatable.setTableColumn(-1);
 		model.removeEvaluatable(evaluatable);
 		if (model.getColumnCount() == 1) {
 			setDefaultValues();
