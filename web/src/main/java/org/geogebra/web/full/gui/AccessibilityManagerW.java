@@ -160,7 +160,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private static int nextID(DockPanelW[] panels, int viewID) {
 		boolean returnNext = viewID == -1;
 		for (DockPanelW panel : panels) {
-			EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(
+			EuclidianDockPanelWAbstract ev = checkEuclidianViewWithZoomButtons(
 					panel);
 			if (ev != null && returnNext) {
 				return ev.getViewId();
@@ -194,7 +194,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private boolean focusZoomPanel(boolean first, int viewID) {
-		EuclidianDockPanelWAbstract ev = isEuclidianViewWithZoomPanel(
+		EuclidianDockPanelWAbstract ev = checkEuclidianViewWithZoomButtons(
 				getEuclidianPanel(viewID));
 		if (ev != null) {
 			setTabOverGeos(false);
@@ -209,7 +209,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private static EuclidianDockPanelWAbstract isEuclidianViewWithZoomPanel(
+	private static EuclidianDockPanelWAbstract checkEuclidianViewWithZoomButtons(
 			DockPanelW panel) {
 		if (!(panel instanceof EuclidianDockPanelWAbstract)) {
 			return null;

@@ -496,6 +496,7 @@ public class ZoomPanel extends FlowPanel
 			}
 		} else if (fullscreenBtn != null) {
 			fullscreenBtn.removeFromParent();
+			fullscreenBtn = null;
 		}
 	}
 
