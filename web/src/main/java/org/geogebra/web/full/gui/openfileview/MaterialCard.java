@@ -56,7 +56,12 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	 * Open this material.
 	 */
 	protected void openMaterial() {
-		controller.loadOnlineFile();
+		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
+			@Override
+			public void callback(Boolean obj) {
+				controller.loadOnlineFile();
+			}
+		});
 	}
 
 	private void initGui() {
