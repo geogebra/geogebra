@@ -82,25 +82,43 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 								: MaterialDesignResources.INSTANCE
 										.search_black(),
 						loc.getMenu(getApp().isWhiteboardActive()
-								? (isMowLoggedOut() ? "mow.offlineMyFiles"
-										: "mow.myfiles")
-								: "Open")),
+								? "mow.myfiles" : "Open")),
 				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
-						if (isMowLoggedOut()) {
+						if (getApp().isWhiteboardActive() && isMowLoggedOut()) {
+							getApp().getLoginOperation().showLoginDialog();
+							getApp().getLoginOperation().getView().add(new EventRenderable() {
+								@Override
+								public final void renderEvent(BaseEvent event) {
+									if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+										getApp().openSearch(null);
+									}
+								}
+							});
+						} else {
+							getApp().openSearch(null);
+						}
+					}
+				});
+
+		if (getApp().isWhiteboardActive()) {
+			addItem(
+					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), loc.getMenu("mow.offlineMyFiles")), true, new MenuCommand(getApp()) {
+
+						@Override
+						public void doExecute() {
 							if (fileChooser == null) {
 								fileChooser = new FileChooser();
 								fileChooser.addStyleName("hidden");
 							}
 							app.getPanel().add(fileChooser);
 							fileChooser.open();
-							return;
 						}
-						getApp().openSearch(null);
-					}
-				});
+					});
+		}
+
 		if (getApp().getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
 					MaterialDesignResources.INSTANCE.save_black(),
@@ -180,9 +198,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 				getApp().isWhiteboardActive() ? MaterialDesignResources.INSTANCE
 						.folder_open().getSafeUri().asString()
 						: MaterialDesignResources.INSTANCE.search_black()
-								.getSafeUri().asString(),
-				loc.getMenu(getApp().isWhiteboardActive() ? (isMowLoggedOut()
-						? "mow.offlineMyFiles" : "mow.myfiles") : "Open")));
+						.getSafeUri().asString(),
+				loc.getMenu(getApp().isWhiteboardActive() ? "mow.myfiles" : "Open")));
 	}
 
 	/**
