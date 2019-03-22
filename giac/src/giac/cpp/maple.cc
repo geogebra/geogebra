@@ -3344,8 +3344,10 @@ namespace giac {
     if (args.type==_VECT){
       string sep=name==1?";\n":",";
       string s;
-      if (name==0 && args.subtype!=_SEQ__VECT)
+      bool ret=!args._VECTptr->empty() && args._VECTptr->back().is_symb_of_sommet(at_return);
+      if (name==0 && args.subtype!=_SEQ__VECT && !ret){
 	s="giac::makevecteur(";
+      }
       if (name==-1)
 	s="giac::makesequence(";
       vecteur::const_iterator it=args._VECTptr->begin(), itend=args._VECTptr->end();
@@ -3359,9 +3361,9 @@ namespace giac {
 	}
 	s += sep;
       }
-      if (name==0 && args.subtype!=_SEQ__VECT) s += ")";
+      if (name==0 && args.subtype!=_SEQ__VECT && !ret) s += ")";
       if (name==-1) s += ")";
-      if (name==1) s += ";";
+      if (name==1 || ret) s += ";";
       return s;
     }
     if (args.type==_CPLX)

@@ -3003,7 +3003,7 @@ namespace giac {
     if (f1.type==_VECT && f1.subtype==_SEQ__VECT && f1._VECTptr->size()==1)
       f1=f1._VECTptr->front();
     f3=g._SYMBptr->feuille._VECTptr->back();
-    bool res= ((f3.type==_SYMB || f3.type<=_IDNT) && !f3.is_symb_of_sommet(at_bloc));
+    bool res= ((f3.type==_SYMB || f3.type<=_IDNT || f3.type==_FRAC) && !f3.is_symb_of_sommet(at_bloc));
     if (res)
       f3=eval(f3,1,context0); // eval operators like /
     return res;

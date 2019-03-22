@@ -237,9 +237,15 @@ namespace giac {
       return gensizeerr(contextptr);
     gen xval=x._IDNTptr->eval(1,x,contextptr);
     if (xval!=x){
+#if 1
+      identificateur tmpid(x._IDNTptr->id_name+string("_"));
+      gen tmp(tmpid);
+      gen g(subst(g_,x,tmp,false,contextptr));
+      return residue(g,tmp,a,contextptr);
+#else
       _purge(x,contextptr);
       xval=x._IDNTptr->eval(1,x,contextptr);
-      if (xval!=x){
+      if (xval!=x){	
 	string s="Unable to purge "+x.print(contextptr)+ ", choose another free variable name";
 	*logptr(contextptr) << s << endl;
 	return gensizeerr(s);
@@ -247,6 +253,7 @@ namespace giac {
       gen res=residue(g_,x,a,contextptr);
       sto(xval,x,contextptr);
       return res;
+#endif
     }
     gen g1=fxnd(g_);
     if (g1.type==_VECT && g1._VECTptr->size()==2){

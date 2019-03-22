@@ -4389,10 +4389,11 @@ namespace giac {
     opt[0]=objet;
     if (objet.type!=_VECT)
       return to_map(opt,contextptr);
+    bool multimap=!matrix && opt.size()>1 && ckmatrix(opt);
     const_iterateur it=objet._VECTptr->begin(),itend=objet._VECTptr->end();
     vecteur res;
     res.reserve(itend-it);
-    for (;it!=itend;++it){
+    for (int k=0;it!=itend;++it,++k){
       if (matrix && it->type==_VECT){
 	const vecteur & tmp = *it->_VECTptr;
 	const_iterateur jt=tmp.begin(),jtend=tmp.end();
@@ -4406,7 +4407,13 @@ namespace giac {
       }
       else {
 	opt[0]=*it;
-	res.push_back(to_map(gen(opt,_SEQ__VECT),contextptr));
+	gen arg=gen(opt,_SEQ__VECT);
+	if (multimap){
+	  vecteur & v=*arg._VECTptr;
+	  for (int j=1;j<v.size();++j)
+	    v[j]=(*v[j]._VECTptr)[k];
+	} 
+	res.push_back(to_map(arg,contextptr));
       }
     }
     return res;

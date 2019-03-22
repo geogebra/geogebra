@@ -1464,8 +1464,10 @@ namespace giac {
       vecteur sc(1,scalaire(gen(makevecteur(lv[0],lv[0]),_SEQ__VECT),contextptr));
       for (int i=1;i<s;++i){
 	gen cl;
-	for (int j=0;j<i;++j)
-	  cl=cl+rdiv(scalaire(gen(makevecteur(lv[i],lv[j]),_SEQ__VECT),contextptr),sc[j],contextptr)*lv[j];
+	for (int j=0;j<i;++j){
+	  gen tmp=rdiv(scalaire(gen(makevecteur(lv[i],lv[j]),_SEQ__VECT),contextptr),sc[j],contextptr)*lv[j];
+	  cl=cl+tmp;
+	}
 	lv[i]=lv[i]-cl;
 	sc.push_back(scalaire(gen(makevecteur(lv[i],lv[i]),_SEQ__VECT),contextptr));
       }
