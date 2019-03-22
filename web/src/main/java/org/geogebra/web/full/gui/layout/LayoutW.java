@@ -10,6 +10,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -84,6 +85,11 @@ public class LayoutW extends Layout {
 	/* Many of this not implemented yet, later we can make it togehter */
 	@Override
 	public boolean applyPerspective(Perspective perspective) {
+		int labelingStyle = perspective.getLabelingStyle();
+		if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_NOT_SET) {
+			app.setLabelingStyle(labelingStyle);
+		}
+
 		// ignore axes & grid settings for the document perspective
 		final boolean changed = setEVsettingsFromPerspective(app, perspective);
 

@@ -236,6 +236,8 @@ public class ConstructionDefaults {
 			.deriveWithAlpha((int) (DEFAULT_POLYGON_ALPHA * 255));
 
 	// label visibility
+	/** label visibility not set */
+	public static final int LABEL_VISIBLE_NOT_SET = -1;
 	/** label visible automatic */
 	public static final int LABEL_VISIBLE_AUTOMATIC = 0;
 	/** label visible for all new objects */

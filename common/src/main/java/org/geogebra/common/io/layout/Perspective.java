@@ -1,6 +1,7 @@
 package org.geogebra.common.io.layout;
 
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
@@ -81,6 +82,8 @@ public class Perspective {
 	private boolean showDockBar;
 
 	private boolean isDockBarEast;
+
+	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_NOT_SET;
 
 	private int defaultID;
 	/** translation keys for perspective names */
@@ -601,4 +604,11 @@ public class Perspective {
 		this.id = id;
 	}
 
+	public int getLabelingStyle() {
+		return labelingStyle;
+	}
+
+	public void setLabelingStyle(int labelingStyle) {
+		this.labelingStyle = labelingStyle;
+	}
 }

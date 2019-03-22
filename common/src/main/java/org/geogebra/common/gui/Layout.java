@@ -140,7 +140,9 @@ public abstract class Layout implements SettingListener {
 				defToolbar, true, false, false, false, true,
 				InputPosition.algebraView);
 
-		defaultPerspectives[i].setUnitAxesRatio(true);
+		Perspective geometryPerspective = defaultPerspectives[i];
+		geometryPerspective.setUnitAxesRatio(true);
+		geometryPerspective.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
