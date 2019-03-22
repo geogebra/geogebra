@@ -3822,7 +3822,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		// GGB-776
 		case ABSOLUTE_TEXTS:
-			return true;
+			return prerelease;
 
 		// TRAC-4845
 		case LOG_AXES:
