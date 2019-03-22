@@ -65,8 +65,8 @@ public class ManagerShadersElementsGlobalBuffer
 	 * @return GPU buffer for curve indices, update it if current is not big
 	 *         enough
 	 */
-	public final GLBufferIndices getBufferIndicesForCurve(
-			RendererShadersInterface r, int size) {
+	public final GLBufferIndices getBufferIndicesForCurve(Renderer r,
+			int size) {
 
 		if (size > curvesIndicesSize) {
 
@@ -112,7 +112,7 @@ public class ManagerShadersElementsGlobalBuffer
 	 *         big enough
 	 */
 	public final GLBufferIndices getBufferIndicesForFanDirect(
-			RendererShadersInterface r, int size) {
+			Renderer r, int size) {
 
 		if (size > fanDirectIndicesSize) {
 
@@ -150,7 +150,7 @@ public class ManagerShadersElementsGlobalBuffer
 	 *         big enough
 	 */
 	public final GLBufferIndices getBufferIndicesForFanIndirect(
-			RendererShadersInterface r, int size) {
+			Renderer r, int size) {
 
 		if (size > fanIndirectIndicesSize) {
 
@@ -191,7 +191,7 @@ public class ManagerShadersElementsGlobalBuffer
 		@Override
 		public void bindGeometry(int size, TypeElement type) {
 			((GeometryElementsGlobalBuffer) currentGeometry)
-					.bind((RendererShadersInterface) renderer, size, type);
+					.bind(renderer, size, type);
 		}
 
 		/**
@@ -200,7 +200,7 @@ public class ManagerShadersElementsGlobalBuffer
 		public void removeBuffers() {
 			for (int i = 0; i < getGeometriesLength(); i++) {
 				((GeometryElementsGlobalBuffer) get(i))
-						.removeBuffers((RendererShadersInterface) renderer);
+						.removeBuffers(renderer);
 			}
 
 		}
@@ -224,7 +224,7 @@ public class ManagerShadersElementsGlobalBuffer
 		 * @param r
 		 *            GL renderer
 		 */
-		public void removeBuffers(RendererShadersInterface r) {
+		public void removeBuffers(Renderer r) {
 			// TODO not needed?
 		}
 
@@ -238,7 +238,7 @@ public class ManagerShadersElementsGlobalBuffer
 		 * @param typeElement
 		 *            type for elements indices
 		 */
-		public void bind(RendererShadersInterface r, int size,
+		public void bind(Renderer r, int size,
 				TypeElement typeElement) {
 
 			switch (typeElement) {
