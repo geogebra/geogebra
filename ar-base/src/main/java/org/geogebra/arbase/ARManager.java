@@ -157,9 +157,8 @@ abstract public class ARManager<TouchEventType> {
                                 wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                             } else {
                                 // force a drag (device may have moved)
-                                arMotionEvent = new ARMotionEvent(renderer.getWidthInPixels() / 2,
-                                        renderer.getHeightInPixels() / 2);
-                                arMotionEvent.setAction(ARMotionEvent.ON_MOVE);
+                                arMotionEvent = getARMotionEventFromScreenCenter(ARMotionEvent
+                                        .ON_MOVE);
                                 setHittingOriginAndDirectionFromScreenCenter();
                             }
                         } else {
@@ -316,4 +315,8 @@ abstract public class ARManager<TouchEventType> {
      * @param z altitude
      */
     abstract public void setFirstFloor(double z);
+
+    protected ARMotionEvent getARMotionEventFromScreenCenter(int action){
+        return null;
+    }
 }
