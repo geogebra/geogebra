@@ -495,7 +495,7 @@ public abstract class Layout implements SettingListener {
 			if (app.isUnbundled()
 					&& perspective.getDefaultID() == Perspective.GEOMETRY
 					&& app.getEuclidianView1() == ev) {
-				app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
+				app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 			}
 
 			// ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
