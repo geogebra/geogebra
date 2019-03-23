@@ -350,7 +350,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean[] logAxes = { false, false };
 
 	// distances between grid lines
-	private boolean automaticGridDistance = true;
+	protected boolean automaticGridDistance = true;
 	/** distance between gridlines */
 	protected double[] gridDistances;
 

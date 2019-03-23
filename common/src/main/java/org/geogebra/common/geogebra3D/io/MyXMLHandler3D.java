@@ -265,6 +265,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 */
 	protected boolean handleGrid(EuclidianSettings evs,
 			LinkedHashMap<String, String> attrs) {
+
+		// distX, distY
+		super.handleGrid(evs, attrs);
+
 		try {
 			String strShowGrid = attrs.get("show");
 

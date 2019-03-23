@@ -3012,7 +3012,15 @@ public abstract class EuclidianView3D extends EuclidianView
 		// axis settings
 		for (int i = 0; i < 3; i++) {
 			this.getSettings().addAxisXML(i, sb);
+		}
 
+		// grid distances
+		if (!automaticGridDistance) {
+			sb.append("\t<grid distX=\"");
+			sb.append(gridDistances[0]);
+			sb.append("\" distY=\"");
+			sb.append(gridDistances[1]);
+			sb.append("\"/>\n");
 		}
 
 		// xOy plane settings

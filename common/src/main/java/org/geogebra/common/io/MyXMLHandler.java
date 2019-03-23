@@ -1570,7 +1570,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private static boolean handleGrid(EuclidianSettings ev,
+	protected boolean handleGrid(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		// <grid distX="2.0" distY="4.0"/>
 		try {
