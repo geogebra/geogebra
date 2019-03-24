@@ -2881,7 +2881,7 @@ __GGB__keysVar["sl"].menu = {
     "Tab": "Tabulator",
     "Table": "Tabela",
     "TableOfValues": "Table of values",
-    "TableValuesEmptyDescription": "Mo\u017enost prikaza tabelnega prikaza funkcije",
+    "TableValuesEmptyDescription": "Prikaz funkcije s tabelo",
     "TableValuesEmptyTitle": "Tabela je prazna",
     "Tangent": "Tangente",
     "Tangent.Help": "Izberi to\u010dko ali premico, nato kro\u017enico, sto\u017enico ali funkcijo",
