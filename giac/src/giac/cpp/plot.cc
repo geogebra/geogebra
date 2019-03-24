@@ -46,6 +46,17 @@ using namespace std;
 #include <algorithm>
 #include <cmath>
 
+#include<ext/stdio_filebuf.h>
+
+typedef std::basic_ofstream<char>::__filebuf_type buffer_t;
+typedef __gnu_cxx::stdio_filebuf<char>            io_buffer_t; 
+FILE* cfile_impl(buffer_t* const fb){
+    return (static_cast<io_buffer_t* const>(fb))->file(); //type std::__c_file
+}
+
+FILE* cfile(std::ofstream const& ofs){return cfile_impl(ofs.rdbuf());}
+FILE* cfile(std::ifstream const& ifs){return cfile_impl(ifs.rdbuf());}
+
 // C headers
 #include <stdio.h>
 #ifndef __VISUALC__ 
@@ -11358,6 +11369,18 @@ namespace giac {
 	return fl_widget_unarchive_function(is);
     case _ZINT:
       return unarchivezint(is,contextptr);
+#if 0 // ndef USE_GMP_REPLACEMENTS
+    case -_ZINT:{
+      if (ifstream * f=dynamic_cast<ifstream *>(&is)){
+	FILE * F=cfile(*f); // does not work
+	ref_mpz_t * ptr= new ref_mpz_t;
+	// char ch=fgetc(F); 
+	int i=mpz_inp_raw(ptr->z,F);
+	gen res(ptr);
+	return res;
+      }
+    }
+#endif
     default:
       return unarchivedefault(is,contextptr);
     }
@@ -11434,8 +11457,19 @@ namespace giac {
     switch (et){
     case _INT_:
       return os << et << " " << e.val << " " << es << endl;
-    case _ZINT:
+    case _ZINT: {
+#if 0 // ndef USE_GMP_REPLACEMENTS
+      if (ofstream * f=dynamic_cast<ofstream *>(&os)){
+	os << -_ZINT << " ";
+	os.flush();
+	FILE * F=cfile(*f);
+	int i=mpz_out_raw(F,*e._ZINTptr);
+	fflush(F);
+	return os;
+      }
+#endif
       return os << et << " " << hexa_print_ZINT(*e._ZINTptr) << endl;
+    }
     case _DOUBLE_:
       if (my_isinf(e._DOUBLE_val) || my_isnan(e._DOUBLE_val) )
 	return archive(os,gen(e.print(contextptr),contextptr),contextptr);
