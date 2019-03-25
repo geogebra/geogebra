@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -271,9 +270,7 @@ public class LoadFilePresenter {
 		app.getAppletFrame().updateHeaderVisible();
 		app.setPreferredSize(
 				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
-		if (app.has(Feature.CENTER_STANDARD_VIEW)) {
-			app.ensureStandardView();
-		}
+		app.ensureStandardView();
 		app.loadPreferences(p);
 		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
 

@@ -83,8 +83,6 @@ public enum Feature {
 	/** GGB-2008 */
 	OBJECT_DEFAULTS_AND_COLOR,
 
-	CENTER_STANDARD_VIEW,
-
 	SURFACE_2D,
 
 	/** GGB-1986 */

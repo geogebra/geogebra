@@ -1211,7 +1211,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public final void ensureStandardView() {
 		getActiveEuclidianView()
-				.setKeepCenter(has(Feature.CENTER_STANDARD_VIEW));
+				.setKeepCenter(true);
 	}
 
 	@Override

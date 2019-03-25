@@ -4405,14 +4405,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	/**
-	 * 
-	 * @return centered feature is exists or not.
-	 */
-	public boolean isStandardViewCentered() {
-		return app.has(Feature.CENTER_STANDARD_VIEW);
-	}
-
 	@Override
 	public EuclidianSettings getSettings() {
 		return this.settings;
@@ -5496,10 +5488,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if axes are standard positioned
 	 */
 	public boolean isZeroStandard() {
-		return (DoubleUtil.isEqual(xZero, getXZeroStandard())
-				&& DoubleUtil.isEqual(yZero, getYZeroStandard()))
-				|| (isZeroStandardForSmallScreen()
-						&& !app.has(Feature.CENTER_STANDARD_VIEW));
+		return DoubleUtil.isEqual(xZero, getXZeroStandard())
+				&& DoubleUtil.isEqual(yZero, getYZeroStandard());
 	}
 
 	private boolean isZeroStandardForSmallScreen() {
@@ -5531,21 +5521,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		final double xzero, yzero;
 
-		// check if the window is so small that we need custom
-		// positions.
-		if (getWidth() < (getXZeroStandard() * 3)
-				&& !app.has(Feature.CENTER_STANDARD_VIEW)) {
-			xzero = getWidth() / 3.0;
-		} else {
-			xzero = getXZeroStandard();
-		}
-
-		if (getHeight() < (getYZeroStandard() * 1.6)
-				&& !app.has(Feature.CENTER_STANDARD_VIEW)) {
-			yzero = getHeight() / 1.6;
-		} else {
-			yzero = getYZeroStandard();
-		}
+		xzero = getXZeroStandard();
+		yzero = getYZeroStandard();
 
 		if (needsZoomerForStandardRatio()) {
 			// set axes ratio back to 1
@@ -6464,16 +6441,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return standard screen x-coord of origin
 	 */
 	public double getXZeroStandard() {
-		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewWidth() / 2.0
-				: XZERO_STANDARD;
+		return getViewWidth() / 2.0;
 	}
 
 	/**
 	 * @return standard screen y-coord of origin
 	 */
 	public double getYZeroStandard() {
-		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2.0
-				: YZERO_STANDARD;
+		return getViewHeight() / 2.0;
 	}
 
 	/**

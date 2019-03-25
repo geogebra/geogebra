@@ -3885,9 +3885,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SURFACE_2D:
 			return prerelease;
 
-		case CENTER_STANDARD_VIEW:
-			return true;
-
 		case SYMBOLIC_AV:
 			return canary;
 
