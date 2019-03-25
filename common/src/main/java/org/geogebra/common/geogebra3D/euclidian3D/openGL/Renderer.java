@@ -1078,19 +1078,31 @@ public abstract class Renderer {
 		rendererImpl.resetMatrix();
 	}
 
+	/** picking type */
 	public enum PickingType {
-		POINT_OR_CURVE, SURFACE, LABEL
+		/** picking point or curve */
+		POINT_OR_CURVE,
+		/** picking surface */
+		SURFACE,
+		/** picking label */
+		LABEL
 	}
 
+	/**
+	 * set light position
+	 */
 	protected void setLightPosition() {
 		rendererImpl.setLightPosition(rendererImpl.getLightPosition());
 	}
 
+	/**
+	 * set waiting for update color
+	 */
 	public void setWaitForUpdateClearColor() {
 		waitForUpdateClearColor = true;
 	}
 
-	final protected void updateClearColor() {
+	final private void updateClearColor() {
 
 		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
@@ -1111,14 +1123,26 @@ public abstract class Renderer {
 		rendererImpl.setClearColor(r, g, b, 1.0f);
 	}
 
+	/**
+	 * 
+	 * @return screen left
+	 */
 	public int getLeft() {
 		return left;
 	}
 
+	/**
+	 * 
+	 * @return screen right
+	 */
 	public int getRight() {
 		return right;
 	}
 
+	/**
+	 * 
+	 * @return screen width
+	 */
 	public int getWidth() {
 		return right - left;
 	}
@@ -1132,14 +1156,26 @@ public abstract class Renderer {
 		return getWidth();
 	}
 
+	/**
+	 * 
+	 * @return screen bottom
+	 */
 	public int getBottom() {
 		return bottom;
 	}
 
+	/**
+	 * 
+	 * @return screen top
+	 */
 	public int getTop() {
 		return top;
 	}
 
+	/**
+	 * 
+	 * @return screen height
+	 */
 	public int getHeight() {
 		return top - bottom;
 	}
@@ -1153,14 +1189,26 @@ public abstract class Renderer {
 		return getHeight();
 	}
 
+	/**
+	 * 
+	 * @return visible depth
+	 */
 	final public double getVisibleDepth() {
 		return getWidth() * 2;
 	} // keep visible objects at twice center-to-right distance
 
+	/**
+	 * 
+	 * @return near distance
+	 */
 	public int getNear() {
 		return -getWidth();
 	}
 
+	/**
+	 * 
+	 * @return far distance
+	 */
 	public int getFar() {
 		return getWidth();
 	}
@@ -1230,26 +1278,6 @@ public abstract class Renderer {
 		return minmax;
 	}
 
-	protected void setProjectionMatrixForPicking() {
-
-		switch (view3D.getProjection()) {
-		default:
-		case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
-			rendererImpl.viewOrtho();
-			break;
-		case EuclidianView3DInterface.PROJECTION_GLASSES:
-			rendererImpl.viewGlasses();
-			break;
-		case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
-			rendererImpl.viewPersp();
-			break;
-		case EuclidianView3DInterface.PROJECTION_OBLIQUE:
-			rendererImpl.viewOblique();
-			break;
-		}
-
-	}
-
 	/**
 	 * Update projection matrix for view's projection.
 	 */
@@ -1292,6 +1320,9 @@ public abstract class Renderer {
 		updatePerspEye();
 	}
 
+	/**
+	 * update values for perspective projection
+	 */
 	protected void updatePerspValues() {
 		for (int i = 0; i < 2; i++) {
 			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2.0;
@@ -1356,8 +1387,10 @@ public abstract class Renderer {
 		}
 	}
 
+	/**
+	 * set the color mask
+	 */
 	protected void setColorMask() {
-
 		if (view3D
 				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
 				&& !view3D.getCompanion().isStereoBuffered()) {
@@ -1374,8 +1407,22 @@ public abstract class Renderer {
 
 	}
 
+	/**
+	 * export type
+	 */
 	public enum ExportType {
-		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
+		/** no type */
+		NONE,
+		/** animated gif */
+		ANIMATEDGIF,
+		/** producing thumbnail */
+		THUMBNAIL_IN_GGBFILE,
+		/** png */
+		PNG,
+		/** copy to clipboard */
+		CLIPBOARD,
+		/** upload to website */
+		UPLOAD_TO_GEOGEBRATUBE
 	}
 
 	/**
@@ -1407,6 +1454,10 @@ public abstract class Renderer {
 		return obliqueY;
 	}
 
+	/**
+	 * 
+	 * @return oblique orthogonal direction
+	 */
 	public Coords getObliqueOrthoDirection() {
 		return obliqueOrthoDirection;
 	}
@@ -1558,6 +1609,9 @@ public abstract class Renderer {
 
 	}
 
+	/**
+	 * init textures
+	 */
 	protected void initTextures() {
 		textures.init();
 	}
@@ -1593,6 +1647,10 @@ public abstract class Renderer {
 		return view3D;
 	}
 
+	/**
+	 * 
+	 * @return scene to screen matrix
+	 */
 	public CoordMatrix4x4 getToScreenMatrix() {
 		return view3D.getToScreenMatrixForGL();
 	}
@@ -1606,62 +1664,124 @@ public abstract class Renderer {
 		needExportImage = flag;
 	}
 
+	/**
+	 * 
+	 * @return current export type
+	 */
 	protected ExportType getExportType() {
 		return exportType;
 	}
 
+	/**
+	 * 
+	 * @return slider used for exporting animated gifs
+	 */
 	protected AnimationExportSlider getExportNum() {
 		return export_num;
 	}
 
+	/**
+	 * 
+	 * @return current slider value for exporting animated gifs
+	 */
 	protected double getExportVal() {
 		return export_val;
 	}
 
+	/**
+	 * 
+	 * @return slider max value for exporting animated gifs
+	 */
 	protected double getExportMax() {
 		return export_max;
 	}
 
+	/**
+	 * 
+	 * @return slider min value for exporting animated gifs
+	 */
 	protected double getExportMin() {
 		return export_min;
 	}
 
+	/**
+	 * 
+	 * @return animated gifs current image id
+	 */
 	protected int getExportI() {
 		return export_i;
 	}
 
+	/**
+	 * 
+	 * @return animated gifs images count
+	 */
 	protected double getExportN() {
 		return export_n;
 	}
 
+	/**
+	 * 
+	 * @return slider step for exporting animated gifs
+	 */
 	protected double getExportStep() {
 		return export_step;
 	}
 
+	/**
+	 * 
+	 * @return renderer type
+	 */
 	protected RendererType getType() {
 		return type;
 	}
 
+	/**
+	 * set renderer type
+	 * 
+	 * @param t
+	 *            type
+	 */
 	protected void setType(RendererType t) {
 		type = t;
 	}
 
-	protected void setExportVal(ExportType t) {
-		exportType = t;
-	}
-
+	/**
+	 * set slider step for exporting animated gifs
+	 * 
+	 * @param step
+	 *            step
+	 */
 	protected void setExportStep(double step) {
 		export_step = step;
 	}
 
+	/**
+	 * set slider value for exporting animated gifs
+	 * 
+	 * @param val
+	 *            value
+	 */
 	protected void setExportVal(double val) {
 		export_val = val;
 	}
 
+	/**
+	 * set animated gifs image id
+	 * 
+	 * @param i
+	 *            id
+	 */
 	protected void setExportI(int i) {
 		export_i = i;
 	}
 
+	/**
+	 * set export type
+	 * 
+	 * @param type
+	 *            type
+	 */
 	protected void setExportType(ExportType type) {
 		exportType = type;
 	}
@@ -1780,22 +1900,37 @@ public abstract class Renderer {
 		rendererImpl.glClear(rendererImpl.getGL_COLOR_BUFFER_BIT());
 	}
 
+	/**
+	 * enable culling
+	 */
 	final public void enableCulling() {
 		rendererImpl.glEnable(rendererImpl.getGL_CULL_FACE());
 	}
 
+	/**
+	 * disable blending
+	 */
 	final public void disableBlending() {
 		rendererImpl.glDisable(rendererImpl.getGL_BLEND());
 	}
 
+	/**
+	 * enable blending
+	 */
 	final public void enableBlending() {
 		rendererImpl.glEnable(rendererImpl.getGL_BLEND());
 	}
 
+	/**
+	 * enable depth test
+	 */
 	final public void enableDepthTest() {
 		rendererImpl.glEnable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
+	/**
+	 * disable depth test
+	 */
 	final public void disableDepthTest() {
 		rendererImpl.glDisable(rendererImpl.getGL_DEPTH_TEST());
 	}
@@ -1963,10 +2098,9 @@ public abstract class Renderer {
 		// only need for non-shader renderers
 	}
 
-	// //////////////////////////////////////////////////
-	// TODO implement methods below for export image (see
-	// RendererCheckGLVersionD)
-
+	/**
+	 * dispaly for export image
+	 */
 	public void display() {
 		// used in desktop and for export image
 	}
@@ -2066,6 +2200,12 @@ public abstract class Renderer {
 	 */
 	abstract public void disableTextures2D();
 
+	/**
+	 * 
+	 * @param label
+	 *            label
+	 * @return buffered image for drawing label
+	 */
 	abstract public GBufferedImage createBufferedImage(DrawLabel3D label);
 
 	/**
