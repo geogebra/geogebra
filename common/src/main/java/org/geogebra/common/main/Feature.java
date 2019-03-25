@@ -93,9 +93,6 @@ public enum Feature {
 	/** GGB-1985*/
 	FLOATING_SETTINGS,
 
-	/** GGB-2005 */
-	TOOLTIP_DESIGN,
-
 	/** GGB-1986 */
 	DIALOG_DESIGN,
 

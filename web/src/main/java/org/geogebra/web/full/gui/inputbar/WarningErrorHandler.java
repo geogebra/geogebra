@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.inputbar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -36,7 +35,7 @@ public final class WarningErrorHandler implements ErrorHandler {
 		input.setError(msg);
 		input.getHelpToggle().asWidget().getElement().setTitle(msg == null
 				? app2.getLocalization().getMenu("InputHelp") : msg);
-		if (app2.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()
+		if (app2.isUnbundledOrWhiteboard() && !Browser.isMobile()
 				&& input.getHelpToggle() instanceof MarblePanel) {
 			((MarblePanel) input.getHelpToggle())
 					.setTitle(msg == null ? app2.getLocalization()

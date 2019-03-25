@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -39,7 +38,7 @@ public class Marble extends SimplePanel {
 	 */
 	public Marble(final RadioTreeItem gc) {
 		this.gc = gc;
-		if (gc.getApplication().has(Feature.TOOLTIP_DESIGN)
+		if (gc.getApplication().isUnbundledOrWhiteboard()
 				&& !Browser.isMobile()) {
 			this.getElement().removeAttribute("title");
 		}

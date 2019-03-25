@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.user.client.ui.UIObject;
@@ -22,7 +21,7 @@ public class AriaHelper {
 	 *            for feature flag
 	 */
 	public static void setTitle(UIObject ui, String title, App app) {
-		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
+		if (app.isUnbundledOrWhiteboard() && !Browser.isMobile()) {
 			ui.getElement().setAttribute("data-title", title);
 		}
 		ui.getElement().removeAttribute("title");

@@ -3897,10 +3897,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SYMBOLIC_AV:
 			return canary;
 
-		/** GGB-2005 */
-		case TOOLTIP_DESIGN:
-			return isUnbundledOrWhiteboard();
-
 		case INITIAL_PORTRAIT:
 			return isUnbundled();
 
