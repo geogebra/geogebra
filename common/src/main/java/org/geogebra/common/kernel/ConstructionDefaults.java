@@ -323,12 +323,6 @@ public class ConstructionDefaults {
 		this.cons = cons2;
 
 		dependentPointSize = getDependentPointSize();
-
-		// if (cons2.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
-		// lineThickness =
-		// EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS;
-		// }
-
 		createDefaultGeoElements();
 	}
 
