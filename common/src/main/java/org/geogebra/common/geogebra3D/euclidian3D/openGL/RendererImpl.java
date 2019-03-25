@@ -351,8 +351,6 @@ public abstract class RendererImpl {
 
 	public abstract void glViewPort();
 
-	public abstract void setStencilLines();
-
 	public abstract void viewOrtho();
 
 	public abstract void viewPersp();

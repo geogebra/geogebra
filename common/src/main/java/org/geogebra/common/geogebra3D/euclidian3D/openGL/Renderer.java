@@ -110,8 +110,6 @@ public abstract class Renderer {
 	/** screen top (in pixels) */
 	protected int top = 480;
 
-	public boolean waitForDisableStencilLines = false;
-
 	private double[] eyeToScreenDistance = new double[2];
 
 	/** distance camera-near plane */
@@ -165,7 +163,6 @@ public abstract class Renderer {
 	private double export_step;
 	private int export_i;
 	private AnimationExportSlider export_num;
-	public boolean waitForSetStencilLines = false;
 	private Runnable export3DRunnable;
 
 	// AR
@@ -384,14 +381,6 @@ public abstract class Renderer {
 			rendererImpl.selectFBO();
 		}
 
-		if (waitForSetStencilLines) {
-			rendererImpl.setStencilLines();
-		}
-
-		if (waitForDisableStencilLines) {
-			disableStencilLines();
-		}
-
 		mayUpdateClearColor();
 
 		// init rendering values
@@ -577,10 +566,7 @@ public abstract class Renderer {
 	 * set drawing for left eye
 	 */
 	final protected void setDrawLeft() {
-		if (view3D.getCompanion().isPolarized()) {
-			// draw where stencil's value is 0
-			rendererImpl.setStencilFunc(0);
-		} else if (view3D.getCompanion().isStereoBuffered()) {
+		if (view3D.getCompanion().isStereoBuffered()) {
 			setBufferLeft();
 			clearColorBuffer();
 		}
@@ -593,10 +579,7 @@ public abstract class Renderer {
 	 * set drawing for right eye
 	 */
 	final protected void setDrawRight() {
-		if (view3D.getCompanion().isPolarized()) {
-			// draw where stencil's value is 1
-			rendererImpl.setStencilFunc(1);
-		} else if (view3D.getCompanion().isStereoBuffered()) {
+		if (view3D.getCompanion().isStereoBuffered()) {
 			setBufferRight();
 			clearColorBuffer();
 		}
@@ -1113,7 +1096,6 @@ public abstract class Renderer {
 		float r, g, b;
 		if (view3D
 				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
-				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) { // grayscale for
 																// anaglyph
 																// glasses
@@ -1248,16 +1230,6 @@ public abstract class Renderer {
 		return minmax;
 	}
 
-	public void setWaitForDisableStencilLines() {
-		waitForDisableStencilLines = true;
-	}
-
-	abstract protected void disableStencilLines();
-
-	public void setWaitForSetStencilLines() {
-		waitForSetStencilLines = true;
-	}
-
 	protected void setProjectionMatrixForPicking() {
 
 		switch (view3D.getProjection()) {
@@ -1388,7 +1360,6 @@ public abstract class Renderer {
 
 		if (view3D
 				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
-				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) {
 			if (eye == EYE_LEFT) {
 				rendererImpl.setColorMask(ColorMask.RED); // cyan
@@ -1476,9 +1447,6 @@ public abstract class Renderer {
 			updatePerspValues();
 			updateGlassesValues();
 			updatePerspEye();
-			if (view3D.getCompanion().isPolarized()) {
-				setWaitForSetStencilLines();
-			}
 			break;
 		case EuclidianView3DInterface.PROJECTION_OBLIQUE:
 			updateProjectionObliqueValues();

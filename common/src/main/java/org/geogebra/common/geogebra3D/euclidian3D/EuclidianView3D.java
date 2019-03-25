@@ -3790,7 +3790,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set projection to ortographic.
 	 */
 	public void setProjectionOrthographic() {
-		renderer.setWaitForDisableStencilLines();
 		renderer.updateOrthoValues();
 		setProjectionValues(PROJECTION_ORTHOGRAPHIC);
 		setDefault2DCursor();
@@ -3800,7 +3799,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Set projection to perspective.
 	 */
 	public void setProjectionPerspective() {
-		renderer.setWaitForDisableStencilLines();
 		updateProjectionPerspectiveEyeDistance();
 		setProjectionValues(PROJECTION_PERSPECTIVE);
 		setDefault2DCursor();
@@ -3852,11 +3850,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setProjectionGlasses() {
 		updateProjectionPerspectiveEyeDistance();
 		renderer.updateGlassesValues();
-		if (getCompanion().isPolarized()) {
-			renderer.setWaitForSetStencilLines();
-		} else {
-			renderer.setWaitForDisableStencilLines();
-		}
 		setProjectionValues(PROJECTION_GLASSES);
 		setCursor(EuclidianCursor.TRANSPARENT);
 	}
@@ -3888,7 +3881,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	public boolean isGrayScaled() {
 		return projection == PROJECTION_GLASSES
                 && !isAREnabled()
-                && !getCompanion().isPolarized()
 				&& !getCompanion().isStereoBuffered()
 				&& isGlassesGrayScaled();
 	}
@@ -3955,7 +3947,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setProjectionOblique() {
 		renderer.updateProjectionObliqueValues();
-		renderer.setWaitForDisableStencilLines();
 		setProjectionValues(PROJECTION_OBLIQUE);
 		setDefault2DCursor();
 	}

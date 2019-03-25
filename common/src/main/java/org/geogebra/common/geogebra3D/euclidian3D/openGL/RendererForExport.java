@@ -81,11 +81,6 @@ public class RendererForExport extends Renderer {
 	}
 
 	@Override
-	protected void disableStencilLines() {
-		// no need
-	}
-
-	@Override
 	public void enableTextures2D() {
 		// no need
 	}

@@ -1,8 +1,5 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import java.awt.Component;
-import java.nio.ByteBuffer;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2ES2;
@@ -229,94 +226,6 @@ public class RendererImplGL2 extends RendererImpl
 		renderer.setProjectionMatrix();
 
 		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-	}
-
-	@Override
-	public void setStencilLines() {
-
-		// disable clip planes if used
-		if (renderer.enableClipPlanes) {
-			disableClipPlanes();
-		}
-
-		final int w = renderer.getWidth();
-		final int h = renderer.getHeight();
-		// Log.debug(w+" * "+h+" = "+(w*h));
-
-		// projection for real 2D
-		jogl.getGL2().glViewport(0, 0, w, h);
-
-		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-		jogl.getGL2().glLoadIdentity();
-		getGLU().gluOrtho2D(0, w, h, 0);
-
-		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
-		jogl.getGL2().glLoadIdentity();
-
-		jogl.getGL2().glEnable(GL.GL_STENCIL_TEST);
-
-		// draw stencil pattern
-		jogl.getGL2().glStencilMask(0xFF);
-		jogl.getGL2().glClear(GL.GL_STENCIL_BUFFER_BIT); // needs mask=0xFF
-
-		// no multisample here to prevent ghosts
-		jogl.getGL2().glDisable(GL.GL_MULTISAMPLE);
-
-		// data for stencil : one line = 0, one line = 1, etc.
-
-		/*
-		 * final int h2 = h+10;// (int) (h*1.1) ; //TODO : understand why buffer
-		 * doens't match glDrawPixels dimension ByteBuffer data =
-		 * newByteBuffer(w * h2); byte b = 0; for (int y=0; y<h2; y++){ b=(byte)
-		 * (1-b); for (int x=0; x<w; x++){ data.put(b); } } data.rewind();
-		 * 
-		 * // check if we start with 0 or with 1 int y =
-		 * (canvas.getLocationOnScreen().y) % 2;
-		 * 
-		 * gl.glRasterPos2i(0, h-y); //Log.debug("== "+w+" * "+h+" = "+(w*h));
-		 * gl.glDrawPixels(w, h, GLlocal.GL_STENCIL_INDEX,
-		 * GLlocal.GL_UNSIGNED_BYTE, data);
-		 */
-
-		ByteBuffer data = RendererJogl.newByteBuffer(w);
-		byte b = 1;
-		for (int x = 0; x < w; x++) {
-			data.put(b);
-		}
-
-		data.rewind();
-
-		// check if we start with 0 or with 1
-		// seems to be sensible to canvas location on screen and to parent
-		// relative location
-		// (try docked with neighboors / undocked or docked alone)
-
-		int y0 = ((Component) renderer.getCanvas()).getParent().getLocation().y
-				+ (((Component) renderer.getCanvas()).getLocationOnScreen().y)
-						% 2;
-
-		// Log.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
-		// Log.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
-
-		for (int y = 0; y < h / 2; y++) {
-			jogl.getGL2().glRasterPos2i(0, 2 * y + y0);
-			jogl.getGL2().glDrawPixels(w, 1, GL2ES2.GL_STENCIL_INDEX,
-					GL.GL_UNSIGNED_BYTE, data);
-		}
-
-		// current mask for stencil test
-		jogl.getGL2().glStencilMask(0x00);
-
-		// back to multisample
-		jogl.getGL2().glEnable(GL.GL_MULTISAMPLE);
-
-		renderer.waitForSetStencilLines = false;
-
-		// restore clip planes
-		if (renderer.enableClipPlanes) {
-			enableClipPlanes();
-		}
-
 	}
 
 	private int orthoLeft, orthoRight, orthoBottom, orthoTop;

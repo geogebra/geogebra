@@ -298,11 +298,6 @@ public class InputIntelRealsense3D extends Input3D {
 	}
 	
 	@Override
-	public boolean useInterlacedPolarization(){
-		return false;
-	}
-	
-	@Override
 	public boolean useCompletingDelay(){
 		return true;
 	}

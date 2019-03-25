@@ -93,11 +93,6 @@ public class RendererWithImplW extends Renderer implements
 	}
 
 	@Override
-	protected void disableStencilLines() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public GBufferedImage createBufferedImage(DrawLabel3D label) {
 		// update width and height
 		label.setDimensionPowerOfTwo(

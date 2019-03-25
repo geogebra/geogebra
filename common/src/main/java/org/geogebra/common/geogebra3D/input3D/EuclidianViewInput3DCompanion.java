@@ -874,11 +874,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	public boolean isPolarized() {
-		return input3D.useInterlacedPolarization();
-	}
-
-	@Override
 	public boolean useHandGrabbing() {
 		return input3D.useHandGrabbing() && !input3D.currentlyUseMouse2D();
 	}

@@ -498,12 +498,6 @@ public class RendererCheckGLVersionD extends Renderer
 	}
 
 	@Override
-	protected void disableStencilLines() {
-		getGL().glDisable(GL.GL_STENCIL_TEST);
-		waitForDisableStencilLines = false;
-	}
-
-	@Override
 	protected void setGIFEncoder(Object gifEncoder) {
 		this.gifEncoder = (FrameCollector) gifEncoder;
 	}

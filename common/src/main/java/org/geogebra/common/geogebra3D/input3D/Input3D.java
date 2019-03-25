@@ -269,12 +269,6 @@ abstract public class Input3D implements Input3DConstants {
 
 	/**
 	 * 
-	 * @return true if uses polarized monitor with interlaced lines
-	 */
-	abstract public boolean useInterlacedPolarization();
-
-	/**
-	 * 
 	 * @return true if using completing delay (e.g. for hand tracking -- no
 	 *         button)
 	 */

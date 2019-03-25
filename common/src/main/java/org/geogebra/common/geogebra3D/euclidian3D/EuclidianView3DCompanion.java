@@ -277,10 +277,6 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		// used for some 3D inputs
 	}
 
-	public boolean isPolarized() {
-		return false;
-	}
-
 	public void setIsStereoBuffered(boolean flag) {
 		isStereoBuffered = flag;
 	}

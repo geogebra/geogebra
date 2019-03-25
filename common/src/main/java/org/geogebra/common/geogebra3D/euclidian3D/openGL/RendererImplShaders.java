@@ -967,11 +967,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glDepthMask(false);
 	}
 
-	@Override
-	public void setStencilLines() {
-		// not implemented yet with shaders
-	}
-
 	abstract protected Object glGetUniformLocation(String name);
 
 	/**
