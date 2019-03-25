@@ -438,10 +438,10 @@ public class ScreenReader {
 
 	/**
 	 * @param s
-	 *            String to convert eg M_R
-	 * @return converted String eg M subscript R
+	 *            String to convert eg M_R-a
+	 * @return converted String eg M subscript R minus a
 	 */
-	public static String convertUnderscore(String s) {
-		return s.replace("_", " subscript ");
+	public static String convertToReadable(String s) {
+		return s.replace("_", " subscript ").replace("-", " minus ");
 	}
 }

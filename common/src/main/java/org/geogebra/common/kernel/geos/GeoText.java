@@ -1621,7 +1621,7 @@ public class GeoText extends GeoElement
 			ret = getTextString();
 		}
 
-		return ScreenReader.convertUnderscore(ret);
+		return ScreenReader.convertToReadable(ret);
 
 	}
 
