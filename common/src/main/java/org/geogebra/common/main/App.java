@@ -3870,9 +3870,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case DYNAMIC_STYLEBAR:
 			return isUnbundledOrWhiteboard();
 
-		case EXPORT_SCAD_IN_MENU:
-			return false;
-
 		case EXPORT_COLLADA_IN_MENU:
 			return true;
 

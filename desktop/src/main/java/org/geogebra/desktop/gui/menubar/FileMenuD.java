@@ -14,7 +14,6 @@ import javax.swing.KeyStroke;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
 import org.geogebra.common.main.Feature;
@@ -51,8 +50,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
 			exportPSTricksAction, exportAsymptoteAction, exportPDFaction,
-			exportSCADaction, exportSTLaction, exportColladaAction,
-			exportColladaHTMLAction,
+			exportSTLaction, exportColladaAction, exportColladaHTMLAction,
 			exportObjAction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
@@ -176,9 +174,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi = submenu.add(exportAsymptoteAction);
 		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
 			mi = submenu.add(exportPDFaction);
-		}
-		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
-			mi = submenu.add(exportSCADaction);
 		}
 		if (app.has(Feature.MOB_EXPORT_STL)) {
 			mi = submenu.add(exportSTLaction);
@@ -603,24 +598,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			}
 		};
-		
-		
-		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
-			exportSCADaction = new AbstractAction(
-					"OpenSCAD" + Unicode.ELLIPSIS,
-					app.getEmptyIcon()) {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						app.setExport3D(new FormatJscad());
-					} catch (Exception ex) {
-						Log.debug("Export to OpenSCAD not available");
-					}
-				}
-			};
-		}
 
 		if (app.has(Feature.MOB_EXPORT_STL)) {
 			exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,

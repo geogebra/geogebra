@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.HTML5Export;
@@ -199,16 +198,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							.exportAsymptote(exportCallback("Asymptote", app));
 				}
 			});
-
-			if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
-				menu.addItem(menuText("OpenSCAD"), true, new MenuCommand(app) {
-					@Override
-					public void doExecute() {
-						menu.hide();
-						app.setExport3D(new FormatJscad());
-					}
-				});
-			}
 
 			if (app.has(Feature.MOB_EXPORT_STL)) {
 				menu.addItem(menuText("STL"), true, new MenuCommand(app) {
