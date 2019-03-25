@@ -38,7 +38,7 @@ public class ItemControls extends FlowPanel
 		implements AnimPanelListener, SetLabels {
 
 	private final RadioTreeItem radioTreeItem;
-
+	private final LatexTreeItemController ctrl;
 	/** Deletes the whole item */
 	private GPushButton btnDelete;
 
@@ -57,6 +57,7 @@ public class ItemControls extends FlowPanel
 	 */
 	public ItemControls(RadioTreeItem radioTreeItem) {
 		this.radioTreeItem = radioTreeItem;
+		this.ctrl = radioTreeItem.getLatexController();
 		addStyleName("AlgebraViewObjectStylebar");
 		addStyleName("smallStylebar");
 		addStyleName("withContextMenu");
@@ -159,18 +160,28 @@ public class ItemControls extends FlowPanel
 	}
 
 	private void showMoreMenuForInput() {
-		radioTreeItem.getLatexController().createGeoFromInput(new AsyncOperation<GeoElementND[]>() {
-			
+		GeoElement geo0 = (GeoElement) ctrl.evaluateToGeo();
+		if (geo0 == null || geo0.isInTree()) {
+			showDeleteItem();
+			return;
+		}
+
+		ctrl.createGeoFromInput(new AsyncOperation<GeoElementND[]>() {
+
 			@Override
 			public void callback(GeoElementND[] obj) {
-				if (obj == null) {
+				GeoElement geo = null;
+				if (obj != null && obj.length == 1)  {
+					geo = (GeoElement) obj[0];
+				}
+
+				if (geo == null) {
 					showDeleteItem();
 				} else {
-					GeoElement geo = (GeoElement) obj[0];
 					radioTreeItem.getAV().openMenuFor(geo);
 				}
 			}
-		});		
+		});
 	}
 
 	private void showDeleteItem() {

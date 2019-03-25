@@ -48,7 +48,7 @@ public class EvaluateInput {
 	}
 
 	/**
-	 * @param afterCb 
+	 * @param afterCb
 	 * 				additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
@@ -147,16 +147,16 @@ public class EvaluateInput {
 		};
 	}
 
-	private AsyncOperation<GeoElementND[]> createCallback(final AsyncOperation<GeoElementND[]> 
+	private AsyncOperation<GeoElementND[]> createCallback(final AsyncOperation<GeoElementND[]>
 		createAfterCb) {
 		final AsyncOperation<GeoElementND[]>  ceateCb = createCallback(false);
 		return new AsyncOperation<GeoElementND[]>() {
-			
+
 			@Override
 			public void callback(GeoElementND[] obj) {
 				ceateCb.callback(obj);
 				createAfterCb.callback(obj);
 			}
 		};
-	}	
+	}
 }
