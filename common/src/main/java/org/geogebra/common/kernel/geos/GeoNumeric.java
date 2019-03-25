@@ -2077,9 +2077,12 @@ public class GeoNumeric extends GeoElement
 
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		addAuralCaption(sb);
-		sb.appendSpace();
 		if (isAnimating()) {
+
+			// don't need this for stopping as the value is read out afterwards
+			// anyway
+			addAuralCaption(sb);
+			sb.appendSpace();
 			sb.append(loc.getMenuDefault("AnimationStarted",
 					"animation is started"));
 		} else {
