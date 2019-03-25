@@ -51,7 +51,7 @@ public class EvaluateInput {
 	 * 				additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
-		evaluate(true, false, evaluationCallback(afterCb));
+		evaluate(true, false, createEvaluationCallback(afterCb));
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class EvaluateInput {
 		};
 	}
 
-	private AsyncOperation<GeoElementND[]> evaluationCallback(final AsyncOperation<GeoElementND[]>
+	private AsyncOperation<GeoElementND[]> createEvaluationCallback(final AsyncOperation<GeoElementND[]>
 		afterEvalCb) {
 		final AsyncOperation<GeoElementND[]>  evalCb = evaluationCallback(false);
 		return new AsyncOperation<GeoElementND[]>() {

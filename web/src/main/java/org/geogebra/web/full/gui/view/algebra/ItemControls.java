@@ -165,10 +165,10 @@ public class ItemControls extends FlowPanel
 			showDeleteItem();
 			return;
 		}
-		ctrl.createGeoFromInput(openMenuCallback());
+		ctrl.createGeoFromInput(createOpenMenuCallback());
 	}
 
-	AsyncOperation<GeoElementND[]> openMenuCallback() {
+	AsyncOperation<GeoElementND[]> createOpenMenuCallback() {
 		return new AsyncOperation<GeoElementND[]>() {
 
 			@Override
