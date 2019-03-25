@@ -435,4 +435,13 @@ public class ScreenReader {
 		}
 		return builder.toString();
 	}
+
+	/**
+	 * @param s
+	 *            String to convert eg M_R
+	 * @return converted String eg M subscript R
+	 */
+	public static String convertUnderscore(String s) {
+		return s.replace("_", " subscript ");
+	}
 }

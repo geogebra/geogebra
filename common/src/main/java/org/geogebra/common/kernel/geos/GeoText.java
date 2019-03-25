@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -1609,14 +1610,18 @@ public class GeoText extends GeoElement
 	 * @return text to read out (LaTeX is converted to "nice" form)
 	 */
 	public String getAuralText() {
+		String ret;
 		if (isLaTeX()) {
 			kernel.getApplication().getDrawEquation()
 					.checkFirstCall(kernel.getApplication());
 			// TeXAtomSerializer makes formula human readable.
 			TeXFormula tf = new TeXFormula(getTextString());
-			return new TeXAtomSerializer(null).serialize(tf.root);
+			ret = new TeXAtomSerializer(null).serialize(tf.root);
+		} else {
+			ret = getTextString();
 		}
-		return getTextString();
+
+		return ScreenReader.convertUnderscore(ret);
 
 	}
 
