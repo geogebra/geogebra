@@ -2613,7 +2613,7 @@ __GGB__keysVar["eu"].menu = {
     "Scale": "Eskala",
     "ScaleInCentimeter": "Eskala cm-tan",
     "Scatterplot": "Puntu-hodeia (Barreiatze-diagrama)",
-    "ScientificCalculator": "Kalkulagailu Grafikoa",
+    "ScientificCalculator": "Kalkulagailu Zientifikoa",
     "ScientificCalculator.short": "Sci Calc",
     "Script": "GeoGebraren Komandoen Sekuentzia (Script)",
     "Scripting": "Komandoen Sekuentzia (Script)",
