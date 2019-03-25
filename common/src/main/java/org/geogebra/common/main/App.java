@@ -3704,10 +3704,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case ANALYTICS:
 			return prerelease;
 
-		// MOB-788
-		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
-			return false;
-
 		// MOB-1319
 		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 			return false;

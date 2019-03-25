@@ -40,9 +40,6 @@ public enum Feature {
 	/** GGB-776 */
 	ABSOLUTE_TEXTS,
 
-	/** MOB-788 */
-	MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT,
-
 	/** GGB-1263 */
 	AUTOSCROLLING_SPREADSHEET,
 
