@@ -48,21 +48,21 @@ package com.himamis.retex.renderer.share;
 public final class Symbols {
 
 	public static final SymbolAtom LBRACK = new SymbolAtom("lbrack",
-			TeXConstants.TYPE_OPENING);
+			TeXConstants.TYPE_OPENING, '(');
 	public static final SymbolAtom RBRACK = new SymbolAtom("rbrack",
-			TeXConstants.TYPE_CLOSING);
+			TeXConstants.TYPE_CLOSING, ')');
 	public static final SymbolAtom LBRACE = new SymbolAtom("lbrace",
-			TeXConstants.TYPE_OPENING);
+			TeXConstants.TYPE_OPENING, '{');
 	public static final SymbolAtom RBRACE = new SymbolAtom("rbrace",
-			TeXConstants.TYPE_CLOSING);
+			TeXConstants.TYPE_CLOSING, '}');
 	public static final SymbolAtom LSQBRACK = new SymbolAtom("lsqbrack",
-			TeXConstants.TYPE_OPENING);
+			TeXConstants.TYPE_OPENING, '[');
 	public static final SymbolAtom RSQBRACK = new SymbolAtom("rsqbrack",
-			TeXConstants.TYPE_CLOSING);
+			TeXConstants.TYPE_CLOSING, ']');
 	public static final SymbolAtom LANGLE = new SymbolAtom("langle",
-			TeXConstants.TYPE_OPENING);
+			TeXConstants.TYPE_OPENING, '\u3008');
 	public static final SymbolAtom RANGLE = new SymbolAtom("rangle",
-			TeXConstants.TYPE_CLOSING);
+			TeXConstants.TYPE_CLOSING, '\u3009');
 	public static final SymbolAtom INT = (SymbolAtom) SymbolAtom.get("intop")
 			.changeLimits(TeXConstants.SCRIPT_NOLIMITS);
 	public static final SymbolAtom INTOP = SymbolAtom.get("intop");

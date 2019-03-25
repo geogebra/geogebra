@@ -182,9 +182,37 @@ public class TeXBuilder {
 		}
 		return new FencedAtom(row,
 				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING,
-						true),
+						lookupBracket(leftKey)),
 				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING,
-						true));
+						lookupBracket(rightKey)));
+	}
+
+	private static char lookupBracket(String bracket) {
+		switch (bracket) {
+
+		case "lbrack":
+			return '(';
+		case "rbrack":
+			return ')';
+		case "lbrace":
+			return '{';
+		case "rbrace":
+			return '}';
+		case "lsqbrack":
+			return '[';
+		case "rsqbrack":
+			return ']';
+		case "langle":
+			return '\u3008';
+		case "rangle":
+			return '\u3009';
+			
+			default: 
+			FactoryProvider.getInstance()
+					.debug("missing case in lookupBracket()");
+			return '?';
+
+		}
 	}
 
 	private Atom buildFunction(MathFunction argument) {

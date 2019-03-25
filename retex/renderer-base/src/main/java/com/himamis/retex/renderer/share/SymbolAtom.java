@@ -89,7 +89,7 @@ public class SymbolAtom extends CharSymbol {
 		this(s.cf, type, s.unicode);
 	}
 
-	public SymbolAtom(String name, int type) {
+	public SymbolAtom(String name, int type, char unicode) {
 		this.cf = Configuration.getFontMapping().get(name);
 		if (cf == null) {
 			FactoryProvider.getInstance().debug("missing " + name);
@@ -99,11 +99,7 @@ public class SymbolAtom extends CharSymbol {
 		if (type == TeXConstants.TYPE_BIG_OPERATOR) {
 			this.type_limits = TeXConstants.SCRIPT_NORMAL;
 		}
-	}
-
-	// TODO: remove this after jlm2 merge
-	public SymbolAtom(String name, int type, boolean dummy) {
-		this(name, type);
+		this.unicode = unicode;
 	}
 
 	public SymbolAtom setUnicode(final char c) {
