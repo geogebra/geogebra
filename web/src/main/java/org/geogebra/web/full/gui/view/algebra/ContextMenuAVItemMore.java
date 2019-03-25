@@ -30,7 +30,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	private AppWFull mApp;
 	private MenuActionCollection<GeoElement> actions;
 	private GeoElement geo;
-	private ClearInputAction clearInputAction;  
+	private ClearInputAction clearInputAction;
 
 	/**
 	 * Creates new context menu
@@ -71,7 +71,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 			addAction(new DeleteAction());
 			return;
 		}
-		
+
 		wrappedPopup.clearItems();
 		for (MenuAction<GeoElement> action : actions) {
 			if (action.isAvailable(geo)) {
@@ -88,7 +88,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		this.geo = geo;
 		buildGUI();
 	}
-	
+
 	/**
 	 * @param x
 	 *            screen x-coordinate
@@ -139,7 +139,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	/**
 	 * Adds menu for clearing input.
 	 */
-	public void addClearInputItem() {
+	void addClearInputItem() {
 		wrappedPopup.clearItems();
 		addAction(clearInputAction);
 	}

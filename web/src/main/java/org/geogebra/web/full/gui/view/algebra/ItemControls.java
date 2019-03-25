@@ -144,7 +144,7 @@ public class ItemControls extends FlowPanel
 	/**
 	 * Show the More context menu
 	 */
-	public void openMoreMenu() {
+	void openMoreMenu() {
 		if (!radioTreeItem.hasMoreMenu()) {
 			return;
 		}
@@ -160,13 +160,16 @@ public class ItemControls extends FlowPanel
 	}
 
 	private void showMoreMenuForInput() {
-		GeoElement geo0 = (GeoElement) ctrl.evaluateToGeo();
-		if (geo0 == null || geo0.isInTree()) {
+		GeoElement geo = (GeoElement) ctrl.evaluateToGeo();
+		if (geo == null || geo.isInTree()) {
 			showDeleteItem();
 			return;
 		}
+		ctrl.createGeoFromInput(openMenuCallback());
+	}
 
-		ctrl.createGeoFromInput(new AsyncOperation<GeoElementND[]>() {
+	AsyncOperation<GeoElementND[]> openMenuCallback() {
+		return new AsyncOperation<GeoElementND[]>() {
 
 			@Override
 			public void callback(GeoElementND[] obj) {
@@ -178,15 +181,28 @@ public class ItemControls extends FlowPanel
 				if (geo == null) {
 					showDeleteItem();
 				} else {
-					radioTreeItem.getAV().openMenuFor(geo);
+					openMenuFor(geo);
 				}
 			}
-		});
+		};
 	}
 
-	private void showDeleteItem() {
+	/**
+	 * Adds the delete menu that clears input and show it.
+	 */
+	void showDeleteItem() {
 		cmMore.addClearInputItem();
 		showMoreMenu();
+	}
+
+	/**
+	 * Opens more menu for a particular geo
+	 *
+	 * @param
+	 * 		geo to show the menu for.
+	 */
+	void openMenuFor(GeoElement geo) {
+		radioTreeItem.getAV().openMenuFor(geo);
 	}
 
 	private void showMoreMenu() {

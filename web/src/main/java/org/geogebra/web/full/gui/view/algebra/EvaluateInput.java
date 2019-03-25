@@ -43,7 +43,7 @@ public class EvaluateInput {
 	 */
 	public void createGeoFromInput(final boolean keepFocus,
 			boolean withSliders) {
-		evaluate(keepFocus, withSliders, createCallback(keepFocus));
+		evaluate(keepFocus, withSliders, evaluationCallback(keepFocus));
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class EvaluateInput {
 	 * 				additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
-		evaluate(true, false, createCallback(afterCb));
+		evaluate(true, false, evaluationCallback(afterCb));
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class EvaluateInput {
 		}
 }
 
-	private AsyncOperation<GeoElementND[]> createCallback(final boolean keepFocus) {
+	private AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
 		final int oldStep = app.getKernel().getConstructionStep();
 		return new AsyncOperation<GeoElementND[]>() {
 
@@ -146,15 +146,15 @@ public class EvaluateInput {
 		};
 	}
 
-	private AsyncOperation<GeoElementND[]> createCallback(final AsyncOperation<GeoElementND[]>
-		createAfterCb) {
-		final AsyncOperation<GeoElementND[]>  ceateCb = createCallback(false);
+	private AsyncOperation<GeoElementND[]> evaluationCallback(final AsyncOperation<GeoElementND[]>
+		afterEvalCb) {
+		final AsyncOperation<GeoElementND[]>  evalCb = evaluationCallback(false);
 		return new AsyncOperation<GeoElementND[]>() {
 
 			@Override
 			public void callback(GeoElementND[] obj) {
-				ceateCb.callback(obj);
-				createAfterCb.callback(obj);
+				evalCb.callback(obj);
+				afterEvalCb.callback(obj);
 			}
 		};
 	}
