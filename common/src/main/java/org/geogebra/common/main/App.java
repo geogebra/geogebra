@@ -3990,11 +3990,11 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** G3D-272 */
 		case G3D_NEW_SURFACE_FUNCTIONS_COLORS:
-			return prerelease;
+			return true;
 
 		/** G3D-277 */
 		case G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES:
-			return prerelease;
+			return true;
 
         // **********************************************************************
         // G3D END
