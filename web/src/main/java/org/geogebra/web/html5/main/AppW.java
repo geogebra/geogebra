@@ -1198,7 +1198,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected void resetUI() {
 		kernel.getInputPreviewHelper().clear();
 		clearInputBar();
-		if (!has(Feature.INITIAL_PORTRAIT) && isPortrait()) {
+		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
 		}
 	}

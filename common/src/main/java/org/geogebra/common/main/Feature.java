@@ -90,8 +90,6 @@ public enum Feature {
 	/** GGB-1986 */
 	DIALOG_DESIGN,
 
-	INITIAL_PORTRAIT,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

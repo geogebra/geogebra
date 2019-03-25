@@ -290,7 +290,7 @@ public class LoadFilePresenter {
 		}
 
 		// no Feature.ADJUST_VIEWS: returns false.
-		if (!app.has(Feature.INITIAL_PORTRAIT) && app.isPortrait()) {
+		if (!app.isUnbundled() && app.isPortrait()) {
 			app.adjustViews(false, false);
 		}
 

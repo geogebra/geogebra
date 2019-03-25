@@ -1600,7 +1600,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
-		if (!has(Feature.INITIAL_PORTRAIT) && isPortrait()) {
+		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
 		}
 		kernel.notifyScreenChanged();
