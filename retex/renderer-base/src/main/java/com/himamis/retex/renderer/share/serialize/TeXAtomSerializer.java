@@ -44,6 +44,8 @@ public class TeXAtomSerializer {
 	 * @return expression in GeoGebra syntax
 	 */
 	public String serialize(Atom root) {
+
+		// FactoryProvider.getInstance().debug("root = " + root.getClass());
 		if (root instanceof FractionAtom) {
 			FractionAtom frac = (FractionAtom) root;
 			return "(" + serialize(frac.getNumerator()) + ")/("
@@ -117,6 +119,7 @@ public class TeXAtomSerializer {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
+				sb.append(" new line ");
 			}
 			return sb.toString();
 		}
