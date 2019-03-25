@@ -954,7 +954,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	private void initDrawPlanes(GeoQuadric3D quadric) {
-		if (drawPlanes == null) {
+		if (drawPlanes == null || drawPlanes[0] == null) {
 			drawPlanes = new DrawPlane3DForQuadrics[2];
 			GeoPlane3D[] planes = quadric.getPlanes();
 			drawPlanes[0] = new DrawPlane3DForQuadrics(getView3D(), planes[0],
