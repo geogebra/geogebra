@@ -2177,7 +2177,8 @@ namespace giac {
 	possible_size += arg[i].vptr->size();	
       }
       delete [] heapptr;
-      delete vindexptr;
+      if (vindexptr) delete vindexptr;
+      if (vsmallindexptr) delete vsmallindexptr;
     }
     else {
       std::vector<int> in_progress;

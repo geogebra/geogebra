@@ -46,6 +46,7 @@ using namespace std;
 #include <algorithm>
 #include <cmath>
 
+#if 0
 #include<ext/stdio_filebuf.h>
 
 typedef std::basic_ofstream<char>::__filebuf_type buffer_t;
@@ -56,6 +57,7 @@ FILE* cfile_impl(buffer_t* const fb){
 
 FILE* cfile(std::ofstream const& ofs){return cfile_impl(ofs.rdbuf());}
 FILE* cfile(std::ifstream const& ifs){return cfile_impl(ifs.rdbuf());}
+#endif
 
 // C headers
 #include <stdio.h>
