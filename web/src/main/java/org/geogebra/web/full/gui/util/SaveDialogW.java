@@ -284,7 +284,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	protected void onDontSave() {
 		hide();
-		appW.getSaveController().cancel();
+		appW.getSaveController().dontSave();
 	}
 
 	@Override

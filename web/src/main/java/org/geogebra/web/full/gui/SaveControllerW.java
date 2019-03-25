@@ -447,9 +447,17 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void cancel() {
+	public void dontSave() {
 		if (isWorksheet()) {
 			app.setSaved();
+			// run only if material active/created
+			runAfterSaveCallback(app.getActiveMaterial() != null);
+		}
+	}
+
+	@Override
+	public void cancel() {
+		if (isWorksheet()) {
 			// run only if material active/created
 			runAfterSaveCallback(app.getActiveMaterial() != null);
 		}

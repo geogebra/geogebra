@@ -53,6 +53,11 @@ public interface SaveController {
 	void cancel();
 
 	/**
+	 * Don't save the construction.
+	 */
+	void dontSave();
+
+	/**
 	 * @return true if the MaterialType is ggb
 	 */
 	boolean isWorksheet();
