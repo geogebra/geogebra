@@ -254,14 +254,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	public int getMousePickWidth() {
-		if (input3D.currentlyUseMouse2D()) {
-			return super.getMousePickWidth();
-		}
-		return Renderer.MOUSE_PICK_DEPTH;
-	}
-
-	@Override
 	public void setHits(PointerEventType type) {
 
 		if (!input3D.currentlyUseMouse2D() && (input3D.isRightPressed()

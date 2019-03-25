@@ -4190,13 +4190,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return euclidianController;
 	}
 
-	/**
-	 * @return mouse pick width for openGL picking
-	 */
-	final public int getMousePickWidth() {
-		return getCompanion().getMousePickWidth();
-	}
-
 	@Override
 	public GeoDirectionND getDirection() {
 		return kernel.getSpace();

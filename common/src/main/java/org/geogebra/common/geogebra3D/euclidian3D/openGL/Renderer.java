@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -39,12 +40,15 @@ public abstract class Renderer {
 	 * renderer type (shader or not)
 	 */
 	public enum RendererType {
-		SHADER, GL2, NOT_SPECIFIED
+		/** use shaders */
+		SHADER,
+		/** use GL2 specs (no shaders) */
+		GL2,
+		/** not specified at start */
+		NOT_SPECIFIED
 	}
 
 	private RendererType type;
-
-	public static final int MOUSE_PICK_DEPTH = 10;
 
 	// layers
 	/** shift for planes layer to avoid z-fighting */
@@ -62,80 +66,94 @@ public abstract class Renderer {
     /** layer to ensure no z-fighting between text and its background */
     public static final int LAYER_FOR_TEXTS = 5;
 
-	// other
+	/** drawables list */
 	public Drawable3DListsForView drawable3DLists;
 
-	public EuclidianView3D view3D;
+	/** 3D view */
+	protected EuclidianView3D view3D;
 
-	// for drawing
-	protected CoordMatrix4x4 m_drawingMatrix; // matrix for drawing
+	/** matrix for drawing */
+	protected CoordMatrix4x4 m_drawingMatrix;
 
-	// /////////////////
-	// primitives
-	// private RendererPrimitives primitives;
-
-	// /////////////////
-	// geometries
+	/** geometries manager */
 	protected Manager geometryManager;
 
-	// /////////////////
-	// textures
-	protected Textures textures;
+	private Textures textures;
 
-	// /////////////////
-	// arrows
-
-	/** no arrows */
-	static final public int ARROW_TYPE_NONE = 0;
-	/** simple arrows */
-	static final public int ARROW_TYPE_SIMPLE = 1;
+	/** ambient factor for light #0 */
 	public static final float AMBIENT_0 = 0.5f;
+	/** ambient factor for light #1 */
 	public static final float AMBIENT_1 = 0.4f;
-
+	/** if clipping is enabled */
 	public boolean enableClipPlanes;
-	protected boolean waitForUpdateClipPlanes = false;
+	private boolean waitForUpdateClipPlanes = false;
 	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
+	/** light position for web */
 	public static final float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
 			SQRT2_DIV2 };
+	/** light position for desktop */
 	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2,
 			0f };
-	public boolean needExportImage = false;
+	/** if needs to export image */
+	protected boolean needExportImage = false;
 
 	private boolean exportImageForThumbnail = false;
 
-	protected boolean waitForUpdateClearColor = false;
+	private boolean waitForUpdateClearColor = false;
 
-	public int left = 0;
-	public int right = 640;
-	public int bottom = 0;
-	public int top = 480;
+	/** screen left (in pixels) */
+	protected int left = 0;
+	/** screen right (in pixels) */
+	protected int right = 640;
+	/** screen bottom (in pixels) */
+	protected int bottom = 0;
+	/** screen top (in pixels) */
+	protected int top = 480;
 
 	public boolean waitForDisableStencilLines = false;
 
-	protected double[] eyeToScreenDistance = new double[2];
+	private double[] eyeToScreenDistance = new double[2];
 
 	/** distance camera-near plane */
 	private final static double PERSP_NEAR_MIN = 10;
+	/** perspective near distance */
 	public double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
+	/** perspective left position */
 	public double[] perspLeft = new double[2];
+	/** perspective right position */
 	public double[] perspRight = new double[2];
+	/** perspective bottom position */
 	public double[] perspBottom = new double[2];
+	/** perspective top position */
 	public double[] perspTop = new double[2];
+	/** perspective far position */
 	public double[] perspFar = new double[2];
+	/** perspective ratio */
 	public double[] perspDistratio = new double[2];
+	/** perspective focus position */
 	public double[] perspFocus = new double[2];
+	/** perspective eye position */
 	public Coords perspEye;
 
+	/** eye position */
 	public double[] glassesEyeX = new double[2];
+	/** eye position for frustum */
 	public double[] glassesEyeX1 = new double[2];
+	/** eye position */
 	public double[] glassesEyeY = new double[2];
+	/** eye position for frustum */
 	public double[] glassesEyeY1 = new double[2];
 
+	/** left eye index */
 	public static final int EYE_LEFT = 0;
+	/** right eye index */
 	public static final int EYE_RIGHT = 1;
+	/** eye index */
 	public int eye = EYE_LEFT;
 
+	/** oblique projection x factor */
 	public double obliqueX;
+	/** oblique projection y factor */
 	public double obliqueY;
 	private Coords obliqueOrthoDirection; // direction "orthogonal" to the
 											// screen (i.e. not visible)
@@ -169,7 +187,12 @@ public abstract class Renderer {
      * Order matters and corresponds to order in settings
 	 */
 	public enum BackgroundStyle {
-        NONE, TRANSPARENT, OPAQUE
+		/** no background, ie we see camera image */
+		NONE,
+		/** transparent background like a filter */
+		TRANSPARENT,
+		/** opaque: camera image is not visible */
+		OPAQUE
 	}
 
 	/**
@@ -376,7 +399,8 @@ public abstract class Renderer {
 
 		// time = System.currentTimeMillis();
 
-		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+		if (view3D
+				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES) {
 
 			// left eye
 			setDrawLeft();
@@ -419,6 +443,9 @@ public abstract class Renderer {
         endOfDrawScene();
 	}
 
+	/**
+	 * called at end of scene drawing
+	 */
 	public void endOfDrawScene() {
         boolean nei = needExportImage;
 
@@ -724,12 +751,20 @@ public abstract class Renderer {
 		}
 	}
 
+	/**
+	 * turn AR coords into ggb scene coords
+	 * 
+	 * @param coords
+	 *            AR coords
+	 * @param ret
+	 *            computed ggb coords
+	 */
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
 		rendererImpl.fromARCoreCoordsToGGBCoords(coords, arModelMatrix,
 				arScaleFactor, ret);
 	}
 
-	protected void draw() {
+	private void draw() {
 		rendererImpl.draw();
 
 		// labels
@@ -947,16 +982,18 @@ public abstract class Renderer {
 		return m_drawingMatrix;
 	}
 
-	// /////////////////////////////////////////////////////////
-	// drawing geometries
-
+	/**
+	 * 
+	 * @return geometry manager
+	 */
 	final public Manager getGeometryManager() {
 		return geometryManager;
 	}
 
-	// /////////////////////////////////////////////////////////
-	// textures
-
+	/**
+	 * 
+	 * @return textures manager
+	 */
 	public Textures getTextures() {
 		return textures;
 	}
@@ -1074,7 +1111,8 @@ public abstract class Renderer {
 
 		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
-		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
+		if (view3D
+				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
 				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) { // grayscale for
 																// anaglyph
@@ -1224,16 +1262,16 @@ public abstract class Renderer {
 
 		switch (view3D.getProjection()) {
 		default:
-		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+		case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
 			rendererImpl.viewOrtho();
 			break;
-		case EuclidianView3D.PROJECTION_GLASSES:
+		case EuclidianView3DInterface.PROJECTION_GLASSES:
 			rendererImpl.viewGlasses();
 			break;
-		case EuclidianView3D.PROJECTION_PERSPECTIVE:
+		case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
 			rendererImpl.viewPersp();
 			break;
-		case EuclidianView3D.PROJECTION_OBLIQUE:
+		case EuclidianView3DInterface.PROJECTION_OBLIQUE:
 			rendererImpl.viewOblique();
 			break;
 		}
@@ -1251,16 +1289,16 @@ public abstract class Renderer {
 		} else {
 			switch (view3D.getProjection()) {
 				default:
-				case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+			case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
 				rendererImpl.viewOrtho();
 					break;
-				case EuclidianView3D.PROJECTION_PERSPECTIVE:
+			case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
 				rendererImpl.viewPersp();
 					break;
-				case EuclidianView3D.PROJECTION_GLASSES:
+			case EuclidianView3DInterface.PROJECTION_GLASSES:
 				rendererImpl.viewGlasses();
 					break;
-				case EuclidianView3D.PROJECTION_OBLIQUE:
+			case EuclidianView3DInterface.PROJECTION_OBLIQUE:
 				rendererImpl.viewOblique();
 					break;
 			}
@@ -1348,7 +1386,8 @@ public abstract class Renderer {
 
 	protected void setColorMask() {
 
-		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
+		if (view3D
+				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
 				&& !view3D.getCompanion().isPolarized()
 				&& !view3D.getCompanion().isStereoBuffered()) {
 			if (eye == EYE_LEFT) {
@@ -1426,14 +1465,14 @@ public abstract class Renderer {
 
 		switch (view3D.getProjection()) {
 		default:
-		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+		case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
 			updateOrthoValues();
 			break;
-		case EuclidianView3D.PROJECTION_PERSPECTIVE:
+		case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
 			updatePerspValues();
 			updatePerspEye();
 			break;
-		case EuclidianView3D.PROJECTION_GLASSES:
+		case EuclidianView3DInterface.PROJECTION_GLASSES:
 			updatePerspValues();
 			updateGlassesValues();
 			updatePerspEye();
@@ -1441,7 +1480,7 @@ public abstract class Renderer {
 				setWaitForSetStencilLines();
 			}
 			break;
-		case EuclidianView3D.PROJECTION_OBLIQUE:
+		case EuclidianView3DInterface.PROJECTION_OBLIQUE:
 			updateProjectionObliqueValues();
 			break;
 		}
@@ -1475,9 +1514,10 @@ public abstract class Renderer {
 	 * @return eye to screen distance
 	 */
 	public double getEyeToScreenDistance() {
-		if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
+		if (view3D
+				.getProjection() == EuclidianView3DInterface.PROJECTION_PERSPECTIVE
 				|| view3D
-						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+						.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES) {
 			return eyeToScreenDistance[EYE_LEFT];
 		}
 
