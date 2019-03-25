@@ -1600,16 +1600,24 @@ public class GeoText extends GeoElement
 
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
+		sb.append(getAuralText());
+		sb.endSentence();
+	}
+
+	/**
+	 * 
+	 * @return text to read out (LaTeX is converted to "nice" form)
+	 */
+	public String getAuralText() {
 		if (isLaTeX()) {
 			kernel.getApplication().getDrawEquation()
 					.checkFirstCall(kernel.getApplication());
 			// TeXAtomSerializer makes formula human readable.
 			TeXFormula tf = new TeXFormula(getTextString());
-			sb.append(new TeXAtomSerializer(null).serialize(tf.root));
-		} else {
-			sb.append(getTextString());
+			return new TeXAtomSerializer(null).serialize(tf.root);
 		}
-		sb.endSentence();
+		return getTextString();
+
 	}
 
 	@Override
