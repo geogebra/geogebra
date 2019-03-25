@@ -5492,22 +5492,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				&& DoubleUtil.isEqual(yZero, getYZeroStandard());
 	}
 
-	private boolean isZeroStandardForSmallScreen() {
-		if (getWidth() < (getXZeroStandard() * 3)
-				|| getHeight() < getYZeroStandard() * 1.6) {
-			// Log.debug("[std] xZero: " + xZero + " w/3.0: " + getWidth() /
-			// 3.0);
-			// Log.debug("[std] yZero: " + yZero + " h/1.6: " + getHeight() /
-			// 1.6);
-
-			return DoubleUtil.checkInteger(xZero) == DoubleUtil
-					.checkInteger(getWidth() / 3.0)
-					|| DoubleUtil.checkInteger(yZero) == DoubleUtil
-							.checkInteger(getHeight() / 1.6);
-		}
-		return false;
-	}
-
 	/**
 	 * Restores standard zoom + origin position
 	 * 

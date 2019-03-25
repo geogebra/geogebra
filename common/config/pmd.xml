@@ -97,7 +97,7 @@
 		<exclude name="CollapsibleIfStatements" />
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />		
 	</rule>
-	 <rule name="AbstractClassWithoutAnyMethod"
+	 <rule name="AbstractClassWithManyAbstractMethods"
           language="java"
           since="4.2"
           class="net.sourceforge.pmd.lang.rule.XPathRule"
@@ -105,7 +105,7 @@
           message="Common project should define abstract methods in interfaces."
           externalInfoUrl="${pmd.website.baseurl}/pmd_rules_java_design.html#abstractclasswithoutanymethod">
         <description>
-Common project should define abstract methods in interfaces.
+Common project should define abstract methods in interfaces. Only filters classes with many violations, should be made incrementally stricter. 
         </description>
         <priority>1</priority>
         <properties>
@@ -114,17 +114,14 @@ Common project should define abstract methods in interfaces.
 <![CDATA[
 //ClassOrInterfaceDeclaration
     [@Abstract = 'true']
-    [count(//MethodDeclaration[@Abstract = 'true']) > 45]
+    [count(//MethodDeclaration[@Abstract = 'true']) > 200]
 ]]>
                 </value>
             </property>
         </properties>
         <example>
 <![CDATA[
-public abstract class Example {
-    String field;
-    int otherField;
-}
+Class with too many abstract methods will fail.
 ]]>
         </example>
     </rule>
