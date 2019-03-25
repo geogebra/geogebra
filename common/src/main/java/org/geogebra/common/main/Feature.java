@@ -115,9 +115,6 @@ public enum Feature {
 	/** GGB-2375 */
 	INPUT_BOX_LINE_UP_BETTER,
 
-	/** MOB-1722 */
-	MOB_EXPORT_STL,
-
 	/** MOW-189 */
 	MOW_TEXT_TOOL,
 

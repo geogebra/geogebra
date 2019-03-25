@@ -175,7 +175,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
 			mi = submenu.add(exportPDFaction);
 		}
-		if (app.has(Feature.MOB_EXPORT_STL)) {
+		if (app.isPrerelease()) {
 			mi = submenu.add(exportSTLaction);
 		}
 		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
@@ -599,7 +599,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		if (app.has(Feature.MOB_EXPORT_STL)) {
+		if (app.isPrerelease()) {
 			exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;

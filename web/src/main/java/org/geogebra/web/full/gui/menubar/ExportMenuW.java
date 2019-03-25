@@ -199,15 +199,13 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				}
 			});
 
-			if (app.has(Feature.MOB_EXPORT_STL)) {
-				menu.addItem(menuText("STL"), true, new MenuCommand(app) {
-					@Override
-					public void doExecute() {
-						menu.hide();
-						app.setExport3D(new FormatSTL());
-					}
-				});
-			}
+			menu.addItem(menuText("STL"), true, new MenuCommand(app) {
+				@Override
+				public void doExecute() {
+					menu.hide();
+					app.setExport3D(new FormatSTL());
+				}
+			});
 
 			if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
 				menu.addItem(menuText("Collada"), true, new MenuCommand(app) {

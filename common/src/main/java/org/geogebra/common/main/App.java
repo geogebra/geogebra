@@ -3716,10 +3716,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOB_PROPERTY_SORT_BY:
 			return false;
 
-		// MOB-1722
-		case MOB_EXPORT_STL:
-			return (prerelease || !Versions.DESKTOP.equals(version));
-
 		/** MOB-1310 */
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return true;
@@ -5161,5 +5157,13 @@ public abstract class App implements UpdateSelection, AppInterface {
 			labelManager = new LabelManager();
 		}
 		return labelManager;
+	}
+
+	/**
+	 * 
+	 * @return true if is prerelease
+	 */
+	public boolean isPrerelease() {
+		return prerelease;
 	}
 }
