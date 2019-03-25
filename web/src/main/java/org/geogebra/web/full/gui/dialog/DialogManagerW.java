@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -502,7 +501,7 @@ public class DialogManagerW extends DialogManager
 		}
 
 		// show the view
-		if (app.has(Feature.FLOATING_SETTINGS)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) pv).open();
 		} else {
 			((GuiManagerW) app.getGuiManager()).setShowView(true,

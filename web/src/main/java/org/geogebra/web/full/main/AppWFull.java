@@ -1973,7 +1973,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 		if (getGuiManager().hasPropertiesView()
-				&& has(Feature.FLOATING_SETTINGS)) {
+				&& isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) getGuiManager().getPropertiesView()).resize(
 					getWidth(), getHeight() - frame.getKeyboardHeight());
 		}

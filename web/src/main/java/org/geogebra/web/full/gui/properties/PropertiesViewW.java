@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.full.gui.dialog.options.OptionsAlgebraW;
@@ -77,12 +76,7 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
-		if (app.has(Feature.FLOATING_SETTINGS)) {
-			this.wrappedPanel = new PersistablePanel();
-
-		} else {
-			this.wrappedPanel = new FlowPanel();
-		}
+		this.wrappedPanel = app.isUnbundledOrWhiteboard() ? new PersistablePanel() : new FlowPanel();
 		app.setPropertiesView(this);
 		app.setWaitCursor();   
 
@@ -558,7 +552,7 @@ public class PropertiesViewW extends PropertiesView
 	 * Opens floating settings.
 	 */
 	public void open() {
-		if (!app.has(Feature.FLOATING_SETTINGS)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			return;
 		}
 		if (!isFloatingAttached()) {
@@ -584,7 +578,7 @@ public class PropertiesViewW extends PropertiesView
 	 * Closes floating settings.
 	 */
 	public void close() {
-		if (!app.has(Feature.FLOATING_SETTINGS)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 			return;
 		}

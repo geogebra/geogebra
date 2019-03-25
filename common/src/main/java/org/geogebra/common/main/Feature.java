@@ -87,9 +87,6 @@ public enum Feature {
 
 	SURFACE_2D,
 
-	/** GGB-1985*/
-	FLOATING_SETTINGS,
-
 	/** GGB-1986 */
 	DIALOG_DESIGN,
 

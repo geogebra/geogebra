@@ -10,7 +10,6 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -121,7 +120,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		((GuiManagerW) app.getGuiManager())
 				.getPropertiesView(OptionType.OBJECTS)
 				.setOptionPanel(OptionType.OBJECTS, 3);
-		if (app.has(Feature.FLOATING_SETTINGS)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) app.getGuiManager().getPropertiesView()).open();
 		} else {
 			app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);

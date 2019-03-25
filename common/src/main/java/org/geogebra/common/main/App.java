@@ -3888,9 +3888,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case CENTER_STANDARD_VIEW:
 			return true;
 
-		case FLOATING_SETTINGS:
-			return isUnbundledOrWhiteboard();
-
 		case SYMBOLIC_AV:
 			return canary;
 
