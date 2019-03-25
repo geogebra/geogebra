@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -82,7 +81,7 @@ public class EvaluateInput {
 			err.resetError();
 		}
 		EvalInfo info = new EvalInfo(true, true).withSliders(true)
-				.withFractions(true).addDegree(app.has(Feature.AUTO_ADD_DEGREE))
+				.withFractions(true).addDegree(app.getKernel().degreesMode())
 				.withUserEquation(true)
 				.withSymbolicMode(app.getKernel().getSymbolicMode());
 		// undo point stored in callback

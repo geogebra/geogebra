@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
@@ -235,8 +234,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			}
 		}
 		sb.append(definition);
-		if (equations2.getKernel().getApplication()
-				.has(Feature.AUTO_ADD_DEGREE)) {
+		if (equations2.getKernel().degreesMode()) {
 			return definitionObject.inspect(DegreeVariableReplacer
 					.getReplacer(equations2.getKernel()));
 		}

@@ -3898,10 +3898,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case DIALOG_DESIGN:
 			return isUnbundledOrWhiteboard();
 
-		/** GGB-2183 */
-		case AUTO_ADD_DEGREE:
-			return getKernel().degreesMode();
-
 		/** GGB-2222 */
 		case CHANGE_INVERSE_TRIG_TO_DEGREES:
 			return getKernel().degreesMode();

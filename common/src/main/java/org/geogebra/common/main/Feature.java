@@ -95,9 +95,6 @@ public enum Feature {
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 
-	/** GGB-2183 change sin(15) -> sin(15deg) */
-	AUTO_ADD_DEGREE,
-
 	/** GGB-2222 change asin(0.5) -> asind(0.5) */
 	CHANGE_INVERSE_TRIG_TO_DEGREES,
 
