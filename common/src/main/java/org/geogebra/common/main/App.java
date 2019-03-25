@@ -3895,10 +3895,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case DIALOG_DESIGN:
 			return isUnbundledOrWhiteboard();
 
-		/** GGB-2222 */
-		case CHANGE_INVERSE_TRIG_TO_DEGREES:
-			return getKernel().degreesMode();
-
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
 			// don't set true in ggb5

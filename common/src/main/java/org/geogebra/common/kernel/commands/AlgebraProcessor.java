@@ -2078,8 +2078,7 @@ public class AlgebraProcessor {
 		if (info.autoAddDegree()) {
 			// sin(15) -> sin(15deg)
 			ve = ve2.traverse(DegreeReplacer.getReplacer(kernel));
-			if (kernel.getApplication()
-					.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+			if (kernel.degreesMode()) {
 				// asin(x) -> asind(x)
 				ve = ve.traverse(ArcTrigReplacer.getReplacer());
 			}

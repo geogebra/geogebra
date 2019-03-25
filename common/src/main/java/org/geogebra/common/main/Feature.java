@@ -93,9 +93,6 @@ public enum Feature {
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 
-	/** GGB-2222 change asin(0.5) -> asind(0.5) */
-	CHANGE_INVERSE_TRIG_TO_DEGREES,
-
 	/** MOB-1310 */
 	SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE,
 

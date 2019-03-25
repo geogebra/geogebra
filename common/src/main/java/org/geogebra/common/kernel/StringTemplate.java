@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
@@ -3432,8 +3431,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String asind(Kernel kernel) {
 
-		if (changeArcTrig && kernel.getApplication()
-				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+		if (changeArcTrig && kernel.degreesMode()) {
 			return "asin";
 		}
 		return "asind";
@@ -3447,8 +3445,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public String acosd(Kernel kernel) {
 
-		if (changeArcTrig && kernel.getApplication()
-				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+		if (changeArcTrig && kernel.degreesMode()) {
 			return "acos";
 		}
 		return "acosd";
@@ -3461,8 +3458,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return "atan" or "atand" as appropriate
 	 */
 	public String atand(Kernel kernel) {
-		if (changeArcTrig && kernel.getApplication()
-				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+		if (changeArcTrig && kernel.degreesMode()) {
 			return "atan";
 		}
 		return "atand";
