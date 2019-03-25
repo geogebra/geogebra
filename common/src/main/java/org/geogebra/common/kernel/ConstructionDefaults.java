@@ -349,24 +349,20 @@ public class ConstructionDefaults {
 	}
 
 	private void setDefaultLineStyle(GeoElement geo) {
-		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES) || cons
-				.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-			if (geo instanceof GeoAngle
-					&& cons.getApplication().isUnbundledGeometry()) {
-				geo.setLineThickness(
-						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS_ANGLE_GEOMETRY);
+		if (geo instanceof GeoAngle
+				&& cons.getApplication().isUnbundledGeometry()) {
+			geo.setLineThickness(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS_ANGLE_GEOMETRY);
+		} else {
+			geo.setLineThickness(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
+		}
+		if (geo.hasLineOpacity()) {
+			if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+				setLineOpacity(geo);
 			} else {
-				geo.setLineThickness(
-						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
-			}
-			if (geo.hasLineOpacity()) {
-				if (cons.getApplication()
-						.has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-					setLineOpacity(geo);
-				} else {
-					geo.setLineOpacity(
-							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
-				}
+				geo.setLineOpacity(
+						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 			}
 		}
 	}
@@ -715,10 +711,7 @@ public class ConstructionDefaults {
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
 			return colPointG;
 		}
-		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
-			return colPointAlpha;
-		}
-		return colPoint;
+		return colPointAlpha;
 	}
 
 	/**

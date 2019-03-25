@@ -80,9 +80,6 @@ public enum Feature {
 
 	EXPORT_OBJ_IN_MENU,
 
-	/** GGB-1916 */
-	DEFAULT_OBJECT_STYLES,
-
 	/** GGB-2008 */
 	OBJECT_DEFAULTS_AND_COLOR,
 
