@@ -11,8 +11,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
+import org.geogebra.common.geogebra3D.main.FragmentShader;
+import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
@@ -90,10 +91,10 @@ public class RendererImplShadersW extends RendererImplShaders {
 	protected final void compileShadersProgram() {
 		setFragShader(getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
-				ShaderProvider.getFragmentShader(true)));
+				FragmentShader.getFragmentShaderShinyForPacking(true)));
 		setVertShader(getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(true)));
+				VertexShader.getVertexShaderShiny(true)));
 	}
 
 	@Override

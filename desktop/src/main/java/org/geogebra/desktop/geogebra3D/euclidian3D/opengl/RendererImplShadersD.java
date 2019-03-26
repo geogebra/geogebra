@@ -66,7 +66,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 		String vertexShaderString, fragmentShaderString;
 
 		vertexShaderString = VertexShader.getVertexShaderShiny(false);
-		fragmentShaderString = FragmentShader.getFragmentShaderShinyForPacking(0.2f, false);
+		fragmentShaderString = FragmentShader
+				.getFragmentShaderShinyForPacking(false);
 
 		if (jogl.getGL2ES2().isGL3core()) {
 			Log.debug(

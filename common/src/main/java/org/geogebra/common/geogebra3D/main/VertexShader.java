@@ -2,6 +2,10 @@ package org.geogebra.common.geogebra3D.main;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
+/**
+ * Class providing vertex shader
+ *
+ */
 public class VertexShader {
 
 	final private static String vertexHeaderDesktop = "#if __VERSION__ >= 130 "
@@ -26,11 +30,6 @@ public class VertexShader {
 					+ "uniform int	labelRendering;\n"
 					+ "uniform vec3 labelOrigin;\n" + "uniform int	layer;\n"
 					+ "uniform int	opaqueSurfaces;\n";
-
-	final private static String layers = "  if (layer != 0){ // set layer a z-shift \n"
-			+ "      float fLayer = float(layer);\n"
-			+ "      gl_Position.z = gl_Position.z - 0.0004 * fLayer; \n"
-			+ "  } \n";
 
 	final private static String shiny_packed =
 			// in -- uniform
@@ -160,90 +159,6 @@ public class VertexShader {
 
 					+ "}";
 
-	final private static String regular = inUniform
-
-			// in -- attributes
-
-			+ "attribute vec3  attribute_Position;\n"
-
-			+ "attribute vec3  attribute_Normal;\n"
-			+ "attribute vec4  attribute_Color;\n"
-			+ "attribute vec2	attribute_Texture;\n"
-
-			// out
-
-			+ "varying vec4    varying_Color;  \n"
-			+ "varying vec2	coordTexture;\n"
-			+ "varying vec3    realWorldCoords;\n"
-
-			+ "void main(void)\n"
-
-			+ "{\n"
-			// position
-			+ "  vec3 position;\n"
-
-			+ "  if (center.w > 0.0){ // use center\n"
-			+ "  	position = vec3(center) + center.w * attribute_Position;\n"
-			+ "  }else{\n"
-
-			+ "  	position = attribute_Position;\n"
-
-			+ "  }\n" + "  gl_Position = matrix * vec4(position, 1.0); \n"
-			+ layers
-			+ "  if (labelRendering == 1){ // use special origin for labels\n"
-			+ "      realWorldCoords = labelOrigin;\n"
-
-			+ "  }else{\n"
-
-			+ "	  realWorldCoords = position;\n"
-
-			+ "  }\n"
-
-			// color
-
-			+ "  vec4 c;\n"
-			+ "  if (color[0] < 0.0){ // then use per-vertex-color\n"
-			+ "  	c = attribute_Color;\n"
-			+ "  }else{ // use per-object-color\n"
-
-			+ "  	c = color;\n"
-
-			+ "  }\n"
-
-			// light
-
-			+ "  if (enableLight == 1){// color with light\n"
-
-			+ "	  vec3 n;\n"
-			+ "	  if (normal.x > 1.5){ // then use per-vertex normal\n"
-			+ "	  	n = attribute_Normal;\n"
-
-			+ "	  }else{\n"
-
-			+ "	  	n = normal;\n"
-
-			+ "	  }\n"
-
-			+ "	  float factor = dot(n, lightPosition);\n"
-			+ "	  factor = float(culling) * factor;\n"
-			+ "	  factor = max(0.0, factor);\n"
-			+ "	  float ambiant = ambiantDiffuse[0];\n"
-			+ "	  float diffuse = ambiantDiffuse[1];\n"
-			// no specular
-			+ "	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
-			+ "	  varying_Color.a = c.a;\n"
-
-			+ "  }else{ //no light\n"
-
-			+ "	  varying_Color = c;\n"
-
-			+ "  }\n"
-
-			// texture
-
-			+ "  coordTexture = attribute_Texture;\n"
-
-			+ "}";
 
 	/**
 	 * @param isHTML5
@@ -255,20 +170,6 @@ public class VertexShader {
 				return shiny_packed;
 		}
 		return vertexHeaderDesktop + shiny_packed;
-	}
-
-	/**
-	 * @param isHTML5
-	 *            whether to skip the desktop prefix
-	 * @return less shiny shader
-	 */
-	final public static String getVertexShader(boolean isHTML5) {
-
-		if (isHTML5) {
-			return regular;
-		}
-
-		return vertexHeaderDesktop + regular;
 	}
 
 }
