@@ -3745,6 +3745,14 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case MOW_TEXT_TOOL:
 			return canary && whiteboard;
 
+		/**
+		 * MOW-679
+		 * 
+		 * doesn't work with Reflect(penstroke, Object)
+		 */
+		case MOW_PEN_IS_LOCUS:
+			return whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

@@ -29,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Delete mode controller for locus based penstrokes
  */
-public class ModeDeleteLocus {
+public class ModeDeleteLocus implements ModeDeleteInterface {
 	private EuclidianView view;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false;
