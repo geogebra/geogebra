@@ -112,7 +112,7 @@ public class AlgebraViewVisibilityDelegate {
             clearOccured = false;
         }
         for (GeoElement geo : geosToRemove) {
-            view.remove(geo);
+            view.doRemove(geo);
         }
         geosToRemove.clear();
         for (GeoElement geo: geosToAdd) {

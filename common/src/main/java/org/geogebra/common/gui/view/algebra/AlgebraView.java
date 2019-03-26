@@ -118,4 +118,10 @@ public interface AlgebraView extends Editing, SetLabels {
 	 */
 	public void setShowAlgebraInput(boolean visible);
 
+    /**
+     * remove the geo (with no check)
+     * @param geo geo
+     */
+    void doRemove(GeoElement geo);
+
 }
