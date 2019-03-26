@@ -2015,7 +2015,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return whether to add extra brackets around multiplication
 	 */
 	private boolean useExtensiveBrackets() {
-		return !localizeCmds && stringType != StringType.GEOGEBRA;
+		return !localizeCmds && stringType != StringType.GEOGEBRA && stringType != StringType.LATEX;
 	}
 
 	/**
