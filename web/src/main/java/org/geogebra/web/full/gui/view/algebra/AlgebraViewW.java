@@ -1262,11 +1262,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-	/**
-	 * removes a node from the tree
-	 */
 	@Override
 	public void remove(GeoElement geo) {
+		doRemove(geo);
+	}
+
+	public void doRemove(GeoElement geo) {
 		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
 		if (node != null) {

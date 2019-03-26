@@ -295,10 +295,24 @@ public class AlgebraTree extends JTree {
 		}
 	}
 
+
 	/**
 	 * removes a node from the tree
+	 * 
+	 * @param geo
+	 *            geo
 	 */
 	public void remove(GeoElement geo) {
+		doRemove(geo);
+	}
+
+	/**
+	 * removes a node from the tree
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void doRemove(GeoElement geo) {
 		cancelEditing();
 		DefaultMutableTreeNode node = nodeTable.get(geo);
 
