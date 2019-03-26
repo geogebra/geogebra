@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
@@ -416,7 +415,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		Object[] geos;
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianViewW)
 					&& app.isUnbundledOrWhiteboard()) {
@@ -493,7 +492,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		clear();
 		// --- order matters here
 		// button for closing extra views
-		if (app.has(Feature.DYNAMIC_STYLEBAR)
+		if (app.isUnbundledOrWhiteboard()
 				&& App.VIEW_EUCLIDIAN_FOR_PLANE_START <= viewID
 				&& viewID <= App.VIEW_EUCLIDIAN_FOR_PLANE_END) {
 			addCloseViewButton();
@@ -549,12 +548,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 			add(btnDeleteSizes[i]);
 		}
 
-		if (!app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar()
-				|| !app.isUnbundledOrWhiteboard()) {
+		if (!app.isUnbundledOrWhiteboard() || !isDynamicStylebar()) {
 			addMenuButton();
 		}
 
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			if (getViewButton() == null) {
 				addViewButton();
 			} else {
@@ -574,7 +572,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			addDeleteButton();
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()
+		if (app.isUnbundledOrWhiteboard() && hasActiveGeos()
 				&& isContextMenuNeeded()) {
 			addContextMenuButton();
 		}
@@ -744,9 +742,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * the default stylebar yet.
 	 */
 	boolean showAllStyleButtons() {
-		return !app.has(Feature.DYNAMIC_STYLEBAR) || (!isDynamicStylebar()
-				&& !(this.getView() instanceof EuclidianView3DInterface))
-				|| !app.isUnbundledOrWhiteboard();
+		return !app.isUnbundledOrWhiteboard() || (!isDynamicStylebar()
+				&& !(this.getView() instanceof EuclidianView3DInterface));
 	}
 
 	protected boolean isDynamicStylebar() {
@@ -846,7 +843,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createFixObjectBtn();
 		createTextSizeBtn();
 		createChangeViewButtons();
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			createCloseViewBtn();
 		}
 	}

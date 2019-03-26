@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
@@ -141,7 +140,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			return getResources().settings();
 		}
 		return getResources().styleBar_spreadsheetView();

@@ -2993,7 +2993,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getEuclidianView2(1).getStyleBar().updateStyleBar();
 		}
 
-		if (has(Feature.DYNAMIC_STYLEBAR)) {
+		if (isUnbundledOrWhiteboard()) {
 			updateDynamicStyleBars();
 		}
 	}

@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -75,8 +74,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		// TODO Auto-generated method stub
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			return getResources().settings();
 		}
 		return getResources().styleBar_CASView();

@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -83,7 +82,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			return;
 		}
 		if (menuButton == null) {
-			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (app.isUnbundledOrWhiteboard()) {
 				menuButton = new StandardButton(
 						GuiResources.INSTANCE.stylebar_more(), app);
 				menuButton.addStyleName("MyCanvasButton-borderless");

@@ -2498,7 +2498,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (styleBar != null) {
 			styleBar.updateVisualStyle(geo);
 		}
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			if (dynamicStyleBar != null) {
 				dynamicStyleBar.updateVisualStyle(geo);
 			}

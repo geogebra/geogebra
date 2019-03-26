@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -156,7 +155,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 			addMenuButton();
 		}
 		// addViewButton is too expensive
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			if (getViewButton() == null) {
 				addViewButton();
 			} else {

@@ -172,7 +172,7 @@ public class SelectionManager {
 				boolean oldSelected = geo.isSelected();
 				geo.setSelected(false);
 				if (geo.getKernel().getApplication()
-						.has(Feature.DYNAMIC_STYLEBAR)
+						.isUnbundledOrWhiteboard()
 						&& oldSelected) {
 
 					notifyListeners(geo);

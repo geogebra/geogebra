@@ -948,7 +948,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 		buildGUIIfNecessary(true);
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR) && toggleStyleBarButton != null) {
+		if (app.isUnbundledOrWhiteboard() && toggleStyleBarButton != null) {
 			if (!showStyleBar) {
 				toggleStyleBarButton.setIcon(viewImage);
 			}

@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -233,7 +232,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
-		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app != null && app.isUnbundledOrWhiteboard()) {
 			return getResources().settings();
 		}
 		return getResources().styleBar_algebraView();

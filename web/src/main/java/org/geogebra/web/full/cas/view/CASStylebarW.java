@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -72,7 +71,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
 		addMenuButton();
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			addViewButton();
 		}
 		updateStyleBar();

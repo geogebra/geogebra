@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.resources.SVGResource;
 
@@ -78,7 +77,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 
 	@Override
 	public SVGResource getViewIcon() {
-		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app != null && app.isUnbundledOrWhiteboard()) {
 			return getResources().settings();
 		}
 		return getResources().styleBar_graphics2View();

@@ -2328,7 +2328,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 				updateStyleBars();
 			}
 
-			if (has(Feature.DYNAMIC_STYLEBAR)) {
+			if (isUnbundledOrWhiteboard()) {
 				// TODO update only dynamic stylebar
 				updateStyleBars();
 			}
@@ -3866,9 +3866,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		case ROUNDED_POLYGON:
 			return prerelease;
-
-		case DYNAMIC_STYLEBAR:
-			return isUnbundledOrWhiteboard();
 
 		case EXPORT_COLLADA_IN_MENU:
 			return true;

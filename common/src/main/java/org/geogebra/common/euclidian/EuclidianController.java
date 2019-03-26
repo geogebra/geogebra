@@ -10433,7 +10433,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// Quick fix for GeoFunctions.
 		// TODO: call it once in the method.
-		if (app.has(Feature.DYNAMIC_STYLEBAR)
+		if (app.isUnbundledOrWhiteboard()
 				&& EuclidianConstants
 						.isMoveOrSelectionModeCompatibleWithDragging(mode,
 								isDraggingOccuredBeyondThreshold())
