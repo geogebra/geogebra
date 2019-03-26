@@ -125,23 +125,22 @@ public class InputHelper {
 		if ((!text.isTextCommand() || absoluteTexts)
 				&& text.getStartPoint() == null) {
 
-			boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
-
-			GeoPoint p = new GeoPoint(text.getConstruction(), null,
-					(ev.getXmin() + ev.getXmax()) / 2,
-					(ev.getYmin() + ev.getYmax()) / 2, 1.0);
-
-			cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
 			try {
 				if (absoluteTexts) {
-					text.setAbsoluteScreenLoc(ev.toScreenCoordX(p.getX()),
-							ev.toScreenCoordY(p.getY()));
+					text.setAbsoluteScreenLoc(ev.getWidth() / 2,
+							ev.getHeight() / 2);
 					text.setAbsoluteScreenLocActive(true);
 				} else {
-					text.setStartPoint(p);
+					boolean oldSuppressLabelsStatus = cons
+							.isSuppressLabelsActive();
+					cons.setSuppressLabelCreation(true);
 
+					GeoPoint p = new GeoPoint(text.getConstruction(), null,
+							(ev.getXmin() + ev.getXmax()) / 2,
+							(ev.getYmin() + ev.getYmax()) / 2, 1.0);
+
+					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+					text.setStartPoint(p);
 				}
 				text.update();
 			} catch (CircularDefinitionException e1) {
