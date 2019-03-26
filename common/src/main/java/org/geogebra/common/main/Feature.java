@@ -145,9 +145,6 @@ public enum Feature {
 	/** unify prove commands */
 	PROVE_UNIFY,
 
-	/** G3D-89 */
-	G3D_IOS_FASTER_AV,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
