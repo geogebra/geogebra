@@ -197,12 +197,7 @@ $duration: 0.2s;
 		animation-name: removeSuggestionsParent;
 		animation-duration: $duration;
 	}
-	.ggb-btnClearAVInput {
-		opacity: 0.54;
-		&:hover {
-			opacity: 0.78;
-		}
-	}
+
 	.AlgebraViewObjectStylebar.withContextMenu {
 			bottom: 0;
 			padding: 8px 2px 0px 0px;
@@ -213,7 +208,10 @@ $duration: 0.2s;
 			}
 
 			.XButton{
-				@extend .ggb-btnClearAVInput;
+				opacity: 0.54;
+				&:hover {
+					opacity: 0.78;
+				}
 				background-color: $white;
 				float: right;
 			}
