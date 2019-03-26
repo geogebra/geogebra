@@ -89,6 +89,9 @@ public class GgbAPIW extends GgbAPI {
 		// ViewW view = new ViewW((AppW) app);
 		// view.processBase64String(base64);
 
+		// needed to reset max used layer etc
+		app.clearConstruction();
+
 		app.loadXML(new Base64ZipFile(base64));
 	}
 
