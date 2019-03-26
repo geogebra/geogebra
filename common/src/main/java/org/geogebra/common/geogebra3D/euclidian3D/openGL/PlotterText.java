@@ -73,19 +73,67 @@ public class PlotterText {
 	 *            width
 	 * @param height
 	 *            height
+	 * @param lineWidth
+	 *            bounds line width
 	 */
 	public void rectangleBounds(double x, double y, double z, double width,
-			double height) {
+			double height, double lineWidth) {
 
-		manager.startGeometry(Manager.Type.LINE_LOOP);
+		manager.startGeometry(Manager.Type.TRIANGLES);
+		double w = lineWidth / 2;
+		// bottom
 		manager.texture(0, 0);
-		manager.vertexInt(x, y, z);
-		manager.texture(1, 0);
-		manager.vertexInt(x + width, y, z);
-		manager.texture(1, 1);
-		manager.vertexInt(x + width, y + height, z);
-		manager.texture(0, 1);
-		manager.vertexInt(x, y + height, z);
+		manager.vertexInt(x - w, y - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width - w, y - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x - w, y + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x - w, y + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width - w, y - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width - w, y + w, z);
+		// top
+		manager.texture(0, 0);
+		manager.vertexInt(x + w, y + height - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width + w, y + height - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + w, y + height + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + w, y + height + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width + w, y + height - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width + w, y + height + w, z);
+		// left
+		manager.texture(0, 0);
+		manager.vertexInt(x - w, y + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + w, y + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x - w, y + height + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + w, y + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + w, y + height + w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x - w, y + height + w, z);
+		// right
+		manager.texture(0, 0);
+		manager.vertexInt(x + width - w, y - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width + w, y - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width - w, y + height - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width + w, y - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width + w, y + height - w, z);
+		manager.texture(0, 0);
+		manager.vertexInt(x + width - w, y + height - w, z);
+
 		manager.endGeometry();
 
 	}

@@ -606,12 +606,14 @@ abstract public class Manager {
 	 *            height
 	 * @param old
 	 *            index
+	 * @param lineWidth
+	 *            bounds line width
 	 * @return new index
 	 */
 	public int rectangleBounds(double x, double y, double z, double width,
-			double height, int old) {
+			double height, int old, double lineWidth) {
 		int index = startNewList(old, false);
-		getText().rectangleBounds(x, y, z, width, height);
+		getText().rectangleBounds(x, y, z, width, height, lineWidth);
 		endList();
 		return index;
 	}

@@ -77,18 +77,14 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.doHighlighting()) {
 			// draw bounds if highlighted
 			renderer.getRendererImpl().disableTextures();
-			renderer.getRendererImpl().disableMultisample();
-			renderer.setLineWidth(geo.getLineThickness() / 2.0);
 			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
 			renderer.getGeometryManager().draw(highLightIndex);
-			renderer.getRendererImpl().enableMultisample();
 			renderer.getRendererImpl().enableTextures();
 		}
 	}
 
 	@Override
 	public void updatePosition(Renderer renderer) {
-
 		super.updatePosition(renderer);
 
 		if (origin == null) {
@@ -100,9 +96,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		int old = highLightIndex;
 		highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX,
 				drawY, drawZ, width / getFontScale(), height / getFontScale(),
-				highLightIndex);
+				highLightIndex, geo.getLineThickness() / 2);
 		renderer.getGeometryManager().remove(old);
-		// Log.debug("highLightIndex: "+highLightIndex);
 	}
 
 	@Override
