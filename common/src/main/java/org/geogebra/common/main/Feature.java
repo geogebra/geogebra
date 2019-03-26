@@ -160,9 +160,6 @@ public enum Feature {
 	/** G3D-170 */
 	G3D_IMPROVE_SOLID_TOOLS,
 
-    /** G3D-197 */
-    G3D_TOOLS_SIMPLE_MORE_LESS,
-
 	/** G3D-177 */
 	G3D_STL_EXPORT_DIALOG,
 
