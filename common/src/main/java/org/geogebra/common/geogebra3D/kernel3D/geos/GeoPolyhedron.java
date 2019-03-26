@@ -50,7 +50,6 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 

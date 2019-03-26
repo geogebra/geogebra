@@ -4998,6 +4998,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// overriden in EuclidianView3DA
 		return null;
 	}
+
 	public MouseTouchGestureController getEuclidianPanelOnTouchListner() {
 		// overriden in EuclidianView3DA
 		return null;

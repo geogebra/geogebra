@@ -61,7 +61,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -149,9 +148,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	// GTextBox tb;
 	private boolean needsUpdate;
-
-	/** Clears input only when editing */
-	protected GPushButton btnClearInput;
 
 	/**
 	 * this panel contains the marble (radio) button
@@ -1432,10 +1428,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		content.insert(dummyLabel, 0);
 		removeOutput();
 		inputControl.hideInputMoreButton();
-		if (btnClearInput != null) {
-			btnClearInput.removeFromParent();
-			btnClearInput = null;
-		}
+
 		if (controls != null) {
 			controls.setVisible(true);
 		}

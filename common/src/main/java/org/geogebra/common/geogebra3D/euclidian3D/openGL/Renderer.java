@@ -1878,7 +1878,6 @@ public abstract class Renderer {
 		}
 	}
 
-	
 	/**
 	 * set drawing to left buffer (when stereo buffered)
 	 */
@@ -1935,7 +1934,6 @@ public abstract class Renderer {
 		rendererImpl.glDisable(rendererImpl.getGL_DEPTH_TEST());
 	}
 
-	
 	/**
 	 * 
 	 * @return true if uses shaders
@@ -1998,17 +1996,8 @@ public abstract class Renderer {
 		for (IntersectionCurve intersectionCurve : curves) {
 			Drawable3D d = intersectionCurve.drawable;
 			if (!d.hit(hitting)
-					|| d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
-																			// assume
-																			// that
-																			// hitting
-																			// infos
-																			// are
-																			// updated
-																			// from
-																			// last
-																			// mouse
-																			// move
+					|| d.getPickingType() != PickingType.POINT_OR_CURVE) {
+				// we assume that hitting infos are updated from last mouse move
 				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
 						hitting.discardPositiveHits());
 			}

@@ -105,7 +105,11 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 		if (getApp().isWhiteboardActive()) {
 			addItem(
-					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), loc.getMenu("mow.offlineMyFiles")), true, new MenuCommand(getApp()) {
+					MainMenu.getMenuBarHtml(
+							MaterialDesignResources.INSTANCE
+									.mow_pdf_open_folder(),
+							loc.getMenu("mow.offlineMyFiles")),
+					true, new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {

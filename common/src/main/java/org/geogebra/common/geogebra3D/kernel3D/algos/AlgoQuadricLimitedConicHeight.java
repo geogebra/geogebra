@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.main.Feature;
 
 /**
  * Algo for cylinder/cone from a conic and a height

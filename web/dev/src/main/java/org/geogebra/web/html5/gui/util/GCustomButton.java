@@ -16,7 +16,6 @@
 
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.aria.client.PressedValue;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -987,8 +986,8 @@ public abstract class GCustomButton extends ButtonBase {
 
 	private void setAriaPressed(Face newFace) {
 		boolean pressed = (newFace.getFaceID() & DOWN_ATTRIBUTE) == 1;
-		Roles.getButtonRole().setAriaPressedState(getElement(),
-				PressedValue.of(pressed));
+		// Roles.getButtonRole().setAriaPressedState(getElement(),
+		// PressedValue.of(pressed));
 	}
 
 	/**

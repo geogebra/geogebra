@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 
 /**
  * @author ggb3D
