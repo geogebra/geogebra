@@ -1254,4 +1254,13 @@ public class ConstructionDefaults {
 		}
 	}
 
+	/**
+	 * set all layers back to 0 (important when loading new file)
+	 */
+	public void resetLayers() {
+		for (GeoElement geo : defaultGeoElements.values()) {
+			geo.setLayer(0);
+		}
+	}
+
 }

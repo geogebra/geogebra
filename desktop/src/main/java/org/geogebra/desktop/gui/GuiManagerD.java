@@ -2048,6 +2048,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void openURL() {
+		app.clearConstruction();
 		InputDialogD id = new InputDialogOpenURL(getApp());
 		id.setVisible(true);
 

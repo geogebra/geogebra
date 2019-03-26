@@ -1266,6 +1266,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * Resets the maximal used llayer to 0
 	 */
 	public void resetMaxLayerUsed() {
+		getKernel().getConstruction().getConstructionDefaults().resetLayers();
 		maxLayerUsed = 0;
 	}
 
