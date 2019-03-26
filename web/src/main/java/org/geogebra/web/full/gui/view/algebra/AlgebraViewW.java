@@ -1267,6 +1267,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		doRemove(geo);
 	}
 
+	@Override
 	public void doRemove(GeoElement geo) {
 		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
