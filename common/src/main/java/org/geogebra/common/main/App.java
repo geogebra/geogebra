@@ -3922,11 +3922,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SHOW_SAVE_AFTER_CLOSE_SEARCH:
 			return true;
 
-		/** APPS-450 */
-		case AV_INPUT_3DOT:
-			return prerelease;
-
-	   // **********************************************************************
+		// **********************************************************************
        // G3D START
        //
        // *********************************************************

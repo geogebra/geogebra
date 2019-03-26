@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -62,8 +61,7 @@ public class ItemControls extends FlowPanel
 		addStyleName("smallStylebar");
 		addStyleName("withContextMenu");
 		buildGUI();
-		if (radioTreeItem.app.has(Feature.AV_INPUT_3DOT)
-				|| (!radioTreeItem.isInputTreeItem() && hasMoreMenu())) {
+		if (!radioTreeItem.isInputTreeItem() && hasMoreMenu()) {
 			add(getMoreButton());
 			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}

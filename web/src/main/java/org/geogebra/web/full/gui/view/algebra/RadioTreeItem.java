@@ -207,8 +207,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private InputItemControl createInputControl() {
-		return app.has(Feature.AV_INPUT_3DOT) ? new InputMoreControl(this)
-				: new InputXControl(this);
+		return new InputMoreControl(this);
 	}
 
 	/**
@@ -279,7 +278,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		controls = new ItemControls(this);
 	}
 
-	protected void addControls() {	
+	protected void addControls() {
 		if (controls != null) {
 			return;
 		}
@@ -2241,7 +2240,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void openMoreMenu() {
 		controls.openMoreMenu();
 	}
-	
+
 	public boolean hasMoreMenu() {
 		return inputControl.hasMoreMenu();
 	}

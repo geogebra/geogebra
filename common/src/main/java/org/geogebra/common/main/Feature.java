@@ -181,9 +181,6 @@ public enum Feature {
 	/** G3D-66 */
 	G3D_IMPROVE_AUTOMATIC_ROTATION,
 
-	/** APPS-450 */
-	AV_INPUT_3DOT,
-
 	/** G3D-266 */
 	G3D_ARMotionEvent,
 
