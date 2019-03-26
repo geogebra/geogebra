@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -25,6 +26,8 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class InputDialogTableView extends OptionDialog
 		implements SetLabels, HasKeyboardPopup {
+	private static final String VERTICAL_SCROLL_CLASS = "verticalScroll";
+	private static final int MIN_CONTENT_HEIGHT = 56;
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
@@ -67,7 +70,7 @@ public class InputDialogTableView extends OptionDialog
 		errorLabel = new Label();
 		errorLabel.setStyleName("globalErrorLabel");
 		scrollContent = new FlowPanel();
-		scrollContent.addStyleName("verticalScroll");
+		scrollContent.addStyleName(VERTICAL_SCROLL_CLASS);
 		buildTextFieldPanel(scrollContent);
 		scrollContent.add(errorLabel);
 		contentPanel.add(scrollContent);
@@ -120,10 +123,18 @@ public class InputDialogTableView extends OptionDialog
 		// scroll content
 		scrollContent.setHeight("auto");
 		super.centerAndResize(height);
-		int dheight = getOffsetHeight() - getButtonPanel().getOffsetHeight()
+		int contentHeight = getOffsetHeight()
+				- getButtonPanel().getOffsetHeight()
 				- getCaption().asWidget().getOffsetHeight()
 				- GPopupPanel.VERTICAL_PADDING;
-		scrollContent.setHeight(Math.max(56, dheight) + "px");
+		boolean scrollOnlyContent = contentHeight > MIN_CONTENT_HEIGHT;
+		if (scrollOnlyContent) {
+			scrollContent.setHeight(contentHeight + "px");
+			getElement().removeClassName(VERTICAL_SCROLL_CLASS);
+		} else {
+			getElement().addClassName(VERTICAL_SCROLL_CLASS);
+		}
+		Dom.toggleClass(scrollContent, VERTICAL_SCROLL_CLASS, scrollOnlyContent);
 	}
 
 	/**
