@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -149,6 +150,8 @@ public class EuclidianSettings extends AbstractSettings {
 	private double fileYZero;
 	private double fileXScale;
 	private double fileYScale;
+
+	private int defaultLabelingStyle = ConstructionDefaults.LABEL_VISIBLE_NOT_SET;
 
 	/**
 	 * @param app
@@ -1636,5 +1639,13 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public double getFileYScale() {
 		return fileYScale;
+	}
+
+	public int getDefaultLabelingStyle() {
+		return defaultLabelingStyle;
+	}
+
+	public void setDefaultLabelingStyle(int labelingStyle) {
+		this.defaultLabelingStyle = labelingStyle;
 	}
 }

@@ -363,6 +363,8 @@ public class LayoutW extends Layout {
 		//perspective.setShowDockBar(app.isShowDockBar());
 		//perspective.setDockBarEast(app.isDockBarEast());
 
+		perspective.setLabelingStyle(ev.getSettings().getDefaultLabelingStyle());
+
 		return perspective;
 	}
 

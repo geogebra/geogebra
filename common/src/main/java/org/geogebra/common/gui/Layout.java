@@ -13,9 +13,11 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -460,38 +462,22 @@ public abstract class Layout implements SettingListener {
 		boolean changed = false;
 		if (!"tmp".equals(perspective.getId())) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			if (app.getEuclidianView1() == ev) {
-				changed |= app.getSettings().getEuclidian(1).setShowAxes(
-						perspective.getShowAxes(), perspective.getShowAxes());
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1) == ev) {
-				changed |= app.getSettings().getEuclidian(2).setShowAxes(
-						perspective.getShowAxes(), perspective.getShowAxes());
-			} else if (app.isEuclidianView3D(ev)) {
-				changed |= app.getSettings().getEuclidian(3)
-						.setShowAxes(perspective.getShowAxes());
-			} else {
-				changed |= ev.setShowAxes(perspective.getShowAxes(), false);
-			}
+			EuclidianSettings euclidianSettings = getEuclidianSettings(app);
+			if (euclidianSettings != null) {
+				changed =
+						euclidianSettings.setShowAxes(
+								perspective.getShowAxes(),
+								perspective.getShowAxes());
+				changed |= euclidianSettings.showGrid(perspective.getShowGrid());
 
-			if (app.getEuclidianView1() == ev) {
-				changed |= app.getSettings().getEuclidian(1)
-						.showGrid(perspective.getShowGrid());
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1) == ev) {
-				changed |= app.getSettings().getEuclidian(2)
-						.showGrid(perspective.getShowGrid());
-			} else if (app.isEuclidianView3D(ev)) {
-				changed |= app.getSettings().getEuclidian(3)
-						.showGrid(perspective.getShowGrid());
+				if (app.isEuclidianView3D(ev)) {
+					changed |= ((EuclidianSettings3D) euclidianSettings).setHasColoredAxes(true);
+				}
+
+				euclidianSettings.setDefaultLabelingStyle(perspective.getLabelingStyle());
 			} else {
+				changed = ev.setShowAxes(perspective.getShowAxes(), false);
 				changed |= ev.showGrid(perspective.getShowGrid());
-			}
-			
-			if (app.isEuclidianView3D(ev)) {
-				changed |= ((EuclidianSettings3D) app.getSettings()
-						.getEuclidian(3))
-								.setHasColoredAxes(true);
 			}
 
 			if (app.isUnbundled()
@@ -504,6 +490,21 @@ public abstract class Layout implements SettingListener {
 		}
 
 		return changed;
+	}
+
+	private EuclidianSettings getEuclidianSettings(App app) {
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		Settings settings = app.getSettings();
+		if (app.getEuclidianView1() == ev) {
+			return settings.getEuclidian(1);
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+				&& app.getEuclidianView2(1) == ev) {
+			return settings.getEuclidian(2);
+		} else if (app.isEuclidianView3D(ev)) {
+			return settings.getEuclidian(3);
+		} else {
+			return null;
+		}
 	}
 
 	/**
