@@ -169,10 +169,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 				p1.setParentAlgorithm(AlgoPolyhedronNet.this);
 				getNet().addPointCreated(p1);
 				p1.setLabelVisible(false);
-				if (cons.getApplication()
-						.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-					p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-				}
+				p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 				return p1;
 			}
 		});
@@ -184,10 +181,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
-						if (cons.getApplication()
-								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-							s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						}
+						s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						return s;
 					}
 				});
@@ -200,10 +194,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D poly = new GeoPolygon3D(cons);
 						setChangeableCoordParent(poly);
-						if (cons.getApplication()
-								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-							poly.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						}
+						poly.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						return poly;
 					}
 				}) {

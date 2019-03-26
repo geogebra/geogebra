@@ -5,8 +5,8 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoRadius;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 
 /**
  * Algo for cylinder between two end points and given radius. TODO implements
@@ -90,11 +89,9 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		top.setParentAlgorithm(this);
 		quadric.setBottomTop(bottom, top);
 
-		if (cons.getApplication().has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-			side.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-			bottom.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-			top.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-		}
+        side.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+        bottom.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+        top.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 
 		// output = new GeoElement[] {quadric,bottom,top,side};
 		setOutput();

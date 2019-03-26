@@ -105,10 +105,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
-						if (cons.getKernel().getApplication()
-								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-							s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						}
+						s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						return s;
 					}
 				});
@@ -128,10 +125,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
-						if (cons.getKernel().getApplication()
-								.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-							p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						}
+						p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						return p;
 					}
 				});
@@ -263,10 +257,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				p.dontSetEuclidianVisibleBySetParentAlgorithm();
 			}
 			p.setLabelVisible(labelVisible);
-			if (cons.getKernel().getApplication()
-					.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-				p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-			}
+			p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 
 			if (getPolyhedron().getShowObjectCondition() != null) {
 				try {

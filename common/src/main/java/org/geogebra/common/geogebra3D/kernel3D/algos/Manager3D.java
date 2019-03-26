@@ -1956,10 +1956,7 @@ public class Manager3D implements Manager3DInterface {
 				algoCircle.getCircle(), tmpCoords.getX(), tmpCoords.getY(),
 				tmpCoords.getZ());
 		algoPoint.getP().setLabel(null);
-		if (kernel.getApplication().has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-			((GeoElement) algoPoint.getP())
-					.setAuxiliaryObject(Auxiliary.YES_SAVE);
-		}
+		((GeoElement) algoPoint.getP()).setAuxiliaryObject(Auxiliary.YES_SAVE);
 
 		// create solid
 		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(

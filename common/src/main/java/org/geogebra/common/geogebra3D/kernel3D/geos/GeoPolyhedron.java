@@ -448,10 +448,7 @@ public class GeoPolyhedron extends GeoElement3D
 			}
 		}
 
-		if (cons.getKernel().getApplication()
-				.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-			polygon.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-		}
+		polygon.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 
 		// put the polygon into the collection
 		polygons.put(index, polygon);
@@ -561,11 +558,7 @@ public class GeoPolyhedron extends GeoElement3D
 			}
 		}
 
-		if (cons.getKernel().getApplication()
-				.has(Feature.G3D_SHOW_IN_ALGEBRA_VIEW)) {
-			segment.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-		}
-
+		segment.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 		storeSegment(segment, key);
 
 		return segment;

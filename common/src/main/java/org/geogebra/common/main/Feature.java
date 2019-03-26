@@ -163,9 +163,6 @@ public enum Feature {
     /** G3D-197 */
     G3D_TOOLS_SIMPLE_MORE_LESS,
 
-    /** G3D-132 */
-    G3D_SHOW_IN_ALGEBRA_VIEW,
-
 	/** G3D-177 */
 	G3D_STL_EXPORT_DIALOG,
 

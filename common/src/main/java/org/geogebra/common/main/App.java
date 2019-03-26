@@ -3964,10 +3964,6 @@ public abstract class App implements UpdateSelection, AppInterface {
         case G3D_TOOLS_SIMPLE_MORE_LESS:
 			return true;
 
-        /** G3D-132 */
-        case G3D_SHOW_IN_ALGEBRA_VIEW:
-			return true;
-
 		/** G3D-177 */
 		case G3D_STL_EXPORT_DIALOG:
 			return true;
