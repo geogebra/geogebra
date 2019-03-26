@@ -2060,7 +2060,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Keyboard.Standard": "Teclado Padr\xe3o",
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xb4\xb4",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL^^",
-    "Keyboard.row3": "zZxXcCvVbBnN\xe7\xc7''``",
+    "Keyboard.row3": "zZxXcCvVbBnNmM\xe7\xc7``",
     "LaTeXFormula": "F\xf3rmula LaTeX",
     "Label": "Etiqueta",
     "LabelColumn": "Rotular Coluna",
