@@ -3800,9 +3800,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SOLVE_QUARTIC:
 			return prerelease;
 
-		case AUTOMATIC_DERIVATIVES:
-			return canary;
-
 		case EXERCISES:
 			return prerelease;
 

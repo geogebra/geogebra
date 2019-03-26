@@ -59,9 +59,6 @@ public enum Feature {
 
 	MOW_PEN_EVENTS,
 
-	/** GGB-1617 */
-	AUTOMATIC_DERIVATIVES,
-
 	/** SolveQuartic in CAS GGB-1635 */
 	SOLVE_QUARTIC,
 
