@@ -205,7 +205,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private static boolean anyAppHasFocus = true;
 
 	private ReaderTimer readerTimer;
-	protected final String initialPerspective;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
 	WebsocketLogger webSocketLogger = null;
@@ -259,13 +258,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected AppW(ArticleElementInterface articleElement, int dimension,
 			GLookAndFeelI laf) {
 		super(getVersion(articleElement, dimension, laf));
-		if ("graphing".equals(articleElement.getDataParamAppName())) {
-			this.initialPerspective = "1";
-		} else if ("geometry".equals(articleElement.getDataParamAppName())) {
-			this.initialPerspective = "2";
-		} else {
-			this.initialPerspective = articleElement.getDataParamPerspective();
-		}
 		setPrerelease(articleElement.getDataParamPrerelease());
 
 		// laf = null in webSimple
