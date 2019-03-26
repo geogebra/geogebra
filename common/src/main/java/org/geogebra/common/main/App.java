@@ -3793,10 +3793,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case ALL_LANGUAGES:
 			return prerelease;
 
-		/** GGB-2366 */
-		case TIKZ_AXES:
-			return true;
-
 		case SOLVE_QUARTIC:
 			return prerelease;
 

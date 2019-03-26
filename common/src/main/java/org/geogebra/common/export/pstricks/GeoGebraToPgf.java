@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
@@ -116,11 +115,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codePreamble.append(frame.getFontSize());
 			codePreamble.append("pt]{article}\n");
 			codePreamble.append("\\usepackage{pgf,tikz");
-
-			if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
-				codePreamble.append(",pgfplots}\n");
-				codePreamble.append("\\pgfplotsset{compat=1.15");
-			}
+			codePreamble.append(",pgfplots}\n");
+			codePreamble.append("\\pgfplotsset{compat=1.15");
 
 			codePreamble.append(
 					"}\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
@@ -174,24 +170,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			format = FORMAT_LATEX;
 		}
 
-		if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
-
-			if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
-				drawNiceAxesGrid();
-			} else if (euclidianView.getShowGrid()) {
-				drawGrid();
-			}
-
-		} else {
-
-			// Draw Grid
-			if (euclidianView.getShowGrid()) {
-				drawGrid();
-			}
-			// Draw axis
-			if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
-				drawAxis();
-			}
+		if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
+			drawNiceAxesGrid();
+		} else if (euclidianView.getShowGrid()) {
+			drawGrid();
 		}
 		// Clipping
 		codeFilledObject.append("\\clip");
@@ -223,12 +205,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append(codePoint);
 		// Close Environment tikzpicture
 		if (format == GeoGebraToPgf.FORMAT_LATEX) {
-
-			if (kernel.getApplication().has(Feature.TIKZ_AXES)) {
-				if (euclidianView.getShowXaxis()
-						|| euclidianView.getShowYaxis()) {
-					code.append("\\end{axis}\n");
-				}
+			if (euclidianView.getShowXaxis()
+					|| euclidianView.getShowYaxis()) {
+				code.append("\\end{axis}\n");
 			}
 
 			code.append("\\end{tikzpicture}\n");

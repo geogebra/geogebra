@@ -100,9 +100,6 @@ public enum Feature {
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,
 
-	/** GGB-2366 */
-	TIKZ_AXES,
-
 	/** AND-887 and IGR-732 */
 	MOB_PROPERTY_SORT_BY,
 
