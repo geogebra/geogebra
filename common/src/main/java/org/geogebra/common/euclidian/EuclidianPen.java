@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 
@@ -617,9 +618,13 @@ public class EuclidianPen implements GTimerListener {
 			GPoint p = it.next();
 			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),
 			// view.toRealWorldCoordY(p.getY()), 1));
-			newPts.add(new MyPoint(
-					view.toRealWorldCoordX(p.getX()),
-					view.toRealWorldCoordY(p.getY())));
+
+			double x = view.toRealWorldCoordX(p.getX());
+			double y = view.toRealWorldCoordY(p.getY());
+
+			// change -2.4600000000000004 to -2.46 for smaller XML
+			newPts.add(new MyPoint(DoubleUtil.checkDecimalFraction(x),
+					DoubleUtil.checkDecimalFraction(y)));
 		}
 
 		AlgoElement algo;
