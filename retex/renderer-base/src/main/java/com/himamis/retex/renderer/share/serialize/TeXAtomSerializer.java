@@ -180,14 +180,10 @@ public class TeXAtomSerializer {
 		StringBuilder sb = new StringBuilder(serialize(script.getTrueBase()));
 		if (script.getSub() != null) {
 			String sub = serialize(script.getSub());
-			if (sub.length() > 1) {
-				sb.append("_{");
-				sb.append(sub);
-				sb.append("}");
-			} else {
-				sb.append("_");
-				sb.append(sub);
-			}
+			// for screen reader DON'T want braces
+			// ie a_bc not a_{bc}
+			sb.append("_");
+			sb.append(sub);
 		}
 		if (script.getSup() != null) {
 			sb.append("^(");
