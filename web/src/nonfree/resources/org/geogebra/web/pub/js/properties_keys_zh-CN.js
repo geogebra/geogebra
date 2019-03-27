@@ -2880,7 +2880,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "TTestPairedDifferences": "t\u68c0\u9a8c, \u914d\u5bf9\u5dee\u5f02",
     "Tab": "Tab \u952e",
     "Table": "\u8868\u683c",
-    "TableOfValues": "Table of values",
+    "TableOfValues": "\u6570\u503c\u8868",
     "TableValuesEmptyDescription": "\u4e3a\u51fd\u6570\u521b\u5efa\u6570\u503c\u8868",
     "TableValuesEmptyTitle": "\u8868\u683c\u4e3a\u7a7a",
     "Tangent": "\u5207\u7ebf",

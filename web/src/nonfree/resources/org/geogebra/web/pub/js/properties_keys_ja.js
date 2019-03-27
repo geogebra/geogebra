@@ -2880,7 +2880,7 @@ __GGB__keysVar["ja"].menu = {
     "TTestPairedDifferences": "t\u691c\u5b9a\u3001paired differences",
     "Tab": "Tab",
     "Table": "\u8868\u306e\u4f5c\u6210",
-    "TableOfValues": "Table of values",
+    "TableOfValues": "\u5024\u306e\u8868",
     "TableValuesEmptyDescription": "\u95a2\u6570\u306b\u5bfe\u3057\u3066\u3001\u5024\u306e\u8868\u3092\u4f5c\u6210\u3067\u304d\u307e\u3059\u3002",
     "TableValuesEmptyTitle": "\u8868\u304c\u7a7a\u3067\u3059\u3002",
     "Tangent": "\u63a5\u7dda",

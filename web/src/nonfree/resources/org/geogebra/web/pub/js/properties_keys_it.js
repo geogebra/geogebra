@@ -2880,7 +2880,7 @@ __GGB__keysVar["it"].menu = {
     "TTestPairedDifferences": "Test T, differenze appaiate",
     "Tab": "Tab",
     "Table": "Tabella",
-    "TableOfValues": "Table of values",
+    "TableOfValues": "Tabella di valori",
     "TableValuesEmptyDescription": "Puoi creare una tabella di valori di una funzione",
     "TableValuesEmptyTitle": "La tabella \xe8 vuota",
     "Tangent": "Tangenti",

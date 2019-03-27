@@ -2880,7 +2880,7 @@ __GGB__keysVar["eu"].menu = {
     "TTestPairedDifferences": "T Testa, Diferentzia Binakatuak",
     "Tab": "Tab",
     "Table": "Taula",
-    "TableOfValues": "Table of values",
+    "TableOfValues": "Balio-taula",
     "TableValuesEmptyDescription": "Funtzioen balio-taulak sor ditzakezu",
     "TableValuesEmptyTitle": "Taula hutsik dago",
     "Tangent": "Ukitzaileak",
