@@ -1,5 +1,7 @@
 package org.geogebra.web.shared.ggtapi;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
@@ -17,8 +19,6 @@ import org.geogebra.web.shared.SignInButton;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class LoginOperationW extends LogInOperation {
 	private AppW app;
 	private BackendAPI api;
+	private ArrayList<AsyncOperation<Boolean>> passiveLoginListeners = new ArrayList<>();
 
 	private class EventViewW extends BaseEventView {
 		@Override
@@ -72,11 +73,15 @@ public class LoginOperationW extends LogInOperation {
 							if (typeof event.data == "string") {
 								try {
 									data = $wnd.JSON.parse(event.data);
+
 									if (data.action === "logintoken") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
 									}
 									if (data.action === "logincookie") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie()();
+									}
+									if (data.action === "loginpassive") {
+										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::firePassiveLogin()();
 									}
 								} catch (err) {
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + JSON.stringify(event.data));
@@ -153,19 +158,18 @@ public class LoginOperationW extends LogInOperation {
 			return;
 		}
 		final Frame fr = new Frame();
-		fr.addLoadHandler(new LoadHandler() {
-
-			@Override
-			public void onLoad(LoadEvent event) {
-				asyncOperation.callback(true);
-				// fr.removeFromParent();
-			}
-
-		});
+		passiveLoginListeners.add(asyncOperation);
 		fr.setVisible(false);
 		fr.setUrl(
 				app.getArticleElement().getParamLoginURL()
 						+ "%3FisPassive=true&isPassive=true");
 		RootPanel.get().add(fr);
+	}
+
+	private void firePassiveLogin() {
+		for (AsyncOperation<Boolean> loginListener : passiveLoginListeners) {
+			loginListener.callback(true);
+		}
+		passiveLoginListeners.clear();
 	}
 }
