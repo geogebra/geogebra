@@ -74,8 +74,11 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 					e("ggw").setAttribute("data-param-enableCAS","true");
 					e("ggw").setAttribute("data-param-enable3D","false");
 				}
-				if (!window.appID || window.appID == "classic") {
+				if (!window.appID || window.appID == "classic" || (id+"").substring(0,6) == "search") {
 					e("ggw").setAttribute("data-param-perspective", id);
+					if (c("mowToolbar")) {
+						c("mowToolbar").style.display = "none";
+					}
 				}
 			}
 			setParamFromURL("filename");

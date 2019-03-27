@@ -459,11 +459,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	@Override
-	public void setHeaderVisible(boolean b) {
-		// only for MOW
-	}
-
-	@Override
 	public void closeAndSave(AsyncOperation<Boolean> callback) {
 		close();
 		app.checkSaved(callback);

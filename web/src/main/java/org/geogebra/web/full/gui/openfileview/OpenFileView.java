@@ -30,7 +30,6 @@ import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -501,14 +500,6 @@ public class OpenFileView extends MyHeaderPanel
 			for (final Material mat : matList) {
 				addMaterial(mat);
 			}
-		}
-	}
-
-	@Override
-	public void setHeaderVisible(boolean visible) {
-		if (headerView.getElement().getParentElement() != null) {
-			headerView.getElement().getParentElement().getStyle()
-					.setDisplay(visible ? Display.BLOCK : Display.NONE);
 		}
 	}
 

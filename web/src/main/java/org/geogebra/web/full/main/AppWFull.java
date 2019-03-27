@@ -808,10 +808,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 		if (getArticleElement().getDataParamPerspective()
 				.startsWith("search:")) {
-			getGuiManager().getBrowseView().setHeaderVisible(false);
 			getArticleElement().attr("perspective", "");
-		} else {
-			getGuiManager().getBrowseView().setHeaderVisible(true);
 		}
 	}
 
