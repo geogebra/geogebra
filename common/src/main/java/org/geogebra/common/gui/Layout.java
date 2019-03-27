@@ -479,14 +479,6 @@ public abstract class Layout implements SettingListener {
 				changed = ev.setShowAxes(perspective.getShowAxes(), false);
 				changed |= ev.showGrid(perspective.getShowGrid());
 			}
-
-			if (app.isUnbundled()
-					&& perspective.getDefaultID() == Perspective.GEOMETRY
-					&& app.getEuclidianView1() == ev) {
-				app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
-			}
-
-			// ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
 		}
 
 		return changed;
