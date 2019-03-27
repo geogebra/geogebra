@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
@@ -468,11 +467,10 @@ public class ItemControls extends FlowPanel
 	 *
 	 */
 	public void setMoreButtonVisible(boolean visible) {
-		try {
-			Dom.toggleClass(btnMore, "hidden", !visible);
-		} catch (Exception e) {
-			Log.debug("More button not created yet");
+		if (btnMore == null) {
+			return;
 		}
+		Dom.toggleClass(btnMore, "hidden", !visible);
 	}
 
 	/**
