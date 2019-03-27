@@ -146,8 +146,8 @@ public class EvaluateInput {
 		};
 	}
 
-	private AsyncOperation<GeoElementND[]> createEvaluationCallback(final AsyncOperation<GeoElementND[]>
-		afterEvalCb) {
+	private AsyncOperation<GeoElementND[]> createEvaluationCallback(
+			final AsyncOperation<GeoElementND[]> afterEvalCb) {
 		final AsyncOperation<GeoElementND[]>  evalCb = evaluationCallback(false);
 		return new AsyncOperation<GeoElementND[]>() {
 

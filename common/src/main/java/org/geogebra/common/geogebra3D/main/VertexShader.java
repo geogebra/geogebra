@@ -159,7 +159,6 @@ public class VertexShader {
 
 					+ "}";
 
-
 	/**
 	 * @param isHTML5
 	 *            whether to skip the desktop prefix

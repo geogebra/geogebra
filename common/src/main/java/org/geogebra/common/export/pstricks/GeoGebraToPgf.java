@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.commons.math3.fraction.Fraction;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPathIterator;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawPoint;
@@ -36,7 +34,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -50,6 +47,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -1456,6 +1454,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(cycle);
 	}
 
+	@Override
 	protected String getLineTemplate(GeoElementND geo) {
 		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
@@ -2589,395 +2588,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	/**
-	 * Generate the PGF/TikZ code for Axis drawing
-	 */
-
-	private void drawAxis() {
-		GColor color = euclidianView.getAxesColor();
-		// Drawing X Axis
-		boolean showAxis = euclidianView.getShowXaxis();
-		String[] label = euclidianView.getAxesLabels(false);
-		if (ymin > 0 || ymax < 0) {
-			showAxis = false;
-		}
-		double spaceTick = euclidianView.getAxesNumberingDistances()[0];
-		boolean showNumbers = euclidianView.getShowAxesNumbers()[0];
-		int tickStyle = euclidianView.getAxesTickStyles()[0];
-		if (showAxis) {
-
-			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
-			colorCode(color, codeBeginDoc);
-			codeBeginDoc.append("] ");
-			boolean[] positiveOnly = euclidianView.getPositiveAxes();
-			double assignMax = xmin;
-			if (positiveOnly[0]) {
-				assignMax = 0;
-			}
-			writePoint(assignMax, 0, codeBeginDoc);
-			codeBeginDoc.append(" -- ");
-			writePoint(xmax, 0, codeBeginDoc);
-			codeBeginDoc.append(";\n");
-
-			int x1 = (int) (assignMax / spaceTick);
-			int xstartInt = x1;
-			double xstart = x1 * spaceTick;
-			StringBuilder tmp = new StringBuilder();
-			while (xstart < xmax) {
-				if (Math.abs(xstart) > 0.1) {
-					tmp.append(format(xstart));
-				}
-				xstart += spaceTick;
-				x1++;
-				if (xstart < xmax && Math.abs(xstart) > 0.1) {
-					tmp.append(",");
-				}
-			}
-			StringBuilder buffer = new StringBuilder();
-			buffer.append("\\foreach \\x in {");
-			buffer.append(tmp);
-			buffer.append("}\n");
-			buffer.append("\\draw[shift={(\\x,0)},color=");
-			colorCode(color, buffer);
-			StringBuilder ticks = new StringBuilder();
-			if (tickStyle != EuclidianStyleConstants.AXES_TICK_STYLE_NONE) {
-				ticks.append("] (0pt,2pt) -- (0pt,-2pt)");
-			} else {
-				ticks.append("] (0pt,-2pt)");
-			}
-			if (showNumbers) {
-				String[] units = euclidianView.getAxesUnitLabels();
-				if (hasMeasureUnit(units, spaceTick, 0)) {
-					String unit = getUnit(units, spaceTick, 0);
-					// case degrees mm etc.
-					if (!unit.contains("p")) {
-						codeBeginDoc.append(buffer);
-						codeBeginDoc.append(ticks);
-						codeBeginDoc.append(" node[below] {");
-						if (unit.contains("c")) {
-							codeBeginDoc.append(footnotesize("\\x" + unit));
-						} else {
-							codeBeginDoc.append(footnotesize("\\x") + unit);
-						}
-						codeBeginDoc.append("};\n");
-					} else {
-						// case pi
-						if (!unit.contains("2")) {
-							for (int i = xstartInt; i < x1; i++) {
-								if (i != 0) {
-									codeBeginDoc.append("\\draw[shift={("
-											+ (i * Math.PI) + ",0)},color=");
-									colorCode(color, codeBeginDoc);
-									codeBeginDoc.append(ticks);
-									codeBeginDoc.append(" node[below] {");
-									if (i == -1) {
-										codeBeginDoc.append(
-												footnotesize("-" + unit));
-									} else {
-										if (i == 1) {
-											codeBeginDoc
-													.append(footnotesize(unit));
-										} else {
-											codeBeginDoc.append(
-													footnotesize(i + unit));
-										}
-									}
-									codeBeginDoc.append("};\n");
-								}
-							}
-						} else {
-							// case pi/2
-							for (int i = xstartInt; i < x1; i++) {
-								if (i != 0) {
-									codeBeginDoc.append("\\draw[shift={("
-											+ (i * Math.PI / 2)
-											+ ",0)},color=");
-									colorCode(color, codeBeginDoc);
-									codeBeginDoc.append(ticks);
-									codeBeginDoc.append(" node[below] {");
-									if (i == -1) {
-										codeBeginDoc.append(
-												footnotesize("-" + unit));
-									} else {
-										if (i == 1) {
-											codeBeginDoc
-													.append(footnotesize(unit));
-										} else {
-											Fraction f = new Fraction(i, 2);
-											if (f.doubleValue() == -1) {
-												codeBeginDoc.append(
-														footnotesize("-\\pi"));
-											} else {
-												if (f.doubleValue() == 1) {
-													codeBeginDoc
-															.append(footnotesize(
-																	"\\pi"));
-												} else {
-													String foot = ""
-															+ f.getNumerator()
-															+ "\\pi";
-													if (f.getDenominator() != 1) {
-														foot += "/" + f
-																.getDenominator();
-													}
-													codeBeginDoc.append(
-															footnotesize(foot));
-												}
-											}
-										}
-									}
-									codeBeginDoc.append("};\n");
-								}
-							}
-						}
-					}
-				} else {
-					codeBeginDoc.append(buffer);
-					codeBeginDoc.append(ticks);
-					codeBeginDoc.append(" node[below] {");
-					codeBeginDoc.append(footnotesize("\\x"));
-					codeBeginDoc.append("};\n");
-				}
-			} else {
-				codeBeginDoc.append(buffer);
-				codeBeginDoc.append(ticks);
-				codeBeginDoc.append(";\n");
-			}
-			// Draw Label on X Axis
-			if (null != label[0]) {
-				codeBeginDoc.append("\\draw[color=");
-				colorCode(color, codeBeginDoc);
-				codeBeginDoc.append("] ");
-
-				int width = (int) Math.ceil(StringUtil.getPrototype()
-						.estimateLength(label[0], euclidianView.getFont()));
-				GRectangle rect = euclidianView.getSelectionRectangle();
-				double x = euclidianView.toRealWorldCoordX(
-						euclidianView.getWidth() - 10 - width);
-				if (rect != null) {
-					x = euclidianView
-							.toRealWorldCoordX(rect.getMaxX() - 10 - width);
-				}
-				double y = euclidianView
-						.toRealWorldCoordY(euclidianView.getYZero() - 4);
-				writePoint(x, y, codeBeginDoc);
-				codeBeginDoc.append(" node [anchor=south west] { ");
-				codeBeginDoc.append(label[0]);
-				codeBeginDoc.append("};\n");
-			}
-		}
-		// Drawing Y Axis
-		showAxis = euclidianView.getShowYaxis();
-		if (xmin > 0 || xmax < 0) {
-			showAxis = false;
-		}
-		spaceTick = euclidianView.getAxesNumberingDistances()[1];
-		showNumbers = euclidianView.getShowAxesNumbers()[1];
-		tickStyle = euclidianView.getAxesTickStyles()[1];
-		if (showAxis) {
-			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
-			colorCode(color, codeBeginDoc);
-			codeBeginDoc.append("] ");
-			boolean[] positiveOnly = euclidianView.getPositiveAxes();
-			double assignMax = ymin;
-			if (positiveOnly[0]) {
-				assignMax = 0;
-			}
-			writePoint(0, assignMax, codeBeginDoc);
-			codeBeginDoc.append(" -- ");
-			writePoint(0, ymax, codeBeginDoc);
-			codeBeginDoc.append(";\n");
-			int y1 = (int) (assignMax / spaceTick);
-			int ystartInt = y1;
-			double ystart = y1 * spaceTick;
-			StringBuilder tmp = new StringBuilder();
-			while (ystart < ymax) {
-				if (Math.abs(ystart) > 0.1) {
-					tmp.append(format(ystart));
-				}
-				ystart += spaceTick;
-				y1++;
-				if (ystart < ymax && Math.abs(ystart) > 0.1) {
-					tmp.append(",");
-				}
-			}
-			StringBuilder buffer = new StringBuilder();
-			buffer.append("\\foreach \\y in {");
-			buffer.append(tmp);
-			buffer.append("}\n");
-			buffer.append("\\draw[shift={(0,\\y)},color=");
-			colorCode(color, buffer);
-			StringBuilder ticks = new StringBuilder();
-			if (tickStyle != EuclidianStyleConstants.AXES_TICK_STYLE_NONE) {
-				ticks.append("] (2pt,0pt) -- (-2pt,0pt)");
-			} else {
-				ticks.append("] (-2pt,0pt)");
-			}
-			if (showNumbers) {
-				String[] units = euclidianView.getAxesUnitLabels();
-				if (hasMeasureUnit(units, spaceTick, 1)) {
-					String unit = getUnit(units, spaceTick, 1);
-					// case degrees mm etc.
-					if (!unit.contains("p")) {
-						codeBeginDoc.append(buffer);
-						codeBeginDoc.append(ticks);
-						codeBeginDoc.append(" node[left] {");
-						if (unit.contains("c")) {
-							codeBeginDoc.append(footnotesize("\\y" + unit));
-						} else {
-							codeBeginDoc.append(footnotesize("\\y") + unit);
-						}
-						codeBeginDoc.append("};\n");
-					} else {
-						// case pi
-						if (!unit.contains("2")) {
-							for (int i = ystartInt; i < y1; i++) {
-								if (i != 0) {
-									codeBeginDoc.append("\\draw[shift={(0,"
-											+ (i * Math.PI) + ")},color=");
-									colorCode(color, codeBeginDoc);
-									codeBeginDoc.append(ticks);
-									codeBeginDoc.append(" node[left] {");
-									if (i == -1) {
-										codeBeginDoc.append(
-												footnotesize("-" + unit));
-									} else {
-										if (i == 1) {
-											codeBeginDoc
-													.append(footnotesize(unit));
-										} else {
-											codeBeginDoc.append(
-													footnotesize(i + unit));
-										}
-									}
-									codeBeginDoc.append("};\n");
-								}
-							}
-						} else {
-							// case pi/2
-							for (int i = ystartInt; i < y1; i++) {
-								if (i != 0) {
-									codeBeginDoc.append("\\draw[shift={(0,"
-											+ (i * Math.PI / 2) + ")},color=");
-									colorCode(color, codeBeginDoc);
-									codeBeginDoc.append(ticks);
-									codeBeginDoc.append(" node[left] {");
-									if (i == -1) {
-										codeBeginDoc.append(
-												footnotesize("-" + unit));
-									} else {
-										if (i == 1) {
-											codeBeginDoc
-													.append(footnotesize(unit));
-										} else {
-											Fraction f = new Fraction(i, 2);
-											if (f.doubleValue() == -1) {
-												codeBeginDoc.append(
-														footnotesize("-\\pi"));
-											} else {
-												if (f.doubleValue() == 1) {
-													codeBeginDoc
-															.append(footnotesize(
-																	"\\pi"));
-												} else {
-													String foot = ""
-															+ f.getNumerator()
-															+ "\\pi";
-													if (f.getDenominator() != 1) {
-														foot += "/" + f
-																.getDenominator();
-													}
-													codeBeginDoc.append(
-															footnotesize(foot));
-												}
-											}
-										}
-									}
-									codeBeginDoc.append("};\n");
-								}
-							}
-						}
-					}
-				} else {
-					codeBeginDoc.append(buffer);
-					codeBeginDoc.append(ticks);
-					codeBeginDoc.append(" node[left] {");
-					codeBeginDoc.append(footnotesize("\\y"));
-					codeBeginDoc.append("};\n");
-				}
-			} else {
-				codeBeginDoc.append(buffer);
-				codeBeginDoc.append(ticks);
-				codeBeginDoc.append(";\n");
-			}
-			// Draw Label on Y Axis
-			if (null != label[1]) {
-				codeBeginDoc.append("\\draw[color=");
-				colorCode(color, codeBeginDoc);
-				codeBeginDoc.append("] ");
-				int height = (int) Math.ceil(StringUtil.getPrototype()
-						.estimateHeight(label[1], euclidianView.getFont()));
-				GRectangle rect = euclidianView.getSelectionRectangle();
-				double x = euclidianView
-						.toRealWorldCoordX(euclidianView.getXZero() + 5);
-				double y = euclidianView.toRealWorldCoordY(5 + height);
-				if (rect != null) {
-					y = euclidianView
-							.toRealWorldCoordY(rect.getMinY() + 5 + height);
-				}
-				writePoint(x, y, codeBeginDoc);
-				codeBeginDoc.append(" node [anchor=west] { ");
-				codeBeginDoc.append(label[1]);
-				codeBeginDoc.append("};\n");
-			}
-		}
-		// Origin
-		boolean notOrigin = ((xmax < 0 || xmin > 0) || (ymax < 0 || ymin > 0));
-		if (!notOrigin && (euclidianView.getShowAxesNumbers()[0]
-				|| euclidianView.getShowAxesNumbers()[1])) {
-
-			codeBeginDoc.append("\\draw[color=");
-			colorCode(color, codeBeginDoc);
-			// append the origin
-			codeBeginDoc.append("] (0pt,-10pt) node[right] {");
-			codeBeginDoc.append(footnotesize("0"));
-			codeBeginDoc.append("};\n");
-		}
-	}
-
-	private static String getUnit(String[] units, double spaceTick, int xy) {
-		// TODO Auto-generated method stub
-		if (spaceTick == Math.PI / 2) {
-			return "\\pi/2";
-		}
-		if (spaceTick == Math.PI || units[xy].charAt(0) == 0x03c0) {
-			return "\\pi";
-		}
-		if (units[xy].charAt(0) == 0x00b0) {
-			return "^\\circ";
-		}
-		return units[xy];
-	}
-
-	private static boolean hasMeasureUnit(String[] units, double spaceTick,
-			int xy) {
-		// TODO Auto-generated method stub
-		return (units != null && units[xy] != null && units[xy].length() != 0)
-				|| spaceTick == Math.PI || spaceTick == Math.PI / 2;
-	}
-
-	private String footnotesize(String s) {
-		if (format == GeoGebraToPgf.FORMAT_LATEX) {
-			return "\\footnotesize $" + s + "$";
-		} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
-			return "\\tfx $" + s + "$";
-		} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-			return "$" + s + "$";
-		}
-		return s;
-
-	}
-
-	/**
 	 * A util method adds point coordinates to a StringBuilder
 	 * 
 	 * @param x
@@ -3299,20 +2909,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	@Override
 	protected StringTemplate getStringTemplate() {
 		return StringTemplate.get(StringType.PGF);
-	}
-
-	private String handleAxesStyle() {
-		String styleAx = "";
-		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_RIGHT_ARROW) > 0) {
-			styleAx = "->,";
-		}
-		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_LEFT_ARROW) > 0) {
-			styleAx = "<" + styleAx;
-		}
-		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_BOLD) > 0) {
-			styleAx += "ultra thick,";
-		}
-		return styleAx;
 	}
 
 	/*

@@ -42,6 +42,7 @@ import org.geogebra.common.plugin.Geometry3DGetter;
 public abstract class App3DCompanion extends AppCompanion {
 	// id of the first view
 	private int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
+	/** view for plane companions */
 	protected ArrayList<EuclidianViewForPlaneCompanion> euclidianViewForPlaneCompanionList;
 
 	private EuclidianViewForPlaneCompanion euclidianViewForPlaneCompanion;
@@ -117,6 +118,8 @@ public abstract class App3DCompanion extends AppCompanion {
 	 *            plane
 	 * @param evSettings
 	 *            settings
+	 * @param panelSettings
+	 *            whether to set the visibility and size of the panel
 	 * @return view companion
 	 */
 	protected abstract EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
@@ -288,6 +291,11 @@ public abstract class App3DCompanion extends AppCompanion {
 		viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
+	/**
+	 * Increment view ID and return the old one
+	 * 
+	 * @return next view ID
+	 */
 	public int incViewID() {
 		return viewId++;
 	}

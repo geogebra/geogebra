@@ -2101,7 +2101,6 @@ public abstract class Renderer {
 		// only in Desktop; Web uses canvas methods
 	}
 
-	
 	/**
 	 * says that we need an export image with scale, width and height
 	 *
