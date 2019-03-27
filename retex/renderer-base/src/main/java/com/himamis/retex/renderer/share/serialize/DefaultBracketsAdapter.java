@@ -7,7 +7,7 @@ public class DefaultBracketsAdapter implements BracketsAdapterI {
 		if (sub.length() > 1) {
 			return "_{" + sub + "}";
 		}
-		return sub;
+		return "_" + sub;
 	}
 
 	@Override
