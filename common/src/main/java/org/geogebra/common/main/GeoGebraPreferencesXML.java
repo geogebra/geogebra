@@ -1,7 +1,6 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 
 /**
  * @author michael
@@ -44,11 +43,7 @@ public class GeoGebraPreferencesXML {
 				+ "<settings ignoreDocument=\"false\" showTitleBar=\"true\" />"
 				+ "<labelingStyle val=\""
 
-				+ (app.isUnbundled()
-						? (app.getSettings().getToolbarSettings()
-												.getType() == AppType.GRAPHING_CALCULATOR
-										? 1 : 0)
-						: 0)
+				+ app.getConfig().getDefaultLabelingStyle()
 				+ "\"/>"
 				+ "<font  size=\""
 

@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -175,6 +176,11 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public String getDefaultSearchTag() {
 		return "ft.phone-2d";
+	}
+
+	@Override
+	public int getDefaultLabelingStyle() {
+		return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON;
 	}
 
 }

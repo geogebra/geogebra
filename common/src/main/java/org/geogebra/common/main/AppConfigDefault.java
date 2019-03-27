@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 
@@ -174,6 +175,11 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public String getDefaultSearchTag() {
 		return "";
+	}
+
+	@Override
+	public int getDefaultLabelingStyle() {
+		return ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC;
 	}
 
 }

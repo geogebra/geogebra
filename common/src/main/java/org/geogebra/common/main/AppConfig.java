@@ -126,4 +126,9 @@ public interface AppConfig {
 	 */
 	String getDefaultSearchTag();
 
+	/**
+	 * @return labeling style
+	 */
+	int getDefaultLabelingStyle();
+
 }

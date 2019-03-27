@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -28,7 +29,6 @@ public class AppConfigGeometry implements AppConfig {
 			dp.makeVisible();
 			dp.setLocation("1");
 		}
-
 	}
 
 	@Override
@@ -179,6 +179,11 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public String getDefaultSearchTag() {
 		return "ft.phone-2d";
+	}
+
+	@Override
+	public int getDefaultLabelingStyle() {
+		return ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	}
 
 }
