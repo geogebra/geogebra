@@ -22,7 +22,7 @@ import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.serialize.BracketsAdapter;
+import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 public class SerializeLaTeX {
@@ -240,9 +240,9 @@ public class SerializeLaTeX {
 	@Test
 	public void testParseLaTeXAdapter() {
 		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)",
-				new BracketsAdapter());
+				new ListBracketsAdapter());
 		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
-				"a=Sequence[0.8,4,1.2-(0.8)]", new BracketsAdapter());
+				"a=Sequence[0.8,4,1.2-(0.8)]", new ListBracketsAdapter());
 	}
 
 	@Test
@@ -445,7 +445,7 @@ public class SerializeLaTeX {
 	}
 
 	private static void checkLaTeX(String string, String string2,
-			BracketsAdapter ad) {
+			ListBracketsAdapter ad) {
 		TeXFormula tf = new TeXFormula(string);
 		// TeXParser tp = new TeXParser(string);
 		// tp.parse();

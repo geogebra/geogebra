@@ -1616,7 +1616,8 @@ public class GeoText extends GeoElement
 					.checkFirstCall(kernel.getApplication());
 			// TeXAtomSerializer makes formula human readable.
 			TeXFormula tf = new TeXFormula(getTextString());
-			ret = new TeXAtomSerializer(null).serialize(tf.root);
+			ret = new TeXAtomSerializer(new ScreenReaderBracketsAdapter())
+					.serialize(tf.root);
 		} else {
 			ret = getTextString();
 		}

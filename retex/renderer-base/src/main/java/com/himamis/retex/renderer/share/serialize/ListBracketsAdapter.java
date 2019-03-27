@@ -4,17 +4,9 @@ package com.himamis.retex.renderer.share.serialize;
  * Transforms brackets in expression
  *
  */
-public class BracketsAdapter {
+public class ListBracketsAdapter extends DefaultBracketsAdapter {
 
-	/**
-	 * @param left
-	 *            left bracket (LaTeX)
-	 * @param base
-	 *            content
-	 * @param right
-	 *            right bracket (LaTeX)
-	 * @return content wrapped in brackets
-	 */
+	@Override
 	public String transformBrackets(String left, String base, String right) {
 		if ("[".equals(left) && base.contains("...")) {
 			String[] parts = base.split(",");

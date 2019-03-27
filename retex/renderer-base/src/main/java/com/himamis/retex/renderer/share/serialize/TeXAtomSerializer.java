@@ -28,14 +28,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  *
  */
 public class TeXAtomSerializer {
-	private BracketsAdapter adapter;
+	private BracketsAdapterI adapter;
 
 	/**
 	 * @param ad
 	 *            adapter
 	 */
-	public TeXAtomSerializer(BracketsAdapter ad) {
-		this.adapter = ad;
+	public TeXAtomSerializer(BracketsAdapterI ad) {
+		this.adapter = ad == null ? new DefaultBracketsAdapter() : ad;
 	}
 
 	/**
@@ -76,9 +76,6 @@ public class TeXAtomSerializer {
 			String left = serialize(ch.getLeft());
 			String right = serialize(ch.getRight());
 			String base = serialize(ch.getTrueBase());
-			if (adapter == null) {
-				return left + base + right;
-			}
 			return adapter.transformBrackets(left, base, right);
 		}
 		if (root instanceof SpaceAtom) {
@@ -180,10 +177,7 @@ public class TeXAtomSerializer {
 		StringBuilder sb = new StringBuilder(serialize(script.getTrueBase()));
 		if (script.getSub() != null) {
 			String sub = serialize(script.getSub());
-			// for screen reader DON'T want braces
-			// ie a_bc not a_{bc}
-			sb.append("_");
-			sb.append(sub);
+			sb.append(adapter.subscriptContent(sub));
 		}
 		if (script.getSup() != null) {
 			sb.append("^(");

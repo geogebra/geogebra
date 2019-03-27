@@ -58,7 +58,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.serialize.BracketsAdapter;
+import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
@@ -1084,7 +1084,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		TeXFormula tf = new TeXFormula(input);
 		// TeXParser tp = new TeXParser(input, tf);
 		// tp.parse();
-		BracketsAdapter ad = mode == 1 ? new BracketsAdapter() : null;
+		ListBracketsAdapter ad = mode == 1 ? new ListBracketsAdapter() : null;
 		evalCommand(new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 

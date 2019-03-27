@@ -74,6 +74,7 @@ public class AuralTextTest {
 	@Test
 	public void textAural() {
 		aural("LaTeX(\"a+\\mathbf{x^2}\")", "a+x^(2)", "edit");
+		aural("LaTeX(\"a_{bcd}\")", "a subscript bcd", "edit");
 		aural("LaTeX(\"\\sqrt{x}\")", "sqrt(x)", "edit");
 		aural("LaTeX(\"\\sqrt[3]{x}\")", "nroot(x,3)", "edit");
 		aural("LaTeX(\"\\frac{x}{2}\")", "(x)/(2)", "edit");
