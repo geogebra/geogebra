@@ -52,7 +52,6 @@ public class ToolbarDockPanelW extends DockPanelW
 		 	toolbarSettings.setType(ToolCategorization.AppType.GEOMETRY_CALC);
 			toolbarSettings.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 		}
-		app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 		toolbar = new ToolbarPanel(app);
 		setToolMode(toolMode);
 		return toolbar;
