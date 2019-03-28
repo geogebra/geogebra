@@ -20,6 +20,7 @@ DEVELOPERS
   * Laszlo Gal (Hungary 2013-)
   * Alicia Hofstaetter (Austria 2016-)
   * Fabian Jordan (Austria 2016-)
+  * Barna Karacsony (Romania 2017-)
   * Zbynek Konecny (Czech Republic 2010-)
   * Zoltan Kovacs (Austria 2010-)
   * Wolfgang Kuellinger (Austria 2014-)
@@ -27,7 +28,6 @@ DEVELOPERS
   * Stefan Lizelfelner (Austria 2013-)
   * Bernard Parisse (France 2013-)
   * Csilla Solyom-Gecse (Austria 2015-)
-  * Christoph Stadlbauer (Austria 2011-)
   * Melanie Tomaschko (Austria 2011-)
 
 CONTRIBUTORS
@@ -53,6 +53,7 @@ CONTRIBUTORS
   * Ann-Christin Holzinger (Austria 2015)
   * Henrietta Hoszu (Romania 2016)
   * Rana Issa (Austria 2011-12)
+  * Hunor Karaman (Romania 2018-)
   * Ted Kosan (USA 2008-09)
   * Thomas Krismayer (Austria 2012-16)
   * Yi-Chun (Jacky) Kuo (GSoC 2015)
@@ -72,6 +73,7 @@ CONTRIBUTORS
   * Christian Schott (Germany 2011-13)
   * Neel Shah (India 2012)
   * Florian Sonner (Germany 2008-12)
+  * Christoph Stadlbauer (Austria 2011-16)
   * George Sturr (USA 2009-15)
   * Don Sun (USA 2011)
   * Kai Chung Tam (USA 2011-12)
