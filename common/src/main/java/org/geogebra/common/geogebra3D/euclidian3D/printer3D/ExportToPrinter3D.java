@@ -56,8 +56,6 @@ public class ExportToPrinter3D {
 
 	private StringBuilder sb;
 
-	private Coords center = null;
-
 	private boolean reverse = false;
 
 	private double xInvScale;
@@ -214,11 +212,6 @@ public class ExportToPrinter3D {
 	 *            export object type
 	 */
 	public void export(Drawable3D d, Type type) {
-		if (type == Type.POINT) {
-		    center = null;
-		} else {
-			center = null;
-		}
 		GeoElement geo = d.getGeoElement();
 		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
 				geo);
@@ -774,12 +767,6 @@ public class ExportToPrinter3D {
 		double x = x0;
 		double y = y0;
 		double z = z0;
-		if (center != null) {
-			double r = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR;
-			x = center.getX() + x * r;
-			y = center.getY() + y * r;
-			z = center.getZ() + z * r;
-		}
 		if (notFirst) {
 			format.getVerticesSeparator(sb);
 		}
