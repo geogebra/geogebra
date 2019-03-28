@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.layout.panels;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.full.gui.layout.DockPanelW;

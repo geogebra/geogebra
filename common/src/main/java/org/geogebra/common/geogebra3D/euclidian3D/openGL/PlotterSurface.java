@@ -222,7 +222,7 @@ public class PlotterSurface {
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 		
-		if (shouldPackConics(d)) {
+		if (shouldPackConics()) {
 			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1),
 					tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
@@ -230,7 +230,7 @@ public class PlotterSurface {
 		manager.vertexToScale(p1);
 		manager.vertexToScale(p3);
 		manager.vertexToScale(p2);
-		endGeometryForConics(d, 1, TypeElement.TRIANGLE_STRIP);
+		endGeometryForConics(1, TypeElement.TRIANGLE_STRIP);
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class PlotterSurface {
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 
-		if (shouldPackConics(d)) {
+		if (shouldPackConics()) {
 			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1),
 					tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
@@ -265,7 +265,7 @@ public class PlotterSurface {
 		manager.vertexToScale(p2);
 		manager.vertexToScale(p4);
 		manager.vertexToScale(p3);
-		endGeometryForConics(d, 2, TypeElement.TRIANGLE_STRIP);
+		endGeometryForConics(2, TypeElement.TRIANGLE_STRIP);
 	}
 
 	/**
@@ -1216,7 +1216,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(m);
 		}
 
-		endGeometryForConics(d, longitude, TypeElement.TRIANGLE_FAN);
+		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	/**
@@ -1571,7 +1571,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		endGeometryForConics(d, longitude, TypeElement.TRIANGLE_FAN);
+		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	/**
@@ -1635,7 +1635,7 @@ public class PlotterSurface {
 			manager.triangleFanVertex(center.add(m1));
 		}
 
-		endGeometryForConics(d, longitude, TypeElement.TRIANGLE_FAN);
+		endGeometryForConics(longitude, TypeElement.TRIANGLE_FAN);
 	}
 
 	private void drawQuad(int ui, int vi) {
@@ -1731,13 +1731,13 @@ public class PlotterSurface {
 		return TEXTURE_FADE_IN;
 	}
 
-	private boolean shouldPackConics(Drawable3D d) {
+	private boolean shouldPackConics() {
 		return manager.packBuffers();
 	}
 
-	private void endGeometryForConics(Drawable3D d, int longitude,
+	private void endGeometryForConics(int longitude,
 			TypeElement type) {
-		if (shouldPackConics(d)) {
+		if (shouldPackConics()) {
 			manager.endGeometry(longitude, type);
 		} else {
 			manager.endGeometry();
