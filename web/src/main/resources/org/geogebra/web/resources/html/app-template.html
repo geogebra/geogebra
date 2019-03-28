@@ -51,17 +51,26 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		}
 		document.title = title;
 	}
-	function perspective(id, name){		
+
+	function appSupportsPerspective(idString){
+		if (!window.appID || window.appID == "classic") {
+			return true;
+		}
+		// only search supported in unbundled apps & notes
+		return idString.substring(0,6) == "search";
+	}
+
+	function perspective(id, name){
 		if(e("ggw")){			
 			e("ggw").className="geogebraweb";
 
 			e("ggw").setAttribute("data-param-appname", window.appID || "classic");
 
 			if(id){
-				if((id+"").substring(0,4) == "exam") {
+				if ((id+"").substring(0,4) == "exam") {
 					e("ggw").setAttribute("data-param-enableGraphing","true");
 				}
-				if (!window.appID || window.appID == "classic" || (id+"").substring(0,6) == "search") {
+				if (appSupportsPerspective(id + "")) {
 					e("ggw").setAttribute("data-param-perspective", id);
 					if (c("mowToolbar")) {
 						c("mowToolbar").style.display = "none";

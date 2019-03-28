@@ -9,7 +9,6 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -220,11 +219,10 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	}
 
 	/**
-	 * @param asyncOperation
-	 *            callback after passive login is done
+	 * Initiate login without user interaction, does not need token
 	 */
-	public void passiveLogin(AsyncOperation<Boolean> asyncOperation) {
-		asyncOperation.callback(true);
+	public void passiveLogin() {
+		// hidden frame needs opening for e.g. Shibboleth
 	}
 
 }

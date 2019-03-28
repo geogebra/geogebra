@@ -1,7 +1,5 @@
 package org.geogebra.web.shared.ggtapi;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
@@ -10,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -32,7 +29,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class LoginOperationW extends LogInOperation {
 	private AppW app;
 	private BackendAPI api;
-	private ArrayList<AsyncOperation<Boolean>> passiveLoginListeners = new ArrayList<>();
 
 	private class EventViewW extends BaseEventView {
 		@Override
@@ -62,6 +58,15 @@ public class LoginOperationW extends LogInOperation {
 		iniNativeEvents();
 	}
 
+	/**
+	 * Handles message from login frame
+	 * <ul>
+	 * <li>logintoken: we got token from Tube backend
+	 * <li>logincookie: user initiated login, uses cookies rather than tokens
+	 * (MOW)
+	 * <li>loginpassive: passive login, uses cookies
+	 * </ul>
+	 */
 	private native void iniNativeEvents() /*-{
 		var t = this;
 		$wnd
@@ -77,11 +82,8 @@ public class LoginOperationW extends LogInOperation {
 									if (data.action === "logintoken") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
 									}
-									if (data.action === "logincookie") {
-										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie()();
-									}
-									if (data.action === "loginpassive") {
-										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::firePassiveLogin()();
+									if (data.action === "logincookie" || data.action === "loginpassive") {
+										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie(Z)(data.action === "loginpassive");
 									}
 								} catch (err) {
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + JSON.stringify(event.data));
@@ -133,9 +135,9 @@ public class LoginOperationW extends LogInOperation {
 		performTokenLogin(token, false);
 	}
 
-	private void processCookie() {
+	private void processCookie(boolean passive) {
 		Log.debug("COOKIE LOGIN");
-		doPerformTokenLogin(new GeoGebraTubeUser(""), false);
+		doPerformTokenLogin(new GeoGebraTubeUser(""), passive);
 	}
 
 	@Override
@@ -152,24 +154,16 @@ public class LoginOperationW extends LogInOperation {
 	}
 
 	@Override
-	public void passiveLogin(final AsyncOperation<Boolean> asyncOperation) {
+	public void passiveLogin() {
 		if (StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
-			asyncOperation.callback(true);
+			processCookie(true);
 			return;
 		}
 		final Frame fr = new Frame();
-		passiveLoginListeners.add(asyncOperation);
 		fr.setVisible(false);
 		fr.setUrl(
 				app.getArticleElement().getParamLoginURL()
 						+ "%3FisPassive=true&isPassive=true");
 		RootPanel.get().add(fr);
-	}
-
-	private void firePassiveLogin() {
-		for (AsyncOperation<Boolean> loginListener : passiveLoginListeners) {
-			loginListener.callback(true);
-		}
-		passiveLoginListeners.clear();
 	}
 }
