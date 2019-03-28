@@ -10,6 +10,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
@@ -239,9 +240,10 @@ public abstract class Renderer {
 	/**
      * @param ret Hitting Direction from AR. Override in RendererWithImplA
 	 */
-	public void getHittingDirectionAR(Coords ret) {
-		// nothing to do here
-	}
+    public void getHittingDirectionAR(Coords ret) {
+        fromARCoreCoordsToGGBCoords(getARManager().getHittingDirection(), ret);
+        ret.normalize();
+    }
 
 	/**
 	 * @param ret
@@ -2248,5 +2250,13 @@ public abstract class Renderer {
 	 * Restart AR session.
 	 */
 	abstract public void setARShouldRestart();
+
+    /**
+     *
+     * @return AR manager (can be null)
+     */
+	protected ARManagerInterface getARManager() {
+	    return null;
+    }
 
 }

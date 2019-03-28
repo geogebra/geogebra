@@ -2,6 +2,7 @@ package org.geogebra.arbase;
 
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -9,7 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
-abstract public class ARManager<TouchEventType> {
+abstract public class ARManager<TouchEventType> implements ARManagerInterface<TouchEventType> {
 
     protected CoordMatrix4x4 viewMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
@@ -121,8 +122,6 @@ abstract public class ARManager<TouchEventType> {
     abstract public void setHittingOriginAndDirection(float x, float y);
 
     abstract public void setHittingOriginAndDirectionFromScreenCenter();
-
-    abstract public void proceed(TouchEventType event);
 
     protected void wrapMouseMoved(int x, int y) {
 
