@@ -1220,8 +1220,6 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * @param drawable
-	 *            drawable
 	 * @param center
 	 *            center
 	 * @param vx
@@ -1244,9 +1242,9 @@ public class PlotterSurface {
 	 *            fading
 	 * @return center of the bottom
 	 */
-	public Coords cone(Drawable3D drawable, Coords center, Coords vx, Coords vy,
-			Coords vz, double r1, double r2, double start, double extent,
-			double height, float fading) {
+	public Coords cone(Coords center, Coords vx, Coords vy,
+                       Coords vz, double r1, double r2, double start, double extent,
+                       double height, float fading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		int longitude = manager.getLongitudeDefault();
@@ -1307,8 +1305,6 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * @param drawable
-	 *            drawable
 	 * @param center
 	 *            center
 	 * @param vx
@@ -1335,10 +1331,10 @@ public class PlotterSurface {
 	 *            use fading for max
 	 * @return centers
 	 */
-	public Coords[] cone(Drawable3D drawable, Coords center, Coords vx,
-			Coords vy, Coords vz,
-			double r1, double r2, double start, double extent, double min,
-			double max, boolean minFading, boolean maxFading) {
+	public Coords[] cone(Coords center, Coords vx,
+                         Coords vy, Coords vz,
+                         double r1, double r2, double start, double extent, double min,
+                         double max, boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		int longitude = manager.getLongitudeDefault();
@@ -1422,7 +1418,6 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * @param drawable TODO
 	 * @param center
 	 *            center
 	 * @param vx
@@ -1451,10 +1446,10 @@ public class PlotterSurface {
 	 *            longitude
 	 * @return center at max height
 	 */
-	public Coords[] cylinder(Drawable3D drawable, Coords center, Coords vx,
-			Coords vy,
-			Coords vz, double r1, double r2, double start, double extent,
-			double min, double max, boolean minFading, boolean maxFading, int longitude) {
+	public Coords[] cylinder(Coords center, Coords vx,
+                             Coords vy,
+                             Coords vz, double r1, double r2, double start, double extent,
+                             double min, double max, boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		float c, s;

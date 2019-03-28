@@ -713,7 +713,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			Coords ev2 = quadric.getEigenvec3D(1);
 			double radius = quadric.getHalfAxis(0);
 			double radius2 = quadric.getHalfAxis(1);
-			Coords bottomCenter = surface.cone(this, top, ev1,
+			Coords bottomCenter = surface.cone(top, ev1,
 					ev2, quadric.getEigenvec3D(2), radius, radius2, 0,
 					2 * Math.PI, height, 1f);
 
@@ -746,21 +746,21 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			boundsMax.set(Double.NEGATIVE_INFINITY);
 			if (min * max < 0) {
 				if (getView3D().useClippingCube()) {
-					Coords bottomCenter = surface.cone(this, center, ev1, ev2,
+					Coords bottomCenter = surface.cone(center, ev1, ev2,
 							ev3, r1, r2, 0, 2 * Math.PI, min, 1f);
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
 							ev1, ev2, r1 * min, r2 * min);
-					bottomCenter = surface.cone(this, center, ev1, ev2, ev3, r1,
+					bottomCenter = surface.cone(center, ev1, ev2, ev3, r1,
 							r2, 0, 2 * Math.PI, max, 1f);
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
 							ev1, ev2, r1 * max, r2 * max);
 				} else {
-					Coords bottomCenter = surface.cone(this, center, ev1, ev2,
+					Coords bottomCenter = surface.cone(center, ev1, ev2,
 							ev3, r1, r2, 0, 2 * Math.PI, min,
 							(float) ((-9 * min - max) / (min - max)));
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
 							ev1, ev2, r1 * min, r2 * min);
-					bottomCenter = surface.cone(this, center, ev1, ev2, ev3, r1,
+					bottomCenter = surface.cone(center, ev1, ev2, ev3, r1,
 							r2, 0, 2 * Math.PI, max,
 							(float) ((-9 * max - min) / (max - min)));
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
@@ -768,7 +768,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				}
 			} else {
 				if (getView3D().useClippingCube()) {
-					Coords[] centers = surface.cone(this, center, ev1, ev2, ev3,
+					Coords[] centers = surface.cone(center, ev1, ev2, ev3,
 							r1, r2, 0, 2 * Math.PI, min, max, false, false);
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0],
 							ev1, ev2, r1 * min, r2 * min);
@@ -776,14 +776,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 							ev1, ev2, r1 * max, r2 * max);
 				} else {
 					double delta = (max - min) / 10;
-					surface.cone(this, center, ev1, ev2, ev3, r1, r2, 0,
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, min + delta, max - delta, false, false);
-					Coords[] centers = surface.cone(this, center, ev1, ev2, ev3,
+					Coords[] centers = surface.cone(center, ev1, ev2, ev3,
 							r1, r2, 0,
 							2 * Math.PI, min, min + delta, true, false);
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0],
 							ev1, ev2, r1 * min, r2 * min);
-					centers = surface.cone(this, center, ev1, ev2, ev3, r1, r2,
+					centers = surface.cone(center, ev1, ev2, ev3, r1, r2,
 							0,
 							2 * Math.PI, max - delta, max, false, true);
 					enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1],
@@ -894,7 +894,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			double radius2 = quadric.getHalfAxis(1);
 			longitude = renderer.getGeometryManager().getLongitude(radius,
 					getView3D().getMaxScale());
-			Coords[] centers = surface.cylinder(this, center, ev1, ev2,
+			Coords[] centers = surface.cylinder(center, ev1, ev2,
 					ev3, radius, radius2, 0, 2 * Math.PI,
 					quadric.getMinParameter(1), quadric.getMaxParameter(1),
 					false, false, longitude);
@@ -924,7 +924,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			boundsMin.set(Double.POSITIVE_INFINITY);
 			boundsMax.set(Double.NEGATIVE_INFINITY);
 			if (getView3D().useClippingCube()) {
-				Coords[] centers = surface.cylinder(this, center, ev1, ev2, ev3,
+				Coords[] centers = surface.cylinder(center, ev1, ev2, ev3,
 						r1, r2, 0, 2 * Math.PI, min, max, false, false,
 						longitude);
 				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0], ev1,
@@ -933,14 +933,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 						ev2, r1, r2);
 			} else {
 				double delta = (max - min) / 10;
-				surface.cylinder(this, center, ev1, ev2, ev3, r1, r2, 0,
+				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
 						2 * Math.PI, min + delta, max - delta, false, false, longitude);
-				Coords[] centers = surface.cylinder(this, center, ev1, ev2, ev3,
+				Coords[] centers = surface.cylinder(center, ev1, ev2, ev3,
 						r1, r2, 0,
 						2 * Math.PI, min, min + delta, true, false, longitude);
 				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[0], ev1,
 						ev2, r1, r2);
-				centers = surface.cylinder(this, center, ev1, ev2, ev3, r1,
+				centers = surface.cylinder(center, ev1, ev2, ev3, r1,
 						r2, 0, 2 * Math.PI, max - delta, max, false, true,
 						longitude);
 				enlargeBoundsToDiagonal(boundsMin, boundsMax, centers[1], ev1,
