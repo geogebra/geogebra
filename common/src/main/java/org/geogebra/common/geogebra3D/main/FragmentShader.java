@@ -87,11 +87,6 @@ public class FragmentShader {
 				+ "  color = varying_Color;\n"
 				+ "}\n"
 
-				+ "\n// default texture\n"
-				+ "if (textureType == 0){\n"
-				+ "  gl_FragColor = color;\n" + "  return;\n"
-				+ "}\n"
-
 				+ "\n// fading texture (for planes etc.)\n"
 				+ "if (textureType == "
 				  + RendererImplShaders.TEXTURE_TYPE_FADING + "){\n"
@@ -144,12 +139,9 @@ public class FragmentShader {
 				+ "  return;\n" 
 				+ "}\n "
 
-				// dash
-				+ "x =  mod(dashValues[0] * coordTexture.x, 1.0);\n"
-				+ "if (x > dashValues[1] || (x > dashValues[2] && x <= dashValues[3])){\n"
-				+ "discard;\n"
-				+ "}\n"
+				+ "\n// default: no texture (e.g. for points)\n"
 				+ "gl_FragColor = color;\n"
+				
 				+ "} ";
 
 	}
