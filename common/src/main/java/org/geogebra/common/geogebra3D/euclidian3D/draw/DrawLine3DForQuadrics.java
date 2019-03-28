@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class DrawLine3DForQuadrics extends DrawLine3D {
 
 	private GeoQuadric3D quadric;
-	private DrawQuadric3D quadricDrawable;
 
 	/**
 	 * @param a_view3D
@@ -23,12 +22,10 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 	 *            line
 	 * @param quadric
 	 *            quadric
-	 * @param quadricDrawable TODO
 	 */
 	public DrawLine3DForQuadrics(EuclidianView3D a_view3D, GeoLine3D line,
-			GeoQuadric3D quadric, DrawQuadric3D quadricDrawable) {
+			GeoQuadric3D quadric) {
 		super(a_view3D, line, quadric);
-		this.quadricDrawable = quadricDrawable;
 	}
 
 	@Override
@@ -49,8 +46,4 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 		return (GeoLine3D) super.getGeoElement();
 	}
 
-	@Override
-	public boolean shouldBePacked() {
-		return quadricDrawable.shouldBePacked();
-	}
 }
