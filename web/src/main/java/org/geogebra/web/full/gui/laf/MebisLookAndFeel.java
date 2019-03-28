@@ -19,4 +19,9 @@ public class MebisLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public String getLicenseURL() {
+		return "/static/license.html?";
+	}
+
 }

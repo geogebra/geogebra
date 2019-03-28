@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
@@ -81,9 +82,11 @@ public abstract class Submenu extends GMenuBar {
 	/**
 	 * @param action
 	 *            menu item action
+	 * @return reference to menu item
 	 */
-	public void addItem(final MenuAction<Void> action) {
-		addItem(MainMenu.getMenuBarHtml(action.getImage(),
+	public AriaMenuItem addItem(final MenuAction<Void> action) {
+		return addItem(
+				MainMenu.getMenuBarHtml(action.getImage(),
 				action.getTitle(getApp().getLocalization())), true,
 				new MenuCommand(getApp()) { // Close
 

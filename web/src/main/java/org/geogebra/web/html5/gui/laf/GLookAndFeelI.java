@@ -63,4 +63,11 @@ public interface GLookAndFeelI {
 	 * @return whether login/logout button should be inside the app
 	 */
 	boolean hasLoginButton();
+
+	/**
+	 * License URL should contain ? so that params can be appended.
+	 * 
+	 * @return base URL of the license
+	 */
+	String getLicenseURL();
 }

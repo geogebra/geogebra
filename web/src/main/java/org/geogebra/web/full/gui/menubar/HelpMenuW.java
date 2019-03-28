@@ -6,6 +6,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.menubar.action.LicenseAction;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -15,12 +16,7 @@ import org.geogebra.web.shared.SharedResources;
  * Help menu
  */
 public class HelpMenuW extends Submenu implements BooleanRenderable {
-	/**
-	 * Settings for version/about window
-	 */
-	protected static final String ABOUT_WINDOW_PARAMS = "width=720,height=600,"
-			+ "scrollbars=yes,toolbar=no,location=no,directories=no,"
-			+ "menubar=no,status=no,copyhistory=no";
+
 	private AriaMenuItem tutorials;
 	private AriaMenuItem forum;
 	private AriaMenuItem manual;
@@ -90,41 +86,20 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 					}
 				});
 		addSeparator();
-		about = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.info_black(),
-						loc.getMenu("AboutLicense")),
-				true, new MenuCommand(app) {
-
-					@Override
-					public void doExecute() {
-						app.getFileManager()
-								.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL
-										+ "&version=" + app.getVersionString()
-										+ "&date="
-										+ GeoGebraConstants.BUILD_DATE,
-										ABOUT_WINDOW_PARAMS);
-					}
-				});
+		about = addItem(new LicenseAction(app));
 		if (!app.getNetworkOperation().isOnline()) {
 			render(false);
 		}
 		app.getNetworkOperation().getView().add(this);
-		// TODO: This item has no localization entry yet.
-		// addItem("About / Team", new Command() {
-		// public void execute() {
-		// Window.open(GeoGebraConstants.GGW_ABOUT_TEAM_URL, "_blank", "");
-		// }
-		// });
 	}
 
 	@Override
-	public void render(boolean b) {
-		about.setEnabled(b);
-		manual.setEnabled(b);
-		tutorials.setEnabled(b);
-		bug.setEnabled(b);
-		forum.setEnabled(b);
+	public void render(boolean online) {
+		about.setEnabled(online);
+		manual.setEnabled(online);
+		tutorials.setEnabled(online);
+		bug.setEnabled(online);
+		forum.setEnabled(online);
 	}
 
 	@Override

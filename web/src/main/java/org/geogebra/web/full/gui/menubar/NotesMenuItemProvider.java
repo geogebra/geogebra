@@ -24,6 +24,7 @@ public class NotesMenuItemProvider implements MainMenuItemProvider {
 		menus.add(new FileMenuW(app));
 		menus.add(new DownloadMenuW(app));
 		menus.add(new SettingsMenu(app));
+		menus.add(new LicenseMenu(app));
 	}
 
 	@Override
