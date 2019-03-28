@@ -849,9 +849,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 					@Override
 					public final void renderEvent(BaseEvent event) {
-						if (event instanceof LoginEvent
-								&& !((LoginEvent) event).isAutomatic()) {
-							checkOpen(onError);
+						if (event instanceof LoginEvent) {
+							LoginEvent loginEvent = (LoginEvent) event;
+							if (!loginEvent.isAutomatic()
+									|| loginEvent.isSuccessful()) {
+								checkOpen(onError, this);
+							}
 						}
 					}
 				});
@@ -863,7 +866,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 						if (event instanceof LoginEvent
 								|| event instanceof StayLoggedOutEvent
 								|| event instanceof TubeAvailabilityCheckEvent) {
-							checkOpen(onError);
+							checkOpen(onError, this);
 						}
 					}
 				});
@@ -875,12 +878,16 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * @param onError
 	 *            error handler
+	 * @param caller
+	 *            callback
 	 */
-	protected void checkOpen(final AsyncOperation<String> onError) {
+	protected void checkOpen(final AsyncOperation<String> onError,
+			EventRenderable caller) {
 		if (toOpen != null && toOpen.length() > 0) {
 			doOpenMaterial(toOpen, onError);
 			toOpen = "";
 		}
+		getLoginOperation().getView().remove(caller);
 	}
 
 	/**
