@@ -22,9 +22,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 	final static public int GLSL_ATTRIB_SIZE = 5;
 
 	final static protected int TEXTURE_TYPE_NONE = 0;
-	final static protected int TEXTURE_TYPE_FADING = 1;
-	final static protected int TEXTURE_TYPE_TEXT = 2;
-	final static protected int TEXTURE_TYPE_DASH = 4;
+	final static public int TEXTURE_TYPE_FADING = 1;
+	final static public int TEXTURE_TYPE_TEXT = 2;
+	final static public int TEXTURE_TYPE_DASH = 4;
 
 	// location values for shader fields
 	protected Object matrixLocation; // matrix

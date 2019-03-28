@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.main;
 
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 
@@ -10,18 +11,12 @@ public class FragmentShader {
 
 	final private static String fragmentHeaderDesktop = "#if __VERSION__ >= 130\n"
 			+ "  #define varying in\n"
-
 			+ "  out vec4 mgl_FragColor;\n" + "  #define texture2D texture\n"
 			+ "  #define gl_FragColor mgl_FragColor\n"
-
 			+ "#endif \n"
-
 			+ "#ifdef GL_ES \n"
-
 			+ "precision mediump float;\n"
-
 			+ "precision mediump int; \n"
-
 			+ "#endif \n";
 
 	final private static String fragmentHeaderHTML5 = "precision mediump float;\n";
@@ -46,7 +41,7 @@ public class FragmentShader {
 
 		String header = isHTML5 ? fragmentHeaderHTML5 : fragmentHeaderDesktop;
 
-		return header + "uniform int enableShine; \n"
+		return header + "\nuniform int enableShine;\n"
 				+ "uniform int textureType;\n"
 				+ "uniform int enableClipPlanes;\n"
 				+ "uniform vec3 clipPlanesMin;\n"
@@ -55,101 +50,98 @@ public class FragmentShader {
 				+ "uniform sampler2D Texture0;\n"
 				// in (incoming varying data to the fragment shader sent from
 				// the vertex shader)
-				+ "varying   vec4    varying_Color;  \n" + "varying   vec2  coordTexture;  \n"
-				+ "varying   vec3    realWorldCoords;\n" + "varying vec3 viewDirection;\n"
+				+ "varying vec4 varying_Color;  \n"
+				+ "varying vec2 coordTexture;\n"
+				+ "varying vec3 realWorldCoords;\n"
+				+ "varying vec3 viewDirection;\n"
 				+ "varying vec3 lightReflect;\n"
 
-				+ "void main (void) \n"
+				+ "\nvoid main (void) \n"
 
 				+ "{ \n"
 				// this occurs when buffer parts have been "removed"
-				+ "if (varying_Color.a < 0.0) {\n" + "discard;" + "}\n"
+				+ "if (varying_Color.a < 0.0) {\n" + "  discard;\n" + "}\n"
 
 				+ "float x, y;\n"
 				+ "if (enableClipPlanes == 1  // clip the scene\n"
-				+ "&& (realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
-				+ "|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y \n"
-				+ "|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n"
-				+ " )){\n"
-
-				+ "discard;\n"
-
+				+ "    && (realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
+				+ "     || realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y \n"
+				+ "     || realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n"
+				+ "   )){\n"
+				+ "  discard;\n"
 				+ "}\n"
 
 				+ "vec4 color;\n" + "if (enableShine == 1){\n"
 				// adding specular
-				+ "float specular = dot(lightReflect, viewDirection);\n"
-				+ "if (specular > 0.0){\n" + "  float specular2  = specular  * specular;\n"
-				+ "  float specular4  = specular2 * specular2;\n"
-				+ "  float specular16  = specular4 * specular4;\n"
-				+ "  color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"
-				+ "  color.a = varying_Color.a;\n"
-
-				+ "}else{\n"
-
+				+ "  float specular = dot(lightReflect, viewDirection);\n"
+				+ "  if (specular > 0.0){\n"
+				+ "    float specular2  = specular  * specular;\n"
+				+ "    float specular4  = specular2 * specular2;\n"
+				+ "    float specular16  = specular4 * specular4;\n"
+				+ "    color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"
+				+ "    color.a = varying_Color.a;\n"
+				+ "  }else{\n"
 				+ "    color = varying_Color;\n"
-
-				+ "}\n"
-
+				+ "  }\n"
 				+ "}else{\n"
-
-				+ "color = varying_Color;\n"
-
+				+ "  color = varying_Color;\n"
 				+ "}\n"
 
-				// default
-
+				+ "\n// default texture\n"
 				+ "if (textureType == 0){\n"
-
-				+ "gl_FragColor = color;\n" + "return;\n"
-
-				+ "}\n"
-				// fading
-				+ "if (textureType == 1){ // TEXTURE_TYPE_FADING = 1\n" + "float factor;\n"
-
-				+ "x = max(coordTexture.x, 0.0);\n"
-				+ "float y = max(coordTexture.y, 0.0);\n"
-				+ "gl_FragColor.rgb  = color.rgb;\n"
-				+ "gl_FragColor.a = color.a * (1.0 - x) * (1.0 - y);\n"
-				+ "return;\n"
-
+				+ "  gl_FragColor = color;\n" + "  return;\n"
 				+ "}\n"
 
-				// text
-				+ "if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;\n"
-				+ "vec4 textureVal = texture2D(Texture0, coordTexture);\n"
-				+ "if (textureVal.a < 0.25){\n"
-
-				+ "  discard; // don't write\n" + "  }\n"
-
-				+ "gl_FragColor.rgb = color.rgb;\n" + "gl_FragColor.a = textureVal.a;\n"
-
-				+ "return;\n"
-
+				+ "\n// fading texture (for planes etc.)\n"
+				+ "if (textureType == "
+				  + RendererImplShaders.TEXTURE_TYPE_FADING + "){\n"
+				+ "  float factor;\n" + "  x = max(coordTexture.x, 0.0);\n"
+				+ "  float y = max(coordTexture.y, 0.0);\n"
+				+ "  gl_FragColor.rgb  = color.rgb;\n"
+				+ "  gl_FragColor.a = color.a * (1.0 - x) * (1.0 - y);\n"
+				+ "  return;\n"
 				+ "}\n"
 
-				// dash packed
-				+ "if (textureType == 14) { // TEXTURE_TYPE_DASH + DASH_PACKED = 4 + 10;\n"
-				+ "y = (coordTexture.y -  float(int((coordTexture.y + 0.5) / "
-				+ Textures.DASH_ID_LENGTH + ".0) * " + Textures.DASH_ID_LENGTH
-				+ ") + 0.5) / "
-				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
-				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
-				+ "if (textureDash.a < 0.5){\n"
-				+ "  discard; // don't write\n" + "  }\n"
-				+ "gl_FragColor = color;\n"
-				+ "return;\n"
+				+ "\n// text texture\n"
+				+ "if (textureType == "
+				  + RendererImplShaders.TEXTURE_TYPE_TEXT + "){\n"
+				+ "  vec4 textureVal = texture2D(Texture0, coordTexture);\n"
+				+ "  if (textureVal.a < 0.25){\n"
+				+ "    discard; // don't write\n"
+				+ "  }\n"
+				+ "  gl_FragColor.rgb = color.rgb;\n"
+				+ "  gl_FragColor.a = textureVal.a;\n"
+				+ "  return;\n"
+				+ "}\n"
+
+				+ "\n// packed dashed texture (for lines etc.)\n"
+				+ "if (textureType == "
+				  + (RendererImplShaders.TEXTURE_TYPE_DASH + Textures.DASH_PACKED)
+				  + ") {\n"
+				+ "  y = (coordTexture.y -  float(int((coordTexture.y + 0.5) / "
+				  + Textures.DASH_ID_LENGTH + ".0) * " + Textures.DASH_ID_LENGTH
+				  + ") + 0.5) / "
+				  + TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
+				+ "  vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
+				+ "  if (textureDash.a < 0.5){\n"
+				+ "    discard; // don't write\n" + "  }\n"
+				+ "  gl_FragColor = color;\n"
+				+ "  return;\n"
 				+ "}\n "
 				
-				// dash packed hidden
-				+ "if (textureType == 15) { // TEXTURE_TYPE_DASH + DASH_PACKED_HIDDEN = 4 + 11;\n"
-				+ "y = (float(int((coordTexture.y+0.5) / " + Textures.DASH_ID_LENGTH 
-				+ ".0)) + " + "0.5) / " + TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
-				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
-				+ "if (textureDash.a < 0.5){\n"
-				+ "  discard; // don't write\n" + "  }\n"
-				+ "gl_FragColor = color;\n"
-				+ "return;\n" 
+				+ "\n// packed hidden dashed texture (for lines etc.)\n"
+				+ "if (textureType == "
+				  + (RendererImplShaders.TEXTURE_TYPE_DASH
+				  		+ Textures.DASH_PACKED_HIDDEN)
+				  + ") {\n"
+				+ "  y = (float(int((coordTexture.y+0.5) / "
+				  + Textures.DASH_ID_LENGTH
+				  + ".0)) + " + "0.5) / " + TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
+				+ "  vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
+				+ "  if (textureDash.a < 0.5){\n"
+				+ "    discard; // don't write\n" + "  }\n"
+				+ "  gl_FragColor = color;\n"
+				+ "  return;\n" 
 				+ "}\n "
 
 				// dash
