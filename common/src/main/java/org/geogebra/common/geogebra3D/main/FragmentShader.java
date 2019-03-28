@@ -9,15 +9,17 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
  */
 public class FragmentShader {
 
-	final private static String fragmentHeaderDesktop = "#if __VERSION__ >= 130\n"
+	final private static String fragmentHeaderDesktop = 
+			"#if __VERSION__ >= 130\n"
 			+ "  #define varying in\n"
-			+ "  out vec4 mgl_FragColor;\n" + "  #define texture2D texture\n"
+			+ "  out vec4 mgl_FragColor;\n" 
+			+ "  #define texture2D texture\n"
 			+ "  #define gl_FragColor mgl_FragColor\n"
-			+ "#endif \n"
-			+ "#ifdef GL_ES \n"
-			+ "precision mediump float;\n"
-			+ "precision mediump int; \n"
-			+ "#endif \n";
+			+ "#endif\n"
+			+ "#ifdef GL_ES\n"
+			+ "  precision mediump float;\n"
+			+ "  precision mediump int;\n"
+			+ "#endif\n";
 
 	final private static String fragmentHeaderHTML5 = "precision mediump float;\n";
 
@@ -59,11 +61,15 @@ public class FragmentShader {
 				+ "\nvoid main (void) \n"
 
 				+ "{ \n"
-				// this occurs when buffer parts have been "removed"
-				+ "if (varying_Color.a < 0.0) {\n" + "  discard;\n" + "}\n"
 
+				+ "\n// this occurs when buffer parts have been \"removed\"\n"
+				+ "if (varying_Color.a < 0.0) {\n" 
+				+ "  discard;\n" 
+				+ "}\n"
+
+				+ "\n// remove parts out of clipping box\n"
 				+ "float x, y;\n"
-				+ "if (enableClipPlanes == 1  // clip the scene\n"
+				+ "if (enableClipPlanes == 1\n"
 				+ "    && (realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
 				+ "     || realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y \n"
 				+ "     || realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n"
@@ -71,8 +77,9 @@ public class FragmentShader {
 				+ "  discard;\n"
 				+ "}\n"
 
-				+ "vec4 color;\n" + "if (enableShine == 1){\n"
-				// adding specular
+				+ "\n// set color, with eventually shine effect\n"
+				+ "vec4 color;\n" 
+				+ "if (enableShine == 1){\n"
 				+ "  float specular = dot(lightReflect, viewDirection);\n"
 				+ "  if (specular > 0.0){\n"
 				+ "    float specular2  = specular  * specular;\n"
