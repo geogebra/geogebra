@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -21,6 +19,8 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+
+import java.util.ArrayList;
 
 /**
  * Class for drawing 3D polygons.
@@ -521,40 +521,33 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		if (prop == GProperty.LINE_STYLE) {
 			// also update for line width (e.g when translated)
 			setWaitForUpdate();
-		} else {
-			if (shouldBePacked()) {
-				if (prop == GProperty.COLOR) {
-					setWaitForUpdateColor();
-				} else if (prop == GProperty.HIGHLIGHT) {
-					setWaitForUpdateColor();
-					// highlight faces and edges
-					GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
-					EuclidianView3D view3D = getView3D();
-					for (GeoPolygon p : poly.getPolygons()) {
-						if (p.isLabelSet()) {
-							view3D.updateHighlight(p);
-							for (GeoSegmentND seg : p.getSegments()) {
-								view3D.updateHighlight(seg);
-							}
-						}
-					}
-					for (GeoSegmentND seg : poly.getSegments()) {
-						view3D.updateHighlight(seg);
-					}
-				} else if (prop == GProperty.VISIBLE) {
-					setWaitForUpdateVisibility();
-				}
-			}
+        } else {
+            if (prop == GProperty.COLOR) {
+                setWaitForUpdateColor();
+            } else if (prop == GProperty.HIGHLIGHT) {
+                setWaitForUpdateColor();
+                // highlight faces and edges
+                GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
+                EuclidianView3D view3D = getView3D();
+                for (GeoPolygon p : poly.getPolygons()) {
+                    if (p.isLabelSet()) {
+                        view3D.updateHighlight(p);
+                        for (GeoSegmentND seg : p.getSegments()) {
+                            view3D.updateHighlight(seg);
+                        }
+                    }
+                }
+                for (GeoSegmentND seg : poly.getSegments()) {
+                    view3D.updateHighlight(seg);
+                }
+            } else if (prop == GProperty.VISIBLE) {
+                setWaitForUpdateVisibility();
+            }
 		}
 	}
 
 	@Override
 	public boolean addedFromClosedSurface() {
-		return true;
-	}
-
-	@Override
-	public boolean shouldBePacked() {
 		return true;
 	}
 

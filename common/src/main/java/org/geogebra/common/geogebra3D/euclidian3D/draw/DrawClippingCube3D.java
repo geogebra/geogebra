@@ -646,9 +646,4 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		setGeometriesVisibilityNoSurface(visible);
 	}
 
-	@Override
-	public boolean shouldBePacked() {
-		return true;
-	}
-
 }

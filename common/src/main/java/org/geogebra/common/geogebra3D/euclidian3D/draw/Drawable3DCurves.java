@@ -107,19 +107,15 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	}
 
 	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
-				setWaitForUpdateColor();
-			} else if (prop == GProperty.VISIBLE) {
-				setWaitForUpdateVisibility();
-			} else {
-				setWaitForUpdateOtherStyles(prop);
-			}
-		} else {
-			setWaitForUpdateOtherStyles(prop);
-		}
-	}
+    public void setWaitForUpdateVisualStyle(GProperty prop) {
+        if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.VISIBLE) {
+            setWaitForUpdateVisibility();
+        } else {
+            setWaitForUpdateOtherStyles(prop);
+        }
+    }
 
 	private void setWaitForUpdateOtherStyles(GProperty prop) {
 		super.setWaitForUpdateVisualStyle(prop);
@@ -140,9 +136,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	@Override
 	public void disposePreview() {
-		if (shouldBePacked()) {
-			removePreviewFromGL();
-		}
+	    removePreviewFromGL();
 		super.disposePreview();
 	}
 
@@ -191,14 +185,12 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	}
 
 	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (getView3D().viewChangedByZoom()) {
-				// will be updated if visible again
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
-		}
+    protected void updateForViewNotVisible() {
+        if (getView3D().viewChangedByZoom()) {
+            // will be updated if visible again
+            setWaitForUpdate();
+        }
+        updateGeometriesVisibility();
 	}
 
 	@Override

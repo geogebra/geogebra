@@ -76,9 +76,4 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 		return super.doHighlighting();
 	}
-
-	@Override
-	public boolean shouldBePacked() {
-		return true;
-	}
 }

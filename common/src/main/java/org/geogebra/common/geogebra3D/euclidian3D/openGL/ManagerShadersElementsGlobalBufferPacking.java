@@ -1,13 +1,13 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.Matrix.Coords;
+
+import java.util.ArrayList;
 
 /**
  * manager packing geometries
@@ -429,12 +429,10 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public int startPolygons(Drawable3D d) {
-		if (d.shouldBePacked()) {
-			setPackSurface(d, false);
-		}
-		return super.startPolygons(d);
-	}
+    public int startPolygons(Drawable3D d) {
+        setPackSurface(d, false);
+        return super.startPolygons(d);
+    }
 
 	@Override
 	public void setPackSurface(Drawable3D d, boolean clipped) {
@@ -447,12 +445,10 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	}
 
 	@Override
-	public void endPolygons(Drawable3D d) {
-		super.endPolygons(d);
-		if (d.shouldBePacked()) {
-			endPacking();
-		}
-	}
+    public void endPolygons(Drawable3D d) {
+        super.endPolygons(d);
+        endPacking();
+    }
 
 	@Override
 	public void endPacking() {
@@ -505,38 +501,31 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		currentGeometriesSet.hideLastGeometries();
 	}
 
-	@Override
-	public int drawPoint(DrawPoint3D d, float size, Coords center, int index) {
-		if (d.shouldBePacked()) {
-			// get/create point geometry with template buffer
-			setCurrentBufferManager(bufferTemplates);
-			bufferTemplates.selectSphereAndCreateIfNeeded(this, size);
-			// draw in points manager
-			setCurrentBufferManager(bufferManagerPoints);
-			this.currentColor = d.getColor();
-			this.currentLayer = Renderer.LAYER_DEFAULT;
-			setPointValues(size, DrawPoint3D.DRAW_POINT_FACTOR, center);
-			int ret = bufferManagerPoints.drawPoint(index);
-			setCurrentBufferManager(null);
-			return ret;
-		}
-		return super.drawPoint(d, size, center, index);
-	}
+    @Override
+    public int drawPoint(DrawPoint3D d, float size, Coords center, int index) {
+        // get/create point geometry with template buffer
+        setCurrentBufferManager(bufferTemplates);
+        bufferTemplates.selectSphereAndCreateIfNeeded(this, size);
+        // draw in points manager
+        setCurrentBufferManager(bufferManagerPoints);
+        this.currentColor = d.getColor();
+        this.currentLayer = Renderer.LAYER_DEFAULT;
+        setPointValues(size, DrawPoint3D.DRAW_POINT_FACTOR, center);
+        int ret = bufferManagerPoints.drawPoint(index);
+        setCurrentBufferManager(null);
+        return ret;
+    }
 
-	@Override
-	public void drawPoint(Drawable3D d, float size, Coords center) {
-		if (d.shouldBePacked()) {
-			// get/create point geometry with template buffer
-			bufferTemplates.selectSphere((int) size);
-			// draw point in current curve
-			this.currentColor = d.getColor();
-			this.currentLayer = Renderer.LAYER_DEFAULT;
-			setPointValues(size, 2.5f, center);
-			bufferManagerCurves.drawPoint();
-		} else {
-			super.drawPoint(d, size, center);
-		}
-	}
+    @Override
+    public void drawPoint(Drawable3D d, float size, Coords center) {
+        // get/create point geometry with template buffer
+        bufferTemplates.selectSphere((int) size);
+        // draw point in current curve
+        this.currentColor = d.getColor();
+        this.currentLayer = Renderer.LAYER_DEFAULT;
+        setPointValues(size, 2.5f, center);
+        bufferManagerCurves.drawPoint();
+    }
 
 	@Override
 	public void createPointTemplateIfNeeded(int size) {

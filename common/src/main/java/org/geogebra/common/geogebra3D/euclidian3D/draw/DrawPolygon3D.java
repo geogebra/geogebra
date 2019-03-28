@@ -1,8 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
@@ -28,6 +25,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Class for drawing 3D polygons.
@@ -659,32 +659,25 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		super.setWaitForUpdateVisualStyle(prop);
 		if (prop == GProperty.LINE_STYLE) {
 			// also update for line width (e.g when translated)
-			setWaitForUpdate();
-		} else {
-			if (shouldBePacked()) {
-				if (prop == GProperty.COLOR) {
-					setWaitForUpdateColor();
-				} else if (prop == GProperty.HIGHLIGHT) {
-					setWaitForUpdateColor();
-					EuclidianView3D view3D = getView3D();
+            setWaitForUpdate();
+        } else {
+            if (prop == GProperty.COLOR) {
+                setWaitForUpdateColor();
+            } else if (prop == GProperty.HIGHLIGHT) {
+                setWaitForUpdateColor();
+                EuclidianView3D view3D = getView3D();
 
-					GeoSegmentND[] segs = ((GeoPolygon) getGeoElement())
-							.getSegments();
-					if (segs != null) {
-						for (GeoSegmentND seg : segs) {
-							view3D.updateHighlight(seg);
-						}
-					}
-				} else if (prop == GProperty.VISIBLE) {
-					setWaitForUpdateVisibility();
-				}
-			}
-		}
-	}
-
-	@Override
-	public boolean shouldBePacked() {
-		return true;
+                GeoSegmentND[] segs = ((GeoPolygon) getGeoElement())
+                        .getSegments();
+                if (segs != null) {
+                    for (GeoSegmentND seg : segs) {
+                        view3D.updateHighlight(seg);
+                    }
+                }
+            } else if (prop == GProperty.VISIBLE) {
+                setWaitForUpdateVisibility();
+            }
+        }
 	}
 
 }

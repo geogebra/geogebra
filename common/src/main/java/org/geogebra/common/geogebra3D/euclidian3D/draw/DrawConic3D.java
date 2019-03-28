@@ -10,8 +10,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
-import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1032,38 +1032,36 @@ public class DrawConic3D extends Drawable3DCurves
 		return super.doHighlighting();
 	}
 
-	@Override
-	protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			switch (((GeoConicND) getGeoElement()).getType()) {
-			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			case GeoConicNDConstants.CONIC_HYPERBOLA:
-			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			case GeoConicNDConstants.CONIC_LINE:
-			case GeoConicNDConstants.CONIC_PARABOLA:
-			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				if (getView3D().viewChangedByZoom()
-						|| getView3D().viewChangedByTranslate()) {
-					setWaitForUpdate();
-				}
-				break;
-			case GeoConicNDConstants.CONIC_CIRCLE:
-			case GeoConicNDConstants.CONIC_ELLIPSE:
-				if (getView3D().viewChangedByZoom()
-						|| (visible != Visible.TOTALLY_INSIDE
-								&& getView3D().viewChangedByTranslate())) {
-					setWaitForUpdate();
-				}
-				break;
-			default:
-				if (getView3D().viewChangedByZoom()) {
-					// will be updated if visible again
-					setWaitForUpdate();
-				}
-				break;
-			}
-			updateGeometriesVisibility();
-		}
+    @Override
+    protected void updateForViewNotVisible() {
+        switch (((GeoConicND) getGeoElement()).getType()) {
+            case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+            case GeoConicNDConstants.CONIC_HYPERBOLA:
+            case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+            case GeoConicNDConstants.CONIC_LINE:
+            case GeoConicNDConstants.CONIC_PARABOLA:
+            case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+                if (getView3D().viewChangedByZoom()
+                        || getView3D().viewChangedByTranslate()) {
+                    setWaitForUpdate();
+                }
+                break;
+            case GeoConicNDConstants.CONIC_CIRCLE:
+            case GeoConicNDConstants.CONIC_ELLIPSE:
+                if (getView3D().viewChangedByZoom()
+                        || (visible != Visible.TOTALLY_INSIDE
+                        && getView3D().viewChangedByTranslate())) {
+                    setWaitForUpdate();
+                }
+                break;
+            default:
+                if (getView3D().viewChangedByZoom()) {
+                    // will be updated if visible again
+                    setWaitForUpdate();
+                }
+                break;
+        }
+        updateGeometriesVisibility();
 	}
 
 	@Override
@@ -1076,8 +1074,4 @@ public class DrawConic3D extends Drawable3DCurves
 		setGeometriesVisibilityWithSurface(visible);
 	}
 
-	@Override
-	public boolean shouldBePacked() {
-		return true;
-	}
 }

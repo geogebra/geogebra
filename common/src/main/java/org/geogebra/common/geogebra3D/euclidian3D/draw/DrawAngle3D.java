@@ -218,12 +218,10 @@ public class DrawAngle3D extends Drawable3DCurves {
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					// create point template if needed
 					float pointSize = getGeoElement().getLineThickness()
-							* PlotterBrush.LINE3D_THICKNESS;
-					if (shouldBePacked()) {
-						renderer.getGeometryManager()
-								.createPointTemplateIfNeeded((int) pointSize);
-					}
-					// create angle outline + dot
+                            * PlotterBrush.LINE3D_THICKNESS;
+                    renderer.getGeometryManager()
+                            .createPointTemplateIfNeeded((int) pointSize);
+                    // create angle outline + dot
 					startBrush(brush);
 					// arc
 					brush.setAffineTexture(0f, 0f);

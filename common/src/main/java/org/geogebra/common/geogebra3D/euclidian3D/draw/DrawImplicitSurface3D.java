@@ -87,15 +87,11 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		while (surfaceMover.hasNext()) {
 			Triangle tri = surfaceMover.next();
 			s.triangle(tri.v1, tri.v2, tri.v3, tri.n1, tri.n2, tri.n3);
-		}
-		if (shouldBePacked()) {
-			m.endGeometry(surfaceMover.getTrianglesCount(),
-					TypeElement.TRIANGLES);
-		} else {
-			m.endGeometry();
-		}
-		setSurfaceIndex(s.end());
-		endPacking();
+        }
+        m.endGeometry(surfaceMover.getTrianglesCount(),
+                TypeElement.TRIANGLES);
+        setSurfaceIndex(s.end());
+        endPacking();
 		return true;
 	}
 
@@ -154,30 +150,20 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		updateForView();
 	}
 
-	@Override
-	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		super.setWaitForUpdateVisualStyle(prop);
-		if (prop == GProperty.LINE_STYLE) {
-			// also update for line width (e.g when translated)
-			setWaitForUpdate();
-		} else {
-			if (shouldBePacked()) {
-				if (prop == GProperty.COLOR) {
-					setWaitForUpdateColor();
-				} else if (prop == GProperty.HIGHLIGHT) {
-					setWaitForUpdateColor();
-				} else if (prop == GProperty.VISIBLE) {
-					setWaitForUpdateVisibility();
-				}
-			} else {
-				if (prop == GProperty.VISIBLE) {
-					if (isVisible()) {
-						setWaitForUpdate();
-					}
-				}
-			}
-		}
-	}
+    @Override
+    public void setWaitForUpdateVisualStyle(GProperty prop) {
+        super.setWaitForUpdateVisualStyle(prop);
+        if (prop == GProperty.LINE_STYLE) {
+            // also update for line width (e.g when translated)
+            setWaitForUpdate();
+        } else if (prop == GProperty.COLOR) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.HIGHLIGHT) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.VISIBLE) {
+            setWaitForUpdateVisibility();
+        }
+    }
 
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {

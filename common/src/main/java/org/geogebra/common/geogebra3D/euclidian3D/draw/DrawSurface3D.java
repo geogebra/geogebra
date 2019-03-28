@@ -3276,33 +3276,18 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		super.setWaitForUpdateVisualStyle(prop);
-		if (prop == GProperty.LINE_STYLE) {
-			// also update for line width (e.g when translated)
-			setWaitForUpdate();
-		} else {
-			if (shouldBePacked()) {
-				if (prop == GProperty.COLOR) {
-					setWaitForUpdateColor();
-				} else if (prop == GProperty.HIGHLIGHT) {
-					setWaitForUpdateColor();
-				} else if (prop == GProperty.VISIBLE) {
-					setWaitForUpdateVisibility();
-				}
-			} else {
-				if (prop == GProperty.VISIBLE) {
-					if (isVisible()) {
-						setWaitForUpdate();
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public boolean shouldBePacked() {
-		return true;
-	}
+        super.setWaitForUpdateVisualStyle(prop);
+        if (prop == GProperty.LINE_STYLE) {
+            // also update for line width (e.g when translated)
+            setWaitForUpdate();
+        } else if (prop == GProperty.COLOR) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.HIGHLIGHT) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.VISIBLE) {
+            setWaitForUpdateVisibility();
+        }
+    }
 
 	@Override
 	protected GColor getObjectColorForOutline() {

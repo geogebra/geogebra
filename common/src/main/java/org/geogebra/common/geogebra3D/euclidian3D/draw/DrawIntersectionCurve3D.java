@@ -1,13 +1,13 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.geos.GeoElement;
+
+import java.util.ArrayList;
 
 /**
  * Class for drawing multiple polygons within intersection curve.
@@ -79,12 +79,10 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 
 	@Override
 	public void updateIntersectionCurveVisibility() {
-		for (Drawable3D d : drawables) {
-			if (d.shouldBePacked()) {
-				d.setGeometriesVisibility(intersectionCurveVisibility);
-			}
-		}
-	}
+        for (Drawable3D d : drawables) {
+            d.setGeometriesVisibility(intersectionCurveVisibility);
+        }
+    }
 
 	@Override
 	protected void updateForView() {
@@ -147,20 +145,12 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
-		for (Drawable3D d : drawables) {
-			if (!d.shouldBePacked()) {
-				d.addToDrawable3DLists(lists);
-			}
-		}
+		// not needed with packing
 	}
 
 	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
-		for (Drawable3D d : drawables) {
-			if (!d.shouldBePacked()) {
-				d.removeFromDrawable3DLists(lists);
-			}
-		}
+        // not needed with packing
 	}
 
 }

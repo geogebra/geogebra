@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -13,11 +11,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
-import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+
+import java.util.ArrayList;
 
 /**
  * Class for drawing quadrics.
@@ -1585,19 +1585,17 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	public void disposePreview() {
-		if (shouldBePacked()) {
-			if (drawPlanes != null) {
-				drawPlanes[0].removePreviewFromGL();
-                if (drawPlanes[1] != null) {
-                    drawPlanes[1].removePreviewFromGL();
-                }
-			}
-			if (drawLine != null) {
-				drawLine.removePreviewFromGL();
-			}
-		}
-		super.disposePreview();
+    public void disposePreview() {
+        if (drawPlanes != null) {
+            drawPlanes[0].removePreviewFromGL();
+            if (drawPlanes[1] != null) {
+                drawPlanes[1].removePreviewFromGL();
+            }
+        }
+        if (drawLine != null) {
+            drawLine.removePreviewFromGL();
+        }
+        super.disposePreview();
 	}
 
 	@Override
@@ -1635,15 +1633,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 		}
 
-		super.setWaitForUpdateVisualStyle(prop);
-		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
-				setWaitForUpdateColor();
-			} else if (prop == GProperty.VISIBLE) {
-				setWaitForUpdateVisibility();
-			}
-		}
-	}
+        super.setWaitForUpdateVisualStyle(prop);
+        if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.VISIBLE) {
+            setWaitForUpdateVisibility();
+        }
+    }
 
 	@Override
 	protected void updateGeometriesVisibility() {
@@ -1660,28 +1656,21 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	public boolean shouldBePacked() {
-		return true;
-	}
-
-	@Override
 	public boolean addedFromClosedSurface() {
 		return true;
 	}
 
 	@Override
-	public void removeFromGL() {
-		super.removeFromGL();
-		if (shouldBePacked()) {
-			if (drawPlanes != null) {
-				drawPlanes[0].removeFromGL();
-				drawPlanes[1].removeFromGL();
-                drawPlanes = null;
-			}
-			if (drawLine != null) {
-				drawLine.removeFromGL();
-                drawLine = null;
-			}
-		}
+    public void removeFromGL() {
+        super.removeFromGL();
+        if (drawPlanes != null) {
+            drawPlanes[0].removeFromGL();
+            drawPlanes[1].removeFromGL();
+            drawPlanes = null;
+        }
+        if (drawLine != null) {
+            drawLine.removeFromGL();
+            drawLine = null;
+        }
 	}
 }

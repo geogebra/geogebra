@@ -215,11 +215,7 @@ public class ExportToPrinter3D {
 	 */
 	public void export(Drawable3D d, Type type) {
 		if (type == Type.POINT) {
-			if (d.shouldBePacked()) {
-				center = null;
-			} else {
-				center = ((DrawPoint3D) d).getCenter();
-			}
+		    center = null;
 		} else {
 			center = null;
 		}

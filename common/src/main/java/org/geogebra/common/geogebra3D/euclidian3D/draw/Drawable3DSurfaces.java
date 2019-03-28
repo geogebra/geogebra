@@ -147,9 +147,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	public void disposePreview() {
-		if (shouldBePacked()) {
-			removePreviewFromGL();
-		}
+	    removePreviewFromGL();
 		super.disposePreview();
 	}
 
@@ -207,15 +205,13 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		}
 	}
 
-	@Override
-	final protected void updateForViewNotVisible() {
-		if (shouldBePacked()) {
-			if (willNeedUpdateOnVisibleAgain()) {
-				setWaitForUpdate();
-			}
-			updateGeometriesVisibility();
-		}
-	}
+    @Override
+    final protected void updateForViewNotVisible() {
+        if (willNeedUpdateOnVisibleAgain()) {
+            setWaitForUpdate();
+        }
+        updateGeometriesVisibility();
+    }
 
 	/**
 	 * 

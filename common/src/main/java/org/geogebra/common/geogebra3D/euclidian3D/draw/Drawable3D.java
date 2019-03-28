@@ -1,11 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Map.Entry;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
@@ -27,6 +21,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.TreeSet;
 
 /**
  * 3D representation of a {@link GeoElement3D}
@@ -1450,13 +1450,11 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * remove preview from GL geometries (used when pack buffers)
 	 */
-	protected void removePreviewFromGL() {
-		if (shouldBePacked()) {
-			removeFromGL();
-			geomIndex = NOT_REUSABLE_INDEX;
-			surfaceIndex = NOT_REUSABLE_INDEX;
-		}
-	}
+    protected void removePreviewFromGL() {
+        removeFromGL();
+        geomIndex = NOT_REUSABLE_INDEX;
+        surfaceIndex = NOT_REUSABLE_INDEX;
+    }
 
 	// ////////////////////////////
 	// FOR PREVIEWABLE INTERFACE
@@ -1947,7 +1945,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/**
-	 * Temporary code while still mixing packed/unpacked buffers
+	 * Still needed for labels and texts that are not packed
 	 * 
 	 * @return true if it should be packed
 	 */
@@ -2006,9 +2004,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 */
 	public void updateIntersectionCurveVisibility() {
-		if (shouldBePacked()) {
-			setGeometriesVisibility(intersectionCurveVisibility);
-		}
+	    setGeometriesVisibility(intersectionCurveVisibility);
 	}
 
 	/**
@@ -2025,11 +2021,9 @@ public abstract class Drawable3D extends DrawableND {
 	 *            if curve is clipped
 	 */
 	final protected void setPackCurve(boolean clipped) {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackCurve(
-					this, clipped);
-		}
-	}
+        getView3D().getRenderer().getGeometryManager().setPackCurve(
+                this, clipped);
+    }
 
 	/**
 	 * 
@@ -2053,12 +2047,10 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param clipped
 	 *            true if surface needs clipping
 	 */
-	protected void setPackSurface(boolean clipped) {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setPackSurface(this,
-					clipped);
-		}
-	}
+    protected void setPackSurface(boolean clipped) {
+        getView3D().getRenderer().getGeometryManager().setPackSurface(this,
+                clipped);
+    }
 
 	/**
 	 * setup manager start packing surfaces (if possible)
@@ -2071,9 +2063,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * setup manager end packing
 	 */
 	protected void endPacking() {
-		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().endPacking();
-		}
+	    getView3D().getRenderer().getGeometryManager().endPacking();
 	}
 
 	@Override

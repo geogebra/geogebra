@@ -623,21 +623,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		super.setWaitForUpdateVisualStyle(prop);
-		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
-				setWaitForUpdateColor();
-			} else if (prop == GProperty.VISIBLE) {
-				setWaitForUpdateVisibility();
-			} else {
-				// also update for plane clip
-				setWaitForUpdate();
-			}
-		} else {
-			// also update for plane clip
-			setWaitForUpdate();
-		}
-	}
+        super.setWaitForUpdateVisualStyle(prop);
+        if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+            setWaitForUpdateColor();
+        } else if (prop == GProperty.VISIBLE) {
+            setWaitForUpdateVisibility();
+        } else {
+            // also update for plane clip
+            setWaitForUpdate();
+        }
+    }
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -698,11 +693,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				hitting.discardPositiveHits());
 		return true;
 
-	}
-
-	@Override
-	public boolean shouldBePacked() {
-		return true;
 	}
 
 	@Override

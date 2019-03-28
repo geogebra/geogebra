@@ -1085,7 +1085,7 @@ public class PlotterSurface {
 	public void parallelogram(Drawable3D d, Coords center, Coords v1, Coords v2,
 			double l1, double l2) {
 
-		if (manager.packBuffers() && d.shouldBePacked()) {
+		if (manager.packBuffers()) {
 			tmpCoords4.setAdd(center, tmpCoords4.setMul(v1, l1));
 			tmpCoords5.setAdd(tmpCoords4, tmpCoords5.setMul(v2, l2));
 			tmpCoords6.setAdd(center, tmpCoords6.setMul(v2, l2));
@@ -1300,11 +1300,7 @@ public class PlotterSurface {
 			manager.vertexToScale(tmpCoords2.setAdd(center2, m));
 		}
 
-		if (drawable.shouldBePacked()) {
-			manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
-		} else {
-			manager.endGeometry();
-		}
+		manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
 
 		return center2;
 
@@ -1420,11 +1416,7 @@ public class PlotterSurface {
 
 		}
 
-		if (drawable.shouldBePacked()) {
-			manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
-		} else {
-			manager.endGeometry();
-		}
+		manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
 
 		return centers;
 	}
@@ -1518,11 +1510,7 @@ public class PlotterSurface {
 
 		}
 
-		if (drawable.shouldBePacked()) {
-			manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
-		} else {
-			manager.endGeometry();
-		}
+		manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
 
 		return centers;
 
@@ -1749,7 +1737,7 @@ public class PlotterSurface {
 	}
 
 	private boolean shouldPackConics(Drawable3D d) {
-		return manager.packBuffers() && d.shouldBePacked();
+		return manager.packBuffers();
 	}
 
 	private void endGeometryForConics(Drawable3D d, int longitude,
