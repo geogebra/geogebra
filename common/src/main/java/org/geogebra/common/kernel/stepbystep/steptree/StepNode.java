@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
-import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.solution.HasLaTeX;
 import org.geogebra.common.main.Localization;
