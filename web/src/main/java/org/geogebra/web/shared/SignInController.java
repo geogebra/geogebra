@@ -4,6 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.shared.ggtapi.BASEURL;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.Button;
  * Default sign in button: opens GGB signin in a popup.
  *
  */
-public class SignInController implements EventRenderable {
+public class SignInController implements EventRenderable, SignInControllerI {
 	/** application */
 	protected final App app;
 	/**
@@ -43,9 +44,7 @@ public class SignInController implements EventRenderable {
 		app.getLoginOperation().getView().add(this);
 	}
 
-	/**
-	 * Show login dialog
-	 */
+	@Override
 	public void login() {
 		if (signInDialog == null || signInDialog.closed()) {
 			signInDialog = WindowReference.createSignInWindow(app,
@@ -102,9 +101,7 @@ public class SignInController implements EventRenderable {
 		}
 	}
 
-	/**
-	 * Log in initiated by the app, can't open popups
-	 */
+	@Override
 	public void loginFromApp() {
 		// needs to open iframe or redirect page: not supported by default
 	}

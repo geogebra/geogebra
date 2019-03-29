@@ -10,7 +10,6 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
@@ -143,7 +142,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public void showLoginDialog() {
-		((GLookAndFeel) app.getLAF()).getSignInController(app).login();
+		app.getLAF().getSignInController(app).login();
 	}
 
 	@Override

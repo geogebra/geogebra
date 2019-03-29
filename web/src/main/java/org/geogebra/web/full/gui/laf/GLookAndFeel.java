@@ -136,11 +136,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	    return new MaterialListElement(m, app, isLocal);
     }
 
-	/**
-	 * @param app
-	 *            application
-	 * @return signin controller
-	 */
+	@Override
 	public SignInController getSignInController(App app) {
 		return new SignInController(app, 0, null);
     }

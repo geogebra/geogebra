@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -66,4 +67,11 @@ public interface GLookAndFeelI {
 	 * @return base URL of the license
 	 */
 	String getLicenseURL();
+
+	/**
+	 * @param app
+	 *            application
+	 * @return signin controller
+	 */
+	SignInControllerI getSignInController(App app);
 }
