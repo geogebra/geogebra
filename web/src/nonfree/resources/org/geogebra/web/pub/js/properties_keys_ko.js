@@ -2880,7 +2880,7 @@ __GGB__keysVar["ko"].menu = {
     "TTestPairedDifferences": "T \uac80\uc815, \uc30d\uc758 \ucc28",
     "Tab": "\ud0ed",
     "Table": "\ud45c",
-    "TableOfValues": "Table of values",
+    "TableOfValues": "\ub300\uc751\ud45c",
     "TableValuesEmptyDescription": "\ud558\ub098\uc758 \ud568\uc218\uc5d0 \ub300\ud558\uc5ec \ub300\uc751\ud45c\ub97c \ub9cc\ub4e4 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "TableValuesEmptyTitle": "\ub300\uc751\ud45c\uc5d0 \uc785\ub825\ub41c \uac83\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "Tangent": "\uc811\uc120",
