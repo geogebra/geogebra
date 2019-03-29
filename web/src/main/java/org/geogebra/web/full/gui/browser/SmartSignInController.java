@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.browser;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
@@ -9,13 +9,13 @@ import com.google.gwt.user.client.Window.Location;
 /**
  * Signin button for SMART - navigates the whole page to login
  */
-public class SmartSignInButton extends SignInButton {
+public class SmartSignInController extends SignInController {
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public SmartSignInButton(App app) {
+	public SmartSignInController(App app) {
 		super(app, 0, null);
 	}
 

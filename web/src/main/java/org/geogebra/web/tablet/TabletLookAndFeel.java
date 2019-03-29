@@ -4,12 +4,12 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
-import org.geogebra.web.full.gui.browser.TabletSignInButton;
+import org.geogebra.web.full.gui.browser.TabletSignInController;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.tablet.gui.browser.TabletMaterialElement;
 
 import com.google.gwt.storage.client.Storage;
@@ -52,8 +52,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public SignInButton getSignInButton(final App app) {
-		return new TabletSignInButton(app);
+	public SignInController getSignInController(final App app) {
+		return new TabletSignInController(app);
 	}
 
 	@Override

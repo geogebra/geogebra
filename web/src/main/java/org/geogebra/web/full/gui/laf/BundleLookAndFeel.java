@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.shared.ggtapi.BASEURL;
 
 import com.google.gwt.storage.client.Storage;
@@ -55,8 +55,8 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, 0,
+	public SignInController getSignInController(App app) {
+		return new SignInController(app, 0,
 				BASEURL.getCallbackUrl().replace("file://", "app://"));
 	}
 

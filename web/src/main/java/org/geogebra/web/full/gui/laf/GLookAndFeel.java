@@ -13,7 +13,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -136,9 +136,13 @@ public class GLookAndFeel implements GLookAndFeelI {
 	    return new MaterialListElement(m, app, isLocal);
     }
 
-	@Override
-	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, 0, null);
+	/**
+	 * @param app
+	 *            application
+	 * @return signin controller
+	 */
+	public SignInController getSignInController(App app) {
+		return new SignInController(app, 0, null);
     }
 
 	@Override

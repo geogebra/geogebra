@@ -1,18 +1,19 @@
 package org.geogebra.web.full.gui.browser;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.shared.SignInController;
 
 /**
  * Signin button for mebis; uses native JS in parent frame
  */
-public class MebisSignInButton extends SignInButton {
+public class MebisSignInController extends SignInController {
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public MebisSignInButton(App app) {
+	public MebisSignInController(App app) {
 		super(app, 0, null);
 	}
 
@@ -20,6 +21,13 @@ public class MebisSignInButton extends SignInButton {
 	public void login() {
 		if (!nativeLogin()) {
 			super.login();
+		}
+	}
+
+	@Override
+	public void loginFromApp() {
+		if (!nativeLogin()) {
+			Log.warn("Can't open popup programatically");
 		}
 	}
 

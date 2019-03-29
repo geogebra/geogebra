@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Button;
  * Default sign in button: opens GGB signin in a popup.
  *
  */
-public class SignInButton extends Button implements EventRenderable {
+public class SignInController implements EventRenderable {
 	/** application */
 	protected final App app;
 	/**
@@ -26,6 +26,7 @@ public class SignInButton extends Button implements EventRenderable {
 
 	private WindowReference signInDialog = null;
 	private String callbackURL;
+	private int delay;
 
 	/**
 	 * @param app
@@ -35,35 +36,11 @@ public class SignInButton extends Button implements EventRenderable {
 	 * @param callbackURL
 	 *            callback URL
 	 */
-	public SignInButton(final App app, final int delay, String callbackURL) {
-		super(app.getLocalization().getMenu("SignIn"));
+	public SignInController(final App app, final int delay, String callbackURL) {
 		this.callbackURL = callbackURL;
 		this.app = app;
-		this.addStyleName("signInButton");
+		this.delay = delay;
 		app.getLoginOperation().getView().add(this);
-		
-		this.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				SignInButton.this.login();
-				if (delay > 0) {
-					loginChecker = new Timer() {
-					private String oldCookie = null;
-					@Override
-						public void run() {
-						String cookie = Cookies.getCookie("SSID");
-							if (cookie != null && !cookie.equals(oldCookie)) {
-								app.getLoginOperation().getGeoGebraTubeAPI()
-										.performCookieLogin(
-												app.getLoginOperation());
-								this.oldCookie = cookie;
-							}
-						}
-					};
-					loginChecker.scheduleRepeating(delay);
-				}
-			}
-		});
 	}
 
 	/**
@@ -85,5 +62,50 @@ public class SignInButton extends Button implements EventRenderable {
 		if (event instanceof LoginEvent && this.loginChecker != null) {
 			this.loginChecker.cancel();
 		}
+	}
+
+	/**
+	 * @return sign in button
+	 */
+	public Button getButton() {
+		Button button = new Button(app.getLocalization().getMenu("SignIn"));
+		button.addStyleName("signInButton");
+		button.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				SignInController.this.login();
+				initLoginTimer();
+			}
+		});
+		return button;
+	}
+
+	/**
+	 * Actively listen for cookie change
+	 */
+	protected void initLoginTimer() {
+		if (delay > 0) {
+			loginChecker = new Timer() {
+				private String oldCookie = null;
+
+				@Override
+				public void run() {
+					String cookie = Cookies.getCookie("SSID");
+					if (cookie != null && !cookie.equals(oldCookie)) {
+						app.getLoginOperation().getGeoGebraTubeAPI()
+								.performCookieLogin(app.getLoginOperation());
+						this.oldCookie = cookie;
+					}
+				}
+			};
+			loginChecker.scheduleRepeating(delay);
+		}
+	}
+
+	/**
+	 * Log in initiated by the app, can't open popups
+	 */
+	public void loginFromApp() {
+		// needs to open iframe or redirect page: not supported by default
 	}
 }

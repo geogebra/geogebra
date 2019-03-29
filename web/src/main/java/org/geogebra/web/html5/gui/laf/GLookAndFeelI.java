@@ -1,11 +1,9 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface GLookAndFeelI {
@@ -19,8 +17,6 @@ public interface GLookAndFeelI {
 	boolean isTablet();
 
 	String getType();
-
-	Button getSignInButton(App app);
 
 	boolean undoRedoSupported();
 

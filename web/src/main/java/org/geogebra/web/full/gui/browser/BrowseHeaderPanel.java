@@ -10,6 +10,7 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.AuxiliaryHeaderPanel;
 import org.geogebra.web.full.gui.browser.SearchPanel.SearchListener;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ProfilePanel;
@@ -106,7 +107,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 
 	private void onLogout() {
 		if (this.signInButton == null) {
-			this.signInButton = app.getLAF().getSignInButton(app);
+			this.signInButton = ((GLookAndFeel) app.getLAF())
+					.getSignInController(app).getButton();
 
 			this.signInPanel.add(this.signInButton);
 		}

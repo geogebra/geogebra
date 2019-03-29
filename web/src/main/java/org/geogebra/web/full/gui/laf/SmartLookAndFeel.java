@@ -6,12 +6,12 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.euclidian.SmartTouchHandler;
 import org.geogebra.web.full.gui.browser.EmbeddedMaterialElement;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
-import org.geogebra.web.full.gui.browser.SmartSignInButton;
+import org.geogebra.web.full.gui.browser.SmartSignInController;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 
 import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -73,8 +73,8 @@ public class SmartLookAndFeel extends GLookAndFeel {
     }
 
 	@Override
-    public SignInButton getSignInButton(App app) {
-	    return new SmartSignInButton(app);
+    public SignInController getSignInController(App app) {
+	    return new SmartSignInController(app);
     }
 	
 	@Override

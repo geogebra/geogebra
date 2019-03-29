@@ -2,19 +2,19 @@ package org.geogebra.web.full.gui.browser;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 
 /**
  * Signin button for tablets, uses native APIs
  *
  */
-public class TabletSignInButton extends SignInButton {
+public class TabletSignInController extends SignInController {
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public TabletSignInButton(App app) {
+	public TabletSignInController(App app) {
 		super(app, 0, null);
 	}
 

@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
-import org.geogebra.web.shared.SignInButton;
+import org.geogebra.web.shared.SignInController;
 
 /**
  * @author geogebra
@@ -27,8 +27,8 @@ public class OfficeLookAndFeel extends SmartLookAndFeel {
     }
 
 	@Override
-	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, 2000, null);
+	public SignInController getSignInController(App app) {
+		return new SignInController(app, 2000, null);
     }
 
 	@Override

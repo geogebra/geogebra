@@ -7,6 +7,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -64,7 +65,8 @@ public class GlobalHeader implements EventRenderable {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				((SignInButton) appW.getLAF().getSignInButton(appW)).login();
+				((GLookAndFeel) appW.getLAF()).getSignInController(appW)
+						.login();
 			}
 		});
 		app.getLoginOperation().getView().add(this);
