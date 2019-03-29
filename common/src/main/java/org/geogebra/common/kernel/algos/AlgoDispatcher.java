@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -2273,7 +2274,7 @@ public class AlgoDispatcher {
 	 * @return intersections
 	 */
 	final public GeoElement[] intersectNPFunctionPolyLine(String[] labels,
-			GeoFunction f, GeoPolyLine pl, GeoPoint initPoint) {
+			GeoFunctionable f, GeoPolyLine pl, GeoPoint initPoint) {
 
 		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
 				cons, labels, initPoint, f, pl, false);

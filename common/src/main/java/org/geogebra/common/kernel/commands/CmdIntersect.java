@@ -650,14 +650,14 @@ public class CmdIntersect extends CommandProcessor {
 				&& (ok[1] = (arg[1].isGeoFunctionable()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectNPFunctionPolyLine(
-					c.getLabels(), ((GeoFunctionable) arg[1]).getGeoFunction(),
+					c.getLabels(), (GeoFunctionable) arg[1],
 					(GeoPolyLine) arg[0], (GeoPoint) arg[2]);
 			return ret;
 		} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 				&& (ok[1] = (arg[1].isGeoPolyLine()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectNPFunctionPolyLine(
-					c.getLabels(), ((GeoFunctionable) arg[0]).getGeoFunction(),
+					c.getLabels(), (GeoFunctionable) arg[0],
 					(GeoPolyLine) arg[1], (GeoPoint) arg[2]);
 			return ret;
 		}

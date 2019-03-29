@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -18,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 
-	protected GeoFunction func; // input
+	protected GeoFunctionable func; // input
 	protected GeoPoly poly; // input
 	protected GeoPoint startPoint;
 	protected GeoPoint rootPoint;
@@ -50,7 +51,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 	 *            indicates whether the poly is polygon(true) or polyLine(false)
 	 */
 	AlgoIntersectNpFunctionPolyLine(Construction cons, String[] label,
-			GeoPoint startPoint, GeoFunction func, GeoPoly poly,
+			GeoPoint startPoint, GeoFunctionable func, GeoPoly poly,
 			boolean polyClosed) {
 		this(cons, startPoint, func, poly, polyClosed);
 
@@ -75,7 +76,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 	 *            indicates whether the poly is polygon(true) or polyLine(false)
 	 */
 	AlgoIntersectNpFunctionPolyLine(Construction cons, GeoPoint startPoint,
-			GeoFunction func, GeoPoly poly, boolean polyClosed) {
+			GeoFunctionable func, GeoPoly poly, boolean polyClosed) {
 		super(cons);
 		this.startPoint = startPoint;
 		this.func = func;
@@ -108,7 +109,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 	public final void compute() {
 		Coords minIntersectCoords = null, currentIntersectCoords = null;
 
-		if (!(getFunction().isDefined() && getPoly().isDefined()
+		if (!(func.isDefined() && getPoly().isDefined()
 				&& startPoint.isDefined())) {
 			rootPoint.setUndefined();
 			Log.debug("either func, poly, or start is not defined");
@@ -126,7 +127,8 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 			tempSeg.setPoints(segEndPoints[0], segEndPoints[1]);
 			tempSeg.calcLength();
 
-			currentIntersectCoords = calcIntersectionPoint(getFunction(),
+			currentIntersectCoords = calcIntersectionPoint(
+					func.getGeoFunction(),
 					tempSeg);
 
 			if (minIntersectCoords == null) {
@@ -209,7 +211,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = this.func;
+		input[0] = this.func.toGeoElement();
 		input[1] = (GeoElement) this.poly;
 		input[2] = this.startPoint;
 
@@ -236,10 +238,6 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 
 	public boolean isPolyClosed() {
 		return this.polyClosed;
-	}
-
-	public GeoFunction getFunction() {
-		return this.func;
 	}
 
 	private static double distanceSqr(Coords A, Coords B) {
