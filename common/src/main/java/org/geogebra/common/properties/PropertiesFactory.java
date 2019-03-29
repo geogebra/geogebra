@@ -74,11 +74,19 @@ public class PropertiesFactory {
     public static PropertiesList createScientificCalculatorProperties(App app, Localization
             localization, LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
-		return new PropertiesList(
-                new AngleUnitProperty(kernel, localization),
-                new RoundingProperty(app, localization),
-                new FontSizeProperty(app, localization),
-				new LanguageProperty(app, localization, onLanguageSetCallback));
+
+        List<Property> scientificProperties =
+                new ArrayList<Property>(Arrays.asList(
+                        new AngleUnitProperty(kernel, localization),
+                        new RoundingProperty(app, localization),
+                        new FontSizeProperty(app, localization)));
+
+        if (!app.isExam()) {
+            scientificProperties.add(
+                    new LanguageProperty(app, localization, onLanguageSetCallback));
+        }
+
+        return new PropertiesList(scientificProperties);
     }
 
     /**
