@@ -1446,10 +1446,9 @@ public class PlotterSurface {
 	 *            longitude
 	 * @return center at max height
 	 */
-	public Coords[] cylinder(Coords center, Coords vx,
-                             Coords vy,
-                             Coords vz, double r1, double r2, double start, double extent,
-                             double min, double max, boolean minFading, boolean maxFading, int longitude) {
+	public Coords[] cylinder(Coords center, Coords vx, Coords vy, Coords vz,
+			double r1, double r2, double start, double extent, double min,
+			double max, boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		float c, s;

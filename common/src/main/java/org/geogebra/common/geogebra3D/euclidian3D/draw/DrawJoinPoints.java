@@ -372,5 +372,4 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		setGeometriesVisibilityNoSurface(visible);
 	}
 
-
 }

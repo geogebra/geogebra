@@ -82,7 +82,8 @@ public class LoginOperationW extends LogInOperation {
 									if (data.action === "logintoken") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
 									}
-									if (data.action === "logincookie" || data.action === "loginpassive") {
+									if (data.action === "logincookie" 
+										|| data.action === "loginpassive") {
 										t.@org.geogebra.web.shared.ggtapi.LoginOperationW::processCookie(Z)(data.action === "loginpassive");
 									}
 								} catch (err) {
