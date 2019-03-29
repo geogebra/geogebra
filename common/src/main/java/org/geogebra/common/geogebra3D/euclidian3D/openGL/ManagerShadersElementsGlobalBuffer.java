@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.util.debug.Log;
@@ -25,8 +24,8 @@ public class ManagerShadersElementsGlobalBuffer
 	private int fanIndirectIndicesSize;
 	private GLBufferIndices bufferIndicesForDrawTriangleFans;
 
-	private boolean indicesDone = false;
-	private TypeElement oldType = TypeElement.NONE;
+	boolean indicesDone = false;
+	TypeElement oldType = TypeElement.NONE;
 
 	final static boolean DEBUG = false;
 
@@ -181,219 +180,6 @@ public class ManagerShadersElementsGlobalBuffer
 		return fanIndirectIndices;
 	}
 
-	@SuppressWarnings("serial")
-	protected class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
-		@Override
-		protected Geometry newGeometry(Type type) {
-			return new GeometryElementsGlobalBuffer(type);
-		}
-
-		@Override
-		public void bindGeometry(int size, TypeElement type) {
-			((GeometryElementsGlobalBuffer) currentGeometry)
-					.bind(renderer, size, type);
-		}
-
-		/**
-		 * remove GL buffers
-		 */
-		public void removeBuffers() {
-			for (int i = 0; i < getGeometriesLength(); i++) {
-				((GeometryElementsGlobalBuffer) get(i))
-						.removeBuffers(renderer);
-			}
-
-		}
-	}
-
-	public class GeometryElementsGlobalBuffer extends Geometry implements GeometryForExport {
-
-		private GLBufferIndices arrayI = null;
-
-		private int indicesLength;
-
-		private boolean hasSharedIndexBuffer = false;
-
-		public GeometryElementsGlobalBuffer(Type type) {
-			super(type);
-		}
-
-		/**
-		 * remove buffers
-		 * 
-		 * @param r
-		 *            GL renderer
-		 */
-		public void removeBuffers(Renderer r) {
-			// TODO not needed?
-		}
-
-		/**
-		 * bind the geometry to its GL buffer
-		 * 
-		 * @param r
-		 *            renderer
-		 * @param size
-		 *            indices size
-		 * @param typeElement
-		 *            type for elements indices
-		 */
-		public void bind(Renderer r, int size,
-				TypeElement typeElement) {
-
-			switch (typeElement) {
-			case NONE:
-				if (hasSharedIndexBuffer) {
-					// need specific index if was sharing one
-					arrayI = null;
-				}
-				if (arrayI == null) {
-					arrayI = GLFactory.getPrototype().newBufferIndices();
-				}
-
-				indicesLength = getLength();
-
-				if (!indicesDone || typeElement != oldType
-						|| arrayI.capacity() < indicesLength) {
-					debug("NEW index buffer");
-					arrayI.allocate(indicesLength);
-					for (short i = 0; i < indicesLength; i++) {
-						arrayI.put(i);
-					}
-					arrayI.rewind();
-					indicesDone = true;
-				} else {
-					debug("keep same index buffer");
-				}
-
-				hasSharedIndexBuffer = false;
-				break;
-
-			case CURVE:
-				debug("curve: shared index buffer");
-				arrayI = getBufferIndicesForCurve(r, size);
-				indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
-				hasSharedIndexBuffer = true;
-				// debug("curve: NOT shared index buffer");
-				// bufferI = getBufferIndicesForCurve(bufferI, r, size,
-				// indicesLength / (3 * 2 * PlotterBrush.LATITUDES));
-				// indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
-				// hasSharedIndexBuffer = false;
-				break;
-
-			case SURFACE:
-				debug("surface -- keep same index buffer");
-				indicesLength = size;
-				hasSharedIndexBuffer = false;
-				break;
-
-			case FAN_DIRECT:
-				debug("fan direct: shared index buffer");
-				arrayI = getBufferIndicesForFanDirect(r, size);
-				indicesLength = 3 * (size - 2);
-				hasSharedIndexBuffer = true;
-				break;
-			case FAN_INDIRECT:
-				debug("fan indirect: shared index buffer");
-				arrayI = getBufferIndicesForFanIndirect(r, size);
-				indicesLength = 3 * (size - 2);
-				hasSharedIndexBuffer = true;
-				break;
-			default:
-				Log.debug("Missing case: " + typeElement);
-			}
-
-			oldType = typeElement;
-		}
-
-		@Override
-		public void draw(Renderer r) {
-
-			if (arrayI == null) {
-				return;
-			}
-
-			r.getRendererImpl().loadVertexBuffer(getVertices(), getLength());
-			r.getRendererImpl().loadNormalBuffer(getNormals(), getLength());
-			r.getRendererImpl().loadColorBuffer(getColors(), getLength());
-			if (r.getRendererImpl().areTexturesEnabled()) {
-				r.getRendererImpl().loadTextureBuffer(getTextures(),
-						getLength());
-			} else {
-				r.getRendererImpl().disableTextureBuffer();
-			}
-			r.getRendererImpl().loadIndicesBuffer(arrayI, indicesLength);
-			r.getRendererImpl().draw(getType(), indicesLength);
-
-		}
-
-		@Override
-		public void drawLabel(Renderer r) {
-
-			if (arrayI == null) {
-				return;
-			}
-
-			r.getRendererImpl().loadVertexBuffer(getVertices(), getLength());
-			if (r.getRendererImpl().areTexturesEnabled()) {
-				r.getRendererImpl().loadTextureBuffer(getTextures(),
-						getLength());
-			}
-			r.getRendererImpl().loadIndicesBuffer(arrayI, indicesLength);
-			r.getRendererImpl().draw(getType(), indicesLength);
-		}
-
-		/**
-		 * 
-		 * @param size
-		 *            size
-		 * @return indices buffer with correct size
-		 */
-		public GLBufferIndices getBufferI(int size) {
-			if (arrayI == null || hasSharedIndexBuffer) {
-				arrayI = GLFactory.getPrototype().newBufferIndices();
-			}
-			arrayI.allocate(size);
-			return arrayI;
-		}
-
-		@Override
-		public void initForExport() {
-			// no need here
-		}
-
-		@Override
-		public GLBufferIndices getBufferIndices() {
-			return arrayI;
-		}
-
-		@Override
-		public int getIndicesLength() {
-			return indicesLength;
-		}
-
-		@Override
-		public int getElementsOffset() {
-			return 0; // no offset here
-		}
-
-		@Override
-		public int getLengthForExport() {
-			return getLength();
-		}
-
-		@Override
-		public GLBuffer getVerticesForExport() {
-			return getVertices();
-		}
-
-		@Override
-		public GLBuffer getNormalsForExport() {
-			return getNormals();
-		}
-
-	}
-
 	/**
 	 * constructor
 	 * 
@@ -417,7 +203,7 @@ public class ManagerShadersElementsGlobalBuffer
 
 	@Override
 	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
-		return new GeometriesSetElementsGlobalBuffer();
+		return new GeometriesSetElementsGlobalBuffer(this);
 	}
 
 	@Override

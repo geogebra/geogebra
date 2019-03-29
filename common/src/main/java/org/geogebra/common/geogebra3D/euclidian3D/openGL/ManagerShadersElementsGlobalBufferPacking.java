@@ -1,13 +1,12 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.Matrix.Coords;
-
-import java.util.ArrayList;
 
 /**
  * manager packing geometries
@@ -37,238 +36,6 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private float[] translate;
 	private float scale;
 
-	private class GeometriesSetElementsGlobalBufferPacking
-			extends GeometriesSetElementsGlobalBuffer {
-
-		private GLBufferManager bufferManager;
-		private static final long serialVersionUID = 1L;
-		private GColor color;
-		private int layer;
-		private int index;
-		private int oldGeometriesLength;
-
-		/**
-		 * constructor
-		 * 
-		 * @param bufferManager
-		 *            gl buffer manager
-		 * 
-		 * @param color
-		 *            color
-		 * @param layer
-		 *            layer
-		 */
-		public GeometriesSetElementsGlobalBufferPacking(
-				GLBufferManager bufferManager, GColor color, int layer) {
-			this.color = color;
-			this.layer = layer;
-			this.bufferManager = bufferManager;
-		}
-
-		@Override
-		public void reset() {
-			oldGeometriesLength = getGeometriesLength();
-			super.reset();
-		}
-
-		@Override
-		public void setIndex(int index, GColor color, int layer) {
-			this.index = index;
-			this.color = color;
-			this.layer = layer;
-		}
-
-		/**
-		 * 
-		 * @return geometry set index
-		 */
-		public int getIndex() {
-			return index;
-		}
-
-		@Override
-		protected Geometry newGeometry(Type type) {
-			return new GeometryElementsGlobalBufferPacking(this, type, currentGeometryIndex);
-		}
-
-		@Override
-		public void bindGeometry(int size, TypeElement type) {
-			bufferManager.setIndices(size, type);
-		}
-
-		/**
-		 * update all geometries color for this set
-		 * 
-		 * @param newColor
-		 *            color
-		 * @param newLayer
-		 *            layer
-		 */
-		public void updateColorAndLayer(GColor newColor, int newLayer) {
-			this.color = newColor;
-			this.layer = newLayer;
-			bufferManager.updateColorAndLayer(index, getGeometriesLength(),
-					newColor, newLayer);
-		}
-
-		/**
-		 * update all geometries visibility for this set
-		 * 
-		 * @param visible
-		 *            if visible
-		 * @param alpha
-		 *            object alpha
-		 * @param objLayer
-		 *            object layer
-		 */
-		public void updateVisibility(boolean visible, int alpha, int objLayer) {
-			bufferManager.updateVisibility(index, 0, getGeometriesLength(),
-					visible, alpha, objLayer);
-		}
-
-		@Override
-		public void hideLastGeometries() {
-			bufferManager.updateVisibility(index, currentGeometryIndex,
-					oldGeometriesLength, false, 0, 0);
-		}
-
-		public GColor getColor() {
-			return color;
-		}
-
-		public int getLayer() {
-			return layer;
-		}
-
-		/**
-		 * 
-		 * @return gl buffer manager
-		 */
-		public GLBufferManager getBufferManager() {
-			return bufferManager;
-		}
-
-		@Override
-		public void removeBuffers() {
-			bufferManager.remove(index, getGeometriesLength());
-		}
-
-        @Override
-        public boolean usePacking() {
-            return true;
-        }
-
-		/**
-		 * geometry handler for buffer packing
-		 *
-		 */
-		public class GeometryElementsGlobalBufferPacking extends Geometry
-				implements GeometryForExport {
-
-			private int geometryIndex;
-			private GeometriesSetElementsGlobalBufferPacking geometrySet;
-
-			public GeometryElementsGlobalBufferPacking(
-					GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
-					int geometryIndex) {
-				super(type);
-				this.geometrySet = geometrySet;
-				this.geometryIndex = geometryIndex;
-			}
-
-			@Override
-			protected void setBuffers() {
-				// no internal buffer needed here
-			}
-
-			@Override
-			public void setType(Type type) {
-				// not needed: all geometries are triangles
-			}
-
-			@Override
-			public Type getType() {
-				// all geometries are triangles
-				return Type.TRIANGLES;
-			}
-
-			@Override
-			public void setVertices(ArrayList<Double> array, int length) {
-				setBufferCurrentIndex();
-				geometrySet.getBufferManager().setVertexBuffer(array, length);
-			}
-
-			@Override
-			public void setNormals(ArrayList<Double> array, int length) {
-				geometrySet.getBufferManager().setNormalBuffer(array, length);
-			}
-
-			@Override
-			public void setTextures(ArrayList<Double> array, int length) {
-				geometrySet.getBufferManager().setTextureBuffer(array);
-			}
-
-			@Override
-			public void setTexturesEmpty() {
-				// not implemented yet
-			}
-
-			@Override
-			public void setColors(ArrayList<Double> array, int length) {
-				// not implemented yet
-			}
-
-			@Override
-			public void setColorsEmpty() {
-				geometrySet.getBufferManager().setColorBuffer(geometrySet.getColor());
-				geometrySet.getBufferManager().setLayer(geometrySet.getLayer());
-			}
-
-			@Override
-			public int getLengthForExport() {
-				return geometrySet.getBufferManager().getCurrentElementsLength();
-			}
-
-			@Override
-			public GLBuffer getVerticesForExport() {
-				return geometrySet.getBufferManager().getCurrentBufferVertices();
-			}
-
-			@Override
-			public GLBuffer getNormalsForExport() {
-				return geometrySet.getBufferManager().getCurrentBufferNormals();
-			}
-
-			@Override
-			public int getElementsOffset() {
-				return geometrySet.getBufferManager().getCurrentElementsOffset();
-			}
-
-			@Override
-			public int getIndicesLength() {
-				return geometrySet.getBufferManager().getCurrentIndicesLength();
-			}
-
-			@Override
-			public GLBufferIndices getBufferIndices() {
-				return geometrySet.getBufferManager().getCurrentBufferIndices();
-			}
-
-			private void setBufferCurrentIndex() {
-				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(),
-						geometryIndex);
-			}
-
-			@Override
-			public void initForExport() {
-				setBufferCurrentIndex();
-				geometrySet.getBufferManager().setBufferSegmentToCurrentIndex();
-			}
-
-		}
-
-	}
-
 	/**
 	 * constructor
 	 * 
@@ -294,7 +61,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
 		if (mayBePacked && currentBufferManager != null) {
-			return new GeometriesSetElementsGlobalBufferPacking(
+			return new GeometriesSetElementsGlobalBufferPacking(this,
 					currentBufferManager, currentColor, currentLayer);
 		}
 		return super.newGeometriesSet(mayBePacked);
