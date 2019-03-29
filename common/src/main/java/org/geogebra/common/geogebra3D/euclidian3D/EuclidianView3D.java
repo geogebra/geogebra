@@ -233,7 +233,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * direction of view
 	 */
-	private Coords viewDirection;
+	private Coords viewDirection = new Coords(4);
 	private Coords eyePosition = new Coords(4);
 	// axis and xOy plane
 	private GeoPlane3DConstant xOyPlane;
@@ -258,7 +258,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.identity();
     private CoordMatrix4x4 undoTranslationMatrixForGL = CoordMatrix4x4.identity();
 	private CoordMatrix rotationMatrix;
-	private Coords viewDirectionPersp;
+	private Coords viewDirectionPersp = new Coords(4);
 	private Coords tmpCoordsLength3 = new Coords(3);
     private Coords tmpCoordsLength4 = new Coords(4);
 	private int intersectionThickness;
@@ -322,8 +322,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		startPos = new Coords(4);
 		startPos.setW(1);
 
-		viewDirectionPersp = new Coords(4);
-		viewDirection = Coords.VZ.copyVector();
+		viewDirection.set3(Coords.VZ);
 
 		target = new Target();
 
@@ -984,9 +983,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	private void updateEye() {
 		// update view direction
 		if (projection == PROJECTION_OBLIQUE) {
-			viewDirection = renderer.getObliqueOrthoDirection().copyVector();
+			viewDirection.set3(renderer.getObliqueOrthoDirection());
 		} else {
-			viewDirection = Coords.VZm.copyVector();
+			viewDirection.set3(Coords.VZm);
 		}
 		toSceneCoords3D(viewDirection);
 		viewDirection.normalize();
@@ -1416,7 +1415,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (projection == PROJECTION_PERSPECTIVE
 				|| projection == PROJECTION_GLASSES) {
-			viewDirectionPersp = pickPoint.sub(renderer.getPerspEye());
+			viewDirectionPersp.setSub3(pickPoint, renderer.getPerspEye());
 			toSceneCoords3D(viewDirectionPersp);
 			viewDirectionPersp.normalize();
 		}
@@ -1473,7 +1472,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (projection == PROJECTION_PERSPECTIVE
 				|| projection == PROJECTION_GLASSES) {
-			viewDirectionPersp = pickPoint.sub(renderer.getPerspEye());
+			viewDirectionPersp.setSub3(pickPoint, renderer.getPerspEye());
 			toSceneCoords3D(viewDirectionPersp);
 			viewDirectionPersp.normalize();
 		}
