@@ -1,9 +1,11 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.util.debug.Log;
 
@@ -14,9 +16,11 @@ import org.geogebra.common.util.debug.Log;
  * @author ggb3D
  *
  */
-public class ManagerGLList extends ManagerD {
+public class ManagerGLList extends Manager {
 
-	// GL
+	/**
+	 * openGL renderer
+	 */
 	protected Renderer renderer;
 
 	private JoglAndGluProvider joglAndGluProvider;
@@ -25,6 +29,9 @@ public class ManagerGLList extends ManagerD {
 	 * common constructor
 	 * 
 	 * @param renderer
+	 *            renderer
+	 * @param joglAndGluProvider
+	 *            JOGL provider
 	 * @param view3D
 	 *            3D view
 	 */
@@ -48,6 +55,10 @@ public class ManagerGLList extends ManagerD {
 		return renderer;
 	}
 
+	/**
+	 * 
+	 * @return JOGL renderer
+	 */
 	public RendererJogl getJogl() {
 		return joglAndGluProvider.getJogl();
 	}
@@ -124,6 +135,7 @@ public class ManagerGLList extends ManagerD {
 	 * remove the polygon from gl memory
 	 * 
 	 * @param index
+	 *            geometry index
 	 */
 	@Override
 	public void remove(int index) {
@@ -169,8 +181,6 @@ public class ManagerGLList extends ManagerD {
 
 	@Override
 	protected void vertexInt(double x, double y, double z) {
-
-		// getJogl().getGL2().glVertex3i(x, y, z);
 		vertex(x, y, z);
 	}
 
@@ -200,9 +210,28 @@ public class ManagerGLList extends ManagerD {
 		getText().rectangle(x, y, z, width, height);
 	}
 
-	/*
-	 * @Override public void rectangleBounds(int x, int y, int z, int width, int
-	 * height){ getText().rectangleBounds(x, y, z, width, height); }
+	/**
+	 * 
+	 * @param type
+	 *            Manager type
+	 * @return GL type
 	 */
+	protected static int getGLType(Type type) {
+		switch (type) {
+		case TRIANGLE_STRIP:
+			return GL.GL_TRIANGLE_STRIP;
+		case TRIANGLE_FAN:
+			return GL.GL_TRIANGLE_FAN;
+		case TRIANGLES:
+			return GL.GL_TRIANGLES;
+		case LINE_LOOP:
+			return GL.GL_LINE_LOOP;
+		case LINE_STRIP:
+			return GL.GL_LINE_STRIP;
+		}
+
+		return 0;
+	}
+
 
 }
