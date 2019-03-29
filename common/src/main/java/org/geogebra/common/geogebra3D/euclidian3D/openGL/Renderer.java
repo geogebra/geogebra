@@ -250,7 +250,7 @@ public abstract class Renderer {
      *            Hitting Origin from AR. Override in RendererWithImplA
 	 */
 	public void getHittingOriginAR(Coords ret) {
-		// nothing to do here
+		fromARCoreCoordsToGGBCoords(getARManager().getHittingOrigin(), ret);
 	}
 
     /**
@@ -259,8 +259,12 @@ public abstract class Renderer {
      * @return true if there is an hitting on floor
      */
     public boolean getHittingFloorAR(Coords ret) {
-        // nothing to do here
-        return false;
+		Coords hittingFloor = getARManager().getHittingFloor();
+		if (hittingFloor == null) {
+			return false;
+		}
+		fromARCoreCoordsToGGBCoords(hittingFloor, ret);
+		return true;
     }
 
     /**
@@ -268,8 +272,7 @@ public abstract class Renderer {
      * @return current hitting distance (in AR)
      */
     public double getHittingDistanceAR() {
-        // nothing to do here
-        return 0;
+		return getARManager().getHittingDistance() / arScaleFactor;
     }
 
     /**
@@ -278,8 +281,7 @@ public abstract class Renderer {
      * @return hit z value (if already computed)
      */
     public double checkHittingFloorZ(double z) {
-        // nothing to do here
-        return z;
+		return getARManager().checkHittingFloorZ(z);
     }
 
 	/**
@@ -1818,22 +1820,23 @@ public abstract class Renderer {
 	 * Set scale for AR
 	 */
 	public void setScaleFactor() {
-		// only for AR
+		float reductionFactor = 0.80f;
+		mScaleFactor = (getARManager().getDistance() / getWidth()) * reductionFactor;
 	}
 
 	public void setBackgroundColor() {
-	    // only for AR
+		getARManager().setBackgroundColor();
     }
 
 	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
-        // only for AR
+		getARManager().setBackgroundStyle(backgroundStyle);
 	}
 
 	/**
 	 * @return background for AR, opaque otherwise
 	 */
 	public BackgroundStyle getBackgroundStyle() {
-		return BackgroundStyle.OPAQUE;
+		return getARManager().getBackgroundStyle();
 	}
 
     /**
@@ -1841,7 +1844,7 @@ public abstract class Renderer {
      * @param z altitude
      */
     public void setARFloorZ(double z) {
-        // only for AR
+		getARManager().setFirstFloor(z);
     }
 
 	/**
