@@ -2880,7 +2880,7 @@ __GGB__keysVar["sl"].menu = {
     "TTestPairedDifferences": "T test, primerjalne razlike",
     "Tab": "Tabulator",
     "Table": "Tabela",
-    "TableOfValues": "Table of values",
+    "TableOfValues": "Vrednosti v  tabeli",
     "TableValuesEmptyDescription": "Prikaz funkcije s tabelo",
     "TableValuesEmptyTitle": "Tabela je prazna",
     "Tangent": "Tangente",
