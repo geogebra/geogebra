@@ -3,7 +3,11 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
-@SuppressWarnings("serial") class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
+/**
+ *
+ */
+@SuppressWarnings("serial")
+class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
 	/**
 	 * 
 	 */
@@ -11,6 +15,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 
 	/**
 	 * @param managerShadersElementsGlobalBuffer
+	 *            geometry manager
 	 */
 	GeometriesSetElementsGlobalBuffer(
 			ManagerShadersElementsGlobalBuffer managerShadersElementsGlobalBuffer) {

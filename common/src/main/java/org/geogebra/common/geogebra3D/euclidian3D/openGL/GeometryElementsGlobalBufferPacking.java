@@ -15,6 +15,15 @@ public class GeometryElementsGlobalBufferPacking extends Geometry
 	private int geometryIndex;
 	private GeometriesSetElementsGlobalBufferPacking geometrySet;
 
+	/**
+	 * 
+	 * @param geometrySet
+	 *            geometry set
+	 * @param type
+	 *            type
+	 * @param geometryIndex
+	 *            geometry index
+	 */
 	public GeometryElementsGlobalBufferPacking(
 			GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
 			int geometryIndex) {

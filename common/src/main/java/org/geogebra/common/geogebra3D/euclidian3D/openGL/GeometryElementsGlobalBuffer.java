@@ -5,6 +5,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ *
+ */
 public class GeometryElementsGlobalBuffer extends Geometry implements GeometryForExport {
 
 	/**
@@ -18,6 +21,13 @@ public class GeometryElementsGlobalBuffer extends Geometry implements GeometryFo
 
 	private boolean hasSharedIndexBuffer = false;
 
+	/**
+	 * 
+	 * @param manager
+	 *            manager
+	 * @param type
+	 *            type
+	 */
 	public GeometryElementsGlobalBuffer(
 			ManagerShadersElementsGlobalBuffer manager, Type type) {
 		super(type);
