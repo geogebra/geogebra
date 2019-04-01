@@ -3439,16 +3439,16 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            material sharing key
 	 * @param absolute
 	 *            whether to include host name
-	 * @return appName parameter
+	 * @return url
 	 */
 	public String getCurrentURL(String sharingKey, boolean absolute) {
-		String appName = articleElement.getDataParamAppName();
+		String apiUrlPrefix = articleElement.getParamAPIUrlPrefix();
 		String apiURL = this.getLoginOperation().getGeoGebraTubeAPI().getUrl();
 		String host = apiURL.substring(0, apiURL.indexOf("/", 12));
-		if (StringUtil.empty(appName)) {
-			appName = "classic";
+		if (StringUtil.empty(apiUrlPrefix)) {
+			apiUrlPrefix = "classic";
 		}
-		String path = "/" + appName + "/" + sharingKey;
+		String path = "/" + apiUrlPrefix + "/" + sharingKey;
 		return absolute ? host + path : path;
 	}
 

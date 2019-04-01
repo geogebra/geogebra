@@ -838,4 +838,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getParamFullscreenContainer() {
 		return getStringDataParam("fullscreenContainer", "");
 	}
+
+	@Override
+	public String getParamAPIUrlPrefix() {
+		return getStringDataParam("apiUrlPrefix", getDataParamAppName());
+	}
 }

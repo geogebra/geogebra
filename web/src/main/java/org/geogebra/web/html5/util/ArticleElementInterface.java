@@ -485,4 +485,8 @@ public interface ArticleElementInterface {
 
 	String getParamFullscreenContainer();
 
+	/**
+	 * @return getDataParamAppName by default, or prefix of API url
+	 */
+	String getParamAPIUrlPrefix();
 }
