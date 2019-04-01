@@ -253,14 +253,11 @@ public class FunctionParser {
 	public static ExpressionValue getLogIndex(String label, Kernel kernel) {
 		String logIndex = label.substring(4);
 		if (logIndex.startsWith("{")) {
-			logIndex = logIndex.substring(1, logIndex.length() - 1);
+			int closingBracketIndex = logIndex.indexOf('}');
+			logIndex = logIndex.substring(1, closingBracketIndex);
 		}
 		ExpressionValue ret;
 		try {
-			if (logIndex.matches("[0-9]*")) {
-				ret = new MyDouble(kernel, MyDouble
-						.parseDouble(kernel.getLocalization(), logIndex));
-			}
 			ret = new GParser(kernel, kernel.getConstruction())
 					.parseGeoGebraExpression(logIndex);
 		} catch (Throwable e1) {

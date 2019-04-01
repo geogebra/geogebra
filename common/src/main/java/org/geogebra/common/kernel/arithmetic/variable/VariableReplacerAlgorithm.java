@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.parser.FunctionParser;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 
 public class VariableReplacerAlgorithm {
@@ -61,6 +62,11 @@ public class VariableReplacerAlgorithm {
 
 		}
 
+		ExpressionValue logExpression = getLogExpression(expressionString);
+		if (logExpression != null) {
+			return logExpression;
+		}
+
 		ExpressionValue resultOfReverseProcessing = processInReverse();
 		if (resultOfReverseProcessing != null) {
 			return resultOfReverseProcessing;
@@ -84,15 +90,13 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue processInReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
-			String subExpression = expressionString.substring(0, charIndex);
-
 			if (!isCharVariableOrConstantName()) {
 				break;
 			}
 
 			increaseExponents();
 
-			nameNoX = subExpression;
+			nameNoX = expressionString.substring(0, charIndex);
 			geo = kernel.lookupLabel(nameNoX);
 			if (geo == null && "i".equals(nameNoX)) {
 				geo = kernel.getImaginaryUnit();
@@ -102,12 +106,6 @@ public class VariableReplacerAlgorithm {
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
 				return productCreator.getXyzPiDegPower(exponents, degPower).apply(op);
-			}
-			else if (expressionString.startsWith("log_")) {
-				ExpressionValue logExpression = getLogExpression(subExpression);
-				if (logExpression != null) {
-					return logExpression;
-				}
 			}
 
 			if (geo == null) {
@@ -168,12 +166,27 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionNode getLogExpression(String expressionString) {
+		if (!expressionString.startsWith("log_")) {
+			return null;
+		}
 		ExpressionValue index = FunctionParser.getLogIndex(expressionString, kernel);
 		if (index != null) {
-			ExpressionValue arg = productCreator.getXyzPiDegPower(exponents, degPower);
-			return new ExpressionNode(kernel, index, Operation.LOGB, arg);
+			ExpressionValue logArg = getLogArg(expressionString);
+			if (logArg != null) {
+				logArg = productCreator.getXyzPiDegPower(exponents, degPower);
+			}
+			return new ExpressionNode(kernel, index, Operation.LOGB, logArg);
 		}
 		return null;
 	}
 
+	private ExpressionValue getLogArg(String logString) {
+		int indexOfClosingBracket = logString.indexOf('}');
+		String argString = logString.substring(indexOfClosingBracket + 1);
+		try {
+			return kernel.getParser().parseGeoGebraExpression(argString);
+		} catch (ParseException ignored) {
+		}
+		return null;
+	}
 }
