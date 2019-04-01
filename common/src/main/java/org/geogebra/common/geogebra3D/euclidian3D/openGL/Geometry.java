@@ -16,19 +16,12 @@ import org.geogebra.common.util.debug.Log;
 public class Geometry implements GeometryForExport {
 
 	private final ManagerShaders manager;
-
-	/**
-	 * type of primitives
-	 */
-	protected Type type;
-
-	protected GLBuffer v;
-	protected GLBuffer n;
-	protected GLBuffer t;
-	protected GLBuffer c;
-
+	private Type type;
+	private GLBuffer v;
+	private GLBuffer n;
+	private GLBuffer t;
+	private GLBuffer c;
 	private int length;
-
 	private GLBufferIndices arrayI = null;
 	private int indicesLength;
 	private boolean hasSharedIndexBuffer = false;
@@ -78,7 +71,6 @@ public class Geometry implements GeometryForExport {
 	 *            vertices size
 	 */
 	public void allocateBuffers(int size) {
-		// Log.debug("allocateBuffers: "+size);
 		v.allocate(size * 3);
 		n.allocate(size * 3);
 		length = 0;
@@ -142,7 +134,6 @@ public class Geometry implements GeometryForExport {
 	 *            length to copy
 	 */
 	public void setVertices(ArrayList<Double> array, int length) {
-		// this.v = GLFactory.prototype.newBuffer();
 		this.v.set(array, length);
 	}
 
@@ -294,16 +285,6 @@ public class Geometry implements GeometryForExport {
 	}
 
 	/**
-	 * remove buffers
-	 * 
-	 * @param r
-	 *            GL renderer
-	 */
-	public void removeBuffers(Renderer r) {
-		// TODO not needed?
-	}
-
-	/**
 	 * bind the geometry to its GL buffer
 	 * 
 	 * @param r
@@ -344,11 +325,6 @@ public class Geometry implements GeometryForExport {
 			arrayI = manager.getBufferIndicesForCurve(r, size);
 			indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
 			hasSharedIndexBuffer = true;
-			// debug("curve: NOT shared index buffer");
-			// bufferI = getBufferIndicesForCurve(bufferI, r, size,
-			// indicesLength / (3 * 2 * PlotterBrush.LATITUDES));
-			// indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
-			// hasSharedIndexBuffer = false;
 			break;
 
 		case SURFACE:

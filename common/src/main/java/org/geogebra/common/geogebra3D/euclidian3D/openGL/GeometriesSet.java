@@ -223,8 +223,6 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 * remove GL buffers
 	 */
 	public void removeBuffers() {
-		for (int i = 0; i < getGeometriesLength(); i++) {
-			get(i).removeBuffers(this.manager.renderer);
-		}
+		// not needed here
 	}
 }
