@@ -566,7 +566,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
-			boolean complex) {
+			boolean complexPoint) {
 		GeoPoint3D point = view3D.getCursor3D();
 
 		GeoPoint3D point3D;
