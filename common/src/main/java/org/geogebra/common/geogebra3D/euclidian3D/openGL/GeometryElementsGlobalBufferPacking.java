@@ -24,10 +24,10 @@ public class GeometryElementsGlobalBufferPacking extends Geometry
 	 * @param geometryIndex
 	 *            geometry index
 	 */
-	public GeometryElementsGlobalBufferPacking(
+	public GeometryElementsGlobalBufferPacking(ManagerShaders manager,
 			GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
 			int geometryIndex) {
-		super(type);
+		super(manager, type);
 		this.geometrySet = geometrySet;
 		this.geometryIndex = geometryIndex;
 	}

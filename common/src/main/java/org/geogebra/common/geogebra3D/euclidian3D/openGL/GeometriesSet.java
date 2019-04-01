@@ -18,7 +18,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	protected Geometry currentGeometry;
 	protected int currentGeometryIndex;
 	private int geometriesLength;
-	private final ManagerShaders manager;
+	protected final ManagerShaders manager;
 
 	/**
 	 * Creates geometry set.
@@ -90,7 +90,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 * @return new geometry for the given type
 	 */
 	protected Geometry newGeometry(Type type) {
-		return new GeometryElementsGlobalBuffer(this.manager, type);
+		return new Geometry(this.manager, type);
 	}
 
 	/**
@@ -147,8 +147,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 *            type for element indices
 	 */
 	public void bindGeometry(int size, TypeElement type) {
-		((GeometryElementsGlobalBuffer) currentGeometry)
-				.bind(this.manager.renderer, size, type);
+		currentGeometry.bind(this.manager.renderer, size, type);
 	}
 
 	/**
@@ -225,8 +224,7 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 */
 	public void removeBuffers() {
 		for (int i = 0; i < getGeometriesLength(); i++) {
-			((GeometryElementsGlobalBuffer) get(i))
-					.removeBuffers(this.manager.renderer);
+			get(i).removeBuffers(this.manager.renderer);
 		}
 	}
 }

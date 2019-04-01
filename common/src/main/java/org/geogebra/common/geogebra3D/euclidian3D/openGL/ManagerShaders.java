@@ -635,8 +635,7 @@ public class ManagerShaders extends Manager {
 				return indices;
 			}
 		}
-		return ((GeometryElementsGlobalBuffer) currentGeometriesSet.currentGeometry)
-				.getBufferI(size);
+		return currentGeometriesSet.currentGeometry.getBufferI(size);
 	}
 
 	/**
