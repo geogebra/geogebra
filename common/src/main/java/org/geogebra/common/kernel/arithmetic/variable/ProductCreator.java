@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.variable.power.Base;
+import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.MyMath;
 
@@ -51,27 +53,27 @@ class ProductCreator {
 		return null;
 	}
 
-	ExpressionNode getXyzPiDegPower(int[] exponents,
+	ExpressionNode getXyzPiDegPower(Exponents exponents,
 	                                     int degPower) {
-		if (exponents[4] == 0 && degPower == 0) {
+		if (exponents.get(Base.pi) == 0 && degPower == 0) {
 			return getXyzPowers(exponents);
 		}
 		return getXyzPowers(exponents)
-				.multiply(piDegTo(exponents[4], degPower));
+				.multiply(piDegTo(exponents.get(Base.pi), degPower));
 	}
 
-	ExpressionNode getXyzPowers(int[] exponents) {
+	ExpressionNode getXyzPowers(Exponents exponents) {
 		return new ExpressionNode(kernel, new FunctionVariable(kernel, "x"))
-				.power(new MyDouble(kernel, exponents[0]))
+				.power(new MyDouble(kernel, exponents.get(Base.x)))
 				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, "y"))
-						.power(new MyDouble(kernel, exponents[1])))
+						.power(new MyDouble(kernel,exponents.get(Base.y))))
 				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, "z"))
-						.power(new MyDouble(kernel, exponents[2])))
+						.power(new MyDouble(kernel,exponents.get(Base.z))))
 				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, Unicode.theta_STRING))
-						.power(new MyDouble(kernel, exponents[3])));
+						.power(new MyDouble(kernel,exponents.get(Base.theta))));
 	}
 
 	ExpressionNode piDegTo(int piPower, int degPower) {

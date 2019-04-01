@@ -5,6 +5,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.variable.power.Base;
+import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.plugin.Operation;
 
@@ -16,7 +18,7 @@ public class VariableReplacerAlgorithm {
 
 	private String expressionString;
 	private String nameNoX;
-	private int[] exponents;
+	private Exponents exponents;
 	private ExpressionValue geo;
 	private int degPower;
 	private int charIndex;
@@ -25,6 +27,7 @@ public class VariableReplacerAlgorithm {
 		this.kernel = kernel;
 		derivativeCreator = new DerivativeCreator(kernel);
 		productCreator = new ProductCreator(kernel);
+		exponents = new Exponents();
 	}
 
 	public ExpressionValue replace(String expressionString) {
@@ -40,7 +43,7 @@ public class VariableReplacerAlgorithm {
 			}
 
 		}
-		exponents = new int[] { 0, 0, 0, 0, 0 };
+
 		geo = productCreator.getProduct(expressionString);
 		if (geo != null) {
 			return geo;
@@ -63,43 +66,37 @@ public class VariableReplacerAlgorithm {
 			return resultOfReverseProcessing;
 		}
 
-		while (nameNoX.length() > 0 && geo == null && (nameNoX.startsWith("pi")
-				|| nameNoX.charAt(0) == Unicode.pi)) {
-			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
-			exponents[4]++;
-			nameNoX = nameNoX.substring(chop);
-			if (charIndex + 1 >= chop) {
-				geo = kernel.lookupLabel(nameNoX);
-				if (geo == null) {
-					geo = productCreator.getProduct(nameNoX);
-				}
-			}
-			if (geo != null) {
-				break;
-			}
-		}
+		processPi();
+
 		if (nameNoX.length() > 0 && geo == null) {
 			return new Variable(kernel, nameNoX);
 		}
 		ExpressionNode powers = productCreator.getXyzPowers(exponents);
 		if (geo == null) {
-			return exponents[4] == 0 && degPower == 0 ? powers
-					: powers.multiply(productCreator.piDegTo(exponents[4], degPower));
+			return exponents.get(Base.pi) == 0 && degPower == 0 ? powers
+					: powers.multiply(productCreator.piDegTo(exponents.get(Base.pi), degPower));
 		}
-		return exponents[4] == 0 && degPower == 0 ? powers.multiply(geo)
+		return exponents.get(Base.pi) == 0 && degPower == 0 ? powers.multiply(geo)
 				: powers.multiply(geo)
-				.multiply(productCreator.piDegTo(exponents[4], degPower));
+				.multiply(productCreator.piDegTo(exponents.get(Base.pi), degPower));
 	}
 
 	private ExpressionValue processInReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
-			char c = expressionString.charAt(charIndex);
-			if ((c < 'x' || c > 'z') && c != Unicode.theta && c != Unicode.pi) {
+
+			String subExpression = expressionString.substring(0, charIndex);
+			ExpressionValue logExpression = getLogExpression(subExpression);
+			if (logExpression != null) {
+				return logExpression;
+			}
+
+			if (isCharVariableOrConstantName()) {
+				increaseExponents();
+			} else {
 				break;
 			}
-			exponents[c == Unicode.pi ? 4
-					: (c == Unicode.theta ? 3 : c - 'x')]++;
-			nameNoX = expressionString.substring(0, charIndex);
+
+			nameNoX = subExpression;
 			geo = kernel.lookupLabel(nameNoX);
 			if (geo == null && "i".equals(nameNoX)) {
 				geo = kernel.getImaginaryUnit();
@@ -109,12 +106,8 @@ public class VariableReplacerAlgorithm {
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
 				return productCreator.getXyzPiDegPower(exponents, degPower).apply(op);
-			} else if (nameNoX.startsWith("log_")) {
-				ExpressionValue logExpression = getLogExpression();
-				if (logExpression != null) {
-					return logExpression;
-				}
 			}
+
 			if (geo == null) {
 				geo = productCreator.getProduct(nameNoX);
 			}
@@ -126,8 +119,57 @@ public class VariableReplacerAlgorithm {
 		return null;
 	}
 
-	private ExpressionNode getLogExpression() {
-		ExpressionValue index = FunctionParser.getLogIndex(nameNoX, kernel);
+	private void processPi() {
+		while (nameNoX.length() > 0 && geo == null && (nameNoX.startsWith("pi")
+				|| nameNoX.charAt(0) == Unicode.pi)) {
+			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
+			exponents.increase(Base.pi);
+			nameNoX = nameNoX.substring(chop);
+			if (charIndex + 1 >= chop) {
+				geo = kernel.lookupLabel(nameNoX);
+				if (geo == null) {
+					geo = productCreator.getProduct(nameNoX);
+				}
+			}
+			if (geo != null) {
+				break;
+			}
+		}
+	}
+
+	private void increaseExponents() {
+		char charAtIndex = expressionString.charAt(charIndex);
+
+		if (charAtIndex == Unicode.pi) {
+			exponents.increase(Base.pi);
+		}
+		else if (charAtIndex == Unicode.theta) {
+			exponents.increase(Base.theta);
+		}
+		else if (charAtIndex == 'x') {
+			exponents.increase(Base.x);
+		}
+		else if (charAtIndex == 'y') {
+			exponents.increase(Base.y);
+		}
+		else if (charAtIndex == 'z') {
+			exponents.increase(Base.x);
+		}
+	}
+
+	private boolean isCharVariableOrConstantName() {
+		char charAtIndex = expressionString.charAt(charIndex);
+		boolean isPi = charAtIndex == Unicode.pi;
+		boolean isTheta = charAtIndex == Unicode.theta;
+		boolean isXYZ = charAtIndex >= 'x' && charAtIndex <= 'z';
+		return isPi || isTheta || isXYZ;
+	}
+
+	private ExpressionNode getLogExpression(String expressionString) {
+		if (!expressionString.startsWith("log_")) {
+			return null;
+		}
+		ExpressionValue index = FunctionParser.getLogIndex(expressionString, kernel);
 		if (index != null) {
 			ExpressionValue arg = productCreator.getXyzPiDegPower(exponents, degPower);
 			return new ExpressionNode(kernel, index, Operation.LOGB, arg);
