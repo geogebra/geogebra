@@ -3834,8 +3834,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case COMMAND_HOLES:
 			return prerelease;
 
-		case WEB_CLASSIC_FLOATING_MENU:
-			return canary;
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			return !isDesktop();

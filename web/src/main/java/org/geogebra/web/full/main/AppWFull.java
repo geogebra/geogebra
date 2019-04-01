@@ -1202,8 +1202,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 * @return whether floating menu is used
 	 */
 	protected final boolean isFloatingMenu() {
-		return isUnbundledOrWhiteboard()
-				|| has(Feature.WEB_CLASSIC_FLOATING_MENU);
+		return isUnbundledOrWhiteboard();
 	}
 
 	@Override

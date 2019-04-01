@@ -93,8 +93,6 @@ public enum Feature {
 	/** GGB-2144 */
 	COMMAND_HOLES,
 
-	WEB_CLASSIC_FLOATING_MENU,
-
 	/** MOB-1537 */
 	MOB_PREVIEW_WHEN_EDITING,
 
