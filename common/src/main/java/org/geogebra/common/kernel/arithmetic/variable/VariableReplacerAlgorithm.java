@@ -85,16 +85,12 @@ public class VariableReplacerAlgorithm {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
 			String subExpression = expressionString.substring(0, charIndex);
-			ExpressionValue logExpression = getLogExpression(subExpression);
-			if (logExpression != null) {
-				return logExpression;
-			}
 
-			if (isCharVariableOrConstantName()) {
-				increaseExponents();
-			} else {
+			if (!isCharVariableOrConstantName()) {
 				break;
 			}
+
+			increaseExponents();
 
 			nameNoX = subExpression;
 			geo = kernel.lookupLabel(nameNoX);
@@ -106,6 +102,12 @@ public class VariableReplacerAlgorithm {
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
 				return productCreator.getXyzPiDegPower(exponents, degPower).apply(op);
+			}
+			else if (expressionString.startsWith("log_")) {
+				ExpressionValue logExpression = getLogExpression(subExpression);
+				if (logExpression != null) {
+					return logExpression;
+				}
 			}
 
 			if (geo == null) {
@@ -153,7 +155,7 @@ public class VariableReplacerAlgorithm {
 			exponents.increase(Base.y);
 		}
 		else if (charAtIndex == 'z') {
-			exponents.increase(Base.x);
+			exponents.increase(Base.z);
 		}
 	}
 
@@ -166,9 +168,6 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionNode getLogExpression(String expressionString) {
-		if (!expressionString.startsWith("log_")) {
-			return null;
-		}
 		ExpressionValue index = FunctionParser.getLogIndex(expressionString, kernel);
 		if (index != null) {
 			ExpressionValue arg = productCreator.getXyzPiDegPower(exponents, degPower);
