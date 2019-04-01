@@ -204,7 +204,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected void updateModelMatrixFields() {
         /* Scaling */
-        mScaleFactor = arGestureManager.getScaleFactor();
+        if (arGestureManager != null) {
+            mScaleFactor = arGestureManager.getScaleFactor();
+        }
 
         /* Scaling */
         scaleMatrix.setDiag(mScaleFactor);
@@ -249,7 +251,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     protected void updateTranslationIfNeeded() {
-        if (arGestureManager.getUpdateOriginIsWanted()) {
+        if (arGestureManager != null && arGestureManager.getUpdateOriginIsWanted()) {
             arGestureManager.setUpdateOriginIsWanted(false);
             Coords modelOrigin = mModelMatrix.getOrigin();
             Coords anchorOrigin = mAnchorMatrix.getOrigin();
@@ -292,7 +294,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     protected void copyPosFromGestureManager() {
-        arGestureManager.copyXYPosition(mPosXY);
+        if (arGestureManager != null) {
+            arGestureManager.copyXYPosition(mPosXY);
+        }
     }
 
     protected float getPosX() {
