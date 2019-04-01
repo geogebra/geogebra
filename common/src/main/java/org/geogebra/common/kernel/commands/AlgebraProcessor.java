@@ -584,13 +584,15 @@ public class AlgebraProcessor {
 			// rename to oldLabel to enable overwriting
 			result = processAlgebraCommandNoExceptionHandling(newValue, false,
 					handler, null, info);
-			result[0].setLabel(newLabel); // now we rename
-			app.getCompanion().recallViewCreators();
-			if (storeUndoInfo) {
-				app.storeUndoInfo();
-			}
-			if (result.length > 0 && callback != null) {
-				callback.callback(result[0]);
+			if (result != null) {
+				result[0].setLabel(newLabel); // now we rename
+				app.getCompanion().recallViewCreators();
+				if (storeUndoInfo) {
+					app.storeUndoInfo();
+				}
+				if (result.length > 0 && callback != null) {
+					callback.callback(result[0]);
+				}
 			}
 		} else {
 			throw new MyError(loc, "NameUsed", newLabel);
