@@ -47,7 +47,6 @@ package org.geogebra.common.kernel.parser;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.*;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1295,8 +1294,7 @@ ExpressionValue enpower():
             }
 
             // collect exponents
-            if (exponentList == null) {
-                exponentList = new ArrayList<ExpressionValue>();
+            if (exponentList == null) {                exponentList = new ArrayList<ExpressionValue>();
             }
             exponentList.add(f);
         }

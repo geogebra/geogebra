@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;

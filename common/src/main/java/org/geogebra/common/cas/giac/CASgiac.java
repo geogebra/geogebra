@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;

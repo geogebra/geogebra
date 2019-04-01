@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandFunctionReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;

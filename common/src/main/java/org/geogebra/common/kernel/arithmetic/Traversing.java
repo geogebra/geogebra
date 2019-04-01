@@ -10,8 +10,6 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
-import org.geogebra.common.kernel.arithmetic.variable.VariableProcessor;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -796,7 +794,6 @@ public interface Traversing {
 		private final Kernel kernel;
 		private String[] except;
 		private TreeSet<GeoNumeric> undefined;
-		private VariableProcessor variableProcessor;
 
 		/**
 		 * Replaces undefined variables by sliders
@@ -814,7 +811,6 @@ public interface Traversing {
 			this.kernel = kernel;
 			this.undefined = undefined;
 			this.except = skip;
-			variableProcessor = new VariableProcessor(kernel);
 		}
 
 		@Override
@@ -852,7 +848,7 @@ public interface Traversing {
 			ExpressionValue replace = kernel.lookupLabel(name, true,
 					SymbolicMode.NONE);
 			if (replace == null) {
-				replace = variableProcessor.replace(name);
+				replace = Variable.replacement(kernel, name);
 			}
 			if (replace instanceof Variable
 					&& !name.equals(kernel.getConstruction()
@@ -924,8 +920,7 @@ public interface Traversing {
 				ExpressionValue ret;
 				ret = v.getKernel().lookupLabel(name);
 				if (ret == null) {
-					VariableProcessor variableProcessor = new VariableProcessor(v.getKernel());
-					ret = variableProcessor.replace(name);
+					ret = Variable.replacement(v.getKernel(), name);
 				}
 
 				if (ret instanceof Variable && !v.getKernel().getConstruction()

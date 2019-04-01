@@ -9,7 +9,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;

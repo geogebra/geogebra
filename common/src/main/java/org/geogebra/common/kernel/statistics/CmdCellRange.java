@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;

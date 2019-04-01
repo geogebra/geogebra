@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;

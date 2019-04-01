@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoOrthoLinePointConic;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;

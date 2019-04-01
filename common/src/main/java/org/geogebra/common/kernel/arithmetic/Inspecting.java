@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
