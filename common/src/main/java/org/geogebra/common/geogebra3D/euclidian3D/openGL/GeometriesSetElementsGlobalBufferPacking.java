@@ -59,7 +59,7 @@ class GeometriesSetElementsGlobalBufferPacking
 
 	@Override
 	protected Geometry newGeometry(Type type) {
-		return new GeometryElementsGlobalBufferPacking(manager, this, type,
+		return new GeometryPacking(manager, this, type,
 				currentGeometryIndex);
 	}
 

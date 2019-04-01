@@ -3,20 +3,20 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 
 /**
  * geometry handler for buffer packing
  *
  */
-public class GeometryElementsGlobalBufferPacking extends Geometry
-		implements GeometryForExport {
+public class GeometryPacking extends Geometry {
 
 	private int geometryIndex;
 	private GeometriesSetElementsGlobalBufferPacking geometrySet;
 
 	/**
 	 * 
+	 * @param manager
+	 *            manager
 	 * @param geometrySet
 	 *            geometry set
 	 * @param type
@@ -24,7 +24,7 @@ public class GeometryElementsGlobalBufferPacking extends Geometry
 	 * @param geometryIndex
 	 *            geometry index
 	 */
-	public GeometryElementsGlobalBufferPacking(ManagerShaders manager,
+	public GeometryPacking(ManagerShaders manager,
 			GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
 			int geometryIndex) {
 		super(manager, type);
