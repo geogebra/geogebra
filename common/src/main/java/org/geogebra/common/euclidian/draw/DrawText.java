@@ -72,8 +72,12 @@ public final class DrawText extends Drawable {
 	private boolean needsBoundingBoxOld;
 
 	private BoundingBox boundingBox;
+	/**
+	 * thickness for the highlight frame
+	 */
+	static final public int HIGHLIGHT_THICKNESS = 2;
 	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
-			.newBasicStroke(2);
+			.newBasicStroke(HIGHLIGHT_THICKNESS);
 
 	/**
 	 * Creates new DrawText

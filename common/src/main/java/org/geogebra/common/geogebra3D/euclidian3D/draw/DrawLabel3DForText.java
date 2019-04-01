@@ -96,7 +96,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		int old = highLightIndex;
 		highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX,
 				drawY, drawZ, width / getFontScale(), height / getFontScale(),
-				highLightIndex, geo.getLineThickness() / 2.0);
+				highLightIndex, DrawText.HIGHLIGHT_THICKNESS);
 		renderer.getGeometryManager().remove(old);
 	}
 
