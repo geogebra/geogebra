@@ -2599,11 +2599,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
-	private boolean shouldDrawCursorAtEnd() {
-		return app.has(Feature.G3D_AR_TARGET)
-				&& euclidianController.isCreatingPointAR();
-	}
-
 	/**
 	 * draws the cursor
 	 *
@@ -5012,6 +5007,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	public MouseTouchGestureController getEuclidianPanelOnTouchListner() {
 		// overriden in EuclidianView3DA
 		return null;
+	}
+
+	private boolean shouldDrawCursorAtEnd() {
+		return app.has(Feature.G3D_AR_TARGET)
+				&& euclidianController.isCreatingPointAR();
 	}
 
 }
