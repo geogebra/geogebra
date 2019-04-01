@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
  */
 public class ManagerShaders extends Manager {
 
-	protected Renderer renderer;
+	private Renderer renderer;
 	private ArrayList<Double> vertices;
 	private ArrayList<Double> normals;
 	private ArrayList<Double> textures;
@@ -52,9 +52,6 @@ public class ManagerShaders extends Manager {
 	private int fanIndirectIndicesSize;
 	private GLBufferIndices bufferIndicesForDrawTriangleFans;
 
-	boolean indicesDone = false;
-	TypeElement oldType = TypeElement.NONE;
-
 	private Coords triangleFanApex;
 
 	/**
@@ -79,6 +76,28 @@ public class ManagerShaders extends Manager {
 	private float[] translate;
 	private float scale;
 
+	/** element type */
+	public enum TypeElement {
+		/** no known type */
+		NONE,
+		/** curve */
+		CURVE,
+		/** surface */
+		SURFACE,
+		/** fan, direct */
+		FAN_DIRECT,
+		/** fan, indirect */
+		FAN_INDIRECT,
+		/** triangle fan */
+		TRIANGLE_FAN,
+		/** triangle strip */
+		TRIANGLE_STRIP,
+		/** triangles */
+		TRIANGLES,
+		/** template */
+		TEMPLATE
+	}
+
 	/**
 	 * common constructor
 	 * 
@@ -101,11 +120,6 @@ public class ManagerShaders extends Manager {
 		bufferManagerPoints = new GLBufferManagerPoints(this);
 		currentBufferManager = null;
 		translate = new float[3];
-	}
-
-	public enum TypeElement {
-		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT, TRIANGLE_FAN,
-		TRIANGLE_STRIP, TRIANGLES, TEMPLATE
 	}
 
 	@Override
@@ -378,12 +392,12 @@ public class ManagerShaders extends Manager {
 
 	@Override
 	protected void pointSize(double size) {
-		// renderer.getGL2().glPointSize(size);
+		// no need
 	}
 
 	@Override
 	protected void vertices(double[] vert) {
-		// TODO Auto-generated method stub
+		// no need
 	}
 
 	@Override
@@ -965,15 +979,15 @@ public class ManagerShaders extends Manager {
 	 *            indices size
 	 * @param elementsLength
 	 *            vertices, normals length
-	 * @param vertices
+	 * @param vertices1
 	 *            vertices array
-	 * @param normals
+	 * @param normals1
 	 *            normals array
 	 */
 	public void endGeometry(int size, int elementsLength,
-			ArrayList<Double> vertices, ArrayList<Double> normals) {
-		currentGeometriesSet.setVertices(vertices, elementsLength * 3);
-		currentGeometriesSet.setNormals(normals, elementsLength * 3);
+			ArrayList<Double> vertices1, ArrayList<Double> normals1) {
+		currentGeometriesSet.setVertices(vertices1, elementsLength * 3);
+		currentGeometriesSet.setNormals(normals1, elementsLength * 3);
 		currentGeometriesSet.setTextures(null, 0);
 		currentGeometriesSet.setColors(null, 0);
 		currentGeometriesSet.bindGeometry(size, TypeElement.TEMPLATE);
