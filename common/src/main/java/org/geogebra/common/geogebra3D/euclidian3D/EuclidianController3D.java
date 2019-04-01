@@ -2201,7 +2201,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// MOUSE PRESSED
 
 	@Override
-	protected void createNewPointForModePoint(Hits hits, boolean complex) {
+	protected void createNewPointForModePoint(Hits hits, boolean complexPoint) {
 		createNewPoint(hits, true, true, true, true, false);
 	}
 
