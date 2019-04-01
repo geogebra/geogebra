@@ -840,7 +840,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public String getParamAPIPrefix() {
-		return getStringDataParam("apiPrefix", getDataParamAppName());
+	public String getParamShareLinkPrefix() {
+		return getStringDataParam("shareLinkPrefix", getDataParamAppName());
 	}
 }

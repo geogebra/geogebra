@@ -486,7 +486,7 @@ public interface ArticleElementInterface {
 	String getParamFullscreenContainer();
 
 	/**
-	 * @return getDataParamAppName by default, or prefix of API url
+	 * @return getDataParamAppName by default, or prefix of the share link
 	 */
-	String getParamAPIPrefix();
+	String getParamShareLinkPrefix();
 }
