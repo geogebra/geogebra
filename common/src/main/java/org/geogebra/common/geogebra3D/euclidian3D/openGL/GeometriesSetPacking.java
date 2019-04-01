@@ -4,8 +4,11 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
-class GeometriesSetElementsGlobalBufferPacking
-		extends GeometriesSet {
+/**
+ * Set of geometries, that are packed
+ *
+ */
+class GeometriesSetPacking extends GeometriesSet {
 
 	private GLBufferManager bufferManager;
 	private static final long serialVersionUID = 1L;
@@ -27,7 +30,7 @@ class GeometriesSetElementsGlobalBufferPacking
 	 * @param layer
 	 *            layer
 	 */
-	public GeometriesSetElementsGlobalBufferPacking(
+	public GeometriesSetPacking(
 			ManagerShaders manager,
 			GLBufferManager bufferManager, GColor color, int layer) {
 		super(manager);
@@ -104,10 +107,16 @@ class GeometriesSetElementsGlobalBufferPacking
 				oldGeometriesLength, false, 0, 0);
 	}
 
+	/**
+	 * @return current color
+	 */
 	public GColor getColor() {
 		return color;
 	}
 
+	/**
+	 * @return current layer
+	 */
 	public int getLayer() {
 		return layer;
 	}

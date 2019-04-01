@@ -11,7 +11,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 public class GeometryPacking extends Geometry {
 
 	private int geometryIndex;
-	private GeometriesSetElementsGlobalBufferPacking geometrySet;
+	private GeometriesSetPacking geometrySet;
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class GeometryPacking extends Geometry {
 	 *            geometry index
 	 */
 	public GeometryPacking(ManagerShaders manager,
-			GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
+			GeometriesSetPacking geometrySet, Type type,
 			int geometryIndex) {
 		super(manager, type);
 		this.geometrySet = geometrySet;

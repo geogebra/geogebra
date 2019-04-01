@@ -607,7 +607,7 @@ public class ManagerShaders extends Manager {
 	 */
 	protected GeometriesSet newGeometriesSet(boolean mayBePacked) {
 		if (mayBePacked && currentBufferManager != null) {
-			return new GeometriesSetElementsGlobalBufferPacking(this,
+			return new GeometriesSetPacking(this,
 					currentBufferManager, currentColor, currentLayer);
 		}
 		return new GeometriesSet(this);
@@ -848,8 +848,8 @@ public class ManagerShaders extends Manager {
 	@Override
 	public void updateColorAndLayer(GColor color, int layer, int index) {
 		GeometriesSet geometrySet = getGeometrySet(index);
-		if (geometrySet instanceof GeometriesSetElementsGlobalBufferPacking) {
-			((GeometriesSetElementsGlobalBufferPacking) geometrySet)
+		if (geometrySet instanceof GeometriesSetPacking) {
+			((GeometriesSetPacking) geometrySet)
 					.updateColorAndLayer(color, layer);
 		}
 	}
@@ -858,8 +858,8 @@ public class ManagerShaders extends Manager {
 	public void updateVisibility(boolean visible, int index, int alpha,
 			int layer) {
 		GeometriesSet geometrySet = getGeometrySet(index);
-		if (geometrySet instanceof GeometriesSetElementsGlobalBufferPacking) {
-			((GeometriesSetElementsGlobalBufferPacking) geometrySet)
+		if (geometrySet instanceof GeometriesSetPacking) {
+			((GeometriesSetPacking) geometrySet)
 					.updateVisibility(visible, alpha, layer);
 		}
 	}
