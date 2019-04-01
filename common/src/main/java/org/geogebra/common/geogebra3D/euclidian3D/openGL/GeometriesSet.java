@@ -15,13 +15,18 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 @SuppressWarnings("serial")
 public class GeometriesSet extends ArrayList<Geometry> {
 
-	protected Geometry currentGeometry;
+	private Geometry currentGeometry;
+	/** current geometry index */
 	protected int currentGeometryIndex;
 	private int geometriesLength;
+	/** manager */
 	protected final ManagerShaders manager;
 
 	/**
 	 * Creates geometry set.
+	 * 
+	 * @param manager
+	 *            manager
 	 */
 	public GeometriesSet(ManagerShaders manager) {
 		this.manager = manager;
@@ -224,5 +229,13 @@ public class GeometriesSet extends ArrayList<Geometry> {
 	 */
 	public void removeBuffers() {
 		// not needed here
+	}
+
+	/**
+	 * 
+	 * @return current geometry
+	 */
+	public Geometry getCurrentGeometry() {
+		return currentGeometry;
 	}
 }
