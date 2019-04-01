@@ -52,7 +52,7 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		document.title = title;
 	}
 
-	function appSupportsPerspective(idString){
+	function isAppSupportingPerspective(idString){
 		if (!window.appID || window.appID == "classic") {
 			return true;
 		}
@@ -70,7 +70,7 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 				if ((id+"").substring(0,4) == "exam") {
 					e("ggw").setAttribute("data-param-enableGraphing","true");
 				}
-				if (appSupportsPerspective(id + "")) {
+				if (isAppSupportingPerspective(id + "")) {
 					e("ggw").setAttribute("data-param-perspective", id);
 					if (c("mowToolbar")) {
 						c("mowToolbar").style.display = "none";
