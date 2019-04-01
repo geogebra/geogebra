@@ -13,18 +13,18 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
  *
  */
 @SuppressWarnings("serial")
-abstract public class GeometriesSet extends ArrayList<Geometry> {
+public class GeometriesSet extends ArrayList<Geometry> {
 
 	protected Geometry currentGeometry;
-
 	protected int currentGeometryIndex;
-
 	private int geometriesLength;
+	private final ManagerShaders manager;
 
 	/**
 	 * Creates geometry set.
 	 */
-	public GeometriesSet() {
+	public GeometriesSet(ManagerShaders manager) {
+		this.manager = manager;
 		reset();
 	}
 
@@ -89,7 +89,9 @@ abstract public class GeometriesSet extends ArrayList<Geometry> {
 	 *            geometry type
 	 * @return new geometry for the given type
 	 */
-	abstract  protected Geometry newGeometry(Type type);
+	protected Geometry newGeometry(Type type) {
+		return new GeometryElementsGlobalBuffer(this.manager, type);
+	}
 
 	/**
 	 * allocate buffers of current geometry
@@ -145,7 +147,8 @@ abstract public class GeometriesSet extends ArrayList<Geometry> {
 	 *            type for element indices
 	 */
 	public void bindGeometry(int size, TypeElement type) {
-		// not used here
+		((GeometryElementsGlobalBuffer) currentGeometry)
+				.bind(this.manager.renderer, size, type);
 	}
 
 	/**
@@ -216,4 +219,14 @@ abstract public class GeometriesSet extends ArrayList<Geometry> {
 	public boolean usePacking() {
 	    return false;
     }
+
+	/**
+	 * remove GL buffers
+	 */
+	public void removeBuffers() {
+		for (int i = 0; i < getGeometriesLength(); i++) {
+			((GeometryElementsGlobalBuffer) get(i))
+					.removeBuffers(this.manager.renderer);
+		}
+	}
 }

@@ -610,7 +610,7 @@ public class ManagerShaders extends Manager {
 			return new GeometriesSetElementsGlobalBufferPacking(this,
 					currentBufferManager, currentColor, currentLayer);
 		}
-		return new GeometriesSetElementsGlobalBuffer(this);
+		return new GeometriesSet(this);
 	}
 
 	@Override
@@ -648,7 +648,7 @@ public class ManagerShaders extends Manager {
 	final protected void removeGeometrySet(int index) {
 		GeometriesSet set = removeGeometrySetFromList(index);
 		if (set != null) {
-			((GeometriesSetElementsGlobalBuffer) set).removeBuffers();
+			set.removeBuffers();
 		}
 	}
 

@@ -5,7 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 class GeometriesSetElementsGlobalBufferPacking
-		extends GeometriesSetElementsGlobalBuffer {
+		extends GeometriesSet {
 
 	private GLBufferManager bufferManager;
 	private static final long serialVersionUID = 1L;
