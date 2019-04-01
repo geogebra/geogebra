@@ -32,9 +32,9 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 */
 	@SuppressWarnings("unchecked")
 	public GLBufferManagerTemplatesForPoints() {
-		vertexTemplates = new ArrayList[ManagerShadersWithTemplates.POINT_TEMPLATES_COUNT];
-		normalTemplates = new ArrayList[ManagerShadersWithTemplates.POINT_TEMPLATES_COUNT];
-		indicesTemplates = new ArrayList[ManagerShadersWithTemplates.POINT_TEMPLATES_COUNT];
+		vertexTemplates = new ArrayList[ManagerShaders.POINT_TEMPLATES_COUNT];
+		normalTemplates = new ArrayList[ManagerShaders.POINT_TEMPLATES_COUNT];
+		indicesTemplates = new ArrayList[ManagerShaders.POINT_TEMPLATES_COUNT];
 	}
 
 	@Override
@@ -107,8 +107,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 			ManagerShadersElementsGlobalBufferPacking manager,
 			int pointSize) {
 
-		int templateIndex = ManagerShadersWithTemplates
-				.getIndexForPointSize(pointSize);
+		int templateIndex = ManagerShaders.getIndexForPointSize(pointSize);
 
 		currentVertexArray = vertexTemplates[templateIndex];
 		if (currentVertexArray == null) {
@@ -120,8 +119,8 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 			int templateIndex) {
 
 		manager.setScalerIdentity();
-		manager.drawSphere(ManagerShadersWithTemplates
-				.getSphereSizeForIndex(templateIndex), Coords.O, 1d, -1);
+		manager.drawSphere(ManagerShaders.getSphereSizeForIndex(templateIndex),
+				Coords.O, 1d, -1);
 		manager.setScalerView();
 
 		currentVertexArray = new ArrayList<>();
@@ -156,8 +155,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	public void selectSphereAndCreateIfNeeded(ManagerShadersElementsGlobalBufferPacking manager,
 			float pointSize) {
 
-		int templateIndex = ManagerShadersWithTemplates
-				.getIndexForPointSize(pointSize);
+		int templateIndex = ManagerShaders.getIndexForPointSize(pointSize);
 		currentVertexArray = vertexTemplates[templateIndex];
 		if (currentVertexArray == null) {
 			createSphere(manager, templateIndex);
@@ -176,8 +174,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 *            point size
 	 */
 	public void selectSphere(int pointSize) {
-		int templateIndex = ManagerShadersWithTemplates
-				.getIndexForPointSize(pointSize);
+		int templateIndex = ManagerShaders.getIndexForPointSize(pointSize);
 		currentVertexArray = vertexTemplates[templateIndex];
 		elementsLength = currentVertexArray.size() / 3;
 		currentNormalArray = normalTemplates[templateIndex];

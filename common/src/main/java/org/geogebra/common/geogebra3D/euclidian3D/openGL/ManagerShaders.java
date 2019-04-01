@@ -5,7 +5,9 @@ import java.util.Stack;
 import java.util.TreeMap;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * 
@@ -41,6 +43,40 @@ abstract public class ManagerShaders extends Manager {
 	private int currentOld;
 
 	/**
+	 * number of templates for points
+	 */
+	final static public int POINT_TEMPLATES_COUNT = 3;
+
+	private int[] pointGeometry;
+
+	/**
+	 * 
+	 * @param pointSize
+	 *            point size
+	 * @return template index for this size
+	 */
+	static public int getIndexForPointSize(float pointSize) {
+		return pointSize < 2.5f ? 0 : (pointSize > 5.5f ? 2 : 1);
+	}
+
+	/**
+	 * 
+	 * @param index
+	 *            template index
+	 * @return sphere size for template index
+	 */
+	static public int getSphereSizeForIndex(int index) {
+		switch (index) {
+		case 0:
+			return 2;
+		case 1:
+			return 4;
+		default:
+			return 7;
+		}
+	}
+
+	/**
 	 * common constructor
 	 * 
 	 * @param renderer
@@ -50,6 +86,15 @@ abstract public class ManagerShaders extends Manager {
 	 */
 	public ManagerShaders(Renderer renderer, EuclidianView3D view3D) {
 		super(renderer, view3D);
+
+		// points geometry templates
+		setScalerIdentity();
+		pointGeometry = new int[3];
+		for (int i = 0; i < 3; i++) {
+			pointGeometry[i] = drawSphere(getSphereSizeForIndex(i), Coords.O,
+					1d, -1);
+		}
+		setScalerView();
 	}
 
 	public enum TypeElement {
@@ -387,6 +432,18 @@ abstract public class ManagerShaders extends Manager {
 	@Override
 	public void endGeometryDirect() {
 		currentGeometriesSet.endGeometry();
+	}
+
+	@Override
+	public int drawPoint(DrawPoint3D d, float size, Coords center, int index) {
+		scaleXYZ(center);
+		return pointGeometry[getIndexForPointSize(size)];
+	}
+
+	@Override
+	public void draw(int index, Coords center) {
+		renderer.getRendererImpl().setCenter(center);
+		draw(index);
 	}
 
 }

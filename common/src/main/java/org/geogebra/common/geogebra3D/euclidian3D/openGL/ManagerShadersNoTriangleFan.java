@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-abstract public class ManagerShadersNoTriangleFan extends ManagerShadersWithTemplates {
+abstract public class ManagerShadersNoTriangleFan extends ManagerShaders {
 	private Coords triangleFanApex;
 
 	/**
