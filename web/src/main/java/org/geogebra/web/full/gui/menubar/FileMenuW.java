@@ -80,7 +80,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 						getApp().isWhiteboardActive()
 								? MaterialDesignResources.INSTANCE.folder_open()
 								: MaterialDesignResources.INSTANCE
-										.search_black(),
+								.search_black(),
 						loc.getMenu(getApp().isWhiteboardActive()
 								? "mow.myfiles" : "Open")),
 				true, new MenuCommand(getApp()) {
@@ -92,7 +92,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 							getApp().getLoginOperation().getView().add(new EventRenderable() {
 								@Override
 								public final void renderEvent(BaseEvent event) {
-									if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+									if (event instanceof LoginEvent &&
+											((LoginEvent) event).isSuccessful()) {
 										getApp().openSearch(null);
 									}
 								}
