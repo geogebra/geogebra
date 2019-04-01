@@ -452,4 +452,8 @@ public class TestArticleElement implements ArticleElementInterface {
 		return (int) Double.parseDouble(number);
 	}
 
+	@Override
+	public String getParamShareLinkPrefix() {
+		return "";
+	}
 }
