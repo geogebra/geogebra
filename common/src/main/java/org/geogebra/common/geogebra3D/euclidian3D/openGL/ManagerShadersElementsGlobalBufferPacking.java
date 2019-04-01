@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * manager packing geometries
  *
  */
-public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersElementsGlobalBuffer {
+public class ManagerShadersElementsGlobalBufferPacking extends ManagerShaders {
 
 	/**
 	 * alpha value for invisible parts

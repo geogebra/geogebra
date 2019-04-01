@@ -28,7 +28,7 @@ class GeometriesSetElementsGlobalBufferPacking
 	 *            layer
 	 */
 	public GeometriesSetElementsGlobalBufferPacking(
-			ManagerShadersElementsGlobalBuffer manager,
+			ManagerShaders manager,
 			GLBufferManager bufferManager, GColor color, int layer) {
 		super(manager);
 		this.color = color;

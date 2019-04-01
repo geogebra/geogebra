@@ -11,26 +11,25 @@ class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
 	/**
 	 * 
 	 */
-	private final ManagerShadersElementsGlobalBuffer managerShadersElementsGlobalBuffer;
+	private final ManagerShaders manager;
 
 	/**
-	 * @param managerShadersElementsGlobalBuffer
+	 * @param manager
 	 *            geometry manager
 	 */
-	GeometriesSetElementsGlobalBuffer(
-			ManagerShadersElementsGlobalBuffer managerShadersElementsGlobalBuffer) {
-		this.managerShadersElementsGlobalBuffer = managerShadersElementsGlobalBuffer;
+	GeometriesSetElementsGlobalBuffer(ManagerShaders manager) {
+		this.manager = manager;
 	}
 
 	@Override
 	protected Geometry newGeometry(Type type) {
-		return new GeometryElementsGlobalBuffer(this.managerShadersElementsGlobalBuffer, type);
+		return new GeometryElementsGlobalBuffer(this.manager, type);
 	}
 
 	@Override
 	public void bindGeometry(int size, TypeElement type) {
 		((GeometryElementsGlobalBuffer) currentGeometry)
-				.bind(this.managerShadersElementsGlobalBuffer.renderer, size, type);
+				.bind(this.manager.renderer, size, type);
 	}
 
 	/**
@@ -39,7 +38,7 @@ class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
 	public void removeBuffers() {
 		for (int i = 0; i < getGeometriesLength(); i++) {
 			((GeometryElementsGlobalBuffer) get(i))
-					.removeBuffers(this.managerShadersElementsGlobalBuffer.renderer);
+					.removeBuffers(this.manager.renderer);
 		}
 
 	}

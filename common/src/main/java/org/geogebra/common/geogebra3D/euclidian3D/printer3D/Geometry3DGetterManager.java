@@ -6,7 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GeometriesSet;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Geometry;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Geometry3DGetter;
@@ -19,7 +19,7 @@ import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 public class Geometry3DGetterManager {
 
 	private Geometry3DGetter getter;
-	private ManagerShadersElementsGlobalBuffer geometriesManager;
+	private ManagerShaders geometriesManager;
 	private double xInvScale;
 	private int elementsOffset;
 
@@ -33,7 +33,7 @@ public class Geometry3DGetterManager {
 	 */
 	public Geometry3DGetterManager(EuclidianView3DForExport view, Geometry3DGetter getter) {
 		this.getter = getter;
-		geometriesManager = (ManagerShadersElementsGlobalBuffer) view.getRenderer()
+		geometriesManager = (ManagerShaders) view.getRenderer()
 				.getGeometryManager();
 		xInvScale = 1 / view.getXscale();
 	}

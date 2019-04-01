@@ -13,7 +13,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GeometriesSet;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
@@ -49,7 +49,7 @@ public class ExportToPrinter3D {
 
 	private Format format;
 
-	private ManagerShadersElementsGlobalBuffer manager;
+	private ManagerShaders manager;
 
 	protected EuclidianView3D view;
 
@@ -198,8 +198,8 @@ public class ExportToPrinter3D {
 	 */
 	public ExportToPrinter3D(EuclidianView3D view, Manager manager) {
 		this.view = view;
-		if (manager instanceof ManagerShadersElementsGlobalBuffer) {
-			this.manager = (ManagerShadersElementsGlobalBuffer) manager;
+		if (manager instanceof ManagerShaders) {
+			this.manager = (ManagerShaders) manager;
 		}
 		sb = new StringBuilder();
 	}

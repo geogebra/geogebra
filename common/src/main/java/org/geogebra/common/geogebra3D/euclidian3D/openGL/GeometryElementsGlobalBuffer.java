@@ -13,7 +13,7 @@ public class GeometryElementsGlobalBuffer extends Geometry implements GeometryFo
 	/**
 	 * 
 	 */
-	private final ManagerShadersElementsGlobalBuffer manager;
+	private final ManagerShaders manager;
 
 	private GLBufferIndices arrayI = null;
 
@@ -28,8 +28,7 @@ public class GeometryElementsGlobalBuffer extends Geometry implements GeometryFo
 	 * @param type
 	 *            type
 	 */
-	public GeometryElementsGlobalBuffer(
-			ManagerShadersElementsGlobalBuffer manager, Type type) {
+	public GeometryElementsGlobalBuffer(ManagerShaders manager, Type type) {
 		super(type);
 		this.manager = manager;
 	}
@@ -71,22 +70,18 @@ public class GeometryElementsGlobalBuffer extends Geometry implements GeometryFo
 
 			if (!manager.indicesDone || typeElement != manager.oldType
 					|| arrayI.capacity() < indicesLength) {
-				ManagerShadersElementsGlobalBuffer.debug("NEW index buffer");
 				arrayI.allocate(indicesLength);
 				for (short i = 0; i < indicesLength; i++) {
 					arrayI.put(i);
 				}
 				arrayI.rewind();
 				manager.indicesDone = true;
-			} else {
-				ManagerShadersElementsGlobalBuffer.debug("keep same index buffer");
 			}
 
 			hasSharedIndexBuffer = false;
 			break;
 
 		case CURVE:
-			ManagerShadersElementsGlobalBuffer.debug("curve: shared index buffer");
 			arrayI = manager.getBufferIndicesForCurve(r, size);
 			indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
 			hasSharedIndexBuffer = true;
@@ -98,19 +93,16 @@ public class GeometryElementsGlobalBuffer extends Geometry implements GeometryFo
 			break;
 
 		case SURFACE:
-			ManagerShadersElementsGlobalBuffer.debug("surface -- keep same index buffer");
 			indicesLength = size;
 			hasSharedIndexBuffer = false;
 			break;
 
 		case FAN_DIRECT:
-			ManagerShadersElementsGlobalBuffer.debug("fan direct: shared index buffer");
 			arrayI = manager.getBufferIndicesForFanDirect(r, size);
 			indicesLength = 3 * (size - 2);
 			hasSharedIndexBuffer = true;
 			break;
 		case FAN_INDIRECT:
-			ManagerShadersElementsGlobalBuffer.debug("fan indirect: shared index buffer");
 			arrayI = manager.getBufferIndicesForFanIndirect(r, size);
 			indicesLength = 3 * (size - 2);
 			hasSharedIndexBuffer = true;
