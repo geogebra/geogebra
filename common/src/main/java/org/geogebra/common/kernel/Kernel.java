@@ -76,7 +76,6 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
@@ -3000,7 +2999,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	final public int getAlgebraStyle() {
 		if (app != null
 				&& algebraStyle == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-				&& !app.has(Feature.AV_DEFINITION_AND_VALUE)) {
+				&& app.isDesktop()) {
 			return Kernel.ALGEBRA_STYLE_VALUE;
 		}
 		return algebraStyle;

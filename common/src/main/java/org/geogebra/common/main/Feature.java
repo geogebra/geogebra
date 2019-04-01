@@ -27,8 +27,6 @@ public enum Feature {
 
 	ANALYTICS,
 
-	AV_DEFINITION_AND_VALUE,
-
 	CONVEX_HULL_3D,
 
 	/** GGB-334, TRAC-3401 */

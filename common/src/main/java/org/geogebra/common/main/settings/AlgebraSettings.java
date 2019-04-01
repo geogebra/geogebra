@@ -7,7 +7,6 @@ import java.util.List;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 /**
@@ -139,7 +138,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 */
 	public static String[] getDescriptionModes(App app) {
 		Localization loc = app.getLocalization();
-		return app.has(Feature.AV_DEFINITION_AND_VALUE)
+		return !app.isDesktop()
 				? new String[] { loc.getMenu("DefinitionAndValue"),
 						loc.getMenu("Value"), loc.getMenu("Definition"),
 						loc.getMenu("Description"), }
