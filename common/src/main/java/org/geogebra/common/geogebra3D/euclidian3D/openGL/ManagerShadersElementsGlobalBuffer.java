@@ -13,8 +13,7 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
-public class ManagerShadersElementsGlobalBuffer
-		extends ManagerShadersNoTriangleFan {
+public class ManagerShadersElementsGlobalBuffer extends ManagerShaders {
 
 	private GLBufferIndices curvesIndices;
 	private GLBufferIndices fanDirectIndices;

@@ -49,6 +49,8 @@ abstract public class ManagerShaders extends Manager {
 
 	private int[] pointGeometry;
 
+	private Coords triangleFanApex;
+
 	/**
 	 * 
 	 * @param pointSize
@@ -444,6 +446,27 @@ abstract public class ManagerShaders extends Manager {
 	public void draw(int index, Coords center) {
 		renderer.getRendererImpl().setCenter(center);
 		draw(index);
+	}
+
+	@Override
+	protected void triangleFanApex(Coords v) {
+		triangleFanApex = v.copyVector();
+	}
+
+	@Override
+	protected void triangleFanVertex(Coords v) {
+		vertexToScale(triangleFanApex);
+		vertexToScale(v);
+	}
+
+	@Override
+	public int getLongitudeMax() {
+		return 64;
+	}
+
+	@Override
+	public int getLongitudeDefault() {
+		return getLongitudeMax();
 	}
 
 }
