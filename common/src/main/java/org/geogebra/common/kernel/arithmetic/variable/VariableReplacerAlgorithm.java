@@ -172,7 +172,7 @@ public class VariableReplacerAlgorithm {
 		ExpressionValue index = FunctionParser.getLogIndex(expressionString, kernel);
 		if (index != null) {
 			ExpressionValue logArg = getLogArg(expressionString);
-			if (logArg != null) {
+			if (logArg == null) {
 				logArg = productCreator.getXyzPiDegPower(exponents, degPower);
 			}
 			return new ExpressionNode(kernel, index, Operation.LOGB, logArg);
