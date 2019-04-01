@@ -95,6 +95,7 @@ public class ShareDialogMow extends DialogBoxW
 			}
 		}
 		scrollPanel.add(groups);
+		center();
 	}
 
 	private void addGroup(FlowPanel groupsPanel, String groupStr,
