@@ -87,4 +87,9 @@ public class LanguageProperty extends AbstractEnumerableProperty {
         }
         return -1;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return !(app.isExam() && app.isExamStarted());
+    }
 }

@@ -15,10 +15,6 @@ import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Creates properties for the GeoGebra application.
  */
@@ -48,19 +44,12 @@ public class PropertiesFactory {
             LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
 
-        List<Property> generalProperties =
-                new ArrayList<Property>(Arrays.asList(new RoundingProperty(app,
-                                localization),
-                        new AngleUnitProperty(kernel, localization),
-                        new LabelingProperty(app, localization),
-                        new CoordinatesProperty(kernel, localization),
-                        new FontSizeProperty(app, localization)));
-
-        if (!app.isExam()) {
-            generalProperties.add(new LanguageProperty(app, localization, onLanguageSetCallback));
-        }
-
-        return new PropertiesList(generalProperties);
+        return new PropertiesList(new RoundingProperty(app, localization),
+                new AngleUnitProperty(kernel, localization),
+                new LabelingProperty(app, localization),
+                new CoordinatesProperty(kernel, localization),
+                new FontSizeProperty(app, localization),
+                new LanguageProperty(app, localization, onLanguageSetCallback));
     }
 
     /**
@@ -75,18 +64,11 @@ public class PropertiesFactory {
             localization, LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
 
-        List<Property> scientificProperties =
-                new ArrayList<Property>(Arrays.asList(
-                        new AngleUnitProperty(kernel, localization),
-                        new RoundingProperty(app, localization),
-                        new FontSizeProperty(app, localization)));
-
-        if (!app.isExam()) {
-            scientificProperties.add(
-                    new LanguageProperty(app, localization, onLanguageSetCallback));
-        }
-
-        return new PropertiesList(scientificProperties);
+        return new PropertiesList(
+                new AngleUnitProperty(kernel, localization),
+                new RoundingProperty(app, localization),
+                new FontSizeProperty(app, localization),
+                new LanguageProperty(app, localization, onLanguageSetCallback));
     }
 
     /**
