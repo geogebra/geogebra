@@ -840,7 +840,7 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	}
 
 	@Override
-	public String getParamAPIUrlPrefix() {
-		return getStringDataParam("apiUrlPrefix", getDataParamAppName());
+	public String getParamAPIPrefix() {
+		return getStringDataParam("apiPrefix", getDataParamAppName());
 	}
 }

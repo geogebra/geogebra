@@ -488,5 +488,5 @@ public interface ArticleElementInterface {
 	/**
 	 * @return getDataParamAppName by default, or prefix of API url
 	 */
-	String getParamAPIUrlPrefix();
+	String getParamAPIPrefix();
 }
