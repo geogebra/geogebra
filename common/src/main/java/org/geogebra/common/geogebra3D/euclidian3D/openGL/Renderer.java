@@ -799,13 +799,10 @@ public abstract class Renderer {
 			rendererImpl.setLight(1);
 			rendererImpl.enableOpaqueSurfaces();
 			rendererImpl.disableCulling();
-			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
-					.drawSurfaces(this);
-			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
-					.drawSurfacesClosed(this);
+			((ManagerShaders) geometryManager).drawSurfaces(this);
+			((ManagerShaders) geometryManager).drawSurfacesClosed(this);
 			enableClipPlanesIfNeeded();
-			((ManagerShadersElementsGlobalBufferPacking) geometryManager)
-					.drawSurfacesClipped(this);
+			((ManagerShaders) geometryManager).drawSurfacesClipped(this);
 			disableClipPlanesIfNeeded();
 			enableCulling();
 			rendererImpl.disableOpaqueSurfaces();

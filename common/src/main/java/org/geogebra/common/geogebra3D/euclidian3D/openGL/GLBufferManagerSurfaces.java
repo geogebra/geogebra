@@ -12,7 +12,7 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	// use 1.5 empirical factor observed from materials
 	static final private int INDICES_SIZE_START = (ELEMENTS_SIZE_START * 3) / 2;
 
-	private ManagerShadersElementsGlobalBufferPacking manager;
+	private ManagerShaders manager;
 
 	/**
 	 * constructor
@@ -20,7 +20,7 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	 * @param manager
 	 *            geometries manager
 	 */
-	public GLBufferManagerSurfaces(ManagerShadersElementsGlobalBufferPacking manager) {
+	public GLBufferManagerSurfaces(ManagerShaders manager) {
 		this.manager = manager;
 	}
 

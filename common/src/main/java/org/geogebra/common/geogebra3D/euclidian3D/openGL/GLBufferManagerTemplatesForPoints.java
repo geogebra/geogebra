@@ -103,9 +103,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @param pointSize
 	 *            point size
 	 */
-	public void createSphereIfNeeded(
-			ManagerShadersElementsGlobalBufferPacking manager,
-			int pointSize) {
+	public void createSphereIfNeeded(ManagerShaders manager, int pointSize) {
 
 		int templateIndex = ManagerShaders.getIndexForPointSize(pointSize);
 
@@ -115,8 +113,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 		}
 	}
 
-	private void createSphere(ManagerShadersElementsGlobalBufferPacking manager,
-			int templateIndex) {
+	private void createSphere(ManagerShaders manager, int templateIndex) {
 
 		manager.setScalerIdentity();
 		manager.drawSphere(ManagerShaders.getSphereSizeForIndex(templateIndex),
@@ -152,7 +149,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @param pointSize
 	 *            point size
 	 */
-	public void selectSphereAndCreateIfNeeded(ManagerShadersElementsGlobalBufferPacking manager,
+	public void selectSphereAndCreateIfNeeded(ManagerShaders manager,
 			float pointSize) {
 
 		int templateIndex = ManagerShaders.getIndexForPointSize(pointSize);
@@ -187,7 +184,7 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @param manager
 	 *            manager
 	 */
-	public void drawSphere(ManagerShadersElementsGlobalBufferPacking manager) {
+	public void drawSphere(ManagerShaders manager) {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		manager.endGeometry(currentIndicesArray.size(), elementsLength,
 				currentVertexArray, currentNormalArray);

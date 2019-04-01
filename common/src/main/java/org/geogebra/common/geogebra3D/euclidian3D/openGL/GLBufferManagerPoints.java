@@ -16,7 +16,7 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	// to 20 points = 11520 indices
 	static final private int INDICES_SIZE_START = 11520;
 
-	private ManagerShadersElementsGlobalBufferPacking manager;
+	private ManagerShaders manager;
 
 	/**
 	 * constructor
@@ -24,8 +24,7 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	 * @param manager
 	 *            geometries manager
 	 */
-	public GLBufferManagerPoints(
-			ManagerShadersElementsGlobalBufferPacking manager) {
+	public GLBufferManagerPoints(ManagerShaders manager) {
 		this.manager = manager;
 	}
 

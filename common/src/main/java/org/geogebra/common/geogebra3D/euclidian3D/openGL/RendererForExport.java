@@ -33,7 +33,7 @@ public class RendererForExport extends Renderer {
 
 	@Override
 	public Manager createManager() {
-		return new ManagerShadersElementsGlobalBufferPacking(this, view3D);
+		return new ManagerShaders(this, view3D);
 	}
 
 	@Override

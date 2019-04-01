@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import java.util.List;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -48,9 +48,9 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.drawHiddenTextured(renderer);
 		view3D.drawHidden(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+			((ManagerShaders) renderer.getGeometryManager())
 					.drawCurves(renderer, true);
-			((ManagerShadersElementsGlobalBufferPacking) renderer
+			((ManagerShaders) renderer
 					.getGeometryManager()).drawCurvesClipped(renderer, true);
 		}
 	}
@@ -60,7 +60,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.drawTransp(renderer);
 		view3D.drawTransp(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+			((ManagerShaders) renderer.getGeometryManager())
 					.drawSurfaces(renderer);
 		}
 	}
@@ -70,9 +70,9 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.draw(renderer);
 		view3D.draw(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+			((ManagerShaders) renderer.getGeometryManager())
 					.drawCurves(renderer, false);
-			((ManagerShadersElementsGlobalBufferPacking) renderer
+			((ManagerShaders) renderer
 					.getGeometryManager()).drawCurvesClipped(renderer, false);
 		}
 	}
@@ -90,7 +90,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		super.drawSurfacesForHiding(renderer);
 		view3D.drawHiding(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+			((ManagerShaders) renderer.getGeometryManager())
 					.drawSurfaces(renderer);
 		}
 	}
@@ -121,7 +121,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawClosedSurfacesForHiding(Renderer renderer) {
 		super.drawClosedSurfacesForHiding(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager())
+			((ManagerShaders) renderer.getGeometryManager())
 					.drawSurfacesClosed(renderer);
 		}
 	}
@@ -130,7 +130,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawHiddenNotTextured(Renderer renderer) {
 		super.drawHiddenNotTextured(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer
+			((ManagerShaders) renderer
 					.getGeometryManager()).drawPoints(renderer);
 		}
 	}
@@ -139,7 +139,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawTranspClosedCurved(Renderer renderer) {
 		super.drawTranspClosedCurved(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer
+			((ManagerShaders) renderer
 					.getGeometryManager()).drawSurfacesClosed(renderer);
 		}
 	}
@@ -148,7 +148,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawClippedSurfacesForHiding(Renderer renderer) {
 		super.drawClippedSurfacesForHiding(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer
+			((ManagerShaders) renderer
 					.getGeometryManager()).drawSurfacesClipped(renderer);
 		}
 	}
@@ -157,7 +157,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void drawTranspClipped(Renderer renderer) {
 		super.drawTranspClipped(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {
-			((ManagerShadersElementsGlobalBufferPacking) renderer
+			((ManagerShaders) renderer
 					.getGeometryManager()).drawSurfacesClipped(renderer);
 		}
 	}

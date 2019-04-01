@@ -12,7 +12,7 @@ public class GLBufferManagerSurfacesClipped
 	static final private int ELEMENTS_SIZE_START = 4096;
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
 
-	private ManagerShadersElementsGlobalBufferPacking manager;
+	private ManagerShaders manager;
 
 	/**
 	 * constructor
@@ -20,7 +20,7 @@ public class GLBufferManagerSurfacesClipped
 	 * @param manager
 	 *            geometries manager
 	 */
-	public GLBufferManagerSurfacesClipped(ManagerShadersElementsGlobalBufferPacking manager) {
+	public GLBufferManagerSurfacesClipped(ManagerShaders manager) {
 		this.manager = manager;
 	}
 

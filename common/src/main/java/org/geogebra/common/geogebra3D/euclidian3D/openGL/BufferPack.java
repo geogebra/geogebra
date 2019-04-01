@@ -261,7 +261,7 @@ class BufferPack extends BufferPackAbstract {
 	@Override
 	public void setAlphaToTransparent(int offset, int length) {
 		colorBuffer.set(
-				ManagerShadersElementsGlobalBufferPacking.ALPHA_INVISIBLE_VALUE,
+				ManagerShaders.ALPHA_INVISIBLE_VALUE,
 				offset * 4 + 3, length, 4);
 	}
 

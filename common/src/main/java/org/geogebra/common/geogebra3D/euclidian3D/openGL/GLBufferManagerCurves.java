@@ -15,15 +15,14 @@ public class GLBufferManagerCurves extends GLBufferManager {
 	// and 3 indices per triangle
 	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
 
-	private ManagerShadersElementsGlobalBufferPacking manager;
+	private ManagerShaders manager;
 
 	/**
 	 * 
 	 * @param manager
 	 *            manager
 	 */
-	public GLBufferManagerCurves(
-			ManagerShadersElementsGlobalBufferPacking manager) {
+	public GLBufferManagerCurves(ManagerShaders manager) {
 		this.manager = manager;
 	}
 

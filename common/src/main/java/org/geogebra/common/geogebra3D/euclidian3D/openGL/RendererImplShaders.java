@@ -1072,4 +1072,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform1i(layerLocation, 0);
 	}
 
+	@Override
+	public Manager createManager() {
+		return new ManagerShaders(renderer, view3D);
+	}
+
 }

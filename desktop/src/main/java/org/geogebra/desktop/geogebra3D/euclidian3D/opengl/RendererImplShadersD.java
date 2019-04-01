@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
@@ -312,11 +311,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	@Override
 	protected void glViewPort(int width, int height) {
 		jogl.getGL2ES2().glViewport(0, 0, width, height);
-	}
-
-	@Override
-	public Manager createManager() {
-		return new ManagerShadersElementsGlobalBufferPacking(renderer, view3D);
 	}
 
 	@Override
