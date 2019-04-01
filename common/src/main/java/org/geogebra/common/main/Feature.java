@@ -67,8 +67,6 @@ public enum Feature {
 
 	EXPORT_COLLADA_IN_MENU,
 
-	EXPORT_OBJ_IN_MENU,
-
 	/** GGB-2008 */
 	OBJECT_DEFAULTS_AND_COLOR,
 

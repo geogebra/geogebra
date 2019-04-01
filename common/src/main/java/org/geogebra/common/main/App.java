@@ -3864,9 +3864,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case EXPORT_COLLADA_IN_MENU:
 			return true;
 
-		case EXPORT_OBJ_IN_MENU:
-			return false;
-
 		case OBJECT_DEFAULTS_AND_COLOR:
 			return isUnbundledOrWhiteboard();
 

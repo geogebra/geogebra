@@ -225,16 +225,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							}
 						});
 			}
-
-			if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
-				menu.addItem(menuText("Obj"), true, new MenuCommand(app) {
-					@Override
-					public void doExecute() {
-						menu.hide();
-						app.exportObj();
-					}
-				});
-			}
 		}
 	}
 
