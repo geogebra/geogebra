@@ -3442,7 +3442,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return url
 	 */
 	public String getCurrentURL(String sharingKey, boolean absolute) {
-		String apiUrlPrefix = articleElement.getParamAPIUrlPrefix();
+		String apiUrlPrefix = articleElement.getParamAPIPrefix();
 		String apiURL = this.getLoginOperation().getGeoGebraTubeAPI().getUrl();
 		String host = apiURL.substring(0, apiURL.indexOf("/", 12));
 		if (StringUtil.empty(apiUrlPrefix)) {
