@@ -3834,10 +3834,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case COMMAND_HOLES:
 			return prerelease;
 
-		case DATA_COLLECTION:
-			return version != null && version != Versions.WEB_FOR_DESKTOP
-					&& !isExam();
-
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
 			return false;

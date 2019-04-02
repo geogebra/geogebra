@@ -3,9 +3,9 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.Views;
@@ -154,7 +154,7 @@ public class ViewMenuW extends Submenu {
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
-		if (app.has(Feature.DATA_COLLECTION)) {
+		if (app.getVersion() != null && app.getVersion() != Versions.WEB_FOR_DESKTOP && !app.isExam()) {
 			dataCollection = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtmlNoIcon(
 							app.getLocalization().getMenu("Sensors")),
