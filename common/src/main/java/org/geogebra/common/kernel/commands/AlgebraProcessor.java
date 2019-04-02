@@ -2093,7 +2093,10 @@ public class AlgebraProcessor {
 
 		if (ve instanceof ExpressionNode) {
 			ret = processExpressionNode((ExpressionNode) ve, info);
-			if (ret != null && ret.length > 0
+			if (ret != null && ret.length == 1 && ve.isLeaf()
+					&& ((ExpressionNode) ve).getLeft().unwrap() == ret[0]) {
+				ret = array(dependentGeoCopy(ret[0]));
+			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoScriptAction) {
 				if (info.isScripting()) {
 					((GeoScriptAction) ret[0]).perform();
@@ -2992,7 +2995,7 @@ public class AlgebraProcessor {
 			myNode = myNode.getLeftTree();
 		}
 
-		// leaf (no new label specified): return an algo dependent copy of geo element
+		// leaf (no new label specified): just return the existing GeoElement
 		if (eval.isGeoElement() && n.getLabel() == null
 				&& !myNode.getOperation().equals(Operation.ELEMENT_OF)
 				&& !myNode.getOperation().equals(Operation.IF_ELSE)) {
@@ -3010,8 +3013,8 @@ public class AlgebraProcessor {
 				break;
 
 			default:
-				// return a dependent copy of GeoElement
-				return new GeoElement[] {dependentGeoCopy((GeoElement) eval)};
+				// return the GeoElement
+				return new GeoElement[] {(GeoElement) eval};
 			}
 		}
 
