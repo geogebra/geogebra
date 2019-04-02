@@ -82,7 +82,8 @@ ext.appSpecs = [
 	[id:'cas', title:'CAS Calculator', transKey:'CASCalculator'],
 	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator', partials:["undo-redo"]],
 	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
-	[id:'notes', title:'Notes', transKey: 'Notes', exe:'MebisNotes',  pkg:'Mebis_Notes',  releases: 'Releases-notes', icon: 'notes.ico', 'vendor': "Mebis"]]
+	[id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
+	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', 'vendor': "Mebis"]]
 
 gwt {
     gwtVersion = gwtCompilerVersion
@@ -177,7 +178,7 @@ task copyHtml {
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { app, prerelease, offline=false, vendor="GeoGebra" ->
-            def appID = app.id;
+            def appID = app.id.split("-")[0];
             def appTransKey = app.transKey;
             def header = appID == "notes" ? "" : template("app-header-beta.html")
             def partials = app.partials ?: ["share-button", "signin-button"]
