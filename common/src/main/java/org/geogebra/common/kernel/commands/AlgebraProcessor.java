@@ -2097,7 +2097,6 @@ public class AlgebraProcessor {
 			if (ret != null && ret.length == 1 && node.isLeaf()
 					&& ret[0].isLabelSet()
 					&& node.unwrap() == ret[0]) {
-				Log.printStacktrace("copy of " + node + ":" + ret[0]);
 				ret = array(dependentGeoCopy(ret[0]));
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoScriptAction) {
