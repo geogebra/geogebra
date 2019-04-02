@@ -1772,7 +1772,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			preventBlur();
 			canvas.setVisible(true);
 		} else {
-			if (geo == null && errorMessage == null) {
+			if (geo == null && errorMessage == null && getText().isEmpty()) {
 				addDummyLabel();
 			}
 		}
