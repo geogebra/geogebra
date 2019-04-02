@@ -76,6 +76,9 @@ public class ManagerShaders extends Manager {
 	private float[] translate;
 	private float scale;
 
+	private boolean indicesDone;
+	private TypeElement oldType;
+
 	/** element type */
 	public enum TypeElement {
 		/** no known type */
@@ -108,6 +111,9 @@ public class ManagerShaders extends Manager {
 	 */
 	public ManagerShaders(Renderer renderer, EuclidianView3D view3D) {
 		super(renderer, view3D);
+
+		indicesDone = false;
+		oldType = TypeElement.NONE;
 
 		setScalerView();
 
@@ -999,5 +1005,41 @@ public class ManagerShaders extends Manager {
 	 */
 	public GLBufferManagerTemplatesForPoints getBufferTemplates() {
 		return bufferTemplates;
+	}
+
+	/**
+	 * set old type (used for last geometry)
+	 * 
+	 * @param type
+	 *            type
+	 */
+	public void setOldType(TypeElement type) {
+		oldType = type;
+	}
+
+	/**
+	 * 
+	 * @return last geometry type
+	 */
+	public TypeElement getOldType() {
+		return oldType;
+	}
+
+	/**
+	 * set if indices have been done once (at least)
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setIndicesDone(boolean flag) {
+		indicesDone = flag;
+	}
+
+	/**
+	 * 
+	 * @return if indices have been done once (at least)
+	 */
+	public boolean getIndicesDone() {
+		return indicesDone;
 	}
 }

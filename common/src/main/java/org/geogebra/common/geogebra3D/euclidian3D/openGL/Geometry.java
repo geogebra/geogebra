@@ -25,8 +25,6 @@ public class Geometry implements GeometryForExport {
 	private GLBufferIndices arrayI = null;
 	private int indicesLength;
 	private boolean hasSharedIndexBuffer = false;
-	static private boolean indicesDone = false;
-	static private TypeElement oldType = TypeElement.NONE;
 
 	/**
 	 * Start a new geometry
@@ -310,14 +308,14 @@ public class Geometry implements GeometryForExport {
 
 			indicesLength = getLength();
 
-			if (!indicesDone || typeElement != oldType
+			if (!manager.getIndicesDone() || typeElement != manager.getOldType()
 					|| arrayI.capacity() < indicesLength) {
 				arrayI.allocate(indicesLength);
 				for (short i = 0; i < indicesLength; i++) {
 					arrayI.put(i);
 				}
 				arrayI.rewind();
-				indicesDone = true;
+				manager.setIndicesDone(true);
 			}
 
 			hasSharedIndexBuffer = false;
@@ -348,7 +346,7 @@ public class Geometry implements GeometryForExport {
 			Log.debug("Missing case: " + typeElement);
 		}
 
-		oldType = typeElement;
+		manager.setOldType(typeElement);
 	}
 
 	/**
