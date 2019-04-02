@@ -12075,6 +12075,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
+
+		if (movedGeoPoint == null) {
+			return;
+		}
+
 		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
 			int th = app.getCapturingThreshold(PointerEventType.MOUSE);
 			app.setCapturingThreshold(INCREASED_THRESHOLD_FACTOR * th);
