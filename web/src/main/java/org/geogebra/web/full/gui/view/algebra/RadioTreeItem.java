@@ -891,7 +891,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			boolean valid = rawInput.equals(newValue);
 			final boolean wasLaTeX = geo instanceof GeoText
 					&& ((GeoText) geo).isLaTeX();
-			// Formula Hacks ended.
 			if (geo != null) {
 				boolean redefine = !isMoveablePoint(geo);
 				this.lastInput = newValue;
