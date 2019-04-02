@@ -74,7 +74,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public static final Coords DARK_GRAY = new Coords(68.0 / 255.0,
 			68.0 / 255.0, 68.0 / 255.0, 1);
 
-	public double[] val;
+	final public double[] val;
 
 	private int rows;
 
