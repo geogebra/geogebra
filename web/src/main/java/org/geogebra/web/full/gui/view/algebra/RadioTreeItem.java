@@ -2000,7 +2000,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public boolean onEditStart() {
 		String text;
 		if (geo == null) {
-			text = "";
+			if (!getText().isEmpty()) {
+				text = getText();
+			} else {
+				text = "";
+			}
 		} else if (AlgebraItem.needsPacking(geo)
 				|| !geo.isAlgebraLabelVisible()) {
 			text = geo.getLaTeXDescriptionRHS(false,
