@@ -442,6 +442,9 @@ public class AlgebraProcessor {
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, newValue, loc, handler);
+		} catch (ParseException exception) {
+			callback.callback(null);
+			handler.showError(exception.getMessage());
 		} catch (Exception e) {
 			handler.showError(e.getMessage());
 		} catch (CommandNotLoadedError e) {

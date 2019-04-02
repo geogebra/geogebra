@@ -112,4 +112,9 @@ public class ScientificActivity extends BaseActivity {
 	public SVGResource getIcon() {
 		return MaterialDesignResources.INSTANCE.scientific();
 	}
+
+	@Override
+	public boolean useValidInput() {
+		return false;
+	}
 }

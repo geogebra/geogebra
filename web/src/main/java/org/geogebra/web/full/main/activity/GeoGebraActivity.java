@@ -96,4 +96,10 @@ public interface GeoGebraActivity {
 	 * @return icon for menu
 	 */
 	SVGResource getIcon();
+
+	/**
+	 *
+	 * @return use valid input
+	 */
+	boolean useValidInput();
 }

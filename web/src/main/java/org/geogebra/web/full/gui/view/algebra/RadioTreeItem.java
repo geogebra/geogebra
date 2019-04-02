@@ -809,6 +809,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
+	private boolean useValidInput() {
+		return app.getActivity().useValidInput();
+	}
+
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
 		if (AlgebraItem.needsPacking(geo) || !geo.isAlgebraLabelVisible()) {
@@ -887,7 +891,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (rawInput != null) {
 			String v = app.getKernel().getInputPreviewHelper()
 					.getInput(rawInput);
-			String newValue = isTextItem() ? "\"" + v + "\"" : v;
+			String value = useValidInput() ? v : rawInput;
+			String newValue = isTextItem() ? "\"" + value + "\"" : value;
 			boolean valid = rawInput.equals(newValue);
 			final boolean wasLaTeX = geo instanceof GeoText
 					&& ((GeoText) geo).isLaTeX();
@@ -908,6 +913,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 							public void callback(GeoElementND geo2) {
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
+									lastTeX = null;
+									lastInput = null;
 								}
 								if (geo instanceof GeoText && wasLaTeX
 										&& geo.isIndependent()) {
@@ -916,9 +923,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 								if (marblePanel != null) {
 									marblePanel.updateIcons(false);
 								}
-								lastTeX = null;
-								lastInput = null;
-								updateAfterRedefine(true);
+								updateAfterRedefine(geo2 != null);
 								if (callback != null) {
 									callback.callback(geo2);
 								}
@@ -1962,7 +1967,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void updateAfterRedefine(boolean success) {
-		if (mf != null && success) {
+		if (mf != null) {
 			mf.setEnabled(false);
 		}
 		doUpdateAfterRedefine(success);
@@ -2004,7 +2009,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			text = geo.getDefinitionForEditor();
 		}
 
-		if (geo != null && !geo.isDefined() && lastInput != null) {
+		if (geo != null && (!geo.isDefined() || !useValidInput()) && lastInput != null) {
 			text = lastInput;
 		}
 		if (text == null) {

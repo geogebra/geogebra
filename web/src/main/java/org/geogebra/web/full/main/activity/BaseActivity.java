@@ -97,4 +97,9 @@ public class BaseActivity implements GeoGebraActivity {
 		// default implementation: never used
 		return MaterialDesignResources.INSTANCE.geogebra_color();
 	}
+
+	@Override
+	public boolean useValidInput() {
+		return true;
+	}
 }
