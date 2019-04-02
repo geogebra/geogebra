@@ -949,6 +949,13 @@ public abstract class GlobalKeyDispatcher {
 							|| (geo.isGeoPoint() && !geo.isLocked())) {
 
 						geo.setSelectionAllowed(true);
+
+						// fix/unfix sliders
+						if ((geo.isGeoNumeric() && geo.isIndependent())) {
+							((GeoNumeric) geo)
+									.setSliderFixed(!selectionAllowed);
+						}
+
 					} else {
 						geo.setSelectionAllowed(selectionAllowed);
 					}
