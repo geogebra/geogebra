@@ -906,7 +906,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true,
-						getErrorHandler(valid, allowSliderDialog, false),
+						AlgebraInputW.getWarningHandler(this, app),
 						new AsyncOperation<GeoElementND>() {
 
 							@Override
@@ -1400,7 +1400,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected final void insertHelpToggle() {
-		updateIcons(false);
+		updateIcons(errorMessage != null);
 		if (marblePanel == null) {
 			this.addMarble();
 		}
