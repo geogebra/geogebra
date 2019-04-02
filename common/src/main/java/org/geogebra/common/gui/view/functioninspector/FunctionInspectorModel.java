@@ -282,21 +282,45 @@ public class FunctionInspectorModel {
 		double mean = integral / (xMax - xMin);
 		double length = ((GeoNumeric) lengthGeo).getDouble();
 
-		double yMin = selectedGeo.value(xMin);
-		double yMax = selectedGeo.value(xMax);
+		// value of x that gives min y at endpoints
+		double yMinXval;
+		// value of x that gives max y at endpoints
+		double yMaxXval;
+
+		double y1 = selectedGeo.value(xMin);
+		double y2 = selectedGeo.value(xMax);
+
+		double yMin;
+		double yMax;
+
+		// check if function is higher at left or right endpoint
+		if (y1 < y2) {
+			yMinXval = xMin;
+			yMaxXval = xMax;
+			yMin = y1;
+			yMax = y2;
+		} else {
+			yMinXval = xMax;
+			yMaxXval = xMin;
+			yMin = y2;
+			yMax = y1;
+		}
+
+		// find (local) extremums in the range
 		double xMinInt = ef.findMinimum(xMin, xMax, fun, 5.0E-8);
 		double xMaxInt = ef.findMaximum(xMin, xMax, fun, 5.0E-8);
 		double yMinInt = selectedGeo.value(xMinInt);
 		double yMaxInt = selectedGeo.value(xMaxInt);
 
+
+		// check local extremums against endpoints
 		if (yMin < yMinInt) {
 			yMinInt = yMin;
-			xMinInt = xMin;
+			xMinInt = yMinXval;
 		}
-
 		if (yMax > yMaxInt) {
 			yMaxInt = yMax;
-			xMaxInt = xMax;
+			xMaxInt = yMaxXval;
 		}
 
 		minPoint.setCoords(xMinInt, yMinInt, 1.0);
