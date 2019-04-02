@@ -567,23 +567,15 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 				}
 
-				// if (f.getParentAlgorithm())
-
-				// freehand functions aren't generally nice and smooth, so more
-				// iterations may be needed
-				// https://help.geogebra.org/topic/problem-mit-integral-unter-freihandskizze
-				n.setValue(numericIntegration(f, lowerLimit, upperLimit,
-						f.includesFreehandOrData() ? FREEHAND_MULTIPLIER
-								: STANDARD_MULTIPLIER));
+				standardIntegral(lowerLimit, upperLimit);
 			}
 		}
-		/*
-		 * Application.debug("***\nsteps: " + maxstep); Application.debug(
-		 * "max_error: " + max_error);
-		 */
 	}
 
 	private void standardIntegral(double lowerLimit, double upperLimit) {
+		// freehand functions aren't generally nice and smooth, so more
+		// iterations may be needed
+		// https://help.geogebra.org/topic/problem-mit-integral-unter-freihandskizze
 		n.setValue(numericIntegration(f, lowerLimit, upperLimit,
 				f.includesFreehandOrData() ? FREEHAND_MULTIPLIER
 						: STANDARD_MULTIPLIER));
