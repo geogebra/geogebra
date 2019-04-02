@@ -3838,10 +3838,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case ADJUST_WIDGETS:
 			return false;
 
-		// GGB-944
-		case EXPORT_ANIMATED_PDF:
-			return prerelease;
-
 		case AUTOSCROLLING_SPREADSHEET:
 			return true;
 

@@ -25,10 +25,8 @@ import org.geogebra.desktop.export.AnimationExportDialogD;
 import org.geogebra.desktop.export.WorksheetExportDialog;
 import org.geogebra.desktop.export.pstricks.AsymptoteFrame;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPdfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
-import org.geogebra.desktop.export.pstricks.PdfFrame;
 import org.geogebra.desktop.export.pstricks.PgfFrame;
 import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -171,9 +169,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		mi = submenu.add(exportPgfAction);
 		mi = submenu.add(exportAsymptoteAction);
-		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
-			mi = submenu.add(exportPDFaction);
-		}
 		if (app.isPrerelease()) {
 			mi = submenu.add(exportSTLaction);
 		}
@@ -487,26 +482,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				}
 			}
 		};
-
-		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
-			// added by Hoszu Henrietta, animated pdf export
-			exportPDFaction = new AbstractAction(
-					loc.getMenu("Graphics View as Animated PDF") + " ...",
-					app.getEmptyIcon()) {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				@SuppressWarnings("unused")
-				public void actionPerformed(ActionEvent e) {
-					try {
-						GeoGebraToPdfD export = new GeoGebraToPdfD(app);
-						new PdfFrame(export);
-					} catch (Exception ex) {
-						Log.debug("GeoGebraToPDF not available");
-					}
-				}
-			};
-		}
 
 		// Added by Andy Zhu; Asymptote export
 		exportAsymptoteAction = new AbstractAction(

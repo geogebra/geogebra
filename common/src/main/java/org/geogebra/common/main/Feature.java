@@ -30,9 +30,6 @@ public enum Feature {
 	/** GGB-334, TRAC-3401 */
 	ADJUST_WIDGETS,
 
-	/** GGB-944 */
-	EXPORT_ANIMATED_PDF,
-
 	/** GGB-776 */
 	ABSOLUTE_TEXTS,
 
