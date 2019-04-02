@@ -295,6 +295,24 @@ public class CommandsTest extends AlgebraTest {
 		t("Integral[ sin(x),0,pi ]", "2");
 		t("Integral[ abs(x),-2,2 ]", "4");
 		t("Integral[ sin(x), 0, 100, false ]", "NaN");
+
+		// https://help.geogebra.org/topic/integralbetween-yields-undefined-result
+		t("intFunf:=x - floor(2x) / 2", "x - floor((2 * x)) / 2");
+		t("intFunq:=2floor(2x - 2floor(x)) - 1",
+				"(2 * floor((2 * x) - (2 * floor(x)))) - 1");
+		t("intFung:=sqrt(-x^2 + 1)", "sqrt((-x^(2)) + 1)");
+		t("intFung1:=3 / 2 floor(2x - 2floor(x)) - 1",
+				"(3 / 2 * floor((2 * x) - (2 * floor(x)))) - 1");
+		t("intFunr:=-sqrt(3) floor(x + 1 / 2)",
+				"((-sqrt(3)) * floor(x + 1 / 2))");
+		t("intFunh:=intFunf(x) + intFung1(x)",
+				"x - floor((2 * x)) / 2 + (3 / 2 * floor((2 * x) - (2 * floor(x)))) - 1");
+		t("intFunp:=intFunq(x) intFung(intFunh(x)) + intFunr(x) + sqrt(3)",
+				"(((2 * floor((2 * x) - (2 * floor(x)))) - 1) * sqrt((-(x - floor((2 * x)) / 2 + (3 / 2 * floor((2 * x) - (2 * floor(x)))) - 1)^(2)) + 1)) + ((-sqrt(3)) * floor(x + 1 / 2)) + sqrt(3)");
+		// can work if native Giac is forced in AlgoIntegralDefinite
+		// but causes problems for other cases
+		// t("NIntegral(intFunp, 1 / 2, 2)", "-0.5589329791322");
+		// t("Integral(intFunp, 1 / 2, 2)", "-0.5589329791322");
 	}
 
 	@Test
