@@ -24,7 +24,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
     @Override
     public String getTutorialKey() {
-        return "";
+        return "brr48aw7";
     }
 
 	@Override
