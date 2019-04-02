@@ -212,9 +212,15 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			return true;
 		}
 
-		Renderer renderer = getView3D().getRenderer();
+		// if something goes wrong, update is discarded and polygon hidden
+		try {
+            updateVertices(polygon, pointLength);
+        } catch (Exception e) {
+            setSurfaceIndex(-1);
+            return true;
+        }
 
-		updateVertices(polygon, pointLength);
+        Renderer renderer = getView3D().getRenderer();
 
 		// outline
 		if (!isPreview && !polygon.wasInitLabelsCalled()) { // no labels for
