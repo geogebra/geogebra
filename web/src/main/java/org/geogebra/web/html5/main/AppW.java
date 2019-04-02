@@ -2223,7 +2223,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private void setTitle() {
 		String title = getLocalization().getMenu(getConfig().getAppTitle());
-		Browser.changeMetaTitle(title);
+		if (getArticleElement().getLoginAPIurl() != null) {
+			Browser.changeMetaTitle(title);
+		}
 		getArticleElement().getElement().setAttribute("aria-label", title);
 	}
 
