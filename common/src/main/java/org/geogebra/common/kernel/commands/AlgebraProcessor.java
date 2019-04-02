@@ -2992,7 +2992,7 @@ public class AlgebraProcessor {
 			myNode = myNode.getLeftTree();
 		}
 
-		// leaf (no new label specified): just return the existing GeoElement
+		// leaf (no new label specified): return an algo dependent copy of geo element
 		if (eval.isGeoElement() && n.getLabel() == null
 				&& !myNode.getOperation().equals(Operation.ELEMENT_OF)
 				&& !myNode.getOperation().equals(Operation.IF_ELSE)) {
@@ -3010,8 +3010,8 @@ public class AlgebraProcessor {
 				break;
 
 			default:
-				// return the GeoElement
-				return new GeoElement[]{(GeoElement) eval};
+				// return a dependent copy of GeoElement
+				return new GeoElement[] {dependentGeoCopy((GeoElement) eval)};
 			}
 		}
 
