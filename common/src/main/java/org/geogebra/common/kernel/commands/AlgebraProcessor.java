@@ -69,8 +69,8 @@ import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
@@ -109,7 +109,6 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -2800,8 +2799,7 @@ public class AlgebraProcessor {
 	 */
 	protected void setEquationLabelAndVisualStyle(GeoElementND line,
 			String label, EvalInfo info) {
-		if (app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& kernel.getApplication().isUnbundledGraphing()) {
+		if (kernel.getApplication().isUnbundledGraphing()) {
 			line.setObjColor(line.getAutoColorScheme()
 					.getNext(!cons.getKernel().isSilentMode()));
 			line.setLineOpacity(

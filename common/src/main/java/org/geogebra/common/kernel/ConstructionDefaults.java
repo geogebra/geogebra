@@ -279,37 +279,27 @@ public class ConstructionDefaults {
 	protected String strDependent = " (dependent)";
 
 	private final GColor getLineColor() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGeometry()) {
-			return colLineGeometry;
-		}
-		return colLine;
+		return cons.getApplication().isUnbundledGeometry() ? colLineGeometry
+				: colLine;
 	}
 
 	private final GColor getConicColor() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGeometry()) {
-			return colConicGeometry;
-		}
-		return colConic;
+		return cons.getApplication().isUnbundledGeometry() ? colConicGeometry
+				: colConic;
 	}
 
 	/** default color for angles */
 	private final GColor colAngle() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-			return GColor.BLACK;
-		}
-		return GeoGebraColorConstants.GGB_GREEN;
+		return cons.getApplication().isUnbundledOrWhiteboard() ? GColor.BLACK
+				: GeoGebraColorConstants.GGB_GREEN;
 	}
 
 	/**
 	 * @return default color for polygons.
 	 */
 	public final GColor getColPolygon() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-			return colPolygonG;
-		}
-		return colPolygon;
+		return cons.getApplication().isUnbundledOrWhiteboard() ? colPolygonG
+				: colPolygon;
 	}
 
 	/**
@@ -327,8 +317,7 @@ public class ConstructionDefaults {
 	}
 
 	private int getDependentPointSize() {
-		return (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGraphing())
+		return (cons.getApplication().isUnbundledGraphing())
 						? EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING
 						: EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 	}
@@ -352,7 +341,7 @@ public class ConstructionDefaults {
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
 		}
 		if (geo.hasLineOpacity()) {
-			if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+			if (cons.getApplication().isUnbundledOrWhiteboard()) {
 				setLineOpacity(geo);
 			} else {
 				geo.setLineOpacity(
@@ -415,7 +404,7 @@ public class ConstructionDefaults {
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point" + strDependent);
 		depPoint.setObjColor(
-				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				cons.getApplication().isUnbundledOrWhiteboard()
 						? colDepPointG : colDepPoint);
 		depPoint.setPointSize(dependentPointSize);
 		depPoint.setDefaultGeoType(DEFAULT_POINT_DEPENDENT);
@@ -426,7 +415,7 @@ public class ConstructionDefaults {
 		previewPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
 		previewPoint.setLocalVariableLabel("Point" + strDependent);
 		previewPoint.setObjColor(
-				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				cons.getApplication().isUnbundledOrWhiteboard()
 						? colDepPointG : colDepPoint);
 		previewPoint.setPointSize(dependentPointSize);
 		previewPoint.setDefaultGeoType(DEFAULT_POINT_PREVIEW);
@@ -438,7 +427,7 @@ public class ConstructionDefaults {
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("PointOn");
 		pathPoint.setObjColor(
-				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				cons.getApplication().isUnbundledOrWhiteboard()
 						? colPathPointG : colPathPoint);
 		pathPoint.setPointSize(pointSize);
 		pathPoint.setDefaultGeoType(DEFAULT_POINT_ON_PATH);
@@ -450,7 +439,7 @@ public class ConstructionDefaults {
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("PointInRegion");
 		regionPoint.setObjColor(
-				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				cons.getApplication().isUnbundledOrWhiteboard()
 						? colRegionPointG : colRegionPoint);
 		regionPoint.setPointSize(pointSize);
 		regionPoint.setDefaultGeoType(DEFAULT_POINT_IN_REGION);
@@ -461,7 +450,7 @@ public class ConstructionDefaults {
 		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
 		complexPoint.setObjColor(
-				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				cons.getApplication().isUnbundledOrWhiteboard()
 						? colPointG : colComplexPoint);
 		complexPoint.setPointSize(pointSize);
 		complexPoint.setDefaultGeoType(DEFAULT_POINT_COMPLEX);
@@ -625,8 +614,7 @@ public class ConstructionDefaults {
 		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE, true);
 		angle.setLineTypeHidden(
 				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGeometry()) {
+		if (cons.getApplication().isUnbundledGeometry()) {
 			angle.labelMode = GeoElementND.LABEL_VALUE;
 			angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		}
@@ -702,10 +690,8 @@ public class ConstructionDefaults {
 	}
 
 	private GColor getPointColor() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-			return colPointG;
-		}
-		return colPointAlpha;
+		return cons.getApplication().isUnbundledOrWhiteboard() ? colPointG
+				: colPointAlpha;
 	}
 
 	/**
@@ -851,8 +837,7 @@ public class ConstructionDefaults {
 			type = DEFAULT_RAY;
 			break;
 		case CURVE_CARTESIAN:
-			if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-					&& cons.getApplication().isUnbundledGraphing()) {
+			if (cons.getApplication().isUnbundledGraphing()) {
 				type = DEFAULT_CURVE_CARTESIAN;
 				break;
 			} // else: default - no need for break here.
@@ -1175,9 +1160,7 @@ public class ConstructionDefaults {
 	 */
 	public void resetLabelModeDefaultGeos() {
 		for (GeoElement geo : defaultGeoElements.values()) {
-			if (!cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-					|| !cons.getApplication()
-							.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+			if (!cons.getApplication().isUnbundledOrWhiteboard()
 					|| !(geo instanceof GeoAngle)) {
 				geo.labelMode = GeoElementND.LABEL_DEFAULT;
 			}

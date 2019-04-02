@@ -1430,8 +1430,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return auto color scheme
 	 */
 	public AutoColor getAutoColorScheme() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundled()) {
+		if (cons.getApplication().isUnbundled()) {
 			return AutoColor.CURVES_GRAPHING;
 		}
 		return AutoColor.CURVES;
