@@ -46,8 +46,11 @@ public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 
 	@Override
 	protected boolean getPositiveOrientation() {
-		return conic.getMainDirection()
-				.dotproduct(orientation.getDirectionInD3()) >= 0;
+	    Coords d = orientation.getDirectionInD3();
+	    if (d == null) {
+	        return true;
+        }
+		return conic.getMainDirection().dotproduct(d) >= 0;
 	}
 
 	@Override
