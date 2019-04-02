@@ -565,18 +565,6 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void setCenter(Coords center) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resetCenter() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean areTexturesEnabled() {
 		// TODO Auto-generated method stub
 		return false;

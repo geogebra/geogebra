@@ -711,6 +711,8 @@ abstract public class Manager {
 	 *            center
 	 * @param radius
 	 *            sphere radius
+	 * @param index
+	 *            old geometry index
 	 * @return geometry index
 	 */
 	final protected int drawSphere(float size, Coords center, double radius,
@@ -719,18 +721,6 @@ abstract public class Manager {
 		surface.drawSphere(size, center, radius);
 
 		return surface.end();
-	}
-
-	/**
-	 * draw indexed geometry with center information
-	 * 
-	 * @param index
-	 *            geometry
-	 * @param center
-	 *            center
-	 */
-	public void draw(int index, Coords center) {
-		draw(index);
 	}
 
 	/**

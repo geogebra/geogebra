@@ -476,12 +476,6 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	public void draw(int index, Coords center) {
-		renderer.getRendererImpl().setCenter(center);
-		draw(index);
-	}
-
-	@Override
 	protected void triangleFanApex(Coords v) {
 		triangleFanApex = v.copyVector();
 	}

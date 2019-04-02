@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -38,7 +37,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	/** culling type */
 	protected Object cullingLocation;
 	protected Object colorLocation; // color
-	protected Object centerLocation; // center
 	// enable / disable clip planes
 	protected Object enableClipPlanesLocation;
 	protected Object clipPlanesMinLocation;
@@ -87,8 +85,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	private float[] clipPlanesMin = new float[3];
 	private float[] clipPlanesMax = new float[3];
-
-	private float[] pointCenter = new float[4];
 
 	private float[] resetCenter = { 0f, 0f, 0f, 0f };
 
@@ -802,7 +798,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void drawFaceToScreenAbove() {
 	    setNormalToNone();
 		glUniform1i(labelRenderingLocation, 1);
-		resetCenter();
 	}
 
 	@Override
@@ -893,19 +888,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	final public void setCenter(Coords center) {
-		center.get4ForGL(pointCenter);
-		// set radius info
-		pointCenter[3] = pointCenter[3] * DrawPoint3D.DRAW_POINT_FACTOR;
-		glUniform4fv(centerLocation, pointCenter);
-	}
-
-	@Override
-	final public void resetCenter() {
-		glUniform4fv(centerLocation, resetCenter);
-	}
-
-	@Override
 	public void disableCulling() {
 		glDisable(getGL_CULL_FACE());
 		glUniform1i(cullingLocation, 1);
@@ -991,9 +973,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 		// normal
 		normalLocation = glGetUniformLocation("normal");
-
-		// center
-		centerLocation = glGetUniformLocation("center");
 
 		// clip planes
 		enableClipPlanesLocation = glGetUniformLocation("enableClipPlanes");

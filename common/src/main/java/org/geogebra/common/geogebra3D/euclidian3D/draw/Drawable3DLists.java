@@ -239,7 +239,6 @@ public class Drawable3DLists {
 						.drawHiddenNotTextured(renderer);
 			}
 		}
-		renderer.getRendererImpl().resetCenter();
 	}
 
 	/**

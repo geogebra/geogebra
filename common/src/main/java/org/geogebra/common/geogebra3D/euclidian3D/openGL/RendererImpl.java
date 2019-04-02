@@ -276,10 +276,6 @@ public abstract class RendererImpl {
 
 	abstract public void loadIndicesBuffer(GLBufferIndices arrayI, int length);
 
-	abstract public void setCenter(Coords center);
-
-	abstract public void resetCenter();
-
 	/**
 	 * enable flag
 	 * 

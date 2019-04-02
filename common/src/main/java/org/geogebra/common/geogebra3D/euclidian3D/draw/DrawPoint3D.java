@@ -55,9 +55,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-
-		renderer.getGeometryManager().draw(getGeometryIndex(), center);
-
+		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
 
 	@Override
@@ -87,14 +85,6 @@ public class DrawPoint3D extends Drawable3DCurves
 		// nothing to do here
 	}
 
-	/**
-	 * 
-	 * @return point center
-	 */
-	public Coords getCenter() {
-		return center;
-	}
-
 	@Override
 	protected boolean updateForItSelf() {
 
@@ -102,8 +92,6 @@ public class DrawPoint3D extends Drawable3DCurves
 		float size = getView3D().getSizeForPoint(point.getPointSize());
 		Coords c = point.getInhomCoordsInD3();
 		center.setValues(c, 3);
-		center.setW(size); // put point size in fourth unused
-											// coord
 
 		// warning: plotter will scale center coords
 		setGeometryIndex(getView3D().getRenderer().getGeometryManager()
@@ -306,13 +294,12 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	protected TraceIndex newTraceIndex() {
-		return new TraceIndex(getGeometryIndex(), getSurfaceIndex(),
-				center.copyVector());
+		return new TraceIndex(getGeometryIndex(), getSurfaceIndex());
 	}
 
 	@Override
 	protected void drawGeom(Renderer renderer, TraceIndex index) {
-		renderer.getGeometryManager().draw(index.geom, index.center);
+		renderer.getGeometryManager().draw(index.geom);
 	}
 
 	@Override
