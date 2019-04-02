@@ -59,29 +59,31 @@ public class GraspableEmbedElement extends EmbedElement {
 	 */
 	protected native void addListeners(Element element, int id,
 			EmbedManagerW manager) /*-{
+		$wnd.loadGM(initCanvas, { version: 'latest' });
 		var that = this;
-		if ($wnd.ExternalApi) {
-			var storeContent = function(core) {
-				manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
-				core
-						.getAsJSON()
-						.then(
+		function initCanvas() {
+			canvas = new $wnd.gmath.Canvas('#gm-div' + id);
+			if ($wnd.ExternalApi) {
+				var storeContent = function(core) {
+					manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
+					core.getAsJSON().then(
 								function(content) {
 									$wnd.console.log("storing content");
 									manager.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id, content);
 								});
-			};
+				};
 
-			var loadCallback = function(core) {
-				that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::setAPI(*)(core);
-				core.addEventListener('undoable-action', function() {
-					storeContent(core);
-				});
-			};
+				var loadCallback = function(core) {
+					that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::setAPI(*)(core);
+					core.addEventListener('undoable-action', function() {
+						storeContent(core);
+					});
+				};
 
-			$wnd
-					.ExternalApi(element, 'https://graspablemath.com',
-							loadCallback);
+				$wnd.ExternalApi(element, 'https://graspablemath.com', loadCallback);
+			} else {
+				print("no external api");
+			}
 		}
 	}-*/;
 

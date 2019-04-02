@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -127,20 +128,31 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {
-		Frame iframe = new Frame();
+		Widget parentPanel = createParentPanel(drawEmbed);
 		FlowPanel scaler = new FlowPanel();
-		String id = "gm-div" + drawEmbed.getEmbedID();
-		iframe.getElement().setId(id);
-		scaler.add(iframe);
+		scaler.add(parentPanel);
 		scaler.setHeight("100%");
 		addToGraphics(scaler);
 
 		String url = drawEmbed.getGeoEmbed().getURL();
-		iframe.setUrl(url);
 		EmbedElement value = url.contains("graspablemath.com")
-				? new GraspableEmbedElement(iframe) : new EmbedElement(iframe);
+				? new GraspableEmbedElement(parentPanel) : new EmbedElement(parentPanel);
 		widgets.put(drawEmbed, value);
 		value.addListeners(drawEmbed.getEmbedID(), this);
+	}
+
+	private Widget createParentPanel(DrawEmbed embed) {
+		String url = embed.getGeoEmbed().getURL();
+		if (url.contains("graspablemath.com")) {
+			FlowPanel panel = new FlowPanel();
+			String id = "gm-div" + embed.getEmbedID();
+			panel.getElement().setId(id);
+			panel.getElement().addClassName("gwt-Frame");
+			return panel;
+		}
+		Frame frame = new Frame();
+		frame.setUrl(url);
+		return frame;
 	}
 
 	/**

@@ -62,7 +62,7 @@ public class EmbedInputDialog extends MediaDialog
 	protected void processInput() {
 		if (appW.getGuiManager() != null) {
 			String input = getInput();
-			addEmbed(MediaURLParser.getEmbedURL(input));
+			addEmbed(input);
 		}
 	}
 
