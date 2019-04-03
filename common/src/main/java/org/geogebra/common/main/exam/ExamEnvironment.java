@@ -4,12 +4,9 @@ import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.commands.error.CommandErrorMessageBuilder;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;

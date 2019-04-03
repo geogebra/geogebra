@@ -10,7 +10,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.kernel.commands.error.CommandErrorMessageBuilder;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;

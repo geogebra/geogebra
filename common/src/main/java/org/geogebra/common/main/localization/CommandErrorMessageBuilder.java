@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.commands.error;
+package org.geogebra.common.main.localization;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
