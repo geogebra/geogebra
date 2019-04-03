@@ -20,6 +20,7 @@ public class EvalInfo {
 	private boolean fractions = false;
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
+	private boolean copyingPlainVariables = false;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 
 	/**
@@ -134,6 +135,7 @@ public class EvalInfo {
 		ret.fractions = this.fractions;
 		ret.forceUserEquation = this.forceUserEquation;
 		ret.updateRandom = this.updateRandom;
+		ret.copyingPlainVariables = this.copyingPlainVariables;
 		return ret;
 	}
 
@@ -290,4 +292,21 @@ public class EvalInfo {
 		return symbolicMode;
 	}
 
+	/**
+	 * @param copyingPlainVariables
+	 * 				true to copy variables
+	 * @return this or copy with property set
+	 */
+	public EvalInfo withCopyPlainVariables(boolean copyingPlainVariables) {
+		if (this.copyingPlainVariables == copyingPlainVariables) {
+			return this;
+		}
+		EvalInfo copy = copy();
+		copy.copyingPlainVariables = copyingPlainVariables;
+		return copy;
+	}
+
+	public boolean isCopyingPlainVariables() {
+		return copyingPlainVariables;
+	}
 }

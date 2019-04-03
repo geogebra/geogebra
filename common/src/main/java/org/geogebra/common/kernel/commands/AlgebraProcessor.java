@@ -2094,10 +2094,12 @@ public class AlgebraProcessor {
 		if (ve instanceof ExpressionNode) {
 			ExpressionNode node = (ExpressionNode) ve;
 			ret = processExpressionNode(node, info);
-			if (ret != null && ret.length == 1 && node.isLeaf()
-					&& ret[0].isLabelSet()
-					&& node.unwrap() == ret[0]) {
-				ret = array(dependentGeoCopy(ret[0]));
+			if (info.isCopyingPlainVariables()) {
+				if (ret != null && ret.length == 1 && node.isLeaf()
+						&& ret[0].isLabelSet()
+						&& node.unwrap() == ret[0]) {
+					ret = array(dependentGeoCopy(ret[0]));
+				}
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoScriptAction) {
 				if (info.isScripting()) {
