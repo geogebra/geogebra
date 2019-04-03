@@ -893,7 +893,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					.getInput(rawInput);
 			String value = useValidInput() ? v : rawInput;
 			String newValue = isTextItem() ? "\"" + value + "\"" : value;
-			boolean valid = rawInput.equals(newValue);
 			final boolean wasLaTeX = geo instanceof GeoText
 					&& ((GeoText) geo).isLaTeX();
 			if (geo != null) {

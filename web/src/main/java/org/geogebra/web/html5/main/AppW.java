@@ -233,6 +233,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ViewW viewW;
 	private ZoomPanel zoomPanel;
 	private PopupRegistry popupRegistry = new PopupRegistry();
+	private VendorSettings vendorSettings;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -3353,7 +3354,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 		}
 	};
-	private VendorSettings vendorSettings;
 
 	@Override
 	public void setAltText() {

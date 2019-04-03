@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.media.GeoGebraURLParser;
-import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
