@@ -104,6 +104,7 @@ import org.geogebra.web.html5.gui.laf.MebisVendorSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.LightBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
@@ -3829,60 +3830,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getDialogManager().showExportImageDialog(base64image);
 
 		} else {
-			openInLightbox(base64image,
+			LightBox.showImage(base64image,
 					base64image.startsWith(StringUtil.pdfMarker));
 		}
 
 	}
-
-	public native boolean openInLightbox(String imageBase64, boolean pdf) /*-{
-
-		//closeLightbox();
-		var div = $wnd.document.getElementById("myLightboxDiv");
-		if (div) {
-			$wnd.document.body.removeChild(div);
-		}
-
-		div = $wnd.document.createElement("div");
-		div.id = "myLightboxDiv";
-		div.style.width = "80%";
-		div.style.height = "80%";
-		div.style.position = "fixed";
-		div.style.top = "10%";
-		div.style.left = "10%";
-		div.style.border = "7px solid rgba(0, 0, 0, 0.5)";
-		div.style.background = "#FFF";
-		if (!pdf) {
-			div.style["background-image"] = "url('" + imageBase64 + "')";
-			div.style["background-size"] = "contain";
-			div.style["background-repeat"] = "no-repeat";
-			div.style["background-position"] = "center";
-			div.style.zIndex = 100000000;
-		}
-
-		div.onclick = function() {
-			$wnd.document.body.removeChild(div);
-		};
-
-		$wnd.document.body.appendChild(div);
-
-		// now add transparent image over it
-		// so that "Save image as..." works
-		// remove this if you don't need it
-		var elem;
-
-		if (pdf) {
-			elem = $wnd.document.createElement("iframe");
-			elem.style.position = "relative";
-		} else {
-			elem = $wnd.document.createElement("img");
-			elem.style.opacity = 0;
-		}
-		elem.src = imageBase64;
-		elem.style.height = "100%";
-		elem.style.width = "100%";
-		div.appendChild(elem);
-	}-*/;
 
 	/**
 	 * When multiple slides are present give ID of the current one, otherwise
