@@ -3905,15 +3905,15 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** G3D-42*/
 			case G3D_AR_REGULAR_TOOLS:
-				return false;
+				return prerelease;
 
         /** G3D-95*/
 			case G3D_AR_ROTATE_3D_VIEW_TOOL:
-                return false;
+                return prerelease;
 
         /** G3D-97*/
 			case G3D_AR_TRANSLATE_3D_VIEW_TOOL:
-				return false;
+				return prerelease;
 
 		/** G3D-160 */
 		case G3D_AR_TARGET:
