@@ -18,12 +18,9 @@ import java.util.Iterator;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
@@ -52,7 +49,6 @@ import javax.swing.tree.TreeSelectionModel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -89,7 +85,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 	private String selectedFunction;
 
-	private JPopupMenu contextMenu;
 	private JTextPane helpTextPane;
 	private JButton btnOnlineHelp, btnRefresh;
 	private SelectionTableD functionTable;
@@ -117,7 +112,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		createFunctionPanel();
 		createCommandTree();
 		createSyntaxPanel();
-		contextMenu = new JPopupMenu();
 
 		JPanel commandPanel = new JPanel(new BorderLayout());
 		commandPanel.add(cmdTree, BorderLayout.CENTER);
@@ -516,59 +510,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 	private class RollOverListener extends MouseInputAdapter {
 
-		private void myPopupEvent(MouseEvent e) {
-			int x = e.getX();
-			int y = e.getY();
-			JTree tree = (JTree) e.getSource();
-			TreePath tp = tree.getPathForLocation(x, y);
-			if (tp == null) {
-				return;
-			}
-			DefaultMutableTreeNode node = ((DefaultMutableTreeNode) tp
-					.getLastPathComponent());
-			if (node.isLeaf()) {
-				contextMenu.setBackground(bgColor);
-				contextMenu.removeAll();
-				// JMenuItem item = new JMenuItem(helpTextArea.getText());
-
-				Object nodeInfo = node.getUserObject();
-				String cmd = (String) nodeInfo;
-				rollOverCommand = cmd;
-				StringBuilder sb = new StringBuilder();
-				cmd = app.getReverseCommand(cmd); // internal name
-				CommandProcessor.getCommandSyntax(sb, app.getLocalization(),
-						cmd, -1);
-
-				JTextArea t = new JTextArea(sb.toString());
-				t.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-				contextMenu.add(t);
-
-				// item = new JMenuItem((String) node.getUserObject());
-				// contextMenu.add(item);
-				contextMenu.addSeparator();
-				JMenuItem item = new JMenuItem(
-						app.getLocalization().getMenu("ShowOnlineHelp"));
-				item.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
-				item.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e1) {
-						((GuiManagerD) app.getGuiManager())
-								.openCommandHelp(rollOverCommand);
-					}
-				});
-
-				contextMenu.add(item);
-
-				contextMenu.show(tree, x, y);
-				contextMenu.getSelectionModel().clearSelection();
-			}
-		}
-
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				myPopupEvent(e);
-			}
 			if (e.getClickCount() == 2) {
 				doPaste();
 			}
@@ -576,9 +519,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				myPopupEvent(e);
-			}
+			// nothing to do
 		}
 
 		@Override
