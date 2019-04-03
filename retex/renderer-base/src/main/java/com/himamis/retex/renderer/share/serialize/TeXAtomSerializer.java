@@ -10,6 +10,7 @@ import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.HlineAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
@@ -119,6 +120,10 @@ public class TeXAtomSerializer {
 				sb.append(" new line ");
 			}
 			return sb.toString();
+		}
+
+		if (root instanceof HlineAtom) {
+			return "";
 		}
 
 		if (root instanceof ColorAtom) {
