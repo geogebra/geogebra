@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.commands.error.CommandErrorMessageBuilder;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -59,7 +60,7 @@ public abstract class CommandProcessor {
 	/** construction */
 	protected Construction cons;
 	private AlgebraProcessor algProcessor;
-	private StringBuilder errorSb;
+	private CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
 	 * Creates new command processor
@@ -72,6 +73,7 @@ public abstract class CommandProcessor {
 		cons = kernel.getConstruction();
 		app = kernel.getApplication();
 		loc = app.getLocalization();
+		commandErrorMessageBuilder = loc.getCommandErrorMessageBuilder();
 		algProcessor = kernel.getAlgebraProcessor();
 	}
 
@@ -693,39 +695,8 @@ public abstract class CommandProcessor {
 	 * @return wrong argument error
 	 */
 	protected final MyError argErr(String cmd, ExpressionValue arg) {
-		String localName = loc.getCommand(cmd);
-		if (errorSb == null) {
-			errorSb = new StringBuilder();
-		} else {
-			errorSb.setLength(0);
-		}
-
-		final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
-		if (!reverseOrder) {
-			// standard order: "Command ..."
-			errorSb.append(loc.getCommand("Command"));
-			errorSb.append(' ');
-			errorSb.append(localName);
-		} else {
-			// reverse order: "... command"
-			errorSb.append(localName);
-			errorSb.append(' ');
-			errorSb.append(loc.getCommand("Command").toLowerCase());
-		}
-
-		errorSb.append(":\n");
-		errorSb.append(loc.getError("IllegalArgument"));
-		errorSb.append(": ");
-		if (arg instanceof GeoElement) {
-			errorSb.append(((GeoElement) arg).getNameDescription());
-		} else if (arg != null) {
-			errorSb.append(arg.toString(StringTemplate.defaultTemplate));
-		}
-		errorSb.append("\n\n");
-		errorSb.append(loc.getMenu("Syntax"));
-		errorSb.append(":\n");
-		errorSb.append(loc.getCommandSyntax(cmd));
-		return MyError.forCommand(loc, errorSb.toString(), cmd, null);
+		String message = commandErrorMessageBuilder.buildArgumentError(cmd, arg);
+		return MyError.forCommand(loc, message, cmd, null);
 	}
 
 	/**
@@ -739,54 +710,10 @@ public abstract class CommandProcessor {
 	 */
 
 	private MyError argNumErr(Command cmd, int argNumber) {
-		if (errorSb == null) {
-			errorSb = new StringBuilder();
-		} else {
-			errorSb.setLength(0);
-		}
-
-		getCommandSyntax(errorSb, loc, cmd.getName(), argNumber);
-		return MyError.forCommand(loc, errorSb.toString(), cmd.getName(), null);
-	}
-
-	/**
-	 * Copies error syntax into a StringBuilder
-	 * 
-	 * @param sb
-	 *            string builder to store result
-	 * @param app
-	 *            application
-	 * @param cmd
-	 *            command name (internal)
-	 * @param argNumber
-	 *            (-1 for just show syntax)
-	 */
-	public static void getCommandSyntax(StringBuilder sb, Localization app,
-			String cmd, int argNumber) {
-
-		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
-		if (!reverseOrder) {
-			// standard order: "Command ..."
-			sb.append(app.getCommand("Command"));
-			sb.append(' ');
-			sb.append(app.getCommand(cmd));
-		} else {
-			// reverse order: "... command"
-			sb.append(app.getCommand(cmd));
-			sb.append(' ');
-			sb.append(app.getCommand("Command").toLowerCase());
-		}
-
-		if (argNumber > -1) {
-			sb.append(":\n");
-			sb.append(app.getError("IllegalArgumentNumber"));
-			sb.append(": ");
-			sb.append(argNumber);
-		}
-		sb.append("\n\n");
-		sb.append(app.getMenu("Syntax"));
-		sb.append(":\n");
-		sb.append(app.getCommandSyntax(cmd));
+		String commandName = cmd.getName();
+		String message = commandErrorMessageBuilder.buildArgumentNumberError(
+				commandName, argNumber);
+		return MyError.forCommand(loc, message, commandName, null);
 	}
 
 	/**

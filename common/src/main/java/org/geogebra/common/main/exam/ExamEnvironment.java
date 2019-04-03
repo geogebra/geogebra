@@ -4,8 +4,12 @@ import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.error.CommandErrorMessageBuilder;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -44,6 +48,7 @@ public class ExamEnvironment {
 	 * application
 	 */
 	protected App app;
+	private Localization localization;
 
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
@@ -55,6 +60,7 @@ public class ExamEnvironment {
 	 */
 	public ExamEnvironment(App app) {
 		this.app = app;
+		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
 	}
 
@@ -133,7 +139,6 @@ public class ExamEnvironment {
 	 * @return The translation identified by the Translation parameter.
 	 */
 	public String getTranslatedString(Translation translation) {
-		Localization localization = app.getLocalization();
 		switch (translation) {
 			case EXAM_MODE:
 				return localization.getMenu("exam_menu_entry");
@@ -170,21 +175,21 @@ public class ExamEnvironment {
 		// eg "23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
 		return CmdGetTime.buildLocalizedDate("\\j \\F \\Y", new Date(examStartTime),
-				app.getLocalization());
+				localization);
 	}
 
 	/**
 	 * @return The exam start time in localized format.
 	 */
 	public String getStartTime() {
-		return getLocalizedTimeOnly(app.getLocalization(), examStartTime);
+		return getLocalizedTimeOnly(localization, examStartTime);
 	}
 
 	/**
 	 * @return The exam end time in localized format.
 	 */
 	public String getEndTime() {
-		return getLocalizedTimeOnly(app.getLocalization(), closed);
+		return getLocalizedTimeOnly(localization, closed);
 	}
 
 	/**
@@ -196,7 +201,7 @@ public class ExamEnvironment {
 			return "";
 		}
 		ExamLogBuilder logBuilder = new ExamLogBuilder();
-		appendLogTimes(app.getLocalization(), logBuilder, withEndTime);
+		appendLogTimes(localization, logBuilder, withEndTime);
 		return logBuilder.toString().trim();
 	}
 
@@ -425,21 +430,28 @@ public class ExamEnvironment {
 	public void closeExam() {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
+		setShowSyntax(true);
+
 		app.fileNew();
+	}
+
+	private void setShowSyntax(boolean showSyntax) {
+		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
+		builder.setShowingSyntax(showSyntax);
 	}
 
 	/**
 	 * @return calculator name for status bar
 	 */
 	public String getCalculatorNameForStatusBar() {
-		return app.getLocalization().getMenu(app.getConfig().getAppNameShort());
+		return localization.getMenu(app.getConfig().getAppNameShort());
 	}
 
 	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return app.getLocalization().getMenu(app.getConfig().getAppName());
+		return localization.getMenu(app.getConfig().getAppName());
 	}
 
 	/**
@@ -534,12 +546,12 @@ public class ExamEnvironment {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
         if (examStartTime < 0) {
-            return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", 0);
+            return timeFormatter.format(localization.getLocale(), "%02d:%02d", 0);
         }
 
         int millis = (int) (timestamp - examStartTime);
 
-        return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", millis);
+        return timeFormatter.format(localization.getLocale(), "%02d:%02d", millis);
     }
 
 	/**
@@ -553,7 +565,7 @@ public class ExamEnvironment {
 	 * Saves the current command filter into the nonExamCommandFilter field and sets the exam
 	 * command filter for the duration of the exam mode.
 	 */
-	public void enableExamCommandFilter() {
+	private void enableExamCommandFilter() {
 		CommandDispatcher commandDispatcher =
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 		nonExamCommandFilter = commandDispatcher.getCommandFilter();
@@ -561,9 +573,17 @@ public class ExamEnvironment {
 	}
 
 	/**
+	 * Prepares the exam for starting.
+	 */
+	public void setupExamEnvironment() {
+		enableExamCommandFilter();
+		setShowSyntax(false);
+	}
+
+	/**
 	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher
 	 */
-	public void disableExamCommandFilter() {
+	private void disableExamCommandFilter() {
 		app
 				.getKernel()
 				.getAlgebraProcessor()

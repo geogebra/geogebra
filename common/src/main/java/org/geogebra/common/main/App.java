@@ -4170,7 +4170,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	private void setupExamEnvironment() {
-		getExam().enableExamCommandFilter();
+		getExam().setupExamEnvironment();
 	}
 
 	/**

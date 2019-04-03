@@ -10,6 +10,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.commands.error.CommandErrorMessageBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
@@ -61,6 +62,8 @@ public abstract class Localization {
 	private int[] decimalPlaces = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFigures = {3, 5, 10, 15};
 
+ 	private CommandErrorMessageBuilder commandErrorMessageBuilder;
+
 	/**
 	 * eg Function.sin
 	 */
@@ -80,6 +83,16 @@ public abstract class Localization {
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
 		this.significantFigures[significantFigures.length - 1] = maxFigures;
+		this.commandErrorMessageBuilder = new CommandErrorMessageBuilder(this);
+	}
+
+	/**
+	 * Get the command error message builder.
+	 *
+	 * @return the error message builder.
+	 */
+	public CommandErrorMessageBuilder getCommandErrorMessageBuilder() {
+		return commandErrorMessageBuilder;
 	}
 
 	/**
