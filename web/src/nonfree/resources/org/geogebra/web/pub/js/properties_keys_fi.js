@@ -2996,6 +2996,7 @@ __GGB__keysVar["fi"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Ohjeet",
     "TwoVarStats": "Kahden muuttujan regressioanalyysi",
     "TwoVarStats.Help": "Analysoi valittujen lukuparien ominaisuuksia.",

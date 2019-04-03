@@ -2996,6 +2996,7 @@ __GGB__keysVar["sr"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutorijali",
     "TwoVarStats": "Regresiona analiza dve promenljive",
     "TwoVarStats.Help": "Analizira uparene broj\u010dane vrednosti iz odabranih \u0107elija",

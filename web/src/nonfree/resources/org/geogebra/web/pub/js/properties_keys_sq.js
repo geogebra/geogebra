@@ -2996,6 +2996,7 @@ __GGB__keysVar["sq"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutoriale",
     "TwoVarStats": "Analize Regresion me Dy Variabla",
     "TwoVarStats.Help": "Analizo vlerat numerike te ciftuara nga qelizat e selektuara",

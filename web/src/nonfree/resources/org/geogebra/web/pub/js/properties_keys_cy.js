@@ -2996,6 +2996,7 @@ __GGB__keysVar["cy"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Gwersi",
     "TwoVarStats": "Dadansoddiad atchweliad dau newidyn",
     "TwoVarStats.Help": "Dadansoddi parau o rifau o gelloedd i'w dewis",

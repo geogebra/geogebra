@@ -2996,6 +2996,7 @@ __GGB__keysVar["vi"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "H\u01b0\u1edbng d\u1eabn",
     "TwoVarStats": "Ph\xe2n t\xedch h\u1ed3i quy 2 bi\u1ebfn",
     "TwoVarStats.Help": "Ph\xe2n t\xedch gi\xe1 tr\u1ecb c\xe1c c\u1eb7p t\u1eeb c\xe1c \xf4 \u0111\xe3 ch\u1ecdn",

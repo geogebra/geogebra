@@ -2996,6 +2996,7 @@ __GGB__keysVar["pt"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutoriais",
     "TwoVarStats": "An\xe1lise Bivariada",
     "TwoVarStats.Help": "Analisa pares de valores em um bloco de c\xe9lulas",

@@ -2996,6 +2996,7 @@ __GGB__keysVar["es"].menu = {
     "TutorialClassic": "MqVqGRux",
     "TutorialGeometry": "ENuC5Are",
     "TutorialGraphing": "m2GbzNqd",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutoriales",
     "TwoVarStats": "An\xe1lisis de Regresi\xf3n de dos variables",
     "TwoVarStats.Help": "Analiza valores num\xe9ricos vinculados a partir de dos o tres columnas seleccionadas",

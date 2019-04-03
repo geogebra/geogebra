@@ -2996,6 +2996,7 @@ __GGB__keysVar["hu"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Oktat\xf3anyagok",
     "TwoVarStats": "K\xe9t v\xe1ltoz\xf3s regresszi\xf3 anal\xedzis",
     "TwoVarStats.Help": "A kijel\xf6lt cell\xe1kban szerepl\u0151 sz\xe1m p\xe1rok anal\xedzise",

@@ -2996,6 +2996,7 @@ __GGB__keysVar["pl"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Samouczek",
     "TwoVarStats": "Analiza Regresji Dw\xf3ch Zmiennych",
     "TwoVarStats.Help": "Analiza warto\u015bci liczbowych, kt\xf3re s\u0105 powi\u0105zane ze struktur\u0105 arkusza",

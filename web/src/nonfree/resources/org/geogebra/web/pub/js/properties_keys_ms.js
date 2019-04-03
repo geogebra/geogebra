@@ -2996,6 +2996,7 @@ __GGB__keysVar["ms"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutorial-tutorial",
     "TwoVarStats": "Analisis Regresi Dua Pembolehubah",
     "TwoVarStats.Help": "Menganalisis nilai-nilai nombor berpasangan daripada sel terpilih",

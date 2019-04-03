@@ -2996,6 +2996,7 @@ __GGB__keysVar["nn"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Oppl\xe6ring",
     "TwoVarStats": "Regresjonsanalyse",
     "TwoVarStats.Help": "Analyser talpar fr\xe5 to eller tre valde kolonner",

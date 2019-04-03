@@ -2996,6 +2996,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutorials",
     "TwoVarStats": "An\xe0lisi de regressi\xf3 bivariant",
     "TwoVarStats.Help": "Analitza valors num\xe8rics aparellats de les cel\xb7les seleccionades",

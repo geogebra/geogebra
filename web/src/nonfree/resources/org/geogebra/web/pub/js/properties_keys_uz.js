@@ -2996,6 +2996,7 @@ __GGB__keysVar["uz"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutorials",
     "TwoVarStats": "Ikki o'zgaruvchili regression tahlil",
     "TwoVarStats.Help": "Ikki yoki uchta tanlangan ustunlardagi sonli qiymatlarni tahlil qilish",

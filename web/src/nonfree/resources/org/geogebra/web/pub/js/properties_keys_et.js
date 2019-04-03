@@ -2996,6 +2996,7 @@ __GGB__keysVar["et"].menu = {
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
+    "TutorialScientific": "brr48aw7",
     "Tutorials": "\xd5petused",
     "TwoVarStats": "Kahe muutuja regresioonanal\xfc\xfcs",
     "TwoVarStats.Help": "Anal\xfc\xfcsitakse valitud lahtrite arvuliste v\xe4\xe4rtuste paare",
