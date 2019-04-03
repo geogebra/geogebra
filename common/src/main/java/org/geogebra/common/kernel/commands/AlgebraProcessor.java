@@ -2099,7 +2099,6 @@ public class AlgebraProcessor {
 					&& node.unwrap() == ret[0]
 					&& ret[0].isLabelSet()) {
 					ret = array(dependentGeoCopy(ret[0]));
-				}
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoScriptAction) {
 				if (info.isScripting()) {
