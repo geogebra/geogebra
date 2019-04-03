@@ -127,7 +127,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				.withCAS(false)
 				.addDegree(kernel.getAngleUnitUsesDegrees())
 				.withUserEquation(true)
-				.withFractions(true);
+				.withFractions(true)
+				.withCopyingPlainVariables(true);
 		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		boolean suppressLabelsOld = this.kernel.getConstruction().isSuppressLabelsActive();

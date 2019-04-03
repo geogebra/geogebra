@@ -297,7 +297,7 @@ public class EvalInfo {
 	 * 				true to copy variables
 	 * @return this or copy with property set
 	 */
-	public EvalInfo withCopyPlainVariables(boolean copyingPlainVariables) {
+	public EvalInfo withCopyingPlainVariables(boolean copyingPlainVariables) {
 		if (this.copyingPlainVariables == copyingPlainVariables) {
 			return this;
 		}
