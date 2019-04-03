@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -85,8 +84,6 @@ public class AlgoRSquare extends AlgoElement {
 			return;
 		}
 
-		GeoFunction funGeo = function.getGeoFunction();
-
 		// Calculate errorsum and ssy:
 		double sumyy = 0.0d;
 		double sumy = 0.0d;
@@ -102,7 +99,7 @@ public class AlgoRSquare extends AlgoElement {
 				point = (GeoPoint) geo;
 				x = point.getX();
 				y = point.getY();
-				v = funGeo.value(x);
+				v = function.value(x);
 				errorsum += (v - y) * (v - y);
 				sumy += y;
 				sumyy += y * y;

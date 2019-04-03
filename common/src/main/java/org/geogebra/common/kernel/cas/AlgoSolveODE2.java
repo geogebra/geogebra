@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -25,9 +24,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSolveODE2 extends AlgoElement {
 	// input
-	private GeoFunction b;
-	private GeoFunction c;
-	private GeoFunction f;
+	private GeoFunctionable b;
+	private GeoFunctionable c;
+	private GeoFunctionable f;
 	private GeoNumeric x;
 	private GeoNumeric y;
 	private GeoNumeric yDot;
@@ -67,9 +66,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 			GeoFunctionable c, GeoFunctionable f, GeoNumeric x, GeoNumeric y,
 			GeoNumeric yDot, GeoNumeric end, GeoNumeric step) {
 		super(cons);
-		this.b = b.getGeoFunction();
-		this.c = c.getGeoFunction();
-		this.f = f.getGeoFunction();
+		this.b = b;
+		this.c = c;
+		this.f = f;
 		this.x = x;
 		this.y = y;
 		this.yDot = yDot;
@@ -92,9 +91,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[8];
 
-		input[0] = b;
-		input[1] = c;
-		input[2] = f;
+		input[0] = b.toGeoElement();
+		input[1] = c.toGeoElement();
+		input[2] = f.toGeoElement();
 		input[3] = x;
 		input[4] = y;
 		input[5] = yDot;
@@ -179,11 +178,11 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	private static class ODE2 implements FirstOrderDifferentialEquations {
 
-		GeoFunction b;
-		GeoFunction c;
-		GeoFunction f;
+		GeoFunctionable b;
+		GeoFunctionable c;
+		GeoFunctionable f;
 
-		public ODE2(GeoFunction b, GeoFunction c, GeoFunction f) {
+		public ODE2(GeoFunctionable b, GeoFunctionable c, GeoFunctionable f) {
 			this.b = b;
 			this.c = c;
 			this.f = f;

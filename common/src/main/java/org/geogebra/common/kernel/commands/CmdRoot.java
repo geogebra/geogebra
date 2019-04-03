@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomialInterval;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -97,12 +97,12 @@ public class CmdRoot extends CommandProcessor {
 
 		// special case for If
 		// non-polynomial -> undefined
-		GeoFunction fun = f.getGeoFunction();
+		Function fun = f.getFunction(true);
 		ExpressionNode exp = fun.getFunctionExpression();
 		if (exp.getOperation().isIf()) {
 
 			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
-					cons, c.getLabels(), fun);
+					cons, c.getLabels(), f);
 			GeoPoint[] g = algo.getRootPoints();
 			return g;
 
@@ -110,7 +110,7 @@ public class CmdRoot extends CommandProcessor {
 
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.getConstruction().isFileLoading()
-				&& !fun.isPolynomialFunction(true) && f.isDefined()) {
+				&& !f.isPolynomialFunction(true) && f.isDefined()) {
 			return nonPolyRoots(c, kernel, f);
 		}
 
@@ -135,7 +135,7 @@ public class CmdRoot extends CommandProcessor {
 				.getActiveEuclidianView();
 
 		AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), c.getLabels(),
-				geoElement.getGeoFunction(), view);
+				geoElement, view);
 		return algo.getRootPoints();
 
 	}

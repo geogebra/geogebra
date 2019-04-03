@@ -2940,7 +2940,8 @@ public class AlgoDispatcher {
 	 *            function
 	 * @return tangent
 	 */
-	final public GeoLine tangent(String label, GeoPointND P, GeoFunction f) {
+	final public GeoLine tangent(String label, GeoPointND P,
+			GeoFunctionable f) {
 		return KernelCAS.tangent(cons, label, P, f);
 	}
 

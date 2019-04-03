@@ -71,7 +71,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoInterval copy() {
 		return new GeoInterval(this);
 	}
 

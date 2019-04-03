@@ -59,7 +59,7 @@ public class FunctionFold implements FoldComputer {
 			return;
 		}
 
-		GeoFunction fun1 = ((GeoFunctionable) geoElement).getGeoFunction();
+		Function fun1 = ((GeoFunctionable) geoElement).getFunction(false);
 
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);

@@ -18,7 +18,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -84,7 +84,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	private boolean histogramRight;
 
 	// input
-	private GeoFunction f;
+	private GeoFunctionable f;
 	private GeoNumberValue a;
 	private GeoNumberValue b;
 	private GeoNumberValue n;
@@ -192,9 +192,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @param type
 	 *            sum type
 	 */
-	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
-			GeoNumberValue d, SumType type) {
+	public AlgoFunctionAreaSums(Construction cons, String label,
+			GeoFunctionable f, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue n, GeoNumberValue d, SumType type) {
 
 		super(cons);
 
@@ -230,9 +230,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @param d
 	 *            bar percentage for rectangle sum
 	 */
-	public AlgoFunctionAreaSums(GeoFunction f, GeoNumberValue a,
+	public AlgoFunctionAreaSums(GeoFunctionable f, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue n, GeoNumberValue d) {
-		super(f.cons, false);
+		super(f.getConstruction(), false);
 		this.type = SumType.RECTANGLESUM;
 		this.f = f;
 		this.a = a;
@@ -267,9 +267,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @param type
 	 *            sum type
 	 */
-	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
-			SumType type) {
+	public AlgoFunctionAreaSums(Construction cons, String label,
+			GeoFunctionable f, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue n, SumType type) {
 
 		super(cons);
 
@@ -592,14 +592,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		case TRAPEZOIDALSUM:
 		case LEFTSUM: // Ulven: 09.02.11
 			input = new GeoElement[4];
-			input[0] = f;
+			input[0] = f.toGeoElement();
 			input[1] = ageo;
 			input[2] = bgeo;
 			input[3] = ngeo;
 			break;
 		case RECTANGLESUM: // Ulven: 09.02.11
 			input = new GeoElement[5];
-			input[0] = f;
+			input[0] = f.toGeoElement();
 			input[1] = ageo;
 			input[2] = bgeo;
 			input[3] = ngeo;
@@ -652,7 +652,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * 
 	 * @return function
 	 */
-	public GeoFunction getF() {
+	public GeoFunctionable getF() {
 		return f;
 	}
 
@@ -773,7 +773,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				return;
 			}
 
-			UnivariateFunction fun = f.getUnivariateFunctionY();
+			UnivariateFunction fun = f.getFunction(false);
 			double ad = a.getDouble();
 			double bd = b.getDouble();
 			if (!onlyZoom) {
@@ -913,7 +913,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				sum.setUndefined();
 			} // if d parameter for rectanglesum
 
-			fun = f.getUnivariateFunctionY();
+			fun = f.getFunction(false);
 
 			// lower bound
 			ad = a.getDouble();

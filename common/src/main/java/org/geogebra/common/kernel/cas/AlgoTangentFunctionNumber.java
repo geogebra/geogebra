@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -40,7 +41,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 
 	private GeoNumberValue n; // input
 	private GeoElement ngeo;
-	private GeoFunction f; // input
+	private GeoFunctionable f; // input
 	private GeoLine tangent; // output
 
 	private GeoPoint T;
@@ -58,7 +59,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	 *            function
 	 */
 	public AlgoTangentFunctionNumber(Construction cons, String label,
-			GeoNumberValue n, GeoFunction f) {
+			GeoNumberValue n, GeoFunctionable f) {
 		super(cons);
 		this.n = n;
 		ngeo = n.toGeoElement();
@@ -70,7 +71,8 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 
 		// derivative of f
 		// now uses special non-CAS version of algo
-		algo = new AlgoDerivative(cons, f, true, new EvalInfo(false));
+		algo = new AlgoDerivative(cons, f.getGeoFunction(), true,
+				new EvalInfo(false));
 		deriv = (GeoFunction) algo.getResult();
 		cons.removeFromConstructionList(algo);
 
@@ -94,7 +96,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = ngeo;
-		input[1] = f;
+		input[1] = f.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, tangent);
@@ -111,7 +113,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	/**
 	 * @return input function
 	 */
-	GeoFunction getFunction() {
+	GeoFunctionable getFunction() {
 		return f;
 	}
 

@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -99,8 +98,6 @@ public class AlgoResidualPlot extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		GeoFunction funGeo = function.getGeoFunction();
-
 		double x, y, r;
 
 		min = Double.MAX_VALUE;
@@ -111,7 +108,7 @@ public class AlgoResidualPlot extends AlgoElement {
 			if (p instanceof GeoPoint) {
 				x = ((GeoPoint) p).getInhomX();
 				y = ((GeoPoint) p).getInhomY();
-				r = y - funGeo.value(x);
+				r = y - function.value(x);
 				min = Math.min(r, min);
 				max = Math.max(r, max);
 				outputList.addPoint(x, r, 1.0, null);

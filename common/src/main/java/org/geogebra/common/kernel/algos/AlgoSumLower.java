@@ -15,7 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -39,7 +39,7 @@ public class AlgoSumLower extends AlgoFunctionAreaSums {
 	 * @param n
 	 *            number of columns
 	 */
-	public AlgoSumLower(Construction cons, String label, GeoFunction f,
+	public AlgoSumLower(Construction cons, String label, GeoFunctionable f,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n) {
 		super(cons, label, f, a, b, n, SumType.LOWERSUM);
 		cons.registerEuclidianViewCE(this);

@@ -12,11 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -44,8 +42,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 
 public class AlgoFunctionMinMax extends AlgoElement {
 
-	private GeoFunctionable function; // input
-	private GeoFunction f;
+	private GeoFunctionable f;
 	private GeoNumberValue left; // input
 	private GeoNumberValue right; // input
 	private GeoPoint E; // output
@@ -72,7 +69,6 @@ public class AlgoFunctionMinMax extends AlgoElement {
 			GeoFunctionable function, GeoNumberValue left, GeoNumberValue right,
 			boolean isMin) {
 		super(cons);
-		this.function = function;
 		this.f = function.getGeoFunction();
 		this.left = left;
 		this.right = right;
@@ -97,7 +93,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = function.toGeoElement();
+		input[0] = f.toGeoElement();
 		input[1] = left.toGeoElement();
 		input[2] = right.toGeoElement();
 
@@ -120,7 +116,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 		double r = right.getDouble();
 		double min = 0.0d;
 
-		if (!function.toGeoElement().isDefined() || !left.isDefined()
+		if (!f.toGeoElement().isDefined() || !left.isDefined()
 				|| !right.isDefined()
 				|| (right.getDouble() <= left.getDouble())) {
 			E.setUndefined();
@@ -129,10 +125,9 @@ public class AlgoFunctionMinMax extends AlgoElement {
 
 		// Brent's algorithm
 		extrFinder = kernel.getExtremumFinder();
-		UnivariateFunction fun = f.getUnivariateFunctionY();
 
-		min = isMin ? extrFinder.findMinimum(l, r, fun, 5.0E-8)
-				: extrFinder.findMaximum(l, r, fun, 5.0E-8);
+		min = isMin ? extrFinder.findMinimum(l, r, f, 5.0E-8)
+				: extrFinder.findMaximum(l, r, f, 5.0E-8);
 
 		E.setCoords(min, f.value(min), 1.0);
 		E.updateRepaint();

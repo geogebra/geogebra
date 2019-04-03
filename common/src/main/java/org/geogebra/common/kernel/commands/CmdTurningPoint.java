@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.algos.AlgoTurningPointPolynomial;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.MyError;
@@ -37,15 +36,15 @@ public class CmdTurningPoint extends CommandProcessor {
 			if (arg[0].isGeoFunctionable()) {
 
 				GeoFunctionable f = (GeoFunctionable) arg[0];
-				GeoFunction fun = f.getGeoFunction();
 
 				// special case for If
 				// non-polynomial -> undefined
-				ExpressionNode exp = fun.getFunctionExpression();
+				ExpressionNode exp = f.getFunction(false)
+						.getFunctionExpression();
 				if (exp.getOperation().isIf()) {
 
 					AlgoTurningPointPolyInterval algo = new AlgoTurningPointPolyInterval(
-							cons, c.getLabels(), fun);
+							cons, c.getLabels(), f);
 					GeoPoint[] g = algo.getRootPoints();
 					return g;
 				}

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 
 /**
  * Try to expand the given function to a polynomial.
@@ -26,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoPolynomialFromFunction extends AlgoElement {
 
-	private GeoFunction f; // input
+	private GeoFunctionable f; // input
 	private GeoFunction g; // output
 
 	/**
@@ -38,7 +39,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 	 *            function, possibly polynomial
 	 */
 	public AlgoPolynomialFromFunction(Construction cons, String label,
-			GeoFunction f) {
+			GeoFunctionable f) {
 		super(cons);
 		this.f = f;
 
@@ -57,7 +58,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = f;
+		input[0] = f.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, g);
@@ -79,7 +80,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 			return;
 		}
 
-		Function inFun = f.getFunction();
+		Function inFun = f.getFunction(false);
 
 		// check if it's a polynomial & get coefficients
 		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),

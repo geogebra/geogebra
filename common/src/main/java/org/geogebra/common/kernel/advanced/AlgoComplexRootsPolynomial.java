@@ -8,14 +8,14 @@ import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 
 public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 
 	double[] curComplexRoots;
 
 	public AlgoComplexRootsPolynomial(Construction cons, String[] labels,
-			GeoFunction f) {
+			GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
@@ -36,7 +36,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 	// roots of f
 	private void computeComplexRoots() {
 		if (f.isDefined()) {
-			Function fun = f.getGeoFunction().getFunction();
+			Function fun = f.getFunction(true);
 			// get polynomial factors anc calc roots
 			calcComplexRoots(fun);
 		} else {

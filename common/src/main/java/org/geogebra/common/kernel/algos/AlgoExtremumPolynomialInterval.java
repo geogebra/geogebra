@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 
 /**
  * Finds all local extrema of a polynomial wrapped in If[] eg If[0 &lt; x &lt;
@@ -37,13 +37,13 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 	 *            function
 	 */
 	public AlgoExtremumPolynomialInterval(Construction cons, String[] labels,
-			GeoFunction f) {
+			GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
 	@Override
 	public final void compute() {
-		Function fun = f.getGeoFunction().getFunction();
+		Function fun = f.getFunction(false);
 		if (f.isDefined()) {
 			ExpressionNode polyExpression = fun.getFunctionExpression()
 					.getRight()

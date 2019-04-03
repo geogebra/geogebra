@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -57,8 +56,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoExtremumNumerical extends AlgoElement {
 
-	private GeoFunctionable function; // input
-	private GeoFunction f;
+	private GeoFunctionable f; // input
 	private GeoNumberValue left; // input
 	private GeoNumberValue right; // input
 	private GeoPoint E; // output
@@ -79,8 +77,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 			GeoFunctionable function, GeoNumberValue left,
 			GeoNumberValue right) {
 		super(cons);
-		this.function = function;
-		this.f = function.getGeoFunction();
+		this.f = function;
 		this.left = left;
 		this.right = right;
 
@@ -103,7 +100,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = function.toGeoElement();
+		input[0] = f.toGeoElement();
 		input[1] = left.toGeoElement();
 		input[2] = right.toGeoElement();
 
@@ -132,7 +129,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		double newleft, newright;
 		int iterations = 0; // Count iterations
 
-		if (!function.toGeoElement().isDefined() || !left.isDefined()
+		if (!f.toGeoElement().isDefined() || !left.isDefined()
 				|| !right.isDefined()
 				|| (right.getDouble() <= left.getDouble())) {
 			E.setUndefined();

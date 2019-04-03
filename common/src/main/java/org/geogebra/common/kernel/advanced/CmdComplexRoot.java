@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.main.MyError;
 
@@ -34,7 +33,7 @@ public class CmdComplexRoot extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
 
-				GeoFunction f = ((GeoFunctionable) arg[0]).getGeoFunction();
+				GeoFunctionable f = (GeoFunctionable) arg[0];
 
 				// allow functions that can be simplified to factors of
 				// polynomials

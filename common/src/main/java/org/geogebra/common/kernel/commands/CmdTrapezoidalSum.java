@@ -39,7 +39,7 @@ public class CmdTrapezoidalSum extends CommandProcessor {
 
 				AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal(cons,
 						c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 

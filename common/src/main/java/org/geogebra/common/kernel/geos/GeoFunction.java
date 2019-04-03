@@ -368,14 +368,14 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoFunction copy() {
 		return new GeoFunction(this);
 	}
 
 	@Override
 	public void set(GeoElementND geo) {
 		Function geoFun = geo == null ? null
-				: ((GeoFunctionable) geo).getGeoFunction().getFunction();
+				: ((GeoFunctionable) geo).getFunction(false);
 
 		if (geoFun == null) {
 			fun = null;
@@ -1538,16 +1538,17 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return resultFun
 	 */
 	public static GeoFunction add(GeoFunction resultFun, GeoFunction fun1,
-			GeoFunction fun2, Operation op) {
+			GeoFunctionable fun2, Operation op) {
 
 		Kernel kernel = fun1.getKernel();
 
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
-		FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
+		FunctionVariable x2 = fun2.getFunction(false).getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
 		ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
-		ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);
+		ExpressionNode right = fun2.getFunction(false).getFunctionExpression()
+				.getCopy(kernel);
 
 		ExpressionNode sum;
 
@@ -1803,16 +1804,17 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * 
 	 */
 	public static GeoFunction mult(GeoFunction resultFun, double number,
-			GeoFunction fun) {
+			GeoFunctionable fun) {
 
 		Kernel kernel = fun.getKernel();
 		MyDouble num = new MyDouble(kernel, number);
 
-		FunctionVariable xold = fun.getFunction().getFunctionVariable();
+		FunctionVariable xold = fun.getFunction(false).getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
 		ExpressionNode left = new ExpressionNode(kernel, num);
-		ExpressionNode right = fun.getFunctionExpression().getCopy(kernel);
+		ExpressionNode right = fun.getFunction(false).getFunctionExpression()
+				.getCopy(kernel);
 
 		ExpressionNode product = new ExpressionNode(kernel, left,
 				Operation.MULTIPLY, right.replace(xold, x).wrap());

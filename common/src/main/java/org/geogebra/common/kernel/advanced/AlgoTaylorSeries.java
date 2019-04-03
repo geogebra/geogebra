@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -37,7 +38,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 	// sin(cos(x)) very slow for n=10 and above
 	private static final int MAX_ORDER = 80;
 
-	private GeoFunction f; // input
+	private GeoFunctionable f; // input
 	private GeoNumberValue a; // series for f about the point x = a
 	private GeoNumberValue n; // order of series
 	private GeoFunction g; // output g = f'
@@ -56,7 +57,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 	 * @param n
 	 *            degree
 	 */
-	public AlgoTaylorSeries(Construction cons, String label, GeoFunction f,
+	public AlgoTaylorSeries(Construction cons, String label, GeoFunctionable f,
 			GeoNumberValue a, GeoNumberValue n) {
 		super(cons);
 		this.f = f;
@@ -78,7 +79,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = f;
+		input[0] = f.toGeoElement();
 		input[1] = a.toGeoElement();
 		input[2] = n.toGeoElement();
 
@@ -102,7 +103,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 			return;
 		}
 
-		if (f.getFunction().getExpression().isSecret()) {
+		if (f.getFunction(false).getExpression().isSecret()) {
 			g.setUndefined();
 			return;
 		}
@@ -149,7 +150,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 						new MyDouble(kernel, -ad));
 			}
 
-			Function deriv = f.getFunction();
+			Function deriv = f.getFunction(false);
 
 			for (int k = 1; k <= order; k++) {
 

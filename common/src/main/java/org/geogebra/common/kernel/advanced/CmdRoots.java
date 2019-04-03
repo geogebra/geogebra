@@ -48,7 +48,7 @@ public class CmdRoots extends CommandProcessor {
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
 				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
 
 				GeoElement[] ret = algo.getRootPoints();

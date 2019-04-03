@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 
 /**
  * Finds all points of inflection of a polynomial wrapped in If[] eg If[0 &lt; x
@@ -38,7 +38,7 @@ public class AlgoTurningPointPolyInterval
 	 *            function
 	 */
 	public AlgoTurningPointPolyInterval(Construction cons,
-			String[] labels, GeoFunction f) {
+			String[] labels, GeoFunctionable f) {
 		super(cons, labels, f);
 	}
 

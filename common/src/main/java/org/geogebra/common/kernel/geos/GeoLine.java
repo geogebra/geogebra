@@ -2065,4 +2065,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
+	@Override
+	public boolean isPolynomialFunction(boolean forRoot) {
+		return true;
+	}
+
 }

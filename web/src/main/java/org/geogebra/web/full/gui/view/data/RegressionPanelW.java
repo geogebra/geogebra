@@ -347,7 +347,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 						.evaluateToNumeric(inputText, ErrorHelper.silent());
 				double value = nv.getDouble();
 				double output = ((GeoFunctionable) statDialog
-						.getRegressionModel()).getGeoFunction().value(value);
+						.getRegressionModel()).value(value);
 
 				fldOutputY.setText(statDialog.format(output));
 

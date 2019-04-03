@@ -39,7 +39,7 @@ public class CmdPolynomial extends CommandProcessor {
 
 				AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction(
 						cons, c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction());
+						(GeoFunctionable) arg[0]);
 
 				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;

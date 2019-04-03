@@ -38,7 +38,7 @@ public class CmdLowerSum extends CommandProcessor {
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
 
 				AlgoSumLower algo = new AlgoSumLower(cons, c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 

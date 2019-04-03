@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -41,7 +42,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 *            function
 	 */
 	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
-			GeoFunction f) {
+			GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
@@ -111,10 +112,10 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	}
 
 	private void updateIntervalFun() {
-		ExpressionNode polyExpression = f.getGeoFunction()
+		ExpressionNode polyExpression = f.getFunction(false)
 				.getFunctionExpression().getRight()
 				.wrap();
-		ExpressionNode condExpression = f.getGeoFunction()
+		ExpressionNode condExpression = f.getFunction(false)
 				.getFunctionExpression().getLeft()
 				.wrap();
 		if (intervalFun == null

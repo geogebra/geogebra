@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootUtil;
@@ -52,7 +53,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	private static final int TYPE_INTERSECTIONS = 1;
 
 	// Input-Output
-	private GeoFunction f0;
+	private GeoFunctionable f0;
 	private GeoFunction f1;
 	private GeoFunction f2;
 	private GeoFunction diff;
@@ -76,7 +77,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * @param labelEnabled
 	 *            whether to allow setting labels
 	 */
-	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
+	public AlgoRoots(Construction cons, String[] labels,
+			GeoFunctionable function,
 			GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
 		// Ancestor gets first function for points!
 		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive());
@@ -105,7 +107,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * @param view
 	 *            view
 	 */
-	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
+	public AlgoRoots(Construction cons, String[] labels,
+			GeoFunctionable function,
 			EuclidianViewInterfaceCommon view) {
 		this(cons, labels, function, view.getXminObject(),
 				view.getXmaxObject(), true);
@@ -242,7 +245,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 															// intersections
 				compute2(diff);
 			} else {
-				compute2(f0);
+				compute2(f0.getGeoFunction());
 			} // if type
 		} // if ok input
 	}

@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -41,7 +42,7 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	 * @param d
 	 *            0 for left sum, 1 for right sum
 	 */
-	public AlgoSumRectangle(Construction cons, String label, GeoFunction f,
+	public AlgoSumRectangle(Construction cons, String label, GeoFunctionable f,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
 			GeoNumberValue d) {
 		super(cons, label, f, a, b, n, d, SumType.RECTANGLESUM);

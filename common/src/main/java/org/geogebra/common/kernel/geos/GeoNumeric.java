@@ -2106,4 +2106,14 @@ public class GeoNumeric extends GeoElement
 	public Function getFunction(boolean b) {
 		return new Function(wrap(), new FunctionVariable(kernel));
 	}
+
+	@Override
+	public double value(double x) {
+		return value;
+	}
+
+	@Override
+	public boolean isPolynomialFunction(boolean forRoot) {
+		return true;
+	}
 }

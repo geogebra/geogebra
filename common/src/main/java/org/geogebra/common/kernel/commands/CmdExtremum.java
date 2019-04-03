@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomialInterval;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -53,7 +53,7 @@ public class CmdExtremum extends CommandProcessor {
 
 				AlgoExtremumMulti algo = new AlgoExtremumMulti(cons,
 						c.getLabels(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
 				return algo.getExtremumPoints();
 			}
@@ -69,14 +69,14 @@ public class CmdExtremum extends CommandProcessor {
 	 *         Extrema currently visible (for non-polynomial functions)
 	 */
 	final private GeoPoint[] extremum(Command c, GeoFunctionable gf) {
-		GeoFunction f = gf.getGeoFunction();
+		Function f = gf.getFunction(false);
 		// special case for If
 		// non-polynomial -> undefined
 		ExpressionNode exp = f.getFunctionExpression();
 		if (exp.getOperation().isIf()) {
 
 			AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(
-					cons, c.getLabels(), f);
+					cons, c.getLabels(), gf);
 			GeoPoint[] g = algo.getRootPoints();
 			return g;
 
@@ -88,11 +88,11 @@ public class CmdExtremum extends CommandProcessor {
 		// && !f.isPolynomialFunction(true))
 		// return null;
 
-		if (!f.isPolynomialFunction(true)) {
+		if (!gf.isPolynomialFunction(true)) {
 			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 					.getActiveEuclidianView();
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(),
-					f, view);
+					gf, view);
 			return algo.getExtremumPoints();
 		}
 

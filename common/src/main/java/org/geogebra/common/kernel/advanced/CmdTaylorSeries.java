@@ -37,7 +37,7 @@ public class CmdTaylorSeries extends CommandProcessor {
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
 				AlgoTaylorSeries algo = new AlgoTaylorSeries(cons, c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getPolynomial() };

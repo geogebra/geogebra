@@ -98,6 +98,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFrame;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -12401,7 +12402,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// find a function
 		addSelectedFunction(hits, 1, false, selPreview);
 
-		GeoFunction function = null;
+		GeoFunctionable function = null;
 		if (selFunctions() > 0) {
 			// get the function and clear the selection
 			function = getSelectedFunctions()[0];
@@ -12432,7 +12433,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			addSelectedLine(hits, 1, false, selPreview);
 			if (selLines() > 0) {
 				// get the line and clear the selection
-				function = getSelectedLines()[0].getGeoFunction();
+				function = getSelectedLines()[0];
 			}
 		}
 
@@ -12449,7 +12450,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// special case for If
 			// non-polynomial -> undefined
 			// eg f(x) = x^2 , (-2<x<2)
-			ExpressionNode exp = function.getFunctionExpression();
+			ExpressionNode exp = function.getFunction(false)
+					.getFunctionExpression();
 			if (exp.getOperation().isIf()) {
 
 				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -40,7 +41,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 	private GeoPointND P; // input
 	private GeoLine tangent; // output
-	private GeoFunction f;
+	private GeoFunctionable f;
 	private GeoPoint T;
 	private boolean pointOnFunction;
 	private GeoFunction deriv;
@@ -63,7 +64,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	 *            function
 	 */
 	public AlgoTangentFunctionPoint(Construction cons, String label,
-			GeoPointND P, GeoFunction f) {
+			GeoPointND P, GeoFunctionable f) {
 		this(cons, P, f);
 		tangent.setLabel(label);
 	}
@@ -77,7 +78,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	 *            function
 	 */
 	public AlgoTangentFunctionPoint(Construction cons, GeoPointND P,
-			GeoFunction f) {
+			GeoFunctionable f) {
 		super(cons);
 		this.P = P;
 		this.f = f;
@@ -122,7 +123,8 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 		} else {
 			// derivative of f
 			// use fast non-CAS derivative
-			algo = new AlgoDerivative(cons, f, true, new EvalInfo(false));
+			algo = new AlgoDerivative(cons, f.getGeoFunction(), true,
+					new EvalInfo(false));
 			deriv = (GeoFunction) algo.getResult();
 			cons.removeFromConstructionList(algo);
 		}
@@ -146,7 +148,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = (GeoElement) P;
-		input[1] = f;
+		input[1] = f.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, tangent);
@@ -163,7 +165,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	/**
 	 * @return function
 	 */
-	GeoFunction getFunction() {
+	GeoFunctionable getFunction() {
 		return f;
 	}
 

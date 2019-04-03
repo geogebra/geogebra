@@ -37,7 +37,7 @@ public class CmdUpperSum extends CommandProcessor {
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
 				AlgoSumUpper algo = new AlgoSumUpper(cons, c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 

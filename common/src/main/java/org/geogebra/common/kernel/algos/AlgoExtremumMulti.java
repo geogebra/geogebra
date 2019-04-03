@@ -19,7 +19,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
@@ -59,7 +59,7 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	// Input-Output
-	private final GeoFunction f1;
+	private final GeoFunctionable f1;
 
 	/**
 	 * Computes "all" Extremums of f in &lt;l,r&gt;
@@ -78,7 +78,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	 *            whether to label outputs
 	 */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
-			GeoFunction function, GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
+			GeoFunctionable function, GeoNumberValue left, GeoNumberValue right,
+			boolean labelEnabled) {
 		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive());
 		this.f1 = function;
 		this.left = left;
@@ -112,7 +113,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	 *            view
 	 */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
-			GeoFunction function, EuclidianViewInterfaceCommon view) {
+			GeoFunctionable function, EuclidianViewInterfaceCommon view) {
 		this(cons, labels, function, view.getXminObject(),
 				view.getXmaxObject(), true);
 
@@ -177,7 +178,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				r = tmp;
 			} // correct user input
 
-			UnivariateFunction rrfunc = f1.getUnivariateFunctionY();
+			UnivariateFunction rrfunc = f1;
 
 			// / --- Algorithm --- ///
 

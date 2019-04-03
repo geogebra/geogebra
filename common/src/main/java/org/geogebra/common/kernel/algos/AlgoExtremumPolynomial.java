@@ -65,7 +65,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 			// TODO: remove
 			// Application.debug("*** extremum of " + f);
 
-			yValFunction = f.getGeoFunction().getFunction();
+			yValFunction = f.getFunction(false);
 
 			// roots of first derivative
 			// (roots without change of sign are removed)

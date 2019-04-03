@@ -91,8 +91,7 @@ public class CmdFunction extends CommandProcessor {
 
 					label = c.getLabel();
 
-					GeoFunction geoFun = ((GeoFunctionable) arg[0])
-							.getGeoFunction();
+					GeoFunctionable geoFun = (GeoFunctionable) arg[0];
 					GeoNumberValue low = (GeoNumberValue) arg[1];
 					GeoNumberValue high = (GeoNumberValue) arg[2];
 
@@ -196,7 +195,7 @@ public class CmdFunction extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { function(c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
 				return ret;
 			}
@@ -207,19 +206,20 @@ public class CmdFunction extends CommandProcessor {
 		}
 	}
 
-	private ExpressionNode wrap(GeoFunction boolFun, FunctionVariable fv,
+	private ExpressionNode wrap(GeoFunctionable boolFun, FunctionVariable fv,
 			boolean mayUseIndependent) {
 		if (!mayUseIndependent) {
 			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION, fv);
 		}
-		return boolFun.getFunctionExpression().deepCopy(kernel)
-				.traverse(VariablePolyReplacer.getReplacer(fv)).wrap();
+		return boolFun.getFunction(false).getFunctionExpression()
+				.deepCopy(kernel).traverse(VariablePolyReplacer.getReplacer(fv))
+				.wrap();
 	}
 
 	/**
 	 * function limited to interval [a, b]
 	 */
-	final private GeoFunction function(String label, GeoFunction f,
+	final private GeoFunction function(String label, GeoFunctionable f,
 			GeoNumberValue a, GeoNumberValue b) {
 		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, f, a,
 				b);

@@ -62,7 +62,7 @@ public class CmdTangent extends CommandProcessor {
 
 				AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						((GeoFunctionable) arg[1]).getGeoFunction());
+						(GeoFunctionable) arg[1]);
 				GeoLine t = algo.getTangent();
 				t.setToExplicit();
 				t.update();
@@ -82,7 +82,7 @@ public class CmdTangent extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[1],
-						((GeoFunctionable) arg[0]).getGeoFunction()) };
+						(GeoFunctionable) arg[0]) };
 				return ret;
 			}
 			// Victor Franco 11-02-2007: for curve's

@@ -41,13 +41,13 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 
 	@Override
 	public void compute() {
-		if (!f.getGeoFunction().isPolynomialFunction(true)) {
+		if (!f.isPolynomialFunction(true)) {
 			initRootPoints(1);
 			getOutput(0).setUndefined();
 			return;
 		}
 		if (f.isDefined()) {
-			yValFunction = f.getGeoFunction().getFunction();
+			yValFunction = f.getFunction(false);
 
 			// roots of second derivative
 			// (roots without change of sign are removed)

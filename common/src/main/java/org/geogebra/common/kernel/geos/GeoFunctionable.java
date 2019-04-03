@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
@@ -21,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * @author Markus
  *
  */
-public interface GeoFunctionable extends GeoElementND {
+public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	/**
 	 * @return this as GeoFunction
 	 */
@@ -36,5 +37,7 @@ public interface GeoFunctionable extends GeoElementND {
 	 * @return this as function
 	 */
 	public Function getFunction(boolean forRoot);
+
+	public boolean isPolynomialFunction(boolean forRoot);
 
 }
