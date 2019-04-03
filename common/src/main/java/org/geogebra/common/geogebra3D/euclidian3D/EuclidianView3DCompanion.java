@@ -101,7 +101,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	 */
 	public void drawFreeCursor(Renderer renderer1) {
 		// free point on xOy plane
-		renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+		renderer1.drawCursor(PlotterCursor.Type.CROSS2D);
 	}
 
 	/**
@@ -261,14 +261,14 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		case MOVE:
 			renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 			getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-			renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+			renderer1.drawCursor(PlotterCursor.Type.CUBE);
 			break;
 		case RESIZE_X:
 		case RESIZE_Y:
 		case RESIZE_Z:
 			renderer1.setMatrix(cursorMatrix);
-			getView().getRenderer().drawCursor(PlotterCursor.TYPE_ALREADY_Z);
-			renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+			getView().getRenderer().drawCursor(PlotterCursor.Type.ALREADY_Z);
+			renderer1.drawCursor(PlotterCursor.Type.CUBE);
 			break;
 		}
 	}

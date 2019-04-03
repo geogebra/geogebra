@@ -2658,7 +2658,7 @@ public abstract class EuclidianView3D extends EuclidianView
 						case PREVIEW_POINT_FREE:
 							if (getCompanion().drawCrossForFreePoint()) {
 								renderer1
-										.drawCursor(PlotterCursor.TYPE_CROSS2D);
+										.drawCursor(PlotterCursor.Type.CROSS2D);
 							}
 							break;
 						case PREVIEW_POINT_REGION:
@@ -2667,7 +2667,7 @@ public abstract class EuclidianView3D extends EuclidianView
 								renderer1.drawViewInFrontOf();
 							} else {
 								renderer1
-										.drawCursor(PlotterCursor.TYPE_CROSS2D);
+										.drawCursor(PlotterCursor.Type.CROSS2D);
 							}
 							break;
 						case PREVIEW_POINT_PATH:
@@ -2677,11 +2677,11 @@ public abstract class EuclidianView3D extends EuclidianView
 								renderer1.drawViewInFrontOf();
 							} else {
 								renderer1.drawCursor(
-										PlotterCursor.TYPE_CYLINDER);
+										PlotterCursor.Type.CYLINDER);
 							}
 							break;
 						case PREVIEW_POINT_DEPENDENT:
-							renderer1.drawCursor(PlotterCursor.TYPE_DIAMOND);
+							renderer1.drawCursor(PlotterCursor.Type.DIAMOND);
 							break;
 
 						case PREVIEW_POINT_ALREADY:
@@ -2740,13 +2740,13 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		switch (pointMoveMode) {
 		case GeoPointND.MOVE_MODE_XY:
-			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XY);
+			renderer.drawCursor(PlotterCursor.Type.ALREADY_XY);
 			break;
 		case GeoPointND.MOVE_MODE_Z:
-			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
+			renderer.drawCursor(PlotterCursor.Type.ALREADY_Z);
 			break;
 		case GeoPointND.MOVE_MODE_XYZ:
-			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+			renderer.drawCursor(PlotterCursor.Type.ALREADY_XYZ);
 			break;
 		default:
 			// draw nothing

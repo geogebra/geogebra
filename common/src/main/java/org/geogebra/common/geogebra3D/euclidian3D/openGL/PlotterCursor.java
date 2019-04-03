@@ -12,17 +12,65 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  */
 public class PlotterCursor {
 
-	public static final int TYPE_CROSS2D = 0;
-	public static final int TYPE_DIAMOND = 1;
-	public static final int TYPE_CYLINDER = 2;
-	public static final int TYPE_CROSS3D = 3;
-	public static final int TYPE_ALREADY_XY = 4;
-	public static final int TYPE_ALREADY_Z = 5;
-	public static final int TYPE_ALREADY_XYZ = 6;
-	public static final int TYPE_CUBE = 7;
-	public static final int TYPE_SPHERE = 8;
-	public static final int TYPE_TARGET_CIRCLE = 9;
-	public static final int TYPE_ROTATION = 10;
+	/** Cursor type */
+	public enum Type {
+		/** 2D cross preview for e.g. point on plane */
+		CROSS2D(0, false, true),
+		/** diamond preview for intersection point */
+		DIAMOND(1, false, true),
+		/** "cylinder" preview for e.g point on segment */
+		CYLINDER(2, false, true),
+		/** 3D cross preview for point in space */
+		CROSS3D(3, false, true),
+		/** horizontal arrowed cross when over an existing point */
+		ALREADY_XY(4, true, false),
+		/** vertical arrows when over an existing point */
+		ALREADY_Z(5, true, false),
+		/** 3 directions arrows when over an existing point */
+		ALREADY_XYZ(6, true, false),
+		/** cube displayed when moving drawing pad */
+		CUBE(7, true, false),
+		/** sphere for target */
+		SPHERE(8, false, false),
+		/** circle for target */
+		TARGET_CIRCLE(9, false, false),
+		/** for rotations */
+		ROTATION(10, true, false);
+
+		private int id;
+		private boolean useLight;
+		private boolean isPreview;
+
+		private Type(int id, boolean useLight, boolean isPreview) {
+			this.id = id;
+			this.useLight = useLight;
+			this.isPreview = isPreview;
+		}
+
+		/**
+		 * 
+		 * @return true if light is used for this cursor
+		 */
+		public boolean useLight() {
+			return useLight;
+		}
+
+		/**
+		 * 
+		 * @return true if is a preview cursor
+		 */
+		public boolean isPreview() {
+			return isPreview;
+		}
+
+		/**
+		 * 
+		 * @return cursor id
+		 */
+		int getId() {
+			return id;
+		}
+	}
 
 	static private int TYPE_LENGTH = 11;
 
@@ -101,7 +149,7 @@ public class PlotterCursor {
 		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, -size_start_move, 0, 1),
 				new Coords(0, -size_move, 0, 1));
-		index[TYPE_ALREADY_XY] = brush.end();
+		index[Type.ALREADY_XY.getId()] = brush.end();
 
 		// z
 		brush.start(-1);
@@ -112,7 +160,7 @@ public class PlotterCursor {
 		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),
 				new Coords(0, 0, -size_move, 1));
-		index[TYPE_ALREADY_Z] = brush.end();
+		index[Type.ALREADY_Z.getId()] = brush.end();
 
 		// xyz
 		brush.start(-1);
@@ -135,12 +183,12 @@ public class PlotterCursor {
 		brush.setThickness(thickness3); // re sets the thickness
 		brush.segment(new Coords(0, 0, -size_start_move, 1),
 				new Coords(0, 0, -size_move, 1));
-		index[TYPE_ALREADY_XYZ] = brush.end();
+		index[Type.ALREADY_XYZ.getId()] = brush.end();
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
 		// cube
-		index[TYPE_CUBE] = manager.startNewList(-1, true);
+		index[Type.CUBE.getId()] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		color(0.5f, 0.5f, 0.5f);
 		// up
@@ -178,7 +226,7 @@ public class PlotterCursor {
 		manager.endList();
 
 		// sphere
-		index[TYPE_SPHERE] = manager.startNewList(-1, true);
+		index[Type.SPHERE.getId()] = manager.startNewList(-1, true);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		cursorSphere(1f, TARGET_DOT_ALPHA);
 		manager.endGeometry();
@@ -189,7 +237,7 @@ public class PlotterCursor {
 		brush.setColor(GColor.WHITE, TARGET_CIRCLE_ALPHA);
 		brush.setThickness(TARGET_CIRCLE_THICKNESS);
 		brush.circle(Coords.O, Coords.VX, Coords.VY, TARGET_CIRCLE_RADIUS, 64);
-		index[TYPE_TARGET_CIRCLE] = brush.end();
+		index[Type.TARGET_CIRCLE.getId()] = brush.end();
 
 		// rotation
 		brush.start(-1);
@@ -198,7 +246,7 @@ public class PlotterCursor {
 		brush.arcExtendedWithArrows(new Coords(0, 0, 0, 1),
 				new Coords(1, 0, 0, 0), new Coords(0, 1, 0, 0), size_move / 2,
 				-Math.PI * 0.6, Math.PI * 1.2, 64);
-		index[TYPE_ROTATION] = brush.end();
+		index[Type.ROTATION.getId()] = brush.end();
 
 		manager.setScalerView();
 	}
@@ -251,19 +299,6 @@ public class PlotterCursor {
 		tnv(x4, y4, z4);
 	}
 
-	/**
-	 * used to say if light is on or not
-	 * 
-	 * @param type
-	 *            type
-	 * @return true it type is of "already" (xy or z)
-	 */
-	public static final boolean isTypeAlready(int type) {
-		return type == TYPE_ALREADY_XY || type == TYPE_ALREADY_Z
-				|| type == TYPE_ALREADY_XYZ || type == TYPE_CUBE
-				|| type == TYPE_ROTATION;
-	}
-
 	// ////////////////////////////////
 	// INDEX
 	// ////////////////////////////////
@@ -271,12 +306,12 @@ public class PlotterCursor {
 	/**
 	 * return geometry index for each type of cursor
 	 * 
-	 * @param i
+	 * @param type
 	 *            type
 	 * @return geometry index for each type of cursor
 	 */
-	public int getIndex(int i) {
-		return index[i];
+	public int getIndex(Type type) {
+		return index[type.getId()];
 	}
 
 	// ////////////////////////////////

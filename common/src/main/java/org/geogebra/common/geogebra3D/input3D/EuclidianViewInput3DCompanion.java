@@ -241,7 +241,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			super.drawFreeCursor(renderer1);
 		} else {
 			// free point in space
-			renderer1.drawCursor(PlotterCursor.TYPE_CROSS3D);
+			renderer1.drawCursor(PlotterCursor.Type.CROSS3D);
 		}
 	}
 
@@ -473,7 +473,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			super.drawPointAlready(point);
 		} else if (!point.isPointOnPath()
 				&& point.getMoveMode() != GeoPointND.MOVE_MODE_NONE) {
-			getView().getRenderer().drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
+			getView().getRenderer().drawCursor(PlotterCursor.Type.ALREADY_XYZ);
 		}
 	}
 
@@ -618,7 +618,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 					renderer1.setMatrix(tmpMatrix4x4_3);
 					getView().drawPointAlready(
 							cursorOnXOYPlane.getRealMoveMode());
-					renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+					renderer1.drawCursor(PlotterCursor.Type.CUBE);
 				}
 			} else {
 				if (input3D.isThirdButtonPressed()) { // third button: translate
@@ -630,8 +630,8 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
 					renderer1.setMatrix(tmpMatrix4x4_3);
-					renderer1.drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
-					renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+					renderer1.drawCursor(PlotterCursor.Type.ALREADY_XYZ);
+					renderer1.drawCursor(PlotterCursor.Type.CUBE);
 				} else { // right button: rotate view
 
 					// let's scale it a bit more
@@ -645,7 +645,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
 					renderer1.setMatrix(tmpMatrix4x4_3);
-					renderer1.drawCursor(PlotterCursor.TYPE_ROTATION);
+					renderer1.drawCursor(PlotterCursor.Type.ROTATION);
 				}
 			}
 		}

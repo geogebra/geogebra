@@ -988,10 +988,10 @@ public abstract class Renderer {
 	 * @param cursorType
 	 *            cursor type
 	 */
-	public void drawCursor(int cursorType) {
+	public void drawCursor(PlotterCursor.Type cursorType) {
 		rendererImpl.setNormalToNone();
 
-		if (!PlotterCursor.isTypeAlready(cursorType)) {
+		if (!cursorType.useLight()) {
 			rendererImpl.disableLighting();
 		}
 
@@ -999,7 +999,7 @@ public abstract class Renderer {
 		geometryManager.draw(geometryManager.cursor.getIndex(cursorType));
 		rendererImpl.resetMatrix();
 
-		if (!PlotterCursor.isTypeAlready(cursorType)) {
+		if (!cursorType.useLight()) {
 			rendererImpl.enableLighting();
 		}
 	}
@@ -1022,11 +1022,11 @@ public abstract class Renderer {
 		setMatrix(dotMatrix);
 		rendererImpl.initMatrix();
 		geometryManager.draw(
-				geometryManager.cursor.getIndex(PlotterCursor.TYPE_SPHERE));
+				geometryManager.cursor.getIndex(PlotterCursor.Type.SPHERE));
 		setMatrix(circleMatrix);
 		rendererImpl.initMatrix();
 		geometryManager.draw(geometryManager.cursor
-				.getIndex(PlotterCursor.TYPE_TARGET_CIRCLE));
+				.getIndex(PlotterCursor.Type.TARGET_CIRCLE));
 		rendererImpl.resetMatrix();
 		disableBlending();
 		rendererImpl.enableDepthMask();
