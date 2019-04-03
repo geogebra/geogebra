@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.laf;
 
 import java.util.Date;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -226,11 +225,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public boolean hasLoginButton() {
 		// only in web
 		return true;
-	}
-
-	@Override
-	public String getLicenseURL() {
-		return GeoGebraConstants.GGW_ABOUT_LICENSE_URL;
 	}
 
 }

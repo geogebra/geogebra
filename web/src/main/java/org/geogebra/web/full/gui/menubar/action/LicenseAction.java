@@ -32,7 +32,7 @@ public class LicenseAction extends MenuAction<Void> {
 	@Override
 	public void execute(Void geo, AppWFull appW) {
 		appW.getFileManager()
-				.open(app.getLAF().getLicenseURL() + "&version="
+				.open(app.getVendorSettings().getLicenseURL() + "&version="
 						+ app.getVersionString() + "&date="
 						+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
 	}

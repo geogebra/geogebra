@@ -83,7 +83,7 @@ ext.appSpecs = [
 	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator', partials:["undo-redo"]],
 	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
 	[id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
-	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', 'vendor': "Mebis"]]
+	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
 gwt {
     gwtVersion = gwtCompilerVersion
@@ -177,9 +177,10 @@ task copyHtml {
             .replace("<!--VENDOR-->", "GeoGebra")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
-        def appHtml = { app, prerelease, offline=false, vendor="GeoGebra" ->
-            def appID = app.id.split("-")[0];
-            def appTransKey = app.transKey;
+        def appHtml = { app, prerelease, offline=false ->
+            def vendor = app.vendor ?: "GeoGebra"
+            def appID = app.id.split("-")[0]
+            def appTransKey = app.transKey
             def header = appID == "notes" ? "" : template("app-header-beta.html")
             def partials = app.partials ?: ["share-button", "signin-button"]
             partials.each({
@@ -219,7 +220,7 @@ task copyHtml {
 			file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(app.id))
 			file("war/${app.id}-template-beta.html").text = appHtml(app, true)
 			// TODO notes features should go to stable, then we simplify this
-			file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(app.id), true, app.vendor ?: "GeoGebra"), app.title)
+			file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(app.id), true), app.title)
 			file("war/${app.id}.html").text = english(appHtml(app, true), app.title)
 			file("war/${app.id}-canary.html").text = english(appHtml(app, "\"canary\""), app.title)
 		}});

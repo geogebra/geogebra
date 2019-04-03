@@ -9,12 +9,6 @@ import org.geogebra.common.main.AppConfigDefault;
  */
 public class AppConfigNotes extends AppConfigDefault {
 
-	private boolean mebisVendor;
-
-	public AppConfigNotes(boolean isMebisVendor) {
-		this.mebisVendor = isMebisVendor;
-	}
-
 	@Override
 	public String getPreferencesKey() {
 		return "_notes";
@@ -27,7 +21,7 @@ public class AppConfigNotes extends AppConfigDefault {
 
 	@Override
 	public String getAppTitle() {
-		return mebisVendor ? "Tafel" : "Notes";
+		return "Notes";
 	}
 
 }

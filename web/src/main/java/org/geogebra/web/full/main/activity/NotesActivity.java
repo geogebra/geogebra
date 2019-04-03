@@ -15,8 +15,8 @@ public class NotesActivity extends BaseActivity {
 	/**
 	 * New notes activity
 	 */
-	public NotesActivity(boolean isMebisVendor) {
-		super(new AppConfigNotes(isMebisVendor));
+	public NotesActivity() {
+		super(new AppConfigNotes());
 	}
 
 	@Override

@@ -843,4 +843,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getParamShareLinkPrefix() {
 		return getStringDataParam("shareLinkPrefix", getDataParamAppName());
 	}
+
+	@Override
+	public String getParamVendor() {
+		return getStringDataParam("vendor", "");
+	}
 }

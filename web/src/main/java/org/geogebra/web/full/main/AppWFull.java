@@ -314,7 +314,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			activity = new ScientificActivity();
 			break;
 		case "notes":
-			activity = new NotesActivity(Window.getTitle().contains("Mebis"));
+			activity = new NotesActivity();
 			break;
 		default:
 			activity = new ClassicActivity(new AppConfigDefault());

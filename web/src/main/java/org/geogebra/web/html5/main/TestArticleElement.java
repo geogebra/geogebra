@@ -456,4 +456,8 @@ public class TestArticleElement implements ArticleElementInterface {
 	public String getParamShareLinkPrefix() {
 		return "";
 	}
+
+	public String getParamVendor() {
+		return attributes.get("vendor");
+	}
 }

@@ -483,10 +483,18 @@ public interface ArticleElementInterface {
 	 */
 	boolean getParamAutoHeight();
 
+	/**
+	 * @return value of data-param-fullscreeenContainer
+	 */
 	String getParamFullscreenContainer();
 
 	/**
 	 * @return getDataParamAppName by default, or prefix of the share link
 	 */
 	String getParamShareLinkPrefix();
+
+	/**
+	 * @return value of data-param-vendor
+	 */
+	String getParamVendor();
 }

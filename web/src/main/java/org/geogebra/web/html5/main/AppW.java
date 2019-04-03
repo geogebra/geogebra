@@ -100,6 +100,8 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.laf.MebisVendorSettings;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -2222,7 +2224,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void setTitle() {
-		String title = getLocalization().getMenu(getConfig().getAppTitle());
+		String titleTransKey = getVendorSettings().getAppTitle(getConfig());
+		String title = getLocalization().getMenu(titleTransKey);
 		if (getArticleElement().getLoginAPIurl() != null) {
 			Browser.changeMetaTitle(title);
 		}
@@ -3349,6 +3352,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 		}
 	};
+	private VendorSettings vendorSettings;
 
 	@Override
 	public void setAltText() {
@@ -3969,6 +3973,20 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public void closePopupsInRegistry() {
 		popupRegistry.closeAll();
+	}
+
+	/**
+	 * @return vendor dependent settings
+	 */
+	public VendorSettings getVendorSettings() {
+		if(vendorSettings == null){
+			if ("mebis".equalsIgnoreCase(articleElement.getParamVendor())) {
+				vendorSettings = new MebisVendorSettings();
+			} else {
+				vendorSettings = new VendorSettings();
+			}
+		}
+		return vendorSettings;
 	}
 
 }
