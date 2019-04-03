@@ -337,9 +337,15 @@ public class EuclidianStyleBarStatic {
 			// create a new TableText cmd
 			cmdText.setLength(0);
 			cmdText.append("TableText[");
-			cmdText.append(((GeoList) input[0])
-					.getFormulaString(StringTemplate.defaultTemplate, false));
-			cmdText.append(",\"");
+			for (int j = 0; j < input.length; j++) {
+				if (input[j] instanceof GeoList) {
+					cmdText.append(((GeoList) input[j])
+							.getFormulaString(StringTemplate.defaultTemplate,
+									false));
+					cmdText.append(",");
+				}
+			}
+			cmdText.append("\"");
 			cmdText.append(arg);
 			cmdText.append(
 					((AlgoTableText) geo.getParentAlgorithm()).getAlignment());
