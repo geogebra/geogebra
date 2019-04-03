@@ -24,7 +24,10 @@ public class RedefineTest extends Assert {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
-		app.setExam(null);
+		if (app.getExam() != null) {
+			app.getExam().closeExam();
+			app.setExam(null);
+		}
 	}
 
 	/**
