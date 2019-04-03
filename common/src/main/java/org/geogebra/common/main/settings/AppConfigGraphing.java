@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.Feature;
 
 /**
  * Config for Graphing Calculator app
@@ -150,7 +149,7 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public boolean hasTableView(App app) {
-		return app.has(Feature.TABLE_VIEW);
+		return true;
 	}
 
 	@Override

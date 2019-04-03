@@ -104,9 +104,6 @@ public enum Feature {
 	/** GGB-2517 */
 	TOOLBAR_FROM_APPCONFIG,
 
-	/** APPS-19 */
-	TABLE_VIEW,
-
 	/** G3D-42 */
 	G3D_AR_REGULAR_TOOLS,
 

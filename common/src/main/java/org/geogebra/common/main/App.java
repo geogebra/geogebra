@@ -3885,10 +3885,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case TOOLBAR_FROM_APPCONFIG:
 			return true;
 
-		/** APPS-19 APPS-68 */
-		case TABLE_VIEW:
-			return true;
-
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
 			return true;
