@@ -86,8 +86,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	private float[] clipPlanesMin = new float[3];
 	private float[] clipPlanesMax = new float[3];
 
-	private float[] resetCenter = { 0f, 0f, 0f, 0f };
-
 	private int currentLayer;
 	private float[] eyeOrDirection = new float[4];
 	protected float[][] ambiantDiffuse;
