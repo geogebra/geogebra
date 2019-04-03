@@ -85,8 +85,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	 *            application
 	 */
 	public SliderDialogW(final AppW app, int x, int y) {
-		super(false, true, null, app.getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN));
+		super(false, true, null, app.getPanel(), app);
 
 		//super(app.getFrame(), false);
 		this.appw = app;
@@ -170,7 +169,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		
 		Label nameLabel = new Label(loc.getMenu("Name"));
-		if (appw.has(Feature.DIALOG_DESIGN)) {
+		if (appw.isUnbundledOrWhiteboard()) {
 			nameLabel.setStyleName("coloredLabel");
 		}
 		nameWidget.add(nameLabel);

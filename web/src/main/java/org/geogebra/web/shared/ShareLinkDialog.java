@@ -53,7 +53,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	 *            parent widget
 	 */
 	public ShareLinkDialog(AppW app, String shareURL, Widget anchor) {
-		super(false, true, null, app.getPanel(), app, true);
+		super(false, true, null, app.getPanel(), app);
 		this.app = app;
 		this.shareURL = shareURL;
 		this.anchor = anchor;

@@ -10,7 +10,6 @@ import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -199,7 +198,7 @@ public class TextEditPanel extends VerticalPanel
 	public void setLabels() {
 		disclosurePanel.getHeaderTextAccessor()
 				.setText(loc.getMenu("Advanced"));
-		if (!app.has(Feature.DIALOG_DESIGN)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			btnBold.setText(loc.getMenu("Bold.Short"));
 			btnItalic.setText(loc.getMenu("Italic.Short"));
 		}
@@ -283,7 +282,7 @@ public class TextEditPanel extends VerticalPanel
 		btnInsert = new GToggleButton(Unicode.alpha + "");
 		btnInsert.addClickHandler(this);
 
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			btnBold = new MyToggleButtonW(
 					new ImageResourcePrototype(
 							null, MaterialDesignResources.INSTANCE
@@ -295,7 +294,7 @@ public class TextEditPanel extends VerticalPanel
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			btnItalic = new MyToggleButtonW(
 					new ImageResourcePrototype(
 							null, MaterialDesignResources.INSTANCE

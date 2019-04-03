@@ -11,7 +11,6 @@ import org.geogebra.common.gui.util.TableSymbolsLaTeX;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -93,7 +92,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		add(new ScrollPanel(getPreviewer().getPanel()),
 				previewLabel);
 		add(new ScrollPanel(geoPanel), geoTabImage);
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			getTabWidget(1).getParent().addStyleName("ggbTab");
 		}
 		add(new ScrollPanel(symbolPanel), Unicode.ALPHA_BETA_GAMMA);
@@ -294,7 +293,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 		int defaultRowSize = 15;
 
 		latexPanel = new VerticalPanel();
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			latexPanel.addStyleName("latexPanel");
 		}
 		latexPanel.setWidth("100%");

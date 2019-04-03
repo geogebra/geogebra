@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
@@ -76,8 +75,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            application
 	 */
 	public ExerciseBuilderDialog(App app) {
-		super(false, false, null, ((AppW) app).getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN));
+		super(false, false, null, ((AppW) app).getPanel(), app);
 
 		this.app = app;
 		this.loc = app.getLocalization();

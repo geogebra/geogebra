@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
@@ -75,8 +74,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	 */
 
 	public ToolCreationDialogW(App app) {
-		super(false, false, null, ((AppW) app).getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN));
+		super(false, false, null, ((AppW) app).getPanel(), app);
 
 		this.appw = (AppW) app;
 		this.loc = app.getLocalization();

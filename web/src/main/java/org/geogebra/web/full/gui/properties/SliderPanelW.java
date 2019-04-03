@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.gui.AngleTextFieldW;
@@ -232,7 +231,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		blobSizeUnitLabel = new Label("px");
 		pointStyleTitleLbl = new Label();
 		lineStyleTitleLbl = new Label();
-		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
+		if (kernel.getApplication().isUnbundledOrWhiteboard()) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
 			widthLabel.setStyleName("coloredLabel");
@@ -254,12 +253,12 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthPanel.setStyleName("optionsPanel");
 		widthPanel.setStyleName("sliderWidthPanel");
 		widthPanel.add(widthLabel);
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			tfWidth.add(widthUnitLabel);
 			widthUnitLabel.setStyleName("unitLabel");
 		}
 		widthPanel.add(tfWidth);
-		if (!app.has(Feature.DIALOG_DESIGN)) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			widthPanel.add(widthUnitLabel);
 		}
 
@@ -657,7 +656,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			lbSliderHorizontal.addItem(comboStr[i]);
 		}
 		lbSliderHorizontal.setSelectedIndex(selectedIndex);
-		String suffix = kernel.getApplication().has(Feature.DIALOG_DESIGN) ? ""
+		String suffix = kernel.getApplication().isUnbundledOrWhiteboard() ? ""
 				: ":";
 		minLabel.setText(loc.getMenu("min") + suffix);
 		maxLabel.setText(loc.getMenu("max") + suffix);

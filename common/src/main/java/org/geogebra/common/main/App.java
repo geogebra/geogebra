@@ -3856,10 +3856,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case SYMBOLIC_AV:
 			return canary;
 
-		/** GGB-1986 */
-		case DIALOG_DESIGN:
-			return isUnbundledOrWhiteboard();
-
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
 			// don't set true in ggb5

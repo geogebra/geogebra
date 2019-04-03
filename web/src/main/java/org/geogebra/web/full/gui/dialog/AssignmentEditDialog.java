@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
@@ -54,8 +53,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public AssignmentEditDialog(App app, Assignment assignment,
 			ExerciseBuilderDialog exerciseBuilderDialog) {
-		super(false, false, null, ((AppW) app).getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN));
+		super(false, false, null, ((AppW) app).getPanel(), app);
 		
 		this.app = app;
 		this.loc = app.getLocalization();

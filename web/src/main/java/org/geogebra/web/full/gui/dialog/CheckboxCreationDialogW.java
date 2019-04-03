@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -151,8 +150,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	 */
 	public CheckboxCreationDialogW(AppW app, GPoint loc2,
 			GeoBoolean geoBoolean) {
-		super(false, false, null, app.getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN));
+		super(false, false, null, app.getPanel(), app);
 
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -209,7 +207,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 
 	protected void createGUI(String title) {
 		addStyleName("GeoGebraPopup");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("Checkbox");
 		}
 		getCaption().setText(title);
@@ -217,9 +215,9 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		lblSelectObjects.setStyleName("panelTitle");
 		// create caption panel
 		Label captionLabel = new Label(
-				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("Button.Caption")
+				app.isUnbundledOrWhiteboard() ? loc.getMenu("Button.Caption")
 						: loc.getMenu("Button.Caption") + ":");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			captionLabel.addStyleName("coloredLabel");
 		}
 		String initString = geoBoolean == null ? ""
@@ -228,7 +226,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		FlowPanel captionPanel = new FlowPanel();
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			captionPanel.add(captionLabel);
 			captionPanel.add(ip);
 		} else {

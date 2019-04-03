@@ -62,9 +62,6 @@ public enum Feature {
 
 	SURFACE_2D,
 
-	/** GGB-1986 */
-	DIALOG_DESIGN,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

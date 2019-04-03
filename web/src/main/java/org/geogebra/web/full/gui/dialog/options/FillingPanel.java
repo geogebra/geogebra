@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -87,7 +86,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		public MyImageFileInputDialog(AppW app) {
 			super(app);
 			createGUI();
-			if (app.has(Feature.DIALOG_DESIGN)) {
+			if (app.isUnbundledOrWhiteboard()) {
 				btCancel.addStyleName("dialogBtn");
 				this.setStyleName("MaterialDialogBox");
 			}

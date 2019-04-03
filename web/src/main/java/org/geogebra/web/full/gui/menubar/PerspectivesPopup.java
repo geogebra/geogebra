@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -39,8 +38,7 @@ public class PerspectivesPopup {
 	 */
 	public PerspectivesPopup(final AppWFull app) {
 		this.app = app;
-		box = new DialogBoxW(true, false, null, app.getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN)) {
+		box = new DialogBoxW(true, false, null, app.getPanel(), app) {
 			@Override
 			public void setPopupPosition(int left, int top) {
 				super.setPopupPosition(left,

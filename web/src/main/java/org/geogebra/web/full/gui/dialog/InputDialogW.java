@@ -81,8 +81,7 @@ public class InputDialogW extends InputDialog
 			wrappedPopup = new DialogBoxKbW(false, modal, this, app.getPanel(),
 					app);
 		} else {
-			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel(),
-					app, app.has(Feature.DIALOG_DESIGN));
+			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel(), app);
 		}
 	}
 
@@ -166,8 +165,7 @@ public class InputDialogW extends InputDialog
 		 */
 		public DialogBoxKbW(boolean autoHide, boolean modal, InputDialogW inputDialogW,
 				Panel panel, App app) {
-			super(autoHide, modal, inputDialogW, panel, app,
-					app.has(Feature.DIALOG_DESIGN));
+			super(autoHide, modal, inputDialogW, panel, app);
 		}
 
 	}

@@ -3,7 +3,6 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GDialogBox;
@@ -61,7 +60,7 @@ public class RelationPaneW extends GDialogBox
 	public void showDialog(String title, RelationRow[] relations, App app1) {
 
 		// setGlassEnabled(true);
-		if (app1.has(Feature.DIALOG_DESIGN)) {
+		if (app1.isUnbundledOrWhiteboard()) {
 			setStyleName("MaterialDialogBox");
 		} else {
 			addStyleName("DialogBox");
@@ -88,7 +87,7 @@ public class RelationPaneW extends GDialogBox
 				btnCallbacks[i] = new Button();
 				btnCallbacks[i].setStyleName("moreBtn");
 				btnCallbacks[i]
-						.setText(app1.has(Feature.DIALOG_DESIGN)
+						.setText(app1.isUnbundledOrWhiteboard()
 								? app1.getLocalization().getMenu("More")
 								: app1.getLocalization().getMenu("More")
 								+ Unicode.ELLIPSIS);

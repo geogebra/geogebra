@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
@@ -126,7 +125,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		final HorizontalPanel titlePanel = new HorizontalPanel();
 		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.titleLabel = new Label(loc.getMenu("Title") + ": ");
-		if (appW.has(Feature.DIALOG_DESIGN)) {
+		if (appW.isUnbundledOrWhiteboard()) {
 			titleLabel.addStyleName("coloredLabel");
 		}
 		titlePanel.add(this.titleLabel);

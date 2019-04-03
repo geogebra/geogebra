@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -161,7 +160,7 @@ public class CustomColorDialog extends DialogBoxW implements SetLabels {
 		loc = app.getLocalization();
 		setWidget(mainWidget = new FlowPanel());
 		addStyleName("GeoGebraPopup");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName(app.isWhiteboardActive() ? "ColorChooser mow"
 					: "ColorChooser");
 		}

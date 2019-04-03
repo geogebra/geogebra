@@ -2,7 +2,6 @@ package org.geogebra.web.html5.javax.swing;
 
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -128,9 +127,8 @@ public class GOptionPaneW extends GDialogBox
 	}
 
 	private void createGUI() {
-
 		setGlassEnabled(true);
-		if (mApp.has(Feature.DIALOG_DESIGN)) {
+		if (mApp.isUnbundledOrWhiteboard()) {
 			addStyleName("MaterialDialogBox");
 		} else {
 			addStyleName("DialogBox");
@@ -154,11 +152,9 @@ public class GOptionPaneW extends GDialogBox
 
 		mainPanel = new FlowPanel();
 		mainPanel.addStyleName("Dialog-content");
-
 	}
 
 	private void updateGUI() {
-
 		mainPanel.clear();
 
 		updateMessagePanel();
@@ -178,7 +174,6 @@ public class GOptionPaneW extends GDialogBox
 	}
 
 	private void updateButtonPanel() {
-
 		buttonPanel.clear();
 
 		switch (mOptionType) {
@@ -214,11 +209,9 @@ public class GOptionPaneW extends GDialogBox
 			buttonPanel.add(btnOK);
 			setLabels();
 		}
-
 	}
 
 	private void updateMessagePanel() {
-
 		messagePanel.clear();
 		messageTextPanel.clear();
 
@@ -253,7 +246,6 @@ public class GOptionPaneW extends GDialogBox
 	}
 
 	private void updateIcon() {
-
 		if (mIcon != null) {
 			return;
 		}

@@ -1,6 +1,5 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -43,10 +42,7 @@ public class ProfilePanel extends FlowPanel {
 
 		final GPopupPanel popup = new GPopupPanel(app.getPanel(), app);
 		popup.addStyleName("optionsPopup");
-		if (app.has(Feature.DIALOG_DESIGN)) {
-			// TODO mat design
-			// popup.addStyleName("MaterialDialogBox");
-		}
+
 		popup.setAutoHideEnabled(true);
 		popup.addAutoHidePartner(getElement());
 		this.optionsPanel = new FlowPanel();

@@ -1,7 +1,6 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -44,14 +43,12 @@ public class DialogBoxW extends GDialogBox {
 	 *            root for positioning
 	 * @param app
 	 *            application
-	 * @param matDesign
-	 *            whether to use material design
 	 */
 	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh,
-			Panel root, App app, boolean matDesign) {
+			Panel root, App app) {
 		super(autoHide, modal, root, app);
 		addResizeHandler();
-		if (matDesign) {
+		if (app.isUnbundledOrWhiteboard()) {
 			this.setStyleName("MaterialDialogBox");
 		} else {
 			this.addStyleName("DialogBox");
@@ -72,7 +69,7 @@ public class DialogBoxW extends GDialogBox {
 	 *            app
 	 */
 	public DialogBoxW(Panel root, App app) {
-		this(false, true, null, root, app, app.has(Feature.DIALOG_DESIGN));
+		this(false, true, null, root, app);
 	}
 
 	/**

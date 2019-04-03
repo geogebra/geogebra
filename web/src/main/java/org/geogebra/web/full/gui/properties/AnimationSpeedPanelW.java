@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -96,14 +95,14 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	public void setLabels() {
 		super.setLabels();
 		Localization loc = app.getLocalization();
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			getLabel().setStyleName("coloredLabel");
 			modeLabel.setStyleName("coloredLabel");
 		}
 		getLabel().setText(
-				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("AnimationSpeed")
+				app.isUnbundledOrWhiteboard() ? loc.getMenu("AnimationSpeed")
 						: loc.getMenu("AnimationSpeed") + ":");
-		modeLabel.setText(app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("Repeat")
+		modeLabel.setText(app.isUnbundledOrWhiteboard() ? loc.getMenu("Repeat")
 				: loc.getMenu("Repeat") + ": ");
 	}
 

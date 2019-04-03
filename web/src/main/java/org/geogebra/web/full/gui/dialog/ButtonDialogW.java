@@ -54,8 +54,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	 *            whether this is for inputbox
 	 */
 	public ButtonDialogW(final AppW app, int x, int y, boolean inputBox) {
-		super(false, true, null, app.getPanel(), app,
-				app.has(Feature.DIALOG_DESIGN));
+		super(false, true, null, app.getPanel(), app);
 
 		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, inputBox);
@@ -87,9 +86,9 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		
 		// create caption panel
 		Label captionLabel = new Label(
-				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("Button.Caption")
+				app.isUnbundledOrWhiteboard() ? loc.getMenu("Button.Caption")
 						: loc.getMenu("Button.Caption") + ":");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			captionLabel.addStyleName("coloredLabel");
 		}
 		
@@ -132,9 +131,10 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 			}
 		}
 
-		Label scriptLabel = new Label(app.has(Feature.DIALOG_DESIGN)
+		Label scriptLabel = new Label(
+				app.isUnbundledOrWhiteboard()
 				? loc.getMenu("Script") : loc.getMenu("Script") + ":");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			scriptLabel.addStyleName("coloredLabel");
 		}
 		tfScript = new ScriptArea((AppW) app);
@@ -147,9 +147,9 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 
 		VerticalPanel linkedPanel = new VerticalPanel();
 		Label linkedLabel = new Label(
-				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("LinkedObject")
+				app.isUnbundledOrWhiteboard() ? loc.getMenu("LinkedObject")
 						: loc.getMenu("LinkedObject") + ":");
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app.isUnbundledOrWhiteboard()) {
 			linkedLabel.addStyleName("coloredLabel");
 		}
 		linkedPanel.add(linkedLabel);
