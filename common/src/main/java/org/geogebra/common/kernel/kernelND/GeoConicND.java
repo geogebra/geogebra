@@ -1696,12 +1696,12 @@ public abstract class GeoConicND extends GeoQuadricND
 	final public void setCoeffs(double a, double b, double c, double d,
 			double e, double f) {
 		setDefinition(null);
-		matrix[0] = a; // x\u00b2
-		matrix[1] = c; // y\u00b2
-		matrix[2] = f; // constant
-		matrix[3] = b / 2.0; // xy
-		matrix[4] = d / 2.0; // x
-		matrix[5] = e / 2.0; // y
+		matrix[ConicMatrix.XX] = a; // x\u00b2
+		matrix[ConicMatrix.YY] = c; // y\u00b2
+		matrix[ConicMatrix.CONST] = f; // constant
+		matrix[ConicMatrix.XY] = b / 2.0; // xy
+		matrix[ConicMatrix.X] = d / 2.0; // x
+		matrix[ConicMatrix.Y] = e / 2.0; // y
 
 		classifyConic();
 	}
@@ -1755,12 +1755,12 @@ public abstract class GeoConicND extends GeoQuadricND
 			sbToValueString.append("?");
 			return sbToValueString;
 		}
-		coeffs[0] = matrix1[0]; // x\u00b2
-		coeffs[2] = matrix1[1]; // y\u00b2
-		coeffs[5] = matrix1[2]; // constant
-		coeffs[1] = 2 * matrix1[3]; // xy
-		coeffs[3] = 2 * matrix1[4]; // x
-		coeffs[4] = 2 * matrix1[5]; // y
+		coeffs[0] = matrix1[ConicMatrix.XX]; // x\u00b2
+		coeffs[2] = matrix1[ConicMatrix.YY]; // y\u00b2
+		coeffs[5] = matrix1[ConicMatrix.CONST]; // constant
+		coeffs[1] = 2 * matrix1[ConicMatrix.XY]; // xy
+		coeffs[3] = 2 * matrix1[ConicMatrix.X]; // x
+		coeffs[4] = 2 * matrix1[ConicMatrix.Y]; // y
 		if (tpl.hasCASType()) {
 			StringBuilder sb = sbToValueString;
 			sb.setLength(0);

@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
@@ -1441,18 +1440,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (asFunction != null) {
 			return asFunction;
 		}
-		GeoFunction ret;
-
-		// we get a dependent function if this line has a label or is dependent
-		if (isLabelSet() || !isIndependent()) {
-			ret = new AlgoDependentFunction(cons, getFunction(false), false)
-					.getFunction();
-			// cache the dependent function to avoid infinite loop
+		GeoFunction ret = kernel.getGeoFactory().newFunction(this);
+		if (!ret.isIndependent()) {
 			asFunction = ret;
-		} else {
-			// independent case: no caching so that setCoords works
-			ret = new GeoFunction(cons);
-			ret.setFunction(getFunction(false));
 		}
 
 		return ret;

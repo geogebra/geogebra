@@ -26,13 +26,18 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.kernelND.ConicMatrix;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -46,8 +51,11 @@ import org.geogebra.common.util.MyMath;
  * Conics in 2D
  */
 public class GeoConic extends GeoConicND implements ConicMirrorable,
-		SymbolicParametersBotanaAlgo, EquationValue {
+		SymbolicParametersBotanaAlgo, EquationValue, GeoEvaluatable {
 	private CoordSys coordSys;
+	private int tableColumn = -1;
+	private boolean pointsVisible = true;
+	private GeoFunction asFunction;
 
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
@@ -634,5 +642,74 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	@Override
 	protected boolean canHaveSpecialPoints() {
 		return true;
+	}
+
+	@Override
+	public Function getFunction() {
+		return getFunction(false);
+	}
+
+	@Override
+	public Function getFunction(boolean forRoot) {
+		FunctionVariable x = new FunctionVariable(kernel);
+		double coeffY = -2 * matrix[ConicMatrix.Y];
+		ExpressionNode quadratic = x.wrap().power(2)
+				.multiply(matrix[ConicMatrix.XX] / coeffY);
+		ExpressionNode linear = x.wrap().multiply(2 * matrix[ConicMatrix.X] / coeffY);
+
+		ExpressionNode expr = quadratic.plus(linear)
+				.plus(matrix[ConicMatrix.CONST] / coeffY);
+		return new Function(expr, x);
+	}
+
+	@Override
+	public GeoFunction getGeoFunction() {
+		if (asFunction != null) {
+			return asFunction;
+		}
+		GeoFunction ret = kernel.getGeoFactory().newFunction(this);
+		if (!ret.isIndependent()) {
+			asFunction = ret;
+		}
+
+		return ret;
+	}
+
+	@Override
+	public GeoFunction getGeoDerivative(int order, boolean fast) {
+		return getGeoFunction().getGeoDerivative(order, fast);
+	}
+
+	@Override
+	public double value(double x) {
+		return getGeoFunction().value(x);
+	}
+
+	@Override
+	public int getTableColumn() {
+		return this.tableColumn;
+	}
+
+	@Override
+	public void setTableColumn(int column) {
+		this.tableColumn = column;
+	}
+
+	@Override
+	public void setPointsVisible(boolean pointsVisible) {
+		this.pointsVisible = pointsVisible;
+	}
+
+	@Override
+	public boolean isPointsVisible() {
+		return pointsVisible;
+	}
+
+	@Override
+	public boolean hasTableOfValues() {
+		return !this.isLimitedPath()
+				&& DoubleUtil.isZero(matrix[ConicMatrix.XY])
+				&& DoubleUtil.isZero(matrix[ConicMatrix.YY])
+				&& !DoubleUtil.isZero(matrix[ConicMatrix.Y]);
 	}
 }

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -32,6 +33,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.debug.Log;
@@ -241,5 +243,24 @@ public class GeoFactory {
 	 */
 	public GeoCurveCartesianND newCurve(int dimension, Construction cons) {
 		return new GeoCurveCartesian(cons);
+	}
+
+	/**
+	 * @param geoLine
+	 *            line
+	 * @return function
+	 */
+	public GeoFunction newFunction(GeoEvaluatable geoLine) {
+		Construction cons = geoLine.getConstruction();
+		// we get a dependent function if this line has a label or is dependent
+		if (geoLine.isLabelSet() || !geoLine.isIndependent()) {
+			return new AlgoDependentFunction(cons, geoLine.getFunction(false),
+					false).getFunction();
+			// cache the dependent function to avoid infinite loop
+		}
+		// independent case: no caching so that setCoords works
+		GeoFunction ret = new GeoFunction(cons);
+		ret.setFunction(geoLine.getFunction(false));
+		return ret;
 	}
 }

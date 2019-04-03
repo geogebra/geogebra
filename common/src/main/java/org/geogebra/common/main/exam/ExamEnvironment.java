@@ -6,7 +6,6 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,6 +15,7 @@ import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.exam.output.OutputFilter;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -435,6 +435,9 @@ public class ExamEnvironment {
 	private void setShowSyntax(boolean showSyntax) {
 		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
 		builder.setShowingSyntax(showSyntax);
+		if (!showSyntax) {
+			Log.printStacktrace("");
+		}
 	}
 
 	/**

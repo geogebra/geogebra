@@ -4,6 +4,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.Stopwatch;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -128,6 +129,19 @@ public class TableValuesViewTest extends BaseUnitTest {
 		hideColumn(secondLine);
         Assert.assertEquals(1, model.getColumnCount());
     }
+
+	@Test
+	public void testConics() {
+		GeoElementFactory factory = getElementFactory();
+		GeoConic parabola = (GeoConic) factory.create("y=xx");
+		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
+		showColumn(parabola);
+		// parabola added, columns (x,f)
+		Assert.assertEquals(2, model.getColumnCount());
+		showColumn(hyperbola);
+		// hyperbola NOT added, columns still just (x,f)
+		Assert.assertEquals(2, model.getColumnCount());
+	}
 
     @Test
     public void testHeaders() {
