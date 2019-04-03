@@ -83,7 +83,8 @@ public class EvaluateInput {
 		EvalInfo info = new EvalInfo(true, true).withSliders(true)
 				.withFractions(true).addDegree(app.getKernel().degreesMode())
 				.withUserEquation(true)
-				.withSymbolicMode(app.getKernel().getSymbolicMode());
+				.withSymbolicMode(app.getKernel().getSymbolicMode())
+				.withCopyingPlainVariables(true);
 		// undo point stored in callback
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, false, err,
