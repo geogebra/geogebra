@@ -711,7 +711,7 @@ __GGB__keysVar["sv"].command = {
     "Pyramid": "Pyramid",
     "Pyramid.Syntax": "[ <Polygon>, <Punkt> ]\n[ <Polygon>, <H\xf6jd> ]\n[ <Punkt>, <Punkt>, ... ]",
     "Q1": "UndreKvartil",
-    "Q1.Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Antal element> ]",
+    "Q1.Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Lista med frekvenser> ]",
     "Q3": "\xd6vreKvartil",
     "Q3.Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Lista med Frekvenser> ]",
     "QuadricSide": "Sida",
