@@ -5602,7 +5602,7 @@ static define_unary_function_eval (__hamdist,&_hamdist,_hamdist_s);
 	}
       } // end s>=2
     }
-    return gensizeerr(gettext(""));
+    return gensizeerr(gettext("not supported"));
   }
   static const char _plotarea_s []="plotarea";
   static define_unary_function_eval (__plotarea,&_plotarea,_plotarea_s);

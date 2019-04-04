@@ -13459,7 +13459,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       }
       tdeg_t curu(cur,order);
       // then search if > to one of the leading monomials for all indices
-      unsigned j;
+      unsigned j=-1;
       if (order.o==_3VAR_ORDER){
 	for (j=0;j<S;++j){
 	  tdeg_t u=gblm.coord[j].u;
