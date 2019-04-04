@@ -177,6 +177,12 @@ public class AlgoClasses extends AlgoElement {
 		// Create class list using start and width
 		// =======================================================
 		if (input.length == 3) {
+
+			if (width.getDouble() <= 0) {
+				classList.setUndefined();
+				return;
+			}
+
 			double value = start.getDouble();
 			classList.addNumber(value, null);
 			while (value < maxGeoValue) {
