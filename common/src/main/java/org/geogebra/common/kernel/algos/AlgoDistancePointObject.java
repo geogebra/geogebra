@@ -179,6 +179,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		expr = expr.plus(expr2);
 		// calculate root
 		Function func = new Function(expr, fVar);
+		func.initFunction();
 		double[] roots;
 		double left = INTERVAL_START;
 		double right = INTERVAL_START;

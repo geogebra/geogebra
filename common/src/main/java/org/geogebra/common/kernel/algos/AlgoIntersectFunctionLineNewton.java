@@ -100,7 +100,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
-		rootPoint.addIncidence(f.getGeoFunction(), false);
+		rootPoint.addIncidence(f.toGeoElement(), false);
 		rootPoint.addIncidence(line, false);
 	}
 
