@@ -144,7 +144,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -2191,24 +2190,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return user preferred language
 	 */
 	public String getLanguageFromCookie() {
-		if (has(Feature.LANG_PARAM_LAST))  {
-			return UserPreferredLanguage.get(this);
-		}
-		String lCookieValue = articleElement.getDataParamApp()
-				? Location.getParameter("lang") : "";
-		if (StringUtil.empty(lCookieValue)) {
-			lCookieValue = Cookies.getCookie("GeoGebraLangUI");
-		}
-
-		Storage localStorage = Storage.getLocalStorageIfSupported();
-
-		if (StringUtil.empty(lCookieValue) && localStorage != null) {
-			lCookieValue = localStorage.getItem("GeoGebraLangUI");
-		}
-		if (StringUtil.empty(lCookieValue)) {
-			lCookieValue = Browser.navigatorLanguage();
-		}
-		return lCookieValue;
+		return UserPreferredLanguage.get(this);
 	}
 
 	@Override

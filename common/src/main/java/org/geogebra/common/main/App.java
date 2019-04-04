@@ -3885,10 +3885,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case KEY_HANDLER_EV3D:
 			return true;
 
-	    /** APPS-91 */
-		case LANG_PARAM_LAST:
-			return true;
-
 		// **********************************************************************
        // G3D START
        //
