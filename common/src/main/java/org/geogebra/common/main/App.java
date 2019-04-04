@@ -3889,10 +3889,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case LANG_PARAM_LAST:
 			return true;
 
-		/** APPS-339 */
-		case SHOW_SAVE_AFTER_CLOSE_SEARCH:
-			return true;
-
 		// **********************************************************************
        // G3D START
        //

@@ -137,9 +137,6 @@ public enum Feature {
 	/** G3D-151 */
 	G3D_IOS_NATIVE_AR,
 
-	/** APPS-339 */
-	SHOW_SAVE_AFTER_CLOSE_SEARCH,
-
 	/** G3D-66 */
 	G3D_IMPROVE_AUTOMATIC_ROTATION,
 

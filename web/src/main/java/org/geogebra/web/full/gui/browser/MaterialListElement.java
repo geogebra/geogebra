@@ -434,11 +434,7 @@ public class MaterialListElement extends FlowPanel
 	 */
 	protected void openDefault() {
 		if (ownMaterial) {
-			if (app.has(Feature.SHOW_SAVE_AFTER_CLOSE_SEARCH)) {
-				guiManager.getBrowseView().closeAndSave(editMaterial);
-			} else {
-				app.checkSaved(editMaterial);
-			}
+			guiManager.getBrowseView().closeAndSave(editMaterial);
 		} else {
 			onView();
 		}
@@ -452,11 +448,7 @@ public class MaterialListElement extends FlowPanel
 
 			@Override
 			public void onClick(Widget source) {
-				if (app.has(Feature.SHOW_SAVE_AFTER_CLOSE_SEARCH)) {
-					guiManager.getBrowseView().closeAndSave(editMaterial);
-				} else {
-					app.checkSaved(editMaterial);
-				}
+				guiManager.getBrowseView().closeAndSave(editMaterial);
 			}
 		});
 	}

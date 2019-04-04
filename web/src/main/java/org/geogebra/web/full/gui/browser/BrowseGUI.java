@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -298,16 +297,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
 
-		if (app.has(Feature.SHOW_SAVE_AFTER_CLOSE_SEARCH)) {
-			app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
-				@Override
-				public void callback(Boolean obj) {
-					app.openFile(fileToHandle, callback);
-				}
-			});
-		} else {
-			app.openFile(fileToHandle, callback);
-		}
+		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
+			@Override
+			public void callback(Boolean obj) {
+				app.openFile(fileToHandle, callback);
+			}
+		});
 	}
 
 	/**
