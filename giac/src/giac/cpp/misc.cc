@@ -7023,7 +7023,11 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   static gen crunch_rootof(const gen & g,GIAC_CONTEXT){
-    return has_op(g,*at_rootof)?evalf(g,1,contextptr):g;
+    if (has_op(g,*at_rootof)) 
+      return evalf(g,1,contextptr);
+    if (!lop(g,*at_LambertW).empty())
+      return evalf(g,1,contextptr);
+    return g;
   }
 
   gen try_limit_undef(const gen & f,const identificateur & x,const gen & x0,int direction,GIAC_CONTEXT){
@@ -7975,7 +7979,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  ymin=y;
 	if (!has_inf_or_undef(y) && is_greater(y,ymax,contextptr))
 	  ymax=y;
-	tvix.push_back(nextx);
+	tvix.push_back(crunch_rootof(nextx,contextptr));
 	tvif.push_back(crunch_rootof(y,contextptr));
 	y=try_limit_undef(f1,xid,nextx,-1,contextptr); 
 	// additional check for same bidirectional limit

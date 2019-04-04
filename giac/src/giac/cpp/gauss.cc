@@ -415,8 +415,10 @@ namespace giac {
     if (is_undef(M))
       return undef;
     gen Mx,My,x(x__IDNT_e),y(y__IDNT_e),t(t__IDNT_e);
-    ck_parameter_x(contextptr);
-    ck_parameter_y(contextptr);
+    if (!contains(eq,x))
+      ck_parameter_x(contextptr);
+    if (!contains(eq,y))
+      ck_parameter_y(contextptr);
     ck_parameter_t(contextptr);
     reim(M,Mx,My,contextptr);
     gen eqM=_quo(makesequence(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr),x),contextptr);
@@ -436,8 +438,10 @@ namespace giac {
     if (is_undef(M))
       return vecteur(1,undef);
     gen Mx,My,x(x__IDNT_e),y(y__IDNT_e),t(t__IDNT_e);
-    ck_parameter_x(contextptr);
-    ck_parameter_y(contextptr);
+    if (!contains(eq,x))
+      ck_parameter_x(contextptr);
+    if (!contains(eq,y))
+      ck_parameter_y(contextptr);
     ck_parameter_t(contextptr);
     reim(M,Mx,My,contextptr);
     gen eqM=_quo(makesequence(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr),x),contextptr);

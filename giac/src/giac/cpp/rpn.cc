@@ -915,6 +915,15 @@ namespace giac {
 	  m._MAPptr->erase(it);
 	  return 1;
 	}
+	if (m.type==_VECT && indice.type==_INT_){
+	  vecteur & v = *m._VECTptr;
+	  int i=indice.val;
+	  if (i>=0 && i<v.size()){
+	    v.erase(v.begin()+i);
+	    return 1;
+	  }
+	  return gendimerr(contextptr);
+	}
       }
     }
     if (contextptr && args.is_symb_of_sommet(at_rootof)){

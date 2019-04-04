@@ -7626,8 +7626,12 @@ namespace giac {
 	  g.subtype=0;
 	  return g;
 	case _SET__VECT:
-	  g.subtype=_SET__VECT;
-	  return g;
+	  if (g.type==_VECT){
+	    vecteur v(*g._VECTptr);
+	    comprim(v);
+	    g=gen(v,_SET__VECT);
+	    return g;
+	  }
 	default:
 	  return gensizeerr(contextptr);
 	}
@@ -7910,11 +7914,13 @@ namespace giac {
 #endif
       const_iterateur it=v.begin()+1,itend=v.end();
       for (;it!=itend;++it){
+	gen tmp=eval(*it,1,contextptr);
 	if (it->type==_IDNT){
-	  gen tmp=eval(*it,1,contextptr);
 	  gen tmp2=*it;
 	  inf << symb_sto(tmp,tmp2) << ";" << endl;
 	}
+	else
+	  inf << tmp << ";" << endl;
       }
       return plus_one;
     }
@@ -8064,7 +8070,7 @@ namespace giac {
       COUT << "Examples: " << examples << endl;
       return 1;
 #else
-      return string2gen(string(howto)+'\n'+string(syntax)+'\n'+string(related)+'\n'+string(examples),false);
+      return string2gen(string(howto?howto:"")+'\n'+string(syntax)+'\n'+string(related)+'\n'+string(examples),false);
 #endif
     }
 #ifndef GIAC_HAS_STO_38

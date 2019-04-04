@@ -13594,7 +13594,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     }
     matrice N(M);
     M.pop_back(); // remove the last one (for further computations, assuming max rank)
-    N=mtran(N);
+    if (!N.empty() && !N.front()._VECTptr->empty()) N=mtran(N);
     vecteur K;
     if (debug_infolevel)
       CERR << CLOCK()*1e-6 << " begin rur ker" << endl;
@@ -13961,6 +13961,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     vectpoly8<tdeg_t> toreinject;
     if (gbasis_par.reinject_begin>=0 && gbasis_par.reinject_end>gbasis_par.reinject_begin){
       toreinject=res; //vectpoly8<tdeg_t>(res.begin()+gbasis_par.reinject_begin,res.begin()+gbasis_par.reinject_end);
+      if (gbasis_par.reinject_for_calc>0 && gbasis_par.reinject_for_calc<res.size())
+	res.resize(gbasis_par.reinject_for_calc);
       sort(res.begin(),res.end(),tripolymod_tri<poly8<tdeg_t> >(gbasis_logz_age));
     }
     // if (order!=_REVLEX_ORDER) zdata=false;
@@ -14144,6 +14146,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  if (debug_infolevel)
 	    CERR << "2nd run " << time2ndrun << " 1st run " << time1strun << endl;
 	  if (time2ndrun<time1strun*gbasis_reinject_speed_ratio 
+	      || gbasis_par.reinject_for_calc>0
 	      //|| time2ndrun<0.5
 	      ){
 	    // learning is fast enough

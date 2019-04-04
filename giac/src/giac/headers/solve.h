@@ -103,6 +103,7 @@ namespace giac {
     bool eliminate_flag;
     int reinject_begin;
     int reinject_end;
+    int reinject_for_calc;
   };
   vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,int & rur,environment * env,GIAC_CONTEXT,gbasis_param_t gbasis_param); // with_f5 is in fact modular_check
   gen remove_equal(const gen & f);

@@ -205,11 +205,13 @@ namespace giac {
       of << '"' << output_quote(it->cmd_name) << '"' << ",";
       std::vector<localized_string> & blabla = it->blabla;
       sort(blabla.begin(),blabla.end());
-      int bs=int(blabla.size());
+      int blablapos=0;
       of << "{";
       for (int i=0;i<HELP_LANGUAGES;i++){
-	if (i<bs && i+1==blabla[i].language && equalposcomp(langv,i+1))
-	  of << '"' << output_quote(blabla[i].chaine) << '"' ;
+	if (i+1==blabla[blablapos].language && equalposcomp(langv,i+1)){
+	  of << '"' << output_quote(blabla[blablapos].chaine) << '"' ;
+	  blablapos++;
+	}
 	else
 	  of << 0 ;
 	if (i==HELP_LANGUAGES-1)
@@ -219,7 +221,7 @@ namespace giac {
       }
       of << "," << '"' << output_quote(it->syntax) << '"' << ',' ;
       std::vector<std::string> & examples = it->examples;
-      bs=int(examples.size());
+      int bs=int(examples.size());
       if (bs){
 	of << '"';
 	for (int i=0;i<bs;i++){
