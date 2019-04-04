@@ -486,11 +486,6 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 				setDebug(debug || true);
 				
 			}
-			if (location.host.indexOf("alpha") == 0) {
-				setPrerelease("canary");
-				e("ggw").setAttribute("data-param-materialsApi", location.protocol+"//"+location.host+"/api/json.php");
-				e("ggw").setAttribute("data-param-loginApi", "https://"+location.host+"/api/login.php");
-			}
 			if (isLocalhost()) {
 				codebase = "./";
 			}
