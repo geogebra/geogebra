@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoConicToFunction;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
@@ -33,7 +34,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.debug.Log;
@@ -250,12 +250,11 @@ public class GeoFactory {
 	 *            line
 	 * @return function
 	 */
-	public GeoFunction newFunction(GeoEvaluatable geoLine) {
+	public GeoFunction newFunction(GeoFunctionable geoLine) {
 		Construction cons = geoLine.getConstruction();
 		// we get a dependent function if this line has a label or is dependent
 		if (geoLine.isLabelSet() || !geoLine.isIndependent()) {
-			return new AlgoDependentFunction(cons, geoLine.getFunction(false),
-					false).getFunction();
+			return new AlgoConicToFunction(cons, geoLine).getFunction();
 			// cache the dependent function to avoid infinite loop
 		}
 		// independent case: no caching so that setCoords works

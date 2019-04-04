@@ -1196,7 +1196,9 @@ public class GeoNumeric extends GeoElement
 	 * Creates a GeoFunction of the form f(x) = thisNumber
 	 * 
 	 * @return constant function
+	 * @deprecated see parent
 	 */
+	@Deprecated
 	@Override
 	public GeoFunction getGeoFunction() {
 		Function fun = getFunction(false);

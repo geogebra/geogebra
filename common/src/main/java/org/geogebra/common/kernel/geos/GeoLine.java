@@ -1434,7 +1434,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * SumSquaredErrors[FitLine[]]
 	 * 
 	 * @return constant function
+	 * @deprecated see parent
 	 */
+	@Deprecated
 	@Override
 	public GeoFunction getGeoFunction() {
 		if (asFunction != null) {
@@ -1663,7 +1665,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public Function getFunction() {
-		return getGeoFunction().getFunction();
+		return getFunction(false);
 	}
 
 	@Override
@@ -2001,33 +2003,15 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public Function getFunction(boolean forRoot) {
 		FunctionVariable fv = new FunctionVariable(kernel);
-
-		ExpressionNode xCoord = new ExpressionNode(kernel, this,
-				Operation.XCOORD, null);
-
-		ExpressionNode yCoord = new ExpressionNode(kernel, this,
-				Operation.YCOORD, null);
-
-		ExpressionNode zCoord = new ExpressionNode(kernel, this,
-				Operation.ZCOORD, null);
-
 		// f(x_var) = -x/y x_var - z/y
 
-		ExpressionNode temp = forRoot ? xCoord
-				: new ExpressionNode(kernel, xCoord,
-				Operation.DIVIDE, yCoord);
+		double slope = forRoot ? x : -x / y;
 
-		temp = new ExpressionNode(kernel, new MyDouble(kernel, -1.0),
-				Operation.MULTIPLY, temp);
-
-		temp = new ExpressionNode(kernel, temp, Operation.MULTIPLY, fv);
-
-		temp = new ExpressionNode(kernel, temp, Operation.MINUS,
-				forRoot ? zCoord
-						: new ExpressionNode(kernel, zCoord, Operation.DIVIDE,
-								yCoord));
-
-		return new Function(temp, fv);
+		ExpressionNode linear = new ExpressionNode(kernel,
+				new MyDouble(kernel, slope),
+				Operation.MULTIPLY, fv);
+		double constant = forRoot ? z : -z / y;
+		return new Function(linear.plus(constant), fv);
 	}
 
 	@Override

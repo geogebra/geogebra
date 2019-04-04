@@ -30,7 +30,9 @@ public interface Functional extends Evaluatable {
 	 * Returns the function
 	 * 
 	 * @return function
+	 * @deprecated use getFunction for gettting the expression
 	 */
+	@Deprecated
 	public GeoFunction getGeoFunction();
 
 	/**

@@ -51,7 +51,8 @@ import org.geogebra.common.util.MyMath;
  * Conics in 2D
  */
 public class GeoConic extends GeoConicND implements ConicMirrorable,
-		SymbolicParametersBotanaAlgo, EquationValue, GeoEvaluatable {
+		SymbolicParametersBotanaAlgo, EquationValue, GeoEvaluatable,
+		GeoFunctionable {
 	private CoordSys coordSys;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
@@ -652,16 +653,23 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	@Override
 	public Function getFunction(boolean forRoot) {
 		FunctionVariable x = new FunctionVariable(kernel);
-		double coeffY = -2 * matrix[ConicMatrix.Y];
-		ExpressionNode quadratic = x.wrap().power(2)
-				.multiply(matrix[ConicMatrix.XX] / coeffY);
-		ExpressionNode linear = x.wrap().multiply(2 * matrix[ConicMatrix.X] / coeffY);
+		ExpressionNode expr;
+		if(isGeoFunctionable()){
+			double coeffY = -2 * matrix[ConicMatrix.Y];
+			ExpressionNode quadratic = x.wrap().power(2)
+					.multiply(matrix[ConicMatrix.XX] / coeffY);
+			ExpressionNode linear = x.wrap()
+					.multiply(2 * matrix[ConicMatrix.X] / coeffY);
 
-		ExpressionNode expr = quadratic.plus(linear)
-				.plus(matrix[ConicMatrix.CONST] / coeffY);
+			expr = quadratic.plus(linear)
+					.plus(matrix[ConicMatrix.CONST] / coeffY);
+		} else {
+			expr = new ExpressionNode(kernel, Double.NaN);
+		}
 		return new Function(expr, x);
 	}
 
+	@Deprecated
 	@Override
 	public GeoFunction getGeoFunction() {
 		if (asFunction != null) {
@@ -682,7 +690,16 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	@Override
 	public double value(double x) {
-		return getGeoFunction().value(x);
+		// duplicates logic of getFunction(boolean), but we want to avoid
+		// too many calls to new for evaluating a couple of points
+		if (isGeoFunctionable()) {
+			double coeffY = -2 * matrix[ConicMatrix.Y];
+			double quadratic = x * x * matrix[ConicMatrix.XX] / coeffY;
+			double linear = x * 2 * matrix[ConicMatrix.X] / coeffY;
+
+			return quadratic + linear + matrix[ConicMatrix.CONST] / coeffY;
+		}
+		return Double.NaN;
 	}
 
 	@Override
@@ -708,8 +725,18 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	@Override
 	public boolean hasTableOfValues() {
 		return !this.isLimitedPath()
-				&& DoubleUtil.isZero(matrix[ConicMatrix.XY])
+				&& isGeoFunctionable();
+	}
+
+	@Override
+	public boolean isGeoFunctionable() {
+		return DoubleUtil.isZero(matrix[ConicMatrix.XY])
 				&& DoubleUtil.isZero(matrix[ConicMatrix.YY])
 				&& !DoubleUtil.isZero(matrix[ConicMatrix.Y]);
+	}
+
+	@Override
+	public boolean isPolynomialFunction(boolean forRoot) {
+		return true;
 	}
 }

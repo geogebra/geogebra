@@ -25,7 +25,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	/**
 	 * @return this as GeoFunction
+	 * @deprecated if you need the expression, you can get it through
+	 *             getFunction
 	 */
+	@Deprecated
 	public GeoFunction getGeoFunction();
 
 	/**
@@ -38,6 +41,13 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 */
 	public Function getFunction(boolean forRoot);
 
+	/**
+	 * For root we consider abs(sqrt(x)) also polynomial
+	 * 
+	 * @param forRoot
+	 *            whether we need this for root finding
+	 * @return whether the function is polynomial
+	 */
 	public boolean isPolynomialFunction(boolean forRoot);
 
 }
