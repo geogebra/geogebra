@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.algos.AlgoConicToFunction;
+import org.geogebra.common.kernel.algos.AlgoConvertToFunction;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -254,7 +254,7 @@ public class GeoFactory {
 		Construction cons = geoLine.getConstruction();
 		// we get a dependent function if this line has a label or is dependent
 		if (geoLine.isLabelSet() || !geoLine.isIndependent()) {
-			return new AlgoConicToFunction(cons, geoLine).getFunction();
+			return new AlgoConvertToFunction(cons, geoLine).getFunction();
 			// cache the dependent function to avoid infinite loop
 		}
 		// independent case: no caching so that setCoords works
