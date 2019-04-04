@@ -54,8 +54,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	// Input-Output
 	private GeoFunctionable f0;
-	private GeoFunction f1;
-	private GeoFunction f2;
+	private GeoFunctionable f1;
+	private GeoFunctionable f2;
 	private GeoFunction diff;
 
 	// Vars
@@ -160,8 +160,10 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * @param right
 	 *            right bound
 	 */
-	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
-			GeoFunction function2, GeoNumberValue left, GeoNumberValue right) {
+	public AlgoRoots(Construction cons, String[] labels,
+			GeoFunctionable function,
+			GeoFunctionable function2, GeoNumberValue left,
+			GeoNumberValue right) {
 		// Ancestor gets first function for points!
 		super(cons, labels, !cons.isSuppressLabelsActive());
 		this.f1 = function;
@@ -245,7 +247,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 															// intersections
 				compute2(diff);
 			} else {
-				compute2(f0.getGeoFunction());
+				compute2(f0);
 			} // if type
 		} // if ok input
 	}
@@ -258,7 +260,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return f1.value(x);
 	}
 
-	private final void compute2(GeoFunction f) {
+	private final void compute2(GeoFunctionable f) {
 
 		double l = left.getDouble();
 		double r = right.getDouble();
@@ -281,11 +283,12 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		int n = findNumberOfSamples(l, r);
 		// make sure m is at least 1 even for invisible EV
 		int m = Math.max(n, 1);
+		Function function = f.getFunction(true);
 		try { // To catch eventual wrong indexes in arrays...
 				// Adjust samples. Some research needed to find best factor in
 				// if(numberofroots<m*factor...
 			do { // debug("doing samples: "+m);
-				roots = findRoots(f, l, r, m);
+				roots = findRoots(function, l, r, m);
 
 				if (roots == null) {
 					numberofroots = 0;
@@ -326,7 +329,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 *            number of samples
 	 * @return roots
 	 */
-	public static final double[] findRoots(GeoFunction f, double l, double r,
+	public static final double[] findRoots(Function f, double l, double r,
 			int samples) {
 		if (DoubleUtil.isEqual(l, r)) {
 			return DoubleUtil.isZero(f.value(l)) ? new double[] { l }
@@ -386,7 +389,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	}
 
 	private static void add(ArrayList<Double> xlist, double root,
-			GeoFunction f) {
+			Function f) {
 		double root2 = DoubleUtil.checkRoot(root, f);
 
 		// NaN -> we're very near hole -> don't add root
@@ -406,7 +409,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 *            right bound
 	 * @return root
 	 */
-	public final static double calcSingleRoot(GeoFunction f, double left,
+	public final static double calcSingleRoot(Function f, double left,
 			double right) {
 		BrentSolver rootFinder = new BrentSolver();
 
@@ -436,7 +439,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return root;
 	}
 
-	private static final boolean signChanged(GeoFunction f, double x) {
+	private static final boolean signChanged(Function f, double x) {
 		double delta = Kernel.MIN_PRECISION * 10; // Used in AlgoRootsPolynomial
 		double left, right, lefty, righty;
 		boolean signChanged;

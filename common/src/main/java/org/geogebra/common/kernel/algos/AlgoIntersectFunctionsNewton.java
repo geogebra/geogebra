@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -31,8 +32,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 
-	private GeoFunction f; // input
-	private GeoFunction g; // input
+	private GeoFunctionable f; // input
+	private GeoFunctionable g; // input
 	private GeoPoint startPoint;
 	private GeoPoint rootPoint; // output
 
@@ -48,8 +49,8 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 	 * @param startPoint
 	 *            initial point for newthon method
 	 */
-	public AlgoIntersectFunctionsNewton(Construction cons, GeoFunction f,
-			GeoFunction g, GeoPoint startPoint) {
+	public AlgoIntersectFunctionsNewton(Construction cons, GeoFunctionable f,
+			GeoFunctionable g, GeoPoint startPoint) {
 		super(cons);
 		this.f = f;
 		this.g = g;
@@ -76,7 +77,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 	 *            initial point for newthon method
 	 */
 	public AlgoIntersectFunctionsNewton(Construction cons, String label,
-			GeoFunction f, GeoFunction g, GeoPoint startPoint) {
+			GeoFunctionable f, GeoFunctionable g, GeoPoint startPoint) {
 		this(cons, f, g, startPoint);
 		rootPoint.setLabel(label);
 	}
@@ -95,8 +96,8 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = f;
-		input[1] = g;
+		input[0] = f.toGeoElement();
+		input[1] = g.toGeoElement();
 		input[2] = startPoint;
 
 		super.setOutputLength(1);
@@ -106,15 +107,15 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 
 	@Override
 	public final void compute() {
-		if (g.isBooleanFunction()) {
-			if (f.isBooleanFunction()) {
+		if (isBooleanFunction(g)) {
+			if (isBooleanFunction(f)) {
 				rootPoint.setUndefined();
 			} else {
-				computeRootBoolean(g, f);
+				computeRootBoolean((GeoFunction) g, f);
 			}
 			return;
-		} else if (f.isBooleanFunction()) {
-			computeRootBoolean(f, g);
+		} else if (isBooleanFunction(f)) {
+			computeRootBoolean((GeoFunction) f, g);
 			return;
 		}
 
@@ -122,8 +123,8 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 			rootPoint.setUndefined();
 		} else {
 			// get difference f - g
-			Function.difference(f.getFunction(startPoint.inhomX),
-					g.getFunction(startPoint.inhomX), diffFunction);
+			Function.difference(f.getFunction(false), g.getFunction(false),
+					diffFunction);
 			double x = calcRoot(diffFunction, startPoint.inhomX);
 
 			// check if x and g(x) are defined
@@ -150,7 +151,12 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 		}
 	}
 
-	private void computeRootBoolean(GeoFunction bool, GeoFunction real) {
+	private static boolean isBooleanFunction(GeoFunctionable f2) {
+		return f2 instanceof GeoFunction
+				&& ((GeoFunction) f2).isBooleanFunction();
+	}
+
+	private void computeRootBoolean(GeoFunction bool, GeoFunctionable real) {
 		if (bool.getFunction().getIneqs() == null) {
 			bool.getFunction().initIneqs(bool.getFunctionExpression(), bool);
 		} else if (!bool.isLabelSet()) {

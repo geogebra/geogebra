@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +33,7 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
-	private GeoFunction f; // input
+	private GeoFunctionable f; // input
 	private GeoLine line; // input
 	private GeoPoint startPoint;
 	private GeoPoint rootPoint; // output
@@ -56,7 +56,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	 *            initial point for finding intersection
 	 */
 	public AlgoIntersectFunctionLineNewton(Construction cons, String label,
-			GeoFunction f, GeoLine line, GeoPoint startPoint) {
+			GeoFunctionable f, GeoLine line, GeoPoint startPoint) {
 		this(cons, f, line, startPoint);
 		rootPoint.setLabel(label);
 		addIncidence();
@@ -72,7 +72,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	 * @param startPoint
 	 *            initial point for finding intersection
 	 */
-	public AlgoIntersectFunctionLineNewton(Construction cons, GeoFunction f,
+	public AlgoIntersectFunctionLineNewton(Construction cons, GeoFunctionable f,
 			GeoLine line, GeoPoint startPoint) {
 		super(cons);
 		this.f = f;
@@ -81,7 +81,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
 		if (line.getParentAlgorithm() instanceof TangentAlgo) {
 			TangentAlgo algo = (TangentAlgo) line.getParentAlgorithm();
-			tangentPoint = algo.getTangentPoint(f, line);
+			tangentPoint = algo.getTangentPoint(f.toGeoElement(), line);
 			isDefinedAsTangent = (tangentPoint != null);
 		}
 		if (!isDefinedAsTangent) {
@@ -100,7 +100,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
-		rootPoint.addIncidence(f, false);
+		rootPoint.addIncidence(f.getGeoFunction(), false);
 		rootPoint.addIncidence(line, false);
 	}
 
@@ -118,7 +118,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = f;
+		input[0] = f.toGeoElement();
 		input[1] = line;
 		input[2] = startPoint;
 
@@ -147,7 +147,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		// standard case
 		else {
 			// get difference f - line
-			Function.difference(f.getFunction(startPoint.inhomX), line,
+			Function.difference(f.getFunction(false), line,
 					diffFunction);
 			x = calcRoot(diffFunction, startPoint.inhomX);
 		}

@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
@@ -117,6 +116,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		}
 
 		double disCurrCoordsStart = -1.0;
+		Function function = func.getFunction(false);
 		for (int index = 0; index < polySegCount; index++) {
 
 			segEndPoints[0] = getPoly().getPoint(index);
@@ -128,8 +128,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 			tempSeg.calcLength();
 
 			currentIntersectCoords = calcIntersectionPoint(
-					func.getGeoFunction(),
-					tempSeg);
+					function, tempSeg);
 
 			if (minIntersectCoords == null) {
 				if (currentIntersectCoords != null) {
@@ -162,7 +161,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		rootPoint.update();
 	}
 
-	private Coords calcIntersectionPoint(GeoFunction fn, GeoSegment seg) {
+	private Coords calcIntersectionPoint(Function fn, GeoSegment seg) {
 		Coords temp;
 		double x;
 		// check for vertical line a*x + c = 0: intersection at x=-c/a
@@ -172,7 +171,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		// standard case
 		else {
 			// get difference f - line
-			Function.difference(fn.getFunction(startPoint.inhomX), seg,
+			Function.difference(fn, seg,
 					diffFunction);
 			x = calcRoot(diffFunction, startPoint.inhomX);
 		}

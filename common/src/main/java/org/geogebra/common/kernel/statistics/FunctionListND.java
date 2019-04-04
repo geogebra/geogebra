@@ -42,7 +42,7 @@ public interface FunctionListND {
 
 		@Override
 		public double evaluate(int c, GeoPointND point) {
-			return array[c].getGeoFunction().value(point.getInhomX());
+			return array[c].value(point.getInhomX());
 		}
 
 		@Override

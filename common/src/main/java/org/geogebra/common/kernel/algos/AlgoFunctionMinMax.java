@@ -69,7 +69,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 			GeoFunctionable function, GeoNumberValue left, GeoNumberValue right,
 			boolean isMin) {
 		super(cons);
-		this.f = function.getGeoFunction();
+		this.f = function;
 		this.left = left;
 		this.right = right;
 		this.isMin = isMin;

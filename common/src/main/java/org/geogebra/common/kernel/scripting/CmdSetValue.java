@@ -163,7 +163,8 @@ public class CmdSetValue extends CmdScripting {
 			// SetValue[f,1]
 			GeoFunction fun = (GeoFunction) arg0;
 			GeoFunctionable val = (GeoFunctionable) arg1;
-			fun.set(val.getGeoFunction());
+			// for GeoFunction set() supports all functionables
+			fun.set(val);
 			if (!fun.validate(true)) {
 				fun.set(arg0);
 				fun.setUndefined();

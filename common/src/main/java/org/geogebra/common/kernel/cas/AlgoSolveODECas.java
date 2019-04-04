@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -158,16 +157,12 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 			cons.setSuppressLabelCreation(flag);
 			if (res != null && res.length > 0) {
 
-				// convert eg y=2 into a function
-				if (res[0].isGeoFunctionable()) {
-					res[0] = ((GeoFunctionable) res[0]).getGeoFunction();
-				}
-
 				if (g == null) {
-					g = res[0];
-				} else {
-					g.set(res[0]);
+					g = new GeoFunction(cons);
 				}
+				// set takes care of converting eg y=2 into a function
+				g.set(res[0]);
+
 				ok = true;
 			}
 		} catch (Throwable e) {

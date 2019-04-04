@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -39,7 +40,7 @@ public class AlgoIntersectImplicitpolyParametric
 	private PolynomialFunction ty;
 	private GeoImplicit p;
 	private GeoLine l;
-	private GeoFunction f;
+	private GeoFunctionable f;
 	private GeoPoint[] tangentPoints;
 
 	/**
@@ -71,8 +72,8 @@ public class AlgoIntersectImplicitpolyParametric
 	 *            function
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
-			GeoFunction f) {
-		super(c, p.toGeoElement(), f);
+			GeoFunctionable f) {
+		super(c, p.toGeoElement(), f.toGeoElement());
 		this.p = p;
 		this.f = f;
 		compute();
@@ -101,15 +102,15 @@ public class AlgoIntersectImplicitpolyParametric
 			if (!f.isDefined()) {
 				return;
 			}
-
+			GeoFunction fFun = f.getGeoFunction();
 			if (!f.isPolynomialFunction(false) || p.getCoeff() == null) {
 
-				computeNonPoly(f);
+				computeNonPoly(fFun);
 				return;
 			}
 			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
 
-			PolyFunction derivY = f.getFunction()
+			PolyFunction derivY = f.getFunction(false)
 					.getNumericPolynomialDerivative(0, false, false, false);
 			if (derivY == null) {
 				points.adjustOutputSize(0);
@@ -117,8 +118,8 @@ public class AlgoIntersectImplicitpolyParametric
 			}
 
 			ty = new PolynomialFunction(derivY.getCoeffs()); // y=f(t)
-			maxT = f.getMaxParameter();
-			minT = f.getMinParameter();
+			maxT = fFun.getMaxParameter();
+			minT = fFun.getMinParameter();
 		} else if (l != null) {
 			if (!l.isDefined()) {
 				points.adjustOutputSize(0);

@@ -41,8 +41,7 @@ public class FunctionFold implements FoldComputer {
 	@Override
 	public void add(GeoElement geoElement, Operation op) {
 		resultFun = GeoFunction.add(resultFun, resultFun,
-				((GeoFunctionable) geoElement).getGeoFunction(), op);
-
+				(GeoFunctionable) geoElement, op);
 	}
 
 	/*

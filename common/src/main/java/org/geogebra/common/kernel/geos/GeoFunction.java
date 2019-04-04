@@ -81,7 +81,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
-		CasEvaluableFunction, ParametricCurve, UnivariateFunction, Dilateable,
+		CasEvaluableFunction, ParametricCurve, Dilateable,
 		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable,
 		Lineable2D {
 
@@ -514,19 +514,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (fun != null) {
 			fun.replaceChildrenByValues(geo);
 		}
-	}
-
-	/**
-	 * Returns the corresponding Function for the given x-value. This is
-	 * important for conditional functions where we have two differen Function
-	 * objects.
-	 * 
-	 * @param x
-	 *            x-value
-	 * @return coresponding function
-	 */
-	public Function getFunction(double x) {
-		return fun;
 	}
 
 	/**
@@ -1764,17 +1751,19 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            subtrahend
 	 * @return resultFun
 	 */
-	public static GeoFunction subtract(GeoFunction resultFun, GeoFunction fun1,
-			GeoFunction fun2) {
+	public static GeoFunction subtract(GeoFunction resultFun,
+			GeoFunctionable fun1, GeoFunctionable fun2) {
 
 		Kernel kernel = fun1.getKernel();
 
-		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
-		FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
+		FunctionVariable x1 = fun1.getFunction(false).getFunctionVariable();
+		FunctionVariable x2 = fun2.getFunction(false).getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
-		ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
-		ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);
+		ExpressionNode left = fun1.getFunction(false).getFunctionExpression()
+				.getCopy(kernel);
+		ExpressionNode right = fun2.getFunction(false).getFunctionExpression()
+				.getCopy(kernel);
 
 		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
 				left.replace(x1, x), Operation.MINUS, right.replace(x2, x));

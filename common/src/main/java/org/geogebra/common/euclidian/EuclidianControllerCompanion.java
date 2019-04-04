@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -206,7 +205,7 @@ public class EuclidianControllerCompanion {
 						null, (GeoLine) a, (GeoCurveCartesian) b)[0];
 			} else if (b.isGeoFunctionable()) {
 				// line and function
-				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
+				GeoFunctionable f = (GeoFunctionable) b;
 				if (f.isPolynomialFunction(false)) {
 					 ec.getAlgoDispatcher()
 							.intersectPolynomialLineSingle(null, f, (GeoLine) a,
@@ -234,7 +233,7 @@ public class EuclidianControllerCompanion {
 		}
 		// first hit is a function
 		else if (a.isGeoFunctionable()) {
-			GeoFunction aFun = ((GeoFunctionable) a).getGeoFunction();
+			GeoFunctionable aFun = (GeoFunctionable) a;
 			if (b.isGeoLine()) {
 				// line and function
 				if (aFun.isPolynomialFunction(false)) {
@@ -249,7 +248,7 @@ public class EuclidianControllerCompanion {
 							aFun, (GeoLine) b, initPoint);
 				}
 			} else if (b.isGeoFunctionable()) {
-				GeoFunction bFun = ((GeoFunctionable) b).getGeoFunction();
+				GeoFunctionable bFun = (GeoFunctionable) b;
 				if (aFun.isPolynomialFunction(false)
 						&& bFun.isPolynomialFunction(false)) {
 					return ec.getAlgoDispatcher().intersectPolynomialsSingle(

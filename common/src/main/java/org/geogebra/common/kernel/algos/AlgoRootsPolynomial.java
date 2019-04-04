@@ -47,7 +47,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private int mode;
 
 	protected GeoFunctionable f; // input (g for intersection of polynomials)
-	GeoFunction g;
+	GeoFunctionable g;
 	protected GeoLine line; // input (for intersection of polynomial with line)
 	protected GeoPoint[] rootPoints; // output, inherited from AlgoIntersect
 	// private int rootPointsLength;
@@ -76,19 +76,21 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	/**
 	 * Intersects polynomials f and g.
 	 */
-	AlgoRootsPolynomial(Construction cons, GeoFunctionable f, GeoFunction g) {
+	AlgoRootsPolynomial(Construction cons, GeoFunctionable f,
+			GeoFunctionable g) {
 		this(cons, null, false, f, g, null);
 	}
 
 	/**
 	 * Intersects polynomial f and line l.
 	 */
-	AlgoRootsPolynomial(Construction cons, GeoFunction f, GeoLine l) {
+	AlgoRootsPolynomial(Construction cons, GeoFunctionable f, GeoLine l) {
 		this(cons, null, false, f, null, l);
 	}
 
 	protected AlgoRootsPolynomial(Construction cons, String[] labels,
-			boolean setLabels, GeoFunctionable f, GeoFunction g, GeoLine l) {
+			boolean setLabels, GeoFunctionable f, GeoFunctionable g,
+			GeoLine l) {
 		super(cons);
 		this.f = f;
 		this.g = g;
@@ -172,7 +174,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * @param f
 	 *            function
 	 */
-	public AlgoRootsPolynomial(Construction cons, GeoFunction f) {
+	public AlgoRootsPolynomial(Construction cons, GeoFunctionable f) {
 		super(cons);
 		this.f = f;
 
@@ -231,7 +233,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		case INTERSECT_POLYNOMIALS: // intersection of f and g
 			input = new GeoElement[2];
 			input[0] = f.toGeoElement();
-			input[1] = g;
+			input[1] = g.toGeoElement();
 			break;
 
 		case INTERSECT_POLY_LINE: // intersection of f and line

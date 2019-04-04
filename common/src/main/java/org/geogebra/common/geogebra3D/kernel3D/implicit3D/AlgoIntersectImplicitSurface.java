@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -108,7 +107,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 		exp.simplifyConstantIntegers();
 		Function fn = new Function(exp);
 
-		double[] roots = AlgoRoots.findRoots(new GeoFunction(cons, fn),
+		double[] roots = AlgoRoots.findRoots(fn,
 				kernel.getViewsXMin(surface), kernel.getViewsYMax(surface),
 				SAMPLE_SIZE);
 		if (roots == null || roots.length == 0) {

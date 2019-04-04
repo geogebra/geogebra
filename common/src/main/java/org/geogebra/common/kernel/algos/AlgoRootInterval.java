@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootUtil;
@@ -31,7 +31,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoRootInterval extends AlgoElement {
 
-	private GeoFunction f; // input
+	private GeoFunctionable f; // input
 	private GeoNumberValue a;
 	private GeoNumberValue b; // interval bounds
 	private GeoPoint rootPoint; // output
@@ -51,7 +51,7 @@ public class AlgoRootInterval extends AlgoElement {
 	 * @param b
 	 *            interval right bound
 	 */
-	public AlgoRootInterval(Construction cons, String label, GeoFunction f,
+	public AlgoRootInterval(Construction cons, String label, GeoFunctionable f,
 			GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.f = f;
@@ -74,7 +74,7 @@ public class AlgoRootInterval extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = f;
+		input[0] = f.toGeoElement();
 		input[1] = a.toGeoElement();
 		input[2] = b.toGeoElement();
 
@@ -98,7 +98,7 @@ public class AlgoRootInterval extends AlgoElement {
 		}
 
 		double root = Double.NaN;
-		Function fun = f.getFunction();
+		Function fun = f.getFunction(true);
 
 		if (rootFinder == null) {
 			rootFinder = new BrentSolver();

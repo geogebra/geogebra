@@ -1948,8 +1948,8 @@ public class AlgoDispatcher {
 	 *            initial point
 	 * @return intersection point
 	 */
-	final public GeoPoint intersectFunctions(String label, GeoFunction f,
-			GeoFunction g, GeoPoint A) {
+	final public GeoPoint intersectFunctions(String label, GeoFunctionable f,
+			GeoFunctionable g, GeoPoint A) {
 		AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
 				cons, label, f, g, A);
 		GeoPoint S = algo.getIntersectionPoint();
@@ -1969,7 +1969,7 @@ public class AlgoDispatcher {
 	 *            initial point
 	 * @return intersection point
 	 */
-	final public GeoPoint intersectFunctionLine(String label, GeoFunction f,
+	final public GeoPoint intersectFunctionLine(String label, GeoFunctionable f,
 			GeoLine l, GeoPoint A) {
 
 		AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(
@@ -2075,8 +2075,8 @@ public class AlgoDispatcher {
 	 *            polynomial function
 	 * @return intersection points
 	 */
-	final public GeoPoint[] intersectPolynomials(String[] labels, GeoFunction a,
-			GeoFunction b) {
+	final public GeoPoint[] intersectPolynomials(String[] labels,
+			GeoFunctionable a, GeoFunctionable b) {
 		if (isConditionalPolynomial(a) && b.isPolynomialFunction(false)) {
 			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
 					cons, labels, a, b);
@@ -2127,7 +2127,7 @@ public class AlgoDispatcher {
 	 * @return intersection close to initial point
 	 */
 	final public GeoPoint intersectPolynomialsSingle(String label,
-			GeoFunction a, GeoFunction b, double xRW, double yRW) {
+			GeoFunctionable a, GeoFunctionable b, double xRW, double yRW) {
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 			return null;
 		}
@@ -2139,15 +2139,18 @@ public class AlgoDispatcher {
 		return point;
 	}
 
-	private static boolean isConditionalFunction(GeoFunction f) {
-		return (f.getFunctionExpression() != null
-				&& f.getFunctionExpression().getOperation().isIf());
+	private static boolean isConditionalFunction(GeoFunctionable f) {
+		Function fun = f.getFunction(false);
+		return (fun.getFunctionExpression() != null
+				&& fun.getFunctionExpression().getOperation().isIf());
 	}
 
-	private boolean isConditionalPolynomial(GeoFunction f) {
-		if (f.getFunctionExpression() != null && f.getFunctionExpression().getOperation().isIf()) {
+	private boolean isConditionalPolynomial(GeoFunctionable f) {
+		Function fun = f.getFunction(false);
+		if (fun.getFunctionExpression() != null
+				&& fun.getFunctionExpression().getOperation().isIf()) {
 			Function test = new Function(
-					f.getFunctionExpression().deepCopy(cons.getKernel())
+					fun.getFunctionExpression().deepCopy(cons.getKernel())
 							.getRightTree());
 			test.initFunction();
 			return test.isPolynomialFunction(false, true);
@@ -2170,7 +2173,7 @@ public class AlgoDispatcher {
 	 * @return intersection points
 	 */
 	final public GeoPoint[] intersectPolynomialLine(String[] labels,
-			GeoFunction f, GeoLine line, GeoPoint initPoint) {
+			GeoFunctionable f, GeoLine line, GeoPoint initPoint) {
 		// TODO decide polynomial when CAS not loaded ?
 		if (isConditionalPolynomial(f)) {
 				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
@@ -2230,7 +2233,7 @@ public class AlgoDispatcher {
 	 * @return intersection points
 	 */
 	final public GeoElement[] intersectPolynomialPolyLine(String[] labels,
-			GeoFunction f, GeoPolyLine pl) {
+			GeoFunctionable f, GeoPolyLine pl) {
 		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
 				cons, labels, f, pl, false);
 		return algo.getOutput();
@@ -2250,7 +2253,7 @@ public class AlgoDispatcher {
 	 * @return intersection points
 	 */
 	final public GeoElement[] intersectPolynomialPolygon(String[] labels,
-			GeoFunction f, GeoPolygon pl) {
+			GeoFunctionable f, GeoPolygon pl) {
 
 		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
 				cons, labels, f, pl, true);
@@ -2297,7 +2300,7 @@ public class AlgoDispatcher {
 	 * @return intersctions
 	 */
 	final public GeoElement[] intersectNPFunctionPolygon(String[] labels,
-			GeoFunction f, GeoPolygon pl, GeoPoint initPoint) {
+			GeoFunctionable f, GeoPolygon pl, GeoPoint initPoint) {
 
 		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
 				cons, labels, initPoint, f, pl, true);
@@ -2423,7 +2426,7 @@ public class AlgoDispatcher {
 	 * @return intersection points
 	 */
 	final public GeoPoint[] intersectImplicitpolyPolynomial(String[] labels,
-			GeoImplicit p, GeoFunction f) {
+			GeoImplicit p, GeoFunctionable f) {
 		// if (!f.isPolynomialFunction(false))
 		// return null;
 		AlgoIntersectImplicitpolyParametric algo = getIntersectionAlgorithm(p,
@@ -2689,8 +2692,8 @@ public class AlgoDispatcher {
 	 *            second function
 	 * @return intersection algo
 	 */
-	public AlgoIntersectPolynomials getIntersectionAlgorithm(GeoFunction a,
-			GeoFunction b) {
+	public AlgoIntersectPolynomials getIntersectionAlgorithm(GeoFunctionable a,
+			GeoFunctionable b) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, b);
 		if (existingAlgo != null) {
 			return (AlgoIntersectPolynomials) existingAlgo;
@@ -2711,8 +2714,8 @@ public class AlgoDispatcher {
 	 *            line
 	 * @return intersection algo
 	 */
-	public AlgoIntersectPolynomialLine getIntersectionAlgorithm(GeoFunction a,
-			GeoLine l) {
+	public AlgoIntersectPolynomialLine getIntersectionAlgorithm(
+			GeoFunctionable a, GeoLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, l);
 		if (existingAlgo != null) {
 			return (AlgoIntersectPolynomialLine) existingAlgo;
@@ -2793,7 +2796,7 @@ public class AlgoDispatcher {
 	 * @return intersection algo
 	 */
 	public AlgoIntersectImplicitpolyParametric getIntersectionAlgorithm(
-			GeoImplicit p, GeoFunction f) {
+			GeoImplicit p, GeoFunctionable f) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, f);
 		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolyParametric) existingAlgo;
@@ -3295,7 +3298,7 @@ public class AlgoDispatcher {
 	 * @return intersection point
 	 */
 	public final GeoPoint intersectPolynomialLineSingle(String label,
-			GeoFunction f, GeoLine l, double xRW, double yRW) {
+			GeoFunctionable f, GeoLine l, double xRW, double yRW) {
 
 		if (!f.getConstruction().isFileLoading()
 				&& !f.isPolynomialFunction(false)) {

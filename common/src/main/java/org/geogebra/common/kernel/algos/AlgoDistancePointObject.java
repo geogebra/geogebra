@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -180,11 +179,10 @@ public class AlgoDistancePointObject extends AlgoElement
 		expr = expr.plus(expr2);
 		// calculate root
 		Function func = new Function(expr, fVar);
-		GeoFunction geoFunc = new GeoFunction(kernel.getConstruction(), func);
 		double[] roots;
 		double left = INTERVAL_START;
 		double right = INTERVAL_START;
-		while ((roots = AlgoRoots.findRoots(geoFunc, x - left, y + right,
+		while ((roots = AlgoRoots.findRoots(func, x - left, y + right,
 				(int) ((left + right) * 10))) == null
 				&& DoubleUtil.isGreater(MAX_INTERVAL, left)) {
 			left *= INTERVAL_GROWTH;

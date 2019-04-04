@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -22,7 +22,7 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
-	protected GeoFunction func;
+	protected GeoFunctionable func;
 	protected GeoPoly poly;
 	protected boolean polyClosed;
 	protected boolean hasLabels;
@@ -56,7 +56,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 *            polyline
 	 */
 	public AlgoIntersectPolynomialPolyLine(Construction cons, String[] labels,
-			GeoFunction func, GeoPoly poly, boolean polyClosed) {
+			GeoFunctionable func, GeoPoly poly, boolean polyClosed) {
 
 		this(cons, func, poly, polyClosed);
 
@@ -78,7 +78,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * @param poly
 	 *            polyline
 	 */
-	public AlgoIntersectPolynomialPolyLine(Construction cons, GeoFunction func,
+	public AlgoIntersectPolynomialPolyLine(Construction cons,
+			GeoFunctionable func,
 			GeoPoly poly, boolean polyClosed) {
 		super(cons);
 		this.func = func;
@@ -137,7 +138,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			// standard case
 			else {
 				// get difference f - line
-				Function.difference(func.getFunction(), seg, diffFunction);
+				Function.difference(func.getFunction(false), seg, diffFunction);
 				calcRoots(diffFunction, 0);
 			}
 
@@ -229,8 +230,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = this.func;
-		input[1] = (GeoElement) this.poly;
+		input[0] = func.toGeoElement();
+		input[1] = poly.toGeoElement();
 
 	}
 

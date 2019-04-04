@@ -76,7 +76,7 @@ public class CmdTangent extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[0],
-						((GeoFunctionable) arg[1]).getGeoFunction()) };
+						(GeoFunctionable) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {

@@ -92,7 +92,8 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 			// AbstractApplication.debug("trying non-polynomial");
 
 			// solve a x(t) + b y(t) + c = 0 (for t)
-			roots = AlgoRoots.findRoots(geoFun, curve.getMinParameter(),
+			roots = AlgoRoots.findRoots(geoFun.getFunction(),
+					curve.getMinParameter(),
 					curve.getMaxParameter(), 100);
 
 			outputSize = roots == null || roots.length == 0 ? 1 : roots.length;

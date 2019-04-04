@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootUtil;
@@ -39,7 +39,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	/** max iterations for newton method */
 	public static final int MAX_ITERATIONS = 100;
 
-	private GeoFunction f; // input, g for intersection of functions
+	private GeoFunctionable f; // input, g for intersection of functions
 	private NumberValue start; // start value for root of f
 	private GeoPoint rootPoint; // output
 
@@ -57,7 +57,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	 * @param start
 	 *            start value
 	 */
-	public AlgoRootNewton(Construction cons, String label, GeoFunction f,
+	public AlgoRootNewton(Construction cons, String label, GeoFunctionable f,
 			GeoNumberValue start) {
 		super(cons);
 		this.f = f;
@@ -91,7 +91,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = f;
+		input[0] = f.toGeoElement();
 		input[1] = startGeo;
 
 		super.setOutputLength(1);
@@ -112,7 +112,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			rootPoint.setUndefined();
 		} else {
 			double startValue = start.getDouble();
-			Function fun = f.getFunction(startValue);
+			Function fun = f.getFunction(false);
 
 			// calculate root
 			rootPoint.setCoords(calcRoot(fun, startValue), 0.0, 1.0);

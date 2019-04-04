@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoIntersectFunctions extends AlgoRoots {
 
 	public AlgoIntersectFunctions(Construction cons, String[] labels,
-			GeoFunction f, GeoFunction g, GeoNumberValue left,
+			GeoFunctionable f, GeoFunctionable g, GeoNumberValue left,
 			GeoNumberValue right) {
 		super(cons, labels, f, g, left, right);
 	}

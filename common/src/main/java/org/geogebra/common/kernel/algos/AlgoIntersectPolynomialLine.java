@@ -16,7 +16,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
@@ -36,7 +36,7 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
 	 * @param g
 	 *            line
 	 */
-	public AlgoIntersectPolynomialLine(Construction cons, GeoFunction f,
+	public AlgoIntersectPolynomialLine(Construction cons, GeoFunctionable f,
 			GeoLine g) {
 		super(cons, f, g);
 		addIncidence();

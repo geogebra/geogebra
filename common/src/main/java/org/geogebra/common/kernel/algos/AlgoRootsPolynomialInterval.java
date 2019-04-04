@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.util.DoubleUtil;
@@ -57,8 +56,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 *            line
 	 */
 	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
-			GeoFunction f,
-			GeoLine g) {
+			GeoFunctionable f, GeoLine g) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), f, null, g);
 	}
 
@@ -73,7 +71,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 *            polynomial function
 	 */
 	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
-			GeoFunction conditional, GeoFunction polynomial) {
+			GeoFunctionable conditional, GeoFunctionable polynomial) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), conditional, polynomial, null);
 	}
 
@@ -112,16 +110,17 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	}
 
 	private void updateIntervalFun() {
-		ExpressionNode polyExpression = f.getFunction(false)
+		Function function = f.getFunction(false);
+		ExpressionNode polyExpression = function
 				.getFunctionExpression().getRight()
 				.wrap();
-		ExpressionNode condExpression = f.getFunction(false)
+		ExpressionNode condExpression = function
 				.getFunctionExpression().getLeft()
 				.wrap();
 		if (intervalFun == null
 				|| intervalFun.getFunctionExpression() != polyExpression
 				|| interval.getExpression() != condExpression) {
-			FunctionVariable fVar = f.getGeoFunction().getFunction()
+			FunctionVariable fVar = function
 					.getFunctionVariable();
 			// extract poly from If[0<x<10, poly]
 			intervalFun = new Function(polyExpression, fVar);
@@ -140,7 +139,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	@Override
 	protected void updateDiffFunctions() {
 		updateIntervalFun();
-		Function.difference(intervalFun, g.getFunction(), diffFunction);
+		Function.difference(intervalFun, g.getFunction(false), diffFunction);
 	}
 
 	@Override

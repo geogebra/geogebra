@@ -42,6 +42,10 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	 *            label for output
 	 * @param f
 	 *            input function
+	 * @param cmd
+	 *            command name
+	 * @param info
+	 *            evaluation flags
 	 */
 	protected AlgoCasBase(Construction cons, String label,
 			CasEvaluableFunction f, Commands cmd, EvalInfo info) {
@@ -59,6 +63,10 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	 *            construction
 	 * @param f
 	 *            input function
+	 * @param cmd
+	 *            command name
+	 * @param info
+	 *            evaluation flags
 	 */
 	protected AlgoCasBase(Construction cons, CasEvaluableFunction f,
 			Commands cmd, EvalInfo info) {

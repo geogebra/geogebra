@@ -2103,7 +2103,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public Function getFunction(boolean b) {
+	public Function getFunction(boolean forRoot) {
 		return new Function(wrap(), new FunctionVariable(kernel));
 	}
 

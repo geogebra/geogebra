@@ -16,7 +16,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoIntersectPolynomials extends AlgoRootsPolynomial {
 
-	public AlgoIntersectPolynomials(Construction cons, GeoFunction f,
-			GeoFunction g) {
+	public AlgoIntersectPolynomials(Construction cons, GeoFunctionable f,
+			GeoFunctionable g) {
 		super(cons, f, g);
 	}
 

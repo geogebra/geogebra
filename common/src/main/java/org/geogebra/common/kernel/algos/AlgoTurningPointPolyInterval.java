@@ -45,15 +45,15 @@ public class AlgoTurningPointPolyInterval
 	@Override
 	public final void compute() {
 		if (f.isDefined()) {
-			ExpressionNode polyExpression = (ExpressionNode) f
-					.getGeoFunction().getFunctionExpression().getRight();
-			ExpressionNode condExpression = (ExpressionNode) f
-					.getGeoFunction().getFunctionExpression().getLeft();
+			Function geoFunction = f.getFunction(false);
+			ExpressionNode polyExpression = (ExpressionNode) geoFunction
+					.getFunctionExpression().getRight();
+			ExpressionNode condExpression = (ExpressionNode) geoFunction
+					.getFunctionExpression().getLeft();
 			if (yValFunction == null
 					|| yValFunction.getExpression() != polyExpression
 					|| interval.getFunctionExpression() != condExpression) {
-				FunctionVariable fVar = f.getGeoFunction().getFunction()
-						.getFunctionVariable();
+				FunctionVariable fVar = geoFunction.getFunctionVariable();
 
 				// extract poly from If[0<x<10, poly]
 				yValFunction = new Function(polyExpression, fVar);

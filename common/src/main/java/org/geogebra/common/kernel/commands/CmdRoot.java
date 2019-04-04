@@ -55,7 +55,7 @@ public class CmdRoot extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 
 				AlgoRootNewton algo = new AlgoRootNewton(cons, c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getRootPoint() };
@@ -76,7 +76,7 @@ public class CmdRoot extends CommandProcessor {
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
 				AlgoRootInterval algo = new AlgoRootInterval(cons, c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
+						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getRootPoint() };

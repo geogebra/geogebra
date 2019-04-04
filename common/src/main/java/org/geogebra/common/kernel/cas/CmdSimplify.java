@@ -45,7 +45,7 @@ public class CmdSimplify extends CommandProcessor implements UsesCAS {
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						Commands.Simplify, info);
 
-			} else if ((arg[0].isGeoText())) {
+			} else if (arg[0].isGeoText()) {
 				algo = new AlgoSimplifyText(cons, c.getLabel(),
 						(GeoText) arg[0]);
 
