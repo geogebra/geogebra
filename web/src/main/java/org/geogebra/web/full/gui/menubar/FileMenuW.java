@@ -92,8 +92,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 							getApp().getLoginOperation().getView().add(new EventRenderable() {
 								@Override
 								public final void renderEvent(BaseEvent event) {
-									if (event instanceof LoginEvent &&
-											((LoginEvent) event).isSuccessful()) {
+									if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
 										getApp().openSearch(null);
 									}
 								}

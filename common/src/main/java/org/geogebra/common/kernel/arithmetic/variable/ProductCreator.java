@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -11,6 +9,8 @@ import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.MyMath;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 class ProductCreator {
 
@@ -67,13 +67,16 @@ class ProductCreator {
 				.power(new MyDouble(kernel, exponents.get(Base.x)))
 				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, "y"))
-						.power(new MyDouble(kernel,exponents.get(Base.y))))
+								.power(new MyDouble(kernel,
+										exponents.get(Base.y))))
 				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, "z"))
-						.power(new MyDouble(kernel,exponents.get(Base.z))))
+								.power(new MyDouble(kernel,
+										exponents.get(Base.z))))
 				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, Unicode.theta_STRING))
-						.power(new MyDouble(kernel,exponents.get(Base.theta))));
+								.power(new MyDouble(kernel,
+										exponents.get(Base.theta))));
 	}
 
 	ExpressionNode piDegTo(int piPower, int degPower) {
