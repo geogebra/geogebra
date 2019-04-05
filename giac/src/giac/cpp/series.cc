@@ -3403,6 +3403,16 @@ namespace giac {
 	   ( v[1].type==_IDNT || ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_equal2 || v[1]._SYMBptr->sommet==at_at ) ) )
 	   )
 	return series( v[0],v[1],v[2],series_default_order(contextptr),contextptr);
+      if (v[1].type==_VECT){
+	vecteur vars=*v[1]._VECTptr,vals(vars.size());
+	for (int i=0;i<vars.size();++i){
+	  if (vars[i].is_symb_of_sommet(at_equal)){
+	    vals[i]=vars[i]._SYMBptr->feuille[1];
+	    vars[i]=vars[i]._SYMBptr->feuille[0];
+	  }
+	}
+	return series(v[0],vars,vals,v[2],contextptr);
+      }
       return series( v[0],symbolic(at_equal,makesequence(vx_var,v[1])),v[2],series_default_order(contextptr),contextptr);
     }
     if (s==4)
