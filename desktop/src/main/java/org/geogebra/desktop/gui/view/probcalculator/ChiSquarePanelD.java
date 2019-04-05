@@ -15,7 +15,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.probcalculator.ChiSquareCell;
@@ -37,7 +36,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  */
 public class ChiSquarePanelD extends ChiSquarePanel
-		implements ActionListener, FocusListener {
+		implements ActionListener {
 
 	// ======================================
 	// GUI components
@@ -150,8 +149,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
 			for (int c = 0; c < getSc().columns + 2; c++) {
 				cell[r][c] = new ChiSquareCellD(getSc(), r, c);
-				cell[r][c].getInputField().addActionListener(this);
-				cell[r][c].getInputField().addFocusListener(this);
 
 				// wider fields for the GOF test
 				if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
@@ -241,9 +238,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source instanceof JTextField) {
-			doTextFieldActionPerformed((JTextField) source);
-		}
 		if (source == cbRows || source == cbColumns) {
 			updateCollection();
 			updateGUI();
@@ -253,27 +247,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 				|| source == ckRowPercent || source == ckColPercent) {
 			updateShowFlags();
 			updateVisibility();
-		}
-
-	}
-
-	public void doTextFieldActionPerformed(JTextField source) {
-
-		updateCellContent();
-	}
-
-	@Override
-	public void focusGained(FocusEvent e) {
-		if (e.getSource() instanceof MyTextFieldD) {
-			((MyTextFieldD) e.getSource()).selectAll();
-		}
-
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof MyTextFieldD) {
-			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
 		}
 
 	}
@@ -288,7 +261,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			implements ActionListener, FocusListener {
 
 
-		private JPanel wrappedPanel;
+		private JPanel wrappedCellPanel;
 
 		private MyTextFieldD fldInput;
 		private JLabel[] label;
@@ -312,33 +285,32 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		public ChiSquareCellD(StatisticsCollection sc) {
 
 			super(sc);
-			this.wrappedPanel = new JPanel();
-			wrappedPanel.setOpaque(true);
-			wrappedPanel.setLayout(
-					new BoxLayout(this.wrappedPanel, BoxLayout.Y_AXIS));
+			this.wrappedCellPanel = new JPanel();
+			wrappedCellPanel.setOpaque(true);
+			wrappedCellPanel.setLayout(
+					new BoxLayout(this.wrappedCellPanel, BoxLayout.Y_AXIS));
 
 			fldInput = new MyTextFieldD((AppD) statCalc.getApp());
 			fldInput.addActionListener(this);
 			fldInput.addFocusListener(this);
-			wrappedPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));
+			wrappedCellPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));
 
 			label = new JLabel[5];
 			for (int i = 0; i < label.length; i++) {
 				label[i] = new JLabel();
 				label[i].setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-				wrappedPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, label[i]));
+				wrappedCellPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, label[i]));
 			}
 			setColumns(4);
 			setVisualStyle();
 			hideAllLabels();
-
 		}
 
 		public void setColumns(int columns) {
 			fldInput.setColumns(columns);
 
 			// force a minimum width for margin cells
-			wrappedPanel.add(Box
+			wrappedCellPanel.add(Box
 					.createHorizontalStrut(fldInput.getPreferredSize().width));
 
 		}
@@ -358,7 +330,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		public void hideAll() {
 			hideAllLabels();
 			fldInput.setVisible(false);
-			wrappedPanel.setBorder(BorderFactory.createEmptyBorder());
+			wrappedCellPanel.setBorder(BorderFactory.createEmptyBorder());
 		}
 
 		/**
@@ -387,16 +359,16 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		@Override
 		protected void setVisualStyle() {
-			wrappedPanel.setBackground(null);
+			wrappedCellPanel.setBackground(null);
 			fldInput.setVisible(false);
 
 			if (isMarginCell()) {
-				wrappedPanel
+				wrappedCellPanel
 						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				setLabelVisible(0, true);
 
 			} else if (isHeaderCell()) {
-				wrappedPanel
+				wrappedCellPanel
 						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				fldInput.setVisible(true);
 				fldInput.setBackground(GColorD.getAwtColor(
@@ -404,7 +376,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 			} else {
 				fldInput.setVisible(true);
-				wrappedPanel.setBorder(
+				wrappedCellPanel.setBorder(
 						BorderFactory.createLineBorder(Color.GRAY, 1));
 				fldInput.setBackground(GColorD.getAwtColor(GColor.WHITE));
 			}
@@ -425,18 +397,19 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		@Override
 		public void focusLost(FocusEvent e) {
 			updateCellData();
-			getStatCalc().updateResult();
+			getStatCalc().updateResult(true);
+			updateCellContent();
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			updateCellData();
-			getStatCalc().updateResult();
-
+			getStatCalc().updateResult(true);
+			updateCellContent();
 		}
 
 		public JPanel getWrappedPanel() {
-			return wrappedPanel;
+			return wrappedCellPanel;
 		}
 
 	}

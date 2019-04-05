@@ -15,8 +15,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -34,8 +33,7 @@ import com.google.gwt.user.client.ui.TextBox;
  *
  */
 public class ChiSquarePanelW extends ChiSquarePanel
-		implements ValueChangeHandler<Boolean>, ChangeHandler, FocusHandler,
-		KeyPressHandler {
+		implements ValueChangeHandler<Boolean>, ChangeHandler {
 
 	private FlowPanel wrappedPanel;
 	private Label lblRows;
@@ -111,14 +109,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			row.addStyleName("chirow");
 			for (int c = 0; c < getSc().columns + 2; c++) {
 				cell[r][c] = new ChiSquareCellW(getSc(), r, c);
-				cell[r][c].getInputField().addKeyPressHandler(this);
-				cell[r][c].getInputField().addFocusHandler(this);
-
-				if (getStatCalc()
-						.getSelectedProcedure() == Procedure.GOF_TEST) {
-					// cell[r][c].setColumns(10);
-				}
-
 				row.add(cell[r][c].getWrappedPanel());
 			}
 
@@ -167,24 +157,24 @@ public class ChiSquarePanelW extends ChiSquarePanel
 	 */
 	public void updateGUI() {
 		if (getStatCalc().getSelectedProcedure() == Procedure.CHISQ_TEST) {
-			cbColumns.setVisible(true);
-			lblColumns.setVisible(true);
-			ckRowPercent.setVisible(true);
-			ckExpected.setVisible(true);
-			ckChiDiff.setVisible(true);
+			setChiSquaredControlsVisible(true);
 
 		} else if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
-			cbColumns.setVisible(false);
-			lblColumns.setVisible(false);
-			ckRowPercent.setVisible(false);
-			ckExpected.setVisible(false);
-			ckChiDiff.setVisible(false);
+			setChiSquaredControlsVisible(false);
 
 			cbColumns.setSelectedIndex(0);
 		}
 
 		createCountPanel();
 		setLabels();
+	}
+
+	private void setChiSquaredControlsVisible(boolean visible) {
+		cbColumns.setVisible(visible);
+		lblColumns.setVisible(visible);
+		ckRowPercent.setVisible(visible);
+		ckExpected.setVisible(visible);
+		ckChiDiff.setVisible(visible);
 	}
 
 	/**
@@ -443,7 +433,8 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		 */
 		public void focusLost(FocusEvent e) {
 			updateCellData();
-			getStatCalc().updateResult();
+			getStatCalc().updateResult(true);
+			updateCellContent();
 		}
 
 		/**
@@ -456,7 +447,8 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		@Override
 		public void onKeyUp(KeyUpEvent e) {
 			updateCellData();
-			getStatCalc().updateResult();
+			getStatCalc()
+					.updateResult(e.getNativeKeyCode() == KeyCodes.KEY_ENTER);
 			updateCellContent();
 		}
 
@@ -466,25 +458,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 				((TextBox) event.getSource()).selectAll();
 			}
 		}
-	}
-
-	@Override
-	public void onFocus(FocusEvent event) {
-		if (event.getSource() instanceof TextBox) {
-			((TextBox) event.getSource()).selectAll();
-		}
-	}
-
-	@Override
-	public void onKeyPress(KeyPressEvent event) {
-		Object source = event.getSource();
-		if (source instanceof TextBox) {
-			doTextFieldActionPerformed();
-		}
-	}
-
-	private void doTextFieldActionPerformed() {
-		updateCellContent();
 	}
 
 	/**

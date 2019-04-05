@@ -119,12 +119,12 @@ public abstract class StatisticsCalculator {
 		return sc;
 	}
 
-	public final void updateResult() {
-		updateStatisticCollection();
-		recompute();
+	public final void updateResult(boolean userInitiated) {
+		updateStatisticCollection(userInitiated);
+		recompute(userInitiated);
 	}
 
-	public void recompute() {
+	public void recompute(boolean userInitiated) {
 		statProcessor.doCalculate();
 
 		bodyText = new StringBuilder();
@@ -135,7 +135,7 @@ public abstract class StatisticsCalculator {
 		resetCaret();
 	}
 
-	private double parseNumberText(String s) {
+	private double parseNumberText(String s, boolean userInitiated) {
 
 		if (s == null || s.length() == 0) {
 			return Double.NaN;
@@ -147,8 +147,8 @@ public abstract class StatisticsCalculator {
 			// allow input such as sqrt(2)
 			NumberValue nv;
 			nv = kernel.getAlgebraProcessor()
-					.evaluateToNumeric(inputText, false);
-			return nv.getDouble();
+					.evaluateToNumeric(inputText, !userInitiated);
+			return nv == null ? Double.NaN : nv.getDouble();
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -159,12 +159,11 @@ public abstract class StatisticsCalculator {
 	/**
 	 * Update collection from GUI
 	 */
-	final protected void updateStatisticCollection() {
+	final protected void updateStatisticCollection(boolean userInitiated) {
 		try {
-
-			sc.level = parseNumberText(fldConfLevel.getText());
-			sc.sd = parseNumberText(fldSigma.getText());
-			sc.nullHyp = parseNumberText(fldNullHyp.getText());
+			sc.level = parseNumberText(fldConfLevel.getText(), userInitiated);
+			sc.sd = parseNumberText(fldSigma.getText(), userInitiated);
+			sc.nullHyp = parseNumberText(fldNullHyp.getText(), userInitiated);
 
 			if (btnLeftIsSelected()) {
 				sc.setTail(StatisticsCollection.tail_left);
@@ -175,14 +174,18 @@ public abstract class StatisticsCalculator {
 			}
 
 			for (int i = 0; i < s1.length; i++) {
-				s1[i] = parseNumberText(fldSampleStat1[i].getText());
+				s1[i] = parseNumberText(fldSampleStat1[i].getText(),
+						userInitiated);
 			}
 			for (int i = 0; i < s2.length; i++) {
-				s2[i] = parseNumberText(fldSampleStat2[i].getText());
+				s2[i] = parseNumberText(fldSampleStat2[i].getText(),
+						userInitiated);
 			}
 
 			updateCollectionProcedure();
-			setSampleFieldText();
+			if (userInitiated) {
+				setSampleFieldText();
+			}
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

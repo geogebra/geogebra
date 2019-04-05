@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -154,7 +155,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		panelChiSquare.setLabels();
 
 		// reset the text in the result panel
-		recompute();
+		recompute(false);
 
 	}
 
@@ -505,27 +506,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		lblHypParameter = new Label();
 		lblTailType = new Label();
 
-		fldNullHyp = new AutoCompleteTextFieldW(app);
-		fldNullHyp.setColumns(fieldWidth);
-		((AutoCompleteTextFieldW) fldNullHyp).addKeyUpHandler(this);
-		this.addInsertHandler((AutoCompleteTextFieldW) fldNullHyp);
-		addNextTabIndex((AutoCompleteTextFieldW) fldNullHyp);
+		fldNullHyp = buildTextField();
 
 		lblConfLevel = new Label();
-		fldConfLevel = new AutoCompleteTextFieldW(app);
-		fldConfLevel.setColumns(fieldWidth);
-		((AutoCompleteTextFieldW) fldConfLevel).addKeyUpHandler(this);
-		this.addInsertHandler((AutoCompleteTextFieldW) fldConfLevel);
-
-		addNextTabIndex((AutoCompleteTextFieldW) fldConfLevel);
+		fldConfLevel = buildTextField();
 
 		lblSigma = new Label();
-		fldSigma = new AutoCompleteTextFieldW(app);
-		fldSigma.setColumns(fieldWidth);
-		((AutoCompleteTextFieldW) fldSigma).addKeyUpHandler(this);
-		this.addInsertHandler((AutoCompleteTextFieldW) fldSigma);
-
-		addNextTabIndex((AutoCompleteTextFieldW) fldSigma);
+		fldSigma = buildTextField();
 
 		lblSampleStat1 = new Label[3];
 		for (int i = 0; i < lblSampleStat1.length; i++) {
@@ -536,12 +523,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		fldSampleStat1 = new AutoCompleteTextFieldW[3];
 		// fldSampleStat1KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
-			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
-			fldSampleStat1[i].setColumns(fieldWidth);
-			((AutoCompleteTextFieldW) fldSampleStat1[i]).addKeyUpHandler(this);
-			this.addInsertHandler((AutoCompleteTextFieldW) fldSampleStat1[i]);
-
-			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat1[i]);
+			fldSampleStat1[i] = buildTextField();
 		}
 
 		lblSampleStat2 = new Label[3];
@@ -553,15 +535,19 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		fldSampleStat2 = new AutoCompleteTextFieldW[3];
 		// fldSampleStat2KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
-			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
-			fldSampleStat2[i].setColumns(fieldWidth);
-			((AutoCompleteTextFieldW) fldSampleStat2[i]).addKeyUpHandler(this);
-			this.addInsertHandler((AutoCompleteTextFieldW) fldSampleStat2[i]);
-
-			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat2[i]);
-
+			fldSampleStat2[i] = buildTextField();
 		}
 
+	}
+
+	private TextObject buildTextField() {
+		AutoCompleteTextFieldW textField = new AutoCompleteTextFieldW(app);
+		textField.setColumns(fieldWidth);
+		textField.addKeyUpHandler(this);
+		textField.addBlurHandler(this);
+		addInsertHandler(textField);
+		addNextTabIndex(textField);
+		return textField;
 	}
 
 	@Override
@@ -570,26 +556,21 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		resultPane.getElement().setInnerHTML(str);
 	}
 
+	/**
+	 * Listens to listbox changes
+	 */
 	@Override
 	public void onChange(ChangeEvent event) {
 		sc.setSelectedProcedure(mapNameToProcedure
 				.get(cbProcedure.getValue(cbProcedure.getSelectedIndex())));
 		this.panelChiSquare.updateCollection();
 		updateGUI();
-		updateResult();
-		// setLabels();
-
-		// reset the scrollpane to the top
-		// javax.swing.SwingUtilities.invokeLater(new Runnable() {
-		// public void run() {
-		// scroller.getVerticalScrollBar().setValue(0);
-		// }
-		// });
+		updateResult(true);
 	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-		updateResult();
+		updateResult(true);
 	}
 
 	@Override
@@ -597,26 +578,24 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		Object source = event.getSource();
 		if (source == ckPooled) {
 			sc.pooled = ckPooled.getValue();
-			updateResult();
+			updateResult(true);
 		}
 
 		if (source == btnLeft || source == btnRight || source == btnTwo) {
-			updateResult();
+			updateResult(true);
 		}
 
 		if (source == btnCalculate) {
-			updateResult();
+			updateResult(true);
 		}
 	}
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		TextBox source = (TextBox) event.getSource();
-		String value = source.getValue();
 		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
-				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)
-				&& keyUpNeeded(value)) {
-			doTextFieldActionPerformed();
+				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)) {
+			doTextFieldActionPerformed(
+					event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
 		}
 	}
 
@@ -636,9 +615,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			@Override
 			public void onInsert(String text) {
 				field.removeDummyCursor();
-				if (keyUpNeeded(field.getText())) {
-					doTextFieldActionPerformed();
-				}
+				doTextFieldActionPerformed(false);
+
 				if (Browser.isTabletBrowser()) {
 					field.addDummyCursor(field.getCaretPosition());
 				}
@@ -649,7 +627,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	@Override
 	public void onBlur(BlurEvent event) {
 		if (event.getSource() instanceof TextBox) {
-			doTextFieldActionPerformed();
+			doTextFieldActionPerformed(true);
 		}
 
 	}
@@ -657,8 +635,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	/**
 	 * Update results when key is pressed or focus lost
 	 */
-	void doTextFieldActionPerformed() {
-		updateResult();
+	void doTextFieldActionPerformed(boolean userInitiated) {
+		updateResult(userInitiated);
 	}
 
 	/**

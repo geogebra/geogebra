@@ -36,7 +36,7 @@ public abstract class ChiSquareCell {
 		this.column = column1;
 	}
 
-	protected void updateCellData(String text) {
+	public void updateCellData(String text) {
 		sc.chiSquareData[row][column] = text;
 	}
 

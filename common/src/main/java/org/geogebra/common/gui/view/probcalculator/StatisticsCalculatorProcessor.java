@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.statistics.AlgoZProportionTest;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * @author G.Sturr
@@ -434,7 +433,8 @@ public class StatisticsCalculatorProcessor {
 		for (int i = 0; i < sc.rows; i++) {
 			for (int col = 0; col < 2; col++) {
 				double value = parseStringData(
-						sc.chiSquareData[i + 1][col + 1], getErrorHandler());
+						sc.chiSquareData[i + 1][col + 1],
+						getErrorHandler());
 				sc.observed[i][col] = value;
 
 				if (!Double.isNaN(sc.observed[i][col])) {
@@ -489,7 +489,7 @@ public class StatisticsCalculatorProcessor {
 		if (s == null || s.length() == 0) {
 			return Double.NaN;
 		}
-		Log.debug(s);
+
 		try {
 			String inputText = s.trim();
 

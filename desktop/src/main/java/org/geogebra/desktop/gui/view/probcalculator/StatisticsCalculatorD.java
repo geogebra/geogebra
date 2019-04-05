@@ -398,7 +398,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelChiSquare.setLabels();
 
 		// reset the text in the result panel
-		recompute();
+		recompute(false);
 
 	}
 
@@ -621,6 +621,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			updateResult();
 		}
 
+	}
+
+	public void updateResult() {
+		updateResult(true);
 	}
 
 	public void doTextFieldActionPerformed(JTextField source) {
