@@ -2228,7 +2228,13 @@ namespace giac {
 #endif
     gen ea,eb,ec;
     if (is_quadratic_wrt(expr,x,ea,eb,ec,contextptr)){
-      gen tmp=factor(expr,false,contextptr); // factor in complex or real mode
+      gen tmp;
+      bool doreal=complex_mode(contextptr) && is_real(ea,contextptr) && is_real(eb,contextptr) && is_real(ec,contextptr) && is_positive(eb*eb-4*ea*ec,contextptr);
+      if (doreal)
+	complex_mode(false,contextptr);
+      tmp=factor(expr,false,contextptr); // factor in complex or real mode
+      if (doreal)
+	complex_mode(true,contextptr);
       if (!lop(tmp,at_rootof).empty())
 	expr=_sqrfree(expr,contextptr);
       else
