@@ -2343,6 +2343,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * update cursor3D matrix
 	 */
 	public void updateMatrixForCursor3D() {
+	    if (isAREnabled() && !isARDrawing()) {
+	        return;
+        }
 		double t;
 		if (getEuclidianController()
 				.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
