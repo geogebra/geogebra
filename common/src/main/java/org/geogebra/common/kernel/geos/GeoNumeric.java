@@ -1987,7 +1987,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public ExpressionNode getFunctionExpression() {
-		return getGeoFunction().getFunctionExpression();
+		return wrap();
 	}
 
 	@Override

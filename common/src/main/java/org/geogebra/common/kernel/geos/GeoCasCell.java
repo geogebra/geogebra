@@ -2001,7 +2001,7 @@ public class GeoCasCell extends GeoElement
 						twinGeo.set(lastOutputEvaluationGeo);
 						// update constants references
 						if (lastOutputEvaluationGeo instanceof GeoFunction) {
-							ExpressionNode expr = ((FunctionalNVar) lastOutputEvaluationGeo)
+							ExpressionNode expr = ((GeoFunction) lastOutputEvaluationGeo)
 									.getFunctionExpression();
 							expr.inspect(new ArbconstAlgoFixer());
 
