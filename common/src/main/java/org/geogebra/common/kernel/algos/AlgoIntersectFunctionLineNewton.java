@@ -147,7 +147,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		// standard case
 		else {
 			// get difference f - line
-			Function.difference(f.getFunction(false), line,
+			Function.difference(f.getFunction(), line,
 					diffFunction);
 			x = calcRoot(diffFunction, startPoint.inhomX);
 		}

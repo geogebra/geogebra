@@ -39,7 +39,7 @@ public class CmdCurvature extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
+					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
 				AlgoCurvature algo = new AlgoCurvature(cons, c.getLabel(),
 						(GeoPointND) arg[0], (GeoFunction) arg[1]);

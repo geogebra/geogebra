@@ -35,7 +35,7 @@ public class CmdPolynomial extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			if ((arg[0].isGeoFunctionable())) {
+			if ((arg[0].isRealValuedFunction())) {
 
 				AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction(
 						cons, c.getLabel(),

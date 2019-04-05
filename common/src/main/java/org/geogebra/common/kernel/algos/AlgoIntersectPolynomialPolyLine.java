@@ -138,7 +138,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			// standard case
 			else {
 				// get difference f - line
-				Function.difference(func.getFunction(false), seg, diffFunction);
+				Function.difference(func.getFunction(), seg, diffFunction);
 				calcRoots(diffFunction, 0);
 			}
 

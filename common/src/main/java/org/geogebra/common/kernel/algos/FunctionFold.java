@@ -53,12 +53,12 @@ public class FunctionFold implements FoldComputer {
 	 */
 	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
-		if (!geoElement.isGeoFunctionable()) {
+		if (!geoElement.isRealValuedFunction()) {
 			resultFun.setUndefined();
 			return;
 		}
 
-		Function fun1 = ((GeoFunctionable) geoElement).getFunction(false);
+		Function fun1 = ((GeoFunctionable) geoElement).getFunction();
 
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
@@ -82,7 +82,7 @@ public class FunctionFold implements FoldComputer {
 	 */
 	@Override
 	public boolean check(GeoElement geoElement) {
-		return geoElement.isGeoFunctionable();
+		return geoElement.isRealValuedFunction();
 	}
 
 	@Override

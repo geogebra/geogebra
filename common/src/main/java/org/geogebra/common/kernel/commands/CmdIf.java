@@ -166,7 +166,7 @@ public class CmdIf extends CommandProcessor {
 
 	private int checkAdd(Command c, ArrayList<FunctionalNVar> functions,
 			GeoElement fn, int vars) {
-		if (fn.isGeoFunctionable() && !(fn instanceof GeoLine)) {
+		if (fn.isRealValuedFunction() && !(fn instanceof GeoLine)) {
 			/*
 			 * if(vars > 1){ GeoFunctionNVar cast = new
 			 * GeoFunctionNVar(kernelA.getConstruction()); cast.set(fn);

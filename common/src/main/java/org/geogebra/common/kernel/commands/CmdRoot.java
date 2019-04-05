@@ -42,7 +42,7 @@ public class CmdRoot extends CommandProcessor {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0].isGeoFunctionable())) {
+			if ((arg[0].isRealValuedFunction())) {
 				GeoFunctionable gf = (GeoFunctionable) arg[0];
 				return root(c, gf);
 			}
@@ -51,7 +51,7 @@ public class CmdRoot extends CommandProcessor {
 			// root with start value
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoFunctionable())
+			if ((ok[0] = arg[0].isRealValuedFunction())
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 
 				AlgoRootNewton algo = new AlgoRootNewton(cons, c.getLabel(),
@@ -71,7 +71,7 @@ public class CmdRoot extends CommandProcessor {
 			// root in interval
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
@@ -97,7 +97,7 @@ public class CmdRoot extends CommandProcessor {
 
 		// special case for If
 		// non-polynomial -> undefined
-		Function fun = f.getFunction(true);
+		Function fun = f.getFunction();
 		ExpressionNode exp = fun.getFunctionExpression();
 		if (exp.getOperation().isIf()) {
 

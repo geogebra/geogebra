@@ -203,7 +203,7 @@ public class EuclidianControllerCompanion {
 			} else if (b.isGeoCurveCartesian()) {
 				return (GeoPointND) ec.getAlgoDispatcher().intersectLineCurve(
 						null, (GeoLine) a, (GeoCurveCartesian) b)[0];
-			} else if (b.isGeoFunctionable()) {
+			} else if (b.isRealValuedFunction()) {
 				// line and function
 				GeoFunctionable f = (GeoFunctionable) b;
 				if (f.isPolynomialFunction(false)) {
@@ -232,7 +232,7 @@ public class EuclidianControllerCompanion {
 			}
 		}
 		// first hit is a function
-		else if (a.isGeoFunctionable()) {
+		else if (a.isRealValuedFunction()) {
 			GeoFunctionable aFun = (GeoFunctionable) a;
 			if (b.isGeoLine()) {
 				// line and function
@@ -247,7 +247,7 @@ public class EuclidianControllerCompanion {
 					point = ec.getAlgoDispatcher().intersectFunctionLine(null,
 							aFun, (GeoLine) b, initPoint);
 				}
-			} else if (b.isGeoFunctionable()) {
+			} else if (b.isRealValuedFunction()) {
 				GeoFunctionable bFun = (GeoFunctionable) b;
 				if (aFun.isPolynomialFunction(false)
 						&& bFun.isPolynomialFunction(false)) {

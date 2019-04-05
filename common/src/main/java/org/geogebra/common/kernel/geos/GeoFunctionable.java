@@ -35,11 +35,17 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	 * Like getFunction(), but for root finding we don't want to divide line
 	 * equations by y, so that Root(3x=6) works.
 	 * 
-	 * @param forRoot
-	 *            whether just the roots should be preserved
 	 * @return this as function
 	 */
-	public Function getFunction(boolean forRoot);
+	public Function getFunction();
+
+	/**
+	 * Like getFunction(), but for root finding we don't want to divide line
+	 * equations by y, so that Root(3x=6) works.
+	 * 
+	 * @return this as function
+	 */
+	public Function getFunctionForRoot();
 
 	/**
 	 * For root we consider abs(sqrt(x)) also polynomial

@@ -32,7 +32,7 @@ public class CmdTaylorSeries extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 

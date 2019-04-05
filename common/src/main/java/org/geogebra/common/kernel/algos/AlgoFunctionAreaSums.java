@@ -773,7 +773,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				return;
 			}
 
-			UnivariateFunction fun = f.getFunction(false);
+			UnivariateFunction fun = f.getFunction();
 			double ad = a.getDouble();
 			double bd = b.getDouble();
 			if (!onlyZoom) {
@@ -913,7 +913,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				sum.setUndefined();
 			} // if d parameter for rectanglesum
 
-			fun = f.getFunction(false);
+			fun = f.getFunction();
 
 			// lower bound
 			ad = a.getDouble();

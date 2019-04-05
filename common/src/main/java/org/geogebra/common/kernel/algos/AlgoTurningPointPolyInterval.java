@@ -45,7 +45,7 @@ public class AlgoTurningPointPolyInterval
 	@Override
 	public final void compute() {
 		if (f.isDefined()) {
-			Function geoFunction = f.getFunction(false);
+			Function geoFunction = f.getFunction();
 			ExpressionNode polyExpression = (ExpressionNode) geoFunction
 					.getFunctionExpression().getRight();
 			ExpressionNode condExpression = (ExpressionNode) geoFunction

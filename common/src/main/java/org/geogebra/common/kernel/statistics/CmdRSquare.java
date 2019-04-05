@@ -44,7 +44,7 @@ public class CmdRSquare extends CommandProcessor {
 		switch (n) {
 		case 2:
 			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoFunctionable())) {
+					&& (ok[1] = arg[1].isRealValuedFunction())) {
 
 				AlgoRSquare algo = new AlgoRSquare(cons,
 						(GeoList) arg[0], (GeoFunctionable) arg[1]);

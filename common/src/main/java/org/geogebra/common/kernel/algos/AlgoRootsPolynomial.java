@@ -275,7 +275,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			break;
 		case MULTIPLE_ROOTS:
 			if (f.isDefined()) {
-				Function fun = f.getFunction(true);
+				Function fun = f.getFunctionForRoot();
 				// get polynomial factors anc calc roots
 				calcRootsMultiple(fun, 0, solution, eqnSolver);
 			} else {
@@ -299,7 +299,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// roots of f
 	protected void computeRoots() {
 		if (f.isDefined()) {
-			Function fun = f.getFunction(true);
+			Function fun = f.getFunctionForRoot();
 			// get polynomial factors anc calc roots
 			calcRoots(fun, 0);
 		} else {
@@ -310,7 +310,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// intersection of f and g
 	private void computePolynomialIntersection() {
 		if (f.isDefined() && g.isDefined()) {
-			Function fun = f.getFunction(false);
+			Function fun = f.getFunction();
 			yValFunction = fun;
 			// get difference f - g
 			updateDiffFunctions();
@@ -337,14 +337,14 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * Compute difference between functions, overridden for conditional case
 	 */
 	protected void updateDiffFunctions() {
-		Function.difference(f.getFunction(false), g.getFunction(false),
+		Function.difference(f.getFunction(), g.getFunction(),
 				diffFunction);
 	}
 
 	// intersection of f and line
 	private void computePolyLineIntersection() {
 		if (f.isDefined() && line.isDefined()) {
-			Function fun = f.getFunction(false);
+			Function fun = f.getFunction();
 			yValFunction = fun;
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
@@ -380,7 +380,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * case
 	 */
 	protected void updateDiffLine() {
-		Function.difference(f.getFunction(false), line,
+		Function.difference(f.getFunction(), line,
 				diffFunction);
 	}
 

@@ -47,7 +47,7 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 			return;
 		}
 		if (f.isDefined()) {
-			yValFunction = f.getFunction(false);
+			yValFunction = f.getFunction();
 
 			// roots of second derivative
 			// (roots without change of sign are removed)

@@ -58,7 +58,7 @@ public class CmdTangent extends CommandProcessor {
 				return tangent(c.getLabels(), (GeoLineND) arg[0],
 						(GeoConicND) arg[1]);
 			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
+					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
 				AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
@@ -73,12 +73,12 @@ public class CmdTangent extends CommandProcessor {
 
 			// tangents of function at x = x(Point P)
 			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
+					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[0],
 						(GeoFunctionable) arg[1]) };
 				return ret;
-			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
+			} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[1],

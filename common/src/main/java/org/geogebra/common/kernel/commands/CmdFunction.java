@@ -85,7 +85,7 @@ public class CmdFunction extends CommandProcessor {
 				// new code: convert Function[sin(x),1,2] to If[1<=x<=2, sin(x)]
 
 				arg = resArgs(c);
-				if ((ok[0] = (arg[0].isGeoFunctionable()))
+				if ((ok[0] = (arg[0].isRealValuedFunction()))
 						&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 						&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
@@ -191,7 +191,7 @@ public class CmdFunction extends CommandProcessor {
 				}
 			}
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { function(c.getLabel(),
@@ -211,7 +211,7 @@ public class CmdFunction extends CommandProcessor {
 		if (!mayUseIndependent) {
 			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION, fv);
 		}
-		return boolFun.getFunction(false).getFunctionExpression()
+		return boolFun.getFunction().getFunctionExpression()
 				.deepCopy(kernel).traverse(VariablePolyReplacer.getReplacer(fv))
 				.wrap();
 	}

@@ -116,7 +116,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		}
 
 		double disCurrCoordsStart = -1.0;
-		Function function = func.getFunction(false);
+		Function function = func.getFunction();
 		for (int index = 0; index < polySegCount; index++) {
 
 			segEndPoints[0] = getPoly().getPoint(index);

@@ -5649,7 +5649,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public boolean isGeoFunctionable() {
+	public boolean isRealValuedFunction() {
 		return false;
 	}
 

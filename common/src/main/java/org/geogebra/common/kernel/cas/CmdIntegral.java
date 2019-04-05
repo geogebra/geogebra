@@ -54,7 +54,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoFunctionable()) {
+			if (arg[0].isRealValuedFunction()) {
 				GeoElement[] ret = {
 						integral(((GeoFunctionable) arg[0]).getGeoFunction(),
 								null, info) };
@@ -77,7 +77,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
@@ -95,8 +95,8 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 		case 4:
 			arg = resArgs(c);
 			// difference of two functions
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
+					&& (ok[1] = (arg[1].isRealValuedFunction()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue
 							&& !(arg[3] instanceof BooleanValue)))
@@ -113,7 +113,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 			}
 			// single function integral with evaluate option
-			else if ((ok[0] = (arg[0].isGeoFunctionable()))
+			else if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
@@ -134,8 +134,8 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 		case 5:
 			arg = resArgs(c);
 			// difference of two functions with evaluate option
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
+					&& (ok[1] = (arg[1].isRealValuedFunction()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue)
 							&& (ok[4] = (arg[4].isGeoBoolean())))) {

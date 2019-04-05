@@ -103,7 +103,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 			return;
 		}
 
-		if (f.getFunction(false).getExpression().isSecret()) {
+		if (f.getFunction().getExpression().isSecret()) {
 			g.setUndefined();
 			return;
 		}
@@ -150,7 +150,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 						new MyDouble(kernel, -ad));
 			}
 
-			Function deriv = f.getFunction(false);
+			Function deriv = f.getFunction();
 
 			for (int k = 1; k <= order; k++) {
 

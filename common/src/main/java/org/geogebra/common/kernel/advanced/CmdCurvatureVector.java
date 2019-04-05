@@ -41,7 +41,7 @@ public class CmdCurvatureVector extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
+					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
 				AlgoCurvatureVector algo = new AlgoCurvatureVector(cons,
 						c.getLabel(), (GeoPoint) arg[0], (GeoFunction) arg[1]);

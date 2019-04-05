@@ -123,7 +123,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 			rootPoint.setUndefined();
 		} else {
 			// get difference f - g
-			Function.difference(f.getFunction(false), g.getFunction(false),
+			Function.difference(f.getFunction(), g.getFunction(),
 					diffFunction);
 			double x = calcRoot(diffFunction, startPoint.inhomX);
 

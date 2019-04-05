@@ -106,7 +106,7 @@ public class CmdLength extends CommandProcessor {
 			// Victor Franco 18-04-2007
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
 
@@ -118,7 +118,7 @@ public class CmdLength extends CommandProcessor {
 				return ret;
 			}
 
-			else if ((ok[0] = (arg[0].isGeoFunctionable()))
+			else if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 

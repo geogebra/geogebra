@@ -32,7 +32,7 @@ public class CmdRectangleSum extends CommandProcessor {
 		switch (n) {
 		case 5:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))

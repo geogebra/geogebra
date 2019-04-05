@@ -98,7 +98,7 @@ public class AlgoRootInterval extends AlgoElement {
 		}
 
 		double root = Double.NaN;
-		Function fun = f.getFunction(true);
+		Function fun = f.getFunctionForRoot();
 
 		if (rootFinder == null) {
 			rootFinder = new BrentSolver();

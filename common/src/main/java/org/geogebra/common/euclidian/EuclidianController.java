@@ -12450,7 +12450,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// special case for If
 			// non-polynomial -> undefined
 			// eg f(x) = x^2 , (-2<x<2)
-			ExpressionNode exp = function.getFunction(false)
+			ExpressionNode exp = function.getFunction()
 					.getFunctionExpression();
 			if (exp.getOperation().isIf()) {
 

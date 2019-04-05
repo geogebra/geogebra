@@ -110,7 +110,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	}
 
 	private void updateIntervalFun() {
-		Function function = f.getFunction(false);
+		Function function = f.getFunction();
 		ExpressionNode polyExpression = function
 				.getFunctionExpression().getRight()
 				.wrap();
@@ -139,7 +139,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	@Override
 	protected void updateDiffFunctions() {
 		updateIntervalFun();
-		Function.difference(intervalFun, g.getFunction(false), diffFunction);
+		Function.difference(intervalFun, g.getFunction(), diffFunction);
 	}
 
 	@Override

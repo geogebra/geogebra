@@ -375,7 +375,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public void set(GeoElementND geo) {
 		Function geoFun = geo == null ? null
-				: ((GeoFunctionable) geo).getFunction(false);
+				: ((GeoFunctionable) geo).getFunction();
 
 		if (geoFun == null) {
 			fun = null;
@@ -1363,7 +1363,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public boolean isGeoFunctionable() {
+	public boolean isRealValuedFunction() {
 		return isGeoFunction();
 	}
 
@@ -1530,11 +1530,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		Kernel kernel = fun1.getKernel();
 
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
-		FunctionVariable x2 = fun2.getFunction(false).getFunctionVariable();
+		Function function2 = fun2.getFunction();
+		FunctionVariable x2 = function2.getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
 		ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
-		ExpressionNode right = fun2.getFunction(false).getFunctionExpression()
+		ExpressionNode right = function2.getFunctionExpression()
 				.getCopy(kernel);
 
 		ExpressionNode sum;
@@ -1756,13 +1757,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 		Kernel kernel = fun1.getKernel();
 
-		FunctionVariable x1 = fun1.getFunction(false).getFunctionVariable();
-		FunctionVariable x2 = fun2.getFunction(false).getFunctionVariable();
+		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
+		FunctionVariable x2 = fun2.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
-		ExpressionNode left = fun1.getFunction(false).getFunctionExpression()
+		ExpressionNode left = fun1.getFunction().getFunctionExpression()
 				.getCopy(kernel);
-		ExpressionNode right = fun2.getFunction(false).getFunctionExpression()
+		ExpressionNode right = fun2.getFunction().getFunctionExpression()
 				.getCopy(kernel);
 
 		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
@@ -1798,11 +1799,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		Kernel kernel = fun.getKernel();
 		MyDouble num = new MyDouble(kernel, number);
 
-		FunctionVariable xold = fun.getFunction(false).getFunctionVariable();
+		FunctionVariable xold = fun.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
 		ExpressionNode left = new ExpressionNode(kernel, num);
-		ExpressionNode right = fun.getFunction(false).getFunctionExpression()
+		ExpressionNode right = fun.getFunction().getFunctionExpression()
 				.getCopy(kernel);
 
 		ExpressionNode product = new ExpressionNode(kernel, left,
@@ -2959,7 +2960,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public Function getFunction(boolean forRoot) {
+	public Function getFunctionForRoot() {
 		return fun;
 	}
 

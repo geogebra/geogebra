@@ -1324,8 +1324,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private class PathMoverLine extends PathMoverGeneric {
 
-		// private GeoPoint moverStartPoint;
-
 		public PathMoverLine() {
 			super(GeoLine.this);
 		}
@@ -1335,70 +1333,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			// we need a start point for pathChanged() to work correctly
 			// with our path parameters
 			if (startPoint == null) {
-				// moverStartPoint = new GeoPoint(cons);
 				setStandardStartPoint();
 			}
-
-			// if (moverStartPoint != null) {
-			// moverStartPoint.setCoords(p);
-			// point p is on the line and we use it's location
-			// as the startpoint, thus p needs to get path parameter 0
-			// PathParameter pp = p.getPathParameter();
-			// pp.t = 0;
-			// }
-
 			super.init(p, minSteps);
-
-			// // we need a point on the line:
-			// // p is a point on the line ;-)
-			// moverStartPoint.setCoords(p);
-			// PathParameter pp = p.getPathParameter();
-			// pp.t = 0;
-			// start_param = 0;
-			//
-			// min_param = -1 + PathMover.OPEN_BORDER_OFFSET;
-			// max_param = 1 - PathMover.OPEN_BORDER_OFFSET;
-			//
-			// param_extent = max_param - min_param;
-			// max_step_width = param_extent / MIN_STEPS;
-			// posOrientation = true;
-			//
-			// resetStartParameter();
 		}
 
-		// protected void calcPoint(GeoPoint p) {
-		// PathParameter pp = p.getPathParameter();
-		// pp.t = PathMoverGeneric.infFunction(curr_param);
-		// p.x = moverStartPoint.inhomX + pp.t * y;
-		// p.y = moverStartPoint.inhomY - pp.t * x;
-		// p.z = 1.0;
-		// p.updateCoords();
-		// }
-		//
-		// public boolean hasNext() {
-		// // check if we pass the start parameter 0:
-		// // i.e. check if the sign will change from
-		// // last_param to the next parameter curr_param
-		// double next_param = curr_param + step_width;
-		// if (posOrientation)
-		// return !(curr_param < 0 && next_param >= 0);
-		// else
-		// return !(curr_param > 0 && next_param <= 0);
-		// }
 	}
 
-	/*
-	 * public void add(GeoLine line) { x += line.x; y += line.y; z += line.z; }
-	 * 
-	 * public void subtract(GeoLine line) { x -= line.x; y -= line.y; z -=
-	 * line.z; }
-	 * 
-	 * public void multiply(GeoLine line) { x *= line.x; y *= line.y; z *=
-	 * line.z; }
-	 * 
-	 * public void divide(GeoLine line) { x /= line.x; y /= line.y; z /= line.z;
-	 * }
-	 */
 	@Override
 	public void setZero() {
 		setCoords(0, 1, 0);
@@ -1451,7 +1392,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public boolean isGeoFunctionable() {
+	public boolean isRealValuedFunction() {
 		return true;
 	}
 
@@ -1664,8 +1605,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public Function getFunction() {
-		return getFunction(false);
+	public Function getFunctionForRoot() {
+		return getFunctionWithMultiplier(x, z);
 	}
 
 	@Override
@@ -2001,16 +1942,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public Function getFunction(boolean forRoot) {
-		FunctionVariable fv = new FunctionVariable(kernel);
+	public Function getFunction() {
 		// f(x_var) = -x/y x_var - z/y
 
-		double slope = forRoot ? x : -x / y;
+		return getFunctionWithMultiplier(-x / y, -z / y);
+	}
 
+	private Function getFunctionWithMultiplier(double slope, double constant) {
+		FunctionVariable fv = new FunctionVariable(kernel);
 		ExpressionNode linear = new ExpressionNode(kernel,
-				new MyDouble(kernel, slope),
-				Operation.MULTIPLY, fv);
-		double constant = forRoot ? z : -z / y;
+				new MyDouble(kernel, slope), Operation.MULTIPLY, fv);
 		return new Function(linear.plus(constant), fv);
 	}
 

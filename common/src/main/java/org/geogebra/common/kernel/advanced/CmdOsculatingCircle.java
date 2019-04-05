@@ -37,7 +37,7 @@ public class CmdOsculatingCircle extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
+					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
 				AlgoOsculatingCircle algo = new AlgoOsculatingCircle(cons,
 						(GeoPoint) arg[0], (GeoFunction) arg[1]);

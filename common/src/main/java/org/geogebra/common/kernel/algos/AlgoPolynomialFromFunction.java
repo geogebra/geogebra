@@ -80,7 +80,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 			return;
 		}
 
-		Function inFun = f.getFunction(false);
+		Function inFun = f.getFunction();
 
 		// check if it's a polynomial & get coefficients
 		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),

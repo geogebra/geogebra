@@ -42,7 +42,7 @@ public class CmdResidualPlot extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
 		case 2:
-			if ((arg[0].isGeoList()) && (arg[1].isGeoFunctionable())) {
+			if ((arg[0].isGeoList()) && (arg[1].isRealValuedFunction())) {
 				AlgoResidualPlot algo = new AlgoResidualPlot(cons,
 						(GeoList) arg[0], (GeoFunctionable) arg[1]);
 				algo.getResult().setLabel(c.getLabel());

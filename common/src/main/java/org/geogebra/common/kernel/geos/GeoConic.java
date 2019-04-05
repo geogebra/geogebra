@@ -646,15 +646,15 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	}
 
 	@Override
-	public Function getFunction() {
-		return getFunction(false);
+	public Function getFunctionForRoot() {
+		return getFunction();
 	}
 
 	@Override
-	public Function getFunction(boolean forRoot) {
+	public Function getFunction() {
 		FunctionVariable x = new FunctionVariable(kernel);
 		ExpressionNode expr;
-		if(isGeoFunctionable()){
+		if(isRealValuedFunction()){
 			double coeffY = -2 * matrix[ConicMatrix.Y];
 			ExpressionNode quadratic = x.wrap().power(2)
 					.multiply(matrix[ConicMatrix.XX] / coeffY);
@@ -692,7 +692,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	public double value(double x) {
 		// duplicates logic of getFunction(boolean), but we want to avoid
 		// too many calls to new for evaluating a couple of points
-		if (isGeoFunctionable()) {
+		if (isRealValuedFunction()) {
 			double coeffY = -2 * matrix[ConicMatrix.Y];
 			double quadratic = x * x * matrix[ConicMatrix.XX] / coeffY;
 			double linear = x * 2 * matrix[ConicMatrix.X] / coeffY;
@@ -725,11 +725,11 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	@Override
 	public boolean hasTableOfValues() {
 		return !this.isLimitedPath()
-				&& isGeoFunctionable();
+				&& isRealValuedFunction();
 	}
 
 	@Override
-	public boolean isGeoFunctionable() {
+	public boolean isRealValuedFunction() {
 		return DoubleUtil.isZero(matrix[ConicMatrix.XY])
 				&& DoubleUtil.isZero(matrix[ConicMatrix.YY])
 				&& !DoubleUtil.isZero(matrix[ConicMatrix.Y]);

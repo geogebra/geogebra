@@ -35,7 +35,7 @@ public class CmdRoots extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoFunctionable()) {
+			if (arg[0].isRealValuedFunction()) {
 				return CmdRoot.nonPolyRoots(c, kernel,
 						(GeoFunctionable) arg[0]);
 			}
@@ -43,7 +43,7 @@ public class CmdRoots extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 

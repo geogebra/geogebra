@@ -219,7 +219,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (yAxis) {
 			getSpecialPointsIntersect(geo, yAxisLine, intersect, cmd, retList);
 		}
-		if (geo.isGeoConic() && geo.isGeoFunctionable()) {
+		if (geo.isGeoConic() && geo.isRealValuedFunction()) {
 			addExtremumPoly((GeoConic) geo, retList);
 		}
 		cons.setSuppressLabelCreation(wasSuppressLabelActive);

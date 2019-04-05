@@ -43,7 +43,7 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 
 	@Override
 	public final void compute() {
-		Function fun = f.getFunction(false);
+		Function fun = f.getFunction();
 		if (f.isDefined()) {
 			ExpressionNode polyExpression = fun.getFunctionExpression()
 					.getRight()

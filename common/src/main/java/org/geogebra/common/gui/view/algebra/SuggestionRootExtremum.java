@@ -55,7 +55,7 @@ public class SuggestionRootExtremum extends Suggestion {
 		if (!(geo instanceof GeoFunctionable)) {
 			return algosMissing;
 		}
-		Function function = ((GeoFunctionable) geo).getFunction(false);
+		Function function = ((GeoFunctionable) geo).getFunction();
 		if (function == null) {
 			return algosMissing;
 		}
@@ -100,7 +100,7 @@ public class SuggestionRootExtremum extends Suggestion {
 	 *         line or conic)
 	 */
 	private static boolean mayHaveSpecialPoints(GeoElement geo) {
-		return geo.isGeoFunctionable() && !geo.isNumberValue();
+		return geo.isRealValuedFunction() && !geo.isNumberValue();
 	}
 
 	@Override

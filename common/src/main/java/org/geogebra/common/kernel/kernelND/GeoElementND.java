@@ -1023,6 +1023,11 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	boolean isVisibleInputForMacro();
 
+	/**
+	 * @see ConstructionElement#getNameDescription()
+	 * 
+	 * @return type and name of this construction element (e.g. "Point A").
+	 */
 	String getNameDescription();
 
 	/**
@@ -1141,9 +1146,12 @@ public interface GeoElementND extends ExpressionValue {
 	DescriptionMode needToShowBothRowsInAV();
 
 	/**
+	 * Check that this is a GeoFunctionable representing a function R-&gt; R
+	 * (i.e. not a circle or boolean function)
+	 * 
 	 * @return true for functionables
 	 */
-	boolean isGeoFunctionable();
+	boolean isRealValuedFunction();
 
 	/**
 	 * @return true if the given GeoElement geo is to be drawn with LaTeX in
@@ -1534,6 +1542,8 @@ public interface GeoElementND extends ExpressionValue {
 	public int getDecorationType();
 
 	/**
+	 * @param sb
+	 *            screen reader output builder
 	 * @return text that screen readers should read.
 	 */
 	String getAuralText(ScreenReaderBuilder sb);

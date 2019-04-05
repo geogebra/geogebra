@@ -91,9 +91,9 @@ public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 			throw argErr(c, getBadArg(ok, arg));
 
 		case 8: // second order ODE
-			if ((ok[0] = arg[0].isGeoFunctionable())
-					&& (ok[1] = arg[1].isGeoFunctionable())
-					&& (ok[2] = arg[2].isGeoFunctionable())
+			if ((ok[0] = arg[0].isRealValuedFunction())
+					&& (ok[1] = arg[1].isRealValuedFunction())
+					&& (ok[2] = arg[2].isRealValuedFunction())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())

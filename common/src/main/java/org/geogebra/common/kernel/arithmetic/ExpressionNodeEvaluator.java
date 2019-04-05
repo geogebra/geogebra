@@ -1148,7 +1148,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				} else if (lt instanceof GeoFunctionable) {
 					// eg GeoLine
 					return new MyDouble(kernel, ((GeoFunctionable) lt)
-							.getFunction(false).evaluate(pt));
+							.getFunction().evaluate(pt));
 				} else {
 					Log.warn("missing case in ExpressionNodeEvaluator");
 				}

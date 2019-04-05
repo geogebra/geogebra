@@ -112,7 +112,7 @@ public class AlgoFunctionInterval extends AlgoElement {
 	}
 
 	private boolean hasEqualExpressions(GeoFunctionable f1) {
-		ExpressionNode en = f1.getFunction(false).getFunctionExpression();
+		ExpressionNode en = f1.getFunction().getFunctionExpression();
 
 		boolean equal = exp == en;
 		exp = en;

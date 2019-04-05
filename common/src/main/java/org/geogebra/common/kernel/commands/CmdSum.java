@@ -183,10 +183,10 @@ public class CmdSum extends CommandProcessor {
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = list.get(i);
-			if (!geo.isGeoFunctionable() && !geo.isGeoFunctionNVar()) {
+			if (!geo.isRealValuedFunction() && !geo.isGeoFunctionNVar()) {
 				allFunctionsND = false;
 			}
-			if (!geo.isGeoFunctionable() || (geo.isGeoFunction()
+			if (!geo.isRealValuedFunction() || (geo.isGeoFunction()
 					&& ((GeoFunction) geo).isFunctionOfY())) {
 				allFunctions = false;
 			}

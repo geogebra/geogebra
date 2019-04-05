@@ -50,7 +50,7 @@ public class CmdSlowPlot extends CmdScripting {
 			Log.debug("repeat = " + repeat);
 			//$FALL-THROUGH$
 		case 1:
-			if (arg[0].isGeoFunctionable()) {
+			if (arg[0].isRealValuedFunction()) {
 
 				GeoNumeric var = new GeoNumeric(cons, 0.0);
 

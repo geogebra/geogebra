@@ -12,8 +12,11 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
  * Converts lines, conics to function
  * 
  * @author Zbynek
+ * @deprecated instead of converting line to function with this algo please make
+ *             sure the receiver can handle both functions and lines
  */
-public class AlgoConvertToFunction extends AlgoElement {
+@Deprecated
+public class AlgoFunctionableToFunction extends AlgoElement {
 
 	private GeoFunction outputFunction;
 	private GeoFunctionable functionable;
@@ -24,11 +27,11 @@ public class AlgoConvertToFunction extends AlgoElement {
 	 * @param functionable
 	 *            geo to be converted to a function
 	 */
-	public AlgoConvertToFunction(Construction construction,
+	public AlgoFunctionableToFunction(Construction construction,
 			GeoFunctionable functionable) {
 		super(construction);
 		this.functionable = functionable;
-		Function expr = functionable.getFunction(false);
+		Function expr = functionable.getFunction();
 		outputFunction = new GeoFunction(cons, expr);
 		setInputOutput();
 		compute();
@@ -43,7 +46,7 @@ public class AlgoConvertToFunction extends AlgoElement {
 
 	@Override
 	public void compute() {
-		ExpressionNode newExpression = functionable.getFunction(false)
+		ExpressionNode newExpression = functionable.getFunction()
 				.getFunctionExpression();
 		outputFunction.getFunction().setExpression(newExpression);
 		outputFunction.getFunction().initFunction();

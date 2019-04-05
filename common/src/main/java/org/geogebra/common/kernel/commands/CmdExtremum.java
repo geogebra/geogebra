@@ -38,14 +38,14 @@ public class CmdExtremum extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			ok[0] = arg[0].isGeoFunctionable();
+			ok[0] = arg[0].isRealValuedFunction();
 			if (ok[0]) {
 				return extremum(c, (GeoFunctionable) arg[0]);
 			}
 			throw argErr(c, arg[0]);
 		case 3: // Extremum[f,start-x,end-x]
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 
@@ -69,7 +69,7 @@ public class CmdExtremum extends CommandProcessor {
 	 *         Extrema currently visible (for non-polynomial functions)
 	 */
 	final private GeoPoint[] extremum(Command c, GeoFunctionable gf) {
-		Function f = gf.getFunction(false);
+		Function f = gf.getFunction();
 		// special case for If
 		// non-polynomial -> undefined
 		ExpressionNode exp = f.getFunctionExpression();

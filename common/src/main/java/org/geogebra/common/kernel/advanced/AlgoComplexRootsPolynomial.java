@@ -36,7 +36,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 	// roots of f
 	private void computeComplexRoots() {
 		if (f.isDefined()) {
-			Function fun = f.getFunction(true);
+			Function fun = f.getFunctionForRoot();
 			// get polynomial factors anc calc roots
 			calcComplexRoots(fun);
 		} else {

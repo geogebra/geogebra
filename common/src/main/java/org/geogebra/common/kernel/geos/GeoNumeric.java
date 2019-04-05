@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -1201,7 +1200,7 @@ public class GeoNumeric extends GeoElement
 	@Deprecated
 	@Override
 	public GeoFunction getGeoFunction() {
-		Function fun = getFunction(false);
+		Function fun = getFunction();
 		GeoFunction ret;
 
 		// we get a dependent function if this number has a label or is
@@ -1217,7 +1216,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public boolean isGeoFunctionable() {
+	public boolean isRealValuedFunction() {
 		return true;
 	}
 
@@ -1992,8 +1991,8 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public FunctionNVar getFunction() {
-		return getGeoFunction().getFunction();
+	public Function getFunction() {
+		return new Function(wrap(), new FunctionVariable(kernel));
 	}
 
 	@Override
@@ -2105,8 +2104,8 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public Function getFunction(boolean forRoot) {
-		return new Function(wrap(), new FunctionVariable(kernel));
+	public Function getFunctionForRoot() {
+		return getFunction();
 	}
 
 	@Override

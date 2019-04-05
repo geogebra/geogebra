@@ -158,7 +158,7 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 */
 	public static void setValue2(GeoElement arg0, GeoElement arg1) {
-		if (arg0.isGeoFunction() && arg1.isGeoFunctionable()) {
+		if (arg0.isGeoFunction() && arg1.isRealValuedFunction()) {
 			// eg f(x)=x^2
 			// SetValue[f,1]
 			GeoFunction fun = (GeoFunction) arg0;

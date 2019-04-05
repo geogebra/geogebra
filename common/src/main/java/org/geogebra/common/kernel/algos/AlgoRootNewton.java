@@ -112,7 +112,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			rootPoint.setUndefined();
 		} else {
 			double startValue = start.getDouble();
-			Function fun = f.getFunction(false);
+			Function fun = f.getFunctionForRoot();
 
 			// calculate root
 			rootPoint.setCoords(calcRoot(fun, startValue), 0.0, 1.0);

@@ -283,7 +283,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		int n = findNumberOfSamples(l, r);
 		// make sure m is at least 1 even for invisible EV
 		int m = Math.max(n, 1);
-		Function function = f.getFunction(true);
+		Function function = f.getFunctionForRoot();
 		try { // To catch eventual wrong indexes in arrays...
 				// Adjust samples. Some research needed to find best factor in
 				// if(numberofroots<m*factor...

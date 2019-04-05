@@ -91,8 +91,8 @@ public class CmdIntersect extends CommandProcessor {
 			arg = resArgs(c);
 			// Function - Function in interval [a,b]
 			// Polynomial - Polynomial with index of point
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isRealValuedFunction()))
+					&& (ok[1] = (arg[1].isRealValuedFunction()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
 				GeoElement[] ret = intersectFunctions(c.getLabels(),
@@ -264,17 +264,17 @@ public class CmdIntersect extends CommandProcessor {
 				&& (ok[1] = (arg[1].isGeoConic()))) {
 			return (GeoElement[]) getAlgoDispatcher().intersectConics(
 					c.getLabels(), (GeoConic) arg[0], (GeoConic) arg[1]);
-		} else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoLine()))) {
 			return getAlgoDispatcher().intersectPolynomialLine(c.getLabels(),
 					(GeoFunctionable) arg[0],
 					(GeoLine) arg[1], null);
 		} else if ((ok[0] = (arg[0].isGeoLine()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))) {
+				&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 			return getAlgoDispatcher().intersectPolynomialLine(c.getLabels(),
 					(GeoFunctionable) arg[1],
 					(GeoLine) arg[0], null);
-		} else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoPolyLine()))
 				&& ((GeoFunctionable) arg[0]).isPolynomialFunction(false)) {
 
@@ -283,7 +283,7 @@ public class CmdIntersect extends CommandProcessor {
 					(GeoPolyLine) arg[1]);
 
 		} else if ((ok[0] = (arg[0].isGeoPolyLine()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& ((GeoFunctionable) arg[1]).isPolynomialFunction(false)) {
 
 			return getAlgoDispatcher().intersectPolynomialPolyLine(
@@ -292,7 +292,7 @@ public class CmdIntersect extends CommandProcessor {
 		}
 
 		// polynomial-polygon
-		else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoPolygon()))
 				&& ((GeoFunctionable) arg[0]).isPolynomialFunction(false)) {
 
@@ -301,29 +301,29 @@ public class CmdIntersect extends CommandProcessor {
 					(GeoPolygon) arg[1]);
 
 		} else if ((ok[0] = (arg[0].isGeoPolygon()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& ((GeoFunctionable) arg[1]).isPolynomialFunction(false)) {
 
 			return getAlgoDispatcher().intersectPolynomialPolygon(c.getLabels(),
 					(GeoFunctionable) arg[1],
 					(GeoPolygon) arg[0]);
 
-		} else if ((ok[0] = (arg[0].isGeoFunctionable()
+		} else if ((ok[0] = (arg[0].isRealValuedFunction()
 				|| arg[0] instanceof GeoFunction))
-				&& (ok[1] = (arg[1].isGeoFunctionable()
+				&& (ok[1] = (arg[1].isRealValuedFunction()
 						|| arg[1] instanceof GeoFunction))) {
 			// check after GeoLine as GeoLine is now GeoFunctionable
 			return getAlgoDispatcher().intersectPolynomials(c.getLabels(),
 					(GeoFunctionable) arg[0], (GeoFunctionable) arg[1]);
 		} else if ((ok[0] = (arg[0].isGeoImplicitPoly()))
-				&& (ok[1] = (arg[1].isGeoFunctionable())
+				&& (ok[1] = (arg[1].isRealValuedFunction())
 						// && (ok[1]=((GeoFunctionable)
 						// arg[1]).getGeoFunction().isPolynomialFunction(false))
 						&& (ok[1] = !(arg[1].isGeoLine())))) {
 			return getAlgoDispatcher().intersectImplicitpolyPolynomial(
 					c.getLabels(), (GeoImplicit) arg[0],
 					(GeoFunctionable) arg[1]);
-		} else if ((ok[0] = arg[0].isGeoFunctionable())
+		} else if ((ok[0] = arg[0].isRealValuedFunction())
 				// && (ok[0]=((GeoFunctionable)
 				// arg[0]).getGeoFunction().isPolynomialFunction(false))
 				&& (ok[0] = !(arg[0].isGeoLine()))
@@ -485,7 +485,7 @@ public class CmdIntersect extends CommandProcessor {
 		}
 		// Polynomial - Line with index of point
 		// check before GeoFunctionable as GeoLine is now GeoFunctionable
-		else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoLine()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 			GeoPoint ret =
@@ -503,7 +503,7 @@ public class CmdIntersect extends CommandProcessor {
 		// Line - Polynomial with index of point
 		// check before GeoFunctionable as GeoLine is now GeoFunctionable
 		else if ((ok[0] = (arg[0].isGeoLine()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 			GeoPoint ret =
 
@@ -518,8 +518,8 @@ public class CmdIntersect extends CommandProcessor {
 			return new GeoElement[] { ret };
 		}
 		// Polynomial - Polynomial with index of point
-		else if ((ok[0] = (arg[0].isGeoFunctionable()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+		else if ((ok[0] = (arg[0].isRealValuedFunction()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 			GeoElement[] ret = { intersectPolynomialsSingle(c, arg,
 					(GeoFunctionable) arg[0],
@@ -556,7 +556,7 @@ public class CmdIntersect extends CommandProcessor {
 		// ImplicitPoly - Functionable
 		// TODO decide polynomial before CAS loaded
 		else if ((ok[0] = (arg[0].isGeoImplicitCurve()))
-				&& (ok[1] = (arg[1].isGeoFunctionable())
+				&& (ok[1] = (arg[1].isRealValuedFunction())
 						&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 						// this line uses CAS so check last
 						&& (ok[1] = ((GeoFunctionable) arg[1])
@@ -572,7 +572,7 @@ public class CmdIntersect extends CommandProcessor {
 			}
 
 			return new GeoElement[] { ret };
-		} else if ((ok[0] = arg[0].isGeoFunctionable())
+		} else if ((ok[0] = arg[0].isRealValuedFunction())
 				&& (ok[1] = (arg[1].isGeoImplicitCurve()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 				// this line uses CAS so check last
@@ -610,7 +610,7 @@ public class CmdIntersect extends CommandProcessor {
 			return new GeoElement[] { intersectImplicitpolyConicSingle(
 					c.getLabel(), (GeoImplicit) arg[1], (GeoConic) arg[0],
 					(GeoNumberValue) arg[2]) };
-		} else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoLine()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = { getAlgoDispatcher().intersectFunctionLine(
@@ -619,9 +619,9 @@ public class CmdIntersect extends CommandProcessor {
 			return ret;
 		}
 		// Function - Function with startPoint
-		else if ((ok[0] = (arg[0].isGeoFunctionable()
+		else if ((ok[0] = (arg[0].isRealValuedFunction()
 				|| arg[0] instanceof GeoFunction))
-				&& (ok[1] = (arg[1].isGeoFunctionable()
+				&& (ok[1] = (arg[1].isRealValuedFunction()
 						|| arg[1] instanceof GeoFunction))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = { getAlgoDispatcher().intersectFunctions(
@@ -632,7 +632,7 @@ public class CmdIntersect extends CommandProcessor {
 		}
 		// Line - Function with startPoint
 		else if ((ok[0] = (arg[0].isGeoLine()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = { getAlgoDispatcher().intersectFunctionLine(
 					c.getLabel(), (GeoFunctionable) arg[1],
@@ -641,13 +641,13 @@ public class CmdIntersect extends CommandProcessor {
 		}
 		// polyLine - NonPolynomialFunction with startPoint
 		else if ((ok[0] = (arg[0].isGeoPolyLine()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectNPFunctionPolyLine(
 					c.getLabels(), (GeoFunctionable) arg[1],
 					(GeoPolyLine) arg[0], (GeoPoint) arg[2]);
 			return ret;
-		} else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoPolyLine()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectNPFunctionPolyLine(
@@ -657,13 +657,13 @@ public class CmdIntersect extends CommandProcessor {
 		}
 		// polygon - NonPolynomialFunction with startPoint
 		else if ((ok[0] = (arg[0].isGeoPolygon()))
-				&& (ok[1] = (arg[1].isGeoFunctionable()))
+				&& (ok[1] = (arg[1].isRealValuedFunction()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectNPFunctionPolygon(
 					c.getLabels(), (GeoFunctionable) arg[1],
 					(GeoPolygon) arg[0], (GeoPoint) arg[2]);
 			return ret;
-		} else if ((ok[0] = (arg[0].isGeoFunctionable()))
+		} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 				&& (ok[1] = (arg[1].isGeoPolygon()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectNPFunctionPolygon(

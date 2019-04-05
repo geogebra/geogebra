@@ -31,7 +31,7 @@ public class CmdComplexRoot extends CommandProcessor {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoFunctionable()) {
+			if (arg[0].isRealValuedFunction()) {
 
 				GeoFunctionable f = (GeoFunctionable) arg[0];
 

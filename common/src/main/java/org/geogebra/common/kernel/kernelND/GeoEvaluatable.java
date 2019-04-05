@@ -38,6 +38,6 @@ public interface GeoEvaluatable extends Functional, GeoElementND {
 	 *            constant)
 	 * @return function
 	 */
-	public Function getFunction(boolean forRoot);
+	public Function getFunction();
 
 }

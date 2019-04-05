@@ -1491,7 +1491,7 @@ public class AlgebraProcessor {
 			}
 			GeoElementND[] temp = processValidExpression(exp);
 
-			if (temp[0].isGeoFunctionable()) {
+			if (temp[0].isRealValuedFunction()) {
 				GeoFunctionable f = (GeoFunctionable) temp[0];
 				func = f.getGeoFunction();
 			} else if (!suppressErrors) {

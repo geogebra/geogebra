@@ -110,7 +110,7 @@ public class AlgoIntersectImplicitpolyParametric
 			}
 			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
 
-			PolyFunction derivY = f.getFunction(false)
+			PolyFunction derivY = f.getFunction()
 					.getNumericPolynomialDerivative(0, false, false, false);
 			if (derivY == null) {
 				points.adjustOutputSize(0);
