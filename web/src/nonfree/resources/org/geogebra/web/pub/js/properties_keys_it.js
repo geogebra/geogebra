@@ -1141,7 +1141,7 @@ __GGB__keysVar["it"].command = {
 
 __GGB__keysVar["it"].error = {
     "AssignmentToFixed": "Non \xe8 possibile modificare gli oggetti fissati.",
-    "CAS.GeneralErrorMessage": "Si \xe8 verificato un problema. Verifica i dati immessi.",
+    "CAS.GeneralErrorMessage": "Si \xe8 verificato un problema: verifica i dati immessi.",
     "CAS.InvalidReferenceError": "Uno o pi\xf9 riferimenti non sono validi",
     "CAS.SelectionStructureError": "Verifica la struttura della selezione.",
     "CAS.TimeoutError": "Il calcolo richiede troppo tempo di elaborazione ed \xe8 stato interrotto.",
@@ -2340,7 +2340,7 @@ __GGB__keysVar["it"].menu = {
     "Paste": "Incolla",
     "PasteSpecial": "Incolla speciale",
     "Pause": "Pausa",
-    "PdfErrorText": "Si \xe8 verificato un errore: prova a scegliere un altro file",
+    "PdfErrorText": "Si \xe8 verificato un problema: prova a scegliere un altro file",
     "PdfLoadText": "File in caricamento: potrebbero esserci dei tempi di attesa",
     "Pen": "Penna",
     "Pen.Help": "Scrivi o disegna. Modifica i colori con la barra di stile.",
