@@ -61,6 +61,11 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 	}
 
 	@Override
+	public void injectGreekFonts() {
+		StyleInjector.inject(KeyboardResources.INSTANCE.greekFonts());
+	}
+
+	@Override
 	public native void loadWebFont(String fontUrl) /*-{
 		$wnd.WebFontConfig = {
 			custom : {

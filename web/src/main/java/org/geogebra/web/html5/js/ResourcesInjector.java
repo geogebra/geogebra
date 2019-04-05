@@ -161,12 +161,25 @@ public class ResourcesInjector {
 	}
 
 	/**
+	 * Inject Greek font for keyboard's alpha tab.
+	 */
+	public static void injectGreekFontsForKeyboard() {
+		if (instance != null) {
+			instance.injectGreekFonts();
+		}
+	}
+
+	/**
 	 * Load Mathsans font if needed + additional fonts if specified by param.
 	 *
 	 * @param dataParamFontsCssUrl
 	 *            font CSS url
 	 */
 	protected void loadWebFont(String dataParamFontsCssUrl) {
+		// intentionally
+	}
+
+	protected void injectGreekFonts() {
 		// intentionally
 	}
 }

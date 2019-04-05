@@ -18,14 +18,14 @@ public interface KeyboardResources extends ClientBundle {
 	// ONSCREENKEYBOARD
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_black_24px.svg")
 	SVGResource keyboard_more();
-	
+
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_purple_24px.svg")
 	SVGResource keyboard_more_purple();
-	
+
 	// close button for new keyboard
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_close_black_24px.svg")
 	SVGResource keyboard_close_black();
-	
+
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_close_purple_24px.svg")
 	SVGResource keyboard_close_purple();
 
@@ -45,7 +45,7 @@ public interface KeyboardResources extends ClientBundle {
 	// left arrow for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowLeft_black.png")
 	ImageResource keyboard_arrowLeft_black();
-	
+
 	// right arrow for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight_black.png")
 	ImageResource keyboard_arrowRight_black();
@@ -55,6 +55,9 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
 	SassResource keyboardStyle();
+
+	@Source("org/geogebra/keyboard/css/greek-font.css")
+	SassResource greekFonts();
 
 	@Source("org/geogebra/common/icons/png/keyboard/integral.png")
 	ImageResource integral();

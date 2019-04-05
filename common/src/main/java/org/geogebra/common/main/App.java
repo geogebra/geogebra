@@ -3748,7 +3748,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/**
 		 * MOW-679
-		 * 
+		 *
 		 * doesn't work with Reflect(penstroke, Object)
 		 */
 		case MOW_PEN_IS_LOCUS:
@@ -3884,6 +3884,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
 			return true;
+
+		/** APPS-578 */
+		case GREEK_FONTS_WEB:
+			return prerelease;
 
 		// **********************************************************************
        // G3D START
@@ -5107,7 +5111,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if is prerelease
 	 */
 	public boolean isPrerelease() {
