@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian3D;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -287,5 +288,12 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 *            flag
 	 */
 	public void setCursor3DVisible(boolean flag);
+
+	/**
+	 * return the matrix : screen coords -> scene coords.
+	 *
+	 * @return the matrix : screen coords -> scene coords.
+	 */
+	public CoordMatrix4x4 getToSceneMatrix();
 
 }

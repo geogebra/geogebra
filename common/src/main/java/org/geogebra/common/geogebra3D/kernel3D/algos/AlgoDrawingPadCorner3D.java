@@ -109,9 +109,14 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 
 				break;
 
-			case 11: // return view direction
+			case CORNER_VIEW_DIRECTION: // return view direction
 				Coords eye = ev.getEyePosition();
 				corner.setCoords(eye.getX(), eye.getY(), eye.getZ(), 1.0);
+				break;
+
+			case CORNER_SCREEN_RIGHT: // return screen left-to-right direction
+				Coords vx = ev.getToSceneMatrix().getVx();
+				corner.setCoords(vx.getX(), vx.getY(), vx.getZ(), 1.0);
 				break;
 
 			default:

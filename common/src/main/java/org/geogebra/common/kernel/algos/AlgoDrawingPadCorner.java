@@ -29,6 +29,11 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
 
+	/** index for view direction corner */
+	static public final int CORNER_VIEW_DIRECTION = 11;
+	/** index for screen left-to-right direction corner */
+	static public final int CORNER_SCREEN_RIGHT = 12;
+
 	protected GeoPointND corner; // output
 	protected GeoNumberValue number;
 	protected GeoNumberValue evNum;
@@ -50,11 +55,13 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 	private void registerEV(double absCorner) {
 		cons.registerEuclidianViewCE(this);
-		if (DoubleUtil.isEqual(number.getDouble(), 11)) {
+		Double d = number.getDouble();
+		if (DoubleUtil.isEqual(d, CORNER_VIEW_DIRECTION)
+				|| DoubleUtil.isEqual(d, CORNER_SCREEN_RIGHT)) {
 			cons.registerCorner11(this);
 			return;
 		}
-		if (DoubleUtil.isEqual(number.getDouble(), absCorner)) {
+		if (DoubleUtil.isEqual(d, absCorner)) {
 			cons.registerCorner5(this);
 		}
 	}
