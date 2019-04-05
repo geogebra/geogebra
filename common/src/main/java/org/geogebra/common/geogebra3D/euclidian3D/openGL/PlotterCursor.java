@@ -15,36 +15,36 @@ public class PlotterCursor {
 	/** Cursor type */
 	public enum Type {
 		/** 2D cross preview for e.g. point on plane */
-		CROSS2D(0, false, true),
+		CROSS2D(0, false, false),
 		/** diamond preview for intersection point */
-		DIAMOND(1, false, true),
+		DIAMOND(1, false, false),
 		/** "cylinder" preview for e.g point on segment */
-		CYLINDER(2, false, true),
+		CYLINDER(2, false, false),
 		/** 3D cross preview for point in space */
-		CROSS3D(3, false, true),
+		CROSS3D(3, false, false),
 		/** horizontal arrowed cross when over an existing point */
-		ALREADY_XY(4, true, false),
+		ALREADY_XY(4, true, true),
 		/** vertical arrows when over an existing point */
-		ALREADY_Z(5, true, false),
+		ALREADY_Z(5, true, true),
 		/** 3 directions arrows when over an existing point */
-		ALREADY_XYZ(6, true, false),
+		ALREADY_XYZ(6, true, true),
 		/** cube displayed when moving drawing pad */
-		CUBE(7, true, false),
+		CUBE(7, true, true),
 		/** sphere for target */
-		SPHERE(8, false, false),
+		SPHERE(8, false, true),
 		/** circle for target */
-		TARGET_CIRCLE(9, false, false),
+		TARGET_CIRCLE(9, false, true),
 		/** for rotations */
-		ROTATION(10, true, false);
+		ROTATION(10, true, true);
 
 		private int id;
 		private boolean useLight;
-		private boolean isPreview;
+		private boolean hasAllGLAttributes;
 
-		private Type(int id, boolean useLight, boolean isPreview) {
+		private Type(int id, boolean useLight, boolean hasAllGLAttributes) {
 			this.id = id;
 			this.useLight = useLight;
-			this.isPreview = isPreview;
+			this.hasAllGLAttributes = hasAllGLAttributes;
 		}
 
 		/**
@@ -60,7 +60,16 @@ public class PlotterCursor {
 		 * @return true if is a preview cursor
 		 */
 		public boolean isPreview() {
-			return isPreview;
+			return !hasAllGLAttributes();
+		}
+
+		/**
+		 * 
+		 * @return true if it as all GL attributes (position, color, normal,
+		 *         texture)
+		 */
+		public boolean hasAllGLAttributes() {
+			return hasAllGLAttributes;
 		}
 
 		/**
