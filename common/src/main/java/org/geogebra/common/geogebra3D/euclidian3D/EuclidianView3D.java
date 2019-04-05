@@ -4848,7 +4848,7 @@ public abstract class EuclidianView3D extends EuclidianView
                     getRenderer().setARFloorZ(-translationZzeroForAR);
                     translationZzeroForAR -= getZZero();
                 }
-                getRenderer().setScaleFactor();
+                getRenderer().setARScaleAtStart();
                 updateMatrix();
                 reset(false);
 			} else {

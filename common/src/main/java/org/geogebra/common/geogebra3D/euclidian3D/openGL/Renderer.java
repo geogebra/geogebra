@@ -172,7 +172,7 @@ public abstract class Renderer {
 	private CoordMatrix4x4 arCameraPerspective;
 	protected float arScaleFactor;
     private boolean arShouldStart = false;
-	protected float mScaleFactor;
+	protected float arScaleAtStart;
 
 	/** shift for getting alpha value */
 	private static final int ALPHA_SHIFT = 24;
@@ -1816,9 +1816,9 @@ public abstract class Renderer {
 	/**
 	 * Set scale for AR
 	 */
-	public void setScaleFactor() {
+	public void setARScaleAtStart() {
 		float reductionFactor = 0.80f;
-		mScaleFactor = (getARManager().getDistance() / getWidth()) * reductionFactor;
+		arScaleAtStart = (getARManager().getDistance() / getWidth()) * reductionFactor;
 	}
 
 	public void setBackgroundColor() {
@@ -2158,8 +2158,8 @@ public abstract class Renderer {
 		// not used here
 	}
 
-	public float getScaleFactorForAR() {
-		return mScaleFactor;
+	public float getARScaleAtStart() {
+		return arScaleAtStart;
 	}
 
 	/**

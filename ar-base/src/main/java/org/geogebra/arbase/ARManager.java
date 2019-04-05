@@ -144,7 +144,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         if (isDrawing()) {
             renderer.getView().setARDrawing(true);
             renderer.setARMatrix(getViewMatrix(), getProjectMatrix(),
-                    getAnchorMatrixForGGB(), renderer.getScaleFactorForAR());
+                    getAnchorMatrixForGGB(), renderer.getARScaleAtStart());
             if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
                 if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
                     if (((EuclidianController3D) renderer.getView().getEuclidianController())
