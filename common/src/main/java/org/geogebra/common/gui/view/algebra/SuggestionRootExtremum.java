@@ -1,13 +1,17 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author Mathieu
@@ -48,22 +52,32 @@ public class SuggestionRootExtremum extends Suggestion {
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		// intersection with y needed always
 		boolean[] algosMissing = { false, false, true };
-		if (!(geo instanceof GeoFunction)
-				|| (((GeoFunction) geo).getFunction() == null)) {
+		if (!(geo instanceof GeoFunctionable)) {
+			return algosMissing;
+		}
+		Function function = ((GeoFunctionable) geo).getFunction(false);
+		if (function == null) {
 			return algosMissing;
 		}
 
-		PolyFunction poly = ((GeoFunction) geo).getFunction()
-				.expandToPolyFunction(
-						((GeoFunction) geo).getFunctionExpression(), false,
-						true);
+		PolyFunction poly = function.expandToPolyFunction(
+				function.getFunctionExpression(), false, true);
 		if (poly == null || poly.getDegree() > 0) {
 			algosMissing[0] = true;
 		}
 		if (poly == null || poly.getDegree() > 1) {
 			algosMissing[1] = true;
 		}
+
+		if (isVerticalLine(geo)) {
+			algosMissing[2] = false;
+		}
 		return algosMissing;
+	}
+
+	private static boolean isVerticalLine(GeoElementND geo) {
+		return Equation.isAlgebraEquation(geo) && geo instanceof GeoLine
+				&& DoubleUtil.isZero(((GeoLine) geo).getY());
 	}
 
 	/**
@@ -72,14 +86,21 @@ public class SuggestionRootExtremum extends Suggestion {
 	 * @return solve suggestion if applicable
 	 */
 	public static Suggestion get(GeoElement geo) {
-		if (geo instanceof GeoFunction
+		if (mayHaveSpecialPoints(geo)
 				&& !checkDependentAlgo(geo, INSTANCE, getNeededAlgos(geo))) {
-			GeoFunction geoFun = (GeoFunction) geo;
-			if (!geoFun.isBooleanFunction()) {
-				return INSTANCE;
-			}
+			return INSTANCE;
 		}
 		return null;
+	}
+
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether the element can be seen as a function (is a function,
+	 *         line or conic)
+	 */
+	private static boolean mayHaveSpecialPoints(GeoElement geo) {
+		return geo.isGeoFunctionable() && !geo.isNumberValue();
 	}
 
 	@Override

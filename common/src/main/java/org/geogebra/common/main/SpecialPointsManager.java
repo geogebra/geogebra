@@ -22,8 +22,10 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.CmdIntersect;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
@@ -134,11 +136,11 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			if (geo instanceof GeoFunction) {
 				getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 			} else if (geo instanceof EquationValue) {
-				getEquationSpecialPoints((GeoElement) geo, xAxis, yAxis, retList);
+				getEquationSpecialPoints(geo, xAxis, yAxis, retList);
 			}
 			// Can be of function or equation
 			if (hasIntersectsBetween(geo)) {
-				getIntersectsBetween((GeoElement) geo, retList);
+				getIntersectsBetween(geo, retList);
 			}
 		} catch (Throwable exception) {
 			// ignore
@@ -149,9 +151,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
 								  ArrayList<GeoElementND> retList) {
-		PolyFunction poly = (geo).getFunction()
+		PolyFunction poly = geo.getFunction()
 				.expandToPolyFunction(
-						(geo).getFunctionExpression(), false,
+						geo.getFunctionExpression(), false,
 						true);
 		if (xAxis && (poly == null || poly.getDegree() > 0)) {
 			if (!geo.isPolynomialFunction(true)
@@ -171,7 +173,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		}
 		if (poly == null || poly.getDegree() > 1) {
-			if (!(geo).isPolynomialFunction(true)) {
+			if (!geo.isPolynomialFunction(true)) {
 				EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 						.getActiveEuclidianView();
 				AlgoExtremumMulti algoExtremumMulti = new AlgoExtremumMulti(
@@ -179,10 +181,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 						view.getXminObject(), view.getXmaxObject(), false);
 				processAlgo(geo, algoExtremumMulti, retList);
 			} else {
-				AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
-						kernel.getConstruction(), null, geo,
-						false);
-				processAlgo(geo, algoExtremumPolynomial, retList);
+				addExtremumPoly(geo, retList);
 			}
 		}
 
@@ -194,7 +193,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
-	private void getEquationSpecialPoints(GeoElement geo, boolean xAxis,
+	private void addExtremumPoly(GeoFunctionable geo,
+			ArrayList<GeoElementND> retList) {
+		AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
+				kernel.getConstruction(), null, geo, false);
+		processAlgo(geo, algoExtremumPolynomial, retList);
+	}
+
+	private void getEquationSpecialPoints(GeoElementND geo, boolean xAxis,
 			boolean yAxis, ArrayList<GeoElementND> retList) {
 		Construction cons = kernel.getConstruction();
 		GeoLine xAxisLine = kernel.getXAxis();
@@ -213,10 +219,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (yAxis) {
 			getSpecialPointsIntersect(geo, yAxisLine, intersect, cmd, retList);
 		}
+		if (geo.isGeoConic() && geo.isGeoFunctionable()) {
+			addExtremumPoly((GeoConic) geo, retList);
+		}
 		cons.setSuppressLabelCreation(wasSuppressLabelActive);
 	}
 
-	private void getIntersectsBetween(GeoElement geo, ArrayList<GeoElementND> retList) {
+	private void getIntersectsBetween(GeoElementND geo,
+			ArrayList<GeoElementND> retList) {
 		Construction cons = kernel.getConstruction();
 		GeoLine xAxisLine = kernel.getXAxis();
 		GeoLine yAxisLine = kernel.getYAxis();
@@ -238,7 +248,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		kernel.setSilentMode(silentMode);
 	}
 
-	private void getSpecialPointsIntersect(GeoElement element, GeoElement secondElement,
+	private void getSpecialPointsIntersect(GeoElementND element,
+			GeoElement secondElement,
 										   CmdIntersect intersect, Command cmd,
 										   ArrayList<GeoElementND> retList) {
 		AlgoDispatcher dispatcher = kernel.getAlgoDispatcher();
@@ -246,7 +257,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		try {
 			dispatcher.setIntersectCacheEnabled(false);
 			GeoElement[] elements = intersect
-					.intersect2(new GeoElement[]{element, secondElement}, cmd);
+					.intersect2(new GeoElement[] { element.toGeoElement(),
+							secondElement }, cmd);
 			for (GeoElement output : elements) {
 				AlgoElement parent = output.getParentAlgorithm();
 				element.removeAlgorithm(parent);
@@ -272,7 +284,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		return element instanceof EquationValue || element instanceof Functional;
 	}
 
-	private void processAlgo(GeoElement element, AlgoElement algoElement, ArrayList<GeoElementND>
+	private void processAlgo(GeoElementND element, AlgoElement algoElement,
+			ArrayList<GeoElementND>
 			retList) {
 		element.removeAlgorithm(algoElement);
 		add(algoElement.getOutput(), retList);

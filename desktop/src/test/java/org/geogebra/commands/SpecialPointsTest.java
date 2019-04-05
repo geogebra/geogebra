@@ -54,6 +54,14 @@ public class SpecialPointsTest {
 	}
 
 	@Test
+	public void specialPointForConics() {
+		t("f:y=x^2-6x+8");
+		updateSpecialPoints("f");
+		// 4 visible, 1 undefined
+		Assert.assertEquals(5, numberOfSpecialPoints());
+	}
+
+	@Test
 	public void specialPointsRedefine() {
 		t("f(x)=x^2");
 		updateSpecialPoints("f");

@@ -522,6 +522,34 @@ public class AlgebraStyleTest extends AlgebraTest {
 	}
 
 	@Test
+	public void rootSuggestionForParabolaShouldVanish() {
+		t("f:y=x^2-6x+8");
+		GeoElement parabola = getGeo("f");
+		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
+		SuggestionRootExtremum.get(parabola).execute(parabola);
+		Assert.assertNull(SuggestionRootExtremum.get(parabola));
+		getGeo("B").remove();
+		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
+	}
+
+	@Test
+	public void rootSuggestionForParabolaShouldCreatePoints() {
+		t("f:y=x^2-6x+8");
+		GeoElement parabola = getGeo("f");
+		Assert.assertNotNull(SuggestionRootExtremum.get(parabola));
+		SuggestionRootExtremum.get(parabola).execute(parabola);
+		Assert.assertEquals(4,
+				app.getGgbApi().getAllObjectNames("point").length);
+	}
+
+	@Test
+	public void rootSuggestionForHyperbola() {
+		t("f:xx-yy=1");
+		GeoElement hyperbola = getGeo("f");
+		Assert.assertNull(SuggestionRootExtremum.get(hyperbola));
+	}
+
+	@Test
 	public void suggestionShouldNotCreateTwice() {
 		t("f:x");
 		GeoElement line = getGeo("f");
