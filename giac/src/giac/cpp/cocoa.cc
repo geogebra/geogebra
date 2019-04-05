@@ -11337,8 +11337,8 @@ template<class modint_t,class modint_u>
       polymod<tdeg_t> & q=resmod[G[i]];
       zpolymod<tdeg_t> & p=f4buchbergerv[i]; 
       const vector<tdeg_t> & expo=*p.expo;
-      q.dim=p.dim;
-      q.order=p.order;
+      q.dim=res[G[i]].dim;
+      q.order=res[G[i]].order;
       q.fromleft=res[G[i]].fromleft;
       q.fromright=res[G[i]].fromright;
       q.age=res[G[i]].age;
