@@ -72,8 +72,7 @@ public class Inequality {
 	private GeoPoint[] zeros;
 	// if variable x or y appears with 0 coef, we want to replace the
 	// variable by 0 itself to avoid errors on computation
-	private MyDouble zeroDummy0;
-	private MyDouble zeroDummy1;
+	private MyDouble[] zeroDummy = new MyDouble[2];
 
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
@@ -137,11 +136,10 @@ public class Inequality {
 
 			return;
 		}
-		if (zeroDummy0 != null) {
-			normal.replace(zeroDummy0, fv[0]).wrap();
-		}
-		if (zeroDummy1 != null) {
-			normal.replace(zeroDummy1, fv[1]).wrap();
+		for (int i = 0; i < 2; i++) {
+			if (zeroDummy[0] != null) {
+				normal.replace(zeroDummy[0], fv[0]).wrap();
+			}
 		}
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
@@ -151,8 +149,7 @@ public class Inequality {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
 			ExpressionNode m = new ExpressionNode(kernel,
-					new ExpressionNode(kernel, normal, Operation.DIVIDE, coef),
-					Operation.PLUS, fv[1]);
+					replaceDummy(normal, 1), Operation.DIVIDE, coef);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = IneqType.INEQUALITY_PARAMETRIC_Y;
@@ -161,20 +158,17 @@ public class Inequality {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
 			ExpressionNode m = new ExpressionNode(kernel,
-					new ExpressionNode(kernel, normal, Operation.DIVIDE, coef),
-					Operation.PLUS, fv[0]);
+					replaceDummy(normal, 0), Operation.DIVIDE, coef);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = IneqType.INEQUALITY_PARAMETRIC_X;
 		} else if (coefX != null && DoubleUtil.isZero(coefX) && coefY == null) {
-			zeroDummy0 = new MyDouble(kernel, 0);
-			normal.replace(fv[0], zeroDummy0).wrap();
+			replaceDummy(normal, 1);
 			init1varFunction(1);
 			type = funBorder.isPolynomialFunction(false)
 					? IneqType.INEQUALITY_1VAR_Y : IneqType.INEQUALITY_INVALID;
 		} else if (coefY != null && DoubleUtil.isZero(coefY) && coefX == null) {
-			zeroDummy1 = new MyDouble(kernel, 0);
-			normal.replace(fv[1], zeroDummy1).wrap();
+			replaceDummy(normal, 1);
 			init1varFunction(0);
 			type = funBorder.isPolynomialFunction(false)
 					? IneqType.INEQUALITY_1VAR_X : IneqType.INEQUALITY_INVALID;
@@ -242,6 +236,12 @@ public class Inequality {
 		} else {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 		}
+	}
+
+	private ExpressionNode replaceDummy(ExpressionNode expression, int i) {
+		zeroDummy[i] = new MyDouble(kernel, 0);
+		expression.replace(fv[i], zeroDummy[1]).wrap();
+		return expression;
 	}
 
 	private void setAboveBorderFromConic() {
