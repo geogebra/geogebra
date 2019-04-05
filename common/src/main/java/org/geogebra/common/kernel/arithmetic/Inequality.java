@@ -137,8 +137,8 @@ public class Inequality {
 			return;
 		}
 		for (int i = 0; i < 2; i++) {
-			if (zeroDummy[0] != null) {
-				normal.replace(zeroDummy[0], fv[0]).wrap();
+			if (zeroDummy[i] != null) {
+				normal.replace(zeroDummy[i], fv[i]);
 			}
 		}
 		Double coefY = normal.getCoefficient(fv[1]);
