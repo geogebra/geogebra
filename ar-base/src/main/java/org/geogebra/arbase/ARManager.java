@@ -156,8 +156,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                                 wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                             } else {
                                 // force a drag (device may have moved)
-                                arMotionEvent = getARMotionEventFromScreenCenter(ARMotionEvent
-                                        .ON_MOVE);
+                                arMotionEvent = getARMotionEventMoveFromScreenCenter();
                                 setHittingOriginAndDirectionFromScreenCenter();
                             }
                         } else {
@@ -319,7 +318,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
      */
     abstract public void setFirstFloor(double z);
 
-    protected ARMotionEvent getARMotionEventFromScreenCenter(int action){
+    protected ARMotionEvent getARMotionEventMoveFromScreenCenter(){
         return null;
     }
 }
