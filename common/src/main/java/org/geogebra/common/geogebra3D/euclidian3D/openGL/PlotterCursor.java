@@ -101,6 +101,10 @@ public class PlotterCursor {
 	private float b;
 	private float a;
 
+	private float nx;
+	private float ny;
+	private float nz;
+
 	/**
 	 * common constructor
 	 * 
@@ -192,33 +196,36 @@ public class PlotterCursor {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		color(0.5f, 0.5f, 0.5f);
 		// up
-		manager.normal(0, 0, 1);
-		quad(size_cube, size_cube, size_cube, -size_cube, size_cube, size_cube,
+		normal(0, 0, 1);
+		quadTV(size_cube, size_cube, size_cube, -size_cube, size_cube,
+				size_cube,
 				-size_cube, -size_cube, size_cube, size_cube, -size_cube,
 				size_cube);
 		// down
-		manager.normal(0, 0, -1);
-		quad(size_cube, size_cube, -size_cube, size_cube, -size_cube,
+		normal(0, 0, -1);
+		quadTV(size_cube, size_cube, -size_cube, size_cube, -size_cube,
 				-size_cube, -size_cube, -size_cube, -size_cube, -size_cube,
 				size_cube, -size_cube);
 		// right
-		manager.normal(1, 0, 0);
-		quad(size_cube, size_cube, size_cube, size_cube, -size_cube, size_cube,
+		normal(1, 0, 0);
+		quadTV(size_cube, size_cube, size_cube, size_cube, -size_cube,
+				size_cube,
 				size_cube, -size_cube, -size_cube, size_cube, size_cube,
 				-size_cube);
 		// left
-		manager.normal(-1, 0, 0);
-		quad(-size_cube, size_cube, size_cube, -size_cube, size_cube,
+		normal(-1, 0, 0);
+		quadTV(-size_cube, size_cube, size_cube, -size_cube, size_cube,
 				-size_cube, -size_cube, -size_cube, -size_cube, -size_cube,
 				-size_cube, size_cube);
 		// back
-		manager.normal(0, 1, 0);
-		quad(size_cube, size_cube, size_cube, size_cube, size_cube, -size_cube,
+		normal(0, 1, 0);
+		quadTV(size_cube, size_cube, size_cube, size_cube, size_cube,
+				-size_cube,
 				-size_cube, size_cube, -size_cube, -size_cube, size_cube,
 				size_cube);
 		// front
-		manager.normal(0, -1, 0);
-		quad(size_cube, -size_cube, size_cube, -size_cube, -size_cube,
+		normal(0, -1, 0);
+		quadTV(size_cube, -size_cube, size_cube, -size_cube, -size_cube,
 				size_cube, -size_cube, -size_cube, -size_cube, size_cube,
 				-size_cube, -size_cube);
 
@@ -262,14 +269,29 @@ public class PlotterCursor {
 		color(red, green, blue, 1f);
 	}
 
+	private void normal(float nx1, float ny1, float nz1) {
+		nx = nx1;
+		ny = ny1;
+		nz = nz1;
+	}
+
 	private void vertex(float x, float y, float z) {
 		manager.color(r, g, b, a);
 		manager.vertex(x, y, z);
 	}
 
+	private void tv(float x, float y, float z) {
+		tnv(x, y, z, nx, ny, nz);
+	}
+
 	private void tnv(float x, float y, float z) {
+		tnv(x, y, z, x, y, z);
+	}
+
+	private void tnv(float x, float y, float z, float nx1, float ny1,
+			float nz1) {
 		manager.texture(0, 0);
-		manager.normal(x, y, z);
+		manager.normal(nx1, ny1, nz1);
 		vertex(x, y, z);
 	}
 
@@ -297,6 +319,19 @@ public class PlotterCursor {
 		tnv(x1, y1, z1);
 		tnv(x3, y3, z3);
 		tnv(x4, y4, z4);
+	}
+
+	private void quadTV(float x1, float y1, float z1, float x2, float y2,
+			float z2, float x3, float y3, float z3, float x4, float y4,
+			float z4) {
+
+		tv(x1, y1, z1);
+		tv(x2, y2, z2);
+		tv(x3, y3, z3);
+
+		tv(x1, y1, z1);
+		tv(x3, y3, z3);
+		tv(x4, y4, z4);
 	}
 
 	// ////////////////////////////////
