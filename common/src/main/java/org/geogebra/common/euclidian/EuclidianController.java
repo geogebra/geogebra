@@ -11880,7 +11880,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            y-coord
 	 * @return wrapped event
 	 */
-	protected AbstractEvent createTouchEvent(int x1, int y1) {
+	public AbstractEvent createTouchEvent(int x1, int y1) {
 		return null;
 	}
 

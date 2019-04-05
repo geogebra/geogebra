@@ -2,6 +2,7 @@ package org.geogebra.arbase;
 
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -46,6 +47,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Coords projection = Coords.createInhomCoorsInD3();
 
     protected ARGestureManager arGestureManager;
+
+    protected EuclidianView3D mView;
 
     abstract public void onSurfaceCreated();
 
@@ -123,8 +126,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     abstract public void setHittingOriginAndDirectionFromScreenCenter();
 
-    protected void wrapMouseMoved(int x, int y) {
-
+    private void wrapMouseMoved(int x, int y) {
+        mView.getEuclidianController().wrapMouseMoved(mView.getEuclidianController()
+                .createTouchEvent(x,y));
     }
 
     protected MouseTouchGestureQueueHelper mouseTouchGestureQueueHelper;
