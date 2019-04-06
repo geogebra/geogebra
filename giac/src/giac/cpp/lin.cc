@@ -690,6 +690,18 @@ namespace giac {
       }
       return symbolic(at_plus,res);
     }
+    if (v[0].is_symb_of_sommet(at_prod) && v[0]._SYMBptr->feuille.type==_VECT){
+      const vecteur & vb=*v[0]._SYMBptr->feuille._VECTptr;
+      gen r1(1),r2(1);
+      for (int i=0;i<vb.size();++i){
+	if (fastsign(vb[i],contextptr)==1)
+	  r1=r1*pow(vb[i],exponent,contextptr);
+	else
+	  r2=r2*vb[i];
+      }
+      if (r1!=1)
+	return r1*pow(r2,exponent,contextptr);
+    }
     return symb_pow(base,exponent);
   }
 
