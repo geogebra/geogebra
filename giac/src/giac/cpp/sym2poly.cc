@@ -816,6 +816,13 @@ namespace giac {
 	if (is_positive(numlv,contextptr))
 	  break;
       }
+      if (deg==2 && deg==lowest_degree){
+	vecteur tmp=polynome2poly1(irr_p);
+	gen delta=tmp[1]*tmp[1]-4*tmp[0]*tmp[2];
+	delta=r2sym(delta,lv,contextptr);
+	if (is_positive(delta,contextptr))
+	  v=tmp;
+      }
       if (deg>=lowest_degree)
 	continue;
       v=polynome2poly1(irr_p);

@@ -1897,6 +1897,8 @@ namespace giac {
   }
 
   static vecteur solve_cleaned(const gen & e,const gen & e_check,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
+    if (e.is_symb_of_sommet(at_exp))
+      return vecteur(0);
     gen expr(e),a,b;
     if (is_linear_wrt(e,x,a,b,contextptr)){
       if (contains(a,x)) 
