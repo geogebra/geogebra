@@ -1914,7 +1914,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "GoToSettings": "\u8fdb\u5165\u8bbe\u7f6e",
     "GoodnessOfFitTest": "\u62df\u5408\u4f18\u5ea6\u68c0\u9a8c",
     "GoogleDrive": "Google\u4e91\u7aef\u786c\u76d8",
-    "GoogleDriveSaveProblem": "\u5bf9\u4e0d\u8d77, \u5c06\u6587\u4ef6\u4fdd\u5b58\u5230 Google Drive \u65f6\u51fa\u73b0\u4e86\u95ee\u9898",
+    "GoogleDriveSaveProblem": "\u5bf9\u4e0d\u8d77, \u5c06\u6587\u4ef6\u4fdd\u5b58\u5230 Google Drive \u65f6\u51fa\u4e86\u95ee\u9898",
     "Graph": "\u56fe\u50cf",
     "GraphicsView3D": "3D \u7ed8\u56fe\u533a",
     "GraphicsViewAsAsymptote": "Asymptote \u4ee3\u7801",
