@@ -8,10 +8,6 @@ abstract public class ARMotionEvent {
     final public static int ACTION_CANCEL = 3;
     final public static int SECOND_FINGER_DOWN = 5;
     final public static int SECOND_FINGER_UP = 6;
-    final public static int TOUCHES_BEGAN = 7;
-    final public static int TOUCHES_MOVED = 8;
-    final public static int TOUCHES_ENDED = 9;
-    final public static int TOUCHES_CANCELLED = 10;
 
     public abstract float getX();
 
