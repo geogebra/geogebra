@@ -4742,6 +4742,8 @@ namespace giac {
     if (order.o==_PLEX_ORDER)
       sugar=false;
     vector<unsigned> oldG(G);
+    if (debug_infolevel>1)
+      CERR << CLOCK()*1e-6 << " initial reduction/gbasis_updatemod: " << ressize << endl;
     for (unsigned l=0;l<ressize;++l){
 #ifdef GIAC_REDUCEMODULO
       reducesmallmod(res[l],res,G,-1,env,TMP2,env!=0);
@@ -12808,12 +12810,16 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     if (order.o!=_REVLEX_ORDER && order.o!=_TDEG_ORDER)
       totdeg=false;
     vector<unsigned> oldG(G);
+    if (debug_infolevel>1)
+      CERR << CLOCK()*1e-6 << " initial reduction: " << ressize << " memory " << memory_usage()*1e-6 << endl;
     for (unsigned l=0;l<ressize;++l){
 #ifdef GIAC_REDUCEMODULO
       reducesmallmod(resmod[l],resmod,G,-1,env,TMP2,env!=0);
 #endif
       gbasis_updatemod(G,B,resmod,l,TMP2,env,true,oldG);
     }
+    if (debug_infolevel>1)
+      CERR << CLOCK()*1e-6 << " initial collect, pairs " << B.size() << endl;
     // init zpolymod<tdeg_t> before main loop
     collect(resmod,TMP2);
     // R0 stores monomials for the initial basis
@@ -12836,6 +12842,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
     }
     double timebeg=CLOCK(),autodebug=5e8;
     vector<int> start_index_v;
+    if (debug_infolevel>1)
+      CERR << CLOCK()*1e-6 << " begin loop, mem " << memory_usage()*1e-6 << endl;
     for (int age=1;!B.empty() && !interrupted && !ctrl_c;++age){
       if (f4buchberger_info.size()>=capa-2 || age>maxage){
 	CERR << "Error zgbasis too many iterations" << endl;
@@ -13933,6 +13941,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   // return 0 (failure), 1 (success), -1: parts of the gbasis reconstructed
   template<class tdeg_t>
   int in_mod_gbasis(vectpoly8<tdeg_t> & res,bool modularcheck,bool zdata,int & rur,GIAC_CONTEXT,gbasis_param_t gbasis_par,int gbasis_logz_age){
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " modular gbasis algorithm start, mem " << memory_usage() << endl;
     bool & eliminate_flag=gbasis_par.eliminate_flag;
     bool interred=gbasis_logz_age==0; // final interreduce
     unsigned initial=unsigned(res.size());

@@ -6985,6 +6985,8 @@ namespace giac {
     int s=int(v.size());
     if (s<2)
       return gentoofewargs("gbasis");
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " gbasis begin :" << memory_usage()*1e-6 << endl;
     if ( (v[0].type!=_VECT) || (v[1].type!=_VECT) )
       return gensizeerr(contextptr);
     v[0]=remove_equal(v[0]);
@@ -7013,10 +7015,18 @@ namespace giac {
     alg_lvar(v[0],l);
     // if (l.front()._VECTptr->size()==15 && order.val==11) l.front()._VECTptr->insert(l.front()._VECTptr->begin()+11,0);
     // convert eq to polynomial
-    vecteur eq_in(*e2r(v[0],l,contextptr)._VECTptr);
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " before convert :" << memory_usage()*1e-6 << endl;
     vectpoly eqp;
-    if (!vecteur2vector_polynome(eq_in,l,eqp))
-      return vecteur(1,plus_one);
+    {
+      // all negative integers will be duplicated in e2r, adding about 50% mem
+      gen eqtmp=e2r(v[0],l,contextptr);
+      const vecteur & eq_in=*eqtmp._VECTptr;
+      if (debug_infolevel)
+	CERR << CLOCK()*1e-6 << " after convert :" << memory_usage()*1e-6 << endl;
+      if (!vecteur2vector_polynome(eq_in,l,eqp))
+	return vecteur(1,plus_one);
+    }
     if (eqp.empty()) return vecteur(0);
     // add fake polynomials for fake variables added by revlex_parametrize
     int dim=eqp.front().dim;

@@ -11292,7 +11292,7 @@ namespace giac {
     string s;
     is >> s;
     if (s.size()>2 && s[0]=='0' && s[1]=='x'){
-      ref_mpz_t * ptr= new ref_mpz_t;
+      ref_mpz_t * ptr= new ref_mpz_t(s.size()*4);
       mpz_set_str(ptr->z,s.c_str()+2,16);
       gen res(ptr);
       return res;
