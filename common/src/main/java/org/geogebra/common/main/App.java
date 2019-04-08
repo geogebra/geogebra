@@ -3744,7 +3744,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
-			return canary && whiteboard;
+			return prerelease && whiteboard;
 
 		/**
 		 * MOW-679
