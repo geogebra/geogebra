@@ -846,6 +846,7 @@ public class AlgebraProcessor {
 			runCallback(callback0, ret, step);
 			return ret;
 		}
+		EvalInfo newInfo = info;
 		if (undefinedVariables.size() > 0) {
 
 			// ==========================
@@ -967,12 +968,16 @@ public class AlgebraProcessor {
 			// step5: replace undefined variables
 			// ==========================
 			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
+
+			// Do not copy plain variables, as
+			// they might have been just created now
+			newInfo = info.withCopyingPlainVariables(false);
 		}
 
 		// process ValidExpression (built by parser)
 
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
-				info);
+				newInfo);
 		runCallback(callback0, geos, step);
 		return geos;
 	}
@@ -2098,8 +2103,7 @@ public class AlgebraProcessor {
 			if (info.isCopyingPlainVariables() && singleReturnValue) {
 				boolean isPlainVariable = node.isLeaf();
 				boolean returnValueIsInput = node.unwrap() == ret[0];
-				boolean returnValueHasLabel = ret[0].isLabelSet();
-				if (isPlainVariable && returnValueIsInput && returnValueHasLabel) {
+				if (isPlainVariable && returnValueIsInput) {
 					ret = array(dependentGeoCopy(ret[0]));
 				}
 			} else if (ret != null && ret.length > 0
