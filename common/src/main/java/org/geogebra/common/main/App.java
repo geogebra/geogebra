@@ -3882,10 +3882,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case KEY_HANDLER_EV3D:
 			return true;
 
-		/** APPS-578 */
-		case GREEK_FONTS_WEB:
-			return prerelease;
-
 		/** APPS-284 */
 		case COMMAND_FILTERING:
 			return prerelease;

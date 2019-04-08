@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -505,9 +504,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// inst.app = inst.createApplicationSimple(articleElement, inst);
 		// else
 		inst.app = inst.createApplication(articleElement, this.laf);
-		if (inst.app.has(Feature.GREEK_FONTS_WEB)) {
-			ResourcesInjector.injectGreekFontsForKeyboard();
-		}
 		inst.app.setCustomToolBar();
 		// useDataParamBorder(articleElement, inst);
 		// inst.add(inst.app.buildApplicationPanel());

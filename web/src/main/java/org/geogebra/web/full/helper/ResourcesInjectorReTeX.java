@@ -40,6 +40,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.headerScss());
 
 		injectLTRstyles();
+		injectGreekFonts();
 	}
 
 	/**
@@ -60,7 +61,6 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.headerbarStyleRTL());
 	}
 
-	@Override
 	public void injectGreekFonts() {
 		StyleInjector.inject(KeyboardResources.INSTANCE.greekFonts());
 	}

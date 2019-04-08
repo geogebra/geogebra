@@ -147,9 +147,6 @@ public enum Feature {
 
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
-
-	/** APPS-578 */
-	GREEK_FONTS_WEB,
 	
 	/** APPS-284 */
 	COMMAND_FILTERING
