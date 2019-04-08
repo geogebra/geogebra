@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -85,7 +84,7 @@ public class ModeDeleteLocus implements ModeDeleteInterface {
 			// delete tool should delete the object for dragging
 			// at whiteboard
 			// see MOW-97
-			if (view.getApplication().has(Feature.ERASER)
+			if (view.getApplication().isWhiteboardActive()
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoLocusStroke) {

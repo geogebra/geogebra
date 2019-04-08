@@ -3841,9 +3841,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case AUTOSCROLLING_SPREADSHEET:
 			return true;
 
-		case ERASER:
-			return isWhiteboardActive();
-
 		case ROUNDED_POLYGON:
 			return prerelease;
 

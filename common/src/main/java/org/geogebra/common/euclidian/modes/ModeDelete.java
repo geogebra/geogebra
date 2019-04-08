@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPenStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -88,7 +87,7 @@ public class ModeDelete implements ModeDeleteInterface {
 			// delete tool should delete the object for dragging
 			// at whiteboard
 			// see MOW-97
-			if (view.getApplication().has(Feature.ERASER)
+			if (view.getApplication().isWhiteboardActive()
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoPenStroke) {
