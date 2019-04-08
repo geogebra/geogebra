@@ -1479,26 +1479,25 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	private boolean isPossibleU(double u) {
-
-		if (u < uMinMax[0]) {
-			return false;
-		}
-		if (u > uMinMax[1]) {
-			return false;
-		}
-		return true;
+        return isPossible(u, uMinMax);
 	}
 
 	private boolean isPossibleV(double v) {
-
-		if (v < vMinMax[0]) {
-			return false;
-		}
-		if (v > vMinMax[1]) {
-			return false;
-		}
-		return true;
+        return isPossible(v, vMinMax);
 	}
+
+    static private boolean isPossible(double value, double[] minmax) {
+        if (minmax == null) {
+            return false;
+        }
+        if (value < minmax[0]) {
+            return false;
+        }
+        if (value > minmax[1]) {
+            return false;
+        }
+        return true;
+    }
 
 	@Override
 	public Drawable3D drawForPicking(Renderer renderer, boolean intersection,
