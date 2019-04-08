@@ -32,9 +32,14 @@ public class MebisSignInController extends SignInController {
 	}
 
 	private native boolean nativeLogin() /*-{
-		if ($wnd.parent && $wnd.parent.login) {
-			$wnd.parent.login();
-			return true;
+		try {
+			if ($wnd.parent && $wnd.parent.login) {
+				$wnd.parent.login();
+				return true;
+			}
+			return false;
+		} catch (ex) {
+			//running in CORS iframe
 		}
 		return false;
 	}-*/;
