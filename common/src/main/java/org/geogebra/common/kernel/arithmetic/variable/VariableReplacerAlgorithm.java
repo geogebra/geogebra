@@ -11,6 +11,9 @@ import org.geogebra.common.plugin.Operation;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Finds the variables that need to be replaced.
+ */
 public class VariableReplacerAlgorithm {
 
 	private Kernel kernel;
@@ -24,6 +27,9 @@ public class VariableReplacerAlgorithm {
 	private int degPower;
 	private int charIndex;
 
+	/**
+	 * @param kernel The kernel.
+	 */
 	public VariableReplacerAlgorithm(Kernel kernel) {
 		this.kernel = kernel;
 		derivativeCreator = new DerivativeCreator(kernel);
@@ -31,6 +37,11 @@ public class VariableReplacerAlgorithm {
 		exponents = new Exponents();
 	}
 
+	/**
+	 * @param expressionString The expression string.
+	 * @return The variable that needs to be replaced,
+	 * or the expression in which some parts are already replaced.
+	 */
 	public ExpressionValue replace(String expressionString) {
 		this.expressionString = expressionString;
 
@@ -190,5 +201,10 @@ public class VariableReplacerAlgorithm {
 		} catch (ParseException ignored) {
 		}
 		return null;
+	}
+
+	// For tests only.
+	Exponents getExponents() {
+		return exponents;
 	}
 }
