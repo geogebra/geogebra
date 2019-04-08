@@ -12,7 +12,7 @@ public class Exponents {
 		initWithZero();
 	}
 
-	private void initWithZero() {
+	public void initWithZero() {
 		exponents.put(Base.x, 0);
 		exponents.put(Base.y, 0);
 		exponents.put(Base.z, 0);

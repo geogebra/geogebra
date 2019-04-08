@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -10,6 +8,8 @@ import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class VariableReplacerAlgorithm {
 
@@ -44,6 +44,8 @@ public class VariableReplacerAlgorithm {
 			}
 
 		}
+
+		exponents.initWithZero();
 
 		geo = productCreator.getProduct(expressionString);
 		if (geo != null) {
