@@ -34,6 +34,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public LatexTreeItemController(RadioTreeItem item) {
 		super(item);
 		evalInput = new EvaluateInput(item, this);
+		evalInput.setUsingValidInput(app.getActivity().useValidInput());
 	}
 
 	@Override

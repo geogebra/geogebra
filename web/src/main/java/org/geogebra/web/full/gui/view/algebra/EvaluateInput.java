@@ -22,6 +22,7 @@ public class EvaluateInput {
 	RadioTreeItem item;
 	App app;
 	LatexTreeItemController ctrl;
+	private boolean usingValidInput;
 
 	/**
 	 * Constructor.
@@ -33,6 +34,16 @@ public class EvaluateInput {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
+		this.usingValidInput = true;
+	}
+
+	/**
+	 * Set wether it should use the last valid input,
+	 * or the user input
+	 * @param usingValidInput use valid input
+	 */
+	public void setUsingValidInput(boolean usingValidInput) {
+		this.usingValidInput = usingValidInput;
 	}
 
 	/**
@@ -62,21 +73,33 @@ public class EvaluateInput {
 		return app.getKernel().getAlgebraProcessor().evaluateToGeoElement(item.getText(), false);
 	}
 
+	private String getUserInput() {
+		return item.getText();
+	}
+
+	private String getValidInput(String userInput) {
+		return app.getKernel().getInputPreviewHelper()
+				.getInput(userInput);
+	}
+
+	private String getInput(String userInput, String validInput) {
+		String input = usingValidInput ? validInput : userInput;
+		boolean textInput = ctrl.isInputAsText();
+		return textInput ? "\"" + input + "\"" : input;
+	}
+
 	private void evaluate(final boolean keepFocus,
 			boolean withSliders, AsyncOperation<GeoElementND[]> cbEval) {
-		String newValue = item.getText();
-		final String rawInput = app.getKernel().getInputPreviewHelper()
-				.getInput(newValue);
-		boolean textInput = ctrl.isInputAsText();
-		final String input = textInput ? "\"" + rawInput + "\"" : rawInput;
+		String userInput = getUserInput();
+		String validInput = getValidInput(userInput);
+		String input = getInput(userInput, validInput);
 
 		ctrl.setInputAsText(false);
-		final boolean valid = input.equals(newValue);
-
 		app.setScrollToShow(true);
 
 		ErrorHandler err = null;
-		if (!textInput) {
+		if (!ctrl.isInputAsText()) {
+			boolean valid = input.equals(userInput);
 			err = item.getErrorHandler(valid, keepFocus, withSliders);
 			err.resetError();
 		}
