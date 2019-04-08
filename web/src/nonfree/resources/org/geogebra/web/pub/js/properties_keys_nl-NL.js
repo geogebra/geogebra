@@ -2996,7 +2996,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "TutorialClassic": "jaQ4NQ3U",
     "TutorialGeometry": "pZjCXAbs",
     "TutorialGraphing": "TQK5Y7Ws",
-    "TutorialScientific": "brr48aw7",
+    "TutorialScientific": "11726244",
     "Tutorials": "Initiatiehandleidingen",
     "TwoVarStats": "Regressieanalyse",
     "TwoVarStats.Help": "Analyseer paired getalwaarden van geselecteerde cellen",
