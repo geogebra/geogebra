@@ -3889,6 +3889,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case GREEK_FONTS_WEB:
 			return prerelease;
 
+		/** APPS-284 */
+		case COMMAND_FILTERING:
+			return prerelease;
 		// **********************************************************************
        // G3D START
        //
