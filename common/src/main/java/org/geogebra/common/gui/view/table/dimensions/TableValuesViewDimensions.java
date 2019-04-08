@@ -38,7 +38,8 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
      * @param factory awt factory
      * @param context font render context
      */
-    public TableValuesViewDimensions(TableValuesModel model, AwtFactory factory, GFontRenderContext context) {
+	public TableValuesViewDimensions(TableValuesModel model, AwtFactory factory,
+			GFontRenderContext context) {
         this.tableModel = model;
         this.factory = factory;
         this.context = context;
@@ -159,7 +160,8 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
     @Override
-    public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
         columnCache.removeColumn(column);
         headerCache.removeColumn(column);
     }
@@ -177,7 +179,8 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
     }
 
     @Override
-    public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
         headerCache.updateColumn(column);
     }
 

@@ -10,6 +10,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -55,7 +58,6 @@ public abstract class StatisticsCalculator {
 	protected String strSigma;
 	protected String strSuccesses;
 	protected String strN;
-	// protected String strPooled;
 
 	protected double[] s1;
 	protected double[] s2;
@@ -135,35 +137,16 @@ public abstract class StatisticsCalculator {
 		resetCaret();
 	}
 
-	private double parseNumberText(String s, boolean userInitiated) {
-
-		if (s == null || s.length() == 0) {
-			return Double.NaN;
-		}
-
-		try {
-			String inputText = s.trim();
-
-			// allow input such as sqrt(2)
-			NumberValue nv;
-			nv = kernel.getAlgebraProcessor()
-					.evaluateToNumeric(inputText, !userInitiated);
-			return nv == null ? Double.NaN : nv.getDouble();
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return Double.NaN;
-	}
-
 	/**
 	 * Update collection from GUI
 	 */
 	final protected void updateStatisticCollection(boolean userInitiated) {
+		ErrorHandler errorHandler = userInitiated ? app.getDefaultErrorHandler()
+				: ErrorHelper.silent();
 		try {
-			sc.level = parseNumberText(fldConfLevel.getText(), userInitiated);
-			sc.sd = parseNumberText(fldSigma.getText(), userInitiated);
-			sc.nullHyp = parseNumberText(fldNullHyp.getText(), userInitiated);
+			sc.level = parseStringData(fldConfLevel.getText(), errorHandler);
+			sc.sd = parseStringData(fldSigma.getText(), errorHandler);
+			sc.nullHyp = parseStringData(fldNullHyp.getText(), errorHandler);
 
 			if (btnLeftIsSelected()) {
 				sc.setTail(StatisticsCollection.tail_left);
@@ -174,12 +157,12 @@ public abstract class StatisticsCalculator {
 			}
 
 			for (int i = 0; i < s1.length; i++) {
-				s1[i] = parseNumberText(fldSampleStat1[i].getText(),
-						userInitiated);
+				s1[i] = parseStringData(fldSampleStat1[i].getText(),
+						errorHandler);
 			}
 			for (int i = 0; i < s2.length; i++) {
-				s2[i] = parseNumberText(fldSampleStat2[i].getText(),
-						userInitiated);
+				s2[i] = parseStringData(fldSampleStat2[i].getText(),
+						errorHandler);
 			}
 
 			updateCollectionProcedure();
@@ -350,19 +333,17 @@ public abstract class StatisticsCalculator {
 	@SuppressFBWarnings({ "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
 			"false positive, used in web and desktop" })
 	protected void setLabelStrings() {
-
 		strMean = loc.getMenu("Mean");
 		strSD = loc.getMenu("SampleStandardDeviation.short");
 		strSigma = loc.getMenu("StandardDeviation.short");
 		strSuccesses = loc.getMenu("Successes");
 		strN = loc.getMenu("N");
-		// strPooled = loc.getMenu("Pooled");
 	}
 
 	public App getApp() {
 		return kernel.getApplication();
 	}
-	
+
 	protected void updateCollectionProcedure() {
 		switch (sc.getSelectedProcedure()) {
 
@@ -417,6 +398,12 @@ public abstract class StatisticsCalculator {
 
 	}
 
+	/**
+	 * @param sb
+	 *            XML builder
+	 * @param active
+	 *            whether the tab is active
+	 */
 	public void getXML(StringBuilder sb, boolean active) {
 		if (sc != null) {
 			sc.setActive(active);
@@ -427,5 +414,31 @@ public abstract class StatisticsCalculator {
 	public void settingsChanged() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @param input
+	 *            user input
+	 * @param handler
+	 *            error handler
+	 * @return double value (NaN if invalid)
+	 */
+	protected double parseStringData(String input, ErrorHandler handler) {
+		if (StringUtil.emptyTrim(input)) {
+			return Double.NaN;
+		}
+		try {
+			String inputText = input.trim();
+
+			// allow input such as sqrt(2)
+			NumberValue nv;
+			nv = kernel.getAlgebraProcessor()
+					.evaluateToNumeric(inputText, handler);
+			return nv == null ? Double.NaN : nv.getDouble();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return Double.NaN;
 	}
 }

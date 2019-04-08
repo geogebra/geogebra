@@ -21,10 +21,22 @@ public class TwoVarInferenceModel {
 	private String tail = tail_two;
 
 	// input fields
-	private double confLevel = .95, hypMean = 0;
+	private double confLevel = .95;
+	private double hypMean = 0;
 
 	// statistics
-	double t, P, df, lower, upper, se, me, n1, n2, diffMeans, mean1, mean2;
+	double t;
+	double P;
+	double df;
+	double lower;
+	double upper;
+	double se;
+	double me;
+	double n1;
+	double n2;
+	double diffMeans;
+	double mean1;
+	double mean2;
 	private TTest tTestImpl;
 	private TDistribution tDist;
 	private boolean pooled = false;
@@ -50,10 +62,6 @@ public class TwoVarInferenceModel {
 
 		void selectAltHyp(int idx);
 
-	}
-
-	public interface UpdatePanel {
-		void updatePanel();
 	}
 
 	/**

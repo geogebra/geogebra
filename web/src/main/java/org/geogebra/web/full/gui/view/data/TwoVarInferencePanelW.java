@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
-import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -23,7 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
-		TwoVarInferenceListener, UpdatePanel {
+		TwoVarInferenceListener {
 	
 	private AppW app;
 	private DataAnalysisViewW daView;

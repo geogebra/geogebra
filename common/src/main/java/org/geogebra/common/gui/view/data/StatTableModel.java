@@ -69,14 +69,18 @@ public class StatTableModel {
 	}
 
 	public enum Stat {
-		NULL, LENGTH, MEAN, SD, SAMPLE_SD, SUM, SIGMAXX, MIN, Q1, MEDIAN, Q3, MAX, MEANX, MEANY, SX, SY, PMCC, SPEARMAN, SXX, SYY, SXY, RSQUARE, SSE
+		NULL, LENGTH, MEAN, SD, SAMPLE_SD, SUM, SIGMAXX, MIN, Q1, MEDIAN, Q3,
+
+		MAX, MEANX, MEANY, SX, SY, PMCC, SPEARMAN, SXX, SYY, SXY, RSQUARE, SSE
 	}
 
 	/*************************************************
 	 * Construct the panel
 	 * 
 	 * @param app
+	 *            application
 	 * @param listener
+	 *            change listener
 	 */
 	public StatTableModel(App app, StatTableListener listener) {
 		this.setListener(listener);
@@ -84,6 +88,9 @@ public class StatTableModel {
 		cons = app.getKernel().getConstruction();
 	}
 
+	/**
+	 * @return row names
+	 */
 	public String[] getRowNames() {
 		ArrayList<Stat> list = getStatList();
 		String[] rowNames = new String[list.size()];
@@ -144,6 +151,9 @@ public class StatTableModel {
 
 	}
 
+	/**
+	 * @return list of statistics
+	 */
 	public ArrayList<Stat> getStatList() {
 		ArrayList<Stat> list = new ArrayList<>();
 

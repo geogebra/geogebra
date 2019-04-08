@@ -32,12 +32,14 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		removePointsFromList(column);
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		if (points.get(column - 1) != null) {
 			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
 			removePoints(column);
@@ -52,7 +54,8 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
 		// Ignore header changed notification
 	}
 

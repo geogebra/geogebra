@@ -36,6 +36,9 @@ public abstract class ChiSquarePanel {
 		}
 	}
 
+	/**
+	 * Update visibility of output values in cells
+	 */
 	public final void updateVisibility() {
 		for (int i = 1; i < getSc().rows + 1; i++) {
 			for (int j = 1; j < getSc().columns + 1; j++) {
@@ -63,6 +66,9 @@ public abstract class ChiSquarePanel {
 
 	protected abstract ChiSquareCell getCell(int i, int j);
 
+	/**
+	 * Update input and output values in cells
+	 */
 	public void updateCellContent() {
 		getStatProcessor().doCalculate();
 		for (int r = 0; r < getSc().rows + 1; r++) {

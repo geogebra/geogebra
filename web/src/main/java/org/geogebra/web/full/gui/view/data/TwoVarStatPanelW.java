@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.data;
 
-import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel.TwoVarStatListener;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -28,7 +27,7 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	private DataAnalysisViewW statDialog;
 	private MyTable statTable;
 	private TwoVarStatModel model;
-	private UpdatePanel listener;
+	private TwoVarInferencePanelW listener;
 	
 	/**
 	 * @param app
@@ -41,7 +40,7 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	 *            listener
 	 */
 	public TwoVarStatPanelW(AppW app, DataAnalysisViewW statDialog,
-			boolean isPairedData, UpdatePanel listener) {
+			boolean isPairedData, TwoVarInferencePanelW listener) {
 		super();
 		model = new TwoVarStatModel(app, isPairedData, this);
 		this.app = app;

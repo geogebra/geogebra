@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -363,7 +362,8 @@ public class StatisticsCalculatorProcessor {
 		for (int i = 0; i < sc.rows; i++) {
 			for (int j = 0; j < sc.columns; j++) {
 
-				double value = parseStringData(sc.chiSquareData[i + 1][j + 1],
+				double value = statCalc.parseStringData(
+						sc.chiSquareData[i + 1][j + 1],
 						getErrorHandler());
 				sc.observed[i][j] = value;
 				if (!Double.isNaN(sc.observed[i][j])) {
@@ -432,7 +432,7 @@ public class StatisticsCalculatorProcessor {
 		// compute sums
 		for (int i = 0; i < sc.rows; i++) {
 			for (int col = 0; col < 2; col++) {
-				double value = parseStringData(
+				double value = statCalc.parseStringData(
 						sc.chiSquareData[i + 1][col + 1],
 						getErrorHandler());
 				sc.observed[i][col] = value;
@@ -482,27 +482,6 @@ public class StatisticsCalculatorProcessor {
 		}
 
 		return chisquared;
-	}
-
-	private double parseStringData(String s, ErrorHandler handler) {
-
-		if (s == null || s.length() == 0) {
-			return Double.NaN;
-		}
-
-		try {
-			String inputText = s.trim();
-
-			// allow input such as sqrt(2)
-			NumberValue nv;
-			nv = cons.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(inputText, handler);
-			return nv == null ? Double.NaN : nv.getDouble();
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return Double.NaN;
 	}
 
 	private void setTestResults(GeoElement result) {

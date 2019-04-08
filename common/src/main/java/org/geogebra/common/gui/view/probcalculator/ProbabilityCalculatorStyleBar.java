@@ -4,10 +4,9 @@ import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.App;
 
 /**
- * @author gabor
+ * Superclass for probability calculator stylebar
  * 
- *         Superclass for probability calculator stylebar
- *
+ * @author gabor
  */
 public abstract class ProbabilityCalculatorStyleBar {
 
@@ -17,12 +16,19 @@ public abstract class ProbabilityCalculatorStyleBar {
 	private ProbabilityCalculatorView probCalc;
 	private OptionsMenu optionsMenu;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param probCalc
+	 *            probability calculator
+	 */
 	protected ProbabilityCalculatorStyleBar(App app,
 			ProbabilityCalculatorView probCalc) {
 		this.probCalc = probCalc;
 		this.app = app;
 		this.setOptionsMenu(new OptionsMenu(app.getLocalization()));
 	}
+
 	protected App getApp() {
 		return app;
 	}
