@@ -6,8 +6,15 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
+/**
+ * Single item menu for license
+ */
 public class LicenseMenu extends Submenu {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public LicenseMenu(AppW app) {
 		super("license", app);
 	}

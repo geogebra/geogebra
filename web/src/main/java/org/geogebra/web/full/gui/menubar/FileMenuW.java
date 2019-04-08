@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
@@ -80,7 +81,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 						getApp().isWhiteboardActive()
 								? MaterialDesignResources.INSTANCE.folder_open()
 								: MaterialDesignResources.INSTANCE
-								.search_black(),
+										.search_black(),
 						loc.getMenu(getApp().isWhiteboardActive()
 								? "mow.myfiles" : "Open")),
 				true, new MenuCommand(getApp()) {
@@ -89,14 +90,23 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 					public void doExecute() {
 						if (getApp().isWhiteboardActive() && isMowLoggedOut()) {
 							getApp().getLoginOperation().showLoginDialog();
-							getApp().getLoginOperation().getView().add(new EventRenderable() {
-								@Override
-								public final void renderEvent(BaseEvent event) {
-									if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-										getApp().openSearch(null);
-									}
-								}
-							});
+							getApp().getLoginOperation().getView()
+									.add(new EventRenderable() {
+										@Override
+										public final void renderEvent(
+												BaseEvent event) {
+											if (event instanceof LoginEvent
+													&& ((LoginEvent) event)
+															.isSuccessful()) {
+												getApp().openSearch(null);
+											}
+											if (event instanceof LoginEvent
+													|| event instanceof StayLoggedOutEvent) {
+												getApp().getLoginOperation()
+														.getView().remove(this);
+											}
+										}
+									});
 						} else {
 							getApp().openSearch(null);
 						}
