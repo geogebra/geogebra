@@ -66,19 +66,29 @@ public class TwoVarInferenceModel {
 
 	/**
 	 * Construct a TwoVarInference panel
+	 * 
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            change listener
 	 */
 	public TwoVarInferenceModel(App app, TwoVarInferenceListener listener) {
 		this.loc = app.getLocalization();
 		this.listener = listener;
 	}
 
+	/**
+	 * @return whether a paired test is selected
+	 */
 	public boolean isPairedData() {
 		return (selectedInference == StatisticsModel.INFER_TINT_PAIRED
 				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
 	}
 
+	/**
+	 * @return localized hypothesis name
+	 */
 	public String getNullHypName() {
-
 		if (selectedInference == StatisticsModel.INFER_TTEST_2MEANS) {
 			return loc.getMenu("DifferenceOfMeans.short");
 		} else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
@@ -86,14 +96,19 @@ public class TwoVarInferenceModel {
 		} else {
 			return "";
 		}
-
 	}
 
+	/**
+	 * @return whether a t-test is selected
+	 */
 	public boolean isTest() {
 		return (selectedInference == StatisticsModel.INFER_TTEST_2MEANS
 				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
 	}
 
+	/**
+	 * Update results UI
+	 */
 	public void setResults() {
 
 		ArrayList<String> list = new ArrayList<>();
@@ -140,8 +155,10 @@ public class TwoVarInferenceModel {
 
 	}
 
+	/**
+	 * Update results UI
+	 */
 	public void updateResults() {
-
 		boolean ok = evaluate();
 
 		if (!ok) {
@@ -184,13 +201,13 @@ public class TwoVarInferenceModel {
 
 			break;
 		}
-
 	}
 
-	// ============================================================
-	// Evaluate
-	// ============================================================
-
+	/**
+	 * Evaluate
+	 * 
+	 * @return whether evaluation was successful
+	 **/
 	public boolean evaluate() {
 
 		// get the sample data
@@ -307,6 +324,15 @@ public class TwoVarInferenceModel {
 
 	// TODO: Validate !!!!!!!!!!!
 
+	/**
+	 * @param p
+	 *            input pvalue
+	 * @param testStatistic
+	 *            test statistic
+	 * @param tail
+	 *            tail type
+	 * @return new p value
+	 */
 	public static double adjustedPValue(double p, double testStatistic,
 			String tail) {
 
@@ -366,6 +392,7 @@ public class TwoVarInferenceModel {
 	 *            whether data is pooled
 	 * @return margin of error for 2 mean interval estimate
 	 * @throws ArithmeticException
+	 *             when parameters are out f range
 	 */
 	public double getMarginOfError(double v1, double size1, double v2, double size2,
 			double confidenceLevel, boolean dataPooled) throws ArithmeticException {
@@ -405,14 +432,25 @@ public class TwoVarInferenceModel {
 		return confLevel;
 	}
 
+	/**
+	 * @param confLevel
+	 *            confidence level
+	 */
 	public void setConfLevel(double confLevel) {
 		this.confLevel = confLevel;
 	}
 
+	/**
+	 * @return whether data is pooled
+	 */
 	public boolean isPooled() {
 		return pooled;
 	}
 
+	/**
+	 * @param idx
+	 *            tail index
+	 */
 	public void applyTail(int idx) {
 		if (idx == 0) {
 			tail = tail_right;
@@ -424,11 +462,18 @@ public class TwoVarInferenceModel {
 		updateResults();
 	}
 
+	/**
+	 * @param pooled
+	 *            whether data is pooled
+	 */
 	public void setPooled(boolean pooled) {
 		this.pooled = pooled;
 		updateResults();
 	}
 
+	/**
+	 * Update tail setting UI
+	 */
 	public void fillAlternateHyp() {
 		String nullHypName = getNullHypName();
 		listener.addAltHypItem(nullHypName, tail_right, hypMean);

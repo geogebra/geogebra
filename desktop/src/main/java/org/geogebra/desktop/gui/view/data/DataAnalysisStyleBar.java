@@ -239,7 +239,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 		else if (source == btnDataSource) {
 			btnDataSource.setSelected(false);
-			model.setShowDataOptionsDialog(true);
+			app.getDialogManager().showDataSourceDialog(model.getMode(), false);
 		}
 
 		else if (source == btnExport) {

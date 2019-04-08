@@ -144,6 +144,9 @@ public class StatisticsModel {
 
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void update() {
 		switch (getSelectedMode()) {
 
@@ -169,11 +172,15 @@ public class StatisticsModel {
 
 	}
 
-	public void selectInferenceMode(String item) {
-		if (item.equals(listener.getSeparator())) {
+	/**
+	 * @param inferenceMode
+	 *            selected inference mode
+	 */
+	public void selectInferenceMode(String inferenceMode) {
+		if (inferenceMode.equals(listener.getSeparator())) {
 			listener.selectInferenceMode(labelMap.get(getSelectedMode()));
 		} else {
-			selectedMode = labelMapReverse.get(item);
+			selectedMode = labelMapReverse.get(inferenceMode);
 		}
 	}
 

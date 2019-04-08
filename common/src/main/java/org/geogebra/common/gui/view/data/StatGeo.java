@@ -65,14 +65,22 @@ public class StatGeo {
 	private Kernel kernel;
 	private Construction cons;
 
-	private double xMinData, xMaxData, yMinData, yMaxData;
+	private double xMinData;
+	private double xMaxData;
+	private double yMinData;
+	private double yMaxData;
 
 	private boolean histogramRight;
 	private boolean removeFromConstruction = true;
 	private ICreateColor listener;
 
 	/*************************************************
-	 * Constructs a GeoPlot instance
+	 * Constructs a StatGeo instance
+	 * 
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            change listener
 	 */
 	public StatGeo(App app, ICreateColor listener) {
 		kernel = app.getKernel();
@@ -172,22 +180,23 @@ public class StatGeo {
 
 			AlgoListMax maxX = new AlgoListMax(cons,
 					(GeoList) listX.getOutput(0));
+			removeFromConstructionList(maxX);
 			AlgoListMax maxY = new AlgoListMax(cons,
 					(GeoList) listY.getOutput(0));
+			removeFromConstructionList(maxY);
 			AlgoListMin minX = new AlgoListMin(cons,
 					(GeoList) listX.getOutput(0));
+			removeFromConstructionList(minX);
 			AlgoListMin minY = new AlgoListMin(cons,
 					(GeoList) listY.getOutput(0));
+			removeFromConstructionList(minY);
 
 			listX.getOutput()[0].setSelectionAllowed(false);
 			listY.getOutput()[0].setSelectionAllowed(false);
 
 			removeFromConstructionList(listX);
 			removeFromConstructionList(listY);
-			removeFromConstructionList(maxX);
-			removeFromConstructionList(maxY);
-			removeFromConstructionList(minX);
-			removeFromConstructionList(minY);
+
 			dataBounds[0] = ((GeoNumeric) minX.getOutput(0)).getDouble();
 			dataBounds[1] = ((GeoNumeric) maxX.getOutput(0)).getDouble();
 			dataBounds[2] = ((GeoNumeric) minY.getOutput(0)).getDouble();
@@ -214,6 +223,17 @@ public class StatGeo {
 
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 * @param isFrequencyPolygon
+	 *            whether to create frequency polygon
+	 * @return histogram
+	 * @throws Exception
+	 *             when grouping type is wrong
+	 */
 	public GeoElementND createHistogram(GeoList dataList,
 			StatPanelSettings settings, boolean isFrequencyPolygon)
 			throws Exception {
@@ -296,7 +316,7 @@ public class StatGeo {
 			geo = al3.getOutput(0);
 			geo.setObjColor(
 					listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));
-			geo.setLineThickness(DataAnalysisModel.thicknessCurve);
+			geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 			removeFromConstructionList(algoHistogram);
 			removeFromConstructionList(al3);
 
@@ -304,8 +324,8 @@ public class StatGeo {
 			geo = algoHistogram.getOutput(0);
 			geo.setObjColor(listener
 					.createColor(DataAnalysisModel.HISTOGRAM_COLOR_IDX));
-			geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
-			geo.setLineThickness(DataAnalysisModel.thicknessBarChart);
+			geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
+			geo.setLineThickness(DataAnalysisModel.THICKNESS_BAR_CHART);
 			removeFromConstructionList(algoHistogram);
 		}
 		algoHistogram.getOutput(0).setEuclidianVisible(false);
@@ -319,14 +339,16 @@ public class StatGeo {
 	 * implemented
 	 * 
 	 * @param histogram
+	 *            histogram
 	 * @param doCumulative
-	 * @return
+	 *            whether to make cumulative polygon
+	 * @return frequency polygon
 	 */
 	private AlgoPolyLine createFrequencyPolygon(AlgoHistogram histogram,
 			boolean doCumulative) {
 
 		double[] leftBorder = histogram.getLeftBorder();
-		double yValue[] = histogram.getValues();
+		double[] yValue = histogram.getValues();
 		int size = doCumulative ? yValue.length : yValue.length + 1;
 		GeoPointND[] points = new GeoPoint[size];
 
@@ -361,10 +383,12 @@ public class StatGeo {
 		return polyLine;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @return normal curve
+	 */
 	public GeoElement createNormalCurveOverlay(GeoList dataList) {
-
-		GeoElement geo;
-
 		AlgoMean mean = new AlgoMean(cons, dataList);
 		AlgoStandardDeviation sd = new AlgoStandardDeviation(cons, dataList);
 
@@ -388,15 +412,23 @@ public class StatGeo {
 				new MyDouble(kernel, Math.sqrt(2 * Math.PI)));
 		normal = new ExpressionNode(kernel, normal, Operation.DIVIDE, sdGeo);
 
-		geo = normal.buildFunction(x);
+		GeoElement geo = normal.buildFunction(x);
 
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.OVERLAY_COLOR_IDX));
-		geo.setLineThickness(DataAnalysisModel.thicknessCurve);
+		geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 
 		return geo;
 	}
 
+	/**
+	 * @param dataList
+	 *            either data list or {data, frequencies}
+	 * @param histogram
+	 *            histogram
+	 * @param settings
+	 *            stat settings
+	 */
 	public void getHistogramSettings(GeoList dataList, GeoElementND histogram,
 			StatPanelSettings settings) {
 
@@ -429,7 +461,6 @@ public class StatGeo {
 		settings.isEdgeAxis[1] = true;
 		settings.isPositiveOnly[1] = true;
 		settings.forceXAxisBuffer = true;
-
 	}
 
 	/**
@@ -468,7 +499,7 @@ public class StatGeo {
 		geo = algoBarChart.getOutput(0);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoBarChart.setProtectedInput(true);
 		return geo;
@@ -524,7 +555,7 @@ public class StatGeo {
 
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.BARCHART_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoBarChart.setProtectedInput(true);
 		return geo;
@@ -532,6 +563,7 @@ public class StatGeo {
 
 	/**
 	 * @param list
+	 *            sorted numeric data
 	 * @return Preferred bar width = half of the minimum width between
 	 *         consecutive values in the given list.
 	 */
@@ -547,6 +579,15 @@ public class StatGeo {
 		return w / 2;
 	}
 
+	/**
+	 * @param chart
+	 *            chart
+	 * @param plotType
+	 *            plot type
+	 * @return frequency table
+	 * @throws Exception
+	 *             for unsupported grouping
+	 */
 	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
 			PlotType plotType) throws Exception {
 
@@ -566,6 +607,14 @@ public class StatGeo {
 		return al.getOutput(0);
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 * @param barChart
+	 *            barchart
+	 */
 	public void getBarChartSettings(GeoList dataList,
 			StatPanelSettings settings, GeoElementND barChart) {
 
@@ -593,11 +642,17 @@ public class StatGeo {
 
 		settings.showYAxis = true;
 		settings.forceXAxisBuffer = true;
-
-		// settings.debug();
-
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 * @return box plot
+	 * @throws Exception
+	 *             for unsupported grouping
+	 */
 	public GeoElement createBoxPlot(GeoList dataList,
 			StatPanelSettings settings) throws Exception {
 
@@ -625,12 +680,20 @@ public class StatGeo {
 
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoBoxPlot.setProtectedInput(true);
 		return geo;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 * @throws Exception
+	 *             for unsupported grouping
+	 */
 	public void getBoxPlotSettings(GeoList dataList, StatPanelSettings settings)
 			throws Exception {
 		if (settings.groupType() == GroupType.RAWDATA) {
@@ -655,6 +718,13 @@ public class StatGeo {
 
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 * @return boxplots
+	 */
 	public GeoElement[] createMultipleBoxPlot(GeoList dataList,
 			StatPanelSettings settings) {
 
@@ -670,12 +740,18 @@ public class StatGeo {
 			ret[i] = bp.getOutput(0);
 			ret[i].setObjColor(
 					listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
-			ret[i].setAlphaValue(DataAnalysisModel.opacityBarChart);
+			ret[i].setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 		}
 
 		return ret;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 */
 	public void getMultipleBoxPlotSettings(GeoList dataList,
 			StatPanelSettings settings) {
 		if (settings.isAutomaticWindow()) {
@@ -690,10 +766,17 @@ public class StatGeo {
 		settings.forceXAxisBuffer = true;
 	}
 
-	public GeoElement[] createBoxPlotTitles(DataAnalysisModel statDialog,
+	/**
+	 * @param statModel
+	 *            data model
+	 * @param settings
+	 *            settings
+	 * @return list of text labels
+	 */
+	public GeoElement[] createBoxPlotTitles(DataAnalysisModel statModel,
 			StatPanelSettings settings) {
 
-		String[] dataTitles = statDialog.getDataTitles();
+		String[] dataTitles = statModel.getDataTitles();
 
 		int length = dataTitles.length;
 		GeoElement[] ret = new GeoElement[length];
@@ -713,6 +796,11 @@ public class StatGeo {
 		return ret;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @return dotplot
+	 */
 	public GeoElement createDotPlot(GeoList dataList) {
 
 		// String label = dataList.getLabel();
@@ -727,12 +815,20 @@ public class StatGeo {
 
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		algoDotPlot.setProtectedInput(true);
 		return geo;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param dotPlot
+	 *            dotplot
+	 * @param settings
+	 *            settings
+	 */
 	public void updateDotPlot(GeoList dataList, GeoElement dotPlot,
 			StatPanelSettings settings) {
 
@@ -762,6 +858,11 @@ public class StatGeo {
 
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @return normal quantile plot
+	 */
 	public GeoElement createNormalQuantilePlot(GeoList dataList) {
 
 		// String label = dataList.getLabel();
@@ -777,13 +878,19 @@ public class StatGeo {
 
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.NQPLOT_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
-		geo.setLineThickness(DataAnalysisModel.thicknessCurve);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
+		geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 
 		algoNormalQPlot.setProtectedInput(true);
 		return geo;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 */
 	public void updateNormalQuantilePlot(GeoList dataList,
 			StatPanelSettings settings) {
 
@@ -803,8 +910,12 @@ public class StatGeo {
 		settings.isPositiveOnly[1] = false;
 	}
 
+	/**
+	 * @param points
+	 *            points
+	 * @return polyline through points
+	 */
 	public GeoElementND createScatterPlotLine(GeoList points) {
-
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points);
 		removeFromConstructionList(polyLine);
 		GeoElementND geo = polyLine.getOutput(0);
@@ -815,12 +926,16 @@ public class StatGeo {
 		geo.setLabelVisible(false);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		return geo;
-
 	}
 
+	/**
+	 * @param dataList
+	 *            list of points
+	 * @return scatterplot
+	 */
 	public GeoElement createScatterPlot(GeoList dataList) {
 
 		// copy the dataList geo
@@ -839,11 +954,17 @@ public class StatGeo {
 		geo.setSelectionAllowed(false);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
-		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
+		geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
 
 		return geo;
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            output settings
+	 */
 	public void getScatterPlotSettings(GeoList dataList,
 			StatPanelSettings settings) {
 
@@ -857,9 +978,19 @@ public class StatGeo {
 		settings.isEdgeAxis[1] = true;
 		settings.isPositiveOnly[0] = true;
 		settings.isPositiveOnly[1] = true;
-
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param reg
+	 *            regression type
+	 * @param order
+	 *            regression order
+	 * @param residual
+	 *            whether to use reidual plot
+	 * @return regression plot
+	 */
 	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,
 			int order, boolean residual) {
 
@@ -908,8 +1039,8 @@ public class StatGeo {
 			geo = algoRP.getOutput(0);
 			geo.setObjColor(
 					listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
-			geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
-			geo.setLineThickness(DataAnalysisModel.thicknessCurve);
+			geo.setAlphaValue(DataAnalysisModel.OPACITY_BAR_CHART);
+			geo.setLineThickness(DataAnalysisModel.THICKNESS_CURVE);
 		} else {
 
 			// set geo options
@@ -923,9 +1054,14 @@ public class StatGeo {
 		}
 
 		return geo;
-
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param settings
+	 *            settings
+	 */
 	public void updateRegressionPlot(GeoList dataList,
 			StatPanelSettings settings) {
 
@@ -938,31 +1074,16 @@ public class StatGeo {
 
 		settings.showYAxis = true;
 		settings.forceXAxisBuffer = false;
-
 	}
-	/*
-	 * public GeoElement createResidualPlot(GeoList dataList, int regType, int
-	 * order){
-	 * 
-	 * GeoElement geo = null;
-	 * 
-	 * if (regType == StatDialog.REG_NONE){ return new GeoList(cons); }
-	 * 
-	 * String label = dataList.getLabel();
-	 * 
-	 * String regFcn = regCmd[regType] + "[" + label + "]"; if(regType ==
-	 * StatDialog.REG_POLY) regFcn = regCmd[regType] + "[" + label + "," + order
-	 * + "]";
-	 * 
-	 * String text = "ResidualPlot[" + label + "," + regFcn + "]"; geo =
-	 * createGeoFromString(text); geo.setObjColor(StatDialog.DOTPLOT_COLOR_IDX);
-	 * geo.setAlphaValue(0.25f);
-	 * 
-	 * return geo;
-	 * 
-	 * }
-	 */
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param residualPlot
+	 *            residual plot
+	 * @param settings
+	 *            output settings
+	 */
 	public void getResidualPlotSettings(GeoList dataList,
 			GeoElement residualPlot, StatPanelSettings settings) {
 
@@ -982,7 +1103,6 @@ public class StatGeo {
 		settings.isEdgeAxis[1] = true;
 		settings.isPositiveOnly[0] = true;
 		settings.isPositiveOnly[1] = false;
-
 	}
 
 	private void setXYBounds(StatPanelSettings settings) {
@@ -1024,11 +1144,16 @@ public class StatGeo {
 
 			settings.yMin = yMin - yBuffer;
 			settings.yMax = yMax + yBuffer;
-
 		}
-
 	}
 
+	/**
+	 * @param dataList
+	 *            data
+	 * @param adjustment
+	 *            adjustment
+	 * @return stem and leaf plot
+	 */
 	public String getStemPlotLatex(GeoList dataList, int adjustment) {
 
 		// String label = dataList.getLabel();
@@ -1048,10 +1173,17 @@ public class StatGeo {
 		return latex;
 	}
 
+	/**
+	 * @return remove from construction flag
+	 */
 	public boolean removeFromConstruction() {
 		return removeFromConstruction;
 	}
 
+	/**
+	 * @param removeFromConstruction
+	 *            remove from construction flag
+	 */
 	public void setRemoveFromConstruction(boolean removeFromConstruction) {
 		this.removeFromConstruction = removeFromConstruction;
 	}

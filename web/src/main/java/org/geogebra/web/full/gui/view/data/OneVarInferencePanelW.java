@@ -392,7 +392,7 @@ public class OneVarInferencePanelW extends FlowPanel
 			return;
 		}
 
-		Double value = model.evaluateExpression(kernel,
+		double value = model.evaluateExpression(kernel,
 				source.getText().trim());
 
 		if (source == fldConfLevel) {

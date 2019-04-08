@@ -271,6 +271,15 @@ public class StatTableModel {
 
 	}
 
+	/**
+	 * @param algoName
+	 *            statistic type
+	 * @param dataList
+	 *            data
+	 * @param geoRegression
+	 *            regression line/function (null when not needed)
+	 * @return stt algo
+	 */
 	public AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
 
@@ -284,7 +293,7 @@ public class StatTableModel {
 				return getAlgoFrequency(algoName, dataList);
 
 			} else if (getListener().groupType() == GroupType.CLASS) {
-				return getAlgoClass(algoName, dataList, geoRegression);
+				return getAlgoClass(algoName, dataList);
 			}
 
 		case DataAnalysisModel.MODE_REGRESSION:
@@ -298,6 +307,15 @@ public class StatTableModel {
 		}
 	}
 
+	/**
+	 * @param stat
+	 *            stat type
+	 * @param dataList
+	 *            data list
+	 * @param geoRegression
+	 *            rgression line or function (null if not needed)
+	 * @return stats algo
+	 */
 	public AlgoElement getAlgoRawData(Stat stat, GeoList dataList,
 			GeoElement geoRegression) {
 
@@ -360,6 +378,15 @@ public class StatTableModel {
 		}
 	}
 
+	/**
+	 * Gets stat algo for frequency grouping
+	 * 
+	 * @param stat
+	 *            statistic type
+	 * @param frequencyData
+	 *            list with 2 items: {data points, frequencies}
+	 * @return stats algo
+	 */
 	public AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData) {
 
 		GeoList dataList = (GeoList) frequencyData.get(0);
@@ -396,8 +423,16 @@ public class StatTableModel {
 		}
 	}
 
-	public AlgoElement getAlgoClass(Stat stat, GeoList frequencyData,
-			GeoElement geoRegression) {
+	/**
+	 * Get stats algo for class grouping
+	 * 
+	 * @param stat
+	 *            statistic type
+	 * @param frequencyData
+	 *            two item list {class borders, frequencies}
+	 * @return stats algo
+	 */
+	public AlgoElement getAlgoClass(Stat stat, GeoList frequencyData) {
 
 		GeoList classList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);

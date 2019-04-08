@@ -24,13 +24,22 @@ public class OneVarModel {
 	private double me;
 	private double N;
 	// input fields
-	public double confLevel = .95, hypMean = 0, sigma = 1;
+	public double confLevel = .95;
+	public double hypMean = 0;
+	public double sigma = 1;
 	// test type (tail)
 	public static final String tail_left = "<";
 	public static final String tail_right = ">";
 	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 	public String tail = tail_two;
 	public int selectedPlot = StatisticsModel.INFER_TINT;
+
+	/**
+	 * Update model
+	 * 
+	 * @param sample
+	 *            sample data
+	 */
 	public void evaluate(double[] sample) {
 		mean = StatUtils.mean(sample);
 		N = sample.length;
@@ -98,6 +107,13 @@ public class OneVarModel {
 		}
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param expr
+	 *            input expression
+	 * @return value
+	 */
 	public double evaluateExpression(Kernel kernel, String expr) {
 
 		NumberValue nv;
@@ -114,6 +130,11 @@ public class OneVarModel {
 		return nv.getDouble();
 	}
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @return localized statistic names
+	 */
 	public ArrayList<String> getNameList(Localization loc) {
 		ArrayList<String> nameList = new ArrayList<>();
 

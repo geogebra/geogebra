@@ -15,6 +15,11 @@ import org.geogebra.common.main.Localization;
 
 public class ANOVAStatTableModel extends StatTableModel {
 
+	/**
+	 * @param geoList
+	 *            tabular data
+	 * @return catagory data
+	 */
 	public static ArrayList<double[]> getCategoryData(GeoList geoList) {
 
 		// create an array list of data arrays
@@ -52,7 +57,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 	 * @throws IllegalArgumentException
 	 *             if categoryData does not meet preconditions specified in the
 	 *             interface definition
-	 * @throws MathException
+	 * @throws ArithmeticException
 	 *             if an error occurs computing the Anova stats
 	 */
 	public static AnovaStats anovaStats(Collection<double[]> categoryData)
@@ -157,10 +162,13 @@ public class ANOVAStatTableModel extends StatTableModel {
 		private double F;
 
 		/** sum of squares */
-		private double ssbg, sswg, sst;
+		private double ssbg;
+		private double sswg;
+		private double sst;
 
 		/** mean squares */
-		private double msbg, mswg;
+		private double msbg;
+		private double mswg;
 
 		/** P value */
 		private double P;
@@ -262,11 +270,23 @@ public class ANOVAStatTableModel extends StatTableModel {
 		}
 	}
 
+	/**
+	 * Get anovastats ignoring errors
+	 * 
+	 * @param dataList
+	 *            tabular data
+	 * @return ANOVA stats
+	 */
 	public static AnovaStats getStatsSilent(GeoList dataList) {
 		return anovaStatsSilent(getCategoryData(dataList));
-
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param listener
+	 *            change listener
+	 */
 	public ANOVAStatTableModel(App app, StatTableListener listener) {
 		super(app, listener);
 	}

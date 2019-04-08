@@ -1,9 +1,6 @@
 package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
-//import geogebra.common.kernel.geos.GeoList;
-//import geogebra.common.kernel.geos.GeoNumeric;
-//import geogebra.common.kernel.statistics.AlgoFrequencyTable;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
@@ -37,9 +34,17 @@ public class DataDisplayModel {
 	private ArrayList<GeoElementND> plotGeoList;
 
 	private GeoElement[] boxPlotTitles;
-	private GeoElementND frequencyPolygon, histogram, barChart, scatterPlotLine;
-	private GeoElement dotPlot, normalCurve, scatterPlot, residualPlot, nqPlot,
-			boxPlot, freqTableGeo;
+	private GeoElementND frequencyPolygon;
+	private GeoElementND histogram;
+	private GeoElementND barChart;
+	private GeoElementND scatterPlotLine;
+	private GeoElement dotPlot;
+	private GeoElement normalCurve;
+	private GeoElement scatterPlot;
+	private GeoElement residualPlot;
+	private GeoElement nqPlot;
+	private GeoElement boxPlot;
+	private GeoElement freqTableGeo;
 
 	private boolean hasControlPanel = true;
 	private IDataDisplayListener listener;
@@ -89,12 +94,6 @@ public class DataDisplayModel {
 
 	}
 
-	//
-
-	//
-	// // data view mode
-	// private int mode;
-	//
 	@SuppressWarnings("javadoc")
 	// keys for these need to be in "menu" category of ggbtrans
 	public enum PlotType {
@@ -148,6 +147,10 @@ public class DataDisplayModel {
 	 * 
 	 * @param daModel
 	 *            daModel
+	 * @param listener
+	 *            change listener
+	 * @param id
+	 *            id 0 or 1 (within the DA view)
 	 */
 	public DataDisplayModel(DataAnalysisModel daModel,
 			IDataDisplayListener listener, int id) {
@@ -165,13 +168,21 @@ public class DataDisplayModel {
 
 	}
 
+	/**
+	 * @param index
+	 *            plot type
+	 * @param mode
+	 *            app mode
+	 */
 	public void updatePlot(PlotType index, int mode) {
-
 		daModel.setMode(mode);
-		this.setSelectedPlot(index);
+		setSelectedPlot(index);
 		getSettings().setDataSource(daModel.getDataSource());
 	}
 
+	/**
+	 * Fill display types
+	 */
 	public void fillDisplayTypes() {
 		switch (daModel.getMode()) {
 		default:
@@ -530,6 +541,9 @@ public class DataDisplayModel {
 
 	}
 
+	/**
+	 * Remove plot geos from construction and this model
+	 */
 	public void clearPlotGeoList() {
 		for (GeoElementND geo : plotGeoList) {
 			if (geo != null) {
@@ -670,6 +684,7 @@ public class DataDisplayModel {
 	 * EuclidianView.
 	 * 
 	 * @param geo
+	 *            plot element
 	 * @param euclidianViewID
 	 *            viewID of the target EuclidianView
 	 */
@@ -691,14 +706,13 @@ public class DataDisplayModel {
 
 	}
 
-	public void removeGeos() {
-		clearPlotGeoList();
-	}
-
 	public StatPanelSettings getSettings() {
 		return settings;
 	}
 
+	/**
+	 * @return selected plot
+	 */
 	public PlotType getSelectedPlot() {
 		return app.getSettings().getDataAnalysis().getPlotType(id,
 				id == 0 ? PlotType.BARCHART : PlotType.BOXPLOT);

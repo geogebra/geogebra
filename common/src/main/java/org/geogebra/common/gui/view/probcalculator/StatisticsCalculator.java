@@ -68,6 +68,10 @@ public abstract class StatisticsCalculator {
 	// Getters/Setters
 	// =========================================
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	@SuppressFBWarnings({ "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
 			"false positive, used in web and desktop" })
 	public StatisticsCalculator(App app) {

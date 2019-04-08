@@ -42,7 +42,9 @@ public class DataVariable {
 	private GroupType groupType;
 	private GeoClass geoClass;
 
-	private DataItem frequency, label, classes;
+	private DataItem frequency;
+	private DataItem label;
+	private DataItem classes;
 	private ArrayList<DataItem> values;
 
 	private boolean enableHeader = false;
@@ -65,7 +67,9 @@ public class DataVariable {
 	// =============================================
 	/**
 	 * @param geoClass
+	 *            class of geo elements
 	 * @param valueItemList
+	 *            data item list
 	 */
 	public void setDataVariableAsRawData(GeoClass geoClass,
 			ArrayList<DataItem> valueItemList) {
@@ -75,11 +79,17 @@ public class DataVariable {
 
 	/**
 	 * @param groupType
+	 *            group type
 	 * @param geoClass
+	 *            geo element class
 	 * @param valueItemList
+	 *            data item list
 	 * @param frequency
+	 *            frequency
 	 * @param classes
+	 *            classes
 	 * @param label
+	 *            labels
 	 */
 	public void setDataVariable(GroupType groupType, GeoClass geoClass,
 			ArrayList<DataItem> valueItemList, DataItem frequency,
@@ -104,6 +114,10 @@ public class DataVariable {
 	// Getters/Setters
 	// ========================================================
 
+	/**
+	 * @param groupType
+	 *            group type
+	 */
 	public void setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 		switch (groupType) {
@@ -149,6 +163,10 @@ public class DataVariable {
 		return groupType;
 	}
 
+	/**
+	 * @param geoClass
+	 *            geo element class
+	 */
 	public void setGeoClass(GeoClass geoClass) {
 		this.geoClass = geoClass;
 		for (DataItem item : values) {
@@ -164,6 +182,12 @@ public class DataVariable {
 		return classStart;
 	}
 
+	/**
+	 * Change start and update automatic classes
+	 * 
+	 * @param classStart
+	 *            start of fist class
+	 */
 	public void setClassStart(double classStart) {
 		this.classStart = classStart;
 		if (groupType == GroupType.CLASS) {
@@ -171,10 +195,19 @@ public class DataVariable {
 		}
 	}
 
+	/**
+	 * @return class width
+	 */
 	public double getClassWidth() {
 		return classWidth;
 	}
 
+	/**
+	 * Change class width and update automatic classes
+	 * 
+	 * @param classWidth
+	 *            class width
+	 */
 	public void setClassWidth(double classWidth) {
 		this.classWidth = classWidth;
 		if (groupType == GroupType.CLASS) {
@@ -206,6 +239,10 @@ public class DataVariable {
 		return frequency;
 	}
 
+	/**
+	 * @param frequency
+	 *            frequency
+	 */
 	public void setFrequency(DataItem frequency) {
 		this.frequency = frequency;
 		if (frequency != null) {
@@ -230,6 +267,10 @@ public class DataVariable {
 		return values;
 	}
 
+	/**
+	 * @param values
+	 *            data items
+	 */
 	public void setValueItemList(ArrayList<DataItem> values) {
 		this.values = values;
 		for (DataItem item : values) {
@@ -237,6 +278,10 @@ public class DataVariable {
 		}
 	}
 
+	/**
+	 * @param valueItem
+	 *            data items
+	 */
 	public void setValueItems(DataItem... valueItem) {
 		values = new ArrayList<>();
 		for (DataItem item : valueItem) {
@@ -245,6 +290,12 @@ public class DataVariable {
 		}
 	}
 
+	/**
+	 * @param itemIndex
+	 *            index
+	 * @param item
+	 *            data item
+	 */
 	public void setDataItem(int itemIndex, DataItem item) {
 		if (itemIndex < values.size()) {
 			values.set(itemIndex, item);
@@ -253,6 +304,9 @@ public class DataVariable {
 		}
 	}
 
+	/**
+	 * Remove last value
+	 */
 	public void removeLastValue() {
 		if (values == null || values.size() == 0) {
 			return;
@@ -261,6 +315,9 @@ public class DataVariable {
 		values.remove(values.size() - 1);
 	}
 
+	/**
+	 * Add new value
+	 */
 	public void addNewValue() {
 		if (values == null) {
 			values = new ArrayList<>();
@@ -275,6 +332,9 @@ public class DataVariable {
 	// Export to GeoList or table data
 	// ========================================================
 
+	/**
+	 * @return item list
+	 */
 	public ArrayList<DataItem> getItemList() {
 
 		ArrayList<DataItem> list = new ArrayList<>();
@@ -298,23 +358,31 @@ public class DataVariable {
 
 	/**
 	 * @param app
+	 *            application
 	 * @param item
+	 *            data item
 	 * @param mode
+	 *            mode
 	 * @param leftToRight
+	 *            whether to use LTR borders
 	 * @param doCopy
+	 *            whether to copy elements
 	 * @return GeoList containing elements corresponding to the DataItem
 	 */
 	public GeoList toGeoList(App app, DataItem item, int mode,
 			boolean leftToRight, boolean doCopy) {
-
 		return item.toGeoList(app, enableHeader, leftToRight, doCopy);
 	}
 
 	/**
 	 * @param app
+	 *            application
 	 * @param mode
+	 *            mode
 	 * @param leftToRight
+	 *            whether to use LTR borders
 	 * @param doCopy
+	 *            whether to copy elements
 	 * @return GeoList matrix with labels, values, classes and frequencies
 	 *         (unavailable categories are skipped)
 	 */
@@ -364,7 +432,7 @@ public class DataVariable {
 		return createPointGeoList(list0, list1, doCopy, leftToRight);
 	}
 
-	private GeoList createPointGeoList(GeoList xList, GeoList yList,
+	private static GeoList createPointGeoList(GeoList xList, GeoList yList,
 			boolean byValue, boolean leftToRight) {
 
 		Construction cons = xList.getKernel().getConstruction();
@@ -412,7 +480,6 @@ public class DataVariable {
 					pointAlgo = new AlgoDependentPoint(cons, point, false);
 
 					geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
-
 				}
 
 				if (pointAlgo != null) {
@@ -424,11 +491,8 @@ public class DataVariable {
 				if (yCoord.isAngle() || xCoord.isAngle()) {
 					geoPoint.setPolar();
 				}
-
 			}
-		}
-
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			Log.debug(
 					"Creating list of points expression failed with exception "
 							+ ex);
@@ -441,9 +505,11 @@ public class DataVariable {
 		ret.setSelectionAllowed(false);
 
 		return ret;
-
 	}
 
+	/**
+	 * @return data as strings
+	 */
 	public ArrayList<String[]> getStringData() {
 
 		ArrayList<String[]> list = new ArrayList<>();
@@ -457,8 +523,12 @@ public class DataVariable {
 		return list;
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return titles
+	 */
 	public ArrayList<String> getTitles(App app) {
-
 		ArrayList<String> list = new ArrayList<>();
 		for (DataItem item : getItemList()) {
 			list.add(item.getDataTitle(app, enableHeader));
@@ -466,8 +536,10 @@ public class DataVariable {
 		return list;
 	}
 
+	/**
+	 * @return column names
+	 */
 	public ArrayList<String> getColumnNames() {
-
 		ArrayList<String> list = new ArrayList<>();
 		for (DataItem item : getItemList()) {
 			list.add(item.getDescription());
@@ -477,11 +549,13 @@ public class DataVariable {
 
 	/**
 	 * @param mode
+	 *            app mode
+	 * @param index
+	 *            column index for multivar analysis
 	 * @return list of column names for ???
 	 */
-	public ArrayList<String> getTableColumnDescriptions(App app, int mode,
+	public ArrayList<String> getTableColumnDescriptions(int mode,
 			int index) {
-
 		ArrayList<String> list = new ArrayList<>();
 
 		for (DataItem item : values) {
@@ -527,9 +601,12 @@ public class DataVariable {
 
 	/**
 	 * Returns true if this contains the specified GeoElement
+	 * 
+	 * @param geo
+	 *            element
+	 * @return whether geo is in data source
 	 */
 	public boolean isInDataSource(GeoElement geo) {
-
 		if (geo == null) {
 			return false;
 		}
@@ -572,8 +649,13 @@ public class DataVariable {
 		return false;
 	}
 
+	/**
+	 * Serialize to XML
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public void getXML(StringBuilder sb) {
-
 		// save these fields to XML:
 		// groupType, enableHeader
 		sb.append("<variable>\n");

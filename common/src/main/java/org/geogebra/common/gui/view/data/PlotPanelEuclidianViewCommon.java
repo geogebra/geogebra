@@ -21,9 +21,8 @@ public class PlotPanelEuclidianViewCommon {
 	private boolean overDragRegion;
 	/** Settings to control EuclidianView features (e.g. axes visibility) */
 	private PlotSettings plotSettings;
-	public static boolean showGrid = false;
-	public static boolean[] showAxes = { true, true };
-	public static boolean[] logAxes = { false, false };
+	public static final boolean SHOW_GRID = false;
+	public static final boolean[] SHOW_AXES = { true, true };
 
 	/**
 	 * @param overDragRegion
@@ -34,6 +33,9 @@ public class PlotPanelEuclidianViewCommon {
 		this.overDragRegion = overDragRegion;
 	}
 
+	/**
+	 * @return view ID
+	 */
 	public int getViewID() {
 		return viewID;
 	}
@@ -61,15 +63,16 @@ public class PlotPanelEuclidianViewCommon {
 	/**
 	 * Sets the plotSettings field and updates the panel accordingly.
 	 * 
-	 * @param plotPanelEuclidianViewD
+	 * @param plotPanelEuclidianView
 	 *            TODO
 	 * @param settings
+	 *            settings
 	 */
 	public void updateSettings(
-			PlotPanelEuclidianViewInterface plotPanelEuclidianViewD,
+			PlotPanelEuclidianViewInterface plotPanelEuclidianView,
 			PlotSettings settings) {
 		setPlotSettings(settings);
-		plotPanelEuclidianViewD.setEVParams();
+		plotPanelEuclidianView.setEVParams();
 	}
 
 	/**
@@ -167,6 +170,12 @@ public class PlotPanelEuclidianViewCommon {
 		plotPanelEuclidianViewD.repaint();
 	}
 
+	/**
+	 * Update plot size
+	 * 
+	 * @param plotPanelEView
+	 *            plot panel view
+	 */
 	public void updateSize(PlotPanelEuclidianViewInterface plotPanelEView) {
 		// record the old coord system
 		double xminTemp = plotPanelEView.getXmin();

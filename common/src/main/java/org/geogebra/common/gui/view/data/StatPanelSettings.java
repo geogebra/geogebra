@@ -219,6 +219,10 @@ public class StatPanelSettings extends PlotSettings {
 		this.stemAdjust = stemAdjust;
 	}
 
+	/**
+	 * @param coordMode
+	 *            coordinates mode (log / standard)
+	 */
 	public void setCoordMode(CoordMode coordMode) {
 		this.coordMode = coordMode;
 		switch (coordMode) {

@@ -222,6 +222,11 @@ public abstract class DataAnalysisController {
 	/**
 	 * Add/remove elements from the selected data list. Called by the data panel
 	 * on checkbox click.
+	 * 
+	 * @param index
+	 *            data index
+	 * @param doAdd
+	 *            true to add, false to remove
 	 */
 	public void updateSelectedDataList(int index, boolean doAdd) {
 
@@ -238,9 +243,6 @@ public abstract class DataAnalysisController {
 		updateAllPanels(false);
 
 		updateRegressionPanel();
-
-		// System.out.println("updateSelectedList: " + index + " " + doAdd);
-
 	}
 
 	protected abstract void updateRegressionPanel();
@@ -252,9 +254,11 @@ public abstract class DataAnalysisController {
 	 */
 	public String[] getDataTitles() {
 		return dataSource == null ? new String[0] : dataSource.getTitles();
-		// return dataSource.getDataTitles(mode(), leftToRight);
 	}
 
+	/**
+	 * Swap X and Y
+	 */
 	public void swapXY() {
 		leftToRight = !leftToRight;
 		updateDataAnalysisView();
@@ -305,6 +309,10 @@ public abstract class DataAnalysisController {
 	 */
 	public abstract void updateAllPanels(boolean doRedefine);
 
+	/**
+	 * @param geo
+	 *            removed geo
+	 */
 	protected void handleRemovedDataGeo(GeoElement geo) {
 
 		// System.out.println("removed: " + geo.toString());
@@ -318,15 +326,19 @@ public abstract class DataAnalysisController {
 
 	}
 
+	/**
+	 * Remove old regression geo and set new one from model
+	 */
 	public void setRegressionGeo() {
-
 		removeRegressionGeo();
-
 		geoRegression = statGeo.createRegressionPlot(dataSelected,
 				getModel().getRegressionMode(), getModel().getRegressionOrder(),
 				false);
 	}
 
+	/**
+	 * Remove regression geo
+	 */
 	public void removeRegressionGeo() {
 		if (geoRegression != null) {
 			geoRegression.remove();
@@ -355,13 +367,19 @@ public abstract class DataAnalysisController {
 
 	protected abstract void removeGeos();
 
+	/**
+	 * Converts numeric geos to values
+	 * 
+	 * @param dataList
+	 *            list of geos
+	 * @return array of values
+	 */
 	public double[] getValueArray(GeoList dataList) {
 		ArrayList<Double> list = new ArrayList<>();
 		for (int i = 0; i < dataList.size(); i++) {
 			GeoElement geo = dataList.get(i);
 			if (geo instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo;
-				list.add(num.getDouble());
+				list.add(geo.evaluateDouble());
 			}
 		}
 		double[] val = new double[list.size()];
@@ -376,6 +394,10 @@ public abstract class DataAnalysisController {
 		return model;
 	}
 
+	/**
+	 * @param model
+	 *            model
+	 */
 	public void setModel(DataAnalysisModel model) {
 		this.model = model;
 		this.statGeo = model.getStatGeo();

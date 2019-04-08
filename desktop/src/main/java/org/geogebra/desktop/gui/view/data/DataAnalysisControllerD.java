@@ -58,11 +58,11 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 	@Override
 	protected void removeGeos() {
 		if (view.getDataDisplayPanel1() != null) {
-			view.getDataDisplayPanel1().getModel().removeGeos();
+			view.getDataDisplayPanel1().getModel().clearPlotGeoList();
 		}
 
 		if (view.getDataDisplayPanel2() != null) {
-			view.getDataDisplayPanel2().getModel().removeGeos();
+			view.getDataDisplayPanel2().getModel().clearPlotGeoList();
 		}
 	}
 

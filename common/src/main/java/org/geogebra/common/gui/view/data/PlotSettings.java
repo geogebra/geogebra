@@ -40,13 +40,22 @@ public class PlotSettings {
 	 * Partial default constructor
 	 * 
 	 * @param xMinEV
+	 *            x-min for graphics
 	 * @param xMaxEV
+	 *            x-max for graphics
 	 * @param yMinEV
+	 *            y-min for graphics
 	 * @param yMaxEV
+	 *            y-max for graphics
 	 * @param showYAxis
+	 *            whether to show y axis
 	 * @param showArrows
+	 *            whether to show arrows
 	 * @param forceXAxisBuffer
+	 *            whether to force margin below the x-axis to make labels
+	 *            visible
 	 * @param isEdgeAxis
+	 *            whether to stick axes to the edge
 	 */
 	public PlotSettings(double xMinEV, double xMaxEV, double yMinEV,
 			double yMaxEV, boolean showYAxis, boolean showArrows,
@@ -60,15 +69,5 @@ public class PlotSettings {
 		this.forceXAxisBuffer = forceXAxisBuffer;
 		this.isEdgeAxis = isEdgeAxis;
 	}
-
-	// public void debug(){
-	//
-	// System.out.println("=======================");
-	// System.out.println("xMin: " + xMin);
-	// System.out.println("xMax: " + xMax);
-	// System.out.println("yMin: " + yMin);
-	// System.out.println("yMax: " + yMax);
-	// System.out.println("=======================");
-	// }
 
 }

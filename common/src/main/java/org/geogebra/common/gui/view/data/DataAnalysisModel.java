@@ -50,7 +50,8 @@ public class DataAnalysisModel {
 	private boolean showDataDisplayPanel2 = false;
 	private boolean isIniting = true;
 	// rounding constants for local number format
-	private int printDecimals = 4, printFigures = -1;
+	private int printDecimals = 4;
+	private int printFigures = -1;
 
 	// public static final int regressionTypes = 9;
 	private int regressionOrder = 2;
@@ -59,9 +60,9 @@ public class DataAnalysisModel {
 
 	private IDataAnalysisListener listener;
 
-	public static final float opacityBarChart = 0.3f;
-	public static final int thicknessCurve = 4;
-	public static final int thicknessBarChart = 3;
+	public static final float OPACITY_BAR_CHART = 0.3f;
+	public static final int THICKNESS_CURVE = 4;
+	public static final int THICKNESS_BAR_CHART = 3;
 
 	public interface IDataAnalysisListener extends ICreateColor {
 		void onModeChange(PlotType polyType1, PlotType polyType2);
@@ -102,10 +103,10 @@ public class DataAnalysisModel {
 	}
 
 	/**
-	 * @author mrb
+	 * Order determines order in Two Variable Regression Analysis menu For each
+	 * String, getMenu(s) must be defined
 	 * 
-	 *         Order determines order in Two Variable Regression Analysis menu
-	 *         For each String, getMenu(s) must be defined
+	 * @author Michael Borcherds
 	 */
 	public enum Regression {
 		NONE("None"), LINEAR("Linear"), LOG("Log"), POLY("Polynomial"), POW(
@@ -124,10 +125,11 @@ public class DataAnalysisModel {
 		}
 	}
 
-	/*************************************************
-	 * Constructs the view.
+	/**
+	 * Constructs the model for DA view.
 	 * 
 	 * @param app
+	 *            application
 	 * @param listener
 	 *            dialog listening to this
 	 */
@@ -183,11 +185,15 @@ public class DataAnalysisModel {
 
 		// TODO is this needed?
 		ctrl.setLeftToRight(true);
-
 	}
 
 	/**
 	 * set the data plot panels with default plots
+	 * 
+	 * @param plotType1
+	 *            plot type in first panel
+	 * @param plotType2
+	 *            plot type in second panel
 	 */
 	public void setDataPlotPanels(PlotType plotType1, PlotType plotType2) {
 
@@ -229,51 +235,45 @@ public class DataAnalysisModel {
 	// Getters/setters
 	// ======================================
 
-	private PlotType residual(PlotType pt) {
+	private static PlotType residual(PlotType pt) {
 		if (pt == null) {
 			return PlotType.RESIDUAL;
 		}
-
 		return pt;
 	}
 
-	private PlotType scatterplot(PlotType pt) {
+	private static PlotType scatterplot(PlotType pt) {
 		if (pt == null) {
 			return PlotType.SCATTERPLOT;
 		}
-
 		return pt;
 	}
 
-	private PlotType multiboxplot(PlotType pt) {
+	private static PlotType multiboxplot(PlotType pt) {
 		if (pt == null) {
 			return PlotType.MULTIBOXPLOT;
 		}
-
 		return pt;
 	}
 
-	private PlotType histogram(PlotType pt) {
+	private static PlotType histogram(PlotType pt) {
 		if (pt == null) {
 			return PlotType.HISTOGRAM;
 		}
-
 		return pt;
 	}
 
-	private PlotType boxplot(PlotType pt) {
+	private static PlotType boxplot(PlotType pt) {
 		if (pt == null) {
 			return PlotType.BOXPLOT;
 		}
-
 		return pt;
 	}
 
-	private PlotType barchart(PlotType pt) {
+	private static PlotType barchart(PlotType pt) {
 		if (pt == null) {
 			return PlotType.BARCHART;
 		}
-
 		return pt;
 	}
 
@@ -301,6 +301,10 @@ public class DataAnalysisModel {
 		return showDataPanel;
 	}
 
+	/**
+	 * @param isVisible
+	 *            whether to show data panel
+	 */
 	public void setShowDataPanel(boolean isVisible) {
 		if (showDataPanel == isVisible) {
 			return;
@@ -309,6 +313,10 @@ public class DataAnalysisModel {
 		getListener().updateStatDataPanelVisibility();
 	}
 
+	/**
+	 * @param isVisible
+	 *            whether to show stats
+	 */
 	public void setShowStatistics(boolean isVisible) {
 		if (showStatPanel == isVisible) {
 			return;
@@ -329,6 +337,9 @@ public class DataAnalysisModel {
 		return ctrl.getRegressionModel();
 	}
 
+	/**
+	 * @return factory for statistic algos / geos
+	 */
 	public StatGeo getStatGeo() {
 		if (statGeo == null) {
 			statGeo = new StatGeo(app, getListener());
@@ -340,6 +351,10 @@ public class DataAnalysisModel {
 		return regressionOrder;
 	}
 
+	/**
+	 * @param regressionMode
+	 *            regression mode (ordianl of {@link Regression})
+	 */
 	public void setRegressionMode(int regressionMode) {
 
 		for (Regression l : Regression.values()) {
@@ -374,18 +389,9 @@ public class DataAnalysisModel {
 		return app.getSettings().getDataAnalysis().getMode();
 	}
 
-	public void setShowDataOptionsDialog(boolean showDialog) {
-		// if (showDialog) {
-		// showSourcePanel();
-		// this.dataTypePanel;
-		// } else {
-		// showMainPanel();
-		// }
-
-		app.getDialogManager().showDataSourceDialog(getMode(), false);
-
-	}
-
+	/**
+	 * @return whether the data is numeric
+	 */
 	public boolean isNumericData() {
 		if (ctrl.getDataSource() == null) {
 			return false;
@@ -397,8 +403,11 @@ public class DataAnalysisModel {
 	// Handlers for Component Visibility
 	// =================================================
 
+	/**
+	 * @param showComboPanel2
+	 *            wehther to show second panel
+	 */
 	public void setShowComboPanel2(boolean showComboPanel2) {
-
 		this.showDataDisplayPanel2 = showComboPanel2;
 		getListener().showComboPanel2(showComboPanel2);
 	}
@@ -460,13 +469,19 @@ public class DataAnalysisModel {
 		return printFigures;
 	}
 
+	/**
+	 * @param geo
+	 *            element to be removed
+	 */
 	public void remove(GeoElement geo) {
-		// Application.debug("removed geo: " + geo.toString());
 		ctrl.handleRemovedDataGeo(geo);
 	}
 
+	/**
+	 * @param geo
+	 *            updated element
+	 */
 	public void update(GeoElement geo) {
-
 		updateRounding();
 
 		// update the view if the geo is in the data source
@@ -522,6 +537,9 @@ public class DataAnalysisModel {
 		app.getSettings().getDataAnalysis().setMode(mode);
 	}
 
+	/**
+	 * Update UI from settings
+	 */
 	public void updateFromSettings() {
 		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
 		if (settings.getItems().size() > 0) {
@@ -529,13 +547,17 @@ public class DataAnalysisModel {
 			source.setDataListFromSettings(settings.getItems(),
 					settings.getMode());
 			// no need to guess here
-			this.setView(source, settings.getMode(),
-					settings, true);
+			setView(source, settings.getMode(), settings, true);
 			settings.getItems().clear();
 		}
-
 	}
 
+	/**
+	 * Serialize to XML
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public void getXML(StringBuilder sb) {
 		sb.append("<dataAnalysis mode=\"");
 		sb.append(getMode());
@@ -554,7 +576,6 @@ public class DataAnalysisModel {
 		sb.append("\">\n");
 		getDataSource().getXMLDescription(sb);
 		sb.append("</dataAnalysis>");
-
 	}
 
 	/**

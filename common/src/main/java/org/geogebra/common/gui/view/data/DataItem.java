@@ -58,6 +58,7 @@ public class DataItem {
 	 * Constructs a DataItem from a GeoList.
 	 * 
 	 * @param geoList
+	 *            data list
 	 */
 	public DataItem(GeoList geoList) {
 		this.geoList = geoList;
@@ -68,6 +69,7 @@ public class DataItem {
 	 * Constructs a DataItem from a list of spreadsheet cell ranges.
 	 * 
 	 * @param rangeList
+	 *            range list
 	 */
 	public DataItem(ArrayList<CellRange> rangeList) {
 		this.rangeList = rangeList;
@@ -78,6 +80,7 @@ public class DataItem {
 	 * Constructs a DataItem from a single spreadsheet cell range.
 	 * 
 	 * @param cellRange
+	 *            cell range
 	 */
 	public DataItem(CellRange cellRange) {
 		rangeList = new ArrayList<>();
@@ -90,6 +93,7 @@ public class DataItem {
 	 * when classes are generated automatically).
 	 * 
 	 * @param leftBorder
+	 *            left class borders
 	 */
 	public DataItem(Double[] leftBorder) {
 		this.leftBorder = leftBorder;
@@ -98,6 +102,7 @@ public class DataItem {
 
 	/**
 	 * @param internalData
+	 *            internal data
 	 */
 	public DataItem(String[] internalData) {
 		this.sourceType = SourceType.INTERNAL;
@@ -120,6 +125,7 @@ public class DataItem {
 	 * cell ranges.
 	 * 
 	 * @param rangeList
+	 *            list of cell ranges
 	 */
 	public void setDataItem(ArrayList<CellRange> rangeList) {
 		clearItem();
@@ -131,6 +137,7 @@ public class DataItem {
 	 * Clears this DataItem and sets the source to the given GeoList.
 	 * 
 	 * @param geoList
+	 *            list of data
 	 */
 	public void setDataItem(GeoList geoList) {
 		clearItem();
@@ -143,6 +150,7 @@ public class DataItem {
 	 * (used for class borders when classes are generated automatically).
 	 * 
 	 * @param leftBorder
+	 *            list of class borders
 	 */
 	public void setDataItem(Double[] leftBorder) {
 		clearItem();
@@ -150,14 +158,23 @@ public class DataItem {
 		this.sourceType = SourceType.CLASS;
 	}
 
+	/**
+	 * @return list of ranges
+	 */
 	public ArrayList<CellRange> getRangeList() {
 		return rangeList;
 	}
 
+	/**
+	 * @return list of data
+	 */
 	public GeoList getGeoList() {
 		return geoList;
 	}
 
+	/**
+	 * @return list of class borders
+	 */
 	public Double[] getLeftBorder() {
 		return leftBorder;
 	}
@@ -194,8 +211,12 @@ public class DataItem {
 		// TODO: dereference the geo fields -- needed ??
 	}
 
+	/**
+	 * @param geoClassType
+	 *            element class
+	 * @return whether some element in the source has the class
+	 */
 	public boolean containsGeoClass(GeoClass geoClassType) {
-
 		if (sourceType == SourceType.EMPTY) {
 			return false;
 		}
@@ -279,6 +300,7 @@ public class DataItem {
 	 * Returns a string description of the data source
 	 * 
 	 * @param app
+	 *            application
 	 * 
 	 * @return either a spreadsheet cell range name or a GeoList label
 	 */
@@ -344,9 +366,13 @@ public class DataItem {
 	 * Converts DataItem into a GeoList
 	 * 
 	 * @param app
+	 *            appliction
 	 * @param enableHeader
+	 *            whether to enable header
 	 * @param leftToRight
+	 *            whether to swap X and Y
 	 * @param doCopy
+	 *            whether to copy elements
 	 * 
 	 * @return A GeoList containing elements corresponding to this DataItem
 	 */
@@ -394,7 +420,6 @@ public class DataItem {
 				e.printStackTrace();
 				return null;
 			}
-
 			break;
 
 		case CLASS:
@@ -428,7 +453,6 @@ public class DataItem {
 				}
 			}
 			cons.setSuppressLabelCreation(oldSuppress);
-
 			break;
 
 		default:
@@ -446,8 +470,10 @@ public class DataItem {
 	 * Copies a list of cell ranges with option to remove header cell
 	 * 
 	 * @param list
+	 *            list of ranges
 	 * @param removeHeaderCell
-	 * @return
+	 *            whether to remove headers
+	 * @return copies of ranges
 	 */
 	private static ArrayList<CellRange> rangeListCopy(ArrayList<CellRange> list,
 			boolean removeHeaderCell) {
@@ -466,8 +492,10 @@ public class DataItem {
 	 * Copies a cell range with option to remove header cell
 	 * 
 	 * @param cr
+	 *            cell range
 	 * @param removeHeaderCell
-	 * @return
+	 *            whether to remove header cell
+	 * @return duplicate cell range
 	 */
 	private static CellRange rangeCopy(CellRange cr, boolean removeHeaderCell) {
 		CellRange cr2 = cr.duplicate();
@@ -481,13 +509,11 @@ public class DataItem {
 
 	private static GeoList dependentListCopy(Construction cons,
 			GeoList geoList) {
-
 		ArrayList<GeoElement> copyList = new ArrayList<>();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			copyList.add(geoList.get(i).copy());
 		}
-
 		AlgoDependentList algo = new AlgoDependentList(cons, copyList, false);
 		cons.removeFromConstructionList(algo);
 
@@ -495,7 +521,6 @@ public class DataItem {
 	}
 
 	private static void swapXYCoords(GeoList geoList) {
-
 		if (geoList.getElementType() != GeoClass.POINT) {
 			return;
 		}

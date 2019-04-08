@@ -8,9 +8,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatTableModel;
-import org.geogebra.common.gui.view.data.StatTableModel.Stat;
 import org.geogebra.common.gui.view.data.StatTableModel.StatTableListener;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.desktop.main.AppD;
@@ -96,27 +94,6 @@ public class BasicStatTable extends JPanel
 				getModel().getRowNames(), getModel().getColumnCount(),
 				getModel().getColumnNames());
 		getModel().updatePanel();
-	}
-
-	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
-			GeoElement geoRegression) {
-		return getModel().getAlgo(algoName, dataList, geoRegression);
-	}
-
-	protected AlgoElement getAlgoRawData(Stat stat, GeoList dataList,
-			GeoElement geoRegression) {
-		return getModel().getAlgoRawData(stat, dataList, geoRegression);
-
-	}
-
-	protected AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData,
-			GeoElement geoRegression) {
-		return getModel().getAlgoFrequency(stat, frequencyData);
-	}
-
-	protected AlgoElement getAlgoClass(StatTableModel.Stat stat,
-			GeoList frequencyData, GeoElement geoRegression) {
-		return getModel().getAlgoClass(stat, frequencyData, geoRegression);
 	}
 
 	@Override

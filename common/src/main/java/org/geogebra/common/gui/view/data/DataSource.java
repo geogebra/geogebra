@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Manages a list of DataVariables for the DataAnalysisView.
@@ -37,6 +36,7 @@ public class DataSource {
 
 	/**
 	 * @param app
+	 *            application
 	 */
 	public DataSource(App app) {
 		this.app = app;
@@ -53,8 +53,10 @@ public class DataSource {
 		return dataList.size() == 0;
 	}
 
+	/**
+	 * Clear all data
+	 */
 	public void clearData() {
-
 		// TODO dereference geos from all DataItems
 		dataList.clear();
 	}
@@ -79,6 +81,9 @@ public class DataSource {
 		getSelectedDataVariable().setEnableHeader(enableHeader);
 	}
 
+	/**
+	 * @return whether the data is numeric
+	 */
 	public boolean isNumericData() {
 		if (getSelectedDataVariable() == null) {
 			return false;
@@ -106,6 +111,9 @@ public class DataSource {
 		return dataList.get(index);
 	}
 
+	/**
+	 * @return selected variable
+	 */
 	public DataVariable getSelectedDataVariable() {
 		if (selectedIndex >= dataList.size()) {
 			return null;
@@ -113,6 +121,9 @@ public class DataSource {
 		return dataList.get(selectedIndex);
 	}
 
+	/**
+	 * @return group type
+	 */
 	public GroupType getGroupType() {
 		if (isEmpty()) {
 			return GroupType.RAWDATA; // default
@@ -120,6 +131,11 @@ public class DataSource {
 		return getSelectedDataVariable().getGroupType();
 	}
 
+	/**
+	 * @param varIndex
+	 *            variable index
+	 * @return group type
+	 */
 	public GroupType getGroupType(int varIndex) {
 		if (varIndex >= dataList.size()) {
 			return GroupType.RAWDATA; // default
@@ -127,6 +143,12 @@ public class DataSource {
 		return dataList.get(varIndex).getGroupType();
 	}
 
+	/**
+	 * @param groupType
+	 *            group type
+	 * @param varIndex
+	 *            variable index
+	 */
 	public void setGroupType(GroupType groupType, int varIndex) {
 		dataList.get(varIndex).setGroupType(groupType);
 	}
@@ -168,11 +190,9 @@ public class DataSource {
 	 * 
 	 */
 	public void setDataItemToGeoSelection(int dataIndex, int itemIndex) {
-
 		if (dataList.get(dataIndex) == null) {
 			return;
 		}
-
 		dataList.get(dataIndex).setDataItem(itemIndex,
 				createDataItemFromGeoSelection());
 	}
@@ -184,7 +204,6 @@ public class DataSource {
 	 *         selected geos cannot form a DataItem
 	 */
 	private DataItem createDataItemFromGeoSelection() {
-
 		if (selection.getSelectedGeos() == null
 				|| selection.getSelectedGeos().size() == 0) {
 			return null;
@@ -212,17 +231,16 @@ public class DataSource {
 	 * @return 2D array of data from the currently selected DataVariable
 	 */
 	public String[][] getTableData() {
-
 		return getTableData(getSelectedIndex());
 	}
 
 	/**
 	 * @param dataIndex
+	 *            data index
 	 * @return 2D array of data from the DataVariable at the given index
 	 *         position
 	 */
 	public String[][] getTableData(int dataIndex) {
-
 		if (dataIndex >= dataList.size()) {
 			return null;
 		}
@@ -257,10 +275,10 @@ public class DataSource {
 
 	/**
 	 * @param dataIndex
+	 *            data index
 	 * @return data titles from the DataVariable at the given index position
 	 */
 	public String[] getTitles(int dataIndex) {
-
 		if (dataIndex >= dataList.size()) {
 			return null;
 		}
@@ -278,17 +296,17 @@ public class DataSource {
 	 *         the currently selected DataVariable
 	 */
 	public String[] getDescriptions() {
-
 		ArrayList<String> list = getSelectedDataVariable().getColumnNames();
 		return list.toArray(new String[list.size()]);
 	}
 
 	/**
+	 * @param dataIndex
+	 *            data index
 	 * @return descriptions (e.g. "Data", "Frequency" etc.) of the DataItems in
 	 *         the DataVariable at the given index position
 	 */
 	public String[] getDescriptions(int dataIndex) {
-
 		if (dataIndex >= dataList.size()) {
 			return null;
 		}
@@ -305,8 +323,11 @@ public class DataSource {
 	 * Converts the currently selected DataVariable to a list of GeoLists
 	 * 
 	 * @param mode
+	 *            mode
 	 * @param leftToRight
+	 *            whether to swap X and Y
 	 * @param doCopy
+	 *            whether to copy elements
 	 * @return arrayList of GeoLists corresponding to data stored in the given
 	 *         DataVariable
 	 */
@@ -321,9 +342,13 @@ public class DataSource {
 	 * of GeoLists
 	 * 
 	 * @param mode
+	 *            mode
 	 * @param leftToRight
+	 *            whether to swap X and Y
 	 * @param doCopy
+	 *            whether to copy elements
 	 * @param dataIndex
+	 *            data index
 	 * @return arrayList of GeoLists corresponding to data stored in the
 	 *         DataVariable at the given index position
 	 */
@@ -340,8 +365,11 @@ public class DataSource {
 
 	/**
 	 * @param mode
+	 *            mode
 	 * @param leftToRight
+	 *            whether to swap X and Y
 	 * @param doCopy
+	 *            whether to copy elements
 	 * @return all variables in a list
 	 */
 	public ArrayList<GeoList> toGeoListAll(int mode, boolean leftToRight,
@@ -398,6 +426,12 @@ public class DataSource {
 		}
 	}
 
+	/**
+	 * @param items
+	 *            items
+	 * @param mode
+	 *            mode
+	 */
 	public void setDataListFromSettings(ArrayList<String> items, int mode) {
 		dataList.clear();
 		ArrayList<CellRange> ranges = new ArrayList<>();
@@ -611,6 +645,10 @@ public class DataSource {
 
 	/**
 	 * Returns true if the current data source contains the specified GeoElement
+	 * 
+	 * @param geo
+	 *            element
+	 * @return whether element is in the source
 	 */
 	protected boolean isInDataSource(GeoElement geo) {
 
@@ -622,14 +660,16 @@ public class DataSource {
 		return false;
 	}
 
+	/**
+	 * Get variable descriptions
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public void getXMLDescription(StringBuilder sb) {
 		for (DataVariable var : dataList) {
-
 			var.getXML(sb);
-
 		}
-		Log.debug(sb.toString());
-
 	}
 
 	/**

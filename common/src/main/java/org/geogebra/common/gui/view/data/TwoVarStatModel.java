@@ -21,8 +21,14 @@ public class TwoVarStatModel {
 	private Integer[] selectedDataIndex = { 0, 1 };
 	private boolean isPairedData = false;
 
-	private double mean1, mean2, sd1, sd2, sdDifference, meanDifference;
-	private long n1, n2;
+	private double mean1;
+	private double mean2;
+	private double sd1;
+	private double sd2;
+	private double sdDifference;
+	private double meanDifference;
+	private long n1;
+	private long n2;
 	private TwoVarStatListener listener;
 
 	public interface TwoVarStatListener {
@@ -39,6 +45,14 @@ public class TwoVarStatModel {
 
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param isPairedData
+	 *            whether data is paired
+	 * @param listener
+	 *            change listener
+	 */
 	public TwoVarStatModel(App app, boolean isPairedData,
 			TwoVarStatListener listener) {
 
@@ -47,21 +61,24 @@ public class TwoVarStatModel {
 		this.listener = listener;
 	}
 
+	/**
+	 * @param isPairedData
+	 *            whether data is paired
+	 */
 	public void setPairedData(boolean isPairedData) {
 		this.isPairedData = isPairedData;
 	}
 
+	/**
+	 * @return null (no row names needed)
+	 */
 	public String[] getRowNames() {
-
 		return null;
-		/*
-		 * if(isPairedData){ String[] names = { "1", "2",
-		 * loc.getMenu("Differences") }; return names; }else{ String[] names = {
-		 * "1", "2" }; return names; }
-		 */
-
 	}
 
+	/**
+	 * @return localized column names
+	 */
 	public String[] getColumnNames() {
 		String[] names = { " ", loc.getMenu("Mean"),
 				loc.getMenu("SampleStandardDeviation.short"),
@@ -69,6 +86,9 @@ public class TwoVarStatModel {
 		return names;
 	}
 
+	/**
+	 * @return number of rows
+	 */
 	public int getRowCount() {
 		if (isPairedData) {
 			return 3;
@@ -76,6 +96,9 @@ public class TwoVarStatModel {
 		return 2;
 	}
 
+	/**
+	 * @return number of columns
+	 */
 	public int getColumnCount() {
 		return getColumnNames().length;
 	}
@@ -88,6 +111,9 @@ public class TwoVarStatModel {
 		this.selectedDataIndex = selectedDataIndex;
 	}
 
+	/**
+	 * Update & notify the the UI
+	 */
 	public void update() {
 		updateStat();
 		updateDifferences();
