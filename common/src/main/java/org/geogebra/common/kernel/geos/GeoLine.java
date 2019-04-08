@@ -1606,7 +1606,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public Function getFunctionForRoot() {
-		return getFunctionWithMultiplier(x, z);
+		return createLinearFunction(x, z);
 	}
 
 	@Override
@@ -1944,15 +1944,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public Function getFunction() {
 		// f(x_var) = -x/y x_var - z/y
-
-		return getFunctionWithMultiplier(-x / y, -z / y);
+		return createLinearFunction(-x / y, -z / y);
 	}
 
-	private Function getFunctionWithMultiplier(double slope, double constant) {
-		FunctionVariable fv = new FunctionVariable(kernel);
+	private Function createLinearFunction(double slope, double constant) {
+		FunctionVariable xVariable = new FunctionVariable(kernel);
 		ExpressionNode linear = new ExpressionNode(kernel,
-				new MyDouble(kernel, slope), Operation.MULTIPLY, fv);
-		return new Function(linear.plus(constant), fv);
+				new MyDouble(kernel, slope), Operation.MULTIPLY, xVariable);
+		return new Function(linear.plus(constant), xVariable);
 	}
 
 	@Override

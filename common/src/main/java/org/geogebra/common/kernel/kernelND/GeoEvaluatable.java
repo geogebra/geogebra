@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.Functional;
 
 /**
@@ -28,16 +27,5 @@ public interface GeoEvaluatable extends Functional, GeoElementND {
 	 * @return whether TV points are visible
 	 */
 	public boolean isPointsVisible();
-
-	/**
-	 * TODO once conics implement GeoFunctionable, we can only define this
-	 * method in GeoFunctionable
-	 * 
-	 * @param forRoot
-	 *            whether this is just for root finding (OK to ignore mult.
-	 *            constant)
-	 * @return function
-	 */
-	public Function getFunction();
 
 }

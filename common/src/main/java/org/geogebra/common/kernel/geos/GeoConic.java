@@ -654,7 +654,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	public Function getFunction() {
 		FunctionVariable x = new FunctionVariable(kernel);
 		ExpressionNode expr;
-		if(isRealValuedFunction()){
+		if (isRealValuedFunction()) {
 			double coeffY = -2 * matrix[ConicMatrix.Y];
 			ExpressionNode quadratic = x.wrap().power(2)
 					.multiply(matrix[ConicMatrix.XX] / coeffY);
