@@ -1852,7 +1852,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					.getDataParamEnableGraphing(false);
 			getSettings().getEuclidian(1).setEnabled(enableGraphing);
 			getSettings().getEuclidian(2).setEnabled(enableGraphing);
-			kernel.getAlgebraProcessor().setCommandsEnabled(enableGraphing);
 		}
 	}
 
