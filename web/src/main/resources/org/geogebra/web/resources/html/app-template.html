@@ -321,7 +321,8 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 				}
 				
 			}
-			l10n.setAttribute("src", codebase + module+"/js/properties_keys_"+lang+".js");
+			var propertiesCodebase = codebase.replace("/latest", "/"+latestVersion);
+			l10n.setAttribute("src", propertiesCodebase + module+"/js/properties_keys_" + lang + ".js");
 		}
 	}
 
