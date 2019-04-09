@@ -104,6 +104,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 		if (addToConstructionList) {
 			c.addToConstructionList(this, false);
+		} else {
+			c.addToHelperList(this);
 		}
 	}
 
@@ -851,6 +853,7 @@ public abstract class AlgoElement extends ConstructionElement
 		removed = true;
 		cons.removeFromConstructionList(this);
 		cons.removeFromAlgorithmList(this);
+		cons.removeFromHelperList(this);
 
 		// delete dependent objects
 		removeOutput();
