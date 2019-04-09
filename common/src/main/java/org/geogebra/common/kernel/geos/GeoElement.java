@@ -107,7 +107,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
-import com.google.j2objc.annotations.Weak;
+import com.google.j2objc.annotations.RetainedWith;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -293,7 +293,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private int defaultGeoType = -1;
 	/** parent algorithm */
-	@Weak
+	@RetainedWith
 	protected AlgoElement algoParent = null;
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
