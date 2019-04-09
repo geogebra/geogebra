@@ -932,6 +932,7 @@ public class Construction {
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
 		if (supressLabelCreation) {
+			addToHelperList(ce);
 			return;
 		}
 		if (checkContains && ce.isInConstructionList()) {
