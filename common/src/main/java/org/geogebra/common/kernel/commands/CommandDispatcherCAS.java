@@ -42,15 +42,6 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case Derivative:
 		case NDerivative:
 			return new CmdDerivative(kernel, c);
-		}
-
-		if (!app.getSettings().getCasSettings().isEnabled()) {
-			return null;
-		}
-
-		// syntaxes disallowed in non-CAS Exam Mode
-		switch (c) {
-
 		case TrigSimplify:
 		case Expand:
 		case Factor:

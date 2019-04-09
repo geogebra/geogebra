@@ -42,13 +42,6 @@ public class CommandDispatcherProver implements CommandDispatcherInterface {
             return new CmdAreCongruent(kernel);
         case AreConcurrent:
             return new CmdAreConcurrent(kernel);
-        }
-
-        if (!kernel.getApplication().getSettings().getCasSettings().isEnabled()) {
-            return null;
-        }
-
-        switch (c) {
         case LocusEquation:
             return new CmdLocusEquation(kernel);
         case Envelope:
