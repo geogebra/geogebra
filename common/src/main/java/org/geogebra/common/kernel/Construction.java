@@ -5,8 +5,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -159,10 +157,6 @@ public class Construction {
 
 	private ArrayList<AlgoElement> casAlgos = new ArrayList<>();
 
-	// Algos that do not make it to the ceList for not labelling them
-	// make their way in this list, to keep a reference to them.
-	private final List<ConstructionElement> ceHelperList;
-
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
 	 * CAS view
@@ -236,8 +230,6 @@ public class Construction {
 		geoSetLabelOrder = new TreeSet<>(new LabelComparator());
 		geoSetsTypeMap = new HashMap<>();
 		euclidianViewCE = new ArrayList<>();
-
-		ceHelperList = new LinkedList<>();
 
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
@@ -820,28 +812,6 @@ public class Construction {
 	}
 
 	/**
-	 * Add the element to the helper construction list.
-	 * This list will not get saved in xml, it is a way
-	 * to keep reference to helper construction elements
-	 * mostly algo elements, whose output is used in construction.
-	 *
-	 * @param element element
-	 */
-	public void addToHelperList(ConstructionElement element) {
-		ceHelperList.add(element);
-	}
-
-	/**
-	 * Remove the element from the helper constrcution list,
-	 * if present.
-	 *
-	 * @param element element to remove
-	 */
-	public void removeFromHelperList(ConstructionElement element) {
-		ceHelperList.remove(element);
-	}
-
-	/**
 	 * Tells all GeoCasCells that the order of cas cells may have changed. They
 	 * can then update their row number and input strings with row references.
 	 */
@@ -932,7 +902,6 @@ public class Construction {
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
 		if (supressLabelCreation) {
-			addToHelperList(ce);
 			return;
 		}
 		if (checkContains && ce.isInConstructionList()) {
@@ -3060,7 +3029,6 @@ public class Construction {
 		intsM.clear();
 		ceList.clear();
 		algoList.clear();
-		ceHelperList.clear();
 
 		geoSetConsOrder.clear();
 		geoSetWithCasCells.clear();
