@@ -12,7 +12,8 @@ public class StatisticsCollection {
 	public static final String tail_right = ">";
 	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 
-	public double mean, mean2;
+	public double mean;
+	public double mean2;
 	public double sd;
 	public double sd2;
 	public double nullHyp;
@@ -35,21 +36,20 @@ public class StatisticsCollection {
 	public boolean pooled;
 
 	public String[][] chiSquareData;
-	public int rows, columns;
+	public int rows;
+	public int columns;
 
-	public double[][] observed, expected, diff;
-	public double[] columnSum, rowSum;
+	public double[][] observed;
+	public double[][] expected;
+	public double[][] diff;
+	public double[] columnSum;
+	public double[] rowSum;
 	private Procedure selectedProcedure;
 	private boolean active;
 	public boolean showExpected;
 	public boolean showDiff;
 	public boolean showColPercent;
 	public boolean showRowPercent;
-
-	/***/
-	public enum Procedure {
-		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
-	}
 
 	/**
 	 * Construct StatisticsCollection
@@ -84,11 +84,24 @@ public class StatisticsCollection {
 	public boolean isActive() {
 		return active;
 	}
+
+	/**
+	 * @param rows
+	 *            number of rows
+	 * @param columns
+	 *            number of columns
+	 */
 	public void setChiSqData(int rows, int columns) {
 		chiSquareData = new String[rows + 2][columns + 2];
 		initComputation(rows, columns);
 	}
 
+	/**
+	 * @param initRows
+	 *            number of rows
+	 * @param initColumns
+	 *            number of columns
+	 */
 	public void initComputation(int initRows, int initColumns) {
 		this.rows = initRows;
 		this.columns = initColumns;
@@ -101,6 +114,9 @@ public class StatisticsCollection {
 
 	}
 
+	/**
+	 * @return proportion of first sample
+	 */
 	public double getProportion() {
 		if (count > n) {
 			return Double.NaN;
@@ -108,14 +124,19 @@ public class StatisticsCollection {
 		return 1.0 * count / n;
 	}
 
+	/**
+	 * @return proportion of second sample
+	 */
 	public double getProportion2() {
 		if (count2 > n2) {
 			return Double.NaN;
 		}
-
 		return 1.0 * count2 / n2;
 	}
 
+	/**
+	 * Reset intermediate values
+	 */
 	public void validate() {
 
 		if (sd < 0) {
@@ -153,13 +174,13 @@ public class StatisticsCollection {
 	public void getXML(StringBuilder sb) {
 		sb.append("<statisticsCollection procedure=\"");
 		sb.append(getSelectedProcedure().name());
-		add(sb, mean,"mean");
+		add(sb, mean, "mean");
 		add(sb, sd, "sd");
 		add(sb, n, "n");
 		add(sb, count, "count");
 
-		add(sb, mean2,"mean2");
-		add(sb, sd2,"sd2");
+		add(sb, mean2, "mean2");
+		add(sb, sd2, "sd2");
 		add(sb, n2, "n2");
 		add(sb, count2, "count2");
 

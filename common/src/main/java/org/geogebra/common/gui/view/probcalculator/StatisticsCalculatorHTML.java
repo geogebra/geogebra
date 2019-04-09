@@ -14,9 +14,23 @@ public class StatisticsCalculatorHTML {
 	private StatisticsCalculator statCalc;
 	private StatisticsCollection sc;
 
-	private String strSample1, strSample2, strMean, strSD, strSigma,
-			strSuccesses, strN, strSE, strDF, strUpper, strLower, strInterval,
-			strP, strChiSq, strZ, strT, strPooled;
+	private String strSample1;
+	private String strSample2;
+	private String strMean;
+	private String strSD;
+	private String strSigma;
+	private String strSuccesses;
+	private String strN;
+	private String strSE;
+	private String strDF;
+	private String strUpper;
+	private String strLower;
+	private String strInterval;
+	private String strP;
+	private String strChiSq;
+	private String strZ;
+	private String strT;
+	private String strPooled;
 	private Localization loc;
 
 	private final static String newline = "<br/>";

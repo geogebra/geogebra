@@ -133,12 +133,20 @@ public abstract class ProbabilityCalculatorView
 
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
-	protected GeoPoint lowPoint, highPoint, curvePoint;
-	protected GeoElement densityCurve, integral, ySegment, xSegment,
-			discreteIntervalGraph, normalOverlay;
+	protected GeoPoint lowPoint;
+	protected GeoPoint highPoint;
+	protected GeoPoint curvePoint;
+	protected GeoElement densityCurve;
+	protected GeoElement integral;
+	protected GeoElement ySegment;
+	protected GeoElement xSegment;
+	protected GeoElement discreteIntervalGraph;
+	protected GeoElement normalOverlay;
 	protected GeoElementND discreteGraph;
-	protected GeoList discreteValueList, discreteProbList, intervalProbList,
-			intervalValueList;
+	protected GeoList discreteValueList;
+	protected GeoList discreteProbList;
+	protected GeoList intervalProbList;
+	protected GeoList intervalValueList;
 	// private GeoList parmList;
 	protected ArrayList<GeoElement> pointList;
 
@@ -160,7 +168,8 @@ public abstract class ProbabilityCalculatorView
 	protected double probability;
 
 	// rounding
-	protected int printDecimals = 4, printFigures = -1;
+	protected int printDecimals = 4;
+	protected int printFigures = -1;
 
 	// flags
 	protected boolean showProbGeos = true;
@@ -191,8 +200,11 @@ public abstract class ProbabilityCalculatorView
 	protected GeoFunction pdfCurve;
 	private TreeSet<AlgoElement> tempSet;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ProbabilityCalculatorView(App app) {
-
 		isIniting = true;
 
 		this.app = app;
@@ -206,11 +218,12 @@ public abstract class ProbabilityCalculatorView
 		probManager = new ProbabilityManager(app, this);
 		plotSettings = new PlotSettings();
 		plotGeoList = new ArrayList<>();
-
 	}
 
+	/**
+	 * Update localization arrays
+	 */
 	protected void setLabelArrays() {
-
 		distributionMap = probManager.getDistributionMap();
 		reverseDistributionMap = probManager.getReverseDistributionMap();
 		parameterLabels = ProbabilityManager
@@ -244,8 +257,11 @@ public abstract class ProbabilityCalculatorView
 		return -1;
 	}
 
+	/**
+	 * @param type
+	 *            one of GRAPH_BAR, GRAPH_STEP, GRAPH_LINE
+	 */
 	public void setGraphType(int type) {
-
 		if (graphType == type) {
 			return;
 		}
@@ -260,8 +276,11 @@ public abstract class ProbabilityCalculatorView
 		updateAll();
 	}
 
+	/**
+	 * @param isCumulative
+	 *            whether to show cumulative distribution
+	 */
 	public final void setCumulative(boolean isCumulative) {
-
 		if (this.isCumulative == isCumulative) {
 			return;
 		}
@@ -282,25 +301,41 @@ public abstract class ProbabilityCalculatorView
 			graphType = graphTypePDF;
 		}
 		updateAll();
-
 	}
 
 	protected abstract void setProbabilityComboBoxMenu();
 
 	protected abstract void setTypeSelectedIndex(int probLeft);
 
+	/**
+	 * @return graph type (one of GRAPH_BAR, GRAPH_STEP, GRAPH_LINE)
+	 */
 	public int getGraphType() {
 		return graphType;
 	}
 
+	/**
+	 * @return print decimals
+	 */
 	public int getPrintDecimals() {
 		return printDecimals;
 	}
 
+	/**
+	 * @return significant figures
+	 */
 	public int getPrintFigures() {
 		return printFigures;
 	}
 
+	/**
+	 * @param distributionType
+	 *            distribution type
+	 * @param parameters
+	 *            distribution parameters
+	 * @param isCumulative
+	 *            whether it's cumulative
+	 */
 	public void setProbabilityCalculator(Dist distributionType,
 			double[] parameters, boolean isCumulative) {
 
@@ -315,10 +350,17 @@ public abstract class ProbabilityCalculatorView
 		updateAll();
 	}
 
+	/**
+	 * @return plot settings
+	 */
 	public PlotSettings getPlotSettings() {
 		return plotSettings;
 	}
 
+	/**
+	 * @param plotSettings
+	 *            plot settings
+	 */
 	public void setPlotSettings(PlotSettings plotSettings) {
 		this.plotSettings = plotSettings;
 	}
@@ -360,10 +402,10 @@ public abstract class ProbabilityCalculatorView
 	// =================================================
 	// Plotting
 	// =================================================
-	// colors
 	private static final GColor colorPDF() {
 		return GeoGebraColorConstants.DARKBLUE;
 	}
+
 	/**
 	 * Creates the required GeoElements for the currently selected distribution
 	 * type and parameters.
@@ -785,11 +827,11 @@ public abstract class ProbabilityCalculatorView
 
 		// Extract x/y coordinates from the lists.
 		double[] xCoords = new double[xList.size()];
-		double yCoords[] = new double[probList.size()];
+		double[] yCoords = new double[probList.size()];
 		int n = yCoords.length;
 		for (int i = 0; i < n; i++) {
-			xCoords[i] = ((GeoNumeric) xList.get(i)).getDouble();
-			yCoords[i] = ((GeoNumeric) probList.get(i)).getDouble();
+			xCoords[i] = xList.get(i).evaluateDouble();
+			yCoords[i] = probList.get(i).evaluateDouble();
 		}
 
 		// Create the PolyLine as:
@@ -815,17 +857,18 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		cons.setSuppressLabelCreation(suppressLabelCreation);
-
-		// System.out.println("===============================================");
-		// System.out.println("left border: " + Arrays.toString(xCoords));
-		// System.out.println("yval: " + Arrays.toString(yCoords));
-		// System.out.println("polyline points: " + Arrays.toString(points));
-
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points);
 
 		return polyLine;
 	}
 
+	/**
+	 * @param mean
+	 *            mean
+	 * @param sigma
+	 *            standard deviation
+	 * @return normal curve overlay
+	 */
 	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
 		AlgoNormalDF algo = new AlgoNormalDF(cons, new GeoNumeric(cons, mean),
 				new GeoNumeric(cons, sigma),
@@ -846,9 +889,10 @@ public abstract class ProbabilityCalculatorView
 	 * Returns the appropriate plot dimensions for a given distribution and
 	 * parameter set. Plot dimensions are returned as an array of double: {xMin,
 	 * xMax, yMin, yMax}
+	 * 
+	 * @return plot width and height
 	 */
 	protected double[] getPlotDimensions() {
-
 		return probManager.getPlotDimensions(selectedDist, parameters,
 				pdfCurve == null ? densityCurve : pdfCurve, isCumulative);
 
@@ -860,6 +904,10 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Formats a number string using local format settings.
+	 * 
+	 * @param x
+	 *            number
+	 * @return formatted number
 	 */
 	public String format(double x) {
 		StringTemplate highPrecision;
@@ -933,6 +981,9 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * updates plot panel in subclasses
+	 * 
+	 * @param settings
+	 *            plot settings
 	 */
 	protected abstract void plotPanelUpdateSettings(PlotSettings settings);
 
@@ -958,6 +1009,9 @@ public abstract class ProbabilityCalculatorView
 		isSettingAxisPoints = false;
 	}
 
+	/**
+	 * Remove plot geos
+	 */
 	public void removeGeos() {
 		if (pointList != null) {
 			pointList.clear();
@@ -979,22 +1033,6 @@ public abstract class ProbabilityCalculatorView
 
 		default:
 		case BINOMIAL:
-
-			/*
-			 * n = "Element[" + parmList.getLabel() + ",1]"; p = "Element[" +
-			 * parmList.getLabel() + ",2]";
-			 * 
-			 * expr = "Sequence[k,k,0," + n + "]"; discreteValueList = (GeoList)
-			 * createGeoFromString(expr);
-			 * 
-			 * expr = "Sequence[BinomialDist[" + n + "," + p + ","; expr +=
-			 * "Element[" + discreteValueList.getLabel() + ",k]," +
-			 * isCumulative; expr += "],k,1," + n + "+ 1 ]";
-			 * 
-			 * //System.out.println(expr); discreteProbList = (GeoList)
-			 * createGeoFromString(expr);
-			 */
-
 			GeoNumeric k = new GeoNumeric(cons);
 			GeoNumeric k2 = new GeoNumeric(cons);
 			GeoNumeric nGeo = new GeoNumeric(cons, parameters[0]);
@@ -1100,20 +1138,6 @@ public abstract class ProbabilityCalculatorView
 			break;
 
 		case HYPERGEOMETRIC:
-			/*
-			 * p = "" + parameters[0]; // population size n = "" +
-			 * parameters[1]; // n s = "" + parameters[2]; // sample size
-			 * 
-			 * expr = "Sequence[k,k,0," + n + "]"; discreteValueList = (GeoList)
-			 * createGeoFromString(expr);
-			 * 
-			 * expr = "Sequence[HyperGeometric[" + p + "," + n + "," + s + ",";
-			 * expr += "Element[" + discreteValueList.getLabel() + ",k]," +
-			 * isCumulative; expr += "],k,1," + n + "+ 1 ]";
-			 * 
-			 * //System.out.println(expr); discreteProbList = (GeoList)
-			 * createGeoFromString(expr);
-			 */
 
 			double p = parameters[0]; // population size
 			double n = parameters[1]; // n
@@ -1126,15 +1150,12 @@ public abstract class ProbabilityCalculatorView
 
 			double lowBound = Math.max(0, n + s - p);
 			double highBound = Math.min(n, s);
-			double length = highBound - lowBound + 1;
 
 			GeoNumeric lowGeo = new GeoNumeric(cons, lowBound);
 			GeoNumeric highGeo = new GeoNumeric(cons, highBound);
-			GeoNumeric lengthGeo = new GeoNumeric(cons, length);
 
 			pGeo = new GeoNumeric(cons, p);
 			nGeo = new GeoNumeric(cons, n);
-			GeoNumeric sGeo = new GeoNumeric(cons, s);
 
 			k = new GeoNumeric(cons);
 			k2 = new GeoNumeric(cons);
@@ -1146,18 +1167,20 @@ public abstract class ProbabilityCalculatorView
 			algo = new AlgoListElement(cons, discreteValueList, k2);
 			cons.removeFromConstructionList(algo);
 
+			GeoNumeric sGeo = new GeoNumeric(cons, s);
 			AlgoHyperGeometric hyperGeometric = new AlgoHyperGeometric(cons,
 					pGeo, nGeo, sGeo, (GeoNumberValue) algo.getOutput(0),
 					new GeoBoolean(cons, isCumulative));
 			cons.removeFromConstructionList(hyperGeometric);
 
+			double length = highBound - lowBound + 1;
+			GeoNumeric lengthGeo = new GeoNumeric(cons, length);
 			algoSeq2 = new AlgoSequence(cons, hyperGeometric.getOutput(0), k2,
 					new GeoNumeric(cons, 1.0), lengthGeo, null);
 			cons.removeFromConstructionList(algoSeq2);
 			discreteProbList = (GeoList) algoSeq2.getOutput(0);
 
 			break;
-
 		}
 
 		plotGeoList.add(discreteProbList);
@@ -1468,9 +1491,10 @@ public abstract class ProbabilityCalculatorView
 	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
 	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
 	 * == PROB_RIGHT then P(X <= high) is returned.
+	 * 
+	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
-
 		return probManager.intervalProbability(getLow(), getHigh(),
 				selectedDist, parameters, probMode);
 	}
@@ -1479,9 +1503,10 @@ public abstract class ProbabilityCalculatorView
 	 * Returns an inverse probability for a selected distribution.
 	 * 
 	 * @param prob
+	 *            cumulative probability
+	 * @return inverse probability
 	 */
 	protected double inverseProbability(double prob) {
-
 		return probManager.inverseProbability(selectedDist, prob, parameters);
 	}
 
@@ -1492,6 +1517,9 @@ public abstract class ProbabilityCalculatorView
 		return probability >= 0 ? format(probability) : "?";
 	}
 
+	/**
+	 * Update probability value and the graph
+	 */
 	protected void updateIntervalProbability() {
 		probability = intervalProbability();
 		if (probmanagerIsDiscrete()) {
@@ -1673,7 +1701,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	protected int[] generateFirstXLastXCommon() {
-		int firstXLastX[] = new int[2];
+		int[] firstXLastX = new int[2];
 		if (discreteValueList == null) {
 			this.createDiscreteLists();
 		}
@@ -1695,12 +1723,18 @@ public abstract class ProbabilityCalculatorView
 		// nothing to do here
 	}
 
+	/**
+	 * Attach to kernel
+	 */
 	public void attachView() {
 		// clearView();
 		// kernel.notifyAddAll(this);
 		kernel.attach(this);
 	}
 
+	/**
+	 * Detach from kernel
+	 */
 	public void detachView() {
 		removeGeos();
 		kernel.detach(this);
@@ -1727,7 +1761,6 @@ public abstract class ProbabilityCalculatorView
 	@Override
 	public void clearView() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1760,12 +1793,13 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * Builds a string that can be used by the algebra processor to create a
-	 * GeoFunction representation of a given density curve.
+	 * Builds a GeoFunction representation of a given density curve.
 	 * 
 	 * @param distType
+	 *            distribution type
 	 * @param parms
-	 * @return
+	 *            distribution parameters
+	 * @return function
 	 */
 	private GeoFunction buildDensityCurveExpression(Dist type,
 			boolean cumulative) {
@@ -1829,7 +1863,6 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		return null;
-
 	}
 
 	// ============================================================
@@ -1838,6 +1871,9 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * returns settings in XML format
+	 * 
+	 * @param sb
+	 *            XML builder
 	 */
 	public void getXML(StringBuilder sb) {
 
@@ -1893,16 +1929,17 @@ public abstract class ProbabilityCalculatorView
 
 	@Override
 	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
-
+		// no batch needed
 	}
 
 	@Override
 	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
+		// no batch needed
 	}
 
+	/**
+	 * @return information about mean and standard deviation
+	 */
 	public String getMeanSigma() {
 		Double[] val = probManager.getDistributionMeasures(selectedDist,
 				parameters);
@@ -1927,6 +1964,9 @@ public abstract class ProbabilityCalculatorView
 		this.low = low;
 	}
 
+	/**
+	 * @return whether overlay can be constructed
+	 */
 	public boolean isOverlayDefined() {
 		return !((selectedDist == Dist.CAUCHY)
 				|| (selectedDist == Dist.F && parameters[1] < 4));

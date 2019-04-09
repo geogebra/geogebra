@@ -13,9 +13,9 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	
-	FocusPanel container = null;
-	VerticalPanel panel = null;
-	
+	private FocusPanel container = null;
+	private VerticalPanel panel = null;
+
 	/**
 	 * @param root
 	 *            root for popup

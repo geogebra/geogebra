@@ -55,25 +55,29 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author G Sturr
  * 
  */
-@SuppressWarnings("javadoc")
 public class ProbabilityManager {
 
 	private final App app;
 	private final Localization loc;
 	private ProbabilityCalculatorView probCalc;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param probCalc
+	 *            probability calculator view
+	 */
 	public ProbabilityManager(App app, ProbabilityCalculatorView probCalc) {
-
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.probCalc = probCalc;
-
 	}
 
 	/**
 	 * Returns true of the given distribution type is discrete
 	 * 
 	 * @param distType
+	 *            distribution type
 	 * @return whether distribution is discrete
 	 */
 	public boolean isDiscrete(Dist distType) {
@@ -86,6 +90,8 @@ public class ProbabilityManager {
 	 * Creates a hash map that can return a JComboBox menu string for
 	 * distribution type constant Key = display type constant Value = menu item
 	 * string
+	 * 
+	 * @return map distribution -&gt; localized name
 	 */
 	public HashMap<Dist, String> getDistributionMap() {
 
@@ -115,6 +121,8 @@ public class ProbabilityManager {
 	 * Creates a reverse hash map that can return a distribution constant for a
 	 * string selected in a JComboBox distribution menu Key = menu item string
 	 * Value = display type constant
+	 * 
+	 * @return map localized name -&gt; distribution
 	 */
 	public HashMap<String, Dist> getReverseDistributionMap() {
 
@@ -132,6 +140,7 @@ public class ProbabilityManager {
 	 * type of distribution
 	 * 
 	 * @param loc
+	 *            localization
 	 * @return matrix of strings
 	 */
 	public static String[][] getParameterLabelArray(Localization loc) {
@@ -208,15 +217,28 @@ public class ProbabilityManager {
 	/**
 	 * Returns a GeoGebra inverse probability distribution command
 	 * 
+	 * @param dist
+	 *            distribution
+	 * @param cons
+	 *            construction
+	 * @param param1
+	 *            distribution parameter 1
+	 * @param param2
+	 *            distribution parameter 2
+	 * @param param3
+	 *            distribution parameter 3
+	 * @param x
+	 *            variable value
+	 * 
 	 * @return AlgoDistribution
 	 */
-	protected static AlgoDistribution getInverseCommand(Dist d,
+	protected static AlgoDistribution getInverseCommand(Dist dist,
 			Construction cons, GeoNumberValue param1, GeoNumberValue param2,
 			GeoNumberValue param3, GeoNumberValue x) {
 
 		AlgoDistribution ret = null;
 
-		switch (d) {
+		switch (dist) {
 		default:
 			// no nothing
 			break;
@@ -278,15 +300,29 @@ public class ProbabilityManager {
 	/**
 	 * Returns a GeoGebra probability distribution command
 	 * 
+	 * @param dist
+	 *            distribution
+	 * @param cons
+	 *            construction
+	 * @param param1
+	 *            distribution parameter 1
+	 * @param param2
+	 *            distribution parameter 2
+	 * @param param3
+	 *            distribution parameter 3
+	 * @param x
+	 *            variable value
+	 * @param isCumulative
+	 *            whether to use cumulative dstribution
 	 * @return AlgoDistribution
 	 */
-	protected static AlgoDistribution getCommand(Dist d, Construction cons,
+	protected static AlgoDistribution getCommand(Dist dist, Construction cons,
 			GeoNumberValue param1, GeoNumberValue param2, GeoNumberValue param3,
 			GeoNumberValue x, boolean isCumulative) {
 
 		AlgoDistribution ret = null;
 
-		switch (d) {
+		switch (dist) {
 		case NORMAL:
 			ret = new AlgoNormal(cons, param1, param2, x, null);
 			break;
@@ -352,11 +388,14 @@ public class ProbabilityManager {
 	 * Returns an array of the required number of parameters needed for each
 	 * distribution type. The array is indexed by distribution type.
 	 * 
+	 * @param dist
+	 *            distribution
+	 * 
 	 * @return number of parameters
 	 */
-	public static int getParmCount(Dist d) {
+	public static int getParmCount(Dist dist) {
 
-		switch (d) {
+		switch (dist) {
 		case GAMMA:
 		case WEIBULL:
 		case LOGNORMAL:
@@ -387,9 +426,13 @@ public class ProbabilityManager {
 	 * Creates a map that returns default parameter values for each distribution
 	 * type. /* Key = distribution type constant /* Value = default parameter
 	 * values for the distribution type
+	 * 
+	 * @param dist
+	 *            distribution
+	 * @return default parameters
 	 */
-	public static double[] getDefaultParameters(Dist d) {
-		switch (d) {
+	public static double[] getDefaultParameters(Dist dist) {
+		switch (dist) {
 		case NORMAL:
 			return new double[] { 0, 1 }; // mean = 0, sigma = 1
 		case STUDENT:
@@ -825,6 +868,16 @@ public class ProbabilityManager {
 	/**
 	 * If isCumulative = true, returns P(X <= value) for the given distribution
 	 * If isCumulative = false, returns P(X = value) for the given distribution
+	 * 
+	 * @param value
+	 *            variable value
+	 * @param parms
+	 *            distribution parameters
+	 * @param distType
+	 *            distribution type
+	 * @param isCumulative
+	 *            whether it's cumulative
+	 * @return probability
 	 */
 	public double probability(double value, double[] parms, Dist distType,
 			boolean isCumulative) {
@@ -855,10 +908,21 @@ public class ProbabilityManager {
 	 * probability mode. If mode == PROB_INTERVAL then P(low <= X <= high) is
 	 * returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode ==
 	 * PROB_RIGHT then P(X <= high) is returned.
+	 * 
+	 * @param low
+	 *            interval start
+	 * @param high
+	 *            interval end
+	 * @param distType
+	 *            distribution type
+	 * @param parms
+	 *            distribution parameters
+	 * @param probMode
+	 *            left / right /interval
+	 * @return cumulative probability of an interval
 	 */
 	public double intervalProbability(double low, double high, Dist distType,
 			double[] parms, int probMode) {
-
 		if (probMode == ProbabilityCalculatorView.PROB_LEFT) {
 			return probability(high, parms, distType, true);
 		} else if (probMode == ProbabilityCalculatorView.PROB_RIGHT) {
@@ -878,17 +942,20 @@ public class ProbabilityManager {
 
 			return probability(high, parms, distType, true)
 					- probability(low, parms, distType, true);
-
 		}
-
 	}
 
 	/**
 	 * Returns an inverse probability for a selected distribution and a given
 	 * cumulative (left area) probability.
 	 * 
+	 * @param distType
+	 *            distribution type
 	 * @param prob
 	 *            cumulative probability
+	 * @param parms
+	 *            distribution parameters
+	 * @return inverse probability
 	 */
 	public double inverseProbability(Dist distType, double prob,
 			double[] parms) {

@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
-import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.Browser;

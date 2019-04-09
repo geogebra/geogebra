@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -125,11 +124,21 @@ public abstract class StatisticsCalculator {
 		return sc;
 	}
 
+	/**
+	 * @param userInitiated
+	 *            whether it was triggered by enter
+	 */
 	public final void updateResult(boolean userInitiated) {
 		updateStatisticCollection(userInitiated);
 		recompute(userInitiated);
 	}
 
+	/**
+	 * Recompute the results
+	 * 
+	 * @param userInitiated
+	 *            whether it was triggered by enter
+	 */
 	public void recompute(boolean userInitiated) {
 		statProcessor.doCalculate();
 
@@ -399,7 +408,6 @@ public abstract class StatisticsCalculator {
 		}
 
 		sc.validate();
-
 	}
 
 	/**
@@ -415,9 +423,11 @@ public abstract class StatisticsCalculator {
 		}
 	}
 
+	/**
+	 * Update after ProbabilityCalculatorSettings have changed
+	 */
 	public void settingsChanged() {
-		// TODO Auto-generated method stub
-
+		// only in web (?)
 	}
 
 	/**

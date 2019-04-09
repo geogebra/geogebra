@@ -28,9 +28,15 @@ public abstract class ProbabilityTable {
 	private boolean isIniting;
 	private double[] parms;
 
-	public ProbabilityTable(App app2, ProbabilityCalculatorView probCalc2) {
-		this.app = app2;
-		this.probCalc = probCalc2;
+	/**
+	 * @param app
+	 *            application
+	 * @param probCalc
+	 *            probability calculator view
+	 */
+	public ProbabilityTable(App app, ProbabilityCalculatorView probCalc) {
+		this.app = app;
+		this.probCalc = probCalc;
 		this.probManager = probCalc.getProbManager();
 	}
 
@@ -42,6 +48,9 @@ public abstract class ProbabilityTable {
 	 */
 	public abstract void setSelectionByRowValue(int lowValue, int highValue);
 
+	/**
+	 * Update localized column names
+	 */
 	public void setColumnNames() {
 		Localization loc = app.getLocalization();
 		columnNames = new String[2];

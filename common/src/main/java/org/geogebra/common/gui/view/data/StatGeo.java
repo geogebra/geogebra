@@ -1113,6 +1113,7 @@ public class StatGeo {
 	 * Sets the automatic window dimensions for the plot panel.
 	 * 
 	 * @param settings
+	 *            settings
 	 * @param xBufferScale
 	 *            proportion of the x range to use for a left/right buffer
 	 * @param yBufferScale

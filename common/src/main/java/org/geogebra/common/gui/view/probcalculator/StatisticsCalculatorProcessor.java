@@ -36,8 +36,16 @@ public class StatisticsCalculatorProcessor {
 	private StatisticsCalculator statCalc;
 	private StatisticsCollection sc;
 
-	private GeoNumeric n, n2, mean, mean2, sd, sd2, proportion, proportion2,
-			nullHyp, level;
+	private GeoNumeric n;
+	private GeoNumeric n2;
+	private GeoNumeric mean;
+	private GeoNumeric mean2;
+	private GeoNumeric sd;
+	private GeoNumeric sd2;
+	private GeoNumeric proportion;
+	private GeoNumeric proportion2;
+	private GeoNumeric nullHyp;
+	private GeoNumeric level;
 	private GeoText tail;
 	private GeoBoolean pooled;
 	private ArrayList<GeoElement> geos;
