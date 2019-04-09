@@ -135,6 +135,7 @@ public class EvalInfo {
 		ret.fractions = this.fractions;
 		ret.forceUserEquation = this.forceUserEquation;
 		ret.updateRandom = this.updateRandom;
+		ret.symbolicMode = this.symbolicMode;
 		ret.copyingPlainVariables = this.copyingPlainVariables;
 		return ret;
 	}
