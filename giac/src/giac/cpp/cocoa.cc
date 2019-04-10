@@ -12342,7 +12342,7 @@ template<class modint_t,class modint_u>
     unsigned Kcols=N-nrows;
     free_null_lines(K,0,Bs,0,Kcols);
     unsigned first0 = unsigned(pivots.size());
-    if (first0<K.size() && learning){
+    if (!interreduce && first0<K.size() && learning){
       vector<modint> & tmpv=K[first0];
       for (i=0;i<tmpv.size();++i){
 	if (tmpv[i])
