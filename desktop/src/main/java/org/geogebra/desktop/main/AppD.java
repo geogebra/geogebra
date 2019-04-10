@@ -160,6 +160,7 @@ import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -208,6 +209,7 @@ import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.DecorationListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
+import org.geogebra.desktop.gui.font.FontCreatorD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -222,6 +224,7 @@ import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
+import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.updater.SettingsUpdaterBuilderD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -253,6 +256,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Command line arguments
 	 */
 	protected CommandLineArguments cmdArgs;
+
+	private DefaultSettings defaultSettings;
 
 	// ==============================================================
 	// JAR fields
@@ -354,6 +359,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private GgbAPID ggbapi = null;
 	private SpreadsheetTableModelD tableModel;
+	private FontCreatorD fontCreator;
 
 	// ==============================================================
 	// MISC FLAGS
@@ -5378,5 +5384,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
 		return new SettingsUpdaterBuilderD(this);
+	}
+
+	@Override
+	public DefaultSettings getDefaultSettings() {
+		if (defaultSettings == null) {
+			defaultSettings = new DefaultSettingsD();
+		}
+		return defaultSettings;
+	}
+
+	@Override
+	public FontCreatorD getFontCreator() {
+		if (fontCreator == null) {
+			fontCreator = new FontCreatorD(settings.getFontSettings(), getFontManager());
+		}
+		return fontCreator;
 	}
 }
