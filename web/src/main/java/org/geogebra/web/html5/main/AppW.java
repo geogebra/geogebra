@@ -21,6 +21,7 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -53,6 +54,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
@@ -99,6 +101,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
+import org.geogebra.web.html5.gui.font.FontCreatorW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.MebisVendorSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -114,6 +117,8 @@ import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
+import org.geogebra.web.html5.main.settings.DefaultSettingsW;
+import org.geogebra.web.html5.main.settings.FontSettingsW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
@@ -233,6 +238,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ZoomPanel zoomPanel;
 	private PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
+	private DefaultSettings defaultSettings;
+	private FontCreator fontCreator;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -300,6 +307,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						}
 					});
 		}
+	}
+
+	@Override
+	protected void initSettings() {
+		super.initSettings();
+		settings.setFontSettings(new FontSettingsW(getDefaultSettings()));
 	}
 
 	/**
@@ -2600,11 +2613,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return viewID != App.VIEW_EUCLIDIAN3D;
 	}
 
-	@Override
-	public int getGUIFontSize() {
-		return 14;
-	}
-
 	/**
 	 * Update toolbar content
 	 */
@@ -3922,4 +3930,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return vendorSettings;
 	}
 
+	@Override
+	public DefaultSettings getDefaultSettings() {
+		if (defaultSettings == null) {
+			defaultSettings = new DefaultSettingsW();
+		}
+		return defaultSettings;
+	}
+
+	@Override
+	public FontCreator getFontCreator() {
+		if (fontCreator == null) {
+			fontCreator = new FontCreatorW(settings.getFontSettings());
+		}
+		return fontCreator;
+	}
 }

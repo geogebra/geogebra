@@ -5,9 +5,9 @@ public class FontSettings {
 	private int appFontSize;
 	private int guiFontSize;
 
-	FontSettings(DefaultSettings defaultSettings) {
-		appFontSize = defaultSettings.getFontSize();
-		resetGuiFontSize();
+	protected FontSettings(DefaultSettings defaultSettings) {
+		appFontSize = defaultSettings.getAppFontSize();
+		guiFontSize = defaultSettings.getGuiFontSize();
 	}
 
 	public int getAppFontSize() {

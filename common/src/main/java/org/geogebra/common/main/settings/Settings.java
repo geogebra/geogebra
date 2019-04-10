@@ -438,4 +438,8 @@ public class Settings {
 	public FontSettings getFontSettings() {
 		return fontSettings;
 	}
+
+	public void setFontSettings(FontSettings fontSettings) {
+		this.fontSettings = fontSettings;
+	}
 }

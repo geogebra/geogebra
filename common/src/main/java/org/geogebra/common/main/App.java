@@ -2418,6 +2418,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
+	 * @deprecated FontSettingsUpdater.resetFonts should be used instead.
+	 *
+	 * Update font sizes of all components to match current GUI font size
+	 */
+	@Deprecated
+	final public void resetFonts() {
+		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+	}
+
+	/**
 	 * @deprecated FontSettings.getGuiFontSize should be used instead.
 	 *
 	 * @return font size for GUI; if not specified, general font size is
@@ -4109,8 +4119,13 @@ public abstract class App implements UpdateSelection, AppInterface {
 		companion.removeFromViewsForPlane(geo);
 	}
 
+	/**
+	 * @deprecated FontSettings.getAppFontSize should be used instead.
+	 * @return font size on web
+	 */
+	@Deprecated
 	public int getFontSizeWeb() {
-		return Math.max(getFontSize(), 12);
+		return getSettings().getFontSettings().getAppFontSize();
 	}
 
 	/**
@@ -5104,12 +5119,16 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return null;
 	}
 
-	protected SettingsUpdater getSettingsUpdater() {
+	private SettingsUpdater getSettingsUpdater() {
 		if (settingsUpdater == null) {
-			SettingsUpdaterBuilder settingsUpdaterBuilder = new SettingsUpdaterBuilder(this);
+			SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
 			settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();
 		}
 		return settingsUpdater;
+	}
+
+	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
+		return new SettingsUpdaterBuilder(this);
 	}
 
 	public FontCreator getFontCreator() {

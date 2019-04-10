@@ -17,7 +17,11 @@ public class SettingsUpdaterBuilder {
 		return settingsUpdater;
 	}
 
-	private FontSettingsUpdater newFontSettingsUpdater() {
+	protected FontSettingsUpdater newFontSettingsUpdater() {
 		return new FontSettingsUpdater(app);
+	}
+
+	protected App getApp() {
+		return app;
 	}
 }

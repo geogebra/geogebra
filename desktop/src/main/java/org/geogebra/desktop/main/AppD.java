@@ -160,6 +160,7 @@ import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
@@ -221,6 +222,7 @@ import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
+import org.geogebra.desktop.main.settings.updater.SettingsUpdaterBuilderD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -1881,15 +1883,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		super.setGUIFontSize(size);
 	}
 
-	@Override
-	public void setFontSize(int points, boolean update) {
-
-		if (guiFontSize == -1) {
-			// set tool icon size between 32 and 64
-			imageManager.setMaxIconSizeAsPt(points);
-		}
-
-		super.setFontSize(points, update);
+	public void setMaxIconSize(int fontSize) {
+		// set tool icon size between 32 and 64
+		imageManager.setMaxIconSizeAsPt(fontSize);
 	}
 
 	public ImageIcon getImageIcon(ImageResourceD res) {
@@ -5379,4 +5375,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	@Override
+	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
+		return new SettingsUpdaterBuilderD(this);
+	}
 }

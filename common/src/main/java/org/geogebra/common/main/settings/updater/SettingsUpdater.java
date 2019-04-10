@@ -14,7 +14,7 @@ public class SettingsUpdater {
 	}
 
 	public void resetSettingsAfterClearAll() {
-		fontSettingsUpdater.setAppFontSizeAndUpdateViews(defaultSettings.getFontSize());
+		fontSettingsUpdater.setAppFontSizeAndUpdateViews(defaultSettings.getAppFontSize());
 	}
 
 	void setDefaultSettings(DefaultSettings defaultSettings) {

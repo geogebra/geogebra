@@ -10,7 +10,7 @@ public class FontSettingsUpdater {
 	private App app;
 	private FontSettings fontSettings;
 
-	FontSettingsUpdater(App app) {
+	protected FontSettingsUpdater(App app) {
 		this.app = app;
 		fontSettings = app.getSettings().getFontSettings();
 	}
@@ -18,15 +18,15 @@ public class FontSettingsUpdater {
 	/**
 	 * Changes font size and possibly resets fonts
 	 *
-	 * @param points
+	 * @param fontSize
 	 *            font size
 	 * @see #resetFonts()
 	 */
-	public void setAppFontSize(int points) {
-		if (points == fontSettings.getAppFontSize()) {
+	public void setAppFontSize(int fontSize) {
+		if (fontSize == fontSettings.getAppFontSize()) {
 			return;
 		}
-		fontSettings.setAppFontSize(Util.getValidFontSize(points));
+		fontSettings.setAppFontSize(Util.getValidFontSize(fontSize));
 	}
 
 	public void setAppFontSizeAndUpdateViews(int fontSize) {
@@ -57,7 +57,7 @@ public class FontSettingsUpdater {
 	/**
 	 * Update font sizes of all components to match current GUI font size
 	 */
-	private void resetFonts() {
+	public void resetFonts() {
 		setAppFontSize(getGUIFontSize());
 		EuclidianView euclidianView = app.getEuclidianView1();
 		if (euclidianView != null) {
@@ -92,5 +92,13 @@ public class FontSettingsUpdater {
 	public int getGUIFontSize() {
 		int guiFontSize = fontSettings.getGuiFontSize();
 		return guiFontSize == -1 ? fontSettings.getAppFontSize() : guiFontSize;
+	}
+
+	protected FontSettings getFontSettings() {
+		return fontSettings;
+	}
+
+	protected App getApp() {
+		return app;
 	}
 }
