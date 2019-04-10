@@ -3874,10 +3874,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		case PROVE_UNIFY:
 			return true;
 
-		/** GGB-2517 */
-		case TOOLBAR_FROM_APPCONFIG:
-			return true;
-
 		/** APPS-163 */
 		case KEY_HANDLER_EV3D:
 			return true;
@@ -4710,12 +4706,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
 		ToolbarSettings set = getSettings().getToolbarSettings();
-
-		if (has(Feature.TOOLBAR_FROM_APPCONFIG)) {
-			set.setFrom(getConfig(), getVersion().isPhone());
-		} else {
-			set.setFrom(getVersion());
-		}
+		set.setFrom(getConfig(), getVersion().isPhone());
 		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 

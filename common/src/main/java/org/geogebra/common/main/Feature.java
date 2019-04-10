@@ -97,9 +97,6 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-	/** GGB-2517 */
-	TOOLBAR_FROM_APPCONFIG,
-
 	/** G3D-42 */
 	G3D_AR_REGULAR_TOOLS,
 
