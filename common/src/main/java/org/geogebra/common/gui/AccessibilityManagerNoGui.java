@@ -10,12 +10,12 @@ public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
 
 	@Override
-	public void focusNext(Object source) {
+	public void focusNext(AccessibilityGroup group, int viewID) {
 		// only tab geos
 	}
 
 	@Override
-	public void focusPrevious(Object source) {
+	public void focusPrevious(AccessibilityGroup group, int viewID) {
 		// only tab geos
 	}
 

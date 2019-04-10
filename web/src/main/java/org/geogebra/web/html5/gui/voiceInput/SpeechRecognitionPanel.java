@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.voiceInput;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -87,10 +88,11 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (shiftDown) {
 			specRecContr.getAppW().getAccessibilityManager()
-					.focusPrevious(this);
+					.focusPrevious(AccessibilityGroup.SPEECH, getViewID());
 			return true;
 		}
-		specRecContr.getAppW().getAccessibilityManager().focusNext(this);
+		specRecContr.getAppW().getAccessibilityManager()
+				.focusNext(AccessibilityGroup.SPEECH, getViewID());
 		return true;
 	}
 

@@ -12,18 +12,18 @@ public interface AccessibilityManagerInterface {
 	/**
 	 * Focus next screen element
 	 * 
-	 * @param source
+	 * @param group
 	 *            The source element to focus from.
 	 */
-	public void focusNext(Object source);
+	public void focusNext(AccessibilityGroup group, int viewID);
 
 	/**
 	 * Focus previous screen element
 	 * 
-	 * @param source
+	 * @param group
 	 *            The source element to focus from.
 	 */
-	public void focusPrevious(Object source);
+	public void focusPrevious(AccessibilityGroup group, int viewID);
 
 	/** Focus main menu */
 	public void focusMenu();

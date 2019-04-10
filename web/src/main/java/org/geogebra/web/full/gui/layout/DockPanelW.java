@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -1733,7 +1734,8 @@ public abstract class DockPanelW extends ResizeComposite
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == graphicsContextMenuBtn && !shiftDown) {
-			app.getAccessibilityManager().focusNext(graphicsContextMenuBtn);
+			app.getAccessibilityManager()
+					.focusNext(AccessibilityGroup.SETTINGS_BUTTON, getViewId());
 			return true;
 		}
 

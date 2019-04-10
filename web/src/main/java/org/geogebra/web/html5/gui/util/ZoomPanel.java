@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.GUITabs;
@@ -366,10 +367,12 @@ public class ZoomPanel extends FlowPanel
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == getFirstButton() && shiftDown) {
-			app.getAccessibilityManager().focusPrevious(this);
+			app.getAccessibilityManager()
+					.focusPrevious(AccessibilityGroup.ZOOM_PANEL, getViewID());
 			return true;
 		} else if (source == getLastButton() && !shiftDown) {
-			app.getAccessibilityManager().focusNext(this);
+			app.getAccessibilityManager()
+					.focusNext(AccessibilityGroup.ZOOM_PANEL, getViewID());
 			return true;
 		}
 		return false;

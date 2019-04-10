@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.SliderInput;
@@ -12,18 +13,11 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.full.gui.layout.DockManagerW;
-import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.ZoomPanel;
-import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -39,6 +33,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private SelectionManager selection;
 	private Widget anchor;
 	private SliderInput activeButton;
+	private DockManagerDelegate dockManagerDelegate;
 
 	/**
 	 * Constructor.
@@ -50,6 +45,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		this.app = app;
 		gm = (GuiManagerW) app.getGuiManager();
 		selection = app.getSelectionManager();
+		dockManagerDelegate = new DockManagerDelegate(app);
 	}
 
 	private void focusFirst() {
@@ -57,40 +53,37 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void focusNext(Object source) {
-		if (source == null) {
+	public void focusNext(AccessibilityGroup group, int viewID) {
+		if (group == null) {
 			focusFirst();
-		} else if (source instanceof LatexTreeItemController) {
+		} else if (group == AccessibilityGroup.ALGEBRA_ITEM) {
 			nextFromInput();
-		} else if (source instanceof ZoomPanel) {
-			nextFromZoomPanel(((ZoomPanel) source).getViewID());
-		} else if (isSpeechButton(source)) {
-			nextFromSpeechRecognitionPanel(
-					((SpeechRecognitionPanel) source).getViewID());
-		} else if (source instanceof FocusWidget) {
-			nextFromWidget((FocusWidget) source);
-		} else if (source instanceof GeoElement) {
+		} else if (group == AccessibilityGroup.ZOOM_PANEL) {
+			nextFromZoomPanel(viewID);
+		} else if (group == AccessibilityGroup.SPEECH) {
+			nextFromSpeechRecognitionPanel(viewID);
+		} else if (group == AccessibilityGroup.MENU
+				|| group == AccessibilityGroup.SETTINGS_BUTTON) {
+			nextFromWidget(group);
+		} else if (group == AccessibilityGroup.GEO_ELEMENT) {
 			nextFromLastGeo();
 		}
 	}
 
-	private boolean isSpeechButton(Object source) {
-		return app.has(Feature.SPEECH_RECOGNITION)
-				&& source instanceof SpeechRecognitionPanel;
-	}
+
 
 	@Override
-	public void focusPrevious(Object source) {
-		if (source instanceof LatexTreeItemController) {
+	public void focusPrevious(AccessibilityGroup group, int viewID) {
+		if (group == AccessibilityGroup.ALGEBRA_ITEM) {
 			previousFromInput();
-		} else if (source instanceof ZoomPanel) {
-			previousFromZoomPanel(((ZoomPanel) source).getViewID());
-		} else if (isSpeechButton(source)) {
-			previousFromSpeechRecognition(
-					((SpeechRecognitionPanel) source).getViewID());
-		} else if (source instanceof FocusWidget) {
-			previousFromWidget((FocusWidget) source);
-		} else if (source instanceof GeoElement) {
+		} else if (group == AccessibilityGroup.ZOOM_PANEL) {
+			previousFromZoomPanel(viewID);
+		} else if (group == AccessibilityGroup.SPEECH) {
+			previousFromSpeechRecognition(viewID);
+		} else if (group == AccessibilityGroup.MENU
+				|| group == AccessibilityGroup.SETTINGS_BUTTON) {
+			previousFromWidget(group);
+		} else if (group == AccessibilityGroup.GEO_ELEMENT) {
 			previousFromFirstGeo();
 		}
 	}
@@ -141,36 +134,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
-	private int nextID(int viewID) {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager();
-		return nextID(dm.getPanels(), viewID);
-	}
 
-	private int prevID(int viewID) {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager();
-		DockPanelW[] reversePanels = new DockPanelW[dm.getPanels().length];
-		for (int i = 0; i < reversePanels.length; i++) {
-			reversePanels[i] = dm.getPanels()[dm.getPanels().length - 1 - i];
-		}
-		return nextID(reversePanels, viewID);
-	}
-
-	private static int nextID(DockPanelW[] panels, int viewID) {
-		boolean returnNext = viewID == -1;
-		for (DockPanelW panel : panels) {
-			EuclidianDockPanelWAbstract ev = checkEuclidianViewWithZoomButtons(
-					panel);
-			if (ev != null && returnNext) {
-				return ev.getViewId();
-			}
-			if (ev != null && ev.getViewId() == viewID) {
-				returnNext = true;
-			}
-		}
-		return -1;
-	}
 
 	private void nextFromSpeechRecognitionPanel(int viewId) {
 		if (focusZoomPanel(true, nextID(viewId))) {
@@ -194,7 +158,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private boolean focusZoomPanel(boolean first, int viewID) {
-		EuclidianDockPanelWAbstract ev = checkEuclidianViewWithZoomButtons(
+		EuclidianDockPanelWAbstract ev = DockManagerDelegate
+				.checkEuclidianViewWithZoomButtons(
 				getEuclidianPanel(viewID));
 		if (ev != null) {
 			setTabOverGeos(false);
@@ -207,18 +172,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 
 		return false;
-	}
-
-	private static EuclidianDockPanelWAbstract checkEuclidianViewWithZoomButtons(
-			DockPanelW panel) {
-		if (!(panel instanceof EuclidianDockPanelWAbstract)) {
-			return null;
-		}
-
-		EuclidianDockPanelWAbstract ev = (EuclidianDockPanelWAbstract) panel;
-
-		boolean zoomButtons = ev.isAttached() && ev.hasZoomButtons();
-		return zoomButtons ? ev : null;
 	}
 
 	private void focusFirstElement() {
@@ -256,6 +209,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		focusZoomPanel(true, nextID(-1));
 	}
 
+	private int nextID(int i) {
+		return dockManagerDelegate.nextID(i);
+	}
+
+	private int prevID(int i) {
+		return dockManagerDelegate.prevID(i);
+	}
+
 	private void previousFromZoomPanel(int viewID) {
 		if (focusSettings(viewID)) {
 			return;
@@ -276,22 +237,22 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
-	private void nextFromWidget(FocusWidget source) {
+	private void nextFromWidget(AccessibilityGroup group) {
 		if (app.isMenuShowing()) {
 			return;
 		}
 
-		if (source.getTabIndex() == GUITabs.SETTINGS) {
+		if (group == AccessibilityGroup.SETTINGS_BUTTON) {
 			focusZoomPanel(true, nextID(-1));
 		}
 	}
 
-	private void previousFromWidget(FocusWidget source) {
+	private void previousFromWidget(AccessibilityGroup group) {
 		if (app.isMenuShowing()) {
 			return;
 		}
 
-		if (source.getTabIndex() == GUITabs.MENU) {
+		if (group == AccessibilityGroup.MENU) {
 			if (!focusInput(false)) {
 				focusZoomPanel(false, prevID(-1));
 			}
@@ -361,9 +322,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		boolean exitOnLast = selection.isLastGeoSelected() && !isShiftDown;
 		this.activeButton = null;
 		if (exitOnFirst) {
-			focusPrevious(geo);
+			focusPrevious(AccessibilityGroup.GEO_ELEMENT, -1);
 		} else if (exitOnLast) {
-			focusNext(geo);
+			focusNext(AccessibilityGroup.GEO_ELEMENT, -1);
 		}
 
 		if (exitOnFirst || exitOnLast) {

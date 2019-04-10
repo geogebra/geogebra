@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
@@ -279,9 +280,11 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		app.hideKeyboard();
 		if (shiftDown) {
-			app.getAccessibilityManager().focusPrevious(this);
+			app.getAccessibilityManager()
+					.focusPrevious(AccessibilityGroup.ALGEBRA_ITEM, -1);
 		} else {
-			app.getAccessibilityManager().focusNext(this);
+			app.getAccessibilityManager()
+					.focusNext(AccessibilityGroup.ALGEBRA_ITEM, -1);
 		}
 	}
 }

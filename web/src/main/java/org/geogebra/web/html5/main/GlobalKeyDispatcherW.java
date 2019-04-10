@@ -500,7 +500,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				return;
 			}
 
-			app.getAccessibilityManager().focusNext(null);
+			app.getAccessibilityManager().focusNext(null, -1);
 
 		}
 
