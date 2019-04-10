@@ -20,7 +20,7 @@ public class CommandFilterTest extends AlgebraTest {
 	public void noCASfilterTest() {
 		CommandSelector cs = new NoCASCommandSelectorFactory()
 				.createCommandSelector();
-		AlgebraTest.enableCAS(app, false);
+		app.getKernel().getAlgebraProcessor().setCommandSelector(cs);
 		for (Commands cmd0 : Commands.values()) {
 			Commands cmd = cmd0;
 			if (cmd0 == Commands.Derivative) {
@@ -35,6 +35,7 @@ public class CommandFilterTest extends AlgebraTest {
 			}
 			if (cs.isCommandAllowed(cmd)) {
 				if (!AlgebraTest.mayHaveZeroArgs(cmd.name())) {
+
 					AlgebraTest.shouldFail(cmd + "()", "number of arg", "only",
 							app);
 				}
