@@ -1740,6 +1740,29 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return normalized coefficients x,y,z
 	 */
 	public double[] getnormalizedCoefficients(double[] ret) {
+		return getnormalizedCoefficients(ret, 2);
+	}
+
+	/**
+	 * normalize coeffients so that Intersect[ (x - 1.62010081566832)^2 + (y +
+	 * 31.674457260881873)^2 = 0.028900000000021 , 0.000158120368003x +
+	 * 0.000144840828995y = -0.004331583710062 ] works
+	 * 
+	 * Also needed for repeated use of PerpendicularLine()
+	 * 
+	 * @param ret
+	 *            output array
+	 * @param threshold
+	 *            eg 2 for very strict normalizing (keeps the numbers between
+	 *            0.5 and 2)
+	 * 
+	 * @return normalized coefficients x,y,z
+	 */
+	public double[] getnormalizedCoefficients(double[] ret, double threshold) {
+
+		double thresholdRecip = 1 / threshold;
+		double thresholdHalf = threshold / 2;
+
 		ret[0] = x;
 		ret[1] = y;
 		ret[2] = z;
@@ -1757,15 +1780,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return ret;
 		}
 
-		while (Math.abs(ret[0]) < 0.5 && Math.abs(ret[1]) < 0.5
-				&& Math.abs(ret[2]) < 0.5) {
+		while (Math.abs(ret[0]) < thresholdRecip
+				&& Math.abs(ret[1]) < thresholdRecip
+				&& Math.abs(ret[2]) < thresholdRecip) {
 			ret[0] *= 2;
 			ret[1] *= 2;
 			ret[2] *= 2;
 		}
 
-		while (Math.abs(ret[0]) > 1 && Math.abs(ret[1]) > 1
-				&& Math.abs(ret[2]) > 1) {
+		while (Math.abs(ret[0]) > thresholdHalf
+				&& Math.abs(ret[1]) > thresholdHalf
+				&& Math.abs(ret[2]) > thresholdHalf) {
 			ret[0] /= 2;
 			ret[1] /= 2;
 			ret[2] /= 2;

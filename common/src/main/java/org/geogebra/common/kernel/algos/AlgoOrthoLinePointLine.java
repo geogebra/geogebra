@@ -52,6 +52,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	private GeoLine g; // output
 	private PPolynomial[] polynomials;
 	private OrthoLinePointLineAdapter proverAdapter;
+	private double[] normal = new double[3];
 
 	/**
 	 * Creates new AlgoOrthoLinePointLine.
@@ -138,6 +139,16 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	@Override
 	public final void compute() {
 		GeoVec3D.cross(P, l.getX(), l.getY(), 0.0, g);
+
+		// avoid overflow to infinity from repeated use
+		// (but keep nice answers for smaller numbers
+		// eg PerpendicularLine[ (1,2), Segment[(1,6),(6,1)]
+		// eg https://www.geogebra.org/m/wv8xnjnc
+		g.getnormalizedCoefficients(normal, 10E6);
+		g.x = normal[0];
+		g.y = normal[1];
+		g.z = normal[2];
+
 	}
 
 	@Override
