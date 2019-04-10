@@ -486,8 +486,20 @@ public abstract class GeoVec3D extends GeoElement
 	 */
 	final public static void cross(GeoVec3D u, double vx, double vy, double vz,
 			GeoVec3D w) {
-		w.setCoords(u.y * vz - u.z * vy, u.z * vx - u.x * vz,
-				u.x * vy - u.y * vx);
+
+		double x = u.y * vz - u.z * vy;
+		double y = u.z * vx - u.x * vz;
+		double z = u.x * vy - u.y * vx;
+
+		// more accurate but slower
+		// could be used if needed
+		// from
+		// https://github.com/apache/commons-math/blob/3.6.1-release/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Vector3D.java
+		// double x = MathArrays.linearCombination(u.y, vz, -u.z, vy);
+		// double y = MathArrays.linearCombination(u.z, vx, -u.x, vz);
+		// double z = MathArrays.linearCombination(u.x, vy, -u.y, vx);
+
+		w.setCoords(x, y, z);
 	}
 
 	/**
