@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
+import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -418,6 +419,7 @@ public class ExamEnvironment {
 	 */
 	public void exit() {
 		storeEndTime();
+		restoreCommands();
 	}
 
 	/**
@@ -577,7 +579,22 @@ public class ExamEnvironment {
 	 */
 	public void setupExamEnvironment() {
 		enableExamCommandFilter();
+		restrictCommands();
 		setShowSyntax(false);
+	}
+
+	private void restrictCommands() {
+		if (app.getSettings().getCasSettings().isEnabled()) {
+			return;
+		}
+		CommandDispatcher commandDispatcher =
+				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
+		commandDispatcher.saveCommandSelector();
+		commandDispatcher.setCommandSelector(new NoCASCommandSelectorFactory().createCommandSelector());
+	}
+
+	private void restoreCommands() {
+		app.getKernel().getAlgebraProcessor().getCommandDispatcher().restoreCommandSelector();
 	}
 
 	/**

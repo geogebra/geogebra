@@ -13,9 +13,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Command dispatcher for 3D
- * 
+ *
  * @author Mathieu
- * 
+ *
  */
 public abstract class CommandDispatcher3D extends CommandDispatcher {
 
@@ -307,5 +307,11 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	@Override
 	public CommandDispatcherInterface getProverDispatcher() {
 		return commandDispatcher.getProverDispatcher();
+	}
+
+	@Override
+	public void restoreCommandSelector() {
+		super.restoreCommandSelector();
+		commandDispatcher = kernel.getApplication().getCommandDispatcher(kernel);
 	}
 }

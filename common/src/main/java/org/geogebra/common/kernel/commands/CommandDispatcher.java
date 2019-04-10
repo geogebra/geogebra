@@ -1,11 +1,11 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
 This file is part of GeoGebra.
 
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
@@ -30,7 +30,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Runs commands and handles string to command processor conversion.
- * 
+ *
  */
 public abstract class CommandDispatcher {
 
@@ -44,7 +44,7 @@ public abstract class CommandDispatcher {
 
 	/**
 	 * stores public (String name, CommandProcessor cmdProc) pairs
-	 * 
+	 *
 	 * NB: Do not put CAS-specific commands in this table! If you ever want to,
 	 * call Markus, so he can give you one million reasons why this is a
 	 * terribly bad idea!
@@ -75,13 +75,14 @@ public abstract class CommandDispatcher {
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
+	private CommandSelector savedCommandSelector;
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
 
 	/**
 	 * Returns localized name of given command set
-	 * 
+	 *
 	 * @param index
 	 *            number of set (see Commands.TABLE_*)
 	 * @return localized name
@@ -137,7 +138,7 @@ public abstract class CommandDispatcher {
 
 	/**
 	 * Creates new command dispatcher
-	 * 
+	 *
 	 * @param kernel
 	 *            Kernel of current application
 	 */
@@ -149,7 +150,7 @@ public abstract class CommandDispatcher {
 
 	/**
 	 * Returns whether the given command name is supported in GeoGebra.
-	 * 
+	 *
 	 * @param cmd
 	 *            command name
 	 * @return whether the given command name is supported in GeoGebra.
@@ -307,7 +308,7 @@ public abstract class CommandDispatcher {
 	 * This method returns a CommandProcessor Object for a corresponding command
 	 * name. This should be called only if that CommandProcessor object is not
 	 * there already in the command table.
-	 * 
+	 *
 	 * @param c
 	 *            Command to be processed
 	 * @return Processor for given command
@@ -929,7 +930,7 @@ public abstract class CommandDispatcher {
 
 	/**
 	 * A way to process a command to an expression value rather than GeoELement
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param info
@@ -988,4 +989,22 @@ public abstract class CommandDispatcher {
 	public CommandFilter getCommandFilter() {
 		return commandFilter;
 	}
+
+	/**
+	 * Save Command Selector
+	 */
+	public void saveCommandSelector() {
+		savedCommandSelector = commandSelector;
+	}
+
+	/**
+	 * Restore Command Selector
+	 */
+	public void restoreCommandSelector() {
+		if (savedCommandSelector == null) {
+			return;
+		}
+		setCommandSelector(savedCommandSelector);
+	}
+
 }
