@@ -35,6 +35,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
@@ -82,6 +83,8 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.ToolbarSettings;
+import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -94,6 +97,7 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
@@ -101,7 +105,6 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -296,8 +299,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	protected LogInOperation loginOperation = null;
 	/** XML input / output handler */
 	private MyXMLio myXMLio;
-	/** gui / menu fontsize (-1 = use appFontSize) */
-	protected int guiFontSize = -1;
 	/** kernel */
 	public Kernel kernel;
 	/** whether points can be created by other tools than point tool */
@@ -348,8 +349,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	private ParserFunctions pf;
 	private SpreadsheetTraceManager traceManager;
 	private ExamEnvironment exam;
-	// currently used application fonts
-	private int appFontSize = 16;
+
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	private int maxLayerUsed = 0;
@@ -2377,99 +2377,79 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	/**
+	 * @deprecated FontSettings.getAppFontSize should be used instead.
+	 *
 	 * @return general font size (used for EV and GUI)
 	 */
+	@Deprecated
 	public int getFontSize() {
-		return appFontSize;
+		return settings.getFontSettings().getAppFontSize();
 	}
 
 	/**
+	 * @deprecated #FontSettings.getAlgebraFontSize should be used instead.
 	 * @return the font size for the Algebra View.
 	 */
+	@Deprecated
 	public int getAlgebraFontSize() {
-		return getFontSize() + 2;
+		return getSettings().getFontSettings().getAlgebraFontSize();
 	}
 
 	/**
+	 * @deprecated FontSettingsUpdater.setAppFontSizeAndUpdateViews or
+	 *          FontSettingsUpdater.setAppFontSize should be used instead.
 	 * Changes font size and possibly resets fonts
 	 *
 	 * @param points
 	 *            font size
 	 * @param update
 	 *            whether fonts should be reset
-	 * @see #resetFonts()
 	 */
+	@Deprecated
 	public void setFontSize(int points, boolean update) {
-		if (points == appFontSize) {
-			return;
+		FontSettingsUpdater fontSettingsUpdater = getSettingsUpdater().getFontSettingsUpdater();
+		if (update) {
+			fontSettingsUpdater.setAppFontSizeAndUpdateViews(points);
+		} else {
+			fontSettingsUpdater.setAppFontSize(points);
 		}
-		appFontSize = Util.getValidFontSize(points);
-		// isSaved = false;
-		if (!update) {
-			return;
-		}
-
-		EuclidianView ev1 = getEuclidianView1();
-		if (ev1 != null && ev1.hasStyleBar()) {
-			ev1.getStyleBar().reinit();
-		}
-
-		if (hasEuclidianView2(1)) {
-			EuclidianView ev2 = getEuclidianView2(1);
-			if (ev2 != null && ev2.hasStyleBar()) {
-				ev2.getStyleBar().reinit();
-			}
-		}
-
-		if (isEuclidianView3Dinited() && getEuclidianView3D().hasStyleBar()) {
-			getEuclidianView3D().getStyleBar().reinit();
-		}
-
-		resetFonts();
-
-		updateUI();
 	}
 
 	/**
-	 * @return string representation of current locale, eg no_NO_NY
-	 */
-
-	/**
-	 * Update font sizes of all components to match current GUI font size
-	 */
-	final public void resetFonts() {
-		companion.resetFonts();
-	}
-
-	/**
+	 * @deprecated FontSettings.getGuiFontSize should be used instead.
+	 *
 	 * @return font size for GUI; if not specified, general font size is
 	 *         returned
 	 */
+	@Deprecated
 	public int getGUIFontSize() {
-		return guiFontSize == -1 ? getFontSize() : guiFontSize;
+		return getSettings().getFontSettings().getGuiFontSize();
 	}
 
 	/**
+	 * @deprecated FontSettingsUpdater.setGUIFontSizeAndUpdate should be used instead.
+	 *
 	 * @param size
 	 *            GUI font size
 	 */
+	@Deprecated
 	public void setGUIFontSize(int size) {
-		guiFontSize = size;
-		// updateFonts();
-		// isSaved = false;
-
-		resetFonts();
-
+		getSettingsUpdater().getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
 	}
 
 	/**
+	 * @deprecated FontCreator should be used for creating fonts.
+	 *
 	 * Returns font manager
 	 *
 	 * @return font manager
 	 */
+	@Deprecated
 	protected abstract FontManager getFontManager();
 
 	/**
+	 * @deprecated FontCreator.newSansSerifFont should e used instead.
+	 *
 	 * Returns a font that can display testString in plain sans-serif font and
 	 * current font size.
 	 *
@@ -2477,11 +2457,14 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            test string
 	 * @return font
 	 */
+	@Deprecated
 	public GFont getFontCanDisplay(String testString) {
-		return getFontCanDisplay(testString, false, GFont.PLAIN, getFontSize());
+		return getFontCreator().newSansSerifFont(testString);
 	}
 
 	/**
+	 * * @deprecated FontCreator.newSansSerifFont should be used instead.
+	 *
 	 * Returns a font that can display testString in given font style,
 	 * sans-serif and current font size.
 	 *
@@ -2491,11 +2474,15 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            font style
 	 * @return font
 	 */
+	@Deprecated
 	public GFont getFontCanDisplay(String testString, int fontStyle) {
-		return getFontCanDisplay(testString, false, fontStyle, getFontSize());
+		int fontSize = settings.getFontSettings().getAppFontSize();
+		return getFontCreator().newSansSerifFont(testString, fontStyle, fontSize);
 	}
 
 	/**
+	 * @deprecated FontCreator.newSerifFont or FontCreator.newSansSerifFont should be used instead.
+	 *
 	 * Returns a font that can display testString and given font size.
 	 *
 	 * @param testString
@@ -2508,10 +2495,15 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 *            font size
 	 * @return font
 	 */
+	@Deprecated
 	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, int fontSize) {
-		return getFontManager().getFontCanDisplay(testString, serif, fontStyle,
-				fontSize);
+	                               int fontStyle, int fontSize) {
+		FontCreator fontCreator = getFontCreator();
+		if (serif) {
+			return fontCreator.newSerifFont(testString, fontStyle, fontSize);
+		} else {
+			return fontCreator.newSansSerifFont(testString, fontStyle, fontSize);
+		}
 	}
 
 	/**
@@ -2533,6 +2525,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		sb.append("\"/>\n");
 
 		if (asPreference) {
+			int guiFontSize = settings.getFontSettings().getGuiFontSize();
 			sb.append("\t<menuFont ");
 			sb.append(" size=\"");
 			sb.append(guiFontSize);
@@ -5103,5 +5096,17 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	public boolean isPrerelease() {
 		return prerelease;
+	}
+
+	public DefaultSettings getDefaultSettings() {
+		return null;
+	}
+
+	public SettingsUpdater getSettingsUpdater() {
+		return null;
+	}
+
+	public FontCreator getFontCreator() {
+		return null;
 	}
 }

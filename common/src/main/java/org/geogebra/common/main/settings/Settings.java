@@ -45,6 +45,8 @@ public class Settings {
 
 	private TableSettings tableSettings;
 
+	private FontSettings fontSettings;
+
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
@@ -170,7 +172,15 @@ public class Settings {
 					toolbarSettings.getListeners());
 		}
 
+		initFontSettings(app);
+
 		tableSettings = new TableSettings();
+	}
+
+	private void initFontSettings(App app) {
+		if (fontSettings == null) {
+			fontSettings = new FontSettings(app.getDefaultSettings());
+		}
 	}
 
 	/**
@@ -423,5 +433,9 @@ public class Settings {
 				s.resetNoFire();
 			}
 		}
+	}
+
+	public FontSettings getFontSettings() {
+		return fontSettings;
 	}
 }

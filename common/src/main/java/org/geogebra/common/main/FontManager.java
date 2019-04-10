@@ -3,8 +3,11 @@ package org.geogebra.common.main;
 import org.geogebra.common.awt.GFont;
 
 /**
+ * @deprecated FontCreator should be used for creating fonts.
+ *
  * Handles different fonts used by application
  */
+@Deprecated
 public abstract class FontManager {
 
 	/**
