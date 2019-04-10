@@ -5119,7 +5119,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return null;
 	}
 
-	private SettingsUpdater getSettingsUpdater() {
+	protected SettingsUpdater getSettingsUpdater() {
 		if (settingsUpdater == null) {
 			SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
 			settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();
