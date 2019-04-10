@@ -1,9 +1,8 @@
 package org.geogebra.common.main.settings.updater;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.DefaultSettings;
 
-public abstract class SettingsUpdaterBuilder {
+public class SettingsUpdaterBuilder {
 
 	private App app;
 
@@ -11,11 +10,9 @@ public abstract class SettingsUpdaterBuilder {
 		this.app = app;
 	}
 
-	protected abstract DefaultSettings getDefaultSettings();
-
 	public SettingsUpdater newSettingsUpdater() {
 		SettingsUpdater settingsUpdater = new SettingsUpdater();
-		settingsUpdater.setDefaultSettings(getDefaultSettings());
+		settingsUpdater.setDefaultSettings(app.getDefaultSettings());
 		settingsUpdater.setFontSettingsUpdater(newFontSettingsUpdater());
 		return settingsUpdater;
 	}

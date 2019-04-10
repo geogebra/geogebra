@@ -85,6 +85,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -420,6 +421,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	protected AccessibilityManagerInterface accessibilityManager;
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private LabelManager labelManager;
+	private SettingsUpdater settingsUpdater;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5102,8 +5104,12 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return null;
 	}
 
-	public SettingsUpdater getSettingsUpdater() {
-		return null;
+	protected SettingsUpdater getSettingsUpdater() {
+		if (settingsUpdater == null) {
+			SettingsUpdaterBuilder settingsUpdaterBuilder = new SettingsUpdaterBuilder(this);
+			settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();
+		}
+		return settingsUpdater;
 	}
 
 	public FontCreator getFontCreator() {
