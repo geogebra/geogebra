@@ -14,6 +14,7 @@ import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.font.GFontCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
@@ -22,6 +23,7 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.headless.DialogManagerNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.jre.headless.FontCreatorNoGui;
 import org.geogebra.common.jre.headless.FontManagerNoGui;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
@@ -32,6 +34,8 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.main.settings.DefaultSettings;
+import org.geogebra.common.main.settings.DefaultSettingsCommon;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -49,6 +53,8 @@ public class AppCommon extends App {
 
     private LocalizationCommon localization;
 	private DialogManagerNoGui dialogManager;
+	private DefaultSettings defaultSettings;
+	private FontCreator fontCreator;
 
     /**
      * Construct an AppCommon.
@@ -77,7 +83,23 @@ public class AppCommon extends App {
 		});
     }
 
-    @Override
+	@Override
+	public DefaultSettings getDefaultSettings() {
+    	if (defaultSettings == null) {
+    		defaultSettings = new DefaultSettingsCommon();
+		}
+		return defaultSettings;
+	}
+
+	@Override
+	public FontCreator getFontCreator() {
+    	if (fontCreator == null) {
+    		fontCreator = new FontCreatorNoGui(settings.getFontSettings());
+		}
+		return fontCreator;
+	}
+
+	@Override
     protected void initLocalization() {
         localization = new LocalizationCommon(2);
         localization.setApp(this);

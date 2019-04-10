@@ -24,9 +24,9 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
-//import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -39,6 +39,7 @@ import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianViewNoGui;
+import org.geogebra.common.jre.headless.FontCreatorNoGui;
 import org.geogebra.common.jre.headless.FontManagerNoGui;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
@@ -61,6 +62,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -89,6 +91,7 @@ import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -116,6 +119,8 @@ public class AppDNoGui extends App implements AppDI {
 	private EuclidianView3DNoGui ev3d;
 	private SoundManager soundManager;
 	private DialogManager dialogManager;
+	private DefaultSettings defaultSettings;
+	private FontCreator fontCreator;
 
 	/**
 	 * @param loc
@@ -210,6 +215,22 @@ public class AppDNoGui extends App implements AppDI {
 			kernel.storeUndoInfo();
 			setUnsaved();
 		}
+	}
+
+	@Override
+	public DefaultSettings getDefaultSettings() {
+		if (defaultSettings == null) {
+			defaultSettings = new DefaultSettingsD();
+		}
+		return defaultSettings;
+	}
+
+	@Override
+	public FontCreator getFontCreator() {
+		if (fontCreator == null) {
+			fontCreator = new FontCreatorNoGui(settings.getFontSettings());
+		}
+		return fontCreator;
 	}
 
 	@Override

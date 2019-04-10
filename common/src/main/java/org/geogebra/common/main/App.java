@@ -456,6 +456,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 		getLabelManager().setAngleLabels(getConfig().isGreekAngleLabels());
 	}
 
+	public abstract DefaultSettings getDefaultSettings();
+
+	public abstract FontCreator getFontCreator();
+
 	/**
 	 * Changes version; should be called only once, right after the constructor
 	 *
@@ -5115,10 +5119,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return prerelease;
 	}
 
-	public DefaultSettings getDefaultSettings() {
-		return null;
-	}
-
 	protected SettingsUpdater getSettingsUpdater() {
 		if (settingsUpdater == null) {
 			SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
@@ -5129,9 +5129,5 @@ public abstract class App implements UpdateSelection, AppInterface {
 
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
 		return new SettingsUpdaterBuilder(this);
-	}
-
-	public FontCreator getFontCreator() {
-		return null;
 	}
 }
