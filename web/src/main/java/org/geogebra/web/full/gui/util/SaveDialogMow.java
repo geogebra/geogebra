@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.DialogUtil;
 
@@ -41,6 +42,7 @@ public class SaveDialogMow extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
+	private LocalizationW loc;
 
 	/**
 	 * @param app see {@link AppW}
@@ -48,6 +50,7 @@ public class SaveDialogMow extends DialogBoxW
 	public SaveDialogMow(AppW app) {
 		super(app.getPanel(), app);
 		this.addStyleName("saveDialogMow");
+		this.loc = app.getLocalization();
 		initGUI();
 		initActions();
 		DialogUtil.hideOnLogout(app, this);
@@ -62,7 +65,7 @@ public class SaveDialogMow extends DialogBoxW
 		titleLbl = new FormLabel().setFor(titleField.getTextComponent());
 		titleLbl.addStyleName("inputLabel");
 		titleField.getTextComponent().getTextBox().getElement().setAttribute(
-				"placeholder", app.getLocalization().getMenu("Untitled"));
+				"placeholder", loc.getMenu("Untitled"));
 		titleField.addStyleName("inputText");
 		inputPanel.add(titleLbl);
 		inputPanel.add(titleField);
@@ -190,21 +193,25 @@ public class SaveDialogMow extends DialogBoxW
 
 	@Override
 	public void setLabels() {
-		defaultSaveCaption();
-		titleLbl.setText(app.getLocalization().getMenu("Title"));
-		saveBtn.setLabel(app.getLocalization().getMenu("Save"));
-		cancelBtn.setLabel(app.getLocalization().getMenu("Cancel"));
+		defaultSaveCaptionAndCancel();
+		titleLbl.setText(loc.getMenu("Title"));
+		saveBtn.setLabel(loc.getMenu("Save"));
 		titleField.getTextComponent().getTextBox().getElement().setAttribute(
-				"placeholder", app.getLocalization().getMenu("Untitled"));
+				"placeholder", loc.getMenu("Untitled"));
 	}
 
-	private void defaultSaveCaption() {
-		getCaption().setText(app.getLocalization().getMenu("Save"));
+	private void defaultSaveCaptionAndCancel() {
+		setCaptionKey("Save");
+		cancelBtn.setLabel(loc.getMenu("Cancel"));
+	}
+
+	private void setCaptionKey(String key) {
+		getCaption().setText(loc.getMenu(key));
 	}
 
 	@Override
 	public void show() {
-		defaultSaveCaption();
+		defaultSaveCaptionAndCancel();
 		super.show();
 		center();
 		setTitle();
@@ -254,7 +261,8 @@ public class SaveDialogMow extends DialogBoxW
 	@Override
 	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
 		showIfNeeded(runnable, !app.isSaved(), null);
-		getCaption().setText(app.getLocalization().getMenu("DoYouWantToSaveYourChanges"));
+		setCaptionKey("DoYouWantToSaveYourChanges");
+		cancelBtn.setLabel(loc.getMenu("Discard"));
 	}
 
 	/**
