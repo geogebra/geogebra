@@ -47,6 +47,8 @@ public class Settings {
 
 	private FontSettings fontSettings;
 
+	private LabelSettings labelSettings;
+
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
@@ -173,6 +175,7 @@ public class Settings {
 		}
 
 		initFontSettings(app);
+		initLabelSettings();
 
 		tableSettings = new TableSettings();
 	}
@@ -180,6 +183,12 @@ public class Settings {
 	private void initFontSettings(App app) {
 		if (fontSettings == null) {
 			fontSettings = new FontSettings(app.getDefaultSettings());
+		}
+	}
+
+	private void initLabelSettings() {
+		if (labelSettings == null) {
+			labelSettings = new LabelSettings();
 		}
 	}
 
@@ -441,5 +450,9 @@ public class Settings {
 
 	public void setFontSettings(FontSettings fontSettings) {
 		this.fontSettings = fontSettings;
+	}
+
+	public LabelSettings getLabelSettings() {
+		return labelSettings;
 	}
 }

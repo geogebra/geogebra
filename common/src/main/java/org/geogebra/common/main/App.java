@@ -81,9 +81,11 @@ import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
+import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
@@ -379,12 +381,6 @@ public abstract class App implements UpdateSelection, AppInterface {
 	private int[] versionArray = null;
 	private final List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro macro;
-	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
-	/**
-	 * says that a labeling style is selected in menu (i.e. all default geos use
-	 * the selected labeling style)
-	 */
-	private boolean labelingStyleSelected = true;
 	private boolean scriptingDisabled = false;
 	private double exportScale = 1;
 	private PropertiesView propertiesView;
@@ -1804,6 +1800,9 @@ public abstract class App implements UpdateSelection, AppInterface {
 	}
 
 	final public Settings getSettings() {
+		if (settings == null) {
+			initSettings();
+		}
 		return settings;
 	}
 
@@ -1838,48 +1837,53 @@ public abstract class App implements UpdateSelection, AppInterface {
     }
 
 	/**
+	 * @deprecated LabelSettings.getLabelVisibility should be used instead.
+	 *
 	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 *
 	 * @return labeling style for new objects
 	 */
+	@Deprecated
 	public int getLabelingStyle() {
-		return labelingStyle;
+		return getSettings().getLabelSettings().getLabelVisibility().getValue();
 	}
 
 	/**
+	 * @deprecated LabelSettingsUpdater.setLabelVisibility should be used instead.
+	 *
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 *
 	 * @param labelingStyle
 	 *            labeling style for new objects
 	 */
+	@Deprecated
 	public void setLabelingStyle(int labelingStyle) {
-		this.labelingStyle = labelingStyle;
-		labelingStyleSelected = true;
-		getKernel().getConstruction().getConstructionDefaults()
-				.resetLabelModeDefaultGeos();
+		LabelSettingsUpdater labelSettingsUpdater = getSettingsUpdater().getLabelSettingsUpdater();
+		LabelVisibility labelVisibility = LabelVisibility.get(labelingStyle);
+		labelSettingsUpdater.setLabelVisibility(labelVisibility);
 	}
 
 	/**
+	 * @deprecated LabelSettings.getLabelVisibilityForMenu should be used instead.
+	 *
 	 * @return labeling style for new objects for menu
 	 */
+	@Deprecated
 	public int getLabelingStyleForMenu() {
-		if (labelingStyleSelected) {
-			return getLabelingStyle();
-		}
-		return -1;
+		return getSettings().getLabelSettings().getLabelVisibilityForMenu().getValue();
 	}
 
 	/**
+	 * @deprecated LabelSettingsUpdater.resetLabelVisibilityForMenu should be used instead.
+	 *
 	 * set the labeling style not selected, i.e. at least one default geo has
 	 * specific labeling style
 	 */
+	@Deprecated
 	public void setLabelingStyleIsNotSelected() {
-		labelingStyleSelected = false;
-		if (getGuiManager() != null) {
-			getGuiManager().updateMenubar();
-		}
+		getSettingsUpdater().getLabelSettingsUpdater().resetLabelVisibilityForMenu();
 	}
 
 	/**
@@ -5115,7 +5119,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		return prerelease;
 	}
 
-	protected SettingsUpdater getSettingsUpdater() {
+	public SettingsUpdater getSettingsUpdater() {
 		if (settingsUpdater == null) {
 			SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();
 			settingsUpdater = settingsUpdaterBuilder.newSettingsUpdater();

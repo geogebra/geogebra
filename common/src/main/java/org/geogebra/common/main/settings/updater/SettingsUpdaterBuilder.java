@@ -13,12 +13,20 @@ public class SettingsUpdaterBuilder {
 	public SettingsUpdater newSettingsUpdater() {
 		SettingsUpdater settingsUpdater = new SettingsUpdater();
 		settingsUpdater.setDefaultSettings(app.getDefaultSettings());
+		settingsUpdater.setSettings(app.getSettings());
+		settingsUpdater.setAppConfig(app.getConfig());
+		settingsUpdater.setKernel(app.getKernel());
 		settingsUpdater.setFontSettingsUpdater(newFontSettingsUpdater());
+		settingsUpdater.setLabelSettingsUpdater(newLabelSettingsUpdater());
 		return settingsUpdater;
 	}
 
 	protected FontSettingsUpdater newFontSettingsUpdater() {
 		return new FontSettingsUpdater(app);
+	}
+
+	private LabelSettingsUpdater newLabelSettingsUpdater() {
+		return new LabelSettingsUpdater(app);
 	}
 
 	protected App getApp() {

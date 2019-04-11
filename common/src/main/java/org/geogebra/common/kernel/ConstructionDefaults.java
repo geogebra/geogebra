@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -236,17 +237,40 @@ public class ConstructionDefaults {
 			.deriveWithAlpha((int) (DEFAULT_POLYGON_ALPHA * 255));
 
 	// label visibility
-	/** label visibility not set */
+	/**
+	 * @deprecated LabelVisibility.NotSet should be used instead.
+	 * label visibility not set */
+	@Deprecated
 	public static final int LABEL_VISIBLE_NOT_SET = -1;
-	/** label visible automatic */
+
+	/**
+	 * @deprecated LabelVisibility.Automatic should be used instead.
+	 * label visible automatic */
+	@Deprecated
 	public static final int LABEL_VISIBLE_AUTOMATIC = 0;
-	/** label visible for all new objects */
+
+	/**
+	 * @deprecated LabelVisibility.AlwaysOn should be used instead.
+	 * label visible for all new objects */
+	@Deprecated
 	public static final int LABEL_VISIBLE_ALWAYS_ON = 1;
-	/** label visible for no new objects */
+
+	/**
+	 * @deprecated LabelVisibility.AlwaysOff should be used instead.
+	 * label visible for no new objects */
+	@Deprecated
 	public static final int LABEL_VISIBLE_ALWAYS_OFF = 2;
-	/** label visible only for new points */
+
+	/**
+	 * @deprecated LabelVisibility.PointsOnly should be used instead.
+	 * label visible only for new points */
+	@Deprecated
 	public static final int LABEL_VISIBLE_POINTS_ONLY = 3;
-	/** label visible based on default geos */
+
+	/**
+	 * @deprecated LabelVisibility.UseDefaults should be used instead.
+	 * label visible based on default geos */
+	@Deprecated
 	public static final int LABEL_VISIBLE_USE_DEFAULTS = 4;
 
 	// Background visibility
@@ -1155,17 +1179,18 @@ public class ConstructionDefaults {
 	}
 
 	/**
+	 * @deprecated LabelSettingsUpdater.resetLabelModeToDefaultForGeos should be used instead.
+	 *
 	 * reset label mode to default for all default geos (and label visibility to
 	 * true)
 	 */
+	@Deprecated
 	public void resetLabelModeDefaultGeos() {
-		for (GeoElement geo : defaultGeoElements.values()) {
-			if (!cons.getApplication().isUnbundledOrWhiteboard()
-					|| !(geo instanceof GeoAngle)) {
-				geo.labelMode = GeoElementND.LABEL_DEFAULT;
-			}
-			geo.setLabelVisible(true);
-		}
+		getLabelSettingsUpdater().resetLabelModeToDefaultForGeos();
+	}
+
+	private LabelSettingsUpdater getLabelSettingsUpdater() {
+		return cons.getApplication().getSettingsUpdater().getLabelSettingsUpdater();
 	}
 
 	/**
