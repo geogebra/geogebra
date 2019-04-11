@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.main.settings.Settings;
@@ -351,21 +350,14 @@ public abstract class App3DCompanion extends AppCompanion {
 				renderer.setReduceForClipping(!use2d);
 				renderer.setView(0, 0, width, height);
 			}
-			if (app.has(Feature.G3D_STL_EXPORT_DIALOG)) {
-				Export3dDialogInterface dialog = null;
-				DialogManager dialogManager = app.getDialogManager();
-				if (dialogManager != null) {
-					dialog = dialogManager.getExport3dDialog(exportView3D);
-				}
-				if (dialog != null) {
-					exportView3D.export3D(format, dialog);
-					app.getKernel().detach(exportView3D);
-				} else {
-					StringBuilder export = exportView3D.export3D(format);
-					app.getKernel().detach(exportView3D);
-					app.exportStringToFile(format.getExtension(),
-							export.toString());
-				}
+			Export3dDialogInterface dialog = null;
+			DialogManager dialogManager = app.getDialogManager();
+			if (dialogManager != null) {
+				dialog = dialogManager.getExport3dDialog(exportView3D);
+			}
+			if (dialog != null) {
+				exportView3D.export3D(format, dialog);
+				app.getKernel().detach(exportView3D);
 			} else {
 				StringBuilder export = exportView3D.export3D(format);
 				app.getKernel().detach(exportView3D);

@@ -124,9 +124,6 @@ public enum Feature {
 	/** G3D-170 */
 	G3D_IMPROVE_SOLID_TOOLS,
 
-	/** G3D-177 */
-	G3D_STL_EXPORT_DIALOG,
-
 	/** G3D-151 */
 	G3D_IOS_NATIVE_AR,
 
