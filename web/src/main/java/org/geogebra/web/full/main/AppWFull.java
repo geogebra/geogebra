@@ -798,6 +798,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void openSearch(String query) {
+		hideMenu();
 		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& query == null
@@ -1225,6 +1226,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
+	/**
+	 * @return adapter for tabbing through views
+	 */
 	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
 		return new DockManagerAccessibilityAdapter(this);
 	}

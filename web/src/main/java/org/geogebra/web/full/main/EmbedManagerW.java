@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -38,6 +37,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Creates, deletes and resizes embedded applets.
@@ -141,7 +141,7 @@ public class EmbedManagerW implements EmbedManager {
 		value.addListeners(drawEmbed.getEmbedID(), this);
 	}
 
-	private Widget createParentPanel(DrawEmbed embed) {
+	private static Widget createParentPanel(DrawEmbed embed) {
 		String url = embed.getGeoEmbed().getURL();
 		if (url.contains("graspablemath.com")) {
 			FlowPanel panel = new FlowPanel();
