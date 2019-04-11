@@ -746,8 +746,7 @@ public class SelectionManager {
 	 * @return whether next element exists
 	 */
 	public boolean hasNext(GeoElement geo) {
-		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
-		filterGeosForView(tree);
+		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 		return tree.size() != 0 && tree.last() != geo;
 	}
 
@@ -822,12 +821,16 @@ public class SelectionManager {
 	}
 
 	/**
+	 * Gets the set of all objects in the order they would appear in AV if AV is
+	 * visible. For objects actually accessible by the user use
+	 * {@link #getEVFilteredTabbingSet()}
+	 * 
 	 * TODO add support for layer / object type sorting of AV
 	 *
 	 * @return set over which TAB iterates: either alphabetical or construction
 	 *         order
 	 */
-	public TreeSet<GeoElement> getTabbingSet() {
+	private TreeSet<GeoElement> getTabbingSet() {
 		if (algebraViewShowing()) {
 			if (this.kernel.getApplication().getSettings().getAlgebra()
 					.getTreeMode() == SortMode.ORDER) {
@@ -842,7 +845,7 @@ public class SelectionManager {
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
 	public TreeSet<GeoElement> getEVFilteredTabbingSet() {
-		TreeSet<GeoElement> tree = new TreeSet<GeoElement>(getTabbingSet());
+		TreeSet<GeoElement> tree = new TreeSet<>(getTabbingSet());
 		filterGeosForView(tree);
 		return tree;
 	}
@@ -1156,7 +1159,7 @@ public class SelectionManager {
 			return false;
 		}
 
-		TreeSet<GeoElement> tree = getTabbingSet();
+		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 		return tree.first().equals(selectedGeos.get(0));
 	}
 
@@ -1168,7 +1171,7 @@ public class SelectionManager {
 		if (selectedGeos.size() == 0) {
 			return false;
 		}
-		TreeSet<GeoElement> tree = getTabbingSet();
+		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 		return tree.last().equals(selectedGeos.get(0));
 	}
 
