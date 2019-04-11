@@ -72,7 +72,6 @@ public class MarvlAPI implements BackendAPI {
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
-			Log.debug("READ USER LANGUAGE: " + user.getString("lang_ui"));
 			guser.setLanguage(user.getString("lang_ui"));
 			if (user.has("allGroups")) {
 				JSONArray classList = user.getJSONArray("allGroups");
