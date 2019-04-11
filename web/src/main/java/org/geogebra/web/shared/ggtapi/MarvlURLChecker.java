@@ -27,6 +27,7 @@ public class MarvlURLChecker implements URLChecker {
 		return pattern.test(url);
 	}-*/;
 
+	@Override
 	public boolean hasFrameOptionCheck() {
 		return false;
 	}

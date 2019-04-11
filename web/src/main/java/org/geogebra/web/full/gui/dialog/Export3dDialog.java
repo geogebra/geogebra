@@ -195,6 +195,7 @@ public class Export3dDialog extends OptionDialog
 			// from hardware keyboard
 			inputField.getTextField().getTextComponent()
 					.addKeyUpHandler(new KeyUpHandler() {
+						@Override
 						public void onKeyUp(KeyUpEvent e) {
 							parseAndUpdateOthers();
 						}
@@ -203,12 +204,14 @@ public class Export3dDialog extends OptionDialog
 			// from soft keyboard
 			inputField.getTextField().getTextComponent()
 					.addInsertHandler(new InsertHandler() {
+						@Override
 						public void onInsert(String text) {
 							parseAndUpdateOthers();
 						}
 					});
 			inputField.getTextField().getTextComponent()
 					.addOnBackSpaceHandler(new OnBackSpaceHandler() {
+						@Override
 						public void onBackspace() {
 							parseAndUpdateOthers();
 						}

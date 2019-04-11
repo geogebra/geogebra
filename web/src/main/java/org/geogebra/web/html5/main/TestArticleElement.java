@@ -457,6 +457,7 @@ public class TestArticleElement implements ArticleElementInterface {
 		return "";
 	}
 
+	@Override
 	public String getParamVendor() {
 		return attributes.get("vendor");
 	}

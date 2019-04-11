@@ -109,10 +109,12 @@ public class GTextBox extends TextBox
 		return false;
 	}
 
+	@Override
 	public void setColumns(int fieldWidth) {
 		// not needed
 	}
 
+	@Override
 	public void setEditable(boolean editable) {
 		this.setReadOnly(!editable);
 	}

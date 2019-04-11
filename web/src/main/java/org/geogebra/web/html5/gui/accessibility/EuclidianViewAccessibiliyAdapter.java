@@ -4,14 +4,33 @@ import org.geogebra.common.euclidian.EuclidianView;
 
 public interface EuclidianViewAccessibiliyAdapter {
 
+	/**
+	 * focus speech rec panel
+	 * 
+	 * @return whether there is a selectable speech panel
+	 */
 	boolean focusSpeechRecBtn();
 
+	/**
+	 * Focus the next available element on GUI. after geos.
+	 */
 	void focusNextGUIElement();
 
+	/**
+	 * Focus the last zoom button available or settings button.
+	 */
 	void focusLastZoomButton();
 
+	/**
+	 * @return view in this dock panel
+	 */
 	EuclidianView getEuclidianView();
 
+	/**
+	 * Focus the settings button if visible
+	 *
+	 * @return if there was an element to focus to.
+	 */
 	boolean focusSettings();
 
 }

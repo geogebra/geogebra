@@ -97,6 +97,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * @return view in this dock panel
 	 */
+	@Override
 	abstract public EuclidianView getEuclidianView();
 
 	@Override
@@ -433,18 +434,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
-	/**
-	 * Focus the next available element on GUI. after geos.
-	 */
+	@Override
 	public void focusNextGUIElement() {
 		if (zoomPanel != null) {
 			zoomPanel.focusFirstButton();
 		}
 	}
 
-	/**
-	 * focus speech rec panel
-	 */
+	@Override
 	public boolean focusSpeechRecBtn() {
 		if (speechRecPanel != null) {
 			speechRecPanel.focusSpeechRec();
@@ -460,11 +457,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		return zoomPanel != null && zoomPanel.hasButtons();
 	}
 
-	/**
-	 * Focus the last available element on GUI before geos.
-	 *
-	 * @return if there was an element to focus to.
-	 */
+	@Override
 	public boolean focusSettings() {
 		if (graphicsContextMenuBtn != null) {
 			graphicsContextMenuBtn.getElement().focus();
@@ -473,9 +466,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		return false;
 	}
 
-	/**
-	 * Focus the last zoom button available or settings button.
-	 */
+	@Override
 	public void focusLastZoomButton() {
 		if (zoomPanel != null) {
 			zoomPanel.focusLastButton();
