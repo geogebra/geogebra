@@ -47,6 +47,7 @@ import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
@@ -56,7 +57,7 @@ import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * App for testing: does not use Swing
- * 
+ *
  * @author Zbynek
  *
  */
@@ -78,6 +79,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	public AppDNoGui(LocalizationD loc, boolean silent) {
 		super(loc, new AwtFactoryD());
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
+                loginOperation = new LoginOperationD(this);
 	}
 
 	public void addExternalImage(String name, MyImageJre img) {
