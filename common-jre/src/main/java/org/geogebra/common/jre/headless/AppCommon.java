@@ -1,33 +1,27 @@
-package org.geogebra.common.main;
+package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
-import org.geogebra.common.gui.font.GFontCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.io.MyXMLioCommon;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
-import org.geogebra.common.jre.headless.DialogManagerNoGui;
-import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
-import org.geogebra.common.jre.headless.EuclidianViewNoGui;
-import org.geogebra.common.jre.headless.FontCreatorNoGui;
-import org.geogebra.common.jre.headless.FontManagerNoGui;
+import org.geogebra.common.jre.io.MyXMLioCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
+import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DefaultUndoManager;
@@ -36,8 +30,16 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.FontManager;
+import org.geogebra.common.main.GlobalKeyDispatcher;
+import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.DefaultSettings;
-import org.geogebra.common.main.settings.DefaultSettingsCommon;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
@@ -53,18 +55,21 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AppCommon extends App {
 
-    private LocalizationCommon localization;
+	private LocalizationJre localization;
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private FontCreator fontCreator;
+	private SpreadsheetTableModel tableModel;
 
     /**
      * Construct an AppCommon.
      */
-    public AppCommon() {
+	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
 		super(Versions.ANDROID_NATIVE_GRAPHING);
+		AwtFactory.setPrototypeIfNull(awtFactory);
         initFactories();
 		initKernel();
+		localization = loc;
         initLocalization();
 		getLocalization().initTranslateCommand();
 		initSettings();
@@ -103,14 +108,12 @@ public class AppCommon extends App {
 
 	@Override
     protected void initLocalization() {
-        localization = new LocalizationCommon(2);
         localization.setApp(this);
         super.initLocalization();
     }
 
     private void initFactories() {
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
-        AwtFactory.setPrototypeIfNull(new AwtFactoryCommon());
 		StringUtil.setPrototypeIfNull(new StringUtil());
     }
 
@@ -126,11 +129,19 @@ public class AppCommon extends App {
 
     @Override
     protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
+		this.getSettings().getEuclidian(1).setPreferredSize(
+				AwtFactory.getPrototype().newDimension(800, 600));
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
-				this.getSettings().getEuclidian(1), new GGraphicsCommon());
+				this.getSettings().getEuclidian(1),
+				createGraphics());
     }
 
-    @Override
+	protected final GGraphics2D createGraphics() {
+		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)
+				.createGraphics();
+	}
+
+	@Override
     protected FontManager getFontManager() {
 		return new FontManagerNoGui();
     }
@@ -268,7 +279,7 @@ public class AppCommon extends App {
 
     @Override
     public GFont getPlainFontCommon() {
-		return new GFontCommon(12);
+		return AwtFactory.getPrototype().newFont("serif", 0, 12);
     }
 
     @Override
@@ -316,9 +327,13 @@ public class AppCommon extends App {
     }
 
     @Override
-    public SpreadsheetTableModel getSpreadsheetTableModel() {
-        return null;
-    }
+	public SpreadsheetTableModel getSpreadsheetTableModel() {
+		if (tableModel == null) {
+			tableModel = new SpreadsheetTableModelSimple(this,
+					SPREADSHEET_INI_ROWS, SPREADSHEET_INI_COLS);
+		}
+		return tableModel;
+	}
 
     @Override
 	public void setXML(String xml, boolean clearAll) {
@@ -444,9 +459,14 @@ public class AppCommon extends App {
     }
 
     @Override
-    public boolean clearConstruction() {
+	public boolean clearConstruction() {
+		kernel.clearConstruction(true);
+		kernel.initUndoInfo();
+		resetMaxLayerUsed();
+		this.resetCurrentFile();
+		setMoveMode();
 		return true;
-    }
+	}
 
     @Override
     public void fileNew() {

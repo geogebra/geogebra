@@ -1,11 +1,10 @@
-package org.geogebra.common.io;
+package org.geogebra.common.jre.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.ZipInputStream;
 
 import org.geogebra.common.jre.gui.MyImageJre;
-import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 

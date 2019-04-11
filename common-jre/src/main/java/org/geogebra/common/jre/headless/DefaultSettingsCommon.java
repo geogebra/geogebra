@@ -1,4 +1,6 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.jre.headless;
+
+import org.geogebra.common.main.settings.DefaultSettings;
 
 public class DefaultSettingsCommon implements DefaultSettings {
 

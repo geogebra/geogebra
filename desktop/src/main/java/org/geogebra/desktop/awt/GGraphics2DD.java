@@ -195,8 +195,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void setStroke(GBasicStroke s) {
-		impl.setStroke(
-				((AwtFactoryD) AwtFactory.getPrototype()).getAwtStroke(s));
+		impl.setStroke(AwtFactoryD.getAwtStroke(s));
 
 	}
 

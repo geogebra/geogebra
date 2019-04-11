@@ -1,9 +1,9 @@
-package org.geogebra.common.main;
-
-import org.geogebra.common.jre.main.LocalizationJre;
+package org.geogebra.common.jre.headless;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import org.geogebra.common.jre.main.LocalizationJre;
 
 /**
  * Common Localization class, used for testing.
@@ -15,7 +15,7 @@ public class LocalizationCommon extends LocalizationJre {
      *
      * @param dimension the dimension of the app
      */
-    LocalizationCommon(int dimension) {
+	public LocalizationCommon(int dimension) {
         super(dimension);
     }
 

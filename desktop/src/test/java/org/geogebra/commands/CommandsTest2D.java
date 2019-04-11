@@ -1,10 +1,11 @@
 package org.geogebra.commands;
 
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.factories.AwtFactoryD;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class CommandsTest2D extends AlgebraTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = new AppDNoGui(new LocalizationD(2), false, 2);
+		app = new AppCommon(new LocalizationCommon(2), new AwtFactoryD());
 		app.setLanguage("en");
 		ap = app.getKernel().getAlgebraProcessor();
 	}

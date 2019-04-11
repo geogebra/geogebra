@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.util.TestEvent;
 import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
@@ -26,7 +28,8 @@ public class ControllerTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = new AppCommon3D();
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 		ec = app.getActiveEuclidianView().getEuclidianController();
 	}
 

@@ -1,8 +1,10 @@
 package org.geogebra.common;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.AppCommon;
 import org.junit.Before;
 
 /**
@@ -22,17 +24,24 @@ public class BaseUnitTest {
      */
     @Before
     public void setup() {
-        app = new AppCommon();
+		app = createAppCommon();
         kernel = app.getKernel();
         construction = kernel.getConstruction();
         elementFactory = new GeoElementFactory(this);
     }
 
-    /**
-     * Get the kernel.
-     *
-     * @return kernel
-     */
+	/**
+	 * @return app instance for 2D testing
+	 */
+	public static AppCommon createAppCommon() {
+		return new AppCommon(new LocalizationCommon(2), new AwtFactoryCommon());
+	}
+
+	/**
+	 * Get the kernel.
+	 *
+	 * @return kernel
+	 */
     protected Kernel getKernel() {
         return kernel;
     }

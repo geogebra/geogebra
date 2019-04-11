@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.TextLayoutCommon;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.gui.font.GFontCommon;
@@ -44,7 +45,7 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
 
     @Override
     public GTextLayout newTextLayout(String string, GFont fontLine, GFontRenderContext frc) {
-        return null;
+		return new TextLayoutCommon();
     }
 
     @Override

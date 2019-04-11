@@ -2,6 +2,7 @@ package org.geogebra.common.gui.slider;
 
 import static org.mockito.Mockito.mock;
 
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.util.slider.SliderBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -9,7 +10,6 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppCommon;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.junit.After;
 import org.junit.Assert;
@@ -27,7 +27,7 @@ public class SliderBuilderTest {
 	private Construction construction;
 
 	public SliderBuilderTest() {
-		app = new AppCommon();
+		app = BaseUnitTest.createAppCommon();
 	}
 
 	@Before

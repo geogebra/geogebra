@@ -274,7 +274,7 @@ public class AwtFactoryD extends AwtFactory {
 		return new GFontD(new Font(name, style, size));
 	}
 
-	public BasicStroke getAwtStroke(GBasicStroke s) {
+	public static BasicStroke getAwtStroke(GBasicStroke s) {
 		if (!(s instanceof GBasicStrokeD)) {
 			if (s != null) {
 				Log.debug("other type: " + s.getClass());
@@ -285,7 +285,7 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	static public BasicStroke getDefaultStrokeAwt() {
-		return ((AwtFactoryD) AwtFactory.getPrototype())
+		return AwtFactoryD
 				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
