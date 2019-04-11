@@ -113,7 +113,7 @@ public class ZoomController {
 			app.toggleMenu();
 		}
 		view.setStandardView(true);
-		app.getAccessibilityManager().focusMenu();
+		app.getAccessibilityManager().focusFirstElement();
 	}
 
 	/** Zoom In button handler. */

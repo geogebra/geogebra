@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui;
+package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
@@ -13,8 +13,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
-import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
@@ -27,35 +25,33 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
-	private GuiManagerW gm;
 	private AppW app;
 	private boolean tabOverGeos = false;
 	private SelectionManager selection;
 	private Widget anchor;
 	private SliderInput activeButton;
-	private DockManagerDelegate dockManagerDelegate;
+	private PerspectiveAccessibilityAdapter perspectiveAdapter;
+	private SideBarAccessibilityAdapter menuContainer;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param app
 	 *            The application.
+	 * @param perspectiveAdapter
+	 *            adapter for tabbing through multiple views
 	 */
-	public AccessibilityManagerW(AppW app) {
+	public AccessibilityManagerW(AppW app,
+			PerspectiveAccessibilityAdapter perspectiveAdapter) {
 		this.app = app;
-		gm = (GuiManagerW) app.getGuiManager();
 		selection = app.getSelectionManager();
-		dockManagerDelegate = new DockManagerDelegate(app);
-	}
-
-	private void focusFirst() {
-		focusFirstElement();
+		this.perspectiveAdapter = perspectiveAdapter;
 	}
 
 	@Override
 	public void focusNext(AccessibilityGroup group, int viewID) {
 		if (group == null) {
-			focusFirst();
+			focusFirstElement();
 		} else if (group == AccessibilityGroup.ALGEBRA_ITEM) {
 			nextFromInput();
 		} else if (group == AccessibilityGroup.ZOOM_PANEL) {
@@ -69,8 +65,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			nextFromLastGeo();
 		}
 	}
-
-
 
 	@Override
 	public void focusPrevious(AccessibilityGroup group, int viewID) {
@@ -92,11 +86,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (focusLastGeo()) {
 			return;
 		}
-		focusMenu();
+		focusFirstElement();
 	}
 
 	private void previousFromSpeechRecognition(int viewID) {
-		EuclidianDockPanelWAbstract dp = getEuclidianPanel(viewID);
+		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewID);
 		if (dp != null) {
 			focusZoomPanel(false, viewID);
 		} else {
@@ -121,20 +115,18 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromInput() {
-		focusMenu();
+		focusFirstElement();
 	}
 
 	private void nextFromZoomPanel(int viewID) {
-		if (app.has(Feature.SPEECH_RECOGNITION)) {
-			focusSpeechRec(viewID);
-		} else {
-			if (!focusZoomPanel(true, nextID(viewID))) {
-				focusFirstElement();
-			}
+		if (app.has(Feature.SPEECH_RECOGNITION) && focusSpeechRec(viewID)) {
+			return;
+		}
+
+		if (!focusZoomPanel(true, nextID(viewID))) {
+			focusFirstElement();
 		}
 	}
-
-
 
 	private void nextFromSpeechRecognitionPanel(int viewId) {
 		if (focusZoomPanel(true, nextID(viewId))) {
@@ -145,22 +137,22 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromLastGeo() {
-		focusFirstWidget();
+		if (!focusZoomPanel(true, nextID(-1))) {
+			focusFirstElement();
+		}
 	}
 
 	private boolean focusSpeechRec(int viewID) {
-		EuclidianDockPanelWAbstract dp = getEuclidianPanel(viewID);
+		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewID);
 		if (dp != null) {
-			dp.focusSpeechRecBtn();
-			return true;
+			return dp.focusSpeechRecBtn();
 		}
 		return false;
 	}
 
 	private boolean focusZoomPanel(boolean first, int viewID) {
-		EuclidianDockPanelWAbstract ev = DockManagerDelegate
-				.checkEuclidianViewWithZoomButtons(
-				getEuclidianPanel(viewID));
+		EuclidianViewAccessibiliyAdapter ev = perspectiveAdapter
+				.getEVPanelWitZoomButtons(viewID);
 		if (ev != null) {
 			setTabOverGeos(false);
 			if (first) {
@@ -174,47 +166,39 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private void focusFirstElement() {
-		if (gm.getUnbundledToolbar() != null) {
-			focusMenu();
-		} else {
-			if (app.is3DViewEnabled()) {
-				setTabOverGeos(true);
-				if (!focusFirstGeo()) {
-					nextFromLastGeo();
-				}
-			}
+	@Override
+	public void focusFirstElement() {
+		if (!focusFirstWidget()) {
+			focusFirstGeo();
 		}
 	}
 
 	@Override
 	public boolean focusInput(boolean force) {
-		if (gm.getUnbundledToolbar() != null) {
-			return gm.getUnbundledToolbar().focusInput(force);
+		if (menuContainer != null) {
+			return menuContainer.focusInput(force);
 		}
 		return false;
 	}
 
-	private void focusFirstWidget() {
-		ToolbarPanel toolbar = gm.getUnbundledToolbar();
-		if (toolbar != null) {
-			if (toolbar.focusInput(false)) {
-				return;
+	private boolean focusFirstWidget() {
+		if (menuContainer != null) {
+			if (menuContainer.focusInput(false)) {
+				return true;
 			}
 
-			gm.getUnbundledToolbar().focusMenu();
-			return;
+			menuContainer.focusMenu();
+			return true;
 		}
-
-		focusZoomPanel(true, nextID(-1));
+		return false;
 	}
 
 	private int nextID(int i) {
-		return dockManagerDelegate.nextID(i);
+		return perspectiveAdapter.nextID(i);
 	}
 
 	private int prevID(int i) {
-		return dockManagerDelegate.prevID(i);
+		return perspectiveAdapter.prevID(i);
 	}
 
 	private void previousFromZoomPanel(int viewID) {
@@ -259,13 +243,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
-	private EuclidianDockPanelWAbstract getEuclidianPanel(int viewId) {
-		return (EuclidianDockPanelWAbstract) gm.getLayout().getDockManager()
-				.getPanel(viewId);
+	private EuclidianViewAccessibiliyAdapter getEuclidianPanel(int viewId) {
+		return this.perspectiveAdapter.getEuclidianPanel(viewId);
 	}
 
 	private boolean focusSettings(int viewID) {
-		if (getEuclidianPanel(viewID).focusLastGUIElement()) {
+		if (getEuclidianPanel(viewID).focusSettings()) {
 			setTabOverGeos(false);
 			return true;
 		}
@@ -294,15 +277,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void focusMenu() {
-		if (gm.getUnbundledToolbar() != null) {
-			gm.getUnbundledToolbar().focusMenu();
-		} else {
-			focusFirstElement();
-		}
-	}
-
-	@Override
 	public boolean isTabOverGeos() {
 		return tabOverGeos;
 	}
@@ -317,7 +291,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (selection.getSelectedGeos().size() != 1 || !app.isUnbundled()) {
 			return false;
 		}
-		GeoElement geo = selection.getSelectedGeos().get(0);
 		boolean exitOnFirst = selection.isFirstGeoSelected() && isShiftDown;
 		boolean exitOnLast = selection.isLastGeoSelected() && !isShiftDown;
 		this.activeButton = null;
@@ -341,10 +314,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			setTabOverGeos(true);
 			app.getActiveEuclidianView().requestFocus();
 		} else {
-			ToolbarPanel tp = ((GuiManagerW) app.getGuiManager())
-					.getUnbundledToolbar();
-			if (tp != null) {
-				tp.focusMenu();
+			if (menuContainer != null) {
+				menuContainer.focusMenu();
 			}
 		}
 	}
@@ -371,7 +342,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void focusAnchorOrMenu() {
 		if (anchor == null) {
-			focusMenu();
+			focusFirstElement();
 		} else {
 			focusAnchor();
 		}
@@ -417,7 +388,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private boolean isPlayVisible(int viewID) {
-		EuclidianDockPanelWAbstract panel = getEuclidianPanel(viewID);
+		EuclidianViewAccessibiliyAdapter panel = getEuclidianPanel(viewID);
 		return app.getKernel().needToShowAnimationButton()
 				&& panel != null && panel.getEuclidianView()
 						.drawPlayButtonInThisView();
@@ -549,5 +520,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return true;
 		}
 		return handleTabExitGeos(false);
+	}
+
+	public void setMenuContainer(SideBarAccessibilityAdapter toolbarPanel) {
+		this.menuContainer = toolbarPanel;
 	}
 }

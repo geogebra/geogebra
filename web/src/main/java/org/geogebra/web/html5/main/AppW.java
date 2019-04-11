@@ -20,6 +20,7 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -101,6 +102,8 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
+import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.font.FontCreatorW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.MebisVendorSettings;
@@ -3944,5 +3947,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			fontCreator = new FontCreatorW(settings.getFontSettings());
 		}
 		return fontCreator;
+	}
+
+	@Override
+	public final AccessibilityManagerInterface getAccessibilityManager() {
+		if (accessibilityManager == null) {
+			accessibilityManager = new AccessibilityManagerW(this,
+					createPerspectiveAccessibilityAdapter());
+		}
+		return accessibilityManager;
+	}
+
+	private PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
+		return new SinglePanelAccessibilityAdapter(this);
+	}
+
+	public ZoomPanel getZoomPanel() {
+		return zoomPanel;
 	}
 }

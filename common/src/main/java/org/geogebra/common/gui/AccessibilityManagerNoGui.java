@@ -20,7 +20,7 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public void focusMenu() {
+	public void focusFirstElement() {
 		// only tab geos
 	}
 

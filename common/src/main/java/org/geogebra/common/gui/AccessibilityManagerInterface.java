@@ -14,6 +14,8 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 * @param group
 	 *            The source element to focus from.
+	 * @param viewID
+	 *            view ID
 	 */
 	public void focusNext(AccessibilityGroup group, int viewID);
 
@@ -22,11 +24,13 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 * @param group
 	 *            The source element to focus from.
+	 * @param viewID
+	 *            view ID
 	 */
 	public void focusPrevious(AccessibilityGroup group, int viewID);
 
-	/** Focus main menu */
-	public void focusMenu();
+	/** Focus first interactive element (widget or drawable) */
+	public void focusFirstElement();
 
 	/**
 	 * Focus algebra input

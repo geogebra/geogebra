@@ -116,6 +116,7 @@ import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.HasResource;

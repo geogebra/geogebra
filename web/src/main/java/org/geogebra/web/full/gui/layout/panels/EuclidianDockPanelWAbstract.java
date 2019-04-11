@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigatio
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -31,7 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author arpad (based on EuclidianDockPanelAbstract by Mathieu)
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
-		implements GetViewId {
+		implements GetViewId, EuclidianViewAccessibiliyAdapter {
 	private ConstructionProtocolNavigationW consProtNav;
 	private boolean hasEuclidianFocus;
 	private boolean mayHaveZoomButtons = false;
@@ -444,10 +445,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * focus speech rec panel
 	 */
-	public void focusSpeechRecBtn() {
+	public boolean focusSpeechRecBtn() {
 		if (speechRecPanel != null) {
 			speechRecPanel.focusSpeechRec();
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -462,7 +465,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *
 	 * @return if there was an element to focus to.
 	 */
-	public boolean focusLastGUIElement() {
+	public boolean focusSettings() {
 		if (graphicsContextMenuBtn != null) {
 			graphicsContextMenuBtn.getElement().focus();
 			return true;
@@ -477,7 +480,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.focusLastButton();
 		} else {
-			focusLastGUIElement();
+			focusSettings();
 		}
 	}
 

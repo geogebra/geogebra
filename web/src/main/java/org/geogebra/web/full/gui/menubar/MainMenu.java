@@ -518,7 +518,7 @@ public class MainMenu extends FlowPanel
 				selectPreviousItem(submenu);
 			} else if (!selectNextItem(submenu)) {
 				app.toggleMenu();
-				app.getAccessibilityManager().focusMenu();
+				app.getAccessibilityManager().focusFirstElement();
 			}
 			return true;
 		}

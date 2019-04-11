@@ -288,7 +288,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (articleElement.getDataParamFitToScreen()) {
 			updateHeaderVisible();
 			app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
-			app.getAccessibilityManager().focusMenu();
+			app.getAccessibilityManager().focusFirstElement();
 		}
 		app.checkScaleContainer();
 	}

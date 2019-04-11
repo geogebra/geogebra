@@ -496,7 +496,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			event.stopPropagation();
 			if (app.getKernel().getConstruction().isEmpty()) {
 				event.preventDefault();
-				app.getAccessibilityManager().focusMenu();
+				app.getAccessibilityManager().focusFirstElement();
 				return;
 			}
 

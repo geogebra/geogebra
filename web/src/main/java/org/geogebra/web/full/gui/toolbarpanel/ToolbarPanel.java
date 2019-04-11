@@ -20,6 +20,8 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
+import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -42,7 +44,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
+public class ToolbarPanel extends FlowPanel
+		implements MyModeChangedListener, SideBarAccessibilityAdapter {
 	/** vertical offset for shadow */
 	public static final int VSHADOW_OFFSET = 4;
 
@@ -190,6 +193,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				.setModeChangeListener(this);
 		initGUI();
 		initClickStartHandler();
+		((AccessibilityManagerW) app.getAccessibilityManager())
+				.setMenuContainer(this);
 	}
 
 	private void add(ToolbarTab tab) {
@@ -968,19 +973,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		tabTools.setFade(fade);
 	}
 
-	/** Sets focus to Burger menu */
+	@Override
 	public void focusMenu() {
 		header.focusMenu();
 	}
 
-	/**
-	 * Sets focus to AV Input
-	 * 
-	 * @param force
-	 *            force to open AV tab if not active
-	 * 
-	 * @return if input can be focused.
-	 */
+	@Override
 	public boolean focusInput(boolean force) {
 		if (force) {
 			openAlgebra(true);

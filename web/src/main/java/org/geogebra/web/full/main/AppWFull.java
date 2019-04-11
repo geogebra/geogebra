@@ -14,7 +14,6 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -52,8 +51,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
-import org.geogebra.web.full.gui.AccessibilityManagerW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
+import org.geogebra.web.full.gui.DockManagerAccessibilityAdapter;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
@@ -101,6 +100,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
+import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -1225,12 +1225,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	@Override
-	public final AccessibilityManagerInterface getAccessibilityManager() {
-		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerW(this);
-		}
-		return accessibilityManager;
+	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
+		return new DockManagerAccessibilityAdapter(this);
 	}
 
 	/**
