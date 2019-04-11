@@ -6670,8 +6670,8 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public void setSelectionAllowed(final boolean selected2) {
-		selectionAllowed = selected2;
+	public void setSelectionAllowed(final boolean selectionAllowed) {
+		this.selectionAllowed = selectionAllowed;
 	}
 
 	/**

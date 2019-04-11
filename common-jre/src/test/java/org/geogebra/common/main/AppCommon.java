@@ -19,6 +19,8 @@ import org.geogebra.common.gui.font.GFontCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.MyXMLioCommon;
+import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.headless.DialogManagerNoGui;
 import org.geogebra.common.jre.headless.EuclidianControllerNoGui;
@@ -193,7 +195,15 @@ public class AppCommon extends App {
 
     @Override
     public boolean showView(int view) {
-        return false;
+		Perspective p = this.getTmpPerspective(null);
+		if (p != null) {
+			for (DockPanelData dp : p.getDockPanelData()) {
+				if (dp.getViewId() == view) {
+					return dp.isVisible();
+				}
+			}
+		}
+		return false;
     }
 
     @Override
