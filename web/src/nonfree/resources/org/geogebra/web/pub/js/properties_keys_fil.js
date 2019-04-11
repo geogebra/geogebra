@@ -1894,7 +1894,7 @@ __GGB__keysVar["fil"].menu = {
     "GenerateCode": "Generate Code",
     "GeneratePgf": "Gumawa ng code na PGF/TikZ",
     "GeneratePstricks": "Gumawa ng code",
-    "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
+    "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",

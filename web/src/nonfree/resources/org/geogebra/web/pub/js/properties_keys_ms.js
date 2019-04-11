@@ -1894,7 +1894,7 @@ __GGB__keysVar["ms"].menu = {
     "GenerateCode": "Menjana Kod",
     "GeneratePgf": "Menjana kod PGF/TikZ",
     "GeneratePstricks": "Menjana kod",
-    "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
+    "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Forum GeoGebra",

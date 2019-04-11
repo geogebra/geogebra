@@ -1894,7 +1894,7 @@ __GGB__keysVar["sq"].menu = {
     "GenerateCode": "Gjenero Kod",
     "GeneratePgf": "Gjeneroj Kodin PGF/TikZ",
     "GeneratePstricks": "Gjeneroj Kodin",
-    "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
+    "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forum",

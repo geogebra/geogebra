@@ -1894,7 +1894,7 @@ __GGB__keysVar["kk"].menu = {
     "GenerateCode": "\u041a\u043e\u0434\u0442\u044b \u04e9\u04a3\u0434\u0435\u0443",
     "GeneratePgf": "PGF/TikZ \u043a\u043e\u0434\u044b\u043d \u04e9\u04a3\u0434\u0435\u0443",
     "GeneratePstricks": "\u041a\u043e\u0434\u0442\u044b \u04e9\u04a3\u0434\u0435\u0443",
-    "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
+    "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D \u043a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra \u0444\u043e\u0440\u0443\u043c\u044b",
