@@ -1,6 +1,8 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
+import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactory;
 
 /**
  * Config for Scientific Calculator app
@@ -60,5 +62,10 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public boolean hasAutomaticLabels() {
 		return false;
+	}
+	
+	@Override
+	public CommandSelector getCommandSelector() {
+		return new SciCalcCommandSelectorFactory().createCommandSelector();
 	}
 }

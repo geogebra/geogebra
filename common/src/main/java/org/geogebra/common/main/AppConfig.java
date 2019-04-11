@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
 
 public interface AppConfig {
 
@@ -131,4 +132,8 @@ public interface AppConfig {
 	 */
 	int getDefaultLabelingStyle();
 
+	/**
+	 * @return the Command Selector for the app.
+	 */
+	CommandSelector getCommandSelector();
 }

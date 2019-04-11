@@ -146,6 +146,7 @@ public abstract class CommandDispatcher {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
+		commandSelector = app.getConfig().getCommandSelector();
 	}
 
 	/**
