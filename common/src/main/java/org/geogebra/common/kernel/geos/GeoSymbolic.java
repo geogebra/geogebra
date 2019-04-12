@@ -6,13 +6,16 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -227,6 +230,26 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 		}
 		twinUpToDate = true;
 		return newTwin;
+	}
+
+	@Override
+	public char getLabelDelimiter() {
+		return getDefinition().unwrap() instanceof Equation ? ':' : '=';
+	}
+
+	/**
+	 * @return parsed CAS output
+	 */
+	public ExpressionValue getOutputExpression() {
+		if (StringUtil.empty(casOutputString)) {
+			return null;
+		}
+		try {
+			return kernel.getParser().parseExpression(casOutputString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

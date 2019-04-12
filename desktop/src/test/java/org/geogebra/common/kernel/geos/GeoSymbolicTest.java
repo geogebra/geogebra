@@ -58,6 +58,12 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void recursiveSystem() {
+		t("a = b + b", "2 * b");
+		t("b = a - 1", "b = 2 * b - 1");
+	}
+
+	@Test
 	public void equation() {
 		t("x+y=p", "x + y = p");
 	}

@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -36,8 +37,15 @@ public class SymbolicProcessor {
 
 		@Override
 		public boolean check(ExpressionValue v) {
+			String label = ve.wrap().getLabel();
+			if (v instanceof GeoSymbolic && label!=null) {
+				return ((GeoSymbolic) v).getOutputExpression().inspect(this);
+			}
+			if (v instanceof Variable) {
+				return ((Variable) v).getName().equals(label);
+			}
 			return v instanceof GeoDummyVariable && ((GeoDummyVariable) v)
-					.getVarName().equals(ve.wrap().getLabel());
+					.getVarName().equals(label);
 		}
 	}
 
@@ -115,6 +123,7 @@ public class SymbolicProcessor {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
 							.wrap();
+			ve.wrap().setLabel(null);
 		}
 
 		return doEvalSymbolicNoLabel(replaced);
