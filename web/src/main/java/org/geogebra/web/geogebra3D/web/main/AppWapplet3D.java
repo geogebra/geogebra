@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
@@ -30,7 +29,6 @@ import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianControllerFor3DW;
 import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
 import org.geogebra.web.geogebra3D.web.kernel3D.commands.CommandDispatcher3DW;
-import org.geogebra.web.geogebra3D.web.main.settings.SettingsBuilderW3D;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -236,8 +234,4 @@ public class AppWapplet3D extends AppWFull {
 		afterLoadFileAppOrNot(false);
 	}
 
-	@Override
-	protected SettingsBuilder newSettingsBuilder() {
-		return new SettingsBuilderW3D(this);
-	}
 }

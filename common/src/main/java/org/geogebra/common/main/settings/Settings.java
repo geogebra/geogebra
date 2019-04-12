@@ -1,10 +1,8 @@
 package org.geogebra.common.main.settings;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Set;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.main.App;
@@ -19,9 +17,6 @@ import org.geogebra.common.main.App;
  * @author Florian Sonner
  */
 public class Settings {
-
-	private Set<Resetable> resetableSettings;
-
 	private final EuclidianSettings[] euclidianSettings;
 
 	private HashMap<String, EuclidianSettings> euclidianSettingsForPlane;
@@ -66,8 +61,9 @@ public class Settings {
 	 */
 	public Settings(App app, int euclidianLength) {
 		euclidianSettings = new EuclidianSettings[euclidianLength];
+
 		euclidianSettingsForPlane = new HashMap<>();
-		resetableSettings = new HashSet<>();
+
 		resetSettings(app);
 	}
 
@@ -103,6 +99,18 @@ public class Settings {
 
 		for (EuclidianSettings settings : euclidianSettingsForPlane.values()) {
 			settings.reset();
+		}
+
+		if (algebraSettings == null) {
+			algebraSettings = new AlgebraSettings();
+		} else {
+			// make this way to be sure that treeMode is set to 1 before calling
+			// settingChanged()
+			LinkedList<SettingListener> listeners = algebraSettings
+					.getListeners();
+			algebraSettings = new AlgebraSettings();
+			algebraSettings.setListeners(listeners);
+			algebraSettings.settingChanged();
 		}
 
 		if (spreadsheetSettings == null) {
@@ -166,10 +174,21 @@ public class Settings {
 					toolbarSettings.getListeners());
 		}
 
-		tableSettings = new TableSettings();
+		initFontSettings(app);
+		initLabelSettings();
 
-		for (Resetable setting : resetableSettings) {
-			setting.resetDefaults();
+		tableSettings = new TableSettings();
+	}
+
+	private void initFontSettings(App app) {
+		if (fontSettings == null) {
+			fontSettings = new FontSettings(app.getDefaultSettings());
+		}
+	}
+
+	private void initLabelSettings() {
+		if (labelSettings == null) {
+			labelSettings = new LabelSettings();
 		}
 	}
 
@@ -429,22 +448,11 @@ public class Settings {
 		return fontSettings;
 	}
 
-	void setFontSettings(FontSettings fontSettings) {
+	public void setFontSettings(FontSettings fontSettings) {
 		this.fontSettings = fontSettings;
-		resetableSettings.add(fontSettings);
 	}
 
 	public LabelSettings getLabelSettings() {
 		return labelSettings;
-	}
-
-	void setLabelSettings(LabelSettings labelSettings) {
-		this.labelSettings = labelSettings;
-		resetableSettings.add(labelSettings);
-	}
-
-	void setAlgebraSettings(AlgebraSettings algebraSettings) {
-		this.algebraSettings = algebraSettings;
-		resetableSettings.add(algebraSettings);
 	}
 }

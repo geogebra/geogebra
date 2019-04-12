@@ -1,18 +1,9 @@
 package org.geogebra.common.main.settings;
 
-public class LabelSettings implements Resetable {
+public class LabelSettings {
 
-	private LabelVisibility labelVisibility;
-	private LabelVisibility labelVisibilityForMenu;
-
-	public LabelSettings() {
-		initVisibilities();
-	}
-
-	private void initVisibilities() {
-		labelVisibility = LabelVisibility.PointsOnly;
-		labelVisibilityForMenu = LabelVisibility.NotSet;
-	}
+	private LabelVisibility labelVisibility = LabelVisibility.PointsOnly;
+	private LabelVisibility labelVisibilityForMenu = LabelVisibility.NotSet;
 
 	public LabelVisibility getLabelVisibility() {
 		return labelVisibility;
@@ -29,10 +20,5 @@ public class LabelSettings implements Resetable {
 
 	public void resetLabelVisibilityForMenu() {
 		labelVisibilityForMenu = LabelVisibility.NotSet;
-	}
-
-	@Override
-	public void resetDefaults() {
-		initVisibilities();
 	}
 }
