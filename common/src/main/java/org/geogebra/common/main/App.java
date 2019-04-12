@@ -3864,7 +3864,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 			return prerelease;
 
 		case SYMBOLIC_AV:
-			return canary;
+			return prerelease;
 
 		/** GGB-2375 */
 		case INPUT_BOX_LINE_UP_BETTER:
