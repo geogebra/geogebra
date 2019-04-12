@@ -1013,6 +1013,16 @@ public class AlgebraProcessor {
 				return ev;
 			}
 		}).wrap();
+		if(replaced.inspect(new Inspecting(){
+
+			public boolean check(ExpressionValue v) {
+				return v instanceof GeoDummyVariable && ((GeoDummyVariable)v).getVarName().equals(ve.wrap().getLabel());
+			}
+		})) {
+			replaced = new Equation(kernel,
+					new GeoDummyVariable(cons, ve.wrap().getLabel()),
+					replaced).wrap();
+		}
 
 		return doEvalSymbolicNoLabel(replaced);
 	}

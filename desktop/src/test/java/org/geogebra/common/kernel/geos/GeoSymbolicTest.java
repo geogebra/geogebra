@@ -36,6 +36,25 @@ public class GeoSymbolicTest {
 	@Test
 	public void expression() {
 		t("a=p+q", "p + q");
+		checkInput("a", "a = p + q");
+	}
+
+	@Test
+	public void assignmentOperators() {
+		t("b:=p+q", "p + q");
+		checkInput("b", "b = p + q");
+		t("c:p+q", "p + q");
+		checkInput("c", "c = p + q");
+	}
+
+	private void checkInput(String label, String expectedInput) {
+		Assert.assertEquals(expectedInput, app.getKernel().lookupLabel(label)
+				.toString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void recursiveEquation() {
+		t("a=a^2-2", "a = a^(2) - 2");
 	}
 
 	@Test
