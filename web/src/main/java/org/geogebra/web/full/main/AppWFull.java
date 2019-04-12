@@ -845,20 +845,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 			// dialog first
 			if (!getLoginOperation().isLoggedIn() && !getLoginOperation()
 					.getGeoGebraTubeAPI().anonymousOpen()) {
-				getLAF().getSignInController(this).loginFromApp();
-				getLoginOperation().getView().add(new EventRenderable() {
-
-					@Override
-					public final void renderEvent(BaseEvent event) {
-						if (event instanceof LoginEvent) {
-							LoginEvent loginEvent = (LoginEvent) event;
-							if (!loginEvent.isAutomatic()
-									|| loginEvent.isSuccessful()) {
-								checkOpen(onError, this);
-							}
-						}
-					}
-				});
+				getLoginOperation().getView()
+						.add(new SharedFileOpenCallback(this, onError));
 			} else {
 				getLoginOperation().getView().add(new EventRenderable() {
 
