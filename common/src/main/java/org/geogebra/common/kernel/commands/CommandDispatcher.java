@@ -1008,4 +1008,8 @@ public abstract class CommandDispatcher {
 		setCommandSelector(savedCommandSelector);
 	}
 
+	public boolean isCASAllowed() {
+		return isAllowedBySelector(Commands.Solve);
+	}
+
 }

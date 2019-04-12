@@ -312,6 +312,6 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	@Override
 	public void restoreCommandSelector() {
 		super.restoreCommandSelector();
-		commandDispatcher = kernel.getApplication().getCommandDispatcher(kernel);
+		commandDispatcher = kernel.getAlgebraProcessor().getCmdDispatcher();
 	}
 }

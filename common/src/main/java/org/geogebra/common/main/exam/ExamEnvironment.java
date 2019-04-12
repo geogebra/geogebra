@@ -51,6 +51,7 @@ public class ExamEnvironment {
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
 
+	private AllowCommands allow;
 	/**
 	 *
 	 * @param app
@@ -60,6 +61,7 @@ public class ExamEnvironment {
 		this.app = app;
 		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
+		allow = new AllowCommands(app.getKernel().getAlgebraProcessor().getCommandDispatcher());
 	}
 
 	/**
@@ -419,7 +421,7 @@ public class ExamEnvironment {
 	 */
 	public void exit() {
 		storeEndTime();
-		restoreCommands();
+		allow.restoreCommandSelector();
 	}
 
 	/**
@@ -593,9 +595,6 @@ public class ExamEnvironment {
 		commandDispatcher.setCommandSelector(new NoCASCommandSelectorFactory().createCommandSelector());
 	}
 
-	private void restoreCommands() {
-		app.getKernel().getAlgebraProcessor().getCommandDispatcher().restoreCommandSelector();
-	}
 
 	/**
 	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher
@@ -642,4 +641,20 @@ public class ExamEnvironment {
 			windowLeft();
 		}
 	}
+	
+	public void enableCAS() {
+		allow.enableCAS();
+	}
+	
+	public void disableCAS() {
+		allow.disableCAS();
+	}
+
+	public void saveCommandSelector() {
+		allow.saveCommandSelector();
+	}
+	
+	public void restoreCommandSelector() {
+		allow.restoreCommandSelector();
+	}	
 }

@@ -25,12 +25,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Exam start dialog
  */
-public class ExamDialog {
+public class ExamDialog implements ClickHandler {
 	private static boolean examStyle;
 	/** Application */
 	protected AppW app;
 	/** Wrapped box */
 	protected DialogBoxKbW box;
+	private CheckBox cas;
 
 	/**
 	 * @param app
@@ -45,6 +46,7 @@ public class ExamDialog {
 	 */
 	public void show() {
 		ensureExamStyle();
+		app.getExam().saveCommandSelector();
 		Localization loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		final boolean hasGraphing = app.getArticleElement()
@@ -89,19 +91,15 @@ public class ExamDialog {
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
 			checkboxes++;
-			final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
+			cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 			cas.addStyleName("examCheckbox");
 			cas.setValue(true);
+			app.getExam().enableCAS();
 			app.getSettings().getCasSettings().setEnabled(true);
 			cbxPanel.add(cas);
-			cas.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					app.getSettings().getCasSettings().setEnabled(cas.getValue());
-					guiManager.updateToolbarActions();
-				}
-			});
+			cas.addClickHandler(this); 
 		}
+		
 		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
 			checkboxes++;
 			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
@@ -311,6 +309,24 @@ public class ExamDialog {
 	 */
 	protected void onButtonOk() {
 		startExam();
+	}
+
+	@Override
+	public void onClick(ClickEvent event) {
+		Object source = event.getSource(); 
+		if (source == cas) {
+			onCasChecked();
+		}
+	}
+	
+	private void onCasChecked() {
+		if (cas.getValue()) {
+			app.getExam().enableCAS();
+		} else {
+			app.getExam().disableCAS();
+		}
+		app.getGuiManager().updateToolbarActions();
+
 	}
 
 }

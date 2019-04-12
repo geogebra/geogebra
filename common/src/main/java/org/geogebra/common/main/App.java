@@ -80,6 +80,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
+import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
@@ -101,7 +102,6 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
-import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
@@ -761,7 +761,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
-		boolean noCAS = !getSettings().getCasSettings().isEnabled();
+		boolean noCAS = !kernel.getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
 		// translation table for all command names in command.properties
 		getLocalization().initTranslateCommand();
 		// command dictionary for all public command names available in

@@ -3536,7 +3536,7 @@ public class AlgebraProcessor {
 	 */
 	public String getSyntax(String cmdInt, Settings settings) {
 		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
-		if (settings.getCasSettings().isEnabled()) {
+		if (cmdDispatcher.isCASAllowed()) {
 			return loc.getCommandSyntax(cmdInt, dim);
 		}
 		Commands cmd = null;
