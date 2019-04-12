@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
@@ -73,6 +74,7 @@ import org.geogebra.desktop.geogebra3D.gui.layout.panels.EuclidianDockPanel3DD;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
+import org.geogebra.desktop.geogebra3D.settings.SettingsBuilder3D;
 import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
@@ -830,4 +832,8 @@ public class App3D extends AppD {
 		return size;
 	}
 
+	@Override
+	protected SettingsBuilder newSettingsBuilder() {
+		return new SettingsBuilder3D(this);
+	}
 }

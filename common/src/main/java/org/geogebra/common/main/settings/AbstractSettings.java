@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * @author Florian Sonner
  * @see "http://dev.geogebra.org/trac/wiki/GuiRefactoring"
  */
-public abstract class AbstractSettings {
+public abstract class AbstractSettings implements Resetable {
 	/**
 	 * Running in batch mode: Only at the end of the batch mode listeners are
 	 * notified if settings changed.
@@ -39,7 +39,7 @@ public abstract class AbstractSettings {
 	 */
 	public AbstractSettings(LinkedList<SettingListener> listeners) {
 		this.listeners = listeners;
-		settingChanged();
+		notifyListeners();
 	}
 
 	/**
@@ -62,9 +62,13 @@ public abstract class AbstractSettings {
 
 		// otherwise: inform listeners immediately
 		else {
-			for (SettingListener listener : listeners) {
-				listener.settingsChanged(this);
-			}
+			notifyListeners();
+		}
+	}
+
+	void notifyListeners() {
+		for (SettingListener listener : listeners) {
+			listener.settingsChanged(this);
 		}
 	}
 
@@ -119,5 +123,11 @@ public abstract class AbstractSettings {
 	 */
 	public LinkedList<SettingListener> getListeners() {
 		return listeners;
+	}
+
+	@Override
+	public void resetDefaults() {
+		runningBatches = 0;
+		settingsChanged = false;
 	}
 }

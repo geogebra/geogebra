@@ -291,7 +291,6 @@ public abstract class TextPreviewer {
 					.getDefaultGeo(ConstructionDefaults.DEFAULT_TEXT));
 			geo.setObjColor(GColor.RED);
 			geo.setBackgroundColor(GColor.WHITE);
-			// geo.setAppFontSize(app.geGFontSize());
 			geo.setFontStyle(GFont.ITALIC);
 			geo.setLaTeX(false, true);
 		}
