@@ -62,8 +62,13 @@ public class AppCommon extends App {
 	private SpreadsheetTableModel tableModel;
 
     /**
-     * Construct an AppCommon.
-     */
+	 * Construct an AppCommon.
+	 * 
+	 * @param loc
+	 *            localization
+	 * @param awtFactory
+	 *            AWT factory
+	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
 		super(Versions.ANDROID_NATIVE_GRAPHING);
 		AwtFactory.setPrototypeIfNull(awtFactory);
@@ -112,19 +117,19 @@ public class AppCommon extends App {
         super.initLocalization();
     }
 
-    private void initFactories() {
+	private static void initFactories() {
         FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		StringUtil.setPrototypeIfNull(new StringUtil());
     }
 
     @Override
     protected void showErrorDialog(String msg) {
-
+		// not needed with no UI
     }
 
     @Override
     protected void initGuiManager() {
-
+		// not needed with no UI
     }
 
     @Override
@@ -136,7 +141,7 @@ public class AppCommon extends App {
 				createGraphics());
     }
 
-	protected final GGraphics2D createGraphics() {
+	private static GGraphics2D createGraphics() {
 		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)
 				.createGraphics();
 	}
@@ -158,22 +163,22 @@ public class AppCommon extends App {
 
     @Override
     protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
-
+		// TODO
     }
 
     @Override
-    public CommandDispatcher getCommandDispatcher(Kernel kernel) {
-		return new CommandDispatcherJre(kernel);
+    public CommandDispatcher getCommandDispatcher(Kernel cmdKernel) {
+		return new CommandDispatcherJre(cmdKernel);
     }
 
     @Override
-    public CommandDispatcher getCommand3DDispatcher(Kernel kernel) {
+	public CommandDispatcher getCommand3DDispatcher(Kernel cmdKernel) {
         return null;
     }
 
     @Override
     public void invokeLater(Runnable runnable) {
-
+		runnable.run();
     }
 
     @Override
@@ -191,7 +196,7 @@ public class AppCommon extends App {
 
     @Override
     public void closePopups() {
-
+		// not needed with no UI
     }
 
     @Override
@@ -219,12 +224,12 @@ public class AppCommon extends App {
 
     @Override
     public void showError(String localizedError) {
-
+		// not needed with no UI
     }
 
     @Override
     public void showError(String string, String str) {
-
+		// not needed with no UI
     }
 
     @Override
@@ -264,7 +269,7 @@ public class AppCommon extends App {
 
     @Override
     public void evalJavaScript(App app, String script, String arg) throws Exception {
-
+		// TODO delegate to scriptManager
     }
 
     @Override
@@ -308,22 +313,22 @@ public class AppCommon extends App {
 
     @Override
     public void setWaitCursor() {
-
+		// not needed with no UI
     }
 
     @Override
     public void updateStyleBars() {
-
+		// not needed with no UI
     }
 
     @Override
     public void updateDynamicStyleBars() {
-
+		// not needed with no UI
     }
 
     @Override
     public void set1rstMode() {
-
+		// TODO
     }
 
     @Override
@@ -384,6 +389,7 @@ public class AppCommon extends App {
 
 			}
 
+			@Override
 			public boolean writePNGtoFile(String filename, double exportScale,
 					boolean transparent, double DPI, boolean greyscale) {
 				// TODO Auto-generated method stub
@@ -430,32 +436,32 @@ public class AppCommon extends App {
 
     @Override
     public void callAppletJavaScript(String string, String... args) {
-
+		// TODO delegate to ScriptManager
     }
 
     @Override
     public void updateMenubar() {
-
+		// not needed with no UI
     }
 
     @Override
     public void updateUI() {
-
+		// not needed with no UI
     }
 
     @Override
     public void showURLinBrowser(String string) {
-
+		// not needed with no UI
     }
 
     @Override
     public void uploadToGeoGebraTube() {
-
+		// TODO
     }
 
     @Override
     public void updateApplicationLayout() {
-
+		// not needed with no UI
     }
 
     @Override
@@ -470,7 +476,7 @@ public class AppCommon extends App {
 
     @Override
     public void fileNew() {
-
+		clearConstruction();
     }
 
     @Override
@@ -480,17 +486,17 @@ public class AppCommon extends App {
 
     @Override
     public void copyGraphicsViewToClipboard() {
-
+		// not needed with no UI
     }
 
     @Override
     public void exitAll() {
-
+		// not needed with no UI
     }
 
     @Override
     public void runScripts(GeoElement geo1, String string) {
-
+		// TODO
     }
 
     @Override
@@ -510,7 +516,7 @@ public class AppCommon extends App {
 
     @Override
     public void setActiveView(int evID) {
-
+		// only needed with 3D: overridden
     }
 
     @Override
@@ -540,7 +546,7 @@ public class AppCommon extends App {
 
     @Override
     public void reset() {
-
+		// TODO
     }
 
     @Override
@@ -555,7 +561,7 @@ public class AppCommon extends App {
 
     @Override
     public void resetUniqueId() {
-
+		// TODO
     }
 
     @Override
@@ -570,7 +576,7 @@ public class AppCommon extends App {
 
     @Override
     public void showCustomizeToolbarGUI() {
-
+		// not needed with no UI
     }
 
     @Override
@@ -599,6 +605,12 @@ public class AppCommon extends App {
 		};
     }
 
+	/**
+	 * @param clear
+	 *            whether to disable dialog manager
+	 * @param inputs
+	 *            prepared inputs
+	 */
 	public void initDialogManager(boolean clear, String... inputs) {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
