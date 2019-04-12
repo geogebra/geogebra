@@ -205,10 +205,8 @@ img.profileImage {
 	height:calc(100% - $height);
 }
 
-.startscreen.offline{
-	position: absolute;
+.startscreen.offline, .startscreen.notes{
 	top: 0;
-	width: 100%;
 	height: 100%;
 }
 
