@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -72,7 +71,6 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -92,7 +90,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -171,6 +168,8 @@ public class AlgebraProcessor {
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
 	private CommandSelector noCASselector;
+
+	private SymbolicProcessor symbolicProcessor;
 
 	/**
 	 * @param kernel
@@ -983,84 +982,11 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement evalSymbolic(final ValidExpression ve) {
-		GeoElement sym = evalSymbolicNoLabel(ve);
+		if (symbolicProcessor == null) {
+			symbolicProcessor = new SymbolicProcessor(kernel);
+		}
+		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
 		sym.setLabel(ve.getLabel());
-		return sym;
-	}
-
-	/**
-	 * @param ve
-	 *            input expression
-	 * @return processed geo
-	 */
-	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve) {
-		ve.resolveVariables(
-				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
-		if (ve.unwrap() instanceof Command
-				&& "Sequence".equals(((Command) ve.unwrap()).getName())) {
-			return doEvalSymbolicNoLabel(ve.wrap());
-		}
-		ExpressionNode replaced = ve.traverse(new Traversing() {
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof Command && ev != ve.unwrap()) {
-					return evalSymbolicNoLabel(ev);
-				}
-				if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
-						.getElementWithSameName() != null) {
-					return ((GeoDummyVariable) ev).getElementWithSameName();
-				}
-				return ev;
-			}
-		}).wrap();
-		if(replaced.inspect(new Inspecting(){
-
-			public boolean check(ExpressionValue v) {
-				return v instanceof GeoDummyVariable && ((GeoDummyVariable)v).getVarName().equals(ve.wrap().getLabel());
-			}
-		})) {
-			replaced = new Equation(kernel,
-					new GeoDummyVariable(cons, ve.wrap().getLabel()),
-					replaced).wrap();
-		}
-
-		return doEvalSymbolicNoLabel(replaced);
-	}
-
-	/**
-	 * @param replaced
-	 *            symbolic expression
-	 * @return evaluated expression
-	 */
-	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced) {
-		HashSet<GeoElement> vars = replaced
-				.getVariables(SymbolicMode.SYMBOLIC_AV);
-		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
-		if (vars != null) {
-			for (GeoElement var : vars) {
-				if (!(var instanceof GeoDummyVariable)) {
-					noDummyVars.add(var);
-				} else {
-					cons.getCASdummies()
-							.add(((GeoDummyVariable) var).getVarName());
-				}
-			}
-		}
-		GeoSymbolic sym;
-		if (noDummyVars.size() > 0) {
-			AlgoDependentSymbolic ads = new AlgoDependentSymbolic(cons,
-					replaced,
-					noDummyVars);
-			sym = (GeoSymbolic) ads.getOutput(0);
-		} else {
-			sym = new GeoSymbolic(cons);
-			if (replaced.unwrap() instanceof FunctionNVar) {
-				sym.setVariables(((FunctionNVar) replaced.unwrap())
-						.getFunctionVariables());
-			}
-			sym.setDefinition(replaced);
-			sym.computeOutput();
-		}
 		return sym;
 	}
 
