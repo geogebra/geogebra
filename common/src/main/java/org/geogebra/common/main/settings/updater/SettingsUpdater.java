@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings.updater;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
@@ -26,6 +27,7 @@ public class SettingsUpdater {
 	public void resetSettingsOnlyOnAppStart() {
 		kernel.setPrintDecimals(appConfig.getDefaultPrintDecimals());
 		labelSettingsUpdater.setLabelVisibility(LabelVisibility.PointsOnly);
+		settings.getAlgebra().setStyle(AlgebraStyle.DefinitionAndValue);
 	}
 
 	public void resetSettingsAfterClearAll() {

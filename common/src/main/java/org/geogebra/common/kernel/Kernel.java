@@ -80,6 +80,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.main.settings.AlgebraSettings;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -128,18 +130,31 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	// G.Sturr 2009-10-18
 	// algebra style
-	/** Algebra view style: value */
+	/**
+	 * @deprecated AlgebraStyle.Value should be used instead.
+	 * Algebra view style: value */
+	@Deprecated
 	final public static int ALGEBRA_STYLE_VALUE = 0;
-	/** Algebra view style: description */
+
+	/**
+	 * @deprecated AlgebraStyle.Description should be used instead.
+	 * Algebra view style: description */
+	@Deprecated
 	final public static int ALGEBRA_STYLE_DESCRIPTION = 1;
-	/** Algebra view style: definition */
+
+	/**
+	 * @deprecated AlgebraStyle.Definition should be used instead.
+	 * Algebra view style: definition */
+	@Deprecated
 	final public static int ALGEBRA_STYLE_DEFINITION = 2;
 
-	/** Algebra view style: definition and value */
+	/**
+	 * @deprecated AlgebraStyle.DefinitionAndValue should be used instead.
+	 * Algebra view style: definition and value */
+	@Deprecated
 	final public static int ALGEBRA_STYLE_DEFINITION_AND_VALUE = 3;
 	// critical for exam mode
 	// must use getter
-	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
 	private int algebraStyleSpreadsheet = Kernel.ALGEBRA_STYLE_VALUE;
 
 	// end G.Sturr
@@ -2970,13 +2985,18 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
+	 * @deprecated AlgebraStyleSettings.setStyle should be used instead.
+	 *
 	 * G.Sturr 2009-10-18
 	 * 
 	 * @param style
 	 *            Algebra style, see ALGEBRA_STYLE_*
 	 */
+	@Deprecated
 	final public void setAlgebraStyle(int style) {
-		algebraStyle = style;
+		AlgebraSettings algebraSettings = getApplication().getSettings().getAlgebra();
+		AlgebraStyle algebraStyle = AlgebraStyle.get(style);
+		algebraSettings.setStyle(algebraStyle);
 	}
 
 	/**
@@ -2994,15 +3014,19 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
+	 * @deprecated AlgebraSettings.getStyle should be used instead.
+	 *
 	 * @return algebra style, one of ALGEBRA_STYLE_*
 	 */
+	@Deprecated
 	final public int getAlgebraStyle() {
-		if (app != null
-				&& algebraStyle == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-				&& app.isDesktop()) {
-			return Kernel.ALGEBRA_STYLE_VALUE;
-		}
-		return algebraStyle;
+		// TODO: implement this in AlgebraSettingsD.getStyle
+//		if (app != null
+//				&& algebraStyle == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+//				&& app.isDesktop()) {
+//			return Kernel.ALGEBRA_STYLE_VALUE;
+//		}
+		return getApplication().getSettings().getAlgebra().getStyle().getValue();
 	}
 
 	/**

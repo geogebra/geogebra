@@ -21,6 +21,8 @@ public class AlgebraSettings extends AbstractSettings {
 
 	private int[] collapsedNodes = null;
 
+	private AlgebraStyle style = AlgebraStyle.Value;
+
 	private static List<Integer> styleModes = Arrays.asList(
 			Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE,
 			Kernel.ALGEBRA_STYLE_VALUE, Kernel.ALGEBRA_STYLE_DEFINITION,
@@ -169,5 +171,13 @@ public class AlgebraSettings extends AbstractSettings {
 	 */
 	public static int indexOfStyleMode(int mode) {
 		return styleModes.indexOf(mode);
+	}
+
+	public AlgebraStyle getStyle() {
+		return style;
+	}
+
+	public void setStyle(AlgebraStyle style) {
+		this.style = style;
 	}
 }
