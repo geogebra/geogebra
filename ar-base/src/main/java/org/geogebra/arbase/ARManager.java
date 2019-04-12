@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
+import java.util.HashMap;
+import java.util.Map;
+
 abstract public class ARManager<TouchEventType> implements ARManagerInterface<TouchEventType> {
 
     protected CoordMatrix4x4 viewMatrix = new CoordMatrix4x4();
@@ -24,6 +27,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
+    protected Map<Object, Double> trackablesZ;
+    protected Object hittingTrackable;
     protected double hittingDistance;
 
     private Coords tmpCoords1 = new Coords(4);
@@ -116,7 +121,21 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return hittingFloorOk ? hittingFloor : null;
     }
 
-    abstract public double checkHittingFloorZ(double z);
+    public double checkHittingFloorZ(double z) {
+        createTrackableListIfNeeded();
+        Double v = trackablesZ.get(hittingTrackable);
+        if (v == null) {
+            trackablesZ.put(hittingTrackable, z);
+            return z;
+        }
+        return v;
+    }
+
+    private void createTrackableListIfNeeded() {
+        if (trackablesZ == null) {
+            trackablesZ = new HashMap<>();
+        }
+    }
 
     public double getHittingDistance() {
         return hittingDistance;
@@ -320,7 +339,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
      * set first hit floor z value
      * @param z altitude
      */
-    abstract public void setFirstFloor(double z);
+    public void setFirstFloor(double z) {
+        if (hittingTrackable != null) {
+            createTrackableListIfNeeded();
+            trackablesZ.put(hittingTrackable, z);
+        }
+    };
 
     protected ARMotionEvent getARMotionEventMoveFromScreenCenter(){
         return null;
