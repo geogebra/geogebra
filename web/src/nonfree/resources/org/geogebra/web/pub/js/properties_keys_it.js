@@ -1894,7 +1894,7 @@ __GGB__keysVar["it"].menu = {
     "GenerateCode": "Genera codice",
     "GeneratePgf": "Genera codice PGF/TikZ",
     "GeneratePstricks": "Genera codice PSTricks",
-    "GeoGebra3DGrapher": "Calcolatrice grafica 3D GeoGebra",
+    "GeoGebra3DGrapher": "Calcolatrice 3D GeoGebra",
     "GeoGebra3DGrapher.short": "Calcolatrice 3D",
     "GeoGebraCASCalculator": "Calcolatrice GeoGebra CAS",
     "GeoGebraForum": "Forum di GeoGebra",
