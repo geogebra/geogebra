@@ -8551,6 +8551,9 @@ namespace giac {
     case _FRAC:
       return sign(a._FRACptr->num,contextptr)*sign(a._FRACptr->den,contextptr);
     }
+    int fs=fastsign(a,contextptr);
+    if (fs)
+      return fs;
     gen b=evalf_double(a,1,contextptr);
     if (b.type==_DOUBLE_){
       if (b._DOUBLE_val>eps)
