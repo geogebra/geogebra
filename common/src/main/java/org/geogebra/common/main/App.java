@@ -82,6 +82,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.ToolbarSettings;
@@ -2443,7 +2444,10 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 */
 	@Deprecated
 	public int getGUIFontSize() {
-		return getSettings().getFontSettings().getGuiFontSize();
+		FontSettings fontSettings = getSettings().getFontSettings();
+		int appFontSettings = fontSettings.getAppFontSize();
+		int guiFontSize = fontSettings.getGuiFontSize();
+		return guiFontSize == -1 ? appFontSettings : guiFontSize;
 	}
 
 	/**
