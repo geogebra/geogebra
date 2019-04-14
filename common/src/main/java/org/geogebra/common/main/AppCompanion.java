@@ -115,13 +115,11 @@ public class AppCompanion {
 	}
 
 	/**
-	 * @deprecated The Settings instance is built by the SettingsBuilder in the App.
-	 *
+	 * 
 	 * @return new settings
 	 */
-	@Deprecated
 	public Settings newSettings() {
-		return app.newSettingsBuilder().newSettings();
+		return new Settings(app, 2);
 	}
 
 	/**

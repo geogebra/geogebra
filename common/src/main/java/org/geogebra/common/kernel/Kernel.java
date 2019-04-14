@@ -3020,6 +3020,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public int getAlgebraStyle() {
+		// TODO: implement this in AlgebraSettingsD.getStyle
+//		if (app != null
+//				&& algebraStyle == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+//				&& app.isDesktop()) {
+//			return Kernel.ALGEBRA_STYLE_VALUE;
+//		}
 		return getApplication().getSettings().getAlgebra().getStyle().getValue();
 	}
 

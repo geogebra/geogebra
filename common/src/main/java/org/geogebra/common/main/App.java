@@ -86,7 +86,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
-import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
@@ -5040,12 +5039,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected void initSettings() {
-		settings = newSettingsBuilder().newSettings();
+		settings = companion.newSettings();
 		initParserSettings();
-	}
-
-	protected SettingsBuilder newSettingsBuilder() {
-		return new SettingsBuilder(this);
 	}
 
 	/**
