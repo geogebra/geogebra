@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianHost;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -118,7 +119,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Represents an application window, gives access to views and system stuff
  */
 @SuppressWarnings("javadoc")
-public abstract class App implements UpdateSelection, AppInterface {
+public abstract class App implements UpdateSelection, AppInterface, EuclidianHost {
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	/** Url for main page of manual */

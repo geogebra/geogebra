@@ -2,15 +2,11 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.DrawEquation;
-import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -71,21 +67,6 @@ public interface AppInterface {
 	 * @return algebra view
 	 */
 	public abstract AlgebraView getAlgebraView();
-
-	/**
-	 * @return active euclidian view (may be EV, EV2 or 3D)
-	 */
-	public abstract EuclidianView getActiveEuclidianView();
-
-	/**
-	 * @return whether EV2 was initialized
-	 */
-	public abstract boolean hasEuclidianView2EitherShowingOrNot(int idx);
-
-	/**
-	 * @return whether EV2 is visible
-	 */
-	public abstract boolean isShowingEuclidianView2(int idx);
 
 	/**
 	 * @return image manager
@@ -265,11 +246,6 @@ public interface AppInterface {
 	public abstract long freeMemory();
 
 	/**
-	 * @return euclidian view; if not present yet, new one is created
-	 */
-	public abstract EuclidianView createEuclidianView();
-
-	/**
 	 * Makes given view active
 	 *
 	 * @param evID
@@ -298,10 +274,6 @@ public interface AppInterface {
 	public abstract NormalizerMinimal getNormalizer();
 
 	public abstract void reset();
-
-	public abstract EuclidianController newEuclidianController(Kernel kernel1);
-
-	public abstract DrawEquation getDrawEquation();
 
 	public abstract void resetUniqueId();
 

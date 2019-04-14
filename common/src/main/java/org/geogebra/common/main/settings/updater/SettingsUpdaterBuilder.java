@@ -5,20 +5,28 @@ import org.geogebra.common.main.App;
 public class SettingsUpdaterBuilder {
 
 	private App app;
+	private SettingsUpdater prototype;
 
 	public SettingsUpdaterBuilder(App app) {
 		this.app = app;
 	}
 
 	public SettingsUpdater newSettingsUpdater() {
-		SettingsUpdater settingsUpdater = new SettingsUpdater();
-		settingsUpdater.setDefaultSettings(app.getDefaultSettings());
-		settingsUpdater.setSettings(app.getSettings());
-		settingsUpdater.setAppConfig(app.getConfig());
-		settingsUpdater.setKernel(app.getKernel());
-		settingsUpdater.setFontSettingsUpdater(newFontSettingsUpdater());
-		settingsUpdater.setLabelSettingsUpdater(newLabelSettingsUpdater());
-		return settingsUpdater;
+		initPrototypeIfNull();
+		prototype.setEuclidianHost(app);
+		prototype.setDefaultSettings(app.getDefaultSettings());
+		prototype.setSettings(app.getSettings());
+		prototype.setAppConfig(app.getConfig());
+		prototype.setKernel(app.getKernel());
+		prototype.setFontSettingsUpdater(newFontSettingsUpdater());
+		prototype.setLabelSettingsUpdater(newLabelSettingsUpdater());
+		return prototype;
+	}
+
+	private void initPrototypeIfNull() {
+		if (prototype == null) {
+			prototype = new SettingsUpdater();
+		}
 	}
 
 	protected FontSettingsUpdater newFontSettingsUpdater() {
@@ -31,5 +39,9 @@ public class SettingsUpdaterBuilder {
 
 	protected App getApp() {
 		return app;
+	}
+
+	public void setPrototype(SettingsUpdater prototype) {
+		this.prototype = prototype;
 	}
 }
