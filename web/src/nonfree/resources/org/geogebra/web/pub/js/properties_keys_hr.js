@@ -706,7 +706,7 @@ __GGB__keysVar["hr"].command = {
     "Product.SyntaxCAS": "[ <lista izraza> ]\n[ <izraz>, <varijabla>, <po\u010detni indeks>, <krajnji indeks> ]",
     "Prove": "Provjeri",
     "Prove.Syntax": "[ <logi\u010dki izraz> ]",
-    "ProveDetails": "Dokaz",
+    "ProveDetails": "ProvjeriPojedinosti",
     "ProveDetails.Syntax": "[ <logi\u010dki izraz> ]",
     "Pyramid": "Piramida",
     "Pyramid.Syntax": "[ <mnogokut>, <to\u010dka> ]\n[ <mnogokut>, <visina> ]\n[ <to\u010dka>, <to\u010dka>, <to\u010dka>, <to\u010dka>, ... ]",
