@@ -2469,7 +2469,7 @@ public abstract class App implements UpdateSelection, AppInterface {
 	 * @return font manager
 	 */
 	@Deprecated
-	protected abstract FontManager getFontManager();
+	public abstract FontManager getFontManager();
 
 	/**
 	 * @deprecated FontCreator.newSansSerifFont should e used instead.

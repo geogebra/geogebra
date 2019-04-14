@@ -147,7 +147,7 @@ public class AppCommon extends App {
 	}
 
 	@Override
-    protected FontManager getFontManager() {
+	public FontManager getFontManager() {
 		return new FontManagerNoGui();
     }
 

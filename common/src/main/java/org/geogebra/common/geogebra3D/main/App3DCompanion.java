@@ -452,4 +452,7 @@ public abstract class App3DCompanion extends AppCompanion {
 		app.getKernel().detach(exportView3D);
 	}
 
+	public EuclidianViewForPlaneCompanion getEuclidianViewForPlaneCompanion() {
+		return euclidianViewForPlaneCompanion;
+	}
 }
