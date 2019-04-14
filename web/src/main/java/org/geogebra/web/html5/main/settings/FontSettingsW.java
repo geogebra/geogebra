@@ -7,7 +7,7 @@ public class FontSettingsW extends FontSettings {
 
 	private static final int MIN_APP_FONT_SIZE = 12;
 
-	public FontSettingsW(DefaultSettings defaultSettings) {
+	FontSettingsW(DefaultSettings defaultSettings) {
 		super(defaultSettings);
 	}
 

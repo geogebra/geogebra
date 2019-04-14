@@ -118,6 +118,15 @@ public class AlgebraSettings extends AbstractSettings {
 		collapsedNodes = null;
 	}
 
+	@Override
+	public void resetDefaults() {
+		super.resetDefaults();
+		reset();
+		modeChanged = false;
+		style = AlgebraStyle.Value;
+		notifyListeners();
+	}
+
 	/**
 	 * @return whether description mode changed from XML
 	 */
