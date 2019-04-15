@@ -1,16 +1,5 @@
 package org.geogebra.common.awt;
 
-import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GComposite;
-import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GShape;
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.gui.font.GFontCommon;
 
 /**

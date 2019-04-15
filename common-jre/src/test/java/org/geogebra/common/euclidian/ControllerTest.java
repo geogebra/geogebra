@@ -25,6 +25,7 @@ public class ControllerTest {
 	private static AppCommon3D app;
 	private static EuclidianController ec;
 	private static ArrayList<TestEvent> events = new ArrayList<>();
+	private static String[] lastCheck;
 
 	@BeforeClass
 	public static void setup() {
@@ -32,8 +33,6 @@ public class ControllerTest {
 				new AwtFactoryCommon());
 		ec = app.getActiveEuclidianView().getEuclidianController();
 	}
-
-	private static String[] lastCheck;
 
 	@Before
 	public void clear() {

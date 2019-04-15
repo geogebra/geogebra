@@ -16,8 +16,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	private VariableReplacerAlgorithm variableReplacerAlgorithm;
 
 	@Before
-	public void setup() {
-		super.setup();
+	public void setupTest() {
 		variableReplacerAlgorithm = new VariableReplacerAlgorithm(getKernel());
 	}
 

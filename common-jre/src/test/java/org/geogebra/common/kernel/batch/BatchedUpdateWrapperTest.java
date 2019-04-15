@@ -27,6 +27,15 @@ import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BatchedUpdateWrapperTest extends BaseUnitTest {
+	private WrappedViewTest wrappedView;
+
+	@Mock
+	/* package */ GTimer timer;
+
+	@Spy
+	private UtilFactoryJre utilFactory;
+
+	private BatchedUpdateWrapper wrapper;
 
 	static abstract private class WrappedViewTest
 			implements WrappableView {
@@ -44,16 +53,6 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 		}
 
 	}
-
-	private WrappedViewTest wrappedView;
-
-	@Mock
-	private GTimer timer;
-
-	@Spy
-	private UtilFactoryJre utilFactory;
-
-	private BatchedUpdateWrapper wrapper;
 
 	@Before
 	public void setupBatchedUpdateWrapperTest() {
@@ -139,12 +138,16 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 		doAnswer(new Answer() {
 			@Override
 			public Object answer(InvocationOnMock invocation) throws Throwable {
-				GeoElement line2 = getElementFactory().createGeoLine();
-				wrapper.add(line2);
+				addLine();
 				return null;
 			}
 		}).when(wrappedView).add(eq(line1));
 
 		wrapper.onRun();
+	}
+
+	protected void addLine() {
+		GeoElement line2 = getElementFactory().createGeoLine();
+		wrapper.add(line2);
 	}
 }

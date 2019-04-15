@@ -9,7 +9,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class OrderingComparison<T extends Comparable<T>>
+public final class OrderingComparison<T extends Comparable<T>>
 		extends TypeSafeMatcher<T> {
 	private static final int LESS_THAN = -1;
 	private static final int GREATER_THAN = 1;

@@ -3,7 +3,7 @@ package org.geogebra.test;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
-public class RegexpMatch extends TypeSafeMatcher<String> {
+public final class RegexpMatch extends TypeSafeMatcher<String> {
 	private String regexp;
 
 	private RegexpMatch(String regexp) {

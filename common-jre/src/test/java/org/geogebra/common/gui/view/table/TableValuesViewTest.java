@@ -15,18 +15,18 @@ import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 /**
  * Test class for TableValuesView.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class TableValuesViewTest extends BaseUnitTest {
 
     private TableValues view;
@@ -38,8 +38,6 @@ public class TableValuesViewTest extends BaseUnitTest {
     @Mock
     private Function slowFunction;
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
 	private TableValuesPointsImpl tablePoints;
 
     @Before
@@ -410,12 +408,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoEvaluatable fnReload = lookupFunction("f");
 
 		Assert.assertEquals(false, fnReload.isPointsVisible());
-	}
-
-	private String getXML() {
-		StringBuilder sb = new StringBuilder();
-		getApp().getSettings().getTable().getXML(sb);
-		return sb.toString();
 	}
 
 	@Test

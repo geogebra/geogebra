@@ -4,46 +4,53 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SelectionManagerTest extends BaseUnitTest {
 
+	private SelectionManager selectionManager;
+
+	@Before
+	public void setupTest() {
+		selectionManager = getApp().getSelectionManager();
+	}
+
 	@Test
 	public void hasNextShouldSkipInvisibleGeos() {
-		getApp().getGgbApi().setPerspective("G");
-		GeoElement first = add("A:(1,1)");
-		GeoElement second = add("B:(2,1)");
-		GeoElement hidden = add("C:(3,1)");
-		hidden.setEuclidianVisible(false);
-		GeoElement notSelectable = add("D:(4,1)");
-		notSelectable.setSelectionAllowed(false);
+		createSampleGeos();
+		Assert.assertTrue(selectionManager.hasNext(lookup("firstVisible")));
+		Assert.assertFalse(selectionManager.hasNext(lookup("lastVisible")));
+	}
 
-		Assert.assertTrue(getSelection().hasNext(first));
-		Assert.assertFalse(getSelection().hasNext(second));
+	private GeoElement lookup(String string) {
+		return getApp().getKernel().lookupLabel(string);
+	}
+
+	private void createSampleGeos() {
+		getApp().getGgbApi().setPerspective("G");
+		add("firstVisible:(1,1)");
+		add("lastVisible:(2,1)");
+		GeoElement hidden = add("hidden:(3,1)");
+		hidden.setEuclidianVisible(false);
+		GeoElement notSelectable = add("notSelectable:(4,1)");
+		notSelectable.setSelectionAllowed(false);
 	}
 
 	@Test
 	public void selectNextShouldSkipInvisibleGeos() {
 		getApp().getGgbApi().setPerspective("G");
-		GeoElement first = add("A:(1,1)");
-		GeoElement second = add("B:(2,1)");
-		GeoElement hidden = add("C:(3,1)");
-		hidden.setEuclidianVisible(false);
-		GeoElement notSelectable = add("D:(4,1)");
-		notSelectable.setSelectionAllowed(false);
+		createSampleGeos();
 
-		getSelection().setSelectedGeos(null);
-		getSelection().addSelectedGeo(first);
+		selectionManager.setSelectedGeos(null);
+		GeoElement firstVisible = lookup("firstVisible");
+		selectionManager.addSelectedGeo(firstVisible);
 		// next jumps to second
-		getSelection().selectNextGeo(getApp().getEuclidianView1());
-		Assert.assertTrue(second.isSelected());
+		selectionManager.selectNextGeo(getApp().getEuclidianView1());
+		Assert.assertTrue(lookup("lastVisible").isSelected());
 		// next jumps bacck to first
-		getSelection().selectNextGeo(getApp().getEuclidianView1());
-		Assert.assertTrue(first.isSelected());
-	}
-
-	private SelectionManager getSelection() {
-		return getApp().getSelectionManager();
+		selectionManager.selectNextGeo(getApp().getEuclidianView1());
+		Assert.assertTrue(firstVisible.isSelected());
 	}
 
 	private GeoElement add(String string) {
