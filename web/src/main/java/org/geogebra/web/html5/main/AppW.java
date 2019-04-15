@@ -57,6 +57,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -121,7 +122,7 @@ import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
-import org.geogebra.web.html5.main.settings.FontSettingsW;
+import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
@@ -310,12 +311,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						}
 					});
 		}
-	}
-
-	@Override
-	protected void initSettings() {
-		super.initSettings();
-		settings.setFontSettings(new FontSettingsW(getDefaultSettings()));
 	}
 
 	/**
@@ -3964,5 +3959,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public ZoomPanel getZoomPanel() {
 		return zoomPanel;
+	}
+
+	@Override
+	public SettingsBuilder newSettingsBuilder() {
+		return new SettingsBuilderW(this);
 	}
 }

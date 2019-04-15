@@ -221,11 +221,6 @@ public abstract class App3DCompanion extends AppCompanion {
 	abstract public DockPanel getPanelForPlane();
 
 	@Override
-	public Settings newSettings() {
-		return new Settings(app, 3);
-	}
-
-	@Override
 	public boolean hasEuclidianViewForPlane() {
 		return euclidianViewForPlaneCompanionList != null
 				&& euclidianViewForPlaneCompanionList.size() > 0;

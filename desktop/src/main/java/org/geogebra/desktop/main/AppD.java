@@ -161,6 +161,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
+import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -225,6 +226,7 @@ import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.settings.DefaultSettingsD;
+import org.geogebra.desktop.main.settings.SettingsBuilderD;
 import org.geogebra.desktop.main.settings.updater.SettingsUpdaterBuilderD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
@@ -5379,6 +5381,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			e.printStackTrace();
 			Log.error("error in element <keyboard>");
 		}
+	}
+
+	@Override
+	public SettingsBuilder newSettingsBuilder() {
+		return new SettingsBuilderD(this);
 	}
 
 	@Override
