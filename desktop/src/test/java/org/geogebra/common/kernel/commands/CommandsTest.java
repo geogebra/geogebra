@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.common.jre.util.TestStringUtil.unicode;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -12,7 +15,6 @@ import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -29,6 +31,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,14 +48,22 @@ public class CommandsTest extends AlgebraTest {
 	private static String syntax;
 
 	public static void tRound(String s, String... expected) {
-		testSyntax(s, expected, app, ap, StringTemplate.editTemplate);
+		testSyntax(s, getMatchers(expected), app, ap,
+				StringTemplate.editTemplate);
 	}
 
 	public static void t(String s, String... expected) {
-		testSyntax(s, expected, app, ap, StringTemplate.xmlTemplate);
+		testSyntax(s, getMatchers(expected), app, ap,
+				StringTemplate.xmlTemplate);
 	}
 
-	private static void testSyntax(String s, String[] expected, App app1,
+	public static void t(String s, Matcher<String> expected) {
+		testSyntax(s, Arrays.asList(expected), app, ap,
+				StringTemplate.xmlTemplate);
+	}
+
+	private static void testSyntax(String s, List<Matcher<String>> expected,
+			App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
@@ -139,15 +151,19 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdTableText() {
-		t("tables=TableText[1..5]", (String) null);
+		t("tables=TableText[1..5]", StringContains.containsString("array"));
 		checkSize("tables", 5, 1);
-		t("tableh=TableText[ 1..5, 1..5,\"h\" ]", (String) null);
+		t("tableh=TableText[ 1..5, 1..5,\"h\" ]",
+				StringContains.containsString("array"));
 		checkSize("tableh", 5, 2);
-		t("tablev=TableText[ {1..5, 1..5},\"v\" ]", (String) null);
+		t("tablev=TableText[ {1..5, 1..5},\"v\" ]",
+				StringContains.containsString("array"));
 		checkSize("tablev", 2, 5);
-		t("tablesplit=TableText[1..5,\"v\",3]", (String) null);
+		t("tablesplit=TableText[1..5,\"v\",3]",
+				StringContains.containsString("array"));
 		checkSize("tablesplit", 2, 3);
-		t("tablesplit=TableText[1..5,\"h\",3]", (String) null);
+		t("tablesplit=TableText[1..5,\"h\",3]",
+				StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
 	}
 
@@ -598,7 +614,9 @@ public class CommandsTest extends AlgebraTest {
 
 	private static void ti(String in, String out) {
 		testSyntax(in.replace("i", Unicode.IMAGINARY + ""),
-				new String[] { out.replace("i", Unicode.IMAGINARY + "") }, app,
+				getMatchers(new String[] {
+						out.replace("i", Unicode.IMAGINARY + "") }),
+				app,
 				ap, StringTemplate.xmlTemplate);
 	}
 

@@ -1,15 +1,18 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
 import org.junit.Assert;
 
 public class AlgebraTest extends Assert {
@@ -118,6 +121,30 @@ public class AlgebraTest extends Assert {
 	 */
 	public static void testSyntaxSingle(String s, String[] expected,
 			AlgebraProcessor proc, StringTemplate tpl) {
+		testSyntaxSingle(s, getMatchers(expected), proc, tpl);
+	}
+
+	protected static List<Matcher<String>> getMatchers(String[] expected) {
+		ArrayList<Matcher<String>> matchers = new ArrayList<>();
+		for(String exp: expected){
+			matchers.add(IsEqual.equalTo(exp));
+		}
+		return matchers;
+	}
+
+	/**
+	 * @param s
+	 *            input
+	 * @param expected
+	 *            expected output
+	 * @param proc
+	 *            algebra processor
+	 * @param tpl
+	 *            template
+	 */
+	public static void testSyntaxSingle(String s,
+			List<Matcher<String>> expected, AlgebraProcessor proc,
+			StringTemplate tpl) {
 		Throwable t = null;
 		GeoElementND[] result = null;
 		try {
@@ -139,13 +166,11 @@ public class AlgebraTest extends Assert {
 		// String actual = result[i].toValueString(tpl);
 		// System.out.println("\"" + actual + "\",");
 		// }
-		Assert.assertEquals(s + " count:", expected.length, result.length);
+		Assert.assertEquals(s + " count:", expected.size(), result.length);
 
-		for (int i = 0; i < expected.length; i++) {
+		for (int i = 0; i < expected.size(); i++) {
 			String actual = result[i].toValueString(tpl);
-			if (expected[i] != null) {
-				Assert.assertEquals(s + ":" + actual, expected[i], actual);
-			}
+			MatcherAssert.assertThat(s + ":" + actual, actual, expected.get(i));
 		}
 		System.out.print("+");
 	}

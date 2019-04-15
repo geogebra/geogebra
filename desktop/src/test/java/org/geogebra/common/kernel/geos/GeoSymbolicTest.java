@@ -1,10 +1,16 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.core.AnyOf.anyOf;
+import static org.hamcrest.core.IsEqual.equalTo;
+
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.main.App;
+import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -25,6 +31,12 @@ public class GeoSymbolicTest {
 
 	public static void t(String input, String... expected) {
 		AlgebraTest.testSyntaxSingle(input, expected, ap,
+				StringTemplate.testTemplate);
+	}
+
+	public static void t(String input, Matcher<String> expected) {
+		AlgebraTest.testSyntaxSingle(input,
+				Arrays.asList(expected), ap,
 				StringTemplate.testTemplate);
 	}
 
@@ -121,9 +133,13 @@ public class GeoSymbolicTest {
 	public void testSolveCommand() {
 		t("Solve(x*a^2=4*a, a)", "{a = 4 / x, a = 0}");
 
-		t("f(x)=x^3-k*x^2+4*k*x", "-k * x^(2) + x^(3) + 4 * k * x");
-		t("Solve(f(x) = 0)", "{x = (k - sqrt(k^(2) - 16 * k)) / 2, x =" +
-				" (k + sqrt(k^(2) - 16 * k)) / 2, x = 0}");
+		t("f(x)=x^3-k*x^2+4*k*x",
+				anyOf(equalTo("-k * x^(2) + x^(3) + 4 * k * x"),
+						equalTo("x^(3) - k * x^(2) + 4 * k * x")));
+		t("Solve(f(x) = 0)", anyOf(
+				equalTo("{x = (k - sqrt(k^(2) - 16 * k)) / 2, x ="
+						+ " (k + sqrt(k^(2) - 16 * k)) / 2, x = 0}"),
+						equalTo("{x = (k + sqrt(k^(2) - 16 * k)) / 2, x = (k - sqrt(k^(2) - 16 * k)) / 2, x = 0}")));
 
 		t("Solve(k(k-16)>0,k)", "{k < 0, k > 16}");
 		t("Solve(x^2=4x)", "{x = 0, x = 4}");

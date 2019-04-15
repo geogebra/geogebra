@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.gui.dialog.ToolInputOutputListener;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.BeforeClass;
@@ -21,7 +20,7 @@ public class MacroTest {
 	}
 
 	private static void t(String input, String expected) {
-		CommandsTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
