@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -91,15 +92,14 @@ public class FunctionParser {
 			geo = kernel.lookupLabel(funcName);
 			cell = kernel.lookupCasCellLabel(funcName);
 
-			if (cell == null && (geo == null
-					|| !(geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {
-				if (label.startsWith("log_")) {
-					ExpressionValue indexVal = getLogIndex(label, kernel);
+			if (cell == null && geo == null && label.startsWith("log_")) {
+				ExpressionValue indexVal = getLogIndex(label, kernel);
+				return new ExpressionNode(kernel, indexVal, Operation.LOGB,
+						myList.getListElement(0));
+			}
 
-					return new ExpressionNode(kernel,
-							indexVal, Operation.LOGB,
-							myList.getListElement(0));
-				}
+			if (cell == null && (geo == null || !hasDerivative(geo))) {
+
 				int index = funcName.length() - 1;
 				while (index >= 0 && cimage.charAt(index) == '\''
 						&& kernel.getAlgebraProcessor().enableStructures()) {
@@ -112,8 +112,7 @@ public class FunctionParser {
 					geo = kernel.lookupLabel(label);
 					cell = kernel.lookupCasCellLabel(label);
 					// stop if f' is defined but f is not defined, see #1444
-					if (cell != null || (geo != null && (geo.isGeoFunction()
-							|| geo.isGeoCurveCartesian()))) {
+					if (cell != null || (geo != null && (hasDerivative(geo)))) {
 						break;
 					}
 
@@ -176,10 +175,10 @@ public class FunctionParser {
 
 		if (order > 0) { // derivative
 							// n-th derivative of geo
-			if (geo.isGeoFunction() || geo.isGeoCurveCartesian()) {// function
+			if (hasDerivative(geo)) {// function
 
 				kernel.getConstruction()
-						.registerFunctionVariable(((ParametricCurve) geo)
+						.registerFunctionVariable(((VarString) geo)
 								.getFunctionVariables()[0].toString(
 										StringTemplate.defaultTemplate));
 
@@ -231,6 +230,11 @@ public class FunctionParser {
 		// e.g. a(1+x) = a*(1+x) when a is a number
 
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private static boolean hasDerivative(GeoElement geo) {
+		return geo.isGeoFunction() || geo.isGeoCurveCartesian()
+				|| (geo instanceof GeoSymbolic);
 	}
 
 	private ExpressionNode multiplication(ExpressionValue geoExp,

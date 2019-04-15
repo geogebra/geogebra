@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+
 /**
  * Interface for all functions with named variables
  */
@@ -14,4 +16,6 @@ public interface VarString {
 	 * @return variable names separated by ", "
 	 */
 	public String getVarString(StringTemplate tpl);
+
+	public FunctionVariable[] getFunctionVariables();
 }

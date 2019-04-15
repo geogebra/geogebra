@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -22,7 +23,7 @@ import org.geogebra.common.util.StringUtil;
  * 
  * @author Zbynek
  */
-public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
+public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -208,6 +209,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 	/**
 	 * @return function variables
 	 */
+	@Override
 	public FunctionVariable[] getFunctionVariables() {
 		return fVars.toArray(new FunctionVariable[fVars.size()]);
 	}
@@ -250,6 +252,17 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public String getVarString(StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < fVars.size() - 1; i++) {
+			sb.append(fVars.get(i).toString(tpl));
+			sb.append(", ");
+		}
+		sb.append(fVars.get(fVars.size() - 1).toString(tpl));
+		return sb.toString();
 	}
 
 }
