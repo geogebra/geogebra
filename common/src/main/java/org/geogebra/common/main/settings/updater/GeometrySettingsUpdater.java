@@ -8,7 +8,12 @@ public class GeometrySettingsUpdater extends SettingsUpdater {
 	@Override
 	public void resetSettingsOnlyOnAppStart() {
 		super.resetSettingsOnlyOnAppStart();
-		getLabelSettingsUpdater().setLabelVisibility(LabelVisibility.PointsOnly);
 		getSettings().getAlgebra().setStyle(AlgebraStyle.Description);
+	}
+
+	@Override
+	public void resetSettingsAfterClearAll() {
+		super.resetSettingsAfterClearAll();
+		getLabelSettingsUpdater().setLabelVisibility(LabelVisibility.PointsOnly);
 	}
 }
