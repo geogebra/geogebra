@@ -117,4 +117,44 @@ public class GeoSymbolicTest {
 		t("Sequence(Mod(n,3),n,1,5)", "{1, 2, 0, 1, 2}");
 	}
 
+	@Test
+	public void testSolveCommand() {
+		t("Solve(x*a^2=4*a, a)", "{a = 4 / x, a = 0}");
+
+		t("f(x)=x^3-k*x^2+4*k*x", "-k * x^(2) + x^(3) + 4 * k * x");
+		t("Solve(f(x) = 0)", "{x = (k - sqrt(k^(2) - 16 * k)) / 2, x =" +
+				" (k + sqrt(k^(2) - 16 * k)) / 2, x = 0}");
+
+		t("Solve(k(k-16)>0,k)", "{k < 0, k > 16}");
+		t("Solve(x^2=4x)", "{x = 0, x = 4}");
+		t("Solve({x=4x+y,y+x=2},{x, y})", "{{x = -1, y = 3}}");
+		t("Solve(sin(x)=cos(x))", "{x = k_1 * \u03c0 + 1 / 4 * \u03c0}");
+	}
+
+	@Test
+	public void testReplacingAssignments() {
+		t("eq1:x+y=3", "x + y = 3");
+		t("eq2:x-y=1", "x - y = 1");
+		t("Solve({eq1, eq2})", "{{x = 2, y = 1}}");
+	}
+
+	@Test
+	public void testCalculations() {
+		t("eq1: 9=a*3^3+b*3^2+c*3+d", "9 = 27 * a + 9 * b + 3 * c + d");
+		t("eq2: 4=a*2^3+b*2^2+c*2+d", "4 = 8 * a + 4 * b + 2 * c + d");
+		t("eq3: 7=a*4^3+b*4^2+c*4+d", "7 = 64 * a + 16 * b + 4 * c + d");
+		t("eq4: 1=a*1^3+b*1^2+c*1+d", "1 = a + b + c + d");
+		t("Solve({eq1,eq2,eq3,eq4}, {a,b,c,d})", "{{a = (-3) / 2, b = 10, c = (-33) / 2, d = 9}}");
+	}
+
+	@Test
+	public void testCurveSketching() {
+		t("f(x)=x^3-2x^2+1", "x^(3) - 2 * x^(2) + 1");
+		t("Derivative(f)", "3 * x^(2) - 4 * x");
+		t("f''(x)", "6 * x - 4");
+		t("Derivative(f, x, 3)", "6");
+		t("Solve(f(x) = 0)", "{x = (-sqrt(5) + 1) / 2, x = 1, x = (sqrt(5) + 1) / 2}");
+		t("Solve(f'(x) = 0)", "{x = 0, x = 4 / 3}");
+		t("Solve(f''(x) = 0)", "{x = 2 / 3}");
+	}
 }
