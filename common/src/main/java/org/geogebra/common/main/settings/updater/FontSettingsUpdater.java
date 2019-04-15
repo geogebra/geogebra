@@ -5,11 +5,20 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.common.util.Util;
 
+/**
+ * This class updates the font settings.
+ * Every complex (longer than 1 line) logic related to font settings
+ * should be implemented in this class.
+ */
 public class FontSettingsUpdater {
 
 	private App app;
 	private FontSettings fontSettings;
 
+	/**
+	 * This constructor is protected because it should be called only by the SettingsUpdaterBuilder.
+	 * @param app app
+	 */
 	protected FontSettingsUpdater(App app) {
 		this.app = app;
 		fontSettings = app.getSettings().getFontSettings();
@@ -29,6 +38,10 @@ public class FontSettingsUpdater {
 		fontSettings.setAppFontSize(Util.getValidFontSize(fontSize));
 	}
 
+	/**
+	 * Sets the app font size and updates the views.
+	 * @param fontSize font size
+	 */
 	public void setAppFontSizeAndUpdateViews(int fontSize) {
 		setAppFontSize(fontSize);
 		updateEuclidianViews();
@@ -74,10 +87,6 @@ public class FontSettingsUpdater {
 				app.getEuclidianView2(1).updateFonts();
 			}
 		}
-	}
-
-	public void resetGuiFontSize() {
-		fontSettings.resetGuiFontSize();
 	}
 
 	/**

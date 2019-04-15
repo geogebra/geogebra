@@ -2,6 +2,9 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * Hosts the euclidian views.
+ */
 public interface EuclidianHost {
 
 	/**
@@ -24,7 +27,14 @@ public interface EuclidianHost {
 	 */
 	boolean isShowingEuclidianView2(int idx);
 
-	EuclidianController newEuclidianController(Kernel kernel1);
+	/**
+	 * @param kernel kernel
+	 * @return euclidian controller
+	 */
+	EuclidianController newEuclidianController(Kernel kernel);
 
+	/**
+	 * @return DrawEquation instance
+	 */
 	DrawEquation getDrawEquation();
 }

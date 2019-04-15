@@ -3,6 +3,9 @@ package org.geogebra.desktop.main.settings.updater;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.desktop.main.AppD;
 
+/**
+ * Updates the font settings on desktop.
+ */
 public class FontSettingsUpdaterD extends FontSettingsUpdater {
 
 	FontSettingsUpdaterD(AppD app) {

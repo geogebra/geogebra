@@ -5,11 +5,14 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.main.settings.FontSettings;
 
+/**
+ * Creates fonts for no gui apps (for testing).
+ */
 public class FontCreatorNoGui extends FontCreator {
 
 	private final static int DEFAULT_FONT_SIZE = 12;
 
-	public FontCreatorNoGui(FontSettings fontSettings) {
+	FontCreatorNoGui(FontSettings fontSettings) {
 		super(fontSettings);
 	}
 

@@ -1,10 +1,16 @@
 package org.geogebra.common.main.settings;
 
+/**
+ * Label settings.
+ */
 public class LabelSettings implements Resetable {
 
 	private LabelVisibility labelVisibility;
 	private LabelVisibility labelVisibilityForMenu;
 
+	/**
+	 * This constructor is protected because it should be called only by the SettingsBuilder.
+	 */
 	LabelSettings() {
 		initVisibilities();
 	}
@@ -22,6 +28,10 @@ public class LabelSettings implements Resetable {
 		return labelVisibilityForMenu;
 	}
 
+	/**
+	 * Sets the label visibility for the menu as well.
+	 * @param labelVisibility label visibility
+	 */
 	public void setLabelVisibility(LabelVisibility labelVisibility) {
 		this.labelVisibility = labelVisibility;
 		labelVisibilityForMenu = labelVisibility;

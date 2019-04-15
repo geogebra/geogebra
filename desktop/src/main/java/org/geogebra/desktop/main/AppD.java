@@ -1891,9 +1891,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		super.setGUIFontSize(size);
 	}
 
-	public void setMaxIconSize(int fontSize) {
-		// set tool icon size between 32 and 64
-		imageManager.setMaxIconSizeAsPt(fontSize);
+	/**
+	 * Sets the tool icon size between 32 and 64.
+	 * @param iconSize icon size
+	 */
+	public void setMaxIconSize(int iconSize) {
+		imageManager.setMaxIconSizeAsPt(iconSize);
 	}
 
 	public ImageIcon getImageIcon(ImageResourceD res) {

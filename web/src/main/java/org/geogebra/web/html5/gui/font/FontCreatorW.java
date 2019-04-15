@@ -5,8 +5,14 @@ import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.main.settings.FontSettings;
 import org.geogebra.web.html5.awt.GFontW;
 
+/**
+ * Creates fonts for web.
+ */
 public class FontCreatorW extends FontCreator {
 
+	/**
+	 * @param fontSettings font settings.
+	 */
 	public FontCreatorW(FontSettings fontSettings) {
 		super(fontSettings);
 	}

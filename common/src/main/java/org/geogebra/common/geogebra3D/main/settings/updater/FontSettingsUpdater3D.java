@@ -6,6 +6,9 @@ import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 
+/**
+ * Updates the font settings for the 3D apps.
+ */
 class FontSettingsUpdater3D extends FontSettingsUpdater {
 
 	FontSettingsUpdater3D(App app) {

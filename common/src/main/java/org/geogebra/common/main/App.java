@@ -118,7 +118,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Represents an application window, gives access to views and system stuff
  */
-@SuppressWarnings("javadoc")
 public abstract class App implements UpdateSelection, AppInterface, EuclidianHost {
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
@@ -455,8 +454,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getLabelManager().setAngleLabels(getConfig().isGreekAngleLabels());
 	}
 
+	/**
+	 * @return default settings
+	 */
 	public abstract DefaultSettings getDefaultSettings();
 
+	/**
+	 * @return font creator
+	 */
 	public abstract FontCreator getFontCreator();
 
 	/**
@@ -2439,17 +2444,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @deprecated FontSettings.getGuiFontSize should be used instead.
+	 * @deprecated FontSettings.getGuiFontSizeSafe should be used instead.
 	 *
 	 * @return font size for GUI; if not specified, general font size is
 	 *         returned
 	 */
 	@Deprecated
 	public int getGUIFontSize() {
-		FontSettings fontSettings = getSettings().getFontSettings();
-		int appFontSettings = fontSettings.getAppFontSize();
-		int guiFontSize = fontSettings.getGuiFontSize();
-		return guiFontSize == -1 ? appFontSettings : guiFontSize;
+		return getSettings().getFontSettings().getGuiFontSizeSafe();
 	}
 
 	/**
@@ -2464,13 +2466,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @deprecated FontCreator should be used for creating fonts.
-	 *
 	 * Returns font manager
 	 *
 	 * @return font manager
 	 */
-	@Deprecated
 	public abstract FontManager getFontManager();
 
 	/**
@@ -5129,6 +5128,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return prerelease;
 	}
 
+	/**
+	 * If the settingsUpdater is already initialized then returns this field,
+	 * otherwise
+	 * creates a new SettingsUpdaterBuilder,
+	 * creates the SettingsUpdater instance using the SettingsUpdaterBuilder,
+	 * initializes the settingsUpdater field with the new SettingsUpdater instance
+	 * and returns the settingsUpdater field.
+	 * @return The settingsUpdater field.
+	 */
 	public SettingsUpdater getSettingsUpdater() {
 		if (settingsUpdater == null) {
 			SettingsUpdaterBuilder settingsUpdaterBuilder = newSettingsUpdaterBuilder();

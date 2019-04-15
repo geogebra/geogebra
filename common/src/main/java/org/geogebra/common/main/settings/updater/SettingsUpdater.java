@@ -10,6 +10,11 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 
+/**
+ * Updates the settings.
+ * Every complex (longer than 1 line) logic related to a combination of settings
+ * should be implemented in this class.
+ */
 public class SettingsUpdater {
 
 	private EuclidianHost euclidianHost;
@@ -20,6 +25,9 @@ public class SettingsUpdater {
 	private FontSettingsUpdater fontSettingsUpdater;
 	private LabelSettingsUpdater labelSettingsUpdater;
 
+	/**
+	 * Resets the settings which should be reset on app start and after Clear All.
+	 */
 	public void resetSettingsOnAppStart() {
 		resetSettingsOnlyOnAppStart();
 		resetSettingsAfterClearAll();
@@ -31,6 +39,9 @@ public class SettingsUpdater {
 		settings.getAlgebra().setStyle(AlgebraStyle.DefinitionAndValue);
 	}
 
+	/**
+	 * Resets the settings which should be reset after Clear All.
+	 */
 	public void resetSettingsAfterClearAll() {
 		fontSettingsUpdater.setAppFontSizeAndUpdateViews(defaultSettings.getAppFontSize());
 		setSortModeForCompactOutput();

@@ -3,6 +3,9 @@ package org.geogebra.web.html5.main.settings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.FontSettings;
 
+/**
+ * Font settings on web.
+ */
 public class FontSettingsW extends FontSettings {
 
 	private static final int MIN_APP_FONT_SIZE = 12;

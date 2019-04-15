@@ -12,6 +12,11 @@ import org.geogebra.common.main.settings.LabelVisibility;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Updates the label settings.
+ * Every complex (longer than 1 line) logic related to label settings
+ * should be implemented in this class.
+ */
 public class LabelSettingsUpdater {
 
 	private App app;
@@ -24,11 +29,18 @@ public class LabelSettingsUpdater {
 		labelSettings = app.getSettings().getLabelSettings();
 	}
 
+	/**
+	 * Sets label visibility and sets the label mode of geo elements to default.
+	 * @param visibility label visibility
+	 */
 	public void setLabelVisibility(LabelVisibility visibility) {
 		labelSettings.setLabelVisibility(visibility);
 		resetLabelModeToDefaultForGeos();
 	}
 
+	/**
+	 * Resets the label mode of geo elements to default.
+	 */
 	public void resetLabelModeToDefaultForGeos() {
 		Set<Map.Entry<Integer, GeoElement>> defaultGeos =
 				construction.getConstructionDefaults().getDefaultGeos();
@@ -42,6 +54,9 @@ public class LabelSettingsUpdater {
 		}
 	}
 
+	/**
+	 * Resets the menu's label visibility and updates the menu bar.
+	 */
 	public void resetLabelVisibilityForMenu() {
 		labelSettings.resetLabelVisibilityForMenu();
 		updateMenubar();

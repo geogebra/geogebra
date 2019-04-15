@@ -1,11 +1,18 @@
 package org.geogebra.common.main.settings;
 
+/**
+ * Font settings.
+ */
 public class FontSettings implements Resetable {
 
 	private DefaultSettings defaultSettings;
 	private int appFontSize;
 	private int guiFontSize;
 
+	/**
+	 * This constructor is protected because it should be called only by the SettingsBuilder.
+	 * @param defaultSettings default settings
+	 */
 	protected FontSettings(DefaultSettings defaultSettings) {
 		this.defaultSettings = defaultSettings;
 		initSizes();
@@ -28,12 +35,17 @@ public class FontSettings implements Resetable {
 		return guiFontSize;
 	}
 
-	public void setGuiFontSize(int guiFontSize) {
-		this.guiFontSize = guiFontSize;
+	/**
+	 * @return If the gui font size is not initialized (the value is -1)
+	 * then returns the app font size,
+	 * otherwise returns the gui font size.
+	 */
+	public int getGuiFontSizeSafe() {
+		return guiFontSize == -1 ? appFontSize : guiFontSize;
 	}
 
-	public void resetGuiFontSize() {
-		guiFontSize = -1;
+	public void setGuiFontSize(int guiFontSize) {
+		this.guiFontSize = guiFontSize;
 	}
 
 	public int getAlgebraFontSize() {
