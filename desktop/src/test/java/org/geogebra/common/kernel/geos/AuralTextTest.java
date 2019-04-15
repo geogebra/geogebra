@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;

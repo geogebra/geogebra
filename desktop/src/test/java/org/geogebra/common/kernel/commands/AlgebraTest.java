@@ -1,4 +1,4 @@
-package org.geogebra.commands;
+package org.geogebra.common.kernel.commands;
 
 import java.util.Arrays;
 import java.util.Locale;

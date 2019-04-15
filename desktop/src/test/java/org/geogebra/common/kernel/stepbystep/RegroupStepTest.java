@@ -1,12 +1,16 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class RegroupStepTest {
@@ -14,7 +18,7 @@ public class RegroupStepTest {
 
 	@BeforeClass
 	public static void setupApp() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 		htmlBuilder = new HtmlStepBuilder(app.getLocalization());
 	}
 

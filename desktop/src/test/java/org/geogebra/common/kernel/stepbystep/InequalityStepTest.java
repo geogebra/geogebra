@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.stepbystep;
 
 import java.util.Arrays;
 
-import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -22,7 +22,7 @@ public class InequalityStepTest {
 
     @BeforeClass
     public static void setupApp() {
-        app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
         htmlBuilder = new HtmlStepBuilder(app.getLocalization());
         // just to load CAS
         try {

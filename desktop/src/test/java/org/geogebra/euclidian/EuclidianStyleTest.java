@@ -1,8 +1,8 @@
 package org.geogebra.euclidian;
 
-import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.commands.CommandsTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.headless.AppDNoGui;

@@ -2,12 +2,12 @@ package org.geogebra.export;
 
 import java.util.ArrayList;
 
-import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.jre.util.TestEvent;
+import org.geogebra.common.kernel.commands.CommandsTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;

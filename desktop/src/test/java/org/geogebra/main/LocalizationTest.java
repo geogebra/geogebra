@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Locale;
 import java.util.TreeSet;
 
-import org.geogebra.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.headless.AppDNoGui;

@@ -1,16 +1,24 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import org.geogebra.commands.CommandsTest;
-import org.geogebra.common.kernel.CASException;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.main.App;
-import org.junit.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.kernel.CASException;
+import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquationSystem;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.main.App;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class SystemStepTest {
@@ -18,7 +26,7 @@ public class SystemStepTest {
 
     @BeforeClass
     public static void setupApp() {
-        app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
         htmlBuilder = new HtmlStepBuilder(app.getLocalization());
         // just to load CAS
         try {

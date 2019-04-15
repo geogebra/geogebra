@@ -2,13 +2,13 @@ package org.geogebra.io;
 
 import java.util.Locale;
 
-import org.geogebra.commands.TestErrorHandler;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;

@@ -1,4 +1,4 @@
-package org.geogebra.commands;
+package org.geogebra.common.kernel.commands;
 
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;

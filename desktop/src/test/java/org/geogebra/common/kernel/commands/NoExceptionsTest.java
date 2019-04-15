@@ -1,4 +1,4 @@
-package org.geogebra.commands;
+package org.geogebra.common.kernel.commands;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

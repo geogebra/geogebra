@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.commands.TestErrorHandler;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;

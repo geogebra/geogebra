@@ -1,10 +1,10 @@
 package org.geogebra.gui;
 
-import org.geogebra.commands.AlgebraTest;
-import org.geogebra.commands.TestErrorHandler;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;

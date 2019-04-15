@@ -2,9 +2,9 @@ package org.geogebra.euclidian;
 
 import java.util.TreeSet;
 
-import org.geogebra.commands.AlgebraTest;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoSymbolic;

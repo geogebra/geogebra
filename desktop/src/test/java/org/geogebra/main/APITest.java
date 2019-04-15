@@ -1,6 +1,6 @@
 package org.geogebra.main;
 
-import org.geogebra.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.desktop.headless.AppDNoGui;

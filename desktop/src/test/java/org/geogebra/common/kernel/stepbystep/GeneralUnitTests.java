@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.stepbystep;
 
-import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -16,7 +16,7 @@ public class GeneralUnitTests {
 
     @BeforeClass
     public static void setupApp() {
-        app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
     }
 
     @Test

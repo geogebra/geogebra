@@ -1,4 +1,4 @@
-package org.geogebra.commands;
+package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.EvalInfo;

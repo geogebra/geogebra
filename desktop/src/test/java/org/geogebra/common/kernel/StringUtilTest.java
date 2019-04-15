@@ -13,7 +13,9 @@ public class StringUtilTest {
 		String falsePos = "";
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
-			if (Character.isLetter(c) != StringUtil.isLetter(c)) {
+			if (Character.isLetter(
+					c) != com.himamis.retex.editor.share.input.Character
+							.isLetter(c)) {
 				if (Character.isDigit(c)) {
 					falseNeg += c;
 				} else {
