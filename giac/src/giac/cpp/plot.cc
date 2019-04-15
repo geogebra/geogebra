@@ -11210,8 +11210,13 @@ namespace giac {
   static symbolic unarchive_SYMB(istream & is,GIAC_CONTEXT){
     gen e=unarchive_FUNC(is,contextptr);
     gen f=unarchive(is,contextptr);
-    if (e.type==_FUNC)
+    if (e.type==_FUNC){
+      if (e==at_neg && f.is_symb_of_sommet(at_prod) && f._SYMBptr->feuille.type==_VECT && !f._SYMBptr->feuille._VECTptr->empty() && f._SYMBptr->feuille._VECTptr->front().type==_ZINT){
+	mpz_neg(*f._SYMBptr->feuille._VECTptr->front()._ZINTptr,*f._SYMBptr->feuille._VECTptr->front()._ZINTptr);
+	return *f._SYMBptr;
+      }
       return symbolic(*e._FUNCptr,f);
+    }
     return symb_of(e,f);
   }
 

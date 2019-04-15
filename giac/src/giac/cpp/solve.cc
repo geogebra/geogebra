@@ -3639,8 +3639,11 @@ namespace giac {
 	  return res;
 	}
       }
-      if (lvs>1)
+      gen v0orig(v0); bool testpi=false;
+      if (lvs>1){
 	v0=halftan_hyp2exp(v0,contextptr);
+	testpi=true;
+      }
       lv=lvar(v0);
       lvs=int(lv.size());
       if (lvs==1 && lv[0].type==_SYMB && lv[0]._SYMBptr->feuille.type!=_VECT){
@@ -3653,6 +3656,8 @@ namespace giac {
 	  if (tmp.type==_VECT){
 	    vecteur res0=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr);
 	    vecteur res;
+	    if (testpi && is_zero(subst(v0orig,v[1],M_PI,false,contextptr),contextptr))
+	      res.push_back(M_PI);
 	    const_iterateur it=res0.begin(),itend=res0.end();
 	    for (;it!=itend;++it){
 	      vecteur res0val=gen2vecteur(isolate_fcns[pos-1](*it,complex_mode(contextptr),contextptr));
