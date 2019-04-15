@@ -358,13 +358,16 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
+	 * @param kernel
+	 *            kernel
 	 * @param en
 	 *            expression
 	 * @param fv
 	 *            variable
 	 */
-	public GeoFunction(ExpressionNode en, FunctionVariable fv) {
-		this(en.getKernel().getConstruction(), new Function(en, fv));
+	public GeoFunction(Kernel kernel, ExpressionNode en,
+			FunctionVariable fv) {
+		this(kernel.getConstruction(), new Function(en, fv));
 	}
 
 	@Override

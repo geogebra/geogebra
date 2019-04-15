@@ -220,11 +220,11 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 			ExpressionValue[][] coeffs = new ExpressionValue[4][4];
 			FunctionNVar[] fun = surface.getFunctions();
 			if (line == null) {
-				rotation4x4(Coords.VX, funVar[1], coeffs);
+				rotation4x4(Coords.VX, funVar[1], coeffs, kernel);
 				transform(function, coeffs, fun, Coords.O);
 			} else {
 				rotation4x4(line.getDirectionInD3().normalized(), funVar[1],
-						coeffs);
+						coeffs, kernel);
 				transform(function, coeffs, fun, line.getStartInhomCoords());
 			}
 
@@ -271,7 +271,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	}
 
 	private static final void rotation4x4(Coords u, ExpressionValue angle,
-			ExpressionValue[][] m) {
+			ExpressionValue[][] m, Kernel kernel) {
 
 		double ux = u.getX();
 		double uy = u.getY();
@@ -279,7 +279,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 		ExpressionNode c = angle.wrap().cos();
 		ExpressionNode s = angle.wrap().sin();
-		Kernel kernel = c.getKernel();
 		ExpressionNode oneMinusC = new ExpressionNode(kernel, 1).subtract(c);
 		// Coords[] vec = m.vectors;
 		m[0][0] = oneMinusC.multiply(ux * ux).plus(c);

@@ -105,7 +105,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 			exp.replace(vars[2], z);
 		}
 		exp.simplifyConstantIntegers();
-		Function fn = new Function(exp);
+		Function fn = new Function(kernel, exp);
 		fn.initFunction();
 		double[] roots = AlgoRoots.findRoots(fn,
 				kernel.getViewsXMin(surface), kernel.getViewsYMax(surface),
@@ -114,9 +114,9 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 			outputs.adjustOutputSize(0);
 			return;
 		}
-		Function f1 = new Function(x);
-		Function f2 = new Function(y);
-		Function f3 = new Function(z);
+		Function f1 = new Function(kernel, x);
+		Function f2 = new Function(kernel, y);
+		Function f3 = new Function(kernel, z);
 		f1.initFunction();
 		f2.initFunction();
 		f3.initFunction();

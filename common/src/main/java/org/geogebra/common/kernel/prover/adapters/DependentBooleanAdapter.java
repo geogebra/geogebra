@@ -196,7 +196,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 						&& root.getRight() instanceof MyDouble
 						&& root.getOperation()
 								.equals(Operation.EQUAL_BOOLEAN))) {
-			traverseExpression(root);
+			traverseExpression(root, kernel);
 			// try to check substituted and expanded expression
 
 			ExpressionNode rootCopy = root.deepCopy(kernel);
@@ -221,7 +221,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				rootCopy.traverse(repl);
 			}
 			// traverse substituted expression to collect segments
-			traverseExpression(rootCopy);
+			traverseExpression(rootCopy, kernel);
 
 			if (((rootCopy.getLeft() instanceof GeoSegment
 					&& rootCopy.getRight() instanceof MyDouble)
@@ -249,7 +249,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 							.getCASparser()
 							.parseGeoGebraCASInputAndResolveDummyVars(
 									expandGiacOutput, kernel, null);
-					traverseExpression((ExpressionNode) expandValidExp);
+					traverseExpression((ExpressionNode) expandValidExp, kernel);
 				}
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
@@ -265,9 +265,8 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	}
 
 	// procedure to traverse inorder the expression
-	private void traverseExpression(ExpressionNode node)
+	private void traverseExpression(ExpressionNode node, Kernel kernel)
 			throws NoSymbolicParametersException {
-		Kernel kernel = node.getKernel();
 		if (node.getLeft() != null && node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
@@ -289,10 +288,10 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()) {
-			traverseExpression((ExpressionNode) node.getLeft());
+			traverseExpression((ExpressionNode) node.getLeft(), kernel);
 		}
 		if (node.getRight() != null && node.getRight().isExpressionNode()) {
-			traverseExpression((ExpressionNode) node.getRight());
+			traverseExpression((ExpressionNode) node.getRight(), kernel);
 		}
 
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()

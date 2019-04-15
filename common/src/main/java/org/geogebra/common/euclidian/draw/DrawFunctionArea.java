@@ -28,7 +28,8 @@ public abstract class DrawFunctionArea extends Drawable {
 		}
 		return new GeoFunction(
 				view.getApplication().getKernel().getConstruction(),
-				new Function(cmd.getArgument(i).wrap().replaceCasCommands()));
+				new Function(geo.getKernel(),
+						cmd.getArgument(i).wrap().replaceCasCommands()));
 	}
 
 	/**

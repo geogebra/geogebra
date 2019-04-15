@@ -2149,7 +2149,7 @@ public class AlgoDispatcher {
 		Function fun = f.getFunction();
 		if (fun.getFunctionExpression() != null
 				&& fun.getFunctionExpression().getOperation().isIf()) {
-			Function test = new Function(
+			Function test = new Function(cons.getKernel(),
 					fun.getFunctionExpression().deepCopy(cons.getKernel())
 							.getRightTree());
 			test.initFunction();

@@ -52,7 +52,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof VectorValue
-				&& exp.getKernel().getApplication().has(Feature.SURFACE_2D)) {
+				&& kernel.getApplication().has(Feature.SURFACE_2D)) {
 			if (fv.length == 2) {
 				return processSurface(exp, fv, label, 2);
 			}

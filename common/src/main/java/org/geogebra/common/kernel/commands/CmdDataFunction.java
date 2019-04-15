@@ -39,7 +39,7 @@ public class CmdDataFunction extends CommandProcessor {
 		case 3:
 			FunctionVariable fv = new FunctionVariable(kernel);
 			ExpressionValue en = simplify(c, fv);
-			GeoFunction geo = new GeoFunction(en.wrap(), fv);
+			GeoFunction geo = new GeoFunction(kernel, en.wrap(), fv);
 			geo.setLabel(c.getLabel());
 			return new GeoElement[] { geo };
 		default:
@@ -131,7 +131,7 @@ public class CmdDataFunction extends CommandProcessor {
 		FunctionVariable fv = new FunctionVariable(kernelA);
 		ExpressionValue en = CmdDataFunction.getDataFunction(kernelA, label,
 				new MyList(kernelA), new MyList(kernelA), null, fv);
-		GeoFunction geo = new GeoFunction(en.wrap(), fv);
+		GeoFunction geo = new GeoFunction(kernelA, en.wrap(), fv);
 		geo.setLabel(label);
 		return new GeoElement[] { geo };
 	}

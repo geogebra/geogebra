@@ -66,11 +66,14 @@ public class Function extends FunctionNVar
 	 * Creates new Function from expression where x is the variable. Note: call
 	 * {@link #initFunction()} after this constructor.
 	 * 
+	 * @param kernel
+	 *            kernel
+	 * 
 	 * @param expression
 	 *            function expression
 	 */
-	public Function(ExpressionNode expression) {
-		super(expression);
+	public Function(Kernel kernel, ExpressionNode expression) {
+		super(kernel, expression);
 	}
 
 	/**
@@ -107,7 +110,7 @@ public class Function extends FunctionNVar
 	 *            kernel
 	 */
 	public Function(Function f, Kernel kernel) {
-		super(f.expression.getCopy(kernel));
+		super(kernel, f.expression.getCopy(kernel));
 		fVars = f.fVars; // no deep copy of function variable
 		isBooleanFunction = f.isBooleanFunction;
 		isConstantFunction = f.isConstantFunction;

@@ -452,7 +452,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			updateArgsAndSbForPoint(args, sbCASCommand);
 		}
 		else if (args.size() == 1 && "Area".equals(name)) {
-			updateArgsAndSbForArea(args, sbCASCommand);
+			updateArgsAndSbForArea(args, sbCASCommand, app.getKernel());
 		}
 		else if (args.size() == 2 && "Intersect".equals(name)) {
 			updateArgsAndSbForIntersect(args, sbCASCommand);
@@ -829,20 +829,18 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	private static void updateArgsAndSbForArea(ArrayList<ExpressionNode> args,
-			StringBuilder sbCASCommand) {
+			StringBuilder sbCASCommand, Kernel kernel) {
 		ExpressionValue node = args.get(0).unwrap();
 		if (node instanceof EquationValue) {
 			sbCASCommand.append(1);
 		} else {
 			sbCASCommand.setLength(0);
 			Log.debug(args.get(0));
-			GeoElementND newArg = computeWithGGB(args.get(0).getKernel(),
-					"Area", args);
+			GeoElementND newArg = computeWithGGB(kernel, "Area", args);
 			args.clear();
 			args.add(newArg.wrap());
 			sbCASCommand.append("Evaluate.1");
 		}
-
 	}
 
 	private static void updateArgsAndSbForIntersect(

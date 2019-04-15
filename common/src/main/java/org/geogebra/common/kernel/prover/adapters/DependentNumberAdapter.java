@@ -44,7 +44,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 		}
 		Kernel kernel = adn.getKernel();
 		ExpressionNode definition = adn.getExpression();
-		traverseExpression(definition);
+		traverseExpression(definition, kernel);
 
 		if (botanaVars == null) {
 			botanaVars = new PVariable[segVarPairs.size() + 1];
@@ -134,24 +134,25 @@ public class DependentNumberAdapter extends ProverAdapter {
 		throw new NoSymbolicParametersException();
 	}
 
-	private void traverseExpression(ExpressionNode node) throws NoSymbolicParametersException {
+	private void traverseExpression(ExpressionNode node, Kernel kernel)
+			throws NoSymbolicParametersException {
 		// Log.debug(node.toString());
 		if (node.getLeft() != null
 				&& ((node.getLeft().isGeoElement() && node.getLeft() instanceof GeoSegment)
 						|| node.getLeft() instanceof GeoDummyVariable)) {
-			processNode(node.getLeft(), node.getKernel());
+			processNode(node.getLeft(), kernel);
 		}
 		if (node.getRight() != null
 				&& ((node.getRight().isGeoElement() && node.getRight() instanceof GeoSegment)
 						|| node.getRight() instanceof GeoDummyVariable)) {
-			processNode(node.getRight(), node.getKernel());
+			processNode(node.getRight(), kernel);
 		}
 
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()) {
-			traverseExpression((ExpressionNode) node.getLeft());
+			traverseExpression((ExpressionNode) node.getLeft(), kernel);
 		}
 		if (node.getRight() != null && node.getRight().isExpressionNode()) {
-			traverseExpression((ExpressionNode) node.getRight());
+			traverseExpression((ExpressionNode) node.getRight(), kernel);
 		}
 
 		if (node.getLeft() != null && node.getLeft().isExpressionNode() && node.getRight() != null

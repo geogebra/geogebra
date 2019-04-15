@@ -2659,7 +2659,7 @@ public class AlgebraProcessor {
 				&& !equ.getRHS().containsFreeFunctionVariable("y")
 				&& !equ.getRHS().containsFreeFunctionVariable("z")) {
 
-			Function fun = new Function(equ.getRHS());
+			Function fun = new Function(kernel, equ.getRHS());
 			// try to use label of equation
 			fun.setLabel(equ.getLabel());
 			fun.setShortLHS("y");

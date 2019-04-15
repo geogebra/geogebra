@@ -94,7 +94,7 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		e = new GeoFunctionNVar(cons, functions[0]);
 		f = new GeoFunctionNVar(cons, functions[1]);
 		g = new GeoFunctionNVar(cons, functions.length > 2 ? functions[2]
-				: new Function(new ExpressionNode(kernel, 0)));
+				: new Function(kernel, new ExpressionNode(kernel, 0)));
 
 		FunctionVariable[] vars = f.getFunctionVariables();
 

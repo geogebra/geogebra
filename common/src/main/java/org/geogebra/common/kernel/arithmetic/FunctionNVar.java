@@ -87,12 +87,13 @@ public class FunctionNVar extends ValidExpression
 	 * Creates new Function from expression. Note: call initFunction() after
 	 * this constructor.
 	 * 
+	 * @param kernel
+	 *            kernel
 	 * @param expression
 	 *            function expression
 	 */
-	public FunctionNVar(ExpressionNode expression) {
-		kernel = expression.getKernel();
-
+	public FunctionNVar(Kernel kernel, ExpressionNode expression) {
+		this.kernel = kernel;
 		this.expression = expression;
 	}
 

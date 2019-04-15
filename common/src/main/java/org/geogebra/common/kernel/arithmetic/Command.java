@@ -837,23 +837,25 @@ public class Command extends ValidExpression
 	 * @param undecided
 	 *            array to which we can push the result if not clear whether
 	 *            it's multiplication or function
+	 * @param kernel
+	 *            kernel
 	 * @return parsed expression
 	 */
 	public static ExpressionNode xyzCAS(ValidExpression en, int i,
-			boolean mayCheck, ArrayList<ExpressionNode> undecided) {
+			boolean mayCheck, ArrayList<ExpressionNode> undecided,
+			Kernel kernel) {
 		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
 				Operation.ZCOORD };
-		Kernel k = en.wrap().getKernel();
 
 		ExpressionNode en2;
 		if (en.evaluatesToList()) {
-			Command cmd = new Command(k, "Element", true, mayCheck);
+			Command cmd = new Command(kernel, "Element", true, mayCheck);
 			cmd.addArgument(en.wrap());
 			// Element uses 1 for first element
-			cmd.addArgument(new MyDouble(k, i + 1).wrap());
+			cmd.addArgument(new MyDouble(kernel, i + 1).wrap());
 			en2 = cmd.wrap();
 		} else if (en.hasCoords()) {
-			en2 = new ExpressionNode(k, en.unwrap(), ops[i], null);
+			en2 = new ExpressionNode(kernel, en.unwrap(), ops[i], null);
 			/*
 			 * char funName = (char) ('x'+i); Command cmd = new Command(k,
 			 * funName+"", true, mayCheck ); cmd.addArgument( en ); en2 =
@@ -861,7 +863,8 @@ public class Command extends ValidExpression
 			 */
 		} else {
 			char funName = (char) ('x' + i);
-			en2 = new ExpressionNode(k, new FunctionVariable(k, funName + ""),
+			en2 = new ExpressionNode(kernel,
+					new FunctionVariable(kernel, funName + ""),
 					Operation.MULTIPLY_OR_FUNCTION, en);
 			undecided.add(en2);
 		}

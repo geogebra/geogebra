@@ -23,9 +23,9 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -231,7 +231,7 @@ public class ParametricProcessor {
 		}
 		if (fv.length < 2 && ev instanceof VectorValue) {
 			if (((VectorValue) ev).getToStringMode() == Kernel.COORD_COMPLEX) {
-				if (!exp.getKernel().getApplication().has(Feature.SURFACE_2D)) {
+				if (!kernel.getApplication().has(Feature.SURFACE_2D)) {
 					throw new MyError(kernel.getApplication().getLocalization(),
 							"InvalidFunction");
 				}

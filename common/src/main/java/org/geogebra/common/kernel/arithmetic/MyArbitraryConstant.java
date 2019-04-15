@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -347,7 +348,7 @@ public class MyArbitraryConstant {
 			return en;
 		}
 
-		private static ExpressionValue handleSpecialCase(ExpressionNode en) {
+		private ExpressionValue handleSpecialCase(ExpressionNode en) {
 			if (en.getOperation() == Operation.PLUS
 					|| en.getOperation() == Operation.MINUS) {
 				if (isMultipleOfArbconst(en.getRight())) {
@@ -356,14 +357,14 @@ public class MyArbitraryConstant {
 				if (isMultipleOfArbconst(en.getLeft())) {
 					ExpressionValue ret = en.getRight();
 					if (en.getOperation() == Operation.MINUS) {
-						ret = new ExpressionNode(en.getKernel(),
-								new MyDouble(en.getKernel(), -1),
+						ret = new ExpressionNode(arbconst.getKernel(),
+								new MyDouble(arbconst.getKernel(), -1),
 								Operation.MULTIPLY, ret);
 					}
 					return ret;
 				}
 			} else if (isMultipleOfArbconst(en)) {
-				return new MyDouble(en.getKernel(), 0);
+				return new MyDouble(arbconst.getKernel(), 0);
 			}
 			return en;
 		}
@@ -403,6 +404,10 @@ public class MyArbitraryConstant {
 			}
 		}
 		return false;
+	}
+
+	public Kernel getKernel() {
+		return ce.getKernel();
 	}
 
 }

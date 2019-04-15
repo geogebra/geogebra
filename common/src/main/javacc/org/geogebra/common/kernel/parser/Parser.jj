@@ -660,7 +660,7 @@ Function  function():
           f = (Function) rhs.getLeft();
         }
         else {
-            f = new Function(rhs);
+            f = new Function(kernel, rhs);
         }
         f.setLabel(rhs.getLabel());
         return f;
@@ -685,7 +685,7 @@ FunctionNVar  functionNVar():
           f = (FunctionNVar) rhs.getLeft();
         }
         else {
-            f = new FunctionNVar(rhs);
+            f = new FunctionNVar(kernel, rhs);
         }
         f.setLabel(rhs.getLabel());
         return f;
@@ -1747,7 +1747,7 @@ ExpressionNode numberFunction():
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
     {
         if (GeoGebraCASParsing) {
-            return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided);
+            return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided, kernel);
         } else {
             // standard GeoGebra input bar: x(...) is interpreted as "x-coordinate of"
             return new ExpressionNode(kernel, en, Operation.XCOORD, null);
@@ -1758,7 +1758,7 @@ ExpressionNode numberFunction():
     {
         if (GeoGebraCASParsing) {
             // GeoGebra CAS view: y(...) is interpreted as a function
-            return Command.xyzCAS(en, 1, !ExternalCASParsing, undecided);
+            return Command.xyzCAS(en, 1, !ExternalCASParsing, undecided, kernel);
         } else {
             // standard GeoGebra input bar: y(...) is interpreted as "y-coordinate of"
             return new ExpressionNode(kernel, en, Operation.YCOORD, null);
@@ -1768,7 +1768,7 @@ ExpressionNode numberFunction():
      c = <Z_FUNC> en = expressionOrEquation() (")"|"]")
     {
         if (GeoGebraCASParsing) {
-            return Command.xyzCAS(en, 2, !ExternalCASParsing, undecided);
+            return Command.xyzCAS(en, 2, !ExternalCASParsing, undecided, kernel);
         } else {
             // standard GeoGebra input bar: z(...) is interpreted as user function z or "z-coordinate of"
             GeoElement userFun = kernel.lookupLabel("z");
