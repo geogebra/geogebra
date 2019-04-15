@@ -20,14 +20,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
-    protected CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
-    protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
-    protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
+    private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
+    private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
+    private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     protected float mScaleFactor = 1;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
-    protected Map<Object, Double> trackablesZ;
+    private Map<Object, Double> trackablesZ;
     protected Object hittingTrackable;
     protected double hittingDistance;
 
@@ -85,15 +85,15 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return false;
     }
 
-    public CoordMatrix4x4 getViewMatrix() {
+    private CoordMatrix4x4 getViewMatrix() {
         return viewMatrix;
     }
 
-    public CoordMatrix4x4 getProjectMatrix() {
+    private CoordMatrix4x4 getProjectMatrix() {
         return projectMatrix;
     }
 
-    public CoordMatrix4x4 getAnchorMatrixForGGB() {
+    private CoordMatrix4x4 getAnchorMatrixForGGB() {
         return mModelMatrix;
     }
 
@@ -237,6 +237,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
     }
 
+    protected void clearAnchors() {
+        if (trackablesZ != null) {
+            trackablesZ.clear();
+        }
+        hittingTrackable = null;
+    }
+
     protected void updateModelMatrix(App app) {
         /* Scaling */
         mModelMatrix.setMul(mAnchorMatrix, scaleMatrix);
@@ -344,7 +351,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             createTrackableListIfNeeded();
             trackablesZ.put(hittingTrackable, z);
         }
-    };
+    }
 
     protected ARMotionEvent getARMotionEventMoveFromScreenCenter(){
         return null;
