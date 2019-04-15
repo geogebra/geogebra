@@ -77,11 +77,11 @@ def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
 	[id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
-	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico'],
-	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D'],
+	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico', mobileStartscreen: true],
+	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', mobileStartscreen: true],
 	[id:'cas', title:'CAS Calculator', transKey:'CASCalculator'],
 	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator', partials:["undo-redo"]],
-	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
+	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', mobileStartscreen: true],
 	[id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
 	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
@@ -165,16 +165,19 @@ task copyHtml {
             def iconText = file("../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_"+it+".svg").text
             splash = splash.replace("<!--ICON:"+it.toUpperCase()+"-->", 
                 "data:image/svg+xml;base64," + iconText.bytes.encodeBase64().toString())
-
         }
+		def replaceVendor ={html, vendor ->
+			return html.replace("<!--VENDOR-->", vendor)
+			.replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
+			.replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
+			.replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://cdn.geogebra.org/apps/latest/")
+		}
         def classicHtml = { prerelease, offline ->
             
            def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
-           return html.replace("<!--SPLASH-->", splash)
+           return replaceVendor(html, vendor).replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
-            .replace("<!--LANG-->", "en")
-            .replace("<!--VENDOR-->", "GeoGebra")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { app, prerelease, offline=false ->
@@ -187,16 +190,18 @@ task copyHtml {
                 header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));
             })
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
-            def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
+            def stylesheet = (prerelease + "").contains("canary") ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
             def logo = "<div class=\"logo\">" + template(appID+"-min.svg") + "</div>"
-            return html.replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + logo + template(appID+"-splash.html") + "</div>")
+            return replaceVendor(html, vendor)
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + logo + template(appID+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
-            .replace("<!--VENDOR-->", vendor)
+            .replace("<!--MOBILE STARTSCREEN-->", app.mobileStartscreen ? template("partials/mobile-startscreen.html") : "")
             .replace("<!--APP ID-->", appID)
-            .replace("<!--APP TRANSKEY-->", appTransKey)            
+            .replace("<!--APP TRANSKEY-->", appTransKey)
+            .replace("\r\n", "\n") // generate the same on Win and Unix
         }
         def english = {raw, appName ->
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
@@ -205,7 +210,7 @@ task copyHtml {
             .replace("<!--SIGN IN-->", "Sign in")
             .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--APP NAME-->", appName)
-            .replace("<!--LANG-->", "en")          
+            .replace("<!--LANG-->", "en")
         }
         
         file("war/app-release.html").text = english(classicHtml(false, false), "Classic")
@@ -216,11 +221,12 @@ task copyHtml {
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
 		appSpecs.each({app-> if(app.id != "classic") {
+			def appID = app.id.split("-")[0]
 			// TODO notes features should go to stable, then we simplify this
-			file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(app.id))
+			file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(appID))
 			file("war/${app.id}-template-beta.html").text = appHtml(app, true)
 			// TODO notes features should go to stable, then we simplify this
-			file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(app.id), true), app.title)
+			file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(appID), true), app.title)
 			file("war/${app.id}.html").text = english(appHtml(app, true), app.title)
 			file("war/${app.id}-canary.html").text = english(appHtml(app, "\"canary\""), app.title)
 		}});

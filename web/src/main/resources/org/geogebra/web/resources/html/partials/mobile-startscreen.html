@@ -1,0 +1,49 @@
+<script>
+function mobileStartscreen(){
+		var link = false;
+		var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
+				"graphing":"https://play.google.com/store/apps/details?id=org.geogebra.android",
+				"3d":"https://play.google.com/store/apps/details?id=org.geogebra.android.g3d"};
+		var iosLinks = {"graphing":"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204",
+				"geometry":"https://itunes.apple.com/us/app/geogebra-geometry-calculator/id1232591335"};
+		
+		if(/iPhone|iPad|iPod/i
+			.test(window.navigator.userAgent)){
+			link = iosLinks[window.appID];
+		}
+		else {
+			link = androidLinks[window.appID];
+		}
+		if(!link){
+			return false;
+		}
+		var nameText = c("appName").innerText;
+		var appName = document.createElement("H1");
+		appName.innerText = nameText;
+		appName.clasName = "appName";
+		c("appName").parentElement.className += " mobile";
+		c("ggbSplash").remove();
+		c("mk-spinner-wrap").remove();
+		c("startscreen").style.textAlign="center";
+		c("logo").className += " mobile";
+		//c("GeoGebraHeader").style.display= "none";
+		var tryApp = document.createElement("a");
+		tryApp.innerText = translation.tryApp || "Try App";
+		var stay = document.createElement("a");
+		stay.innerText = translation.stay || "Continue";
+		c("startscreen").appendChild(appName);
+		c("startscreen").appendChild(tryApp);
+		c("startscreen").appendChild(stay);
+		stay.addEventListener("click",function(){
+			stay.style.opacity = 0;
+			tryApp.style.opacity = 0;
+			insertScript();
+		});
+		
+		tryApp.className = "tryApp";
+		tryApp.target = "_blank";
+		tryApp.rel = "noreferrer noopener";
+		tryApp.href = link;
+		return true;
+	}
+</script>

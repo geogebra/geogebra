@@ -1,0 +1,76 @@
+<script>
+function addAppletPreview(tubeid){
+	var previewDiv = document.createElement("div");
+	previewDiv.id = "ggbsplash";
+	previewDiv.style.zIndex = 1000;
+	var preview = document.createElement("img");
+	preview.style.margin = "auto";
+	preview.style.position = "absolute";
+	
+	var xhr = new XMLHttpRequest();
+	var materialHost = isLocalhost() ? "https://beta.geogebra.org":"";
+	xhr.open("GET", materialHost + "/api/material_preview.php?u="+tubeid);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.response) {
+			preview.addEventListener && preview.addEventListener("load",function(){
+			preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
+			preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
+			c("logo") && c("logo").style.setProperty("display", "none");
+		});
+			preview.src = xhr.response.replace("http:","https:");
+		}
+	};
+	xhr.send();
+	
+	previewDiv.appendChild(preview);
+	document.body.appendChild(previewDiv);
+}
+
+function installWorker(){
+	window.GGBT_offlineRequestHandler = (function() {
+		"use strict";
+		function isServiceWorkerSupported() {
+			return 'serviceWorker' in navigator && location.protocol === "https:";
+		}
+		function registerServiceWorker() {
+			//TODO: will be cool for offline working. Not ready for push messages yet, too small browser support, too many quirks
+			if (navigator.serviceWorker.controller) {
+				console.log("service worker already controlling the page");
+			} else {
+				navigator.serviceWorker.register('/sworker.js', {
+					scope: '/'
+				});
+			}
+		}
+		function initServiceWorker() {
+			if (isServiceWorkerSupported()) {
+				registerServiceWorker();
+			} else {
+				console.log("service workers not supported");
+			}
+		}
+		return {
+			initServiceWorker : initServiceWorker,
+		};
+	})();
+	window.GGBT_offlineRequestHandler.initServiceWorker();
+}
+</script>
+<!-- Google Analytics (Start) -->
+	<script type="text/javascript">
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	if(window.installAnalytics){
+		window.installAnalytics('UA-1780044-1');
+	} else {
+		ga('create','UA-1780044-1','auto');
+	}
+	
+	ga('send', 'pageview');
+	
+	var gaPrefixes = {"graphing":"Graphing", "geometry":"Geometry"};
+	var gaLabel = gaPrefixes[window.appID] || "Classic";
+	gaLabel += appOnline ? " Web" : " Offline";	
+	ga('send', 'event', 'Startup', analyticsVersion, gaLabel);
+	</script> 
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+ 	<!-- Google Analytics (End) -->

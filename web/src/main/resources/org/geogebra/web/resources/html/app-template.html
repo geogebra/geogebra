@@ -6,8 +6,7 @@
 	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
 	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
 	<meta property="og:title" content="<!--APP NAME--> - <!--VENDOR-->" />
-	<link rel="preconnect" href="https://cdn.geogebra.org">
-	<link rel="preconnect" href="https://www.google-analytics.com">
+	<!--PRECONNECT-->
 <script type="text/javascript">
 
 // for IE9
@@ -24,9 +23,10 @@ var marginTop = 0;
 var analyticsVersion = 'V'+latestVersion;
 var appOnline=true;
 var translation = {};
-var codebase = "https://cdn.geogebra.org/apps/latest/";
+var codebase = "<!--CODEBASE-->";
 </script>
 <!--PLATFORM SPECIFIC CODE-->
+<!--MOBILE STARTSCREEN-->
 <script>
 	function e(id){
 		return document.getElementById(id);
@@ -347,35 +347,6 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		switchLang(validLang(lang));
 	}
 
-	function installWorker(){
-			window.GGBT_offlineRequestHandler = (function() {
-		    "use strict";
-		    function isServiceWorkerSupported() {
-		        return 'serviceWorker' in navigator && location.protocol === "https:";
-		    }
-		    function registerServiceWorker() {
-		        //TODO: will be cool for offline working. Not ready for push messages yet, too small browser support, too many quirks
-		        if (navigator.serviceWorker.controller) {
-		            console.log("service worker already controlling the page");
-		        } else {
-		            navigator.serviceWorker.register('/sworker.js', {
-		                scope: '/'
-		            });
-		        }
-		    }
-		    function initServiceWorker() {
-		        if (isServiceWorkerSupported()) {
-		            registerServiceWorker();
-		        } else {
-		            console.log("service workers not supported");
-		        }
-		    }
-		    return {
-		        initServiceWorker : initServiceWorker,
-		    };
-		})();
-		window.GGBT_offlineRequestHandler.initServiceWorker();
-	}
 	function setPrerelease(prereleaseParam){
 		document.body.className += "prerelease";
 		e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
@@ -398,61 +369,15 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		return window.appID;
 	}
 
-	function mobileStartscreen(){
-		var link = false;
-		var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
-				"graphing":"https://play.google.com/store/apps/details?id=org.geogebra.android",
-				"3d":"https://play.google.com/store/apps/details?id=org.geogebra.android.g3d"};
-		var iosLinks = {"graphing":"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204",
-				"geometry":"https://itunes.apple.com/us/app/geogebra-geometry-calculator/id1232591335"};
-		
-		if(/iPhone|iPad|iPod/i
-			.test(window.navigator.userAgent)){
-			link = iosLinks[window.appID];
-		}
-		else {
-			link = androidLinks[window.appID];
-		}
-		if(!link){
-			return false;
-		}
-		var nameText = c("appName").innerText;
-		var appName = document.createElement("H1");
-		appName.innerText = nameText;
-		appName.clasName = "appName";
-		c("appName").parentElement.className += " mobile";
-		c("ggbSplash").remove();
-		c("mk-spinner-wrap").remove();
-		c("startscreen").style.textAlign="center";
-		c("logo").className += " mobile";
-		//c("GeoGebraHeader").style.display= "none";
-		var tryApp = document.createElement("a");
-		tryApp.innerText = translation.tryApp || "Try App";
-		var stay = document.createElement("a");
-		stay.innerText = translation.stay || "Continue";
-		c("startscreen").appendChild(appName);
-		c("startscreen").appendChild(tryApp);
-		c("startscreen").appendChild(stay);
-		stay.addEventListener("click",function(){
-			stay.style.opacity = 0;
-			tryApp.style.opacity = 0;
-			insertScript();
-		});
-		
-		tryApp.className = "tryApp";
-		tryApp.target = "_blank";
-		tryApp.rel = "noreferrer noopener";
-		tryApp.href = link;
-		return true;
-	}
-
 	function checkLogin(){
-		installWorker();
+		if(window.installWorker){
+			installWorker();
+		}
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		var tubeid = getURLparam("id");
-		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry|3d|whiteboard|notes|cas|scientific)\/([a-zA-Z0-9]+)/);
-		if(checkId && !names[checkId[2]]){
-			tubeid = checkId[2];
+		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry|3d|([a-z]+/)?frame|notes|cas|calculator)\/([a-zA-Z0-9]+)/);
+		if(checkId && !names[checkId[3]]){
+			tubeid = checkId[3];
 			if(checkId[1] == "o"){
 				appID = "auto";
 			}
@@ -460,7 +385,7 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		var wait = false;
 		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-				.test(window.navigator.userAgent) && c("appName") && !skipAppsPicker && !location.pathname.match(/lti/)){
+				.test(window.navigator.userAgent) && c("appName") && !skipAppsPicker && !location.pathname.match(/lti/) && window.mobileStartscreen){
 			wait = mobileStartscreen();
 		}
 		
@@ -495,30 +420,9 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		if (tubeid) {
 			if (e("ggw")) {
 				e("ggw").setAttribute("data-param-tubeid", tubeid);
-				var previewDiv = document.createElement("div");
-				previewDiv.id = "ggbsplash";
-				previewDiv.style.zIndex = 1000;
-				var preview = document.createElement("img");
-				preview.style.margin = "auto";
-				preview.style.position = "absolute";
-				
-				var xhr = new XMLHttpRequest();
-				var materialHost = isLocalhost() ? "https://beta.geogebra.org":"";
-				xhr.open("GET", materialHost + "/api/material_preview.php?u="+tubeid);
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.response) {
-						preview.addEventListener && preview.addEventListener("load",function(){
-						preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
-						preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
-						c("logo") && c("logo").style.setProperty("display", "none");
-					});
-						preview.src = xhr.response.replace("http:","https:");
-					}
-				};
-				xhr.send();
-				
-				previewDiv.appendChild(preview);
-				document.body.appendChild(previewDiv);
+				if(window.addAppletPreview){
+					window.addAppletPreview(tubeid);
+				}
 				perspective(false);
 				insertScript();
 				return;
@@ -553,7 +457,6 @@ var codebase = "https://cdn.geogebra.org/apps/latest/";
 		wait || insertScript();
 		
 		perspective(false, "picker"); //TODO
-		
 	}
 </script>
 <script type="text/javascript">
@@ -569,26 +472,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 	};
 </script>
 
-
-
-    <!-- Google Analytics (Start) -->
-	<script type="text/javascript">
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	if(window.installAnalytics){
-		window.installAnalytics('UA-1780044-1');
-	} else {
-		ga('create','UA-1780044-1','auto');
-	}
-	
-	ga('send', 'pageview');
-	
-	var gaPrefixes = {"graphing":"Graphing", "geometry":"Geometry"};
-	var gaLabel = gaPrefixes[window.appID] || "Classic";
-	gaLabel += appOnline ? " Web" : " Offline";	
-	ga('send', 'event', 'Startup', analyticsVersion, gaLabel);
-	</script> 
-	<script async src='https://www.google-analytics.com/analytics.js'></script>
- 	<!-- Google Analytics (End) -->
+    <!--VENDOR SCRIPTS-->
     <script>
 	    var GGW_appengine = GGW_appengine || {};
 	    GGW_appengine.FILE_IDS = [""];
