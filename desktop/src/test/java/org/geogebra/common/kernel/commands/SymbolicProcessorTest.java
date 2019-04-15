@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.test.RegexpMatch;
+import org.hamcrest.core.StringStartsWith;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -43,6 +43,6 @@ public class SymbolicProcessorTest {
 		// the arbitrary constant index may change, use regexp
 		assertThat(
 				integralASquared.toValueString(StringTemplate.testTemplate),
-				RegexpMatch.matches("1 / 3 \\* a\\^\\(3\\) \\+ c_.*"));
+				StringStartsWith.startsWith("1 / 3 * a^(3) + c_"));
 	}
 }
