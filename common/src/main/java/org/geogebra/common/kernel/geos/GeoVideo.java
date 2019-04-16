@@ -438,10 +438,9 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 
 	@Override
 	public void remove() {
-		if (!hasVideoManager()) {
-			return;
+		if (hasVideoManager()) {
+			app.getVideoManager().removePlayer(this);
 		}
-		app.getVideoManager().removePlayer(this);
 		super.remove();
 	}
 

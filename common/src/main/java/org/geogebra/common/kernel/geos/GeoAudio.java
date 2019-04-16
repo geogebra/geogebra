@@ -137,12 +137,6 @@ public class GeoAudio extends GeoMedia {
 		app.getSoundManager().pause(this);
 	}
 
-	@Override
-	public void remove() {
-		pause();
-		super.remove();
-	}
-
 	private boolean hasSoundManager() {
 		return app.getSoundManager() != null;
 	}
