@@ -47,5 +47,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	public CommandSelector getCommandSelector() {
 		return null;
 	}
+
+	@Override
+	public boolean hasAutomaticLabels() {
+		return false;
+	}
 		
 }
