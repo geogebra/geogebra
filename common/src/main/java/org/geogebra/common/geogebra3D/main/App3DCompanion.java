@@ -153,20 +153,6 @@ public abstract class App3DCompanion extends AppCompanion {
 		return euclidianViewForPlaneCompanion;
 	}
 
-	@Override
-	public void resetFonts() {
-
-		super.resetFonts();
-
-		if (app.isEuclidianView3Dinited()) {
-			((EuclidianView) app.getEuclidianView3D()).updateFonts();
-		}
-
-		if (euclidianViewForPlaneCompanion != null) {
-			euclidianViewForPlaneCompanion.getView().updateFonts();
-		}
-	}
-
 	/**
 	 * remove the view from the list
 	 * 

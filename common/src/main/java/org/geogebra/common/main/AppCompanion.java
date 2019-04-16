@@ -125,16 +125,6 @@ public class AppCompanion {
 	}
 
 	/**
-	 * @deprecated FontSettingsUpdater.resetFonts should be used instead.
-	 *
-	 * Update font sizes of all components to match current GUI font size
-	 */
-	@Deprecated
-	public void resetFonts() {
-		app.getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-	}
-
-	/**
 	 * 
 	 * @return true if some view for plane exists
 	 */
