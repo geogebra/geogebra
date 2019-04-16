@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.cas.CmdSolveODE;
 import org.geogebra.common.kernel.cas.CmdSurdText;
 import org.geogebra.common.kernel.cas.CmdTrigCombine;
 import org.geogebra.common.kernel.cas.CmdTrigExpand;
-import org.geogebra.common.main.App;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet
@@ -28,9 +27,6 @@ import org.geogebra.common.main.App;
 public class CommandDispatcherCAS implements CommandDispatcherInterface {
 	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
-		App app = kernel.getApplication();
-
-		// syntaxes ALLOWED in exam mode
 		switch (c) {
 
 		// note: Integral(f,a,b) is allowed but not Integral(f)

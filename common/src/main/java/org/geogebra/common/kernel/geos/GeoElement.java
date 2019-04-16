@@ -28,7 +28,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import com.google.j2objc.annotations.Weak;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -108,7 +107,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
-import com.google.j2objc.annotations.RetainedWith;
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 

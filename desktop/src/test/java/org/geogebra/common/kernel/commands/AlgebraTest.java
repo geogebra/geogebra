@@ -126,7 +126,7 @@ public class AlgebraTest extends Assert {
 
 	protected static List<Matcher<String>> getMatchers(String[] expected) {
 		ArrayList<Matcher<String>> matchers = new ArrayList<>();
-		for(String exp: expected){
+		for (String exp : expected) {
 			matchers.add(IsEqual.equalTo(exp));
 		}
 		return matchers;
