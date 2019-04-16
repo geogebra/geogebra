@@ -130,6 +130,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (!xAxis && !yAxis) {
 			return;
 		}
+		Construction cons = kernel.getConstruction();
+		boolean silentMode = kernel.isSilentMode();
+		boolean suppressLabelsActive = cons.isSuppressLabelsActive();
+		kernel.setSilentMode(true);
 		try {
 			if (geo instanceof GeoFunction) {
 				getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
@@ -142,6 +146,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		} catch (Throwable exception) {
 			// ignore
+		} finally {
+			kernel.setSilentMode(silentMode);
+			cons.setSuppressLabelCreation(suppressLabelsActive);
 		}
 	}
 
@@ -206,8 +213,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 		Command cmd = new Command(kernel, "Intersect", false);
 		CmdIntersect intersect = new CmdIntersect(kernel);
-		boolean wasSuppressLabelActive = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
 
 		if (xAxis) {
 			getSpecialPointsIntersect(geo, xAxisLine, intersect, cmd, retList);
@@ -218,7 +223,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (geo.isGeoConic() && geo.isRealValuedFunction()) {
 			addExtremumPoly((GeoConic) geo, retList);
 		}
-		cons.setSuppressLabelCreation(wasSuppressLabelActive);
 	}
 
 	private void getIntersectsBetween(GeoElementND geo,
@@ -231,8 +235,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 		Command cmd = new Command(kernel, "Intersect", false);
 		CmdIntersect intersect = new CmdIntersect(kernel);
-		boolean silentMode = kernel.isSilentMode();
-		kernel.setSilentMode(true);
 
 		Set<GeoElement> elements = new TreeSet<>(cons.getGeoSetConstructionOrder());
 		for (GeoElement element: elements) {
@@ -240,8 +242,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				getSpecialPointsIntersect(geo, element, intersect, cmd, retList);
 			}
 		}
-
-		kernel.setSilentMode(silentMode);
 	}
 
 	private void getSpecialPointsIntersect(GeoElementND element,
