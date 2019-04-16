@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -208,7 +209,7 @@ public class Hitting {
 	 * @return first hitted label geo
 	 */
 	public GeoElement getLabelHit(GPoint mouseLoc) {
-		if (view.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC) {
+		if (view.getProjection() == EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC) {
 			return view.getDrawList3D().getLabelHit(originScreen.getX(),
 					originScreen.getY());
 		}
@@ -223,7 +224,7 @@ public class Hitting {
 	 * @return true if this hits the label
 	 */
 	public boolean hitLabel(DrawLabel3D label) {
-		if (view.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC) {
+		if (view.getProjection() == EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC) {
 			return label.hit(originScreen.getX(), originScreen.getY());
 		}
 

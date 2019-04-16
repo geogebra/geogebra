@@ -81,7 +81,7 @@ public abstract class EuclidianView3DAnimation {
 		animator.endAnimation();
 	}
 
-	protected final double getMillisecondTime() {
+	protected final static double getMillisecondTime() {
 		return UtilFactory.getPrototype().getMillisecondTime();
 	}
 

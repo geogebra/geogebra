@@ -65,5 +65,9 @@ public interface CASTableCellEditor extends SetLabels {
 	 */
 	boolean hasFocus();
 
+	/**
+	 * @param ratio
+	 *            pixel ratio
+	 */
 	void setPixelRatio(double ratio);
 }

@@ -1,7 +1,5 @@
 package org.geogebra.common.jre.cas.giac;
 
-import static org.geogebra.common.cas.giac.CASgiac.FORCE_ERROR;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiacB;

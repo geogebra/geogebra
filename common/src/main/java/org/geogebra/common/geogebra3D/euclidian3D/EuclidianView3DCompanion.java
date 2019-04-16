@@ -56,7 +56,8 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 			return;
 		}
 
-		if (getView().getProjection() != EuclidianView3D.PROJECTION_GLASSES) {
+		if (getView()
+				.getProjection() != EuclidianView3DInterface.PROJECTION_GLASSES) {
 			return;
 		}
 
@@ -299,9 +300,10 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	protected void getHittingOrigin(GPoint mouse, Coords ret) {
 		getView().getPickPoint(mouse, ret);
-		if (getView().getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
+		if (getView()
+				.getProjection() == EuclidianView3DInterface.PROJECTION_PERSPECTIVE
 				|| getView()
-						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+						.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES) {
 			ret.set4(getView().getRenderer().getPerspEye());
 		}
 		getView().toSceneCoords3D(ret);
@@ -321,12 +323,12 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		int projection = getView().getProjection();
 		pickPoint.setX(mouse.getX() + renderer.getLeft());
 		pickPoint.setY(-mouse.getY() + renderer.getTop());
-		if (projection == EuclidianView3D.PROJECTION_PERSPECTIVE
-				|| projection == EuclidianView3D.PROJECTION_GLASSES) {
+		if (projection == EuclidianView3DInterface.PROJECTION_PERSPECTIVE
+				|| projection == EuclidianView3DInterface.PROJECTION_GLASSES) {
 			pickPoint.setZ(0);
 		} else {
 			pickPoint.setZ(renderer.getVisibleDepth());
-			if (projection == EuclidianView3D.PROJECTION_OBLIQUE) {
+			if (projection == EuclidianView3DInterface.PROJECTION_OBLIQUE) {
 				pickPoint.setX(pickPoint.getX()
 						- pickPoint.getZ() * renderer.getObliqueX());
 				pickPoint.setY(pickPoint.getY()
