@@ -29,7 +29,7 @@ public class FunctionExpander implements Traversing {
 					.deepCopy(geo.getKernel()).traverse(this);
 		}
 		if (geo instanceof GeoCasCell) {
-			return ((GeoCasCell) geo).getOutputValidExpression()
+			return ((GeoCasCell) geo).getValue()
 					.deepCopy(geo.getKernel()).traverse(this).unwrap();
 		}
 		return geo;
@@ -105,7 +105,7 @@ public class FunctionExpander implements Traversing {
 				}
 				if (geo instanceof GeoCasCell) {
 					ValidExpression ve = ((GeoCasCell) geo)
-							.getOutputValidExpression();
+							.getValue();
 					// related to #4126 -- maybe not needed though
 					if (((GeoCasCell) geo).isKeepInputUsed()) {
 						ve = expand((GeoCasCell) geo).wrap();
@@ -242,8 +242,8 @@ public class FunctionExpander implements Traversing {
 			if (((GeoCasCell) ev).isKeepInputUsed()) {
 				return expand((GeoCasCell) ev);
 			}
-			if (((GeoCasCell) ev).getOutputValidExpression() != null) {
-				return ((GeoCasCell) ev).getOutputValidExpression().wrap()
+			if (((GeoCasCell) ev).getValue() != null) {
+				return ((GeoCasCell) ev).getValue().wrap()
 					.getCopy(((GeoCasCell) ev).getKernel());
 			}
 		} else if (ev instanceof FunctionNVar) {

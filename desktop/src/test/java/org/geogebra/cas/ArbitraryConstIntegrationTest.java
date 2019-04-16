@@ -386,8 +386,8 @@ public class ArbitraryConstIntegrationTest {
 			}
 		}
 
-		return f2.getOutputValidExpression() != null
-				? f2.getOutputValidExpression()
+		return f2.getValue() != null
+				? f2.getValue()
 						.toString(includesNumericCommand
 								? StringTemplate.testNumeric
 								: StringTemplate.testTemplate)

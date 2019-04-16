@@ -14,9 +14,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -237,21 +235,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 	@Override
 	public char getLabelDelimiter() {
 		return getDefinition().unwrap() instanceof Equation ? ':' : '=';
-	}
-
-	/**
-	 * @return parsed CAS output
-	 */
-	public ExpressionValue getOutputExpression() {
-		if (StringUtil.empty(casOutputString)) {
-			return null;
-		}
-		try {
-			return kernel.getParser().parseExpression(casOutputString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	@Override

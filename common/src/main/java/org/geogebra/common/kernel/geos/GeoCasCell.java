@@ -3163,7 +3163,8 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * @return output value as valid expression
 	 */
-	public ValidExpression getOutputValidExpression() {
+	@Override
+	public ValidExpression getValue() {
 		return outputVE;
 	}
 
@@ -3723,7 +3724,7 @@ public class GeoCasCell extends GeoElement
 	 */
 	public String getOutputOrInput(StringTemplate tpl, boolean output) {
 		if (!output) {
-			return getOutputValidExpression().toAssignmentString(
+			return getValue().toAssignmentString(
 					getFormulaString(tpl, output), getAssignmentType());
 		}
 		return getOutput(tpl);

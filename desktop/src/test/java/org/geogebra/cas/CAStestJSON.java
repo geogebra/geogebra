@@ -228,14 +228,14 @@ public class CAStestJSON {
 									&& cmd.getArgumentNumber() > 1);
 				}
 			}
-			if (f.getOutputValidExpression() == null) {
+			if (f.getValue() == null) {
 				result = f.getOutput(StringTemplate.testTemplate);
-			} else if (f.getOutputValidExpression()
+			} else if (f.getValue()
 					.unwrap() instanceof GeoElement) {
-				result = f.getOutputValidExpression()
+				result = f.getValue()
 						.toValueString(StringTemplate.testTemplateJSON);
 			} else {
-				result = f.getOutputValidExpression()
+				result = f.getValue()
 						.traverse(getGGBVectAdder())
 						.toString(includesNumericCommand
 								? StringTemplate.testNumeric

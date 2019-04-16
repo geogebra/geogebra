@@ -3862,7 +3862,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public ExpressionValue evaluate(StringTemplate tpl) {
 		if (this instanceof GeoCasCell) {
-			return ((GeoCasCell) this).getOutputValidExpression();
+			return ((GeoCasCell) this).getValue();
 		}
 		return this;
 	}

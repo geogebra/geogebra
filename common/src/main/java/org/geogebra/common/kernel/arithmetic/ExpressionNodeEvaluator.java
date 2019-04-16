@@ -1107,7 +1107,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 				return arg.getNumber().apply((Evaluatable) lt);
 			} else if (lt instanceof GeoCasCell && ((GeoCasCell) lt)
-					.getOutputValidExpression() instanceof Function) {
+					.getValue() instanceof Function) {
 				// first we give the expression to the cas
 				// and then the result of that to the geogebra
 				// so that the cas result will be converted

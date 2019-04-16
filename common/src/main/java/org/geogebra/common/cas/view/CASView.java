@@ -91,7 +91,7 @@ public abstract class CASView implements Editing, SetLabels {
 	 */
 	public String getRowOutputValue(int n) {
 		ValidExpression outVE = getConsoleTable().getGeoCasCell(n)
-				.getOutputValidExpression();
+				.getValue();
 
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
 		if (outVE == null) {

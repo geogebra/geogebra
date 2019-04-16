@@ -306,7 +306,7 @@ public class CASInputHandler {
 	private String wrapPrevCell(int selRow, GeoCasCell cellValue) {
 		// get previous cell
 		GeoCasCell prevCell = consoleTable.getGeoCasCell(selRow - 1);
-		if (prevCell != null && prevCell.getOutputValidExpression() != null) {
+		if (prevCell != null && prevCell.getValue() != null) {
 			// get output of previous cell
 			StringBuilder prevCellName = new StringBuilder();
 			prevCellName.append(prevCell.getAssignmentVariable());
@@ -368,7 +368,7 @@ public class CASInputHandler {
 		// using the current command
 		if (success && needInsertRow) {
 			String ggbcmd1 = ggbcmd;
-			ValidExpression outputVE = cellValue.getOutputValidExpression();
+			ValidExpression outputVE = cellValue.getValue();
 			String assignmentLabel = outputVE.getLabelForAssignment();
 			String label = cellValue.getEvalVE().getLabelForAssignment();
 			GeoCasCell newRowValue = new GeoCasCell(kernel.getConstruction());
@@ -656,7 +656,7 @@ public class CASInputHandler {
 					// check if input is polynomial
 					inputStr.append(CustomFunctions.GGBIS_POLYNOMIAL);
 					inputStr.append("(");
-					inputStr.append(selCellValue.getOutputValidExpression()
+					inputStr.append(selCellValue.getValue()
 							.toString(StringTemplate.giacTemplate));
 					inputStr.append(")");
 
@@ -671,7 +671,7 @@ public class CASInputHandler {
 						if (curr instanceof GeoCasCell) {
 							// we should use only the variables from output
 							HashSet<GeoElement> currCellVars = ((GeoCasCell) curr)
-									.getOutputValidExpression()
+									.getValue()
 									.getVariables(SymbolicMode.NONE);
 							Iterator<GeoElement> currIt = currCellVars
 									.iterator();
@@ -1031,7 +1031,7 @@ public class CASInputHandler {
 		boolean marbleShown = cell.hasTwinGeo()
 				&& cell.getTwinGeo().isEuclidianVisible()
 				&& cell.getTwinGeo().isEuclidianShowable();
-		ValidExpression ve = cell.getOutputValidExpression();
+		ValidExpression ve = cell.getValue();
 		boolean isPlottable = true;
 		int dim = cell.getKernel().getApplication().is3D() ? 3 : 2;
 		if (ve != null) {

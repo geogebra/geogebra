@@ -39,7 +39,7 @@ public class SymbolicProcessor {
 		public boolean check(ExpressionValue v) {
 			String label = ve.wrap().getLabel();
 			if (v instanceof GeoSymbolic && label != null) {
-				return ((GeoSymbolic) v).getOutputExpression().inspect(this);
+				return ((GeoSymbolic) v).getValue().inspect(this);
 			}
 			if (v instanceof Variable) {
 				return ((Variable) v).getName().equals(label);

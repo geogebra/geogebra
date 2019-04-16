@@ -190,9 +190,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 
-			ret = f.getOutputValidExpression() != null
-					? f.getOutputValidExpression()
-							.toString(StringTemplate.numericDefault)
+			ret = f.getValue() != null
+					? f.getValue().toString(StringTemplate.numericDefault)
 					: f.getOutput(StringTemplate.testTemplate);
 		} catch (Throwable e) {
 			e.printStackTrace();

@@ -177,7 +177,7 @@ public abstract class CASSubDialog {
 
 	private static void addVariables(GeoElement var, HashSet<GeoElement> vars) {
 		if (var instanceof GeoCasCell) {
-			ValidExpression ve = ((GeoCasCell) var).getOutputValidExpression();
+			ValidExpression ve = ((GeoCasCell) var).getValue();
 			if (ve != null) {
 				vars.addAll(ve.getVariables(SymbolicMode.NONE));
 			}

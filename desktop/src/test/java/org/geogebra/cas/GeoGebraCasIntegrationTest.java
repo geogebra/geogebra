@@ -209,16 +209,14 @@ public class GeoGebraCasIntegrationTest {
 				}
 			}
 
-			result = f.getOutputValidExpression() != null
-					? f.getOutputValidExpression()
+			result = f.getValue() != null ? f.getValue()
 							.toString(includesNumericCommand
 									? StringTemplate.testNumeric
 									: StringTemplate.testTemplate)
 					: f.getOutput(StringTemplate.testTemplate);
-			if (f.getOutputValidExpression() != null
-					&& f.getOutputValidExpression()
+			if (f.getValue() != null && f.getValue()
 							.unwrap() instanceof GeoElement) {
-				result = ((GeoElement) f.getOutputValidExpression().unwrap())
+				result = ((GeoElement) f.getValue().unwrap())
 						.toValueString(StringTemplate.testTemplate);
 			}
 

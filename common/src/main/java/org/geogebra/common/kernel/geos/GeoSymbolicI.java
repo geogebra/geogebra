@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  * Common interface for CAS cells and symbolic geos in AV
@@ -27,5 +28,10 @@ public interface GeoSymbolicI {
 	 * Note that this will also change a corresponding twinGeo.
 	 */
 	void computeOutput();
+
+	/**
+	 * @return computed expression
+	 */
+	public ExpressionValue getValue();
 
 }
