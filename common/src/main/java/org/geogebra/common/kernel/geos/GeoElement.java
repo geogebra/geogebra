@@ -3254,6 +3254,7 @@ public abstract class GeoElement extends ConstructionElement
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
 			algoParent.remove(this);
+			algoParent = null;
 		} else {
 			// must be done in this order because doRemove destroys the link
 			if (correspondingCasCell != null) {
