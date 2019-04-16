@@ -155,7 +155,7 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
-	public void testCalculations() {
+	public void testPolynomialFit() {
 		t("eq1: 9=a*3^3+b*3^2+c*3+d", "9 = 27 * a + 9 * b + 3 * c + d");
 		t("eq2: 4=a*2^3+b*2^2+c*2+d", "4 = 8 * a + 4 * b + 2 * c + d");
 		t("eq3: 7=a*4^3+b*4^2+c*4+d", "7 = 64 * a + 16 * b + 4 * c + d");
