@@ -138,27 +138,16 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function getCookie(cookieName){
-		var docCookie = document.cookie;
-		if (docCookie && docCookie != '') {
-			var crumbs = docCookie.split('; ');
+		try {
+			var crumbs = document.cookie.split(';');
 			for ( var i = 0; i < crumbs.length; ++i) {
-				var name, value;
-				var eqIdx = crumbs[i].indexOf('=');
-				if (eqIdx == -1) {
-					//empty
-				} else {
-					name = crumbs[i].substring(0, eqIdx);
-					value = crumbs[i].substring(eqIdx + 1);
-					if (name == cookieName) {
-						try {
-							value = decodeURIComponent(value);
-						} catch (e) {
-							// ignore error, keep undecoded value
-						}
-						return value;
-					}
+				var nameAndValue = crumbs[i].trim().split("=");
+				if (nameAndValue[0] == cookieName) {
+					return decodeURIComponent(nameAndValue[1]);
 				}
 			}
+		} catch (e) {
+			// ignore error, keep undecoded value
 		}
 		return false;
 	}
@@ -358,60 +347,85 @@ var codebase = "<!--CODEBASE-->";
 	}
 	
 	function getPerspective(){
-		if(getURLparam("perspective")){
-			return getURLparam("perspective");			
+		if (getURLparam("perspective")) {
+			return getURLparam("perspective");
 		}
 		var parts = location.pathname.split("/");
 		var path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
-		if(location.hash.length || (path != '/apps' && path != '/apps/' && !path.match(/\.html$/))){
+		if (location.hash.length || (path != '/apps' && path != '/apps/' && !path.match(/\.html$/))) {
 			return location.hash.length ? location.hash.replace('#','') : path;
 		}
 		return window.appID;
 	}
 
-	function checkLogin(){
-		if(window.installWorker){
+	function resizeStart(){
+		if(e("perspectivesBox")){
+			if(window.innerHeight < 650 || window.innerWidth < 650){
+				e("perspectivesBox").style.display = "none";
+			} else {
+				e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
+			}
+		}
+	}
+
+	function showMobileStartscreenIfNeeded() {
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+				.test(window.navigator.userAgent) && c("appName") 
+				&& !location.pathname.match(/lti/) && window.mobileStartscreen) {
+			return mobileStartscreen();
+		}
+		return false;
+	}
+
+	function updateAppletParams(){
+		for (var key in defaultParams) {
+			e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
+		}
+		if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
+			setPrerelease(prerelease || "true");
+		}
+		if (getURLparam("debug") || debug || isLocalhost()) {
+			setDebug(debug || true);
+		}
+	}
+
+	function loadMaterial(tubeid){
+		e("ggw").setAttribute("data-param-tubeid", tubeid);
+		if(window.addAppletPreview){
+			window.addAppletPreview(tubeid);
+		}
+		perspective(false);
+		insertScript();
+	}
+
+	/** @return array [appName, sandbox, material ID]*/
+	function parsePath(){
+		return location.pathname.match(/^\/(o|classic|graphing|geometry|3d|([a-z]+\/)?frame|notes|cas|calculator)\/([a-zA-Z0-9]+)/);
+	}
+
+	function loadApp(){
+		if (window.installWorker) {
 			installWorker();
 		}
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		var tubeid = getURLparam("id");
-		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry|3d|([a-z]+\/)?frame|notes|cas|calculator)\/([a-zA-Z0-9]+)/);
+		var checkId = parsePath();
 		if(checkId && !names[checkId[3]]){
 			tubeid = checkId[3];
-			if(checkId[1] == "o"){
+			if (checkId[1] == "o") {
 				appID = "auto";
 			}
 		}
 		var wait = false;
 		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
-		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-				.test(window.navigator.userAgent) && c("appName") && !skipAppsPicker && !location.pathname.match(/lti/) && window.mobileStartscreen){
-			wait = mobileStartscreen();
+		if (!skipAppsPicker) {
+			wait = showMobileStartscreenIfNeeded();
 		}
-		
-		function resizeStart(){
-			if(e("perspectivesBox")){
-				if(window.innerHeight < 650 || window.innerWidth < 650){
-					e("perspectivesBox").style.display = "none";
-				} else {
-					e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
-				}
-			}
-		}
-		
+	
 		resizeStart();
 		window.addEventListener && window.addEventListener("resize", resizeStart);
-		if(e("ggw")){
-			for (var key in defaultParams) {
-				e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
-			}
-			if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
-				setPrerelease(prerelease || "true");
-			}
-			if (getURLparam("debug") || debug || isLocalhost()) {
-				setDebug(debug || true);
-				
-			}
+		if (e("ggw")) {
+			updateAppletParams();
 			if (isLocalhost()) {
 				codebase = "./";
 			}
@@ -419,24 +433,17 @@ var codebase = "<!--CODEBASE-->";
 		
 		if (tubeid) {
 			if (e("ggw")) {
-				e("ggw").setAttribute("data-param-tubeid", tubeid);
-				if(window.addAppletPreview){
-					window.addAppletPreview(tubeid);
-				}
-				perspective(false);
-				insertScript();
+				loadMaterial(tubeid);
 				return;
 			}
-		}
-		else if(getPerspective()){			
+		} else if (getPerspective()) {
 			var pName = getPerspective();
 			if (pName.substring(0,6) == "search" || pName.substring(0,4) == "exam") {
 				if (e("perspectivesBox")) {
 					e("perspectivesBox").style.display = "none";
 				}
 				wait || perspective(pName);
-			}
-			else{
+			} else {
 				perspective(names[pName], pName);
 			}
 			document.body.className += " " + pName;
@@ -444,18 +451,14 @@ var codebase = "<!--CODEBASE-->";
 			wait || insertScript();
 			showStartScreen();
 			return;
-		}
-		else if(skipAppsPicker ){
+		} else if(skipAppsPicker) {
 			perspective(false);
 			insertScript();
 			return;
 		}
 		
 		showStartScreen();
-		
-		
 		wait || insertScript();
-		
 		perspective(false, "picker"); //TODO
 	}
 </script>
@@ -500,7 +503,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 <!--SPLASH STYLE-->
     </style>
 </head>
-<body dir="ltr" tabindex="-1" onload="checkLogin()">
+<body dir="ltr" tabindex="-1" onload="loadApp()">
 	<!--SPLASH-->
     <article id="ggw"
     data-param-useBrowserForJS="false"
