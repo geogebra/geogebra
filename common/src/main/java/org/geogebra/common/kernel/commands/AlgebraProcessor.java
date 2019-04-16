@@ -987,6 +987,7 @@ public class AlgebraProcessor {
 		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
 		sym.setLabel(ve.getLabel());
+		sym.getDefinition().setLabel(ve.getLabel());
 		return sym;
 	}
 
