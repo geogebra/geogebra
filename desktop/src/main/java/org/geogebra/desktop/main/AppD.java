@@ -210,7 +210,6 @@ import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.DecorationListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
-import org.geogebra.desktop.gui.font.FontCreatorD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -361,7 +360,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private GgbAPID ggbapi = null;
 	private SpreadsheetTableModelD tableModel;
-	private FontCreatorD fontCreator;
 
 	// ==============================================================
 	// MISC FLAGS
@@ -5402,13 +5400,5 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			defaultSettings = new DefaultSettingsD();
 		}
 		return defaultSettings;
-	}
-
-	@Override
-	public FontCreatorD getFontCreator() {
-		if (fontCreator == null) {
-			fontCreator = new FontCreatorD(settings.getFontSettings(), getFontManager());
-		}
-		return fontCreator;
 	}
 }

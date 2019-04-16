@@ -58,7 +58,6 @@ public class AppCommon extends App {
 	private LocalizationJre localization;
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
-	private FontCreator fontCreator;
 	private SpreadsheetTableModel tableModel;
 
     /**
@@ -101,14 +100,6 @@ public class AppCommon extends App {
     		defaultSettings = new DefaultSettingsCommon();
 		}
 		return defaultSettings;
-	}
-
-	@Override
-	public FontCreator getFontCreator() {
-    	if (fontCreator == null) {
-    		fontCreator = new FontCreatorNoGui(settings.getFontSettings());
-		}
-		return fontCreator;
 	}
 
 	@Override

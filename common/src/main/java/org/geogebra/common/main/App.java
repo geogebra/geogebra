@@ -419,6 +419,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private LabelManager labelManager;
 	private SettingsUpdater settingsUpdater;
+	private FontCreator fontCreator;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -461,7 +462,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return font creator
 	 */
-	public abstract FontCreator getFontCreator();
+	protected FontCreator getFontCreator() {
+		if (fontCreator == null) {
+			fontCreator = new FontCreator(getFontManager(), getSettings().getFontSettings());
+		}
+		return fontCreator;
+	}
 
 	/**
 	 * Changes version; should be called only once, right after the constructor

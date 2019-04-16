@@ -1,19 +1,23 @@
 package org.geogebra.common.gui.font;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.settings.FontSettings;
 
 /**
  * Creates fonts.
  */
-public abstract class FontCreator {
+public class FontCreator {
 
+	private FontManager fontManager;
 	private FontSettings fontSettings;
 
 	/**
+	 * @param fontManager font manager
 	 * @param fontSettings font settings
 	 */
-	public FontCreator(FontSettings fontSettings) {
+	public FontCreator(FontManager fontManager, FontSettings fontSettings) {
+		this.fontManager = fontManager;
 		this.fontSettings = fontSettings;
 	}
 
@@ -24,7 +28,9 @@ public abstract class FontCreator {
 	 * @param fontSize font size
 	 * @return A new serif font instance.
 	 */
-	public abstract GFont newSerifFont(String testString, int fontStyle, int fontSize);
+	public GFont newSerifFont(String testString, int fontStyle, int fontSize) {
+		return fontManager.getFontCanDisplay(testString, true, fontStyle, fontSize);
+	}
 
 	/**
 	 * Creates a sans-serif font.
@@ -33,13 +39,17 @@ public abstract class FontCreator {
 	 * @param fontSize font size
 	 * @return A new sans-serif font instance.
 	 */
-	public abstract GFont newSansSerifFont(String testString, int fontStyle, int fontSize);
+	public GFont newSansSerifFont(String testString, int fontStyle, int fontSize) {
+		return fontManager.getFontCanDisplay(testString, false, fontStyle, fontSize);
+	}
 
 	/**
 	 * Creates a sans-serif font.
 	 * @return A new sans-serif font instance.
 	 */
-	public abstract GFont newSansSerifFont();
+	public GFont newSansSerifFont() {
+		return newSansSerifFont("");
+	}
 
 	/**
 	 * Creates a sans-serif font.

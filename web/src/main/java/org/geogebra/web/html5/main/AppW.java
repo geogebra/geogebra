@@ -105,7 +105,6 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
-import org.geogebra.web.html5.gui.font.FontCreatorW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.MebisVendorSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -243,7 +242,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
-	private FontCreator fontCreator;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -3934,14 +3932,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			defaultSettings = new DefaultSettingsW();
 		}
 		return defaultSettings;
-	}
-
-	@Override
-	public FontCreator getFontCreator() {
-		if (fontCreator == null) {
-			fontCreator = new FontCreatorW(settings.getFontSettings());
-		}
-		return fontCreator;
 	}
 
 	@Override
