@@ -1751,7 +1751,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "ExamCAS": "GeoGebra Examen CAS",
     "ExamGraphingCalc.long": "GeoGebra Examen Grafisch rekenmachine",
     "ExamGraphingCalc.short": "Examen Grafisch rekenmachine",
-    "ExamSimpleCalc.long": "GeoGebra Examen rekenapparaat",
+    "ExamSimpleCalc.long": "GeoGebra Examen rekenmachine",
     "Exercise.CreateNew": "Nieuwe oefening",
     "Exit": "Afsluiten",
     "ExitExamShutDown": "Afsluiten",
