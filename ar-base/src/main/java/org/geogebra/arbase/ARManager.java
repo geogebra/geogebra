@@ -20,7 +20,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
-    private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
+    private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity(); // used in ARKitManager
     private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     protected float mScaleFactor = 1;
@@ -336,10 +336,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return (float) mPosXY.getY();
     }
 
-    protected void resetTranslationOffset() {
+    protected void resetTranslationOffsetAndScaleMatrix() {
         // used in iOS
         translationOffset.set(0,0,0);
         previousTranslationOffset.set(0,0,0);
+        scaleMatrix = CoordMatrix4x4.identity();
     }
 
     /**
