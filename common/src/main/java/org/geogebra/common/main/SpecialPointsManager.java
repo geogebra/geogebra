@@ -130,9 +130,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		if (!xAxis && !yAxis) {
 			return;
 		}
-		boolean oldStoreAlgosActive = kernel.getConstruction().isStoreAlgosActive();
 		try {
-			kernel.getConstruction().setStoreAlgos(false);
 			if (geo instanceof GeoFunction) {
 				getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 			} else if (geo instanceof EquationValue) {
@@ -144,8 +142,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		} catch (Throwable exception) {
 			// ignore
-		} finally {
-			kernel.getConstruction().setStoreAlgos(oldStoreAlgosActive);
 		}
 	}
 

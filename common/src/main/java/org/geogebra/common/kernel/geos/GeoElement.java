@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import com.google.j2objc.annotations.Weak;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -293,7 +294,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private int defaultGeoType = -1;
 	/** parent algorithm */
-	@RetainedWith
+	@Weak
 	protected AlgoElement algoParent = null;
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;

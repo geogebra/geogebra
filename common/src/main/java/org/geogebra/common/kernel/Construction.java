@@ -111,11 +111,6 @@ public class Construction {
 	// can be added
 	private boolean supressLabelCreation = false;
 
-	/**
-	 * if algo are to be stored
-	 */
-	private boolean storeAlgos = true;
-
 	// a map for sets with all labeled GeoElements in alphabetical order of
 	// specific types
 	// (points, lines, etc.)
@@ -517,23 +512,6 @@ public class Construction {
 	 */
 	public boolean isSuppressLabelsActive() {
 		return supressLabelCreation;
-	}
-
-	/**
-	 *
-	 * @param flag
-	 *            true iff algos should be stored
-	 */
-	public void setStoreAlgos(boolean flag) {
-		storeAlgos = flag;
-	}
-
-	/**
-	 *
-	 * @return true iff algos are currently stored in construction.
-	 */
-	public boolean isStoreAlgosActive() {
-		return storeAlgos;
 	}
 
 	/**
@@ -961,9 +939,7 @@ public class Construction {
 	 * @see #updateConstruction(boolean)
 	 */
 	public void addToAlgorithmList(AlgoElement algo) {
-		if (storeAlgos) {
-			algoList.add(algo);
-		}
+		algoList.add(algo);
 	}
 
 	/**
@@ -1043,7 +1019,7 @@ public class Construction {
 	 *            construction element to be registered
 	 */
 	public final void registerEuclidianViewCE(EuclidianViewCE elem) {
-		if (storeAlgos && !euclidianViewCE.contains(elem)) {
+		if (!euclidianViewCE.contains(elem)) {
 			euclidianViewCE.add(elem);
 		}
 	}
