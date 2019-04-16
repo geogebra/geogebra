@@ -25,10 +25,7 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.kernel.geos.GeoDummyVariable;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSymbolicI;
+import org.geogebra.common.kernel.geos.*;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -992,8 +989,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		boolean contains = true;
+		ExpressionValue variableContainer = listElement.unwrap();
+		if (variableContainer instanceof GeoSymbolic) {
+			variableContainer = ((GeoSymbolic) variableContainer).getValue();
+		}
 		// fix for GGB-134
-		HashSet<GeoElement> varsInEqu = listElement
+		HashSet<GeoElement> varsInEqu = variableContainer
 				.getVariables(SymbolicMode.SYMBOLIC);
 		if (varsInEqu != null) {
 			contains = false;
