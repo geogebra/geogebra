@@ -2,7 +2,9 @@ package org.geogebra.common.gui.dialog.handler;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -15,6 +17,7 @@ public class NumberInputHandler implements InputHandler {
 	private AsyncOperation<GeoNumberValue> callback;
 	private boolean oldVal;
 	private App app;
+	private EvalInfo evalInfo;
 
 	/**
 	 * @param algebraProcessor
@@ -24,6 +27,7 @@ public class NumberInputHandler implements InputHandler {
 		super();
 		this.algebraProcessor = algebraProcessor;
 		this.app = algebraProcessor.getKernel().getApplication();
+		this.evalInfo = createEvalInfo(algebraProcessor.getConstruction());
 	}
 
 	/**
@@ -44,13 +48,20 @@ public class NumberInputHandler implements InputHandler {
 		app = appl;
 	}
 
+	private EvalInfo createEvalInfo(Construction cons) {
+		return new EvalInfo(!cons.isSuppressLabelsActive(), true)
+				.withSliders(true)
+				.addDegree(app.getKernel().getAngleUnitUsesDegrees())
+				.withSymbolicMode(SymbolicMode.NONE);
+	}
+
 	@Override
 	public void processInput(String inputString, final ErrorHandler handler,
 			final AsyncOperation<Boolean> callback0) {
 		try {
 			handler.resetError();
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
-					inputString, false, handler, true,
+					inputString, false, handler, evalInfo,
 					new AsyncOperation<GeoElementND[]>() {
 
 						@Override
