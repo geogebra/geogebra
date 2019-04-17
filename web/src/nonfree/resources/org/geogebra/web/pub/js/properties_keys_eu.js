@@ -2392,7 +2392,7 @@ __GGB__keysVar["eu"].menu = {
     "Point": "Puntua",
     "Point.Help": "Egin klik Ikuspegi Grafikoan edo zuzen, funtzio edo kurba batean",
     "Point.Tool": "Puntua",
-    "PointAMovedToB": "%0 puntua %1-ra mugitu da",
+    "PointAMovedToB": "%0 puntua %1-ra eraman da",
     "PointAplusB": "%0 + %1 puntua",
     "PointCapturing": "Puntu-kaptura",
     "PointDep": "Mendekoa",
