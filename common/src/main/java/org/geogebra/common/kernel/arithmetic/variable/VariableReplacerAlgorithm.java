@@ -74,7 +74,7 @@ public class VariableReplacerAlgorithm {
 
 		}
 
-		ExpressionValue logExpression = getLogExpression(expressionString);
+		ExpressionValue logExpression = getLogExpression();
 		if (logExpression != null) {
 			return logExpression;
 		}
@@ -92,11 +92,11 @@ public class VariableReplacerAlgorithm {
 		ExpressionNode powers = productCreator.getXyzPowers(exponents);
 		if (geo == null) {
 			return exponents.get(Base.pi) == 0 && degPower == 0 ? powers
-					: powers.multiply(productCreator.piDegTo(exponents.get(Base.pi), degPower));
+					: powers.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
 		}
 		return exponents.get(Base.pi) == 0 && degPower == 0 ? powers.multiply(geo)
 				: powers.multiply(geo)
-				.multiply(productCreator.piDegTo(exponents.get(Base.pi), degPower));
+				.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
 	}
 
 	private ExpressionValue processInReverse() {
@@ -177,7 +177,7 @@ public class VariableReplacerAlgorithm {
 		return isPi || isTheta || isXYZ;
 	}
 
-	private ExpressionNode getLogExpression(String expressionString) {
+	private ExpressionNode getLogExpression() {
 		if (!expressionString.startsWith("log_")) {
 			return null;
 		}

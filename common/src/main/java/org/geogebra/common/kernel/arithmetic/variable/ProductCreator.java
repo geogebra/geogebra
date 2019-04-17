@@ -59,7 +59,7 @@ class ProductCreator {
 			return getXyzPowers(exponents);
 		}
 		return getXyzPowers(exponents)
-				.multiply(piDegTo(exponents.get(Base.pi), degPower));
+				.multiply(piDegPowers(exponents.get(Base.pi), degPower));
 	}
 
 	ExpressionNode getXyzPowers(Exponents exponents) {
@@ -79,7 +79,7 @@ class ProductCreator {
 										exponents.get(Base.theta))));
 	}
 
-	ExpressionNode piDegTo(int piPower, int degPower) {
+	ExpressionNode piDegPowers(int piPower, int degPower) {
 		ExpressionNode piExp = piPower > 0
 				? new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING)
 				.wrap().power(piPower)
