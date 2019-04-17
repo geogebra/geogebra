@@ -2489,6 +2489,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ticket_Ticket3524_0() {
+                setupCas();
 		t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
 				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
 				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
