@@ -137,15 +137,21 @@ var codebase = "<!--CODEBASE-->";
 		}
 	}
 
+	function getCookieUnsafe(cookieName){
+		var crumbs = document.cookie.split(';');
+		for (var i = 0; i < crumbs.length; ++i) {
+			var nameAndValue = crumbs[i].trim().split("=");
+			if (nameAndValue[0] == cookieName) {
+				//may throw an exception
+				return decodeURIComponent(nameAndValue[1]);
+			}
+		}
+		return false;
+	}
+
 	function getCookie(cookieName){
 		try {
-			var crumbs = document.cookie.split(';');
-			for ( var i = 0; i < crumbs.length; ++i) {
-				var nameAndValue = crumbs[i].trim().split("=");
-				if (nameAndValue[0] == cookieName) {
-					return decodeURIComponent(nameAndValue[1]);
-				}
-			}
+			return getCookieUnsafe(cookieName);
 		} catch (e) {
 			// ignore error, keep undecoded value
 		}
@@ -398,8 +404,8 @@ var codebase = "<!--CODEBASE-->";
 		insertScript();
 	}
 
-	/** @return array [appName, sandbox, material ID]*/
-	function parsePath(){
+	/** @return array [whole URL, appName, sandbox, material ID]*/
+	function getParametersFromPath(){
 		return location.pathname.match(/^\/(o|classic|graphing|geometry|3d|([a-z]+\/)?frame|notes|cas|calculator)\/([a-zA-Z0-9]+)/);
 	}
 
@@ -409,7 +415,7 @@ var codebase = "<!--CODEBASE-->";
 		}
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		var tubeid = getURLparam("id");
-		var checkId = parsePath();
+		var checkId = getParametersFromPath();
 		if(checkId && !names[checkId[3]]){
 			tubeid = checkId[3];
 			if (checkId[1] == "o") {
