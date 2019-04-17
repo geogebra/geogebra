@@ -255,19 +255,19 @@ public class FunctionParser {
 	 * @return MyDouble if numeric index is present, null otherwise
 	 */
 	public static ExpressionValue getLogIndex(String label, Kernel kernel) {
-		String logIndex = label.substring(4);
-		if (logIndex.startsWith("{")) {
-			int closingBracketIndex = logIndex.indexOf('}');
-			logIndex = logIndex.substring(1, closingBracketIndex);
+		String afterUnderline = label.substring(4);
+		String logIndex;
+		if (afterUnderline.startsWith("{")) {
+			int closingBracketIndex = afterUnderline.indexOf('}');
+			logIndex = afterUnderline.substring(1, closingBracketIndex);
+		} else {
+			logIndex = afterUnderline.substring(0, 1);
 		}
-		ExpressionValue ret;
 		try {
-			ret = new GParser(kernel, kernel.getConstruction())
-					.parseGeoGebraExpression(logIndex);
+			return new GParser(kernel, kernel.getConstruction()).parseGeoGebraExpression(logIndex);
 		} catch (Throwable e1) {
 			return null;
 		}
-		return ret;
 	}
 
 	private ExpressionValue toFunctionArgument(MyList list, String funcName) {

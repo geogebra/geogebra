@@ -29,8 +29,14 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testLog() {
 		shouldReplaceAs("log_{2}2", "log(2, 2)");
-		// TODO shouldReplaceAs("log_22", "log(2, 2)");
-		// TODO shouldReplaceAs("log_{2}xx", "log(2, x^2)");
+		shouldReplaceAs("log_22", "log(2, 2)");
+		testLogWithXSquare();
+	}
+
+	private void testLogWithXSquare() {
+		String xSquare = TestStringUtil.unicode("x^2");
+		String expected = "log(2, " + xSquare + ")";
+		shouldReplaceAs("log_{2}xx", expected);
 	}
 
 	private void shouldReplaceAs(String in, String out) {

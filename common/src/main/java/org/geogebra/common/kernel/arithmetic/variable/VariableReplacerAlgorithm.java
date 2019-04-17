@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.parser.FunctionParser;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -182,25 +181,39 @@ public class VariableReplacerAlgorithm {
 		if (!expressionString.startsWith("log_")) {
 			return null;
 		}
-		ExpressionValue index = FunctionParser.getLogIndex(expressionString, kernel);
-		if (index != null) {
+		ExpressionValue logIndex = FunctionParser.getLogIndex(expressionString, kernel);
+		if (logIndex != null) {
 			ExpressionValue logArg = getLogArg(expressionString);
-			if (logArg == null) {
-				logArg = productCreator.getXyzPiDegPower(exponents, degPower);
-			}
-			return new ExpressionNode(kernel, index, Operation.LOGB, logArg);
+			return new ExpressionNode(kernel, logIndex, Operation.LOGB, logArg);
 		}
 		return null;
 	}
 
 	private ExpressionValue getLogArg(String logString) {
-		int indexOfClosingBracket = logString.indexOf('}');
-		String argString = logString.substring(indexOfClosingBracket + 1);
-		try {
-			return kernel.getParser().parseGeoGebraExpression(argString);
-		} catch (ParseException ignored) {
+		int indexOfArg = getIndexOfArg(logString);
+		if (indexOfArg == -1) {
+			return null;
+		}
+
+		String arg = logString.substring(indexOfArg);
+		if (!arg.isEmpty()) {
+			return replace(arg);
 		}
 		return null;
+	}
+
+	private int getIndexOfArg(String logString) {
+		int indexOfClosingBracket = logString.indexOf('}');
+		if (indexOfClosingBracket != -1) {
+			 return indexOfClosingBracket + 1;
+		}
+
+		int indexOfUnderline = logString.indexOf('_');
+		if (indexOfUnderline != -1) {
+			return indexOfUnderline + 2;
+		}
+
+		return -1;
 	}
 
 	// For tests only.
