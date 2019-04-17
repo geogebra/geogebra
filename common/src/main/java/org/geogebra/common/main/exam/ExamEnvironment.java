@@ -592,9 +592,9 @@ public class ExamEnvironment {
 		CommandDispatcher commandDispatcher =
 				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 		commandDispatcher.saveCommandSelector();
-		commandDispatcher.setCommandSelector(new NoCASCommandSelectorFactory().createCommandSelector());
+		commandDispatcher.setCommandSelector(
+				new NoCASCommandSelectorFactory().createCommandSelector());
 	}
-
 
 	/**
 	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher

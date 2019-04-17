@@ -8,7 +8,8 @@ import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
 public class AllowCommands {
 
 	private CommandDispatcher commandDispatcher;
-	private CommandSelector noCASSelector = new NoCASCommandSelectorFactory().createCommandSelector();
+	private CommandSelector noCASSelector = new NoCASCommandSelectorFactory()
+			.createCommandSelector();
 
 	private CommandSelector allSelector = new AllCommandSelector();
 

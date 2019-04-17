@@ -284,7 +284,8 @@ public class GGWToolBar extends Composite
 				HTML html = htmlBuilder.getHTML();
 				if (app.getArticleElement().hasDataParamEnableGraphing()) {
 					exam.setHasGraph(true);
-					boolean supportsCAS = app.getKernel().getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
+					boolean supportsCAS = app.getKernel().getAlgebraProcessor()
+							.getCommandDispatcher().isCASAllowed();
 					boolean supports3D = settings.getEuclidian(-1).isEnabled();
 					if (!supports3D && supportsCAS) {
 						app.showMessage(html,
@@ -349,7 +350,8 @@ public class GGWToolBar extends Composite
 			// It may be possible that 3D is not supported from technical
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
-			boolean supportsCAS = app.getKernel().getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
+			boolean supportsCAS = app.getKernel().getAlgebraProcessor()
+					.getCommandDispatcher().isCASAllowed();
 			if (!supportsCAS) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()

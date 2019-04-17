@@ -13,7 +13,6 @@ import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.DockPanelData;

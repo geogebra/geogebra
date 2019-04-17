@@ -1812,6 +1812,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		sb.append("\"/>\n");
 	}
 
+	/**
+	 * @return the root settings object
+	 */
 	final public Settings getSettings() {
 		if (settings == null) {
 			initSettings();
