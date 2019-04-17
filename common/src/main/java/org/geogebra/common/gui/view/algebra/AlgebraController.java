@@ -42,6 +42,7 @@ public class AlgebraController {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 		selection = app.getSelectionManager();
+		isAutoCreateSliders = app.getConfig().hasAutomaticSliders();
 	}
 
 	public void setView(AlgebraView view) {
@@ -58,16 +59,6 @@ public class AlgebraController {
 
 	public String getDragText() {
 		return getDragText(new ArrayList<String>());
-	}
-
-	/**
-	 * Set to true if the algebra controller should automatically create sliders
-	 * for unknown variables.
-	 *
-	 * @param isAutoCreateSliders true to auto create sliders
-	 */
-	public void setAutoCreateSliders(boolean isAutoCreateSliders) {
-		this.isAutoCreateSliders = isAutoCreateSliders;
 	}
 
 	/**
