@@ -63,7 +63,12 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public boolean hasAutomaticLabels() {
 		return false;
 	}
-	
+
+	@Override
+	public boolean hasAutomaticSliders() {
+		return false;
+	}
+
 	@Override
 	public CommandSelector getCommandSelector() {
 		return new SciCalcCommandSelectorFactory().createCommandSelector();

@@ -174,6 +174,11 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
+	public boolean hasAutomaticSliders() {
+		return true;
+	}
+
+	@Override
 	public int getDefaultAlgebraStyle() {
 		return Kernel.ALGEBRA_STYLE_DESCRIPTION;
 	}

@@ -52,5 +52,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public boolean hasAutomaticLabels() {
 		return false;
 	}
-		
+
+	@Override
+	public boolean hasAutomaticSliders() {
+		return false;
+	}
 }

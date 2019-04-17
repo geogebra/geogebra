@@ -113,6 +113,11 @@ public interface AppConfig {
 	public boolean hasSlidersInAV();
 
 	/**
+	 * @return true if sliders are created automatically
+	 */
+	public boolean hasAutomaticSliders();
+
+	/**
 	 * @return whether objects should be labeled a, b, ...
 	 */
 	boolean hasAutomaticLabels();

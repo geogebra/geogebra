@@ -170,6 +170,11 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
+	public boolean hasAutomaticSliders() {
+		return true;
+	}
+
+	@Override
 	public int getDefaultAlgebraStyle() {
 		return Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
