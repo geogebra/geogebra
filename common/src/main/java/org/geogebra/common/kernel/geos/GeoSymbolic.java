@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
@@ -21,7 +22,7 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * @author Zbynek
  */
-public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
+public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString, GeoNumberValue {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -248,4 +249,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 		return sb.toString();
 	}
 
+	@Override
+	public MyDouble getNumber() {
+		return new MyDouble(kernel, getDouble());
+	}
+
+	@Override
+	public double getDouble() {
+		return value.evaluateDouble();
+	}
 }
