@@ -52,6 +52,7 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 
 	private AllowCommands allow;
+
 	/**
 	 *
 	 * @param app

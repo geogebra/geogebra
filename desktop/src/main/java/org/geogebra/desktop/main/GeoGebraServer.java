@@ -30,7 +30,9 @@ public class GeoGebraServer {
 		this.app = new AppDNoGui(new LocalizationD(3), false);
 		api = app.getGgbApi();
 		this.secret = secret;
+	}
 
+	public void start() {
 		HttpServer server;
 		try {
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
@@ -40,7 +42,6 @@ public class GeoGebraServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	class MyHandlerJSON implements HttpHandler {

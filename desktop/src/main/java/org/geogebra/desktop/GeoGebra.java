@@ -80,7 +80,7 @@ public class GeoGebra {
 		}
 		if (args.containsArg("startHttpServer")) {
 			Log.error("startHttpServer");
-			new GeoGebraServer(args.getStringValue("startHttpServer"));
+			new GeoGebraServer(args.getStringValue("startHttpServer")).start();
 			return;
 		}
 		if (args.containsArg("help") || args.containsArg("proverhelp")
