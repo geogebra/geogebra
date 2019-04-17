@@ -37,17 +37,16 @@ var codebase = "<!--CODEBASE-->";
 	var finalLang = null;
 	
 	function setParamFromURL(paramName){
-		if(getURLparam(paramName)){
+		if (getURLparam(paramName)) {
 			e("ggw").setAttribute("data-param-"+paramName,getURLparam(paramName));
 		}
 	}
+
 	function changeMetaTitle(titleBase){
 		var title = titleBase.match(/<!--VENDOR-->/) ? titleBase : titleBase + " - <!--VENDOR-->";
-		var tags = document.head.getElementsByTagName("meta");
-		for(k in tags){
-			if(tags[k].getAttribute && tags[k].getAttribute("property")=="og:title"){
-				tags[k].setAttribute("content", title);
-			}
+		var tag = document.querySelector("meta[property='og:title']");
+		if (tag && tag.setAttribute) {
+			tag.setAttribute("content", title);
 		}
 		document.title = title;
 	}
