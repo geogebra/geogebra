@@ -213,39 +213,6 @@ public class AppCompanion {
 	}
 
 	/**
-	 * 
-	 * @param xmin
-	 *            x min
-	 * @param xmax
-	 *            x max
-	 * @param ymin
-	 *            y min
-	 * @param ymax
-	 *            y max
-	 * @param zmin
-	 *            z min
-	 * @param zmax
-	 *            z max
-	 * @param xyScale
-	 *            x:y scale
-	 * @param xzScale
-	 *            x:z scale
-	 * @param xTickDistance
-	 *            x axis tick distance
-	 * @param yTickDistance
-	 *            y axis tick distance
-	 * @param zTickDistance
-	 *            z axis tick distance
-	 * @return string describing model in .obj format
-	 */
-	public String exportObj(double xmin, double xmax, double ymin, double ymax,
-			double zmin, double zmax, double xyScale, double xzScale,
-			double xTickDistance, double yTickDistance, double zTickDistance) {
-		// implemented in App3DCompanion
-		return null;
-	}
-
-	/**
 	 * export geometry to getter
 	 * 
 	 * @param getter

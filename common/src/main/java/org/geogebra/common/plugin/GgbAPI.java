@@ -2233,20 +2233,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	final public String exportObj(double xmin, double xmax, double ymin,
-			double ymax, double zmin, double zmax, double xyScale,
-			double xzScale, double xTickDistance, double yTickDistance,
-			double zTickDistance) {
-		if (app.is3D()) {
-			return app.getCompanion().exportObj(xmin, xmax, ymin, ymax, zmin,
-					zmax, xyScale, xzScale, xTickDistance, yTickDistance,
-					zTickDistance);
-		}
-
-		return null;
-	}
-
-	@Override
 	final public void exportGeometry3D(Geometry3DGetter getter, double xmin,
 			double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance,
