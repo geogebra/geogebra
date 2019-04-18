@@ -95,8 +95,7 @@ public class AlgebraInputW extends FlowPanel
 		inputField.getTextBox().addBlurHandler(this);
 
 		inputField.addHistoryPopup(app.getInputPosition() == InputPosition.top);
-		if (Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+		if (Browser.isTabletBrowser()) {
 			inputField.enableGGBKeyboard();
 		}
 

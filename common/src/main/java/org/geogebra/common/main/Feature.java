@@ -39,9 +39,6 @@ public enum Feature {
 	/** GGB-1252 */
 	KEYBOARD_BEHAVIOUR,
 
-	/** GGB-2336 */
-	KEYBOARD_ATTACHED_TO_TABLET,
-
 	/**
 	 * GGB-1398 + GGB-1529
 	 */

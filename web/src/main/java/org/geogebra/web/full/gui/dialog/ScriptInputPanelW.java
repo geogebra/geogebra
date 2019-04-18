@@ -84,8 +84,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 				applyScript();
 			}
 		});
-		if (Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+		if (Browser.isTabletBrowser()) {
 			textArea.enableGGBKeyboard();
 		}
 

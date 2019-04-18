@@ -111,8 +111,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		@Override
 		public void onKeyPress(KeyPressEvent e) {
-			if (Browser.isTabletBrowser()
-					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+			if (Browser.isTabletBrowser()) {
 				super.onKeyPress(e);
 			}
 			e.stopPropagation();
@@ -120,8 +119,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		@Override
 		public void onKeyDown(KeyDownEvent e) {
-			if (Browser.isTabletBrowser()
-					&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+			if (Browser.isTabletBrowser()) {
 				super.onKeyDown(e);
 			}
 			e.stopPropagation();

@@ -259,9 +259,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
-					if (app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
-						endOnscreenKeyboardEditing();
-					}
+					endOnscreenKeyboardEditing();
 				}
 			}
 		};
@@ -911,7 +909,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		ArrayList<GeoElement> sel = app.getSelectionManager().getSelectedGeos();
 		GeoElement curr = sel.size() != 0 ? sel.get(0) : null;
 		if (Browser.isTabletBrowser() && !app.isWhiteboardActive()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != 0
 				&& !(curr instanceof GeoInputBox)) {
@@ -1031,9 +1028,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (!(Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
-				|| usedForInputBox() || app.isWhiteboardActive()) {
+		if (!Browser.isTabletBrowser() || usedForInputBox() || app.isWhiteboardActive()) {
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();

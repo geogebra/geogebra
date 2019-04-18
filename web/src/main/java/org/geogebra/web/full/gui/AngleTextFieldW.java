@@ -163,7 +163,6 @@ public class AngleTextFieldW extends GTextBox
 			return;
 		}
 		if (Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
 				&& !app.isWhiteboardActive()
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_ENTER
@@ -182,9 +181,7 @@ public class AngleTextFieldW extends GTextBox
 	}
 
 	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (!(Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
-				|| app.isWhiteboardActive()) {
+		if (!Browser.isTabletBrowser() || app.isWhiteboardActive()) {
 			return;
 		}
 		int code = e.getNativeKeyCode();

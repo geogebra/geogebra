@@ -264,8 +264,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			case KeyCodes.KEY_RIGHT:
 				// this may be enough for Safari too, because it is not
 				// onkeypress
-				if (!(editItem || (Browser.isTabletBrowser()
-						&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)))) {
+				if (!(editItem || Browser.isTabletBrowser())) {
 					app.getGlobalKeyDispatcher()
 							.handleSelectedGeosKeysNative(event);
 					event.stopPropagation();
@@ -287,8 +286,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			app.focusGained(this, this.getElement());
 		}
 
-		if (Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)) {
+		if (Browser.isTabletBrowser()) {
 			handleTabletKeyboard(event);
 			return;
 		}

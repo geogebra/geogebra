@@ -141,7 +141,6 @@ public class ScriptArea extends TextArea
 			return;
 		}
 		if (Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET)
 				&& !app.isWhiteboardActive()
 				&& e.getNativeEvent().getKeyCode() != GWTKeycodes.KEY_BACKSPACE
 				&& e.getNativeEvent().getKeyCode() != 0) {
@@ -210,9 +209,7 @@ public class ScriptArea extends TextArea
 	}
 
 	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (!(Browser.isTabletBrowser()
-				&& app.has(Feature.KEYBOARD_ATTACHED_TO_TABLET))
-				|| app.isWhiteboardActive()) {
+		if (!Browser.isTabletBrowser() || app.isWhiteboardActive()) {
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();
