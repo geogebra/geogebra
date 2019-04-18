@@ -48,13 +48,13 @@ public class EvaluateInput {
 
 	/**
 	 * @param keepFocus
-	 *            whether the focus should stay afterwards
-	 * @param withSliders
-	 *            whether to create sliders
+	 * 			whether the focus should stay afterwards
+	 * @param forceSliders
+	 *          whether to override default creating sliders
 	 */
 	public void createGeoFromInput(final boolean keepFocus,
-			boolean withSliders) {
-		evaluate(keepFocus, withSliders, evaluationCallback(keepFocus));
+								   boolean forceSliders) {
+		evaluate(keepFocus, forceSliders, evaluationCallback(keepFocus));
 	}
 
 	/**
@@ -89,10 +89,11 @@ public class EvaluateInput {
 	}
 
 	private void evaluate(final boolean keepFocus,
-			boolean withSliders, AsyncOperation<GeoElementND[]> cbEval) {
+						  boolean forceSliders, AsyncOperation<GeoElementND[]> cbEval) {
 		String userInput = getUserInput();
 		String validInput = getValidInput(userInput);
 		String input = getInput(userInput, validInput);
+		boolean withSliders = forceSliders || app.getConfig().hasAutomaticSliders();
 
 		ctrl.setInputAsText(false);
 		app.setScrollToShow(true);
@@ -103,11 +104,12 @@ public class EvaluateInput {
 			err = item.getErrorHandler(valid, keepFocus, withSliders);
 			err.resetError();
 		}
-		EvalInfo info = new EvalInfo(true, true).withSliders(true)
+		EvalInfo info = new EvalInfo(true, true)
+				.withSliders(withSliders)
 				.withFractions(true).addDegree(app.getKernel().degreesMode())
 				.withUserEquation(true)
-				.withSymbolicMode(app.getKernel().getSymbolicMode())
-				.withCopyingPlainVariables(true);
+				.withSymbolicMode(app.getKernel().getSymbolicMode());
+
 		// undo point stored in callback
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, false, err,
@@ -115,7 +117,7 @@ public class EvaluateInput {
 		if (!keepFocus) {
 			item.setFocus(false, false);
 		}
-}
+	}
 
 	private AsyncOperation<GeoElementND[]> evaluationCallback(final boolean keepFocus) {
 		final int oldStep = app.getKernel().getConstructionStep();
@@ -172,7 +174,7 @@ public class EvaluateInput {
 
 	private AsyncOperation<GeoElementND[]> createEvaluationCallback(
 			final AsyncOperation<GeoElementND[]> afterEvalCb) {
-		final AsyncOperation<GeoElementND[]>  evalCb = evaluationCallback(false);
+		final AsyncOperation<GeoElementND[]> evalCb = evaluationCallback(false);
 		return new AsyncOperation<GeoElementND[]>() {
 
 			@Override

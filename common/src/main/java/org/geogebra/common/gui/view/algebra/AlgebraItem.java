@@ -177,25 +177,6 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * @param geo
-	 *            element
-	 * @param undefinedVariables
-	 *            undefined variables
-	 * @return most relevant suggestion
-	 */
-	public static Suggestion getSuggestions(GeoElement geo,
-			String undefinedVariables) {
-		Suggestion sug = null;
-		if (undefinedVariables != null) {
-			sug = SuggestionSlider.get();
-			if (sug != null) {
-				return sug;
-			}
-		}
-		return getSuggestions(geo);
-	}
-
-	/**
 	 * @param kernel
 	 *            kernel
 	 * @return symbolic prefix (depends on RTL/LTR)

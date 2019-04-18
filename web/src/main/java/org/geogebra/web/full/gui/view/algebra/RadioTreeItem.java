@@ -426,9 +426,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 								.getDataParamShowMenuBar(false))
 				&& controller.isEditing()
 						? AlgebraItem
-								.getSuggestions(geo1,
-										WarningErrorHandler
-												.getUndefinedValiables(kernel))
+								.getSuggestions(geo1)
 						: null;
 	}
 
