@@ -172,7 +172,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		if (app.isPrerelease()) {
 			mi = submenu.add(exportSTLaction);
 		}
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
+		if (app.is3D()) {
 			mi = submenu.add(exportColladaAction);
 			mi = submenu.add(exportColladaHTMLAction);
 		}
@@ -587,7 +587,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			};
 		}
 
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
+		if (app.is3D()) {
 			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
@@ -602,7 +602,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			};
 		}
 
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
+		if (app.is3D()) {
 			exportColladaHTMLAction = new AbstractAction(
 					"Collada (html)" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;

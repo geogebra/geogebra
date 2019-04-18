@@ -54,8 +54,6 @@ public enum Feature {
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
-	EXPORT_COLLADA_IN_MENU,
-
 	SURFACE_2D,
 
 	/** MOB-1293 */

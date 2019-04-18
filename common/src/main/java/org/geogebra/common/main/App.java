@@ -3867,9 +3867,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ROUNDED_POLYGON:
 			return prerelease;
 
-		case EXPORT_COLLADA_IN_MENU:
-			return true;
-
 		case SURFACE_2D:
 			return prerelease;
 

@@ -207,7 +207,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				}
 			});
 
-			if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
+			if (app.is3D()) {
 				menu.addItem(menuText("Collada"), true, new MenuCommand(app) {
 					@Override
 					public void doExecute() {
