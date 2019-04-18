@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.CommandsTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
-import org.geogebra.desktop.export.pstricks.GeoGebraToPdfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -66,13 +65,6 @@ public class Pstricks {
 	public void exportAsymptote() {
 		GeoGebraExport ps = new GeoGebraToAsymptoteD(app);
 		testInputs(ps, "/* end of picture */");
-	}
-
-	@Test
-	public void exportPdf() {
-		t("anim=Slider(0,1)");
-		GeoGebraExport ps = new GeoGebraToPdfD(app);
-		testInputs(ps, "\\end{document}");
 	}
 
 	private void testInputs(GeoGebraExport ps, String string) {

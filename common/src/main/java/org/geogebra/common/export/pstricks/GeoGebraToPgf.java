@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import org.geogebra.common.kernel.algos.AlgoSlope;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -58,6 +59,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -1326,7 +1329,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				|| warningFunc(value, "atanh(") || warningFunc(value, "sinh(")
 				|| warningFunc(value, "tanh(");
 
-		boolean[] v = GeoGebraToPdf.hasFractionalOrTrigoExponent(f.getExpression());
+		boolean[] v = hasFractionalOrTrigoExponent(f.getExpression());
 		if (v[0]) {
 			if (!plotWithGnuplot) {
 				addWarningGnuplot();
@@ -1379,6 +1382,42 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			xrangemax += PRECISION_XRANGE_FUNCTION;
 			a = xrangemax;
 		}
+	}
+
+	/**
+	 * @param en
+	 *            expression
+	 * @return {fractional, trig}
+	 */
+	protected static boolean[] hasFractionalOrTrigoExponent(ExpressionNode en) {
+		boolean[] v = { false, false };
+		if (en == null || en.getOperation() == Operation.NO_OPERATION) {
+			return v;
+		}
+		Operation op = en.getOperation();
+		if (op == Operation.POWER) {
+			ExpressionNode le = en.getRightTree();
+			if (le.isNumberValue()) {
+				if (le.toValueString(StringTemplate.xmlTemplate).contains("sin")
+						|| le.toValueString(StringTemplate.xmlTemplate)
+								.contains("cos")
+						|| le.toValueString(StringTemplate.xmlTemplate)
+								.contains("tan")) {
+					v[1] = true;
+				}
+				double val1 = le.evaluateDouble();
+				v[0] = !DoubleUtil.isInteger(val1);
+				return v;
+			}
+			op = le.getOperation();
+			v[0] = op == Operation.DIVIDE;
+			return v;
+		}
+		if (!hasFractionalOrTrigoExponent(en.getRightTree())[0]) {
+			return hasFractionalOrTrigoExponent(en.getLeftTree());
+		}
+		v[0] = true;
+		return v;
 	}
 
 	private static boolean isTrigInv(String s) {
