@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;

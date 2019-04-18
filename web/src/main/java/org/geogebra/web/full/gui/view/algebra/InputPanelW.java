@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.dialog.TextEditPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 

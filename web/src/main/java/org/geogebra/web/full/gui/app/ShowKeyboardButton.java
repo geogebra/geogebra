@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.app;
 import java.util.Date;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
@@ -30,11 +29,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ShowKeyboardButton extends SimplePanel {
 	
-	private Widget parent;
-	private AppW app;
-
-	// MathKeyboardListener mathKeyboardListener;
-
 	/**
 	 * @param listener
 	 *            {@link UpdateKeyBoardListener}
@@ -47,8 +41,6 @@ public class ShowKeyboardButton extends SimplePanel {
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
 			final DockManagerW dm, Widget parent, final AppW app) {
-		this.app = app;
-		this.parent = parent;
 		this.addStyleName("matOpenKeyboardBtn");
 		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
 				.keyboard_show_material().getSafeUri().asString());

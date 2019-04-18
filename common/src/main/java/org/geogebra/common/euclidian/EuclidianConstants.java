@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**

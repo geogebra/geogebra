@@ -9,7 +9,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -123,8 +122,6 @@ public abstract class DockPanelW extends ResizeComposite
 
 	private int embeddedDimWidth;
 	private int embeddedDimHeight;
-
-	private ShowKeyboardButton keyboardButton;
 
 	/**
 	 * Style bar component.
@@ -1624,16 +1621,6 @@ public abstract class DockPanelW extends ResizeComposite
 			return;
 		}
 		this.kbButtonSpace.setWidget(showKeyboardButton);
-	}
-
-	/**
-	 * set a ShowKeyBoardButton that will be updated, if this panel is resized
-	 * 
-	 * @param button
-	 *            the button to be updated
-	 */
-	public void setKeyBoardButton(ShowKeyboardButton button) {
-		this.keyboardButton = button;
 	}
 
 	@Override

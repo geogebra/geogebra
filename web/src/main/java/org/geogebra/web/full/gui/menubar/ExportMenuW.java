@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;

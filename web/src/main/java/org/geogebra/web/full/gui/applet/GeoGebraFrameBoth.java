@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -479,9 +478,7 @@ public class GeoGebraFrameBoth
 			if (dockPanelKB != null) {
 				showKeyboardButton = new ShowKeyboardButton(this, dm,
 						dockPanelKB, app);
-				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
-
 		}
 
 		if (showKeyboardButton != null) {
