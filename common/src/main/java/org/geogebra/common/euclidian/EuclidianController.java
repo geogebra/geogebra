@@ -1000,7 +1000,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		} else {
 			boolean clear = !EuclidianConstants.isMoveOrSelectionMode(mode)
-					|| !EuclidianConstants.keepSelectionWhenSet(newMode, app);
+					|| !EuclidianConstants.keepSelectionWhenSet(newMode);
 			if (!temporaryMode && clear) {
 				selection.clearSelectedGeos(false);
 				resetMovedGeoPoint();
@@ -11369,16 +11369,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
-			if (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)) {
-				// toggle currently selected geos visibility
-				for (GeoElement geo : selection.getSelectedGeos()) {
-					if (geo.isEuclidianToggleable()) {
-						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-						geo.updateRepaint();
-					}
+
+			// toggle currently selected geos visibility
+			for (GeoElement geo : selection.getSelectedGeos()) {
+				if (geo.isEuclidianToggleable()) {
+					geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
+					geo.updateRepaint();
 				}
-				selection.clearSelectedGeos(false, false);
 			}
+			selection.clearSelectedGeos(false, false);
+
 			// select all hidden objects
 			for (GeoElement geo : kernel.getConstruction()
 					.getGeoSetConstructionOrder()) {
@@ -11412,16 +11412,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
-			if (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)) {
-				// toggle currently selected geos visibility
-				for (GeoElement geo : selection.getSelectedGeos()) {
-					if (geo.isLabelShowable()) {
-						geo.setLabelVisible(!geo.isLabelVisible());
-						geo.updateRepaint();
-					}
+
+			// toggle currently selected geos visibility
+			for (GeoElement geo : selection.getSelectedGeos()) {
+				if (geo.isLabelShowable()) {
+					geo.setLabelVisible(!geo.isLabelVisible());
+					geo.updateRepaint();
 				}
-				selection.clearSelectedGeos(false, false);
 			}
+			selection.clearSelectedGeos(false, false);
 			kernel.notifyRepaint();
 			selection.updateSelection();
 			break;
@@ -11432,9 +11431,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
-			if (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)) {
-				app.deleteSelectedObjects(false);
-			}
+			app.deleteSelectedObjects(false);
 			break;
 
 		default:
