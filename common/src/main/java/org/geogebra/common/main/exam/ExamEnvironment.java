@@ -33,7 +33,7 @@ public class ExamEnvironment {
 	/** exam start timestamp (milliseconds) */
 	long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
-	private CheatingEvents cheatingEvents;
+	private final CheatingEvents cheatingEvents;
 	private long closed = -1;
 
 	private boolean hasGraph = false;
@@ -46,12 +46,12 @@ public class ExamEnvironment {
 	 * application
 	 */
 	protected App app;
-	private Localization localization;
+	private final Localization localization;
 
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
 
-	private AllowCommands allow;
+	private final AllowCommands allow;
 
 	/**
 	 *
@@ -440,9 +440,6 @@ public class ExamEnvironment {
 	private void setShowSyntax(boolean showSyntax) {
 		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
 		builder.setShowingSyntax(showSyntax);
-		if (!showSyntax) {
-			Log.printStacktrace("");
-		}
 	}
 
 	/**

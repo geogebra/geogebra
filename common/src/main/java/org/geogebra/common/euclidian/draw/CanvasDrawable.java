@@ -13,7 +13,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -26,7 +25,7 @@ public abstract class CanvasDrawable extends Drawable {
 	private GFont labelFont;
 	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
-	private GRectangle hitRect = AwtFactory.getPrototype().newRectangle();
+	private final GRectangle hitRect = AwtFactory.getPrototype().newRectangle();
 	int boxLeft;
 	int boxTop;
 	int boxWidth;
@@ -194,7 +193,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && geo.doHighlighting()) {
-			if (geo.getKernel().getApplication().has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			if (!view.getApplication().isDesktop()) {
 				g2.setPaint(GColor.LIGHT_GRAY);
 			}
 			if (latex) {

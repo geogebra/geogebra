@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -120,7 +119,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Flag to determine if Tab key should behave like usual or disabled.
 	 */
 	private boolean tabEnabled = true;
-	private int columns = 0;
 	private boolean forCAS;
 	private InsertHandler insertHandler = null;
 	private OnBackSpaceHandler onBackSpaceHandler = null;
@@ -523,10 +521,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			showSymbolButton.getElement().getStyle()
 					.setLineHeight(font.getSize(), Unit.PX);
 		}
-
-		if (columns > 0 && !app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			setColumns(this.columns);
-		}
 	}
 
 	@Override
@@ -559,10 +553,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setColumns(int columns) {
-		this.columns = columns;
 		if (showSymbolButton != null
-				&& (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
-						|| this.columns == -1)) {
+				&& (columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
+						|| columns == -1)) {
 			prepareShowSymbolButton(true);
 		}
 
@@ -1649,30 +1642,25 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (showSymbolButton == null) {
 			return;
 		}
-		this.columns = EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH + 1;
 		prepareShowSymbolButton(true);
 	}
 
 	@Override
-	public void prepareShowSymbolButton(boolean b) {
+	public void prepareShowSymbolButton(boolean show) {
 		if (showSymbolButton == null) {
 			return;
 		}
-		if (b) {
-			addStyleName("SymbolCanBeShown");
-		} else {
-			removeStyleName("SymbolCanBeShown");
-		}
+		Dom.toggleClass(this, "SymbolCanBeShown", show);
 	}
 
 	@Override
-	public void setFocus(boolean b, boolean sv) {
-		setFocus(b);
+	public void setFocus(boolean focus, boolean sv) {
+		setFocus(focus);
 	}
 
 	@Override
-	public void setFocus(boolean b) {
-		textField.setFocus(b);
+	public void setFocus(boolean focus) {
+		textField.setFocus(focus);
 	}
 
 	public void addInsertHandler(InsertHandler newInsertHandler) {
@@ -1707,21 +1695,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
 		g2.setPaint(bgColor);
-		if (app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
-		} else {
-			g2.fillRoundRect(left, top, width, height - 3, BOX_ROUND,
-					BOX_ROUND);
-		}
+		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
 		g2.setPaint(GColor.LIGHT_GRAY);
-		if (app.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
-		} else {
-			g2.drawRoundRect(left, top, width, height - 3, BOX_ROUND,
-					BOX_ROUND);
-		}
+		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 
 	@Override

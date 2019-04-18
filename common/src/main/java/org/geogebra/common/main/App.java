@@ -462,7 +462,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return font creator
 	 */
-	protected FontCreator getFontCreator() {
+	public FontCreator getFontCreator() {
 		if (fontCreator == null) {
 			fontCreator = new FontCreator(getFontManager(), getSettings().getFontSettings());
 		}
@@ -3841,11 +3841,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		case SYMBOLIC_AV:
 			return prerelease;
-
-		/** GGB-2375 */
-		case INPUT_BOX_LINE_UP_BETTER:
-			// don't set true in ggb5
-			return !Versions.DESKTOP.equals(getVersion());
 
 		/** GBB-2394 */
 		case SPLITTER_LOADING:

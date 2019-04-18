@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -224,8 +223,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		int length = getGeoInputBox().getLength();
 		if (length != oldLength && isSelectedForInput()) {
-			if (!geo.getKernel().getApplication()
-					.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+			if (!hasAlignedInputboxes()) {
 				getTextField().setColumns(length);
 			}
 			getTextField().prepareShowSymbolButton(
@@ -385,8 +383,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		boolean latexLabel = measureLabel(g2, getGeoInputBox(), labelDesc);
 
 		// TF Bounds
-		if (geo.getKernel().getApplication()
-				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+		if (hasAlignedInputboxes()) {
 			labelRectangle.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 
 		} else {
@@ -397,8 +394,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			getBox().setBounds(labelRectangle);
 		}
 
-		if (geo.getKernel().getApplication()
-				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
+		if (hasAlignedInputboxes()) {
 			drawTextfieldOnCanvas();
 			highlightLabel(g2, latexLabel);
 			if (geo.isLabelVisible()) {
@@ -433,6 +429,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		if (isSelectedForInput()) {
 			getBox().repaint(g2);
 		}
+	}
+
+	private boolean hasAlignedInputboxes() {
+		return !view.getApplication().isDesktop();
 	}
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
@@ -522,9 +522,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		tf.setUsedForInputBox(getGeoInputBox());
 		tf.setVisible(true);
 		
-		if (geo.getKernel().getApplication()
-				.has(Feature.INPUT_BOX_LINE_UP_BETTER)) {
-			tf.setPrefSize(this.getPreferredWidth(), this.getPreferredHeight());
+		if (hasAlignedInputboxes()) {
+			tf.setPrefSize(getPreferredWidth(), getPreferredHeight());
 		} else {
 			tf.setColumns(getGeoInputBox().getLength());
 		}
