@@ -108,7 +108,8 @@ public class EvaluateInput {
 				.withSliders(withSliders)
 				.withFractions(true).addDegree(app.getKernel().degreesMode())
 				.withUserEquation(true)
-				.withSymbolicMode(app.getKernel().getSymbolicMode());
+				.withSymbolicMode(app.getKernel().getSymbolicMode())
+				.withCopyingPlainVariables(true);
 
 		// undo point stored in callback
 		app.getKernel().getAlgebraProcessor()
