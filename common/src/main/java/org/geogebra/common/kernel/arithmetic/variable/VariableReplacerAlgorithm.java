@@ -5,7 +5,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.parser.FunctionParser;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -41,6 +43,7 @@ public class VariableReplacerAlgorithm {
 	 * @return The variable that needs to be replaced,
 	 * or the expression in which some parts are already replaced.
 	 */
+	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
 		this.expressionString = expressionString;
 
@@ -197,12 +200,24 @@ public class VariableReplacerAlgorithm {
 
 		String arg = logString.substring(indexOfArg);
 		if (!arg.isEmpty()) {
-			return replace(arg);
+			try {
+				return parseAndReplace(arg);
+			} catch (ParseException ignored) {
+				// just return null bellow
+			}
 		}
 		return null;
 	}
 
-	private int getIndexOfArg(String logString) {
+	private ExpressionValue parseAndReplace(String arg) throws ParseException {
+		ExpressionValue parsedArg = kernel.getParser()
+				.parseGeoGebraExpression(arg);
+		parsedArg.resolveVariables(new EvalInfo(false, false)
+				.withSymbolicMode(kernel.getSymbolicMode()));
+		return parsedArg;
+	}
+
+	private static int getIndexOfArg(String logString) {
 		int indexOfClosingBracket = logString.indexOf('}');
 		if (indexOfClosingBracket != -1) {
 			 return indexOfClosingBracket + 1;

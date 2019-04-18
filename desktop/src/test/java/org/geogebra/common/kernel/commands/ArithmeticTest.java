@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
@@ -65,6 +64,11 @@ public class ArithmeticTest extends AlgebraTest {
 		t("matrix1(2,5)", "NaN");
 		t("matrix2(1,2)", "NaN");
 		t("matrix2(2,1)", "NaN");
+	}
+
+	@Test
+	public void logSyntaxTest() {
+		t("log_{2}2/(2)", "0.5");
 	}
 
 	@Test
