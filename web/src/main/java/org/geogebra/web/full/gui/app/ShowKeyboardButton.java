@@ -54,15 +54,8 @@ public class ShowKeyboardButton extends SimplePanel {
 				.keyboard_show_material().getSafeUri().asString());
 		this.add(showKeyboard);
 
-		//TODO: app paramater used only for feature checking so this can be removed later
-		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-			if (listener instanceof ComplexPanel) {
-				((ComplexPanel) listener).add(this);
-			}
-		} else {
-			if (parent instanceof DockPanelW) {
-				((DockPanelW) parent).addSouth(this);
-			}
+		if (listener instanceof ComplexPanel) {
+			((ComplexPanel) listener).add(this);
 		}
 		ClickStartHandler.init(this, new ClickStartHandler(
 				true, true) {
@@ -140,8 +133,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link Widget} to receive the text input
 	 */
 	public void show(boolean show, MathKeyboardListener textField) {
-		if (show && (parent.isVisible()
-				|| app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME))) {
+		if (show) {
 			setVisible(true);
 		} else {
 			setVisible(false);

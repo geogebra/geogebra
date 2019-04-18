@@ -1644,13 +1644,6 @@ public abstract class DockPanelW extends ResizeComposite
 				app.getGuiManager().updatePropertiesViewStylebar();
 			}
 		}
-
-		if (!app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-			// hide the keyboard-button, when the view is closed
-			if (keyboardButton != null && !visible) {
-				keyboardButton.hide();
-			}
-		}
 	}
 
 	/**

@@ -3798,12 +3798,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 								// whiteboard; also overriding keyboard kills
 								// Paste (MOW-442)
 
-		/**
-		 * GGB-1398 + GGB-1529
-		 */
-		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
-			return true;
-
 		// **********************************************************************
 		// KEYBOARD END
 		// *********************************************************

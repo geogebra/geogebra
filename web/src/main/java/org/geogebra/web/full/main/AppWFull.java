@@ -1368,9 +1368,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 				&& this.getToolbarPosition() == SwingConstants.SOUTH) {
 			frame.attachToolbar(this);
 		}
-		if (has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)
-				// we do not need keyboard in whiteboard
-				&& !isWhiteboardActive()) {
+
+		// we do not need keyboard in whiteboard
+		if (!isWhiteboardActive()) {
 			frame.attachKeyboardButton();
 		}
 		frame.attachGlass();

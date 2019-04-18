@@ -128,14 +128,9 @@ public class LayoutW extends Layout {
 		// change the dock panel layout
 		app.setKeyboardNeeded(false);
 		for (DockPanelData dp : perspective.getDockPanelData()) {
-			
-			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-				if (dp.isVisible()
-						&& mayHaveKeyboard(dp)) {
-					app.setKeyboardNeeded(true);
-				}
-			} else if (dp.isVisible() && (dp.getViewId() == App.VIEW_ALGEBRA
-					|| dp.getViewId() == App.VIEW_CAS)) {
+
+			if (dp.isVisible()
+					&& mayHaveKeyboard(dp)) {
 				app.setKeyboardNeeded(true);
 			}
 

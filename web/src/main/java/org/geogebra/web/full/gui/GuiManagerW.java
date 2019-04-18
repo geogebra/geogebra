@@ -1590,10 +1590,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void setActivePanelAndToolbar(final int viewID) {
-		if (getApp().has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-			getLayout().getDockManager().setFocusedPanel(viewID);
-		}
-
+		getLayout().getDockManager().setFocusedPanel(viewID);
 		setActiveToolbarId(viewID);
 	}
 

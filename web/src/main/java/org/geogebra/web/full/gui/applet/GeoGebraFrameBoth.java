@@ -113,7 +113,7 @@ public class GeoGebraFrameBoth
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
 
-		if (app != null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
+		if (app != null) {
 			kbButtonSpace.addStyleName("kbButtonSpace");
 			this.add(kbButtonSpace);
 		}
@@ -485,15 +485,9 @@ public class GeoGebraFrameBoth
 		}
 
 		if (showKeyboardButton != null) {
-			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-				this.setKeyboardButton();
-			}
-			// showKeyboardButton.show(app.isKeyboardNeeded(), textField);
-			showKeyboardButton.show(
-					app.isKeyboardNeeded(), textField);
-			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-				showKeyboardButton.addStyleName("openKeyboardButton2");
-			}
+			this.setKeyboardButton();
+			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
 	}
 
@@ -584,14 +578,6 @@ public class GeoGebraFrameBoth
 					this.showKeyboardButton(null);
 				} else {
 					this.showKeyboardButton(true);
-				}
-			}
-
-			else if (app != null && !app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-
-				if (!app.isKeyboardNeeded()
-						&& this.showKeyboardButton != null) {
-					this.showKeyboardButton.hide();
 				}
 			}
 		}

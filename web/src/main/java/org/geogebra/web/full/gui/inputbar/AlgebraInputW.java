@@ -71,10 +71,7 @@ public class AlgebraInputW extends FlowPanel
 	public void init(AppW app1) {
 		this.app = app1;
 		addStyleName("AlgebraInput");
-
-		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-			addStyleName("AlgebraInput2");
-		}
+		addStyleName("AlgebraInput2");
 
 		initGUI();
 		app1.getGuiManager().addAlgebraInput(this);

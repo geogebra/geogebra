@@ -175,10 +175,7 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 
-		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-			app.getGuiManager().getLayout().getDockManager()
-					.setFocusedPanel(App.VIEW_ALGEBRA);
-		}
+		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
 
 		if (checkEditing()) {
 			// keep focus in editor
