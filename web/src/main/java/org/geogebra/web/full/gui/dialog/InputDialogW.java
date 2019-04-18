@@ -294,7 +294,7 @@ public class InputDialogW extends InputDialog
 		inputPanel = new InputPanelW(getInitString(), app, rows, columns,
 				showSymbolPopupIcon/* , type */);
 
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (!app.isWhiteboardActive()) {
 
 			app.registerPopup(wrappedPopup);
 		}

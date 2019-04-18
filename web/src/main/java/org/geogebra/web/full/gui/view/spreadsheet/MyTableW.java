@@ -1720,7 +1720,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						w.setEnabled(false);
 						w.addDummyCursor(w.getCaretPosition());
 					}
-				} else if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+				} else if (!app.isWhiteboardActive()) {
 					// if keyboard doesn't enabled, inserts openkeyboard button
 					// if there is no in the SV yet
 					app.showKeyboard(w, false);

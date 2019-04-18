@@ -123,7 +123,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;
 		Object [] geos = { selGeo };
 		sliderPanelUpdate(geos);
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {

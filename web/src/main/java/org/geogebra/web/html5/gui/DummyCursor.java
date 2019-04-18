@@ -89,7 +89,7 @@ public class DummyCursor {
 	 * 
 	 */
 	public void enableGGBKeyboard() {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (app.isWhiteboardActive()) {
 			return;
 		}
 		if (Browser.isTabletBrowser()) {

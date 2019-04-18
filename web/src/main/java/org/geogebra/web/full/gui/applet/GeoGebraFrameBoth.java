@@ -322,7 +322,7 @@ public class GeoGebraFrameBoth
 		}
 
 		keyBoard.prepareShow(animated);
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (!app.isWhiteboardActive()) {
 			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());
 		}
 		CancelEventTimer.keyboardSetVisible();
@@ -343,7 +343,7 @@ public class GeoGebraFrameBoth
 				if (showPerspectivesPopup) {
 					getApplication().showPerspectivesPopup();
 				}
-				if (getApplication().has(Feature.KEYBOARD_BEHAVIOUR)) {
+				if (!getApplication().isWhiteboardActive()) {
 					if (textField != null) {
 						textField.setFocus(true, true);
 					}
@@ -503,7 +503,7 @@ public class GeoGebraFrameBoth
 				&& app.showView(App.VIEW_ALGEBRA)) {
 			return true;
 		}
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (!app.isWhiteboardActive()) {
 			return (app.showAlgebraInput()
 					&& app.getInputPosition() != InputPosition.algebraView)
 					|| app.showView(App.VIEW_CAS)

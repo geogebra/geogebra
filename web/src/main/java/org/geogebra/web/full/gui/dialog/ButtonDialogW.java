@@ -63,7 +63,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		this.setGlassEnabled(true);
 		this.setVisible(true);
 		center();
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
 

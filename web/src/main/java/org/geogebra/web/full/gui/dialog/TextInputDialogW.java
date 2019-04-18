@@ -114,7 +114,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 	 */
 	@Override
 	protected void closeIOSKeyboard() {
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (app.isWhiteboardActive()) {
 			return;
 		}
 		if (inputPanel == null || inputPanel.getText().equals("")
