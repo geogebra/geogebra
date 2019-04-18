@@ -3833,9 +3833,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		case AUTOSCROLLING_SPREADSHEET:
-			return true;
-
 		case ROUNDED_POLYGON:
 			return prerelease;
 

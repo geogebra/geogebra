@@ -2530,14 +2530,11 @@ public abstract class GeoElement extends ConstructionElement
 
 		String newLabel = labelNew;
 		if (cons.isSuppressLabelsActive()) {
-			if (kernel.getApplication()
-					.has(Feature.AUTOSCROLLING_SPREADSHEET)) {
-				if (kernel.getApplication().getGuiManager() != null
-						&& kernel.getApplication().getGuiManager()
-								.hasSpreadsheetView()) {
-					kernel.getApplication().getGuiManager().getSpreadsheetView()
-									.scrollIfNeeded(this, labelNew);
-				}
+			if (kernel.getApplication().getGuiManager() != null
+					&& kernel.getApplication().getGuiManager()
+					.hasSpreadsheetView()) {
+				kernel.getApplication().getGuiManager().getSpreadsheetView()
+						.scrollIfNeeded(this, labelNew);
 			}
 			return;
 		}
