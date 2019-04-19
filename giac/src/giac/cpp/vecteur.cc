@@ -7470,7 +7470,7 @@ namespace giac {
     res.clear();
     if (m==0) {
       res.resize(itend-it);
-      int * jt=&res.front();
+      int * jt=res.empty()?0:&res.front();
       for (;it!=itend;++it,++jt){
 	int t=it->type;
 	if (t==0)

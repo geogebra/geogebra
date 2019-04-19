@@ -2517,7 +2517,7 @@ namespace giac {
 	    lp_map[k].clear();
 	  if (lp_basis_pos){
 	    for (int k=0;;){
-	      basis_t * bit=&basis[lp_basis_pos], * bitend=&basis[0]+bs;
+	      basis_t * bit=&basis[0]+lp_basis_pos, * bitend=&basis[0]+bs;
 	      unsigned endpos=nslices*slicesize;
 	      lp_tab_t * ptr=&lp_map[0]+k*nslices;
 	      for (;bit!=bitend;++bit){
@@ -2543,7 +2543,7 @@ namespace giac {
 	      // switch roots to next polynomial
 	      int * bvpos=&bainv2[(bv-1)*bs],* bvposend=bvpos+bs;
 	      bvpos += lp_basis_pos;
-	      basis_t * basisptr=&basis[lp_basis_pos];
+	      basis_t * basisptr=&basis[0]+lp_basis_pos;
 	      if (be>0){
 		for (;bvpos<bvposend;++basisptr,++bvpos){
 		  register unsigned p=basisptr->p;
@@ -2580,7 +2580,7 @@ namespace giac {
 	for (int k=0;k< nslices;++k)
 	  lp_map[k].clear();
 	if (lp_basis_pos){
-	  basis_t * bit=&basis[lp_basis_pos], * bitend=&basis[0]+bs;
+	  basis_t * bit=&basis[0]+lp_basis_pos, * bitend=&basis[0]+bs;
 	  unsigned endpos=nslices*slicesize;
 	  for (;bit!=bitend;++bit){
 	    register ushort_t p=bit->p;

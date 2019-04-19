@@ -739,7 +739,7 @@ namespace giac {
 	  vecteur2vector_int(*P._VECTptr,0,pmod);
 	  mulext(amod,bmod,pmod,m,ab);
 	  int absize=int(ab.size());
-	  int * i=&ab.front(),*iend=i+absize;
+	  int * i=ab.empty()?0:&ab.front(),*iend=i+absize;
 	  for (;i<iend;++i){
 	    int j=*i;
 	    //j =smod(j,m);
