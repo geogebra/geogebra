@@ -1399,6 +1399,9 @@ public abstract class GeoGebraExport {
 	protected String getImplicitExpr(GeoImplicit geo) {
 		StringBuilder sb = new StringBuilder();
 		double[][] coeff = geo.getCoeff();
+		if (coeff == null) {
+			return null;
+		}
 		boolean first = true;
 		for (int i = 0; i < coeff.length; i++) {
 			for (int j = 0; j < coeff[i].length; j++) {

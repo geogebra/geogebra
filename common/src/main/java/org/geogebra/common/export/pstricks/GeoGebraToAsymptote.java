@@ -44,7 +44,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -58,6 +57,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -2106,7 +2106,13 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		importpackage.add("contour"); // importContour = true; flag for preamble
 										// to import contour package
 		// two-variable implicit function expression
-		String polynomial = parseFunction(getImplicitExpr(geo))
+		String expression = getImplicitExpr(geo);
+		if (expression == null) {
+			Log.warn("implicit plot not supported for non-polynomials: "
+					+ geo.toValueString(StringTemplate.defaultTemplate));
+			return;
+		}
+		String polynomial = parseFunction(expression)
 				.replace("\\\\pi", "pi");
 		implicitFuncCount++;
 		int implicitFuncName = implicitFuncCount;
