@@ -2037,18 +2037,18 @@ public class AlgebraProcessor {
 			ExpressionNode node = (ExpressionNode) ve;
 			ret = processExpressionNode(node, info);
 			boolean singleReturnValue = ret != null && ret.length == 1;
-			if (info.isCopyingPlainVariables() && singleReturnValue) {
-				boolean isPlainVariable = node.isLeaf();
-				boolean returnValueIsInput = node.unwrap() == ret[0];
-				if (isPlainVariable && returnValueIsInput) {
-					ret = array(dependentGeoCopy(ret[0]));
-				}
-			} else if (ret != null && ret.length > 0
+			if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoScriptAction) {
 				if (info.isScripting()) {
 					((GeoScriptAction) ret[0]).perform();
 				}
 				return new GeoElement[] {};
+			} else if (info.isCopyingPlainVariables() && singleReturnValue) {
+				boolean isPlainVariable = node.isLeaf();
+				boolean returnValueIsInput = node.unwrap() == ret[0];
+				if (isPlainVariable && returnValueIsInput) {
+					ret = array(dependentGeoCopy(ret[0]));
+				}
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoList) {
 				int actions = ((GeoList) ret[0]).performScriptActions(info);
