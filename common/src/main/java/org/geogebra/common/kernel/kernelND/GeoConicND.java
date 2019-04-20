@@ -1802,7 +1802,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 		if (getDefinition() != null
 				&& getToStringMode() == GeoConicND.EQUATION_USER) {
-			return sbToValueString.append(getDefinition().toString(tpl));
+			return sbToValueString.append(getDefinition().toValueString(tpl));
 		}
 		if (type == CONIC_LINE) {
 			lines[0].toStringLHS(sbToValueString, tpl);
