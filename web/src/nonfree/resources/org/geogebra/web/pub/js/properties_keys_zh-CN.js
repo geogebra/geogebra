@@ -1191,7 +1191,7 @@ __GGB__keysVar["zh-CN"].error = {
     "Tool.InputNotNeeded": "\u4e0d\u9700\u8981\u8f93\u5165\u5bf9\u8c61",
     "Tool.OutputNotDependent": "\u8f93\u51fa\u5bf9\u8c61\u4e0d\u4ece\u5c5e\u4e8e\u8f93\u5165\u5bf9\u8c61",
     "UnbalancedBrackets": "(\u51fd\u6570\u8868\u8fbe\u5f0f)\u62ec\u53f7\u4e0d\u5bf9\u79f0",
-    "UndefinedVariable": "\u672a\u5b9a\u4e49\u7684\u53d8\u91cf",
+    "UndefinedVariable": "\u672a\u5b9a\u4e49\u53d8\u91cf",
     "UnknownCommand": "\u672a\u77e5\u7684\u6307\u4ee4",
     "VectorExpected": "\u4f60\u5fc5\u987b\u8f93\u5165\u70b9\u5750\u6807\u6216\u8005\u5411\u91cf",
 };
@@ -2698,7 +2698,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ShowHideObject": "\u663e\u793a/\u9690\u85cf\u5bf9\u8c61",
     "ShowHideObject.Help": "\u9009\u62e9\u8981\u9690\u85cf\u7684\u5bf9\u8c61\u540e, \u5207\u6362\u5230\u5176\u4ed6\u5de5\u5177; \u590d\u9009\u8be5\u6309\u94ae\u6062\u590d\u663e\u793a\u72b6\u6001",
     "ShowHorizontalScrollbars": "\u663e\u793a\u6c34\u5e73\u6eda\u52a8\u6761",
-    "ShowInAlgebraView": "\u663e\u793a\u5728\u4ee3\u6570\u533a",
+    "ShowInAlgebraView": "\u5728\u4ee3\u6570\u533a\u663e\u793a",
     "ShowInToolBar": "\u5728\u5de5\u5177\u680f\u4e2d\u663e\u793a",
     "ShowInputField": "\u6307\u4ee4\u680f",
     "ShowInterval": "\u663e\u793a\u95f4\u9694",
