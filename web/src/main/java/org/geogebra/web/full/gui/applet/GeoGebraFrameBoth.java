@@ -79,7 +79,6 @@ public class GeoGebraFrameBoth
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
-	private DockPanelW dockPanelKB;
 	private ToolbarMow toolbarMow;
 	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
@@ -473,11 +472,10 @@ public class GeoGebraFrameBoth
 		if (showKeyboardButton == null) {
 			DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
 					.getDockManager();
-			dockPanelKB = dm.getPanelForKeyboard();
+			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
 			if (dockPanelKB != null) {
-				showKeyboardButton = new ShowKeyboardButton(this, dm,
-						dockPanelKB, app);
+				showKeyboardButton = new ShowKeyboardButton(this, dm, app);
 			}
 		}
 

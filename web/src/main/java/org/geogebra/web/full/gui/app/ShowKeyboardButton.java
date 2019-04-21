@@ -17,7 +17,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -34,13 +33,11 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link UpdateKeyBoardListener}
 	 * @param dm
 	 *            {@link DockManagerW}
-	 * @param parent
-	 *            {@link Element}
 	 * @param app
 	 *            app
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-			final DockManagerW dm, Widget parent, final AppW app) {
+			final DockManagerW dm, final AppW app) {
 		this.addStyleName("matOpenKeyboardBtn");
 		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
 				.keyboard_show_material().getSafeUri().asString());
