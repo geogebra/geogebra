@@ -175,7 +175,8 @@ public class InputDialogW extends InputDialog
 
 			@Override
 			public void execute() {
-				if (inputPanel != null) {
+				if (inputPanel != null
+						&& inputPanel.getTextComponent() != null) {
 					inputPanel.getTextComponent().setFocus(true);
 					// Firefox: correct cursor position #5419
 					if (!selectInitText) {
@@ -183,10 +184,8 @@ public class InputDialogW extends InputDialog
 								inputPanel.getText().length());
 					}
 				}
-
 			}
 		});
-
 	}
 
 	/**
@@ -445,7 +444,9 @@ public class InputDialogW extends InputDialog
 		} else {
 			new WindowsNativeUIController(app).hideKeyboard();
 			wrappedPopup.hide();
-			inputPanel.getTextComponent().hideTablePopup();
+			if (inputPanel.getTextComponent() != null) {
+				inputPanel.getTextComponent().hideTablePopup();
+			}
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
 	}
@@ -481,7 +482,6 @@ public class InputDialogW extends InputDialog
 				errorPanel.add(new Label(item));
 			}
 		}
-
 	}
 
 	/**
@@ -490,8 +490,8 @@ public class InputDialogW extends InputDialog
 	 * @return true if the source widget should handle the OK event
 	 */
 	protected boolean sourceShouldHandleOK(Object source) {
-		return (inputPanel.getTextComponent() != null && source == inputPanel
-				.getTextComponent().getTextField().getValueBox());
+		return inputPanel.getTextComponent() != null && source == inputPanel
+				.getTextComponent().getTextField().getValueBox();
 	}
 
 	@Override
@@ -501,7 +501,10 @@ public class InputDialogW extends InputDialog
 
 	@Override
 	public String getCurrentCommand() {
-		return inputPanel.getTextComponent().getCommand();
+		if (inputPanel.getTextComponent() != null) {
+			return inputPanel.getTextComponent().getCommand();
+		}
+		return null;
 	}
 
 	@Override
