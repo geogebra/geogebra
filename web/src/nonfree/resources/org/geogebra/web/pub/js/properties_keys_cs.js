@@ -758,7 +758,7 @@ __GGB__keysVar["cs"].command = {
     "Remove.Syntax": "[ <Seznam>, <Seznam> ]",
     "RemoveUndefined": "OdstranitNedefinovane",
     "RemoveUndefined.Syntax": "[ <Seznam> ]",
-    "Rename": "Prejmenovat",
+    "Rename": "P\u0159ejmenovat",
     "Rename.Syntax": "[ <Objekt>, <N\xe1zev> ]",
     "Repeat": "Opakovat",
     "Repeat.Syntax": "[ <\u010c\xedslo>, <P\u0159\xedkaz skriptu>, <P\u0159\xedkaz skriptu>, ... ]",
