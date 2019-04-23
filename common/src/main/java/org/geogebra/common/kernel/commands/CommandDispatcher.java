@@ -400,7 +400,6 @@ public abstract class CommandDispatcher {
 				return getScriptingDispatcher().dispatch(command, kernel);
 
 			// advanced
-			case ContourPlot:
 			case IntersectPath:
 			case IntersectRegion:
 

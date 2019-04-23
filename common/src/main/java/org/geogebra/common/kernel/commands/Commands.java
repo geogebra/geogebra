@@ -1112,10 +1112,6 @@ public enum Commands implements CommandsConstants,
 
 	DensityPlot(TABLE_ENGLISH),
 
-	ContourPlot(TABLE_ENGLISH),
-
-	Nyquist(TABLE_ENGLISH),
-
 	Polyhedron(TABLE_ENGLISH),
 
 	// ==

@@ -3800,9 +3800,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case IMPLICIT_SURFACES:
 			return prerelease;
 
-		case CONTOUR_PLOT_COMMAND:
-			return prerelease;
-
 		case LOCALSTORAGE_FILES:
 			return (prerelease && !whiteboard) || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 

@@ -106,9 +106,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case SecondAxis:
 		case MinorAxis:
 			return new CmdAxis(kernel, 1);
-		case ContourPlot:
-			return !kernel.getApplication().has(Feature.CONTOUR_PLOT_COMMAND)
-					? null : new CmdContourPlot(kernel);
 		case SemiMinorAxisLength:
 		case SecondAxisLength:
 			return new CmdAxisLength(kernel, 1);

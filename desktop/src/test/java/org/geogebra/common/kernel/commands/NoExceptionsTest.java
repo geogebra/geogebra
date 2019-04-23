@@ -6,9 +6,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -215,7 +212,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	 */
 	public static boolean betaCommand(Commands a, App app) {
 		return a == Commands.MatrixPlot || a == Commands.DensityPlot
-				|| a == Commands.ContourPlot || a == Commands.Nyquist
 				|| a == Commands.Polyhedron || a == Commands.RoundedPolygon
 				|| (a == Commands.Holes && !app.has(Feature.COMMAND_HOLES))
 				|| (a == Commands.ImplicitSurface
