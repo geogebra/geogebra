@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -884,7 +883,7 @@ public class EuclidianControllerCompanion {
 	 */
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
 		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
-		return !ec.getApplication().has(Feature.ABSOLUTE_TEXTS);
+		return true;
 	}
 
 	/**

@@ -45,7 +45,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -672,15 +671,6 @@ public class ConstructionDefaults {
 		// text.setLocalVariableLabel(app.getPlain("Text"));
 		text.setLocalVariableLabel("Text");
 		text.setDefaultGeoType(DEFAULT_TEXT);
-		if (cons.getApplication().has(Feature.ABSOLUTE_TEXTS)) {
-			try {
-				text.setAbsoluteScreenLocActive(true);
-				text.setStartPoint(null);
-			} catch (CircularDefinitionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		defaultGeoElements.put(DEFAULT_TEXT, text);
 
 		// image

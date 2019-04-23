@@ -3806,10 +3806,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case TOOL_EDITOR:
 			return prerelease;
 
-		// GGB-776
-		case ABSOLUTE_TEXTS:
-			return prerelease;
-
 		// TRAC-4845
 		case LOG_AXES:
 			return prerelease;

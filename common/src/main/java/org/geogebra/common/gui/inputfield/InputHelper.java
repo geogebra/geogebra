@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -120,28 +119,18 @@ public class InputHelper {
 		text.setAuxiliaryObject(false);
 		Construction cons = text.getConstruction();
 
-		boolean absoluteTexts = cons.getApplication()
-				.has(Feature.ABSOLUTE_TEXTS);
-		if ((!text.isTextCommand() || absoluteTexts)
-				&& text.getStartPoint() == null) {
-
+		if (!text.isTextCommand() && text.getStartPoint() == null) {
 			try {
-				if (absoluteTexts) {
-					text.setAbsoluteScreenLoc(ev.getWidth() / 2,
-							ev.getHeight() / 2);
-					text.setAbsoluteScreenLocActive(true);
-				} else {
-					boolean oldSuppressLabelsStatus = cons
-							.isSuppressLabelsActive();
-					cons.setSuppressLabelCreation(true);
+				boolean oldSuppressLabelsStatus = cons
+						.isSuppressLabelsActive();
+				cons.setSuppressLabelCreation(true);
 
-					GeoPoint p = new GeoPoint(text.getConstruction(), null,
-							(ev.getXmin() + ev.getXmax()) / 2,
-							(ev.getYmin() + ev.getYmax()) / 2, 1.0);
+				GeoPoint p = new GeoPoint(text.getConstruction(), null,
+						(ev.getXmin() + ev.getXmax()) / 2,
+						(ev.getYmin() + ev.getYmax()) / 2, 1.0);
 
-					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-					text.setStartPoint(p);
-				}
+				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+				text.setStartPoint(p);
 				text.update();
 			} catch (CircularDefinitionException e1) {
 				e1.printStackTrace();

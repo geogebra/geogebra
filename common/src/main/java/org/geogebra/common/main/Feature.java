@@ -28,9 +28,6 @@ public enum Feature {
 	/** GGB-334, TRAC-3401 */
 	ADJUST_WIDGETS,
 
-	/** GGB-776 */
-	ABSOLUTE_TEXTS,
-
 	MOW_PEN_EVENTS,
 
 	/** SolveQuartic in CAS GGB-1635 */
