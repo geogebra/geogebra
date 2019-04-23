@@ -3901,11 +3901,13 @@ class ColorFunctionPanel extends JPanel
 		switch (colorSpace) {
 		default:
 		case GeoElement.COLORSPACE_RGB:
-			nameLabelR.setText(StringUtil.capitalize(loc.getMenu("red")) + ":");
+			nameLabelR
+					.setText(StringUtil.capitalize(loc.getColor("red")) + ":");
 			nameLabelG
-					.setText(StringUtil.capitalize(loc.getMenu("green")) + ":");
+					.setText(
+							StringUtil.capitalize(loc.getColor("green")) + ":");
 			nameLabelB
-					.setText(StringUtil.capitalize(loc.getMenu("blue")) + ":");
+					.setText(StringUtil.capitalize(loc.getColor("blue")) + ":");
 			break;
 		case GeoElement.COLORSPACE_HSB:
 			nameLabelR.setText(loc.getMenu("Hue") + ":");
