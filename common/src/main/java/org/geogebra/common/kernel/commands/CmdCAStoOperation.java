@@ -53,7 +53,14 @@ public class CmdCAStoOperation extends CommandProcessor {
 		default:
 			throw new Error("Unhandled operation " + op);
 		}
-		return kernel.getAlgebraProcessor().processExpressionNode(en, info);
+		GeoElement[] ret = kernel.getAlgebraProcessor()
+				.processExpressionNode(en, info);
+
+		if (ret[0] != null) {
+			ret[0].setLabel(c.getLabel());
+		}
+
+		return ret;
 	}
 
 }
