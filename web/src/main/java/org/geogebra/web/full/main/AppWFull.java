@@ -1505,9 +1505,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				if (getGuiManager() != null
 						&& getGuiManager()
 								.getUnbundledToolbar() != null) {
-					if (has(Feature.SPLITTER_LOADING)) {
-						updatePerspectiveForUnbundled(current);
-					}
+					updatePerspectiveForUnbundled(current);
 					getGuiManager().getUnbundledToolbar()
 							.updateContent();
 				}
@@ -1605,10 +1603,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!isUnbundled() || isStartedWithFile()) {
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),
 					p);
-			if (isUnbundled()) {
-				getGuiManager().getLayout().getDockManager().adjustViews(true);
-			}
-		} else if (isUnbundled() && isPortrait()) {
+		}
+		if (isUnbundled() && isPortrait()) {
 			getGuiManager().getLayout().getDockManager().adjustViews(true);
 		}
 	}

@@ -47,9 +47,6 @@ public enum Feature {
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
 
-	/** GGB-2394 */
-	SPLITTER_LOADING,
-
 	/** GGB-2144 */
 	COMMAND_HOLES,
 
