@@ -57,7 +57,7 @@ public class PageListPanel
 		this.frame = ((AppWFull) app).getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		this.toolbarMow = frame.getToolbarMow();
+		this.toolbarMow = frame.getToolbarMowSafe(app);
 		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
 		initGUI();

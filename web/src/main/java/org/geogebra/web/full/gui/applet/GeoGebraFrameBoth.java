@@ -730,11 +730,9 @@ public class GeoGebraFrameBoth
 		}
 	}
 
-	private void attachToolbarMow(AppW app1) {
-		if (toolbarMow == null) {
-			toolbarMow = new ToolbarMow(app1);
-		}
-		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
+	private void attachToolbarMow(AppW app) {
+		initToolbarMowIfNeeded(app);
+		if (app.getToolbarPosition() == SwingConstants.SOUTH) {
 			add(toolbarMow);
 		} else {
 			insert(toolbarMow, 0);
@@ -743,10 +741,21 @@ public class GeoGebraFrameBoth
 		add(toolbarMow.getPageControlButton());
 	}
 
+	private void initToolbarMowIfNeeded(AppW app) {
+		if (toolbarMow == null) {
+			toolbarMow = new ToolbarMow(app);
+		}
+	}
+
 	/**
 	 * @return MOW toolbar
 	 */
 	public ToolbarMow getToolbarMow() {
+		return toolbarMow;
+	}
+
+	public ToolbarMow getToolbarMowSafe(AppW app) {
+		initToolbarMowIfNeeded(app);
 		return toolbarMow;
 	}
 
