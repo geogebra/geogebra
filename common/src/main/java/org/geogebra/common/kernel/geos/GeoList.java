@@ -311,6 +311,7 @@ public class GeoList extends GeoElement
 			geo.setLineThickness(getLineThickness());
 			geo.setLineType(getLineType());
 			geo.setLineOpacity(getLineOpacity());
+			geo.setLineTypeHidden(getLineTypeHidden());
 
 			if (geo instanceof PointProperties) {
 				((PointProperties) geo).setPointSize(getPointSize());
