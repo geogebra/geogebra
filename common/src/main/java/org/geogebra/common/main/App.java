@@ -3830,9 +3830,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		case ROUNDED_POLYGON:
-			return prerelease;
-
 		case SURFACE_2D:
 			return prerelease;
 

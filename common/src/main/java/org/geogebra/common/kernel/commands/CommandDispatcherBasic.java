@@ -277,9 +277,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdDefined(kernel);
 		case Spline:
 			return new CmdSpline(kernel);
-		case RoundedPolygon:
-			return kernel.getApplication().has(Feature.ROUNDED_POLYGON) ? new CmdRoundedPolygon(
-					kernel) : null;
 		// case Nyquist:
 		// return new CmdNyquist(kernel);
 		case FormulaText:

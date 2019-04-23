@@ -666,7 +666,6 @@ public abstract class CommandDispatcher {
 
 			case FormulaText:
 			case LaTeX:
-			case RoundedPolygon:
 			case Normalize:
 			case ExportImage:
 

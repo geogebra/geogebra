@@ -31,8 +31,6 @@ public enum Feature {
 	/** GGB-776 */
 	ABSOLUTE_TEXTS,
 
-	ROUNDED_POLYGON,
-
 	MOW_PEN_EVENTS,
 
 	/** SolveQuartic in CAS GGB-1635 */
