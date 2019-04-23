@@ -1822,18 +1822,28 @@ public abstract class Renderer {
 	}
 
 	public void setBackgroundColor() {
-		getARManager().setBackgroundColor();
+	    ARManagerInterface arManager = getARManager();
+	    if (arManager != null) {
+            arManager.setBackgroundColor();
+        }
     }
 
 	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
-		getARManager().setBackgroundStyle(backgroundStyle);
+        ARManagerInterface arManager = getARManager();
+        if (arManager != null) {
+            arManager.setBackgroundStyle(backgroundStyle);
+        }
 	}
 
 	/**
 	 * @return background for AR, opaque otherwise
 	 */
 	public BackgroundStyle getBackgroundStyle() {
-		return getARManager().getBackgroundStyle();
+        ARManagerInterface arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getBackgroundStyle();
+        }
+		return BackgroundStyle.NONE;
 	}
 
     /**
