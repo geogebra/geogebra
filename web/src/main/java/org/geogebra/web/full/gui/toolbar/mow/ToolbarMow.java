@@ -12,6 +12,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -150,10 +151,8 @@ public class ToolbarMow extends FlowPanel
 		if (pageControlButton == null) {
 			return;
 		}
-		pageControlButton.addStyleName(
-				doShow ? "showMowFloatingButton" : "hideMowFloatingButton");
-		pageControlButton.removeStyleName(
-				doShow ? "hideMowFloatingButton" : "showMowFloatingButton");
+		Dom.toggleClass(pageControlButton, "showMowFloatingButton",
+				"hideMowFloatingButton", doShow);
 	}
 	
 	/**
@@ -176,10 +175,8 @@ public class ToolbarMow extends FlowPanel
 			} else {
 				pageControlButton.getElement().getStyle().clearBottom();
 				dp.setZoomPanelBottom(false);
-				pageControlButton.removeStyleName(
-						isOpen ? "hideMowSubmenu" : "showMowSubmenu");
-				pageControlButton.addStyleName(
-						isOpen ? "showMowSubmenu" : "hideMowSubmenu");
+				Dom.toggleClass(pageControlButton, "showMowSubmenu",
+						"hideMowSubmenu", isOpen);
 				dp.moveZoomPanelUpOrDown(isOpen);
 			}
 		}
