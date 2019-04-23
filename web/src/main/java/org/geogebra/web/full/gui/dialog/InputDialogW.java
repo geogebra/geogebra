@@ -15,6 +15,7 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
@@ -175,12 +176,12 @@ public class InputDialogW extends InputDialog
 
 			@Override
 			public void execute() {
-				if (inputPanel != null
-						&& inputPanel.getTextComponent() != null) {
-					inputPanel.getTextComponent().setFocus(true);
+				AutoCompleteTextFieldW textComponent = getTextComponent();
+				if (textComponent != null) {
+					textComponent.setFocus(true);
 					// Firefox: correct cursor position #5419
 					if (!selectInitText) {
-						inputPanel.getTextComponent().setCaretPosition(
+						textComponent.setCaretPosition(
 								inputPanel.getText().length());
 					}
 				}
@@ -306,12 +307,13 @@ public class InputDialogW extends InputDialog
 		});
 
 		// add key handler for ENTER if inputPanel uses a text field
-		if (inputPanel.getTextComponent() != null) {
-			inputPanel.getTextComponent().getTextField().getValueBox()
+		AutoCompleteTextFieldW textComponent = getTextComponent();
+		if (textComponent != null) {
+			textComponent.getTextField().getValueBox()
 					.addKeyUpHandler(this);
-			inputPanel.getTextComponent()
+			textComponent
 					.addFocusListener(new FocusListenerW(this));
-			inputPanel.getTextComponent().getTextField().getValueBox()
+			textComponent.getTextField().getValueBox()
 					.addKeyPressHandler(this);
 		}
 
@@ -444,8 +446,9 @@ public class InputDialogW extends InputDialog
 		} else {
 			new WindowsNativeUIController(app).hideKeyboard();
 			wrappedPopup.hide();
-			if (inputPanel.getTextComponent() != null) {
-				inputPanel.getTextComponent().hideTablePopup();
+			AutoCompleteTextFieldW textComponent = getTextComponent();
+			if (textComponent != null) {
+				textComponent.hideTablePopup();
 			}
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
@@ -490,8 +493,9 @@ public class InputDialogW extends InputDialog
 	 * @return true if the source widget should handle the OK event
 	 */
 	protected boolean sourceShouldHandleOK(Object source) {
-		return inputPanel.getTextComponent() != null && source == inputPanel
-				.getTextComponent().getTextField().getValueBox();
+		AutoCompleteTextFieldW textComponent = getTextComponent();
+		return textComponent != null
+				&& source == textComponent.getTextField().getValueBox();
 	}
 
 	@Override
@@ -501,10 +505,20 @@ public class InputDialogW extends InputDialog
 
 	@Override
 	public String getCurrentCommand() {
-		if (inputPanel.getTextComponent() != null) {
-			return inputPanel.getTextComponent().getCommand();
+		AutoCompleteTextFieldW textComponent = getTextComponent();
+		if (textComponent != null) {
+			return textComponent.getCommand();
 		}
 		return null;
+	}
+
+	/**
+	 * Note: package visibility to make this accessible from anonymous classes
+	 * 
+	 * @return single line text input
+	 */
+	AutoCompleteTextFieldW getTextComponent() {
+		return inputPanel == null ? null : inputPanel.getTextComponent();
 	}
 
 	@Override

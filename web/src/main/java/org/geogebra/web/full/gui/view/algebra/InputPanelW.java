@@ -57,23 +57,16 @@ public class InputPanelW extends FlowPanel {
 		this.showSymbolPopup = showSymbolPopupIcon;
 
 		// set up the text component:
-		// either a textArea, textfield or HTML textpane
+		// either a textfield or HTML textpane
 		if (rows > 1) {
 			textAreaComponent = new TextEditPanel(app);
-		} else {
-			textComponent = new AutoCompleteTextFieldW(columns, app);
-
-			textComponent.prepareShowSymbolButton(showSymbolPopup);
-		}
-
-		if (rows > 1) {
 			if (initText != null) {
 				textAreaComponent.setText(initText);
 			}
 			add(textAreaComponent);
-		}
-		//
-		else {
+		} else {
+			textComponent = new AutoCompleteTextFieldW(columns, app);
+			textComponent.prepareShowSymbolButton(showSymbolPopup);
 			if (initText != null) {
 				textComponent.setText(initText);
 			}
