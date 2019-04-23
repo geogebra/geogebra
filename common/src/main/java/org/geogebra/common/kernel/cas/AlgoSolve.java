@@ -223,9 +223,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 					.traverse(FunctionExpander.getCollector());
 
 			definition = definitionObject
-					.toValueString(StringTemplate.prefixedDefault);
+					.toValueString(StringTemplate.prefixedDefaultSF);
 		} else {
-			definition = equations2.toValueString(StringTemplate.prefixedDefault);
+			definition = equations2
+					.toValueString(StringTemplate.prefixedDefaultSF);
 			try {
 				definitionObject = equations2.getKernel().getParser()
 						.parseGeoGebraExpression(definition);
@@ -245,10 +246,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		String definition;
 		if (hint.getDefinition() != null) {
 			definition = hint.getDefinition()
-					.toValueString(StringTemplate.prefixedDefault);
+					.toValueString(StringTemplate.prefixedDefaultSF);
 		} else {
 			definition = hint
-					.toValueString(StringTemplate.prefixedDefault);
+					.toValueString(StringTemplate.prefixedDefaultSF);
 		}
 		sb.append(definition);
 	}

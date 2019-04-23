@@ -104,6 +104,28 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * Template which prints numbers with maximal precision and adds prefix to
+	 * variables (ggbtmpvar)
+	 */
+	public static final StringTemplate prefixedDefaultSF = new StringTemplate(
+			"prefixedDefaultSF") {
+		@Override
+		public double getRoundHalfUpFactor(double abs, NumberFormatAdapter nf2,
+				ScientificFormatAdapter sf2, boolean useSF) {
+			return 1;
+		}
+	};
+
+	static {
+		prefixedDefaultSF.localizeCmds = false;
+		prefixedDefaultSF.internationalizeDigits = false;
+		prefixedDefaultSF.usePrefix = true;
+		prefixedDefaultSF.forceSF = true;
+		prefixedDefaultSF.sf = FormatFactory.getPrototype()
+				.getScientificFormat(15, 20, false);
+	}
+
+	/**
 	 * GeoGebra string type, internationalize digits
 	 */
 	public static final StringTemplate defaultTemplate = new StringTemplate(
