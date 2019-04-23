@@ -1292,6 +1292,8 @@ public class CommandsTest extends AlgebraTest {
 		app.getEuclidianView3D();
 		t("eq: x^2=6", unicode("x^2 + 0z^2 = 6"));
 		t("Solve[ eq ]", "{x = (-sqrt(6)), x = sqrt(6)}");
+		t("Solve({84.36=x*y^3,126.56=x*y^4})",
+				"{{x = 19783645390161 / 791861873600, y = 3164 / 2109}}");
 		runSolveTests();
 	}
 
@@ -1381,6 +1383,10 @@ public class CommandsTest extends AlgebraTest {
 						+ Unicode.DEGREE_CHAR + "}");
 		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0*" + Unicode.DEGREE_CHAR
 				+ ", y = 0*" + Unicode.DEGREE_CHAR + "}}");
+
+		tRound("NSolve( -0.083333333333333x^2 + 1.333333333333333x - 1.25=3.5)",
+				"{x = 5.35425, x = 10.64575}");
+
 	}
 
 	@Test
