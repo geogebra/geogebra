@@ -66,10 +66,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 		this.rows = rows;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
-//		textInputDialog = this;
 		setInputHandler(new TextInputHandler());
-
-//		isIniting = true;		
 
 		createTextGUI(title, "", false, cols, rows, /* false */ true, false,
 				false, false,
@@ -124,6 +121,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog {
 		editor.add(dummyTextBox);
 		dummyTextBox.setFocus(true);
 		dummyTextBox.setFocus(false);
+		editor.remove(dummyTextBox);
 	}
 
 	/**
