@@ -3848,10 +3848,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case PROVE_UNIFY:
 			return true;
 
-		/** APPS-163 */
-		case KEY_HANDLER_EV3D:
-			return true;
-
 		/** APPS-284 */
 		case COMMAND_FILTERING:
 			return prerelease;

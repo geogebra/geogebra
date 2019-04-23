@@ -17,7 +17,6 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -40,7 +39,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.TimerSystemW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -207,14 +205,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		if (canvas == null) {
 			return;
 		}
-		if (app.has(Feature.KEY_HANDLER_EV3D)) {
-			new EuclidianKeyHandler3DW((AppW) app).listenTo(canvas);
-		} else {
-			GlobalKeyDispatcherW gkd = ((AppW) this.app).getGlobalKeyDispatcher();
-			canvas.addKeyDownHandler(gkd);
-			canvas.addKeyUpHandler(gkd);
-			canvas.addKeyPressHandler(gkd);
-		}
+
+		new EuclidianKeyHandler3DW((AppW) app).listenTo(canvas);
 	}
 
 	private void registerMouseTouchGestureHandlers(

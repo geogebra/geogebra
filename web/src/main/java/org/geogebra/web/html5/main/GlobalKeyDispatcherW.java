@@ -137,10 +137,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					break;
 				case Event.ONKEYDOWN:
 
-					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
+					if (event.getNativeEvent()
+							.getKeyCode() == GWTKeycodes.KEY_TAB) { // TAB
 																	// pressed
-						if (app.has(Feature.KEY_HANDLER_EV3D) && !app
-								.getAccessibilityManager().isTabOverGeos()) {
+						if (!app.getAccessibilityManager().isTabOverGeos()) {
 							return;
 						}
 						if (!appfocused) {

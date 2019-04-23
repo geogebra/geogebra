@@ -86,9 +86,6 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** APPS-163 */
-	KEY_HANDLER_EV3D,
-
 	/** G3D-160 */
 	G3D_AR_TARGET,
 
