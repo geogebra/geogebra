@@ -4996,15 +4996,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/**
 	 * 
-	 * @return root view
-	 */
-	public Object getRootView() {
-		// overriden in EuclidianView3DA
-		return null;
-	}
-
-	/**
-	 * 
 	 * @return mouse/touch gesture controller
 	 */
 	public MouseTouchGestureController getEuclidianPanelOnTouchListner() {
