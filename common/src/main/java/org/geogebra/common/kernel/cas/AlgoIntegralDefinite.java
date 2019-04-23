@@ -1016,11 +1016,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	@Override
 	public DrawInformationAlgo copy() {
 		if (evaluate != null) {
-			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
+			return new AlgoIntegralDefinite(f.copy(),
 					(NumberValue) a.deepCopy(kernel),
 					(NumberValue) b.deepCopy(kernel), evaluate.copy());
 		}
-		return new AlgoIntegralDefinite((GeoFunction) f.copy(),
+		return new AlgoIntegralDefinite(f.copy(),
 				(NumberValue) a.deepCopy(kernel),
 				(NumberValue) b.deepCopy(kernel), null);
 	}

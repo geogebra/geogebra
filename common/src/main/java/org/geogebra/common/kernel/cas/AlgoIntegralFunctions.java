@@ -139,8 +139,8 @@ public class AlgoIntegralFunctions extends AlgoElement
 	@Override
 	public AlgoIntegralFunctions copy() {
 
-		return new AlgoIntegralFunctions((GeoFunction) f.copy(),
-				(GeoFunction) g.copy(), new MyDouble(kernel, a.getDouble()),
+		return new AlgoIntegralFunctions(f.copy(), g.copy(),
+				new MyDouble(kernel, a.getDouble()),
 				new MyDouble(kernel, b.getDouble()),
 				evaluate == null ? null : (GeoBoolean) evaluate.copy());
 

@@ -1007,6 +1007,9 @@ public abstract class CommandDispatcher {
 		setCommandSelector(savedCommandSelector);
 	}
 
+	/**
+	 * @return whether CAS commands are allowed
+	 */
 	public boolean isCASAllowed() {
 		return isAllowedBySelector(Commands.Solve);
 	}

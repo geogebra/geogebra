@@ -298,7 +298,8 @@ public class EvalInfo {
 	 * 				true to copy variables
 	 * @return this or copy with property set
 	 */
-	public EvalInfo withCopyingPlainVariables(boolean copyingPlainVariables) {
+	public EvalInfo withCopyingPlainVariables(
+			@SuppressWarnings("hiding") boolean copyingPlainVariables) {
 		if (this.copyingPlainVariables == copyingPlainVariables) {
 			return this;
 		}
@@ -307,6 +308,10 @@ public class EvalInfo {
 		return copy;
 	}
 
+	/**
+	 * @return whether expression "a" should be resolved as copy of a (rather
+	 *         than reference)
+	 */
 	public boolean isCopyingPlainVariables() {
 		return copyingPlainVariables;
 	}

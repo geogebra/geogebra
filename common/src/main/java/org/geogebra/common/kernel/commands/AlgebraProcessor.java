@@ -188,6 +188,9 @@ public class AlgebraProcessor {
 		setEnableStructures(app.getConfig().isEnableStructures());
 	}
 
+	/**
+	 * @return construction
+	 */
 	public Construction getConstruction() {
 		return cons;
 	}
