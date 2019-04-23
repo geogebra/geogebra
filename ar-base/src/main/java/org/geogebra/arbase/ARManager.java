@@ -156,11 +156,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     }
 
-    public void onDrawFrame(Renderer renderer) {
+    public void onDrawFrame() {
+        Renderer renderer = mView.getRenderer();
         renderer.getRendererImpl().glViewPort();
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
         ARMotionEvent arMotionEvent = null;
-        if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
+        if (mView.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
             arMotionEvent = mouseTouchGestureQueueHelper.poll();
         }
         // to update hitting o&d
