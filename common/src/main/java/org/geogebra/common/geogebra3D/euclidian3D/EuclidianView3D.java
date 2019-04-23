@@ -1548,7 +1548,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
     final public void reset() {
-	    reset(true);
+	    reset(false);
     }
 
     /**
@@ -4859,7 +4859,7 @@ public abstract class EuclidianView3D extends EuclidianView
                     translationZzeroForAR = 0;
                 }
                 updateMatrix();
-                reset();
+                reset(true);
             }
 		}
 	}
@@ -4984,7 +4984,7 @@ public abstract class EuclidianView3D extends EuclidianView
     public void resetSettings() {
         super.resetSettings();
         // reset rendering
-        reset();
+        reset(true);
     }
 
 	/**
