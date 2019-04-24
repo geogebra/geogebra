@@ -241,7 +241,7 @@ public class MatchingBlockManager {
 					}
 				}
 			}
-		} catch (BadLocationException e) {
+		} catch (Exception e) {
 			Log.error(e.getMessage());
 		}
 	}
