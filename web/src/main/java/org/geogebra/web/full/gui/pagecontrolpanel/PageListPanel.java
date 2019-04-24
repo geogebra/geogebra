@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
@@ -40,13 +42,15 @@ public class PageListPanel
 	private AppW app;
 	private GeoGebraFrameBoth frame;
 	private EuclidianDockPanelW dockPanel;
-	private ToolbarMow toolbarMow;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
 	private StandardButton plusButton;
 	private PageListController pageController;
 	private FlowPanel divider = null;
 	private boolean isTouch = false;
+
+	@Nonnull
+	private final ToolbarMow toolbarMow;
 
 	/**
 	 * @param app
@@ -139,9 +143,7 @@ public class PageListPanel
 	public void open() {
 		if (app.isWhiteboardActive()) {
 			dockPanel.hideZoomPanel();
-			if (toolbarMow != null) {
-				toolbarMow.showPageControlButton(false);
-			}
+			toolbarMow.showPageControlButton(false);
 		}
 		setVisible(true);
 		setLabels();

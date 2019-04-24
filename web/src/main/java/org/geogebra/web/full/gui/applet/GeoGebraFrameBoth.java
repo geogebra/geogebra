@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.applet;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -754,6 +756,12 @@ public class GeoGebraFrameBoth
 		return toolbarMow;
 	}
 
+	/**
+	 * If the toolbarMow is null then initializes it.
+	 * @param app Needed for the initialization.
+	 * @return toolbarMow
+	 */
+	@Nonnull
 	public ToolbarMow getToolbarMowSafe(AppW app) {
 		initToolbarMowIfNeeded(app);
 		return toolbarMow;
