@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.Before;
@@ -74,9 +75,12 @@ public class ArithmeticTest extends AlgebraTest {
 	@Test 
 	public void functionWithFractions() {
 		t("frac(x)=(3/2)^x", "(3 / 2)^(x)");
-		// Algebra View gives 9/4
-		t("frac(2)", "2.25");
-		t("frac(2)+\"\"", "2.25");
+		// default EvalInfo: use rounding
+		t("nineQuarters=frac(2)", "2.25");
+		// Algebra View's EvalInfo: gives 9/4
+		((GeoNumeric) app.getKernel().lookupLabel("nineQuarters"))
+				.setSymbolicMode(true, false);
+		t("nineQuarters", "9/4");
 	}
 
 	@Test
