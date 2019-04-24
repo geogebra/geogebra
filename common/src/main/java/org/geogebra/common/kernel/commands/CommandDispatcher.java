@@ -147,7 +147,7 @@ public abstract class CommandDispatcher {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 		commandSelectors = new ArrayList<>();
-		commandSelectors.add(app.getConfig().getCommandSelector());
+		addCommandSelector(app.getConfig().getCommandSelector());
 	}
 
 	/**
@@ -975,7 +975,7 @@ public abstract class CommandDispatcher {
 	 *            commandSelectors will be added to the command table
 	 */
 	public void addCommandSelector(CommandSelector selector) {
-		if (!commandSelectors.contains(selector)) {
+		if (selector != null && !commandSelectors.contains(selector)) {
 			commandSelectors.add(selector);
 		}
 	}
