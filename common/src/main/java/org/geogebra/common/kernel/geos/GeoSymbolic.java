@@ -251,6 +251,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 	@Override
 	protected String getDefaultLabel(char[] chars2, boolean isInteger) {
 		GeoElement twinGeo = (GeoElement) getTwinGeo();
+		if (twinGeo == null) {
+			return super.getDefaultLabel(chars2, isInteger);
+		}
 		return twinGeo.getDefaultLabel(chars2, isInteger);
 	}
 }
