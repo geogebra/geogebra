@@ -1043,7 +1043,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		if (errorMessage != null) {
-			if (app.isUnbundled()) {
+			if (app.isUnbundled() && app.getActivity().useValidInput()) {
 				return false;
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,

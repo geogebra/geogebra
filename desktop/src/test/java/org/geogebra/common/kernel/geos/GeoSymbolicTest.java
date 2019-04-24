@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.main.App;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
@@ -172,5 +173,24 @@ public class GeoSymbolicTest {
 		t("Solve(f(x) = 0)", "{x = (-sqrt(5) + 1) / 2, x = 1, x = (sqrt(5) + 1) / 2}");
 		t("Solve(f'(x) = 0)", "{x = 0, x = 4 / 3}");
 		t("Solve(f''(x) = 0)", "{x = 2 / 3}");
+	}
+
+	@Test
+	public void redefinitionInTwoCellsShouldFail() {
+		t("a=p+q", "p + q");
+		shouldFail("a=p-q", "LabelAlreadyUsed");
+	}
+
+	@Test
+	public void redefinitionInOneCellsShouldWork() {
+		t("a=p+q", "p + q");
+		GeoElement a = app.getKernel().lookupLabel("a");
+		ap.changeGeoElement(a, "p-q", true,
+				false, new TestErrorHandler(), null);
+		checkInput("a", "a = p - q");
+	}
+
+	private static void shouldFail(String string, String errorMsg) {
+		AlgebraTest.shouldFail(string, errorMsg, app);
 	}
 }

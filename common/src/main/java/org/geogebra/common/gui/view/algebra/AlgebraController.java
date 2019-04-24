@@ -184,26 +184,17 @@ public class AlgebraController {
 				}
 			};
 
-			if (info == null) {
-				geos = kernel
-						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								input,
-								isStoringUndo,
-								errorHandler,
-								isAutoCreateSliders,
-								true,
-								callback);
-			} else {
-				geos = kernel
-						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(
-								input,
-								isStoringUndo,
-								errorHandler,
-								info.withSliders(isAutoCreateSliders),
-								callback);
+			EvalInfo processingInfo = info;
+			if (processingInfo == null) {
+				processingInfo = kernel.getAlgebraProcessor()
+						.getEvalInfo(isAutoCreateSliders, true);
 			}
+			geos = kernel.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(input,
+							isStoringUndo, errorHandler,
+							processingInfo.withSliders(isAutoCreateSliders),
+							callback);
+
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());

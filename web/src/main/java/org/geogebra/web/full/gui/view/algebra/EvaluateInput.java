@@ -109,7 +109,7 @@ public class EvaluateInput {
 				.withFractions(true).addDegree(app.getKernel().degreesMode())
 				.withUserEquation(true)
 				.withSymbolicMode(app.getKernel().getSymbolicMode())
-				.withCopyingPlainVariables(true);
+				.withCopyingPlainVariables(true).withSingleAllowedLabel(null);
 
 		// undo point stored in callback
 		app.getKernel().getAlgebraProcessor()

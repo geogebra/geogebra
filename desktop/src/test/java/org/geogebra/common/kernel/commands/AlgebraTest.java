@@ -31,7 +31,7 @@ public class AlgebraTest extends Assert {
 		return app2;
 	}
 
-	protected static void shouldFail(String string, String errorMsg, App app) {
+	public static void shouldFail(String string, String errorMsg, App app) {
 		shouldFail(string, errorMsg, null, app);
 	}
 
@@ -39,9 +39,12 @@ public class AlgebraTest extends Assert {
 			String altErrorMsg,
 			App app) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
-		app.getKernel().getAlgebraProcessor()
+		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+		EvalInfo info = algebraProcessor.getEvalInfo(false, false)
+				.withSingleAllowedLabel(null);
+		algebraProcessor
 				.processAlgebraCommandNoExceptionHandling(string, false,
-						errorStore, false, null);
+						errorStore, info, null);
 		if (!errorStore.getErrors().contains(errorMsg)
 				&& (altErrorMsg == null
 						|| !errorStore.getErrors().contains(altErrorMsg))) {

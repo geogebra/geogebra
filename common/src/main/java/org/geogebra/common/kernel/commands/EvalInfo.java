@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 
@@ -22,6 +23,7 @@ public class EvalInfo {
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
+	private Predicate<String> labelFilter;
 
 	/**
 	 * @param labelOut
@@ -137,6 +139,7 @@ public class EvalInfo {
 		ret.updateRandom = this.updateRandom;
 		ret.symbolicMode = this.symbolicMode;
 		ret.copyingPlainVariables = this.copyingPlainVariables;
+		ret.labelFilter = this.labelFilter;
 		return ret;
 	}
 
@@ -314,5 +317,29 @@ public class EvalInfo {
 	 */
 	public boolean isCopyingPlainVariables() {
 		return copyingPlainVariables;
+	}
+
+	/**
+	 * @param string
+	 *            simple label of old geo
+	 * @return copy of the eval info with given old label
+	 */
+	public EvalInfo withSingleAllowedLabel(final String string) {
+		EvalInfo copy = copy();
+		copy.labelFilter = new Predicate<String>() {
+
+			@Override
+			public boolean test(String t) {
+				return t == null || t.equals(string);
+			}
+		};
+		return copy;
+	}
+
+	/**
+	 * @return whether label can be redefined
+	 */
+	public boolean allowRedefineLabel(String label) {
+		return labelFilter == null || labelFilter.test(label);
 	}
 }

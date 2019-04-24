@@ -21,4 +21,9 @@ public class CASActivity extends BaseActivity {
 		return SvgPerspectiveResources.INSTANCE.menu_icon_cas();
 	}
 
+	@Override
+	public boolean useValidInput() {
+		return false;
+	}
+
 }

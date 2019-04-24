@@ -402,12 +402,13 @@ public class AlgebraProcessor {
 	 * @param callback
 	 *            receives changed geo
 	 */
-	public void changeGeoElement(GeoElementND geo, String newValue,
+	public void changeGeoElement(final GeoElementND geo, String newValue,
 								 boolean redefineIndependent, boolean storeUndoInfo,
 								 boolean withSliders, ErrorHandler handler,
 								 AsyncOperation<GeoElementND> callback) {
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
-				.withSymbolicMode(app.getKernel().getSymbolicMode());
+						.withSymbolicMode(app.getKernel().getSymbolicMode())
+						.withSingleAllowedLabel(geo.getLabelSimple());
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
@@ -716,36 +717,27 @@ public class AlgebraProcessor {
 			final String cmd, final boolean storeUndo,
 			final ErrorHandler handler, boolean autoCreateSlidersAndDegrees,
 			final AsyncOperation<GeoElementND[]> callback0) {
+		EvalInfo info = getEvalInfo(autoCreateSlidersAndDegrees,
+				autoCreateSlidersAndDegrees);
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
-				autoCreateSlidersAndDegrees, autoCreateSlidersAndDegrees, callback0);
+				info, callback0);
 	}
 
+
 	/**
-	 * @param cmd
-	 *            string to process
-	 * @param storeUndo
-	 *            true to make undo step
-	 * @param handler
-	 *            decides how to handle exceptions
 	 * @param autoCreateSliders
 	 *            whether to create sliders (using a popup)
 	 * @param addDegreesIfKernelInDegrees
 	 *            whether to add degrees
-	 * @param callback0
-	 *            callback after the geos are created
-	 * @return resulting geos
+	 * @return evaluation flags
 	 */
-	public GeoElementND[] processAlgebraCommandNoExceptionHandling(final String cmd,
-			final boolean storeUndo, final ErrorHandler handler, boolean autoCreateSliders,
-			boolean addDegreesIfKernelInDegrees, final AsyncOperation<GeoElementND[]> callback0) {
-
-		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
+	public EvalInfo getEvalInfo(boolean autoCreateSliders,
+			boolean addDegreesIfKernelInDegrees) {
+		return new EvalInfo(!cons.isSuppressLabelsActive(), true)
 				.withSliders(autoCreateSliders)
-				.addDegree(addDegreesIfKernelInDegrees && app.getKernel().getAngleUnitUsesDegrees())
+				.addDegree(addDegreesIfKernelInDegrees
+						&& app.getKernel().getAngleUnitUsesDegrees())
 				.withSymbolicMode(kernel.getSymbolicMode());
-
-		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
-				info, callback0);
 	}
 
 	/**
@@ -904,7 +896,8 @@ public class AlgebraProcessor {
 			if (sb.length() > 0) {
 				// eg from Spreadsheet we don't want a popup
 				if (!info.isAutocreateSliders()) {
-					GeoElementND[] rett = tryReplacingProducts(ve, handler);
+					GeoElementND[] rett = tryReplacingProducts(ve, handler,
+							info);
 					runCallback(callback0, rett, step);
 					return rett;
 				}
@@ -984,11 +977,16 @@ public class AlgebraProcessor {
 		return geos;
 	}
 
-	private GeoElement evalSymbolic(final ValidExpression ve) {
+	private GeoElement evalSymbolic(final ValidExpression ve, EvalInfo info) {
 		if (symbolicProcessor == null) {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
+		if (ve.getLabel() != null
+				&& kernel.lookupLabel(ve.getLabel()) != null
+				&& !info.allowRedefineLabel(ve.getLabel())) {
+			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
+		}
 		sym.setLabel(ve.getLabel());
 		sym.getDefinition().setLabel(ve.getLabel());
 		return sym;
@@ -1084,7 +1082,7 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
-			ErrorHandler eh) {
+			ErrorHandler eh, EvalInfo info) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
 
 			@Override
@@ -1106,7 +1104,7 @@ public class AlgebraProcessor {
 		});
 		GeoElementND[] ret = null;
 		try {
-			ret = this.processValidExpression(ve2);
+			ret = this.processValidExpression(ve2, info);
 		} catch (MyError t) {
 			ErrorHelper.handleError(t, null, loc, eh);
 		} catch (Exception e) {
@@ -2512,7 +2510,7 @@ public class AlgebraProcessor {
 			throw new MyError(loc, "InvalidInput");
 		}
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
-			return evalSymbolic(equ).asArray();
+			return evalSymbolic(equ, info).asArray();
 		}
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
@@ -2521,7 +2519,7 @@ public class AlgebraProcessor {
 				&& !equ.getRHS().evaluatesToNumber(true)) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
-				return processValidExpression(equ.getRHS());
+				return processValidExpression(equ.getRHS(), info);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2897,7 +2895,7 @@ public class AlgebraProcessor {
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
-			return new GeoElement[] { evalSymbolic(node) };
+			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
 		if (n.isLeaf()) {
