@@ -1063,7 +1063,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				ob, key,
 				SharedResources.INSTANCE.algebra_tree_open().getSafeUri(),
 				SharedResources.INSTANCE.algebra_tree_closed().getSafeUri());
-		group.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
+		group.getElement().getStyle().setFontSize(getFontSizeWeb(),
 				Unit.PX);
 		ti.setWidget(group);
 	}
@@ -2000,8 +2000,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * JLM.
 	 */
 	private void updateFonts() {
-		if (mqFontSize != app.getFontSizeWeb()) {
-			mqFontSize = app.getFontSizeWeb();
+		if (mqFontSize != getFontSizeWeb()) {
+			mqFontSize = getFontSizeWeb();
 			if (getInputTreeItem() != null) {
 				getInputTreeItem().updateFonts();
 			}
@@ -2023,7 +2023,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (!updateAndSetLabels(ti)) {
 				if (ti.getWidget() instanceof GroupHeader) {
 					ti.getWidget().getElement().getStyle()
-							.setFontSize(app.getFontSizeWeb(), Unit.PX);
+							.setFontSize(getFontSizeWeb(), Unit.PX);
 					for (int j = 0; j < ti.getChildCount(); j++) {
 						updateAndSetLabels(ti.getChild(j));
 					}
@@ -2031,6 +2031,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 		this.repaintView();
+	}
+
+	private int getFontSizeWeb() {
+		return app.getSettings().getFontSettings().getAppFontSize();
 	}
 
 	private static boolean updateAndSetLabels(TreeItem ti) {
