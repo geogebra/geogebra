@@ -209,7 +209,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 	 */
 	@Override
 	public FunctionVariable[] getFunctionVariables() {
-		return fVars.toArray(new FunctionVariable[fVars.size()]);
+		return fVars.toArray(new FunctionVariable[0]);
 	}
 
 	/**
@@ -246,5 +246,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 		}
 		sb.append(fVars.get(fVars.size() - 1).toString(tpl));
 		return sb.toString();
+	}
+
+	@Override
+	protected String getDefaultLabel(char[] chars2, boolean isInteger) {
+		GeoElement twinGeo = (GeoElement) getTwinGeo();
+		return twinGeo.getDefaultLabel(chars2, isInteger);
 	}
 }
