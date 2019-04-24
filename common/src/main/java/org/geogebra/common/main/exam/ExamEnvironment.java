@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandSelector;
 import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -41,6 +42,8 @@ public class ExamEnvironment {
 	private TimeFormatAdapter timeFormatter;
 	private CommandFilter nonExamCommandFilter;
 	private static OutputFilter outputFilter = new OutputFilter();
+	private static final CommandSelector noCASSelector = new NoCASCommandSelectorFactory()
+			.createCommandSelector();
 
 	/**
 	 * application
@@ -51,7 +54,7 @@ public class ExamEnvironment {
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
 
-	private final AllowCommands allow;
+	private CommandDispatcher commandDispatcher;
 
 	/**
 	 *
@@ -62,7 +65,8 @@ public class ExamEnvironment {
 		this.app = app;
 		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
-		allow = new AllowCommands(app.getKernel().getAlgebraProcessor().getCommandDispatcher());
+		commandDispatcher = app.getKernel().getAlgebraProcessor()
+				.getCommandDispatcher();
 	}
 
 	/**
@@ -422,7 +426,7 @@ public class ExamEnvironment {
 	 */
 	public void exit() {
 		storeEndTime();
-		allow.restoreCommandSelector();
+		restoreCommands();
 	}
 
 	/**
@@ -568,8 +572,6 @@ public class ExamEnvironment {
 	 * command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		CommandDispatcher commandDispatcher =
-				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 		nonExamCommandFilter = commandDispatcher.getCommandFilter();
 		commandDispatcher.setCommandFilter(new ExamCommandFilter());
 	}
@@ -587,13 +589,12 @@ public class ExamEnvironment {
 		if (app.getSettings().getCasSettings().isEnabled()) {
 			return;
 		}
-		CommandDispatcher commandDispatcher =
-				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
-		commandDispatcher.saveCommandSelector();
-		commandDispatcher.setCommandSelector(
-				new NoCASCommandSelectorFactory().createCommandSelector());
+		disableCAS();
 	}
 
+	private void restoreCommands() {
+		enableCAS();
+	}
 	/**
 	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher
 	 */
@@ -641,18 +642,11 @@ public class ExamEnvironment {
 	}
 	
 	public void enableCAS() {
-		allow.enableCAS();
+		commandDispatcher.removeCommandSelector(noCASSelector);
 	}
 	
 	public void disableCAS() {
-		allow.disableCAS();
+		commandDispatcher.addCommandSelector(noCASSelector);
 	}
 
-	public void saveCommandSelector() {
-		allow.saveCommandSelector();
-	}
-	
-	public void restoreCommandSelector() {
-		allow.restoreCommandSelector();
-	}	
 }

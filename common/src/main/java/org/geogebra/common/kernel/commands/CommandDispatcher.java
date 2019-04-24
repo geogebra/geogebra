@@ -12,7 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -69,14 +71,12 @@ public abstract class CommandDispatcher {
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
-	private CommandSelector commandSelector;
 	private CommandFilter commandFilter;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
-	private CommandSelector savedCommandSelector;
-
+	private List<CommandSelector> commandSelectors;
 	/** number of visible tables */
 	public static final int tableCount = 20;
 
@@ -146,7 +146,8 @@ public abstract class CommandDispatcher {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandSelector = app.getConfig().getCommandSelector();
+		commandSelectors = new ArrayList<>();
+		commandSelectors.add(app.getConfig().getCommandSelector());
 	}
 
 	/**
@@ -194,7 +195,11 @@ public abstract class CommandDispatcher {
 	 * @return whether selector accepts it
 	 */
 	protected boolean isAllowedBySelector(Commands command) {
-		return commandSelector == null || commandSelector.isCommandAllowed(command);
+		boolean allowed = true;
+		for (CommandSelector selector : commandSelectors) {
+			allowed = allowed && selector.isCommandAllowed(command);
+		}
+		return allowed;
 	}
 
 	private void checkAllowedByFilter(Command command,
@@ -963,13 +968,28 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * Sets the CommandSelector
-	 * @param commandSelector
-	 *          only the commands that are allowed by the commandSelector will be
-	 *          added to the command table
+	 * add a new CommandSelector
+	 * 
+	 * @param selector
+	 *            to add. only the commands that are allowed by all
+	 *            commandSelectors will be added to the command table
 	 */
-	public void setCommandSelector(CommandSelector commandSelector) {
-		this.commandSelector = commandSelector;
+	public void addCommandSelector(CommandSelector selector) {
+		if (!commandSelectors.contains(selector)) {
+			commandSelectors.add(selector);
+		}
+	}
+
+	/**
+	 * remove commandSelector
+	 * 
+	 * @param selector
+	 *            to remove.
+	 */
+	public void removeCommandSelector(CommandSelector selector) {
+		if (commandSelectors.contains(selector)) {
+			commandSelectors.remove(selector);
+		}
 	}
 
 	/**
@@ -987,23 +1007,6 @@ public abstract class CommandDispatcher {
 	 */
 	public CommandFilter getCommandFilter() {
 		return commandFilter;
-	}
-
-	/**
-	 * Save Command Selector
-	 */
-	public void saveCommandSelector() {
-		savedCommandSelector = commandSelector;
-	}
-
-	/**
-	 * Restore Command Selector
-	 */
-	public void restoreCommandSelector() {
-		if (savedCommandSelector == null) {
-			return;
-		}
-		setCommandSelector(savedCommandSelector);
 	}
 
 	/**

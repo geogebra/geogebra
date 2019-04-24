@@ -3526,7 +3526,7 @@ public class AlgebraProcessor {
 	 *          command table
 	 */
 	public void setCommandSelector(CommandSelector commandSelector) {
-		cmdDispatcher.setCommandSelector(commandSelector);
+		cmdDispatcher.addCommandSelector(commandSelector);
 	}
 
 	/**

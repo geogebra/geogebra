@@ -308,10 +308,4 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	public CommandDispatcherInterface getProverDispatcher() {
 		return commandDispatcher.getProverDispatcher();
 	}
-
-	@Override
-	public void restoreCommandSelector() {
-		super.restoreCommandSelector();
-		commandDispatcher = kernel.getAlgebraProcessor().getCmdDispatcher();
-	}
 }

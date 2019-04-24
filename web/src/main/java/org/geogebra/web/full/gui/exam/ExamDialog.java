@@ -32,6 +32,7 @@ public class ExamDialog implements ClickHandler {
 	/** Wrapped box */
 	protected DialogBoxKbW box;
 	private CheckBox cas;
+	private Button btnCancel;
 
 	/**
 	 * @param app
@@ -46,7 +47,6 @@ public class ExamDialog implements ClickHandler {
 	 */
 	public void show() {
 		ensureExamStyle();
-		app.getExam().saveCommandSelector();
 		Localization loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		final boolean hasGraphing = app.getArticleElement()
@@ -67,7 +67,7 @@ public class ExamDialog implements ClickHandler {
 		FlowPanel startPanel = new FlowPanel();
 
 		Button btnOk = new Button();
-		Button btnCancel = new Button();
+		btnCancel = new Button();
 		Button btnHelp = new Button();
 		// mainWidget.add(btnPanel);
 
@@ -186,12 +186,7 @@ public class ExamDialog implements ClickHandler {
 
 		// Cancel button
 		btnCancel.addStyleName("cancelBtn");
-		btnCancel.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				cancelExam();
-			}
-		});
+		btnCancel.addClickHandler(this);
 		// Help button
 		btnHelp.addStyleName("cancelBtn");
 		btnHelp.addClickHandler(new ClickHandler() {
@@ -316,9 +311,15 @@ public class ExamDialog implements ClickHandler {
 		Object source = event.getSource(); 
 		if (source == cas) {
 			onCasChecked();
+		} else if (source == btnCancel) {
+			onCancel();
 		}
 	}
 	
+	private void onCancel() {
+		cancelExam();
+	}
+
 	private void onCasChecked() {
 		if (cas.getValue()) {
 			app.getExam().enableCAS();
@@ -326,7 +327,5 @@ public class ExamDialog implements ClickHandler {
 			app.getExam().disableCAS();
 		}
 		app.getGuiManager().updateToolbarActions();
-
 	}
-
 }
