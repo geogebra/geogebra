@@ -33,6 +33,8 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	static public final int CORNER_VIEW_DIRECTION = 11;
 	/** index for screen left-to-right direction corner */
 	static public final int CORNER_SCREEN_RIGHT = 12;
+	/** index for x/y/z axes scales */
+	static public final int CORNER_AXES_SCALE = 13;
 
 	protected GeoPointND corner; // output
 	protected GeoNumberValue number;

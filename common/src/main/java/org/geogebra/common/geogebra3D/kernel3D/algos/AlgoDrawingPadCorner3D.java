@@ -119,6 +119,11 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 				corner.setCoords(vx.getX(), vx.getY(), vx.getZ(), 1.0);
 				break;
 
+			case CORNER_AXES_SCALE:
+				corner.setCoords(ev.getXscale(), ev.getYscale(),
+						ev.getZscale(), 1.0);
+				break;
+
 			default:
 				corner.setUndefined();
 				break;
