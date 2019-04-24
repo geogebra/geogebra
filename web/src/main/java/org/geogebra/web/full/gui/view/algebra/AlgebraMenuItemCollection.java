@@ -1,8 +1,10 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AddLabelAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.RemoveLabelAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.SettingsAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.SpecialPointsAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.TableOfValuesAction;
@@ -21,10 +23,24 @@ public class AlgebraMenuItemCollection extends MenuActionCollection<GeoElement> 
 	 */
 	public AlgebraMenuItemCollection(AlgebraViewW algebraView) {
 		AppW app = algebraView.getApp();
+		if (!app.getConfig().hasAutomaticLabels()) {
+			addLabelingActions(this);
+		}
 		if (app.getConfig().hasTableView(app)) {
 			addActions(new TableOfValuesAction());
 		}
 		addActions(new SpecialPointsAction());
 		addActions(new DuplicateAction(algebraView), new DeleteAction(), new SettingsAction());
+	}
+
+	/**
+	 * Add "Add label" / "Remove label" to a menu
+	 * 
+	 * @param collection
+	 *            context menu item collection
+	 */
+	public static void addLabelingActions(
+			MenuActionCollection<GeoElement> collection) {
+		collection.addActions(new RemoveLabelAction(), new AddLabelAction());
 	}
 }
