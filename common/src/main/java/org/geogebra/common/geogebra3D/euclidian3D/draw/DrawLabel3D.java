@@ -12,10 +12,12 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
@@ -88,6 +90,8 @@ public class DrawLabel3D {
 	private int pickingIndex = -1;
 	protected int backgroundIndex = -1;
 	protected boolean hasIndex = false;
+
+    private CoordMatrix4x4 positionMatrix;
 
 	/**
 	 * common constructor
@@ -488,6 +492,18 @@ public class DrawLabel3D {
 			return;
 		}
 
+		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
+		    if (positionMatrix == null) {
+                positionMatrix = new CoordMatrix4x4();
+            }
+            positionMatrix.set(renderer.getRendererImpl().getUndoRotationMatrixAR());
+            Coords origin = positionMatrix.getOrigin();
+            origin.setX(drawX);
+            origin.setY(drawY);
+            origin.setZ(drawZ);
+            renderer.getRendererImpl().setMatrixView(positionMatrix);
+        }
+
 		renderer.getRendererImpl().setLabelOrigin(labelOrigin);
 
 		if (forPicking) {
@@ -666,8 +682,13 @@ public class DrawLabel3D {
 		}
 
 		int old = textIndex;
-		textIndex = drawRectangle(renderer, drawX, drawY, drawZ,
-				width2 / getFontScale(), height2 / getFontScale(), textIndex);
+        if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
+            textIndex = drawRectangle(renderer, 0, 0, 0,
+                    width2 / getFontScale(), height2 / getFontScale(), textIndex);
+        } else {
+            textIndex = drawRectangle(renderer, drawX, drawY, drawZ, width2 / getFontScale(),
+                     height2 / getFontScale(), textIndex);
+        }
 		renderer.getGeometryManager().remove(old);
 
 		old = pickingIndex;

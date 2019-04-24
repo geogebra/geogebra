@@ -3893,6 +3893,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES:
 			return true;
 
+		/** G3D-28 */
+        case G3D_AR_LABELS_POSITION:
+            return prerelease;
+
         // **********************************************************************
         // G3D END
         //

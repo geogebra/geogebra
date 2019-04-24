@@ -55,6 +55,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected float[] tmpNormal3 = new float[3];
 
 	protected CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
+    protected CoordMatrix4x4 undoRotationMatrixAR = new CoordMatrix4x4();
 
 	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
@@ -491,15 +492,23 @@ public abstract class RendererImplShaders extends RendererImpl {
     public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
                                              CoordMatrix4x4 cameraPerspective,
                                              CoordMatrix4x4 modelMatrix, float scaleFactor) {
-
-		// modelMatrix * scaleMatrix
+		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
 		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
-        tmpMatrix3.setMul(modelMatrix, tmpMatrix1);
-		// cameraView * (modelMatrix * scaleMatrix)
-		tmpMatrix2.setMul(cameraView, tmpMatrix3);
+        // cameraView * modelMatrix and undo rotation matrix
+        tmpMatrix3.setMul(cameraView, modelMatrix);
+        tmpMatrix2.set(tmpMatrix3);
+        tmpMatrix2.setOrigin(Coords.O);
+        undoRotationMatrixAR.set(tmpMatrix2.inverse());
+		// (cameraView * modelMatrix) * scaleMatrix
+		tmpMatrix2.setMul(tmpMatrix3, tmpMatrix1);
 		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
         projectionMatrix.setMul(cameraPerspective, tmpMatrix2);
+    }
+
+    @Override
+    public CoordMatrix4x4 getUndoRotationMatrixAR() {
+	    return undoRotationMatrixAR;
     }
 
 	@Override

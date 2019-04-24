@@ -108,5 +108,8 @@ public enum Feature {
 	MOW_PEN_IS_LOCUS,
 	
 	/** APPS-284 */
-	COMMAND_FILTERING
+	COMMAND_FILTERING,
+
+    /** G3D-28 */
+    G3D_AR_LABELS_POSITION
 }

@@ -473,4 +473,7 @@ public abstract class RendererImpl {
 
 	abstract public void attribPointers();
 
+    public CoordMatrix4x4 getUndoRotationMatrixAR() {
+        return CoordMatrix4x4.IDENTITY;
+    }
 }
