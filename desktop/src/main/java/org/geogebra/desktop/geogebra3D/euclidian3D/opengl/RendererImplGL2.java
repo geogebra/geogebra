@@ -102,9 +102,9 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void setMatrixView() {
+	public void setMatrixView(CoordMatrix4x4 matrix) {
 		jogl.getGL2().glPushMatrix();
-		renderer.getToScreenMatrix().get(tmpDouble16);
+		matrix.get(tmpDouble16);
 		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 

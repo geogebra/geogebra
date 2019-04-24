@@ -481,8 +481,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 	abstract protected void glDeleteProgram(Object program);
 
 	@Override
-	public void setMatrixView() {
-		tmpMatrix1.setMul(projectionMatrix, renderer.getToScreenMatrix());
+	public void setMatrixView(CoordMatrix4x4 matrix) {
+		tmpMatrix1.setMul(projectionMatrix, matrix);
 		tmpMatrix1.getForGL(tmpFloat16);
 		glCopyToMatrixLocation(tmpFloat16);
 	}

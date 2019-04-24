@@ -443,7 +443,11 @@ public abstract class RendererImpl {
 
 	public abstract boolean useShaders();
 
-	public abstract void setMatrixView();
+	final public void setMatrixView() {
+		setMatrixView(renderer.getToScreenMatrix());
+	}
+
+	public abstract void setMatrixView(CoordMatrix4x4 matrix);
 
 	public abstract void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
 			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
