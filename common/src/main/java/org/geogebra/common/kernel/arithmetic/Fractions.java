@@ -113,6 +113,7 @@ public class Fractions {
 		} else {
 			numR = expr.getRight();
 		}
+		Kernel kernel;
 		switch (expr.getOperation()) {
 		case MULTIPLY:
 			parts[0] = numL.wrap().multiply(numR);
@@ -123,8 +124,22 @@ public class Fractions {
 			parts[1] = multiplyCheck(denL, numR);
 			return;
 		case POWER:
-			parts[0] = powerCheck(numL, expr.getRight());
-			parts[1] = powerCheck(denL, expr.getRight());
+
+			ExpressionValue r = expr.getRight();
+			kernel = expr.getKernel();
+
+			if (r.evaluateDouble() < 0) {
+				parts[1] = powerCheck(numL,
+						new ExpressionNode(kernel, expr.getRight(),
+								Operation.MULTIPLY, new MyDouble(kernel, -1)));
+				parts[0] = powerCheck(denL,
+						new ExpressionNode(kernel, expr.getRight(),
+								Operation.MULTIPLY, new MyDouble(kernel, -1)));
+
+			} else {
+				parts[0] = powerCheck(numL, expr.getRight());
+				parts[1] = powerCheck(denL, expr.getRight());
+			}
 			return;
 		case PLUS:
 			if (expandPlus) {
