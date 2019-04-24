@@ -1825,7 +1825,7 @@ public abstract class Renderer {
 	 * set background color
 	 */
 	public void setBackgroundColor() {
-	    ARManagerInterface arManager = getARManager();
+		ARManagerInterface<?> arManager = getARManager();
 	    if (arManager != null) {
             arManager.setBackgroundColor();
         }
@@ -1838,7 +1838,7 @@ public abstract class Renderer {
 	 *            style
 	 */
 	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
-        ARManagerInterface arManager = getARManager();
+		ARManagerInterface<?> arManager = getARManager();
         if (arManager != null) {
             arManager.setBackgroundStyle(backgroundStyle);
         }
@@ -1848,7 +1848,7 @@ public abstract class Renderer {
 	 * @return background for AR, opaque otherwise
 	 */
 	public BackgroundStyle getBackgroundStyle() {
-        ARManagerInterface arManager = getARManager();
+		ARManagerInterface<?> arManager = getARManager();
         if (arManager != null) {
             return arManager.getBackgroundStyle();
         }
@@ -2274,7 +2274,7 @@ public abstract class Renderer {
      *
      * @return AR manager (can be null)
      */
-	protected ARManagerInterface getARManager() {
+	protected ARManagerInterface<?> getARManager() {
 	    return null;
     }
 
