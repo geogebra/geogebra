@@ -24,7 +24,9 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.*;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -32,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
 
@@ -881,9 +884,20 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					}
 				}
 				sb.append(']');
-				GeoElementND[] ggbResult = kern.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptions(sb.toString(),
-								false);
+
+				String command = sb.toString();
+				AlgebraProcessor processor = kern.getAlgebraProcessor();
+				EvalInfo info = new EvalInfo(false, true)
+						.withSliders(false)
+						.addDegree(false)
+						.withSymbolicMode(SymbolicMode.NONE);
+				GeoElementND[] ggbResult = null;
+				try {
+					ggbResult = processor.processAlgebraCommandNoExceptionHandling(command, false,
+							ErrorHelper.silent(), info, null);
+				} catch (Exception e) {
+					// ignore
+				}
 				kern.setSilentMode(silent);
 				if (ggbResult != null && ggbResult.length > 0
 						&& ggbResult[0] != null) {
