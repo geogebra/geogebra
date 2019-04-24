@@ -71,6 +71,14 @@ public class ArithmeticTest extends AlgebraTest {
 		t("log_{2}2/(2)", "0.5");
 	}
 
+	@Test 
+	public void functionWithFractions() {
+		t("frac(x)=(3/2)^x", "(3 / 2)^(x)");
+		// Algebra View gives 9/4
+		t("frac(2)", "2.25");
+		t("frac(2)+\"\"", "2.25");
+	}
+
 	@Test
 	public void functionArithmetic() {
 		t("f(x)=x^2", "x^(2)");
