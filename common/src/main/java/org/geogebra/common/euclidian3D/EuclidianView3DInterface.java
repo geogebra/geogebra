@@ -296,4 +296,9 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public CoordMatrix4x4 getToSceneMatrix();
 
+	/**
+	 * @return screen : real world z-coord ratio
+	 */
+	double getZscale();
+
 }
