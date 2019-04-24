@@ -4,9 +4,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigMixedReality;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.full.gui.view.algebra.AlgebraMenuItemCollectionMR;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionMR;
 
 /**
  * Activity for restricted AV app in mixed reality

@@ -1,8 +1,8 @@
-package org.geogebra.web.full.gui.view.algebra;
+package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.DuplicateAction;
+import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 
 /**
  * Algebra context menu actions for Windows MR

@@ -11,11 +11,11 @@ import org.geogebra.web.full.gui.menubar.BaseMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVErrorHandler;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
-import org.geogebra.web.full.gui.view.algebra.AlgebraMenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MarblePanel;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
