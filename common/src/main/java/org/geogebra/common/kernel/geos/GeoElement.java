@@ -4411,23 +4411,27 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getLabelDescription() {
+		String labelDescription;
 		switch (labelMode) {
 		case LABEL_CAPTION_VALUE:
-			return getCaptionAndValue();
+            labelDescription = getCaptionAndValue();
+			break;
 		case LABEL_NAME_VALUE:
-			return getAlgebraDescriptionDefault();
-
+            labelDescription = getAlgebraDescriptionDefault();
+			break;
 		case LABEL_VALUE:
-			return toDefinedValueString(StringTemplate.defaultTemplate);
-
+            labelDescription = toDefinedValueString(StringTemplate.defaultTemplate);
+			break;
 		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
-			return getCaption(StringTemplate.defaultTemplate);
-
+            labelDescription = getCaption(StringTemplate.defaultTemplate);
+			break;
 		default: // case LABEL_NAME:
 			// return label;
 			// Mathieu Blossier - 2009-06-30
-			return getLabel(StringTemplate.defaultTemplate);
+            labelDescription = getLabel(StringTemplate.defaultTemplate);
 		}
+
+		return labelDescription.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : labelDescription;
 	}
 
 	/**
