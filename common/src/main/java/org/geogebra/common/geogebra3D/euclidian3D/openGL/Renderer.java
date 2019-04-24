@@ -1821,6 +1821,9 @@ public abstract class Renderer {
 		arScaleAtStart = (getARManager().getDistance() / getWidth()) * reductionFactor;
 	}
 
+	/**
+	 * set background color
+	 */
 	public void setBackgroundColor() {
 	    ARManagerInterface arManager = getARManager();
 	    if (arManager != null) {
@@ -1828,6 +1831,12 @@ public abstract class Renderer {
         }
     }
 
+	/**
+	 * set background style
+	 * 
+	 * @param backgroundStyle
+	 *            style
+	 */
 	public void setBackgroundStyle(BackgroundStyle backgroundStyle) {
         ARManagerInterface arManager = getARManager();
         if (arManager != null) {
