@@ -141,7 +141,7 @@ find $FOLDER -name '*.in' | while read IN; do
         regression=0;
         }
        else if (index(tolower(inres),"error")==0 || index(tolower(outres),"error")==0) {
-        cascommand = "caseval(\\\"init geogebra\\\");\n(ggbsort(" inresq ")==ggbsort(" outresq ")) or (sort(" inresq ")==sort(" outresq ")) or (simplify(" inresq ")==simplify(" outresq ")) or (sort(op(" inresq ")==sort(op(" outresq "))))";
+        cascommand = "caseval(\\\"init geogebra\\\");\n(ggbsort(" inresq ")==ggbsort(" outresq ")) or (sort(" inresq ")==sort(" outresq ")) or (simplify(" inresq ")==simplify(" outresq "))";
         giaccommand = ENVIRON["MINIGIAC"] " -m";
         "mktemp" | getline giacin;
         close("mktemp");
@@ -177,7 +177,7 @@ find $FOLDER -name '*.in' | while read IN; do
      GOOD=`cat $SAVEDIR/.good`
      GOOD=$((GOOD+1))
      echo $GOOD > $SAVEDIR/.good
-     rm $SAVEDIR/$OUT $SAVEDIR/$OUT.diff # cleaning up
+     rm -f $SAVEDIR/$OUT $SAVEDIR/$OUT.diff $SAVEDIR/$OUT-2.diff # cleaning up
      fi # test ok
     fi # regression test run
    fi # test should not be ignored
