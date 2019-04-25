@@ -587,7 +587,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public String getDefaultLabel() {
-		return getDefaultLabel(Labels, false);
+		return getDefaultLabel(Labels);
 	}
 
 	@Override

@@ -309,4 +309,16 @@ public class LabelManager {
 	public char[] getAngleLabels() {
 		return angleLabels;
 	}
+
+	/**
+	 * @param slider
+	 *            slider
+	 * @param isInteger
+	 *            whether to force integer labels
+	 * @return label for the slider
+	 */
+	public static String getNextSliderLabel(GeoElement slider, boolean isInteger) {
+		return slider
+				.getDefaultLabel(isInteger ? LabelType.integerLabels : null);
+	}
 }

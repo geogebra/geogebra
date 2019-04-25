@@ -3004,7 +3004,7 @@ public abstract class GeoElement extends ConstructionElement
 	public String getFreeLabel(final String suggestedLabel) {
 		if (suggestedLabel != null) {
 			if ("x".equals(suggestedLabel) || "y".equals(suggestedLabel)) {
-				return getDefaultLabel(false);
+				return getDefaultLabel();
 			}
 
 			if (cons.isFreeLabel(suggestedLabel)) {
@@ -3015,21 +3015,12 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// standard case: get default label
-		return getDefaultLabel(false);
-	}
-
-	/**
-	 * @param isInteger
-	 *            flag for integers
-	 * @return default label for this geo
-	 */
-	public String getDefaultLabel(final boolean isInteger) {
-		return getDefaultLabel(null, isInteger);
+		return getDefaultLabel();
 	}
 
 	@Override
 	public String getDefaultLabel() {
-		return getDefaultLabel(null, false);
+		return getDefaultLabel(null);
 	}
 
 	/**
@@ -3098,7 +3089,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            true for integer sliders
 	 * @return default label
 	 */
-	protected String getDefaultLabel(char[] chars2, final boolean isInteger) {
+	protected String getDefaultLabel(char[] chars2) {
 		char[] chars = chars2;
 		if (chars == null) {
 			if (isGeoPoint() && !(this instanceof GeoTurtle)) {
@@ -3189,8 +3180,6 @@ public abstract class GeoElement extends ConstructionElement
 
 				String prefix = list.isMatrix() ? "m" : "l";
 				return defaultNumberedLabel(prefix, false);
-			} else if (isInteger && isGeoNumeric()) {
-				chars = LabelType.integerLabels;
 			} else {
 				chars = LabelType.lowerCaseLabels;
 			}
@@ -7571,7 +7560,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected String getPointVectorDefault(String var) {
 		return getDefaultLabel(!StringUtil.isLowerCase(var.charAt(0))
-				? LabelType.pointLabels : null, false);
+				? LabelType.pointLabels : null);
 	}
 
 	// @Override
