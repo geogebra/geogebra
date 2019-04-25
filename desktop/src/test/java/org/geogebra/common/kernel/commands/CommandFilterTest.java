@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.main.App;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class CommandFilterTest extends AlgebraTest {
 
 	@Test
 	public void noCASfilterTest() {
-		CommandNameFilter cf = CommandNameFliterFactory
+		CommandNameFilter cf = CommandNameFilterFactory
 				.createNoCasCommandNameFilter();
 		app.getKernel().getAlgebraProcessor().addCommandNameFilter(cf);
 		for (Commands cmd0 : Commands.values()) {

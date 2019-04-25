@@ -66,7 +66,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -788,7 +788,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// =====================================
 		// init sub command dictionaries
-		CommandNameFilter cf = CommandNameFliterFactory
+		CommandNameFilter cf = CommandNameFilterFactory
 				.createNoCasCommandNameFilter();
 
 		if (subCommandDict == null) {

@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.commands.Commands;
  * @author laszlo
  *
  */
-public final class CommandNameFliterFactory {
+public final class CommandNameFilterFactory {
 	/**
 	 *
 	 * @return Returns the CommandNameFilter that allows only the Scientific

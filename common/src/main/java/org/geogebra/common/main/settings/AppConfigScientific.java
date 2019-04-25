@@ -2,7 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 
 /**
  * Config for Scientific Calculator app
@@ -71,6 +71,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public CommandNameFilter getCommandNameFilter() {
-		return CommandNameFliterFactory.createSciCalcCommandNameFilter();
+		return CommandNameFilterFactory.createSciCalcCommandNameFilter();
 	}
 }
