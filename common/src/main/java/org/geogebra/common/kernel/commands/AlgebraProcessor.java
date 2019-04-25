@@ -71,8 +71,8 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -167,7 +167,7 @@ public class AlgebraProcessor {
 
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
-	private CommandSelector noCASselector;
+	private CommandNameFilter noCASfilter;
 
 	private SymbolicProcessor symbolicProcessor;
 
@@ -3520,13 +3520,14 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Sets the CommandSelector to the CommandDispatcher
-	 * @param commandSelector
-	 *          only the commands that are allowed by the commandSelector will be added to the
-	 *          command table
+	 * Sets the CommandNameFilter to the CommandDispatcher
+	 * 
+	 * @param CommandNameFilter
+	 *            only the commands that are allowed by the CommandNameFilter
+	 *            will be added to the command table
 	 */
-	public void setCommandSelector(CommandSelector commandSelector) {
-		cmdDispatcher.addCommandSelector(commandSelector);
+	public void addCommandNameFilter(CommandNameFilter CommandNameFilter) {
+		cmdDispatcher.addCommandNameFilter(CommandNameFilter);
 	}
 
 	/**
@@ -3550,7 +3551,7 @@ public class AlgebraProcessor {
 		if (cmd == null) {
 			return loc.getCommandSyntax(cmdInt, dim);
 		}
-		if (!this.cmdDispatcher.isAllowedBySelector(cmd)) {
+		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
 			return null;
 		}
 		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
@@ -3558,10 +3559,10 @@ public class AlgebraProcessor {
 		if (cmd == Commands.Integral) {
 			return loc.getCommandSyntaxCAS("NIntegral");
 		}
-		if (noCASselector == null) {
-			noCASselector = CommandSelectorFactory.createNoCasCommandSelector();
+		if (noCASfilter == null) {
+			noCASfilter = CommandNameFliterFactory.createNoCasCommandNameFilter();
 		}
-		if (!noCASselector.isCommandAllowed(cmd)) {
+		if (!noCASfilter.isCommandAllowed(cmd)) {
 			return null;
 		}
 

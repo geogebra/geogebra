@@ -6,10 +6,10 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
-import org.geogebra.common.kernel.commands.filter.CommandFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -40,10 +40,10 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private TimeFormatAdapter timeFormatter;
-	private CommandFilter nonExamCommandFilter;
+	private CommandArgumentFilter nonExamCommandFilter;
 	private static OutputFilter outputFilter = new OutputFilter();
-	private static final CommandSelector noCASSelector = CommandSelectorFactory
-			.createNoCasCommandSelector();
+	private static final CommandNameFilter noCASFilter = CommandNameFliterFactory
+			.createNoCasCommandNameFilter();
 
 	/**
 	 * application
@@ -572,8 +572,8 @@ public class ExamEnvironment {
 	 * command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		nonExamCommandFilter = commandDispatcher.getCommandFilter();
-		commandDispatcher.setCommandFilter(new ExamCommandFilter());
+		nonExamCommandFilter = commandDispatcher.getCommandArgumentFilter();
+		commandDispatcher.setCommandArgumentFilter(new ExamCommandFilter());
 	}
 
 	/**
@@ -603,7 +603,7 @@ public class ExamEnvironment {
 				.getKernel()
 				.getAlgebraProcessor()
 				.getCommandDispatcher()
-				.setCommandFilter(nonExamCommandFilter);
+				.setCommandArgumentFilter(nonExamCommandFilter);
 	}
 
 	/**
@@ -642,11 +642,11 @@ public class ExamEnvironment {
 	}
 	
 	public void enableCAS() {
-		commandDispatcher.removeCommandSelector(noCASSelector);
+		commandDispatcher.removeCommandNameFilter(noCASFilter);
 	}
 	
 	public void disableCAS() {
-		commandDispatcher.addCommandSelector(noCASSelector);
+		commandDispatcher.addCommandNameFilter(noCASFilter);
 	}
 
 }

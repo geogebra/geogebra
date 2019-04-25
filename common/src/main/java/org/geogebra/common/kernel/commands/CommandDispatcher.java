@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.UsesCAS;
-import org.geogebra.common.kernel.commands.filter.CommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -71,12 +71,12 @@ public abstract class CommandDispatcher {
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
-	private CommandFilter commandFilter;
+	private CommandArgumentFilter commandArgumentFilter;
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
-	private List<CommandSelector> commandSelectors;
+	private List<CommandNameFilter> commandNameFilters;
 	/** number of visible tables */
 	public static final int tableCount = 20;
 
@@ -146,8 +146,8 @@ public abstract class CommandDispatcher {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandSelectors = new ArrayList<>();
-		addCommandSelector(app.getConfig().getCommandSelector());
+		commandNameFilters = new ArrayList<>();
+		addCommandNameFilter(app.getConfig().getCommandNameFilter());
 	}
 
 	/**
@@ -194,18 +194,18 @@ public abstract class CommandDispatcher {
 	 *            command
 	 * @return whether selector accepts it
 	 */
-	protected boolean isAllowedBySelector(Commands command) {
+	protected boolean isAllowedByNameFilter(Commands command) {
 		boolean allowed = true;
-		for (CommandSelector selector : commandSelectors) {
-			allowed = allowed && selector.isCommandAllowed(command);
+		for (CommandNameFilter filter : commandNameFilters) {
+			allowed = allowed && filter.isCommandAllowed(command);
 		}
 		return allowed;
 	}
 
-	private void checkAllowedByFilter(Command command,
+	private void checkAllowedByArgumentFilter(Command command,
 			CommandProcessor commandProcessor) throws MyError {
-		if (commandFilter != null) {
-			commandFilter.checkAllowed(command, commandProcessor);
+		if (commandArgumentFilter != null) {
+			commandArgumentFilter.checkAllowed(command, commandProcessor);
 		}
 	}
 
@@ -217,7 +217,7 @@ public abstract class CommandDispatcher {
 
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
 			EvalInfo info) {
-		checkAllowedByFilter(c, cmdProc);
+		checkAllowedByArgumentFilter(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -325,7 +325,7 @@ public abstract class CommandDispatcher {
 
 			Commands command = Commands.valueOf(cmdName);
 
-			if (!isAllowedBySelector(command)) {
+			if (!isAllowedByNameFilter(command)) {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
@@ -968,52 +968,53 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * add a new CommandSelector
+	 * add a new CommandNameFilter
 	 * 
-	 * @param selector
+	 * @param filter
 	 *            to add. only the commands that are allowed by all
-	 *            commandSelectors will be added to the command table
+	 *            commandNameFilters will be added to the command table
 	 */
-	public void addCommandSelector(CommandSelector selector) {
-		if (selector != null && !commandSelectors.contains(selector)) {
-			commandSelectors.add(selector);
+	public void addCommandNameFilter(CommandNameFilter filter) {
+		if (filter != null && !commandNameFilters.contains(filter)) {
+			commandNameFilters.add(filter);
 		}
 	}
 
 	/**
-	 * remove commandSelector
+	 * remove commandNameFilter
 	 * 
-	 * @param selector
+	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandSelector(CommandSelector selector) {
-		if (commandSelectors.contains(selector)) {
-			commandSelectors.remove(selector);
+	public void removeCommandNameFilter(CommandNameFilter filter) {
+		if (commandNameFilters.contains(filter)) {
+			commandNameFilters.remove(filter);
 		}
 	}
 
 	/**
-	 * Sets the CommandFilter
-	 * @param commandFilter
-	 *          only the commands that are allowed by the commandFilter will be
-	 *          allowed
+	 * Sets the CommandArgumentFilter
+	 * 
+	 * @param filter
+	 *            only the commands that are allowed by the
+	 *            commandArgumentFilter will be allowed
 	 */
-	public void setCommandFilter(CommandFilter commandFilter) {
-		this.commandFilter = commandFilter;
+	public void setCommandArgumentFilter(CommandArgumentFilter filter) {
+		this.commandArgumentFilter = filter;
 	}
 
 	/**
 	 * @return command filter
 	 */
-	public CommandFilter getCommandFilter() {
-		return commandFilter;
+	public CommandArgumentFilter getCommandArgumentFilter() {
+		return commandArgumentFilter;
 	}
 
 	/**
 	 * @return whether CAS commands are allowed
 	 */
 	public boolean isCASAllowed() {
-		return isAllowedBySelector(Commands.Solve);
+		return isAllowedByNameFilter(Commands.Solve);
 	}
 
 }

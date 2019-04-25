@@ -7,9 +7,9 @@ import java.util.Set;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * CommandSelector interface implemented using HashSet&lt;Commands&gt;
+ * CommandNameFilter interface implemented using HashSet&lt;Commands&gt;
  */
-class CommandSelectorSet implements CommandSelector {
+class CommandNameFilterSet implements CommandNameFilter {
 
     private Set<Commands> allowedCommands;
 	private boolean inverse;
@@ -20,7 +20,7 @@ class CommandSelectorSet implements CommandSelector {
 	 * @param inverse
 	 *            whether to invert selection
 	 */
-	CommandSelectorSet(boolean inverse) {
+	CommandNameFilterSet(boolean inverse) {
         allowedCommands = new HashSet<>();
 		this.inverse = inverse;
     }

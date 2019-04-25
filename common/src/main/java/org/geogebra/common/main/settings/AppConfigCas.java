@@ -1,7 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 
 /**
  * Config for CAS Calculator app
@@ -44,7 +44,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandSelector getCommandSelector() {
+	public CommandNameFilter getCommandNameFilter() {
 		return null;
 	}
 

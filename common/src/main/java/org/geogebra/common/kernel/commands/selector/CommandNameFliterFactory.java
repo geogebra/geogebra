@@ -3,32 +3,33 @@ package org.geogebra.common.kernel.commands.selector;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * Creates Command Selectors for various apps.
+ * Creates CommandNameFilters for various apps.
  * 
  * @author laszlo
  *
  */
-public final class CommandSelectorFactory {
+public final class CommandNameFliterFactory {
 	/**
 	 *
-	 * @return Returns the CommandSelector that allows only the Scientific
+	 * @return Returns the CommandNameFilter that allows only the Scientific
 	 *         Calculator commands
 	 */
-	public static CommandSelector createSciCalcCommandSelector() {
-		CommandSelectorSet commandSelector = new CommandSelectorSet(false);
-		commandSelector.addCommands(Commands.Mean, Commands.mean, Commands.SD,
+	public static CommandNameFilter createSciCalcCommandNameFilter() {
+		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(
+				false);
+		commandNameFilter.addCommands(Commands.Mean, Commands.mean, Commands.SD,
 				Commands.stdev, Commands.SampleSD, Commands.stdevp,
 				Commands.nPr, Commands.nCr, Commands.Binomial, Commands.MAD,
 				Commands.mad);
-		return commandSelector;
+		return commandNameFilter;
 	}
 
 	/**
-	 * @return selector for apps with no CAS
+	 * @return name filter for apps with no CAS
 	 */
-	public static CommandSelector createNoCasCommandSelector() {
-		CommandSelectorSet commandSelector = new CommandSelectorSet(true);
-		commandSelector.addCommands(Commands.LocusEquation, Commands.Envelope,
+	public static CommandNameFilter createNoCasCommandNameFilter() {
+		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
+		commandNameFilter.addCommands(Commands.LocusEquation, Commands.Envelope,
 				Commands.Expand, Commands.Factor, Commands.Factors,
 				Commands.IFactor, Commands.CFactor, Commands.Simplify,
 				Commands.SurdText, Commands.ParametricDerivative,
@@ -39,7 +40,7 @@ public final class CommandSelectorFactory {
 				Commands.SolveODE, Commands.ImplicitDerivative,
 				Commands.NextPrime, Commands.PreviousPrime, Commands.Solve,
 				Commands.Solutions, Commands.NSolutions, Commands.NSolve);
-		return commandSelector;
+		return commandNameFilter;
 	}
 
 }

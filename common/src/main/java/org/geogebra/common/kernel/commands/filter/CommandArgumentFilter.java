@@ -7,7 +7,7 @@ import org.geogebra.common.main.MyError;
 /**
  * Filters out commands that are not allowed
  */
-public interface CommandFilter {
+public interface CommandArgumentFilter {
 
     /**
 	 * @param command

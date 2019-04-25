@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
 import org.geogebra.common.main.App;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,9 +17,9 @@ public class CommandFilterTest extends AlgebraTest {
 
 	@Test
 	public void noCASfilterTest() {
-		CommandSelector cs = CommandSelectorFactory
-				.createNoCasCommandSelector();
-		app.getKernel().getAlgebraProcessor().setCommandSelector(cs);
+		CommandNameFilter cf = CommandNameFliterFactory
+				.createNoCasCommandNameFilter();
+		app.getKernel().getAlgebraProcessor().addCommandNameFilter(cf);
 		for (Commands cmd0 : Commands.values()) {
 			Commands cmd = cmd0;
 			if (cmd0 == Commands.Derivative) {
@@ -32,7 +32,7 @@ public class CommandFilterTest extends AlgebraTest {
 					|| internalCAScommand(cmd0)) {
 				continue;
 			}
-			if (cs.isCommandAllowed(cmd)) {
+			if (cf.isCommandAllowed(cmd)) {
 				if (!AlgebraTest.mayHaveZeroArgs(cmd.name())) {
 
 					AlgebraTest.shouldFail(cmd + "()", "number of arg", "only",

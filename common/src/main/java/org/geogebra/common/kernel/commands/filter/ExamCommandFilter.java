@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Filters out the commands that are not enabled in the exam mode
  */
-public class ExamCommandFilter implements CommandFilter {
+public class ExamCommandFilter implements CommandArgumentFilter {
 
     @Override
 	public void checkAllowed(Command command,

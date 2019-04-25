@@ -65,8 +65,8 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFliterFactory;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -788,8 +788,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// =====================================
 		// init sub command dictionaries
-		CommandSelector cs = CommandSelectorFactory
-				.createNoCasCommandSelector();
+		CommandNameFilter cf = CommandNameFliterFactory
+				.createNoCasCommandNameFilter();
 
 		if (subCommandDict == null) {
 			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
@@ -804,7 +804,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
 		for (Commands comm : Commands.values()) {
-			if (noCAS && !cs.isCommandAllowed(comm)) {
+			if (noCAS && !cf.isCommandAllowed(comm)) {
 				continue;
 			}
 
