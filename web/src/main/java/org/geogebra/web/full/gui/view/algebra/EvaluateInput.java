@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -104,12 +105,7 @@ public class EvaluateInput {
 			err = item.getErrorHandler(valid, keepFocus, withSliders);
 			err.resetError();
 		}
-		EvalInfo info = new EvalInfo(true, true)
-				.withSliders(withSliders)
-				.withFractions(true).addDegree(app.getKernel().degreesMode())
-				.withUserEquation(true)
-				.withSymbolicMode(app.getKernel().getSymbolicMode())
-				.withCopyingPlainVariables(true).withSingleAllowedLabel(null);
+		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, withSliders);
 
 		// undo point stored in callback
 		app.getKernel().getAlgebraProcessor()

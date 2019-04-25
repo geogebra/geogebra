@@ -41,7 +41,7 @@ public class AlgebraTest extends Assert {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
 		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
 		EvalInfo info = algebraProcessor.getEvalInfo(false, false)
-				.withSingleAllowedLabel(null);
+				.withNoRedefinitionAllowed();
 		algebraProcessor
 				.processAlgebraCommandNoExceptionHandling(string, false,
 						errorStore, info, null);

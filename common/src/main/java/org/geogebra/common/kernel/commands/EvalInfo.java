@@ -324,7 +324,7 @@ public class EvalInfo {
 	 *            simple label of old geo
 	 * @return copy of the eval info with given old label
 	 */
-	public EvalInfo withSingleAllowedLabel(final String string) {
+	public EvalInfo withLabelRedefinitionAllowedFor(final String string) {
 		EvalInfo copy = copy();
 		copy.labelFilter = new Predicate<String>() {
 
@@ -337,9 +337,19 @@ public class EvalInfo {
 	}
 
 	/**
+	 * @return info that forbids any redefinition
+	 */
+	public EvalInfo withNoRedefinitionAllowed() {
+		// we want the predicate to only accept null as label
+		return withLabelRedefinitionAllowedFor(null);
+	}
+
+	/**
+	 * @param label
+	 *            desired label
 	 * @return whether label can be redefined
 	 */
-	public boolean allowRedefineLabel(String label) {
+	public boolean isLabelRedefinitionAllowedFor(String label) {
 		return labelFilter == null || labelFilter.test(label);
 	}
 }

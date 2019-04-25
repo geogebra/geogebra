@@ -408,7 +408,7 @@ public class AlgebraProcessor {
 								 AsyncOperation<GeoElementND> callback) {
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
-						.withSingleAllowedLabel(geo.getLabelSimple());
+						.withLabelRedefinitionAllowedFor(geo.getLabelSimple());
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
@@ -992,7 +992,7 @@ public class AlgebraProcessor {
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
 		if (ve.getLabel() != null
 				&& kernel.lookupLabel(ve.getLabel()) != null
-				&& !info.allowRedefineLabel(ve.getLabel())) {
+				&& !info.isLabelRedefinitionAllowedFor(ve.getLabel())) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
 		sym.setLabel(ve.getLabel());
