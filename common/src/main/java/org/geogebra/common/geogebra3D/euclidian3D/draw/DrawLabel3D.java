@@ -700,9 +700,14 @@ public class DrawLabel3D {
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
-		backgroundIndex = drawRectangle(renderer, drawX, drawY, drawZ,
-				width / getFontScale(), height / getFontScale(),
-				backgroundIndex);
+		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
+			backgroundIndex = drawRectangle(renderer, 0, 0, 0, width2/getFontScale(),
+					height2/getFontScale(), textIndex);
+		} else {
+			backgroundIndex = drawRectangle(renderer, drawX, drawY, drawZ,
+					width / getFontScale(), height / getFontScale(),
+					backgroundIndex);
+		}
 		renderer.getGeometryManager().remove(old);
 
 		// Log.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+",
