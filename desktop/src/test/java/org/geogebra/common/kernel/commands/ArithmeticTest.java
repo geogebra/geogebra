@@ -91,7 +91,6 @@ public class ArithmeticTest extends AlgebraTest {
 	private void setSymbolic(String label) {
 		((GeoNumeric) app.getKernel().lookupLabel(label)).setSymbolicMode(true,
 				false);
-
 	}
 
 	@Test

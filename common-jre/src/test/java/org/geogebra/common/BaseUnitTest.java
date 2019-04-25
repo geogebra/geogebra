@@ -5,6 +5,8 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Before;
 
 /**
@@ -72,4 +74,10 @@ public class BaseUnitTest {
     protected GeoElementFactory getElementFactory() {
         return elementFactory;
     }
+
+	protected GeoElement add(String string) {
+		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
+				.processAlgebraCommand(string, false);
+		return ret[0].toGeoElement();
+	}
 }

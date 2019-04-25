@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -250,10 +251,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 
 	@Override
 	protected String getDefaultLabel(char[] chars2) {
-		GeoElement twinGeo = (GeoElement) getTwinGeo();
-		if (twinGeo == null) {
-			return super.getDefaultLabel(chars2);
+		GeoElement twin = (GeoElement) getTwinGeo();
+		if (twin != null) {
+			return twin.getDefaultLabel(chars2);
 		}
-		return twinGeo.getDefaultLabel(chars2);
+		if (LabelManager
+				.getEquationTypeForLabeling(this) == EquationType.EXPLICIT) {
+			return LabelManager.getNextIndexedLabel(cons,
+					LabelType.functionLabels);
+		}
+		return super.getDefaultLabel(chars2);
 	}
 }

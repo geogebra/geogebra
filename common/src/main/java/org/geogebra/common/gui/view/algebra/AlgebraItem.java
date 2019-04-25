@@ -600,4 +600,5 @@ public class AlgebraItem {
 			return null;
 		}
 	}
+
 }

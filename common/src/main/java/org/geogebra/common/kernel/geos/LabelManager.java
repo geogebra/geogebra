@@ -3,6 +3,11 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
@@ -320,5 +325,25 @@ public class LabelManager {
 	public static String getNextSliderLabel(GeoElement slider, boolean isInteger) {
 		return slider
 				.getDefaultLabel(isInteger ? LabelType.integerLabels : null);
+	}
+
+	/**
+	 * @param geoElement
+	 *            element
+	 * @return whether to prefer implicit equation label
+	 */
+	public static EquationType getEquationTypeForLabeling(GeoElement geoElement) {
+		ExpressionValue definition = geoElement.getDefinition();
+		if (definition == null
+				|| !(definition.unwrap() instanceof EquationValue)) {
+			return EquationType.NONE;
+		}
+		Equation eqn = (Equation) definition.unwrap();
+		boolean lhsIsJustY = "y"
+				.equals(eqn.getLHS().toString(StringTemplate.noLocalDefault));
+		if (lhsIsJustY && !eqn.getRHS().containsFunctionVariable("y")) {
+			return EquationType.EXPLICIT;
+		}
+		return EquationType.IMPLICIT;
 	}
 }

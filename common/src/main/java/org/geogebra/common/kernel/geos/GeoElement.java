@@ -79,6 +79,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
+import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -3085,8 +3086,6 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @param chars2
 	 *            array of one-character labels for this GeoType
-	 * @param isInteger
-	 *            true for integer sliders
 	 * @return default label
 	 */
 	protected String getDefaultLabel(char[] chars2) {
@@ -3119,6 +3118,9 @@ public abstract class GeoElement extends ConstructionElement
 					return cons.getIndexLabel("z", 1);
 				}
 
+			} else if (LabelManager
+					.getEquationTypeForLabeling(this) == EquationType.IMPLICIT) {
+				return defaultNumberedLabel("eq", false);
 			} else if (isGeoFunction()) {
 				chars = LabelType.functionLabels;
 			} else if (isGeoLine()) {

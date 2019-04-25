@@ -182,6 +182,22 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void defaultEquationLabel() {
+		t("x=y", "x = y");
+		t("x=y+a", "x = a + y");
+		Assert.assertEquals("eq1", app.getGgbApi().getObjectName(0));
+		Assert.assertEquals("eq2", app.getGgbApi().getObjectName(1));
+	}
+
+	@Test
+	public void defaultFunctionLabel() {
+		t("y=x", "y = x");
+		t("y=x+a", "y = a + x");
+		Assert.assertEquals("f", app.getGgbApi().getObjectName(0));
+		Assert.assertEquals("g", app.getGgbApi().getObjectName(1));
+	}
+
+	@Test
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = app.getKernel().lookupLabel("a");

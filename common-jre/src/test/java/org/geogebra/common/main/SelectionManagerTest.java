@@ -2,7 +2,6 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,11 +50,5 @@ public class SelectionManagerTest extends BaseUnitTest {
 		// next jumps bacck to first
 		selectionManager.selectNextGeo(getApp().getEuclidianView1());
 		Assert.assertTrue(firstVisible.isSelected());
-	}
-
-	private GeoElement add(String string) {
-		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(string, false);
-		return ret[0].toGeoElement();
 	}
 }
