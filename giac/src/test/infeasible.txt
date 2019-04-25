@@ -13,6 +13,7 @@
 ./eliminate/circumcircle-3-parabola-tangent.in
 ./eliminate/ellipse-circle3.in
 ./eliminate/inversion-line-circle.in
+./eliminate/inversion-line-circle2.in
 ./eliminate/incenter1.in
 ./eliminate/incenter2.in
 ./eliminate/isogonals3.in

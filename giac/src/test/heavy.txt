@@ -6,7 +6,6 @@
 ./eliminate/circle-bisector-isoscel-ex94.in 307
 ./eliminate/circle-perpendiculars-midpoint-ex267.in 334
 ./eliminate/circles-chord-half-of-side-ex98.in 22
-./eliminate/inversion-line-circle2.in 312
 ./eliminate/inversion-line-circle3.in 107
 ./eliminate/orthocenter-isoscel-ex70.in 88
 ./eliminate/perpendicular-to-altitudes-feetpoint-equid-ex186.in 25
