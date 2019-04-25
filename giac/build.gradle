@@ -581,6 +581,9 @@ task testNodegiacExecutable (dependsOn: 'installNodegiacExecutable', type: Exec)
     commandLine './regression', '-r', '-n'
 }
 
+task testExecutables (dependsOn: ['testNodegiacExecutable', 'testMinigiacExecutable'])
+
+
 task androidCopyEabiLibjavagiacSo (dependsOn: 'javagiacAndroideabiSharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/libs/javagiac/shared/androideabi'
