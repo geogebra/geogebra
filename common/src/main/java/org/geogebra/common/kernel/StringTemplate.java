@@ -340,15 +340,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * need more engines in one app
 	 */
 	static {
-		editTemplate.sf = FormatFactory.getPrototype().getScientificFormat(
-				GeoElement.MIN_EDITING_PRINT_PRECISION, 20, false);
-		editTemplate.nf = FormatFactory.getPrototype()
-				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
-		editTemplate.allowMoreDigits = true;
-		editTemplate.hideLHS = true;
+		initForEditing(editTemplate);
 		editTemplate.changeArcTrig = false;
-		editorTemplate.allowMoreDigits = editTemplate.allowMoreDigits;
-		editorTemplate.hideLHS = editTemplate.hideLHS;
+		initForEditing(editorTemplate);
 	}
 
 	/**
@@ -544,6 +538,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 		localizeCmds = true;
 		setType(StringType.GEOGEBRA);
 		this.name = name;
+	}
+
+	private static void initForEditing(StringTemplate template) {
+		template.sf = FormatFactory.getPrototype().getScientificFormat(
+				GeoElement.MIN_EDITING_PRINT_PRECISION, 20, false);
+		template.nf = FormatFactory.getPrototype()
+				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
+		template.allowMoreDigits = true;
+		template.hideLHS = true;
 	}
 
 	/**
@@ -3452,7 +3455,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return "asin" or "asind" as appropriate
 	 */
 	public String asind(Kernel kernel) {
-
 		if (changeArcTrig && kernel.degreesMode()) {
 			return "asin";
 		}
@@ -3466,7 +3468,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return "acos" or "acosd" as appropriate
 	 */
 	public String acosd(Kernel kernel) {
-
 		if (changeArcTrig && kernel.degreesMode()) {
 			return "acos";
 		}
