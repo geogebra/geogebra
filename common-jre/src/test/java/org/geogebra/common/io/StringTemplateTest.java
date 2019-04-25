@@ -1,19 +1,18 @@
-package org.geogebra.io;
-
-import java.util.Locale;
+package org.geogebra.common.io;
 
 import org.geogebra.common.cas.giac.CASgiac;
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,12 +21,13 @@ import org.junit.Test;
 import com.google.gwt.regexp.shared.RegExp;
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class SerializationTest {
-	static AppDNoGui app;
+public class StringTemplateTest {
+	static AppCommon3D app;
 
 	@BeforeClass
 	public static void initialize() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 	}
 
 	@Before
@@ -37,28 +37,27 @@ public class SerializationTest {
 
 	@Test
 	public void testSerializationSpeed() {
-		app.setLanguage(Locale.US);
+		app.setLanguage("en_US");
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
 		FunctionVariable fv = new FunctionVariable(app.getKernel());
-		ExpressionNode n = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv)
+		ExpressionNode plusNode = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv)
 				.plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv)
 				.plus(fv);
 		for (int i = 0; i < 100000; i++) {
-			sb.append(n.toValueString(StringTemplate.defaultTemplate));
+			sb.append(plusNode.toValueString(StringTemplate.defaultTemplate));
 		}
-		System.out.println(System.currentTimeMillis() - l);
 
 		l = System.currentTimeMillis();
 		StringBuilder sbm = new StringBuilder(1000);
-		ExpressionNode nm = fv.wrap().subtract(fv).subtract(fv).subtract(fv)
+		ExpressionNode minusNode = fv.wrap().subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv);
 		for (int i = 0; i < 100000; i++) {
-			sbm.append(nm.toValueString(StringTemplate.defaultTemplate));
+			sbm.append(minusNode.toValueString(StringTemplate.defaultTemplate));
 		}
-		System.out.println(System.currentTimeMillis() - l);
+		Assert.assertTrue(System.currentTimeMillis() - l < 2000);
 	}
 
 	@Test
@@ -85,7 +84,7 @@ public class SerializationTest {
 	}
 
 	private void plain(String string, String string2) {
-		GeoElementND geo = eval(string);
+		GeoElementND geo = add(string);
 		Assert.assertEquals(string2, geo.getDefinitionForInputBar());
 	}
 
@@ -110,7 +109,7 @@ public class SerializationTest {
 	}
 
 	private static void tcl(String string, String string2) {
-		GeoElementND geo = eval(string);
+		GeoElementND geo = add(string);
 		Assert.assertTrue(geo instanceof GeoFunction);
 		Assert.assertEquals(
 				((GeoFunction) geo).conditionalLaTeX(false,
@@ -119,17 +118,28 @@ public class SerializationTest {
 	}
 
 	private static void tex(String string, String string2) {
-		GeoElementND geo = eval(string);
+		GeoElementND geo = add(string);
 		Assert.assertEquals(string2,
 				geo.getDefinition(StringTemplate.latexTemplate));
 	}
 
-	private static GeoElementND eval(String string) {
+	private static GeoElementND add(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, new TestErrorHandler(),
 				new EvalInfo(true).withFractions(true).addDegree(true), null);
 		return result[0];
+	}
+
+	@Test
+	public void editorTemplateShouldRetainPrecision() {
+		GeoElementND f = add("f:0.33333x");
+		Assert.assertEquals("f(x) = 0.33333x",
+				f.toString(StringTemplate.editorTemplate));
+		Assert.assertEquals("f(x) = 0.33333x",
+				f.toString(StringTemplate.editTemplate));
+		Assert.assertEquals("f(x) = 0.33x",
+				f.toString(StringTemplate.defaultTemplate));
 	}
 
 	@Test

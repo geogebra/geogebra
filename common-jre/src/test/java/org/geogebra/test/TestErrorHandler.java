@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.commands;
+package org.geogebra.test;
 
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorLogger;
