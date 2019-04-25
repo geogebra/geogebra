@@ -2216,6 +2216,7 @@ __GGB__keysVar["fi"].menu = {
     "Name": "Nimi",
     "Name.button": "painike",
     "Name.edge": "s\xe4rm\xe4",
+    "Name.eq": "eq",
     "Name.face": "tahko",
     "Name.graph": "kuvaaja",
     "Name.list": "L",

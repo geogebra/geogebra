@@ -2216,6 +2216,7 @@ __GGB__keysVar["lv"].menu = {
     "Name": "Nosaukums",
     "Name.button": "poga",
     "Name.edge": "\u0161\u0137autne",
+    "Name.eq": "eq",
     "Name.face": "skaldne",
     "Name.graph": "grafiks",
     "Name.list": "saraksts",

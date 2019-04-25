@@ -2216,6 +2216,7 @@ __GGB__keysVar["hy"].menu = {
     "Name": "\u0531\u0576\u0578\u0582\u0576",
     "Name.button": "\u053f\u0578\u0573\u0561\u056f",
     "Name.edge": "\u053f\u0578\u0572",
+    "Name.eq": "eq",
     "Name.face": "\u0546\u056b\u057d\u057f",
     "Name.graph": "graph",
     "Name.list": "\u0551\u0578\u0582\u0581\u0561\u056f",

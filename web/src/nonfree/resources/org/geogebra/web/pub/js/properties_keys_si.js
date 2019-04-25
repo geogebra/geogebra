@@ -2216,6 +2216,7 @@ __GGB__keysVar["si"].menu = {
     "Name": "\u0db1\u0dcf\u0db8\u0dba",
     "Name.button": "\u0db6\u0ddc\u0dad\u0dca\u0dad\u0db8",
     "Name.edge": "\u0d85\u0dba\u0dd2\u0db1",
+    "Name.eq": "eq",
     "Name.face": "\u0db8\u0dd4\u0dc4\u0dd4\u0dab",
     "Name.graph": "\u0db4\u0dca\u200d\u0dbb\u0dc3\u0dca\u0dae\u0dcf\u0dbb\u0dba",
     "Name.list": "\u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0",

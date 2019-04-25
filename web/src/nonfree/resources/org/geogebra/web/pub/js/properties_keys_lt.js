@@ -2216,6 +2216,7 @@ __GGB__keysVar["lt"].menu = {
     "Name": "Pavadinimas",
     "Name.button": "mygtukas",
     "Name.edge": "kra\u0161tas",
+    "Name.eq": "eq",
     "Name.face": "pavir\u0161ius",
     "Name.graph": "grafikas",
     "Name.list": "s\u0105ra\u0161as",

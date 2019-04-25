@@ -2216,6 +2216,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Name": "Naam",
     "Name.button": "knop",
     "Name.edge": "rand",
+    "Name.eq": "eq",
     "Name.face": "zijvlak",
     "Name.graph": "graaf",
     "Name.list": "lijst",

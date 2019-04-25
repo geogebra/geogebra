@@ -2216,6 +2216,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Name": "\u540d\u79f0",
     "Name.button": "button",
     "Name.edge": "edge",
+    "Name.eq": "eq",
     "Name.face": "face",
     "Name.graph": "graph",
     "Name.list": "L",

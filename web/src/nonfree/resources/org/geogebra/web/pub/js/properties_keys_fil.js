@@ -2216,6 +2216,7 @@ __GGB__keysVar["fil"].menu = {
     "Name": "Pangalan",
     "Name.button": "pindutan",
     "Name.edge": "dulo",
+    "Name.eq": "eq",
     "Name.face": "face",
     "Name.graph": "grap",
     "Name.list": "listahan",

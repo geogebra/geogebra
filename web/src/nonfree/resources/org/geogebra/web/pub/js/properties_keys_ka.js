@@ -2216,6 +2216,7 @@ __GGB__keysVar["ka"].menu = {
     "Name": "\u10e1\u10d0\u10ee\u10d4\u10da\u10ec\u10dd\u10d3\u10d4\u10d1\u10d0",
     "Name.button": "\u10e6\u10d8\u10da\u10d0\u10d9\u10d8",
     "Name.edge": "\u10ec\u10d8\u10d1\u10dd",
+    "Name.eq": "eq",
     "Name.face": "\u10ec\u10d0\u10ee\u10dc\u10d0\u10d2\u10d8",
     "Name.graph": "\u10d2\u10e0\u10d0\u10e4\u10d8",
     "Name.list": "\u10e1\u10d8\u10d0",

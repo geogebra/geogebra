@@ -2216,6 +2216,7 @@ __GGB__keysVar["sk"].menu = {
     "Name": "N\xe1zov",
     "Name.button": "Tla\u010didlo",
     "Name.edge": "hrana",
+    "Name.eq": "eq",
     "Name.face": "stena",
     "Name.graph": "graf",
     "Name.list": "Zoznam",

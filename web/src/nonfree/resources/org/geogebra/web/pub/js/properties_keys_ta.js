@@ -2216,6 +2216,7 @@ __GGB__keysVar["ta"].menu = {
     "Name": "\u0baa\u0bc6\u0baf\u0bb0\u0bcd",
     "Name.button": "button",
     "Name.edge": "edge",
+    "Name.eq": "eq",
     "Name.face": "\u0bae\u0bc1\u0b95\u0bae\u0bcd",
     "Name.graph": "graph",
     "Name.list": "\u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd",
