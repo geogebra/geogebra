@@ -2,7 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
 
 /**
  * Config for Scientific Calculator app
@@ -71,6 +71,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public CommandSelector getCommandSelector() {
-		return new SciCalcCommandSelectorFactory().createCommandSelector();
+		return CommandSelectorFactory.createSciCalcCommandSelector();
 	}
 }

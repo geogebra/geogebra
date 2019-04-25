@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -191,7 +191,7 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public CommandSelector getCommandSelector() {
-		return new NoCASCommandSelectorFactory().createCommandSelector();
+		return CommandSelectorFactory.createNoCasCommandSelector();
 	}
 
 }

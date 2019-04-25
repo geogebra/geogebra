@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -42,8 +42,8 @@ public class ExamEnvironment {
 	private TimeFormatAdapter timeFormatter;
 	private CommandFilter nonExamCommandFilter;
 	private static OutputFilter outputFilter = new OutputFilter();
-	private static final CommandSelector noCASSelector = new NoCASCommandSelectorFactory()
-			.createCommandSelector();
+	private static final CommandSelector noCASSelector = CommandSelectorFactory
+			.createNoCasCommandSelector();
 
 	/**
 	 * application

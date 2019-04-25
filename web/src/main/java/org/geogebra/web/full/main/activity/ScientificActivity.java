@@ -1,7 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.SciCalcCommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -39,10 +38,9 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public void start(AppW app) {
-		CommandSelector commandSelector = new SciCalcCommandSelectorFactory()
-				.createCommandSelector();
+		
 		app.getKernel().getAlgebraProcessor()
-				.setCommandSelector(commandSelector);
+				.setCommandSelector(CommandSelectorFactory.createSciCalcCommandSelector());
 		initHeaderButtons(app);
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);

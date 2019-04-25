@@ -72,7 +72,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.selector.CommandSelector;
-import org.geogebra.common.kernel.commands.selector.NoCASCommandSelectorFactory;
+import org.geogebra.common.kernel.commands.selector.CommandSelectorFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -3559,8 +3559,7 @@ public class AlgebraProcessor {
 			return loc.getCommandSyntaxCAS("NIntegral");
 		}
 		if (noCASselector == null) {
-			noCASselector = new NoCASCommandSelectorFactory()
-					.createCommandSelector();
+			noCASselector = CommandSelectorFactory.createNoCasCommandSelector();
 		}
 		if (!noCASselector.isCommandAllowed(cmd)) {
 			return null;
