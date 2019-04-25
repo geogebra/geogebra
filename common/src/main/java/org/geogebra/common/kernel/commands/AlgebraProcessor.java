@@ -724,12 +724,12 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param addDegrees
+	 * @param addDegree
 	 * 				whether to add degrees
 	 * @return evaluation flags
 	 */
-	public EvalInfo getEvalInfo(boolean addDegrees) {
-		return getEvalInfo(true, addDegrees);
+	public EvalInfo getEvalInfo(boolean addDegree) {
+		return getEvalInfo(true, addDegree);
 	}
 
 	/**
