@@ -1,0 +1,3 @@
+./geogebra/GeoGebraCasIntegrationTest-ambiguous.in
+./geogebra/CAStestJSON-ambiguous.in
+./geogebra/electron-rawTest-ambiguous.in

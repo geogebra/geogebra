@@ -8,6 +8,7 @@ OVERWRITE=0
 TIMEOUT=480
 HEAVY=0
 INFEASIBLE=0
+AMBIGUOUS=0
 REGRESSION=0
 SILENT=0
 FOLDER=.
@@ -26,6 +27,7 @@ usage() {
  echo "   -f           overwrite existing .out files (on creation only)"
  echo "   -H           run heavy tests also"
  echo "   -I           run infeasible tests also"
+ echo "   -A           run ambiguous tests also"
  echo "   -s           be silent: do not exit with error code when there is regression"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -j           test the JNI version (make sure running task :giac-jni:testJni first)"
@@ -35,7 +37,7 @@ usage() {
  exit 0
  }
 
-while getopts "t:T:rfhHIsjn" OPT; do
+while getopts "t:T:rfhHIAsjn" OPT; do
  case $OPT in
   j)
    MINIGIAC=../../../giac-jni/src/test/minigiac
@@ -57,6 +59,9 @@ while getopts "t:T:rfhHIsjn" OPT; do
    ;;
   I)
    INFEASIBLE=1
+   ;;
+  A)
+   AMBIGUOUS=1
    ;;
   t)
    TIMEOUT="$OPTARG"
@@ -100,6 +105,9 @@ find $FOLDER -name '*.in' | while read IN; do
    fi
   if [ "$HEAVY" = 0 ]; then
    grep -F --silent $IN heavy.txt && IGNORE=1
+   fi
+  if [ "$AMBIGUOUS" = 0 ]; then
+   grep -F --silent $IN ambiguous.txt && IGNORE=1
    fi
   if [ "$IGNORE" = 0 ]; then
    DATE=`date +%T`
