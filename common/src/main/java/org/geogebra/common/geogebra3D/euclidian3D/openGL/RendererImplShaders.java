@@ -502,7 +502,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix2.set(tmpMatrix3);
 		tmpMatrix2.setOrigin(Coords.O);
 		tmpMatrix4.set(tmpMatrix2.inverse());
-		double rotZ = Math.atan2(tmpMatrix4.get(2,1),tmpMatrix4.get(1,1));
+		double rotZ = Math.atan2(tmpMatrix4.get(2, 1), tmpMatrix4.get(1, 1));
 		CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS, -rotZ, tmpMatrix2);
 		undoRotationMatrixAR.setMul(tmpMatrix4, tmpMatrix2);
 		// (cameraView * modelMatrix) * scaleMatrix
