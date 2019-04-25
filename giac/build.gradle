@@ -563,10 +563,22 @@ task zipIosLibrary(dependsOn: 'createFatIosStaticLibrary', type: Zip) {
 
 task installMinigiacExecutable (dependsOn: 'installMinigiacLinux64Executable')
 
+task installNodegiacExecutable (type: Exec) {
+    // FIXME: dependencies should be set
+    description 'Installs the nodegiac executable.'
+    commandLine 'npm', 'install'
+}
+
 task testMinigiacExecutable (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description 'Tests the minigiac executable.'
     workingDir 'src/test'
-    commandLine './regression', '-r', '-s'
+    commandLine './regression', '-r'
+}
+
+task testNodegiacExecutable (dependsOn: 'installNodegiacExecutable', type: Exec) {
+    description 'Tests the nodegiac executable.'
+    workingDir 'src/test'
+    commandLine './regression', '-r', '-n'
 }
 
 task androidCopyEabiLibjavagiacSo (dependsOn: 'javagiacAndroideabiSharedLibrary', type: Copy) {
