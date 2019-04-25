@@ -178,7 +178,7 @@ public class GeoSymbolicTest {
 	@Test
 	public void redefinitionInTwoCellsShouldFail() {
 		t("a=p+q", "p + q");
-		shouldFail("a=p-q", "LabelAlreadyUsed");
+		shouldFail("a=p-q", "label is already used");
 	}
 
 	@Test
