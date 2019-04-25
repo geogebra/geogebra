@@ -723,6 +723,14 @@ public class AlgebraProcessor {
 				info, callback0);
 	}
 
+	/**
+	 * @param addDegrees
+	 * 				whether to add degrees
+	 * @return evaluation flags
+	 */
+	public EvalInfo getEvalInfo(boolean addDegrees) {
+		return getEvalInfo(true, addDegrees);
+	}
 
 	/**
 	 * @param autoCreateSliders
