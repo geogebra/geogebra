@@ -570,7 +570,7 @@ public class ControllerTest {
 
 	@Test
 	public void mirrorAtCircleTool() {
-		t("x^2+y^2=8");
+		t("c:x^2+y^2=8");
 		t("A=(1, -1)");
 		app.setMode(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
 		click(50, 50);
