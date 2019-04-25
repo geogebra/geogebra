@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -60,6 +61,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
+	protected CoordMatrix4x4 tmpMatrix4 = new CoordMatrix4x4();
 
 	private Coords tmpCoords1 = new Coords(4);
 
@@ -495,11 +497,14 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
 		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
-        // cameraView * modelMatrix and undo rotation matrix
-        tmpMatrix3.setMul(cameraView, modelMatrix);
-        tmpMatrix2.set(tmpMatrix3);
-        tmpMatrix2.setOrigin(Coords.O);
-        undoRotationMatrixAR.set(tmpMatrix2.inverse());
+		// cameraView * modelMatrix and undo rotation matrix (keeping screen orientation)
+		tmpMatrix3.setMul(cameraView, modelMatrix);
+		tmpMatrix2.set(tmpMatrix3);
+		tmpMatrix2.setOrigin(Coords.O);
+		tmpMatrix4.set(tmpMatrix2.inverse());
+		double rotZ = Math.atan2(tmpMatrix4.get(2,1),tmpMatrix4.get(1,1));
+		CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS, -rotZ, tmpMatrix2);
+		undoRotationMatrixAR.setMul(tmpMatrix4, tmpMatrix2);
 		// (cameraView * modelMatrix) * scaleMatrix
 		tmpMatrix2.setMul(tmpMatrix3, tmpMatrix1);
 		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
