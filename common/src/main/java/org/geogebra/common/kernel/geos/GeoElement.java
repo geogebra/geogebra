@@ -1038,7 +1038,7 @@ public abstract class GeoElement extends ConstructionElement
 		} catch (final Exception e) {
 			removeColorFunction();
 		}
-		
+
 		return getShowHideColor(col);
 	}
 
@@ -4414,21 +4414,22 @@ public abstract class GeoElement extends ConstructionElement
 		String labelDescription;
 		switch (labelMode) {
 		case LABEL_CAPTION_VALUE:
-            labelDescription = getCaptionAndValue();
+			labelDescription = getCaptionAndValue();
 			break;
 		case LABEL_NAME_VALUE:
-            labelDescription = getAlgebraDescriptionDefault();
+			labelDescription = getAlgebraDescriptionDefault();
 			break;
 		case LABEL_VALUE:
-            labelDescription = toDefinedValueString(StringTemplate.defaultTemplate);
+			labelDescription = toDefinedValueString(
+					StringTemplate.defaultTemplate);
 			break;
 		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
-            labelDescription = getCaption(StringTemplate.defaultTemplate);
+			labelDescription = getCaption(StringTemplate.defaultTemplate);
 			break;
 		default: // case LABEL_NAME:
 			// return label;
 			// Mathieu Blossier - 2009-06-30
-            labelDescription = getLabel(StringTemplate.defaultTemplate);
+			labelDescription = getLabel(StringTemplate.defaultTemplate);
 		}
 
 		return labelDescription.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : labelDescription;
@@ -4440,9 +4441,9 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public String getCaptionAndValue() {
 		if ("".equals(getRawCaption())) {
-			return getAlgebraDescriptionDefault(); 
+			return getAlgebraDescriptionDefault();
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(getRawCaption());
 		sb.append(getLabelDelimiterWithSpace());
@@ -4599,7 +4600,6 @@ public abstract class GeoElement extends ConstructionElement
 	 *         undefined
 	 */
 	final public String getAlgebraDescription(StringTemplate tpl) {
-
 		if (isDefinitionValid()) {
 			return toString(tpl);
 		}
@@ -4607,7 +4607,6 @@ public abstract class GeoElement extends ConstructionElement
 		sbAlgebraDesc.append(label);
 		sbAlgebraDesc.append(" = ?");
 		return sbAlgebraDesc.toString();
-
 	}
 
 	/**
