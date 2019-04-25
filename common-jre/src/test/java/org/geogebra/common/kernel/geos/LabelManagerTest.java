@@ -33,8 +33,20 @@ public class LabelManagerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void explicitConicsShouldHaveConicLabels() {
+	public void explicitConicsShouldHaveFunctionLabels() {
 		GeoElement parabola = addSilent("y=x^2");
+		assertEquals("f", parabola.getDefaultLabel());
+	}
+
+	@Test
+	public void implicitConicsShouldHaveEquationPrefix() {
+		GeoElement parabola = addSilent("x=y^2");
+		assertEquals("eq1", parabola.getDefaultLabel());
+	}
+
+	@Test
+	public void toolConicsShouldHaveConicLabel() {
+		GeoElement parabola = addSilent("Circle(O, 1)");
 		assertEquals("c", parabola.getDefaultLabel());
 	}
 

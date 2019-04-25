@@ -3758,4 +3758,17 @@ public class GeoCasCell extends GeoElement
 		corner.setUndefined();
 	}
 
+	/**
+	 * @param var
+	 *            variable name
+	 * @return default label
+	 */
+	protected String getPointVectorDefault(String var) {
+		if (!StringUtil.isLowerCase(var.charAt(0))) {
+			return LabelManager.getNextIndexedLabel(cons,
+					LabelType.pointLabels);
+		}
+		return getDefaultLabel();
+	}
+
 }

@@ -323,11 +323,16 @@ public class LabelManager {
 	 * @return label for the slider
 	 */
 	public static String getNextSliderLabel(GeoElement slider, boolean isInteger) {
-		return slider
-				.getDefaultLabel(isInteger ? LabelType.integerLabels : null);
+		if (isInteger) {
+			getNextIndexedLabel(slider.getConstruction(),
+					LabelType.integerLabels);
+		}
+		return slider.getDefaultLabel();
 	}
 
 	/**
+	 * Equation type unrelated to type for display which is set in the geo.
+	 * 
 	 * @param geoElement
 	 *            element
 	 * @return whether to prefer implicit equation label
@@ -339,11 +344,15 @@ public class LabelManager {
 			return EquationType.NONE;
 		}
 		Equation eqn = (Equation) definition.unwrap();
-		boolean lhsIsJustY = "y"
-				.equals(eqn.getLHS().toString(StringTemplate.noLocalDefault));
-		if (lhsIsJustY && !eqn.getRHS().containsFunctionVariable("y")) {
+		if (isExplicitIn("y", eqn) || isExplicitIn("z", eqn)) {
 			return EquationType.EXPLICIT;
 		}
 		return EquationType.IMPLICIT;
+	}
+
+	private static boolean isExplicitIn(String varName, Equation eqn) {
+		String lhs = eqn.getLHS().toString(StringTemplate.noLocalDefault);
+		return varName.equals(lhs)
+				&& !eqn.getRHS().containsFreeFunctionVariable(varName);
 	}
 }

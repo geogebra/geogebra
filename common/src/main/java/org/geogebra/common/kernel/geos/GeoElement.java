@@ -3019,11 +3019,6 @@ public abstract class GeoElement extends ConstructionElement
 		return getDefaultLabel();
 	}
 
-	@Override
-	public String getDefaultLabel() {
-		return getDefaultLabel(null);
-	}
-
 	/**
 	 * appends all upper case Greek letters to list
 	 * 
@@ -3084,108 +3079,108 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * @param chars2
-	 *            array of one-character labels for this GeoType
 	 * @return default label
 	 */
-	protected String getDefaultLabel(char[] chars2) {
-		char[] chars = chars2;
-		if (chars == null) {
-			if (isGeoPoint() && !(this instanceof GeoTurtle)) {
-				// Michael Borcherds 2008-02-23
-				// use Greek upper case for labeling points if language is Greek
-				// (el)
-				if (getLoc().isUsingLocalizedLabels()) {
-					if (getLoc().languageIs(Language.Greek.locale)) {
-						chars = Greek.getGreekUpperCase();
-					} else if (getLoc().languageIs(Language.Arabic.locale)) {
-						// Arabic / Arabic (Morocco)
-						chars = LabelType.arabic;
-					} else if (getLoc().languageIs(Language.Yiddish.locale)) {
-						chars = LabelType.yiddish;
-					} else {
-						chars = LabelType.pointLabels;
-					}
+	@Override
+	public String getDefaultLabel() {
+		char[] chars = null;
+		EquationType equationType = LabelManager
+				.getEquationTypeForLabeling(this);
+		if (isGeoPoint() && !(this instanceof GeoTurtle)) {
+			// Michael Borcherds 2008-02-23
+			// use Greek upper case for labeling points if language is Greek
+			// (el)
+			if (getLoc().isUsingLocalizedLabels()) {
+				if (getLoc().languageIs(Language.Greek.locale)) {
+					chars = Greek.getGreekUpperCase();
+				} else if (getLoc().languageIs(Language.Arabic.locale)) {
+					// Arabic / Arabic (Morocco)
+					chars = LabelType.arabic;
+				} else if (getLoc().languageIs(Language.Yiddish.locale)) {
+					chars = LabelType.yiddish;
 				} else {
 					chars = LabelType.pointLabels;
 				}
-
-				final GeoPointND point = (GeoPointND) this;
-				if (point.getToStringMode() == Kernel.COORD_COMPLEX) {
-
-					// check through z_1, z_2, etc and return first one free
-					// (also checks z_{1} to avoid clash)
-					return cons.getIndexLabel("z", 1);
-				}
-
-			} else if (LabelManager
-					.getEquationTypeForLabeling(this) == EquationType.IMPLICIT) {
-				return defaultNumberedLabel("eq", false);
-			} else if (isGeoFunction()) {
-				chars = LabelType.functionLabels;
-			} else if (isGeoLine()) {
-				// name "edge" for segments from polyhedron
-				if (getMetasLength() == 1
-						&& !((FromMeta) this).getMetas()[0].isGeoPolygon()) {
-					int counter = 0;
-					String str;
-					final String name = getLoc().getPlainLabel("edge", "edge"); // Name.edge
-					do {
-						counter++;
-						str = name + kernel.internationalizeDigits(counter + "",
-								StringTemplate.defaultTemplate);
-					} while (!cons.isFreeLabel(str));
-					return str;
-				}
-				chars = LabelType.lineLabels;
-			} else if (isPenStroke()) {
-				// needs to come before PolyLine (subclass)
-				return defaultNumberedLabel("penStroke", false); // Name.penStroke
-			} else if (isGeoPolyLine()) {
-				chars = LabelType.lineLabels;
-			} else if (isGeoConic()) {
-				chars = LabelType.conicLabels;
-			} else if (isGeoVector() || evaluatesTo3DVector()) {
-				chars = LabelType.vectorLabels;
-			} else if (isGeoAngle()) {
-				chars = getLabelManager().getAngleLabels();
-			} else if (isGeoText()) {
-				return defaultNumberedLabel("text", false); // Name.text
-			} else if (isGeoImage()) {
-				return defaultNumberedLabel("picture", false); // Name.picture
-			} else if (isGeoLocus()) {
-
-				if (algoParent.getClassName().equals(Commands.SolveODE)
-						|| algoParent instanceof AlgoIntegralODE || algoParent
-								.getClassName().equals(Commands.NSolveODE)) {
-					// Name.numericalIntegral
-					return defaultNumberedLabel("numericalIntegral", false);
-
-				} else if (algoParent.getClassName()
-						.equals(Commands.SlopeField)) {
-
-					return defaultNumberedLabel("slopefield", false); // Name.slopefield
-				} else if (algoParent instanceof GraphAlgo) {
-
-					return defaultNumberedLabel("graph", false); // Name.graph
-				}
-
-				return defaultNumberedLabel("locus", false); // Name.locus
-			} else if (isGeoInputBox()) {
-				return defaultNumberedLabel("textfield", false); // Name.textfield
-			} else if (isGeoButton()) {
-				return defaultNumberedLabel("button", false); // Name.button
-			} else if (isGeoTurtle()) {
-				return defaultNumberedLabel("turtle", false); // Name.turtle
-			} else if (isGeoList()) {
-				final GeoList list = (GeoList) this;
-
-				String prefix = list.isMatrix() ? "m" : "l";
-				return defaultNumberedLabel(prefix, false);
 			} else {
-				chars = LabelType.lowerCaseLabels;
+				chars = LabelType.pointLabels;
 			}
+
+			final GeoPointND point = (GeoPointND) this;
+			if (point.getToStringMode() == Kernel.COORD_COMPLEX) {
+
+				// check through z_1, z_2, etc and return first one free
+				// (also checks z_{1} to avoid clash)
+				return cons.getIndexLabel("z", 1);
+			}
+
+		} else if (equationType == EquationType.IMPLICIT) {
+			return defaultNumberedLabel("eq", false);
+		} else if (equationType == EquationType.EXPLICIT || isGeoFunction()) {
+			chars = LabelType.functionLabels;
+		} else if (isGeoLine()) {
+			// name "edge" for segments from polyhedron
+			if (getMetasLength() == 1
+					&& !((FromMeta) this).getMetas()[0].isGeoPolygon()) {
+				int counter = 0;
+				String str;
+				final String name = getLoc().getPlainLabel("edge", "edge"); // Name.edge
+				do {
+					counter++;
+					str = name + kernel.internationalizeDigits(counter + "",
+							StringTemplate.defaultTemplate);
+				} while (!cons.isFreeLabel(str));
+				return str;
+			}
+			chars = LabelType.lineLabels;
+		} else if (isGeoPlane()) {
+			chars = LabelType.planeLabels;
+		} else if (isPenStroke()) {
+			// needs to come before PolyLine (subclass)
+			return defaultNumberedLabel("penStroke", false); // Name.penStroke
+		} else if (isGeoPolyLine()) {
+			chars = LabelType.lineLabels;
+		} else if (isGeoConic()) {
+			chars = LabelType.conicLabels;
+		} else if (isGeoVector() || evaluatesTo3DVector()) {
+			chars = LabelType.vectorLabels;
+		} else if (isGeoAngle()) {
+			chars = getLabelManager().getAngleLabels();
+		} else if (isGeoText()) {
+			return defaultNumberedLabel("text", false); // Name.text
+		} else if (isGeoImage()) {
+			return defaultNumberedLabel("picture", false); // Name.picture
+		} else if (isGeoLocus()) {
+
+			if (algoParent.getClassName().equals(Commands.SolveODE)
+					|| algoParent instanceof AlgoIntegralODE
+					|| algoParent.getClassName().equals(Commands.NSolveODE)) {
+				// Name.numericalIntegral
+				return defaultNumberedLabel("numericalIntegral", false);
+
+			} else if (algoParent.getClassName().equals(Commands.SlopeField)) {
+
+				return defaultNumberedLabel("slopefield", false); // Name.slopefield
+			} else if (algoParent instanceof GraphAlgo) {
+
+				return defaultNumberedLabel("graph", false); // Name.graph
+			}
+
+			return defaultNumberedLabel("locus", false); // Name.locus
+		} else if (isGeoInputBox()) {
+			return defaultNumberedLabel("textfield", false); // Name.textfield
+		} else if (isGeoButton()) {
+			return defaultNumberedLabel("button", false); // Name.button
+		} else if (isGeoTurtle()) {
+			return defaultNumberedLabel("turtle", false); // Name.turtle
+		} else if (isGeoList()) {
+			final GeoList list = (GeoList) this;
+
+			String prefix = list.isMatrix() ? "m" : "l";
+			return defaultNumberedLabel(prefix, false);
+		} else {
+			chars = LabelType.lowerCaseLabels;
 		}
+
 
 		return LabelManager.getNextIndexedLabel(cons, chars);
 	}
@@ -7553,16 +7548,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void setLabelSet(boolean labelSet) {
 		this.labelSet = labelSet;
-	}
-
-	/**
-	 * @param var
-	 *            variable name
-	 * @return default label
-	 */
-	protected String getPointVectorDefault(String var) {
-		return getDefaultLabel(!StringUtil.isLowerCase(var.charAt(0))
-				? LabelType.pointLabels : null);
 	}
 
 	// @Override

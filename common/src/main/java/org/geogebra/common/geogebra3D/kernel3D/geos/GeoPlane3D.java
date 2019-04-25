@@ -46,9 +46,6 @@ public class GeoPlane3D extends GeoElement3D
 		Translateable, Traceable, RotateableND, MirrorableAtPlane,
 		Transformable, Dilateable {
 
-	/** default labels */
-	private static final char[] Labels = { 'p', 'q', 'r' };
-
 	private static final boolean KEEP_LEADING_SIGN = true;
 	// values for grid and interactions
 	private double xmin;
@@ -583,11 +580,6 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean isMoveable() {
 		return false;
-	}
-
-	@Override
-	public String getDefaultLabel() {
-		return getDefaultLabel(Labels);
 	}
 
 	@Override

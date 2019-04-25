@@ -2541,10 +2541,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public String getDefaultLabel(char[] chars) {
-		if (chars != null) {
-			return super.getDefaultLabel(chars);
-		}
+	public String getDefaultLabel() {
 		int counter = 0;
 		String str;
 		String name;
