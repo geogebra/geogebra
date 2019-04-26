@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.commands;
 
 import java.util.TreeMap;
-import java.util.function.Predicate;
 
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.util.GPredicate;
 
 /**
  * Flags and auxiliary information used for evaluation of an expression
@@ -23,7 +23,7 @@ public class EvalInfo {
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
-	private Predicate<String> labelFilter;
+	private GPredicate<String> labelFilter;
 
 	/**
 	 * @param labelOut
@@ -326,7 +326,7 @@ public class EvalInfo {
 	 */
 	public EvalInfo withLabelRedefinitionAllowedFor(final String string) {
 		EvalInfo copy = copy();
-		copy.labelFilter = new Predicate<String>() {
+		copy.labelFilter = new GPredicate<String>() {
 
 			@Override
 			public boolean test(String t) {
