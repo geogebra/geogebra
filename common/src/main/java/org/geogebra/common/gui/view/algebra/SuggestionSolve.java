@@ -13,7 +13,7 @@ import org.geogebra.common.util.StringUtil;
 
 public class SuggestionSolve extends Suggestion {
 	
-	private static final Suggestion SINGLE_SOLVE = new SuggestionSolve();
+	static final Suggestion SINGLE_SOLVE = new SuggestionSolve();
 	private String[] labels;
 
 	public SuggestionSolve(String... labels) {
@@ -21,7 +21,7 @@ public class SuggestionSolve extends Suggestion {
 	}
 
 	@Override
-	public String getCommand(Localization loc) {
+	public String getCommand(Localization loc)  {
 		return loc.getMenu("Solve");
 	}
 
@@ -40,8 +40,15 @@ public class SuggestionSolve extends Suggestion {
 	}
 
 	public static Suggestion get(GeoElement geo) {
-		if (Equation.isAlgebraEquation(geo)
-				&& !checkDependentAlgo(geo, SINGLE_SOLVE, null)) {
+		if (checkDependentAlgo(geo, SINGLE_SOLVE, null)) {
+			return null;
+		}
+
+		if (SuggestionSolveForSymbolic.isValid(geo)) {
+			return SuggestionSolveForSymbolic.get(geo);
+		}
+
+		if (Equation.isAlgebraEquation(geo)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars != null) {
 				if (vars.length == 1) {
