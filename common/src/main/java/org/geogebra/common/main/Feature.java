@@ -15,10 +15,6 @@ public enum Feature {
 
 	LOG_AXES,
 
-	HIT_PARAMETRIC_SURFACE,
-
-	PARAMETRIC_SURFACE_IS_REGION,
-
 	ACRA,
 
 	ANALYTICS,
@@ -66,10 +62,10 @@ public enum Feature {
 	/** G3D-42 */
 	G3D_AR_REGULAR_TOOLS,
 
-	/** G3D-95*/
- 	G3D_AR_ROTATE_3D_VIEW_TOOL,
+	/** G3D-95 */
+	G3D_AR_ROTATE_3D_VIEW_TOOL,
 
-	/** G3D-97*/
+	/** G3D-97 */
 	G3D_AR_TRANSLATE_3D_VIEW_TOOL,
 
 	/** automatically add NDG conditions in locus equations */
@@ -104,10 +100,10 @@ public enum Feature {
 
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
-	
+
 	/** APPS-284 */
 	COMMAND_FILTERING,
 
-    /** G3D-28 */
-    G3D_AR_LABELS_POSITION
+	/** G3D-28 */
+	G3D_AR_LABELS_POSITION
 }

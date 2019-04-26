@@ -381,17 +381,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public boolean isRegion() {
-		return isRegion3D();
-	}
-
-	@Override
-	public boolean isRegion3D() {
-		return kernel.getApplication()
-				.has(Feature.PARAMETRIC_SURFACE_IS_REGION);
-	}
-
-	@Override
 	public void pointChangedForRegion(GeoPointND P) {
 
 		GeoPoint3D p = (GeoPoint3D) P;

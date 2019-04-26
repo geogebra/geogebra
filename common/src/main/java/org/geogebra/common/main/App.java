@@ -3810,12 +3810,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case LOG_AXES:
 			return prerelease;
 
-		case HIT_PARAMETRIC_SURFACE:
-			return false;
-
-		case PARAMETRIC_SURFACE_IS_REGION:
-			return prerelease;
-
 		case COMMAND_HOLES:
 			return prerelease;
 

@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
@@ -18,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -3211,48 +3209,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 
 			resetLastHitParameters(geoF);
-			return false;
-
-		} else if (((GeoElement) surfaceGeo).isGeoSurfaceCartesian()) {
-
-			if (!getView3D().getApplication()
-					.has(Feature.HIT_PARAMETRIC_SURFACE)) {
-				return false;
-			}
-
-			// maybe set to null after redefine
-			surfaceGeo.setDerivatives();
-
-			GeoSurfaceCartesian3D surface = (GeoSurfaceCartesian3D) surfaceGeo;
-
-			surface.resetLastHitParameters();
-
-			hitting.calculateClippedValues();
-			if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
-				// clipping box
-				// TODO reset last hit parameters ?
-				return false;
-			}
-
-			if (xyzuv == null) {
-				xyzuv = new double[5];
-			}
-
-			boolean found = surface.getBestColinear(hitting.x0, hitting.x1,
-					hitting.y0, hitting.z0, hitting.getVx(), hitting.getVy(),
-					hitting.getVz(), hitting.getSquareNorm(), xyzuv);
-
-			if (found) {
-				double dx = xyzuv[0] - hitting.origin.getX();
-				double dy = xyzuv[1] - hitting.origin.getY();
-				double dz = xyzuv[2] - hitting.origin.getZ();
-				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-				setZPick(-d, -d, hitting.discardPositiveHits());
-				setZPick(-d, -d, hitting.discardPositiveHits());
-				surface.setLastHitParameters(xyzuv[3], xyzuv[4]);
-				return true;
-			}
-
 			return false;
 		}
 
