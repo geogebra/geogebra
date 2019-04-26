@@ -3820,10 +3820,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case LOCUSEQU_AUTO_NDG:
 			return true;
 
-		/** unify prove commands */
-		case PROVE_UNIFY:
-			return true;
-
 		/** APPS-284 */
 		case COMMAND_FILTERING:
 			return prerelease;

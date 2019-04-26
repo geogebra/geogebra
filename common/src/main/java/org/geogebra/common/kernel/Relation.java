@@ -41,7 +41,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Compares two objects, first numerically, then symbolically (when the
  * "More..." button is pressed). The original content of this file has been
  * moved into RelationNumerical.java and extensively rewritten.
- * 
+ *
  * @author Zoltan Kovacs
  */
 public class Relation {
@@ -56,11 +56,11 @@ public class Relation {
 	 *            third object (optional, can be null)
 	 * @param rd
 	 *            forth object (optional, can be null)
-	 * 
+	 *
 	 * @author Zoltan Kovacs
 	 */
 	public static void showRelation(final App app, final GeoElement ra,
-			final GeoElement rb, final GeoElement rc, final GeoElement rd) {
+									final GeoElement rb, final GeoElement rc, final GeoElement rd) {
 		// Forcing CAS to load. This will be essential for the web version
 		// to run the Prove[Are...] commands with getting no "undefined":
 		Kernel k = app.getKernel();
@@ -99,7 +99,7 @@ public class Relation {
 			// First information shown (result of numerical checks):
 			rr[i].setInfo("<html>" + relInfo + "<br>"
 					+ app.getLocalization().getMenuDefault("CheckedNumerically",
-							"(checked numerically)")
+					"(checked numerically)")
 					+ "</html>");
 			final RelationCommand relAlgo = relAlgos[i];
 
@@ -110,9 +110,6 @@ public class Relation {
 					app.setWaitCursor();
 
 					Boolean result = null;
-					if (!app.has(Feature.PROVE_UNIFY)) {
-						result = checkGenerally(relAlgo, ra, rb, rc, rd);
-					}
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
@@ -123,111 +120,82 @@ public class Relation {
 					String generallyFalse = loc.getMenuDefault("FalseInGeneral",
 							"(false in general)");
 					rel.setInfo("<html>");
-					if (result != null && !result) {
-						// Prove==false
-						rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
-								+ generallyFalse
-								+ "</b>");
-						app.setDefaultCursor();
-					} else {
-						// We don't show the second information unless
-						// ProveDetails is unsuccessful.
 
-						// Third info start:
-						String[] ndgResult = getNDGConditions(relAlgo, ra, rb,
-								rc, rd);
-						app.setDefaultCursor();
-						// This style is defined in the CSS. It is harmless in
-						// desktop but
-						// helpful to show nice list look in web:
-						String liStyle = "class=\"RelationTool\"";
-						// Third information shown (result of ProveDetails
-						// command):
-						if (ndgResult.length == 1) {
-							// ProveDetails=={true} or =={false} or ==undefined
+					// Computing symbolic data:
+					String[] ndgResult = getNDGConditions(relAlgo, ra, rb,
+							rc, rd);
+					app.setDefaultCursor();
+					// This style is defined in the CSS. It is harmless in
+					// desktop but
+					// helpful to show nice list look in web:
+					String liStyle = "class=\"RelationTool\"";
+					// Show symbolic result:
+					if (ndgResult.length == 1) {
+						// ProveDetails=={true} or =={false} or ==undefined
+						rel.setInfo(
+								rel.getInfo() + relInfo + "<br><b>");
+						if ("".equals(ndgResult[0])) {
+							// ProveDetails==undefined
+
 							rel.setInfo(
-									rel.getInfo() + relInfo + "<br><b>");
-							if ("".equals(ndgResult[0])) {
-								// ProveDetails==undefined
-								if (result != null && result) {
-									// Using Prove's result (since ProveDetails
-									// couldn't find any interesting):
-									String generallyTrue = loc
-											.getMenuDefault("GenerallyTrue",
-													"(generally true)");
-									int gtl = generallyTrue.length();
-									// the first ) and
-									// the second ( will be removed
-									rel.setInfo(
-											rel.getInfo()
-													+ generallyTrue.substring(0,
-															gtl - 1)
-													+ " " + or + " "
-													+ trueOnParts
-															.substring(1));
-								} else {
-									// Prove==ProveDetails==undefined
-									rel.setInfo(
-											rel.getInfo() + loc
-													.getMenuDefault(
-															"CheckedNumerically",
-															"(checked numerically)"));
-								}
-							} else if ("1".equals(ndgResult[0])) {
-								// ProveDetails=={true}
-								rel.setInfo(rel.getInfo() + loc.getMenuDefault(
-										"AlwaysTrue", "(always true)"));
-							} else if ("2".equals(ndgResult[0])) {
-								// ProveDetails=={true,"c"}
-								rel.setInfo(rel.getInfo()
-										+ trueOnParts);
-							} else { // "0"
-								Log.error("Internal error in prover:"
-												+ " Prove==true <-> ProveDetails==false");
-								rel.setInfo(rel.getInfo() + generallyFalse);
-							}
-							rel.setInfo(rel.getInfo() + "</b>");
+									rel.getInfo() + loc
+											.getMenuDefault(
+													"CheckedNumerically",
+													"(checked numerically)"));
+						} else if ("1".equals(ndgResult[0])) {
+							// ProveDetails=={true}
+							rel.setInfo(rel.getInfo() + loc.getMenuDefault(
+									"AlwaysTrue", "(always true)"));
+						} else if ("2".equals(ndgResult[0])) {
+							// ProveDetails=={true,"c"}
+							rel.setInfo(rel.getInfo()
+									+ trueOnParts);
 						} else {
-							int ndgs = ndgResult.length;
-							if ((ndgs == 2) && ((Unicode.ELLIPSIS + "")
-									.equals(ndgResult[1]))) {
-								// Formerly UnderCertainConditionsA
-								rel.setInfo(rel.getInfo() + loc.getPlain(
-										"GenerallyTrueAcondB",
-										"<ul><li " + liStyle + ">" + relInfo
-												+ "</ul>",
-										"<ul><li " + liStyle + ">"
-												+ loc.getMenuDefault(
-														"ConstructionNotDegenerate",
-														"the construction is not degenerate")
-												+ "</ul>"));
+							// if ("0".equals(ndgResult[0]))
+							// ProveDetails=={false}
+							rel.setInfo(rel.getInfo() + generallyFalse);
+						}
+						rel.setInfo(rel.getInfo() + "</b>");
+					} else {
+						int ndgs = ndgResult.length;
+						if ((ndgs == 2) && ((Unicode.ELLIPSIS + "")
+								.equals(ndgResult[1]))) {
+							// Formerly UnderCertainConditionsA
+							rel.setInfo(rel.getInfo() + loc.getPlain(
+									"GenerallyTrueAcondB",
+									"<ul><li " + liStyle + ">" + relInfo
+											+ "</ul>",
+									"<ul><li " + liStyle + ">"
+											+ loc.getMenuDefault(
+											"ConstructionNotDegenerate",
+											"the construction is not degenerate")
+											+ "</ul>"));
 
-							} else {
-								if ("2".equals(ndgResult[0])) {
-									// ProveDetails=={true,{...},"c"}
-									rel.setInfo(
-											rel.getInfo() + relInfo + "<br><b>"
+						} else {
+							if ("2".equals(ndgResult[0])) {
+								// ProveDetails=={true,{...},"c"}
+								rel.setInfo(
+										rel.getInfo() + relInfo + "<br><b>"
 												+ trueOnParts + "</b>");
-								} else {
-									// GenerallyTrueAcondB
-									StringBuilder conds = new StringBuilder("<ul>");
-									for (int j = 1; j < ndgs; ++j) {
-										conds.append("<li ");
-										conds.append(liStyle);
-										conds.append(">");
-										conds.append(ndgResult[j]);
-										if ((j < ndgs - 1)) {
-											conds.append(" ");
-											conds.append(and);
-										}
+							} else {
+								// GenerallyTrueAcondB
+								StringBuilder conds = new StringBuilder("<ul>");
+								for (int j = 1; j < ndgs; ++j) {
+									conds.append("<li ");
+									conds.append(liStyle);
+									conds.append(">");
+									conds.append(ndgResult[j]);
+									if ((j < ndgs - 1)) {
+										conds.append(" ");
+										conds.append(and);
 									}
-									conds.append("</ul>");
-									rel.setInfo(rel.getInfo() + loc
-											.getPlain("GenerallyTrueAcondB",
-													"<ul><li " + liStyle + ">"
-															+ relInfo + "</ul>",
-													conds.toString()));
 								}
+								conds.append("</ul>");
+								rel.setInfo(rel.getInfo() + loc
+										.getPlain("GenerallyTrueAcondB",
+												"<ul><li " + liStyle + ">"
+														+ relInfo + "</ul>",
+												conds.toString()));
 							}
 						}
 					}
@@ -250,87 +218,8 @@ public class Relation {
 	}
 
 	/**
-	 * Tries to compute if a geometry statement holds generally.
-	 * 
-	 * @param command
-	 *            Are... command
-	 * @param g1
-	 *            first object
-	 * @param g2
-	 *            second object
-	 * @param g3
-	 *            third object (optional)
-	 * @param g4
-	 *            forth object (optional)
-	 * @return true if statement holds generally, false if it does not hold,
-	 *         null if cannot be decided by GeoGebra
-	 * 
-	 * @author Zoltan Kovacs
-	 */
-	final public static Boolean checkGenerally(RelationCommand command,
-			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
-		Boolean ret = null;
-		Construction cons = g1.getConstruction();
-		GeoElement root = new GeoBoolean(cons);
-		AlgoElement ae = null;
-		try {
-			switch (command) {
-			case AreEqual:
-				ae = new AlgoAreEqual(cons, g1, g2);
-				break;
-			case AreCongruent:
-				ae = new AlgoAreCongruent(cons, g1, g2);
-				break;
-			case AreParallel:
-				ae = new AlgoAreParallel(cons, g1, g2);
-				break;
-			case ArePerpendicular:
-				ae = new AlgoArePerpendicular(cons, g1, g2);
-				break;
-			case IsOnPath:
-				if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, (GeoPoint) g1, (Path) g2);
-				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
-				}
-				break;
-			case AreConcyclic:
-				ae = new AlgoAreConcyclic(cons, (GeoPoint) g1, (GeoPoint) g2,
-						(GeoPoint) g3, (GeoPoint) g4);
-				break;
-			case AreCollinear:
-				ae = new AlgoAreCollinear(cons, (GeoPoint) g1, (GeoPoint) g2,
-						(GeoPoint) g3);
-				break;
-			case AreConcurrent:
-				ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
-						(GeoLine) g3);
-				break;
-			case IsTangent:
-				Log.debug("Missing case: " + command);
-			}
-		} catch (Exception ex) {
-			return ret; // there was an error during Prove
-		}
-		if (ae == null) {
-			return ret; // which is null here
-		}
-		root.setParentAlgorithm(ae);
-		AlgoProve ap = new AlgoProve(cons, null, root);
-		ap.compute();
-		GeoElement[] o = ap.getOutput();
-		GeoBoolean ans = ((GeoBoolean) o[0]);
-		if (ans.isDefined()) {
-			ret = ans.getBoolean();
-		}
-		root.remove();
-		o[0].remove();
-		return ret;
-	}
-
-	/**
 	 * Tries to compute a necessary condition for a given statement to hold.
-	 * 
+	 *
 	 * @param command
 	 *            Are... command
 	 * @param g1
@@ -341,60 +230,60 @@ public class Relation {
 	 *            third object (may be null)
 	 * @param g4
 	 *            forth object (may be null)
-	 * 
+	 *
 	 * @return [""]: undefined, ["0"]: false, ["1"]: always true, ["1", cond1,
 	 *         cond2, ...]: true under cond1 and cond2 and ...
-	 * 
+	 *
 	 * @author Zoltan Kovacs
-	 * 
+	 *
 	 */
 	final public static String[] getNDGConditions(RelationCommand command,
-			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
+												  GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
 		AlgoElement ae = null;
 		String[] ret;
 		try {
 			switch (command) {
-			case AreCongruent:
-				ae = new AlgoAreCongruent(cons, g1, g2);
-				break;
-			case AreEqual:
-				ae = new AlgoAreEqual(cons, g1, g2);
-				break;
-			case AreParallel:
-				ae = new AlgoAreParallel(cons, g1, g2);
-				break;
-			case ArePerpendicular:
-				ae = new AlgoArePerpendicular(cons, g1, g2);
-				break;
-			case IsOnPath:
-				if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, (GeoPoint) g1, (Path) g2);
-				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
-					ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
-				}
-				break;
-			case AreConcyclic:
-				ae = new AlgoAreConcyclic(cons, (GeoPoint) g1, (GeoPoint) g2,
-						(GeoPoint) g3, (GeoPoint) g4);
-				break;
-			case AreCollinear:
-				ae = new AlgoAreCollinear(cons, (GeoPoint) g1, (GeoPoint) g2,
-						(GeoPoint) g3);
-				break;
-			case AreConcurrent:
-				ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
-						(GeoLine) g3);
-				break;
-			case IsTangent:
-				if ((g1 instanceof GeoLine) && (g2 instanceof GeoConic)) {
-					ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
-				} else if ((g1 instanceof GeoConic)
-						&& (g2 instanceof GeoLine)) {
-					ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
-				}
-				break;
+				case AreCongruent:
+					ae = new AlgoAreCongruent(cons, g1, g2);
+					break;
+				case AreEqual:
+					ae = new AlgoAreEqual(cons, g1, g2);
+					break;
+				case AreParallel:
+					ae = new AlgoAreParallel(cons, g1, g2);
+					break;
+				case ArePerpendicular:
+					ae = new AlgoArePerpendicular(cons, g1, g2);
+					break;
+				case IsOnPath:
+					if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
+						ae = new AlgoIsOnPath(cons, (GeoPoint) g1, (Path) g2);
+					} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
+						ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
+					}
+					break;
+				case AreConcyclic:
+					ae = new AlgoAreConcyclic(cons, (GeoPoint) g1, (GeoPoint) g2,
+							(GeoPoint) g3, (GeoPoint) g4);
+					break;
+				case AreCollinear:
+					ae = new AlgoAreCollinear(cons, (GeoPoint) g1, (GeoPoint) g2,
+							(GeoPoint) g3);
+					break;
+				case AreConcurrent:
+					ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
+							(GeoLine) g3);
+					break;
+				case IsTangent:
+					if ((g1 instanceof GeoLine) && (g2 instanceof GeoConic)) {
+						ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
+					} else if ((g1 instanceof GeoConic)
+							&& (g2 instanceof GeoLine)) {
+						ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
+					}
+					break;
 			}
 		} catch (RuntimeException ex) {
 			ret = new String[1];

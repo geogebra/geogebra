@@ -71,9 +71,6 @@ public enum Feature {
 	/** automatically add NDG conditions in locus equations */
 	LOCUSEQU_AUTO_NDG,
 
-	/** unify prove commands */
-	PROVE_UNIFY,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
