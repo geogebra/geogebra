@@ -96,10 +96,7 @@ public class KeyboardInputAdapter {
                 typeCharacter(mfi, 'l');
                 typeCharacter(mfi, 'o');
                 typeCharacter(mfi, 'g');
-                typeCharacter(mfi, '_');
-                CursorController.nextCharacter(mfi.getEditorState());
                 typeCharacter(mfi, '(');
-                mfi.getCursorController().prevCharacter(mfi.getEditorState());
                 mfi.getCursorController().prevCharacter(mfi.getEditorState());
             }
         });
