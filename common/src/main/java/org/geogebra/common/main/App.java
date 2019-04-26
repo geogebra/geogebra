@@ -3816,9 +3816,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case PARAMETRIC_SURFACE_IS_REGION:
 			return prerelease;
 
-		case CONVEX_HULL_3D:
-			return canary;
-
 		case COMMAND_HOLES:
 			return prerelease;
 

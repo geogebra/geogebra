@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.main.Feature;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet
@@ -45,12 +44,6 @@ public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 				return new CmdArchimedeanSolid(kernel, Commands.Dodecahedron);
 			case Icosahedron:
 				return new CmdArchimedeanSolid(kernel, Commands.Icosahedron);
-
-			case Polyhedron:
-				if (kernel.getApplication().has(Feature.CONVEX_HULL_3D)) {
-					return new CmdPolyhedronConvex(kernel);
-				}
-				return null;
 
 			case Net:
 				return new CmdPolyhedronNet(kernel);

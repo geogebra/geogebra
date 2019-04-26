@@ -23,8 +23,6 @@ public enum Feature {
 
 	ANALYTICS,
 
-	CONVEX_HULL_3D,
-
 	/** GGB-334, TRAC-3401 */
 	ADJUST_WIDGETS,
 
