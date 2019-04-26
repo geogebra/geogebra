@@ -3823,6 +3823,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		/** APPS-284 */
 		case COMMAND_FILTERING:
 			return prerelease;
+
+		case BUTTON_HIGHLIGHTING:
+			return prerelease;
 		// **********************************************************************
        // G3D START
        //

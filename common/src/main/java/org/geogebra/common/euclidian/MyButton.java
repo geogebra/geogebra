@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 //import java.awt.Color;
@@ -43,6 +44,7 @@ public class MyButton implements Observer {
 	private double textWidth;
 	private GBasicStroke borderStroke;
 	private boolean firstCall = true;
+	private ButtonHiglightArea halo;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -62,6 +64,9 @@ public class MyButton implements Observer {
 		this.y = 20;
 		this.borderStroke = EuclidianStatic.getDefaultStroke();
 		geoButton.setObserver(this);
+		if (view.getApplication().has(Feature.BUTTON_HIGHLIGHTING)) {
+			halo = new ButtonHiglightArea(this);
+		}
 	}
 
 	private String getCaption() {
@@ -148,19 +153,19 @@ public class MyButton implements Observer {
 		// Initial offset for subimage if button has fixed size
 		int startX = 0;
 		int startY = 0;
-		double add = 0;
+		double widthCorrection = 0;
 		if (!geoButton.isFixedSize()) {
 			// Some combinations of style, serif / sans and letters
 			// overflow from the drawing if the text is extra large
 			if (geoButton.getFontStyle() >= 2) {
-				add = Math.sin(0.50) * t.getDescent();
-				currentWidth += (int) add;
+				widthCorrection = Math.sin(0.50) * t.getDescent();
+				currentWidth += (int) widthCorrection;
 			}
 			if (geoButton.isSerifFont()) {
 				currentWidth += currentWidth / 10;
 			}
 			if (geoButton.isSerifFont() && geoButton.getFontStyle() >= 2) {
-				add = -add;
+				widthCorrection = -widthCorrection;
 				currentWidth += currentWidth / 4;
 			}
 			geoButton.setWidth(currentWidth);
@@ -219,52 +224,49 @@ public class MyButton implements Observer {
 		if (geoButton.getKernel().getApplication().getButtonShadows()) {
 			shadowSize = (int) (getHeight() * 0.1);
 			g.setPaint(paint.slightlyDarker());
-			g.fillRoundRect(x, y, getWidth() + (int) add - 1,
+			g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 					getHeight() - 1, arcSize, arcSize);
 		}
 
+		if (isSelected() && halo != null) {
+			halo.draw(g, widthCorrection, arcSize);
+		}
 		g.setPaint(paint);
 		g.setStroke(borderStroke);
-		g.fillRoundRect(x, y, getWidth() + (int) add - 1,
+		g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// change border on mouseover
-		if (isSelected()) {
+		if (isSelected() && halo == null) {
 			// default button design
 			if (bg.equals(GColor.WHITE)) {
 				// color for inner border
 				g.setColor(GColor.GRAY);
 				// inner border
-				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3,
+				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) widthCorrection - 3,
 						getHeight() - 3, arcSize, arcSize);
-				// color for outer border
-				g.setColor(GColor.BLACK);
-
 				// user adjusted design
 			} else {
 				// color for inner border
 				g.setColor(bg.darker());
 				// inner border
-				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3,
+				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) widthCorrection - 3,
 						getHeight() - 3, arcSize, arcSize);
-				// color for outer border
-				g.setColor(bg.darker().darker());
-			}
 
+			}
 			// border color
-		} else {
-			// default button design
-			if (bg.equals(GColor.WHITE)) {
-				g.setColor(GColor.BLACK);
+		}
 
-				// user adjusted design
-			} else {
-				g.setColor(bg.darker());
-			}
+		// color for outer border: default button design
+		if (bg.equals(GColor.WHITE)) {
+			g.setColor(GColor.BLACK);
+			// user adjusted design
+		} else {
+			g.setColor(isSelected() ? bg.darker().darker() : bg.darker());
 		}
 
 		// draw border
-		g.drawRoundRect(x, y, getWidth() + (int) add - 1,
+		g.drawRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// prepare to draw text
@@ -275,27 +277,7 @@ public class MyButton implements Observer {
 		if (im != null) {
 
 			if (im.isSVG()) {
-
-				// SVG is scaled to the button size rather than cropped
-				double sx = (double) im.getWidth() / (double) getWidth();
-				double sy = (double) im.getHeight() / (double) getHeight();
-
-				boolean one2one = MyDouble.exactEqual(sx, 1)
-						&& MyDouble.exactEqual(sy, 1);
-
-				if (!one2one) {
-					g.saveTransform();
-
-					g.scale(1 / sx, 1 / sy);
-					g.translate(x * sx, y * sy);
-				}
-
-				g.drawImage(im, 0, 0);
-
-				if (!one2one) {
-					g.restoreTransform();
-				}
-
+				drawSVG(im, g);
 			} else {
 
 				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
@@ -311,8 +293,30 @@ public class MyButton implements Observer {
 
 						- textHeight) / 2;
 			}
-			drawText(g, t, imgStart + imgGap + imgHeight, latex, add,
+			drawText(g, t, imgStart + imgGap + imgHeight, latex, widthCorrection,
 					shadowSize);
+		}
+	}
+
+	private void drawSVG(MyImage im, GGraphics2D g) {
+		// SVG is scaled to the button size rather than cropped
+		double sx = (double) im.getWidth() / (double) getWidth();
+		double sy = (double) im.getHeight() / (double) getHeight();
+
+		boolean one2one = MyDouble.exactEqual(sx, 1)
+				&& MyDouble.exactEqual(sy, 1);
+
+		if (!one2one) {
+			g.saveTransform();
+
+			g.scale(1 / sx, 1 / sy);
+			g.translate(x * sx, y * sy);
+		}
+
+		g.drawImage(im, 0, 0);
+
+		if (!one2one) {
+			g.restoreTransform();
 		}
 	}
 
