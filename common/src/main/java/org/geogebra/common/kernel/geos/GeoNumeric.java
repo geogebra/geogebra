@@ -2117,17 +2117,4 @@ public class GeoNumeric extends GeoElement
 	public boolean isPolynomialFunction(boolean forRoot) {
 		return true;
 	}
-
-	/**
-	 * @param isInteger
-	 *            whether to force integer labels
-	 * @return label for the slider
-	 */
-	public String getNextSliderLabel(boolean isInteger) {
-		if (isInteger) {
-			LabelManager.getNextIndexedLabel(getConstruction(),
-					LabelType.integerLabels);
-		}
-		return getDefaultLabel();
-	}
 }

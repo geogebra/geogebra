@@ -256,8 +256,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 			return twin.getDefaultLabel();
 		}
 		if (getEquationTypeForLabeling() == EquationType.EXPLICIT) {
-			return LabelManager.getNextIndexedLabel(cons,
-					LabelType.functionLabels);
+			return getLabelManager()
+					.getNextIndexedLabel(LabelType.functionLabels);
 		}
 		return super.getDefaultLabel();
 	}

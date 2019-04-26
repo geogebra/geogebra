@@ -16,6 +16,15 @@ public class LabelManager {
 	public static final String HIDDEN_PREFIX = "\u00A5\u00A6\u00A7\u00A8\u00A9\u00AA";
 	
 	private char[] angleLabels;
+	private final Construction cons;
+
+	/**
+	 * @param construction
+	 *            construction
+	 */
+	public LabelManager(Construction construction) {
+		this.cons = construction;
+	}
 
 	/**
 	 * Checks whether name can be used as label Parser.parseLabel takes care of
@@ -239,13 +248,11 @@ public class LabelManager {
 	 * 
 	 * ...
 	 * 
-	 * @param cons
-	 *            construction
 	 * @param chars
 	 *            single character names for this type
 	 * @return next label
 	 */
-	public static String getNextIndexedLabel(Construction cons, char[] chars) {
+	public String getNextIndexedLabel(char[] chars) {
 		int counter = 0, q, r;
 		String labelToUse = "";
 		boolean repeat = true;
@@ -308,6 +315,13 @@ public class LabelManager {
 	 */
 	public char[] getAngleLabels() {
 		return angleLabels;
+	}
+
+	/**
+	 * @return next label for an integer slider
+	 */
+	public String getNextIntegerLabel() {
+		return getNextIndexedLabel(LabelType.integerLabels);
 	}
 
 }

@@ -266,6 +266,13 @@ public class ScreenReader {
 				}
 				return ScreenReader.getLeftBracket() + content + ScreenReader.getRightBracket();
 			}
+
+			public String log(String base, String argument) {
+				if (StringUtil.empty(base)) {
+					return localize("logarithm of %0", argument);
+				}
+				return localize("logarithm with base %0 of %1", argument);
+			}
 		};
 	}
 

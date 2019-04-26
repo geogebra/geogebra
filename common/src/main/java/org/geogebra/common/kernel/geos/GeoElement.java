@@ -3180,8 +3180,7 @@ public abstract class GeoElement extends ConstructionElement
 			chars = LabelType.lowerCaseLabels;
 		}
 
-
-		return LabelManager.getNextIndexedLabel(cons, chars);
+		return getLabelManager().getNextIndexedLabel(chars);
 	}
 
 	private String defaultNumberedLabel(final String plainKey,
@@ -3194,9 +3193,8 @@ public abstract class GeoElement extends ConstructionElement
 		String str;
 		do {
 			counter++;
-			str = trans
-					+ kernel.internationalizeDigits(counter + "",
-							StringTemplate.defaultTemplate);
+			str = trans + kernel.internationalizeDigits(counter + "",
+					StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
 	}
@@ -7746,11 +7744,12 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * Initializes the labelManager field with the LabelManager instance from the App
-	 * @return the initialized labelManager field
+	 * Convenience method to get label manager of current construction
+	 * 
+	 * @return label manager
 	 */
-	private LabelManager getLabelManager() {
-		return kernel.getApplication().getLabelManager();
+	public LabelManager getLabelManager() {
+		return cons.getLabelManager();
 	}
 
 	/**

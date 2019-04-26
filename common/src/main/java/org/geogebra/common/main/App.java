@@ -73,7 +73,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -417,7 +416,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
-	private LabelManager labelManager;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
 
@@ -438,20 +436,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public App(Versions version) {
 		this();
 		this.version = version;
-		initParserSettings();
 	}
 
 	protected void init() {
 		companion = newAppCompanion();
 		resetUniqueId();
-	}
-
-	/**
-	 * Update labels from app config. TODO don't call this from constructor so
-	 * that NPE check can be removed
-	 */
-	private void initParserSettings() {
-		getLabelManager().setAngleLabels(getConfig().isGreekAngleLabels());
 	}
 
 	/**
@@ -4983,7 +4972,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	protected void initSettings() {
 		settings = newSettingsBuilder().newSettings();
-		initParserSettings();
 	}
 
 	public SettingsBuilder newSettingsBuilder() {
@@ -5050,17 +5038,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
 		// only desktop
-	}
-
-	/**
-	 * Initializes and returns the LabelManager instance
-	 * @return the LabelManager instance
-	 */
-	public LabelManager getLabelManager() {
-		if (labelManager == null) {
-			labelManager = new LabelManager();
-		}
-		return labelManager;
 	}
 
 	/**

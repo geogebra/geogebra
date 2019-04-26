@@ -484,13 +484,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			if (lowerCaseLabel.length() == 1) {
 				char[] label = new char[1];
 				label[0] = lowerCaseLabel.charAt(0);
-				s.setLabel(LabelManager.getNextIndexedLabel(s.getConstruction(), label));
+				s.setLabel(s.getConstruction().getLabelManager()
+						.getNextIndexedLabel(label));
 
 			} else {
 
 				// eg Point is "PtA"
 				// -> opposite Segment is "pta"
-				if (s.toGeoElement().getConstruction()
+				if (s.getConstruction()
 						.isFreeLabel(lowerCaseLabel)) {
 					s.setLabel(lowerCaseLabel);
 				} else {

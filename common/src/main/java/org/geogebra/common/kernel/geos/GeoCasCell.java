@@ -3765,8 +3765,8 @@ public class GeoCasCell extends GeoElement
 	 */
 	protected String getPointVectorDefault(String var) {
 		if (!StringUtil.isLowerCase(var.charAt(0))) {
-			return LabelManager.getNextIndexedLabel(cons,
-					LabelType.pointLabels);
+			return getLabelManager()
+					.getNextIndexedLabel(LabelType.pointLabels);
 		}
 		return getDefaultLabel();
 	}

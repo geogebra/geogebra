@@ -192,6 +192,7 @@ public class Construction {
 	private boolean casCellUpdate = false;
 	private boolean notXmlLoading = false;
 	private boolean updateConstructionRunning;
+	private LabelManager labelManager;
 
 	/**
 	 * Creates a new Construction.
@@ -3608,6 +3609,20 @@ public class Construction {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Initializes and returns the LabelManager instance
+	 * 
+	 * @return the LabelManager instance
+	 */
+	public LabelManager getLabelManager() {
+		if (labelManager == null) {
+			labelManager = new LabelManager(this);
+			labelManager.setAngleLabels(
+					kernel.getApplication().getConfig().isGreekAngleLabels());
+		}
+		return labelManager;
 	}
 
 }

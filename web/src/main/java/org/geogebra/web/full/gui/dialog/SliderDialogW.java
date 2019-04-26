@@ -199,8 +199,10 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	private void updateLabelField(GeoNumeric geo, boolean isInteger) {
 		String def = geo.isAngle() ? " = " + Unicode.FORTY_FIVE_DEGREES_STRING
 				: " = 1";
-		tfLabel.setText(geo.getNextSliderLabel(isInteger) + def); // =45degrees
-    }
+		String label = isInteger ? geo.getLabelManager().getNextIntegerLabel()
+				: geo.getDefaultLabel();
+		tfLabel.setText(label + def); // =45degrees
+	}
 
 	/**
 	 * Sets the geoResult name and value: this is temporarily just a default label
