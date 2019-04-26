@@ -126,7 +126,7 @@ public class StringTemplateTest {
 	private static GeoElementND add(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
-				string, false, new TestErrorHandler(),
+				string, false, TestErrorHandler.INSTANCE,
 				new EvalInfo(true).withFractions(true).addDegree(true), null);
 		return result[0];
 	}

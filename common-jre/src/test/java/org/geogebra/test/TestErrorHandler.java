@@ -15,6 +15,10 @@ public class TestErrorHandler implements ErrorLogger {
 	 */
 	public static final ErrorHandler INSTANCE = new TestErrorHandler();
 
+	private TestErrorHandler() {
+		// singleton
+	}
+
 	@Override
 	public void showError(String msg) {
 		Assert.assertNull(msg);
