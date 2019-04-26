@@ -63,6 +63,8 @@ import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -302,8 +304,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
-
-	private LabelManager labelManager;
 
 	/** fill type */
 	protected FillType fillType = FillType.STANDARD;
@@ -3084,8 +3084,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String getDefaultLabel() {
 		char[] chars = null;
-		EquationType equationType = LabelManager
-				.getEquationTypeForLabeling(this);
+		EquationType equationType = getEquationTypeForLabeling();
 		if (isGeoPoint() && !(this instanceof GeoTurtle)) {
 			// Michael Borcherds 2008-02-23
 			// use Greek upper case for labeling points if language is Greek
@@ -7751,10 +7750,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return the initialized labelManager field
 	 */
 	private LabelManager getLabelManager() {
-		if (labelManager == null) {
-			labelManager = kernel.getApplication().getLabelManager();
-		}
-		return labelManager;
+		return kernel.getApplication().getLabelManager();
 	}
 
 	/**
@@ -7782,5 +7778,22 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public final boolean hasPreviewPopup() {
 		return hasPreviewPopup;
+	}
+
+	/**
+	 * Equation type unrelated to type for display which is set in the geo.
+	 * 
+	 * @return whether to prefer implicit equation label
+	 */
+	public EquationType getEquationTypeForLabeling() {
+		if (definition == null
+				|| !(definition.unwrap() instanceof EquationValue)) {
+			return EquationType.NONE;
+		}
+		Equation eqn = (Equation) definition.unwrap();
+		if (eqn.isExplicitIn("y") || eqn.isExplicitIn("z")) {
+			return EquationType.EXPLICIT;
+		}
+		return EquationType.IMPLICIT;
 	}
 }

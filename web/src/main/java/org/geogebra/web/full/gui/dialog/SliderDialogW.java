@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
@@ -197,10 +196,10 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		bottomWidget.add(btCancel);
 	}
 
-	private void updateLabelField(GeoElement geo, boolean isInteger) {
+	private void updateLabelField(GeoNumeric geo, boolean isInteger) {
 		String def = geo.isAngle() ? " = " + Unicode.FORTY_FIVE_DEGREES_STRING
 				: " = 1";
-		tfLabel.setText(LabelManager.getNextSliderLabel(geo, isInteger) + def); // =45degrees
+		tfLabel.setText(geo.getNextSliderLabel(isInteger) + def); // =45degrees
     }
 
 	/**

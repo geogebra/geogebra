@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.desktop.gui.properties.SliderPanelD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -250,7 +249,7 @@ public class SliderDialogD extends JDialog
 			setVisible(false);
 		} else if (source == rbNumber || source == rbAngle
 				|| source == rbInteger) {
-			GeoElement selGeo = rbAngle.isSelected() ? angle : number;
+			GeoNumeric selGeo = rbAngle.isSelected() ? angle : number;
 			if (source == rbInteger) {
 				number.setAutoStep(false);
 				number.setAnimationStep(1);
@@ -270,7 +269,7 @@ public class SliderDialogD extends JDialog
 
 			// update label text field
 			tfLabel.setText(
-					LabelManager.getNextSliderLabel(selGeo, source == rbInteger));
+					selGeo.getNextSliderLabel(source == rbInteger));
 			setLabelFieldFocus();
 		}
 	}

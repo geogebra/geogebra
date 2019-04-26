@@ -880,4 +880,15 @@ public class Equation extends ValidExpression implements EquationValue {
 		// only for geos
 	}
 
-} // end of class Equation
+	/**
+	 * @param varName
+	 *            variable name
+	 * @return whether this equation is in form varName = f(other variables)
+	 */
+	public boolean isExplicitIn(String varName) {
+		String lhsString = getLHS().toString(StringTemplate.noLocalDefault);
+		return varName.equals(lhsString)
+				&& !getRHS().containsFreeFunctionVariable(varName);
+	}
+
+}

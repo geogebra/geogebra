@@ -3,11 +3,6 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
@@ -315,44 +310,4 @@ public class LabelManager {
 		return angleLabels;
 	}
 
-	/**
-	 * @param slider
-	 *            slider
-	 * @param isInteger
-	 *            whether to force integer labels
-	 * @return label for the slider
-	 */
-	public static String getNextSliderLabel(GeoElement slider, boolean isInteger) {
-		if (isInteger) {
-			getNextIndexedLabel(slider.getConstruction(),
-					LabelType.integerLabels);
-		}
-		return slider.getDefaultLabel();
-	}
-
-	/**
-	 * Equation type unrelated to type for display which is set in the geo.
-	 * 
-	 * @param geoElement
-	 *            element
-	 * @return whether to prefer implicit equation label
-	 */
-	public static EquationType getEquationTypeForLabeling(GeoElement geoElement) {
-		ExpressionValue definition = geoElement.getDefinition();
-		if (definition == null
-				|| !(definition.unwrap() instanceof EquationValue)) {
-			return EquationType.NONE;
-		}
-		Equation eqn = (Equation) definition.unwrap();
-		if (isExplicitIn("y", eqn) || isExplicitIn("z", eqn)) {
-			return EquationType.EXPLICIT;
-		}
-		return EquationType.IMPLICIT;
-	}
-
-	private static boolean isExplicitIn(String varName, Equation eqn) {
-		String lhs = eqn.getLHS().toString(StringTemplate.noLocalDefault);
-		return varName.equals(lhs)
-				&& !eqn.getRHS().containsFreeFunctionVariable(varName);
-	}
 }
