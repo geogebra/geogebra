@@ -269,9 +269,10 @@ public class SliderDialogD extends JDialog
 			sliderPanel.updatePanel(geos);
 
 			// update label text field
-			tfLabel.setText(source == rbInteger
+			String sliderLabel = source == rbInteger
 					? selGeo.getLabelManager().getNextIntegerLabel()
-					: selGeo.getDefaultLabel());
+					: selGeo.getDefaultLabel();
+			tfLabel.setText(sliderLabel);
 			setLabelFieldFocus();
 		}
 	}
