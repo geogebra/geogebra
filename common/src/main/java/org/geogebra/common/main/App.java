@@ -3816,10 +3816,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
-		/** automatically add NDG conditions in locus equations */
-		case LOCUSEQU_AUTO_NDG:
-			return true;
-
 		/** APPS-284 */
 		case COMMAND_FILTERING:
 			return prerelease;

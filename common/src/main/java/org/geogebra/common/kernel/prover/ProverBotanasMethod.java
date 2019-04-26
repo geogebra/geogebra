@@ -1912,7 +1912,7 @@ public class ProverBotanasMethod {
 		SingularWebService singularWS = mover.getConstruction()
 				.getApplication().getSingularWS();
 		if (singularWS == null || (!singularWS.isAvailable())) {
-			autoNdg = k.getApplication().has(Feature.LOCUSEQU_AUTO_NDG);
+			autoNdg = true;
 		}
 
 		/* Create mover direct dependencies for Pech's idea (see below).

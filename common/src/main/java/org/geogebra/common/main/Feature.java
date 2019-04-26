@@ -68,9 +68,6 @@ public enum Feature {
 	/** G3D-97 */
 	G3D_AR_TRANSLATE_3D_VIEW_TOOL,
 
-	/** automatically add NDG conditions in locus equations */
-	LOCUSEQU_AUTO_NDG,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
