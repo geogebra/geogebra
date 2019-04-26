@@ -2,19 +2,14 @@ package org.geogebra.io.latex;
 
 import java.text.Normalizer;
 
-import org.geogebra.common.jre.util.TestStringUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -27,7 +22,6 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 public class SerializeLaTeX {
 	static Parser parser;
-	private static GeoGebraSerializer serializer;
 
 	/**
 	 * Initilize parser and serializer.
@@ -39,7 +33,6 @@ public class SerializeLaTeX {
 		}
 		MetaModel m = new MetaModel();
 		parser = new Parser(m);
-		serializer = new GeoGebraSerializer();
 	}
 
 	@Test
@@ -77,15 +70,6 @@ public class SerializeLaTeX {
 				"(cos^(-1)(1))/(2)");
 		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
 				"cos^(-1) (1)/(2)");
-	}
-
-	@Test
-	public void testInverseTrigEditor() {
-		testEditor("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
-				"MathSequence[FnAPPLY[MathSequence[c, o, s, "
-						+ Unicode.SUPERSCRIPT_MINUS + ", "
-						+ Unicode.SUPERSCRIPT_1 + "], MathSequence[1]], /, 2]",
-				true);
 	}
 
 	@Test
@@ -257,109 +241,6 @@ public class SerializeLaTeX {
 	}
 
 	@Test
-	public void testKorean() {
-
-		testEditor("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
-		testEditor("\u314A\u315C\u3139\u3131\u314F", "\uCD9C\uAC00");
-
-		testEditor("\u3142", "\u3142");
-		testEditor("\u3142\u315C", "\uBD80");
-		testEditor("\u3142\u315C\u3134", "\uBD84");
-		testEditor("\u3142\u315C\u3134\u314E", "\uBD86");
-
-		testEditor("\u3142\u315C\u3134\u314E\u3150", "\uBD84\uD574");
-		testEditor("\u3142\u315C\u3134\u314E\u3155", "\uBD84\uD600");
-		testEditor("\u3142\u315C\u3134\u314E\u315B", "\uBD84\uD6A8");
-
-		testEditor("\u314D\u3157\u314E", "\uD407");
-		testEditor("\u3141\u3163\u3142\u315C\u3134", "\uBBF8\uBD84");
-
-		testEditor("\u3147\u315F", "\uC704");
-
-		testEditor("\u3131\u314F\u3144", "\uAC12");
-
-		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
-
-		testEditor("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0C1");
-
-		// small steps
-		testEditor("\u314E\u314F", "\uD558");
-		testEditor("\u314E\u314F\u3145", "\uD56B");
-		testEditor("\u314E\u314F\u3145\u3145", "\uD56B\u3145");
-		testEditor("\u314E\u314F\u3145\u3145\u314F", "\uD56B\uC0AC");
-
-		testEditor("\u3131\u3161", "\uADF8");
-		testEditor("\u3131\u3161\u3131", "\uADF9");
-		testEditor("\u3131\u3161\u3132", "\uADFA");
-		testEditor("\u3131\u3161\u3131\u3131\u314F", "\uADF9\uAC00");
-		testEditor("\u3131\u3161\u3131\u3131\u314F\u3142", "\uADF9\uAC11");
-		testEditor("\u3131\u3161\u3131\u3131\u314F\u3144", "\uADF9\uAC12");
-
-		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
-
-		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD558\uC30D");
-
-		testEditor("\u3134\u3153\u313C\u3147\u3163", "\uB113\uC774");
-		testEditor("\u3147\u314F\u3136\u3137\u314F", "\uC54A\uB2E4");
-		testEditor("\u3131\u314F\u3144\u3147\u3161\u3134", "\uAC12\uC740");
-
-		testEditor("\u3131\u314F\u3144\u3145\u314F\u3134", "\uAC12\uC0B0");
-
-		testEditor(Korean.flattenKorean("\uB098"), "\uB098");
-		testEditor(Korean.flattenKorean("\uB108"), "\uB108");
-		testEditor(Korean.flattenKorean("\uC6B0\uB9AC"), "\uC6B0\uB9AC");
-		testEditor(Korean.flattenKorean("\uBBF8\uBD84"), "\uBBF8\uBD84");
-		testEditor(Korean.flattenKorean("\uBCA1\uD130"), "\uBCA1\uD130");
-		testEditor(Korean.flattenKorean("\uC0C1\uC218"), "\uC0C1\uC218");
-		testEditor(Korean.flattenKorean("\uB2ED\uBA39\uC5B4"),
-				"\uB2ED\uBA39\uC5B4");
-		testEditor(Korean.flattenKorean("\uC6EC\uC77C"), "\uC6EC\uC77C");
-		testEditor(Korean.flattenKorean("\uC801\uBD84"), "\uC801\uBD84");
-		testEditor(Korean.flattenKorean("\uC288\uD37C\uB9E8"),
-				"\uC288\uD37C\uB9E8");
-		testEditor(Korean.flattenKorean("\u3138"), "\u1104");
-		testEditor(Korean.flattenKorean("\uC778\uD14C\uADF8\uB784"),
-				"\uC778\uD14C\uADF8\uB784");
-		testEditor(Korean.flattenKorean("\u3137"), "\u1103");
-		testEditor(Korean.flattenKorean("\u3131"), "\u1100");
-		testEditor(Korean.flattenKorean("\u3134"), "\u1102");
-		testEditor(Korean.flattenKorean("\uC8FC\uC778\uC7A5"),
-				"\uC8FC\uC778\uC7A5");
-		testEditor(Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"),
-				"\uC774\uC81C\uC880\uC790\uC790");
-		testEditor(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
-				"\uC544\uBAA8\uB974\uACA0\uB2E4");
-
-		testEditor("\u3146\u1161\u11BC", "\uC30D");
-		testEditor("\u110A\u1161\u11BC", "\uC30D");
-
-		testEditor("\u3142\u315C", "\uBD80");
-		testEditor("\u3142\u315E", "\uBDB8");
-		testEditor("\u3142\u315E\u3139", "\uBDC0");
-		testEditor("\u3142\u315E\u313A", "\uBDC1");
-
-		// testEditor("\u3132", "\u1101");
-		testEditor("\u3132\u314F", "\uAE4C");
-
-		testEditor("\u3131\u3157\u3142\u3131\u3161\u3134", "\uACF1\uADFC");
-		testEditor("\u3147\u3163\u3142\u3139\u3155\u3131", "\uC785\uB825");
-
-		testEditor("\u3147\u3157\u314F\u3134\u3139\u315B", "\uC644\uB8CC");
-		testEditor("\u3131\u3157\u3142\u314E\u314F\u3131\u3163",
-				"\uACF1\uD558\uAE30");
-
-		// some middle (vowel) characters need doubling (no other way to enter
-		// them)
-		// eg \u315c \u3153 = \u116f
-		testEditor("\u3147\u315c", "\uc6b0");
-		testEditor("\u3147\u315c\u3153", "\uc6cc");
-		testEditor("\u3147\u315c\u3153\u3134", "\uc6d0");
-		testEditor("\u3147\u3157\u314F", "\uC640");
-		// ... and same for tail
-		testEditor("\u3137\u314F\u3139\u3131", "\uB2ED");
-	}
-
-	@Test
 	public void testKoreanNormalization() {
 		testKorean("\uD4DB");
 
@@ -394,52 +275,6 @@ public class SerializeLaTeX {
 				Korean.flattenKorean(s));
 	}
 
-	@Test
-	public void testEditorUnicode() {
-		testEditor(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				TestStringUtil.unicode("x/sqrt(x^2+4)"));
-		testEditor("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"x/(" + Unicode.EULER_STRING + "^x+1)");
-
-		testEditor("3*x", "3*x");
-	}
-
-	@Test
-	public void testEditor() {
-		testEditor("sqrt(x/2)", "sqrt(x/2)");
-
-		testEditor("1+2+3-4", "1+2+3-4");
-		testEditor("12345", "12345");
-		testEditor("1/2/3/4", "1/2/3/4");
-		testEditor("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
-
-		// typing second | starts another abs() clause
-		testEditor("3|x", "3*abs(x)");
-		testEditor("3 |x", "3 *abs(x)");
-		testEditor("3*|x", "3*abs(x)");
-		testEditor("x|xx", "x*abs(xx)");
-		testEditor("x |x x", "x *abs(x x)");
-		testEditor("x*|x*x", "x*abs(x*x)");
-		testEditor("x sqrt(x)", "x sqrt(x)");
-		testEditor("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
-	}
-
-	private static void testEditor(String input, String output) {
-		testEditor(input, output, false);
-	}
-
-	private static void testEditor(String input, String output, boolean raw) {
-		final MathFieldD mathField = new MathFieldD();
-
-		MathFieldInternal mathFieldInternal = mathField.getInternal();
-		EditorState editorState = mathFieldInternal.getEditorState();
-
-		mathField.insertString(input);
-		MathSequence rootComponent = editorState.getRootComponent();
-		Assert.assertEquals(output, raw ? rootComponent + ""
-				: GeoGebraSerializer.serialize(rootComponent));
-	}
-
 	private static void checkLaTeX(String string, String string2) {
 		checkLaTeX(string, string2, null);
 	}
@@ -456,7 +291,7 @@ public class SerializeLaTeX {
 	private static void checkCannon(String input, String output) {
 		MathFormula mf = checkLaTeXRender(parser, input);
 		Assert.assertEquals(mf.getRootComponent() + "", output,
-				serializer.serialize(mf));
+				GeoGebraSerializer.serialize(mf.getRootComponent()));
 		checkLaTeXRender(parser, input);
 	}
 

@@ -105,11 +105,7 @@ public class MathSequence extends MathContainer {
 	 * @return whether given argument is a sub/super-script
 	 */
 	public boolean isScript(int i) {
-		return i >= 0 && i < size() && getArgument(i) instanceof MathFunction
-				&& (Tag.SUPERSCRIPT
-						.equals(((MathFunction) getArgument(i)).getName())
-						|| Tag.SUBSCRIPT.equals(
-								((MathFunction) getArgument(i)).getName()));
+		return i >= 0 && i < size() && MathFunction.isScript(getArgument(i));
 	}
 
 	/**

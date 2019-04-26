@@ -148,4 +148,18 @@ public class MathFunction extends MathContainer {
 	protected String getSimpleName() {
 		return "Fn" + meta.getName();
 	}
+
+	/**
+	 * @param argument
+	 *            part of expression
+	 * @return whether argument is either subscript or superscript
+	 */
+	public static boolean isScript(MathComponent argument) {
+		if (!(argument instanceof MathFunction)) {
+			return false;
+		}
+		Tag functionName = ((MathFunction) argument).getName();
+		return Tag.SUPERSCRIPT.equals(functionName)
+				|| Tag.SUBSCRIPT.equals(functionName);
+	}
 }

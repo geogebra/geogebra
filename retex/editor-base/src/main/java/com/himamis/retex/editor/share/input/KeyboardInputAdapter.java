@@ -175,22 +175,37 @@ public class KeyboardInputAdapter {
     }
 
 	/**
-	 * @param mMathFieldInternal
+	 * @param mathFieldInternal
 	 *            editor
 	 * @param text
 	 *            text to be inserted
 	 */
-	public static void insertString(final MathFieldInternal mMathFieldInternal,
+	public static void insertString(final MathFieldInternal mathFieldInternal,
 			String text) {
-		boolean oldCreateFrac = mMathFieldInternal.getInputController()
+		boolean oldCreateFrac = mathFieldInternal.getInputController()
 				.getCreateFrac();
-		mMathFieldInternal.getInputController().setCreateFrac(false);
-        for (int i = 0; i < text.length(); i++) {
-			KeyboardInputAdapter.onKeyboardInput(mMathFieldInternal,
+		mathFieldInternal.getInputController().setCreateFrac(false);
+		emulateInput(mathFieldInternal, text);
+		mathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
+		mathFieldInternal.onInsertString();
+	}
+
+	/**
+	 * Type text character by character. This way 1/2+3 becomes 1/(2+3). To
+	 * insert string properly please use
+	 * {@link #insertString(MathFieldInternal, String)}
+	 * 
+	 * @param mathFieldInternal
+	 *            input field
+	 * @param text
+	 *            text to write
+	 */
+	public static void emulateInput(MathFieldInternal mathFieldInternal,
+			String text) {
+		for (int i = 0; i < text.length(); i++) {
+			KeyboardInputAdapter.onKeyboardInput(mathFieldInternal,
 					text.charAt(i) + "");
 		}
-		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
-		mMathFieldInternal.onInsertString();
 	}
 
 	/**

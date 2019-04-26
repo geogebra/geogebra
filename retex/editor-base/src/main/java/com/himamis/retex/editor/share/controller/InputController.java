@@ -147,25 +147,28 @@ public class InputController {
 		int initialOffset = editorState.getCurrentOffset();
 		MathComponent last = editorState.getCurrentField()
 				.getArgument(initialOffset - 1);
-		MathComponent exponent = last instanceof MathFunction
-				&& ((MathFunction) last).getName() == Tag.SUPERSCRIPT ? last
+		MathFunction script = MathFunction.isScript(last) ? (MathFunction) last
 						: null;
-		if (exponent != null) {
+		if (script != null) {
 			initialOffset--;
 		}
 		String casName = ArgumentHelper.readCharacters(editorState,
 				initialOffset);
 		Tag tag = Tag.lookup(casName);
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
-			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, tag == Tag.LOG ? 1 : 0);
-		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
-				&& metaModel.isFunction(casName)) {
-			if (exponent != null) {
+			if (script != null) {
 				bkspCharacter(editorState);
 			}
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, 0, ch == '[', exponent);
+			newFunction(editorState, casName, tag == Tag.LOG ? 1 : 0, false,
+					script);
+		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
+				&& metaModel.isFunction(casName)) {
+			if (script != null) {
+				bkspCharacter(editorState);
+			}
+			delCharacters(editorState, casName.length());
+			newFunction(editorState, casName, 0, ch == '[', script);
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
@@ -207,7 +210,7 @@ public class InputController {
 	 *            function
 	 */
 	public void newFunction(EditorState editorState, String name, int initial,
-			boolean square, MathComponent exponent) {
+			boolean square, MathFunction exponent) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		// add extra braces for sqrt, nthroot and fraction
@@ -240,23 +243,16 @@ public class InputController {
 		boolean builtin = tag != null;
 		final boolean hasSelection = editorState.getSelectionEnd() != null;
 		int offset = 0;
-		if (tag != null) {
+		if (tag == Tag.LOG && exponent != null
+				&& exponent.getName() == Tag.SUBSCRIPT) {
+			function = buildLog(exponent);
+			offset = 1;
+		} else if (tag != null && exponent == null) {
 			MetaFunction meta = metaModel.getGeneral(tag);
 			function = new MathFunction(meta);
-
 		} else {
 			offset = 1;
-			MetaFunction meta = metaModel.getFunction(name, square);
-			MathSequence nameS = new MathSequence();
-			for (int i = 0; i < name.length(); i++) {
-				nameS.addArgument(new MathCharacter(
-						metaModel.getCharacter(name.charAt(i) + "")));
-			}
-			if (exponent != null) {
-				nameS.addArgument(exponent);
-			}
-			function = new MathFunction(meta);
-			function.setArgument(0, nameS);
+			function = buildCustomFunction(name, square, exponent);
 		}
 
 		// add sequences
@@ -313,6 +309,29 @@ public class InputController {
 		} else {
 			editorState.incCurrentOffset();
 		}
+	}
+
+	private MathFunction buildLog(MathFunction exponent) {
+		MetaFunction meta = metaModel.getGeneral(Tag.LOG);
+		MathFunction function = new MathFunction(meta);
+		function.setArgument(0, exponent.getArgument(0));
+		return function;
+	}
+
+	private MathFunction buildCustomFunction(String name, boolean square,
+			MathComponent exponent) {
+		MetaFunction meta = metaModel.getFunction(name, square);
+		MathSequence nameS = new MathSequence();
+		for (int i = 0; i < name.length(); i++) {
+			nameS.addArgument(new MathCharacter(
+					metaModel.getCharacter(name.charAt(i) + "")));
+		}
+		if (exponent != null) {
+			nameS.addArgument(exponent);
+		}
+		MathFunction function = new MathFunction(meta);
+		function.setArgument(0, nameS);
+		return function;
 	}
 
 	/**
