@@ -61,8 +61,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	final private static int HIT_SAMPLES = 10;
 	final private static double DELTA_SAMPLES = 1.0 / HIT_SAMPLES;
 
-	private double[] xyzuv;
-
 	private SurfaceEvaluable.LevelOfDetail levelOfDetail = SurfaceEvaluable.LevelOfDetail.QUALITY;
 
 	private int maxSplit;
