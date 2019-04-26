@@ -91,15 +91,9 @@ public class MathFieldProcessing implements KeyboardListener {
 					.onKeyTyped(new KeyEvent(0, 0, Unicode.EULER_CHAR));
 			mf.insertFunction("^");
 		} else if ("log_".equals(text)) {
-			type("log_");
-			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
-			type("(");
+			type("log(");
 			mf.getKeyListener()
 					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
-			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
-
 		} else {
 			if (text.contains("/") || text.contains("^")) {
 				mf.insertString(text);
