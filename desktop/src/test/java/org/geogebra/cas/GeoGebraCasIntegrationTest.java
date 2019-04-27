@@ -1,36 +1,21 @@
 package org.geogebra.cas;
 
-import static org.geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
-import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
-import static org.junit.Assert.assertThat;
-
 import java.util.HashSet;
-import java.util.Locale;
 
-import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.view.CASCellProcessor;
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -38,67 +23,8 @@ import org.junit.rules.Timeout;
 import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
-public class GeoGebraCasIntegrationTest {
+public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	private static final String GermanSolve = "L\u00f6se";
-
-	static public boolean silent = false;
-
-	static GeoGebraCasInterface cas;
-	static Kernel kernel;
-	static AppDNoGui app;
-
-	/**
-	 * Logs all tests which don't give the expected but a valid result.
-	 */
-	static CASTestLogger logger;
-
-	static private MyArbitraryConstant arbconst;
-
-	/**
-	 * Create app and CAS.
-	 */
-	@BeforeClass
-	public static void setupCas() {
-		app = new AppDNoGui(new LocalizationD(3), false);
-
-		if (silent) {
-			Log.setLogger(null);
-		}
-
-		// Set language to something else than English to test automatic
-		// translation.
-		app.setLanguage(Locale.GERMANY);
-		// app.fillCasCommandDict();
-
-		kernel = app.getKernel();
-		arbconst = new MyArbitraryConstant(
-				new GeoCasCell(kernel.getConstruction()));
-		cas = kernel.getGeoGebraCAS();
-		logger = new CASTestLogger();
-
-		// Setting the general timeout to 9 seconds. Feel free to change this.
-		kernel.getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(9000);
-	}
-
-	/**
-	 * Handles the logs about test warnings.
-	 */
-	@AfterClass
-	public static void handleLogs() {
-		if (!silent) {
-			logger.handleLogs();
-		}
-	}
-
-	/**
-	 * Before every test: Clear the construction list to make sure there is
-	 * nothing already defined.
-	 */
-	@Before
-	public void beforeTest() {
-		kernel.clearConstruction(true);
-	}
 
 	/**
 	 * Executes the given expression in the CAS.
@@ -108,6 +34,7 @@ public class GeoGebraCasIntegrationTest {
 	 * @return The string returned by GeogebraCAS.
 	 */
 	private static String executeInCAS(String input) throws Throwable {
+		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 		CASparser parser = (CASparser) cas.getCASparser();
 		ValidExpression inputVe = parser
 				.parseGeoGebraCASInputAndResolveDummyVars(input, kernel, null);
@@ -138,115 +65,6 @@ public class GeoGebraCasIntegrationTest {
 		return outputVe
 				.toString(includesNumericCommand ? StringTemplate.testNumeric
 						: StringTemplate.testTemplate);
-	}
-
-	private static void tk(String input, String expectedResult,
-			String... validResults) {
-		ta(true, input, expectedResult, validResults);
-	}
-
-	protected static void t(String input, String expectedResult,
-			String... validResults) {
-		ta(false, input, expectedResult, validResults);
-	}
-
-	private static void ta(boolean keepInput, String input,
-			String expectedResult, String... validResults) {
-		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-		ta(f, keepInput, input, expectedResult, validResults);
-	}
-
-	/**
-	 * ta contains the code shared by {@link #t} and {@link #tk}. In explicit:
-	 * If tkiontki is false, it behaves exactly like t used to. If tkiontki is
-	 * true, it switches to Keepinput mode, simulating evaluation with
-	 * Keepinput.
-	 * 
-	 * <p>
-	 * Note: Direct calls to ta are "Not Recommended". Use t or tk instead.
-	 * </p>
-	 * 
-	 * @param keepInput
-	 *            To Keepinput or not to Keepinput.
-	 * @param input
-	 *            The input.
-	 * @param expectedResult
-	 *            The expected result.
-	 * @param validResults
-	 *            Valid, but undesired results.
-	 */
-	private static void ta(GeoCasCell f, boolean keepInput, String input,
-			String expectedResult, String... validResults) {
-		String result;
-
-		try {
-
-			f.setInput(input);
-			if (keepInput) {
-				f.setEvalCommand("Keepinput");
-			}
-			if (!f.hasVariablesOrCommands()) {
-				kernel.getConstruction().addToConstructionList(f, false);
-				f.computeOutput();
-				f.setLabelOfTwinGeo();
-			} else {
-				kernel.getConstruction().removeFromConstructionList(f);
-				KernelCAS.dependentCasCell(f);
-			}
-
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<>();
-
-			f.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result = f.getValue() != null ? f.getValue()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f.getOutput(StringTemplate.testTemplate);
-			if (f.getValue() != null && f.getValue()
-							.unwrap() instanceof GeoElement) {
-				result = ((GeoElement) f.getValue().unwrap())
-						.toValueString(StringTemplate.testTemplate);
-			}
-
-		} catch (Throwable t) {
-			String sts = ArbitraryConstIntegrationTest.stacktrace(t);
-			result = t.getClass().getName() + ":" + t.getMessage() + sts;
-		}
-
-		assertThat(result, equalToIgnoreWhitespaces(logger, input,
-				expectedResult, validResults));
-	}
-
-	/**
-	 * For comparing polynomial equations<br/>
-	 * Tests if the given input is equal to the expected result ignoring the
-	 * ordering of the terms on each side
-	 * 
-	 * @param input
-	 *            The polynomial equation in GeogebraCAS syntax
-	 * @param expectedResult
-	 *            The regular expression that the output should match
-	 */
-	@SuppressWarnings("unused")
-	private static void pe(String input, String expectedResult) {
-		try {
-			String result = executeInCAS(input);
-			assertThat(result, equalToPolynomialEquation(expectedResult));
-		} catch (Throwable t) {
-			propagate(t);
-		}
 	}
 
 	/**
@@ -1047,7 +865,7 @@ public class GeoGebraCasIntegrationTest {
 	 *            AV input
 	 */
 	private static void in(String string) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
+		kernel.getAlgebraProcessor().processAlgebraCommand(string,
 				false);
 	}
 
@@ -2621,7 +2439,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ticket_Ticket1636_0() {
 		t("Sequence[Vector[(i, i)],i,1,3]", "{(1, 1), (2, 2), (3, 3)}");
 		t("Element[$1,1]", "(1, 1)");
-		GeoCasCell gv = (GeoCasCell) app.getKernel().lookupLabel("$2");
+		GeoCasCell gv = (GeoCasCell) kernel.lookupLabel("$2");
 		gv.plot();
 		Assert.assertTrue(gv.getTwinGeo().isGeoVector());
 	}
@@ -3015,7 +2833,6 @@ public class GeoGebraCasIntegrationTest {
 		t("Integral(h2(x),1,3)", "-log(2) + log(3) + 7 / 3");
 		t("Integral(h3(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
 		t("Integral(h4(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
-
 	}
 
 	@Test
@@ -3054,12 +2871,12 @@ public class GeoGebraCasIntegrationTest {
 		t("v:=(1,1)", "(1,1)");
 		t("V:=v+v", "(2,2)");
 		Assert.assertEquals(GeoClass.VECTOR,
-				app.getKernel().lookupLabel("V").getGeoClassType());
+				kernel.lookupLabel("V").getGeoClassType());
 
 		t("w:=(1,1,1)", "(1,1,1)");
 		t("W:=w+w", "(2,2,2)");
 		Assert.assertEquals(GeoClass.VECTOR3D,
-				app.getKernel().lookupLabel("W").getGeoClassType());
+				kernel.lookupLabel("W").getGeoClassType());
 	}
 
 	@Test
@@ -3073,12 +2890,12 @@ public class GeoGebraCasIntegrationTest {
 	public void quadricReloadTest() {
 		t("a:=2", "2");
 		t("K:=x^2+y^2+z^2=a", "x^(2) + y^(2) + z^(2) = 2");
-		Assert.assertEquals("Sphere", app.getKernel().lookupCasCellLabel("K")
+		Assert.assertEquals("Sphere", kernel.lookupCasCellLabel("K")
 				.getTwinGeo().getTypeString());
-		String xml = app.getXML();
-		app.getKernel().clearConstruction(true);
-		app.setXML(xml, true);
-		Assert.assertEquals("Sphere", app.getKernel().lookupCasCellLabel("K")
+		String xml = getApp().getXML();
+		kernel.clearConstruction(true);
+		getApp().setXML(xml, true);
+		Assert.assertEquals("Sphere", kernel.lookupCasCellLabel("K")
 				.getTwinGeo().getTypeString());
 	}
 
@@ -3087,10 +2904,11 @@ public class GeoGebraCasIntegrationTest {
 		t("a(x) := x^2 * x", "x^(3)");
 		t("b(x) := -a(x)", "-x^(3)");
 
-		GeoCasCell a = app.getKernel().lookupCasCellLabel("a");
+		GeoCasCell a = kernel.lookupCasCellLabel("a");
 		String input = "c(x) := x^2 * x";
 		ta(a, false, input, "x^(3)");
-		new CASCellProcessor(app.getLocalization()).fixInput(a, input, false);
+		new CASCellProcessor(kernel.getLocalization()).fixInput(a, input,
+				false);
 
 		Assert.assertEquals("c(x) := x^2 * x",
 				a.getInput(StringTemplate.defaultTemplate));
@@ -3126,7 +2944,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void checkNsolveExpansion() {
 		CASInputHandler cih = new CASInputHandler(
-				new CASViewNoGui(app, "Sum(T/2^n,n,3,10)=1500000"));
+				new CASViewNoGui(getApp(), "Sum(T/2^n,n,3,10)=1500000"));
 		cih.processCurrentRow("NSolve", false);
 		t("$1", "{T = 1204705882353 / 200000}");
 		// .getOutput(StringTemplate.defaultTemplate), "");

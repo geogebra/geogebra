@@ -2,7 +2,7 @@ package org.geogebra.cas;
 
 import org.junit.Test;
 
-public class CASRegressionTest extends GeoGebraCasIntegrationTest {
+public class CASRegressionTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void ticket_Ticket3524_0() {
