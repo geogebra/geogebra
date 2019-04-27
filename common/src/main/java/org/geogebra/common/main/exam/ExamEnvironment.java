@@ -140,35 +140,36 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * @param translation The translation identifier from the Translation enum.
+	 * @param translation
+	 *            The translation identifier from the Translation enum.
 	 * @return The translation identified by the Translation parameter.
 	 */
 	public String getTranslatedString(Translation translation) {
 		switch (translation) {
-			case EXAM_MODE:
-				return localization.getMenu("exam_menu_entry");
-			case OK:
-				return localization.getMenu("OK");
-			case ALERT:
-				return localization.getMenu("exam_alert");
-			case SHOW_TO_TEACHER:
-				return localization.getMenu("exam_log_show_screen_to_teacher");
-			case DATE:
-				return localization.getMenu("exam_start_date");
-			case START_TIME:
-				return localization.getMenu("exam_start_time");
-			case END_TIME:
-				return localization.getMenu("exam_end_time");
-			case ACTIVITY:
-				return localization.getMenu("exam_activity");
-			case EXAM_STARTED:
-				return localization.getMenu("exam_started");
-			case EXAM_ENDED:
-				return localization.getMenu("exam_ended");
-			case EXIT:
-				return localization.getMenu("Exit");
-			case DURATION:
-				return localization.getMenu("Duration");
+		case EXAM_MODE:
+			return localization.getMenu("exam_menu_entry");
+		case OK:
+			return localization.getMenu("OK");
+		case ALERT:
+			return localization.getMenu("exam_alert");
+		case SHOW_TO_TEACHER:
+			return localization.getMenu("exam_log_show_screen_to_teacher");
+		case DATE:
+			return localization.getMenu("exam_start_date");
+		case START_TIME:
+			return localization.getMenu("exam_start_time");
+		case END_TIME:
+			return localization.getMenu("exam_end_time");
+		case ACTIVITY:
+			return localization.getMenu("exam_activity");
+		case EXAM_STARTED:
+			return localization.getMenu("exam_started");
+		case EXAM_ENDED:
+			return localization.getMenu("exam_ended");
+		case EXIT:
+			return localization.getMenu("Exit");
+		case DURATION:
+			return localization.getMenu("Duration");
 		}
 		return null;
 	}
@@ -179,8 +180,8 @@ public class ExamEnvironment {
 	public String getDate() {
 		// eg "23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
-		return CmdGetTime.buildLocalizedDate("\\j \\F \\Y", new Date(examStartTime),
-				localization);
+		return CmdGetTime.buildLocalizedDate("\\j \\F \\Y",
+				new Date(examStartTime), localization);
 	}
 
 	/**
@@ -198,7 +199,9 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * @param withEndTime Whether the returned log string should contain the elapsed time as exam end time.
+	 * @param withEndTime
+	 *            Whether the returned log string should contain the elapsed
+	 *            time as exam end time.
 	 * @return The (cheating) activity log.
 	 */
 	public String getActivityLog(boolean withEndTime) {
@@ -267,7 +270,8 @@ public class ExamEnvironment {
 
 		// Exam End Time
 		if (showEndTime && closed > 0) {
-			builder.addField(loc.getMenu("exam_end_time"), getLocalizedTimeOnly(loc, closed));
+			builder.addField(loc.getMenu("exam_end_time"),
+					getLocalizedTimeOnly(loc, closed));
 		}
 	}
 
@@ -297,13 +301,13 @@ public class ExamEnvironment {
 
 		builder.addLine(sb);
 
-        for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
-            sb.setLength(0);
-            sb.append(timeToString(cheatingEvent.getTime()));
-            sb.append(' ');
-            sb.append(cheatingEvent.getAction().toString(loc));
-            builder.addLine(sb);
-        }
+		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
+			sb.setLength(0);
+			sb.append(timeToString(cheatingEvent.getTime()));
+			sb.append(' ');
+			sb.append(cheatingEvent.getAction().toString(loc));
+			builder.addLine(sb);
+		}
 
 		if (withEndTime && closed > 0) {
 			sb.setLength(0);
@@ -337,8 +341,7 @@ public class ExamEnvironment {
 	 * @param sb
 	 *            log builder
 	 */
-	public void getLog(Localization loc, Settings settings,
-			ExamLogBuilder sb) {
+	public void getLog(Localization loc, Settings settings, ExamLogBuilder sb) {
 		if (!app.isUnbundled()) {
 			appendSettings(loc, settings, sb);
 		}
@@ -442,7 +445,8 @@ public class ExamEnvironment {
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
-		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
+		CommandErrorMessageBuilder builder = localization
+				.getCommandErrorMessageBuilder();
 		builder.setShowingSyntax(showSyntax);
 	}
 
@@ -534,31 +538,34 @@ public class ExamEnvironment {
 		}
 	}
 
-    /**
-     *
-     * @return the localized elapsed time string
-     */
+	/**
+	 *
+	 * @return the localized elapsed time string
+	 */
 	public String getElapsedTimeLocalized() {
-        return  timeToStringLocalized(System.currentTimeMillis());
-    }
+		return timeToStringLocalized(System.currentTimeMillis());
+	}
 
-    /**
-     *
-     * @param timestamp current timestamp in millis
-     * @return the localized formatted time string
-     */
-    private String timeToStringLocalized(long timestamp) {
+	/**
+	 *
+	 * @param timestamp
+	 *            current timestamp in millis
+	 * @return the localized formatted time string
+	 */
+	private String timeToStringLocalized(long timestamp) {
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
-        if (examStartTime < 0) {
-            return timeFormatter.format(localization.getLocale(), "%02d:%02d", 0);
-        }
+		if (examStartTime < 0) {
+			return timeFormatter.format(localization.getLocale(), "%02d:%02d",
+					0);
+		}
 
-        int millis = (int) (timestamp - examStartTime);
+		int millis = (int) (timestamp - examStartTime);
 
-        return timeFormatter.format(localization.getLocale(), "%02d:%02d", millis);
-    }
+		return timeFormatter.format(localization.getLocale(), "%02d:%02d",
+				millis);
+	}
 
 	/**
 	 * @return number of cheating events
@@ -568,8 +575,8 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * Saves the current command filter into the nonExamCommandFilter field and sets the exam
-	 * command filter for the duration of the exam mode.
+	 * Saves the current command filter into the nonExamCommandFilter field and
+	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
 		nonExamCommandFilter = commandDispatcher.getCommandArgumentFilter();
@@ -595,14 +602,13 @@ public class ExamEnvironment {
 	private void restoreCommands() {
 		enableCAS();
 	}
+
 	/**
-	 * Disables the exam command filter by setting the nonExamCommandFilter to the CommandDispatcher
+	 * Disables the exam command filter by setting the nonExamCommandFilter to
+	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		app
-				.getKernel()
-				.getAlgebraProcessor()
-				.getCommandDispatcher()
+		app.getKernel().getAlgebraProcessor().getCommandDispatcher()
 				.setCommandArgumentFilter(nonExamCommandFilter);
 	}
 
@@ -640,11 +646,11 @@ public class ExamEnvironment {
 			windowLeft();
 		}
 	}
-	
+
 	public void enableCAS() {
 		commandDispatcher.removeCommandNameFilter(noCASFilter);
 	}
-	
+
 	public void disableCAS() {
 		commandDispatcher.addCommandNameFilter(noCASFilter);
 	}
