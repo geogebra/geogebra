@@ -44,7 +44,7 @@ public class MyButton implements Observer {
 	private double textWidth;
 	private GBasicStroke borderStroke;
 	private boolean firstCall = true;
-	private ButtonHiglightArea halo;
+	private ButtonHighlightArea halo;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -65,7 +65,7 @@ public class MyButton implements Observer {
 		this.borderStroke = EuclidianStatic.getDefaultStroke();
 		geoButton.setObserver(this);
 		if (view.getApplication().has(Feature.BUTTON_HIGHLIGHTING)) {
-			halo = new ButtonHiglightArea(this);
+			halo = new ButtonHighlightArea(this);
 		}
 	}
 

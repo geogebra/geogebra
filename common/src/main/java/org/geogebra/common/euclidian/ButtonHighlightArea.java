@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 
-public class ButtonHiglightArea {
+public class ButtonHighlightArea {
 	private static final double OUTLINE_WIDTH = 4;
 	private static final int HALO_WIDTH = 16;
 
@@ -14,7 +14,7 @@ public class ButtonHiglightArea {
 	 * @param button
 	 *            parent button
 	 */
-	public ButtonHiglightArea(MyButton button) {
+	public ButtonHighlightArea(MyButton button) {
 		this.button = button;
 	}
 
