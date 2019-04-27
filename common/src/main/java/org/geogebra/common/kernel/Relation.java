@@ -26,14 +26,11 @@ import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.AlgoIsOnPath;
 import org.geogebra.common.kernel.prover.AlgoIsTangent;
-import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -109,11 +106,9 @@ public class Relation {
 					final RelationRow rel = new RelationRow();
 					app.setWaitCursor();
 
-					Boolean result = null;
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
-					String or = loc.getMenu("Symbol.Or").toLowerCase();
 					String trueOnParts = loc.getMenuDefault(
 							"TrueOnPartsFalseOnParts",
 							"(true on parts, false on parts)");
