@@ -32,6 +32,7 @@ import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
+import org.geogebra.desktop.gui.editor.JavaScriptBeautifier;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -230,7 +231,12 @@ public class ScriptInputDialog extends InputDialogD
 	}
 
 	@Override
-	public void setInputText(String text) {
+	public void setInputText(String text0) {
+		String text = text0;
+
+		if (model.getScriptType() == ScriptType.JAVASCRIPT) {
+			text = JavaScriptBeautifier.format(text);
+		}
 		inputPanel.getTextComponent().setText(text);
 
 	}

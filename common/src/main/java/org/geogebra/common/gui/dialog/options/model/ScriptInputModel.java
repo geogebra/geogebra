@@ -205,4 +205,12 @@ public class ScriptInputModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
+
+	/**
+	 * 
+	 * @return GeoGebraScript or JavaScript
+	 */
+	public ScriptType getScriptType() {
+		return scriptType;
+	}
 }
