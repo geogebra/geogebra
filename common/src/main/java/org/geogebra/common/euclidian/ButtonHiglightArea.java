@@ -15,7 +15,7 @@ public class ButtonHiglightArea {
 	 *            parent button
 	 */
 	public ButtonHiglightArea(MyButton button) {
-		this.button= button;
+		this.button = button;
 	}
 
 	/**
