@@ -3325,7 +3325,7 @@ __GGB__keysVar["ko"].menu = {
     "share_to": "To",
     "sort_author": "\uc800\uc790",
     "sort_date_created": "\ub9cc\ub4e4\uc5b4\uc9c4 \ub0a0\uc9dc",
-    "sort_last_modified": "\uc218\uc815\ub428",
+    "sort_last_modified": "\ucd5c\uc885 \uc218\uc815\uc77c",
     "sort_title": "\uc81c\ubaa9",
     "space": "\uacf5\uac04",
     "stylebar.Align": "\uac00\ub85c \uc815\ub82c",
