@@ -361,21 +361,26 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 						double scaleValue = scale.getDouble();
 						if (DoubleUtil.isEqual(scaleValue, 1.0)) {
 							strHeader[1] = getLoc()
-									.getMenu("FrequencyTable.Count");
+									.getMenuDefault("FrequencyTable.Count",
+											"Frequency");
 						} else if (DoubleUtil.isEqual(scaleValue * dataList.size(),
 								1)) {
-							strHeader[1] = getLoc().getMenu(
-									"FrequencyTable.RelativeFrequency");
+							strHeader[1] = getLoc().getMenuDefault(
+									"FrequencyTable.RelativeFrequency",
+									"Relative Frequency");
 						} else {
 							strHeader[1] = getLoc()
-									.getMenu("FrequencyTable.Frequency");
+									.getMenuDefault("FrequencyTable.Frequency",
+											"Frequency");
 						}
 					} else {
 						strHeader[1] = getLoc()
-								.getMenu("FrequencyTable.Frequency");
+								.getMenuDefault("FrequencyTable.Frequency",
+										"Frequency");
 					}
 				} else {
-					strHeader[1] = getLoc().getMenu("FrequencyTable.Count");
+					strHeader[1] = getLoc().getMenuDefault(
+							"FrequencyTable.Count", "Frequency");
 				}
 
 				strValue = new String[length];
