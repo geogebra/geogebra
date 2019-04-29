@@ -127,7 +127,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+			if (d.createdByDrawList()) {
 				d.updateForView();
 				if (d.waitForUpdate()) {
 					setWaitForUpdate();
@@ -141,7 +141,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+			if (d.createdByDrawList()) {
 				d.clearTraceForViewChangedByZoomOrTranslate();
 			}
 		}
@@ -239,7 +239,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 	@Override
     synchronized protected void updateLabel() {
 		for (DrawableND d : drawables) {
-			if (d instanceof DrawList3D || d instanceof DrawText3D) {
+			if (d.createdByDrawList()
+					&& (d instanceof DrawList3D || d instanceof DrawText3D)) {
 				((Drawable3D) d).updateLabel();
 			}
 		}
@@ -248,7 +249,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 	@Override
     synchronized protected void updateLabelPosition() {
 		for (DrawableND d : drawables) {
-			if (d instanceof DrawList3D || d instanceof DrawText3D) {
+			if (d.createdByDrawList()
+					&& (d instanceof DrawList3D || d instanceof DrawText3D)) {
 				((Drawable3D) d).updateLabelPosition();
 			}
 		}
@@ -265,7 +267,9 @@ public abstract class DrawComposite3D extends Drawable3D {
 
 		super.setWaitForUpdateVisualStyle(prop);
 		for (DrawableND d : drawables) {
-			d.setWaitForUpdateVisualStyle(prop);
+			if (d.createdByDrawList()) {
+				d.setWaitForUpdateVisualStyle(prop);
+			}
 		}
 
 		// also update for e.g. line width
@@ -277,7 +281,9 @@ public abstract class DrawComposite3D extends Drawable3D {
 
 		super.setWaitForReset();
 		for (DrawableND d : drawables) {
-			((Drawable3D) d).setWaitForReset();
+			if (d.createdByDrawList()) {
+				((Drawable3D) d).setWaitForReset();
+			}
 		}
 	}
 
@@ -304,16 +310,18 @@ public abstract class DrawComposite3D extends Drawable3D {
 		double listZNear = Double.NEGATIVE_INFINITY;
 		double listZFar = Double.NEGATIVE_INFINITY;
 		for (DrawableND d : drawables) {
-			final Drawable3D d3d = (Drawable3D) d;
-			if (d3d.hitForList(hitting)) {
-				double zNear = d3d.getZPickNear();
-				double zFar = d3d.getZPickFar();
-				if (!ret || zNear > listZNear) {
-					listZNear = zNear;
-					listZFar = zFar;
-					setPickingType(d3d.getPickingType());
-					pickOrder = d3d.getPickOrder();
-					ret = true;
+			if (d.createdByDrawList()) {
+				final Drawable3D d3d = (Drawable3D) d;
+				if (d3d.hitForList(hitting)) {
+					double zNear = d3d.getZPickNear();
+					double zFar = d3d.getZPickFar();
+					if (!ret || zNear > listZNear) {
+						listZNear = zNear;
+						listZFar = zFar;
+						setPickingType(d3d.getPickingType());
+						pickOrder = d3d.getPickOrder();
+						ret = true;
+					}
 				}
 			}
 		}
@@ -332,7 +340,9 @@ public abstract class DrawComposite3D extends Drawable3D {
 	@Override
     synchronized public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		for (DrawableND d : drawables) {
-			((Drawable3D) d).enlargeBounds(min, max, dontExtend);
+			if (d.createdByDrawList()) {
+				((Drawable3D) d).enlargeBounds(min, max, dontExtend);
+			}
 		}
 	}
 
@@ -341,8 +351,10 @@ public abstract class DrawComposite3D extends Drawable3D {
             exportSurface) {
 		if (isVisible()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).exportToPrinter3D(exportToPrinter3D,
-						exportSurface);
+				if (d.createdByDrawList()) {
+					((Drawable3D) d).exportToPrinter3D(exportToPrinter3D,
+							exportSurface);
+				}
 			}
 		}
 	}
@@ -351,7 +363,9 @@ public abstract class DrawComposite3D extends Drawable3D {
     synchronized protected void updateGeometriesVisibility() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).updateGeometriesVisibility();
+				if (d.createdByDrawList()) {
+					((Drawable3D) d).updateGeometriesVisibility();
+				}
 			}
 		}
 	}
@@ -360,7 +374,9 @@ public abstract class DrawComposite3D extends Drawable3D {
     synchronized final protected void setGeometriesVisibility(boolean visible) {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).setGeometriesVisibility(visible);
+				if (d.createdByDrawList()) {
+					((Drawable3D) d).setGeometriesVisibility(visible);
+				}
 			}
 		}
 	}
@@ -369,7 +385,9 @@ public abstract class DrawComposite3D extends Drawable3D {
     synchronized final protected void updateGeometriesColor() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).updateGeometriesColor();
+				if (d.createdByDrawList()) {
+					((Drawable3D) d).updateGeometriesColor();
+				}
 			}
 		}
 	}
@@ -385,7 +403,9 @@ public abstract class DrawComposite3D extends Drawable3D {
     synchronized final protected void updateForViewNotVisible() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).updateForViewNotVisible();
+				if (d.createdByDrawList()) {
+					((Drawable3D) d).updateForViewNotVisible();
+				}
 			}
 		}
 	}
@@ -395,7 +415,9 @@ public abstract class DrawComposite3D extends Drawable3D {
 		super.removeFromGL();
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
-				((Drawable3D) d).removeFromGL();
+				if (d.createdByDrawList()) {
+					((Drawable3D) d).removeFromGL();
+				}
 			}
 		}
 	}

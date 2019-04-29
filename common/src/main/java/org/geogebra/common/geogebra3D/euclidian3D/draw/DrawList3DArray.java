@@ -62,7 +62,8 @@ public class DrawList3DArray extends DrawListArray {
 	@Override
 	protected DrawableND getDrawable(DrawableND oldDrawable,
 			GeoElement listElement, DrawableND drawList) {
-		if (oldDrawable instanceof Drawable3D) {
+		if (oldDrawable instanceof Drawable3D
+				&& oldDrawable.createdByDrawList()) {
 			((Drawable3D) oldDrawable).removeFromGL();
 		}
 		return super.getDrawable(oldDrawable, listElement, drawList);
