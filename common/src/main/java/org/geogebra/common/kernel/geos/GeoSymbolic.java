@@ -8,13 +8,16 @@ import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -22,16 +25,21 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * @author Zbynek
  */
-public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
+public class GeoSymbolic extends GeoElement
+		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
 	private GeoElement twinGeo;
 	private boolean twinUpToDate = false;
+	private int tableColumn;
+	private boolean pointsVisible;
+	private GeoFunction asFunction;
 
 	/**
 	 * @return output expression
 	 */
+	@Override
 	public ExpressionValue getValue() {
 		return value;
 	}
@@ -224,13 +232,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 				: kernel.getAlgebraProcessor()
 						.evaluateToGeoElement(this.casOutputString, false);
 		if (twinGeo != null && newTwin != null) {
-			twinGeo.set(newTwin);
 			newTwin.setVisualStyle(twinGeo);
+			twinGeo = newTwin.toGeoElement();
 		} else {
 			twinGeo = newTwin == null ? null : newTwin.toGeoElement();
 		}
 		twinUpToDate = true;
-		return newTwin;
+		return twinGeo;
 	}
 
 	@Override
@@ -260,5 +268,83 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString {
 					.getNextIndexedLabel(LabelType.functionLabels);
 		}
 		return super.getDefaultLabel();
+	}
+
+	@Override
+	public Function getFunction() {
+		GeoElementND twin = getTwinGeo();
+		if(twin instanceof GeoFunctionable){
+			return ((GeoFunctionable) twin).getFunction();
+		}
+		ExpressionNode alwaysUndefined = new ExpressionNode(kernel, Double.NaN);
+		return new Function(kernel, alwaysUndefined);
+	}
+
+	@Override
+	@Deprecated
+	public GeoFunction getGeoFunction() {
+		if (asFunction != null) {
+			return asFunction;
+		}
+		GeoFunction ret = kernel.getGeoFactory().newFunction(this);
+		if (!ret.isIndependent()) {
+			asFunction = ret;
+		}
+
+		return ret;
+	}
+
+	@Override
+	public GeoFunction getGeoDerivative(int order, boolean fast) {
+		return getGeoFunction().getGeoDerivative(order, fast);
+	}
+
+	@Override
+	public double value(double x) {
+		GeoElementND twin = getTwinGeo();
+		if (twin instanceof GeoFunctionable) {
+			return ((GeoFunctionable) twin).value(x);
+		}
+		return 42;
+	}
+
+	@Override
+	public int getTableColumn() {
+		return this.tableColumn;
+	}
+
+	@Override
+	public void setTableColumn(int column) {
+		this.tableColumn = column;
+	}
+
+	@Override
+	public void setPointsVisible(boolean pointsVisible) {
+		this.pointsVisible = pointsVisible;
+	}
+
+	@Override
+	public boolean isRealValuedFunction() {
+		GeoElementND twin = getTwinGeo();
+		return twin != null && twin.isRealValuedFunction();
+	}
+
+	@Override
+	public boolean isPointsVisible() {
+		return pointsVisible;
+	}
+
+	@Override
+	public Function getFunctionForRoot() {
+		return getFunction();
+	}
+
+	@Override
+	public boolean isPolynomialFunction(boolean forRoot) {
+		GeoElementND twin = getTwinGeo();
+		if (twin instanceof GeoFunctionable) {
+			return ((GeoFunctionable) twin).isPolynomialFunction(forRoot);
+		}
+		return false;
 	}
 }
