@@ -189,7 +189,10 @@ public class FunctionParser {
 					funcName);
 
 		}
-		if (geo instanceof Evaluatable) {// function
+		if (geo instanceof GeoFunctionNVar || geo instanceof GeoSymbolic) {
+			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR,
+					myList);
+		} else if (geo instanceof Evaluatable) {// function
 			if (geo instanceof ParametricCurve
 					&& ((ParametricCurve) geo).getFunctionVariables() != null) {
 				kernel.getConstruction()
@@ -199,10 +202,6 @@ public class FunctionParser {
 			}
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION,
 					myList.getListElement(0));
-		} else if (geo instanceof GeoFunctionNVar
-				|| geo instanceof GeoSymbolic) {
-			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR,
-					myList);
 		} else if (geo.isGeoCurveCartesian()
 				|| (geo.isGeoLine() && geo.isGeoElement3D())) {
 			// vector function

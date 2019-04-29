@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
@@ -100,7 +101,8 @@ public class SuggestionRootExtremum extends Suggestion {
 	 *         line or conic)
 	 */
 	private static boolean mayHaveSpecialPoints(GeoElement geo) {
-		return geo.isRealValuedFunction() && !geo.isNumberValue();
+		return geo.isRealValuedFunction() && !geo.isNumberValue()
+				&& !(geo instanceof GeoSymbolic);
 	}
 
 	@Override

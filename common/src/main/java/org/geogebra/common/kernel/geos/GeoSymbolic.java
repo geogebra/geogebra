@@ -32,8 +32,8 @@ public class GeoSymbolic extends GeoElement
 	private String casOutputString;
 	private GeoElement twinGeo;
 	private boolean twinUpToDate = false;
-	private int tableColumn;
-	private boolean pointsVisible;
+	private int tableColumn = -1;
+	private boolean pointsVisible = true;
 	private GeoFunction asFunction;
 
 	/**
@@ -346,5 +346,10 @@ public class GeoSymbolic extends GeoElement
 			return ((GeoFunctionable) twin).isPolynomialFunction(forRoot);
 		}
 		return false;
+	}
+
+	@Override
+	public boolean hasTableOfValues() {
+		return isRealValuedFunction();
 	}
 }
