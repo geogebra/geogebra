@@ -94,6 +94,8 @@ public class ExamDialog implements ClickHandler {
 			cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 			cas.addStyleName("examCheckbox");
 			cas.setValue(true);
+
+			app.getExam().setupDispatcher();
 			app.getExam().setCasEnabled(true);
 			app.getSettings().getCasSettings().setEnabled(true);
 			cbxPanel.add(cas);

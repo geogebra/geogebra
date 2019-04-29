@@ -49,12 +49,12 @@ public class ExamEnvironment {
 	 * application
 	 */
 	protected App app;
-	private final Localization localization;
+	private Localization localization;
 
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
 
-	private CommandDispatcher commandDispatcher;
+	private CommandDispatcher commandDispatcher = null;
 	private boolean casEnabled;
 	/**
 	 *
@@ -65,8 +65,6 @@ public class ExamEnvironment {
 		this.app = app;
 		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
-		commandDispatcher = app.getKernel().getAlgebraProcessor()
-				.getCommandDispatcher();
 	}
 
 	/**
@@ -587,11 +585,24 @@ public class ExamEnvironment {
 	 * Prepares the exam for starting.
 	 */
 	public void setupExamEnvironment() {
+		setupLocalization();
 		enableExamCommandFilter();
 		restrictCommands();
 		setShowSyntax(false);
 	}
 
+	/**
+	 * Sets up command dispatcher.
+	 */
+	public void setupDispatcher() {
+		// when starting with ?perspective=exam, dispatcher does not exist yet
+		// at costructor
+		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
+	}
+
+	private void setupLocalization() {
+		localization = app.getLocalization();
+	}
 	private void restrictCommands() {
 		if (casEnabled) {
 			disableCAS();
@@ -648,10 +659,10 @@ public class ExamEnvironment {
 		}
 	}
 
-	public boolean isCasEnabled() {
-		return casEnabled;
-	}
-
+	/**
+	 * Enables/disables CAS commands.
+	 * @param casEnabled
+	 */
 	public void setCasEnabled(boolean casEnabled) {
 		this.casEnabled = casEnabled;
 		if (casEnabled) {
@@ -661,7 +672,7 @@ public class ExamEnvironment {
 		}
 	}
 
-	public void enableCAS() {
+	private void enableCAS() {
 		commandDispatcher.removeCommandNameFilter(noCASFilter);
 	}
 
