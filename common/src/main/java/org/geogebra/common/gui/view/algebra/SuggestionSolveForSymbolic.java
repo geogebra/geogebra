@@ -53,6 +53,18 @@ public class SuggestionSolveForSymbolic {
 
 
 	private static Suggestion getMulti(GeoElement geo, final String[] vars) {
+		List<String> labels = new ArrayList<>();
+		GeoElementND prev = getPrevious(geo, vars);
+		while (prev != null) {
+			labels.add(prev.getLabelSimple());
+			prev  = isValid(prev) ? getPrevious(prev, getVariables((GeoSymbolic) prev))
+					:null;
+		}
+		return new SuggestionSolve(labels.toArray(new String[0]));
+	}
+
+
+	private static GeoElementND getPrevious(GeoElementND geo, final String[] vars) {
 
 		GeoElementND prev = geo.getConstruction().getPrevious(geo,
 				new Inspecting() {
@@ -65,10 +77,6 @@ public class SuggestionSolveForSymbolic {
 								SINGLE_SOLVE, null);
 					}
 				});
-
-		if (prev != null) {
-			return new SuggestionSolve(prev.getLabelSimple());
-		}
-		return null;
+		return prev;
 	}
 }
