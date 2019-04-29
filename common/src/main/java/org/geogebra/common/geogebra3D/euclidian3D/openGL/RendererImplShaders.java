@@ -503,6 +503,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix2.setOrigin(Coords.O);
 		tmpMatrix4.set(tmpMatrix2.inverse());
 		double rotZ = Math.atan2(tmpMatrix4.get(2, 1), tmpMatrix4.get(1, 1));
+		// if we rotate around GGB scene +/- 90 degrees from start position
+		if (tmpMatrix2.get(1,1) < 0) {
+			rotZ = (rotZ + Math.PI) * -1;
+		}
 		CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS, -rotZ, tmpMatrix2);
 		undoRotationMatrixAR.setMul(tmpMatrix4, tmpMatrix2);
 		// (cameraView * modelMatrix) * scaleMatrix
