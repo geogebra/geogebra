@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.Operation;
@@ -920,9 +921,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		ret = printVariableName(getStringType(), label);
 
-		if (ret != null && ret.length() == 1 && "l".equals(ret)
-				&& hasType(StringType.LATEX)) {
-			ret = "\\ell";
+		if (ret != null) {
+			if (ret.length() == 1 && "l".equals(ret) && hasType(StringType.LATEX)) {
+				ret = "\\ell";
+			}
+
+			if (ret.equals(LabelManager.HIDDEN_PREFIX)) {
+				ret = "";
+			}
 		}
 
 		return ret;
