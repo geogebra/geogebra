@@ -263,9 +263,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 *            attributes
 	 * @return true if all is done ok
 	 */
+	@Override
 	protected boolean handleGrid(EuclidianSettings evs,
 			LinkedHashMap<String, String> attrs) {
-
 		// distX, distY
 		super.handleGrid(evs, attrs);
 

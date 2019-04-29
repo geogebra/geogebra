@@ -414,6 +414,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	/**
 	 * attribute vertex pointers
 	 */
+	@Override
 	public void attribPointers() {
 
 		bindBuffer(GLSL_ATTRIB_POSITION);
@@ -626,6 +627,7 @@ public abstract class RendererImplShaders extends RendererImpl {
         glViewPort();
 	}
 
+	@Override
 	public void glViewPort() {
         glViewPort(renderer.getWidthInPixels(), renderer.getHeightInPixels());
     }

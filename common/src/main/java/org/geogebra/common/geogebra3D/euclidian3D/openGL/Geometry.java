@@ -118,9 +118,9 @@ public class Geometry implements GeometryForExport {
 	}
 
 	/**
-	 * 
 	 * @return type of primitives
 	 */
+	@Override
 	public Type getType() {
 		return type;
 	}

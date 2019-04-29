@@ -470,11 +470,13 @@ public abstract class StepNode implements HasLaTeX {
 	 * @return deep copy of the tree. Use this, if you want to preserve the tree
 	 * after a regroup
 	 */
+	@Override
 	public abstract StepNode deepCopy();
 
 	/**
 	 * @return the tree, formatted in LaTeX
 	 */
+	@Override
 	public String toLaTeXString(Localization loc) {
 		return toLaTeXString(loc, false);
 	}
@@ -482,6 +484,7 @@ public abstract class StepNode implements HasLaTeX {
 	/**
 	 * @return the tree, formatted in LaTeX, with colors, if colored is set
 	 */
+	@Override
 	public abstract String toLaTeXString(Localization loc, boolean colored);
 
 	/**

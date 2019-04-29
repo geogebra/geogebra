@@ -396,6 +396,7 @@ enum FractionSteps implements SimplificationStepGenerator {
 	},
 
 	FACTOR_MINUS_FROM_SUMS {
+		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIVIDE)) {

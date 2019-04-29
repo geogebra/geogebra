@@ -36,10 +36,12 @@ public enum TableElement implements HasLaTeX {
 		this.latex = latex;
 	}
 
+	@Override
 	public String toLaTeXString(Localization loc) {
 		return latex;
 	}
 
+	@Override
 	public String toLaTeXString(Localization loc, boolean detailed) {
 		return latex;
 	}

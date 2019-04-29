@@ -94,46 +94,57 @@ public abstract class StepSolvable extends StepTransformable {
 		return Math.max(degreeLHS, degreeRHS);
 	}
 
+	@Override
 	public StepSolvable toSolvable() {
 		return this;
 	}
 
+	@Override
 	public int maxDecimal() {
 		return Math.max(LHS.maxDecimal(), RHS.maxDecimal());
 	}
 
+	@Override
 	public boolean containsFractions() {
 		return LHS.containsFractions() || RHS.containsFractions();
 	}
 
+	@Override
 	public StepSolvable regroup() {
 		return (StepSolvable) super.regroup();
 	}
 
+	@Override
 	public StepSolvable regroup(SolutionBuilder sb) {
 		return (StepSolvable) super.regroup(sb);
 	}
 
+	@Override
 	public StepSolvable adaptiveRegroup(SolutionBuilder sb) {
 		return (StepSolvable) super.adaptiveRegroup(sb);
 	}
 
+	@Override
 	public StepSolvable expand() {
 		return (StepSolvable) super.expand();
 	}
 
+	@Override
 	public StepSolvable expand(SolutionBuilder sb) {
 		return (StepSolvable) super.expand(sb);
 	}
 
+	@Override
 	public StepSolvable factor() {
 		return (StepSolvable) super.factor();
 	}
 
+	@Override
 	public StepSolvable factor(SolutionBuilder sb) {
 		return (StepSolvable) super.factor(sb);
 	}
 
+	@Override
 	public StepSolvable weakFactor(SolutionBuilder sb) {
 		return (StepSolvable) super.weakFactor(sb);
 	}

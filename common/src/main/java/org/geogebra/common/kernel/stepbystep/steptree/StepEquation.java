@@ -104,6 +104,7 @@ public class StepEquation extends StepSolvable {
 		return " = ";
 	}
 
+	@Override
 	public StepEquation regroup() {
 		return regroup(null);
 	}
@@ -113,6 +114,7 @@ public class StepEquation extends StepSolvable {
 		return (StepEquation) super.regroup(sb);
 	}
 
+	@Override
 	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
 		return StepStrategies.defaultSolve(this, sv, sb, tracker);
 	}

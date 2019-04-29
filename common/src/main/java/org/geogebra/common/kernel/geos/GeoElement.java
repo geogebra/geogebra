@@ -1426,9 +1426,9 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
 	 * @return auto color scheme
 	 */
+	@Override
 	public AutoColor getAutoColorScheme() {
 		if (cons.getApplication().isUnbundled()) {
 			return AutoColor.CURVES_GRAPHING;

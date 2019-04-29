@@ -213,7 +213,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 					dialog.show(dimensions[0] * scale, dimensions[1] * scale,
 							dimensions[2] * scale, scale, thickness * 2,
 							new Runnable() {
-						public void run() {
+								@Override
+								public void run() {
 									setThicknessAndScale(format,
 											dialog.getCurrentThickness() / 2,
 											dialog.getCurrentScale());
@@ -226,8 +227,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 											format.getExtension(),
 											exportToPrinter.export(format)
 													.toString());
-						}
-					});
+								}
+							});
 					return null;
 				}
 

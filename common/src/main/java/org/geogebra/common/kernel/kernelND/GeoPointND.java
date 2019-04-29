@@ -465,6 +465,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	/**
 	 * @return string mode: Kernel.COORD_COMPLEX, COORD_CARTESIAN etc.
 	 */
+	@Override
 	public int getToStringMode();
 
 	public void addToPathParameter(double d);

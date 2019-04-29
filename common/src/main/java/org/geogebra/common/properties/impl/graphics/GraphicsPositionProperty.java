@@ -135,11 +135,13 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         }
     }
 
-    public String getName() {
+	@Override
+	public String getName() {
         return null; // no name needed
     }
 
-    public boolean isEnabled() {
+	@Override
+	public boolean isEnabled() {
         return true;
     }
 }

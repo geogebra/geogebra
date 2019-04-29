@@ -790,6 +790,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *
 	 * @return the matrix : screen coords -> scene coords.
 	 */
+	@Override
 	final public CoordMatrix4x4 getToSceneMatrix() {
 		return mInvWithUnscale;
 	}

@@ -36,6 +36,7 @@ public class StepInterval extends StepLogical {
 		return rightClosed;
 	}
 
+	@Override
 	public boolean contains(StepExpression sn) {
 		if (sn.canBeEvaluated()) {
 			double value = sn.getValue();

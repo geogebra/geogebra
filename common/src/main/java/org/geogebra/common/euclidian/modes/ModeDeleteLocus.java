@@ -55,6 +55,7 @@ public class ModeDeleteLocus implements ModeDeleteInterface {
 	 * @param forceOnlyStrokes
 	 *            whether to only delete strokes
 	 */
+	@Override
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -515,6 +516,7 @@ public class ModeDeleteLocus implements ModeDeleteInterface {
 	 * @param type
 	 *            event type
 	 */
+	@Override
 	public void mousePressed(PointerEventType type) {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
@@ -539,6 +541,7 @@ public class ModeDeleteLocus implements ModeDeleteInterface {
 	 *            for preview
 	 * @return whether something was deleted
 	 */
+	@Override
 	public boolean process(Hits hits, boolean control,
 			boolean selPreview) {
 		if (hits.isEmpty() || this.penDeleteMode) {

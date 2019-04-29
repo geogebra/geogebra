@@ -20,6 +20,7 @@ public class SolveFailedException extends RuntimeException {
 		return steps;
 	}
 
+	@Override
 	public String getMessage() {
 		return message;
 	}

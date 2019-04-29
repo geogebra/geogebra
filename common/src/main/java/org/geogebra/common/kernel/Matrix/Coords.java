@@ -2657,6 +2657,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * 
 	 * @return false if one value equals NaN
 	 */
+	@Override
 	public boolean isDefined() {
 		if (val == null) {
 			return false;
@@ -2674,6 +2675,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * set this to undefined
 	 */
+	@Override
 	public void setUndefined() {
 		val[0] = Double.NaN;
 	}

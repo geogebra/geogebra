@@ -3202,6 +3202,7 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * @return function variables of input function
 	 */
+	@Override
 	public FunctionVariable[] getFunctionVariables() {
 		if (getInputVE() instanceof FunctionNVar) {
 			return ((FunctionNVar) getInputVE()).getFunctionVariables();

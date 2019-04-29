@@ -10,10 +10,12 @@ public class CASDummy extends CASgiac implements CASGenericInterface {
 		super(casParser);
 	}
 
+	@Override
 	public void clearResult() {
 		//
 	}
 
+	@Override
 	public boolean externalCAS() {
 		return false;
 	}

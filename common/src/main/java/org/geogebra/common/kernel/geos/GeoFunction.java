@@ -746,7 +746,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            factored into polynomial factors for root finding (e.g.
 	 *            sqrt(x) could be replaced by x)
 	 */
-
+	@Override
 	public boolean isPolynomialFunction(boolean forRootFinding) {
 		return isPolynomialFunction(forRootFinding, false);
 	}

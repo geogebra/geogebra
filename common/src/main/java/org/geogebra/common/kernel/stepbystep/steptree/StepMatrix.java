@@ -99,10 +99,12 @@ public class StepMatrix extends StepTransformable {
 		isAugmented = true;
 	}
 
+	@Override
 	public StepMatrix regroup() {
 		return regroup(null);
 	}
 
+	@Override
 	public StepMatrix regroup(SolutionBuilder steps) {
 		return (StepMatrix) StepStrategies.defaultRegroup(this, steps);
 	}

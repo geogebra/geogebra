@@ -44,6 +44,7 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 		}
 	}
 
+	@Override
 	public boolean contains(StepExpression se) {
 		switch (operation) {
 			case UNION:
