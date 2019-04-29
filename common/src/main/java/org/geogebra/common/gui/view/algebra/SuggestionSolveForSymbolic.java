@@ -38,8 +38,10 @@ public class SuggestionSolveForSymbolic {
     private static String[] getVariables(GeoSymbolic geo) {
         HashSet<GeoElement> varSet = geo.getValue().getVariables(SymbolicMode.SYMBOLIC);
         List<String> varStrings = new ArrayList<>();
-        for (GeoElement geo0: varSet) {
-            varStrings.add(geo0.getLabelSimple());
+		if (varSet != null) {
+			for (GeoElement geo0 : varSet) {
+				varStrings.add(geo0.getLabelSimple());
+			}
         }
         return varStrings.toArray(new String[0]);
     }
