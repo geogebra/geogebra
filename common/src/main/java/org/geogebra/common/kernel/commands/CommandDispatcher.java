@@ -975,7 +975,7 @@ public abstract class CommandDispatcher {
 	 *            commandNameFilters will be added to the command table
 	 */
 	public void addCommandNameFilter(CommandNameFilter filter) {
-		if (filter != null && !commandNameFilters.contains(filter)) {
+		if (filter != null) {
 			commandNameFilters.add(filter);
 		}
 	}
@@ -987,9 +987,7 @@ public abstract class CommandDispatcher {
 	 *            to remove.
 	 */
 	public void removeCommandNameFilter(CommandNameFilter filter) {
-		if (commandNameFilters.contains(filter)) {
-			commandNameFilters.remove(filter);
-		}
+		commandNameFilters.remove(filter);
 	}
 
 	/**

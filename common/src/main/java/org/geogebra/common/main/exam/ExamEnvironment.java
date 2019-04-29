@@ -55,7 +55,7 @@ public class ExamEnvironment {
 	private boolean temporaryBlur;
 
 	private CommandDispatcher commandDispatcher;
-
+	private boolean casEnabled;
 	/**
 	 *
 	 * @param app
@@ -593,14 +593,15 @@ public class ExamEnvironment {
 	}
 
 	private void restrictCommands() {
-		if (app.getSettings().getCasSettings().isEnabled()) {
-			return;
+		if (casEnabled) {
+			disableCAS();
 		}
-		disableCAS();
 	}
 
 	private void restoreCommands() {
-		enableCAS();
+		if (!casEnabled) {
+			enableCAS();
+		}
 	}
 
 	/**
@@ -647,12 +648,24 @@ public class ExamEnvironment {
 		}
 	}
 
+	public boolean isCasEnabled() {
+		return casEnabled;
+	}
+
+	public void setCasEnabled(boolean casEnabled) {
+		this.casEnabled = casEnabled;
+		if (casEnabled) {
+			enableCAS();
+		} else {
+			disableCAS();
+		}
+	}
+
 	public void enableCAS() {
 		commandDispatcher.removeCommandNameFilter(noCASFilter);
 	}
 
-	public void disableCAS() {
+	private void disableCAS() {
 		commandDispatcher.addCommandNameFilter(noCASFilter);
 	}
-
 }

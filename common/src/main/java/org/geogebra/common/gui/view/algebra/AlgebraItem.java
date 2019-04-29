@@ -163,10 +163,8 @@ public class AlgebraItem {
 			return null;
 		}
 		Suggestion sug = null;
-		boolean casEnabled = geo.getKernel().getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
-		
-//		boolean casEnabled = geo.getKernel().getApplication().getSettings()
-//				.getCasSettings().isEnabled();
+		boolean casEnabled = geo.getKernel().getAlgebraProcessor().getCommandDispatcher()
+				.isCASAllowed();
 		if (casEnabled) {
 			sug = SuggestionSolve.get(geo);
 			if (sug != null) {

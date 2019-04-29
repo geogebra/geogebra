@@ -94,7 +94,7 @@ public class ExamDialog implements ClickHandler {
 			cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 			cas.addStyleName("examCheckbox");
 			cas.setValue(true);
-			app.getExam().enableCAS();
+			app.getExam().setCasEnabled(true);
 			app.getSettings().getCasSettings().setEnabled(true);
 			cbxPanel.add(cas);
 			cas.addClickHandler(this); 
@@ -321,11 +321,7 @@ public class ExamDialog implements ClickHandler {
 	}
 
 	private void onCasChecked() {
-		if (cas.getValue()) {
-			app.getExam().enableCAS();
-		} else {
-			app.getExam().disableCAS();
-		}
+		app.getExam().setCasEnabled(cas.getValue());
 		app.getGuiManager().updateToolbarActions();
 	}
 }
