@@ -887,7 +887,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		inputControl.ensureControlVisibility();
 
-		if (rawInput != null) {
+		if (!StringUtil.empty(rawInput)) {
 			String v = app.getKernel().getInputPreviewHelper()
 					.getInput(rawInput);
 			String value = useValidInput() ? v : rawInput;
