@@ -1998,15 +1998,6 @@ public class TeXParser {
 		}
 	}
 
-	// XXX
-	// public static List<String> getAllCommands() {
-	// final List<String> all = new ArrayList<String>();
-	// Commands.getAll(all);
-	// SymbolAtom.getAll(all);
-	//
-	// return all;
-	// }
-
 	public void processSubSup(final char f) throws ParseException {
 		if (!stack.isEmpty()) {
 			final AtomConsumer ac = stack.peek();
@@ -2018,27 +2009,6 @@ public class TeXParser {
 		final SubSupCom ssc = new SubSupCom(f);
 		ssc.init(this);
 		addConsumer(ssc);
-	}
-
-	public boolean isWaitingForSup() {
-		if (!stack.isEmpty()) {
-			final AtomConsumer ac = stack.peek();
-			if (ac instanceof SubSupCom) {
-				final SubSupCom ssc = (SubSupCom) ac;
-				return ssc.isWaitingForSup();
-			} else if (ac instanceof GroupConsumer) {
-				stack.pop();
-				final AtomConsumer ac1 = stack.peek();
-				boolean r = false;
-				if (ac1 instanceof SubSupCom) {
-					final SubSupCom ssc = (SubSupCom) ac1;
-					r = ssc.isWaitingForSup();
-				}
-				stack.push(ac);
-				return r;
-			}
-		}
-		return false;
 	}
 
 	public void processLBrace() {

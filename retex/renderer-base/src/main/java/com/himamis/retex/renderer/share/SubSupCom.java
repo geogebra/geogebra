@@ -50,7 +50,13 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 public class SubSupCom implements AtomConsumer {
 
 	private static enum State {
-		SUB_WAIT, SUB_OK, SUP_WAIT, SUP_OK
+		SUB_WAIT,
+
+		SUB_OK,
+
+		SUP_WAIT,
+
+		SUP_OK
 	}
 
 	private Atom base;
@@ -70,45 +76,23 @@ public class SubSupCom implements AtomConsumer {
 		this.base = base;
 	}
 
-	private static void addSSC(final TeXParser tp, final char c) {
-		final SubSupCom ssc = new SubSupCom(c);
-		ssc.init(tp);
-		tp.addConsumer(ssc);
-	}
-
-	public boolean isWaitingForSup() {
-		return state == State.SUP_WAIT;
-	}
-
 	public void setState(TeXParser tp, final char c) {
 		if (c == '^') {
 			switch (state) {
 			case SUB_WAIT:
-				throw new ParseException(tp, "Invalid ^");
-			case SUB_OK:
-				state = State.SUP_WAIT;
-				break;
 			case SUP_WAIT:
 				throw new ParseException(tp, "Invalid ^");
+			case SUB_OK:
 			case SUP_OK:
-				if (!(sup instanceof CumulativeScriptsAtom)) {
-					tp.closeConsumer(get());
-					addSSC(tp, '^');
-				}
+				state = State.SUP_WAIT;
 				break;
 			}
 		} else {
 			switch (state) {
 			case SUB_WAIT:
-				throw new ParseException(tp, "Invalid _");
-			case SUB_OK:
-				if (!(sub instanceof CumulativeScriptsAtom)) {
-					tp.closeConsumer(get());
-					addSSC(tp, '_');
-				}
-				break;
 			case SUP_WAIT:
 				throw new ParseException(tp, "Invalid _");
+			case SUB_OK:
 			case SUP_OK:
 				state = State.SUB_WAIT;
 			}
@@ -125,7 +109,7 @@ public class SubSupCom implements AtomConsumer {
 	public void add(TeXParser tp, Atom a) {
 		switch (state) {
 		case SUB_WAIT:
-			sub = a;
+			addToSub(a);
 			state = State.SUB_OK;
 			break;
 		case SUB_OK:
@@ -133,7 +117,7 @@ public class SubSupCom implements AtomConsumer {
 			tp.addToConsumer(a);
 			break;
 		case SUP_WAIT:
-			sup = a;
+			addToSup(a);
 			state = State.SUP_OK;
 			break;
 		case SUP_OK:
@@ -143,7 +127,7 @@ public class SubSupCom implements AtomConsumer {
 		}
 	}
 
-	public void addToSup(Atom a) {
+	private void addToSup(Atom a) {
 		if (sup != null) {
 			if (sup instanceof RowAtom) {
 				((RowAtom) sup).add(a);
@@ -155,7 +139,7 @@ public class SubSupCom implements AtomConsumer {
 		}
 	}
 
-	public boolean addToSub(Atom a) {
+	private boolean addToSub(Atom a) {
 		if (sub != null) {
 			if (sub instanceof RowAtom) {
 				((RowAtom) sub).add(a);
@@ -163,6 +147,8 @@ public class SubSupCom implements AtomConsumer {
 				sub = new RowAtom(sub, a);
 			}
 			return true;
+		} else {
+			sub = a;
 		}
 		return false;
 	}
