@@ -9,7 +9,8 @@ import org.geogebra.common.factories.AwtFactory;
  */
 public class ButtonHighlightArea {
 	private static final int OUTLINE_WIDTH = 4;
-	private static final int HALO_WIDTH = 16 - OUTLINE_WIDTH / 2;
+	/** distance between button border and middle of the outline stroke */
+	private static final int HALO_WIDTH = 4 + OUTLINE_WIDTH / 2;
 
 	private MyButton button;
 
