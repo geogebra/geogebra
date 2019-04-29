@@ -358,4 +358,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected ARMotionEvent getARMotionEventMoveFromScreenCenter(){
         return null;
     }
+
+    public float getARScaleFactor() {
+        return mScaleFactor;
+    }
 }

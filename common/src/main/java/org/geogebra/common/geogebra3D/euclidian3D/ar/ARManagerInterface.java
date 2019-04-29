@@ -30,4 +30,6 @@ public interface ARManagerInterface<TouchEventType> {
 
     void setFirstFloor(double z);
 
+    float getARScaleFactor();
+
 }

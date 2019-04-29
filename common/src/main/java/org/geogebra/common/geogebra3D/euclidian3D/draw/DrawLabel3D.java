@@ -702,8 +702,8 @@ public class DrawLabel3D {
 		old = backgroundIndex;
 		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
 			backgroundIndex = drawRectangle(renderer, 0, 0, 0,
-					width2 / getFontScale(), 
-					height2 / getFontScale(), textIndex);
+					width * renderer.getARScaleFactor() / getFontScale(),
+					height * renderer.getARScaleFactor() / getFontScale(), textIndex);
 		} else {
 			backgroundIndex = drawRectangle(renderer, drawX, drawY, drawZ,
 					width / getFontScale(), height / getFontScale(),
