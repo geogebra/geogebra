@@ -10,6 +10,17 @@ import org.geogebra.common.kernel.geos.LabelManager;
 public class LabelController {
 
 	/**
+	 * Return true if the element has a label.
+	 *
+	 * @param element the element
+	 * @return true if it has label
+	 */
+	public boolean hasLabel(GeoElement element) {
+		String label = element.getLabelSimple();
+		return label != null && !label.startsWith(LabelManager.HIDDEN_PREFIX);
+	}
+
+	/**
 	 * Hides the label of the element.
 	 *
 	 * @param element the element

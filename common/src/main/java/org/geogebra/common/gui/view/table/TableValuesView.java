@@ -20,6 +20,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -31,6 +32,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
+	private LabelController labelController;
 	private HashSet<GeoElementND> elements;
 	private TableSettings settings;
 	private Kernel kernel;
@@ -49,6 +51,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		this.settings = set.getTable();
 		this.elements = new HashSet<>();
 		this.kernel = kernel;
+		this.labelController = new LabelController();
 		createTableDimensions();
 		updateModelValues();
 		settings.addListener(this);
@@ -77,7 +80,17 @@ public class TableValuesView implements TableValues, SettingListener {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());
 			}
+			ensureHasLabel(evaluatable);
 			model.addEvaluatable(evaluatable);
+		}
+	}
+
+	private void ensureHasLabel(GeoEvaluatable evaluatable) {
+		if (evaluatable instanceof GeoElement) {
+			GeoElement element = (GeoElement) evaluatable;
+			if (!labelController.hasLabel(element)) {
+				labelController.showLabel(element);
+			}
 		}
 	}
 
@@ -233,7 +246,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void rename(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
-			model.updateEvaluatableName(evaluatable);
+			if (labelController.hasLabel(geo)) {
+				model.updateEvaluatableName(evaluatable);
+			} else {
+				remove(geo);
+			}
 		}
 	}
 
