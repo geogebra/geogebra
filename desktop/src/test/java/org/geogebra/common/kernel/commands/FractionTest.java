@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class FractionTest {
 	private static void t(String string, String string2) {
 		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(string, false,
-						new TestErrorHandler(),
+						TestErrorHandler.INSTANCE,
 						new EvalInfo(true).withFractions(true), null);
 		Assert.assertEquals(string2,
 				geos[0].toValueString(StringTemplate.testTemplate));

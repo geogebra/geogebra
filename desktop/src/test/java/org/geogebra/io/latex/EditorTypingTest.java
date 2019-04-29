@@ -1,6 +1,6 @@
 package org.geogebra.io.latex;
 
-import org.geogebra.common.jre.util.TestStringUtil;
+import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

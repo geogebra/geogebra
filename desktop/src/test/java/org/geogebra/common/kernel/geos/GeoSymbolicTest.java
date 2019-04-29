@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
-import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.main.App;
+import org.geogebra.test.TestErrorHandler;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Before;
@@ -202,7 +202,7 @@ public class GeoSymbolicTest {
 		t("a=p+q", "p + q");
 		GeoElement a = app.getKernel().lookupLabel("a");
 		ap.changeGeoElement(a, "p-q", true,
-				false, new TestErrorHandler(), null);
+				false, TestErrorHandler.INSTANCE, null);
 		checkInput("a", "a = p - q");
 	}
 

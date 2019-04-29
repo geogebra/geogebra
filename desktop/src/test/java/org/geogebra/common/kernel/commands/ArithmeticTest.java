@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;

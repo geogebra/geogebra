@@ -2,10 +2,10 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.commands.TestErrorHandler;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -35,7 +35,8 @@ public class ScreenReaderTest {
 	private static GeoElementND eval(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(string, false,
-				new TestErrorHandler(), new EvalInfo(true).withFractions(true).addDegree(true),
+				TestErrorHandler.INSTANCE,
+				new EvalInfo(true).withFractions(true).addDegree(true),
 				null);
 		return result[0];
 	}

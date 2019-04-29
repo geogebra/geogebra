@@ -1,4 +1,4 @@
-package org.geogebra.common.jre.util;
+package org.geogebra.test;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;

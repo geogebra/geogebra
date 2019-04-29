@@ -1,4 +1,4 @@
-package org.geogebra.common.jre.util;
+package org.geogebra.test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 

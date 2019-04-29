@@ -1,12 +1,12 @@
 package org.geogebra.common.properties;
 
-import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandsTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;

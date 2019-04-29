@@ -13,6 +13,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.io.XmlTest;
+import org.geogebra.test.TestErrorHandler;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;

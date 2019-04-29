@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.variable.power.Base;
+import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

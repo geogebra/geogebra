@@ -1,9 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -12,6 +10,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -104,7 +104,7 @@ public class RedefineTest extends Assert {
 		t("a_{1} = Segment(A, B, poly1)", new String[0]);
 		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("a_1"),
 				"a_{1} = Segment(A, B, poly1)", true, true,
-				new TestErrorHandler(), null);
+				TestErrorHandler.INSTANCE, null);
 	}
 
 	@Test
@@ -306,7 +306,7 @@ public class RedefineTest extends Assert {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
 		ap.changeGeoElement(get("f'"), "f'(x)", true, true,
-				new TestErrorHandler(), new AsyncOperation<GeoElementND>() {
+				TestErrorHandler.INSTANCE, new AsyncOperation<GeoElementND>() {
 					@Override
 					public void callback(GeoElementND obj) {
 						// no callback

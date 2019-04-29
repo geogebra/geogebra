@@ -24,6 +24,14 @@ sourceSets {
 }
 
 eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+eclipse.classpath.file {
+	// Eclipse dependecies are based on projects, not source paths
+	whenMerged { classpath ->
+		classpath.entries.removeAll { entry ->
+			entry.kind == 'lib' && entry.path.matches(".*common-jre/build/.*/test") 
+		}
+	}
+}
 
 File javaHome = new File(System.properties['java.home'])
 javaHome = javaHome.name == 'jre' ? javaHome.parentFile : javaHome
@@ -74,6 +82,7 @@ dependencies {
 
     testCompile project(':keyboard-base')
     testCompile 'junit:junit:4.+'
+    testCompile project(':common-jre').sourceSets.test.output
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"

@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
-import static org.geogebra.common.jre.util.TestStringUtil.unicode;
+import static org.geogebra.test.TestStringUtil.unicode;
 
 import java.util.Arrays;
 import java.util.List;

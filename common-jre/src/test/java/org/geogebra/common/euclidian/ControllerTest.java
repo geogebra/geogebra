@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.jre.util.TestEvent;
-import org.geogebra.common.jre.util.TestStringUtil;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.test.TestEvent;
+import org.geogebra.test.TestStringUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
