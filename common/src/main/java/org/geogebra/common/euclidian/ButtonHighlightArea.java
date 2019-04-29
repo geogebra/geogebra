@@ -4,9 +4,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 
+/**
+ * Paints highligted area around a button
+ */
 public class ButtonHighlightArea {
-	private static final double OUTLINE_WIDTH = 4;
-	private static final int HALO_WIDTH = 16;
+	private static final int OUTLINE_WIDTH = 4;
+	private static final int HALO_WIDTH = 16 - OUTLINE_WIDTH / 2;
 
 	private MyButton button;
 
