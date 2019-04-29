@@ -116,6 +116,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 			sug.needsEnterForSuggestion();
 			return;
 		}
+		// make sure editing flag is up to date e.g. after failed redefine
+		setEditing(true);
 		onEnter(true, false);
 		item.getAV().clearActiveItem();
 	}
