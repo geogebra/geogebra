@@ -62,7 +62,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 		for (int i = 0; i < size; i++) {
 			GeoElement listElement = getElement(i);
 			// only new 3D elements are drawn
-			if (!listElement.hasDrawable3D()) {
+			if (!listElement.hasDrawable3D() || listElement.isLabelSet()) {
 				continue;
 			}
 
