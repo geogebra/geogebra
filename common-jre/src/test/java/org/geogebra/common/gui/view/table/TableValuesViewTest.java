@@ -615,19 +615,16 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
 	public void addToTableShouldEnforceLabel() {
-		GeoLine[] lines = createLines(3);
+		GeoElement line = getElementFactory().createLineNoLabel();
 		setValuesSafe(-5, 5, 2);
-		LabelController labelController = new LabelController();
-		labelController.hideLabel(lines[0]);
-		assertFalse(lines[0].isAlgebraLabelVisible());
-		showColumn(lines[0]);
+		showColumn(line);
 		// line added
 		assertEquals(2, model.getColumnCount());
-		assertTrue(lines[0].isAlgebraLabelVisible());
-		labelController.hideLabel(lines[0]);
+		assertTrue(line.isAlgebraLabelVisible());
+		new LabelController().hideLabel(line);
 		// line removed
 		assertEquals(1, model.getColumnCount());
-		assertFalse(lines[0].isAlgebraLabelVisible());
+		assertFalse(line.isAlgebraLabelVisible());
 	}
 
 }
