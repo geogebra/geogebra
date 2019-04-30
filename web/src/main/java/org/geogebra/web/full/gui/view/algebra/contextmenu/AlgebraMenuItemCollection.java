@@ -19,7 +19,7 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 		if (!app.getConfig().hasAutomaticLabels()) {
 			addLabelingActions();
 		}
-		if (app.getConfig().hasTableView(app)) {
+		if (app.getConfig().hasTableView()) {
 			addActions(new TableOfValuesAction());
 		}
 		addActions(new SpecialPointsAction());

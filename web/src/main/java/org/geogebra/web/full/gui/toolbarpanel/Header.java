@@ -124,7 +124,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		indicator.addClassName("indicator");
 		center.getElement().insertFirst(indicator);
 		center.add(btnTools);
-		if (app.getConfig().hasTableView(app)) {
+		if (app.getConfig().hasTableView()) {
 			center.add(btnTableView);
 			center.addStyleName("threeTab");
 		}
@@ -373,7 +373,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			btnAlgebra.addStyleName("selected");
 			break;
 		case TOOLS:
-			center.addStyleName(app.getConfig().hasTableView(app)
+			center.addStyleName(app.getConfig().hasTableView()
 					? "indicatorCenter"
 					: "indicatorRight");
 			btnTools.addStyleName("selected");

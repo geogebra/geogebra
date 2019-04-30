@@ -150,7 +150,7 @@ public class AppConfigGraphing implements AppConfig {
     }
 
 	@Override
-	public boolean hasTableView(App app) {
+	public boolean hasTableView() {
 		return true;
 	}
 

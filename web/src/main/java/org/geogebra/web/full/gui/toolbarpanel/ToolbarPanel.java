@@ -242,7 +242,7 @@ public class ToolbarPanel extends FlowPanel
 
 		add(tabAlgebra);
 		add(tabTools);
-		if (app.getConfig().hasTableView(app)) {
+		if (app.getConfig().hasTableView()) {
 			tabTable = new TableTab(this);
 			add(tabTable);
 		}

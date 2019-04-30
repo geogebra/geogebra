@@ -54,7 +54,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean hasTableView(App app) {
+	public boolean hasTableView() {
 		return false;
 	}
 
