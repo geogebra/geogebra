@@ -63,9 +63,8 @@ public class SuggestionSolveForSymbolic {
 		return new SuggestionSolve(labels.toArray(new String[0]));
 	}
 
-
 	private static GeoElementND getPrevious(GeoElementND geo, final String[] vars) {
-
+		org.geogebra.common.util.debug.Log.debug(vars);
 		GeoElementND prev = geo.getConstruction().getPrevious(geo,
 				new Inspecting() {
 
