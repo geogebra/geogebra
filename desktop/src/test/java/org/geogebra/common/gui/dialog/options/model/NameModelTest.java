@@ -1,6 +1,5 @@
-package org.geogebra.gui;
+package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraTest;

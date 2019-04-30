@@ -273,7 +273,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public Function getFunction() {
 		GeoElementND twin = getTwinGeo();
-		if(twin instanceof GeoFunctionable){
+		if (twin instanceof GeoFunctionable) {
 			return ((GeoFunctionable) twin).getFunction();
 		}
 		ExpressionNode alwaysUndefined = new ExpressionNode(kernel, Double.NaN);

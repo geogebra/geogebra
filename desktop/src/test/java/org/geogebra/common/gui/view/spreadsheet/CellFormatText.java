@@ -1,4 +1,4 @@
-package org.geogebra.view.spreadsheet;
+package org.geogebra.common.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.kernel.StringTemplate;
