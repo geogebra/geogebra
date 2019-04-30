@@ -808,36 +808,36 @@ public class Commands {
 		case "end":
 			return new CommandBE.End();
 		case "begin@array":
-			return new EnvArray.Begin("array", ArrayAtom.ARRAY);
+			return new EnvArray.Begin(ArrayTypes.ARRAY);
 		case "end@array":
-			return new EnvArray.End("array");
+			return new EnvArray.End(ArrayTypes.ARRAY);
 		case "begin@tabular":
-			return new EnvArray.Begin("tabular", ArrayAtom.ARRAY);
+			return new EnvArray.Begin(ArrayTypes.TABULAR);
 		case "end@tabular":
-			return new EnvArray.End("tabular");
+			return new EnvArray.End(ArrayTypes.TABULAR);
 		case "\\":
 			return new CommandCr("\\");
 		case "begin@eqnarray":
-			return new EnvArray.Begin("eqnarray", ArrayAtom.ARRAY,
+			return new EnvArray.Begin(ArrayTypes.EQNARRAY,
 					new ArrayOptions(3).addAlignment(TeXConstants.Align.RIGHT)
 							.addAlignment(TeXConstants.Align.CENTER)
 							.addAlignment(TeXConstants.Align.LEFT).close());
 		case "end@eqnarray":
-			return new EnvArray.End("eqnarray");
+			return new EnvArray.End(ArrayTypes.EQNARRAY);
 		case "begin@split":
-			return new EnvArray.Begin("split", ArrayAtom.ARRAY,
+			return new EnvArray.Begin(ArrayTypes.SPLIT,
 					new ArrayOptions(2).addAlignment(TeXConstants.Align.RIGHT)
 							.addAlignment(TeXConstants.Align.LEFT).close());
 		case "end@split":
-			return new EnvArray.End("split");
+			return new EnvArray.End(ArrayTypes.SPLIT);
 		case "begin@cases":
-			return new EnvArray.Begin("cases", ArrayAtom.ARRAY,
+			return new EnvArray.Begin(ArrayTypes.CASES,
 					new ArrayOptions(3).addAlignment(TeXConstants.Align.LEFT)
 							.addSeparator(
 									new SpaceAtom(TeXConstants.Muskip.NEGTHIN))
 							.addAlignment(TeXConstants.Align.LEFT).close());
 		case "end@cases":
-			return new EnvArray.End("cases");
+			return new EnvArray.End(ArrayTypes.CASES);
 
 		case "matrix":
 		case "array":
@@ -849,80 +849,80 @@ public class Commands {
 			return new CommandPMatrix();
 
 		case "begin@matrix":
-			return new EnvArray.Begin("matrix", ArrayAtom.MATRIX,
+			return new EnvArray.Begin(ArrayTypes.MATRIX,
 					ArrayOptions.getEmpty());
 		case "end@matrix":
-			return new EnvArray.End("matrix");
+			return new EnvArray.End(ArrayTypes.MATRIX);
 		case "begin@smallmatrix":
-			return new EnvArray.Begin("smallmatrix", ArrayAtom.SMALLMATRIX,
+			return new EnvArray.Begin(ArrayTypes.SMALLMATRIX,
 					ArrayOptions.getEmpty());
 		case "end@smallmatrix":
-			return new EnvArray.End("smallmatrix");
+			return new EnvArray.End(ArrayTypes.SMALLMATRIX);
 		case "begin@align":
-			return new EnvArray.Begin("align", ArrayAtom.ALIGN,
+			return new EnvArray.Begin(ArrayTypes.ALIGN,
 					ArrayOptions.getEmpty());
 		case "end@align":
-			return new EnvArray.End("align");
+			return new EnvArray.End(ArrayTypes.ALIGN);
 		case "begin@aligned":
-			return new EnvArray.Begin("aligned", ArrayAtom.ALIGNED,
+			return new EnvArray.Begin(ArrayTypes.ALIGNED,
 					ArrayOptions.getEmpty());
 		case "end@aligned":
-			return new EnvArray.End("aligned");
+			return new EnvArray.End(ArrayTypes.ALIGNED);
 		case "begin@flalign":
-			return new EnvArray.Begin("flalign", ArrayAtom.FLALIGN,
+			return new EnvArray.Begin(ArrayTypes.FLALIGN,
 					ArrayOptions.getEmpty());
 		case "end@flalign":
-			return new EnvArray.End("flalign");
+			return new EnvArray.End(ArrayTypes.FLALIGN);
 		case "begin@alignat":
-			return new EnvArray.Begin("alignat", ArrayAtom.ALIGNAT,
+			return new EnvArray.Begin(ArrayTypes.ALIGNAT,
 					ArrayOptions.getEmpty());
 		case "end@alignat":
-			return new EnvArray.End("alignat");
+			return new EnvArray.End(ArrayTypes.ALIGNAT);
 		case "begin@alignedat":
-			return new EnvArray.Begin("alignedat", ArrayAtom.ALIGNEDAT,
+			return new EnvArray.Begin(ArrayTypes.ALIGNEDAT,
 					ArrayOptions.getEmpty());
 		case "end@alignedat":
-			return new EnvArray.End("alignedat");
+			return new EnvArray.End(ArrayTypes.ALIGNEDAT);
 		case "begin@multline":
-			return new EnvArray.Begin("multline", -1, ArrayOptions.getEmpty());
+			return new EnvArray.Begin(ArrayTypes.MULTILINE, ArrayOptions.getEmpty());
 		case "end@multline":
-			return new EnvArray.End("multline");
+			return new EnvArray.End(ArrayTypes.MULTILINE);
 		case "begin@subarray":
-			return new EnvArray.Begin("subarray", -1);
+			return new EnvArray.Begin(ArrayTypes.SUBARRAY);
 		case "end@subarray":
-			return new EnvArray.End("subarray");
+			return new EnvArray.End(ArrayTypes.SUBARRAY);
 		case "substack":
 			return new CommandSubstack();
 		case "displaylines":
 			return new CommandDisplaylines();
 		case "begin@gather":
-			return new EnvArray.Begin("gather", -1, ArrayOptions.getEmpty());
+			return new EnvArray.Begin(ArrayTypes.GATHER, ArrayOptions.getEmpty());
 		case "end@gather":
-			return new EnvArray.End("gather");
+			return new EnvArray.End(ArrayTypes.GATHER);
 		case "begin@gathered":
-			return new EnvArray.Begin("gathered", -1, ArrayOptions.getEmpty());
+			return new EnvArray.Begin(ArrayTypes.GATHERED, ArrayOptions.getEmpty());
 		case "end@gathered":
-			return new EnvArray.End("gathered");
+			return new EnvArray.End(ArrayTypes.GATHERED);
 		case "begin@pmatrix":
-			return new EnvArray.Begin("pmatrix", ArrayAtom.MATRIX,
+			return new EnvArray.Begin(ArrayTypes.PMATRIX,
 					ArrayOptions.getEmpty());
 		case "end@pmatrix":
-			return new EnvArray.End("pmatrix", "lbrack", "rbrack");
+			return new EnvArray.End(ArrayTypes.PMATRIX, "lbrack", "rbrack");
 		case "begin@bmatrix":
-			return new EnvArray.Begin("bmatrix", ArrayAtom.MATRIX,
+			return new EnvArray.Begin(ArrayTypes.BMATRIX,
 					ArrayOptions.getEmpty());
 		case "end@bmatrix":
-			return new EnvArray.End("bmatrix", "lsqbrack", "rsqbrack");
+			return new EnvArray.End(ArrayTypes.BMATRIX, "lsqbrack", "rsqbrack");
 		case "begin@vmatrix":
-			return new EnvArray.Begin("bmatrix", ArrayAtom.MATRIX,
+			return new EnvArray.Begin(ArrayTypes.BMATRIX,
 					ArrayOptions.getEmpty());
 		case "end@vmatrix":
-			return new EnvArray.End("bmatrix", "vert");
+			return new EnvArray.End(ArrayTypes.BMATRIX, "vert");
 		case "begin@Vmatrix":
-			return new EnvArray.Begin("Vmatrix", ArrayAtom.MATRIX,
+			return new EnvArray.Begin(ArrayTypes.VMATRIX,
 					ArrayOptions.getEmpty());
 		case "end@Vmatrix":
-			return new EnvArray.End("Vmatrix", "Vert");
+			return new EnvArray.End(ArrayTypes.VMATRIX, "Vert");
 		case "textcircled":
 			return new CommandTextCircled();
 

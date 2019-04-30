@@ -45,7 +45,6 @@
 
 package com.himamis.retex.renderer.share.commands;
 
-import com.himamis.retex.renderer.share.ArrayAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.RowAtom;
@@ -59,7 +58,7 @@ public class CommandMatrix extends Command {
 
 	@Override
 	public boolean init(TeXParser tp) {
-		aoa = new ArrayOfAtoms(ArrayAtom.MATRIX);
+		aoa = new ArrayOfAtoms();
 		return true;
 	}
 

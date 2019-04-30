@@ -97,7 +97,6 @@ public class EnvArray {
 		public Atom duplicate() {
 			return setFields(new CellColor(c));
 		}
-
 	}
 
 	public static final class RowColor extends EmptyAtom {
@@ -115,40 +114,35 @@ public class EnvArray {
 		public Atom duplicate() {
 			return setFields(new RowColor(c));
 		}
-
 	}
 
 	public static class Begin extends Command {
 
-		final String name;
-		final int type;
+		ArrayTypes type;
 		ArrayOptions opt;
 		ArrayOfAtoms aoa;
 		int n;
 
-		public Begin(String name, int type) {
-			this.name = name;
+		public Begin(ArrayTypes type) {
 			this.type = type;
 			this.opt = null;
 		}
 
-		public Begin(String name, int type, ArrayOptions opt) {
-			this.name = name;
+		public Begin(ArrayTypes type, ArrayOptions opt) {
 			this.type = type;
 			this.opt = opt;
 		}
 
 		@Override
 		final public boolean init(TeXParser tp) {
-
-			if ("alignedat".equals(name) || "alignat".equals(name)) {
+			if (type == ArrayTypes.ALIGNEDAT || type == ArrayTypes.ALIGNAT) {
 				n = tp.getArgAsPositiveInteger();
 				if (n <= 0) {
 					throw new ParseException(tp,
-							"Invalid argument in " + name + " environment");
+							"Invalid argument in " + type.toString() + " environment");
 				}
-				aoa = new ArrayOfAtoms("alignedat".equals(name)
-						? ArrayAtom.ALIGNEDAT : ArrayAtom.ALIGNAT);
+
+				aoa = new ArrayOfAtoms();
 				tp.addConsumer(this);
 				tp.addConsumer(aoa);
 				return false;
@@ -157,27 +151,27 @@ public class EnvArray {
 			if (opt == null) {
 				opt = tp.getArrayOptions();
 			}
-			aoa = new ArrayOfAtoms(type);
+
+			aoa = new ArrayOfAtoms();
 			tp.addConsumer(this);
 			tp.addConsumer(aoa);
-			switch (name) {
-			default:
 
-				return false;
-
-			case "multiline":
-			case "subarray":
-			case "gather":
-			case "gathered":
+			switch (type) {
+			case MULTILINE:
+			case SUBARRAY:
+			case GATHER:
+			case GATHERED:
 				aoa.setOneColumn(true);
 				return false;
 
+			default:
+				return false;
 			}
 
 		}
 
-		public final String getName() {
-			return name;
+		public final ArrayTypes getType() {
+			return type;
 		}
 
 		public ArrayOptions getOptions() {
@@ -191,26 +185,22 @@ public class EnvArray {
 
 	public static class End extends Command {
 
-		final String name;
+		final ArrayTypes type;
 		final String op;
 		final String cl;
 
-		public End(String name) {
-			this.name = name;
-			this.op = null;
-			this.cl = null;
-		}
-
-		public End(String name, String op, String cl) {
-			this.name = name;
+		public End(ArrayTypes type, String op, String cl) {
+			this.type = type;
 			this.op = op;
 			this.cl = cl;
 		}
 
-		public End(String name, String op) {
-			this.name = name;
-			this.op = op;
-			this.cl = null;
+		public End(ArrayTypes type, String op) {
+			this(type, op, null);
+		}
+
+		public End(ArrayTypes type) {
+			this(type, null, null);
 		}
 
 		@Override
@@ -221,29 +211,29 @@ public class EnvArray {
 				final AtomConsumer c = tp.pop();
 				if (c instanceof Begin) {
 					final Begin beg = (Begin) c;
-					if (!name.equals(beg.getName())) {
+					if (type != beg.getType()) {
 						throw new ParseException(tp,
-								"Close a " + beg.getName() + " with a " + name);
+								"Close a " + beg.getType().toString() + " with a " + type.toString());
 					}
 					beg.aoa.checkDimensions();
 					if (op == null) {
 						tp.addToConsumer(newI(tp, beg));
 					} else {
-						tp.addToConsumer(newFenced(tp, beg));
+						tp.addToConsumer(newFenced(beg));
 					}
 				} else {
 					throw new ParseException(tp,
-							"Close something which is not a " + name);
+							"Close something which is not a " + type.toString());
 				}
 			} else {
 				throw new ParseException(tp,
-						"Close something which is not a " + name);
+						"Close something which is not a " + type.toString());
 			}
 
 			return false;
 		}
 
-		public Atom newFenced(TeXParser tp, Begin beg) {
+		public Atom newFenced(Begin beg) {
 			final SymbolAtom op = SymbolAtom.get(this.op);
 			final SymbolAtom cl = this.cl == null ? op
 					: SymbolAtom.get(this.cl);
@@ -252,62 +242,58 @@ public class EnvArray {
 		}
 
 		final public Atom newI(TeXParser tp, Begin beg) {
-			switch (name) {
-			case "align":
+			switch (type) {
+			case ALIGN:
 				return new AlignAtom(beg.aoa, false);
-			case "cases":
-				final SymbolAtom op1 = Symbols.LBRACE;
-
-				// XXX check
+			case CASES:
 				return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
-						op1, null, null);
-			// return new FencedAtom(super.newI(tp, beg), op, null, cl);
+						Symbols.LBRACE, null, null);
 
-			case "matrix":
+			case MATRIX:
 				return new SMatrixAtom(beg.aoa, false);
 
-			case "smallmatrix":
+			case SMALLMATRIX:
 				return new SMatrixAtom(beg.aoa, true);
 
-			case "aligned":
+			case ALIGNED:
 				return new AlignAtom(beg.aoa, true);
 
-			case "flalign":
+			case FLALIGN:
 				return new FlalignAtom(beg.aoa);
 
-			case "alignat":
+			case ALIGNAT:
 				if (2 * beg.n != beg.aoa.col) {
 					throw new ParseException(tp,
 							"Bad number of equations in alignat environment !");
 				}
 				return new AlignAtAtom(beg.aoa, false);
 
-			case "alignedat":
+			case ALIGNEDAT:
 				if (2 * beg.n != beg.aoa.col) {
 					throw new ParseException(tp,
 							"Bad number of equations in alignedat environment !");
 				}
 				return new AlignAtAtom(beg.aoa, true);
 
-			case "multiline":
+			case MULTILINE:
 				if (beg.aoa.col == 0) {
 					return EmptyAtom.get();
 				}
 				return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
 
-			case "subarray":
+			case SUBARRAY:
 				if (beg.aoa.col == 0) {
 					return EmptyAtom.get();
 				}
 				return new SubarrayAtom(beg.getAOA(), beg.getOptions());
 
-			case "gather":
+			case GATHER:
 				if (beg.aoa.col == 0) {
 					return EmptyAtom.get();
 				}
 				return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
 
-			case "gathered":
+			case GATHERED:
 				if (beg.aoa.col == 0) {
 					return EmptyAtom.get();
 				}

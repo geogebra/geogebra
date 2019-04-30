@@ -56,13 +56,11 @@ public class ArrayOfAtoms implements AtomConsumer {
 	protected ArrayList<ArrayList<Color>> colors;
 	protected ArrayList<Color> rowcolors;
 	protected ArrayList<Atom> currentRow;
-	protected int type;
 	public int col;
 	protected int row;
 	protected boolean oneColumn = false;
 
-	public ArrayOfAtoms(final int type) {
-		this.type = type;
+	public ArrayOfAtoms() {
 		ra = new RowAtom();
 		array = new ArrayList<ArrayList<Atom>>();
 		currentRow = new ArrayList<Atom>();
@@ -133,10 +131,6 @@ public class ArrayOfAtoms implements AtomConsumer {
 
 	public final void setOneColumn(boolean oneColumn) {
 		this.oneColumn = oneColumn;
-	}
-
-	public int getType() {
-		return type;
 	}
 
 	@Override

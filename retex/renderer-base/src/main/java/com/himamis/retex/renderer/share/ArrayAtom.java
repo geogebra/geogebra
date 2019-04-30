@@ -61,18 +61,8 @@ public class ArrayAtom extends Atom {
 	public static final SpaceAtom vsep_ext_bot = new SpaceAtom(
 			TeXLength.Unit.EX, 0.0, 0.4, 0.0);
 
-	public static final int ARRAY = 0;
-	public static final int MATRIX = 1;
-	public static final int ALIGN = 2;
-	public static final int ALIGNAT = 3;
-	public static final int FLALIGN = 4;
-	public static final int SMALLMATRIX = 5;
-	public static final int ALIGNED = 6;
-	public static final int ALIGNEDAT = 7;
-
 	protected ArrayOfAtoms matrix;
 	protected ArrayOptions options;
-	protected int arrayType;
 	protected boolean spaceAround;
 
 	/**
@@ -82,7 +72,6 @@ public class ArrayAtom extends Atom {
 	public ArrayAtom(ArrayOfAtoms array, ArrayOptions options,
 			boolean spaceAround) {
 		this.matrix = array;
-		this.arrayType = array.getType();
 		this.spaceAround = spaceAround;
 		if (options != null) {
 			this.options = options.complete(matrix.col);
@@ -118,7 +107,6 @@ public class ArrayAtom extends Atom {
 	}
 
 	public double[] getColumnSep(TeXEnvironment env, double width) {
-		final int row = matrix.row;
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
 
@@ -145,97 +133,6 @@ public class ArrayAtom extends Atom {
 
 		return seps;
 	}
-
-	/*
-	 * public Box createBox(TeXEnvironment env) { final int row = matrix.row;
-	 * final int col = matrix.col;
-	 * 
-	 * if (row == 0 || col == 0) { return StrutBox.getEmpty(); }
-	 * 
-	 * final Box[][] boxarr = new Box[row][2 * col + 1]; final double[] rowDepth
-	 * = new double[row]; final double[] rowHeight = new double[row]; final
-	 * double[] colWidth = new double[col]; final double drt =
-	 * env.getTeXFont().getDefaultRuleThickness(env.getStyle()); final
-	 * List<MulticolumnAtom> listMulti = new ArrayList<MulticolumnAtom>(); final
-	 * List<Box> vlines = options.getVlines(env); double matW = 0.;
-	 * 
-	 * for (int i = 0; i < row; ++i) { rowDepth[i] = dinit; rowHeight[i] =
-	 * hinit; for (int j = 0; j < 2 * col + 1; ++j) { if (i % 2 == 0) {
-	 * 
-	 * } final Atom at = matrix.get(i, j); if (at == null) { boxarr[i][j] =
-	 * StrutBox.getEmpty(); } else { final Box b = at.createBox(env);
-	 * boxarr[i][j] = b;
-	 * 
-	 * rowDepth[i] = Math.max(b.getDepth(), rowDepth[i]); rowHeight[i] =
-	 * Math.max(b.getHeight(), rowHeight[i]);
-	 * 
-	 * if (b.type != TeXConstants.TYPE_MULTICOLUMN) { colWidth[j] =
-	 * Math.max(b.getWidth(), colWidth[j]); } else { final MulticolumnAtom mcat
-	 * = (MulticolumnAtom)at; mcat.setRowColumn(i, j); listMulti.add(mcat); } }
-	 * } }
-	 * 
-	 * final double[] seps = getColumnSep(env, 0. not used ); final double[]
-	 * hseps = getSepForColumns(seps);
-	 * 
-	 * for (final MulticolumnAtom multi : listMulti) { final int c =
-	 * multi.getCol(); final int r = multi.getRow(); final int n =
-	 * multi.getSkipped(); final int N = c + n - 1; double w = colWidth[c] +
-	 * hseps[2 * c + 1] + vlines.get(c + 1).getWidth(); for (int j = c + 1; j <
-	 * N; ++j) { w += colWidth[j] + hseps[2 * j] + hseps[2 * j + 1] +
-	 * vlines.get(j + 1).getWidth(); } w += colWidth[N] + hseps[2 * N]; final
-	 * double boxW = boxarr[r][c].getWidth(); if (boxW > w) { final double
-	 * extraW = (boxW - w) / (double)n; for (int j = c; j < c + n; ++j) {
-	 * colWidth[j] += extraW; } multi.setWidth(boxW); } else {
-	 * multi.setWidth(w); } }
-	 * 
-	 * for (int j = 0; j < col; ++j) { matW += colWidth[j] + hseps[2 * j] +
-	 * hseps[2 * j + 1] + vlines.get(j).getWidth(); } matW +=
-	 * vlines.get(col).getWidth();
-	 * 
-	 * final VerticalBox vb = new VerticalBox(); final Box Vsep =
-	 * vsep_in.createBox(env); vb.add(vsep_ext_top.createBox(env)); final double
-	 * vsepH = Vsep.getHeight(); final double halfVsepH = vsepH / 2.;
-	 * 
-	 * for (int i = 0; i < row; ++i) { final HorizontalBox hb = new
-	 * HorizontalBox(); final double rhi = rowHeight[i]; final double rdi =
-	 * rowDepth[i]; for (int j = 0; j < col; ++j) { final int typ =
-	 * boxarr[i][j].type; if (typ == TeXConstants.TYPE_HLINE) { final HlineBox
-	 * hlb = (HlineBox)boxarr[i][j]; if (i >= 1 && boxarr[i - 1][j].type ==
-	 * TeXConstants.TYPE_HLINE) { hb.add(new StrutBox(0., 3. * drt, 0., 0.)); }
-	 * hlb.setDims(matW, -halfVsepH); hb.add(hlb); break; } else if (typ ==
-	 * TeXConstants.TYPE_INTERTEXT) { double f = env.getTextwidth(); f = f ==
-	 * Double.POSITIVE_INFINITY ? colWidth[j] : f; hb.add(new
-	 * HorizontalBox(boxarr[i][j], f, TeXConstants.Align.LEFT)); break; } else {
-	 * final double l = hseps[2 * j]; if (typ == TeXConstants.TYPE_MULTICOLUMN)
-	 * { final MulticolumnAtom matom = (MulticolumnAtom)matrix.get(i, j); final
-	 * int n = matom.getSkipped(); final double r = hseps[2 * (j + n) - 1]; if
-	 * (matom.mustBeRecreated()) { boxarr[i][j] = matom.createBox(env); } final
-	 * List<Box> mcVlines = matom.getOptions().getVlines(env); if (j == 0) {
-	 * addVline(hb, mcVlines, 0, rhi + rdi + vsepH, rdi + halfVsepH); }
-	 * 
-	 * CellBox cb = new CellBox(boxarr[i][j], rhi + halfVsepH, rdi + halfVsepH,
-	 * l, r, matom.getWidth(), matom.getOptions().getAlignment(0));
-	 * cb.setBg(matrix.getColor(i, j)); hb.add(cb); addVline(hb, mcVlines, 1,
-	 * rhi + rdi + vsepH, rdi + halfVsepH); j += n - 1; } else { if (j == 0) {
-	 * addVline(hb, vlines, 0, rhi + rdi + vsepH, rdi + halfVsepH); }
-	 * 
-	 * final double r = hseps[2 * j + 1]; CellBox cb = new CellBox(boxarr[i][j],
-	 * rhi + halfVsepH, rdi + halfVsepH, l, r, colWidth[j],
-	 * options.getAlignment(j)); cb.setBg(matrix.getColor(i, j)); hb.add(cb);
-	 * addVline(hb, vlines, j + 1, rhi + rdi + vsepH, rdi + halfVsepH); } } }
-	 * 
-	 * if (boxarr[i][0].type != TeXConstants.TYPE_HLINE) {
-	 * hb.setHeight(rowHeight[i]); hb.setDepth(rowDepth[i]); vb.add(hb);
-	 * 
-	 * if (i < row - 1) { vb.add(Vsep); } } else { vb.add(hb); } }
-	 * 
-	 * vb.add(vsep_ext_bot.createBox(env)); final double totalHeight =
-	 * vb.getHeight() + vb.getDepth(); final double axis =
-	 * env.getTeXFont().getAxisHeight(env.getStyle()); vb.setHeight(totalHeight
-	 * / 2. + axis); vb.setDepth(totalHeight / 2. - axis);
-	 * 
-	 * return vb; }
-	 */
 
 	@Override
 	public Box createBox(TeXEnvironment env) {

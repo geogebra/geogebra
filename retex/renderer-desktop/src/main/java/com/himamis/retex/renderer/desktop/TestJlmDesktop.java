@@ -37,10 +37,7 @@ public class TestJlmDesktop extends JFrame {
 		Graphics2DD g2d = new Graphics2DD(g2);
 
 		String[] texts = {
-				"\\text{AVAVAVAVAVA}",
-				"\\text{AV\\bgcolor{red}{AVAVA}VAVA}",
-				"\\text{ffs}",
-				"\\text{A\\bgcolor{RED}{ff}f\\bgcolor{blue}{f}"
+				"\\begin{tabular}{| c |@{\\hspace{3.7 mm}}|  c |} \\hline {\\Huge{p}} & -1  \\\\ \\hline {\\Huge{p}} & {x} \\\\ \\hline \\end{tabular}",
 		};
 
 		int y = 100;

@@ -2987,7 +2987,7 @@ public class TeXParser {
 				++pos;
 				final int num = getArgAsPositiveInteger();
 				final String str = getGroupAsArgument();
-				final StringBuffer buf = new StringBuffer(str.length() * num);
+				final StringBuilder buf = new StringBuilder(str.length() * num);
 				for (int i = 0; i < num; ++i) {
 					buf.append(str);
 				}

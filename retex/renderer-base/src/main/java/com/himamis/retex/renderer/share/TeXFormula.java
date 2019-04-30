@@ -199,7 +199,7 @@ public class TeXFormula {
 		}
 
 		final String[] arr = text.split("\n|\\\\\\\\|\\\\cr");
-		final ArrayOfAtoms atoms = new ArrayOfAtoms(ArrayAtom.ARRAY);
+		final ArrayOfAtoms atoms = new ArrayOfAtoms();
 		final TeXParser parser = new TeXParser(false, arr[0]);
 		parser.parse();
 		atoms.add(new RomanAtom(parser.get()));

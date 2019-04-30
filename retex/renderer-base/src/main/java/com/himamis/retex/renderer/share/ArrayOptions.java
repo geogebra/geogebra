@@ -72,10 +72,6 @@ public final class ArrayOptions {
 			return !isVline();
 		}
 
-		public Atom getVline() {
-			return separator;
-		}
-
 		public Atom getSeparator() {
 			return separator;
 		}
@@ -118,17 +114,6 @@ public final class ArrayOptions {
 
 	public static ArrayOptions getEmpty() {
 		return empty;
-	}
-
-	public VlineAtom getVline(final int n) {
-		final Atom a = options.get(n).getSeparator();
-		if (a == null) {
-			return VlineAtom.getEmpty();
-		}
-		if (a instanceof VlineAtom) {
-			return (VlineAtom) a;
-		}
-		return null;
 	}
 
 	public List<Box> getVlines(TeXEnvironment env) {
