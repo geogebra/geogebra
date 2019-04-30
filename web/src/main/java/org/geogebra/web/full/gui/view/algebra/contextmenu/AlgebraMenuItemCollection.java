@@ -16,11 +16,11 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 	 */
 	public AlgebraMenuItemCollection(AlgebraViewW algebraView) {
 		AppW app = algebraView.getApp();
-		if (!app.getConfig().hasAutomaticLabels()) {
-			addLabelingActions();
-		}
 		if (app.getConfig().hasTableView()) {
 			addActions(new TableOfValuesAction());
+		}
+		if (!app.getConfig().hasAutomaticLabels()) {
+			addLabelingActions();
 		}
 		addActions(new SpecialPointsAction());
 		addActions(new DuplicateAction(algebraView), new DeleteAction(), new SettingsAction());
