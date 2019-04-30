@@ -506,13 +506,11 @@ public class MhchemParser extends TeXParser {
 					etype = ElementType.greek;
 					handleElement();
 				} else {
-					cpos = pos;
 					prevpos = pos;
 					final String command = getCommand();
 					if (!command.isEmpty()) {
 						processCommand(command);
 					}
-					cpos = -1;
 				}
 				break;
 			}

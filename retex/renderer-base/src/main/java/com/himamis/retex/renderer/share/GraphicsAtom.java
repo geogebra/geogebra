@@ -88,13 +88,13 @@ public class GraphicsAtom extends Atom {
 					options.containsKey("keepaspectratio"));
 		}
 		if (options.containsKey("scale")) {
-			final double scl = TeXParser.parseDouble(options.get("scale"));
+			final double scl = Double.parseDouble(options.get("scale"));
 			if (!Double.isNaN(scl)) {
 				base = new ScaleAtom(base, scl, scl);
 			}
 		}
 		if (options.containsKey("angle")) {
-			final double angle = TeXParser.parseDouble(options.get("angle"));
+			final double angle = Double.parseDouble(options.get("angle"));
 			if (!Double.isNaN(angle)) {
 				base = new RotateAtom(base, angle, options);
 			}

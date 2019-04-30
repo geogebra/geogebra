@@ -81,10 +81,12 @@ public abstract class ColorUtil {
 	}
 
 	public static Color decode(String string) throws NumberFormatException {
-		Integer intval = Integer.decode(string);
-		int i = intval.intValue();
-		return GRAPHICS_FACTORY.createColor((i >> 16) & 0xFF, (i >> 8) & 0xFF,
-				i & 0xFF);
+		int val = Integer.decode(string);
+		return GRAPHICS_FACTORY.createColor(
+				(val >> 16) & 0xFF,
+				(val >> 8) & 0xFF,
+				val & 0xFF
+		);
 	}
 
 	/**

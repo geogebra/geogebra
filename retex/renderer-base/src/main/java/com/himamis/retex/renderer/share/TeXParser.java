@@ -60,40 +60,39 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class TeXParser {
 
 	protected ArrayDeque<AtomConsumer> stack;
-	protected ArrayDeque<ParsedString> stringStack;
-	protected ArrayDeque<Boolean> modeStack;
+	private ArrayDeque<ParsedString> stringStack;
+	private ArrayDeque<Boolean> modeStack;
 	protected String parseString;
-	protected int cpos = -1;
 	protected int pos;
 	protected int prevpos;
 	protected int line;
 	protected int col;
 	protected int len;
-	protected int stopPos = -1;
-	protected boolean ignoreWhiteSpace = true;
+	private int stopPos = -1;
+	private boolean ignoreWhiteSpace = true;
 	protected CharMapping charMapping = CharMapping.getDefault();
 	private Map<String, String> xmlMap;
 
 	// TODO: handle correctly partial stuff
 	protected boolean isPartial;
 
-	// 00 01 02 03 04 05 06 07 08 09
-	private static final int[] HEX_ARRAY = { 16, 16, 16, 16, 16, 16, 16, 16, 16,
-			16, // 00
+	private static final int[] HEX_ARRAY = {
+		// 	00 	01 	02 	03 	04 	05 	06 	07 	08 	09
+			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 00
 			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 10
 			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 20
 			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 30
-			16, 16, 16, 16, 16, 16, 16, 16, 0, 1, // 40
-			2, 3, 4, 5, 6, 7, 8, 9, 16, 16, // 50
+			16, 16, 16, 16, 16, 16, 16, 16,  0,  1, // 40
+			 2,  3,  4,  5,  6,  7,  8,  9, 16, 16, // 50
 			16, 16, 16, 16, 16, 10, 11, 12, 13, 14, // 60
 			15, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 70
 			16, 16, 16, 16, 16, 16, 16, 16, 16, 16, // 80
 			16, 16, 16, 16, 16, 16, 16, 10, 11, 12, // 90
-			13, 14, 15 }; // 100
+			13, 14, 15 								// 100
+	};
 
 	public static final int MAX_DEC = 6;
 	public static final boolean MATH_MODE = true;
-	public static final boolean TEXT_MODE = false;
 
 	private static final double[] POWTEN = { 1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6,
 			1e7 };
@@ -118,10 +117,6 @@ public class TeXParser {
 
 		public double getDouble() {
 			return isdouble ? f : (double) i;
-		}
-
-		public int getInt() {
-			return isdouble ? (int) f : i;
 		}
 
 		@Override
@@ -174,12 +169,7 @@ public class TeXParser {
 		this(false);
 	}
 
-	public static double parseDouble(final String s) {
-		final TeXParser tp = new TeXParser(s);
-		return tp.getDecimal();
-	}
-
-	private final void initStack() {
+	private void initStack() {
 		stack = new ArrayDeque<>();
 		addConsumer(new GroupConsumer(TeXConstants.Opener.NONE));
 	}
@@ -217,10 +207,6 @@ public class TeXParser {
 		this.line = 1;
 		this.pos = 0;
 		this.col = -1;
-	}
-
-	public void setLine(final int line) {
-		this.line = line;
 	}
 
 	/**
@@ -344,12 +330,6 @@ public class TeXParser {
 		return stack.peek().isArray();
 	}
 
-	public boolean setMathMode() {
-		final boolean b = ignoreWhiteSpace;
-		ignoreWhiteSpace = true;
-		return b;
-	}
-
 	public boolean setTextMode() {
 		final boolean b = ignoreWhiteSpace;
 		ignoreWhiteSpace = false;
@@ -370,10 +350,6 @@ public class TeXParser {
 
 	public boolean isAmpersandAllowed() {
 		return stack.peek().isAmpersandAllowed();
-	}
-
-	public char getChar() {
-		return pos < len ? parseString.charAt(pos) : '\0';
 	}
 
 	public void closeConsumer(Atom a) throws ParseException {
@@ -542,13 +518,11 @@ public class TeXParser {
 				charMapping.replaceUnsafe('[', this);
 				break;
 			case '\\':
-				cpos = pos;
 				prevpos = pos;
 				final String command = getCommand();
 				if (!command.isEmpty()) {
 					processCommand(command);
 				}
-				cpos = -1;
 				break;
 			case ']':
 				++pos;
@@ -700,17 +674,6 @@ public class TeXParser {
 		return ra;
 	}
 
-	public static Atom getAtomForLatinStr(final String s, final int textStyle,
-			final boolean math) {
-		final RowAtom ra = new RowAtom(s.length());
-		for (int i = 0; i < s.length(); ++i) {
-			final char c = s.charAt(i);
-			ra.add(new CharAtom(c, textStyle, math));
-		}
-
-		return ra.simplify();
-	}
-
 	public int getNumberOf(final char c) {
 		int n = 1;
 		while (++pos < len) {
@@ -810,7 +773,7 @@ public class TeXParser {
 					}
 					++pos;
 					cancelPrevPos();
-					return acc = (acc << 4) | n;
+					return (acc << 4) | n;
 				}
 				++pos;
 				acc = (acc << 4) | n;
@@ -1195,19 +1158,6 @@ public class TeXParser {
 		return c == ' ' || c == '\t' || c == '\r';
 	}
 
-	public void skipSeparator(final char ch) {
-		skipPureWhites();
-		if (pos < len) {
-			final char c = parseString.charAt(pos);
-			if (c == ch) {
-				++pos;
-				skipPureWhites();
-				return;
-			}
-		}
-		throw new ParseException(this, "Expect a '" + ch + "'");
-	}
-
 	public void skipSeparators(final String seps) {
 		skipPureWhites();
 		if (pos < len) {
@@ -1356,34 +1306,6 @@ public class TeXParser {
 		}
 		throw new ParseException(this,
 				"An argument expected between curly braces");
-	}
-
-	public String getArgAsCommandName() {
-		skipPureWhites();
-		if (pos < len) {
-			char c = parseString.charAt(pos);
-			if (c == '{') {
-				++pos;
-				skipPureWhites();
-				final int spos = pos;
-				c = parseString.charAt(pos);
-				if (isRomanLetter(c)) {
-					while (pos < len) {
-						c = parseString.charAt(pos);
-						if (!isRomanLetter(c)) {
-							if (c == '}') {
-								return parseString.substring(spos, pos++);
-							}
-							throw new ParseException(this,
-									"A closing '}' expected");
-						}
-						++pos;
-					}
-					return parseString.substring(spos);
-				}
-			}
-		}
-		throw new ParseException(this, "A name expected between curly braces");
 	}
 
 	public int getPositiveInteger(final char stop) {
@@ -1659,7 +1581,6 @@ public class TeXParser {
 
 			// We don't have a number or a dot
 			// So we probably have a color name
-			final int spos = pos;
 			final String name = getString(stop).trim();
 			final Color color = Colors.getFromName(name);
 			if (color == null) {
@@ -1907,18 +1828,6 @@ public class TeXParser {
 		throw new ParseException(this, "A color expected as argument");
 	}
 
-	public Color getOptionAsColor() {
-		skipPureWhites();
-		if (pos < len) {
-			final char c = parseString.charAt(pos);
-			if (c == '[') {
-				++pos;
-				return getColor(']');
-			}
-		}
-		return null;
-	}
-
 	/**
 	 * Convert an integer like 1234 into 0x1234 0x1234 = 4 + 3*16 + 2 * 16^2 + 1
 	 * * 16^3
@@ -1937,27 +1846,6 @@ public class TeXParser {
 
 	private static int getHex(final char c) {
 		return (c <= 'f') ? HEX_ARRAY[c] : 16;
-	}
-
-	private int getMacroArgNumber() {
-		if (pos < len) {
-			char c = parseString.charAt(pos);
-			if (c >= '1' && c <= '9') {
-				++pos;
-				int acc = c - '0';
-				while (pos < len) {
-					c = parseString.charAt(pos);
-					if (c >= '0' && c <= '9') {
-						++pos;
-						acc = 10 * acc + c - '0';
-					} else {
-						break;
-					}
-				}
-				return acc;
-			}
-		}
-		return 0;
 	}
 
 	public void processDollar() {
@@ -2189,34 +2077,6 @@ public class TeXParser {
 		throw new ParseException(this, "missing '" + close + "'!");
 	}
 
-	/**
-	 * Get the contents between double quotes
-	 *
-	 * @param open
-	 *            the opening character
-	 * @param close
-	 *            the closing character
-	 * @return the enclosed contents
-	 * @throws ParseException
-	 *             if the contents are badly enclosed
-	 */
-	public String getPureString() {
-		final int spos = pos;
-
-		while (pos < len) {
-			final char c = parseString.charAt(pos);
-			if (c == '\"') {
-				return parseString.substring(spos, pos++);
-			} else if (c == '\\') {
-				pos += 2;
-			} else {
-				++pos;
-			}
-		}
-
-		throw new ParseException(this, "missing \" !");
-	}
-
 	public String getGroupAsArgument() {
 		skipPureWhites();
 		if (pos < len) {
@@ -2229,20 +2089,6 @@ public class TeXParser {
 			}
 		}
 		throw new ParseException(this, "Expect a '{'");
-	}
-
-	public String getOptionAsCode() {
-		skipPureWhites();
-		if (pos < len) {
-			final char c = parseString.charAt(pos);
-			if (c == '[') {
-				++pos;
-				final String s = getGroup('[', ']');
-				++pos;
-				return s;
-			}
-		}
-		throw new ParseException(this, "Expect a '['");
 	}
 
 	public ArrayList<String> getArgsAsStrings(final int nargs) {
@@ -2370,10 +2216,6 @@ public class TeXParser {
 
 	public char getOptionAsChar() {
 		return getAsChar('[', ']');
-	}
-
-	public char getArgAsChar() {
-		return getAsChar('{', '}');
 	}
 
 	public char getAsChar(final char open, final char close) {
@@ -2574,10 +2416,6 @@ public class TeXParser {
 		}
 
 		throw new ParseException(this, "Not a valid number");
-	}
-
-	public double getOptionAsDecimal() {
-		return getOptionAsDecimal(Double.NaN);
 	}
 
 	public double getOptionAsDecimal(final double def) {
@@ -2824,7 +2662,6 @@ public class TeXParser {
 			}
 			++pos;
 		}
-		return;
 	}
 
 	private double getDecimalPart() {
@@ -2867,7 +2704,6 @@ public class TeXParser {
 	 *
 	 * @param c
 	 *            the character to be converted
-	 * @return the corresponding atom
 	 * @throws ParseException
 	 *             if the character is unknown
 	 */
