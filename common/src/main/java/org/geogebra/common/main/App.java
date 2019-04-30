@@ -3820,6 +3820,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case COMMAND_FILTERING:
 			return prerelease;
 
+		/** APPS-634 */
 		case BUTTON_HIGHLIGHTING:
 			return prerelease;
 		// **********************************************************************
