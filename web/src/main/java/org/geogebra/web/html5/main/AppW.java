@@ -306,12 +306,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	protected void checkExamPerspective() {
-		if (articleElement.getDataParamPerspective().startsWith("exam")) {
-			setNewExam();
-			articleElement.attr("perspective", "");
-		}
-	}
 	/**
 	 * Resize to fill browser
 	 */

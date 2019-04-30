@@ -244,6 +244,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		startActivity();
 	}
 
+
 	private void setupHeader() {
 		GlobalHeader header = GlobalHeader.INSTANCE;
 		header.setApp(this);
@@ -253,19 +254,20 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	@Override
-	protected void checkExamPerspective() {
-		super.checkExamPerspective();
-		if (this.isExam()) {
-			afterLocalizationLoaded(new Runnable() {
+	private void checkExamPerspective() {
+		if (!articleElement.getDataParamPerspective().startsWith("exam")) {
+			return;
+		}
 
+		setNewExam();
+		articleElement.attr("perspective", "");
+		afterLocalizationLoaded(new Runnable() {
 				@Override
 				public final void run() {
 					examWelcome();
 				}
 			});
 		}
-	}
 
 	private void setupSignInButton(GlobalHeader header) {
 		if (getLoginOperation() == null) {
