@@ -292,8 +292,11 @@ public class ShareDialogMow extends DialogBoxW
 			noGroupsHelpLbl
 					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
 		}
-		linkShareHelpLbl.setText(
-				app.getLocalization().getMenu(isShareLinkOn() ? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
+		linkShareOnOffLbl
+				.setText(app.getLocalization().getMenu(
+						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
+		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
+				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
 		copyBtn.setText(app.getLocalization().getMenu("Copy"));
 	}
 
