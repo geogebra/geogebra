@@ -922,7 +922,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				variableName = "\\ell";
 			}
 
-			if (LabelManager.isShowableLabel(variableName)) {
+			if (!LabelManager.isShowableLabel(variableName)) {
 				variableName = "";
 			}
 		}
