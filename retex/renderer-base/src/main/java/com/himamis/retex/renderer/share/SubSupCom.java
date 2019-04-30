@@ -49,14 +49,12 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class SubSupCom implements AtomConsumer {
 
-	private static enum State {
+	private enum State {
 		SUB_WAIT,
-
-		SUB_OK,
 
 		SUP_WAIT,
 
-		SUP_OK
+		OK
 	}
 
 	private Atom base;
@@ -77,23 +75,14 @@ public class SubSupCom implements AtomConsumer {
 	}
 
 	public void setState(TeXParser tp, final char c) {
-		if (c == '^') {
-			switch (state) {
-			case SUB_WAIT:
-			case SUP_WAIT:
-				throw new ParseException(tp, "Invalid ^");
-			case SUB_OK:
-			case SUP_OK:
+		switch (state) {
+		case SUB_WAIT:
+		case SUP_WAIT:
+			throw new ParseException(tp, "Invalid " + c);
+		case OK:
+			if (c == '^') {
 				state = State.SUP_WAIT;
-				break;
-			}
-		} else {
-			switch (state) {
-			case SUB_WAIT:
-			case SUP_WAIT:
-				throw new ParseException(tp, "Invalid _");
-			case SUB_OK:
-			case SUP_OK:
+			} else {
 				state = State.SUB_WAIT;
 			}
 		}
@@ -110,17 +99,13 @@ public class SubSupCom implements AtomConsumer {
 		switch (state) {
 		case SUB_WAIT:
 			addToSub(a);
-			state = State.SUB_OK;
-			break;
-		case SUB_OK:
-			tp.closeConsumer(get());
-			tp.addToConsumer(a);
+			state = State.OK;
 			break;
 		case SUP_WAIT:
 			addToSup(a);
-			state = State.SUP_OK;
+			state = State.OK;
 			break;
-		case SUP_OK:
+		case OK:
 			tp.closeConsumer(get());
 			tp.addToConsumer(a);
 			break;
@@ -139,18 +124,16 @@ public class SubSupCom implements AtomConsumer {
 		}
 	}
 
-	private boolean addToSub(Atom a) {
+	private void addToSub(Atom a) {
 		if (sub != null) {
 			if (sub instanceof RowAtom) {
 				((RowAtom) sub).add(a);
 			} else {
 				sub = new RowAtom(sub, a);
 			}
-			return true;
 		} else {
 			sub = a;
 		}
-		return false;
 	}
 
 	@Override
@@ -199,12 +182,6 @@ public class SubSupCom implements AtomConsumer {
 	}
 
 	public static Atom get(Atom base, Atom sub, Atom sup) {
-		if (sup instanceof CumulativeScriptsAtom) {
-			sup = ((CumulativeScriptsAtom) sup).get();
-		}
-		if (sub instanceof CumulativeScriptsAtom) {
-			sub = ((CumulativeScriptsAtom) sub).get();
-		}
 		if (base.getRightType() == TeXConstants.TYPE_BIG_OPERATOR) {
 			return new BigOperatorAtom(base, sub, sup);
 		} else if (base instanceof OverUnderDelimiter) {

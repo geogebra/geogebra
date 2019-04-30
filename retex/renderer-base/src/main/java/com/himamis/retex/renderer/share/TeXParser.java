@@ -970,7 +970,7 @@ public class TeXParser {
 			}
 		}
 		processSubSup('^');
-		addToConsumer(new CumulativeScriptsAtom(ra));
+		addToConsumer(ra);
 	}
 
 	public void cumSubSymbols(Atom... syms) {
@@ -984,7 +984,7 @@ public class TeXParser {
 			}
 		}
 		processSubSup('_');
-		addToConsumer(new CumulativeScriptsAtom(ra));
+		addToConsumer(ra);
 	}
 
 	private boolean convSup(final char c, final RowAtom ra) {
