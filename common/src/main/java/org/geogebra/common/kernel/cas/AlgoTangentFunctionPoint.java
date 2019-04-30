@@ -51,7 +51,6 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	private GeoList geoList;
 	private final NoCASDerivativeCache cache;
 
-
 	/**
 	 * @param cons
 	 *            construction

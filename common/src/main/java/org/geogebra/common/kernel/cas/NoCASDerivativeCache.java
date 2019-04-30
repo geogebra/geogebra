@@ -7,21 +7,32 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 public class NoCASDerivativeCache {
 	private Function derivative;
 	private ExpressionNode lastFunctionExpression;
-	private GeoFunctionable f;
+	private GeoFunctionable functionable;
 
-	public NoCASDerivativeCache(GeoFunctionable f) {
-		this.f = f;
+	/**
+	 * @param functionable
+	 *            function
+	 */
+	public NoCASDerivativeCache(GeoFunctionable functionable) {
+		this.functionable = functionable;
 	}
-	public void updateDerivative() {
-		ExpressionNode currentExpression = f.getFunction().getExpression();
+
+	private void updateDerivative() {
+		ExpressionNode currentExpression = functionable.getFunction()
+				.getExpression();
 		if (currentExpression != lastFunctionExpression) {
-			derivative = f.getFunction().getDerivativeNoCAS(1);
+			derivative = functionable.getFunction().getDerivativeNoCAS(1);
 			lastFunctionExpression = currentExpression;
 		}
 	}
 
-	public double evaluateDerivative(double a) {
+	/**
+	 * @param x
+	 *            x value for which we want to get the derivative
+	 * @return derivative value
+	 */
+	public double evaluateDerivative(double x) {
 		updateDerivative();
-		return derivative.value(a);
+		return derivative.value(x);
 	}
 }

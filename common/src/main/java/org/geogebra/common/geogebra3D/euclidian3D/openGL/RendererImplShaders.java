@@ -491,10 +491,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glCopyToMatrixLocation(tmpFloat16);
 	}
 
-    @Override
-    public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-                                             CoordMatrix4x4 cameraPerspective,
-                                             CoordMatrix4x4 modelMatrix, float scaleFactor) {
+	@Override
+	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
+			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
+			float scaleFactor) {
 		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
 		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
@@ -503,27 +503,28 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix3.setMul(cameraView, modelMatrix);
 
 		// invert cameraView * modelMatrix to keep labels towards to screen
-        // calculate angle to keep labels upward
+		// calculate angle to keep labels upward
 		tmpMatrix2.set(tmpMatrix3);
 		tmpMatrix2.setOrigin(Coords.O);
 		tmpMatrix4.set(tmpMatrix2.inverse());
-        Coords vy = tmpMatrix4.getVy();
-        Coords vz = tmpMatrix4.getVz();
-        tmpCoords1.setSub3(Coords.VY,tmpCoords1.setMul3(vz, Coords.VY.dotproduct(vz)));
-        tmpCoords1.setW(0);
-        tmpCoords1.normalize();
-        double c = tmpCoords1.dotproduct(vy);
-        double s = vz.dotCrossProduct(tmpCoords1, vy);
-        double rot = Math.atan2(s, c);
-        CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS, -rot, tmpMatrix2);
+		Coords vy = tmpMatrix4.getVy();
+		Coords vz = tmpMatrix4.getVz();
+		tmpCoords1.setSub3(Coords.VY,
+				tmpCoords1.setMul3(vz, Coords.VY.dotproduct(vz)));
+		tmpCoords1.setW(0);
+		tmpCoords1.normalize();
+		double c = tmpCoords1.dotproduct(vy);
+		double s = vz.dotCrossProduct(tmpCoords1, vy);
+		double rot = Math.atan2(s, c);
+		CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS, -rot, tmpMatrix2);
 		undoRotationMatrixAR.setMul(tmpMatrix4, tmpMatrix2);
 
 		// (cameraView * modelMatrix) * scaleMatrix
 		tmpMatrix2.setMul(tmpMatrix3, tmpMatrix1);
 
 		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
-        projectionMatrix.setMul(cameraPerspective, tmpMatrix2);
-    }
+		projectionMatrix.setMul(cameraPerspective, tmpMatrix2);
+	}
 
     @Override
     public CoordMatrix4x4 getUndoRotationMatrixAR() {
