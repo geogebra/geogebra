@@ -69,7 +69,7 @@ public class VlineBox extends Box {
 		double t = 0.;
 		for (int i = 0; i < n; ++i) {
 			g2.fill(geom.createRectangle2D(x + t, y - height, th, height));
-			t += 2 * th;
+			t += 3 * th;
 		}
 	}
 
