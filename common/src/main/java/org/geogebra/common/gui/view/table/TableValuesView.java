@@ -234,6 +234,10 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void remove(GeoElement geo) {
 		elements.remove(geo);
+		removeFromModel(geo);
+	}
+
+	private void removeFromModel(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			if (model.getEvaluatableIndex(evaluatable) > -1) {
@@ -249,7 +253,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			if (labelController.hasLabel(geo)) {
 				model.updateEvaluatableName(evaluatable);
 			} else {
-				remove(geo);
+				removeFromModel(geo);
 			}
 		}
 	}
