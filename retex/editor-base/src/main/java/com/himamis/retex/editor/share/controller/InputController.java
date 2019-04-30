@@ -1161,6 +1161,9 @@ public class InputController {
 			} else if (ch == Unicode.SQUARE_ROOT) {
 				newFunction(editorState, "sqrt", 0, false, null);
 				handled = true;
+			} else if (ch == '|') {
+				newFunction(editorState, "abs", 0);
+				handled = true;
 			} else if (meta.isArrayOpenKey(ch)) {
 				newArray(editorState, 1, ch, false);
 				handled = true;
