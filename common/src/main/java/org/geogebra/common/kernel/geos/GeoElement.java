@@ -4609,21 +4609,35 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
-			if (isDefined()) {
-				strAlgebraDescription = toString(
-							StringTemplate.algebraTemplate);
-			} else {
-				final StringBuilder sbAlgebraDesc = new StringBuilder();
-				sbAlgebraDesc.append(label);
-				sbAlgebraDesc.append(' ');
-				sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
-				strAlgebraDescription = sbAlgebraDesc.toString();
-			}
-
+			updateAlgebraDescription();
 			strAlgebraDescriptionNeedsUpdate = false;
 		}
 		return strAlgebraDescription;
 	}
+
+	private void updateAlgebraDescription() {
+		if (isDefined()) {
+			setAlgebraDescriptionForDefined();
+		} else {
+			setAlgebraDescriptionForUndefined();
+		}
+	}
+
+	private void setAlgebraDescriptionForDefined() {
+        if (label.startsWith(LabelManager.HIDDEN_PREFIX)) {
+            strAlgebraDescription = toValueStringMinimal(StringTemplate.algebraTemplate);
+        } else {
+            strAlgebraDescription = toString(StringTemplate.algebraTemplate);
+        }
+    }
+
+    private void setAlgebraDescriptionForUndefined() {
+        final StringBuilder sbAlgebraDesc = new StringBuilder();
+        sbAlgebraDesc.append(label);
+        sbAlgebraDesc.append(' ');
+        sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
+        strAlgebraDescription = sbAlgebraDesc.toString();
+    }
 
 	/**
 	 * @return LaTeX description
