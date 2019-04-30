@@ -50,7 +50,7 @@ import java.util.List;
 
 public class ArrayAtom extends Atom {
 
-	public static final SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 0.0,
+	public static final SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1.0,
 			0.0, 0.0);
 	public static final SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM,
 			0.5, 0.0, 0.0);
