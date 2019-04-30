@@ -17,7 +17,7 @@ public class LabelController {
 	 */
 	public boolean hasLabel(GeoElement element) {
 		String label = element.getLabelSimple();
-		return label != null && !label.startsWith(LabelManager.HIDDEN_PREFIX);
+		return LabelManager.isShowableLabel(label);
 	}
 
 	/**

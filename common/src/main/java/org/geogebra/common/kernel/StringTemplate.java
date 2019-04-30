@@ -915,23 +915,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return label depending on given string type
 	 */
 	public String printVariableName(final String label) {
-		String ret;
-		if (isUseTempVariablePrefix()) {
-			ret = addTempVariablePrefix(label);
-		}
-		ret = printVariableName(getStringType(), label);
+		String variableName = printVariableName(getStringType(), label);
 
-		if (ret != null) {
-			if (ret.length() == 1 && "l".equals(ret) && hasType(StringType.LATEX)) {
-				ret = "\\ell";
+		if (variableName != null) {
+			if (variableName.length() == 1 && "l".equals(variableName) && hasType(StringType.LATEX)) {
+				variableName = "\\ell";
 			}
 
-			if (ret.equals(LabelManager.HIDDEN_PREFIX)) {
-				ret = "";
+			if (LabelManager.isShowableLabel(variableName)) {
+				variableName = "";
 			}
 		}
 
-		return ret;
+		return variableName;
 	}
 
 	private String printVariableName(final StringType printForm,
