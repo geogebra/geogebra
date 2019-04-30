@@ -200,15 +200,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		this.frame = frame;
 		this.device = device;
 
-		if (this.isExam()) {
-			afterLocalizationLoaded(new Runnable() {
-
-				@Override
-				public final void run() {
-					examWelcome();
-				}
-			});
-		}
 		if (this.getArticleElement().getDataParamApp()) {
 			maybeStartAutosave();
 		}
@@ -237,6 +228,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			canvas.setCoordinateSpaceWidth(1);
 		}
 		initCoreObjects();
+		checkExamPerspective();
 		afterCoreObjectsInited();
 		resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
@@ -244,6 +236,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		setupHeader();
+
 		if (!showMenuBar() && Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 					.checkAvailable(null);
@@ -257,6 +250,20 @@ public class AppWFull extends AppW implements HasKeyboard {
 		header.setFrame(frame);
 		if (showMenuBar()) {
 			setupSignInButton(header);
+		}
+	}
+
+	@Override
+	protected void checkExamPerspective() {
+		super.checkExamPerspective();
+		if (this.isExam()) {
+			afterLocalizationLoaded(new Runnable() {
+
+				@Override
+				public final void run() {
+					examWelcome();
+				}
+			});
 		}
 	}
 

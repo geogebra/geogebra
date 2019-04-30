@@ -66,7 +66,7 @@ public class ExamEnvironment {
 		this.app = app;
 		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
-		setupDispatcher();
+		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 	}
 
 	/**
@@ -587,25 +587,11 @@ public class ExamEnvironment {
 	 * Prepares the exam for starting.
 	 */
 	public void setupExamEnvironment() {
-		setupLocalization();
 		enableExamCommandFilter();
 		restrictCommands();
 		setShowSyntax(false);
 	}
 
-	/**
-	 * Sets up command dispatcher.
-	 */
-	public void setupDispatcher() {
-		if (app.getKernel() == null) {
-			return;
-		}
-		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
-	}
-
-	private void setupLocalization() {
-		localization = app.getLocalization();
-	}
 	private void restrictCommands() {
 		if (casEnabled) {
 			disableCAS();

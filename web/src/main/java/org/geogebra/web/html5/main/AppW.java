@@ -275,10 +275,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setUndoRedoEnabled(articleElement.getDataParamEnableUndoRedo()
 				&& (laf == null || laf.undoRedoSupported()));
 
-		if (articleElement.getDataParamPerspective().startsWith("exam")) {
-			setNewExam();
-			articleElement.attr("perspective", "");
-		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = articleElement;
 		NativeFocusHandler.addNativeFocusHandler(articleElement.getElement(),
@@ -310,6 +306,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
+	protected void checkExamPerspective() {
+		if (articleElement.getDataParamPerspective().startsWith("exam")) {
+			setNewExam();
+			articleElement.attr("perspective", "");
+		}
+	}
 	/**
 	 * Resize to fill browser
 	 */
