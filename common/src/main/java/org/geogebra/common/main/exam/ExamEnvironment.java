@@ -56,6 +56,7 @@ public class ExamEnvironment {
 
 	private CommandDispatcher commandDispatcher = null;
 	private boolean casEnabled;
+
 	/**
 	 *
 	 * @param app
@@ -65,6 +66,7 @@ public class ExamEnvironment {
 		this.app = app;
 		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
+		setupDispatcher();
 	}
 
 	/**
@@ -595,8 +597,9 @@ public class ExamEnvironment {
 	 * Sets up command dispatcher.
 	 */
 	public void setupDispatcher() {
-		// when starting with ?perspective=exam, dispatcher does not exist yet
-		// at costructor
+		if (app.getKernel() == null) {
+			return;
+		}
 		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 	}
 
