@@ -51,7 +51,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
-import org.geogebra.common.geogebra3D.main.settings.updater.SettingsUpdaterBuilder3D;
+import org.geogebra.desktop.geogebra3D.settings.updater.SettingsUpdaterBuilder3D;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.jre.openGL.GLFactoryJre;
 import org.geogebra.common.kernel.Kernel;

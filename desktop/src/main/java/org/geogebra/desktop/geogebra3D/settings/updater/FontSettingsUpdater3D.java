@@ -1,17 +1,18 @@
-package org.geogebra.common.geogebra3D.main.settings.updater;
+package org.geogebra.desktop.geogebra3D.settings.updater;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
+import org.geogebra.desktop.geogebra3D.App3D;
+import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 
 /**
  * Updates the font settings for the 3D apps.
  */
-class FontSettingsUpdater3D extends FontSettingsUpdater {
+class FontSettingsUpdater3D extends FontSettingsUpdaterD {
 
-	FontSettingsUpdater3D(App app) {
+	FontSettingsUpdater3D(App3D app) {
 		super(app);
 	}
 

@@ -8,7 +8,7 @@ import org.geogebra.desktop.main.AppD;
  */
 public class FontSettingsUpdaterD extends FontSettingsUpdater {
 
-	FontSettingsUpdaterD(AppD app) {
+	protected FontSettingsUpdaterD(AppD app) {
 		super(app);
 	}
 
