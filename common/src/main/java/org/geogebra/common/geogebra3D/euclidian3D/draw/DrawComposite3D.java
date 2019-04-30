@@ -77,22 +77,24 @@ public abstract class DrawComposite3D extends Drawable3D {
 		// remove end of list
 		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (d.hasTrace()) {
-				d.addLastTrace();
-				d.getGeoElement().setUndefined();
-				if (shouldBePackedForManager()) {
-					d.setGeometriesVisibility(false);
-				}
-			} else if (!d.hasRecordedTrace()) {
-				drawable3DLists.remove(d);
-				drawables.remove(i);
-				if (shouldBePackedForManager()) {
-					d.removeFromGL();
-				}
-			} else {
-				d.getGeoElement().setUndefined();
-				if (shouldBePackedForManager()) {
-					d.setGeometriesVisibility(false);
+			if (d.createdByDrawList()) {
+				if (d.hasTrace()) {
+					d.addLastTrace();
+					d.getGeoElement().setUndefined();
+					if (shouldBePackedForManager()) {
+						d.setGeometriesVisibility(false);
+					}
+				} else if (!d.hasRecordedTrace()) {
+					drawable3DLists.remove(d);
+					drawables.remove(i);
+					if (shouldBePackedForManager()) {
+						d.removeFromGL();
+					}
+				} else {
+					d.getGeoElement().setUndefined();
+					if (shouldBePackedForManager()) {
+						d.setGeometriesVisibility(false);
+					}
 				}
 			}
 		}
@@ -100,7 +102,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 		// update for list of lists
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (!d.getGeoElement().isLabelSet()) {
+			if (d.createdByDrawList()) {
 				if (d.waitForUpdate()) {
 					d.update();
 				}

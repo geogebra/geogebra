@@ -44,14 +44,20 @@ public class DrawList3DArray extends DrawListArray {
 	@Override
 	public void add(int pos, DrawableND d) {
 		super.add(pos, d);
-		drawList3D.getDrawable3DLists().add((Drawable3D) d);
+		if (d.createdByDrawList()) {
+			drawList3D.getDrawable3DLists().add((Drawable3D) d);
+		}
 	}
 
 	@Override
 	public DrawableND set(int pos, DrawableND d) {
 		DrawableND old = super.set(pos, d);
-		drawList3D.getDrawable3DLists().remove((Drawable3D) old);
-		drawList3D.getDrawable3DLists().add((Drawable3D) d);
+		if (old.createdByDrawList()) {
+			drawList3D.getDrawable3DLists().remove((Drawable3D) old);
+		}
+		if (d.createdByDrawList()) {
+			drawList3D.getDrawable3DLists().add((Drawable3D) d);
+		}
 		return old;
 	}
 
