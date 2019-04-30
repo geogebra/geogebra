@@ -110,7 +110,7 @@ public class ContextMenuTV {
 		String transKey = tvPoints.arePointsVisible(column) ? "HidePoints"
 				: "ShowPoints";
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlNoIcon(
+				MainMenu.getMenuBarHtmlEmptyIcon(
 						app.getLocalization().getMenu(transKey)),
 				true, new Command() {
 

@@ -249,7 +249,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	}
 
 	private static String menuText(String string) {
-		return MainMenu.getMenuBarHtmlNoIcon(string);
+		return MainMenu.getMenuBarHtmlEmptyIcon(string);
 	}
 
 	/**

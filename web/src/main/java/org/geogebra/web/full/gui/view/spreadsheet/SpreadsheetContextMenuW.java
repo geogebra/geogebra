@@ -58,7 +58,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public void setTitle(String str) {
 
-		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtml(
+		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 		        AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 		        true, new Command() {
 			        @Override
@@ -111,9 +111,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 		String html;
 		if (app.isWhiteboardActive()) {
-			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+			html = MainMenu.getMenuBarHtmlClassic(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(
+			html = MainMenu.getMenuBarHtmlClassic(
 					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
@@ -135,10 +135,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		String html;
 
 		if (app.isWhiteboardActive()) {
-			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString, isSelected),
+			html = MainMenu.getMenuBarHtmlClassic(getIconUrlNew(cmdString, isSelected),
 					"");
 		} else {
-			html = MainMenu.getMenuBarHtml(
+			html = MainMenu.getMenuBarHtmlClassic(
 					getIconUrl(cmdString, app.isUnbundled()), "");
 		}
 
@@ -155,9 +155,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 		if (app.isWhiteboardActive()) {
-			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+			html = MainMenu.getMenuBarHtmlClassic(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(
+			html = MainMenu.getMenuBarHtmlClassic(
 					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
@@ -172,9 +172,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 		if (app.isWhiteboardActive()) {
-			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+			html = MainMenu.getMenuBarHtmlClassic(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(
+			html = MainMenu.getMenuBarHtmlClassic(
 					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
@@ -191,9 +191,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 		if (app.isWhiteboardActive()) {
-			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+			html = MainMenu.getMenuBarHtmlClassic(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(
+			html = MainMenu.getMenuBarHtmlClassic(
 					getIconUrl(cmdString, app.isUnbundled()),
 					text);
 		}

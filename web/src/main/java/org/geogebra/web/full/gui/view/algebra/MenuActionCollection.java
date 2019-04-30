@@ -37,4 +37,14 @@ public class MenuActionCollection<T> implements Iterable<MenuAction<T>> {
 		}
 	}
 
+	/**
+	 * @param index
+	 *            insertion index
+	 * @param action
+	 *            action
+	 */
+	protected void addAction(int index, MenuAction<T> action) {
+		actions.add(index, action);
+	}
+
 }

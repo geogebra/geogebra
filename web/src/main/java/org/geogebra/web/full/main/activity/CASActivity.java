@@ -1,7 +1,11 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
 import org.geogebra.web.resources.SVGResource;
 
 /**
@@ -24,6 +28,11 @@ public class CASActivity extends BaseActivity {
 	@Override
 	public boolean useValidInput() {
 		return false;
+	}
+
+	@Override
+	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
+		return new AlgebraMenuItemCollectionCAS(view);
 	}
 
 }

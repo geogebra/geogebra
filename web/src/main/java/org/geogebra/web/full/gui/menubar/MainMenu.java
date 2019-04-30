@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -413,15 +414,15 @@ public class MainMenu extends FlowPanel
 	 *            image URL
 	 * @param str
 	 *            item text
-	 * @param enabled
-	 *            whether the item is enabled (otherwise it's grayed)
 	 * @return menu item as HTML
 	 */
-	public static String getMenuBarHtml(String url, String str, boolean enabled) {
-		String text2 = str.replace("\"", "'");
-		String text3 = (enabled) ? text2 : "<span style=\"color:gray;\">" + text2 + "</span>";
-		return "<img class=\"GeoGebraMenuImage menuImg\" alt=\"" + text2 + "\" src=\"" + url
-				+ "\" draggable=\"false\" aria-hidden=\"true\">" + text3;
+	public static String getMenuBarHtml(String url, String str) {
+		String textContent = str.replace("\"", "'");
+		if (StringUtil.empty(url)) {
+			return textContent;
+		}
+		return "<img class=\"GeoGebraMenuImage menuImg\" alt=\"" + textContent + "\" src=\"" + url
+				+ "\" draggable=\"false\" aria-hidden=\"true\">" + textContent;
 	}
 
 	/**
@@ -431,7 +432,7 @@ public class MainMenu extends FlowPanel
 	 *            item text
 	 * @return menu item as HTML
 	 */
-	public static String getMenuBarHtml(String url, String str) {
+	public static String getMenuBarHtmlClassic(String url, String str) {
 		String text = str.replace("\"", "'");
 		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text + "\" src=\"" + url
 				+ "\" draggable=\"false\" aria-hidden=\"true\">" + text;
@@ -632,7 +633,7 @@ public class MainMenu extends FlowPanel
 
 	/**
 	 * @param imgRes
-	 *            image
+	 *            image, can be null (in that case no icon HTML is included)
 	 * @param name
 	 *            localized text
 	 * @return HTML
@@ -640,7 +641,7 @@ public class MainMenu extends FlowPanel
 	public static String getMenuBarHtml(final ResourcePrototype imgRes,
 			String name) {
 		final String iconString = NoDragImage.safeURI(imgRes);
-		return MainMenu.getMenuBarHtml(iconString, name, true);
+		return MainMenu.getMenuBarHtml(iconString, name);
 	}
 
 	/**
@@ -648,8 +649,8 @@ public class MainMenu extends FlowPanel
 	 *            manu item localized name
 	 * @return item HTML
 	 */
-	public static String getMenuBarHtmlNoIcon(String name) {
+	public static String getMenuBarHtmlEmptyIcon(String name) {
 		final String iconString = AppResources.INSTANCE.empty().getSafeUri().asString();
-		return MainMenu.getMenuBarHtml(iconString, name, true);
+		return MainMenu.getMenuBarHtml(iconString, name);
 	}
 }

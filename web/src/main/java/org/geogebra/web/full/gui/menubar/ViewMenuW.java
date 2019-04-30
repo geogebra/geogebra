@@ -57,7 +57,7 @@ public class ViewMenuW extends Submenu {
 	 *            localization
 	 */
 	protected void initRefreshActions(Localization loc) {
-		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("Refresh")), true,
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("Refresh")), true,
 				new MenuCommand(app) {
 
 					@Override
@@ -65,7 +65,7 @@ public class ViewMenuW extends Submenu {
 						app.refreshViews();
 					}
 				});
-		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("RecomputeAllViews")),
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("RecomputeAllViews")),
 				true, new MenuCommand(app) {
 
 			@Override
@@ -94,7 +94,7 @@ public class ViewMenuW extends Submenu {
 		}
 		Localization loc = app.getLocalization();
 		inputBarItem = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("InputField")),
+				MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("InputField")),
 				new MenuCommand(app) {
 
 					@Override
@@ -136,7 +136,7 @@ public class ViewMenuW extends Submenu {
 		inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
 		consProtNav = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("NavigationBar")),
+				MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("NavigationBar")),
 				new MenuCommand(app) {
 
 			@Override
@@ -157,7 +157,7 @@ public class ViewMenuW extends Submenu {
 		if (app.getVersion() != null && app.getVersion() != Versions.WEB_FOR_DESKTOP 
 				&& !app.isExam()) {
 			dataCollection = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtmlNoIcon(
+					MainMenu.getMenuBarHtmlEmptyIcon(
 							app.getLocalization().getMenu("Sensors")),
 					new MenuCommand(app) {
 
@@ -183,7 +183,7 @@ public class ViewMenuW extends Submenu {
 
 	private void addToMenu(final ViewType e) {
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),
+				MainMenu.getMenuBarHtmlClassic(ImgResourceHelper.safeURI(e.getIcon()),
 						app.getLocalization().getMenu(e.getKey())),
 				true, app);
 		newItem.setCommand(new MenuCommand(app) {

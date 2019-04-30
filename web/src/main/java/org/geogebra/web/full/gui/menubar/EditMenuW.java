@@ -69,7 +69,7 @@ public class EditMenuW extends Submenu {
 			if (haveSelection) {
 				addSeparator();
 				// invert selection menu
-				addItem(MainMenu.getMenuBarHtmlNoIcon(
+				addItem(MainMenu.getMenuBarHtmlEmptyIcon(
 						loc.getMenu("InvertSelection")), true,
 						new MenuCommand(getApp()) {
 
@@ -92,7 +92,7 @@ public class EditMenuW extends Submenu {
 	}
 
 	private void addShowHideLabelsItem() {
-		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("ShowHideLabels")),
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("ShowHideLabels")),
 				true,
 				new MenuCommand(getApp()) {
 
@@ -104,7 +104,7 @@ public class EditMenuW extends Submenu {
 	}
 
 	private void addShowHideItem() {
-		addItem(MainMenu.getMenuBarHtmlNoIcon(loc.getMenu("ShowHide")),
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("ShowHide")),
 				true, new MenuCommand(getApp()) {
 
 					@Override
@@ -176,7 +176,7 @@ public class EditMenuW extends Submenu {
 		if (selection.hasPredecessors()) {
 			// select ancestors menu
 			addItem(MainMenu
-					.getMenuBarHtmlNoIcon(loc.getMenu("SelectAncestors")), true,
+					.getMenuBarHtmlEmptyIcon(loc.getMenu("SelectAncestors")), true,
 					new MenuCommand(getApp()) {
 
 						@Override
@@ -190,7 +190,7 @@ public class EditMenuW extends Submenu {
 	private void addDescentdantsItem() {
 		if (selection.hasDescendants()) {
 			// select descendants menu
-			addItem(MainMenu.getMenuBarHtmlNoIcon(
+			addItem(MainMenu.getMenuBarHtmlEmptyIcon(
 					loc.getMenu("SelectDescendants")), true,
 					new MenuCommand(getApp()) {
 
@@ -205,7 +205,7 @@ public class EditMenuW extends Submenu {
 	private void addSelectCurrentLayer() {
 		if (selection.getSelectedLayer() >= 0
 				&& getApp().getMaxLayerUsed() > 0) {
-			addItem(MainMenu.getMenuBarHtmlNoIcon(
+			addItem(MainMenu.getMenuBarHtmlEmptyIcon(
 					loc.getMenu("SelectCurrentLayer")), true,
 					new MenuCommand(getApp()) {
 

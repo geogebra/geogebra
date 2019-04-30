@@ -50,7 +50,7 @@ public class PerspectivesMenuW extends Submenu {
 		if (!app.isExam()) {
 			if (app.getLAF().examSupported()) {
 
-				addItem(MainMenu.getMenuBarHtml(
+				addItem(MainMenu.getMenuBarHtmlClassic(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
 								.asString(),
 						app.getLocalization().getMenu("exam_menu_entry")), // "Exam
@@ -72,7 +72,7 @@ public class PerspectivesMenuW extends Submenu {
 			return;
 		}
 		final int defID = Layout.getDefaultPerspectives(index).getDefaultID();
-		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
+		addItem(MainMenu.getMenuBarHtmlClassic(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
 						.getMenu(Layout.getDefaultPerspectives(index).getId())),
 				true,

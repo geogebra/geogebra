@@ -116,7 +116,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	private void addRulingMenuItem() {
 		String htmlString = MainMenu
-				.getMenuBarHtml(
+				.getMenuBarHtmlClassic(
 						MaterialDesignResources.INSTANCE.grid_black()
 								.getSafeUri().asString(),
 						loc.getMenu("Ruling"));
@@ -135,7 +135,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	private void addBackgroundMenuItem() {
 		AriaMenuItem miBackgroundCol = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(
+				MainMenu.getMenuBarHtmlClassic(
 						MaterialDesignResources.INSTANCE.color_black()
 								.getSafeUri().asString(),
 						loc.getMenu("BackgroundColor")),
@@ -193,7 +193,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	private void addClearTraceMenuItem() {
 		String imgClearTrace = MaterialDesignResources.INSTANCE.refresh_black()
 				.getSafeUri().asString();
-		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtml(
+		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				imgClearTrace, loc.getMenu("ClearTrace")), true,
 				new Command() {
 			        @Override
@@ -213,7 +213,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
 		AriaMenuItem miShowAllObjectsView = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
+				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAllObjects")),
 				true,
 				new Command() {
 
@@ -230,7 +230,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
 		AriaMenuItem miStandardView = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")),
+				MainMenu.getMenuBarHtmlClassic(img2, loc.getMenu("StandardView")),
 				true,
 				new Command() {
 
@@ -254,7 +254,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	private void addGridMenuItem() {
 		String htmlString = MainMenu
-				.getMenuBarHtml(
+				.getMenuBarHtmlClassic(
 						MaterialDesignResources.INSTANCE.grid_black()
 								.getSafeUri().asString(),
 						loc.getMenu("ShowGrid"));
@@ -280,7 +280,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		final boolean isSnapToGrid = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC == app
 				.getSettings().getEuclidian(1).getPointCapturingMode();
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("SnapToGrid")),
+				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("SnapToGrid")),
 				MaterialDesignResources.INSTANCE.check_black(), isSnapToGrid);
 		snapToGrid.setCommand(new Command() {
 			@Override
@@ -312,7 +312,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
+				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("ShowAxes")),
 				MaterialDesignResources.INSTANCE.check_black(),
 				app.getSettings().getEuclidian(settingsID).getShowAxis(0)
 						&& app.getSettings().getEuclidian(settingsID)
@@ -358,7 +358,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		AriaMenuItem miProperties = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img,
+				MainMenu.getMenuBarHtmlClassic(img,
 						app.isUnbundledOrWhiteboard()
 						? loc.getMenu("Settings")
 						: loc.getMenu(name) + " ..."),
@@ -461,7 +461,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			img = AppResources.INSTANCE.zoom16().getSafeUri().asString();
 		}
 		AriaMenuItem zoomMenuItem = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img,
+				MainMenu.getMenuBarHtmlClassic(img,
 				loc.getMenu("Zoom")), true, zoomMenu);
 		if (!app.isUnbundledOrWhiteboard()) {
 			zoomMenuItem.addStyleName("mi_with_image");
@@ -526,7 +526,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
 		}
-		String htmlString = MainMenu.getMenuBarHtml(img, loc.getMenu("Axes"));
+		String htmlString = MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Axes"));
 		if (!app.isUnbundledOrWhiteboard()) {
 			GCheckBoxMenuItem cbMenuItem = new GCheckBoxMenuItem(htmlString,
 					((AppW) app).getGuiManager().getShowAxesAction(), true,
@@ -552,7 +552,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
 		}
-		htmlString = MainMenu.getMenuBarHtml(img2, loc.getMenu("Grid"));
+		htmlString = MainMenu.getMenuBarHtmlClassic(img2, loc.getMenu("Grid"));
 		if (!app.isUnbundledOrWhiteboard()) {
 			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowGridAction(), true, app);
@@ -585,7 +585,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				toggleShowConstructionProtocolNavigation();
 			}
 		};
-		String htmlString = MainMenu.getMenuBarHtml(AppResources.INSTANCE
+		String htmlString = MainMenu.getMenuBarHtmlClassic(AppResources.INSTANCE
 				.empty().getSafeUri().asString(), loc.getMenu("NavigationBar"));
 		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(
 				htmlString, showConstructionStepCommand, true, app);

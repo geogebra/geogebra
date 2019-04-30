@@ -217,7 +217,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				public void execute() {
 					openPropertiesDialogCmd();
 				}
-			}, MainMenu.getMenuBarHtml(img,
+			}, MainMenu.getMenuBarHtmlClassic(img,
 					loc.getMenu("Settings")),
 					loc.getMenu("Settings"));
 		}
@@ -242,7 +242,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				public void execute() {
 					deleteCmd(false);
 				}
-			}, MainMenu.getMenuBarHtml(img, loc.getMenu("Delete")),
+			}, MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Delete")),
 					loc.getMenu("Delete"));
 		}
 	}
@@ -259,7 +259,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 
 			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtml(img, loc.getMenu("Animation")),
+					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Animation")),
 					new Command() {
 
 						@Override
@@ -279,7 +279,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.getGuiManager() != null
 				&& app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				&& app.showAuxiliaryObjects() && getGeo().isAlgebraShowable()) {
-			cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
+			cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtmlClassic(
 					AppResources.INSTANCE.aux_folder().getSafeUri().asString(),
 					loc.getMenu("AuxiliaryObject")), new Command() {
 
@@ -322,7 +322,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 				if (app.isUnbundledOrWhiteboard()) {
 					cbItem = new GCheckBoxMenuItem(
-							MainMenu.getMenuBarHtml(img, ""),
+							MainMenu.getMenuBarHtmlClassic(img, ""),
 							loc.getMenu("DontRecordToSpreadsheet"),
 							loc.getMenu("RecordToSpreadsheet"), new Command() {
 								@Override
@@ -332,7 +332,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							}, true, app);
 				} else {
 					cbItem = new GCheckBoxMenuItem(
-							MainMenu.getMenuBarHtml(img,
+							MainMenu.getMenuBarHtmlClassic(img,
 									loc.getMenu("RecordToSpreadsheet")),
 							new Command() {
 
@@ -396,7 +396,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		GCheckBoxMenuItem cbItem;
 		if (!app.isUnbundledOrWhiteboard() && getGeo().isLabelShowable()) {
 			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtml(
+					MainMenu.getMenuBarHtmlClassic(
 							AppResources.INSTANCE.mode_showhidelabel_16()
 									.getSafeUri().asString(),
 							loc.getMenu("ShowLabel")),
@@ -416,7 +416,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		GCheckBoxMenuItem cbItem;
 		if (!app.isUnbundledOrWhiteboard() && getGeo().isEuclidianToggleable()) {
 			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtml(
+					MainMenu.getMenuBarHtmlClassic(
 							AppResources.INSTANCE.mode_showhideobject_16()
 									.getSafeUri().asString(),
 							loc.getMenu("ShowObject")),
@@ -443,7 +443,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					.asString();
 
 			if (app.isUnbundledOrWhiteboard()) {
-				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img, ""),
+				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtmlClassic(img, ""),
 						loc.getMenu("UnlockObject"), loc.getMenu("LockObject"),
 						new Command() {
 
@@ -454,7 +454,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}, true, app);
 			} else {
 				cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtml(img, loc.getMenu("LockObject")),
+						MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("LockObject")),
 						new Command() {
 
 							@Override
@@ -476,7 +476,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 				if (app.isUnbundledOrWhiteboard()) {
 					cbItem = new GCheckBoxMenuItem(
-							MainMenu.getMenuBarHtml(img, ""),
+							MainMenu.getMenuBarHtmlClassic(img, ""),
 							loc.getMenu("UnlockObject"),
 							loc.getMenu("LockObject"), new Command() {
 
@@ -486,7 +486,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								}
 							}, true, app);
 				} else {
-					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
+					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtmlClassic(img,
 							loc.getMenu("LockObject")), new Command() {
 
 								@Override
@@ -506,7 +506,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					.asString();
 
 			cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtml(img, loc.getMenu("FixCheckbox")),
+					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixCheckbox")),
 					new Command() {
 
 						@Override
@@ -534,7 +534,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			public void execute() {
 				renameCmd();
 			}
-		}, MainMenu.getMenuBarHtml(img, loc.getMenu("Rename")),
+		}, MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Rename")),
 				loc.getMenu("Rename"));
 
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
@@ -549,7 +549,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				public void execute() {
 					editCmd();
 				}
-			}, MainMenu.getMenuBarHtml(img2, loc.getMenu("Edit")),
+			}, MainMenu.getMenuBarHtmlClassic(img2, loc.getMenu("Edit")),
 					loc.getMenu("Edit"));
 		}
 	}
@@ -575,7 +575,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (angle) {
 			String img = MaterialDesignResources.INSTANCE.angle_black()
 					.getSafeUri().asString();
-			addSubmenuAction(MainMenu.getMenuBarHtml(img, loc.getMenu("Angle")),
+			addSubmenuAction(MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Angle")),
 					loc.getMenu("Angle"), getAngleSubMenu());
 
 		}
@@ -600,7 +600,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					.asString();
 
 			final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					MainMenu.getMenuBarHtml(img,
+					MainMenu.getMenuBarHtmlClassic(img,
 							loc.getMenu("PinToScreen")),
 					MaterialDesignResources.INSTANCE.check_black(),
 					pinned);
@@ -636,7 +636,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			String img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri()
 					.asString();
 			final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					MainMenu.getMenuBarHtml(img, loc.getMenu("FixObject")),
+					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixObject")),
 					MaterialDesignResources.INSTANCE.check_black(),
 					geo.isLocked());
 			Command cmdLock = new Command() {
@@ -654,7 +654,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			wrappedPopup.addItem(cmItem);
 
 			if (!app.isUnbundledOrWhiteboard()) {
-				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
+				addAction(cmd, MainMenu.getMenuBarHtmlClassic(img, label), label);
 			}
 		}
 	}
@@ -739,7 +739,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			
 			if (app.isUnbundledOrWhiteboard()) {
 				cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtml(img, ""),
+						MainMenu.getMenuBarHtmlClassic(img, ""),
 						loc.getMenu("UnpinFromScreen"),
 						loc.getMenu("PinToScreen"),
 						new Command() {
@@ -751,7 +751,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}, true, app);				
 			} else {
 				cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtml(img, loc.getMenu("PinToScreen")),
+						MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("PinToScreen")),
 						new Command() {
 
 							@Override
@@ -1143,7 +1143,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            title of menu (first menu item)
 	 */
 	protected void setTitle(String str) {
-		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtml(
+		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 				true, new Command() {
 
@@ -1221,7 +1221,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		for (int i = 0; i < angleIntervals.length; i++) {
 			final int idx = i;
 			AriaMenuItem mi = new AriaMenuItem(
-					MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+					MainMenu.getMenuBarHtmlClassic(AppResources.INSTANCE.empty()
 							.getSafeUri().asString(), angleIntervals[i]),
 					true, new Command() {
 
