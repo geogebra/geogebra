@@ -150,12 +150,16 @@ public class ArrayAtom extends Atom {
 		final double drt = env.getTeXFont()
 				.getDefaultRuleThickness(env.getStyle());
 		final List<MulticolumnAtom> listMulti = new ArrayList<MulticolumnAtom>();
-		final List<Box> vlines = options.getVlines(env);
+
+		final List<List<Atom>> separatorAtoms = options.getSeparators();
+		final List<Box> separatorBoxes = options.getSeparatorBoxes(env);
+
 		double matW = 0.;
 
 		double hinit = Double.NEGATIVE_INFINITY;
 		double dinit = Double.NEGATIVE_INFINITY;
-		for (final Box b : vlines) {
+
+		for (final Box b : separatorBoxes) {
 			hinit = Math.max(hinit, b.getHeight());
 			dinit = Math.max(dinit, b.getDepth());
 		}
@@ -196,10 +200,10 @@ public class ArrayAtom extends Atom {
 			final int n = multi.getSkipped();
 			final int N = c + n - 1;
 			double w = colWidth[c] + hseps[2 * c + 1]
-					+ vlines.get(c + 1).getWidth();
+					+ separatorBoxes.get(c + 1).getWidth();
 			for (int j = c + 1; j < N; ++j) {
 				w += colWidth[j] + hseps[2 * j] + hseps[2 * j + 1]
-						+ vlines.get(j + 1).getWidth();
+						+ separatorBoxes.get(j + 1).getWidth();
 			}
 			w += colWidth[N] + hseps[2 * N];
 			final double boxW = boxarr[r][c].getWidth();
@@ -216,9 +220,9 @@ public class ArrayAtom extends Atom {
 
 		for (int j = 0; j < col; ++j) {
 			matW += colWidth[j] + hseps[2 * j] + hseps[2 * j + 1]
-					+ vlines.get(j).getWidth();
+					+ separatorBoxes.get(j).getWidth();
 		}
-		matW += vlines.get(col).getWidth();
+		matW += separatorBoxes.get(col).getWidth();
 
 		final VerticalBox vb = new VerticalBox();
 		final Box Vsep = vsep_in.createBox(env);
@@ -258,25 +262,28 @@ public class ArrayAtom extends Atom {
 						if (matom.mustBeRecreated()) {
 							boxarr[i][j] = matom.createBox(env);
 						}
-						final List<Box> mcVlines = matom.getOptions()
-								.getVlines(env);
+						final List<List<Atom>> separatorAtomsMC = matom.getOptions()
+								.getSeparators();
+
 						if (j == 0) {
-							addVline(hb, mcVlines, 0, rhi + rdi + vsepH,
-									rdi + halfVsepH);
+							hb.add(createSeparator(env, separatorAtomsMC.get(0),
+									rhi + rdi + vsepH, rdi + halfVsepH));
 						}
 
 						CellBox cb = new CellBox(boxarr[i][j], rhi + halfVsepH,
 								rdi + halfVsepH, l, r, matom.getWidth(),
 								matom.getOptions().getAlignment(0));
+
 						cb.setBg(matrix.getColor(i, j));
 						hb.add(cb);
-						addVline(hb, mcVlines, 1, rhi + rdi + vsepH,
-								rdi + halfVsepH);
+
+						hb.add(createSeparator(env, separatorAtomsMC.get(1),
+								rhi + rdi + vsepH, rdi + halfVsepH));
 						j += n - 1;
 					} else {
 						if (j == 0) {
-							addVline(hb, vlines, 0, rhi + rdi + vsepH,
-									rdi + halfVsepH);
+							hb.add(createSeparator(env, separatorAtoms.get(0),
+									rhi + rdi + vsepH, rdi + halfVsepH));
 						}
 
 						final double r = hseps[2 * j + 1];
@@ -285,8 +292,8 @@ public class ArrayAtom extends Atom {
 								options.getAlignment(j));
 						cb.setBg(matrix.getColor(i, j));
 						hb.add(cb);
-						addVline(hb, vlines, j + 1, rhi + rdi + vsepH,
-								rdi + halfVsepH);
+						hb.add(createSeparator(env, separatorAtoms.get(j + 1),
+								rhi + rdi + vsepH, rdi + halfVsepH));
 					}
 				}
 			}
@@ -313,16 +320,17 @@ public class ArrayAtom extends Atom {
 		return vb;
 	}
 
-	private static void addVline(final HorizontalBox hb, final List<Box> vlines,
-			final int i, final double h, final double s) {
-		final Box vline = vlines.get(i);
-		if (vline != StrutBox.getEmpty()) {
-			if (vline instanceof VlineBox) {
-				hb.add(((VlineBox) vline).setHS(h, s));
-			} else {
-				hb.add(vline);
+	private static Box createSeparator(TeXEnvironment env, List<Atom> separators,
+			final double h, final double s) {
+		for (Atom atom : separators) {
+			if (atom instanceof VlineAtom) {
+				VlineAtom vline = (VlineAtom) atom;
+				vline.setHeight(h);
+				vline.setShift(s);
 			}
 		}
+
+		return new RowAtom(separators).createBox(env);
 	}
 
 	public ArrayOfAtoms getMatrix() {

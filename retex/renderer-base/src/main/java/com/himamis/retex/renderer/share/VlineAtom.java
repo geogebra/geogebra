@@ -50,10 +50,26 @@ package com.himamis.retex.renderer.share;
  */
 public class VlineAtom extends Atom {
 
+	private double height;
+	private double shift;
 	private int n;
+
+	public VlineAtom(double height, double shift, int n) {
+		this.height = height;
+		this.shift = shift;
+		this.n = n;
+	}
 
 	public VlineAtom(int n) {
 		this.n = n;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public void setShift(double shift) {
+		this.shift = shift;
 	}
 
 	public static VlineAtom getEmpty() {
@@ -74,7 +90,7 @@ public class VlineAtom extends Atom {
 			double drt = env.getTeXFont()
 					.getDefaultRuleThickness(env.getStyle());
 
-			return new VlineBox(n, drt);
+			return new VlineBox(n, drt, height, shift);
 		}
 
 		return StrutBox.getEmpty();

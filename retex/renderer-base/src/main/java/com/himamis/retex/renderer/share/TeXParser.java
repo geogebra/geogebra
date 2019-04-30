@@ -2966,7 +2966,6 @@ public class TeXParser {
 				options.addVline(getNumberOf('|'));
 				break;
 			case '@':
-				// TODO: handle that in ArrayAtom
 				// @{\pi} \pi is the column separator
 				++pos;
 				final String code = getGroupAsArgument();

@@ -55,18 +55,13 @@ public class VlineBox extends Box {
 	private final int n;
 	private final double th;
 
-	public VlineBox(final int n, final double th) {
+	public VlineBox(int n, double th, double height, double shift) {
 		this.n = n;
 		this.th = th;
 		this.width = th * (3 * n - 2);
 		this.depth = 0.;
-	}
-
-	public Box setHS(final double height, final double shift) {
-		final Box b = new VlineBox(n, th);
-		b.setHeight(height);
-		b.setShift(shift);
-		return b;
+		this.height = height;
+		this.shift = shift;
 	}
 
 	@Override

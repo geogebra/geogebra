@@ -49,7 +49,9 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Stack;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -99,8 +101,12 @@ public class RowAtom extends Atom implements Row {
 		this.elements = new ArrayList<Atom>();
 	}
 
-	protected RowAtom(final ArrayList<Atom> elements) {
-		this.elements = elements;
+	public RowAtom(List<Atom> elements) {
+		this.elements = new ArrayList<>(elements);
+	}
+
+	public RowAtom(Atom... atoms) {
+		this(Arrays.asList(atoms));
 	}
 
 	public RowAtom(final int size) {
@@ -123,12 +129,6 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
-	public RowAtom(Atom... atoms) {
-		this.elements = new ArrayList<Atom>(atoms.length);
-		for (Atom a : atoms) {
-			elements.add(a);
-		}
-	}
 
 	public void append(final RowAtom ra) {
 		elements.addAll(ra.elements);

@@ -53,11 +53,11 @@ public final class ArrayOptions {
 	public static final class Option {
 
 		private final TeXConstants.Align alignment;
-		private Atom separator;
+		private List<Atom> separators;
 
 		Option(final TeXConstants.Align alignment) {
 			this.alignment = alignment;
-			this.separator = null;
+			this.separators = new ArrayList<>();
 		}
 
 		public TeXConstants.Align getAlignment() {
@@ -65,15 +65,16 @@ public final class ArrayOptions {
 		}
 
 		public boolean isVline() {
-			return separator instanceof VlineAtom;
+			return separators.size() == 1
+					&& separators.get(0) instanceof VlineAtom;
 		}
 
 		public boolean isAlignment() {
 			return !isVline();
 		}
 
-		public Atom getSeparator() {
-			return separator;
+		public List<Atom> getSeparators() {
+			return separators;
 		}
 
 		@Override
@@ -96,8 +97,13 @@ public final class ArrayOptions {
 				a = "first";
 				break;
 			}
-			String s = separator == null ? "null" : separator.toString();
-			return a + ":" + s;
+
+			a += ":";
+			for (Atom separator : separators) {
+				a += separator.toString();
+			}
+
+			return a;
 		}
 	}
 
@@ -116,16 +122,21 @@ public final class ArrayOptions {
 		return empty;
 	}
 
-	public List<Box> getVlines(TeXEnvironment env) {
-		List<Box> boxes = new ArrayList<>();
+	public List<List<Atom>> getSeparators() {
+		List<List<Atom>> atoms = new ArrayList<>();
 		for (final Option opt : options) {
-			Atom a = opt.getSeparator();
-			if (a == null) {
-				boxes.add(StrutBox.getEmpty());
-			} else {
-				boxes.add(a.createBox(env));
-			}
+			atoms.add(opt.getSeparators());
 		}
+
+		return atoms;
+	}
+
+	public List<Box> getSeparatorBoxes(TeXEnvironment env) {
+		List<Box> boxes = new ArrayList<>();
+		for (Option opt : options) {
+			boxes.add(new RowAtom(opt.separators).createBox(env));
+		}
+
 		return boxes;
 	}
 
@@ -164,35 +175,32 @@ public final class ArrayOptions {
 		return this;
 	}
 
-	public ArrayOptions addVline(final int n) {
-		return addSeparator(new VlineAtom(n));
+	public void addVline(final int n) {
+		addSeparator(new VlineAtom(n));
 	}
 
 	public ArrayOptions addSeparator(final Atom a) {
 		final int s = options.size();
 		if (s == 0) {
 			final Option o = new Option(TeXConstants.Align.INVALID);
-			o.separator = a;
+			o.separators.add(a);
 			options.add(o);
 		} else {
 			final Option lastOption = options.get(s - 1);
-			final Atom last = lastOption.separator;
-			if (last == null) {
-				lastOption.separator = a;
-			} else if (last instanceof RowAtom) {
-				final RowAtom ra = (RowAtom) last;
-				final Atom raLast = ra.last();
-				if (a instanceof VlineAtom && raLast instanceof VlineAtom) {
-					((VlineAtom) raLast).add(((VlineAtom) a).getNumber());
-				} else {
-					ra.add(a);
+			final List<Atom> separators = lastOption.separators;
+
+			if (!separators.isEmpty()) {
+				Atom lastSeparator = separators.get(separators.size() - 1);
+
+				if (lastSeparator instanceof VlineAtom && a instanceof VlineAtom) {
+					((VlineAtom) lastSeparator).add(((VlineAtom) a).getNumber());
+					return this;
 				}
-			} else if (a instanceof VlineAtom && last instanceof VlineAtom) {
-				((VlineAtom) last).add(((VlineAtom) a).getNumber());
-			} else {
-				lastOption.separator = new RowAtom(last, a);
 			}
+
+			separators.add(a);
 		}
+
 		return this;
 	}
 

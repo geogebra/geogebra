@@ -37,7 +37,10 @@ public class TestJlmDesktop extends JFrame {
 		Graphics2DD g2d = new Graphics2DD(g2);
 
 		String[] texts = {
-				"\\begin{tabular}{| c |@{\\hspace{3.7 mm}}|  c |} \\hline {\\Huge{p}} & -1  \\\\ \\hline {\\Huge{p}} & {x} \\\\ \\hline \\end{tabular}",
+				"\\begin{tabular}{| c ||| c |} \\hline {\\Huge{p}} & -1  \\\\ \\hline {\\Huge{p}} & {x} \\\\ \\hline \\end{tabular}",
+				"\\begin{tabular}{| c ||@{\\hspace{3.7 mm}}| c |} \\hline {\\Huge{p}} & -1  \\\\ \\hline {\\Huge{p}} & {x} \\\\ \\hline \\end{tabular}",
+				"\\begin{tabular}{| c |@{\\hspace{3.7 mm}}|@{\\hspace{3.7 mm}}| c |} \\hline {\\Huge{p}} & -1  \\\\ \\hline {\\Huge{p}} & {x} \\\\ \\hline \\end{tabular}",
+				"\\begin{tabular}{| c |@{\\pi}|@{\\tau}| c |} \\hline {\\Huge{p}} & -1  \\\\ \\hline {\\Huge{p}} & {x} \\\\ \\hline \\end{tabular}",
 		};
 
 		int y = 100;
