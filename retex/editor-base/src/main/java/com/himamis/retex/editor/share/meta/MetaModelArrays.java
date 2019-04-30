@@ -56,13 +56,6 @@ public class MetaModelArrays {
 		apostrophes.setRow(createArrayComponent(ROW, '\0'));
 		components.add(apostrophes);
 
-		MetaArray line = new MetaArray(1, Tag.LINE);
-		line.setOpen(createArrayComponent(OPEN, '|', "\\left|"));
-		line.setClose(createArrayComponent(CLOSE, '|', "\\right|"));
-		line.setField(createArrayComponent(FIELD, ','));
-		line.setRow(createArrayComponent(ROW, ';'));
-		components.add(line);
-
 		MetaArray ceil = new MetaArray(1, Tag.CEIL);
 		ceil.setOpen(
 				createArrayComponent(OPEN, Unicode.LCEIL, "\\left\\lceil "));
@@ -82,7 +75,7 @@ public class MetaModelArrays {
 		floor.setRow(createArrayComponent(ROW, ';'));
 		components.add(floor);
 
-		return new ListMetaGroup(components);
+		return new ListMetaGroup<>(components);
     }
 
 	MetaArray createMatrixGroup() {

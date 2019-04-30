@@ -13,8 +13,6 @@ public enum Tag {
 
 	APOSTROPHES,
 
-	LINE,
-
 	MATRIX,
 
 	CHAR,
