@@ -280,6 +280,9 @@ public class GeoSymbolic extends GeoElement
 		return new Function(kernel, alwaysUndefined);
 	}
 
+	/**
+	 * Still called from multiple places, see APPS-801
+	 */
 	@Override
 	@Deprecated
 	public GeoFunction getGeoFunction() {

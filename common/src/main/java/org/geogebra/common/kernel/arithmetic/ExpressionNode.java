@@ -1232,7 +1232,6 @@ public class ExpressionNode extends ValidExpression
 	 * Force to evaluate to function
 	 */
 	public void setForceFunction() {
-		// this expression should be considered as a point, not a vector
 		forceFunction = true;
 	}
 

@@ -24,9 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -45,8 +43,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	private GeoLine tangent; // output
 
 	private GeoPoint T;
-	private GeoFunction deriv;
-	private AlgoDerivative algo;
+	private final NoCASDerivativeCache cache;
 
 	/**
 	 * @param cons
@@ -71,10 +68,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 
 		// derivative of f
 		// now uses special non-CAS version of algo
-		algo = new AlgoDerivative(cons, f.getGeoFunction(), true,
-				new EvalInfo(false));
-		deriv = (GeoFunction) algo.getResult();
-		cons.removeFromConstructionList(algo);
+		cache = new NoCASDerivativeCache(f);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -121,7 +115,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	@Override
 	public final void compute() {
 		double a = n.getDouble();
-		if (!f.isDefined() || !deriv.isDefined() || Double.isInfinite(a)
+		if (!f.isDefined() || Double.isInfinite(a)
 				|| Double.isNaN(a)) {
 			tangent.setUndefined();
 			return;
@@ -129,7 +123,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 
 		// calc the tangent;
 		double fa = f.value(a);
-		double slope = deriv.value(a);
+		double slope = cache.evaluateDerivative(a);
 		tangent.setCoords(-slope, 1.0, a * slope - fa);
 		T.setCoords(a, fa, 1.0);
 	}

@@ -2949,4 +2949,15 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("$1", "{T = 1204705882353 / 200000}");
 		// .getOutput(StringTemplate.defaultTemplate), "");
 	}
+
+	/** See APPS-801 */
+	@Test
+	public void marbleForLeftSideShouldCreateFunction() {
+		t("f:LeftSide(1=x)", "1");
+		GeoCasCell casCell = kernel.lookupCasCellLabel("f");
+		casCell.plot();
+		Assert.assertEquals(
+				casCell.getTwinGeo().getGeoClassType(),
+				GeoClass.FUNCTION);
+	}
 }

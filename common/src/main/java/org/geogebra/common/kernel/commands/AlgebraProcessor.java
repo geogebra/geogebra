@@ -2977,6 +2977,9 @@ public class AlgebraProcessor {
 		if (eval instanceof BooleanValue) {
 			return processBoolean(n, eval);
 		} else if (eval instanceof NumberValue) {
+			if (n.isForcedFunction()) {
+				return processFunction(new Function(kernel, eval.wrap()), info);
+			}
 			return processNumber(n, eval, info);
 		} else if (eval instanceof VectorValue) {
 			return processPointVector(n, eval);
@@ -3082,9 +3085,6 @@ public class AlgebraProcessor {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
-		if (n.isForcedFunction()) {
-			ret = ((GeoFunctionable) ret).getGeoFunction();
-		}
 		if (info.isFractions()) {
 			InputHelper.updateSymbolicMode(ret);
 		}

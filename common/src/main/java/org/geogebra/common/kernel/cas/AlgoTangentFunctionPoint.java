@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -44,14 +43,14 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	private GeoFunctionable f;
 	private GeoPoint T;
 	private boolean pointOnFunction;
-	private GeoFunction deriv;
-	private AlgoDerivative algo;
 	private boolean freehand;
 	private AlgoFunctionFreehand freehandAlgo;
 	private GeoList freehandList;
 	private AlgoFitPoly algoFitPoly;
 	private GeoPoint[] points;
 	private GeoList geoList;
+	private final NoCASDerivativeCache cache;
+
 
 	/**
 	 * @param cons
@@ -82,7 +81,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 		super(cons);
 		this.P = P;
 		this.f = f;
-
+		cache = new NoCASDerivativeCache(f);
 		tangent = new GeoLine(cons);
 
 		// check if P is defined as a point of the function's graph
@@ -120,13 +119,6 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 					new GeoNumeric(cons, 5));
 			cons.removeFromConstructionList(algoFitPoly);
 
-		} else {
-			// derivative of f
-			// use fast non-CAS derivative
-			algo = new AlgoDerivative(cons, f.getGeoFunction(), true,
-					new EvalInfo(false));
-			deriv = (GeoFunction) algo.getResult();
-			cons.removeFromConstructionList(algo);
 		}
 
 		setInputOutput(); // for AlgoElement
@@ -197,8 +189,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	// calc tangent at x=a
 	@Override
 	public final void compute() {
-		if (!(f.isDefined() && P.isDefined()
-				&& (freehand || deriv.isDefined()))) {
+		if (!(f.isDefined() && P.isDefined())) {
 			tangent.setUndefined();
 			return;
 		}
@@ -233,7 +224,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 			algoFitPoly.compute();
 
-			GeoFunction fun = (GeoFunction) algoFitPoly.getOutput(0);
+			GeoFunction fun = algoFitPoly.getFitPoly();
 
 			if (fun.getFunction() != null) {
 				FunctionVariable fv = fun.getFunction().getFunctionVariable();
@@ -249,8 +240,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 		} else {
 			// calc the tangent;
-			slope = deriv.value(a);
-
+			slope = cache.evaluateDerivative(a);
 		}
 
 		tangent.setCoords(-slope, 1.0, a * slope - fa);
