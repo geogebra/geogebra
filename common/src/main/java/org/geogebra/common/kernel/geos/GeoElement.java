@@ -466,10 +466,7 @@ public abstract class GeoElement extends ConstructionElement
 			}
 
 			if (labelMode != LABEL_DEFAULT) {
-				App app = getKernel().getApplication();
-				if (app != null) {
-					app.setLabelingStyleIsNotSelected();
-				}
+				resetLabelSetting();
 			}
 		} else {
 			switch (mode) {
@@ -500,6 +497,14 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
+	private void resetLabelSetting() {
+		App app = getKernel().getApplication();
+		if (app != null) {
+			app.getSettingsUpdater().getLabelSettingsUpdater()
+					.resetLabelVisibilityForMenu();
+		}
+	}
+
 	/**
 	 * Switch label mode among value, name, value+name and caption from stylebar
 	 * 
@@ -520,10 +525,7 @@ public abstract class GeoElement extends ConstructionElement
 				}
 
 				// tells app that no labeling style is selected
-				App app = getKernel().getApplication();
-				if (app != null) {
-					app.setLabelingStyleIsNotSelected();
-				}
+				resetLabelSetting();
 			}
 			return;
 		}
@@ -534,11 +536,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (isDefaultGeo()) {
 			// shift for LABEL_DEFAULT_NAME_VALUE, etc.
 			labelMode = mode + 5;
-
-			App app = getKernel().getApplication();
-			if (app != null) {
-				app.setLabelingStyleIsNotSelected();
-			}
+			resetLabelSetting();
 		} else {
 			switch (mode) {
 			case LABEL_NAME_VALUE:
@@ -4624,20 +4622,21 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	private void setAlgebraDescriptionForDefined() {
-        if (label != null && label.startsWith(LabelManager.HIDDEN_PREFIX)) {
-            strAlgebraDescription = toValueStringMinimal(StringTemplate.algebraTemplate);
-        } else {
-            strAlgebraDescription = toString(StringTemplate.algebraTemplate);
-        }
-    }
+		if (label != null && label.startsWith(LabelManager.HIDDEN_PREFIX)) {
+			strAlgebraDescription = toValueStringMinimal(
+					StringTemplate.algebraTemplate);
+		} else {
+			strAlgebraDescription = toString(StringTemplate.algebraTemplate);
+		}
+	}
 
-    private void setAlgebraDescriptionForUndefined() {
-        final StringBuilder sbAlgebraDesc = new StringBuilder();
-        sbAlgebraDesc.append(label);
-        sbAlgebraDesc.append(' ');
-        sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
-        strAlgebraDescription = sbAlgebraDesc.toString();
-    }
+	private void setAlgebraDescriptionForUndefined() {
+		final StringBuilder sbAlgebraDesc = new StringBuilder();
+		sbAlgebraDesc.append(label);
+		sbAlgebraDesc.append(' ');
+		sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
+		strAlgebraDescription = sbAlgebraDesc.toString();
+	}
 
 	/**
 	 * @return LaTeX description
@@ -7631,7 +7630,8 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	final public boolean mayShowDescriptionInsteadOfDefinition() {
 		if (AlgebraItem.shouldShowOnlyDefinitionForGeo(this)
-				&& getKernel().getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+				&& getKernel()
+						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			return false;
 		}
 		if (algoParent == null) {
