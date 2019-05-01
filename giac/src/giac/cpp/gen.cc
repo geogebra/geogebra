@@ -8438,9 +8438,14 @@ namespace giac {
 
   gen equal(const gen & a,const gen &b,GIAC_CONTEXT){
     if (a.type==_VECT && b.type==_VECT && !b._VECTptr->empty()){
-      if (a._VECTptr->size()==b._VECTptr->size())
-	return apply(a,b,contextptr,equal);
-      return apply2nd(a,b,contextptr,equal);
+      if (calc_mode(contextptr)==1 && a.subtype==_GGBVECT && b.subtype==_GGBVECT){
+	return symbolic(at_equal,makesequence(a,b));
+      }
+      else {
+	if (a._VECTptr->size()==b._VECTptr->size())
+	  return apply(a,b,contextptr,equal);
+	return apply2nd(a,b,contextptr,equal);
+      }
     }
     if (is_equal(a)) // so that equal(a=0 ,1) returns a=1, used for fsolve
       return equal(a._SYMBptr->feuille[0],b,contextptr);

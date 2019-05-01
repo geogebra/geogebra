@@ -864,6 +864,13 @@ namespace giac {
     }
   }
 
+  void vreverse(iterateur a,iterateur aend){
+    iterateur b=aend-1;
+    for (;a<b;++a,--b){
+      swapgen(*a,*b);
+    }
+  }
+  
   bool pcompose(const vecteur & v,const sparse_poly1 & p, sparse_poly1 & res,GIAC_CONTEXT){
 #ifdef TIMEOUT
     control_c();
@@ -925,7 +932,7 @@ namespace giac {
     vcopy.reserve(itend-it);
     for (int i=0;it!=itend;++it,i=i+2)
       vcopy.push_back(w[i]*rdiv(vlcm,w[i+1],contextptr));
-    reverse(vcopy.begin(),vcopy.end());
+    vreverse(vcopy.begin(),vcopy.end());
     if (vcopy.empty()  ){
       res=sparse_poly1(1,monome(undef,minus_inf));
       return true;
@@ -2940,7 +2947,7 @@ namespace giac {
 #ifdef TIMEOUT
       control_c();
 #endif
-      if (ctrl_c || interrupted || is_undef(p.front().exponent)) 
+      if (ctrl_c || interrupted || p.empty() || is_undef(p.front().exponent)) 
 	return false;
       if (!p.empty() && !is_undef(p.front().coeff) ){
 	// substitution of ln(w) by +-g should not be useful anymore

@@ -400,6 +400,8 @@ namespace giac {
     vecteur w,excluded(find_excluded(x,contextptr));
     // assumption on x, either range or integer
     int fr=find_range(x,w,contextptr);
+    if (fr==1 && w.size()==1 && w.front().type==_VECT && w.front()._VECTptr->front()==minus_inf && w.front()._VECTptr->back()==plus_inf)
+      return;
     if (fr>=2){
       int s=int(v.size());
       for (int i=0;i<s;++i){
