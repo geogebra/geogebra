@@ -264,7 +264,7 @@ public class RendererImplGL2 extends RendererImpl
 				renderer.perspNear[Renderer.EYE_LEFT],
 				renderer.perspFar[Renderer.EYE_LEFT]);
 		jogl.getGL2().glTranslated(0, 0,
-				renderer.perspFocus[Renderer.EYE_LEFT]);
+				-renderer.eyeToScreenDistance[Renderer.EYE_LEFT]);
 	}
 
 	@Override
@@ -283,7 +283,7 @@ public class RendererImplGL2 extends RendererImpl
 				renderer.perspFar[renderer.eye]);
 		jogl.getGL2().glTranslated(-renderer.glassesEyeX[renderer.eye],
 				-renderer.glassesEyeY[renderer.eye],
-				renderer.perspFocus[renderer.eye]);
+				-renderer.eyeToScreenDistance[renderer.eye]);
 	}
 
 	@Override

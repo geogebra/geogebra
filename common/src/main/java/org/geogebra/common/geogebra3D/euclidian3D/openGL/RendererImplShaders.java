@@ -708,7 +708,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 				/ (renderer.perspTop[renderer.eye]
 						- renderer.perspBottom[renderer.eye]);
 		projectionMatrix.set(2, 3, perspYZ);
-		double f = renderer.perspFocus[renderer.eye];
+		double f = -renderer.eyeToScreenDistance[renderer.eye];
 		double w = renderer.getWidth();
 		double a;
 		double b;
@@ -729,19 +729,19 @@ public abstract class RendererImplShaders extends RendererImpl {
 		projectionMatrix.set(1, 4, 0);
 		projectionMatrix.set(2, 4, 0);
 		projectionMatrix.set(3, 4, b);
-		projectionMatrix.set(4, 4, -renderer.perspFocus[renderer.eye]);
+		projectionMatrix.set(4, 4, renderer.eyeToScreenDistance[renderer.eye]);
 
 	}
 
 	@Override
 	public void updateGlassesValues() {
 		for (int i = 0; i < 2; i++) {
-			glassesXZ[i] = 2 * renderer.perspNear[i]
-					/ (renderer.perspFocus[i]
+			glassesXZ[i] = -2 * renderer.perspNear[i]
+					/ (renderer.eyeToScreenDistance[i]
 							* (renderer.perspRight[i] - renderer.perspLeft[i]))
 					* renderer.glassesEyeX[i];
-			glassesYZ[i] = 2 * renderer.perspNear[i]
-					/ (renderer.perspFocus[i]
+			glassesYZ[i] = -2 * renderer.perspNear[i]
+					/ (renderer.eyeToScreenDistance[i]
 							* (renderer.perspTop[i] - renderer.perspBottom[i]))
 					* renderer.glassesEyeY[i];
 		}

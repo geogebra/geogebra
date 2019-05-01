@@ -110,9 +110,8 @@ public abstract class Renderer {
 	protected int bottom = 0;
 	/** screen top (in pixels) */
 	protected int top = 480;
-
-	private double[] eyeToScreenDistance = new double[2];
-
+	/** eye to screen distance */
+	public double[] eyeToScreenDistance = new double[2];
 	/** distance camera-near plane */
 	private final static double PERSP_NEAR_MIN = 10;
 	/** perspective near distance */
@@ -129,8 +128,6 @@ public abstract class Renderer {
 	public double[] perspFar = new double[2];
 	/** perspective ratio */
 	public double[] perspDistratio = new double[2];
-	/** perspective focus position */
-	public double[] perspFocus = new double[2];
 	/** perspective eye position */
 	public Coords perspEye;
 
@@ -1331,8 +1328,6 @@ public abstract class Renderer {
 				perspNear[i] = PERSP_NEAR_MIN;
 			}
 
-			perspFocus[i] = -eyeToScreenDistance[i];
-
 			// ratio so that distance on screen plane are not changed
 			perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];
 
@@ -1352,7 +1347,7 @@ public abstract class Renderer {
 
 	private void updatePerspEye() {
 		perspEye = new Coords(glassesEyeX[1], glassesEyeY[1],
-				-perspFocus[EYE_LEFT], 1); // perspFocus is negative
+				eyeToScreenDistance[EYE_LEFT], 1); // perspFocus is negative
 	}
 
 	/**
