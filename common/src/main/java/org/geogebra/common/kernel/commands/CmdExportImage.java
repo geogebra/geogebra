@@ -256,6 +256,16 @@ public class CmdExportImage extends CmdScripting {
 				String png = api.getPNGBase64(exportScale, transparent, dpi,
 						false, grayscale);
 
+				if (png == null) {
+
+					int w = (int) Math.floor(ev.getExportWidth() * exportScale);
+					int h = (int) Math
+							.floor(ev.getExportHeight() * exportScale);
+
+					throw MyError.forCommand(loc, loc.getPlain("ImageErrorAB",
+							w + "", h + ""), c.getName(), null);
+				}
+
 				if (label != null) {
 					addImageToConstruction(label, png, corner, corner2, false);
 
@@ -296,6 +306,8 @@ public class CmdExportImage extends CmdScripting {
 					filename == null ? "anim.webm" : filename, rotate);
 			break;
 		}
+		
+
 
 		GeoElement[] ret1 = {};
 		return ret1;

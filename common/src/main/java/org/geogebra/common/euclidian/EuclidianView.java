@@ -87,6 +87,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -6166,13 +6167,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public GBufferedImage getExportImage(double scale, boolean transparency,
 			ExportType exportType) {
+		
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
+		try {
 		GBufferedImage img = AwtFactory.getPrototype().createBufferedImage(
 				width, height, transparency);
 		exportPaint(img.createGraphics(), scale, transparency, exportType);
 		img.flush();
 		return img;
+		} catch (Exception e) {
+			Log.debug("problem with creating image with dimensions " + width
+					+ " " + height);
+			return null;
+		}
 	}
 
 	@Override
