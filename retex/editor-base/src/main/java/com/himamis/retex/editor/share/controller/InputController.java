@@ -587,6 +587,14 @@ public class InputController {
 				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
 
+				// if '|' typed at the end of an abs function
+				// special case
+			} else if (parent instanceof  MathFunction
+					&& Tag.ABS.equals(((MathFunction) parent).getName())
+					&& ch == '|'
+					&& parent.size() == currentField.getParentIndex() + 1) {
+				currentOffset = parent.getParentIndex() + 1;
+				currentField = (MathSequence) parent.getParent();
 			} else {
 				if (ch == ',') {
 					newCharacter(editorState, ch);
@@ -1090,7 +1098,6 @@ public class InputController {
 	 * @return whether it was handled
 	 */
 	public boolean handleChar(EditorState editorState, char ch) {
-		boolean handled = false;
 		boolean allowFrac = createFrac && !editorState.isInsideQuotes();
 		// backspace, delete and escape are handled for key down
 		if (ch == JavaKeyCodes.VK_BACK_SPACE || ch == JavaKeyCodes.VK_DELETE
@@ -1103,44 +1110,7 @@ public class InputController {
 		}
 		MetaModel meta = editorState.getMetaModel();
 
-		// special case: '|' to end abs() block
-		MathContainer parent = editorState.getCurrentField().getParent();
-		if (parent instanceof MathArray
-				&& editorState.getSelectionStart() == null) {
-
-			if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
-
-				MathSequence currentField = editorState.getCurrentField();
-
-				int offset = editorState.getCurrentOffset();
-
-				MathComponent nextArg = currentField.getArgument(offset);
-				MathComponent prevArg = currentField.getArgument(offset - 1);
-
-				// check for eg * + -
-				boolean isOperation = mathField.getMetaModel()
-						.isOperator(prevArg + "");
-
-				// make sure | acts as closing | only at end of block
-				// but not after eg plus eg |x+|
-				if (nextArg == null && !isOperation) {
-					endField(editorState, ch);
-					handled = true;
-				}
-			} else if (ch == '"' && ((MathArray) parent).getCloseKey() == '"') {
-
-				MathSequence currentField = editorState.getCurrentField();
-
-				int offset = editorState.getCurrentOffset();
-
-				MathComponent nextArg = currentField.getArgument(offset);
-
-				if (nextArg == null) {
-					endField(editorState, ch);
-					handled = true;
-				}
-			}
-		}
+		boolean handled = handleEndBlocks(editorState, ch);
 
 		if (!handled) {
 			if (meta.isArrayCloseKey(ch)) {
@@ -1189,6 +1159,46 @@ public class InputController {
 			}
 		}
 		return handled;
+	}
+
+	private boolean handleEndBlocks(EditorState editorState, char ch) {
+		// special case: '|' to end abs() block
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (editorState.getSelectionStart() == null) {
+			if (parent instanceof MathArray) {
+				return handleEndMathArray((MathArray) parent, editorState, ch);
+			} else if (parent instanceof MathFunction) {
+				return handleEndMathFunction((MathFunction) parent, editorState, ch);
+			}
+		}
+		return false;
+	}
+
+	private boolean handleEndMathArray(MathArray mathArray, EditorState editorState, char ch) {
+		if (ch == '"' && mathArray.getCloseKey() == '"') {
+			return handleExit(editorState, ch);
+		}
+		return false;
+	}
+
+	private boolean handleEndMathFunction(MathFunction mathFunction, EditorState editorState, char ch) {
+		if (Tag.ABS.equals(mathFunction.getName()) && ch == '|') {
+			return handleExit(editorState, ch);
+		}
+		return false;
+	}
+
+	private boolean handleExit(EditorState editorState, char ch) {
+		MathSequence currentField = editorState.getCurrentField();
+
+		int offset = editorState.getCurrentOffset();
+
+		MathComponent nextArg = currentField.getArgument(offset);
+
+		if (nextArg == null) {
+			endField(editorState, ch);
+		}
+		return nextArg == null;
 	}
 
 	private void comma(EditorState editorState) {
