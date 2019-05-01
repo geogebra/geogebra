@@ -99,6 +99,7 @@ PARSER_END(Parser)
     | < SQRT : "sqrt" >
     | < NROOT : "nroot" >
     | < LOG : "log" >
+    | < ABS : "abs" >
     | < COMMA : "," >
     | < SPACE : " " >
     | < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -129,6 +130,8 @@ void mathContainer(MathContainer currentField) : {}
         nroot(currentField)
     |
         log(currentField)
+    |
+        abs(currentField)
     |
         arrayParantheses(currentField)
     |
@@ -174,6 +177,8 @@ void mathAtomOrPower(MathContainer currentField) : {
         nroot(currentField)
     |
         log(currentField)
+    |
+        abs(currentField)
     |
         arrayParantheses(currentField)
     |
@@ -305,6 +310,17 @@ void log(MathContainer currentField) : { }
     {
       currentField.addArgument(nroot);
     }
+}
+
+void abs(MathContainer currentField) : { }
+{
+    <ABS> <PARANTHESES_OPEN> {
+        MathFunction abs = new MathFunction(metaModel.getGeneral(Tag.ABS));
+        MathSequence param1 = new MathSequence();
+        mathContainer(param1);
+        abs.setArgument(0, param1);
+        currentField.addArgument(abs);
+    } <PARANTHESES_CLOSE>
 }
 
 void arrayParantheses(MathContainer currentField) :
