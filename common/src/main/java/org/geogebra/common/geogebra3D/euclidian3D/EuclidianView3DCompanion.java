@@ -201,10 +201,6 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		// used for some input3D
 	}
 
-	public double getScreenZOffset() {
-		return 0;
-	}
-
 	public void drawPointAlready(GeoPoint3D point) {
 		getView().drawPointAlready(point.getMoveMode());
 	}

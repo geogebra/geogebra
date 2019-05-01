@@ -312,11 +312,6 @@ public class InputZSpace3DW extends Input3D {
 	}
 
 	@Override
-	public boolean useScreenZOffset() {
-		return false;
-	}
-
-	@Override
 	public boolean isStereoBuffered() {
 		return true;
 	}

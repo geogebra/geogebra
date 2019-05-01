@@ -3869,10 +3869,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		resetAllDrawables();
 	}
 
-	public double getScreenZOffset() {
-		return getCompanion().getScreenZOffset();
-	}
-
 	/**
 	 * @return whether to render objects in grayscale
 	 */

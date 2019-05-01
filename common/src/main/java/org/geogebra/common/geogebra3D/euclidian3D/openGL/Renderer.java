@@ -1331,7 +1331,7 @@ public abstract class Renderer {
 				perspNear[i] = PERSP_NEAR_MIN;
 			}
 
-			perspFocus[i] = -eyeToScreenDistance[i] + view3D.getScreenZOffset();
+			perspFocus[i] = -eyeToScreenDistance[i];
 
 			// ratio so that distance on screen plane are not changed
 			perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];

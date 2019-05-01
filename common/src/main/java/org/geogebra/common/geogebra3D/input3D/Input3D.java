@@ -257,12 +257,6 @@ abstract public class Input3D implements Input3DConstants {
 
 	/**
 	 * 
-	 * @return true if we use z offset to make the scene out of the screen
-	 */
-	abstract public boolean useScreenZOffset();
-
-	/**
-	 * 
 	 * @return true if it uses stereo buffers
 	 */
 	abstract public boolean isStereoBuffered();
@@ -544,7 +538,7 @@ abstract public class Input3D implements Input3DConstants {
 	 */
 	public void updateMousePosition() {
 		setPositionXYOnPanel(getInputPosition(), mouse3DPosition);
-		mouse3DPosition.setZ(getInputPosition()[2] - view3D.getScreenZOffset());
+		mouse3DPosition.setZ(getInputPosition()[2]);
 	}
 
 	public boolean hasMouse() {

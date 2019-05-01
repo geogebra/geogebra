@@ -452,16 +452,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	public double getScreenZOffset() {
-		if (input3D != null && input3D.useScreenZOffset()) {
-			return getView().getClippingCubeDrawable().getHorizontalDiagonal()
-					/ 2;
-		}
-
-		return super.getScreenZOffset();
-	}
-
-	@Override
 	public void drawPointAlready(GeoPoint3D point) {
 
 		if (input3D.currentlyUseMouse2D()) {

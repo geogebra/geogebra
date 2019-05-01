@@ -288,11 +288,6 @@ public class InputIntelRealsense3D extends Input3D {
 	}
 	
 	@Override
-	public boolean useScreenZOffset(){
-		return false;
-	}
-	
-	@Override
 	public boolean isStereoBuffered() {
 		return false;
 	}
