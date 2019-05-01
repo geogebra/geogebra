@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -162,6 +161,24 @@ public class ParserTest {
 	}
 
 	@Test
+
+	public void testLogFunction() {
+		shouldReparseAs("log_{10}(x)", "log(10, x)");
+		// bug?
+		// shouldReparseAs("log_10(x)", "");
+		shouldReparseAs("log_3(x)", "log(3, x)");
+		shouldReparseAs("log_{3}(x)", "log(3, x)");
+		shouldReparseAs("ln(x)", "ln(x)");
+		shouldReparseAs("ld(x)", "ld(x)");
+		shouldReparseAs("lg(x)", "lg(x)");
+		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log_" + Unicode.EULER_STRING + "(x)",
+				"log(" + Unicode.EULER_STRING + ", x)");
+		shouldReparseAs("log_{" + Unicode.EULER_STRING + "}(x)",
+				"log(" + Unicode.EULER_STRING + ", x)");
+	}
+
+	@Test
 	public void shouldKeepPriorityTwoBinary() {
 		Kernel kernel = app.getKernel();
 		for (Operation top : Operation.values()) {
@@ -203,7 +220,6 @@ public class ParserTest {
 	}
 
 	private static boolean binary(Operation op) {
-		// TODO Auto-generated method stub
 		return !Operation.isSimpleFunction(op) && op != Operation.IF_LIST
 				&& op != Operation.DOLLAR_VAR_COL && op != Operation.DOLLAR_VAR_ROW_COL
 				&& op != Operation.DOLLAR_VAR_ROW && op != Operation.XOR
