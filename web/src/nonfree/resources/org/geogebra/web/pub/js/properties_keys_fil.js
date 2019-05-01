@@ -1985,6 +1985,7 @@ __GGB__keysVar["fil"].menu = {
     "Image": "Larawan",
     "Image.Help": "I-click ang Graphics View o ang point para pumili ng posisyon",
     "Image.Tool": "Insert Image",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Images",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

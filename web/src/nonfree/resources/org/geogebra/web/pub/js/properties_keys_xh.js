@@ -1985,6 +1985,7 @@ __GGB__keysVar["xh"].menu = {
     "Image": "umfanekiso",
     "Image.Help": "Klikha kumbono wegrafu okanye kwichaphaza ukuxela indawo",
     "Image.Tool": "Umfanekiso",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Imifanekiso",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

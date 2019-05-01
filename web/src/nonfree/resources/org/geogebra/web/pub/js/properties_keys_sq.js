@@ -1985,6 +1985,7 @@ __GGB__keysVar["sq"].menu = {
     "Image": "Imazh",
     "Image.Help": "Kliko ne panelen e vizatimitn ose ne piken per te specifikuar pozicionin",
     "Image.Tool": "Fut Imazh",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Imazh",
     "ImplicitConicEquation": "Ekuacion Implicit i Konikes",
     "ImplicitLineEquation": "Ekuacion Implicit i Drejtzes",

@@ -1985,6 +1985,7 @@ __GGB__keysVar["gl"].menu = {
     "Image": "Imaxe",
     "Image.Help": "Premer na Vista gr\xe1fica ou nun punto para sinalar a posici\xf3n",
     "Image.Tool": "Inserir imaxe",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Imaxes",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

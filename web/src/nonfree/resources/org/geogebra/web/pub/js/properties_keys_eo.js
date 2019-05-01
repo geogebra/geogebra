@@ -1985,6 +1985,7 @@ __GGB__keysVar["eo"].menu = {
     "Image": "Bildo",
     "Image.Help": "Select image from files or webcam",
     "Image.Tool": "Enmeti Bildon",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Bildoj",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

@@ -1985,6 +1985,7 @@ __GGB__keysVar["lt"].menu = {
     "Image": "Vaizdas",
     "Image.Help": "Spragtelkite grafin\u012f vaizd\u0105 ar ta\u0161k\u0105 nor\u0117dami nustatyti pozicij\u0105",
     "Image.Tool": "Vaizdelis",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Vaizdai",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

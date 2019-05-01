@@ -1985,6 +1985,7 @@ __GGB__keysVar["si"].menu = {
     "Image": "\u0db6\u0dd2\u0db8\u0dca\u0db6\u0dba",
     "Image.Help": "\u0db4\u0dd2\u0dc4\u0dd2\u0da7\u0dd3\u0db8 \u0db1\u0dd2\u0dc1\u0dca\u0da0\u0dba \u0d9a\u0dd2\u0dbb\u0dd3\u0db8 \u0dc3\u0db3\u0dc4\u0dcf \u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba\u0d9a\u0dca \u0db8\u0dad \u0dc4\u0ddd \u0d85\u0db3\u0dd2\u0db1 \u0db4\u0dd4\u0dc0\u0dbb\u0dd0\u0dc0 \u0db8\u0dad \u0d9a\u0dca\u0dbd\u0dd2\u0d9a\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "Image.Tool": "\u0db4\u0dca\u200d\u0dbb\u0dad\u0dd2\u0db6\u0dd2\u0db8\u0dd2\u0db6\u0dba \u0d87\u0dad\u0dd4\u0dbd\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Images",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

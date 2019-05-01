@@ -1985,6 +1985,7 @@ __GGB__keysVar["uk"].menu = {
     "Image": "\u0417\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
     "Image.Help": "\u0412\u0438\u0431\u0435\u0440\u0456\u0442\u044c \u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u043d\u044f \u0437 \u0444\u0430\u0439\u043b\u0456\u0432 \u0430\u0431\u043e \u0432\u0435\u0431-\u043a\u0430\u043c\u0435\u0440\u0438",
     "Image.Tool": "\u0417\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "\u0417\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

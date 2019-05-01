@@ -1985,6 +1985,7 @@ __GGB__keysVar["sk"].menu = {
     "Image": "Obraz",
     "Image.Help": "Polohu ur\u010d\xedme kliknut\xedm na n\xe1kres\u0148u alebo vyzna\u010den\xedm bodu ur\u010duj\xfaceho \u013eav\xfd doln\xfd bod obr\xe1zka.",
     "Image.Tool": "Obr\xe1zok",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Obr\xe1zky",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

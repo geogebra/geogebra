@@ -1985,6 +1985,7 @@ __GGB__keysVar["ro"].menu = {
     "Image": "Imagine",
     "Image.Help": "Click pe suprafa\u0163a de desen sau pe un punct pentru a specifica pozi\u0163ia",
     "Image.Tool": "Insera\u0163i imagine",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Imagini",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

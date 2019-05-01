@@ -1985,6 +1985,7 @@ __GGB__keysVar["da"].menu = {
     "Image": "Billede",
     "Image.Help": "Klik p\xe5 tegnefladen eller p\xe5 et punkt for at angive nedre venstre hj\xf8rne af billedet",
     "Image.Tool": "Billede",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Billeder",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

@@ -1985,6 +1985,7 @@ __GGB__keysVar["uz"].menu = {
     "Image": "Tasvir",
     "Image.Help": "Fayl yoki webkameradan tasvirni tanlash",
     "Image.Tool": "Tasvir",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Rasm",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

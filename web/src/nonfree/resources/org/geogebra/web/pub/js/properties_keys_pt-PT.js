@@ -1985,6 +1985,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Image": "Imagem",
     "Image.Help": "Clique numa \xe1rea livre da Folha Gr\xe1fica ou num ponto",
     "Image.Tool": "Inserir imagem",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Imagens",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

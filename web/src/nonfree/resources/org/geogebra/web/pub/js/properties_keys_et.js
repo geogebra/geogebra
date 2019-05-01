@@ -1985,6 +1985,7 @@ __GGB__keysVar["et"].menu = {
     "Image": "Pilt",
     "Image.Help": "Kl\xf5psake graafikavaatel v\xf5i punktil, et m\xe4\xe4rata pildi asukoht",
     "Image.Tool": "Pilt",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Pildid",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

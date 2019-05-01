@@ -1985,6 +1985,7 @@ __GGB__keysVar["nb"].menu = {
     "Image": "Bilde",
     "Image.Help": "Velg bilde fra fil eller webkamera",
     "Image.Tool": "Sett inn bilde",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Bilder",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

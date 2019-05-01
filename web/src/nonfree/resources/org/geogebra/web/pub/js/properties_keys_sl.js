@@ -1985,6 +1985,7 @@ __GGB__keysVar["sl"].menu = {
     "Image": "Slika",
     "Image.Help": "Izberi sliko iz datoteke ali spletne kamere",
     "Image.Tool": "Slika",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Slike",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

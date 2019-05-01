@@ -1985,6 +1985,7 @@ __GGB__keysVar["eu"].menu = {
     "Image": "Irudia",
     "Image.Help": "Aukeratu irudia artxiboen artean edo, bestela, web-kameraz atera",
     "Image.Tool": "Irudia",
+    "ImageErrorAB": "Arazoren bat egon da %0 \xd7 %1 tamainako irudia sortzerakoan",
     "Images": "Irudiak",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

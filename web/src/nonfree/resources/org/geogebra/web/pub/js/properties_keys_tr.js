@@ -1985,6 +1985,7 @@ __GGB__keysVar["tr"].menu = {
     "Image": "Resim",
     "Image.Help": "Dosyalardan veya web kameradan resim se\xe7in",
     "Image.Tool": "Resim",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Resimler",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

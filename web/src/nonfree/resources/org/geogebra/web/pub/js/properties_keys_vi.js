@@ -1985,6 +1985,7 @@ __GGB__keysVar["vi"].menu = {
     "Image": "H\xecnh \u1ea3nh",
     "Image.Help": "Nh\u1ea5p chu\u1ed9t v\xe0o v\xf9ng l\xe0m vi\u1ec7c \u0111\u1ec3 x\xe1c \u0111\u1ecbnh g\xf3c tr\xe1i d\u01b0\u1edbi c\u1ee7a \u1ea3nh",
     "Image.Tool": "Ch\xe8n \u1ea3nh",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "C\xe1c \u1ea3nh",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

@@ -1985,6 +1985,7 @@ __GGB__keysVar["ta"].menu = {
     "Image": "\u0baa\u0b9f\u0bae\u0bcd",
     "Image.Help": "\u0ba8\u0bbf\u0bb2\u0bc8\u0baf\u0bbf\u0ba9\u0bc8\u0b95\u0bcd \u0b95\u0bc1\u0bb1\u0bbf\u0ba4\u0bcd\u0ba4\u0bc1\u0b95\u0bcd\u0b95\u0bbe\u0b9f\u0bcd\u0b9f\u0bc1\u0bb5\u0ba4\u0bb1\u0bcd\u0b95\u0bc1 Graphics View \u0b85\u0bb2\u0bcd\u0bb2\u0ba4\u0bc1 \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf\u0baf\u0bbf\u0bb2\u0bcd \u0b9a\u0bca\u0b9f\u0bc1\u0b95\u0bcd\u0b95\u0bc1\u0b95",
     "Image.Tool": "\u0baa\u0b9f\u0bbf\u0bae\u0bae\u0bcd",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "\u0baa\u0b9f\u0bbf\u0bae\u0b99\u0bcd\u0b95\u0bb3\u0bcd",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

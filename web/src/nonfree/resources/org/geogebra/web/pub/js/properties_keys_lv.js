@@ -1985,6 +1985,7 @@ __GGB__keysVar["lv"].menu = {
     "Image": "Att\u0113ls",
     "Image.Help": "Uzspied uz grafisk\u0101 skata vai punkta lai preciz\u0113tu poz\u012bciju",
     "Image.Tool": "Att\u0113ls",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Att\u0113li",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

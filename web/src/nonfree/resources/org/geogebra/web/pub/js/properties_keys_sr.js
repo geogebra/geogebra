@@ -1985,6 +1985,7 @@ __GGB__keysVar["sr"].menu = {
     "Image": "Slika",
     "Image.Help": "Kliknite na povr\u0161inu za crtanje ili na ta\u010dku da postavite donji levi ugao slike",
     "Image.Tool": "Ubacivanje slike",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Slike",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

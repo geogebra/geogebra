@@ -1985,6 +1985,7 @@ __GGB__keysVar["pl"].menu = {
     "Image": "Obraz",
     "Image.Help": "Wybierz obraz z plik\xf3w lub kamery internetowej",
     "Image.Tool": "Obraz",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Obrazki",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

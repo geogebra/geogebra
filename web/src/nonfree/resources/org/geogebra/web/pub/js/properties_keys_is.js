@@ -1985,6 +1985,7 @@ __GGB__keysVar["is"].menu = {
     "Image": "Mynd",
     "Image.Help": "Smelli\xf0 \xe1 myndaglugga e\xf0a punkt til a\xf0 \xe1kvar\xf0a ne\xf0ra vinstra horn myndar",
     "Image.Tool": "Setja inn mynd",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Myndir",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

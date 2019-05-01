@@ -1985,6 +1985,7 @@ __GGB__keysVar["sv"].menu = {
     "Image": "Bild",
     "Image.Help": "V\xe4lj en bild fr\xe5n en fil eller kamera",
     "Image.Tool": "Infoga bild",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Bilder",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

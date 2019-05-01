@@ -1985,6 +1985,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Image": "Imagen",
     "Image.Help": "Elige una imagen archivada o la c\xe1mara web",
     "Image.Tool": "Imagen",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Im\xe1genes",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

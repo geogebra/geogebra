@@ -1985,6 +1985,7 @@ __GGB__keysVar["hu"].menu = {
     "Image": "K\xe9p",
     "Image.Help": "A k\xe9p bal als\xf3 sark\xe1nak megad\xe1sa rajzlapon vagy ponton val\xf3 kattint\xe1ssal",
     "Image.Tool": "K\xe9p",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "K\xe9pek",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

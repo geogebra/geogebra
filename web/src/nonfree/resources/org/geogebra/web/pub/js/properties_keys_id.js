@@ -1985,6 +1985,7 @@ __GGB__keysVar["id"].menu = {
     "Image": "Gambar",
     "Image.Help": "Klik pada tampilan grafik atau titik untuk menentukan posisi",
     "Image.Tool": "Sisipkan gambar",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Gambar-gambar",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

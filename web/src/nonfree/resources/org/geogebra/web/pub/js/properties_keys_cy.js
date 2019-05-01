@@ -1985,6 +1985,7 @@ __GGB__keysVar["cy"].menu = {
     "Image": "Delwedd",
     "Image.Help": "Clicio yn y wedd graffeg neu ar bwynt i nodi'r safle",
     "Image.Tool": "Mewnosod delwedd",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Delweddau",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

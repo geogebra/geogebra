@@ -1985,6 +1985,7 @@ __GGB__keysVar["fi"].menu = {
     "Image": "Kuva",
     "Image.Help": "Valitse kuva tiedostoista tai kamerasta.",
     "Image.Tool": "Lis\xe4\xe4 kuva",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Kuvat",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",

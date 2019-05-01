@@ -1985,6 +1985,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Image": "Imatge",
     "Image.Help": "Feu clic a la finestra gr\xe0fica o en un punt per a determinar el v\xe8rtex inferior esquerre de la imatge",
     "Image.Tool": "Imatge",
+    "ImageErrorAB": "Problem creating image with dimensions %0 \xd7 %1",
     "Images": "Imatges",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",
