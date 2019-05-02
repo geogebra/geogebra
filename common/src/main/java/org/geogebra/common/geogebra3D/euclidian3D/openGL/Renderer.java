@@ -112,33 +112,13 @@ public abstract class Renderer {
 	protected int top = 480;
 	/** eye to screen distance */
 	public double[] eyeToScreenDistance = new double[2];
-	/** distance camera-near plane */
-	private final static double PERSP_NEAR_MIN = 10;
-	/** perspective near distance */
-	public double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
-	/** perspective left position */
-	public double[] perspLeft = new double[2];
-	/** perspective right position */
-	public double[] perspRight = new double[2];
-	/** perspective bottom position */
-	public double[] perspBottom = new double[2];
-	/** perspective top position */
-	public double[] perspTop = new double[2];
-	/** perspective far position */
-	public double[] perspFar = new double[2];
-	/** perspective ratio */
-	public double[] perspDistratio = new double[2];
 	/** perspective eye position */
 	public Coords perspEye;
 
 	/** eye position */
 	public double[] glassesEyeX = new double[2];
-	/** eye position for frustum */
-	public double[] glassesEyeX1 = new double[2];
 	/** eye position */
 	public double[] glassesEyeY = new double[2];
-	/** eye position for frustum */
-	public double[] glassesEyeY1 = new double[2];
 
 	/** left eye index */
 	public static final int EYE_LEFT = 0;
@@ -1321,25 +1301,7 @@ public abstract class Renderer {
 	/**
 	 * update values for perspective projection
 	 */
-	protected void updatePerspValues() {
-		for (int i = 0; i < 2; i++) {
-			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2.0;
-			if (perspNear[i] < PERSP_NEAR_MIN) {
-				perspNear[i] = PERSP_NEAR_MIN;
-			}
-
-			// ratio so that distance on screen plane are not changed
-			perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];
-
-			// frustum
-			perspLeft[i] = getLeft() * perspDistratio[i];
-			perspRight[i] = getRight() * perspDistratio[i];
-			perspBottom[i] = getBottom() * perspDistratio[i];
-			perspTop[i] = getTop() * perspDistratio[i];
-
-			// distance camera-far plane
-			perspFar[i] = perspNear[i] + getVisibleDepth();
-		}
+	final private void updatePerspValues() {
 		if (rendererImpl != null) {
 			rendererImpl.updatePerspValues();
 		}
@@ -1374,9 +1336,6 @@ public abstract class Renderer {
 			// eye values
 			glassesEyeX[i] = view3D.getEyeX(i);
 			glassesEyeY[i] = view3D.getEyeY(i);
-			// eye values for frustum
-			glassesEyeX1[i] = glassesEyeX[i] * perspDistratio[i];
-			glassesEyeY1[i] = glassesEyeY[i] * perspDistratio[i];
 		}
 		if (rendererImpl != null) {
 			rendererImpl.updateGlassesValues();

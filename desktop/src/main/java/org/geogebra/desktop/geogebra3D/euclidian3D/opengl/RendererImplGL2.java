@@ -39,6 +39,27 @@ public class RendererImplGL2 extends RendererImpl
 	private double[][] clipPlaneEquations;
 	private boolean clipPlanesNeedUpdate;
 
+	/** distance camera-near plane */
+	private final static double PERSP_NEAR_MIN = 10;
+	/** perspective near distance */
+	private double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
+	/** perspective left position */
+	private double[] perspLeft = new double[2];
+	/** perspective right position */
+	private double[] perspRight = new double[2];
+	/** perspective bottom position */
+	private double[] perspBottom = new double[2];
+	/** perspective top position */
+	private double[] perspTop = new double[2];
+	/** perspective far position */
+	private double[] perspFar = new double[2];
+	/** perspective ratio */
+	private double[] perspDistratio = new double[2];
+	/** eye position for frustum */
+	private double[] glassesEyeX1 = new double[2];
+	/** eye position for frustum */
+	private double[] glassesEyeY1 = new double[2];
+
 	/**
 	 * Constructor
 	 * 
@@ -257,12 +278,12 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void viewPersp() {
 
-		jogl.getGL2().glFrustum(renderer.perspLeft[Renderer.EYE_LEFT],
-				renderer.perspRight[Renderer.EYE_LEFT],
-				renderer.perspBottom[Renderer.EYE_LEFT],
-				renderer.perspTop[Renderer.EYE_LEFT],
-				renderer.perspNear[Renderer.EYE_LEFT],
-				renderer.perspFar[Renderer.EYE_LEFT]);
+		jogl.getGL2().glFrustum(perspLeft[Renderer.EYE_LEFT],
+				perspRight[Renderer.EYE_LEFT],
+				perspBottom[Renderer.EYE_LEFT],
+				perspTop[Renderer.EYE_LEFT],
+				perspNear[Renderer.EYE_LEFT],
+				perspFar[Renderer.EYE_LEFT]);
 		jogl.getGL2().glTranslated(0, 0,
 				-renderer.eyeToScreenDistance[Renderer.EYE_LEFT]);
 	}
@@ -271,16 +292,12 @@ public class RendererImplGL2 extends RendererImpl
 	public void viewGlasses() {
 
 		jogl.getGL2().glFrustum(
-				renderer.perspLeft[renderer.eye]
-						- renderer.glassesEyeX1[renderer.eye],
-				renderer.perspRight[renderer.eye]
-						- renderer.glassesEyeX1[renderer.eye],
-				renderer.perspBottom[renderer.eye]
-						- renderer.glassesEyeY1[renderer.eye],
-				renderer.perspTop[renderer.eye]
-						- renderer.glassesEyeY1[renderer.eye],
-				renderer.perspNear[renderer.eye],
-				renderer.perspFar[renderer.eye]);
+				perspLeft[renderer.eye] - glassesEyeX1[renderer.eye],
+				perspRight[renderer.eye] - glassesEyeX1[renderer.eye],
+				perspBottom[renderer.eye] - glassesEyeY1[renderer.eye],
+				perspTop[renderer.eye] - glassesEyeY1[renderer.eye],
+				perspNear[renderer.eye],
+				perspFar[renderer.eye]);
 		jogl.getGL2().glTranslated(-renderer.glassesEyeX[renderer.eye],
 				-renderer.glassesEyeY[renderer.eye],
 				-renderer.eyeToScreenDistance[renderer.eye]);
@@ -454,13 +471,34 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void updatePerspValues() {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < 2; i++) {
+			perspNear[i] = renderer.eyeToScreenDistance[i]
+					- renderer.getVisibleDepth() / 2.0;
+			if (perspNear[i] < PERSP_NEAR_MIN) {
+				perspNear[i] = PERSP_NEAR_MIN;
+			}
 
+			// ratio so that distance on screen plane are not changed
+			perspDistratio[i] = perspNear[i] / renderer.eyeToScreenDistance[i];
+
+			// frustum
+			perspLeft[i] = renderer.getLeft() * perspDistratio[i];
+			perspRight[i] = renderer.getRight() * perspDistratio[i];
+			perspBottom[i] = renderer.getBottom() * perspDistratio[i];
+			perspTop[i] = renderer.getTop() * perspDistratio[i];
+
+			// distance camera-far plane
+			perspFar[i] = perspNear[i] + renderer.getVisibleDepth();
+		}
 	}
 
 	@Override
 	public void updateGlassesValues() {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < 2; i++) {
+			// eye values for frustum
+			glassesEyeX1[i] = renderer.glassesEyeX[i] * perspDistratio[i];
+			glassesEyeY1[i] = renderer.glassesEyeY[i] * perspDistratio[i];
+		}
 
 	}
 
