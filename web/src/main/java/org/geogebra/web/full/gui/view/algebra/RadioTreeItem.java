@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -170,7 +169,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	// controls must appear on select or not
 	private boolean forceControls = false;
 
-	private AsyncOperation<GeoElementND> suggestionCallback;
 	protected boolean first = false;
 	private String ariaPreview;
 	private Label ariaLabel = null;
@@ -403,24 +401,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			} else {
 				buildItemWithSingleRow();
 			}
-
-			controls.updateSuggestions(geo);
 		} else {
 			buildItemWithSingleRow();
 		}
 
 		adjustToPanel(content);
-	}
-
-	/**
-	 * Get the first available suggestion for a geo or null if none available.
-	 *
-	 * @param geo1
-	 *            geo
-	 * @return suggestion or null if none available
-	 */
-	Suggestion getSuggestion(GeoElement geo1) {
-		return null;
 	}
 
 	private void buildItemWithTwoRows() {
@@ -464,9 +449,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void clearPreviewAndSuggestions() {
 		clearPreview();
 		clearUndefinedVariables();
-		if (controls != null) {
-			controls.updateSuggestions(null);
-		}
 	}
 
 	/**
@@ -521,23 +503,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (content.getWidgetIndex(plainTextItem) == -1) {
 				content.add(plainTextItem);
 			}
-		}
-		buildSuggestions(previewGeo);
-	}
-
-	/**
-	 * Create suggestions for preview
-	 *
-	 * @param previewGeo
-	 *            preview from input bar
-	 */
-	public void buildSuggestions(GeoElement previewGeo) {
-		if (getSuggestion(previewGeo) != null) {
-			addControls();
-			controls.reposition();
-			controls.updateSuggestions(geo == null ? previewGeo : geo);
-		} else if (controls != null) {
-			controls.updateSuggestions(geo == null ? previewGeo : geo);
 		}
 		clearUndefinedVariables();
 	}
@@ -1241,7 +1206,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void selectItem(boolean selected) {
 		if (controls != null) {
 			controls.show(!controller.hasMultiGeosSelected() && selected);
-			controls.updateSuggestions(geo);
 		}
 
 		if (selectedItem == selected) {
@@ -2140,59 +2104,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getHelpToggle().setIndex(1);
 		inputControl.addInputControls();
  		return this;
-	}
-
-	/**
-	 * @param withSuggestions
-	 *            whether to show suggestions
-	 */
-	public void toggleSuggestionStyle(boolean withSuggestions) {
-		if (withSuggestions) {
-			content.addStyleName("withSuggestions");
-			content.removeStyleName("noSuggestions");
-		} else {
-			if (content.getStyleName().contains("withSuggestions")) {
-				content.addStyleName("noSuggestions");
-			}
-			content.removeStyleName("withSuggestions");
-		}
-	}
-
-	/**
-	 * Run suggestion for the new geo.
-	 *
-	 * @param nGeo
-	 *            new geo element
-	 */
-	public void runSuggestionCallbacks(GeoElementND nGeo) {
-		if (controls != null) {
-			controls.updateSuggestions(geo); // old geo
-		}
-		if (suggestionCallback != null && nGeo != null) {
-			suggestionCallback.callback(nGeo);
-			suggestionCallback = null;
-		}
-	}
-
-	/**
-	 * Set suggestion callback.
-	 *
-	 * @param run
-	 *            callback
-	 * @param autoSliders
-	 *            whether to create sliders
-	 */
-	public void runAfterGeoCreated(AsyncOperation<GeoElementND> run,
-			boolean autoSliders) {
-		if (geo != null) {
-			run.callback(geo);
-		} else {
-			if (autoSliders) {
-				onEnterWithSliders();
-				return;
-			}
-			this.suggestionCallback = run;
-		}
 	}
 
 	/**

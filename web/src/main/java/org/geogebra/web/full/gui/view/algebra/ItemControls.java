@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.algebra.Suggestion;
-import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -20,7 +18,6 @@ import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
-import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
@@ -47,7 +44,6 @@ public class ItemControls extends FlowPanel
 	private AnimPanel animPanel = null;
 
 	private ContextMenuAVItemMore cmMore = null;
-	private SuggestionBar suggestionBar;
 
 	/**
 	 * @param radioTreeItem
@@ -341,8 +337,6 @@ public class ItemControls extends FlowPanel
 				add(animPanel);
 			}
 
-			updateSuggestions(radioTreeItem.geo);
-
 			if (showX) {
 				add(hasMoreMenu() ? getMoreButton() : getDeleteButton());
 			}
@@ -357,61 +351,6 @@ public class ItemControls extends FlowPanel
 
 		updateAnimPanel();
 		return ret;
-	}
-
-	/**
-	 * Add or remove suggestion bar
-	 *
-	 * @param geo
-	 *            geo element (either from AV item or from preview)
-	 */
-	void updateSuggestions(GeoElement geo) {
-		Suggestion sug = radioTreeItem.getSuggestion(geo);
-
-		if ((sug != null && geo != null)) {
-			if (suggestionBar == null) {
-				suggestionBar = new SuggestionBar(radioTreeItem);
-			}
-			if (!suggestionBar.getStyleName().contains("animating")) {
-				suggestionBar.removeStyleName("removing");
-				suggestionBar.addStyleName("animating");
-			}
-			// suggestionBar.addStyleName("add");
-			// if (sug.hasMode()) {
-			// suggestionBar.setSuggestion(sug, radioTreeItem.app);
-
-			// } else {
-				suggestionBar.setSuggestion(sug, radioTreeItem.loc);
-			// }
-			if (!suggestionBar.isAttached()) {
-				add(suggestionBar);
-			}
-			if (sug instanceof SuggestionSolve) {
-				radioTreeItem.getApplication().getKernel().getGeoGebraCAS()
-					.initCurrentCAS();
-			}
-			radioTreeItem.toggleSuggestionStyle(true);
-		} else if (suggestionBar != null) {
-			radioTreeItem.toggleSuggestionStyle(false);
-			suggestionBar.addStyleName("removing");
-			suggestionBar.removeStyleName("animating");
-			CSSAnimation.runOnAnimation(new Runnable() {
-
-				@Override
-				public void run() {
-					removeSuggestions();
-				}
-			}, radioTreeItem.getContentElement(), "noSuggestions");
-
-		}
-	}
-
-	/**
-	 * Removes the suggestion bar
-	 */
-	protected void removeSuggestions() {
-		remove(suggestionBar);
-
 	}
 
 	/**

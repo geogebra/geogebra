@@ -164,7 +164,6 @@ public class EvaluateInput {
 
 				item.setText("");
 				item.removeOutput();
-				item.runSuggestionCallbacks(geos[0]);
 			}
 		};
 	}
