@@ -36,7 +36,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 		StringBuilder sb = new StringBuilder();
 		String varList = getVariableList();
 		sb.append("Solve[");
-		sb.append(getLabels(geo));
+		sb.append(getGeoList());
 		if (!varList.isEmpty()) {
 			sb.append(", ");
 			sb.append(varList);
@@ -51,11 +51,28 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		for (int i=0; i < vars.length - 1;i++) {
+		int lastIdx = vars.length - 1;
+		for (int i=0; i < lastIdx;i++) {
 			sb.append(vars[i]);
 			sb.append(", ");
 		}
-		sb.append(vars[vars.length - 1]);
+		sb.append(vars[lastIdx]);
+		sb.append("}");
+		return sb.toString();
+	}
+
+	private String getGeoList() {
+		if (geos.size() == 0) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		int lastIdx = geos.size() - 1;
+		for (int i=0; i < lastIdx;i++) {
+			sb.append(geos.get(0).getLabelSimple());
+			sb.append(", ");
+		}
+		sb.append(geos.get(lastIdx).getLabelSimple());
 		sb.append("}");
 		return sb.toString();
 	}
@@ -75,7 +92,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 			if (vars.length == 1) {
 				return SINGLE_SOLVE;
 			} else {
-				return getMulti(symbolic, vars);
+				return getMulti(symbolic);
 			}
 		}
 
@@ -83,8 +100,12 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
 	}
 
-	private static String[] getVariables(GeoSymbolic geo) {
-		HashSet<GeoElement> varSet = geo.getValue().getVariables(SymbolicMode.SYMBOLIC);
+	private static String[] getVariables(GeoElementND geo) {
+		if (!isValid(geo)) {
+			return new String[0];
+		}
+
+		HashSet<GeoElement> varSet = ((GeoSymbolic)geo).getValue().getVariables(SymbolicMode.SYMBOLIC);
 		List<String> varStrings = new ArrayList<>();
 		if (varSet != null) {
 			for (GeoElement var : varSet) {
@@ -102,25 +123,28 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 
-	private static Suggestion getMulti(GeoElement geo, final String[] vars) {
+	private static Suggestion getMulti(GeoElement geo) {
+		String[] vars = getVariables((GeoSymbolic)geo);
 		List<GeoElementND> geos = new ArrayList<>();
 		geos.add(geo);
-		GeoElementND prev = getPrevious(geo, vars);
+		GeoElementND prev = getPrevious(geo);
 		while (prev != null) {
 			geos.add(prev);
-			prev  = isValid(prev) ? getPrevious(prev, getVariables((GeoSymbolic) prev))
+			prev  = isValid(prev) ? getPrevious(prev)
 					:null;
 		}
 		return new SuggestionSolveForSymbolic(geos, vars);
 	}
 
-	private static GeoElementND getPrevious(GeoElementND geo, final String[] vars) {
-		GeoElementND prev = geo.getConstruction().getPrevious(geo,
+	private static GeoElementND getPrevious(GeoElementND geo) {
+		final String[] vars = getVariables(geo);
+		final GeoElementND prev = geo.getConstruction().getPrevious(geo,
 				new Inspecting() {
 
 					@Override
 					public boolean check(ExpressionValue var) {
 						return isAlgebraEquation((GeoElement) var)
+								&& subset(getVariables((GeoSymbolic)var), vars)
 								&& !SuggestionSolve.checkDependentAlgo((GeoElement) var,
 								SINGLE_SOLVE, null);
 					}
