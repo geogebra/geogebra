@@ -682,16 +682,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void updatePerspValues() {
 
-		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
-		projectionMatrix.set(2, 1, 0);
-		projectionMatrix.set(3, 1, 0);
-		projectionMatrix.set(4, 1, 0);
-
-		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
-		projectionMatrix.set(3, 2, 0);
-		projectionMatrix.set(4, 2, 0);
-
 		// usually perspXZ and perspYZ are equal to 0 since left = -right and
 		// bottom = -top
 		perspXZ = (renderer.getRight() + renderer.getLeft())
@@ -701,6 +691,19 @@ public abstract class RendererImplShaders extends RendererImpl {
 				/ (renderer.eyeToScreenDistance[renderer.eye]
 						* renderer.getHeight());
 
+		// X row
+		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(1, 3, perspXZ);
+		projectionMatrix.set(1, 4, 0);
+
+		// Y row
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
+		projectionMatrix.set(2, 3, perspYZ);
+		projectionMatrix.set(2, 4, 0);
+
+		// Z row
 		double a;
 		double b;
 		final double dd = renderer.getVisibleDepth() / 2.0;
@@ -716,16 +719,16 @@ public abstract class RendererImplShaders extends RendererImpl {
 			a = -1 / dd;
 			b = dd / eye;
 		}
-
-		projectionMatrix.set(1, 3, perspXZ);
-		projectionMatrix.set(2, 3, perspYZ);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(3, 3, a);
+		projectionMatrix.set(3, 4, b);
+
+		// W row
+		projectionMatrix.set(4, 1, 0);
+		projectionMatrix.set(4, 2, 0);
 		projectionMatrix.set(4, 3,
 				-1.0 / renderer.eyeToScreenDistance[renderer.eye]);
-
-		projectionMatrix.set(1, 4, 0);
-		projectionMatrix.set(2, 4, 0);
-		projectionMatrix.set(3, 4, b);
 		projectionMatrix.set(4, 4, 1);
 
 	}
