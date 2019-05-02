@@ -2377,6 +2377,7 @@ var __giac = [ {},
 { cat:"NSolutions", cmd:"NSolutions(4 sin(x)^3 cos(x) -6cos(x)^2 sin(x))", result:"{-1.570796326795, -1.047197551197, 0, 1.047197551197, 1.570796326795, 3.14159265359}", round:"{-1.57, -1.05, 0, 1.05, 1.57, 3.14}", notes:"APPS-724" },
 { cat:"Solve", cmd:"Solve({0,-ao} + d (ro {cos(to),sin(to)}-{0,-ao}) - {e,bo},{d,e})", result:"{{d = (ao tan(to / 2)\u00B2 + ao + bo tan(to / 2)\u00B2 + bo) / (ao tan(to / 2)\u00B2 + ao + 2ro tan(to / 2)), e = (-ao ro tan(to / 2)\u00B2 + ao ro - bo ro tan(to / 2)\u00B2 + bo ro) / (ao tan(to / 2)\u00B2 + ao + 2ro tan(to / 2))}}", notes:"https://help.geogebra.org/topic/solve-winkelfunktionen" },
 { cat:"TrigCombine.1", cmd:"TrigCombine(((ao tan(to / 2)^2 + ao + bo tan(to / 2)^2 + bo) / (ao tan(to / 2)^2 + ao + 2ro tan(to / 2))))", result:"(ao + bo) / (ao + ro sin(to))", notes:"https://help.geogebra.org/topic/solve-winkelfunktionen" },
+{ cat:"Evaluate", cmd:"Evaluate[Vector[(x,y,z)] = Vector[(1,2,3)]]", result:"ggbvect((x, y, z)) = ggbvect((1, 2, 3))"},
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
