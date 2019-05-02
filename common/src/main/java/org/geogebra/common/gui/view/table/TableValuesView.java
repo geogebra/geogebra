@@ -86,12 +86,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void ensureHasLabel(GeoEvaluatable evaluatable) {
-		if (evaluatable instanceof GeoElement) {
-			GeoElement element = (GeoElement) evaluatable;
-			if (!labelController.hasLabel(element)) {
-				labelController.showLabel(element);
-			}
-		}
+		labelController.ensureHasLabel(evaluatable);
 	}
 
 	@Override
