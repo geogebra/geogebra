@@ -4622,7 +4622,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	private void setAlgebraDescriptionForDefined() {
-		if (LabelManager.isShowableLabel(label)) {
+		if (!LabelManager.isShowableLabel(label)) {
 			strAlgebraDescription = toValueStringMinimal(
 					StringTemplate.algebraTemplate);
 		} else {
