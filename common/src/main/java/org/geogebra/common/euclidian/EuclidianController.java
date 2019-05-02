@@ -8702,13 +8702,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			wrapMouseDraggedND(event, startCapture);
 		}
-		if (movedGeoPoint != null && (this.mode == EuclidianConstants.MODE_JOIN
-				|| this.mode == EuclidianConstants.MODE_SEGMENT
-				|| this.mode == EuclidianConstants.MODE_RAY
-				|| this.mode == EuclidianConstants.MODE_VECTOR
-				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
-				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+		if (movedGeoPoint != null && isModeCreatingObjectsByDrag()) {
 			// nothing was dragged
 			wrapMouseMoved(event);
 		}
@@ -12297,13 +12291,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		switchModeForMousePressedND(e);
 
-		if (this.selPoints() == 0 && (this.mode == EuclidianConstants.MODE_JOIN
-				|| this.mode == EuclidianConstants.MODE_SEGMENT
-				|| this.mode == EuclidianConstants.MODE_RAY
-				|| this.mode == EuclidianConstants.MODE_VECTOR
-				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
-				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON
+		if (this.selPoints() == 0 && (isModeCreatingObjectsByDrag()
 				|| this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS)) {
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
@@ -12332,6 +12320,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.updatePreview();
 			this.view.updatePreviewableForProcessMode();
 		}
+	}
+
+	private boolean isModeCreatingObjectsByDrag() {
+		return this.mode == EuclidianConstants.MODE_JOIN
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
+				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON;
 	}
 
 	/**
