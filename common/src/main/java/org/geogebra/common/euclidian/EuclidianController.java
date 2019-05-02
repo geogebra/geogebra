@@ -10276,6 +10276,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
+		if (getTextController() != null
+				&& getTextController().isEditing())  {
+			return;
+		}
 		// will be reset in wrapMouseReleased
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
