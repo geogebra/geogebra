@@ -2273,8 +2273,4 @@ public abstract class Renderer {
 	    return null;
     }
 
-    public double getARScaleFactor() {
-		return getARManager().getARScaleFactor();
-	}
-
 }

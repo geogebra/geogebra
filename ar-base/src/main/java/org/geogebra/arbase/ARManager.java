@@ -359,7 +359,4 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return null;
     }
 
-    public float getARScaleFactor() {
-        return mScaleFactor;
-    }
 }
