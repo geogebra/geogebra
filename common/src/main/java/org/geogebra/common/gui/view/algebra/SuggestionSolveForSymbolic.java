@@ -12,13 +12,14 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.scientific.LabelController;
 
 public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
 	private final List<GeoElementND> geos;
 	private final String[] vars;
-	public SuggestionSolveForSymbolic(List<GeoElementND> geos, String[] vars) {
+	private LabelController labelController = new LabelController();
+	private SuggestionSolveForSymbolic(List<GeoElementND> geos, String[] vars) {
 		super();
 		this.geos = geos;
 		this.vars = vars;
@@ -26,13 +27,26 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
 	@Override
 	protected void runCommands(GeoElementND geo) {
-		String command = getCommandText(geo);
-		Log.debug("!!! SolveCommand: " + command);
+		labelGeosIfNeeded();
+		labelIfNeeded(geo);
+		String command = getCommandText();
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 				command, false);
 	}
 
-	private String getCommandText(GeoElementND geo) {
+	private void labelGeosIfNeeded() {
+		for (int i = geos.size() - 1; i > 0; i--) {
+			labelIfNeeded(geos.get(i));
+		}
+	}
+
+	private void labelIfNeeded(GeoElementND geo) {
+		if (!geo.isAlgebraLabelVisible()) {
+			labelController.showLabel((GeoElement) geo);
+		}
+	}
+
+	private String getCommandText() {
 		StringBuilder sb = new StringBuilder();
 		String varList = getVariableList();
 		sb.append("Solve[");
@@ -124,7 +138,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
 
 	private static Suggestion getMulti(GeoElement geo) {
-		String[] vars = getVariables((GeoSymbolic)geo);
+		String[] vars = getVariables(geo);
 		List<GeoElementND> geos = new ArrayList<>();
 		geos.add(geo);
 		GeoElementND prev = getPrevious(geo);
@@ -138,7 +152,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
 	private static GeoElementND getPrevious(GeoElementND geo) {
 		final String[] vars = getVariables(geo);
-		final GeoElementND prev = geo.getConstruction().getPrevious(geo,
+		return geo.getConstruction().getPrevious(geo,
 				new Inspecting() {
 
 					@Override
@@ -149,6 +163,5 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 								SINGLE_SOLVE, null);
 					}
 				});
-		return prev;
 	}
 }
