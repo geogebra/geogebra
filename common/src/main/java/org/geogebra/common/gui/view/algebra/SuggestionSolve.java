@@ -44,10 +44,6 @@ public class SuggestionSolve extends Suggestion {
 			return null;
 		}
 
-		if (SuggestionSolveForSymbolic.isValid(geo)) {
-			return SuggestionSolveForSymbolic.get(geo);
-		}
-
 		if (Equation.isAlgebraEquation(geo)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars != null) {

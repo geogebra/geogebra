@@ -162,14 +162,12 @@ public class AlgebraItem {
 				.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 			return null;
 		}
-		Suggestion sug = null;
+
 		boolean casEnabled = geo.getKernel().getAlgebraProcessor().getCommandDispatcher()
 				.isCASAllowed();
 		if (casEnabled) {
-			sug = SuggestionSolve.get(geo);
-			if (sug != null) {
-				return sug;
-			}
+			return SuggestionSolveForSymbolic.isValid(geo) ? SuggestionSolveForSymbolic.get(geo)
+					: SuggestionSolve.get(geo);
 		}
 		return null;
 	}
