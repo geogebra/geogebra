@@ -758,25 +758,25 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void updateProjectionObliqueValues() {
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
-		projectionMatrix.set(2, 1, 0);
-		projectionMatrix.set(3, 1, 0);
-		projectionMatrix.set(4, 1, 0);
-
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
-		projectionMatrix.set(3, 2, 0);
-		projectionMatrix.set(4, 2, 0);
-
 		projectionMatrix.set(1, 3,
 				renderer.obliqueX * 2.0 / renderer.getWidth());
+		projectionMatrix.set(1, 4, 0);
+
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
 		projectionMatrix.set(2, 3,
 				renderer.obliqueY * 2.0 / renderer.getHeight());
-		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
-		projectionMatrix.set(4, 3, 0);
-
-		projectionMatrix.set(1, 4, 0);
 		projectionMatrix.set(2, 4, 0);
+
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
 		projectionMatrix.set(3, 4, 0);
+
+		projectionMatrix.set(4, 1, 0);
+		projectionMatrix.set(4, 2, 0);
+		projectionMatrix.set(4, 3, 0);
 		projectionMatrix.set(4, 4, 1);
 
 	}
