@@ -681,69 +681,62 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void updatePerspValues() {
-		projectionMatrix.set(1, 1,
-				2 * renderer.perspNear[renderer.eye]
-						/ (renderer.perspRight[renderer.eye]
-								- renderer.perspLeft[renderer.eye]));
+
+		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
 		projectionMatrix.set(4, 1, 0);
 
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2,
-				2 * renderer.perspNear[renderer.eye]
-						/ (renderer.perspTop[renderer.eye]
-								- renderer.perspBottom[renderer.eye]));
+		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
 		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(4, 2, 0);
 
-		perspXZ = (renderer.perspRight[renderer.eye]
-				+ renderer.perspLeft[renderer.eye])
-				/ (renderer.perspRight[renderer.eye]
-						- renderer.perspLeft[renderer.eye]);
+		// usually perspXZ and perspYZ are equal to 0 since left = -right and
+		// bottom = -top
+		perspXZ = (renderer.getRight() + renderer.getLeft())
+				/ (renderer.eyeToScreenDistance[renderer.eye]
+						* renderer.getWidth());
+		perspYZ = (renderer.getTop() + renderer.getBottom())
+				/ (renderer.eyeToScreenDistance[renderer.eye]
+						* renderer.getHeight());
 
-		projectionMatrix.set(1, 3, perspXZ);
-		perspYZ = (renderer.perspTop[renderer.eye]
-				+ renderer.perspBottom[renderer.eye])
-				/ (renderer.perspTop[renderer.eye]
-						- renderer.perspBottom[renderer.eye]);
-		projectionMatrix.set(2, 3, perspYZ);
-		double f = -renderer.eyeToScreenDistance[renderer.eye];
-		double w = renderer.getWidth();
 		double a;
 		double b;
-		if (w > -f) {
+		final double dd = renderer.getVisibleDepth() / 2.0;
+		final double eye = renderer.getEyeToScreenDistance();
+		if (dd > eye) {
 			// eye is too close
-			// z goes from 90% eye distance to w
-			double k = -0.9;
-			a = (f * k + 2 * f + w) / (f * k - w);
-			b = -(f * f * k + 2 * f * k * w + f * w) / (f * k - w);
+			// z goes from -visibleDepth / 2 (far) to 90% eye distance (near)
+			final double k = 0.9;
+			a = (eye * k - dd - 2 * eye) / ((dd + eye * k) * eye);
+			b = (eye * k - dd + 2 * dd * k) / (dd + eye * k);
 		} else {
-			// z goes from -w to w
-			a = f / w;
-			b = w;
+			// z goes from -visibleDepth / 2 (far) to visibleDepth / 2 (near)
+			a = -1 / dd;
+			b = dd / eye;
 		}
+
+		projectionMatrix.set(1, 3, perspXZ);
+		projectionMatrix.set(2, 3, perspYZ);
 		projectionMatrix.set(3, 3, a);
-		projectionMatrix.set(4, 3, -1);
+		projectionMatrix.set(4, 3,
+				-1.0 / renderer.eyeToScreenDistance[renderer.eye]);
 
 		projectionMatrix.set(1, 4, 0);
 		projectionMatrix.set(2, 4, 0);
 		projectionMatrix.set(3, 4, b);
-		projectionMatrix.set(4, 4, renderer.eyeToScreenDistance[renderer.eye]);
+		projectionMatrix.set(4, 4, 1);
 
 	}
 
 	@Override
 	public void updateGlassesValues() {
 		for (int i = 0; i < 2; i++) {
-			glassesXZ[i] = -2 * renderer.perspNear[i]
-					/ (renderer.eyeToScreenDistance[i]
-							* (renderer.perspRight[i] - renderer.perspLeft[i]))
-					* renderer.glassesEyeX[i];
-			glassesYZ[i] = -2 * renderer.perspNear[i]
-					/ (renderer.eyeToScreenDistance[i]
-							* (renderer.perspTop[i] - renderer.perspBottom[i]))
-					* renderer.glassesEyeY[i];
+			glassesXZ[i] = -2.0 * renderer.glassesEyeX[i]
+					/ (renderer.eyeToScreenDistance[i] * renderer.getWidth());
+			glassesYZ[i] = -2.0 * renderer.glassesEyeY[i]
+					/ (renderer.eyeToScreenDistance[i] * renderer.getHeight());
 		}
 	}
 
