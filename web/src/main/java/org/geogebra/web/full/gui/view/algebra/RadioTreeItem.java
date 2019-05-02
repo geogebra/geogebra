@@ -420,14 +420,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return suggestion or null if none available
 	 */
 	Suggestion getSuggestion(GeoElement geo1) {
-		return app.getArticleElement().getDataParamShowSuggestionButtons()
-				&& app.getArticleElement()
-						.getDataParamShowAlgebraInput(app.getArticleElement()
-								.getDataParamShowMenuBar(false))
-				&& controller.isEditing()
-						? AlgebraItem
-								.getSuggestions(geo1)
-						: null;
+		return null;
 	}
 
 	private void buildItemWithTwoRows() {
