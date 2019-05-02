@@ -650,7 +650,9 @@ public class ExamEnvironment {
 
 	/**
 	 * Enables/disables CAS commands.
+	 * 
 	 * @param casEnabled
+	 *            whether CAS is enabled
 	 */
 	public void setCasEnabled(boolean casEnabled) {
 		this.casEnabled = casEnabled;

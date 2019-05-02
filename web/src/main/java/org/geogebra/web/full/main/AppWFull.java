@@ -244,7 +244,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		startActivity();
 	}
 
-
 	private void setupHeader() {
 		GlobalHeader header = GlobalHeader.INSTANCE;
 		header.setApp(this);

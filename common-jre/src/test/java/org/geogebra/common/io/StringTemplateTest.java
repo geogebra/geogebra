@@ -54,10 +54,10 @@ public class StringTemplateTest {
 				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv);
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1E5; i++) {
 			sbm.append(minusNode.toValueString(StringTemplate.defaultTemplate));
 		}
-		Assert.assertTrue(System.currentTimeMillis() - l < 2000);
+		Assert.assertTrue(System.currentTimeMillis() - l < 5000);
 	}
 
 	@Test

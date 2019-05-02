@@ -1181,7 +1181,8 @@ public class InputController {
 		return false;
 	}
 
-	private boolean handleEndMathFunction(MathFunction mathFunction, EditorState editorState, char ch) {
+	private boolean handleEndMathFunction(MathFunction mathFunction,
+			EditorState editorState, char ch) {
 		if (Tag.ABS.equals(mathFunction.getName()) && ch == '|') {
 			return handleExit(editorState, ch);
 		}

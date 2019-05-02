@@ -211,7 +211,6 @@ public class CmdExportImage extends CmdScripting {
 				double dpcm = width / (widthRW * scaleCM);
 
 				dpi = (int) (dpcm * 2.54);
-
 			}
 
 			exportScale = width / viewWidth;
@@ -234,11 +233,6 @@ public class CmdExportImage extends CmdScripting {
 			// Log.debug("widthRW= " + widthRW);
 			// Log.debug("pixelWidth= " + pixelWidth);
 			exportScale = pixelWidth / viewWidth;
-			// Log.debug("\nEXPORT WIDTH:" + Math.round(dpcm) + ","
-			// + viewWidth
-			// + "," + widthRW
-			// + "," + scaleCM + "," + pixelWidth);
-
 		}
 
 		if (exportScale <= 0 || !MyDouble.isFinite(exportScale)) {
@@ -268,12 +262,9 @@ public class CmdExportImage extends CmdScripting {
 
 				if (label != null) {
 					addImageToConstruction(label, png, corner, corner2, false);
-
 				} else {
-
 					kernel.getApplication().handleImageExport(png);
 				}
-
 			}
 
 			break;
@@ -306,11 +297,8 @@ public class CmdExportImage extends CmdScripting {
 					filename == null ? "anim.webm" : filename, rotate);
 			break;
 		}
-		
 
-
-		GeoElement[] ret1 = {};
-		return ret1;
+		return new GeoElement[0];
 	}
 
 	private void addImageToConstruction(String label, String imageStr,
