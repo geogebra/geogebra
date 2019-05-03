@@ -4464,7 +4464,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (!isAlgebraLabelVisible()) {
 			String desc = getLaTeXDescriptionRHS(false,
 					StringTemplate.defaultTemplate);
-			if (desc != null) {
+			if (LabelManager.isShowableLabel(desc)) {
 				builder.clear();
 				builder.append(desc);
 				return builder.toString();
