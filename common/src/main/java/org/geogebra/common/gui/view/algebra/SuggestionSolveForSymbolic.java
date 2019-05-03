@@ -16,8 +16,7 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
 
-public class SuggestionSolveForSymbolic extends SuggestionSolve {
-
+public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	private static final int EQUATION_LIMIT = 4;
 	private final List<GeoElementND> geos;
 	private final String[] vars;
@@ -88,7 +87,10 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	private String getGeoList() {
 		if (geos.size() == 0) {
 			return "";
+		} else if (geos.size() == 1) {
+			return geos.get(0).getLabelSimple();
 		}
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		int lastIdx = geos.size() - 1;
@@ -144,7 +146,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static boolean isAlgebraEquation(GeoElementND geo) {
-		return  (isEquation(geo) && geo.getParentAlgorithm() == null
+		return  isEquation(geo) && (geo.getParentAlgorithm() == null
 				|| geo.getParentAlgorithm().getClassName() == Algos.Expression);
 	}
 
