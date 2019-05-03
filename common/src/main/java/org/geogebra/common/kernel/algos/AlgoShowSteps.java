@@ -83,7 +83,7 @@ public class AlgoShowSteps extends AlgoElement implements TableAlgo {
 					variable);
 
 			list.clear();
-			builder.buildStepGui(sb.getSteps());
+			builder.buildList(sb.getSteps());
 		} catch (Exception e) {
 			list.setUndefined();
 		}

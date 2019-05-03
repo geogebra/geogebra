@@ -25,6 +25,11 @@ public class SuggestionSolve extends Suggestion {
 		return loc.getMenu("Solve");
 	}
 
+	/**
+	 * @param geo
+	 *            last element
+	 * @return list of labels {previous equations, last element}
+	 */
 	public String getLabels(GeoElementND geo) {
 		if (labels == null || labels.length < 1) {
 			return geo.getLabelSimple();
@@ -39,6 +44,13 @@ public class SuggestionSolve extends Suggestion {
 				"Solve[" + getLabels(geo) + "]", false);
 	}
 
+	/**
+	 * Check if Solve is available for the geo and return suitable suggestion
+	 * 
+	 * @param geo
+	 *            construction element
+	 * @return suggestion if applicable
+	 */
 	public static Suggestion get(GeoElement geo) {
 		if (checkDependentAlgo(geo, SINGLE_SOLVE, null)) {
 			return null;
@@ -79,6 +91,13 @@ public class SuggestionSolve extends Suggestion {
 		return null;
 	}
 
+	/**
+	 * @param testSet
+	 *            potential subset
+	 * @param superset
+	 *            superset
+	 * @return whether potential subset is really a subset of superset
+	 */
 	public static boolean subset(String[] testSet, String[] superset) {
 		if (testSet.length < 1) {
 			return false;

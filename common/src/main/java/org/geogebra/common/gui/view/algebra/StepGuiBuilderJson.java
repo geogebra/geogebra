@@ -19,6 +19,10 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 	private Localization loc;
 	private JSONArray sb;
 
+	/**
+	 * @param loc
+	 *            localization
+	 */
 	public StepGuiBuilderJson(Localization loc) {
 		this.loc = loc;
 		sb = new JSONArray();
@@ -64,7 +68,7 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 	private static JSONArray toJSONArray(List<TextElement> list) throws JSONException {
 		JSONArray description = new JSONArray();
 		for (TextElement te : list) {
-			JSONObject obj= new JSONObject();
+			JSONObject obj = new JSONObject();
 
 			if (te.latex != null) {
 				obj.put("latex", te.latex);

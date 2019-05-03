@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
@@ -7,8 +9,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Localization;
-
-import java.util.List;
 
 public class StepGuiBuilderCmd {
 
@@ -18,13 +18,27 @@ public class StepGuiBuilderCmd {
 
 	private String lastRow;
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @param list
+	 *            output list
+	 * @param variable
+	 *            variable
+	 */
 	public StepGuiBuilderCmd(Localization loc, GeoList list, StepVariable variable) {
 		this.loc = loc;
 		this.list = list;
 		this.variable = variable;
 	}
 
-	public void buildStepGui(SolutionStep step) {
+	/**
+	 * Build list of step descriptions
+	 * 
+	 * @param step
+	 *            solution steps
+	 */
+	public void buildList(SolutionStep step) {
 		if (step.getType() == SolutionStepType.GROUP_WRAPPER) {
 			SolutionStep substep = step.getSubsteps().get(0);
 
@@ -37,7 +51,7 @@ public class StepGuiBuilderCmd {
 
 		if (step.getSubsteps() != null) {
 			for (SolutionStep substep : step.getSubsteps()) {
-				buildStepGui(substep);
+				buildList(substep);
 			}
 		}
 

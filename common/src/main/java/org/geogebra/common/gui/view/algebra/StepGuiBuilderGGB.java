@@ -19,6 +19,10 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 	private StringBuilder sb;
 	private Object lastDescrip;
 
+	/**
+	 * @param loc
+	 *            localization
+	 */
 	public StepGuiBuilderGGB(Localization loc) {
 		this.loc = loc;
 		sb = new StringBuilder();
@@ -68,7 +72,7 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 
 				// remove color
 				description = description.replaceAll(
-						"\\\\fgcolor\\{#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]\\}\\{(.*?)\\}",
+						"\\\\fgcolor\\{#......\\}\\{(.*?)\\}",
 						"\\{$1\\}");
 
 				Log.error(description);
@@ -106,7 +110,7 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 	 * remove braces to check equality eg "x" and "{x}"
 	 * 
 	 */
-	private String removeBraces(String s) {
+	private static String removeBraces(String s) {
 		return s.replaceAll("\\{", "").replaceAll("\\}", "");
 	}
 

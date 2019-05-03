@@ -21,6 +21,7 @@ import org.geogebra.common.util.DoubleUtil;
 public class SuggestionRootExtremum extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionRootExtremum();
+
 	@Override
 	public String getCommand(Localization loc) {
 		return loc.getMenu("Suggestion.SpecialPoints");
@@ -41,7 +42,7 @@ public class SuggestionRootExtremum extends Suggestion {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Extremum[" + geo.getLabelSimple() + "]", false);
 		}
-		if(neededAlgos[2]) {
+		if (neededAlgos[2]) {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Intersect[" + geo.getLabelSimple() + ","
 							+ geo.getKernel().getLocalization().getMenu("yAxis")
