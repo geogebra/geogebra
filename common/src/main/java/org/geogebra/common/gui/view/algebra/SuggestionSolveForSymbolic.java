@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.StringUtil;
 
 public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	private static final int EQUATION_LIMIT = 4;
@@ -26,10 +27,8 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		this.geos = geos;
 		this.vars = vars;
 	}
-	private SuggestionSolveForSymbolic(GeoElementND geo) {
-		super();
-		this.geos = Collections.singletonList(geo);
-		this.vars = null;
+	private SuggestionSolveForSymbolic(GeoElementND geo, String[] vars) {
+		this(Collections.singletonList(geo), vars);
 	}
 
 	@Override
@@ -73,13 +72,9 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		}
 
 		StringBuilder sb = new StringBuilder();
+		String varList = StringUtil.join(", ", vars);
 		sb.append("{");
-		int lastIdx = vars.length - 1;
-		for (int i=0; i < lastIdx;i++) {
-			sb.append(vars[i]);
-			sb.append(", ");
-		}
-		sb.append(vars[lastIdx]);
+		sb.append(varList);
 		sb.append("}");
 		return sb.toString();
 	}
@@ -87,20 +82,20 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	private String getGeoList() {
 		if (geos.size() == 0) {
 			return "";
-		} else if (geos.size() == 1) {
-			return geos.get(0).getLabelSimple();
 		}
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		int lastIdx = geos.size() - 1;
-		for (int i=0; i < lastIdx;i++) {
-			sb.append(geos.get(i).getLabelSimple());
-			sb.append(", ");
+		List<String> labels = new ArrayList<>();
+		for (GeoElementND geo: geos) {
+			labels.add(geo.getLabelSimple());
 		}
-		sb.append(geos.get(lastIdx).getLabelSimple());
-		sb.append("}");
-		return sb.toString();
+
+		if (labels.size() == 1) {
+			return labels.get(0);
+		}
+
+		return  "{" +
+				StringUtil.join(", ", labels) +
+				"}";
 	}
 
 	public static boolean isValid(GeoElementND geo) {
@@ -116,14 +111,12 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		String[] vars = getVariables(symbolic);
 		if (isAlgebraEquation(symbolic)) {
 			if (vars.length == 1) {
-				return new SuggestionSolveForSymbolic(geo);
+				return new SuggestionSolveForSymbolic(geo, vars);
 			} else {
 				return getMulti(symbolic);
 			}
 		}
-
 		return null;
-
 	}
 
 	private static String[] getVariables(GeoElementND geo) {
