@@ -284,7 +284,6 @@ public class GeoSymbolic extends GeoElement
 	 * Still called from multiple places, see APPS-801
 	 */
 	@Override
-	@Deprecated
 	public GeoFunction getGeoFunction() {
 		if (asFunction != null) {
 			return asFunction;
@@ -353,6 +352,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public boolean hasTableOfValues() {
-		return isRealValuedFunction();
+		GeoElementND twin = getTwinGeo();
+		return twin != null && twin.hasTableOfValues();
 	}
 }
