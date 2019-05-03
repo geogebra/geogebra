@@ -300,7 +300,7 @@ public class TextControllerW
 	}
 
 	@Override
-	public boolean handleTextReleased(boolean drag) {
+	public boolean handleTextReleased(boolean drag, int x, int y) {
 		if (!isTextHandlingMode()) {
 			return false;
 		}
@@ -318,6 +318,7 @@ public class TextControllerW
 				lastText.processEditMode();
 				if (lastText.isEditMode()) {
 					edit(lastText);
+					editor.moveCursor(x, y);
 				}
 			}
 			lastText = null;

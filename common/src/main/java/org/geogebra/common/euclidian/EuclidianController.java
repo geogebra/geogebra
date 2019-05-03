@@ -10289,7 +10289,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
 		}
 		if (getTextController() != null
-				&& getTextController().handleTextReleased(draggingOccured)
+				&& getTextController().handleTextReleased(draggingOccured,
+						event.getX(), event.getY())
 				&& !draggingOccured) {
 			ArrayList<GeoElement> elements = selection.getSelectedGeos();
 			if (elements.size() == 1) {

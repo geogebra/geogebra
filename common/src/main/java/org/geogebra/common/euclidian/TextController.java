@@ -49,7 +49,7 @@ public interface TextController {
 	 * 
 	 * @return true if release is handled.
 	 */
-	boolean handleTextReleased(boolean drag);
+	boolean handleTextReleased(boolean drag, int x, int y);
 
 	/**
 	 *

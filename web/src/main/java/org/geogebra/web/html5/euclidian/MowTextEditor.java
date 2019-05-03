@@ -6,10 +6,13 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.util.Persistable;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -191,5 +194,51 @@ public class MowTextEditor extends AdvancedFlowPanel
 	public void onMouseUp(MouseUpEvent event) {
 		event.stopPropagation();
 	}
+
+	public void moveCursor(int x, int y) {
+		try {
+			moveCursorNative(getElement(), x, y);
+		} catch (Exception e) {
+			Log.warn("Invalid cursor position");
+		}
+	}
+
+	private native void moveCursorNative(Element elTop, int x, int y)/*-{
+		var targetContainer = $doc.elementFromPoint(x, y);
+		var chars = targetContainer.innerText.split("");
+		var styled = [];
+		for (var k = 0; k < chars.length; k++) {
+			styled.push("<span data-char=" + k + ">" + chars[k] + "</span>");
+		}
+		var oldHTML = targetContainer.innerHTML;
+		targetContainer.innerHTML = styled.join("");
+		var targetNode = $doc.elementFromPoint(x, y);
+		var charIndex = parseInt(targetNode.getAttribute("data-char"));
+		targetContainer.innerHTML = oldHTML;
+
+		if (charIndex) {
+			this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
+					targetContainer.childNodes[0], charIndex);
+		} else {
+			var targetChildren;
+			// find the last node recursively
+			do {
+				targetChildren = targetElement.childNodes;
+				targetElement = targetChildren[targetChildren.length - 1];
+			} while (targetNode.nodeType == Element.ELEMENT_NODE);
+			this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
+				targetNode, targetNode.length);
+		}
+	}-*/;
+
+	private native void select(JavaScriptObject node, int index) /*-{
+		var range = $doc.createRange();
+		var sel = $wnd.getSelection();
+		range.setStart(node, index);
+		range.collapse(true);
+		sel.removeAllRanges();
+		sel.addRange(range);
+		targetContainer.focus();
+	}-*/;
 
 }
