@@ -3,12 +3,14 @@ package org.geogebra.common.kernel.arithmetic.variable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -89,17 +91,34 @@ public class VariableReplacerAlgorithm {
 
 		processPi();
 
+		double mult = Double.NaN;
+
 		if (nameNoX.length() > 0 && geo == null) {
-			return new Variable(kernel, nameNoX);
+
+			// eg pi8 (with Unicode pi)
+			if (StringUtil.isNumber(nameNoX)) {
+				mult = MyDouble.parseDouble(kernel.getLocalization(), nameNoX);
+			} else {
+				return new Variable(kernel, nameNoX);
+			}
 		}
 		ExpressionNode powers = productCreator.getXyzPowers(exponents);
+		ExpressionNode ret;
 		if (geo == null) {
-			return exponents.get(Base.pi) == 0 && degPower == 0 ? powers
+			ret = exponents.get(Base.pi) == 0 && degPower == 0 ? powers
 					: powers.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
-		}
-		return exponents.get(Base.pi) == 0 && degPower == 0 ? powers.multiply(geo)
+		} else {
+			ret = exponents.get(Base.pi) == 0 && degPower == 0
+					? powers.multiply(geo)
 				: powers.multiply(geo)
 				.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
+		}
+
+		if (MyDouble.isFinite(mult)) {
+			ret = ret.multiply(mult);
+		}
+
+		return ret;
 	}
 
 	private ExpressionValue processInReverse() {
