@@ -676,7 +676,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void viewPersp() {
 		// the projection matrix is updated in updatePerspValues()
-
 	}
 
 	@Override
@@ -708,10 +707,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 		double b;
 		final double dd = renderer.getVisibleDepth() / 2.0;
 		final double eye = renderer.getEyeToScreenDistance();
-		if (dd > eye) {
+		final double k = 0.9;
+		if (dd > k * eye) {
 			// eye is too close
 			// z goes from -visibleDepth / 2 (far) to 90% eye distance (near)
-			final double k = 0.9;
 			a = (eye * k - dd - 2 * eye) / ((dd + eye * k) * eye);
 			b = (eye * k - dd + 2 * dd * k) / (dd + eye * k);
 		} else {
@@ -747,7 +746,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void viewGlasses() {
 		projectionMatrix.set(1, 3, perspXZ + glassesXZ[renderer.eye]);
 		projectionMatrix.set(2, 3, perspYZ + glassesYZ[renderer.eye]);
-
 	}
 
 	@Override
