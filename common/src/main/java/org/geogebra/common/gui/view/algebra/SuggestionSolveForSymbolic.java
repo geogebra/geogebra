@@ -162,18 +162,17 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 		GeoElementND prev = geo;
 		while (prev != null && geos.size() < EQUATION_LIMIT) {
 			geos.add(prev);
-			prev  = isValid(prev) ? getPrevious(prev)
+			prev  = isValid(prev) ? getPrevious(prev, vars)
 					:null;
-		}
 
+	}
 		if (geos.size() == 1 && vars.length == 2) {
 			return null;
 		}
 		return new SuggestionSolveForSymbolic(geos, vars);
 	}
 
-	private static GeoElementND getPrevious(final GeoElementND geo) {
-		final String[] vars = getVariables(geo);
+	private static GeoElementND getPrevious(final GeoElementND geo, final String[] vars) {
 		return geo.getConstruction().getPrevious(geo,
 				new Inspecting() {
 
