@@ -22,11 +22,13 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	private final List<GeoElementND> geos;
 	private final String[] vars;
 	private LabelController labelController = new LabelController();
+
 	private SuggestionSolveForSymbolic(List<GeoElementND> geos, String[] vars) {
 		super();
 		this.geos = geos;
 		this.vars = vars;
 	}
+
 	private SuggestionSolveForSymbolic(GeoElementND geo, String[] vars) {
 		this(Collections.singletonList(geo), vars);
 	}
@@ -93,21 +95,26 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 			return labels.get(0);
 		}
 
-		return  "{" +
-				StringUtil.join(", ", labels) +
-				"}";
+		return  "{" + StringUtil.join(", ", labels) + "}";
 	}
 
 	public static boolean isValid(GeoElementND geo) {
 		return  isEquation(geo);
 	}
 
+	/**
+	 * Check if Solve is available for the geo and return suitable suggestion
+	 *
+	 * @param geo
+	 *            construction element
+	 * @return suggestion if applicable
+	 */
 	public static Suggestion get(GeoElement geo) {
 		if (!isValid(geo)) {
 			return null;
 		}
 
-		GeoSymbolic symbolic = (GeoSymbolic)geo;
+		GeoSymbolic symbolic = (GeoSymbolic) geo;
 		String[] vars = getVariables(symbolic);
 		if (isAlgebraEquation(symbolic)) {
 			if (vars.length == 1) {
@@ -124,11 +131,13 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 			return new String[0];
 		}
 
-		HashSet<GeoElement> varSet = ((GeoSymbolic)geo).getValue().getVariables(SymbolicMode.SYMBOLIC);
+		HashSet<GeoElement> varSet = ((GeoSymbolic) geo).getValue()
+				.getVariables(SymbolicMode.SYMBOLIC);
 		List<String> varStrings = new ArrayList<>();
 		if (varSet != null) {
 			for (GeoElement var : varSet) {
-				String varName = (var instanceof GeoDummyVariable) ? ((GeoDummyVariable)var).getVarName()
+				String varName = var instanceof GeoDummyVariable
+						? ((GeoDummyVariable) var).getVarName()
 						: var.getLabelSimple();
 				if (!varStrings.contains(varName)) {
 					varStrings.add(varName);
@@ -147,9 +156,8 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		if (!(geo instanceof GeoSymbolic)) {
 			return false;
 		}
-		return ((GeoSymbolic)geo).getValue().unwrap() instanceof Equation;
+		return ((GeoSymbolic) geo).getValue().unwrap() instanceof Equation;
 	}
-
 
 	private static Suggestion getMulti(GeoElement geo) {
 		String[] vars = getVariables(geo);
@@ -158,7 +166,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		while (prev != null && geos.size() < EQUATION_LIMIT) {
 			geos.add(prev);
 			prev  = isValid(prev) ? getPrevious(prev, vars)
-					:null;
+					: null;
 
 	}
 		if (geos.size() == 1 && vars.length == 2) {
@@ -174,7 +182,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 					@Override
 					public boolean check(ExpressionValue var) {
 						return isAlgebraEquation((GeoElement) var)
-								&& subset(getVariables((GeoSymbolic)var), vars)
+								&& subset(getVariables((GeoSymbolic) var), vars)
 								&& !SuggestionSolve.checkDependentAlgo((GeoElement) var,
 								SINGLE_SOLVE, null);
 					}
