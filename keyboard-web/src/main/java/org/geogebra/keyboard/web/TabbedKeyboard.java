@@ -500,7 +500,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					"altText.Fraction");
 		} else if (resourceName.equals(Resource.INVERSE.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.inverse(), "^-1", bh, false,
+					KeyboardResources.INSTANCE.inverse(), Unicode.SUPERSCRIPT_MINUS_ONE_STRING, bh, false,
 					loc, "altText.Inverse");
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(

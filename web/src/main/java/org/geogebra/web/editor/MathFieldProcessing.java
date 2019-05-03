@@ -74,7 +74,12 @@ public class MathFieldProcessing implements KeyboardListener {
 			type("2");
 			mf.getKeyListener().onKeyPressed(
 					new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
-		} else if ((Unicode.DIVIDE + "").equals(text)) {
+		} else if (text.equals(Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "")) {
+		mf.insertFunction("^");
+		type("-1");
+		mf.getKeyListener().onKeyPressed(
+				new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
+	} else if ((Unicode.DIVIDE + "").equals(text)) {
 			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
 			mf.insertFunction("sqrt");
