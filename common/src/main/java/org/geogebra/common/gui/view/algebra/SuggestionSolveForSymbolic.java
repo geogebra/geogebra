@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.debug.Log;
 
 public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
@@ -36,7 +35,6 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	protected void runCommands(GeoElementND geo) {
 		labelGeosIfNeeded();
 		String command = getCommandText();
-		Log.debug("!!! Command: " + command);
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 				command, false);
 	}
@@ -102,7 +100,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	public static boolean isValid(GeoElementND geo) {
-		return geo instanceof GeoSymbolic;
+		return geo instanceof GeoSymbolic && hasEqualSign(geo);
 	}
 
 	public static Suggestion get(GeoElement geo) {
@@ -144,8 +142,12 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static boolean isAlgebraEquation(GeoElementND geo) {
-		return  (geo.getParentAlgorithm() == null
+		return  (hasEqualSign(geo) && geo.getParentAlgorithm() == null
 				|| geo.getParentAlgorithm().getClassName() == Algos.Expression);
+	}
+
+	private static boolean hasEqualSign(GeoElementND geo) {
+		return ((GeoSymbolic)geo).getAlgebraDescriptionDefault().contains("=");
 	}
 
 
