@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -17,6 +18,7 @@ import org.geogebra.common.scientific.LabelController;
 
 public class SuggestionSolveForSymbolic extends SuggestionSolve {
 
+	private static final int EQUATION_LIMIT = 4;
 	private final List<GeoElementND> geos;
 	private final String[] vars;
 	private LabelController labelController = new LabelController();
@@ -100,7 +102,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	public static boolean isValid(GeoElementND geo) {
-		return geo instanceof GeoSymbolic && hasEqualSign(geo);
+		return  isEquation(geo);
 	}
 
 	public static Suggestion get(GeoElement geo) {
@@ -142,12 +144,15 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static boolean isAlgebraEquation(GeoElementND geo) {
-		return  (hasEqualSign(geo) && geo.getParentAlgorithm() == null
+		return  (isEquation(geo) && geo.getParentAlgorithm() == null
 				|| geo.getParentAlgorithm().getClassName() == Algos.Expression);
 	}
 
-	private static boolean hasEqualSign(GeoElementND geo) {
-		return ((GeoSymbolic)geo).getAlgebraDescriptionDefault().contains("=");
+	private static boolean isEquation(GeoElementND geo) {
+		if (!(geo instanceof GeoSymbolic)) {
+			return false;
+		}
+		return ((GeoSymbolic)geo).getValue().unwrap() instanceof Equation;
 	}
 
 
@@ -155,7 +160,7 @@ public class SuggestionSolveForSymbolic extends SuggestionSolve {
 		String[] vars = getVariables(geo);
 		List<GeoElementND> geos = new ArrayList<>();
 		GeoElementND prev = geo;
-		while (prev != null) {
+		while (prev != null && geos.size() < EQUATION_LIMIT) {
 			geos.add(prev);
 			prev  = isValid(prev) ? getPrevious(prev)
 					:null;
