@@ -4765,7 +4765,8 @@ public abstract class GeoElement extends ConstructionElement
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
 
-		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, true);
+		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl,
+				isAlgebraLabelVisible());
 	}
 
 	/**
