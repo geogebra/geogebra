@@ -186,7 +186,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		if (!ExtendedBoolean.UNKNOWN.equals(result)) {
 			Boolean unreadable = false;
 
-			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
+			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE || proofresult == ProofResult.TRUE_ON_COMPONENTS) {
 				unreadable = true;
 			}
 

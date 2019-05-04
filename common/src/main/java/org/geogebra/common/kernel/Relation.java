@@ -150,7 +150,7 @@ public class Relation {
 						rel.setInfo(rel.getInfo() + "</b>");
 					} else {
 						int ndgs = ndgResult.length;
-						if ((ndgs == 2) && ((Unicode.ELLIPSIS + "")
+						if ((ndgs == 2) && !("2".equals(ndgResult[0])) && ((Unicode.ELLIPSIS + "")
 								.equals(ndgResult[1]))) {
 							// Formerly UnderCertainConditionsA
 							rel.setInfo(rel.getInfo()
