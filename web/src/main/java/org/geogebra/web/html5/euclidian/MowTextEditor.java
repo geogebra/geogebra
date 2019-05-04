@@ -27,8 +27,8 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
  * @author laszlo
  *
  */
-public class MowTextEditor extends AdvancedFlowPanel
-		implements Persistable, MouseUpHandler, MouseDownHandler, MouseMoveHandler {
+public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
+		MouseUpHandler, MouseDownHandler, MouseMoveHandler {
 	private GRectangle bounds;
 
 	/**
@@ -151,7 +151,8 @@ public class MowTextEditor extends AdvancedFlowPanel
 			return;
 		}
 
-		getWidget().getElement().getStyle().setProperty("color", GColor.getColorString(color));
+		getWidget().getElement().getStyle().setProperty("color",
+				GColor.getColorString(color));
 
 	}
 
@@ -195,6 +196,13 @@ public class MowTextEditor extends AdvancedFlowPanel
 		event.stopPropagation();
 	}
 
+	/**
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 */
 	public void moveCursor(int x, int y) {
 		try {
 			moveCursorNative(getElement(), x, y);
