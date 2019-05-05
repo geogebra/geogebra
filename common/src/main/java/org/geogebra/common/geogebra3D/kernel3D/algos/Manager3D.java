@@ -2331,7 +2331,7 @@ public class Manager3D implements Manager3DInterface {
 															// default
 															// orientation for
 															// 2D objects
-			return kernel.getAlgoDispatcher().lineBisector(null,
+			return kernel.getAlgoDispatcher().lineBisector(label,
 					(GeoSegment) segment);
 		}
 
