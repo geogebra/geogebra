@@ -7032,6 +7032,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 
   gen try_limit_undef(const gen & f,const identificateur & x,const gen & x0,int direction,GIAC_CONTEXT){
     gen res;
+    //COUT << "try_limit_undef " << f << " " << x << "=" << x0 << endl;
 #ifdef NO_STDEXCEPT
     res=limit(f,x,x0,direction,contextptr);
     if (res.type==_STRNG)

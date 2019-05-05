@@ -5276,7 +5276,7 @@ namespace giac {
     gen b(b0);
     if (b0.type==_VECT && b0.subtype==_SEQ__VECT && b0._VECTptr->size()==1)
       b=b0._VECTptr->front();
-    if (a.type==_INT_ && a.subtype==_INT_MAPLECONVERSION && a.val==_MAPLE_LIST || a== _SET__VECT)
+    if (a.type==_INT_ && a.subtype==_INT_MAPLECONVERSION && (a.val==_MAPLE_LIST || a== _SET__VECT))
       return symbolic(at_convert,makesequence(gen2vecteur(b),a));
     if (a.type<_IDNT || a.type==_FLOAT_){
       if (!warn_implicit(a,b,contextptr))
@@ -5763,7 +5763,7 @@ namespace giac {
       return args;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
     if (itend==it)
-      return gendimerr(contextptr);
+      return undef;//gendimerr(contextptr);
     if (itend-it==1)
       return _max(*it,contextptr);
     if (ckmatrix(args)){

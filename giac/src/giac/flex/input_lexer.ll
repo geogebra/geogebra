@@ -382,6 +382,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "halfline["         (*yylval) = _HALFLINE__VECT; return T_VECT_DISPATCH;
 "poly1["            (*yylval) = _POLY1__VECT; return T_VECT_DISPATCH;
 "assume["           (*yylval) = _ASSUME__VECT; return T_VECT_DISPATCH;
+"logo["           (*yylval) = _LOGO__VECT; return T_VECT_DISPATCH;
 "spreadsheet["      (*yylval) = _SPREAD__VECT; return T_VECT_DISPATCH;
 "folder["      (*yylval) = _FOLDER__VECT; return T_VECT_DISPATCH;
 "polyedre["      (*yylval) = _POLYEDRE__VECT; return T_VECT_DISPATCH;
