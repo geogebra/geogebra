@@ -3873,6 +3873,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         case G3D_AR_LABELS_POSITION:
             return prerelease;
 
+		/** G3D-249 */
+		case G3D_AR_EXTRUSION_TOOL:
+			return prerelease;
+
         // **********************************************************************
         // G3D END
         //
