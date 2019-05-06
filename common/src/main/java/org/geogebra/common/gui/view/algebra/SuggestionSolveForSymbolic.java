@@ -163,15 +163,19 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		String[] vars = getVariables(geo);
 		List<GeoElementND> geos = new ArrayList<>();
 		GeoElementND prev = geo;
+		if (vars.length < 1 || vars.length > EQUATION_LIMIT) {
+			return null;
+		}
 		while (prev != null && geos.size() < EQUATION_LIMIT) {
 			geos.add(prev);
 			prev  = isValid(prev) ? getPrevious(prev, vars)
 					: null;
 
-	}
-		if (geos.size() == 1 && vars.length == 2) {
+		}
+		if (geos.size() != vars.length) {
 			return null;
 		}
+
 		return new SuggestionSolveForSymbolic(geos, vars);
 	}
 
