@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -111,7 +112,11 @@ public class EuclidianController3DCompanion
 						|| (ec.movedGeoPoint
 								.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
 								&& ec3D.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
-					moveAlongZAxis(movedGeoPoint3D);
+                    if (!ec.isTemporaryMode()
+                            || ec.getElapsedTimeFromLastMousePressed() >
+                            EuclidianConstants.DRAGGING_DELAY_FOR_MOVING_CREATED_POINT_ALONG_Z) {
+                        moveAlongZAxis(movedGeoPoint3D);
+                    }
 
 				} else {
 

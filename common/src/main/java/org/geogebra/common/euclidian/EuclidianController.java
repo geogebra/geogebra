@@ -12816,4 +12816,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
     public void setLastMousePressedTime(long time) {
         lastMousePressedTime = time;
     }
+
+    public long getElapsedTimeFromLastMousePressed() {
+        return System.currentTimeMillis() - lastMousePressedTime;
+    }
 }

@@ -3541,10 +3541,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean viewHasHitsForMouseDragged() {
-		if (moveMode == MOVE_POINT && view3D
-				.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY) {
-			// if a point is under the mouse, don't try to find another hit
-			return getView().getHits().containsGeoPoint();
+		if (moveMode == MOVE_POINT
+                && (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY
+                || view3D.isAREnabled())) {
+			// if already a point moved, or
+		    // if a point is under the mouse, don't try to find another hit
+			return movedGeoPoint != null || getView().getHits().containsGeoPoint();
 		}
 
 		Hits hits = getView().getHits();
