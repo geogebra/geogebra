@@ -238,6 +238,10 @@ public class GeoSymbolic extends GeoElement
 			twinGeo = newTwin == null ? null : newTwin.toGeoElement();
 		}
 		twinUpToDate = true;
+
+		if(twinGeo != null) {
+			super.setEuclidianVisible(twinGeo.isEuclidianVisible());
+		}
 		return twinGeo;
 	}
 
