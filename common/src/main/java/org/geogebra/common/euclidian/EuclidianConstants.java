@@ -429,7 +429,7 @@ public final class EuclidianConstants {
 	public static final long DRAGGING_DELAY = 100;
     /** ignore drag until this many miliseconds after drag start, for moving created point along
      * z axis */
-    public static final long DRAGGING_DELAY_FOR_MOVING_CREATED_POINT_ALONG_Z = 200;
+    public static final long DRAGGING_DELAY_FOR_MOVING_POINT_ALONG_Z = 200;
 	/** default size of delete tool rectangle in pixels */
 	public static final int DEFAULT_ERASER_SIZE = 20;
 	/** line thickness for pen (mow) */

@@ -12,10 +12,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -44,7 +44,7 @@ public class EuclidianController3DCompanion
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
 	/** precision in Z */
-    static final private double AR_ROUNDING_PRECISION_PERCENTAGE = 10.0 / 100.0;
+	static final private double AR_ROUNDING_PRECISION_PERCENTAGE = 10.0 / 100.0;
 
 	/**
 	 * constructor
@@ -112,16 +112,13 @@ public class EuclidianController3DCompanion
 						|| (ec.movedGeoPoint
 								.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
 								&& ec3D.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
-                    if (!ec.isTemporaryMode()
-                            || ec.getElapsedTimeFromLastMousePressed() >
-                            EuclidianConstants.DRAGGING_DELAY_FOR_MOVING_CREATED_POINT_ALONG_Z) {
-                        moveAlongZAxis(movedGeoPoint3D);
-                    }
-
+					long maxDelay = EuclidianConstants.DRAGGING_DELAY_FOR_MOVING_POINT_ALONG_Z;
+					if (!ec.isTemporaryMode() || ec
+							.getElapsedTimeFromLastMousePressed() > maxDelay) {
+						moveAlongZAxis(movedGeoPoint3D);
+					}
 				} else {
-
 					ec3D.movePointOnCurrentPlane(movedGeoPoint3D, false);
-
 				}
 
 				// update point decorations
@@ -155,15 +152,10 @@ public class EuclidianController3DCompanion
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
 			ec3D.view3D.getHittingDirection(tmpCoordsForDirection);
+			// TODO use current region instead of identity
 			tmpCoordsForOrigin.projectPlaneThruVIfPossible(
 					CoordMatrix4x4.IDENTITY, tmpCoordsForDirection,
-					tmpCoords1, tmpCoords2); // TODO
-												// use
-												// current
-												// region
-												// instead
-												// of
-												// identity
+					tmpCoords1, tmpCoords2);
 
 			// capturing points
 			checkPointCapturingXY(tmpCoords2);

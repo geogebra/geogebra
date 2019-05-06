@@ -87,6 +87,9 @@ public class FontSettingsUpdater {
 				app.getEuclidianView2(1).updateFonts();
 			}
 		}
+		if (app.getCompanion() != null) {
+			app.getCompanion().updateFonts3D();
+		}
 	}
 
 	/**

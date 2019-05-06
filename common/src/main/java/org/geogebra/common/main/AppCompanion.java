@@ -248,4 +248,8 @@ public class AppCompanion {
 		// implemented in App3DCompanion
 	}
 
+	public void updateFonts3D() {
+		// no 3D views to update fonts
+	}
+
 }
