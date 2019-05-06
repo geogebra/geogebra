@@ -173,7 +173,8 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 				// sets the top face to be handled
 				((EuclidianController3D) getView3D().getEuclidianController())
 						.setHandledGeo(
-								extrusionComputer.getAlgo().getGeoToHandle());
+								extrusionComputer.getAlgo().getGeoToHandle(),
+								basis);
 
 				// ensure correct drawing of visible parts of the previewable
 				extrusionComputer.getAlgo()

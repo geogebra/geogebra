@@ -1,5 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
@@ -21,12 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Map.Entry;
-import java.util.TreeSet;
 
 /**
  * 3D representation of a {@link GeoElement3D}
@@ -1714,6 +1714,14 @@ public abstract class Drawable3D extends DrawableND {
         }
 
 		// Log.debug("\n"+getGeoElement()+" : \n"+zNear+"\n"+zFar);
+	}
+
+	/**
+	 * 
+	 * @return position on hitting ray
+	 */
+	public double getPositionOnHitting() {
+		return -(zPickNear + zPickFar) / 2.0;
 	}
 
 	/**

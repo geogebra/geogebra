@@ -150,7 +150,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	static final public int ANGLE_MAX = 90;
 	private EuclidianController3DCompanion companion3D;
 	private boolean lastGetNewPointWasExistingPoint = false;
-	private GeoElement handledGeo;
+	private GeoElement handledGeo, handledGeoSource;
 
 	private Coords startPoint3D = new Coords(0, 0, 0, 1);
 	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
@@ -3531,11 +3531,24 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            handled geo
 	 */
 	public void setHandledGeo(GeoElement geo) {
+		setHandledGeo(geo, null);
+	}
+
+	/**
+	 * sets the geo as an handled geo (for previewables) and source of the move
+	 * 
+	 * @param geo
+	 *            handled geo
+	 * @param source
+	 *            handled geo source
+	 */
+	public void setHandledGeo(GeoElement geo, GeoElement source) {
 		handledGeo = geo;
 		if (handledGeo == null) {
+			handledGeoSource = null;
 			return;
 		}
-		setStartPointLocation();
+		setStartPointLocation(source);
 		handledGeo.recordChangeableCoordParentNumbers(view3D);
 	}
 
@@ -3597,8 +3610,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void setStartPointLocation() {
-		udpateStartPoint();
+		setStartPointLocation(movedGeoElement);
+	}
 
+	/**
+	 * set start point location with handled geo source
+	 * 
+	 * @param source
+	 */
+	public void setStartPointLocation(GeoElement source) {
+		udpateStartPoint(source);
 		super.setStartPointLocation();
 	}
 
@@ -3606,13 +3627,33 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * update start point to current mouse coords
 	 */
 	protected void udpateStartPoint() {
+		updateStartPoint(null);
+	}
+
+	/**
+	 * update start point to current mouse coords
+	 * 
+	 * @param source
+	 *            source geo for start
+	 */
+	protected void udpateStartPoint(GeoElement source) {
+		handledGeoSource = source;
 		if (mouseLoc == null) {
 			return;
 		}
+		
+		// Drawable3D d = (Drawable3D) view3D.getDrawableND(handledGeoSource);
+		// double distance = d.getPositionOnHitting();
+		// Log.debug("distance = " + distance);
+		// Coords dir = new Coords(4);
+		// view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+		// view3D.getHittingDirection(dir);
+		// tmpCoordsForOrigin.addInsideMul(dir, distance);
+		// Log.debug("hit: " + tmpCoordsForOrigin);
 
-		view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
+		view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin); // remove this
+		
 		updateStartPoint(tmpCoordsForOrigin);
-
 	}
 
 	/**
