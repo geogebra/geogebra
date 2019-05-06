@@ -111,7 +111,7 @@ public class KeyboardSwitcher extends FlowPanel {
         add(closeButton);
     }
 
-	protected void addMoreButton() {
+	protected final void addMoreButton() {
         Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
                 .getSafeUri().asString());
         img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));

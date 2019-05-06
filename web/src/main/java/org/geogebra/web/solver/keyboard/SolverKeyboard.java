@@ -1,6 +1,5 @@
 package org.geogebra.web.solver.keyboard;
 
-import org.geogebra.common.main.App;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyboardSwitcher;
 import org.geogebra.keyboard.web.TabbedKeyboard;
@@ -9,18 +8,12 @@ import org.geogebra.web.html5.util.CSSAnimation;
 public class SolverKeyboard extends TabbedKeyboard {
 
 	/**
-	 * @param app
-	 *            application
 	 * @param appKeyboard
 	 *            keyboard context
 	 */
-    public SolverKeyboard(App app, HasKeyboard appKeyboard) {
-		super(app, appKeyboard, false);
+	public SolverKeyboard(HasKeyboard appKeyboard) {
+		super(appKeyboard, false, false);
         switcher = new KeyboardSwitcher(this) {
-            @Override
-            public void addMoreButton() {
-                //don't!
-            }
 
             @Override
             public void addCloseButton() {

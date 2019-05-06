@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
@@ -64,13 +63,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	/**
 	 * application
 	 */
-	protected App app;
 	protected HasKeyboard hasKeyboard;
 	private ArrayList<Keyboard> layouts = new ArrayList<>(4);
 	private Object keyboardLocale;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	protected KeyboardListener processField;
-	protected FlowPanel tabs;
+	private FlowPanel tabs;
 	protected KeyboardSwitcher switcher;
 	/**
 	 * true if keyboard wanted
@@ -78,23 +76,24 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	protected boolean keyboardWanted = false;
 	private boolean scientific;
 	private ButtonRepeater repeater;
+	private boolean showMoreButton;
 
 	/**
-	 * @param app
-	 *            application
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
 	 * @param scientific
 	 *            whether to use scientific layout
+	 * @param showMoreButton
+	 *            whether to show help button
 	 */
-	public TabbedKeyboard(App app, HasKeyboard appKeyboard,
-			boolean scientific) {
-		this.app = app;
+	public TabbedKeyboard(HasKeyboard appKeyboard,
+			boolean scientific, boolean showMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 		this.switcher = new KeyboardSwitcher(this);
 		this.scientific = scientific;
+		this.showMoreButton = showMoreButton;
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				this);
 		tabs.add(keyboard);
 		// more button must be first because of float (Firefox)
-		if (app.getConfig().showKeyboardHelpButton()) {
+		if (showMoreButton) {
 			switcher.addMoreButton();
 		}
 		switcher.addSwitch(keyboard, "123");
@@ -469,7 +468,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 
 	private KeyBoardButtonBase functionButton(WeightedButton button,
 			ButtonHandler bh) {
-		Localization loc = app.getLocalization();
+		Localization loc = hasKeyboard.getLocalization();
 		String resourceName = button.getResourceName();
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
 			return new KeyBoardButtonFunctionalBase(
@@ -500,7 +499,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					"altText.Fraction");
 		} else if (resourceName.equals(Resource.INVERSE.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.inverse(), Unicode.SUPERSCRIPT_MINUS_ONE_STRING, bh, false,
+					KeyboardResources.INSTANCE.inverse(),
+					Unicode.SUPERSCRIPT_MINUS_ONE_STRING, bh, false, 
 					loc, "altText.Inverse");
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(

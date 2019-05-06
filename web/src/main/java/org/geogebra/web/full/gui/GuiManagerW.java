@@ -2184,7 +2184,8 @@ public class GuiManagerW extends GuiManager
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
 			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
-					app.getConfig().hasScientificKeyboard());
+					app.getConfig().hasScientificKeyboard(),
+					app.getConfig().showKeyboardHelpButton());
 		}
 
 		if (textField != null) {

@@ -93,7 +93,7 @@ public class Solver {
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
 
-		keyboard = new SolverKeyboard(app, app);
+		keyboard = new SolverKeyboard(app);
 
 		editorFocusPanel.setStyleName("editorFocusPanel");
 		editorFocusPanel.add(mathField.asWidget());
