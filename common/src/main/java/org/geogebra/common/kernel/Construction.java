@@ -834,12 +834,6 @@ public class Construction {
 				&& ce.getMinConstructionIndex() <= toIndex
 				&& toIndex <= ce.getMaxConstructionIndex();
 		if (change) {
-
-			if (ce instanceof GeoElement) {
-				// TODO: update Algebra View
-				Log.debug("TODO: update Algebra View");
-			}
-
 			// move the construction element
 			ceList.remove(fromIndex);
 			ceList.add(toIndex, ce);
@@ -1556,6 +1550,10 @@ public class Construction {
 
 			// make sure b=a+1 also updates
 			AlgoElement.updateCascadeAlgos(ae);
+			if (updateConstructionOrder(oldGeo, newGeo)) {
+				kernel.notifyRemove(oldGeo);
+				kernel.notifyAdd(oldGeo);
+			}
 			// repaint here to make sure #4114 is OK
 			kernel.notifyRepaint();
 			return;
@@ -2418,9 +2416,11 @@ public class Construction {
 
 	/**
 	 * Moves all predecessors of newGeo (i.e. all objects that newGeo depends
-	 * upon) to the left of oldGeo in the construction list
+	 * upon) to the left of oldGeo in the construction list.
+	 *
+	 * @return true if construction order has changed
 	 */
-	private void updateConstructionOrder(GeoElement oldGeo, GeoElement newGeo) {
+	private boolean updateConstructionOrder(GeoElement oldGeo, GeoElement newGeo) {
 		TreeSet<GeoElement> predSet = newGeo.getAllPredecessors();
 
 		// check if moving is needed
@@ -2436,22 +2436,25 @@ public class Construction {
 
 		// no reordering is needed
 		if (oldGeo.getConstructionIndex() > maxPredIndex) {
-			return;
+			return false;
 		}
 
 		// reordering is needed
 		// move all predecessors of newGeo (i.e. all objects that geo depends
 		// upon) as far as possible to the left in the construction list
+		boolean changed = false;
 		for (GeoElement pred : predSet) {
-			moveInConstructionList(pred, pred.getMinConstructionIndex());
+			changed |= moveInConstructionList(pred, pred.getMinConstructionIndex());
 		}
 
 		// move newGeo to the left as well (important if newGeo already existed
 		// in construction)
-		moveInConstructionList(newGeo, newGeo.getMinConstructionIndex());
+		changed |= moveInConstructionList(newGeo, newGeo.getMinConstructionIndex());
 
 		// move oldGeo to its maximum construction index
-		moveInConstructionList(oldGeo, oldGeo.getMaxConstructionIndex());
+		changed |= moveInConstructionList(oldGeo, oldGeo.getMaxConstructionIndex());
+
+		return changed;
 	}
 
 	/**
