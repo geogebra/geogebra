@@ -322,6 +322,7 @@ public class ExamDialog implements ClickHandler {
 	}
 
 	private void onCasChecked() {
+		app.getSettings().getCasSettings().setEnabled(cas.getValue());
 		app.getExam().setCasEnabled(cas.getValue());
 		app.getGuiManager().updateToolbarActions();
 	}
