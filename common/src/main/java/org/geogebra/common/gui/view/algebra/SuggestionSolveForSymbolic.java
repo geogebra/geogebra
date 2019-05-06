@@ -166,7 +166,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		if (vars.length < 1 || vars.length > EQUATION_LIMIT) {
 			return null;
 		}
-		while (prev != null && geos.size() < EQUATION_LIMIT) {
+		while (prev != null && geos.size() < vars.length) {
 			geos.add(prev);
 			prev  = isValid(prev) ? getPrevious(prev, vars)
 					: null;
