@@ -1108,10 +1108,9 @@ public class InputController {
 				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL && ch != '"') {
 			deleteSelection(editorState);
 		}
-		MetaModel meta = editorState.getMetaModel();
-
 		boolean handled = handleEndBlocks(editorState, ch);
 
+		MetaModel meta = editorState.getMetaModel();
 		if (!handled) {
 			if (meta.isArrayCloseKey(ch)) {
 				endField(editorState, ch);
@@ -1162,7 +1161,6 @@ public class InputController {
 	}
 
 	private boolean handleEndBlocks(EditorState editorState, char ch) {
-		// special case: '|' to end abs() block
 		MathContainer parent = editorState.getCurrentField().getParent();
 		if (editorState.getSelectionStart() == null) {
 			if (parent instanceof MathArray) {
@@ -1184,7 +1182,16 @@ public class InputController {
 	private boolean handleEndMathFunction(MathFunction mathFunction,
 			EditorState editorState, char ch) {
 		if (Tag.ABS.equals(mathFunction.getName()) && ch == '|') {
-			return handleExit(editorState, ch);
+			MathSequence currentField = editorState.getCurrentField();
+			int offset = editorState.getCurrentOffset();
+			MathComponent prevArg = currentField.getArgument(offset - 1);
+
+			// check for eg * + -
+			boolean isOperation = prevArg != null && mathField.getMetaModel()
+					.isOperator(prevArg + "");
+			if (!isOperation) {
+				return handleExit(editorState, ch);
+			}
 		}
 		return false;
 	}
