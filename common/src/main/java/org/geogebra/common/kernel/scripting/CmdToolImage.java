@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -14,11 +14,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * ToolImage
  */
-public class CmdToolImage extends CommandProcessor {
+public class CmdToolImage extends CmdScripting {
 	/**
 	 * Create new command processor
 	 * 
@@ -30,7 +31,7 @@ public class CmdToolImage extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(final Command c) throws MyError {
+	public GeoElement[] perform(final Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
@@ -38,6 +39,7 @@ public class CmdToolImage extends CommandProcessor {
 
 		final GeoPoint corner = checkarg(arg, c, 1);
 		final GeoPoint corner2 = checkarg(arg, c, 2);
+		final GeoElement[] ret = {};
 
 		switch (n) {
 
@@ -48,6 +50,24 @@ public class CmdToolImage extends CommandProcessor {
 			if (arg[0].isGeoNumeric()) {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
+
+				if (mode == -1) {
+					int[] str = { 71, 101, 111, 71, 101, 98, 114, 97 };
+					StringBuilder sb = new StringBuilder(str.length + 2);
+					sb.append("\"");
+					for (int i = 0 ; i < str.length ; i++) {
+						sb.append((char) str[i]);
+					}
+
+					sb.append(" ");
+					sb.append(kernel.getApplication().getVersionString());
+					sb.append("\"");
+
+					kernel.getAlgebraProcessor().evaluateToText(sb.toString(),
+							true, false);
+					Log.error(sb.toString());
+					return ret;
+				}
 
 				String modeStr = StringUtil
 						.toLowerCaseUS(EuclidianConstants.getModeText(mode));
@@ -88,7 +108,6 @@ public class CmdToolImage extends CommandProcessor {
 					callback.callback("");
 				}
 
-				GeoElement[] ret = {};
 				return ret;
 
 			}
