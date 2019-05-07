@@ -3,5 +3,8 @@
 
   <inherits name='org.geogebra.web.Web3D'/>
   <set-configuration-property name="devModeRedirectEnabled" value="true"/>
+  <set-property name="compiler.useSourceMaps" value="true" />
+  <set-configuration-property name="includeSourceMapUrl" 
+      value="https://cdn.geogebra.org/apps/symbolMaps/latest/__HASH___sourceMap__FRAGMENT__.json"/>
   <collapse-all-properties />
 </module>
