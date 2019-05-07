@@ -51,8 +51,7 @@ public class CmdParseToNumber extends CommandProcessor {
 					num.updateCascade();
 				}
 
-				GeoElement[] ret = { num };
-				return ret;
+				return num.asArray();
 			} else if (!ok) {
 				throw argErr(c, arg[0]);
 			} else {

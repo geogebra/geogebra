@@ -43,10 +43,9 @@ public class CmdRigidPolygon extends CmdScripting {
 
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = new PolygonFactory(kernel).rigidPolygon((GeoPolygon) arg[0],
+				return new PolygonFactory(kernel).rigidPolygon(
+						(GeoPolygon) arg[0],
 						offset, -offset, c.getLabels());
-
-				return ret;
 			}
 
 			//$FALL-THROUGH$
@@ -58,11 +57,9 @@ public class CmdRigidPolygon extends CmdScripting {
 			if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue
 					&& arg[2] instanceof GeoNumberValue) {
 
-				GeoElement[] ret = new PolygonFactory(kernel).rigidPolygon((GeoPolygon) arg[0],
-						((GeoNumberValue) arg[1]).getDouble(),
-						((GeoNumberValue) arg[2]).getDouble(), c.getLabels());
-
-				return ret;
+				return new PolygonFactory(kernel).rigidPolygon(
+						(GeoPolygon) arg[0], arg[1].evaluateDouble(),
+						arg[2].evaluateDouble(), c.getLabels());
 			}
 
 			//$FALL-THROUGH$

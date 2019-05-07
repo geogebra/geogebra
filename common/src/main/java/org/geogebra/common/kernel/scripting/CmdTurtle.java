@@ -37,8 +37,7 @@ public class CmdTurtle extends CommandProcessor {
 		GeoTurtle turtle = algo.getTurtle();
 
 		turtle.setAnimating(true);
-		GeoElement[] ret = { turtle };
-		return ret;
+		return turtle.asArray();
 	}
 
 }

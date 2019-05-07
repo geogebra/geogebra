@@ -949,7 +949,11 @@ public abstract class CommandDispatcher {
 				return simple;
 			}
 		}
-		return process(cmdProc, c, info)[0];
+		GeoElement[] processed = process(cmdProc, c, info);
+		if (processed.length > 0) {
+			return processed[0];
+		}
+		return null;
 	}
 
 	/**

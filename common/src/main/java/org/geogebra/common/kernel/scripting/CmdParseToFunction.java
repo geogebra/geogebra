@@ -66,8 +66,7 @@ public class CmdParseToFunction extends CommandProcessor {
 					fun.updateCascade();
 				}
 
-				GeoElement[] ret = { fun };
-				return ret;
+				return fun.asArray();
 			} else if (!ok) {
 				throw argErr(c, arg[0]);
 			} else {

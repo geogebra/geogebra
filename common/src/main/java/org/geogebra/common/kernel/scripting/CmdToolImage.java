@@ -66,8 +66,7 @@ public class CmdToolImage extends CmdScripting {
 							sb.toString(),
 							false, false);
 					geo.setLabel(c.getLabel());
-					final GeoElement[] ret2 = { geo };
-					return ret2;
+					return geo.asArray();
 				}
 
 				String modeStr = StringUtil
@@ -109,9 +108,7 @@ public class CmdToolImage extends CmdScripting {
 					callback.callback("");
 				}
 
-				final GeoElement[] ret = {};
-				return ret;
-
+				return new GeoElement[0];
 			}
 			throw argErr(c, arg[0]);
 
