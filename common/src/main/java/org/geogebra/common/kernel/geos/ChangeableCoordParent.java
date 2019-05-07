@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -211,18 +212,25 @@ public class ChangeableCoordParent {
 		}
 
 		// else: comes from mouse
-		if (direction2 == null) {
-			direction2 = new Coords(3);
-		}
-		direction2.setAdd3(direction, direction2.setMul(viewDirection,
-				-viewDirection.dotproduct3(direction)));
-		double ld = direction2.dotproduct3(direction2);
+		double shift;
+		if (changeableCoordNumber.getConstruction().getApplication()
+				.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+			shift = direction.dotproduct3(rwTransVec);
+		} else {
+			if (direction2 == null) {
+				direction2 = new Coords(3);
+			}
+			direction2.setAdd3(direction, direction2.setMul(viewDirection,
+					-viewDirection.dotproduct3(direction)));
+			double ld = direction2.dotproduct3(direction2);
 
-		if (DoubleUtil.isZero(ld)) {
-			return false;
+			if (DoubleUtil.isZero(ld)) {
+				return false;
+			}
+
+			shift = direction2.dotproduct3(rwTransVec) / ld;
 		}
 
-		double shift = direction2.dotproduct3(rwTransVec) / ld;
 		if (!MyDouble.isFinite(shift)) {
 			return false;
 		}
