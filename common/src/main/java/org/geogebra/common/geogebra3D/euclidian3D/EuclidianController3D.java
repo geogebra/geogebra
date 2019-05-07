@@ -51,11 +51,11 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -151,7 +151,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	static final public int ANGLE_MAX = 90;
 	private EuclidianController3DCompanion companion3D;
 	private boolean lastGetNewPointWasExistingPoint = false;
-	private GeoElement handledGeo, handledGeoSource;
+	private GeoElement handledGeo;
+	private GeoElement handledGeoSource;
 
 	private Coords startPoint3D = new Coords(0, 0, 0, 1);
 	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
@@ -3650,6 +3651,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * set start point location with handled geo source
 	 *
 	 * @param source
+	 *            source geo
 	 */
 	public void setStartPointLocation(GeoElement source) {
 		udpateStartPoint(source);
