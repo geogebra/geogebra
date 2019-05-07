@@ -152,7 +152,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private EuclidianController3DCompanion companion3D;
 	private boolean lastGetNewPointWasExistingPoint = false;
 	private GeoElement handledGeo;
-	private GeoElement handledGeoSource;
 
 	private Coords startPoint3D = new Coords(0, 0, 0, 1);
 	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
@@ -3552,7 +3551,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setHandledGeo(GeoElement geo, GeoElement source) {
 		handledGeo = geo;
 		if (handledGeo == null) {
-			handledGeoSource = null;
 			return;
 		}
 		setStartPointLocation(source);
@@ -3668,22 +3666,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            source geo for start
 	 */
 	protected void udpateStartPoint(GeoElement source) {
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-			handledGeoSource = source;
-		}
 		if (mouseLoc == null) {
 			return;
 		}
 
 		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL) && source != null) {
-			Drawable3D d = (Drawable3D) view3D.getDrawableND(handledGeoSource);
+			Drawable3D d = (Drawable3D) view3D.getDrawableND(source);
 			double distance = d.getPositionOnHitting();
-			Log.debug("distance = " + distance);
 			Coords dir = new Coords(4);
 			view3D.getHittingOrigin(mouseLoc, startPoint3D);
 			view3D.getHittingDirection(dir);
 			startPoint3D.addInsideMul(dir, distance);
-			Log.debug("hit: " + startPoint3D);
 		} else {
 			view3D.getPickPoint(mouseLoc, startPoint3D);
 			view3D.toSceneCoords3D(startPoint3D);
