@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -19,8 +21,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-
-import java.util.ArrayList;
 
 /**
  * Class for drawing 3D polygons.
@@ -429,7 +429,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		if (!Double.isNaN(d)) {
-			setZPick(d, d, hitting.discardPositiveHits());
+			setZPick(d, d, hitting.discardPositiveHits(), -d);
 			setPickingType(PickingType.SURFACE);
 			return true;
 		}

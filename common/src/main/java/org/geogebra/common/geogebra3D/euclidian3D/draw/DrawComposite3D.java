@@ -311,15 +311,16 @@ public abstract class DrawComposite3D extends Drawable3D {
 
 		double listZNear = Double.NEGATIVE_INFINITY;
 		double listZFar = Double.NEGATIVE_INFINITY;
+		double listPositionOnHitting = Double.POSITIVE_INFINITY;
 		for (DrawableND d : drawables) {
 			if (d.createdByDrawList()) {
 				final Drawable3D d3d = (Drawable3D) d;
 				if (d3d.hitForList(hitting)) {
 					double zNear = d3d.getZPickNear();
-					double zFar = d3d.getZPickFar();
 					if (!ret || zNear > listZNear) {
 						listZNear = zNear;
-						listZFar = zFar;
+						listZFar = d3d.getZPickFar();
+						listPositionOnHitting = d3d.getPositionOnHitting();
 						setPickingType(d3d.getPickingType());
 						pickOrder = d3d.getPickOrder();
 						ret = true;
@@ -333,7 +334,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 		}
 
 		if (ret) {
-			setZPick(listZNear, listZFar, hitting.discardPositiveHits());
+			setZPick(listZNear, listZFar, hitting.discardPositiveHits(),
+					listPositionOnHitting);
 		}
 
 		return ret;

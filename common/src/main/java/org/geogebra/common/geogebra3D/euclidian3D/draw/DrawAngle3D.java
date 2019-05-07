@@ -457,7 +457,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 					return false;
 				}
 				double z = tmpCoords.getZ();
-				setZPick(z, z, hitting.discardPositiveHits());
+				setZPick(z, z, hitting.discardPositiveHits(), -z);
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
@@ -478,7 +478,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 		double z = tmpCoords.getZ();
 
-		setZPick(z, z, hitting.discardPositiveHits());
+		setZPick(z, z, hitting.discardPositiveHits(), -z);
 		setPickingType(PickingType.POINT_OR_CURVE);
 
 		return true;

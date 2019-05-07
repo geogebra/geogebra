@@ -10,8 +10,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathParameter;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -983,7 +983,8 @@ public class DrawConic3D extends Drawable3DCurves
 				// TODO use other for non-parallel projection:
 				// -hitting.origin.distance(project[0]);
 				double parameterOnHitting = inPlaneCoords.getZ();
-				setZPick(parameterOnHitting, parameterOnHitting, hitting.discardPositiveHits());
+				setZPick(parameterOnHitting, parameterOnHitting,
+						hitting.discardPositiveHits(), -parameterOnHitting);
 				setPickingType(PickingType.SURFACE);
 				ret = true;
 			}
@@ -1006,7 +1007,8 @@ public class DrawConic3D extends Drawable3DCurves
 					double z = -parameters[0];
 					double dz = conic.getLineThickness()
 							/ getView3D().getScale();
-					setZPick(z + dz, z - dz, hitting.discardPositiveHits());
+					setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
+							parameters[0]);
 					setPickingType(PickingType.POINT_OR_CURVE);
 					return true;
 				}

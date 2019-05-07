@@ -1,13 +1,13 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.geos.GeoElement;
-
-import java.util.ArrayList;
 
 /**
  * Class for drawing multiple polygons within intersection curve.
@@ -127,13 +127,16 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 
 		boolean ret = false;
 
-		setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, hitting.discardPositiveHits());
+		setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
+				hitting.discardPositiveHits(), Double.POSITIVE_INFINITY);
 
 		for (Drawable3D d : drawables) {
 			if (d.hit(hitting)) {
 				if (d.getZPickNear() > getZPickNear()) {
 					setPickingType(d.getPickingType());
-					setZPick(d.getZPickNear(), d.getZPickFar(), hitting.discardPositiveHits());
+					setZPick(d.getZPickNear(), d.getZPickFar(),
+							hitting.discardPositiveHits(),
+							d.getPositionOnHitting());
 				}
 				ret = true;
 			}

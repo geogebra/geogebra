@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -11,13 +13,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathNormalizer;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-
-import java.util.ArrayList;
 
 /**
  * Class for drawing quadrics.
@@ -1331,7 +1331,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			initDrawLine(quadric);
 			if (drawLine.hit(hitting)) {
 				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar(),
-						hitting.discardPositiveHits());
+						hitting.discardPositiveHits(),
+						drawLine.getPositionOnHitting());
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
@@ -1380,7 +1381,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			quadric.setLastHitParameters(parameters1);
 
 			// hitted
-			setZPick(z1, z1, hitting.discardPositiveHits());
+			setZPick(z1, z1, hitting.discardPositiveHits(),
+					drawPlanes[planeIndex].getPositionOnHitting());
 			setPickingType(PickingType.SURFACE);
 			return true;
 
@@ -1389,7 +1391,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PLANE) {
 			if (drawPlanes[0].hit(hitting)) {
 				setZPick(drawPlanes[0].getZPickNear(),
-						drawPlanes[0].getZPickFar(), hitting.discardPositiveHits());
+						drawPlanes[0].getZPickFar(),
+						hitting.discardPositiveHits(),
+						drawPlanes[0].getPositionOnHitting());
 				setPickingType(PickingType.SURFACE);
 				return true;
 			}
@@ -1442,7 +1446,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// hitted
-		setZPick(z1, z1, hitting.discardPositiveHits());
+		setZPick(z1, z1, hitting.discardPositiveHits(), -z1);
 		setPickingType(PickingType.SURFACE);
 		return true;
 

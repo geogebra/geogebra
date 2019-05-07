@@ -192,10 +192,12 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		}
 
 		double d = Double.NaN;
+		double positionOnHitting = Double.NaN;
 		PickingType pickingType = PickingType.SURFACE;
 		if (drawBottom.hit(hitting)) {
 			d = drawBottom.getZPickNear();
 			pickingType = drawBottom.getPickingType();
+			positionOnHitting = drawBottom.getPositionOnHitting();
 		}
 
 		if (drawTop.hit(hitting)) {
@@ -205,11 +207,13 @@ public class DrawQuadric3DLimited extends Drawable3D {
 					double dTop = drawTop.getZPickNear();
 					if (Double.isNaN(d) || dTop > d) {
 						d = dTop;
+						positionOnHitting = drawTop.getPositionOnHitting();
 					}
 				} else { // pickingTypeTop == PickingType.POINT_OR_CURVE
 					// TODO: opaque bottom
 					d = drawTop.getZPickNear();
 					pickingType = pickingTypeTop;
+					positionOnHitting = drawTop.getPositionOnHitting();
 				}
 			} else { // pickingType == PickingType.POINT_OR_CURVE
 				if (pickingTypeTop == PickingType.SURFACE) {
@@ -218,6 +222,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 					double dTop = drawTop.getZPickNear();
 					if (Double.isNaN(d) || dTop > d) {
 						d = dTop;
+						positionOnHitting = drawTop.getPositionOnHitting();
 					}
 				}
 			}
@@ -225,7 +230,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 		if (pickingType == PickingType.POINT_OR_CURVE) {
 			// TODO opaque side
-			setZPick(d, d, hitting.discardPositiveHits());
+			setZPick(d, d, hitting.discardPositiveHits(), -d);
 			setPickingType(PickingType.POINT_OR_CURVE);
 			return true;
 		}
@@ -235,7 +240,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 			if (Double.isNaN(d) || dSide > d) {
 				d = dSide;
 			}
-			setZPick(d, d, hitting.discardPositiveHits());
+			setZPick(d, d, hitting.discardPositiveHits(), -d);
 			setPickingType(PickingType.SURFACE);
 			return true;
 		}

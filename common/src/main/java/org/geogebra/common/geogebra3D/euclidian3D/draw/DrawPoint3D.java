@@ -285,7 +285,8 @@ public class DrawPoint3D extends Drawable3DCurves
 		if (hitted) {
 			double z = -parameters[0];
 			double dz = pointSize / drawable.getView3D().getScale();
-			drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits());
+			drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
+					parameters[0]);
 			return true;
 		}
 

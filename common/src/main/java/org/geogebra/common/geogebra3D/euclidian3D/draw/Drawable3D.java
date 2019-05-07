@@ -176,6 +176,8 @@ public abstract class Drawable3D extends DrawableND {
 	/** nearest picking value, used for ordering elements with openGL picking */
 	private double zPickNear;
 
+	private double positionOnHitting;
+
 	private boolean relevantPickingValues;
 
 	/** (r,g,b,a) vector */
@@ -1697,23 +1699,26 @@ public abstract class Drawable3D extends DrawableND {
 	 *            nearest value
 	 * @param zFar
 	 *            most far value
-     *
-     * @param discardPositive
-     *            if discard positive values
+	 *
+	 * @param discardPositive
+	 *            if discard positive values
+	 * @param positionOnHitting
+	 *            position on hitting ray
 	 */
-    final public void setZPick(double zNear, double zFar, boolean discardPositive) {
-        if (discardPositive && (zNear > 0 || zFar > 0)) {
-            zPickNear = Double.NEGATIVE_INFINITY;
-            zPickFar = Double.NEGATIVE_INFINITY;
-            relevantPickingValues = false;
-        } else {
-            zPickNear = zNear;
-            zPickFar = zFar;
-            relevantPickingValues = !Double.isInfinite(zPickNear) && !Double.isInfinite(zPickFar)
-                    && !Double.isNaN(zPickNear) && !Double.isNaN(zPickFar);
-        }
-
-		// Log.debug("\n"+getGeoElement()+" : \n"+zNear+"\n"+zFar);
+	final public void setZPick(double zNear, double zFar,
+			boolean discardPositive, double positionOnHitting) {
+		if (discardPositive && (zNear > 0 || zFar > 0)) {
+			zPickNear = Double.NEGATIVE_INFINITY;
+			zPickFar = Double.NEGATIVE_INFINITY;
+			relevantPickingValues = false;
+		} else {
+			zPickNear = zNear;
+			zPickFar = zFar;
+			relevantPickingValues = !Double.isInfinite(zPickNear)
+					&& !Double.isInfinite(zPickFar) && !Double.isNaN(zPickNear)
+					&& !Double.isNaN(zPickFar);
+		}
+		this.positionOnHitting = positionOnHitting;
 	}
 
 	/**
@@ -1721,7 +1726,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return position on hitting ray
 	 */
 	public double getPositionOnHitting() {
-		return -(zPickNear + zPickFar) / 2.0;
+		return positionOnHitting;
 	}
 
 	/**
@@ -1804,7 +1809,8 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
 		if (isLabelVisible() && hitting.hitLabel(label)) {
-            setZPick(label.getDrawZ(), label.getDrawZ(), hitting.discardPositiveHits());
+			setZPick(label.getDrawZ(), label.getDrawZ(),
+					hitting.discardPositiveHits(), -label.getDrawZ());
 			hits.addDrawable3D(this, PickingType.LABEL);
 			return true;
 		}

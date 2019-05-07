@@ -355,7 +355,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			double z = -parameterOnHitting;
 			double dz = getGeoElement().getLineThickness()
 					/ getView3D().getScale();
-			setZPick(z + dz, z - dz, hitting.discardPositiveHits());
+			setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
+					parameterOnHitting);
 			return true;
 		}
 

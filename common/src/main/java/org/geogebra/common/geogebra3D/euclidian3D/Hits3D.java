@@ -66,7 +66,7 @@ public class Hits3D extends Hits {
 				remove(d);
 			}
 
-			d.setZPick(zNear, zFar, false);
+			d.setZPick(zNear, zFar, false, d.getPositionOnHitting());
 
 			super.add(d);
 

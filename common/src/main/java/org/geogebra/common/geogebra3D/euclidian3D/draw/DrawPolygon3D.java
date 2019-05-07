@@ -1,5 +1,8 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
@@ -25,9 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Class for drawing 3D polygons.
@@ -595,7 +595,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			// -hitting.origin.distance(project[0]);
 			double parameterOnHitting = inPlaneCoords.getZ();
 			setZPick(parameterOnHitting, parameterOnHitting,
-					hitting.discardPositiveHits());
+					hitting.discardPositiveHits(), -parameterOnHitting);
 			setPickingType(PickingType.SURFACE);
 			ret = true;
 		}
@@ -621,7 +621,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					double z = -parameters[0];
 					double dz = poly.getLineThickness()
 							/ getView3D().getScale();
-					setZPick(z + dz, z - dz, hitting.discardPositiveHits());
+					setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
+							parameters[0]);
 					setPickingType(PickingType.POINT_OR_CURVE);
 					return true;
 				}

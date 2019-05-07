@@ -690,7 +690,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		// -hitting.origin.distance(project[0]);
 		double parameterOnHitting = inPlaneCoords.getZ();
 		setZPick(parameterOnHitting, parameterOnHitting,
-				hitting.discardPositiveHits());
+				hitting.discardPositiveHits(), -parameterOnHitting);
 		return true;
 
 	}

@@ -3188,7 +3188,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
 						- hitting.origin.getZ();
 				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-				setZPick(-d, -d, hitting.discardPositiveHits());
+				setZPick(-d, -d, hitting.discardPositiveHits(), d);
 				setLastHitParameters(geoF, false);
 				return true;
 			}
@@ -3201,7 +3201,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
 						- hitting.origin.getZ();
 				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-				setZPick(-d, -d, hitting.discardPositiveHits());
+				setZPick(-d, -d, hitting.discardPositiveHits(), d);
 				setLastHitParameters(geoF, true);
 				return true;
 			}

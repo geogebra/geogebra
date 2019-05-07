@@ -1974,7 +1974,8 @@ public abstract class Renderer {
 					|| d.getPickingType() != PickingType.POINT_OR_CURVE) {
 				// we assume that hitting infos are updated from last mouse move
 				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
-						hitting.discardPositiveHits());
+						hitting.discardPositiveHits(),
+						Double.POSITIVE_INFINITY);
 			}
 		}
 	}
