@@ -422,16 +422,7 @@ public class MyDouble extends ValidExpression
 	final public static void powDoubleSgnChange(MyDouble a, MyDouble b,
 			MyDouble c) {
 		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
-
-		// Infinity ^ 0 -> NaN
-		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (DoubleUtil.isZero(b.val)
-				&& (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
-			c.set(Double.NaN);
-			return;
-		}
-
-		c.set(-Math.pow(-a.val, b.val));
+		c.set(-pow(-a.val, b.val));
 	}
 
 	/**
