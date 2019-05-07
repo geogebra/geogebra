@@ -3660,13 +3660,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/**
 	 * update start point to current mouse coords
-	 */
-	protected void udpateStartPoint() {
-		updateStartPoint(null);
-	}
-
-	/**
-	 * update start point to current mouse coords
 	 *
 	 * @param source
 	 *            source geo for start
@@ -3679,31 +3672,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return;
 		}
 
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL) && source != null) {
 			Drawable3D d = (Drawable3D) view3D.getDrawableND(handledGeoSource);
 			double distance = d.getPositionOnHitting();
 			Log.debug("distance = " + distance);
 			Coords dir = new Coords(4);
-			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+			view3D.getHittingOrigin(mouseLoc, startPoint3D);
 			view3D.getHittingDirection(dir);
-			tmpCoordsForOrigin.addInsideMul(dir, distance);
-			Log.debug("hit: " + tmpCoordsForOrigin);
+			startPoint3D.addInsideMul(dir, distance);
+			Log.debug("hit: " + startPoint3D);
 		} else {
-			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-		}
-
-		updateStartPoint(tmpCoordsForOrigin);
-	}
-
-	/**
-	 * update start point to p coords
-	 * 
-	 * @param p
-	 *            coords
-	 */
-	final protected void updateStartPoint(Coords p) {
-		startPoint3D.set(p);
-		if (!app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+			view3D.getPickPoint(mouseLoc, startPoint3D);
 			view3D.toSceneCoords3D(startPoint3D);
 		}
 
@@ -3792,7 +3771,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void setStartPointLocationWithOrigin(double x, double y) {
-		udpateStartPoint();
+		udpateStartPoint(null);
 		// sub origin
 		startPoint3DxOy.setX(startPoint3DxOy.getX() - x);
 		startPoint3DxOy.setY(startPoint3DxOy.getY() - y);
