@@ -1924,9 +1924,7 @@ public abstract class GeoElement extends ConstructionElement
 		return true;
 	}
 
-	/**
-	 * @return true if showable in EV
-	 */
+	@Override
 	final public boolean isEuclidianShowable() {
 		return showInEuclidianView();
 	}

@@ -1576,4 +1576,9 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return auto color scheme
 	 */
 	AutoColor getAutoColorScheme();
+
+	/**
+	 * @return true if showable in EV
+	 */
+	boolean isEuclidianShowable();
 }

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -113,7 +114,8 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	protected boolean showInEuclidianView() {
-		return true;
+		GeoElementND twin = getTwinGeo();
+		return twin != null && twin.isEuclidianShowable();
 	}
 
 	@Override
@@ -129,6 +131,24 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public void setError(String key) {
 		// TODO deal with errors on parsing
+	}
+
+	@Override
+	public GColor getObjectColor() {
+		GeoElementND twin = getTwinGeo();
+		if (twin != null) {
+			return twin.getObjectColor();
+		}
+		return super.getObjectColor();
+	}
+
+	@Override
+	public GColor getAlgebraColor() {
+		GeoElementND twin = getTwinGeo();
+		if (twin != null) {
+			return twin.getAlgebraColor();
+		}
+		return super.getAlgebraColor();
 	}
 
 	@Override
@@ -156,6 +176,7 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue casOutput = kernel.getGeoGebraCAS().parseOutput(s, this,
 				kernel);
 		setValue(casOutput);
+
 		twinUpToDate = false;
 	}
 
