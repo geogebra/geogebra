@@ -6070,6 +6070,14 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * 
+	 * @return changeable parent direction (default is VZ)
+	 */
+	public Coords getChangeableCoordParentNumbersDirection() {
+		return Coords.VZ;
+	}
+
+	/**
 	 * add changeable coord parent number to update list
 	 * 
 	 * @param number

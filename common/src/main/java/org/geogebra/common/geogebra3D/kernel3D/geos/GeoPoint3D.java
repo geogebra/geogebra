@@ -2180,6 +2180,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
+	public Coords getChangeableCoordParentNumbersDirection() {
+		return changeableCoordParent.getDirection();
+	}
+
+	@Override
 	final public String toStringDescription(StringTemplate tpl) {
 		boolean isAvDescrip = Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel().getAlgebraStyle();
 		if (isAvDescrip) {

@@ -267,4 +267,12 @@ public class ChangeableCoordParent {
 
 	}
 
+	/**
+	 * 
+	 * @return current move direction
+	 */
+	public Coords getDirection() {
+		return direction;
+	}
+
 }

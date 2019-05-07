@@ -637,6 +637,11 @@ public abstract class GeoQuadricND extends GeoElement
 				viewDirection, updateGeos, tempMoveObjectList, view);
 	}
 
+	@Override
+	public Coords getChangeableCoordParentNumbersDirection() {
+		return changeableCoordParent.getDirection();
+	}
+
 	/**
 	 * 
 	 * @return dimension (2 for conic, 3 for quadric)
