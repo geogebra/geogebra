@@ -230,7 +230,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 		if (pickingType == PickingType.POINT_OR_CURVE) {
 			// TODO opaque side
-			setZPick(d, d, hitting.discardPositiveHits(), -d);
+			setZPick(d, d, hitting.discardPositiveHits(), positionOnHitting);
 			setPickingType(PickingType.POINT_OR_CURVE);
 			return true;
 		}
@@ -240,7 +240,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 			if (Double.isNaN(d) || dSide > d) {
 				d = dSide;
 			}
-			setZPick(d, d, hitting.discardPositiveHits(), -d);
+			setZPick(d, d, hitting.discardPositiveHits(), positionOnHitting);
 			setPickingType(PickingType.SURFACE);
 			return true;
 		}
