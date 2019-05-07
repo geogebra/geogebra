@@ -260,8 +260,8 @@ public class GeoSymbolic extends GeoElement
 		}
 		twinUpToDate = true;
 
-		if(twinGeo != null) {
-			super.setEuclidianVisible(twinGeo.isEuclidianVisible());
+		if (twinGeo != null) {
+			setEuclidianVisible(twinGeo.isEuclidianVisible());
 		}
 		return twinGeo;
 	}
