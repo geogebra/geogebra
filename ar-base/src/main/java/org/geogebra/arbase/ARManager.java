@@ -207,8 +207,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                                 if (lastARMotionEvent != null) {
                                     if (lastARMotionEvent.getAction() ==
                                             ARMotionEvent.FIRST_FINGER_DOWN) {
-                                        arMotionEvent = getARMotionEventMove((float) mPosXY.getX(),
-                                                (float) mPosXY.getY());
+                                        arMotionEvent = getARMotionEventMove(lastARMotionEvent.getX(),
+                                                lastARMotionEvent.getY());
                                     } else if (lastARMotionEvent.getAction() ==
                                             ARMotionEvent.ON_MOVE){
                                         arMotionEvent = lastARMotionEvent;
