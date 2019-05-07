@@ -3619,14 +3619,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 				lineCoords = new double[2];
 				tmp = new double[4];
 			}
-
 			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
-
-			Coords tmpCoords1 = new Coords(4);
-			view3D.getHittingDirection(tmpCoords1);
-
+			view3D.getHittingDirection(tmpCoordsForDirection);
 			CoordMatrixUtil.nearestPointsFromTwoLines(startPoint3D,
-					moveDirection, tmpCoordsForOrigin, tmpCoords1,
+					moveDirection, tmpCoordsForOrigin, tmpCoordsForDirection,
 					project1.val, project2.val, lineCoords, tmp);
 
 			// if two lines are parallel, it will return NaN
@@ -3673,17 +3669,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL) && source != null) {
 			Drawable3D d = (Drawable3D) view3D.getDrawableND(source);
 			double distance = d.getPositionOnHitting();
-			Coords dir = new Coords(4);
 			view3D.getHittingOrigin(mouseLoc, startPoint3D);
-			view3D.getHittingDirection(dir);
-			startPoint3D.addInsideMul(dir, distance);
+			view3D.getHittingDirection(tmpCoordsForDirection);
+			startPoint3D.addInsideMul(tmpCoordsForDirection, distance);
 		} else {
 			view3D.getPickPoint(mouseLoc, startPoint3D);
 			view3D.toSceneCoords3D(startPoint3D);
+			view3D.getHittingDirection(tmpCoordsForDirection);
 		}
 
 		// project on xOy
-		view3D.getHittingDirection(tmpCoordsForDirection);
 		startPoint3D.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
 				tmpCoordsForDirection, startPoint3DxOy);
 	}
