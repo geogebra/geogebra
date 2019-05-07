@@ -94,6 +94,49 @@ public class ArithmeticTest extends AlgebraTest {
 	}
 
 	@Test
+	public void infinity() {
+		t("0^inf", "0");
+		t("1^inf", "NaN");
+		t("1^(-inf)", "NaN");
+		t("2^inf", "Infinity");
+		t("2.1^inf", "Infinity");
+		t("(-1)^inf", "NaN");
+		t("inf^inf", "Infinity");
+		t("?^inf", "NaN");
+		t("inf^?", "NaN");
+		t("(-inf)^inf", "Infinity");
+		t("inf^(-inf)", "0");
+		t("(-inf)^(-inf)", "0");
+		t("inf^0", "NaN");
+		t("inf^(-1)", "0");
+		t("1/inf", "0");
+		t("0/inf", "0");
+		t("1*inf", "Infinity");
+		t("2*inf", "Infinity");
+		t("inf*1", "Infinity");
+		t("inf*-1", "-Infinity");
+		t("0*inf", "NaN");
+		t("inf*0", "NaN");
+		t("inf+1", "Infinity");
+		t("inf+0", "Infinity");
+		t("inf-0", "Infinity");
+		t("inf-1", "Infinity");
+		t("1-inf", "-Infinity");
+		t("1+inf", "Infinity");
+		t("0+inf", "Infinity");
+		t("sin(inf)", "NaN");
+		t("cos(inf)", "NaN");
+		t("tan(inf)", "NaN");
+		t("ln(inf)", "Infinity");
+		t("exp(inf)", "Infinity");
+		t("sin(-inf)", "NaN");
+		t("cos(-inf)", "NaN");
+		t("tan(-inf)", "NaN");
+		t("ln(-inf)", "NaN");
+		t("exp(-inf)", "0");
+	}
+
+	@Test
 	public void functionArithmetic() {
 		t("f(x)=x^2", "x^(2)");
 		t("g1:f+f", "x^(2) + x^(2)");
