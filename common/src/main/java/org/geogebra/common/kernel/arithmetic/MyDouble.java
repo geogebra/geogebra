@@ -400,6 +400,12 @@ public class MyDouble extends ValidExpression
 			return Double.NaN;
 		}
 
+		// 1^inf, 1^(-inf)
+		// APPS-802 needed for Android / iOS
+		if (a == 1 && Double.isInfinite(b)) {
+			return Double.NaN;
+		}
+
 		return Math.pow(a, b);
 	}
 
