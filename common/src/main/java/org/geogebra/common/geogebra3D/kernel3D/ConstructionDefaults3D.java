@@ -307,7 +307,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		case QUADRIC:
 		case QUADRIC_PART:
 			return DEFAULT_QUADRIC;
-
+		case SURFACECARTESIAN:
 		case SURFACECARTESIAN3D:
 			return DEFAULT_SURFACECARTESIAN3D;
 

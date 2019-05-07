@@ -71,6 +71,7 @@ public class DrawablesTest {
 			Assert.assertTrue(type + "", types.contains(type)
 					|| (GeoClass.IMPLICIT_SURFACE_3D == type
 							&& !app.has(Feature.IMPLICIT_SURFACES))
+					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type
 					|| GeoClass.CLIPPINGCUBE3D == type);

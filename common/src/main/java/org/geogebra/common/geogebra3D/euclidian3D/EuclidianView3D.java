@@ -726,7 +726,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				 */
 				}
 				break;
-
+			case SURFACECARTESIAN:
 			case SURFACECARTESIAN3D:
 				d = newDrawSurface3D((GeoSurfaceCartesianND) geo);
 				break;

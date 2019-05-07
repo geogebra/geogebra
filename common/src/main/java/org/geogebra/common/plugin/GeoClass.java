@@ -142,6 +142,9 @@ public enum GeoClass {
 	/** SURFACECARTESIAN */
 	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D", 160, true),
 
+	/** SURFACECARTESIAN */
+	SURFACECARTESIAN("Surface", "SurfaceCartesian", 160, false),
+
 	/** IMPLICIT_SURFACE_ */
 	IMPLICIT_SURFACE_3D("ImplicitSurface", "ImplicitSurface3D", 160, true),
 

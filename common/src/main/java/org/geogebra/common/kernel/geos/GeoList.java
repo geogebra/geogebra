@@ -2845,6 +2845,7 @@ public class GeoList extends GeoElement
 				&& this.elementType != GeoClass.CURVE_CARTESIAN
 				&& this.elementType != GeoClass.CURVE_CARTESIAN3D
 				&& this.elementType != GeoClass.FUNCTION_NVAR
+				&& this.elementType != GeoClass.SURFACECARTESIAN
 				&& this.elementType != GeoClass.SURFACECARTESIAN3D
 				&& this.elementType != GeoClass.LIST
 				&& this.elementType != ELEMENT_TYPE_MIXED) {

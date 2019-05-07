@@ -266,6 +266,7 @@ public class EuclidianDraw {
 		case VECTOR3D:
 			d = new DrawVector(ev, (GeoVectorND) geo);
 			break;
+		case SURFACECARTESIAN:
 		case SURFACECARTESIAN3D:
 			if (geo instanceof GeoSurfaceCartesian2D) {
 				d = new DrawSurface(ev, (GeoSurfaceCartesian2D) geo);

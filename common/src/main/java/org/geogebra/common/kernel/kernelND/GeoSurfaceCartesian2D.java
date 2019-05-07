@@ -71,7 +71,7 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 
 	@Override
 	public GeoClass getGeoClassType() {
-		return GeoClass.SURFACECARTESIAN3D;
+		return GeoClass.SURFACECARTESIAN;
 	}
 
 	@Override

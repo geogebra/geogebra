@@ -2152,6 +2152,7 @@ public abstract class GeoElement extends ConstructionElement
 			break;
 		case SPACE:
 			break;
+		case SURFACECARTESIAN:
 		case SURFACECARTESIAN3D:
 			break;
 		case TEXTFIELD:
