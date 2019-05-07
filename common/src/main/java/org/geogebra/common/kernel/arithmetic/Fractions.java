@@ -107,6 +107,13 @@ public class Fractions {
 		} else {
 			numL = expr.getLeft();
 		}
+
+		if (numL == null) {
+			parts[0] = expr;
+			parts[1] = null;
+			return;
+		}
+
 		if (checkFraction(parts, expr.getRight(), expandPlus)) {
 			numR = parts[0];
 			denR = parts[1];
