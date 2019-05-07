@@ -10,11 +10,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * ToolImage
@@ -39,7 +39,6 @@ public class CmdToolImage extends CmdScripting {
 
 		final GeoPoint corner = checkarg(arg, c, 1);
 		final GeoPoint corner2 = checkarg(arg, c, 2);
-		final GeoElement[] ret = {};
 
 		switch (n) {
 
@@ -63,10 +62,12 @@ public class CmdToolImage extends CmdScripting {
 					sb.append(kernel.getApplication().getVersionString());
 					sb.append("\"");
 
-					kernel.getAlgebraProcessor().evaluateToText(sb.toString(),
-							true, false);
-					Log.error(sb.toString());
-					return ret;
+					GeoText geo = kernel.getAlgebraProcessor().evaluateToText(
+							sb.toString(),
+							false, false);
+					geo.setLabel(c.getLabel());
+					final GeoElement[] ret2 = { geo };
+					return ret2;
 				}
 
 				String modeStr = StringUtil
@@ -108,6 +109,7 @@ public class CmdToolImage extends CmdScripting {
 					callback.callback("");
 				}
 
+				final GeoElement[] ret = {};
 				return ret;
 
 			}
