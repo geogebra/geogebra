@@ -231,7 +231,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		} else {
 			formats = new String[] {
 					loc.getMenu("png") + " (" + FileExtensions.PNG + ")",
-					loc.getMenu("pdf") + " (" + FileExtensions.PDF + ")",
+					loc.getMenu("pdf"),
 					loc.getMenu("eps") + " (" + FileExtensions.EPS + ")",
 					loc.getMenu("svg") + " (" + FileExtensions.SVG + ")",
 					loc.getMenu("emf") + " (" + FileExtensions.EMF + ")" };
