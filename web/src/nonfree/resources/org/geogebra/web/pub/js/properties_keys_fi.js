@@ -3298,7 +3298,7 @@ __GGB__keysVar["fi"].menu = {
     "page": "Page",
     "parallel": "yhdensuuntainen",
     "pasteLink": "Liit\xe4 linkki",
-    "pdf": "Portable Document Format",
+    "pdf": "Portable Document Format (pdf)",
     "pdfClickOrDrag": "Valitse tiedosto klikkaamalla tai raahaa ja pudota PDF-tiedosto t\xe4h\xe4n",
     "pdfDialogTitle": "Lis\xe4\xe4 sivu PDF:st\xe4",
     "permission.camera.denied": "Ei yhteytt\xe4 kameraan",

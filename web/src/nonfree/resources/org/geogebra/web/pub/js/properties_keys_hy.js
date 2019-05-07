@@ -3298,7 +3298,7 @@ __GGB__keysVar["hy"].menu = {
     "page": "Page",
     "parallel": "\u0536\u0578\u0582\u0563\u0561\u0570\u0565\u057c \u0578\u0582\u0572\u056b\u0572",
     "pasteLink": "Paste link",
-    "pdf": "Portable Document Format",
+    "pdf": "Portable Document Format (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

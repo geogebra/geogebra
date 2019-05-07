@@ -3298,7 +3298,7 @@ __GGB__keysVar["xh"].menu = {
     "page": "Page",
     "parallel": "KekeleNgokufanayo",
     "pasteLink": "Paste link",
-    "pdf": "iPortable Document Format",
+    "pdf": "iPortable Document Format (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

@@ -3298,7 +3298,7 @@ __GGB__keysVar["th"].menu = {
     "page": "Page",
     "parallel": "\u0e02\u0e19\u0e32\u0e19",
     "pasteLink": "Paste link",
-    "pdf": "\u0e23\u0e39\u0e1b\u0e41\u0e1a\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e1e\u0e2d\u0e23\u0e4c\u0e17\u0e40\u0e17\u0e40\u0e1a\u0e34\u0e25",
+    "pdf": "\u0e23\u0e39\u0e1b\u0e41\u0e1a\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e1e\u0e2d\u0e23\u0e4c\u0e17\u0e40\u0e17\u0e40\u0e1a\u0e34\u0e25 (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

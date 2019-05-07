@@ -3298,7 +3298,7 @@ __GGB__keysVar["cy"].menu = {
     "page": "Page",
     "parallel": "paralel",
     "pasteLink": "Paste link",
-    "pdf": "Ffurf Dogfen Symudol",
+    "pdf": "Ffurf Dogfen Symudol (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

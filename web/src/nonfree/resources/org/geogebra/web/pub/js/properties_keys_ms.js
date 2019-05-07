@@ -3298,7 +3298,7 @@ __GGB__keysVar["ms"].menu = {
     "page": "Page",
     "parallel": "selari",
     "pasteLink": "Paste link",
-    "pdf": "Format Dokumen Mudah Alih",
+    "pdf": "Format Dokumen Mudah Alih (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

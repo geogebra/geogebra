@@ -3298,7 +3298,7 @@ __GGB__keysVar["da"].menu = {
     "page": "Page",
     "parallel": "parallel",
     "pasteLink": "Paste link",
-    "pdf": "Transportabelt dokument",
+    "pdf": "Transportabelt dokument (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

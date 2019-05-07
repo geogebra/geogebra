@@ -3298,7 +3298,7 @@ __GGB__keysVar["lv"].menu = {
     "page": "Page",
     "parallel": "paral\u0113li",
     "pasteLink": "Paste link",
-    "pdf": "Portable Dokuments Form\u0101ts",
+    "pdf": "Portable Dokuments Form\u0101ts (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

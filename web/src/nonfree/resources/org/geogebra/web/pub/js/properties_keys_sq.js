@@ -3298,7 +3298,7 @@ __GGB__keysVar["sq"].menu = {
     "page": "Page",
     "parallel": "paralele",
     "pasteLink": "Paste link",
-    "pdf": "Format Dokumenti i Mbartshem",
+    "pdf": "Format Dokumenti i Mbartshem (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
     "permission.camera.denied": "Unable to access camera",

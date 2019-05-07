@@ -3298,7 +3298,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "page": "Page",
     "parallel": "paralela",
     "pasteLink": "Colar Liga\xe7\xe3o",
-    "pdf": "Portable Document Format /pdf)",
+    "pdf": "Portable Document Format (pdf)",
     "pdfClickOrDrag": "Clique para selecionar o ficheiro ou arraste e solte o arquivo PDF aqui",
     "pdfDialogTitle": "Inserir p\xe1gina do PDF",
     "permission.camera.denied": "N\xe3o \xe9 poss\xedvel aceder a c\xe2mara",

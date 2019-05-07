@@ -3298,7 +3298,7 @@ __GGB__keysVar["pt"].menu = {
     "page": "Page",
     "parallel": "paralela",
     "pasteLink": "Colar link",
-    "pdf": "Portable Document Format",
+    "pdf": "Portable Document Format (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Incluir P\xe1gina de PDF",
     "permission.camera.denied": "Unable to access camera",

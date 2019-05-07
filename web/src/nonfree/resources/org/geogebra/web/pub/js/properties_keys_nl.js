@@ -3287,7 +3287,7 @@ __GGB__keysVar["nl"].menu = {
     "max": "max",
     "min": "Min",
     "mow.myfiles": "Mijn bestanden",
-    "mow.newFile": "New File",
+    "mow.newFile": "Nieuw bestand",
     "mow.offlineMyFiles": "Open offline bestand",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
