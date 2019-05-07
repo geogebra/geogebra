@@ -55,6 +55,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected EuclidianView3D mView;
 
+    private ARMotionEvent lastARMotionEvent;
+
     abstract public void onSurfaceCreated();
 
     abstract public void onSurfaceChanged(int width, int height);
@@ -180,7 +182,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                                 wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                             } else {
                                 // force a drag (device may have moved)
-                                arMotionEvent = getARMotionEventMoveFromScreenCenter();
+                                arMotionEvent = getARMotionEventMove(mView.getWidth() / 2, mView
+                                        .getHeight() / 2);
                                 setHittingOriginAndDirectionFromScreenCenter();
                             }
                         } else {
@@ -195,6 +198,26 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                             setHittingOriginAndDirection(
                                     arMotionEvent.getX(),
                                     arMotionEvent.getY());
+                            lastARMotionEvent = arMotionEvent;
+                        } else {
+                            if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
+                                lastARMotionEvent = null;
+                            } else {
+                                // create a new motionEvent
+                                if (lastARMotionEvent != null) {
+                                    if (lastARMotionEvent.getAction() ==
+                                            ARMotionEvent.FIRST_FINGER_DOWN) {
+                                        arMotionEvent = getARMotionEventMove((float) mPosXY.getX(),
+                                                (float) mPosXY.getY());
+                                    } else if (lastARMotionEvent.getAction() ==
+                                            ARMotionEvent.ON_MOVE){
+                                        arMotionEvent = lastARMotionEvent;
+                                    }
+                                    setHittingOriginAndDirection(
+                                            arMotionEvent.getX(),
+                                            arMotionEvent.getY());
+                                }
+                            }
                         }
                     }
                 } else {
@@ -355,7 +378,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         }
     }
 
-    protected ARMotionEvent getARMotionEventMoveFromScreenCenter(){
+    protected ARMotionEvent getARMotionEventMove(float x, float y){
         return null;
     }
 
