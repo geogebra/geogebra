@@ -3621,12 +3621,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (Double.isNaN(lineCoords[0])) {
 				return false;
 			}
+			updateTranslationVector(project1);
 		} else {
 			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
 			view3D.toSceneCoords3D(tmpCoordsForOrigin);
+			updateTranslationVector(tmpCoordsForOrigin);
 		}
-
-		updateTranslationVector(project1);
 
 		return true;
 	}
@@ -3701,7 +3701,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected void updateStartPoint(Coords p) {
 		startPoint3D.set(p);
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+		if (!app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 			view3D.toSceneCoords3D(startPoint3D);
 		}
 
