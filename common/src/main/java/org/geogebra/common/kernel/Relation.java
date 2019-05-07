@@ -126,12 +126,12 @@ public class Relation {
 					// helpful to show nice list look in web:
 					String liStyle = "class=\"RelationTool\"";
 					// Show symbolic result:
-					if (ndgResult.length == 1) {
+					int ndgs = ndgResult.length;
+					if (ndgs == 1) {
 						// ProveDetails=={true} or =={false} or ==undefined
 						rel.setInfo(rel.getInfo() + relInfo + "<br><b>");
 						if ("".equals(ndgResult[0])) {
 							// ProveDetails==undefined
-
 							rel.setInfo(rel.getInfo()
 									+ loc.getMenuDefault("CheckedNumerically",
 											"(checked numerically)"));
@@ -149,10 +149,9 @@ public class Relation {
 						}
 						rel.setInfo(rel.getInfo() + "</b>");
 					} else {
-						int ndgs = ndgResult.length;
 						if ((ndgs == 2) && !("2".equals(ndgResult[0])) && ((Unicode.ELLIPSIS + "")
 								.equals(ndgResult[1]))) {
-							// Formerly UnderCertainConditionsA
+							// ProveDetails=={true,"..."}
 							rel.setInfo(rel.getInfo()
 									+ loc.getPlain("GenerallyTrueAcondB",
 											"<ul><li " + liStyle + ">" + relInfo
@@ -169,7 +168,7 @@ public class Relation {
 								rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
 										+ trueOnParts + "</b>");
 							} else {
-								// GenerallyTrueAcondB
+								// e.g. ProveDetails=={true,{"AreEqual(A,B)"}}
 								StringBuilder conds = new StringBuilder("<ul>");
 								for (int j = 1; j < ndgs; ++j) {
 									conds.append("<li ");
@@ -324,7 +323,7 @@ public class Relation {
 			if (last.isGeoText()) {
 				String lastText = ((GeoText) last).getTextString();
 				if ("c".equals(lastText)) {
-					// true on components
+					// true on parts, false on parts
 					ret[0] = "2";
 				}
 			}
