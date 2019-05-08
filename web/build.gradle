@@ -77,11 +77,11 @@ def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
 	[id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
-	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico', mobileStartscreen: true],
-	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', mobileStartscreen: true],
+	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico'],
+	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D'],
 	[id:'cas', title:'CAS Calculator', transKey:'CASCalculator'],
 	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator', partials:["undo-redo"]],
-	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', mobileStartscreen: true],
+	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
 	[id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
 	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
@@ -147,6 +147,7 @@ task cleanWar(type: Delete) {
 task copyHtml {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
+
     doLast {
 		copy {
 			from file("../common/src/main/resources/giac")
@@ -198,7 +199,6 @@ task copyHtml {
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
-            .replace("<!--MOBILE STARTSCREEN-->", app.mobileStartscreen ? template("partials/mobile-startscreen.html") : "")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("\r\n", "\n") // generate the same on Win and Unix
