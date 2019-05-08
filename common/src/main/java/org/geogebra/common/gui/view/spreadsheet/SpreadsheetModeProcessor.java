@@ -17,6 +17,12 @@ public class SpreadsheetModeProcessor {
 	private MyTable table;
 	private GeoElement targetCell;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param table
+	 *            table
+	 */
 	public SpreadsheetModeProcessor(App app, MyTable table) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -129,6 +135,12 @@ public class SpreadsheetModeProcessor {
 	/**
 	 * Creates an autofunction in the given target cell based on the current
 	 * autofunction mode and the given cell range.
+	 * 
+	 * @param functionTargetCell
+	 *            target cell
+	 * @param cr
+	 *            input cell range
+	 * @return success
 	 */
 	public boolean createAutoFunctionCell(GeoElement functionTargetCell, CellRange cr) {
 
@@ -186,10 +198,18 @@ public class SpreadsheetModeProcessor {
 		}
 	}
 
-	public void initTargetCell(int minSelectionColumn, int minSelectionRow) {
+	/**
+	 * Set target cell to a new number at given coords
+	 * 
+	 * @param column
+	 *            column
+	 * @param row
+	 *            row
+	 */
+	public void initTargetCell(int column, int row) {
 		targetCell = new GeoNumeric(kernel.getConstruction(), 0);
 		targetCell.setLabel(GeoElementSpreadsheet
-				.getSpreadsheetCellName(minSelectionColumn, minSelectionRow));
+				.getSpreadsheetCellName(column, row));
 		targetCell.setUndefined();
 
 	}

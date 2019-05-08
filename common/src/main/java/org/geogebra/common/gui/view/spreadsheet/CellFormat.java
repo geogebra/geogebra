@@ -46,14 +46,14 @@ public class CellFormat implements CellFormatInterface {
 	private int formatCount = 5;
 
 	// Alignment constants
-	public static final int ALIGN_LEFT = 2;// SwingConstants.LEFT;
-	public static final int ALIGN_CENTER = 0;// SwingConstants.CENTER;
-	public static final int ALIGN_RIGHT = 4;// SwingConstants.RIGHT;
+	public static final int ALIGN_LEFT = 2; // SwingConstants.LEFT;
+	public static final int ALIGN_CENTER = 0; // SwingConstants.CENTER;
+	public static final int ALIGN_RIGHT = 4; // SwingConstants.RIGHT;
 
 	// Font syle constants
-	public static final int STYLE_PLAIN = GFont.PLAIN;// Font.PLAIN;
-	public static final int STYLE_BOLD = GFont.BOLD;// Font.BOLD;
-	public static final int STYLE_ITALIC = GFont.ITALIC;// Font.ITALIC;
+	public static final int STYLE_PLAIN = GFont.PLAIN; // Font.PLAIN;
+	public static final int STYLE_BOLD = GFont.BOLD; // Font.BOLD;
+	public static final int STYLE_ITALIC = GFont.ITALIC; // Font.ITALIC;
 	public static final int STYLE_BOLD_ITALIC = GFont.BOLD + GFont.ITALIC;
 
 	// Border style constants used by stylebar.
@@ -86,6 +86,7 @@ public class CellFormat implements CellFormatInterface {
 
 	// map to convert token to format type
 	private static HashMap<String, Integer> formatTokenMap = new HashMap<>();
+
 	static {
 		formatTokenMap.put(alignToken, FORMAT_ALIGN);
 		formatTokenMap.put(borderToken, FORMAT_BORDER);
@@ -97,9 +98,11 @@ public class CellFormat implements CellFormatInterface {
 	 * Constructor
 	 * 
 	 * @param table
+	 *            table
+	 * @param app
+	 *            application
 	 */
 	public CellFormat(MyTableInterface table, App app) {
-
 		this.table = table;
 		this.app = app;
 
@@ -389,8 +392,6 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	
-
 	// ========================================================
 	// Getters
 	// ========================================================
@@ -442,7 +443,6 @@ public class CellFormat implements CellFormatInterface {
 		}
 
 		return formatObject;
-
 	}
 
 	/**
@@ -492,6 +492,14 @@ public class CellFormat implements CellFormatInterface {
 		setFormat(crList, formatType, formatValue);
 	}
 
+	/**
+	 * @param cell
+	 *            cell
+	 * @param formatType
+	 *            format type
+	 * @param formatValue
+	 *            format value
+	 */
 	public void doSetFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<CellRange> crList = new ArrayList<>();
 		crList.add(new CellRange(app, cell.x, cell.y));
@@ -641,7 +649,9 @@ public class CellFormat implements CellFormatInterface {
 	 * style
 	 * 
 	 * @param cr
+	 *            cell range
 	 * @param borderStyle
+	 *            border style
 	 */
 	public void setBorderStyle(CellRange cr, int borderStyle) {
 
@@ -1059,6 +1069,7 @@ public class CellFormat implements CellFormatInterface {
 	 * then puts these formats into the format maps.
 	 * 
 	 * @param formatStr
+	 *            format string
 	 */
 	private void processCellFormatString(String formatStr) {
 		if ("null".equals(formatStr)) {
@@ -1091,19 +1102,34 @@ public class CellFormat implements CellFormatInterface {
 
 	}
 
+	/**
+	 * @param value
+	 *            value
+	 * @param position
+	 *            bit position
+	 * @return whether given bit is 0
+	 */
 	public static boolean isZeroBit(int value, int position) {
 		return (value & (1 << position)) == 0;
 	}
 
+	/**
+	 * @param value
+	 *            value
+	 * @param position
+	 *            bit position
+	 * @return whether given bit is 1
+	 */
 	public static boolean isOneBit(Byte value, int position) {
 		if (value == null) {
 			return false;
 		}
-		return ((int)value & (1 << position)) != 0;
+		return ((int) value & (1 << position)) != 0;
 	}
 
 	/**
 	 * @param alignment
+	 *            alignment, see ALIGN_ constants
 	 * @return "l", "c" or "r" for left/center/right
 	 */
 	public static char getAlignmentString(int alignment) {

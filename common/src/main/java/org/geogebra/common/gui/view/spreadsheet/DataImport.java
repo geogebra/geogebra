@@ -15,7 +15,8 @@ import com.google.gwt.regexp.shared.RegExp;
 
 public class DataImport {
 
-	static CSVParser commaParser, tabParser;
+	static CSVParser commaParser;
+	static CSVParser tabParser;
 
 	/*
 	 * disabled option to change as we don't want commas when pasting from
@@ -140,10 +141,12 @@ public class DataImport {
 		return data;
 	}
 
+	/**
+	 * @param input
+	 *            CSV string
+	 * @return tabular data
+	 */
 	public static String[][] parseTabData(String input) {
-
-		// Application.debug("parse data: " + input);
-
 		// split lines using "\r?\n|\r" to handle win/linux/mac cases
 		String[] lines = input.split("\r?\n|\r", -1);
 		if (lines.length == 0) {

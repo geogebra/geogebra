@@ -20,7 +20,6 @@ import org.geogebra.common.util.IndexHTMLBuilder;
  * @author G. Sturr
  * 
  */
-@SuppressWarnings({ "javadoc" })
 public class CreateObjectModel {
 	private CellRangeProcessor cp;
 	private ArrayList<CellRange> selectedCellRanges;
@@ -62,6 +61,14 @@ public class CreateObjectModel {
 		void updatePreview(String latexStr, boolean isLatexDrawable);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param objectType
+	 *            object type, see TYPE_ constants
+	 * @param listener
+	 *            listener
+	 */
 	public CreateObjectModel(App app, int objectType,
 			ICreateObjectListener listener) {
 		this.app = app;
@@ -71,12 +78,18 @@ public class CreateObjectModel {
 
 	}
 
+	/**
+	 * @return localized object types that can be created
+	 */
 	public List<String> getObjectTypeNames() {
 		return Arrays.asList(loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 				loc.getMenu("ListOfPoints"), loc.getMenu("Table"),
 				loc.getMenu("PolyLine"));
 	}
 
+	/**
+	 * @return title
+	 */
 	public String getTitle() {
 		switch (getObjectType()) {
 		default:
@@ -100,8 +113,10 @@ public class CreateObjectModel {
 
 	}
 
+	/**
+	 * Update UI
+	 */
 	public void update() {
-
 		if (newGeo == null) {
 			listener.setName("");
 		} else {
@@ -109,9 +124,11 @@ public class CreateObjectModel {
 		}
 
 		listener.setSortVisible(getObjectType() == TYPE_POLYLINE);
-
 	}
 
+	/**
+	 * Remove all created objects and close.
+	 */
 	public void cancel() {
 		if (newGeo != null) {
 			newGeo.remove();
@@ -129,19 +146,12 @@ public class CreateObjectModel {
 		// processInput();
 	}
 
+	/**
+	 * Mark as success and close
+	 */
 	public void ok() {
 		keepNewGeo = true;
 		listener.setVisible(false);
-
-	}
-
-	public void close() {
-		// either remove our geo or keep it and make it visible
-		if (keepNewGeo && newGeo != null) {
-			addNewGeoToConstruction();
-		} else {
-			newGeo.remove();
-		}
 	}
 
 	private void addNewGeoToConstruction() {
@@ -179,8 +189,11 @@ public class CreateObjectModel {
 		app.storeUndoInfo();
 	}
 
+	/**
+	 * @param name
+	 *            label
+	 */
 	public void createNewGeo(String name) {
-
 		boolean nullGeo = newGeo == null;
 
 		if (!nullGeo) {
@@ -283,6 +296,9 @@ public class CreateObjectModel {
 
 	}
 
+	/**
+	 * Remove temporary geo if not in construction
+	 */
 	public void cleanUp() {
 		if (newGeo == null) {
 			return;
@@ -318,15 +334,21 @@ public class CreateObjectModel {
 		return objectType;
 	}
 
+	/**
+	 * @param objectType
+	 *            object type
+	 */
 	public void setObjectType(int objectType) {
 		this.objectType = objectType;
-
 	}
 
 	public void setListType() {
 		objectType = TYPE_LIST;
 	}
 
+	/**
+	 * @return index of options tab
+	 */
 	public int getOptionType() {
 		int idx = 0;
 

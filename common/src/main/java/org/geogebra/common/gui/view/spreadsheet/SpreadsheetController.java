@@ -13,6 +13,13 @@ public class SpreadsheetController {
 		this.app = app;
 	}
 
+	/**
+	 * Show redefine dialog if inline editing is not possible
+	 * 
+	 * @param geo
+	 *            construction element
+	 * @return whether dialog is shown
+	 */
 	public boolean redefineIfNeeded(GeoElement geo) {
 		if (!geo.isProtected(EventType.UPDATE)) {
 			if (!geo.isGeoText() && !geo.isIndependent()
@@ -34,6 +41,7 @@ public class SpreadsheetController {
 	 * started.
 	 * 
 	 * @param geo
+	 *            construction element
 	 * @return editor string
 	 */
 	public String getEditorInitString(GeoElementND geo) {

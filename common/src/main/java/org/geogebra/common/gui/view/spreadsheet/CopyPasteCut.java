@@ -88,10 +88,15 @@ public abstract class CopyPasteCut {
 	 * left corner (column2, row2)
 	 * 
 	 * @param column1
+	 *            min column
 	 * @param row1
+	 *            min row
 	 * @param column2
+	 *            max column
 	 * @param row2
+	 *            max row
 	 * @param skipGeoCopy
+	 *            whether to skip copy to internal buffer
 	 */
 	abstract public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy);
@@ -106,9 +111,13 @@ public abstract class CopyPasteCut {
 	 * expected by the user.
 	 * 
 	 * @param column1
+	 *            min column
 	 * @param row1
+	 *            min row
 	 * @param column2
+	 *            max column
 	 * @param row2
+	 *            max row
 	 * @return if at least one object was deleted
 	 */
 	public boolean cut(int column1, int row1, int column2, int row2) {
@@ -273,8 +282,7 @@ public abstract class CopyPasteCut {
 			tableModel.setColumnCount(x4 + 1);
 		}
 
-		GeoElement[][] values1 = getCellBufferGeo();// RelativeCopy.getValues(table,
-												// x1, y1, x2, y2);
+		GeoElement[][] values1 = getCellBufferGeo();
 		try {
 			for (int x = x1; x <= x2; ++x) {
 				int ix = x - x1;
@@ -285,11 +293,6 @@ public abstract class CopyPasteCut {
 					boolean inSource = x + (x3 - x1) <= x2
 							&& x + (x3 - x1) >= x1 && y + (y3 - y1) <= y2
 							&& y + (y3 - y1) >= y1;
-
-					// Application.debug("x1="+x1+" x2="+x2+" x3="+x3+"
-					// x4="+x4+" x="+x+" ix="+ix);
-					// Application.debug("y1="+y1+" y2="+y2+" y3="+y3+"
-					// y4="+y4+" y="+y+" iy="+iy);
 
 					if (ix + column1 <= maxColumn && iy + row1 <= maxRow// ) {
 																		// //
@@ -430,10 +433,15 @@ public abstract class CopyPasteCut {
 	 * (maxColumn, maxRow). Does not apply relative cell references.
 	 * 
 	 * @param data
+	 *            tabular data
 	 * @param column1
+	 *            min column
 	 * @param row1
+	 *            min row
 	 * @param maxColumn
+	 *            max column
 	 * @param maxRow
+	 *            max row
 	 * @return whether paste was successful
 	 */
 	public boolean pasteExternal(String[][] data, int column1, int row1,
@@ -505,8 +513,6 @@ public abstract class CopyPasteCut {
 
 			succ = true;
 		} catch (Exception ex) {
-			// app.showError(ex.getMessage());
-			// Util.handleException(table, ex);
 			ex.printStackTrace();
 		} finally {
 			app.setDefaultCursor();
@@ -588,7 +594,11 @@ public abstract class CopyPasteCut {
 	}
 
 	private static class Record {
-		int id, x1, y1, x2, y2;
+		int id;
+		int x1;
+		int y1;
+		int x2;
+		int y2;
 
 		public Record(int id, int x1, int y1, int x2, int y2) {
 			this.id = id;

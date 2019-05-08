@@ -1184,8 +1184,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		sb.append(getCreatedWithHTML());
 
 		// append base64 string so that file can be reloaded with File -> Open
-		sb.append(
-				"\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
+		sb.append("\n<!-- Base64 string so that this file can be ");
+		sb.append("opened in GeoGebra with File -> Open -->");
 		sb.append(
 				"\n<applet width='1' height='1' code='' style=\"display:none\">");
 		sb.append("\n<param name=\"ggbBase64\" value=\"");
@@ -1200,16 +1200,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 	private static void addCAS(StringBuilder sb, Localization loc,
 			Kernel kernel2) {
-
 		GuiManagerInterface gm = kernel2.getApplication().getGuiManager();
 
 		if (gm == null || !gm.hasCasView()) {
 			return;
 		}
-
-		CASView cas = (CASView) gm.getCasView();
-
-		CASTable table = cas.getConsoleTable();
 
 		sb.append("<table border=\"1\">\n");
 
@@ -1226,6 +1221,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		sb.append("</th>\n");
 		sb.append("</tr>\n");
 
+		CASView cas = (CASView) gm.getCasView();
+		CASTable table = cas.getConsoleTable();
 		int n = table.getRowCount();
 		for (int i = 0; i < n; i++) {
 			GeoCasCell cell = table.getGeoCasCell(i);

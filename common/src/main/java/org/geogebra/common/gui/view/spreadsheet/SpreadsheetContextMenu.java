@@ -130,6 +130,7 @@ public class SpreadsheetContextMenu {
 		addCut();
 		addDelete();
 	}
+
 	/**
 	 * Load menu items
 	 */
@@ -335,14 +336,12 @@ public class SpreadsheetContextMenu {
 					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
 					true);
 		}
-
 	}
 
 	protected void addShowObject(GeoElement geo) {
 		String cmdString = MenuCommand.ShowObject.toString();
 		addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
 				geo.isSetEuclidianVisible());
-
 	}
 
 	private String getTitleString() {

@@ -48,8 +48,12 @@ public class RelativeCopy {
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 	private static GeoElementND redefinedElement;
 
-	public RelativeCopy(Kernel kernel0) {
-		kernel = kernel0;
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
+	public RelativeCopy(Kernel kernel) {
+		this.kernel = kernel;
 		app = kernel.getApplication();
 	}
 
@@ -294,6 +298,7 @@ public class RelativeCopy {
 	 * Tests if a cell range can be used as the source for a pattern drag-copy.
 	 * 
 	 * @param cellRange
+	 *            cell range
 	 * @return whether all geos are acceptable
 	 */
 	private static boolean isPatternSource(CellRange cellRange) {
@@ -621,7 +626,7 @@ public class RelativeCopy {
 
 		value2.setAuxiliaryObject(true);
 
-		String startPoints[] = null;
+		String[] startPoints = null;
 		if (value instanceof Locateable) {
 			Locateable loc = (Locateable) value;
 
@@ -704,13 +709,7 @@ public class RelativeCopy {
 			value2.update();
 		}
 
-		// Application.debug((row + dy) + "," + column);
-		// Application.debug("isGeoFunction()=" + value2.isGeoFunction());
-		// Application.debug("row0 ="+row0+" dy="+dy+" column0= "+column0+"
-		// dx="+dx);
-
 		return value2;
-
 	}
 
 	/**
@@ -728,6 +727,15 @@ public class RelativeCopy {
 
 	}
 
+	/**
+	 * @param name
+	 *            source cell name
+	 * @param dx
+	 *            horizontal offset
+	 * @param dy
+	 *            vertical offset
+	 * @return new cell name
+	 */
 	public static String updateCellNameWithOffset(String name, int dx, int dy) {
 		MatchResult m = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
 
@@ -800,41 +808,6 @@ public class RelativeCopy {
 		if (geoForStyle != null) {
 			value2.setVisualStyle(geoForStyle);
 		}
-
-	}
-
-	public static String replaceAll(RegExp spreadsheetpattern, String text,
-			String before, String after) {
-		StringBuilder pre = new StringBuilder();
-		String post = text;
-		int end = 0;
-
-		// Application.debug(text + " " + before + " " + after + " ");
-
-		MatchResult matcher;
-		do {
-			matcher = spreadsheetpattern.exec(post);
-			if (matcher != null) {
-				String s = matcher.getGroup(0);
-				// Application.debug("match: " + s);
-				if (s.equals(before)) {
-					int start = post.indexOf(s);
-					pre.append(post.substring(0, start));
-					pre.append(after); // replace 's' with 'after'
-					end = start + s.length();
-					post = post.substring(end);
-				} else {
-					int start = post.indexOf(s);
-					pre.append(post.substring(0, start));
-					pre.append(s); // leave 's' alone
-					end = start + s.length();
-					post = post.substring(end);
-				}
-			}
-		} while (matcher != null);
-		pre.append(post);
-		// Application.debug("returning: " + pre.toString());
-		return pre.toString();
 	}
 
 	/**
@@ -883,25 +856,27 @@ public class RelativeCopy {
 
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
+	 * 
+	 * @param app
+	 *            application
+	 * @param point
+	 *            coordinates
+	 * @return spreadsheet cell
 	 */
-	/*
-	 * public static GeoElement getValue(AbstractApplication app, int column,
-	 * int row) {
-	 * 
-	 * String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column,
-	 * row);
-	 * 
-	 * return app.getKernel().getConstruction().lookupLabel(cellName);
-	 * 
-	 * }
-	 */
-
 	public static GeoElement getValue(App app, GPoint point) {
 		return getValue(app, point.getX(), point.getY());
 	}
 
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
+	 * 
+	 * @param app
+	 *            application
+	 * @param column
+	 *            column number
+	 * @param row
+	 *            row number
+	 * @return spreadsheet cell
 	 */
 	public static GeoElement getValue(App app, int column, int row) {
 		SpreadsheetTableModel tableModel = app.getSpreadsheetTableModel();
@@ -1139,7 +1114,6 @@ public class RelativeCopy {
 				return null;
 			}
 		};
-
 	}
 
 	/**
@@ -1276,6 +1250,7 @@ public class RelativeCopy {
 	 * notation
 	 * 
 	 * @param s
+	 *            string to check
 	 * @return whether string is a standard number
 	 */
 	private static boolean isStandardNumber(String s) {
