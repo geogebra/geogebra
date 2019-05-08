@@ -3782,29 +3782,30 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 			if (isTranslateablePoint()) {
 				Coords end = moveDependentPoint();
-				view3D.getHittingDirection(tmpCoordsForDirection);
-				MoveGeos.moveObjects(translateableGeos, translationVec3D, end,
-						tmpCoordsForDirection, view3D);
-				kernel.notifyRepaint();
+				doMoveDependent(end);
 			}
 			// TODO else
 			if (movedGeoElement.hasChangeableCoordParentNumbers()) {
 				if (updateTranslationVector(movedGeoElement
 						.getChangeableCoordParentNumbersDirection())) {
-					view3D.getHittingDirection(tmpCoordsForDirection);
-					MoveGeos.moveObjects(translateableGeos, translationVec3D,
-							startPoint3D, tmpCoordsForDirection, view3D);
-					kernel.notifyRepaint();
+					doMoveDependent(startPoint3D);
 				}
 			}
 		} else {
 			updateTranslationVector(null);
-			Coords end = moveDependentPoint();
-			view3D.getHittingDirection(tmpCoordsForDirection);
-			MoveGeos.moveObjects(translateableGeos, translationVec3D, end,
-					tmpCoordsForDirection, view3D);
-			kernel.notifyRepaint();
+			Coords end = startPoint3D;
+			if (isTranslateablePoint()) {
+				end = moveDependentPoint();
+			}
+			doMoveDependent(end);
 		}
+	}
+
+	private void doMoveDependent(Coords end) {
+		view3D.getHittingDirection(tmpCoordsForDirection);
+		MoveGeos.moveObjects(translateableGeos, translationVec3D, end,
+				tmpCoordsForDirection, view3D);
+		kernel.notifyRepaint();
 	}
 
 	private boolean isTranslateablePoint() {
@@ -3813,24 +3814,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	private Coords moveDependentPoint() {
-		Coords end = startPoint3D;
-		if (isTranslateablePoint()) {
-			GeoPointND g3d = (GeoPointND) translateableGeos.get(0).copy();
-
-			if (g3d.getMoveMode() == GeoPointND.MOVE_MODE_Z || (g3d
-					.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
-					&& this.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
-				((EuclidianController3DCompanion) companion)
-						.moveAlongZAxis(g3d);
-
-			} else {
-				getCurrentPlane().set(g3d.getCoordsInD3(), 4);
-				movePointOnCurrentPlane(g3d, false);
-			}
-
-			end = g3d.getInhomCoordsInD3();
+		GeoPointND g3d = (GeoPointND) translateableGeos.get(0).copy();
+		if (g3d.getMoveMode() == GeoPointND.MOVE_MODE_Z
+				|| (g3d.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
+						&& this.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
+			((EuclidianController3DCompanion) companion).moveAlongZAxis(g3d);
+		} else {
+			getCurrentPlane().set(g3d.getCoordsInD3(), 4);
+			movePointOnCurrentPlane(g3d, false);
 		}
-		return end;
+		return g3d.getInhomCoordsInD3();
 	}
 
 	@Override
