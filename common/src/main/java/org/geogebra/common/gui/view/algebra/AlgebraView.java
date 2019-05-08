@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.gui.Editing;
@@ -68,6 +69,11 @@ public interface AlgebraView extends Editing, SetLabels {
 			}
 		};
 
+		/**
+		 * @param mode
+		 *            mode XML value
+		 * @return mode
+		 */
 		public static SortMode fromInt(int mode) {
 			switch (mode) {
 			case 0:
@@ -82,6 +88,9 @@ public interface AlgebraView extends Editing, SetLabels {
 			return SortMode.TYPE;
 		}
 
+		/**
+		 * @return XML value
+		 */
 		public int toInt() {
 			switch (this) {
 			case DEPENDENCY:

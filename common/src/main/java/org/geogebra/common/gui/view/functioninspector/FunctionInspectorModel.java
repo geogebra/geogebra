@@ -85,20 +85,36 @@ public class FunctionInspectorModel {
 	private ArrayList<Integer> extraColumnList;
 
 	// Geos
-	private GeoElement tangentLine, oscCircle, xSegment, ySegment;
-	private GeoElement functionInterval, integralGeo, lengthGeo, areaGeo;
-	private GeoFunction derivative, derivative2, selectedGeo;
-	private GeoPoint testPoint, lowPoint, highPoint, minPoint, maxPoint;
+	private GeoElement tangentLine;
+	private GeoElement oscCircle;
+	private GeoElement xSegment;
+	private GeoElement ySegment;
+	private GeoElement functionInterval;
+	private GeoElement integralGeo;
+	private GeoElement lengthGeo;
+	private GeoElement areaGeo;
+	private GeoFunction derivative;
+	private GeoFunction derivative2;
+	private GeoFunction selectedGeo;
+	private GeoPoint testPoint;
+	private GeoPoint lowPoint;
+	private GeoPoint highPoint;
+	private GeoPoint minPoint;
+	private GeoPoint maxPoint;
 	private GeoList pts;
 
-	private ArrayList<GeoElement> intervalTabGeoList, pointTabGeoList,
-			hiddenGeoList;
+	private ArrayList<GeoElement> intervalTabGeoList;
+	private ArrayList<GeoElement> pointTabGeoList;
+	private ArrayList<GeoElement> hiddenGeoList;
 	private GeoElementND[] rootGeos;
 
 	// stores lists of column data from the point panel table
 	private ArrayList<Double[]> xyTableCopyList = new ArrayList<>();
 
-	private double xMin, xMax, start = -1, step = 0.1;
+	private double xMin;
+	private double xMax;
+	private double start = -1;
+	private double step = 0.1;
 
 	// private boolean isChangingValue;
 	private int pointCount = 9;
@@ -143,13 +159,17 @@ public class FunctionInspectorModel {
 		int getSelectedXYRow();
 
 		void changedNumberFormat();
-
 	}
+
 	/***************************************************************
 	 * Constructs a FunctionInspecor
 	 * 
 	 * @param app
+	 *            application
 	 * @param selectedGeo
+	 *            function
+	 * @param listener
+	 *            model listener
 	 */
 	public FunctionInspectorModel(App app, GeoFunction selectedGeo,
 			IFunctionInspectorListener listener) {
@@ -176,7 +196,7 @@ public class FunctionInspectorModel {
 		setColumnNames();
 	}
 
-	public void setColumnNames() {
+	private void setColumnNames() {
 		columnNames[COL_DERIVATIVE] = loc.getMenu("fncInspector.Derivative");
 		columnNames[COL_DERIVATIVE2] = loc.getMenu("fncInspector.Derivative2");
 		columnNames[COL_CURVATURE] = loc.getMenu("fncInspector.Curvature");
@@ -187,7 +207,7 @@ public class FunctionInspectorModel {
 		return col < columnNames.length ? columnNames[col] : "-";
 	}
 
-	public String getColumnNameForCopy(int col) {
+	private String getColumnNameForCopy(int col) {
 		if (col == 0) {
 			return "x";
 		} else if (col == 1) {
@@ -198,8 +218,10 @@ public class FunctionInspectorModel {
 		}
 	}
 
+	/**
+	 * @return title
+	 */
 	public String getTitleString() {
-
 		if (selectedGeo == null) {
 			return loc.getMenu("SelectObject");
 		}
@@ -209,6 +231,16 @@ public class FunctionInspectorModel {
 	// Update
 	// =====================================
 
+	/**
+	 * @param isTangent
+	 *            whether to show tangent
+	 * @param isOscCircle
+	 *            whether to show circle
+	 * @param isXYSegments
+	 *            whether to show x,y segments
+	 * @param isTable
+	 *            whether to show points
+	 */
 	public void updatePoints(boolean isTangent, boolean isOscCircle,
 			boolean isXYSegments, boolean isTable) {
 
@@ -230,9 +262,11 @@ public class FunctionInspectorModel {
 	 * Updates the tab panels and thus the entire GUI. Also updates the active
 	 * EV to hide/show temporary GeoElements associated with the
 	 * FunctionInspector (e.g. points, integral)
+	 * 
+	 * @param isInterval
+	 *            whether interval tab is active
 	 */
 	public void updateGeos(boolean isInterval) {
-
 		for (GeoElement geo : intervalTabGeoList) {
 			geo.setEuclidianVisible(isInterval);
 			geo.update();
@@ -243,7 +277,6 @@ public class FunctionInspectorModel {
 		}
 
 		activeEV.repaint();
-
 	}
 
 	public GeoPoint getLowPoint() {
@@ -259,7 +292,6 @@ public class FunctionInspectorModel {
 	 * current interval are calculated and put into the IntervalTable model.
 	 */
 	public void updateIntervalTable() {
-
 		property.clear();
 		values.clear();
 		value2.clear();
@@ -275,12 +307,6 @@ public class FunctionInspectorModel {
 
 		ExtremumFinderI ef = kernel.getExtremumFinder();
 		UnivariateFunction fun = selectedGeo.getUnivariateFunctionY();
-
-		// get the table
-		double integral = ((GeoNumeric) integralGeo).getDouble();
-		double area = ((GeoNumeric) areaGeo).getDouble();
-		double mean = integral / (xMax - xMin);
-		double length = ((GeoNumeric) lengthGeo).getDouble();
 
 		// value of x that gives min y at endpoints
 		double yMinXval;
@@ -311,7 +337,6 @@ public class FunctionInspectorModel {
 		double xMaxInt = ef.findMaximum(xMin, xMax, fun, 5.0E-8);
 		double yMinInt = selectedGeo.value(xMinInt);
 		double yMaxInt = selectedGeo.value(xMaxInt);
-
 
 		// check local extremums against endpoints
 		if (yMin < yMinInt) {
@@ -403,8 +428,12 @@ public class FunctionInspectorModel {
 		default:
 			values.add(loc.getMenu("fncInspector.MultipleRoots"));
 			value2.add(null);
-
 		}
+		// get the table
+		final double integral = ((GeoNumeric) integralGeo).getDouble();
+		final double area = ((GeoNumeric) areaGeo).getDouble();
+		final double mean = integral / (xMax - xMin);
+		final double length = ((GeoNumeric) lengthGeo).getDouble();
 
 		property.add(null);
 		values.add(null);
@@ -431,9 +460,13 @@ public class FunctionInspectorModel {
 		value2.add(l);
 
 		listener.updateInterval(property, values);
-
 	}
 
+	/**
+	 * @param x
+	 *            number
+	 * @return formated number
+	 */
 	public String format(Double x) {
 		if (x == null) {
 			return "";
@@ -456,6 +489,11 @@ public class FunctionInspectorModel {
 	/**
 	 * Updates the XYTable with the coordinates of the current sample points and
 	 * any related values (e.g. derivative, difference)
+	 * 
+	 * @param rowCount
+	 *            row count
+	 * @param isTable
+	 *            whether table tab is active
 	 */
 	public void updateXYTable(int rowCount, boolean isTable) {
 
@@ -502,7 +540,6 @@ public class FunctionInspectorModel {
 		// update any extra columns added by the user (these will show
 		// derivatives, differences etc.)
 		updateExtraColumns(rowCount);
-
 	}
 
 	/**
@@ -522,12 +559,11 @@ public class FunctionInspectorModel {
 			switch (columnType) {
 
 			case COL_DERIVATIVE:
-
 				for (int row = 0; row < rowCount; row++) {
 					String str = (String) listener.getXYValueAt(row, 0);
 					if (!"".equals(str)) {
 						double x = Double.parseDouble(str);
-						double d = derivative.value(x);// evaluateExpression(derivative.getLabel()
+						double d = derivative.value(x);
 						// + "(" + x + ")");
 						listener.setXYValueAt(d, row, column);
 						copyArray[row] = d;
@@ -536,13 +572,11 @@ public class FunctionInspectorModel {
 				break;
 
 			case COL_DERIVATIVE2:
-
 				for (int row = 0; row < rowCount; row++) {
 					String str = (String) listener.getXYValueAt(row, 0);
 					if (!"".equals(str)) {
 						double x = Double.parseDouble(str);
-						double d2 = derivative2.value(x);// evaluateExpression(derivative2.getLabel()
-						// + "(" + x + ")");
+						double d2 = derivative2.value(x);
 						listener.setXYValueAt(d2, row, column);
 						copyArray[row] = d2;
 					}
@@ -612,10 +646,13 @@ public class FunctionInspectorModel {
 			}
 
 			xyTableCopyList.add(copyArray);
-
 		}
 	}
 
+	/**
+	 * @param columnType
+	 *            column index in "add column" popup
+	 */
 	public void addColumn(int columnType) {
 		extraColumnList.add(columnType);
 		listener.addTableColumn(getColumnName(columnType));
@@ -629,6 +666,10 @@ public class FunctionInspectorModel {
 		step = value;
 	}
 
+	/**
+	 * @param value
+	 *            high
+	 */
 	public void applyHigh(double value) {
 		double y = selectedGeo.value(value);
 		highPoint.setCoords(value, y, 1);
@@ -636,6 +677,10 @@ public class FunctionInspectorModel {
 		highPoint.updateRepaint();
 	}
 
+	/**
+	 * @param value
+	 *            low
+	 */
 	public void applyLow(double value) {
 		double y = selectedGeo.value(value);
 		lowPoint.setCoords(value, y, 1);
@@ -647,13 +692,21 @@ public class FunctionInspectorModel {
 	// View Implementation
 	// ====================================================
 
+	/**
+	 * @return whether all helper geos exist
+	 */
 	public boolean isValid() {
 		return !(selectedGeo == null || testPoint == null || lowPoint == null
 				|| highPoint == null);
 	}
 
+	/**
+	 * @param geo
+	 *            construction element
+	 * @param isPoints
+	 *            whether point tab is active
+	 */
 	public void update(GeoElement geo, boolean isPoints) {
-
 		if (selectedGeo.equals(geo)) {
 			listener.setGeoName(
 					selectedGeo.toString(StringTemplate.defaultTemplate));
@@ -673,7 +726,6 @@ public class FunctionInspectorModel {
 
 			return;
 		}
-
 	}
 
 	// ====================================================
@@ -685,7 +737,6 @@ public class FunctionInspectorModel {
 		int mouseX = mouse == null ? activeEV.getWidth() / 2
 				: activeEV.getEuclidianController().getMouseLoc().getX();
 		return activeEV.toRealWorldCoordX(mouseX);
-
 	}
 
 	/**
@@ -966,7 +1017,6 @@ public class FunctionInspectorModel {
 			geo.addView(App.VIEW_FUNCTION_INSPECTOR);
 			geo.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 			geo.update();
-
 		}
 		for (GeoElement geo : pointTabGeoList) {
 			activeEV.add(geo);
@@ -977,11 +1027,12 @@ public class FunctionInspectorModel {
 
 		updateTestPoint();
 		activeEV.repaint();
-
 	}
 
+	/**
+	 * Update test point coords
+	 */
 	public void updateTestPoint() {
-
 		if (testPoint == null) {
 			return;
 		}
@@ -996,9 +1047,11 @@ public class FunctionInspectorModel {
 				testPoint.updateRepaint();
 			}
 		}
-
 	}
 
+	/**
+	 * Clear lists of helper geos
+	 */
 	public void clearGeoList() {
 		for (GeoElement geo : intervalTabGeoList) {
 			if (geo != null) {
@@ -1024,26 +1077,29 @@ public class FunctionInspectorModel {
 		rootGeos = null;
 	}
 
+	/**
+	 * HIde min/max points, show integral
+	 */
 	public void updateIntervalGeoVisiblity() {
-
-		// minPoint.setEuclidianVisible(tableInterval.isRowSelected(0));
 		minPoint.setEuclidianVisible(false);
 		minPoint.update();
-		// maxPoint.setEuclidianVisible(tableInterval.isRowSelected(1));
 		maxPoint.setEuclidianVisible(false);
 		maxPoint.update();
 
-		// integralGeo.setEuclidianVisible(tableInterval.isRowSelected(5));
 		areaGeo.setEuclidianVisible(false);
 		areaGeo.update();
 		integralGeo.setEuclidianVisible(true);
 		integralGeo.update();
-
 		activeEV.repaint();
 	}
 
+	/**
+	 * @param colCount
+	 *            column count
+	 * @param rowCount
+	 *            row count
+	 */
 	public void copyPointsToSpreadsheet(int colCount, int rowCount) {
-
 		GeoElement geo = null;
 
 		int targetColumn = app.getSpreadsheetTableModel()
@@ -1064,9 +1120,14 @@ public class FunctionInspectorModel {
 				}
 			}
 		}
-
 	}
 
+	/**
+	 * @param colCount
+	 *            column count
+	 * @param rowCount
+	 *            row count
+	 */
 	public void copyIntervalsToSpreadsheet(int colCount, int rowCount) {
 		GeoElement geo = null;
 		int targetColumn = app.getSpreadsheetTableModel()
@@ -1106,11 +1167,17 @@ public class FunctionInspectorModel {
 		start = value;
 	}
 
+	/**
+	 * @return column names for table tab
+	 */
 	public String[] getColumnNames() {
 		setColumnNames();
 		return columnNames;
 	}
 
+	/**
+	 * @return localized column names for interval tab
+	 */
 	public String[] getIntervalColumnNames() {
 		String[] names = { loc.getMenu("fncInspector.Property"),
 				loc.getMenu("fncInspector.Value") };
@@ -1133,13 +1200,17 @@ public class FunctionInspectorModel {
 		this.printDecimals = printDecimals;
 	}
 
+	/**
+	 * TODO check compatibility with RoundingProperty
+	 * 
+	 * @param index
+	 *            selected index in rounding menu
+	 */
 	public void applyDecimalPlaces(int index) {
-		if (index < 8) // decimal places
-		{
+		if (index < 8) { // decimal places
 			printDecimals = optionsMenu.roundingMenuLookup(index);
 			printFigures = -1;
-		} else // significant figures
-		{
+		} else { // significant figures
 			printDecimals = -1;
 			printFigures = optionsMenu.roundingMenuLookup(index);
 		}
@@ -1149,9 +1220,5 @@ public class FunctionInspectorModel {
 	public double getInitialX() {
 		return getStartX();
 	}
-
-	// public void setInitialX(double initialX) {
-	// this.initialX = initialX;
-	// }
 
 }

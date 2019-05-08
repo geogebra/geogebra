@@ -51,10 +51,11 @@ public abstract class FunctionInspector
 	 * Constructs a FunctionInspecor
 	 * 
 	 * @param app
+	 *            application
 	 * @param selectedGeo
+	 *            function
 	 */
 	public FunctionInspector(App app, GeoFunction selectedGeo) {
-
 		this.setApp(app);
 		setKernel(app.getKernel());
 		app.getKernel().attach(this);
@@ -68,7 +69,6 @@ public abstract class FunctionInspector
 		insertGeoElement(selectedGeo);
 
 		isIniting = false;
-
 	}
 
 	// ======================================================
@@ -76,20 +76,16 @@ public abstract class FunctionInspector
 	// ======================================================
 
 	protected void createGUI() {
-
 		// create the GUI components
 		createGUIElements();
 		createHeaderPanel();
 		createTabPanel();
-
 	}
 
 	protected void createTabPanel() {
-
 		createTabPointPanel();
 		createTabIntervalPanel();
 		buildTabPanel();
-
 	}
 
 	protected abstract void buildTabPanel();
@@ -99,13 +95,11 @@ public abstract class FunctionInspector
 	protected abstract void buildHeaderPanel();
 
 	protected void createHeaderPanel() {
-
 		createHelpPanel();
 		buildHeaderPanel();
 	}
 
 	private void createHelpPanel() {
-
 		createOptionsButton();
 		buildHelpPanel();
 	}
@@ -128,8 +122,10 @@ public abstract class FunctionInspector
 	// Update
 	// =====================================
 
+	/**
+	 * Update the UI
+	 */
 	public void updateGUI() {
-
 		if (isIntervalTabSelected()) {
 			updateIntervalTab();
 
@@ -163,11 +159,9 @@ public abstract class FunctionInspector
 	 * current interval are calculated and put into the IntervalTable model.
 	 */
 	protected void updateIntervalTable() {
-
 		isChangingValue = true;
 		getModel().updateIntervalTable();
 		isChangingValue = false;
-
 	}
 
 	/**
@@ -178,6 +172,10 @@ public abstract class FunctionInspector
 
 	protected abstract void removeColumn();
 
+	/**
+	 * @param isVisible
+	 *            whether to show the FI
+	 */
 	public void setInspectorVisible(boolean isVisible) {
 		if (isVisible) {
 			Log.debug("setInspectorVisible(true)");
@@ -196,13 +194,11 @@ public abstract class FunctionInspector
 
 	@Override
 	public void update(GeoElement geo) {
-
 		if (!getModel().isValid() || isChangingValue || isIniting) {
 			return;
 		}
 
 		getModel().update(geo, !isIntervalTabSelected());
-
 	}
 
 	@Override
@@ -334,7 +330,6 @@ public abstract class FunctionInspector
 	@Override
 	public void startBatchUpdate() {
 		//
-
 	}
 
 	@Override

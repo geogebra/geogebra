@@ -1,8 +1,8 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-
 import java.util.TreeSet;
+
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Delegate that handles AV visibility
@@ -11,7 +11,8 @@ import java.util.TreeSet;
 public class AlgebraViewVisibilityDelegate {
 
     private boolean isViewVisible;
-    private boolean updateOccurred, clearOccured;
+	private boolean updateOccurred;
+	private boolean clearOccured;
 
     private TreeSet<GeoElement> geosToAdd;
     private TreeSet<GeoElement> geosToRemove;

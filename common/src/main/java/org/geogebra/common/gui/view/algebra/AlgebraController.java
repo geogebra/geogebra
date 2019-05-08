@@ -81,8 +81,12 @@ public class AlgebraController {
 		this.isStoringUndo = isStoringUndo;
 	}
 
+	/**
+	 * @param geoLabelList
+	 *            list of geos to drag
+	 * @return LaTeX for drag preview
+	 */
 	public String getDragText(ArrayList<String> geoLabelList) {
-
 		String latex = null;
 
 		for (GeoElement geo : selection.getSelectedGeos()) {
@@ -195,11 +199,9 @@ public class AlgebraController {
 							processingInfo.withSliders(isAutoCreateSliders),
 							callback);
 
-
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
 			}
-
 		} catch (Exception ee) {
 			errorHandler
 					.showError(app.getLocalization().getError("InvalidInput"));

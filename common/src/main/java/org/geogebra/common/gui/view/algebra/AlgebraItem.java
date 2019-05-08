@@ -116,8 +116,8 @@ public class AlgebraItem {
 				return false;
 			}
 			if (geo.get(i) instanceof GeoPlaneND
-					&& !DoubleUtil.isInteger(((GeoPlaneND) geo.get(i)).getCoordSys()
-							.getEquationVector().getW())) {
+					&& !DoubleUtil.isInteger(((GeoPlaneND) geo.get(i))
+							.getCoordSys().getEquationVector().getW())) {
 				return false;
 			}
 			if (geo.get(i) instanceof GeoList
@@ -163,10 +163,11 @@ public class AlgebraItem {
 			return null;
 		}
 
-		boolean casEnabled = geo.getKernel().getAlgebraProcessor().getCommandDispatcher()
-				.isCASAllowed();
+		boolean casEnabled = geo.getKernel().getAlgebraProcessor()
+				.getCommandDispatcher().isCASAllowed();
 		if (casEnabled) {
-			return SuggestionSolveForSymbolic.isValid(geo) ? SuggestionSolveForSymbolic.get(geo)
+			return SuggestionSolveForSymbolic.isValid(geo)
+					? SuggestionSolveForSymbolic.get(geo)
 					: SuggestionSolve.get(geo);
 		}
 		return null;
@@ -246,19 +247,17 @@ public class AlgebraItem {
 	 * @param builder
 	 *            index builder
 	 * @param stringTemplate
-	 * 			  string template
+	 *            string template
 	 * @return whether we did append something to the index builder
 	 */
-	public static boolean buildPlainTextItemSimple(
-			GeoElement geo1,
-			IndexHTMLBuilder builder,
-			StringTemplate stringTemplate) {
+	public static boolean buildPlainTextItemSimple(GeoElement geo1,
+			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
 		if (geo1.isIndependent() && geo1.isGeoPoint()
 				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 			builder.clear();
-			builder.append(((GeoPointND) geo1)
-					.toStringDescription(stringTemplate));
+			builder.append(
+					((GeoPointND) geo1).toStringDescription(stringTemplate));
 			return true;
 		}
 		if (geo1.isIndependent() && geo1.getDefinition() == null) {
@@ -279,8 +278,7 @@ public class AlgebraItem {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			} else {
 				geo1.addLabelTextOrHTML(
-					geo1.getDefinitionDescription(stringTemplate),
-					builder);
+						geo1.getDefinitionDescription(stringTemplate), builder);
 			}
 			return true;
 
@@ -323,10 +321,10 @@ public class AlgebraItem {
 	 *            index builder
 	 * @return whether we did append something to the index builder
 	 */
-	public static boolean buildPlainTextItemSimple(
-			GeoElement geo1,
+	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder) {
-		return buildPlainTextItemSimple(geo1, builder, StringTemplate.defaultTemplate);
+		return buildPlainTextItemSimple(geo1, builder,
+				StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -336,20 +334,21 @@ public class AlgebraItem {
 	 *            Kenel.ALGEBRA_STYLE_*
 	 * @param sb
 	 *            builder
-	 * @param stringTemplateForPlainText string template for building simple plain text item
+	 * @param stringTemplateForPlainText
+	 *            string template for building simple plain text item
 	 */
-	private static void buildText(
-			GeoElement geoElement,
-			int style,
-			IndexHTMLBuilder sb,
-			StringTemplate stringTemplateForPlainText) {
+	private static void buildText(GeoElement geoElement, int style,
+			IndexHTMLBuilder sb, StringTemplate stringTemplateForPlainText) {
 
-		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && needsPacking(geoElement)) {
-			String value = geoElement.getDefinitionDescription(StringTemplate.editorTemplate);
+		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION
+				&& needsPacking(geoElement)) {
+			String value = geoElement
+					.getDefinitionDescription(StringTemplate.editorTemplate);
 			sb.clear();
 			sb.append(value);
 		} else {
-			buildPlainTextItemSimple(geoElement, sb, stringTemplateForPlainText);
+			buildPlainTextItemSimple(geoElement, sb,
+					stringTemplateForPlainText);
 		}
 	}
 
@@ -422,6 +421,7 @@ public class AlgebraItem {
 			return DescriptionMode.VALUE;
 		}
 	}
+
 	/**
 	 * @param geoElement
 	 *            about we should decide if the outputrow should be shown or not
@@ -429,40 +429,49 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-    public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
-        if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
-            return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
-        } else if ((style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-                || style == Kernel.ALGEBRA_STYLE_VALUE)
-                && shouldShowOnlyDefinitionForGeo(geoElement)) {
-            return false;
-        }
-        return style != Kernel.ALGEBRA_STYLE_VALUE && style != Kernel.ALGEBRA_STYLE_DEFINITION;
-    }
+	public static boolean shouldShowOutputRowForAlgebraStyle(
+			GeoElement geoElement, int style) {
+		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+			return getDescriptionModeForGeo(geoElement,
+					style) != DescriptionMode.DEFINITION;
+		} else if ((style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+				|| style == Kernel.ALGEBRA_STYLE_VALUE)
+				&& shouldShowOnlyDefinitionForGeo(geoElement)) {
+			return false;
+		}
+		return style != Kernel.ALGEBRA_STYLE_VALUE
+				&& style != Kernel.ALGEBRA_STYLE_DEFINITION;
+	}
 
 	/**
 	 * Tells whether AV should show two rows for a geo element.
 	 *
-	 * @param element the element
-	 * @param style the algebra style
+	 * @param element
+	 *            the element
+	 * @param style
+	 *            the algebra style
 	 * @return true if both rows should be shown.
 	 */
 	public static boolean shouldShowBothRows(GeoElement element, int style) {
-		return ((element.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE ||
-				(AlgebraItem.isTextItem(element) && !element.isIndependent())) &&
-				shouldShowOutputRowForAlgebraStyle(element, style));
+		return ((element
+				.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+				|| (AlgebraItem.isTextItem(element)
+						&& !element.isIndependent()))
+				&& shouldShowOutputRowForAlgebraStyle(element, style));
 	}
 
 	/**
 	 *
-	 * @param element geo
-	 * @param style AV style
-	 * @param stringTemplate string template
-	 * @return description string for element to show in AV row; null if element prefers showing definition
+	 * @param element
+	 *            geo
+	 * @param style
+	 *            AV style
+	 * @param stringTemplate
+	 *            string template
+	 * @return description string for element to show in AV row; null if element
+	 *         prefers showing definition
 	 */
-	public static String getDescriptionString(
-			GeoElement element,
-			int style,
+	public static String getDescriptionString(GeoElement element, int style,
 			StringTemplate stringTemplate) {
 
 		if (element.mayShowDescriptionInsteadOfDefinition()) {
@@ -475,12 +484,16 @@ public class AlgebraItem {
 
 	/**
 	 *
-	 * @param element geo
-	 * @param style AV style
-	 * @return description string for element to show in AV row; null if element prefers showing definition
+	 * @param element
+	 *            geo
+	 * @param style
+	 *            AV style
+	 * @return description string for element to show in AV row; null if element
+	 *         prefers showing definition
 	 */
 	public static String getDescriptionString(GeoElement element, int style) {
-		return getDescriptionString(element, style, StringTemplate.defaultTemplate);
+		return getDescriptionString(element, style,
+				StringTemplate.defaultTemplate);
 	}
 
 	private static String getLatexText(String text) {
@@ -512,8 +525,8 @@ public class AlgebraItem {
 				return getLatexStringValue(geo1, limit);
 			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {
 				return geo1.getAssignmentLHS(StringTemplate.latexTemplate)
-					+ geo1.getLabelDelimiter()
-					+ geo1.getDefinition(StringTemplate.latexTemplateHideLHS);
+						+ geo1.getLabelDelimiter() + geo1.getDefinition(
+								StringTemplate.latexTemplateHideLHS);
 			} else {
 				return null;
 			}
@@ -536,8 +549,10 @@ public class AlgebraItem {
 	/**
 	 * Tells whether the equation was typed directly from the user
 	 *
-	 * @param geoElement geoElement
-	 * @return true if the equation was typed by the user (and not created via command or tool)
+	 * @param geoElement
+	 *            geoElement
+	 * @return true if the equation was typed by the user (and not created via
+	 *         command or tool)
 	 */
 	public static boolean isFunctionOrEquationFromUser(
 			GeoElementND geoElement) {
@@ -551,21 +566,26 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * Tells whether the output row should be visible for the given object. We want to show only
-	 * the definition for implicit equations, functions and conics created by tool or command in
-	 * Exam mode
+	 * Tells whether the output row should be visible for the given object. We
+	 * want to show only the definition for implicit equations, functions and
+	 * conics created by tool or command in Exam mode
 	 *
-	 * @param geoElement geoElement
-	 * @return true if we should only show the definition for the object but not output row
+	 * @param geoElement
+	 *            geoElement
+	 * @return true if we should only show the definition for the object but not
+	 *         output row
 	 */
-    public static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
-        if (geoElement instanceof EquationValue && !(geoElement instanceof GeoLine)
-                && geoElement.getKernel().getApplication().isExamStarted()) {
+	public static boolean shouldShowOnlyDefinitionForGeo(
+			GeoElementND geoElement) {
+		if (geoElement instanceof EquationValue
+				&& !(geoElement instanceof GeoLine)
+				&& geoElement.getKernel().getApplication().isExamStarted()) {
 
 			return !isFunctionOrEquationFromUser(geoElement);
-        }
-        return false;
-    }
+		}
+		return false;
+	}
+
 	/**
 	 * Create provider of texts for ANS button
 	 * 
@@ -579,18 +599,19 @@ public class AlgebraItem {
 
 	/**
 	 *
-	 * @param element the GeoElement for what we need to get the preview for AV
+	 * @param element
+	 *            the GeoElement for what we need to get the preview for AV
 	 * @return the preview string for the given geoelement if there is any
 	 */
-	public static String getPreviewFormula(GeoElement element, StringTemplate stringTemplate) {
+	public static String getPreviewFormula(GeoElement element,
+			StringTemplate stringTemplate) {
 		int algebraStyle = element.getKernel().getAlgebraStyle();
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
-		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION ||
-				algebraStyle == Kernel.ALGEBRA_STYLE_VALUE) && !AlgebraItem.isTextItem(element)) {
-			return AlgebraItem.getDescriptionString(
-					element,
-					algebraStyle,
+		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
+				|| algebraStyle == Kernel.ALGEBRA_STYLE_VALUE)
+				&& !AlgebraItem.isTextItem(element)) {
+			return AlgebraItem.getDescriptionString(element, algebraStyle,
 					stringTemplate);
 		} else {
 			return null;
