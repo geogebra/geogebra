@@ -58,7 +58,6 @@ public class GeoSymbolic extends GeoElement
 	 */
 	public GeoSymbolic(Construction c) {
 		super(c);
-		this.setEuclidianVisible(false);
 	}
 
 	@Override
@@ -241,9 +240,6 @@ public class GeoSymbolic extends GeoElement
 		}
 		twinUpToDate = true;
 
-		if (twinGeo != null) {
-			setEuclidianVisible(twinGeo.isEuclidianVisible());
-		}
 		return twinGeo;
 	}
 
