@@ -2051,6 +2051,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return changeableCoordParent != null;
 	}
 
+	@Override
+	public ChangeableParent getChangeableParent3D() {
+		return changeableCoordParent;
+	}
+
 	/**
 	 * Returns whether this point has three changeable numbers as coordinates,
 	 * e.g. point A = (a, b, c) where a, b and c are free GeoNumeric objects.

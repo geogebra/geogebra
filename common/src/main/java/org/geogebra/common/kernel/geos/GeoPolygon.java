@@ -2323,6 +2323,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
+	public ChangeableParent getChangeableParent3D() {
+		return changeableCoordParent;
+	}
+
+	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
 			Coords endPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,

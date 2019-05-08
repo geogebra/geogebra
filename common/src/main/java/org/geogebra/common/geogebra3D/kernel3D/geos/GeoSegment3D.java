@@ -615,6 +615,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
+	public ChangeableParent getChangeableParent3D() {
+		return changeableCoordParent;
+	}
+
+	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
 			Coords endPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,
