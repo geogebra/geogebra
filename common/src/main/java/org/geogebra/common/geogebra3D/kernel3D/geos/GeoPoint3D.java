@@ -2044,13 +2044,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void recordChangeableCoordParentNumbers(EuclidianView view) {
-		if (changeableCoordParent != null) {
-			changeableCoordParent.record(view);
-		}
-	}
-
-	@Override
 	public boolean hasChangeableParent3D() {
 		if (isLocked()) {
 			return false;

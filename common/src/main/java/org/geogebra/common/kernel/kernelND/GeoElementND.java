@@ -19,7 +19,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -1349,14 +1348,6 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return true for textfields (=Input Boxes)
 	 */
 	boolean isGeoInputBox();
-
-	/**
-	 * record values when mouse pressed
-	 * 
-	 * @param view
-	 *            TODO
-	 */
-	void recordChangeableCoordParentNumbers(EuclidianView view);
 
 	/**
 	 * Returns whether this (dependent) GeoElement has input points that can be

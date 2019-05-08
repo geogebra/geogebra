@@ -6975,7 +6975,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return true;
 		}
 		if (movedGeoElement.hasChangeableParent3D()) {
-			movedGeoElement.recordChangeableCoordParentNumbers(view);
+			movedGeoElement.getChangeableParent3D().record(view);
 			translateableGeos = new ArrayList<>();
 			translateableGeos.add(movedGeoElement);
 			return true;

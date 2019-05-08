@@ -137,7 +137,7 @@ public class ChangeableParent {
 	}
 
 	/**
-	 * record number value
+	 * record number value and direction
 	 * 
 	 * @param view
 	 *            view calling

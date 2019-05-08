@@ -619,11 +619,6 @@ public abstract class GeoQuadricND extends GeoElement
 	}
 
 	@Override
-	public void recordChangeableCoordParentNumbers(EuclidianView view) {
-		changeableCoordParent.record(view);
-	}
-
-	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
 			Coords endPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,

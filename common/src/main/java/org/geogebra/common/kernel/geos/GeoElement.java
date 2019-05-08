@@ -6068,14 +6068,18 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * 
 	 * @return true if geo is child of a parent that can change e.g by dragging
+	 *         in 3D
 	 */
 	public boolean hasChangeableParent3D() {
 		return false;
 	}
 
-	@Override
-	public void recordChangeableCoordParentNumbers(EuclidianView view) {
-		// do nothing
+	/**
+	 * 
+	 * @return changeable parent (or null if none)
+	 */
+	public ChangeableParent getChangeableParent3D() {
+		return null;
 	}
 
 	/**
