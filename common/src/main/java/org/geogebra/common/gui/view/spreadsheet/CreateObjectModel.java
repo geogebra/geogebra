@@ -240,7 +240,7 @@ public class CreateObjectModel {
 
 			case TYPE_LISTOFPOINTS:
 				newGeo = cp.createPointGeoList(getSelectedCellRanges(),
-						copyByValue, leftToRight, isSorted, doStoreUndo,
+						copyByValue, leftToRight, doStoreUndo,
 						doCreateFreePoints);
 				newGeo.setLabel(null);
 				for (int i = 0; i < ((GeoList) newGeo).size(); i++) {

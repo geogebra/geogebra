@@ -39,7 +39,6 @@ import org.geogebra.common.util.debug.Log;
  * @author G. Sturr
  * 
  */
-@SuppressWarnings("javadoc")
 public class CellRangeProcessor {
 
 	private MyTable table;
@@ -48,6 +47,12 @@ public class CellRangeProcessor {
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
 
+	/**
+	 * @param table
+	 *            table
+	 * @param app
+	 *            application
+	 */
 	public CellRangeProcessor(MyTable table, App app) {
 		this.table = table;
 		this.app = app;
@@ -133,24 +138,16 @@ public class CellRangeProcessor {
 		return true;
 	}
 
+	/**
+	 * @param rangeList
+	 *            selected ranges
+	 * @return whether matrix can be created
+	 */
 	public boolean isCreateMatrixPossible(ArrayList<CellRange> rangeList) {
-
 		if (rangeList.size() == 1 && !rangeList.get(0).hasEmptyCells()) {
 			return true;
 		}
 		return false;
-
-		/*
-		 * // ctrl-selection block if (rangeList.size() > 1){
-		 * //rangeList.get(0).getWidth() == 1 && rangeList.get(1).getWidth() ==
-		 * 1 ) return true; }
-		 * 
-		 * if (rangeList.size() == 2 && rangeList.get(0).getHeight() == 1 &&
-		 * rangeList.get(1).getHeight() == 1 ) return true;
-		 * 
-		 * return false;
-		 */
-
 	}
 
 	/**
@@ -158,7 +155,9 @@ public class CellRangeProcessor {
 	 * type
 	 * 
 	 * @param rangeList
+	 *            selected ranges
 	 * @param geoClass
+	 *            desired class
 	 * @return whether one var stats dialog makes sense for selection
 	 */
 	public boolean isOneVarStatsPossible(ArrayList<CellRange> rangeList,
@@ -184,6 +183,7 @@ public class CellRangeProcessor {
 	 * two or more columns and each column has at least three data values.
 	 * 
 	 * @param rangeList
+	 *            selected ranges
 	 * @return whether multi-var stats dialog makes sense for selection
 	 */
 	public boolean isMultiVarStatsPossible(ArrayList<CellRange> rangeList) {
@@ -256,7 +256,9 @@ public class CellRangeProcessor {
 
 	/**
 	 * @param rangeList
+	 *            selected ranges
 	 * @param geoClass
+	 *            desired class
 	 * @return true if the given rangeList contains a GeoElement of the given
 	 *         GeoClass type
 	 */
@@ -275,6 +277,7 @@ public class CellRangeProcessor {
 	 * the given list of cell ranges.
 	 * 
 	 * @param rangeList
+	 *            selected ranges
 	 * 
 	 * @param geoClass
 	 *            the GeoClass type to count. If null, then all GeoElements are
@@ -289,8 +292,12 @@ public class CellRangeProcessor {
 		return count;
 	}
 
+	/**
+	 * @param rangeList
+	 *            list odf selcted ranges
+	 * @return whether it contains single 1D range
+	 */
 	public boolean is1DRangeList(ArrayList<CellRange> rangeList) {
-
 		if (rangeList == null || rangeList.size() > 1) {
 			return false;
 		}
@@ -305,6 +312,8 @@ public class CellRangeProcessor {
 	/**
 	 * Creates a GeoList of lists where each element is a GeoList of cells in
 	 * each column or row spanned by the given range list
+	 * 
+	 * @return list
 	 */
 	public GeoList createCollectionList(ArrayList<CellRange> rangeList,
 			boolean copyByValue, boolean addToConstruction,
@@ -362,13 +371,16 @@ public class CellRangeProcessor {
 	 * cells found in rangeList. Uses these defaults: no sorting, no undo point
 	 * 
 	 * @param rangeList
+	 *            selected ranges
 	 * @param byValue
+	 *            whether to use inputs as values
 	 * @param leftToRight
+	 *            whether to sort left to right
 	 * @return polyline
 	 */
 	public GeoElement createPolyLine(ArrayList<CellRange> rangeList,
 			boolean byValue, boolean leftToRight) {
-		return createPolyLine(rangeList, byValue, leftToRight, false, false);
+		return createPolyLine(rangeList, byValue, leftToRight, false);
 	}
 
 	/**
@@ -376,19 +388,21 @@ public class CellRangeProcessor {
 	 * cells found in rangeList.
 	 * 
 	 * @param rangeList
+	 *            selected ranges
 	 * @param byValue
+	 *            whether to use inputs as values
 	 * @param leftToRight
-	 * @param isSorted
+	 *            whether to sort left to right
 	 * @param doStoreUndo
+	 *            whether to store an undo point
 	 * @return polyline
 	 */
 	public GeoElement createPolyLine(ArrayList<CellRange> rangeList,
-			boolean byValue, boolean leftToRight, boolean isSorted,
-			boolean doStoreUndo) {
+			boolean byValue, boolean leftToRight, boolean doStoreUndo) {
 
 		boolean doCreateFreePoints = true;
 		GeoList list = createPointGeoList(rangeList, byValue, leftToRight,
-				isSorted, doStoreUndo, doCreateFreePoints);
+				doStoreUndo, doCreateFreePoints);
 		GeoElement ret;
 		if (list != null && list.size() > 1 && list.get(0).isGeoElement3D()) {
 			ret = list.getKernel().getManager3D().polyLine3D(null, list)[0];
@@ -493,17 +507,20 @@ public class CellRangeProcessor {
 	 * the isCreatePointListPossible() test
 	 * 
 	 * @param rangeList
+	 *            seected ranges
 	 * @param byValue
+	 *            whether to use inputs as values
 	 * @param leftToRight
-	 * @param isSorted
+	 *            whether to scan left to right
 	 * @param doStoreUndo
+	 *            whether to store undo
 	 * @param doCreateFreePoints
 	 *            if freePoints is true then a set of independent GeoPoints is
 	 *            created in addition to the list
 	 * @return GeoList
 	 */
 	public GeoList createPointGeoList(ArrayList<CellRange> rangeList,
-			boolean byValue, boolean leftToRight, boolean isSorted,
+			boolean byValue, boolean leftToRight, 
 			boolean doStoreUndo, boolean doCreateFreePoints) {
 
 		// get the orientation and dimensions of the list
@@ -546,11 +563,7 @@ public class CellRangeProcessor {
 					}
 				}
 			}
-
-			// System.out.println(list.toString());
-		}
-
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			Log.debug(
 					"Creating list of points expression failed with exception "
 							+ ex);
@@ -660,6 +673,13 @@ public class CellRangeProcessor {
 
 	}
 
+	/**
+	 * @param rangeList
+	 *            ranges
+	 * @param leftToRight
+	 *            whether to sort left to right
+	 * @return range titles
+	 */
 	public String[] getPointListTitles(ArrayList<CellRange> rangeList,
 			boolean leftToRight) {
 
@@ -747,6 +767,11 @@ public class CellRangeProcessor {
 		return title;
 	}
 
+	/**
+	 * @param rangeList
+	 *            ranges
+	 * @return column titles
+	 */
 	public String[] getColumnTitles(ArrayList<CellRange> rangeList) {
 
 		ArrayList<String> titleList = new ArrayList<>();
@@ -777,6 +802,8 @@ public class CellRangeProcessor {
 	 * Creates a GeoList from the cells in an array of cellranges. Empty cells
 	 * are ignored. Uses these defaults: do not create undo point, do not sort,
 	 * do not filter by geo type, set a label.
+	 * 
+	 * @return list
 	 */
 	public GeoElement createList(ArrayList<CellRange> rangeList,
 			boolean scanByColumn, boolean copyByValue) {
@@ -787,6 +814,8 @@ public class CellRangeProcessor {
 	/**
 	 * Creates a GeoList from the cells in an array of CellRange. Empty cells
 	 * are ignored
+	 * 
+	 * @return list
 	 */
 	public GeoList createList(ArrayList<CellRange> rangeList,
 			boolean scanByColumn, boolean copyByValue, boolean isSorted,
@@ -866,7 +895,23 @@ public class CellRangeProcessor {
 		return null;
 	}
 
-	/** Creates a list from all cells in a spreadsheet column */
+	/**
+	 * Creates a list from all cells in a spreadsheet column
+	 * 
+	 * @param column
+	 *            column
+	 * @param copyByValue
+	 *            whether to use cells as values
+	 * @param isSorted
+	 *            whether it should be sorted
+	 * @param storeUndoInfo
+	 *            whether to store undo info
+	 * @param geoTypeFilter
+	 *            filter
+	 * @param addToConstruction
+	 *            whether to add to construction
+	 * @return list
+	 */
 	public GeoElement createListFromColumn(int column, boolean copyByValue,
 			boolean isSorted, boolean storeUndoInfo, GeoClass geoTypeFilter,
 			boolean addToConstruction) {
@@ -880,7 +925,7 @@ public class CellRangeProcessor {
 				geoTypeFilter, addToConstruction);
 	}
 
-	/** Returns true if all cell ranges in the list are columns */
+	/** @return true if all cell ranges in the list are columns */
 	public boolean isAllColumns(ArrayList<CellRange> rangeList) {
 		boolean isAllColumns = true;
 		for (CellRange cr : rangeList) {
@@ -894,6 +939,14 @@ public class CellRangeProcessor {
 	/**
 	 * Creates a string expression for a matrix where each sub-list is a list of
 	 * cells in the columns spanned by the range list
+	 * 
+	 * @param rangeList
+	 *            selected ranges
+	 * @param copyByValue
+	 *            whether to use only values
+	 * @param addToConstruction
+	 *            whether to add result to construction
+	 * @return matrix definition
 	 */
 	public String createColumnMatrixExpression(ArrayList<CellRange> rangeList,
 			boolean copyByValue, boolean addToConstruction) {
@@ -921,6 +974,8 @@ public class CellRangeProcessor {
 	 * upper left corner (column1, row1) and lower right corner (column2, row2).
 	 * If transpose = true then the matrix is the formed by interchanging rows
 	 * with columns
+	 * 
+	 * @return matrix definition
 	 */
 	public String createMatrixExpression(int column1, int column2, int row1,
 			int row2, boolean copyByValue, boolean transpose) {
@@ -990,10 +1045,15 @@ public class CellRangeProcessor {
 	 * created.
 	 * 
 	 * @param column1
+	 *            min column
 	 * @param column2
+	 *            max column
 	 * @param row1
+	 *            min row
 	 * @param row2
+	 *            max row
 	 * @param copyByValue
+	 *            whether to use cells only as values
 	 * @return matrix
 	 */
 	public GeoElementND createMatrix(int column1, int column2, int row1,
@@ -1008,11 +1068,17 @@ public class CellRangeProcessor {
 	 * undo point is not created.
 	 * 
 	 * @param column1
+	 *            min column
 	 * @param column2
+	 *            max column
 	 * @param row1
+	 *            min row
 	 * @param row2
+	 *            max row
 	 * @param copyByValue
+	 *            whether to use cells only as values
 	 * @param transpose
+	 *            whether to transpose the matrix
 	 * @return matrix
 	 */
 	public GeoElementND createMatrix(int column1, int column2, int row1,
@@ -1045,10 +1111,17 @@ public class CellRangeProcessor {
 	 * columns. NOTE: An undo point is not created.
 	 * 
 	 * @param column1
+	 *            min column
 	 * @param column2
+	 *            max column
 	 * @param row1
+	 *            min row
 	 * @param row2
+	 *            max row
 	 * @param copyByValue
+	 *            whether to use cells only as values
+	 * @param transpose
+	 *            whether to transpose the table
 	 * @return table (using TableText)
 	 */
 	public GeoElementND createTableText(int column1, int column2, int row1,
@@ -1317,6 +1390,9 @@ public class CellRangeProcessor {
 
 	/**
 	 * Creates an operation table.
+	 * 
+	 * @param cr
+	 *            selected range
 	 */
 	public void createOperationTable(CellRange cr) {
 
@@ -1349,53 +1425,17 @@ public class CellRangeProcessor {
 		}
 	}
 
-	// Experimental ---- merging ctrl-selected cells
-
-	// private static void consolidateRangeList(ArrayList<CellRange> rangeList)
-	// {
-	//
-	// ArrayList<ArrayList<GPoint>> matrix = new ArrayList<ArrayList<GPoint>>();
-	// int minRow = rangeList.get(0).getMinRow();
-	// int maxRow = rangeList.get(0).getMaxRow();
-	// int minColumn = rangeList.get(0).getMinColumn();
-	// int maxColumn = rangeList.get(0).getMaxColumn();
-	//
-	// for (CellRange cr : rangeList) {
-	//
-	// minColumn = Math.min(cr.getMinColumn(), minColumn);
-	// maxColumn = Math.max(cr.getMaxColumn(), maxColumn);
-	// minRow = Math.min(cr.getMinRow(), minRow);
-	// maxRow = Math.max(cr.getMaxRow(), maxRow);
-	//
-	// // create matrix of cells from all ranges in the list
-	// for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-	//
-	// // add columns from this cell range to the matrix
-	// if (matrix.get(col) == null) {
-	// matrix.add(col, new ArrayList<GPoint>());
-	// matrix.get(col).add(
-	// new GPoint(cr.getMinColumn(), cr.getMaxColumn()));
-	// } else {
-	// // Point p = matrix.get(col).get(1);
-	// // if(cr.getMinColumn()>)
-	// // insertPoint(matrix, new Point(new
-	// // Point(cr.getMinColumn(),cr.getMaxColumn())));
-	// }
-	// }
-	//
-	// // convert our matrix to a CellRange list
-	// for (int col = minColumn; col <= maxColumn; col++) {
-	// if (matrix.contains(col)) {
-	// // ????
-	// }
-	// }
-	// }
-	// }
-
 	public String getCellRangeString(CellRange range) {
 		return getCellRangeString(range, true);
 	}
 
+	/**
+	 * @param range
+	 *            range
+	 * @param onlyFirstRowColumn
+	 *            whether to return only first column
+	 * @return range description ("Row 7", "Column B", "A1:D3")
+	 */
 	public String getCellRangeString(CellRange range,
 			boolean onlyFirstRowColumn) {
 
@@ -1429,6 +1469,11 @@ public class CellRangeProcessor {
 		return s;
 	}
 
+	/**
+	 * @param list
+	 *            list of ranges
+	 * @return list of range descriptions ("Row 7", "Column B", "A1:D3")
+	 */
 	public String getCellRangeString(ArrayList<CellRange> list) {
 		// if (list == null) {
 		// return "";

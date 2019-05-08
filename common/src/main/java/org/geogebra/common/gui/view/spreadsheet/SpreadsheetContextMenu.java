@@ -612,7 +612,7 @@ public class SpreadsheetContextMenu {
 	 */
 	public void cmdListOfPoints() {
 		GeoElement newGeo = cp.createPointGeoList(selectedCellRanges, false,
-				true, true, true, true);
+				true, true, true);
 		app.getKernel().getConstruction()
 				.addToConstructionList(newGeo.getParentAlgorithm(), true);
 		newGeo.setLabel(null);
