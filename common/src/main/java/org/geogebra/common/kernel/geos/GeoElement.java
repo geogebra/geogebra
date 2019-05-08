@@ -6065,6 +6065,10 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return true if geo is child of a parent that can change e.g by dragging
+	 */
 	public boolean hasChangeableParent3D() {
 		return false;
 	}
