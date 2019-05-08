@@ -166,7 +166,7 @@ public abstract class GeoQuadricND extends GeoElement
 	@Override
 	public void set(GeoElementND geo) {
 		GeoQuadricND quadric = (GeoQuadricND) geo;
-		if (quadric.hasChangeableCoordParentNumbers()) {
+		if (quadric.hasChangeableParent3D()) {
 			setChangeableCoordParent(quadric.changeableCoordParent.getNumber(),
 					quadric.changeableCoordParent.getDirector());
 		}
@@ -614,8 +614,8 @@ public abstract class GeoQuadricND extends GeoElement
 	}
 
 	@Override
-	public boolean hasChangeableCoordParentNumbers() {
-		return (changeableCoordParent != null);
+	public boolean hasChangeableParent3D() {
+		return changeableCoordParent != null;
 	}
 
 	@Override

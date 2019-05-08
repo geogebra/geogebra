@@ -2050,6 +2050,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 	}
 
+	@Override
+	public boolean hasChangeableParent3D() {
+		if (isLocked()) {
+			return false;
+		}
+		return changeableCoordParent != null;
+	}
+
 	/**
 	 * Returns whether this point has three changeable numbers as coordinates,
 	 * e.g. point A = (a, b, c) where a, b and c are free GeoNumeric objects.
@@ -2059,10 +2067,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// TODO why does this check only x,y?
 		if (isLocked()) {
 			return false;
-		}
-
-		if (changeableCoordParent != null) {
-			return true;
 		}
 
 		ArrayList<NumberValue> coords = getCoordParentNumbers();

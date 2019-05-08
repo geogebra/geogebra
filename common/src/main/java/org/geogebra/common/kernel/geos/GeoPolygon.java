@@ -692,7 +692,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		updateSegments(cons1);
 		defined = poly.defined;
 
-		if (poly.hasChangeableCoordParentNumbers()) {
+		if (poly.hasChangeableParent3D()) {
 			setChangeableCoordParent(poly.changeableCoordParent);
 		}
 		updateRegionCS();
@@ -2318,8 +2318,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public boolean hasChangeableCoordParentNumbers() {
-		return (changeableCoordParent != null);
+	public boolean hasChangeableParent3D() {
+		return changeableCoordParent != null;
 	}
 
 	@Override

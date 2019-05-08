@@ -610,8 +610,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
-	public boolean hasChangeableCoordParentNumbers() {
-		return (changeableCoordParent != null);
+	public boolean hasChangeableParent3D() {
+		return changeableCoordParent != null;
 	}
 
 	@Override

@@ -6065,6 +6065,10 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
+	public boolean hasChangeableParent3D() {
+		return false;
+	}
+
 	@Override
 	public void recordChangeableCoordParentNumbers(EuclidianView view) {
 		// do nothing

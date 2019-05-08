@@ -3785,7 +3785,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				doMoveDependent(end);
 			}
 			// TODO else
-			if (movedGeoElement.hasChangeableCoordParentNumbers()) {
+			if (movedGeoElement.hasChangeableParent3D()) {
 				if (updateTranslationVector(movedGeoElement
 						.getChangeableCoordParentNumbersDirection())) {
 					doMoveDependent(startPoint3D);
@@ -3885,7 +3885,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		translateableGeos = null;
-		handleMovedElementDependentWithChangeableCoordParentNumbers();
+		handleMovedElementDependentWithChangeableParent();
 		handleMovedElementDependentInitMode();
 	}
 
@@ -4363,7 +4363,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		// e.g. for extruded pyramid or polyhedron net
-		return geo.hasChangeableCoordParentNumbers();
+		return geo.hasChangeableCoordParentNumbers()
+				|| geo.hasChangeableParent3D();
 	}
 
 	@Override

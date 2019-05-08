@@ -6967,9 +6967,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected boolean handleMovedElementDependentWithChangeableCoordParentNumbers() {
+	final protected boolean handleMovedElementDependentWithChangeableParent() {
 		// geo with changeable coord parent numbers
 		if (movedGeoElement.hasChangeableCoordParentNumbers()) {
+			translateableGeos = new ArrayList<>();
+			translateableGeos.add(movedGeoElement);
+			return true;
+		}
+		if (movedGeoElement.hasChangeableParent3D()) {
 			movedGeoElement.recordChangeableCoordParentNumbers(view);
 			translateableGeos = new ArrayList<>();
 			translateableGeos.add(movedGeoElement);
@@ -7103,7 +7108,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// STANDARD case: get free input points of dependent movedGeoElement
-		if (!handleMovedElementDependentWithChangeableCoordParentNumbers()
+		if (!handleMovedElementDependentWithChangeableParent()
 				&& movedGeoElement.hasMoveableInputPoints(view)) {
 			// allow only moving of the following object types
 			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
