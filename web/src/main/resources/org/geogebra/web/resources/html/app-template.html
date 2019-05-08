@@ -411,7 +411,7 @@ var codebase = "<!--CODEBASE-->";
 				appID = "auto";
 			}
 		}
-		var wait = false;
+
 		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
 		resizeStart();
 		window.addEventListener && window.addEventListener("resize", resizeStart);
@@ -433,13 +433,13 @@ var codebase = "<!--CODEBASE-->";
 				if (e("perspectivesBox")) {
 					e("perspectivesBox").style.display = "none";
 				}
-				wait || perspective(pName);
+				perspective(pName);
 			} else {
 				perspective(names[pName], pName);
 			}
 			document.body.className += " " + pName;
 			document.body.className += " " + module;
-			wait || insertScript();
+			insertScript();
 			showStartScreen();
 			return;
 		} else if(skipAppsPicker) {
@@ -449,7 +449,7 @@ var codebase = "<!--CODEBASE-->";
 		}
 		
 		showStartScreen();
-		wait || insertScript();
+		insertScript();
 		perspective(false, "picker"); //TODO
 	}
 </script>
