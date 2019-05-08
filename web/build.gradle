@@ -199,7 +199,7 @@ task copyHtml {
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
             def logo = "<div class=\"logo\">" + template(appID+"-min.svg") + "</div>"
             def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
-                    "content=\"app-id=${app.appStoreId}\">" : ""
+                    "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
             return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + logo + template(appID+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
