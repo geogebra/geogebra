@@ -16,12 +16,12 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * Parent (number+direction) for changing coords of prism, cylinder, etc.
+ * Parent (number+direction) for changing prism, cylinder, etc.
  * 
  * @author Mathieu
  *
  */
-public class ChangeableCoordParent {
+public class ChangeableParent {
 
 	private GeoNumeric changeableCoordNumber = null;
 	private GeoElement changeableCoordDirector = null;
@@ -64,7 +64,7 @@ public class ChangeableCoordParent {
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
 			GeoPolyhedronInterface polyhedron) {
 		if (num != null) {
-			ChangeableCoordParent ccp = new ChangeableCoordParent(polygon, num,
+			ChangeableParent ccp = new ChangeableParent(polygon, num,
 					polyhedron);
 			polygon.setChangeableCoordParent(ccp);
 
@@ -88,7 +88,7 @@ public class ChangeableCoordParent {
 	 * @param director
 	 *            director
 	 */
-	public ChangeableCoordParent(GeoNumeric number, GeoElement director) {
+	public ChangeableParent(GeoNumeric number, GeoElement director) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = director;
 		forPolyhedronNet = false;
@@ -104,7 +104,7 @@ public class ChangeableCoordParent {
 	 * @param parent
 	 *            parent polyhedron
 	 */
-	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
+	public ChangeableParent(GeoElement child, GeoNumeric number,
 			GeoPolyhedronInterface parent) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = child;

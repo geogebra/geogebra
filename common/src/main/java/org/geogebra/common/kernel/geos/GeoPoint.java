@@ -2959,7 +2959,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
+	public void setChangeableCoordParentIfNull(ChangeableParent ccp) {
 		// used for GeoPoint3D
 	}
 	

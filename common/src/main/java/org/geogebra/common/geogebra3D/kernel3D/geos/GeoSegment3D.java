@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValueType;
-import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -38,7 +38,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
-	private ChangeableCoordParent changeableCoordParent = null;
+	private ChangeableParent changeableCoordParent = null;
 	private boolean forceSimpleTransform;
 	private GeoElement meta = null;
 
@@ -603,7 +603,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 */
 	@Override
 	final public void setChangeableCoordParentIfNull(
-			ChangeableCoordParent ccp) {
+			ChangeableParent ccp) {
 		if (changeableCoordParent == null) {
 			changeableCoordParent = ccp;
 		}

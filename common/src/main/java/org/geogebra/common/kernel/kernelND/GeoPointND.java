@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.Animatable;
-import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Mirrorable;
@@ -447,7 +447,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * @param ccp
 	 *            changeable coord parent
 	 */
-	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp);
+	public void setChangeableCoordParentIfNull(ChangeableParent ccp);
 
 	/**
 	 * 

@@ -7,7 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -36,7 +36,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsSide;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsTop;
-	ChangeableCoordParent heightChangeableCoordParent = null;
+	ChangeableParent heightChangeableCoordParent = null;
 	private int shift;
 
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
@@ -246,9 +246,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		init();
 
 		// create ChangeableCoordParent if possible
-		GeoNumeric changeableHeight = ChangeableCoordParent.getGeoNumeric(height);
+		GeoNumeric changeableHeight = ChangeableParent.getGeoNumeric(height);
 		if (changeableHeight != null) {
-			heightChangeableCoordParent = new ChangeableCoordParent(changeableHeight, polygon);
+			heightChangeableCoordParent = new ChangeableParent(changeableHeight, polygon);
 		}
 
 		initCoords();

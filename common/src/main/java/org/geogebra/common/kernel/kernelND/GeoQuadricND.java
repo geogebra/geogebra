@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -92,7 +92,7 @@ public abstract class GeoQuadricND extends GeoElement
 	protected boolean isIntersection;
 	private CoordMatrix tmpEigenMatrix;
 
-	private ChangeableCoordParent changeableCoordParent = null;
+	private ChangeableParent changeableCoordParent = null;
 
 	private boolean trace;
 
@@ -610,7 +610,7 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	final public void setChangeableCoordParent(GeoNumeric number,
 			GeoElement direction) {
-		changeableCoordParent = new ChangeableCoordParent(number, direction);
+		changeableCoordParent = new ChangeableParent(number, direction);
 	}
 
 	@Override

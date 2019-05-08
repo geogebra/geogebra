@@ -53,7 +53,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
-import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -148,7 +148,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	private double animationValue;
 
-	private ChangeableCoordParent changeableCoordParent = null;
+	private ChangeableParent changeableCoordParent = null;
 
 	private static TreeSet<AlgoElement> tempSet;
 
@@ -2037,7 +2037,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	@Override
 	final public void setChangeableCoordParentIfNull(
-			ChangeableCoordParent ccp) {
+			ChangeableParent ccp) {
 		if (changeableCoordParent == null) {
 			changeableCoordParent = ccp;
 		}

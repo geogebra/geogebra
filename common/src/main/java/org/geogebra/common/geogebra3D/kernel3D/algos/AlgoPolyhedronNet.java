@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -63,7 +63,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		super(c);
 		this.p = p;
 		this.v = v;
-		vNum = ChangeableCoordParent.getGeoNumeric(v);
+		vNum = ChangeableParent.getGeoNumeric(v);
 
 		outputNet = new OutputHandler<>(
 				new ElementFactory<GeoPolyhedronNet>() {
@@ -207,7 +207,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	}
 
 	final void setChangeableCoordParent(GeoPolygon3D polygon) {
-		ChangeableCoordParent.setPolyhedronNet(polygon, vNum, p);
+		ChangeableParent.setPolyhedronNet(polygon, vNum, p);
 	}
 
 	/**
