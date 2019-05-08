@@ -77,11 +77,15 @@ def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
 	[id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
-	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator', exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico'],
-	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D'],
+	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
+     exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon:
+             'Graphing.ico', appStoreId:'1146717204'],
+	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
 	[id:'cas', title:'CAS Calculator', transKey:'CASCalculator'],
-	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator', partials:["undo-redo"]],
-	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico'],
+	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator',
+     partials:["undo-redo"], appStoreId:'1412748754'],
+	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry',
+     pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
 	[id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
 	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
@@ -194,6 +198,8 @@ task copyHtml {
             def stylesheet = String.valueOf(prerelease).contains("canary") ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
             def logo = "<div class=\"logo\">" + template(appID+"-min.svg") + "</div>"
+            def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
+                    "content=\"app-id=${app.appStoreId}\">" : ""
             return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + logo + template(appID+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
@@ -201,6 +207,7 @@ task copyHtml {
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
+            .replace("<!--APPSTORE BANNER-->", appStoreBanner)
             .replace("\r\n", "\n") // generate the same on Win and Unix
         }
         def english = {raw, appName ->
