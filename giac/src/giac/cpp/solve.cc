@@ -1380,7 +1380,7 @@ namespace giac {
     gen a2=e._SYMBptr->feuille[1];
     vecteur w=lop(lvarx(makevecteur(a1,a2),x),at_pow);
     if (a2.type!=_VECT && a2!=0 && w.size()>1)
-      e=lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr);
+      e=lncollect(lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr),contextptr);
     else
       e=a1-a2;
     if (is_inequation(e))
