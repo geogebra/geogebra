@@ -26,7 +26,6 @@ var translation = {};
 var codebase = "<!--CODEBASE-->";
 </script>
 <!--PLATFORM SPECIFIC CODE-->
-<!--MOBILE STARTSCREEN-->
 <script>
 	function e(id){
 		return document.getElementById(id);
@@ -373,15 +372,6 @@ var codebase = "<!--CODEBASE-->";
 		}
 	}
 
-	function showMobileStartscreenIfNeeded() {
-		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-				.test(window.navigator.userAgent) && c("appName") 
-				&& !location.pathname.match(/lti/) && window.mobileStartscreen) {
-			return mobileStartscreen();
-		}
-		return false;
-	}
-
 	function updateAppletParams(){
 		for (var key in defaultParams) {
 			e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
@@ -423,10 +413,6 @@ var codebase = "<!--CODEBASE-->";
 		}
 		var wait = false;
 		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
-		if (!skipAppsPicker) {
-			wait = showMobileStartscreenIfNeeded();
-		}
-	
 		resizeStart();
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if (e("ggw")) {
