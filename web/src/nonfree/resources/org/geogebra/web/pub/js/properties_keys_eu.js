@@ -2723,7 +2723,7 @@ __GGB__keysVar["eu"].menu = {
     "ShowTitleBar": "Erakutsi Titulu-barra",
     "ShowToolBar": "Erakutsi Tresna-barra",
     "ShowToolBarHelp": "Erakutsi Tresna-barrarako Laguntza",
-    "ShowTrace": "Erakutsi Arrastoa",
+    "ShowTrace": "Erakutsi arrastoa",
     "ShowTrimmed": "Erakutsi ebaki-puntua luzapenetan",
     "ShowValue": "Erakutsi Balioa",
     "ShowValueIn3D": "Erakutsi balioa 3D-n",

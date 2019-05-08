@@ -2723,7 +2723,7 @@ __GGB__keysVar["af"].menu = {
     "ShowTitleBar": "Show Title Bar",
     "ShowToolBar": "Show Toolbar",
     "ShowToolBarHelp": "Show Toolbar Help",
-    "ShowTrace": "Show Trace",
+    "ShowTrace": "Show trace",
     "ShowTrimmed": "Show trimmed intersection lines",
     "ShowValue": "Show Value",
     "ShowValueIn3D": "Show value in 3D",
