@@ -35,7 +35,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-@SuppressWarnings("javadoc")
+//@SuppressWarnings("javadoc")
 public class ConstructionProtocolView implements ConstructionStepper {
 
 	public App app;
@@ -44,7 +44,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	protected boolean isViewAttached;
 	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
 
-	protected boolean useColors, addIcons;
+	protected boolean useColors;
+	protected boolean addIcons;
 
 	protected static String getAlgebra(GeoElement geo) {
 		// messes up subscripts in ggb5, why?
@@ -136,25 +137,40 @@ public class ConstructionProtocolView implements ConstructionStepper {
 					// geo is shown in the protocol
 		GeoElement geo;
 		GImageIcon toolbarIcon;
-		String name, algebra, description, definition, caption;
+		String name;
+		String algebra;
+		String description;
+		String definition;
+		String caption;
 		boolean includesIndex;
 		boolean consProtocolVisible;
 		private boolean wrapHTML;
 
+		/**
+		 * @param geo
+		 *            construction element
+		 * @param wrapHTML
+		 *            whether to wrap content in &lt;html&gt;
+		 */
 		public RowData(GeoElement geo, boolean wrapHTML) {
 			this.geo = geo;
 			this.wrapHTML = wrapHTML;
 			updateAll();
 		}
 
+		/**
+		 * Update algebra and name columns
+		 */
 		public void updateAlgebraAndName() {
 			algebra = ConstructionProtocolView.getAlgebra(geo);
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = ConstructionProtocolView.getName(geo);
-			// name = geo.getNameDescriptionHTML(true, true);
 		}
 
+		/**
+		 * Update caption column
+		 */
 		public void updateCaption() {
 			caption = ConstructionProtocolView.getCaption(geo, wrapHTML);
 		}
@@ -211,6 +227,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return includesIndex;
 		}
 
+		/**
+		 * Update all columns
+		 */
 		public void updateAll() {
 
 			/*
@@ -281,10 +300,23 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	public class ColumnData {
 		String title;
 		boolean isVisible; // column is shown in table
-		private int prefWidth, minWidth;
+		private int prefWidth;
+		private int minWidth;
 		private int alignment;
 		private boolean initShow; // should be shown from the beginning
 
+		/**
+		 * @param title
+		 *            title
+		 * @param prefWidth
+		 *            preferred width
+		 * @param minWidth
+		 *            min width
+		 * @param alignment
+		 *            alignment
+		 * @param initShow
+		 *            whether to show on startup
+		 */
 		public ColumnData(String title, int prefWidth, int minWidth,
 				int alignment, boolean initShow) {
 			this.title = title;
@@ -316,12 +348,15 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return alignment;
 		}
 
+		/**
+		 * @return whether to show this column initially
+		 */
 		public boolean getInitShow() {
 			// algebra column should only be shown at startup if algebraview is
 			// shown
 			// in app
 			if (Columns.VALUE.translationKey.equals(title)
-					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
+					&& !app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 				return false;
 			}
 
@@ -338,6 +373,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 	}
 
+	/**
+	 * Update navigation bars in all views and notify all views to repaint
+	 */
 	public final void updateNavBarsAndRepaint() {
 		// update all registered navigation bars
 		kernel.notifyRepaint();
@@ -430,6 +468,10 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		return data;
 	}
 
+	/**
+	 * @param nb
+	 *            navigation bar listening to changes in CP
+	 */
 	public void registerNavigationBar(ConstructionProtocolNavigation nb) {
 		if (!navigationBars.contains(nb)) {
 			navigationBars.add(nb);
@@ -437,14 +479,16 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 	}
 
+	/**
+	 * Scroll to current step
+	 */
 	public void scrollToConstructionStep() {
-		// TODO Log.debug("ConstructionProtocolView.scrollToConstructionStep -
-		// unimplemented in common");
+		// overriden in platforms
 	}
 
 	public class ConstructionTableData implements View, SetLabels {
 
-		public final ColumnData columns[] = {
+		public final ColumnData[] columns = {
 				new ColumnData(Columns.NUMBER.translationKey, 35, 35,
 						SwingConstants.RIGHT, true),
 				new ColumnData(Columns.NAME.translationKey, 80, 50,
@@ -467,6 +511,10 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		private boolean notifyUpdateCalled;
 		private SetLabels gui;
 
+		/**
+		 * @param gui
+		 *            construction protocol UI
+		 */
 		public ConstructionTableData(SetLabels gui) {
 			// ctDataImpl = new MyGAbstractTableModel();
 			rowList = new ArrayList<>();
@@ -482,7 +530,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		@Override
 		public void startBatchUpdate() {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -498,8 +545,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 
 		public void notifyClear() {
-			// TODO Auto-generated method stub
-
+			// only for Web
 		}
 
 		public ArrayList<RowData> getrowList() {
@@ -511,8 +557,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 
 		/**
-		 * Returns the number of the last construction step shown in the
-		 * construction protocol's table.
+		 * @return the number of the last construction step shown in the
+		 *         construction protocol's table.
 		 */
 		public int getLastStepNumber() {
 			int pos = rowList.size() - 1;
@@ -523,8 +569,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 
 		/**
-		 * Returns the number of the current construction step shown in the
-		 * construction protocol's table.
+		 * @return the number of the current construction step shown in the
+		 *         construction protocol's table.
 		 */
 		public int getCurrentStepNumber() {
 			int step = kernel.getConstructionStep();
@@ -541,6 +587,12 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return 0;
 		}
 
+		/**
+		 * Set construction step to match geo on given row
+		 * 
+		 * @param row
+		 *            row
+		 */
 		public void setConstructionStepForRow(int row) {
 			if (row >= 0) {
 				setConstructionStep(getConstructionIndex(row));
@@ -577,6 +629,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return rowList.indexOf(row);
 		}
 
+		/**
+		 * @param column
+		 *            column data
+		 * @return column index
+		 */
 		public int getColumnNumber(ColumnData column) {
 			int pos = -1;
 			for (int i = 0; i < columns.length; i++) {
@@ -588,6 +645,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return pos;
 		}
 
+		/**
+		 * @param t
+		 *            column internal title
+		 * @return column index
+		 */
 		public int getColumnNumberByTitle(String t) {
 			if (t == null) {
 				return -1;
@@ -602,8 +664,12 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return -1;
 		}
 
+		/**
+		 * @param nCol
+		 *            column index
+		 * @return whether it's editable
+		 */
 		public boolean isCellEditable(int nCol) {
-
 			if ((this.columns[nCol].getTitle())
 					.equals(Columns.CAPTION.translationKey)) {
 				return true;
@@ -742,15 +808,19 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		}
 
+		/**
+		 * @param rowNumber
+		 *            from row
+		 * @param rowNumber2
+		 *            to row
+		 */
 		protected void fireTableRowsUpdated(int rowNumber, int rowNumber2) {
-			// TODO Auto-generated method stub
-
+			// overridden in platforms
 		}
 
 		@Override
 		public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -761,13 +831,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		@Override
 		public void updateAuxiliaryObject(GeoElement geo) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void reset() {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -778,7 +846,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		@Override
 		public boolean hasFocus() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
@@ -823,6 +890,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			Log.debug("fireTableRowsInserted - must be overriden");
 		}
 
+		/**
+		 * Initialize the view
+		 */
 		public final void initView() {
 			// init view
 			rowList.clear();
@@ -835,6 +905,10 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			// platform dependent, TODO move this to view
 		}
 
+		/**
+		 * @param lastConstructionStep
+		 *            TODO unused
+		 */
 		public void notifyAddAll(int lastConstructionStep) {
 			notifyUpdateCalled = true;
 			kernel.notifyAddAll(this, kernel.getLastConstructionStep());
@@ -843,6 +917,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		}
 
+		/**
+		 * Attach to kernel
+		 */
 		public void attachView() {
 			if (!isViewAttached) {
 				kernel.attach(this);
@@ -853,6 +930,9 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			scrollToConstructionStep();
 		}
 
+		/**
+		 * Detach from kernel
+		 */
 		final public void detachView() {
 			// only detach view if there are
 			// no registered navigation bars
@@ -873,8 +953,13 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		}
 	}
 
+	/**
+	 * Add view settings to XML
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public final void getXML(StringBuilder sb) {
-
 		// COLUMNS
 		sb.append("\t<consProtColumns ");
 		for (int i = 0; i < data.columns.length; i++) {
@@ -890,17 +975,16 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		sb.append("\t<consProtocol ");
 		sb.append("useColors=\"");
 		sb.append(useColors);
-		sb.append("\"");
-		sb.append(" addIcons=\"");
+		sb.append("\" addIcons=\"");
 		sb.append(addIcons);
-		sb.append("\"");
-		sb.append(" showOnlyBreakpoints=\"");
+		sb.append("\" showOnlyBreakpoints=\"");
 		sb.append(kernel.getConstruction().showOnlyBreakpoints());
-		sb.append("\"");
-		sb.append("/>\n");
-
+		sb.append("\"/>\n");
 	}
 
+	/**
+	 * Show only breakpoints
+	 */
 	public void showOnlyBreakpointsAction() {
 		app.getKernel().getConstruction().setShowOnlyBreakpoints(
 				!app.getKernel().getConstruction().showOnlyBreakpoints());
@@ -916,6 +1000,15 @@ public class ConstructionProtocolView implements ConstructionStepper {
 	 * 
 	 * @param imgBase64
 	 *            : image file to be included
+	 * @param loc
+	 *            localization
+	 * @param kernel
+	 *            kernel
+	 * @param columns
+	 *            visible columns
+	 * @param useColors
+	 *            colorize
+	 * @return HTML
 	 */
 	public static String getHTML(String imgBase64, Localization loc,
 			Kernel kernel, ArrayList<Columns> columns, boolean useColors) {
@@ -1118,8 +1211,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		CASTable table = cas.getConsoleTable();
 
-		int n = table.getRowCount();
-
 		sb.append("<table border=\"1\">\n");
 
 		// headers
@@ -1135,12 +1226,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		sb.append("</th>\n");
 		sb.append("</tr>\n");
 
+		int n = table.getRowCount();
 		for (int i = 0; i < n; i++) {
 			GeoCasCell cell = table.getGeoCasCell(i);
 
 			String input = cell.getInput(StringTemplate.casPrintTemplate);
-			String output = cell.getOutput(StringTemplate.casPrintTemplate);
-
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
@@ -1150,20 +1240,17 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			appendHTML(sb, input);
 			sb.append("</td>\n");
 			sb.append("<td>");
+			String output = cell.getOutput(StringTemplate.casPrintTemplate);
 			appendHTML(sb, output);
 			sb.append("</td>\n");
 
 			sb.append("</tr>\n");
-
 		}
-
 		sb.append("</table>");
-
 	}
 
 	private static void appendHTML(StringBuilder sb, String s) {
 		sb.append(StringUtil.toHTMLString(s));
-
 	}
 
 	private static void addSpreadsheet(StringBuilder sb, 
@@ -1205,7 +1292,6 @@ public class ConstructionProtocolView implements ConstructionStepper {
 						}
 					}
 				}
-
 			}
 		}
 
@@ -1270,24 +1356,17 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				}
 				sb.append(cellText);
 				sb.append("</td>\n");
-
 			}
-
 			sb.append("</tr>\n");
-		
 		}
-		
-		
 		sb.append("</table>\n");
-
 	}
 
 	/**
-	 * Returns text "Created with GeoGebra" and link to application homepage in
-	 * html.
+	 * @return text "Created with GeoGebra" and link to application homepage in
+	 *         html.
 	 */
 	public static String getCreatedWithHTML() {
-
 		return "Created with " + wrapLink("GeoGebra");
 	}
 
@@ -1324,6 +1403,13 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			return loc.getMenu(translationKey);
 		}
 
+		/**
+		 * @param str
+		 *            translated name
+		 * @param loc
+		 *            localization
+		 * @return column
+		 */
 		public static Columns lookUp(String str, Localization loc) {
 			for (Columns col : Columns.values()) {
 				if (loc.getMenu(col.translationKey).equals(str)) {

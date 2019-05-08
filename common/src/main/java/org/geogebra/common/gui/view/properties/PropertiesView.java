@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.common.gui.view.properties;
 
 import java.util.ArrayList;
@@ -40,9 +41,9 @@ public abstract class PropertiesView implements View {
 	private OptionsObject objectPanel;
 	protected int selectedTab = 0;
 	final private static HashMap<Integer, OptionType> viewMap = new HashMap<>();
+
 	// map to match view ID with OptionType
 	static {
-
 		viewMap.put(App.VIEW_CAS, OptionType.CAS);
 		viewMap.put(App.VIEW_SPREADSHEET, OptionType.SPREADSHEET);
 		viewMap.put(App.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
@@ -52,8 +53,12 @@ public abstract class PropertiesView implements View {
 				OptionType.EUCLIDIAN_FOR_PLANE);
 	}
 
-	public PropertiesView(App app2) {
-		app = app2;
+	/**
+	 * @param app
+	 *            application
+	 */
+	public PropertiesView(App app) {
+		this.app = app;
 		kernel = app.getKernel();
 		loc = app.getLocalization();
 	}
@@ -82,7 +87,7 @@ public abstract class PropertiesView implements View {
 		ArrayList<GeoElement> geos = removeAllConstants(
 				app.getSelectionManager().getSelectedGeos());
 
-		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
+		if (type == OptionType.OBJECTS) { // ensure that at least one geo is
 											// selected
 			if (geos.size() == 0) {
 				GeoElement geo = app.getSelectionManager()
@@ -94,7 +99,6 @@ public abstract class PropertiesView implements View {
 
 				// add this first geo
 				geos.add(geo);
-
 			}
 		}
 
@@ -102,11 +106,6 @@ public abstract class PropertiesView implements View {
 	}
 
 	protected void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
-
-		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting);
-		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
-		// Log.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
-
 		if (type == null) {
 			return;
 		}
@@ -116,9 +115,7 @@ public abstract class PropertiesView implements View {
 			if (geos != null) {
 				updateObjectPanelSelection(geos);
 			}
-
 			setObjectsToolTip();
-
 		}
 
 		setOptionPanelWithoutCheck(type);
@@ -156,7 +153,6 @@ public abstract class PropertiesView implements View {
 		}
 
 		return geos;
-
 	}
 
 	public abstract void setOptionPanel(OptionType type, int subType);
@@ -169,6 +165,11 @@ public abstract class PropertiesView implements View {
 
 	public abstract void attachView();
 
+	/**
+	 * @param type
+	 *            tab type
+	 * @return tab name
+	 */
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
@@ -209,7 +210,9 @@ public abstract class PropertiesView implements View {
 
 	/**
 	 * @param loc
+	 *            localization
 	 * @param type
+	 *            tab type
 	 * @return short version of Option type string
 	 */
 	final public static String getTypeStringSimple(Localization loc,
@@ -259,6 +262,7 @@ public abstract class PropertiesView implements View {
 
 	/**
 	 * @param app
+	 *            application
 	 * @param type
 	 *            Option panel type
 	 * @return true if given Option panel is showing (or is instantiated but
@@ -297,13 +301,11 @@ public abstract class PropertiesView implements View {
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**

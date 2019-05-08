@@ -95,9 +95,11 @@ public abstract class ConstructionProtocolNavigation {
 	 */
 	public abstract void setLabels();
 
+	/**
+	 * Update the UI
+	 */
 	public void update() {
-		// TODO Auto-generated method stub
-
+		// overridden in platforms
 	}
 
 	/**
