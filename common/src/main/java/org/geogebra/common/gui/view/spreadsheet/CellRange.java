@@ -22,7 +22,6 @@ import org.geogebra.common.util.debug.Log;
  * Rows and columns are defined using index values of -1 as follows. row:
  * minColumn and maxColumn = -1 column: minRow and maxRow = -1
  * 
- * 
  * @author George Sturr, 2010-1-23
  */
 
@@ -585,7 +584,7 @@ final public class CellRange {
 	/**
 	 * @return cuplicate of this range
 	 */
-	final public CellRange duplicate() {
+	public CellRange duplicate() {
 		CellRange cr = new CellRange(app);
 		cr.anchorColumn = anchorColumn;
 		cr.anchorRow = anchorRow;

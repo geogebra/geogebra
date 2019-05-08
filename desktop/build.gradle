@@ -5,7 +5,6 @@ plugins {
 project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 apply plugin: 'application'
-apply plugin: 'jacoco'
 apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
 
@@ -126,29 +125,6 @@ test {
 spotbugs {
      ignoreFailures = true
      excludeFilter = file("config/findbugs.xml")
-}
-
-// http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
-gradle.projectsEvaluated {
-    // include src from all dependent projects (compile dependency) in JaCoCo test report
-    jacocoTestReport {
-        // get all projects we have a (compile) dependency on
-        def projs = configurations.compile.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
-        projs.each {
-            additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
-            additionalClassDirs files(files(it.sourceSets.main['java'].outputDir).collect({
-                File f -> fileTree(dir: f, exclude: ['org/apache/**','edu/**','org/geogebra/common/kernel/barycentric/**','org/mozilla/**'])
-            }))
-        }
-    }
-}
-
-jacocoTestReport {
-   afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['com/kitfox/**','org/jfugue/**','org/freehep/**','org/geogebra/desktop/**'])
-        })
-    }
 }
 
 import org.gradle.plugins.ide.eclipse.model.AccessRule
