@@ -225,7 +225,6 @@ public class CreateObjectModel {
 		boolean transpose = listener.isTranspose();
 		boolean doCreateFreePoints = true;
 		boolean doStoreUndo = true;
-		boolean isSorted = false;
 
 		try {
 			switch (getObjectType()) {
