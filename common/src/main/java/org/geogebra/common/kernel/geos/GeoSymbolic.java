@@ -134,24 +134,6 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public GColor getObjectColor() {
-		GeoElementND twin = getTwinGeo();
-		if (twin != null) {
-			return twin.getObjectColor();
-		}
-		return super.getObjectColor();
-	}
-
-	@Override
-	public GColor getAlgebraColor() {
-		GeoElementND twin = getTwinGeo();
-		if (twin != null) {
-			return twin.getAlgebraColor();
-		}
-		return super.getAlgebraColor();
-	}
-
-	@Override
 	public void setAssignmentType(AssignmentType assignmentType) {
 		// compatibility with CAS view, do nothing
 	}
