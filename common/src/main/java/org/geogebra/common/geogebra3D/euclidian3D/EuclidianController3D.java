@@ -3531,16 +3531,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// //////////////////////////////////////
 
 	/**
-	 * sets the geo as an handled geo (for previewables)
-	 * 
-	 * @param geo
-	 *            handled geo
-	 */
-	public void setHandledGeo(GeoElement geo) {
-		setHandledGeo(geo, null);
-	}
-
-	/**
 	 * sets the geo as an handled geo (for previewables) and source of the move
 	 *
 	 * @param geo
@@ -3550,11 +3540,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	public void setHandledGeo(GeoElement geo, GeoElement source) {
 		handledGeo = geo;
-		if (handledGeo == null) {
-			return;
-		}
 		setStartPointLocation(source);
 		handledGeo.getChangeableParent3D().record(view3D);
+	}
+
+	/**
+	 * set handledGeo to null
+	 */
+	public void disposeHandledGeo() {
+		handledGeo = null;
 	}
 
 	@Override

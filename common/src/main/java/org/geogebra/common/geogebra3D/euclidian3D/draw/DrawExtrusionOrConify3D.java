@@ -190,7 +190,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		super.disposePreview();
 
 		((EuclidianController3D) getView3D().getEuclidianController())
-				.setHandledGeo(null);
+				.disposeHandledGeo();
 
 		if (extrusionComputer != null) {
 			// remove the algo
@@ -205,7 +205,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 	 */
 	public void createPolyhedron() {
 		((EuclidianController3D) getView3D().getEuclidianController())
-				.setHandledGeo(null);
+				.disposeHandledGeo();
 
 		if (extrusionComputer != null) {
 
