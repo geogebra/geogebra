@@ -195,9 +195,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                     } else {
                         // process motionEvent at touch location (if exists)
                         if (arMotionEvent != null) {
-                            setHittingOriginAndDirection(
-                                    arMotionEvent.getX(),
-                                    arMotionEvent.getY());
+                            setHittingOriginAndDirection(arMotionEvent);
                             lastARMotionEvent = arMotionEvent;
                         } else {
                             if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
@@ -221,9 +219,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                     }
                 } else {
                     if (arMotionEvent != null) {
-                        setHittingOriginAndDirection(arMotionEvent
-                                        .getX(),
-                                arMotionEvent.getY());
+                        setHittingOriginAndDirection(arMotionEvent);
                     }
                 }
                 renderer.getView().setEuclidianPanelOnTouchListener();
