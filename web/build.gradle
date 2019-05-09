@@ -197,11 +197,10 @@ task copyHtml {
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = String.valueOf(prerelease).contains("canary") ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
-            def logo = "<div class=\"logo\">" + template(appID+"-min.svg") + "</div>"
             def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
                     "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
             return replaceVendor(html, vendor)
-            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + logo + template(appID+"-splash.html") + "</div>")
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(appID+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
