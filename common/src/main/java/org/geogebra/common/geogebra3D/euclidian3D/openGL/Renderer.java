@@ -725,7 +725,7 @@ public abstract class Renderer {
 	 */
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
 		rendererImpl.fromARCoreCoordsToGGBCoords(coords, arModelMatrix,
-				arScaleFactor, ret);
+				getARScaleParameter(), ret);
 	}
 
 	private void draw() {
@@ -1263,7 +1263,7 @@ public abstract class Renderer {
 		if (view3D.isARDrawing()) {
 			rendererImpl.setProjectionMatrixViewForAR(arCameraView,
 					arCameraPerspective, arModelMatrix,
-					arScaleFactor * getARManager().getGestureScaleFactor());
+					getARScaleParameter());
 		} else {
 			switch (view3D.getProjection()) {
 				default:
@@ -2232,5 +2232,9 @@ public abstract class Renderer {
 	protected ARManagerInterface<?> getARManager() {
 	    return null;
     }
+
+    private float getARScaleParameter() {
+		return arScaleFactor * getARManager().getGestureScaleFactor();
+	}
 
 }
