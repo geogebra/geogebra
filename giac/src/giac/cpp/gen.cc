@@ -12386,9 +12386,11 @@ namespace giac {
     case _GGBVECT:
       s=(calc_mode(contextptr)==1?"ggbvect(":"ggbvect[");
       break;
+#ifndef EMCC
     case _LOGO__VECT:
       s="logo[";
       break;
+#endif
     case _PNT__VECT:
       s="pnt[";
       break;

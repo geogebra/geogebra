@@ -6103,9 +6103,13 @@ unsigned int ConvertUTF8toUTF16 (
 	pythonmode=true;
 	break;
       }
-      first=s_orig.find(':',first);
-      if (first<0 || first>=sss)
-	return s_orig; // not Python like
+      pos=s_orig.find('#',0);
+      if (pos<0 || pos>=sss){
+	first=s_orig.find(':',first);
+	if (first<0 || first>=sss){
+	  return s_orig; // not Python like
+	}
+      }
       pos=s_orig.find("lambda");
       if (pos>=0 && pos<sss)
 	break;
