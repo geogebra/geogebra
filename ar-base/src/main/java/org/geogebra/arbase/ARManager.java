@@ -209,13 +209,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                                             ARMotionEvent.FIRST_FINGER_DOWN) {
                                         arMotionEvent = getARMotionEventMove(lastARMotionEvent.getX(),
                                                 lastARMotionEvent.getY());
+                                        setHittingOriginAndDirection(arMotionEvent);
                                     } else if (lastARMotionEvent.getAction() ==
                                             ARMotionEvent.ON_MOVE){
                                         arMotionEvent = lastARMotionEvent;
+                                        setHittingOriginAndDirection(arMotionEvent);
                                     }
-                                    setHittingOriginAndDirection(
-                                            arMotionEvent.getX(),
-                                            arMotionEvent.getY());
                                 }
                             }
                         }
@@ -380,6 +379,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected ARMotionEvent getARMotionEventMove(float x, float y){
         return null;
+    }
+
+    private void setHittingOriginAndDirection(ARMotionEvent arMotionEvent) {
+        if (arMotionEvent != null) {
+            setHittingOriginAndDirection(arMotionEvent.getX(), arMotionEvent.getY());
+        }
     }
 
 }
