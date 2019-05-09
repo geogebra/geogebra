@@ -1263,7 +1263,7 @@ public abstract class Renderer {
 		if (view3D.isARDrawing()) {
 			rendererImpl.setProjectionMatrixViewForAR(arCameraView,
 					arCameraPerspective, arModelMatrix,
-					arScaleFactor);
+					arScaleFactor * getARManager().getGestureScaleFactor());
 		} else {
 			switch (view3D.getProjection()) {
 				default:
