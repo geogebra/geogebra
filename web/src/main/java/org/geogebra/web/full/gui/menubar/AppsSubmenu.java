@@ -38,6 +38,8 @@ public class AppsSubmenu extends Submenu {
 				MaterialDesignResources.INSTANCE.geometry());
 		addMenuItem("3d", "Graphing3D",
 				MaterialDesignResources.INSTANCE.graphing3D());
+		addMenuItem("calculator", "ScientificCalculator",
+				MaterialDesignResources.INSTANCE.scientific());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 		if (app.isUnbundledGraphing() && !app.isExam() && app.getLAF().isGraphingExamSupported()) {
