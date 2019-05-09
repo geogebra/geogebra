@@ -20,6 +20,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
+    private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.identity();
     private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     protected float mScaleFactor = 1;
@@ -243,6 +244,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     protected void updateModelMatrixFields() {
+        /* Scaling */
+        if (arGestureManager != null) {
+            mScaleFactor = arGestureManager.getScaleFactor();
+        }
+
+        /* Scaling */
+        scaleMatrix.setDiag(mScaleFactor);
+
         /* translating */
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
     }
@@ -255,7 +264,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     protected void updateModelMatrix(App app) {
-        mModelMatrix.set(mAnchorMatrix);
+        /* Scaling */
+        mModelMatrix.setMul(mAnchorMatrix, scaleMatrix);
 
         updateModelMatrixForRotation(app);
 
@@ -349,6 +359,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         // used in iOS
         translationOffset.set(0,0,0);
         previousTranslationOffset.set(0,0,0);
+        scaleMatrix = CoordMatrix4x4.identity();
     }
 
     /**
@@ -368,10 +379,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     private void setHittingOriginAndDirection(ARMotionEvent arMotionEvent) {
             setHittingOriginAndDirection(arMotionEvent.getX(), arMotionEvent.getY());
-    }
-
-    public float getGestureScaleFactor() {
-        return arGestureManager.getScaleFactor();
     }
 
 }
