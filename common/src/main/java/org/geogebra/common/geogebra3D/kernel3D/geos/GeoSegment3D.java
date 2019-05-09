@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
@@ -617,21 +615,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	@Override
 	public ChangeableParent getChangeableParent3D() {
 		return changeableCoordParent;
-	}
-
-	@Override
-	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords endPosition, Coords viewDirection,
-			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
-
-		if (changeableCoordParent == null) {
-			return false;
-		}
-
-		return changeableCoordParent.move(rwTransVec, endPosition,
-				viewDirection, updateGeos, tempMoveObjectList, view);
-
 	}
 
 	@Override

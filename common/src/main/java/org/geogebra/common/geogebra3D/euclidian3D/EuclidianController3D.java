@@ -3574,14 +3574,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 				if (updateTranslationVector(handledGeo
 						.getChangeableCoordParentNumbersDirection())) {
-					handledGeo.moveFromChangeableCoordParentNumbers(
+					handledGeo.getChangeableParent3D().move(
 							translationVec3D, startPoint3D,
 							view3D.getViewDirection(), null, null, view3D);
 					kernel.notifyRepaint();
 				}
 			} else {
 				updateTranslationVector(null);
-				handledGeo.moveFromChangeableCoordParentNumbers(translationVec3D,
+				handledGeo.getChangeableParent3D().move(translationVec3D,
 						startPoint3D, view3D.getViewDirection(), null, null,
 						view3D);
 				kernel.notifyRepaint();

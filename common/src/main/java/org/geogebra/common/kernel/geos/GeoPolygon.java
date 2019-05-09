@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -2325,21 +2324,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public ChangeableParent getChangeableParent3D() {
 		return changeableCoordParent;
-	}
-
-	@Override
-	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords endPosition, Coords viewDirection,
-			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
-
-		if (changeableCoordParent == null) {
-			return false;
-		}
-
-		return changeableCoordParent.move(rwTransVec, endPosition,
-				viewDirection, updateGeos, tempMoveObjectList, view);
-
 	}
 
 	@Override

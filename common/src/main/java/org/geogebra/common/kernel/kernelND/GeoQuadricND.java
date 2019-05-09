@@ -12,9 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.kernelND;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -621,20 +618,6 @@ public abstract class GeoQuadricND extends GeoElement
 	@Override
 	public ChangeableParent getChangeableParent3D() {
 		return changeableCoordParent;
-	}
-
-	@Override
-	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords endPosition, Coords viewDirection,
-			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
-
-		if (changeableCoordParent == null) {
-			return false;
-		}
-
-		return changeableCoordParent.move(rwTransVec, endPosition,
-				viewDirection, updateGeos, tempMoveObjectList, view);
 	}
 
 	@Override

@@ -215,9 +215,15 @@ public class MoveGeos {
 					.getApplication().getSelectionManager()
 					.getTempMoveGeoList();
 
-			movedGeo = geo1.moveFromChangeableCoordParentNumbers(rwTransVec,
-					endPosition, viewDirection, updateGeos, tempMoveObjectList,
-					view);
+			if (geo1.hasChangeableParent3D()) {
+				movedGeo = geo1.getChangeableParent3D().move(rwTransVec,
+						endPosition, viewDirection, updateGeos,
+						tempMoveObjectList, view);
+			} else {
+				movedGeo = geo1.moveFromChangeableCoordParentNumbers(rwTransVec,
+						endPosition, viewDirection, updateGeos,
+						tempMoveObjectList, view);
+			}
 			if (!movedGeo) {
 				ArrayList<GeoPointND> freeInputPoints = geo1
 						.getFreeInputPoints(view);

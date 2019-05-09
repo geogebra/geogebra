@@ -2116,16 +2116,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
 
-		if (changeableCoordParent != null) {
-			return changeableCoordParent.move(rwTransVec, targetPosition,
-					viewDirection, updateGeos, tempMoveObjectList, view);
-		}
-
-		Coords endPosition = targetPosition;
 		if (!hasChangeableCoordParentNumbers()) {
 			return false;
 		}
 
+		Coords endPosition = targetPosition;
 		if (endPosition == null) {
 			endPosition = getInhomCoords().add(rwTransVec);
 		}
