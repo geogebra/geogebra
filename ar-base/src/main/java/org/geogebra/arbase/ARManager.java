@@ -378,9 +378,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private void setHittingOriginAndDirection(ARMotionEvent arMotionEvent) {
-        if (arMotionEvent != null) {
             setHittingOriginAndDirection(arMotionEvent.getX(), arMotionEvent.getY());
-        }
     }
 
 }
