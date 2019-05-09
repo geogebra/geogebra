@@ -76,6 +76,11 @@ public class GeoGebraFrameBoth
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
 	private KeyboardState keyboardState;
+
+	public GeoGebraFrameBoth(GLookAndFeelI laf, ArticleElementInterface articleElement) {
+		super(laf, articleElement);
+	}
+
 	private final SimplePanel kbButtonSpace = new SimplePanel();
 	private GDevice device;
 	private boolean keyboardShowing = false;

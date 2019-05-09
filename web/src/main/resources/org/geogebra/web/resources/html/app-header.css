@@ -23,6 +23,10 @@
 	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.20);
 }
 
+.smallScreen.GeoGebraHeader.calculatorHeader {
+  	height: 80px;
+}
+
 .GeoGebraHeader .signIn {
 	color: rgb(0,0,0);
 	opacity: 0.87;
@@ -46,6 +50,11 @@
     font-family: sans-serif;
     letter-spacing: 0.43px;
     color: rgba(0,0,0,.6);
+}
+
+.smallScreen.GeoGebraHeader .appName.beta,
+.smallScreen.GeoGebraHeader .appsBtn {
+    visibility: hidden;
 }
 
 @media screen and (max-width: 660px) {
@@ -327,6 +336,17 @@ svg.icon.left {
     max-width: calc(100% - 48px);
     height: 48px;
     margin: auto;
+}
+
+.smallScreen.GeoGebraFrame .undoRedoSettingsPanelScientific {
+    position: relative;
+    display: inline-block;
+    clear: both;
+    width: 800px;
+    max-width: calc(100% - 12px);
+    height: 48px;
+    margin-left: 12px;
+    margin-top: -32px;
 }
 
 .GeoGebraFrame .hidden {

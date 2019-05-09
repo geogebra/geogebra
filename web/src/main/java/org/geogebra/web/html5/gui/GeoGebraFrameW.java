@@ -293,10 +293,23 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		app.checkScaleContainer();
 	}
 
+	private void updateResponsiveHeader() {
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (hasSmallWindowOrCompactHeader()) {
+			header.addClassName("smallScreen");
+		} else {
+			header.removeClassName("smallScreen");
+		}
+	}
+
 	/**
 	 * Update the visibility of external header
 	 */
 	public void updateHeaderVisible() {
+		if ("GeoGebraScientificCalculator".equals(app.getConfig().getAppName())) {
+			updateResponsiveHeader();
+			return;
+		}
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
 			boolean visible = !shouldHaveSmallScreenLayout();

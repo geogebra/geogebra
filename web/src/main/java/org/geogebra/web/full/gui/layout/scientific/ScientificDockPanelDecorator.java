@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -30,7 +29,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	private Panel buildAndStylePanel() {
 		FlowPanel panel = new FlowPanel();
 		stylePanel(panel);
-		buildHeaderAndAddToPanel(panel);
 		panel.add(algebraScrollPanel);
 		algebraScrollPanel.addStyleName("algebraPanelScientific");
 		ScientificScrollHandler scrollController = new ScientificScrollHandler(
@@ -44,19 +42,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		panel.setHeight("100%");
 	}
 
-	private void buildHeaderAndAddToPanel(Panel panel) {
-		HeaderBuilder headerBuilder = new HeaderBuilder(app);
-		header = headerBuilder
-				.buildHeader();
-		panel.add(header);
-	}
-
 	@Override
 	public void onResize() {
-		boolean smallScreen = app.getAppletFrame()
-				.shouldHaveSmallScreenLayout();
-		header.setVisible(smallScreen);
-		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificWithHeader",
-				"algebraPanelScientificNoHeader", smallScreen);
+
 	}
 }
