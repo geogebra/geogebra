@@ -2327,11 +2327,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public Coords getChangeableCoordParentNumbersDirection() {
-		return changeableCoordParent.getDirection();
-	}
-
-	@Override
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).rotate(r);

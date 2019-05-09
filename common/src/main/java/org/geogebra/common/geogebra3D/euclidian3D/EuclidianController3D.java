@@ -3573,7 +3573,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			event.release();
 			if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 				if (updateTranslationVector(handledGeo
-						.getChangeableCoordParentNumbersDirection())) {
+						.getChangeableParent3D().getDirection())) {
 					handledGeo.getChangeableParent3D().move(
 							translationVec3D, startPoint3D,
 							view3D.getViewDirection(), null, null, view3D);
@@ -3781,7 +3781,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// TODO else
 			if (movedGeoElement.hasChangeableParent3D()) {
 				if (updateTranslationVector(movedGeoElement
-						.getChangeableCoordParentNumbersDirection())) {
+						.getChangeableParent3D().getDirection())) {
 					doMoveDependent(startPoint3D);
 				}
 			}
