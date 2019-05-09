@@ -2112,9 +2112,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords targetPosition, Coords viewDirection,
-			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
+			Coords targetPosition, ArrayList<GeoElement> updateGeos,
+			ArrayList<GeoElement> tempMoveObjectList) {
 
 		if (!hasChangeableCoordParentNumbers()) {
 			return false;

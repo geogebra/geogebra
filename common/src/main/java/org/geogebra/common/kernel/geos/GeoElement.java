@@ -6042,21 +6042,15 @@ public abstract class GeoElement extends ConstructionElement
 	 *            translation vector
 	 * @param endPosition
 	 *            end position
-	 * @param viewDirection
-	 *            view direction
 	 * @param updateGeos
 	 *            geos to be updated
 	 * @param tempMoveObjectList1
 	 *            temporary list
-	 * @param view
-	 *            TODO
 	 * @return false if not moveable this way
 	 */
 	public boolean moveFromChangeableCoordParentNumbers(final Coords rwTransVec,
-			final Coords endPosition, final Coords viewDirection,
-			final ArrayList<GeoElement> updateGeos,
-			final ArrayList<GeoElement> tempMoveObjectList1,
-			EuclidianView view) {
+			final Coords endPosition, final ArrayList<GeoElement> updateGeos,
+			final ArrayList<GeoElement> tempMoveObjectList1) {
 		return false;
 	}
 

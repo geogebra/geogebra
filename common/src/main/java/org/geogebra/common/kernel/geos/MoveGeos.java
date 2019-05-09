@@ -221,8 +221,7 @@ public class MoveGeos {
 						tempMoveObjectList, view);
 			} else {
 				movedGeo = geo1.moveFromChangeableCoordParentNumbers(rwTransVec,
-						endPosition, viewDirection, updateGeos,
-						tempMoveObjectList, view);
+						endPosition, updateGeos, tempMoveObjectList);
 			}
 			if (!movedGeo) {
 				ArrayList<GeoPointND> freeInputPoints = geo1

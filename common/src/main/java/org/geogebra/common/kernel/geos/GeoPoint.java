@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
@@ -445,9 +444,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords targetPosition, Coords viewDirection,
-			ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
+			Coords targetPosition, ArrayList<GeoElement> updateGeos,
+			ArrayList<GeoElement> tempMoveObjectList) {
 		Coords endPosition = targetPosition;
 		if (!hasChangeableCoordParentNumbers()) {
 			return false;
