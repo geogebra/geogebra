@@ -23,8 +23,8 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class ChangeableParent {
 
-	private GeoNumeric changeableCoordNumber = null;
-	private GeoElement changeableCoordDirector = null;
+	private GeoNumeric changeableNumber = null;
+	private GeoElement directorGeo = null;
 	private double startValue;
 	private Coords direction;
 	private Coords direction2;
@@ -89,8 +89,8 @@ public class ChangeableParent {
 	 *            director
 	 */
 	public ChangeableParent(GeoNumeric number, GeoElement director) {
-		changeableCoordNumber = number;
-		changeableCoordDirector = director;
+		changeableNumber = number;
+		directorGeo = director;
 		forPolyhedronNet = false;
 	}
 
@@ -106,8 +106,8 @@ public class ChangeableParent {
 	 */
 	public ChangeableParent(GeoElement child, GeoNumeric number,
 			GeoPolyhedronInterface parent) {
-		changeableCoordNumber = number;
-		changeableCoordDirector = child;
+		changeableNumber = number;
+		directorGeo = child;
 		forPolyhedronNet = true;
 		this.parent = parent;
 	}
@@ -117,7 +117,7 @@ public class ChangeableParent {
 	 * @return number
 	 */
 	final public GeoNumeric getNumber() {
-		return changeableCoordNumber;
+		return changeableNumber;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class ChangeableParent {
 	 * @return value of the number
 	 */
 	final public double getValue() {
-		return changeableCoordNumber.getValue();
+		return changeableNumber.getValue();
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class ChangeableParent {
 	 * @return director
 	 */
 	final public GeoElement getDirector() {
-		return changeableCoordDirector;
+		return directorGeo;
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class ChangeableParent {
 				direction.set(0, 0, 0);
 			}
 		} else {
-			direction.set3(changeableCoordDirector.getMainDirection());
+			direction.set3(directorGeo.getMainDirection());
 		}
 	}
 
@@ -213,7 +213,7 @@ public class ChangeableParent {
 
 		// else: comes from mouse
 		double shift;
-		if (changeableCoordNumber.getConstruction().getApplication()
+		if (changeableNumber.getConstruction().getApplication()
 				.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 			shift = direction.dotproduct3(rwTransVec);
 		} else {
