@@ -89,7 +89,7 @@ public abstract class GeoQuadricND extends GeoElement
 	protected boolean isIntersection;
 	private CoordMatrix tmpEigenMatrix;
 
-	private ChangeableParent changeableCoordParent = null;
+	private ChangeableParent changeableParent = null;
 
 	private boolean trace;
 
@@ -164,8 +164,8 @@ public abstract class GeoQuadricND extends GeoElement
 	public void set(GeoElementND geo) {
 		GeoQuadricND quadric = (GeoQuadricND) geo;
 		if (quadric.hasChangeableParent3D()) {
-			setChangeableCoordParent(quadric.changeableCoordParent.getNumber(),
-					quadric.changeableCoordParent.getDirector());
+			setChangeableParent(quadric.changeableParent.getNumber(),
+					quadric.changeableParent.getDirector());
 		}
 		reuseDefinition(geo);
 	}
@@ -597,7 +597,7 @@ public abstract class GeoQuadricND extends GeoElement
 	// ////////////////////////////////////////////////////
 
 	/**
-	 * sets the parents for changing coords
+	 * sets the changeable parent
 	 * 
 	 * @param number
 	 *            number
@@ -605,19 +605,19 @@ public abstract class GeoQuadricND extends GeoElement
 	 *            direction
 	 * 
 	 */
-	final public void setChangeableCoordParent(GeoNumeric number,
+	final public void setChangeableParent(GeoNumeric number,
 			GeoElement direction) {
-		changeableCoordParent = new ChangeableParent(number, direction);
+		changeableParent = new ChangeableParent(number, direction);
 	}
 
 	@Override
 	public boolean hasChangeableParent3D() {
-		return changeableCoordParent != null;
+		return changeableParent != null;
 	}
 
 	@Override
 	public ChangeableParent getChangeableParent3D() {
-		return changeableCoordParent;
+		return changeableParent;
 	}
 
 	/**

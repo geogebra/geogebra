@@ -117,7 +117,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private HitType lastHitType = HitType.ON_FILLING;
 
 	private Coords labelPosition;
-	private ChangeableParent changeableCoordParent = null;
+	private ChangeableParent changeableParent = null;
 
 	private double[] tmp3;
 	private TreeSet<GeoElement> metas;
@@ -692,7 +692,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		defined = poly.defined;
 
 		if (poly.hasChangeableParent3D()) {
-			setChangeableCoordParent(poly.changeableCoordParent);
+			setChangeableParent(poly.changeableParent);
 		}
 		updateRegionCS();
 
@@ -2308,22 +2308,22 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	// ////////////////////////////////////////////////////
 
 	/**
-	 * @param ccp
-	 *            changeable coord parent
+	 * @param cp
+	 *            changeable parent
 	 * 
 	 */
-	final public void setChangeableCoordParent(ChangeableParent ccp) {
-		changeableCoordParent = ccp;
+	final public void setChangeableParent(ChangeableParent cp) {
+		changeableParent = cp;
 	}
 
 	@Override
 	public boolean hasChangeableParent3D() {
-		return changeableCoordParent != null;
+		return changeableParent != null;
 	}
 
 	@Override
 	public ChangeableParent getChangeableParent3D() {
-		return changeableCoordParent;
+		return changeableParent;
 	}
 
 	@Override

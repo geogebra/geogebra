@@ -36,7 +36,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
-	private ChangeableParent changeableCoordParent = null;
+	private ChangeableParent changeableParent = null;
 	private boolean forceSimpleTransform;
 	private GeoElement meta = null;
 
@@ -595,26 +595,26 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	/**
 	 * Used for polyhedron net: first polygon set it
 	 * 
-	 * @param ccp
-	 *            changeable coord parent
+	 * @param cp
+	 *            changeable parent
 	 * 
 	 */
 	@Override
-	final public void setChangeableCoordParentIfNull(
-			ChangeableParent ccp) {
-		if (changeableCoordParent == null) {
-			changeableCoordParent = ccp;
+	final public void setChangeableParentIfNull(
+			ChangeableParent cp) {
+		if (changeableParent == null) {
+			changeableParent = cp;
 		}
 	}
 
 	@Override
 	public boolean hasChangeableParent3D() {
-		return changeableCoordParent != null;
+		return changeableParent != null;
 	}
 
 	@Override
 	public ChangeableParent getChangeableParent3D() {
-		return changeableCoordParent;
+		return changeableParent;
 	}
 
 	@Override

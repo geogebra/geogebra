@@ -192,7 +192,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D poly = new GeoPolygon3D(cons);
-						setChangeableCoordParent(poly);
+						setChangeableParent(poly);
 						poly.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 						return poly;
 					}
@@ -200,13 +200,19 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 			@Override
 			public void addOutput(GeoPolygon3D polygon,
 					boolean setDependencies) {
-				setChangeableCoordParent(polygon);
+				setChangeableParent(polygon);
 				super.addOutput(polygon, setDependencies);
 			}
 		};
 	}
 
-	final void setChangeableCoordParent(GeoPolygon3D polygon) {
+	/**
+	 * set changeable parent
+	 * 
+	 * @param polygon
+	 *            director geo
+	 */
+	final void setChangeableParent(GeoPolygon3D polygon) {
 		ChangeableParent.setPolyhedronNet(polygon, vNum, p);
 	}
 

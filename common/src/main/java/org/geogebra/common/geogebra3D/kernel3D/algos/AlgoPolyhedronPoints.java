@@ -36,7 +36,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsSide;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsTop;
-	ChangeableParent heightChangeableCoordParent = null;
+	ChangeableParent heightChangeableParent = null;
 	private int shift;
 
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
@@ -47,8 +47,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 				public GeoPolygon3D newElement() {
 					GeoPolygon3D p = new GeoPolygon3D(cons);
 					// p.setParentAlgorithm(AlgoPolyhedron.this);
-					if (heightChangeableCoordParent != null) {
-						p.setChangeableCoordParent(heightChangeableCoordParent);
+					if (heightChangeableParent != null) {
+						p.setChangeableParent(heightChangeableParent);
 					}
 					return p;
 				}
@@ -57,8 +57,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		@Override
 		public void addOutput(GeoPolygon3D geo, boolean setDependencies) {
-			if (heightChangeableCoordParent != null) {
-				geo.setChangeableCoordParent(heightChangeableCoordParent);
+			if (heightChangeableParent != null) {
+				geo.setChangeableParent(heightChangeableParent);
 			}
 			super.addOutput(geo, setDependencies);
 		}
@@ -77,9 +77,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 				@Override
 				public GeoSegment3D newElement() {
 					GeoSegment3D s = new GeoSegment3D(cons);
-					if (heightChangeableCoordParent != null) {
-						s.setChangeableCoordParentIfNull(
-								heightChangeableCoordParent);
+					if (heightChangeableParent != null) {
+						s.setChangeableParentIfNull(
+								heightChangeableParent);
 					}
 					return s;
 				}
@@ -88,8 +88,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		@Override
 		public void addOutput(GeoSegment3D geo, boolean setDependencies) {
-			if (heightChangeableCoordParent != null) {
-				geo.setChangeableCoordParentIfNull(heightChangeableCoordParent);
+			if (heightChangeableParent != null) {
+				geo.setChangeableParentIfNull(heightChangeableParent);
 			}
 			super.addOutput(geo, setDependencies);
 		}
@@ -108,9 +108,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 				@Override
 				public GeoPoint3D newElement() {
 					GeoPoint3D ret = super.newElement();
-					if (heightChangeableCoordParent != null) {
-						ret.setChangeableCoordParentIfNull(
-								heightChangeableCoordParent);
+					if (heightChangeableParent != null) {
+						ret.setChangeableParentIfNull(
+								heightChangeableParent);
 					}
 					return ret;
 				}
@@ -119,8 +119,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		@Override
 		public void addOutput(GeoPoint3D geo, boolean setDependencies) {
-			if (heightChangeableCoordParent != null) {
-				geo.setChangeableCoordParentIfNull(heightChangeableCoordParent);
+			if (heightChangeableParent != null) {
+				geo.setChangeableParentIfNull(heightChangeableParent);
 			}
 			super.addOutput(geo, setDependencies);
 		}
@@ -245,10 +245,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		super(c);
 		init();
 
-		// create ChangeableCoordParent if possible
+		// create ChangeableParent if possible
 		GeoNumeric changeableHeight = ChangeableParent.getGeoNumeric(height);
 		if (changeableHeight != null) {
-			heightChangeableCoordParent = new ChangeableParent(changeableHeight, polygon);
+			heightChangeableParent = new ChangeableParent(changeableHeight, polygon);
 		}
 
 		initCoords();
@@ -271,16 +271,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		updateOutputPoints();
 		createFaces();
 		setOutput();
-
-		// GeoNumeric changeableHeight = ChangeableCoordParent
-		// .getGeoNumeric(height);
-		// if (changeableHeight != null) {
-		// heightChangeableCoordParent = new ChangeableCoordParent(
-		// changeableHeight, bottom);
-		// for (GeoPolygon p : polyhedron.getPolygons()) {
-		// p.setChangeableCoordParent(heightChangeableCoordParent);
-		// }
-		// }
 
 		setLabels(labels);
 

@@ -92,6 +92,6 @@ public interface GeoSegmentND
 	 * @param ccp
 	 *            changeable coord parent
 	 */
-	public void setChangeableCoordParentIfNull(ChangeableParent ccp);
+	public void setChangeableParentIfNull(ChangeableParent ccp);
 
 }

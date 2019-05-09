@@ -51,8 +51,8 @@ public class ChangeableParent {
 	}
 
 	/**
-	 * set changeable coord parent to the polygon as part of polyhedron net
-	 * (check first if num is not null)
+	 * set changeable parent to the polygon as part of polyhedron net (check
+	 * first if num is not null)
 	 * 
 	 * @param polygon
 	 *            polyhedron net face
@@ -64,18 +64,18 @@ public class ChangeableParent {
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
 			GeoPolyhedronInterface polyhedron) {
 		if (num != null) {
-			ChangeableParent ccp = new ChangeableParent(polygon, num,
+			ChangeableParent cp = new ChangeableParent(polygon, num,
 					polyhedron);
-			polygon.setChangeableCoordParent(ccp);
+			polygon.setChangeableParent(cp);
 
 			// set segments (if not already done)
 			for (GeoSegmentND segment : polygon.getSegments()) {
-				segment.setChangeableCoordParentIfNull(ccp);
+				segment.setChangeableParentIfNull(cp);
 			}
 
 			// set points (if not already done)
 			for (GeoPointND point : polygon.getPointsND()) {
-				point.setChangeableCoordParentIfNull(ccp);
+				point.setChangeableParentIfNull(cp);
 			}
 		}
 	}

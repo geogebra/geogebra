@@ -875,7 +875,7 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	public void setChangeableCoordParentIfNull(ChangeableParent ccp) {
+	public void setChangeableParentIfNull(ChangeableParent ccp) {
 		// used for GeoPoint3D
 	}
 

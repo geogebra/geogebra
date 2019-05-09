@@ -148,7 +148,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	private double animationValue;
 
-	private ChangeableParent changeableCoordParent = null;
+	private ChangeableParent changeableParent = null;
 
 	private static TreeSet<AlgoElement> tempSet;
 
@@ -1302,7 +1302,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public int getMoveMode() {
-		if (changeableCoordParent != null) {
+		if (changeableParent != null) {
 			return MOVE_MODE_NONE;
 		}
 		if (this.hasChangeableCoordParentNumbers()) {
@@ -2031,15 +2031,15 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	/**
 	 * Used for polyhedron net: first polygon set it
 	 * 
-	 * @param ccp
-	 *            changeable coord parent
+	 * @param cp
+	 *            changeable parent
 	 * 
 	 */
 	@Override
-	final public void setChangeableCoordParentIfNull(
-			ChangeableParent ccp) {
-		if (changeableCoordParent == null) {
-			changeableCoordParent = ccp;
+	final public void setChangeableParentIfNull(
+			ChangeableParent cp) {
+		if (changeableParent == null) {
+			changeableParent = cp;
 		}
 	}
 
@@ -2048,12 +2048,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (isLocked()) {
 			return false;
 		}
-		return changeableCoordParent != null;
+		return changeableParent != null;
 	}
 
 	@Override
 	public ChangeableParent getChangeableParent3D() {
-		return changeableCoordParent;
+		return changeableParent;
 	}
 
 	/**
