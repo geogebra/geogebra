@@ -45,17 +45,16 @@ public class StringTemplateTest {
 		ExpressionNode plusNode = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv)
 				.plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv)
 				.plus(fv);
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1E4; i++) {
 			sb.append(plusNode.toValueString(StringTemplate.defaultTemplate));
 		}
 
-		l = System.currentTimeMillis();
 		StringBuilder sbm = new StringBuilder(1000);
 		ExpressionNode minusNode = fv.wrap().subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
 				.subtract(fv);
-		for (int i = 0; i < 1E5; i++) {
+		for (int i = 0; i < 1E4; i++) {
 			sbm.append(minusNode.toValueString(StringTemplate.defaultTemplate));
 		}
 		Assert.assertThat(System.currentTimeMillis() - l,
