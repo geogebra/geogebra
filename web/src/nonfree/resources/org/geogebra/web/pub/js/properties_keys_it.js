@@ -2959,7 +2959,7 @@ __GGB__keysVar["it"].menu = {
     "ToolbarIconsConstructionProtocolExport": "Mostra icone della barra degli strumenti",
     "Tools": "Strumenti",
     "Tools.Less": "Meno",
-    "Tools.More": "Pi\xf9",
+    "Tools.More": "Altri",
     "ToolsetLevel.Advanced": "Avanzato",
     "ToolsetLevel.Empty": "Vuoto",
     "ToolsetLevel.Standard": "Standard",
