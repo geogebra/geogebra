@@ -10,10 +10,9 @@
         z-index: 11; //shadow should hide three dot menu
     }
 
-    .algebraPanelScientificWithHeader {
+    .algebraPanelScientificSmallScreen {
         height: calc(100% - 48px);
         padding-top: 8px;
-        top: 48px;
         box-sizing: border-box;
     }
 
@@ -78,7 +77,7 @@
         margin-right: auto;
     }
 
-    .algebraPanelScientificNoHeader {
+    .algebraPanelScientificNormalScreen {
         @extend %sheetOfPaper;
         &>div {
             margin-bottom: 0;
