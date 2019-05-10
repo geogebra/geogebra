@@ -504,8 +504,10 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "+"                     index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 "++"                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_FACTORIAL;
 "+="                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_UNION;
+"augmente_de"                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_UNION;
 "--"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 "-="                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
+"diminue_de"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
 ".+"                    index_status(yyextra)=0; (*yylval)=gen(at_pointplus,2); return T_PLUS;
 "&"                     index_status(yyextra)=0; if (python_compat(yyextra)) { (*yylval)=gen(at_bitand,2); return T_AND_OP; } else { *yylval=gen(at_plus,2); return T_PLUS; }
 "~"                     index_status(yyextra)=0; (*yylval)=gen(at_bitnot,1); return T_NOT;
@@ -533,6 +535,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "*"                     index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS;
 "⊗"                     index_status(yyextra)=0; (*yylval)=gen(at_cross,2); return T_FOIS;
 "*="                    index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_UNION;
+"est_multiplie_par"                    index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_UNION;
 "."                     index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_struct_dot,2); return T_COMPOSE;}
 "&*"                     index_status(yyextra)=0; (*yylval)=gen(at_ampersand_times,2); return T_FOIS;
 "&^"                     index_status(yyextra)=0; (*yylval)=gen(at_quote_pow,2); return T_POW;
@@ -550,6 +553,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 ">>="                     index_status(yyextra)=0; (*yylval)=gen(at_shiftsto,2); return T_UNION;
 "<<="                     index_status(yyextra)=0; (*yylval)=gen(at_rotatesto,2); return T_UNION;
 "/="                    index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_DIV;
+"est_divise_par"                    index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_UNION;
 "./"                     index_status(yyextra)=0; (*yylval)=gen(at_pointdivision,2); return T_DIV;
 "'/'"                   index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 "_divide"                   index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;

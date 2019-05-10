@@ -230,6 +230,14 @@ namespace giac {
   static define_unary_function_eval (__Inverse,&_Inverse,_Inverse_s);
   define_unary_function_ptr5( at_Inverse ,alias_at_Inverse,&__Inverse,0,true);
 
+  gen _inverser(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    return sto(inv(eval(g,1,contextptr),contextptr),g,contextptr);
+  }
+  static const char _inverser_s []="inverser";
+  static define_unary_function_eval2 (__inverser,&_inverser,_inverser_s,&printastifunction);
+  define_unary_function_ptr5( at_inverser ,alias_at_inverser,&__inverser,_QUOTE_ARGUMENTS,T_LOGO);
+
   static gen maple_gcdigcd(const gen & a_orig,const unary_function_ptr * u,GIAC_CONTEXT){
     if (a_orig.type!=_VECT || a_orig._VECTptr->size()<2)
       return gensizeerr();
