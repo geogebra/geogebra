@@ -499,9 +499,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				}
 			});
 			menu.addItem(mi);
-			if (app.isUnbundledOrWhiteboard()) {
-				mi.addStyleName("no-image");
-			}
 		}
 	}
 

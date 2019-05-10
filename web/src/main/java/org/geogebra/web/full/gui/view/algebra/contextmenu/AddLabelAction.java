@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -14,7 +13,7 @@ public class AddLabelAction extends MenuAction<GeoElement> {
 	 * New add label action
 	 */
 	public AddLabelAction() {
-		super("AddLabel", MaterialDesignResources.INSTANCE.label());
+		super("AddLabel");
 	}
 
 	@Override

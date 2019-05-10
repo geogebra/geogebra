@@ -33,8 +33,9 @@ $duration: 0.2s;
 			padding-bottom: 0px;
 			padding-right: 16px;
 
-			.no-image {
-				padding-left: 0px !important;
+			&.no-image {
+				padding-left: 16px;
+				min-width: 208px;
 			}
 
 			.checkMarkMenuItem, .collapseMenuItem {

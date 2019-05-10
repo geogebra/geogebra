@@ -7,10 +7,16 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Solves one or more equations.
+ */
 public class SolveAction extends MenuAction<GeoElement> {
 
+	/**
+	 * New solve action
+	 */
 	public SolveAction() {
-		super("Solve", null);
+		super("Solve");
 	}
 
 	@Override

@@ -12,6 +12,10 @@ import org.geogebra.web.full.main.AppWFull;
 public class ClearInputAction extends DeleteAction {
 	private RadioTreeItem inputItem;
 
+	/**
+	 * @param inputItem
+	 *            input item
+	 */
 	public ClearInputAction(RadioTreeItem inputItem) {
 		this.inputItem = inputItem;
 	}

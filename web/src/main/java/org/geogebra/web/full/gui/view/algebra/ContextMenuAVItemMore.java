@@ -111,6 +111,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 			}
 
 		});
+		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);
 	}
 

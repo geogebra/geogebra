@@ -28,6 +28,16 @@ public abstract class MenuAction<T> {
 	}
 
 	/**
+	 * Action without icon
+	 * 
+	 * @param title
+	 *            translation key
+	 */
+	public MenuAction(String title) {
+		this.title = title;
+	}
+
+	/**
 	 * @param loc
 	 *            localization
 	 * @return action title

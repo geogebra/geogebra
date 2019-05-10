@@ -6,12 +6,12 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -110,7 +110,7 @@ public class ContextMenuTV {
 		String transKey = tvPoints.arePointsVisible(column) ? "HidePoints"
 				: "ShowPoints";
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtmlEmptyIcon(
+				MainMenu.getMenuBarHtml((SVGResource) null,
 						app.getLocalization().getMenu(transKey)),
 				true, new Command() {
 
@@ -120,13 +120,18 @@ public class ContextMenuTV {
 								!tvPoints.arePointsVisible(column));
 					}
 				});
+		addItem(mi);
+	}
+
+	private void addItem(AriaMenuItem mi) {
+		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);
 	}
 
 	private void addDelete() {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.delete_black(),
+						(SVGResource) null,
 						app.getLocalization().getMenu("RemoveColumn")),
 				true, new Command() {
 
@@ -142,16 +147,16 @@ public class ContextMenuTV {
 						}
 					}
 				});
-		wrappedPopup.addItem(mi);
+		addItem(mi);
 	}
 
 	private void addEdit(Command cmd) {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.edit_black(),
+						(SVGResource) null,
 						app.getLocalization().getMenu("Edit")),
 				true, cmd);
-		wrappedPopup.addItem(mi);
+		addItem(mi);
 	}
 
 	/**
