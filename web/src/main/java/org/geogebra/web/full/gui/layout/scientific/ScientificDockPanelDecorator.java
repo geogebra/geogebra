@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	private AppW app;
-	private Panel header;
 	private ScrollPanel algebraScrollPanel;
 
 	@Override

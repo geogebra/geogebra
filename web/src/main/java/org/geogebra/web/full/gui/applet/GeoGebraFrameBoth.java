@@ -86,7 +86,6 @@ public class GeoGebraFrameBoth
 	private PageListPanel pageListPanel;
 	private PanelTransitioner panelTransitioner;
 
-
 	public GeoGebraFrameBoth(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		super(laf, articleElement);
 	}

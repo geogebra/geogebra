@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,7 +58,8 @@ public class StringTemplateTest {
 		for (int i = 0; i < 1E5; i++) {
 			sbm.append(minusNode.toValueString(StringTemplate.defaultTemplate));
 		}
-		Assert.assertTrue(System.currentTimeMillis() - l < 5000);
+		Assert.assertThat(System.currentTimeMillis() - l,
+				OrderingComparison.lessThan(10000L));
 	}
 
 	@Test

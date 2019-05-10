@@ -8,25 +8,25 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
  */
 public class AppConfigCas extends AppConfigGraphing {
 
-    @Override
-    public String getAppTitle() {
-        return "CasCalculator";
-    }
+	@Override
+	public String getAppTitle() {
+		return "CASCalculator";
+	}
 
-    @Override
-    public String getAppName() {
+	@Override
+	public String getAppName() {
 		return "GeoGebraCASCalculator";
-    }
+	}
 
-    @Override
-    public String getAppNameShort() {
-        return "CasCalculator.short";
-    }
+	@Override
+	public String getAppNameShort() {
+		return "CasCalculator.short";
+	}
 
-    @Override
-    public String getTutorialKey() {
-        return "";
-    }
+	@Override
+	public String getTutorialKey() {
+		return "";
+	}
 
 	@Override
 	public boolean isCASEnabled() {
