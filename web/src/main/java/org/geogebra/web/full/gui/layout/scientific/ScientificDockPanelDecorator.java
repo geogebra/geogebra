@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -44,6 +45,10 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	@Override
 	public void onResize() {
+		boolean smallScreen = app.getAppletFrame()
+				.shouldHaveSmallScreenLayout();
+		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificWithHeader",
+				"algebraPanelScientificNoHeader", smallScreen);
 
 	}
 }
