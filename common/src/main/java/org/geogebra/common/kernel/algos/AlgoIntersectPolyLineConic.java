@@ -64,6 +64,7 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 
 	/** computed list of intersecting coordinates */
 	protected ArrayList<Coords> intersectingCoords;
+	protected boolean hasLabels;
 
 	/**
 	 * 
@@ -83,6 +84,10 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 
 		this(cons, conic, poly, isPolyClosed);
 
+		if (!cons.isSuppressLabelsActive()) {
+			setLabels(labels);
+			hasLabels = true;
+		}
 		setLabels(labels);
 
 		update();
@@ -210,7 +215,9 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 			this.intersectingPoints.getElement(index).setUndefined();
 		}
 
-		intersectingPoints.updateLabels();
+		if (hasLabels) {
+			intersectingPoints.updateLabels();
+		}
 
 	}
 
