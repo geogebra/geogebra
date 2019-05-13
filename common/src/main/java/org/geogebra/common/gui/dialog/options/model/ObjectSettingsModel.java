@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -196,15 +197,28 @@ abstract public class ObjectSettingsModel {
     /**
      * @return the point size or line thickness, depending on the geoElement's type
      */
-    public int getSize() {
+    public int getLineThickness() {
         if (geoElement == null) {
             return EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
         }
+        return geoElement.getLineThickness();
+    }
 
+    public int getSlopeSize() {
+        if (geoElement instanceof GeoNumeric) {
+            return ((GeoNumeric) geoElement).getSlopeTriangleSize();
+        }
+        return 1;
+    }
+
+    /**
+     * @return the point size or line thickness, depending on the geoElement's type
+     */
+    public int getPointSize() {
         if (geoElement instanceof PointProperties) {
             return ((PointProperties) geoElement).getPointSize();
         }
-        return geoElement.getLineThickness();
+        return EuclidianStyleConstants.DEFAULT_POINT_SIZE;
     }
 
     private void setSize(GeoElement geoElement, int size) {
@@ -278,6 +292,16 @@ abstract public class ObjectSettingsModel {
         for (GeoElement geo : geoElementsList) {
             setLineThickness(geo, size);
             geo.updateRepaint();
+        }
+        app.setPropertiesOccured();
+    }
+
+    public void setSlopeSize(int size) {
+        for (GeoElement geo : geoElementsList) {
+            if (geo instanceof GeoNumeric) {
+                ((GeoNumeric) geo).setSlopeTriangleSize(size);
+                geo.updateRepaint();
+            }
         }
         app.setPropertiesOccured();
     }
@@ -850,5 +874,18 @@ abstract public class ObjectSettingsModel {
             app.setPropertiesOccured();
             app.updateGuiForShowAuxiliaryObjects();
         }
+    }
+
+    public boolean hasSlopeSizeProperty(){
+        if (geoElementsList == null) {
+            return false;
+        }
+        boolean show = geoElementsList.size() > 0;
+        for (int i = 0; i < geoElementsList.size(); i++) {
+            GeoElement element = geoElementsList.get(i);
+            show = show && element.getParentAlgorithm() != null;
+            show = show && element.getParentAlgorithm().getClassName() == Commands.Slope;
+        }
+        return show;
     }
 }
