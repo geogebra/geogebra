@@ -194,6 +194,18 @@ abstract public class ObjectSettingsModel {
 		app.setPropertiesOccured();
 	}
 
+	/**
+	 * @deprecated use getLineThickness for lines, getPointSize for points
+	 * @return point size or line thickness (not well defined for a list with
+	 *         one line and one point)
+	 */
+	public int getSize() {
+		if (geoElement instanceof PointProperties) {
+			return ((PointProperties) geoElement).getPointSize();
+		}
+		return getLineThickness();
+	}
+
     /**
      * @return the point size or line thickness, depending on the geoElement's type
      */
