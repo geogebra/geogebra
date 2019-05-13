@@ -2234,7 +2234,11 @@ public abstract class Renderer {
     }
 
     private float getARScaleParameter() {
-		return arScaleFactor * getARManager().getGestureScaleFactor();
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arScaleFactor * arManager.getGestureScaleFactor();
+        }
+		return arScaleFactor;
 	}
 
 }
