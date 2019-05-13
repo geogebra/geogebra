@@ -44,7 +44,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
-	private static final int SMALL_SCREEN_HEADER_HEIGHT = 80;
+	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
+	private static final int SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT = 80;
 
 	/** The application */
 	protected AppW app;
@@ -274,7 +275,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void setHeightWithCompactHeader() {
 		articleElement.getElement().getStyle().setProperty("height",
-				"calc(100% - " + SMALL_SCREEN_HEADER_HEIGHT + "px)");
+				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
+	}
+
+	private int getSmallScreenHeaderHeight() {
+		return isScientificCalculator()
+				? SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT :
+				SMALL_SCREEN_HEADER_HEIGHT;
 	}
 
 	private void setHeightWithTallHeader() {
@@ -308,7 +315,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Update the size of external header
 	 */
 	public void updateHeaderSize() {
-		if ("GeoGebraScientificCalculator".equals(app.getConfig().getAppName())) {
+		if (isScientificCalculator()) {
 			updateResponsiveHeader();
 			return;
 		}
@@ -322,6 +329,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			}
 			updateArticleHeight();
 		}
+	}
+
+	private boolean isScientificCalculator() {
+		return "GeoGebraScientificCalculator".equals(app.getConfig().getAppName());
 	}
 
 	/**
