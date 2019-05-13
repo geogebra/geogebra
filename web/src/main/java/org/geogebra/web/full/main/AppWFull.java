@@ -1496,7 +1496,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		frame.updateHeaderVisible();
+		frame.updateHeaderSize();
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()

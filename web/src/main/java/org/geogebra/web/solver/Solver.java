@@ -155,7 +155,7 @@ public class Solver {
 	}
 
 	private void resize() {
-		app.getAppletFrame().updateHeaderVisible();
+		app.getAppletFrame().updateHeaderSize();
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.repaint();
 		keyboard.updateSize();

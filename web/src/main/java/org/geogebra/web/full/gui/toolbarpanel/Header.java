@@ -483,16 +483,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		boolean external = needsHeader() && GlobalHeader.isInDOM();
 		btnMenu.setExternal(external);
+		btnMenu.addToGlobalHeader();
 		if (external) {
-			btnMenu.addToGlobalHeader();
 			addShareButton();
-		} else {
-			toolbarPanel.getFrame().add(btnMenu);
 		}
 	}
 
 	private boolean needsHeader() {
-		return !app.getAppletFrame().shouldHaveSmallScreenLayout();
+		return true;
 	}
 
 	private void addShareButton() {
@@ -529,9 +527,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
-			int move = app.isPortrait() && app.showMenuBar() ? 48 : 0;
+
 			undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
-			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
+			undoRedoPanel.getElement().getStyle().setLeft(evLeft,
 					Unit.PX);
 		}
 	}

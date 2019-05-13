@@ -352,3 +352,23 @@ svg.icon.left {
 .GeoGebraFrame .hidden {
 	display: none;
 }
+
+.compact.GeoGebraHeader {
+  	height: 48px;
+}
+
+.compact.GeoGebraFrame .appName.beta {
+    visibility: hidden;
+}
+
+.compact.GeoGebraFrame .buttons {
+    visibility: hidden;
+}
+
+.compact.GeoGebraFrame .menuBtn {
+	margin: 6px 2px 6px 18px;
+}
+
+.compact.GeoGebraFrame .headerLogo {
+    margin: 0px;
+}

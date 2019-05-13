@@ -44,6 +44,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
+	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
 
 	/** The application */
 	protected AppW app;
@@ -272,7 +273,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setHeightWithCompactHeader() {
-		articleElement.getElement().getStyle().setHeight(100, Unit.PCT);
+		articleElement.getElement().getStyle().setProperty("height",
+				"calc(100% - " + SMALL_SCREEN_HEADER_HEIGHT + "px)");
 	}
 
 	private void setHeightWithTallHeader() {
@@ -286,7 +288,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void fitSizeToScreen() {
 		if (articleElement.getDataParamFitToScreen()) {
-			updateHeaderVisible();
+			updateHeaderSize();
 			app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
 			app.getAccessibilityManager().focusFirstElement();
 		}
@@ -303,20 +305,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * Update the visibility of external header
+	 * Update the size of external header
 	 */
-	public void updateHeaderVisible() {
+	public void updateHeaderSize() {
 		if ("GeoGebraScientificCalculator".equals(app.getConfig().getAppName())) {
 			updateResponsiveHeader();
 			return;
 		}
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-			boolean visible = !shouldHaveSmallScreenLayout();
-			header.getStyle().setProperty("display", visible ? "" : "none");
-			if (isHeaderVisible != visible) {
-				isHeaderVisible = visible;
-				app.onHeaderVisible();
+			boolean smallScreen = shouldHaveSmallScreenLayout();
+			if (smallScreen) {
+				header.addClassName("compact");
+			} else {
+				header.removeClassName("compact");
 			}
 			updateArticleHeight();
 		}
