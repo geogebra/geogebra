@@ -31,6 +31,7 @@ public class ChangeableParent {
 	private Coords centroid;
 	private boolean forPolyhedronNet = false;
 	private GeoPolyhedronInterface parent;
+	private double lengthDirection;
 
 	/**
 	 * 
@@ -142,7 +143,7 @@ public class ChangeableParent {
 	 * @param view
 	 *            view calling
 	 */
-	final public void record(EuclidianView view) {
+	final public void record(EuclidianView view, Coords startPoint) {
 		startValue = getValue();
 		if (direction == null) {
 			direction = new Coords(3);
@@ -153,8 +154,14 @@ public class ChangeableParent {
 					centroid = new Coords(3);
 				}
 				parent.pseudoCentroid(centroid);
-				direction.setSub3(((EuclidianView3D) view).getCursor3D()
-						.getInhomCoordsInD3(), centroid);
+				if (view.getApplication().has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+					direction.setSub3(startPoint, centroid);
+					lengthDirection = direction.calcNorm();
+					direction.normalize();
+				} else {
+					direction.setSub3(((EuclidianView3D) view).getCursor3D()
+							.getInhomCoordsInD3(), centroid);
+				}
 			} else {
 				direction.set(0, 0, 0);
 			}
@@ -216,6 +223,9 @@ public class ChangeableParent {
 		if (changeableNumber.getConstruction().getApplication()
 				.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 			shift = direction.dotproduct3(rwTransVec);
+			if (forPolyhedronNet) {
+				shift = shift / lengthDirection;
+			}
 		} else {
 			if (direction2 == null) {
 				direction2 = new Coords(3);

@@ -3541,7 +3541,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setHandledGeo(GeoElement geo, GeoElement source) {
 		handledGeo = geo;
 		setStartPointLocation(source);
-		handledGeo.getChangeableParent3D().record(view3D);
+		handledGeo.getChangeableParent3D().record(view3D, null);
 	}
 
 	/**
@@ -3881,6 +3881,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		translateableGeos = null;
 		handleMovedElementDependentWithChangeableParent();
 		handleMovedElementDependentInitMode();
+		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+			if (movedGeoElement.hasChangeableParent3D()) {
+				movedGeoElement.getChangeableParent3D().record(view3D, startPoint3D);
+			}
+		}
 	}
 
 	@Override
