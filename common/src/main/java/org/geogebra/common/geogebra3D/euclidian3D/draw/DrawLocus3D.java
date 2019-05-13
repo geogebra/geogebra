@@ -57,9 +57,13 @@ public class DrawLocus3D extends Drawable3DCurves {
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
 
-		CurvePlotter.draw(brush, getLocus().getPoints(), transformCoordSys);
+		try {
+            CurvePlotter.draw(brush, getLocus().getPoints(), transformCoordSys);
+            setGeometryIndex(brush.end());
+        } catch (Exception e) {
+		    setGeometryIndex(-1);
+        }
 
-		setGeometryIndex(brush.end());
 		endPacking();
 
 		return true;
