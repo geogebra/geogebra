@@ -3720,9 +3720,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void moveVector() {
-
-		view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-		view3D.toSceneCoords3D(tmpCoordsForOrigin);
+		view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
 		view3D.getHittingDirection(tmpCoordsForDirection);
 		if (translateDirection == null) {
 			tmpCoordsForOrigin.projectPlaneThruVIfPossible(Coords.VX, Coords.VY,
