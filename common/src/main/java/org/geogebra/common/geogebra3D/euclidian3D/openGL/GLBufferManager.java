@@ -217,7 +217,6 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * update color for all geometries from geometry set index
 	 * 
 	 * @param index
 	 *            geometry set index
