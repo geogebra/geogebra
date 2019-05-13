@@ -68,4 +68,24 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 		length++;
 	}
 
+	/**
+	 * add values to the current position
+	 * 
+	 * @param values
+	 *            values
+	 */
+	public void addValues(T... values) {
+		if (length == size) {
+			for (T v : values) {
+				add(v);
+			}
+			size += values.length;
+		} else {
+			for (int i = 0; i < values.length; i++) {
+				set(length + i, values[i]);
+			}
+		}
+		length += values.length;
+	}
+
 }
