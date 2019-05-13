@@ -191,11 +191,9 @@ public class LineStyleModel extends OptionsModel {
 	 * @return if geo has line properties
 	 */
 	public static boolean match(GeoElement geo) {
-		return (geo.showLineProperties() || geo.isNumberValue())
-				&& !geo.isGeoBoolean() && !((geo instanceof GeoNumeric)
-						&& ((GeoNumeric) geo).isSlider());
-
+		return geo.showLineProperties();
 	}
+
 	@Override
 	public boolean checkGeos() {
 		boolean geosOK = true;
@@ -205,7 +203,6 @@ public class LineStyleModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			if (!isValidAt(i)) {
 				geosOK = false;
-
 				break;
 			}
 

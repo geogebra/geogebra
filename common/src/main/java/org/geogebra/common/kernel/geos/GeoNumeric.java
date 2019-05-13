@@ -2117,4 +2117,9 @@ public class GeoNumeric extends GeoElement
 	public boolean isPolynomialFunction(boolean forRoot) {
 		return true;
 	}
+
+	@Override
+	public boolean showLineProperties() {
+		return isDrawable() && !isSlider();
+	}
 }
