@@ -43,9 +43,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
 	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
-	private static final int SMALL_HEADER_HEIGHT = 80;
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
-	private static final int SMALL_SCREEN_HEADER_HEIGHT = 8;
+	private static final int SMALL_SCREEN_HEADER_HEIGHT = 80;
 
 	/** The application */
 	protected AppW app;
@@ -275,7 +274,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void setHeightWithCompactHeader() {
 		articleElement.getElement().getStyle().setProperty("height",
-				"calc(100% - " + SMALL_HEADER_HEIGHT + "px)");
+				"calc(100% - " + SMALL_SCREEN_HEADER_HEIGHT + "px)");
 	}
 
 	private void setHeightWithTallHeader() {
