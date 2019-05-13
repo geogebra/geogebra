@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -18,7 +19,7 @@ public class DuplicateAction extends MenuAction<GeoElement> {
 	 *            algebra view
 	 */
 	public DuplicateAction(AlgebraViewW av) {
-		super("Duplicate");
+		super("Duplicate", MaterialDesignResources.INSTANCE.duplicate_black());
 		this.algebraView = av;
 	}
 

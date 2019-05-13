@@ -101,7 +101,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addAction(final MenuAction<GeoElement> menuAction) {
-		SVGResource img = menuAction.getImage();
+		SVGResource img = mApp.isUnbundled() ? null : menuAction.getImage();
 		String html = MainMenu.getMenuBarHtml(img, menuAction.getTitle(loc));
 		AriaMenuItem mi = new AriaMenuItem(html, true, new Command() {
 
