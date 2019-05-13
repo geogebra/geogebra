@@ -95,8 +95,8 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/keyboard/n_root.svg")
 	SVGResource n_root();
 
-	@Source("org/geogebra/common/icons/svg/web/keyboard/a_index.svg")
-	SVGResource a_index();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/subscript.svg")
+	SVGResource subscript();
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ceil.svg")
 	SVGResource ceil();

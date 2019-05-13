@@ -534,7 +534,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					"log_", bh, true, loc, "altText.LogB");
 		} else if (resourceName.equals(Resource.A_N.name())) {
 			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.a_index(),
+							KeyboardResources.INSTANCE.subscript(),
 					"_", bh, false, loc, "altText.Subscript");
 		} else if (resourceName.equals(Resource.N_ROOT.name())) {
 			return  new KeyBoardButtonFunctionalBase(
