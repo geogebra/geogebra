@@ -6192,8 +6192,7 @@ namespace giac {
     if (gv.size()!=4 && gv.size()!=2)
       return gensizeerr(contextptr);
     gen & e=gv[0],x,a,b;
-    if (e.type!=_SYMB)
-      return gentypeerr(contextptr);
+    //if (e.type!=_SYMB && e.type!=_IDNT) return gentypeerr(contextptr);
     vecteur vars(*_lname(e,contextptr)._VECTptr);
     if (vars.empty())
       return e;

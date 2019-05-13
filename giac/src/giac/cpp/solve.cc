@@ -6415,19 +6415,22 @@ namespace giac {
       gen G=_gbasis(makesequence(eq,var,change_subtype(_RUR_REVLEX,_INT_GROEBNER)),contextptr);
       if (G.type==_VECT && G._VECTptr->size()==var.size()+4 && G._VECTptr->front().type==_INT_ && G._VECTptr->front().val==_RUR_REVLEX){
 	vecteur Gv=*G._VECTptr,S;
+	gen rurvar=var.front();
+	if (Gv[1].type==_IDNT) 
+	  rurvar=Gv[1];
 	if (proba_epsilon(contextptr)<1e-16){
 	  // check the solution replace var by G[4..end]/G[3] in eq and divide by G[2]
 	  for (unsigned i=0;i<eq.size();++i){
 	    gen check=subst(eq[i],var,divvecteur(vecteur(Gv.begin()+4,Gv.end()),Gv[3]),false,contextptr);
 	    check=_numer(check,contextptr);
-	    check=_rem(makesequence(check,Gv[2],var.front()),contextptr);
+	    check=_rem(makesequence(check,Gv[2],rurvar),contextptr);
 	    if (!is_zero(check,contextptr))
 	      *logptr(contextptr) << "Warning, solution does not seem to cancel " << eq[i] << endl;
 	  }
 	}
 	else
 	  *logptr(contextptr) << "Rational univariate representation is not certified, set proba_epsilon:=0 to certify" << endl;
-	int deg=_degree(makesequence(Gv[2],var.front()),contextptr).val;
+	int deg=_degree(makesequence(Gv[2],rurvar),contextptr).val;
 	if (evalf_after & 1){
 	  gen pol=Gv[2],tmp;
 	  if (complexmode){
@@ -6437,9 +6440,9 @@ namespace giac {
 	    }
 	    else {
 	      if (deg>28)
-		tmp=_proot(makesequence(pol,var.front(),deg/2),contextptr);
+		tmp=_proot(makesequence(pol,rurvar,deg/2),contextptr);
 	      else
-		tmp=_proot(makesequence(pol,var.front()),contextptr);
+		tmp=_proot(makesequence(pol,rurvar),contextptr);
 	    }
 	  }
 	  else {
@@ -6458,15 +6461,15 @@ namespace giac {
 	  // G[1] separating, G[2]=minpoly, G[3]=derivative, G[4..end]=solution
 	  if (debug_infolevel)
 	    *logptr(contextptr) << "Solutions = substitute roots of " << Gv[2] << " in " << vecteur(Gv.begin()+4,Gv.end()) << "/(" << Gv[3] << ")" << endl;
-	  S=solve(Gv[2],var.front(),complexmode,contextptr);
+	  S=solve(Gv[2],rurvar,complexmode,contextptr);
 	}
 	vecteur res;
-	modpoly minp=gen2poly(_symb2poly(makesequence(Gv[2],var.front()),contextptr));
+	modpoly minp=gen2poly(_symb2poly(makesequence(Gv[2],rurvar),contextptr));
 	modpoly minp1=derivative(minp);
-	modpoly denp=gen2poly(_symb2poly(makesequence(Gv[3],var.front()),contextptr));
+	modpoly denp=gen2poly(_symb2poly(makesequence(Gv[3],rurvar),contextptr));
 	vector<modpoly> numv;
 	for (unsigned i=4;i<Gv.size();++i){
-	  numv.push_back(gen2poly(_symb2poly(makesequence(Gv[i],var.front()),contextptr)));
+	  numv.push_back(gen2poly(_symb2poly(makesequence(Gv[i],rurvar),contextptr)));
 	}
 	for (unsigned i=0;i<S.size();++i){
 	  gen s=S[i];
@@ -6552,9 +6555,9 @@ namespace giac {
 #else
 	  bool sdouble=false;
 #endif
-	  gen den=_horner(makesequence(Gv[3],s,var.front()),contextptr);
+	  gen den=_horner(makesequence(Gv[3],s,rurvar),contextptr);
 	  for (unsigned j=4;j<Gv.size();++j){
-	    Hs.push_back(recursive_normal(_horner(makesequence(Gv[j],s,var.front()),contextptr)/den,contextptr));
+	    Hs.push_back(recursive_normal(_horner(makesequence(Gv[j],s,rurvar),contextptr)/den,contextptr));
 	    if (sdouble)
 	      Hs.back()=evalf_double(Hs.back(),1,contextptr);
 	  }
@@ -7079,8 +7082,10 @@ namespace giac {
       res.push_back(tmp);
     }
     if (order.val<0 && rur){
-      res.insert(res.begin(),change_subtype(order,_INT_GROEBNER));
       // subst l[0] by another variable name to avoid confusion in res[2..]?
+      if (res[0].type==_IDNT && l.front().type==_VECT && !l.front()._VECTptr->empty())
+	res=subst(res,l.front()[0],res[0],false,contextptr);
+      res.insert(res.begin(),change_subtype(order,_INT_GROEBNER));
     }
     return res;
   }

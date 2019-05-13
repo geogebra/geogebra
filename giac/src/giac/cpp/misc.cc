@@ -1131,7 +1131,7 @@ namespace giac {
   define_unary_function_ptr5( at_fcoeff ,alias_at_fcoeff,&__fcoeff,0,true);
 
   static void addfactors(const gen & p,const gen & x,int mult,vecteur & res,GIAC_CONTEXT){
-    vecteur v=factors(p,x,contextptr);
+    vecteur v=sqff_factors(p,contextptr); // factors(p,x,contextptr);
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;){
       vecteur w=solve(*it,x,1,contextptr);

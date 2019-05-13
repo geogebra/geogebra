@@ -321,6 +321,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_orsto;
   extern const unary_function_ptr * const  at_xorsto;
   extern const unary_function_ptr * const  at_shiftsto;
+  extern const unary_function_ptr * const  at_powsto;
   gen _shiftsto(const gen & a,const context * contextptr);
   extern const unary_function_ptr * const  at_rotatesto;
   gen _rotatesto(const gen & a,const context * contextptr);

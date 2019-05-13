@@ -4154,6 +4154,8 @@ namespace giac {
       return sto(_shift(makesequence(prev,val),contextptr),var,contextptr);
     if (mult==8)
       return sto(_rotate(makesequence(prev,val),contextptr),var,contextptr);
+    if (mult==9)
+      return sto(_pow(makesequence(prev,val),contextptr),var,contextptr);
     return gensizeerr(gettext("Increment"));
   }
 
@@ -4179,6 +4181,8 @@ namespace giac {
       return prev=_shift(makesequence(prev,val),contextptr);
     if (mult==8)
       return prev=_rotate(makesequence(prev,val),contextptr);
+    if (mult==9)
+      return prev=_pow(makesequence(prev,val),contextptr);
     return gensizeerr(gettext("Increment"));
   }
 
@@ -4352,6 +4356,18 @@ namespace giac {
   static const char _rotatesto_s []="rotatesto";
   static define_unary_function_eval (__rotatesto,&_rotatesto,_rotatesto_s);
   define_unary_function_ptr5( at_rotatesto ,alias_at_rotatesto,&__rotatesto,_QUOTE_ARGUMENTS,true);
+
+  gen _powsto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,9,contextptr);
+  }
+  static const char _powsto_s []="powsto";
+  static define_unary_function_eval (__powsto,&_powsto,_powsto_s);
+  define_unary_function_ptr5( at_powsto ,alias_at_powsto,&__powsto,_QUOTE_ARGUMENTS,true);
 
   bool is_assumed_real(const gen & g,GIAC_CONTEXT){
     if (g.type!=_IDNT)

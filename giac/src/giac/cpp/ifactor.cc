@@ -4210,6 +4210,10 @@ namespace giac {
       return res;
     return in_factors1(res,contextptr);
   }
+  vecteur sqff_factors(const gen & g,GIAC_CONTEXT){
+    gen gf=_sqrfree(g,contextptr);
+    return in_factors(gf,contextptr);
+  }
   static const char _factors_s []="factors";
   gen _factors(const gen & args,GIAC_CONTEXT){ 
     if ( args.type==_STRNG && args.subtype==-1) return  args;

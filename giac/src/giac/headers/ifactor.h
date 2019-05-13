@@ -42,6 +42,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_nprimes;
 
   vecteur factors(const gen & g,const gen & x,GIAC_CONTEXT);
+  vecteur sqff_factors(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_factors;
   gen _factors(const gen & args,GIAC_CONTEXT);
 

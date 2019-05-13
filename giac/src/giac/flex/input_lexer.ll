@@ -505,6 +505,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "++"                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_FACTORIAL;
 "+="                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_UNION;
 "augmente_de"                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_UNION;
+"**="                    index_status(yyextra)=0; (*yylval)=gen(at_powsto,1); return T_UNION;
+"est_eleve_puissance"                    index_status(yyextra)=0; (*yylval)=gen(at_powsto,1); return T_UNION;
 "--"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 "-="                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
 "diminue_de"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_UNION;
