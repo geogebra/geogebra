@@ -504,7 +504,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 					loc, "altText.Inverse");
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.xPower(),
+							KeyboardResources.INSTANCE.power(),
 					"a^x", bh, false, loc, "altText.Power");
 		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(

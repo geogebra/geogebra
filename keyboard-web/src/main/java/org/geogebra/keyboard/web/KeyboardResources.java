@@ -68,8 +68,8 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/keyboard/square.svg")
 	SVGResource square();
 
-	@Source("org/geogebra/common/icons/svg/web/keyboard/x_power.svg")
-	SVGResource xPower();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/power.svg")
+	SVGResource power();
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/sqrt.svg")
 	SVGResource sqrt();
