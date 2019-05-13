@@ -43,6 +43,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
 	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
+	private static final int SMALL_SCREEN_HEADER_HEIGHT = 80;
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
 
@@ -356,7 +357,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		// do we have fit to screen?
 		if (articleElement.getDataParamFitToScreen()) {
-			int margin = shouldHaveSmallScreenLayout() ? 0 : articleElement.getDataParamMarginTop();
+			int margin = shouldHaveSmallScreenLayout() ? SMALL_SCREEN_HEADER_HEIGHT : articleElement.getDataParamMarginTop();
 			height = Window.getClientHeight() - margin;
 		}
 
