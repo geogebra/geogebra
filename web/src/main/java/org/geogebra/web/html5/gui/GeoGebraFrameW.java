@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -45,7 +46,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
-	private static final int SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT = 80;
+	private static final int SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT = 400;
 
 	/** The application */
 	protected AppW app;
@@ -332,7 +333,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private boolean isScientificCalculator() {
-		return "GeoGebraScientificCalculator".equals(app.getConfig().getAppName());
+		if (app == null) {
+			return false;
+		}
+		AppConfig config = app.getConfig();
+		return config != null && "GeoGebraScientificCalculator".equals(config.getAppName());
 	}
 
 	/**
