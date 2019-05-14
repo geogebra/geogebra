@@ -350,23 +350,23 @@ svg.icon.left {
 }
 
 .GeoGebraFrame .hidden {
-	display: none;
+    display: none;
 }
 
 .compact.GeoGebraHeader {
-  	height: 48px;
+    height: 48px;
 }
 
 .compact.GeoGebraFrame .appName.beta {
-    visibility: hidden;
+    display: none;
 }
 
 .compact.GeoGebraFrame .buttons {
-    visibility: hidden;
+    display: none;
 }
 
 .compact.GeoGebraFrame .menuBtn {
-	margin: 6px 2px 6px 18px;
+    margin: 6px 2px 6px 18px;
 }
 
 .compact.GeoGebraFrame .headerLogo {
