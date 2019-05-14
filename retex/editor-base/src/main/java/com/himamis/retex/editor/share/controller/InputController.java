@@ -187,8 +187,6 @@ public class InputController {
 					editorState.setCurrentField(seq);
 					editorState.setCurrentOffset(0);
 
-				} else {
-					copySelectionToBraces(editorState);
 				}
 				return;
 			}
@@ -196,17 +194,6 @@ public class InputController {
 			// TODO brace type
 			newArray(editorState, 1, ch, false);
 		}
-	}
-
-	private void copySelectionToBraces(EditorState editorState) {
-		MathSequence currentField = editorState.getCurrentField();
-		int start = currentField.indexOf(editorState.getSelectionStart());
-		int end = currentField.indexOf(editorState.getSelectionEnd());
-		deleteSelection(editorState);
-		newCharacter(editorState, '(');
-		newCharacter(editorState, '-');
-		newCharacter(editorState, ')');
-
 	}
 
 	/**

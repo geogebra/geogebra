@@ -119,10 +119,6 @@ public class ArgumentHelper {
 	 */
 	public static String readCharacters(EditorState editorState,
 			int initialOffset) {
-		if (editorState.hasSelection()) {
-			return editorState.getSelectedText();
-		}
-
 		StringBuilder stringBuilder = new StringBuilder();
 		int offset = initialOffset;
 		MathSequence currentField = editorState.getCurrentField();
