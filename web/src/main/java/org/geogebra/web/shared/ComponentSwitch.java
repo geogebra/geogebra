@@ -3,6 +3,7 @@ package org.geogebra.web.shared;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -66,13 +67,7 @@ public class ComponentSwitch extends FlowPanel {
 	 * update style of switch depending on its status (on/off)
 	 */
 	public void updateSwitchStyle() {
-		if (isSwitchOn()) {
-			this.removeStyleName("off");
-			this.addStyleName("on");
-		} else {
-			this.removeStyleName("on");
-			this.addStyleName("off");
-		}
+		Dom.toggleClass(this, "on", "off", isSwitchOn());
 		runCallback();
 	}
 

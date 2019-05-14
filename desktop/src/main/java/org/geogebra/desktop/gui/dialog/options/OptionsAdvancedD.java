@@ -485,7 +485,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 			}
 		}
 
-		// no index found, must be "off"
+		// no index found, must be "Off"
 		if (timeoutIndex == -1) {
 			timeoutIndex = tooltipTimeouts.length - 1;
 		}
@@ -779,17 +779,17 @@ public class OptionsAdvancedD implements OptionPanelD,
 
 		continuityPanel
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Continuity")));
-		continuityRadioOn.setText(loc.getMenu("on"));
-		continuityRadioOff.setText(loc.getMenu("off"));
+		continuityRadioOn.setText(loc.getMenu("On"));
+		continuityRadioOff.setText(loc.getMenu("Off"));
 
 		usePathAndRegionParametersPanel.setBorder(LayoutUtil
 				.titleBorder(loc.getMenu("UsePathAndRegionParameters")));
-		usePathAndRegionParametersRadioOn.setText(loc.getMenu("on"));
-		usePathAndRegionParametersRadioOff.setText(loc.getMenu("off"));
+		usePathAndRegionParametersRadioOn.setText(loc.getMenu("On"));
+		usePathAndRegionParametersRadioOff.setText(loc.getMenu("Off"));
 
 		rightAnglePanel.setBorder(
 				LayoutUtil.titleBorder(loc.getMenu("RightAngleStyle")));
-		rightAngleRadio1.setText(loc.getMenu(loc.getMenu("off")));
+		rightAngleRadio1.setText(loc.getMenu(loc.getMenu("Off")));
 		rightAngleRadio2.setText("\u25a1");
 		rightAngleRadio3.setText("\u2219");
 		rightAngleRadio4.setText("\u2335");
@@ -929,7 +929,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipTimeouts() {
-		tooltipTimeouts[tooltipTimeouts.length - 1] = loc.getMenu("off");
+		tooltipTimeouts[tooltipTimeouts.length - 1] = loc.getMenu("Off");
 
 		int selectedIndex = cbTooltipTimeout.getSelectedIndex();
 

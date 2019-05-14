@@ -341,7 +341,7 @@ public class EuclidianOptionsModel {
 	 * fill list with right angle styles
 	 */
 	public String[] fillRightAngleCombo() {
-		return new String[] {app.getLocalization().getMenu("off"),
+		return new String[] { app.getLocalization().getMenu("Off"),
 				"\u25a1", "\u2219", "\u2335" };
 	}
 

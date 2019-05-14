@@ -933,7 +933,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void createPointCaptureBtn() {
 		ImageOrText[] strPointCapturing = ImageOrText.convert(new String[] {
 				loc.getMenu("Labeling.automatic"), loc.getMenu("SnapToGrid"),
-				loc.getMenu("FixedToGrid"), loc.getMenu("off") });
+				loc.getMenu("FixedToGrid"), loc.getMenu("Off") });
 		btnPointCapture = new PopupMenuButtonW(app, strPointCapturing, -1, 1,
 				SelectionTable.MODE_TEXT, false) {
 
@@ -1957,7 +1957,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.updateText(ImageOrText.convert(new String[] {
 						loc.getMenu("Labeling.automatic"),
 						loc.getMenu("SnapToGrid"), loc.getMenu("FixedToGrid"),
-						loc.getMenu("off") }));
+						loc.getMenu("Off") }));
 		this.btnLabelStyle.getMyTable()
 				.updateText(ImageOrText
 						.convert(new String[] { loc.getMenu("stylebar.Hidden"), // index
