@@ -421,8 +421,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * Needs running {@link #setComputedWidth(int)} first
-	 * let parameters
+	 * Needs running {@link #setComputedWidth(int)} first let parameters
+	 * 
+	 * @return computed width
 	 */
 	public int getComputedWidth() {
 		return computedWidth;

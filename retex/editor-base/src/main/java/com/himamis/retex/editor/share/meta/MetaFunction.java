@@ -79,20 +79,19 @@ public class MetaFunction extends MetaComponent {
         this.insertIndex = insertIndex;
     }
 
-
-    /**
+	/**
 	 * Up Index for n-th argument
 	 * 
 	 * @param n
 	 *            current arg index
 	 * @return arg index after up key pressed
 	 */
-    public int getUpIndex(int n) {
+	public int getUpIndex(int n) {
 		if (arguments.length <= n) {
 			return -1;
 		}
-        return arguments[n].getUpIndex();
-    }
+		return arguments[n].getUpIndex();
+	}
 
     /**
 	 * Down Index for n-th argument
