@@ -263,6 +263,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
+	 * @return whether the header should be hidden or not
+	 */
+	public boolean shouldHideHeader() {
+		return forcedHeaderVisibility == Visibility.HIDDEN || articleElement.getDataParamMarginTop() <= 0;
+	}
+
+	/**
 	 * @return True if the frame is shown in a small window or if it has a compact header.
 	 */
 	public boolean hasSmallWindowOrCompactHeader() {
@@ -282,7 +289,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private int getSmallScreenHeaderHeight() {
 		return isScientificCalculator()
 				? SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT :
-				SMALL_SCREEN_HEADER_HEIGHT;
+				shouldHideHeader() ? 0 : SMALL_SCREEN_HEADER_HEIGHT;
 	}
 
 	private void setHeightWithTallHeader() {
@@ -372,7 +379,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		// do we have fit to screen?
 		if (articleElement.getDataParamFitToScreen()) {
-			int margin = shouldHaveSmallScreenLayout() ? SMALL_SCREEN_HEADER_HEIGHT : articleElement.getDataParamMarginTop();
+			int margin = shouldHaveSmallScreenLayout() ? getSmallScreenHeaderHeight() :
+					articleElement.getDataParamMarginTop();
 			height = Window.getClientHeight() - margin;
 		}
 
