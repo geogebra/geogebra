@@ -46,7 +46,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
-	private static final int SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT = 400;
+	private static final int SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT = 80;
 
 	/** The application */
 	protected AppW app;
@@ -236,6 +236,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		} else {
 			setHeightWithTallHeader();
 		}
+		if (app != null) {
+			app.adjustScreen(false);
+		}
 	}
 
 	/**
@@ -282,6 +285,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setHeightWithCompactHeader() {
+		Log.debug("setHeightWithCompactHeader: 100% - " + getSmallScreenHeaderHeight());
 		articleElement.getElement().getStyle().setProperty("height",
 				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
 	}
@@ -294,6 +298,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void setHeightWithTallHeader() {
 		int headerHeight = articleElement.getDataParamMarginTop();
+		Log.debug("setHeightWithTallHeader: 100% - " + headerHeight);
 		articleElement.getElement().getStyle().setProperty("height",
 				"calc(100% - " + headerHeight + "px)");
 	}
@@ -381,7 +386,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (articleElement.getDataParamFitToScreen()) {
 			int margin = shouldHaveSmallScreenLayout() ? getSmallScreenHeaderHeight() :
 					articleElement.getDataParamMarginTop();
-			height = Window.getClientHeight() - margin;
+		height = Window.getClientHeight() - margin;
 		}
 
 		return Math.max(height, 0);
@@ -416,8 +421,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * Needs running {@link #setComputedWidth(int)} first
-	 *
-	 * @return width computed from applet parameters
+	 * let parameters
 	 */
 	public int getComputedWidth() {
 		return computedWidth;

@@ -154,7 +154,9 @@ public class InputController {
 		}
 		String casName = ArgumentHelper.readCharacters(editorState,
 				initialOffset);
+
 		Tag tag = Tag.lookup(casName);
+
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			if (script != null) {
 				bkspCharacter(editorState);
@@ -184,13 +186,27 @@ public class InputController {
 							.addArgument(editorState.getCurrentOffset(), array);
 					editorState.setCurrentField(seq);
 					editorState.setCurrentOffset(0);
-					return;
 
+				} else {
+					copySelectionToBraces(editorState);
 				}
+				return;
 			}
+
 			// TODO brace type
 			newArray(editorState, 1, ch, false);
 		}
+	}
+
+	private void copySelectionToBraces(EditorState editorState) {
+		MathSequence currentField = editorState.getCurrentField();
+		int start = currentField.indexOf(editorState.getSelectionStart());
+		int end = currentField.indexOf(editorState.getSelectionEnd());
+		deleteSelection(editorState);
+		newCharacter(editorState, '(');
+		newCharacter(editorState, '-');
+		newCharacter(editorState, ')');
+
 	}
 
 	/**
