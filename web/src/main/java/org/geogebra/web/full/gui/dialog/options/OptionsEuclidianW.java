@@ -213,7 +213,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			String[] strPointCapturing = new String[] {
 					loc.getMenu("Labeling.automatic"),
 					loc.getMenu("SnapToGrid"), loc.getMenu("FixedToGrid"),
-					loc.getMenu("off") };
+					loc.getMenu("Off") };
 			for (String str : strPointCapturing) {
 				pointCapturingStyleList.addItem(str);
 			}
