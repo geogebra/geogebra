@@ -2571,7 +2571,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "RootOfA": "Wortel van %0",
     "RootOfAWithInitialValueB": "Wortel van %0 met beginwaarde %1",
     "RootOfAonIntervalBC": "Wortel van %0 in interval [%1, %2]",
-    "Roots": "Nulpunten",
+    "Roots": "SnijpuntenxAsNum",
     "Roots.Help": "Selecteer een functie",
     "RootsAndFractions": "Wortels en breuken",
     "RotateAroundLine": "Rotatie rond as",
