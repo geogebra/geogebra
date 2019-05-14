@@ -36,7 +36,6 @@ package com.himamis.retex.editor.share.meta;
 public class MetaFunction extends MetaComponent {
 
 	private int insertIndex;
-	private int initialIndex;
 	private MetaParameter[] arguments;
 
 	/**
@@ -54,7 +53,6 @@ public class MetaFunction extends MetaComponent {
 		super(name, texName, key, key);
         this.arguments = parameters != null ? parameters : new MetaParameter[0];
         insertIndex = 0;
-        initialIndex = 0;
     }
 
     /**
@@ -81,20 +79,6 @@ public class MetaFunction extends MetaComponent {
         this.insertIndex = insertIndex;
     }
 
-    /**
-	 * @return Initial Index
-	 */
-    public int getInitialIndex() {
-        return initialIndex;
-    }
-
-    /**
-	 * @param initialIndex
-	 *            Initial Index
-	 */
-    void setInitialIndex(int initialIndex) {
-        this.initialIndex = initialIndex;
-    }
 
     /**
 	 * Up Index for n-th argument

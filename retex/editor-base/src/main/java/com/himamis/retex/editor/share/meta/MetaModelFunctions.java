@@ -20,13 +20,6 @@ class MetaModelFunctions {
 		return createFunction(name, new MetaParameter[] { MetaParameter.BASIC });
 	}
 
-	private static MetaFunction createFunctionInitial(Tag name, String tex,
-			int initial, MetaParameter[] parameters) {
-		MetaFunction metaFunction = createFunction(name, tex, parameters);
-        metaFunction.setInitialIndex(initial);
-        return metaFunction;
-    }
-
 	private static MetaFunction createFunctionInsert(Tag name, String tex,
 			int insert, MetaParameter[] parameters) {
 		MetaFunction metaFunction = createFunction(name, tex, parameters);
@@ -53,7 +46,7 @@ class MetaModelFunctions {
 		functions.add(createFunction(Tag.SUBSCRIPT));
 		functions.add(createFunction(Tag.SUPERSCRIPT));
 
-		functions.add(createFunctionInitial(Tag.FRAC, "\\frac", 1,
+		functions.add(createFunction(Tag.FRAC, "\\frac",
 				new MetaParameter[] {
 						createParameterDown(1), createParameterUp(0)
         }));

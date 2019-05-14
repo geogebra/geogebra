@@ -35,11 +35,11 @@ public class ArgumentHelper {
 		}
 		// pass scripts first
 		while (currentOffset > 0 && currentField.isScript(currentOffset - 1)) {
-			MathFunction character = (MathFunction) currentField
+			MathFunction script = (MathFunction) currentField
 					.getArgument(currentOffset - 1);
 			currentField.delArgument(currentOffset - 1);
 			currentOffset--;
-			field.addArgument(0, character);
+			field.addArgument(0, script);
 		}
 		editorState.setCurrentOffset(currentOffset);
 

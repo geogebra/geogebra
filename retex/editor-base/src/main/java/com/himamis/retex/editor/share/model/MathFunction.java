@@ -89,13 +89,18 @@ public class MathFunction extends MathContainer {
         return meta.getInsertIndex();
     }
 
-    /**
-     * Initial Index
-     */
-    @Override
+	/**
+	 * Initial Index
+	 */
+	@Override
 	public int getInitialIndex() {
-        return meta.getInitialIndex();
-    }
+		if (getName() == Tag.FRAC) {
+			return getArgument(0).size() == 0 ? 0 : 1;
+		} else if (getName() == Tag.LOG) {
+			return 1;
+		}
+		return 0;
+	}
 
 	/**
 	 * Up Index for n-th argument

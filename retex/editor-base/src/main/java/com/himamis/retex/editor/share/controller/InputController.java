@@ -162,7 +162,7 @@ public class InputController {
 				bkspCharacter(editorState);
 			}
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, tag == Tag.LOG ? 1 : 0, false,
+			newFunction(editorState, casName, false,
 					script);
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
 				&& metaModel.isFunction(casName)) {
@@ -170,7 +170,7 @@ public class InputController {
 				bkspCharacter(editorState);
 			}
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, 0, ch == '[', script);
+			newFunction(editorState, casName, ch == '[', script);
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
@@ -202,8 +202,8 @@ public class InputController {
 	 * @param name
 	 *            function
 	 */
-	public void newFunction(EditorState editorState, String name, int initial) {
-		newFunction(editorState, name, initial, false, null);
+	public void newFunction(EditorState editorState, String name) {
+		newFunction(editorState, name, false, null);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class InputController {
 	 * @param name
 	 *            function
 	 */
-	public void newFunction(EditorState editorState, String name, int initial,
+	public void newFunction(EditorState editorState, String name,
 			boolean square, MathFunction exponent) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
@@ -243,7 +243,6 @@ public class InputController {
 		// add function
 		MathFunction function;
 		Tag tag = Tag.lookup(name);
-		boolean builtin = tag != null;
 		final boolean hasSelection = editorState.getSelectionEnd() != null;
 		int offset = 0;
 		if (tag == Tag.LOG && exponent != null
@@ -255,9 +254,10 @@ public class InputController {
 			function = new MathFunction(meta);
 		} else {
 			offset = 1;
+			tag = null; // reset tag if exponent was found
 			function = buildCustomFunction(name, square, exponent);
 		}
-
+		boolean builtin = tag != null;
 		// add sequences
 		for (int i = offset; i < function.size(); i++) {
 			MathSequence field = new MathSequence();
@@ -265,7 +265,7 @@ public class InputController {
 		}
 
 		// pass characters for fraction and factorial only
-		if ("frac".equals(name)) {
+		if (tag == Tag.FRAC) {
 			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
@@ -278,13 +278,13 @@ public class InputController {
 				return;
 			}
 			ArgumentHelper.passArgument(editorState, function);
-		} else if ("^".equals(name)) {
+		} else if (tag == Tag.SUPERSCRIPT) {
 			if (hasSelection) {
 				MathArray array = this.newArray(editorState, 1, '(', false);
 				editorState.setCurrentField((MathSequence) array.getParent());
 				editorState.resetSelection();
 				editorState.setCurrentOffset(array.getParentIndex() + 1);
-				newFunction(editorState, name, initial, square, null);
+				newFunction(editorState, name, square, null);
 				return;
 			}
 		} else {
@@ -296,14 +296,15 @@ public class InputController {
 				insertReverse(field, -1, removed);
 				editorState.resetSelection();
 				editorState.setCurrentField(field);
-				editorState.setCurrentOffset(hasSelection ? field.size() : 0);
+				editorState.setCurrentOffset(hasSelection ? field.size()
+						: function.getInitialIndex());
 				// editorState.incCurrentOffset();
 				return;
 			}
 		}
 		currentOffset = editorState.getCurrentOffset();
 		currentField.addArgument(currentOffset, function);
-		int select = offset > 0 ? offset : initial;
+		int select = function.getInitialIndex();
 		if (function.hasChildren()) {
 			// set current sequence
 			CursorController.firstField(editorState,
@@ -405,7 +406,7 @@ public class InputController {
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
-		newFunction(editorState, scriptTag.getKey() + "", 0);
+		newFunction(editorState, scriptTag.getKey() + "");
 	}
 
 	/**
@@ -1128,13 +1129,13 @@ public class InputController {
 				newScript(editorState, Tag.SUBSCRIPT);
 				handled = true;
 			} else if (allowFrac && ch == '/') {
-				newFunction(editorState, "frac", 1, false, null);
+				newFunction(editorState, "frac", false, null);
 				handled = true;
 			} else if (ch == Unicode.SQUARE_ROOT) {
-				newFunction(editorState, "sqrt", 0, false, null);
+				newFunction(editorState, "sqrt", false, null);
 				handled = true;
 			} else if (ch == '|') {
-				newFunction(editorState, "abs", 0);
+				newFunction(editorState, "abs");
 				handled = true;
 			} else if (meta.isArrayOpenKey(ch)) {
 				newArray(editorState, 1, ch, false);

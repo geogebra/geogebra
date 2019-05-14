@@ -686,8 +686,7 @@ public class MathFieldInternal
 	 *            function name
 	 */
 	public void insertFunction(String text) {
-		inputController.newFunction(editorState, text,
-				"frac".equals(text) ? 1 : 0, false, null);
+		inputController.newFunction(editorState, text, false, null);
 		if (listener != null) {
 			listener.onKeyTyped();
 		}
