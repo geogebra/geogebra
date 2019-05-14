@@ -728,22 +728,20 @@ public abstract class Renderer {
 				getARScaleParameter(), ret);
 	}
 
-	private void draw() {
-		rendererImpl.draw();
-
-		// labels
+	private void drawLabels() {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
 		drawFaceToScreen();
+	}
 
-		// init drawing matrix to view3D toScreen matrix
+	private void setMatrixAndLight() {
 		rendererImpl.setMatrixView();
-
 		setLightPosition();
 		rendererImpl.setLight(0);
+	}
 
-		// drawing the cursor
+	private void drawCursor3D() {
 		rendererImpl.enableLighting();
 		rendererImpl.disableAlphaTest();
 		enableCulling();
@@ -753,25 +751,20 @@ public abstract class Renderer {
 		} else {
 			drawCursor();
 		}
+	}
 
-		// drawing hidden part
+	private void drawHidden() {
 		rendererImpl.enableAlphaTest();
 		rendererImpl.disableTextures();
 		drawable3DLists.drawHiddenNotTextured(this);
 		rendererImpl.enableDashHidden();
 		drawable3DLists.drawHiddenTextured(this);
+	}
 
-		// ////////////////////////////
-		// draw surfaces
+	private void drawOpaqueSurfaces() {
 		rendererImpl.enableShine();
-
-		// draw hidden surfaces
-		rendererImpl.enableFading(); // from RendererShaders -- check when
-										// enable textures if
-						// already done
+		rendererImpl.enableFading();
 		drawNotTransp();
-
-		// draw opaque surfaces for packed buffers
 		if (geometryManager.packBuffers()) {
 			rendererImpl.setLight(1);
 			rendererImpl.enableOpaqueSurfaces();
@@ -787,20 +780,28 @@ public abstract class Renderer {
 		}
 		rendererImpl.disableTextures();
 		rendererImpl.disableAlphaTest();
+	}
 
-		// drawing transparents parts
-		rendererImpl.disableDepthMask();
+	private void drawTransparentSurfaces() {
 		rendererImpl.enableFading();
+		rendererImpl.disableDepthMask();
+		enableBlending();
 		drawTransp();
 		rendererImpl.enableDepthMask();
-
 		rendererImpl.disableTextures();
+	}
+
+	private void drawHidingSurfaces(boolean cullFaceFront) {
 		enableCulling();
 		disableBlending();
 
 		// drawing hiding parts
 		rendererImpl.setColorMask(ColorMask.NONE); // no writing in color buffer
-		rendererImpl.setCullFaceFront(); // draws inside parts
+		if (cullFaceFront) {
+			rendererImpl.setCullFaceFront(); // draws inside parts
+		} else {
+			rendererImpl.setCullFaceBack(); // draws outside parts
+		}
 		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
 															// back-faces
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
@@ -812,70 +813,52 @@ public abstract class Renderer {
 		}
 		rendererImpl.disableCulling();
 		drawable3DLists.drawSurfacesForHiding(this); // non closed surfaces
-		// getGL().glColorMask(true,true,true,true);
 		setColorMask();
 
-		// re-drawing transparents parts for better transparent effect
-		// TODO improve it !
-		rendererImpl.enableFading();
-		rendererImpl.disableDepthMask();
-		enableBlending();
-		drawTransp();
-		rendererImpl.enableDepthMask();
-		rendererImpl.disableTextures();
+	}
 
-		// drawing hiding parts
-		rendererImpl.setColorMask(ColorMask.NONE); // no writing in color buffer
-		disableBlending();
-		enableCulling();
-		rendererImpl.setCullFaceBack(); // draws inside parts
-		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
-															// front-faces
-		if (drawable3DLists.containsClippedSurfacesInclLists()) {
-			enableClipPlanesIfNeeded();
-			drawable3DLists.drawClippedSurfacesForHiding(this); // clipped
-																// surfaces
-																// back-faces
-			disableClipPlanesIfNeeded();
-		}
-		setColorMask();
-
-		// re-drawing transparents parts for better transparent effect
-		// TODO improve it !
-		rendererImpl.enableFading();
-		rendererImpl.disableDepthMask();
-		enableBlending();
-		drawTransp();
-		rendererImpl.enableDepthMask();
-
-		// ////////////////////////
-		// end of surfaces
+	private void drawNotHidden() {
 		rendererImpl.disableShine();
-
-		// drawing not hidden parts
 		rendererImpl.enableDash();
 		enableCulling();
 		rendererImpl.setCullFaceBack();
 		drawable3DLists.draw(this);
+	}
 
-		// draw cursor at end
+	private void drawCursor3DAtEnd() {
 		if (enableClipPlanes) {
 			rendererImpl.disableClipPlanes();
 		}
 		if (!needExportImage) {
 			view3D.drawCursorAtEnd(this);
 		}
+	}
 
+	private void drawAbsoluteTexts() {
 		rendererImpl.disableLighting();
 		disableDepthTest();
 		rendererImpl.unsetMatrixView();
-
-		// absolute texts
 		enableTexturesForText();
 		drawFaceToScreenEnd();
-
 		enableDepthTest();
 		rendererImpl.enableLighting();
+	}
+
+	private void draw() {
+		rendererImpl.draw();
+		drawLabels();
+		setMatrixAndLight();
+		drawCursor3D();
+		drawHidden();
+		drawOpaqueSurfaces();
+		drawTransparentSurfaces();
+		drawHidingSurfaces(true);
+		drawTransparentSurfaces();
+		drawHidingSurfaces(false);
+		drawTransparentSurfaces();
+		drawNotHidden();
+		drawCursor3DAtEnd();
+		drawAbsoluteTexts();
 	}
 
 	/**
