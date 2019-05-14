@@ -17,6 +17,7 @@ import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
 import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.PlaneVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
 
 /**
@@ -68,6 +69,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 		if (!activeView.isEuclidianView3D()) {
 			propertyList.add(
 					new GridStyleProperty(localization, euclidianSettings));
+			propertyList.add(new PointCapturingProperty(app, localization));
         }
 
 		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
