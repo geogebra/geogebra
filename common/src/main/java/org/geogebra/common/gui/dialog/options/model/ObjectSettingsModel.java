@@ -26,6 +26,8 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.properties.NumericProperty;
+import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 
 /**
  * This class represents a model for the object properties
@@ -39,6 +41,7 @@ abstract public class ObjectSettingsModel {
     protected App app;
     private GeoElement geoElement;
     private ArrayList<GeoElement> geoElementsList;
+    private SlopeSizeProperty mSlopeProperty;
 
     /**
      * Default constructor
@@ -217,10 +220,7 @@ abstract public class ObjectSettingsModel {
     }
 
     public int getSlopeSize() {
-        if (geoElement instanceof GeoNumeric) {
-            return ((GeoNumeric) geoElement).getSlopeTriangleSize();
-        }
-        return 1;
+        return getSlopeSizeProperty().getValue();
     }
 
     /**
@@ -308,14 +308,10 @@ abstract public class ObjectSettingsModel {
         app.setPropertiesOccured();
     }
 
+    /** @deprecated use getSlopeSizeProperty().setValue(size) */
+    @Deprecated
     public void setSlopeSize(int size) {
-        for (GeoElement geo : geoElementsList) {
-            if (geo instanceof GeoNumeric) {
-                ((GeoNumeric) geo).setSlopeTriangleSize(size);
-                geo.updateRepaint();
-            }
-        }
-        app.setPropertiesOccured();
+        getSlopeSizeProperty().setValue(size);
     }
 
     /**
@@ -888,16 +884,22 @@ abstract public class ObjectSettingsModel {
         }
     }
 
+    /**
+     * @return slope size property for selected geos
+     */
+    public NumericProperty getSlopeSizeProperty(){
+        if(mSlopeProperty == null) {
+            mSlopeProperty = new SlopeSizeProperty(app);
+        }
+        mSlopeProperty.setGeos(geoElementsList);
+        return mSlopeProperty;
+    }
+
+    /**
+     * @deprecated use getSlopeProperty().isEnabled()
+     */
+    @Deprecated
     public boolean hasSlopeSizeProperty(){
-        if (geoElementsList == null) {
-            return false;
-        }
-        boolean show = geoElementsList.size() > 0;
-        for (int i = 0; i < geoElementsList.size(); i++) {
-            GeoElement element = geoElementsList.get(i);
-            show = show && element.getParentAlgorithm() != null;
-            show = show && element.getParentAlgorithm().getClassName() == Commands.Slope;
-        }
-        return show;
+        return getSlopeSizeProperty().isEnabled();
     }
 }
