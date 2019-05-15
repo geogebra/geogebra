@@ -378,10 +378,10 @@ public class RendererImplGL2 extends RendererImpl
 
 		renderer.drawable3DLists.drawTransp(renderer);
 		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
-		renderer.drawable3DLists.drawTranspClosedCurved(renderer);
+		drawTranspClosedCurved();
 		if (renderer.drawable3DLists.containsClippedSurfacesInclLists()) {
 			renderer.enableClipPlanesIfNeeded();
-			renderer.drawable3DLists.drawTranspClipped(renderer);
+			drawTranspClipped();
 			renderer.disableClipPlanesIfNeeded();
 		}
 
@@ -880,5 +880,45 @@ public class RendererImplGL2 extends RendererImpl
 	public void fromARCoreCoordsToGGBCoords(Coords coords,
 			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
 		// used only with AR
+	}
+
+	@Override
+	public void drawNotHidden() {
+		renderer.drawable3DLists.draw(renderer);
+	}
+
+	@Override
+	public void drawHiddenTextured() {
+		renderer.drawable3DLists.drawHiddenTextured(renderer);
+	}
+
+	@Override
+	public void drawHiddenNotTextured() {
+		renderer.drawable3DLists.drawHiddenNotTextured(renderer);
+	}
+
+	@Override
+	public void drawTranspClosedCurved() {
+		renderer.drawable3DLists.drawTranspClosedCurved(renderer);
+	}
+
+	@Override
+	public void drawClosedSurfacesForHiding() {
+		renderer.drawable3DLists.drawClosedSurfacesForHiding(renderer);
+	}
+
+	@Override
+	public void drawClippedSurfacesForHiding() {
+		renderer.drawable3DLists.drawClippedSurfacesForHiding(renderer);
+	}
+
+	@Override
+	public void drawTranspClipped() {
+		renderer.drawable3DLists.drawTranspClipped(renderer);
+	}
+
+	@Override
+	public void drawSurfacesForHiding() {
+		renderer.drawable3DLists.drawSurfacesForHiding(renderer);
 	}
 }

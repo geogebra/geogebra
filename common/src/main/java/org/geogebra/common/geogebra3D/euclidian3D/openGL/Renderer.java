@@ -587,19 +587,17 @@ public abstract class Renderer {
 		rendererImpl.drawTranspNotCurved();
 
 		rendererImpl.setCullFaceFront();
-		drawable3DLists.drawTranspClosedCurved(this); // draws inside parts
+		rendererImpl.drawTranspClosedCurved(); // draws inside parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
-			drawable3DLists.drawTranspClipped(this); // clipped surfaces
-														// back-faces
+			rendererImpl.drawTranspClipped();
 			disableClipPlanesIfNeeded();
 		}
 		rendererImpl.setCullFaceBack();
-		drawable3DLists.drawTranspClosedCurved(this); // draws outside parts
+		rendererImpl.drawTranspClosedCurved(); // draws outside parts
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
-			drawable3DLists.drawTranspClipped(this); // clipped surfaces
-														// back-faces
+			rendererImpl.drawTranspClipped();
 			disableClipPlanesIfNeeded();
 		}
 
@@ -761,9 +759,9 @@ public abstract class Renderer {
 	private void drawHidden() {
 		rendererImpl.enableAlphaTest();
 		rendererImpl.disableTextures();
-		drawable3DLists.drawHiddenNotTextured(this);
+		rendererImpl.drawHiddenNotTextured();
 		rendererImpl.enableDashHidden();
-		drawable3DLists.drawHiddenTextured(this);
+		rendererImpl.drawHiddenTextured();
 	}
 
 	private void drawOpaqueSurfaces() {
@@ -810,17 +808,14 @@ public abstract class Renderer {
 		} else {
 			rendererImpl.setCullFaceBack(); // draws outside parts
 		}
-		drawable3DLists.drawClosedSurfacesForHiding(this); // closed surfaces
-															// back-faces
+		rendererImpl.drawClosedSurfacesForHiding();
 		if (drawable3DLists.containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
-			drawable3DLists.drawClippedSurfacesForHiding(this); // clipped
-																// surfaces
-																// back-faces
+			rendererImpl.drawClippedSurfacesForHiding();
 			disableClipPlanesIfNeeded();
 		}
 		rendererImpl.disableCulling();
-		drawable3DLists.drawSurfacesForHiding(this); // non closed surfaces
+		rendererImpl.drawSurfacesForHiding(); // non closed surfaces
 		setColorMask();
 
 	}
@@ -830,7 +825,7 @@ public abstract class Renderer {
 		rendererImpl.enableDash();
 		enableCulling();
 		rendererImpl.setCullFaceBack();
-		drawable3DLists.draw(this);
+		rendererImpl.drawNotHidden();
 	}
 
 	private void drawCursor3DAtEnd() {

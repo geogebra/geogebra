@@ -476,4 +476,44 @@ public abstract class RendererImpl {
     public CoordMatrix4x4 getUndoRotationMatrixAR() {
         return CoordMatrix4x4.IDENTITY;
     }
+
+	/**
+	 * draw not hidden parts
+	 */
+	abstract public void drawNotHidden();
+
+	/**
+	 * draw hidden textured parts
+	 */
+	abstract public void drawHiddenTextured();
+
+	/**
+	 * draw hidden not textured parts
+	 */
+	abstract public void drawHiddenNotTextured();
+
+	/**
+	 * draw transparent closed and curved surfaces
+	 */
+	abstract public void drawTranspClosedCurved();
+
+	/**
+	 * draw closed surfaces for hiding
+	 */
+	abstract public void drawClosedSurfacesForHiding();
+
+	/**
+	 * draw clipped surfaces for hiding
+	 */
+	abstract public void drawClippedSurfacesForHiding();
+
+	/**
+	 * draw transparent clipped surfaces
+	 */
+	abstract public void drawTranspClipped();
+
+	/**
+	 * draw surfaces for hiding
+	 */
+	abstract public void drawSurfacesForHiding();
 }

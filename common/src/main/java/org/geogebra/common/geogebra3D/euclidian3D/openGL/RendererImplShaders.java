@@ -937,11 +937,15 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void drawTranspNotCurved() {
 		renderer.enableCulling();
 		setCullFaceFront();
-		renderer.drawable3DLists.drawTransp(renderer);
+		drawTransp();
 		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
 		setCullFaceBack();
-		renderer.drawable3DLists.drawTransp(renderer);
+		drawTransp();
 		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+	}
+
+	private void drawTransp() {
+		((ManagerShaders) renderer.getGeometryManager()).drawSurfaces(renderer);
 	}
 
 	@Override
@@ -1076,6 +1080,54 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public Manager createManager() {
 		return new ManagerShaders(renderer, view3D);
+	}
+
+	@Override
+	public void drawNotHidden() {
+		ManagerShaders manager = (ManagerShaders) renderer.getGeometryManager();
+		manager.drawCurves(renderer, false);
+		manager.drawCurvesClipped(renderer, false);
+	}
+
+	@Override
+	public void drawHiddenTextured() {
+		ManagerShaders manager = (ManagerShaders) renderer.getGeometryManager();
+		manager.drawCurves(renderer, true);
+		manager.drawCurvesClipped(renderer, true);
+	}
+
+	@Override
+	public void drawHiddenNotTextured() {
+		((ManagerShaders) renderer.getGeometryManager()).drawPoints(renderer);
+	}
+
+	@Override
+	public void drawTranspClosedCurved() {
+		((ManagerShaders) renderer.getGeometryManager())
+				.drawSurfacesClosed(renderer);
+	}
+
+	@Override
+	public void drawClosedSurfacesForHiding() {
+		((ManagerShaders) renderer.getGeometryManager())
+				.drawSurfacesClosed(renderer);
+	}
+
+	@Override
+	public void drawClippedSurfacesForHiding() {
+		((ManagerShaders) renderer.getGeometryManager())
+				.drawSurfacesClipped(renderer);
+	}
+
+	@Override
+	public void drawTranspClipped() {
+		((ManagerShaders) renderer.getGeometryManager())
+				.drawSurfacesClipped(renderer);
+	}
+
+	@Override
+	public void drawSurfacesForHiding() {
+		((ManagerShaders) renderer.getGeometryManager()).drawSurfaces(renderer);
 	}
 
 }
