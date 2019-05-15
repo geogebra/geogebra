@@ -59,6 +59,9 @@ public class KeyboardInputAdapter {
                 boolean createFrac = controller.getCreateFrac();
                 controller.setCreateFrac(false);
                 typeCharacter(mfi, '/');
+                if (createFrac) {
+                    mfi.onDivisionInserted();
+                }
                 controller.setCreateFrac(createFrac);
             }
         });
