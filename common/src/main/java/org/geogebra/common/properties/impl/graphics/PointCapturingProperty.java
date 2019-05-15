@@ -10,7 +10,7 @@ import org.geogebra.common.properties.AbstractEnumerableProperty;
  */
 public class PointCapturingProperty extends AbstractEnumerableProperty {
 
-    private int[] pointCapturingModes = {
+    private static final int[] pointCapturingModes = {
             EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC,
             EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS,
             EuclidianStyleConstants.POINT_CAPTURING_ON_GRID,
@@ -32,7 +32,7 @@ public class PointCapturingProperty extends AbstractEnumerableProperty {
                 "Labeling.automatic",
                 "SnapToGrid",
                 "FixedToGrid",
-                "off"
+                "Off"
         });
     }
 
