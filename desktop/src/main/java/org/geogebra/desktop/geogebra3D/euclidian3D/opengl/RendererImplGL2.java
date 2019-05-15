@@ -646,16 +646,6 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void disableOpaqueSurfaces() {
-		// only implemented with shaders
-	}
-
-	@Override
-	public void enableOpaqueSurfaces() {
-		// only implemented with shaders
-	}
-
-	@Override
 	public RendererJogl getJogl() {
 		return jogl;
 	}
@@ -920,5 +910,35 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void drawSurfacesForHiding() {
 		renderer.drawable3DLists.drawSurfacesForHiding(renderer);
+	}
+
+	@Override
+	public void drawOpaqueSurfaces() {
+		setLight(1);
+
+		renderer.enableBlending();
+
+		// TODO improve this !
+		renderer.enableCulling();
+		setCullFaceFront();
+		renderer.drawable3DLists.drawNotTransparentSurfaces(renderer);
+		renderer.drawable3DLists.drawNotTransparentSurfacesClosed(renderer);
+		if (renderer.drawable3DLists.containsClippedSurfacesInclLists()) {
+			renderer.enableClipPlanesIfNeeded();
+			renderer.drawable3DLists
+					.drawNotTransparentSurfacesClipped(renderer);
+			renderer.disableClipPlanesIfNeeded();
+		}
+		setCullFaceBack();
+		renderer.drawable3DLists.drawNotTransparentSurfaces(renderer);
+		renderer.drawable3DLists.drawNotTransparentSurfacesClosed(renderer);
+		if (renderer.drawable3DLists.containsClippedSurfacesInclLists()) {
+			renderer.enableClipPlanesIfNeeded();
+			renderer.drawable3DLists
+					.drawNotTransparentSurfacesClipped(renderer);
+			renderer.disableClipPlanesIfNeeded();
+		}
+
+		setLight(0);
 	}
 }

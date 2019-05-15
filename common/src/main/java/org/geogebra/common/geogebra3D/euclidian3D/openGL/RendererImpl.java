@@ -401,10 +401,6 @@ public abstract class RendererImpl {
 
 	public abstract void enableShine();
 
-	public abstract void disableOpaqueSurfaces();
-
-	public abstract void enableOpaqueSurfaces();
-
 	abstract public void setBufferLeft();
 
 	abstract public void setBufferRight();
@@ -516,4 +512,9 @@ public abstract class RendererImpl {
 	 * draw surfaces for hiding
 	 */
 	abstract public void drawSurfacesForHiding();
+
+	/**
+	 * draw not transparent surfaces
+	 */
+	abstract public void drawOpaqueSurfaces();
 }

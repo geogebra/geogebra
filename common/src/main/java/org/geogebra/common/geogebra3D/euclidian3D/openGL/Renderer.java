@@ -308,8 +308,6 @@ public abstract class Renderer {
 			clearColorBuffer();
 		}
 		rendererImpl.initLighting();
-		rendererImpl.disableOpaqueSurfaces();
-
 		rendererImpl.initRenderingValues();
 	}
 
@@ -605,39 +603,6 @@ public abstract class Renderer {
 
 	}
 
-	private void drawNotTransp() {
-		rendererImpl.setLight(1);
-
-		enableBlending();
-
-		// TODO improve this !
-		enableCulling();
-		rendererImpl.setCullFaceFront();
-		drawable3DLists.drawNotTransparentSurfaces(this);
-		drawable3DLists.drawNotTransparentSurfacesClosed(this); // draws inside
-																// parts
-		if (drawable3DLists.containsClippedSurfacesInclLists()) {
-			enableClipPlanesIfNeeded();
-			drawable3DLists.drawNotTransparentSurfacesClipped(this); // clipped
-																		// surfaces
-																		// back-faces
-			disableClipPlanesIfNeeded();
-		}
-		rendererImpl.setCullFaceBack();
-		drawable3DLists.drawNotTransparentSurfaces(this);
-		drawable3DLists.drawNotTransparentSurfacesClosed(this); // draws outside
-																// parts
-		if (drawable3DLists.containsClippedSurfacesInclLists()) {
-			enableClipPlanesIfNeeded();
-			drawable3DLists.drawNotTransparentSurfacesClipped(this); // clipped
-																		// surfaces
-																		// back-faces
-			disableClipPlanesIfNeeded();
-		}
-
-		rendererImpl.setLight(0);
-	}
-
 	/**
 	 * draw face-to screen parts (labels, ...)
 	 */
@@ -767,20 +732,7 @@ public abstract class Renderer {
 	private void drawOpaqueSurfaces() {
 		rendererImpl.enableShine();
 		rendererImpl.enableFading();
-		drawNotTransp();
-		if (geometryManager.packBuffers()) {
-			rendererImpl.setLight(1);
-			rendererImpl.enableOpaqueSurfaces();
-			rendererImpl.disableCulling();
-			((ManagerShaders) geometryManager).drawSurfaces(this);
-			((ManagerShaders) geometryManager).drawSurfacesClosed(this);
-			enableClipPlanesIfNeeded();
-			((ManagerShaders) geometryManager).drawSurfacesClipped(this);
-			disableClipPlanesIfNeeded();
-			enableCulling();
-			rendererImpl.disableOpaqueSurfaces();
-			rendererImpl.setLight(0);
-		}
+		rendererImpl.drawOpaqueSurfaces();
 		rendererImpl.disableTextures();
 		rendererImpl.disableAlphaTest();
 	}

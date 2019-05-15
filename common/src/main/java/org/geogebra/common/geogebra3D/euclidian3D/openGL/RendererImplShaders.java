@@ -809,10 +809,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void initRenderingValues() {
-		// clip planes
+		disableOpaqueSurfaces();
 		updateClipPlanes();
-
-		// layer
 		initLayer();
 	}
 
@@ -899,13 +897,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-	@Override
-	public void disableOpaqueSurfaces() {
+	private void disableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 0);
 	}
 
-	@Override
-	public void enableOpaqueSurfaces() {
+	private void enableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 1);
 	}
 
@@ -938,10 +934,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 		renderer.enableCulling();
 		setCullFaceFront();
 		drawTransp();
-		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
 		setCullFaceBack();
 		drawTransp();
-		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
 	}
 
 	private void drawTransp() {
@@ -1128,6 +1122,22 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void drawSurfacesForHiding() {
 		((ManagerShaders) renderer.getGeometryManager()).drawSurfaces(renderer);
+	}
+
+	@Override
+	public void drawOpaqueSurfaces() {
+		setLight(1);
+		enableOpaqueSurfaces();
+		disableCulling();
+		ManagerShaders manager = (ManagerShaders) renderer.getGeometryManager();
+		manager.drawSurfaces(renderer);
+		manager.drawSurfacesClosed(renderer);
+		renderer.enableClipPlanesIfNeeded();
+		manager.drawSurfacesClipped(renderer);
+		renderer.disableClipPlanesIfNeeded();
+		renderer.enableCulling();
+		disableOpaqueSurfaces();
+		setLight(0);
 	}
 
 }
