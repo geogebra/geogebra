@@ -389,11 +389,12 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		}
 		if ((Unicode.DIVIDE + "").equals(name)) {
 			// division button in scientific
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
+			return new KeyBoardButtonBase(Unicode.DIVIDE + "",
+					Unicode.DIVIDE + "", b);
 		}
 		if ("/".equals(name)) {
 			// division button in graphing
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "", b);
+			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
 		}
 		if ("|".equals(name)) {
 			return new KeyBoardButtonBase("abs", "abs", b);
@@ -495,7 +496,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		} else if (resourceName.equals(Resource.FRACTION.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.fraction(),
-					Unicode.DIVIDE + "", bh, false, loc,
+					"/", bh, false, loc,
 					"altText.Fraction");
 		} else if (resourceName.equals(Resource.INVERSE.name())) {
 			return new KeyBoardButtonFunctionalBase(

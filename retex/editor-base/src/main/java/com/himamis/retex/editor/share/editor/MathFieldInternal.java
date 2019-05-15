@@ -172,10 +172,16 @@ public class MathFieldInternal
 		mathFieldController.updateWithCursor(mathFormula, editorState);
 	}
 
+	/**
+	 * @return input controller
+	 */
 	public InputController getInputController() {
 		return inputController;
 	}
 
+	/**
+	 * @return cursor controller
+	 */
 	public CursorController getCursorController() {
 		return cursorController;
 	}
@@ -184,10 +190,16 @@ public class MathFieldInternal
 		return mathFieldController;
 	}
 
+	/**
+	 * @return editor state
+	 */
 	public EditorState getEditorState() {
 		return editorState;
 	}
 
+	/**
+	 * @return key listener
+	 */
 	public KeyListenerImpl getKeyListener() {
 		return keyListener;
 	}
@@ -725,7 +737,8 @@ public class MathFieldInternal
 	 * other inputs (paste)
 	 */
 	public void onDivisionInserted() {
-		if (editorState.getCurrentField().size() == 1) {
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentField.size() == 1 && currentField.isOperator(0)) {
 			editorState.setCurrentOffset(0);
 		}
 	}
