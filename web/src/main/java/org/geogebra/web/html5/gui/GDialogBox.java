@@ -148,9 +148,9 @@ public class GDialogBox extends GDecoratedPopupPanel
 	public interface Caption
 			extends HasAllMouseHandlers, HasHTML, HasSafeHtml, IsWidget {
 
-		public void onAttach();
+		void onAttach();
 
-		public void onDetach();
+		void onDetach();
 	}
 
 	/**

@@ -13,39 +13,39 @@ import com.google.gwt.event.shared.HandlerRegistration;
 public interface HasKeyboardTF extends MathKeyboardListener {
 
 	/** add dummy cursor when editing starts */
-	public void startOnscreenKeyboardEditing();
+	void startOnscreenKeyboardEditing();
 
 	/** remove dummy cursor when editing ends */
-	public void endOnscreenKeyboardEditing();
+	void endOnscreenKeyboardEditing();
 
 	/** add a dummy cursor to a textfield */
-	public void addDummyCursor();
+	void addDummyCursor();
 
 	/**
 	 * Remove the dummy cursor
 	 * 
 	 * @return the position of removed cursor
 	 */
-	public int removeDummyCursor();
+	int removeDummyCursor();
 
 	/**
 	 * @param b
 	 *            set focus true or false
 	 */
-	public void setFocus(boolean b);
+	void setFocus(boolean b);
 
 	/**
 	 * @param readonly
 	 *            true if textfield is readonly
 	 */
-	public void setReadOnly(boolean readonly);
+	void setReadOnly(boolean readonly);
 
 	/**
 	 * get current position of cursor
 	 * 
 	 * @return position
 	 */
-	public int getCursorPos();
+	int getCursorPos();
 
 	/**
 	 * set position of cursor
@@ -53,7 +53,7 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 * @param pos
 	 *            position
 	 */
-	public void setCursorPos(int pos);
+	void setCursorPos(int pos);
 
 	/**
 	 * set text of textfield
@@ -61,27 +61,27 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 * @param text
 	 *            text to set
 	 */
-	public void setValue(String text);
+	void setValue(String text);
 
 	/**
 	 * get text of textfield
 	 * 
 	 * @return text
 	 */
-	public String getValue();
+	String getValue();
 
 	/**
 	 * @param handler
 	 *            FocusHandler
 	 * @return HandlerRegistration
 	 */
-	public HandlerRegistration addFocusHandler(FocusHandler handler);
+	HandlerRegistration addFocusHandler(FocusHandler handler);
 
 	/**
 	 * @param handler
 	 *            BlurHandler
 	 * @return HandlerRegistration
 	 */
-	public HandlerRegistration addBlurHandler(BlurHandler handler);
+	HandlerRegistration addBlurHandler(BlurHandler handler);
 
 }

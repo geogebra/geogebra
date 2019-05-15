@@ -5,9 +5,9 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
 public interface FrameCollectorW {
 
-	public String finish(int width, int height);
+	String finish(int width, int height);
 
-	public void addFrame(EuclidianViewWInterface ev, double scale,
+	void addFrame(EuclidianViewWInterface ev, double scale,
 			ExportType format);
 
 }

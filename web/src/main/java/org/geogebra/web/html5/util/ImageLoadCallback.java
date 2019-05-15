@@ -8,6 +8,6 @@ public interface ImageLoadCallback {
 	/**
 	 * Run when image is loaded
 	 */
-	public void onLoad();
+	void onLoad();
 
 }

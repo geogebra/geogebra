@@ -13,7 +13,7 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	/**
 	 * Clear the editor
 	 */
-	public void resetInput();
+	void resetInput();
 
 	/**
 	 * (De)activate autocomplete for comment cells / normal cells
@@ -21,7 +21,7 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 * @param b
 	 *            whether to activate autocomplete
 	 */
-	public void setAutocomplete(boolean b);
+	void setAutocomplete(boolean b);
 
 	/**
 	 * Editor callback to update text/latex
@@ -31,12 +31,12 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 * @param latex
 	 *            input in LaTeX syntax
 	 */
-	public void setLaTeX(String plain, String latex);
+	void setLaTeX(String plain, String latex);
 
 	/**
 	 * @return LaTeX content
 	 */
-	public String getLaTeX();
+	String getLaTeX();
 
 	/**
 	 * Inserts input string, doesn't treat it like autocomplete (no highlight)
@@ -44,17 +44,17 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 * @param input
 	 *            input stru=ing
 	 */
-	public void insertInput(String input);
+	void insertInput(String input);
 
 	/**
 	 * @param event
 	 *            mouse / touch event that moved the caret
 	 */
-	public void adjustCaret(HumanInputEvent<?> event);
+	void adjustCaret(HumanInputEvent<?> event);
 
 	/**
 	 * @param asText
 	 *            whether this should be plain text mode
 	 */
-	public void setEditAsText(boolean asText);
+	void setEditAsText(boolean asText);
 }

@@ -9,12 +9,12 @@ public interface RendererWInterface {
 	 * @param pixelRatio
 	 *            CSS pixel ratio
 	 */
-	public void setPixelRatio(double pixelRatio);
+	void setPixelRatio(double pixelRatio);
 
 	/**
 	 * @param useBuffer
 	 *            whether to use buffer
 	 */
-	public void setBuffering(boolean useBuffer);
+	void setBuffering(boolean useBuffer);
 
 }

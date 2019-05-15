@@ -19,7 +19,7 @@ public interface InputPanel extends IsWidget, HasText {
 	/**
 	 * Text input
 	 */
-	public class InputPanelLabel extends Label implements InputPanel {
+	class InputPanelLabel extends Label implements InputPanel {
 
 		@Override
 		public void setLaTeX(String laTeX) {
@@ -35,7 +35,7 @@ public interface InputPanel extends IsWidget, HasText {
 	/**
 	 * JLM based input
 	 */
-	public class InputPanelCanvas implements InputPanel {
+	class InputPanelCanvas implements InputPanel {
 		private String text;
 		private Canvas c;
 		private App app;
@@ -107,28 +107,28 @@ public interface InputPanel extends IsWidget, HasText {
 	 * @param string
 	 *            CSS class name
 	 */
-	public void addStyleName(String string);
+	void addStyleName(String string);
 
 	/**
 	 * @param string
 	 *            CSS class name
 	 */
-	public void removeStyleName(String string);
+	void removeStyleName(String string);
 
 	/**
 	 * @return element
 	 */
-	public Element getElement();
+	Element getElement();
 
 	/**
 	 * @param laTeX
 	 *            LaTeX content
 	 */
-	public void setLaTeX(String laTeX);
+	void setLaTeX(String laTeX);
 
 	/**
 	 * @param ratio
 	 *            pixel ratio
 	 */
-	public void setPixelRatio(double ratio);
+	void setPixelRatio(double ratio);
 }

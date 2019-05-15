@@ -4,14 +4,14 @@ import org.geogebra.common.kernel.ModeSetter;
 
 public interface ToolBarInterface {
 
-	public int setMode(int mode, ModeSetter m);
+	int setMode(int mode, ModeSetter m);
 
-	public void setVisible(boolean show);
+	void setVisible(boolean show);
 
 	void closeAllSubmenu();
 
-	public boolean isMobileToolbar();
+	boolean isMobileToolbar();
 
-	public boolean isShown();
+	boolean isShown();
 
 }

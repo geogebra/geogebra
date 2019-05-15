@@ -169,7 +169,5 @@ public class ListModelEvent {
 	 */
 	protected static class EventType {
 		/** See class docs */
-		protected EventType() {
-		}
 	}
 }

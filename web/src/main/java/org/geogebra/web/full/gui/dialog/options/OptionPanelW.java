@@ -11,12 +11,12 @@ public interface OptionPanelW {
 	/**
 	 * Update the GUI to take care of new settings which were applied.
 	 */
-	public void updateGUI();
+	void updateGUI();
 
 	/**
 	 * @return UI element
 	 */
-	public Widget getWrappedPanel();
+	Widget getWrappedPanel();
 
 	/**
 	 * @param height
@@ -24,10 +24,10 @@ public interface OptionPanelW {
 	 * @param width
 	 *            new width
 	 */
-	public void onResize(int height, int width);
+	void onResize(int height, int width);
 
 	/**
 	 * @return tab panel
 	 */
-	public MultiRowsTabPanel getTabPanel();
+	MultiRowsTabPanel getTabPanel();
 }

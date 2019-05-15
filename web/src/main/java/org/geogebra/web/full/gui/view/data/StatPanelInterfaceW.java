@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.view.data;
 
 public interface StatPanelInterfaceW {
 
-	public void setLabels();
+	void setLabels();
 	
-	public void updatePanel();
+	void updatePanel();
 	
 }

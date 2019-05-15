@@ -15,28 +15,28 @@ public interface GDevice {
 	 *            application
 	 * @return file manager
 	 */
-	public FileManager createFileManager(AppW app);
+	FileManager createFileManager(AppW app);
 
 	/**
 	 * @param app
 	 *            application
 	 * @return whether device is offline
 	 */
-	public boolean isOffline(AppW app);
+	boolean isOffline(AppW app);
 
 	/**
 	 * @param app
 	 *            application
 	 * @return image input dialog
 	 */
-	public UploadImageDialog getImageInputDialog(AppW app);
+	UploadImageDialog getImageInputDialog(AppW app);
 
 	/**
 	 * @param app
 	 *            application
 	 * @return browser view
 	 */
-	public BrowseViewI createBrowseView(AppW app);
+	BrowseViewI createBrowseView(AppW app);
 
 	/**
 	 * TODO make this browser-dependent, not GDevice dependent
@@ -45,7 +45,7 @@ public interface GDevice {
 	 *            application
 	 * @return construction protocol
 	 */
-	public ConstructionProtocolView getConstructionProtocolView(AppW app);
+	ConstructionProtocolView getConstructionProtocolView(AppW app);
 
 	/**
 	 * @param width
@@ -53,5 +53,5 @@ public interface GDevice {
 	 * @param height
 	 *            height in pixels
 	 */
-	public void resizeView(int width, int height);
+	void resizeView(int width, int height);
 }

@@ -9,31 +9,31 @@ import org.geogebra.common.util.AsyncOperation;
 
 public interface BrowseViewI {
 
-	public void setMaterialsDefaultStyle();
+	void setMaterialsDefaultStyle();
 
-	public void loadAllMaterials();
+	void loadAllMaterials();
 
-	public void clearMaterials();
+	void clearMaterials();
 
-	public void disableMaterials();
+	void disableMaterials();
 
-	public void onSearchResults(final List<Material> response,
+	void onSearchResults(final List<Material> response,
 	        final ArrayList<Chapter> chapters);
 
-	public void close();
+	void close();
 
-	public void displaySearchResults(final String query);
+	void displaySearchResults(final String query);
 
-	public void refreshMaterial(final Material material, final boolean isLocal);
+	void refreshMaterial(final Material material, final boolean isLocal);
 
-	public void rememberSelected(final MaterialListElementI materialElement);
+	void rememberSelected(final MaterialListElementI materialElement);
 
-	public void setLabels();
+	void setLabels();
 
-	public void addMaterial(Material material);
+	void addMaterial(Material material);
 
-	public void removeMaterial(Material material);
+	void removeMaterial(Material material);
 
-	public void closeAndSave(AsyncOperation<Boolean> callback);
+	void closeAndSave(AsyncOperation<Boolean> callback);
 
 }

@@ -8,39 +8,39 @@ import org.geogebra.common.main.App;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface AutoCompleteW {
-	public boolean getAutoComplete();
+	boolean getAutoComplete();
 
-	public List<String> resetCompletions();
+	List<String> resetCompletions();
 
-	public List<String> getCompletions();
+	List<String> getCompletions();
 
-	public void setFocus(boolean b, boolean sv);
+	void setFocus(boolean b, boolean sv);
 
-	public void insertString(String text);
+	void insertString(String text);
 
-	public ArrayList<String> getHistory();
+	ArrayList<String> getHistory();
 
-	public String getText();
+	String getText();
 
-	public void setText(String s);
+	void setText(String s);
 
-	public int getAbsoluteLeft();
+	int getAbsoluteLeft();
 
-	public int getAbsoluteTop();
+	int getAbsoluteTop();
 
-	public boolean isSuggesting();
+	boolean isSuggesting();
 
-	public void requestFocus();
+	void requestFocus();
 
-	public Widget toWidget();
+	Widget toWidget();
 
-	public void autocomplete(String s);
+	void autocomplete(String s);
 
-	public void updatePosition(AbstractSuggestionDisplay sug);
+	void updatePosition(AbstractSuggestionDisplay sug);
 
-	public boolean isForCAS();
+	boolean isForCAS();
 
-	public String getCommand();
+	String getCommand();
 
-	public App getApplication();
+	App getApplication();
 }

@@ -169,7 +169,7 @@ public class Export3dDialog extends OptionDialog
 		protected EnumSet<DimensionField> updateSet;
 		private boolean isUsed;
 
-		private DimensionField(NumberFormatAdapter nf) {
+		DimensionField(NumberFormatAdapter nf) {
 			this.nf = nf;
 			isUsed = true;
 		}

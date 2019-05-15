@@ -28,7 +28,7 @@ public class LongTouchTimer extends Timer {
 		 * @param y
 		 *            the y coordinate of the long touch
 		 */
-		public void handleLongTouch(int x, int y);
+		void handleLongTouch(int x, int y);
 	}
 
 	public LongTouchTimer() {

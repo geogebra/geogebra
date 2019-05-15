@@ -8,8 +8,8 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface GLookAndFeelI {
-	public static final int COMMAND_LINE_HEIGHT = 43;
-	public static final int TOOLBAR_HEIGHT = 53;
+	int COMMAND_LINE_HEIGHT = 43;
+	int TOOLBAR_HEIGHT = 53;
 
 	boolean isSmart();
 
@@ -44,7 +44,7 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
-	public Versions getVersion(int dim, String appName);
+	Versions getVersion(int dim, String appName);
 
 	void storeLanguage(String language, AppW app);
 

@@ -10,8 +10,7 @@ import com.google.gwt.resources.client.ClientBundle;
  */
 @SuppressWarnings("javadoc")
 public interface SvgPerspectiveResources extends ClientBundle {
-	final static SvgPerspectiveResources INSTANCE = ImageFactory
-			.getPerspectiveResources();
+	SvgPerspectiveResources INSTANCE = ImageFactory.getPerspectiveResources();
 
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_algebra.svg")
 	SVGResource menu_icon_algebra();

@@ -11,6 +11,6 @@ public interface ShowDetailsListener {
 	 * @param content
 	 *            card content
 	 */
-	public abstract void onShowDetails(FlowPanel content);
+	void onShowDetails(FlowPanel content);
 
 }

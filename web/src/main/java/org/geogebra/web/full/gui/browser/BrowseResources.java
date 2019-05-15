@@ -7,7 +7,7 @@ import com.google.gwt.resources.client.ImageResource;
 @SuppressWarnings("javadoc")
 public interface BrowseResources extends ClientBundle {
 	
-	static BrowseResources INSTANCE = GWT.create(BrowseResources.class);
+	BrowseResources INSTANCE = GWT.create(BrowseResources.class);
 	
 	@Source("org/geogebra/common/icons/png/web/button_search.png")
 	ImageResource search();

@@ -25,7 +25,7 @@ public interface MenuBarI {
 	 *            callback
 	 * @return menu item
 	 */
-	public AriaMenuItem addItem(@IsSafeHtml String text, boolean asHTML,
+	AriaMenuItem addItem(@IsSafeHtml String text, boolean asHTML,
 			ScheduledCommand cmd);
 
 }

@@ -268,7 +268,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			return row * maxCol + col;
 		}
 
-		private final GColor getColorFromPalette(int col, int row) {
+		private GColor getColorFromPalette(int col, int row) {
 			int idx = getIndex(col, row);
 			return (palette != null && idx < palette.size() ? palette.get(idx)
 					: null);

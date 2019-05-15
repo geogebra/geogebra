@@ -9,30 +9,30 @@ import com.google.gwt.user.client.ui.Panel;
 
 public interface EuclidianPanelWAbstract {
 
-	public AbsolutePanel getAbsolutePanel();
+	AbsolutePanel getAbsolutePanel();
 
-	public Panel getEuclidianPanel();
+	Panel getEuclidianPanel();
 
-	public Canvas getCanvas();
+	Canvas getCanvas();
 
-	public Canvas getBackgroundCanvas();
+	Canvas getBackgroundCanvas();
 
-	public EuclidianView getEuclidianView();
+	EuclidianView getEuclidianView();
 
-	public void setPixelSize(int x, int y);
+	void setPixelSize(int x, int y);
 
-	public int getOffsetWidth();
+	int getOffsetWidth();
 
-	public int getOffsetHeight();
+	int getOffsetHeight();
 
-	public void onResize();
+	void onResize();
 
-	public void deferredOnResize();
+	void deferredOnResize();
 
-	public void updateNavigationBar();
+	void updateNavigationBar();
 
-	public Element getElement();
+	Element getElement();
 
-	public void reset();
+	void reset();
 
 }

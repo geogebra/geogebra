@@ -16,25 +16,25 @@ public interface AdvancedFocusPanelI extends IsWidget {
 	 *            event type
 	 * @return registration
 	 */
-	public <H extends EventHandler> HandlerRegistration addDomHandler(
+	<H extends EventHandler> HandlerRegistration addDomHandler(
 			H handler, DomEvent.Type<H> type);
 
-	public int getOffsetHeight();
+	int getOffsetHeight();
 
-	public int getOffsetWidth();
+	int getOffsetWidth();
 
-	public boolean isVisible();
+	boolean isVisible();
 
-	public boolean isAttached();
+	boolean isAttached();
 
-	public void setFocus(boolean b);
+	void setFocus(boolean b);
 
-	public void setSelectedContent(String cs);
+	void setSelectedContent(String cs);
 
-	public void setHeight(String string);
+	void setHeight(String string);
 
-	public void setWidth(String string);
+	void setWidth(String string);
 	
-	public void addPasteHandler(SpreadsheetKeyListenerW sskl);
+	void addPasteHandler(SpreadsheetKeyListenerW sskl);
 
 }

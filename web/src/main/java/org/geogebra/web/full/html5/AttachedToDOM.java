@@ -12,6 +12,6 @@ public interface AttachedToDOM {
 	/**
 	 * removes the given popup from DOM
 	 */
-	public void removeFromDOM();
+	void removeFromDOM();
 
 }

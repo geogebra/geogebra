@@ -23,17 +23,17 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 * 
 	 * @return canvas
 	 */
-	public Canvas getCanvas();
+	Canvas getCanvas();
 
-	public Hits getHits();
+	Hits getHits();
 
-	public boolean isInFocus();
+	boolean isInFocus();
 
-	public boolean hasStyleBar();
+	boolean hasStyleBar();
 
-	public EuclidianStyleBar getStyleBar();
+	EuclidianStyleBar getStyleBar();
 
-	public int getViewWidth();
+	int getViewWidth();
 
 	/**
 	 * @param x
@@ -44,63 +44,63 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 *            event type
 	 * @return whether textfield was clicked
 	 */
-	public boolean textfieldClicked(int x, int y, PointerEventType type);
+	boolean textfieldClicked(int x, int y, PointerEventType type);
 
 	@Override
-	public int getViewID();
+	int getViewID();
 
-	public double getXZero();
+	double getXZero();
 
-	public double getYZero();
+	double getYZero();
 
 	@Override
-	public double getXscale();
+	double getXscale();
 
-	public void setCoordSystem(double xZero, double yZero, double xscale,
+	void setCoordSystem(double xZero, double yZero, double xscale,
 	        double newRatioY);
 
 	@Override
-	public double getYscale();
+	double getYscale();
 
-	public void rememberOrigins();
+	void rememberOrigins();
 
-	public void translateCoordSystemInPixels(int dx, int dy, int dz);
+	void translateCoordSystemInPixels(int dx, int dy, int dz);
 
-	public void setHits(GPoint gPoint, PointerEventType touch);
+	void setHits(GPoint gPoint, PointerEventType touch);
 
-	public Previewable getPreviewDrawable();
+	Previewable getPreviewDrawable();
 
-	public void updatePreviewableForProcessMode();
+	void updatePreviewableForProcessMode();
 
-	public int getAbsoluteLeft();
+	int getAbsoluteLeft();
 
-	public int getAbsoluteTop();
+	int getAbsoluteTop();
 
-	public GGraphics2DWI getG2P();
+	GGraphics2DWI getG2P();
 
-	public void resetPointerEventHandler();
+	void resetPointerEventHandler();
 
-	public String getExportImageDataUrl(double scale, boolean transparent,
+	String getExportImageDataUrl(double scale, boolean transparent,
 			ExportType format, boolean greyscale);
 
-	public String getExportImageDataUrl(double scale, boolean transparent,
+	String getExportImageDataUrl(double scale, boolean transparent,
 			boolean greyscale);
 
-	public App getApplication();
+	App getApplication();
 
-	public String getCanvasBase64WithTypeString();
+	String getCanvasBase64WithTypeString();
 
-	public void requestFocus();
+	void requestFocus();
 
-	public void updateFirstAndLast(boolean attach, boolean anyway);
+	void updateFirstAndLast(boolean attach, boolean anyway);
 
-	public void setAltText();
+	void setAltText();
 
-	public String getExportSVG(double scale, boolean transparency);
+	String getExportSVG(double scale, boolean transparency);
 
-	public String getExportPDF(double scale);
+	String getExportPDF(double scale);
 
-	public int getExportWidth();
+	int getExportWidth();
 
-	public int getExportHeight();
+	int getExportHeight();
 }

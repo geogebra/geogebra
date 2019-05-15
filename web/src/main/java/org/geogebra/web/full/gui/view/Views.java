@@ -12,7 +12,7 @@ import com.google.gwt.resources.client.ResourcePrototype;
  */
 public class Views {
 	/** Properties of a view type */
-	public static enum ViewType {
+	public enum ViewType {
 		/**
 		 * Algebra
 		 */

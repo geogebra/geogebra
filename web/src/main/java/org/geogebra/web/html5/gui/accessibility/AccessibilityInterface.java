@@ -17,19 +17,19 @@ public interface AccessibilityInterface {
 	 * @param handler
 	 *            handler
 	 */
-	public void addTabHandler(TabHandler handler);
+	void addTabHandler(TabHandler handler);
 	
 	/**
 	 * Makes sure that TAB key is ignored.
 	 * FocusWidget does not allow -1 as tabIndex by default. 
 	 */
-	public void setIgnoreTab();
+	void setIgnoreTab();
 	
 	/**
 	 * Set alternate text that is proper for screen readers.
 	 * @param text to set.
 	 */
-	public void setAltText(String text);
+	void setAltText(String text);
 
 	/**
 	 * Focus algebra input
@@ -37,6 +37,6 @@ public interface AccessibilityInterface {
 	 * @param force
 	 *            force to open AV tab if not active
 	 */
-	public void focusInput(boolean force);
+	void focusInput(boolean force);
 
 }

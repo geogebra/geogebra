@@ -21,5 +21,5 @@ public interface DockPanelDecorator extends RequiresResize {
 	 *            application
 	 * @return wrapped panel
 	 */
-	public Panel decorate(ScrollPanel algebrap, AppW app);
+	Panel decorate(ScrollPanel algebrap, AppW app);
 }

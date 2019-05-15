@@ -261,12 +261,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 		setNewExam();
 		articleElement.attr("perspective", "");
 		afterLocalizationLoaded(new Runnable() {
-				@Override
-				public final void run() {
-					examWelcome();
-				}
-			});
-		}
+			@Override
+			public void run() {
+				examWelcome();
+			}
+		});
+	}
 
 	private void setupSignInButton(GlobalHeader header) {
 		if (getLoginOperation() == null) {
@@ -418,7 +418,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		invokeLater(new Runnable() {
 
 			@Override
-			public final void run() {
+			public void run() {
 				DockPanelW dp = getGuiManager().getLayout().getDockManager()
 						.getPanelForKeyboard();
 				MathKeyboardListener listener = getGuiManager()
@@ -483,7 +483,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		afterLocalizationLoaded(new Runnable() {
 
 			@Override
-			public final void run() {
+			public void run() {
 				doShowStartTooltip(perspID);
 			}
 		});
@@ -569,7 +569,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		getGgbApi().getBase64(true, new AsyncOperation<String>() {
 
 			@Override
-			public final void callback(String s) {
+			public void callback(String s) {
 				ggbtube.uploadWorksheetSimple(s, popupBlockAvoider);
 
 			}
@@ -858,7 +858,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				getLoginOperation().getView().add(new EventRenderable() {
 
 					@Override
-					public final void renderEvent(BaseEvent event) {
+					public void renderEvent(BaseEvent event) {
 						if (event instanceof LoginEvent
 								|| event instanceof StayLoggedOutEvent
 								|| event instanceof TubeAvailabilityCheckEvent) {
@@ -898,7 +898,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				.getItem(id, new MaterialCallback() {
 
 					@Override
-					public final void onLoaded(
+					public void onLoaded(
 							final List<Material> parseResponse,
 							ArrayList<Chapter> meta) {
 						if (parseResponse.size() == 1) {
@@ -922,7 +922,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 					}
 
 					@Override
-					public final void onError(Throwable error) {
+					public void onError(Throwable error) {
 						onError.callback(error.getMessage().contains("401")
 								? "NotAuthorized" : "LoadFileFailed");
 					}
@@ -937,8 +937,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public final OpenFileListener getUpdateTitleCallback(
 			final Material material) {
 		return new OpenFileListener() {
+
 			@Override
-			public final boolean onOpenFile() {
+			public boolean onOpenFile() {
 				AppWFull.this.updateMaterialURL(material.getId(),
 						material.getSharingKey(), material.getTitle());
 				return true;
@@ -966,7 +967,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		afterLocalizationLoaded(new Runnable() {
 
 			@Override
-			public final void run() {
+			public void run() {
 				getPerspectivesPopup().showPerspectivesPopup();
 			}
 		});
@@ -1141,7 +1142,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			afterLocalizationLoaded(new Runnable() {
 
 				@Override
-				public final void run() {
+				public void run() {
 					getDialogManager()
 							.showRecoverAutoSavedDialog(AppWFull.this,
 									materialJSON);
@@ -1161,7 +1162,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			private int counter = 0;
 
 			@Override
-			public final void run() {
+			public void run() {
 				counter++;
 				if (!isSaved()) {
 					getFileManager().autoSave(counter);

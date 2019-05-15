@@ -19,144 +19,144 @@ import com.google.gwt.user.client.Command;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
-	public void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
+	void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
 	        GPoint p);
 
-	public void setFocusedPanel(int evID, boolean updatePropertiesView);
+	void setFocusedPanel(int evID, boolean updatePropertiesView);
 
-	public void resize(int width, int height);
+	void resize(int width, int height);
 
-	public String getToolbarDefinition(Integer viewId);
+	String getToolbarDefinition(Integer viewId);
 
 	boolean moveMoveFloatingButtonUp(int left, int width, boolean isSmall);
 
 	void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved);
 
-	public void removeFromToolbarDefinition(int mode);
+	void removeFromToolbarDefinition(int mode);
 
-	public String getCustomToolbarDefinition();
+	String getCustomToolbarDefinition();
 
-	public SetLabels getInputHelpPanel();
+	SetLabels getInputHelpPanel();
 
-	public void addAlgebraInput(AlgebraInput ai);
+	void addAlgebraInput(AlgebraInput ai);
 
-	public AlgebraInput getAlgebraInput();
+	AlgebraInput getAlgebraInput();
 
-	public Command getShowAxesAction();
+	Command getShowAxesAction();
 
-	public Command getShowGridAction();
+	Command getShowGridAction();
 
-	public void setActiveToolbarId(int toolbarID);
+	void setActiveToolbarId(int toolbarID);
 
-	public void removePopup();
+	void removePopup();
 
-	public void setToolBarDefinition(String toolBarDefinition);
+	void setToolBarDefinition(String toolBarDefinition);
 
-	public void setActiveView(int evID);
+	void setActiveView(int evID);
 
-	public boolean isDraggingViews();
+	boolean isDraggingViews();
 
-	public void setDraggingViews(boolean b, boolean temporary);
+	void setDraggingViews(boolean b, boolean temporary);
 
-	public void refreshDraggingViews();
+	void refreshDraggingViews();
 
-	public void setGeneralToolBarDefinition(String toolbarDefinition);
+	void setGeneralToolBarDefinition(String toolbarDefinition);
 
-	public BrowseViewI getBrowseView(String query);
+	BrowseViewI getBrowseView(String query);
 
-	public BrowseViewI getBrowseView();
+	BrowseViewI getBrowseView();
 
-	public void showSciSettingsView();
+	void showSciSettingsView();
 
-	public void showToolBar(boolean show);
+	void showToolBar(boolean show);
 
-	public void showMenuBar(boolean show);
+	void showMenuBar(boolean show);
 
-	public void showAlgebraInput(boolean show);
+	void showAlgebraInput(boolean show);
 
-	public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev, int viewID);
+	EuclidianStyleBar newEuclidianStylebar(EuclidianView ev, int viewID);
 
-	public EuclidianStyleBar newDynamicStylebar(EuclidianView ev);
+	EuclidianStyleBar newDynamicStylebar(EuclidianView ev);
 
-	public void addStylebar(EuclidianView ev,
+	void addStylebar(EuclidianView ev,
 			EuclidianStyleBar dynamicStylebar);
 
-	public void recalculateEnvironments();
+	void recalculateEnvironments();
 
-	public void updateStyleBarPositions(boolean menuOpen);
+	void updateStyleBarPositions(boolean menuOpen);
 
-	public void exportGGB();
+	void exportGGB();
 
-	public void listenToLogin();
+	void listenToLogin();
 
-	public void setOnScreenKeyboardTextField(MathKeyboardListener textField);
+	void setOnScreenKeyboardTextField(MathKeyboardListener textField);
 
-	public boolean focusScheduled(boolean setNotGet,
+	boolean focusScheduled(boolean setNotGet,
 			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
 
-	public void setPixelRatio(double ratio);
+	void setPixelRatio(double ratio);
 
-	public String getTooltipURL(int mode);
+	String getTooltipURL(int mode);
 
-	public GOptionPaneW getOptionPane();
+	GOptionPaneW getOptionPane();
 
-	public void updateToolbarActions();
+	void updateToolbarActions();
 
-	public void resetMenu();
+	void resetMenu();
 
-	public void resetMenuIfScreenChanged();
-
-	@Override
-	public AlgebraView getAlgebraView();
+	void resetMenuIfScreenChanged();
 
 	@Override
-	public SpreadsheetViewInterface getSpreadsheetView();
+	AlgebraView getAlgebraView();
 
-	public void onScreenEditingEnded();
+	@Override
+	SpreadsheetViewInterface getSpreadsheetView();
+
+	void onScreenEditingEnded();
 
 	void setActivePanelAndToolbar(int viewID);
 
-	public void updateKeyboardLanguage();
+	void updateKeyboardLanguage();
 
-	public boolean getKeyboardShouldBeShownFlag();
+	boolean getKeyboardShouldBeShownFlag();
 
-	public void addKeyboardAutoHidePartner(GPopupPanel popup);
+	void addKeyboardAutoHidePartner(GPopupPanel popup);
 
-	public void switchToolsToAV();
+	void switchToolsToAV();
 
-	public boolean isKeyboardClosedByUser();
+	boolean isKeyboardClosedByUser();
 
-	public MathKeyboardListener getKeyboardListener(DockPanel panel);
+	MathKeyboardListener getKeyboardListener(DockPanel panel);
 
 	/**
 	 * There are some drawables which not drawn on the canvas of euclidian view,
 	 * but added for an AbsolutePanel which hides the canvas. (e.g. inputbox)
 	 * When we remove all drawable, we must to clear this AbsolutePanel too.
 	 */
-	public void clearAbsolutePanels();
+	void clearAbsolutePanels();
 
 	/**
 	 * Update global tab of properties if exists
 	 */
-	public void updateGlobalOptions();
+	void updateGlobalOptions();
 
 	/**
 	 * @param fallback
 	 *            fallback value
 	 * @return whether root panel is split vertically
 	 */
-	public boolean isVerticalSplit(boolean fallback);
+	boolean isVerticalSplit(boolean fallback);
 
 	/**
 	 * @param style
 	 *            exam ok (teal), or exam cheat (red)
 	 */
-	public void setUnbundledHeaderStyle(String style);
+	void setUnbundledHeaderStyle(String style);
 
 	/**
 	 * init on click for exam info button
 	 */
-	public void initInfoBtnAction();
+	void initInfoBtnAction();
 
 	/**
 	 * Show table view with new column

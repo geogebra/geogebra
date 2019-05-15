@@ -14,11 +14,11 @@ public interface SetTabs {
 	 * @param index
 	 *            top element tab index
 	 */
-	public void setTabIndex(int index);
+	void setTabIndex(int index);
 
 	/**
 	 * Clears tab indexes for the widget.
 	 */
-	public void clearTabIndex();
+	void clearTabIndex();
 
 }

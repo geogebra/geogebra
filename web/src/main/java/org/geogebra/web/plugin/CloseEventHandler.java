@@ -9,5 +9,5 @@ public interface CloseEventHandler {
 	 * @param event
 	 *            close event
 	 */
-	public void close(JavaScriptObject event);
+	void close(JavaScriptObject event);
 }

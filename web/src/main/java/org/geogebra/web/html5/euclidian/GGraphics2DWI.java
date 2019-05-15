@@ -37,7 +37,7 @@ public interface GGraphics2DWI extends GGraphics2D {
 	int getCoordinateSpaceHeight();
 
 	@Override
-	public abstract GFontW getFont();
+	GFontW getFont();
 
 	void forceResize();
 

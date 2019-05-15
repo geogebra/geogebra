@@ -8,20 +8,20 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface SaveDialogI {
 
-	public void show();
+	void show();
 
-	public void setTitle();
+	void setTitle();
 
-	public void setSaveType(MaterialType type);
+	void setSaveType(MaterialType type);
 
-	public void setLabels();
+	void setLabels();
 
-	public SaveDialogI setDefaultVisibility(MaterialVisibility visibility);
+	SaveDialogI setDefaultVisibility(MaterialVisibility visibility);
 
-	public void hide();
+	void hide();
 
-	public void showIfNeeded(AsyncOperation<Boolean> callback, boolean needed,
+	void showIfNeeded(AsyncOperation<Boolean> callback, boolean needed,
 			Widget anchor);
 
-	public void showIfNeeded(AsyncOperation<Boolean> runnable);
+	void showIfNeeded(AsyncOperation<Boolean> runnable);
 }

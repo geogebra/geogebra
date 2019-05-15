@@ -10,7 +10,7 @@ import com.google.gwt.dom.client.Element;
  */
 public interface ArticleElementInterface {
 	/** default applet ID */
-	public static final String DEFAULT_APPLET_ID = "ggbApplet";
+	String DEFAULT_APPLET_ID = "ggbApplet";
 	/**
 	 * Clear the content of this element
 	 */

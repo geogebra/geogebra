@@ -285,7 +285,7 @@ public class MaterialListPanel extends FlowPanel
 	 * @param isLocal
 	 *            boolean
 	 */
-	private final void addNewMaterial(final Material mat,
+	private void addNewMaterial(final Material mat,
 			final boolean insertAtEnd, final boolean isLocal) {
 		final MaterialListElement preview = ((GLookAndFeel) app.getLAF())
 				.getMaterialElement(mat, this.app, isLocal);

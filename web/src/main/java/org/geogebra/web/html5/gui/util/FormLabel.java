@@ -21,7 +21,7 @@ public class FormLabel extends FlowPanel {
 		/**
 		 * @return wrapped input element
 		 */
-		public Element getInputElement();
+		Element getInputElement();
 	}
 
 	/**

@@ -6,7 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 
 public interface ZoomPanelResources extends ClientBundle {
-	static ZoomPanelResources INSTANCE = GWT.create(ZoomPanelResources.class);
+	ZoomPanelResources INSTANCE = GWT.create(ZoomPanelResources.class);
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_fullscreen_black_18px.svg")
 	SVGResource fullscreen_black18();

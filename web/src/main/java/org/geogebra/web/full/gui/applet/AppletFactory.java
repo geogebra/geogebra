@@ -21,7 +21,7 @@ public interface AppletFactory {
 	 *            browser / tablet; used for file sync
 	 * @return applet
 	 */
-	public AppW getApplet(ArticleElementInterface ae, GeoGebraFrameBoth frame,
+	AppW getApplet(ArticleElementInterface ae, GeoGebraFrameBoth frame,
 			GLookAndFeelI laf, GDevice device);
 
 }

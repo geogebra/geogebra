@@ -13,14 +13,14 @@ public interface HasAppletProperties {
 	 * 
 	 *            sets the geogebra-web applet widht
 	 */
-	public void setWidth(int width);
+	void setWidth(int width);
 
 	/**
 	 * @param height
 	 * 
 	 *            sets the geogebra-web applet height
 	 */
-	public void setHeight(int height);
+	void setHeight(int height);
 
 	/**
 	 * sets the geogebra-web applet size (width, height)
@@ -30,58 +30,58 @@ public interface HasAppletProperties {
 	 * @param height
 	 *            height in px
 	 */
-	public void setSize(int width, int height);
+	void setSize(int width, int height);
 
 	/**
 	 * After loading a new GGB file, the size should be set to "auto"
 	 */
-	public void resetAutoSize();
+	void resetAutoSize();
 
 	/**
 	 * @param show
 	 * 
 	 *            wheter show the reseticon in geogebra-web applets or not
 	 */
-	public void showResetIcon(boolean show);
+	void showResetIcon(boolean show);
 
 	/**
 	 * @return callback passed to renderArticleElementWithFrame
 	 */
-	public JavaScriptObject getOnLoadCallback();
+	JavaScriptObject getOnLoadCallback();
 
 	/**
 	 * @return whether keyboard is visible
 	 */
-	public boolean isKeyboardShowing();
+	boolean isKeyboardShowing();
 
 	/**
 	 * Flag keyboard to be shown next time applet is focused
 	 */
-	public void showKeyboardOnFocus();
+	void showKeyboardOnFocus();
 
 	/**
 	 * Update layout for keyboard height change
 	 */
-	public void updateKeyboardHeight();
+	void updateKeyboardHeight();
 
 	/**
 	 * @return keyboard height in pixels (0 if not showing)
 	 */
-	public double getKeyboardHeight();
+	double getKeyboardHeight();
 
 	/**
 	 * Remove from DOM and prepare for garbage collection
 	 */
-	public void remove();
+	void remove();
 
 	/**
 	 * Update the CSS height of the article
 	 */
-	public void updateArticleHeight();
+	void updateArticleHeight();
 
 	/**
 	 * @param appW
 	 *            app
 	 */
-	public void initPageControlPanel(AppW appW);
+	void initPageControlPanel(AppW appW);
 }

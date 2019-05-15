@@ -153,7 +153,7 @@ public class GSuggestBox extends Composite
 	/**
 	 * The callback used when a user selects a {@link Suggestion}.
 	 */
-	public static interface SuggestionCallback {
+	public interface SuggestionCallback {
 		void onSuggestionSelected(Suggestion suggestion);
 	}
 
