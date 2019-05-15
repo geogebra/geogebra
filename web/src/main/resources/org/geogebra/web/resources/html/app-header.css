@@ -365,10 +365,11 @@ svg.icon.left {
     display: none;
 }
 
-.compact.GeoGebraFrame .menuBtn {
-    margin: 6px 2px 6px 18px;
+.smallScreen.GeoGebraFrame .menuBtn {
+    margin: 4px 2px 6px 18px;
 }
 
-.compact.GeoGebraFrame .headerLogo {
-    margin: 0px;
+.smallScreen.GeoGebraFrame .headerLogo {
+    margin-top: 0px;
+    margin-bottom: 16px;
 }
