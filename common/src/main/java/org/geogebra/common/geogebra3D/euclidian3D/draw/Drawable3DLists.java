@@ -217,15 +217,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawHiddenNotTextured(Renderer renderer) {
-		// points TODO hidden aspect ?
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
-				d3d.drawHidden(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawHiddenNotTextured(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_POINTS]) {
+			d3d.drawHidden(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawHiddenNotTextured(renderer);
 		}
 	}
 
@@ -311,15 +308,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawNotTransparentSurfaces(Renderer renderer) {
-
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawNotTransparentSurfaces(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+			d3d.drawNotTransparentSurface(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawNotTransparentSurfaces(renderer);
 		}
 	}
 
@@ -330,18 +324,15 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawNotTransparentSurfacesClosed(Renderer renderer) {
-
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawNotTransparentSurfacesClosed(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+			d3d.drawNotTransparentSurface(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+			d3d.drawNotTransparentSurface(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawNotTransparentSurfacesClosed(renderer);
 		}
 	}
 
@@ -352,14 +343,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawNotTransparentSurfacesClipped(Renderer renderer) {
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-				d3d.drawNotTransparentSurface(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawNotTransparentSurfacesClipped(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+			d3d.drawNotTransparentSurface(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawNotTransparentSurfacesClipped(renderer);
 		}
 	}
 
@@ -370,21 +359,19 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawHiddenTextured(Renderer renderer) {
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+			d3d.drawHidden(renderer);
+		}
+		if (containsClippedCurves()) {
+			renderer.enableClipPlanesIfNeeded();
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
 				d3d.drawHidden(renderer);
 			}
-			if (containsClippedCurves()) {
-				renderer.enableClipPlanesIfNeeded();
-				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
-					d3d.drawHidden(renderer);
-				}
-				renderer.disableClipPlanesIfNeeded();
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawHiddenTextured(renderer);
-			}
+			renderer.disableClipPlanesIfNeeded();
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawHiddenTextured(renderer);
 		}
 	}
 
@@ -395,13 +382,11 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawTransp(Renderer renderer) {
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
-				d3d.drawTransp(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists().drawTransp(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+			d3d.drawTransp(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists().drawTransp(renderer);
 		}
 	}
 
@@ -412,14 +397,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClosedNotCurved(Renderer renderer) {
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
-				d3d.drawTransp(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawTranspClosedNotCurved(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+			d3d.drawTransp(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawTranspClosedNotCurved(renderer);
 		}
 	}
 
@@ -430,14 +413,12 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClosedCurved(Renderer renderer) {
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
-				d3d.drawTransp(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawTranspClosedCurved(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+			d3d.drawTransp(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawTranspClosedCurved(renderer);
 		}
 	}
 
@@ -448,14 +429,11 @@ public class Drawable3DLists {
 	 *            renderer
 	 */
 	public void drawTranspClipped(Renderer renderer) {
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-				d3d.drawTransp(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawTranspClipped(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+			d3d.drawTransp(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists().drawTranspClipped(renderer);
 		}
 	}
 
@@ -466,22 +444,18 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void draw(Renderer renderer) {
-
-		// curves
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CURVES]) {
+			d3d.drawOutline(renderer);
+		}
+		if (containsClippedCurves()) {
+			renderer.enableClipPlanesIfNeeded();
+			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
 				d3d.drawOutline(renderer);
 			}
-			if (containsClippedCurves()) {
-				renderer.enableClipPlanesIfNeeded();
-				for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]) {
-					d3d.drawOutline(renderer);
-				}
-				renderer.disableClipPlanesIfNeeded();
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists().draw(renderer);
-			}
+			renderer.disableClipPlanesIfNeeded();
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists().draw(renderer);
 		}
 	}
 
@@ -492,7 +466,6 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawLabel(Renderer renderer) {
-
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_TEXTS; i++) {
 			for (Drawable3D d3d : lists[i]) {
 				d3d.drawLabel(renderer);
@@ -505,6 +478,8 @@ public class Drawable3DLists {
 	 * 
 	 * @param renderer
 	 *            opengl context
+	 * @param absolute
+	 *            if absolute position
 	 */
 	public void drawForAbsoluteText(Renderer renderer, boolean absolute) {
 		// texts
@@ -526,15 +501,12 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawSurfacesForHiding(Renderer renderer) {
-
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
-				d3d.drawHiding(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawSurfacesForHiding(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_SURFACES]) {
+			d3d.drawHiding(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawSurfacesForHiding(renderer);
 		}
 	}
 
@@ -545,18 +517,15 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawClosedSurfacesForHiding(Renderer renderer) {
-
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
-				d3d.drawHiding(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
-				d3d.drawHiding(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawClosedSurfacesForHiding(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]) {
+			d3d.drawHiding(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]) {
+			d3d.drawHiding(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawClosedSurfacesForHiding(renderer);
 		}
 	}
 
@@ -567,15 +536,12 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawClippedSurfacesForHiding(Renderer renderer) {
-
-		if (!packBuffers(renderer)) {
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
-				d3d.drawHiding(renderer);
-			}
-			for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
-				((DrawList3D) d3d).getDrawable3DLists()
-						.drawClippedSurfacesForHiding(renderer);
-			}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+			d3d.drawHiding(renderer);
+		}
+		for (Drawable3D d3d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d3d).getDrawable3DLists()
+					.drawClippedSurfacesForHiding(renderer);
 		}
 	}
 
@@ -653,9 +619,5 @@ public class Drawable3DLists {
 			}
 		}
 		return true;
-	}
-
-	static private boolean packBuffers(Renderer renderer) {
-		return renderer.getGeometryManager().packBuffers();
 	}
 }
