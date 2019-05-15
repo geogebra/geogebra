@@ -3173,12 +3173,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawTransp(Renderer renderer1) {
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			if (xOyPlane.isPlateVisible()) {
-				xOyPlaneDrawable.drawTransp(renderer1);
-			}
+		if (xOyPlane.isPlateVisible()) {
+			xOyPlaneDrawable.drawTransp(renderer1);
 		}
-
 		getCompanion().drawTransp(renderer1);
 	}
 
@@ -3189,9 +3186,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawHiding(Renderer renderer1) {
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			xOyPlaneDrawable.drawHiding(renderer1);
-		}
+		xOyPlaneDrawable.drawHiding(renderer1);
 		getCompanion().drawHiding(renderer1);
 	}
 
@@ -3202,19 +3197,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void draw(Renderer renderer1) {
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			for (int i = 0; i < 3; i++) {
-				axisDrawable[i].drawOutline(renderer1);
-			}
+		for (int i = 0; i < 3; i++) {
+			axisDrawable[i].drawOutline(renderer1);
 		}
 
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			// TODO merge this block with the previous when both
-			// Feature.MOB_PACK_JOIN_POINTS and Feature.MOB_PACK_ALL_CURVES
-			// released
-			if (showClippingCube()) {
-				clippingCubeDrawable.drawOutline(renderer1);
-			}
+		if (showClippingCube()) {
+			clippingCubeDrawable.drawOutline(renderer1);
 		}
 
 		getCompanion().draw(renderer1);
@@ -3232,24 +3220,17 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            renderer
 	 */
 	public void drawHidden(Renderer renderer1) {
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			for (int i = 0; i < 3; i++) {
-				axisDrawable[i].drawHidden(renderer1);
-			}
+		for (int i = 0; i < 3; i++) {
+			axisDrawable[i].drawHidden(renderer1);
 		}
 
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			xOyPlaneDrawable.drawHidden(renderer1);
+		xOyPlaneDrawable.drawHidden(renderer1);
+
+		if (showClippingCube()) {
+			clippingCubeDrawable.drawHidden(renderer1);
 		}
 
-		if (!getRenderer().getGeometryManager().packBuffers()) {
-			if (showClippingCube()) {
-				clippingCubeDrawable.drawHidden(renderer1);
-			}
-		}
-
-		if (!getRenderer().getGeometryManager().packBuffers()
-				&& getCompanion().decorationVisible()) {
+		if (getCompanion().decorationVisible()) {
 			pointDecorations.drawHidden(renderer1);
 		}
 
