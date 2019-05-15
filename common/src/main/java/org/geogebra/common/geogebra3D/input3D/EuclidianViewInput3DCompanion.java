@@ -225,16 +225,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	}
 
 	@Override
-	public void drawTransp(Renderer renderer1) {
-		// do nothing
-	}
-
-	@Override
-	public void drawHiding(Renderer renderer1) {
-		// do nothing
-	}
-
-	@Override
 	public void drawFreeCursor(Renderer renderer1) {
 
 		if (input3D.currentlyUseMouse2D()) {

@@ -169,38 +169,6 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		// used for some input3D
 	}
 
-	/**
-	 * @param renderer1
-	 *            renderer
-	 */
-	public void draw(Renderer renderer1) {
-		// used for some input3D
-	}
-
-	/**
-	 * @param renderer1
-	 *            renderer
-	 */
-	public void drawHidden(Renderer renderer1) {
-		// used for some input3D
-	}
-
-	/**
-	 * @param renderer1
-	 *            renderer
-	 */
-	public void drawTransp(Renderer renderer1) {
-		// used for some input3D
-	}
-
-	/**
-	 * @param renderer1
-	 *            renderer
-	 */
-	public void drawHiding(Renderer renderer1) {
-		// used for some input3D
-	}
-
 	public void drawPointAlready(GeoPoint3D point) {
 		getView().drawPointAlready(point.getMoveMode());
 	}

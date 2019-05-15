@@ -3176,7 +3176,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (xOyPlane.isPlateVisible()) {
 			xOyPlaneDrawable.drawTransp(renderer1);
 		}
-		getCompanion().drawTransp(renderer1);
 	}
 
 	/**
@@ -3187,7 +3186,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void drawHiding(Renderer renderer1) {
 		xOyPlaneDrawable.drawHiding(renderer1);
-		getCompanion().drawHiding(renderer1);
 	}
 
 	/**
@@ -3204,9 +3202,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (showClippingCube()) {
 			clippingCubeDrawable.drawOutline(renderer1);
 		}
-
-		getCompanion().draw(renderer1);
-
 	}
 
 	// ///////////////////////////
@@ -3233,9 +3228,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (getCompanion().decorationVisible()) {
 			pointDecorations.drawHidden(renderer1);
 		}
-
-		getCompanion().drawHidden(renderer1);
-
 	}
 
 	public DrawPointDecorations getPointDecorations() {
