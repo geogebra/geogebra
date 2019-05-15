@@ -87,19 +87,15 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	public void drawHidden(Renderer renderer) {
-		if (!getView3D().getRenderer().getGeometryManager().packBuffers()) {
-			renderer.getTextures()
-					.setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-			drawOutline(renderer);
-		}
+		renderer.getTextures().setDashFromLineType(
+				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+		drawOutline(renderer);
 	}
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		if (!getView3D().getRenderer().getGeometryManager().packBuffers()) {
-			renderer.setColor(new Coords(0, 0, 0, 1)); // black
-			drawGeometry(renderer);
-		}
+		renderer.setColor(new Coords(0, 0, 0, 1)); // black
+		drawGeometry(renderer);
 	}
 
 	@Override
