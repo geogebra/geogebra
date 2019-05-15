@@ -76,18 +76,18 @@ dependencies {
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
-	[id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
-	[id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
+    [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
+    [id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
      exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon:
              'Graphing.ico', appStoreId:'1146717204'],
-	[id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
-	[id:'cas', title:'CAS Calculator', transKey:'CASCalculator'],
-	[id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator',
+    [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
+    [id:'cas', title:'CAS Calculator', transKey:'CASCalculator'],
+    [id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator',
      partials:["undo-redo"], appStoreId:'1412748754'],
-	[id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry',
+    [id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry',
      pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
-	[id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
-	[id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
+    [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
+    [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
 gwt {
     gwtVersion = gwtCompilerVersion
@@ -153,16 +153,20 @@ task copyHtml {
     group 'application'
 
     doLast {
-		copy {
-			from file("../common/src/main/resources/giac")
-			into warDirRel
-		}
-		copy {
-			from file("src/main/resources/org/geogebra/web/resources/war")
-			into warDirRel
-		}
+        delete {
+            delete fileTree(dir:'war', include: "*.html");
+        }
+
+        copy {
+            from file("../common/src/main/resources/giac")
+            into warDirRel
+        }
+        copy {
+            from file("src/main/resources/org/geogebra/web/resources/war")
+            into warDirRel
+        }
         String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
-	    def template = {fileName -> file(templateDir + fileName).text}
+        def template = {fileName -> file(templateDir + fileName).text}
         String html = template("app-template.html")
         String splash = template("classic-splash.html")
 
@@ -226,16 +230,16 @@ task copyHtml {
         if(!file("war/debug.css").exists()){
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
-		appSpecs.each({app-> if(app.id != "classic") {
-			def appID = app.id.split("-")[0]
-			// TODO notes features should go to stable, then we simplify this
-			file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(appID))
-			file("war/${app.id}-template-beta.html").text = appHtml(app, true)
-			// TODO notes features should go to stable, then we simplify this
-			file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(appID), true), app.title)
-			file("war/${app.id}.html").text = english(appHtml(app, true), app.title)
-			file("war/${app.id}-canary.html").text = english(appHtml(app, "\"canary\""), app.title)
-		}});
+        appSpecs.each({app-> if(app.id != "classic") {
+            def appID = app.id.split("-")[0]
+            // TODO notes features should go to stable, then we simplify this
+            file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(appID))
+            file("war/${app.id}-template-beta.html").text = appHtml(app, true)
+            // TODO notes features should go to stable, then we simplify this
+            file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(appID), true), app.title)
+            file("war/${app.id}.html").text = english(appHtml(app, true), app.title)
+            file("war/${app.id}-canary.html").text = english(appHtml(app, "\"canary\""), app.title)
+        }});
     }
 }
 
@@ -279,7 +283,7 @@ task mergeDeploy(){
       deployText += file("./build/gwt/out/web3d/js/webfont.js").text
       file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://cdn.geogebra.org/apps/latest/')
-	  file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://cdn.geogebra.org/apps/${currentVersion}/")
+      file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://cdn.geogebra.org/apps/${currentVersion}/")
    }
 }
 
@@ -332,12 +336,12 @@ def gwtGlobalCache = file('build/gwt/devModeCache');
 // https://issues.gradle.org/browse/GRADLE-1254
 task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
     description 'Starts a codeserver, and a simple webserver for development'
-	doFirst {
-		delete {
-			delete gwtGlobalCache
-		}
-		gwtGlobalCache.mkdirs()
-	}
+    doFirst {
+        delete {
+            delete gwtGlobalCache
+        }
+        gwtGlobalCache.mkdirs()
+    }
     main 'com.google.gwt.dev.DevMode'
     maxHeapSize '4096m'
     classpath ((configurations.compile as Set<String>) 
@@ -353,7 +357,7 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml
         '-war', file(warDirRel),
         devModule
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
-	systemProperty 'java.io.tmpdir', gwtGlobalCache.getAbsolutePath()
+    systemProperty 'java.io.tmpdir', gwtGlobalCache.getAbsolutePath()
 }
 
 task createDraftBundleZip (type: Zip) {
