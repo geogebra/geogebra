@@ -38,6 +38,11 @@ import org.geogebra.common.main.Feature;
 public abstract class Renderer {
 
 	/**
+	 * used for showing depth instead of color (for testing)
+	 */
+	final public static boolean TEST_DRAW_DEPTH_TO_COLOR = false;
+
+	/**
 	 * renderer type (shader or not)
 	 */
 	public enum RendererType {
@@ -796,7 +801,10 @@ public abstract class Renderer {
 		disableBlending();
 
 		// drawing hiding parts
-		rendererImpl.setColorMask(ColorMask.NONE); // no writing in color buffer
+		if (!TEST_DRAW_DEPTH_TO_COLOR) {
+			// no writing in color buffer
+			rendererImpl.setColorMask(ColorMask.NONE);
+		}
 		if (cullFaceFront) {
 			rendererImpl.setCullFaceFront(); // draws inside parts
 		} else {
@@ -851,11 +859,16 @@ public abstract class Renderer {
 		drawCursor3D();
 		drawHidden();
 		drawOpaqueSurfaces();
-		drawTransparentSurfaces();
-		drawHidingSurfaces(true);
-		drawTransparentSurfaces();
-		drawHidingSurfaces(false);
-		drawTransparentSurfaces();
+		if (TEST_DRAW_DEPTH_TO_COLOR) {
+			drawHidingSurfaces(true);
+			drawHidingSurfaces(false);
+		} else {
+			drawTransparentSurfaces();
+			drawHidingSurfaces(true);
+			drawTransparentSurfaces();
+			drawHidingSurfaces(false);
+			drawTransparentSurfaces();
+		}
 		drawNotHidden();
 		drawCursor3DAtEnd();
 		drawAbsoluteTexts();

@@ -34,6 +34,33 @@ public class VertexShader {
 			+ "uniform int layer;\n"
 			+ "uniform int opaqueSurfaces;\n";
 
+	final private static String light =
+			  "  if (enableLight == 1){// color with light\n"
+			+ "    float factor = dot(n, lightPosition);\n"
+			+ "    factor = float(culling) * factor;\n"
+			+ "    factor = max(0.0, factor);\n"
+			+ "    float ambiant = ambiantDiffuse[0];\n"
+			+ "    float diffuse = ambiantDiffuse[1];\n"
+			+ "    if (eyePosition[3] < 0.5){ // parallel projection\n"
+			+ "      viewDirection = vec3(eyePosition);\n"
+			+ "    }else{ // perspective projection\n"
+			+ "      viewDirection = normalize(attribute_Position - vec3(eyePosition));\n"
+			+ "    }\n"
+			+ "    lightReflect = normalize(reflect(lightPosition, n));\n"
+			+ "    varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
+			+ "    varying_Color.a = c.a;\n" 
+			+ "  }else{ //no light\n"
+			+ "    lightReflect = vec3(0.0,0.0,0.0);\n"
+			+ "    varying_Color = c;\n" 
+			+ "  }\n";
+	
+	final private static String depthToColorString =
+			  "  float gray = gl_Position.z + 0.5;\n"
+			+ "  varying_Color.r = gray;\n"
+			+ "  varying_Color.g = gray;\n"
+			+ "  varying_Color.b = gray;\n"
+			+ "  coordTexture = attribute_Texture;\n";
+
 	final private static String shiny_packed =
 			inUniform
 					+ "\n"
@@ -117,24 +144,9 @@ public class VertexShader {
 					+ "  }\n"
 
 					+ "\n"
-					+ "  if (enableLight == 1){// color with light\n"
-					+ "    float factor = dot(n, lightPosition);\n"
-					+ "    factor = float(culling) * factor;\n"
-					+ "    factor = max(0.0, factor);\n"
-					+ "    float ambiant = ambiantDiffuse[0];\n"
-					+ "    float diffuse = ambiantDiffuse[1];\n"
-					+ "    if (eyePosition[3] < 0.5){ // parallel projection\n"
-					+ "      viewDirection = vec3(eyePosition);\n"
-					+ "    }else{ // perspective projection\n"
-					+ "      viewDirection = normalize(attribute_Position - vec3(eyePosition));\n"
-					+ "    }\n"
-					+ "    lightReflect = normalize(reflect(lightPosition, n));\n"
-					+ "    varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
-					+ "    varying_Color.a = c.a;\n" 
-					+ "  }else{ //no light\n"
-					+ "    lightReflect = vec3(0.0,0.0,0.0);\n"
-					+ "    varying_Color = c;\n" 
-					+ "  }\n"
+
+					+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR ? depthToColorString
+							: light)
 
 					+ "\n"
 					+ "  coordTexture = attribute_Texture;\n" 

@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.main;
 
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
@@ -22,6 +23,22 @@ public class FragmentShader {
 			+ "#endif\n";
 
 	final private static String fragmentHeaderHTML5 = "precision mediump float;\n";
+
+	final private static String light =
+			  "if (enableShine == 1){\n"
+			+ "  float specular = dot(lightReflect, viewDirection);\n"
+			+ "  if (specular > 0.0){\n"
+			+ "    float specular2  = specular  * specular;\n"
+			+ "    float specular4  = specular2 * specular2;\n"
+			+ "    float specular16  = specular4 * specular4;\n"
+			+ "    color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"
+			+ "    color.a = varying_Color.a;\n"
+			+ "  }else{\n"
+			+ "    color = varying_Color;\n"
+			+ "  }\n"
+			+ "}else{\n"
+			+ "  color = varying_Color;\n"
+			+ "}\n";
 
 	/**
 	 * @param isHTML5
@@ -82,20 +99,9 @@ public class FragmentShader {
 
 				+ "\n// set color, with eventually shine effect\n"
 				+ "vec4 color;\n" 
-				+ "if (enableShine == 1){\n"
-				+ "  float specular = dot(lightReflect, viewDirection);\n"
-				+ "  if (specular > 0.0){\n"
-				+ "    float specular2  = specular  * specular;\n"
-				+ "    float specular4  = specular2 * specular2;\n"
-				+ "    float specular16  = specular4 * specular4;\n"
-				+ "    color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"
-				+ "    color.a = varying_Color.a;\n"
-				+ "  }else{\n"
-				+ "    color = varying_Color;\n"
-				+ "  }\n"
-				+ "}else{\n"
-				+ "  color = varying_Color;\n"
-				+ "}\n"
+				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR
+						? "color = varying_Color;\n"
+						: light)
 
 				+ "\n// fading texture (for planes etc.)\n"
 				+ "if (textureType == "
@@ -103,7 +109,10 @@ public class FragmentShader {
 				+ "  float factor;\n" + "  x = max(coordTexture.x, 0.0);\n"
 				+ "  float y = max(coordTexture.y, 0.0);\n"
 				+ "  gl_FragColor.rgb  = color.rgb;\n"
-				+ "  gl_FragColor.a = color.a * (1.0 - x) * (1.0 - y);\n"
+				+ "  gl_FragColor.a = "
+				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR ? "1.0"
+						: "color.a * (1.0 - x) * (1.0 - y)")
+				+ ";\n"
 				+ "  return;\n"
 				+ "}\n"
 
@@ -115,7 +124,9 @@ public class FragmentShader {
 				+ "    discard; // don't write\n"
 				+ "  }\n"
 				+ "  gl_FragColor.rgb = color.rgb;\n"
-				+ "  gl_FragColor.a = textureVal.a;\n"
+				+ "  gl_FragColor.a = "
+				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR ? "1.0" : "textureVal.a")
+				+ ";\n"
 				+ "  return;\n"
 				+ "}\n"
 
@@ -131,6 +142,10 @@ public class FragmentShader {
 				+ "  if (textureDash.a < 0.5){\n"
 				+ "    discard; // don't write\n" + "  }\n"
 				+ "  gl_FragColor = color;\n"
+				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR
+						? "  gl_FragColor.a = 1.0;\n"
+						: "")
+				+ ";\n"
 				+ "  return;\n"
 				+ "}\n "
 				
@@ -146,11 +161,19 @@ public class FragmentShader {
 				+ "  if (textureDash.a < 0.5){\n"
 				+ "    discard; // don't write\n" + "  }\n"
 				+ "  gl_FragColor = color;\n"
+				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR
+						? "  gl_FragColor.a = 1.0;\n"
+						: "")
+				+ ";\n"
 				+ "  return;\n" 
 				+ "}\n "
 
 				+ "\n// default: no texture (e.g. for points)\n"
 				+ "gl_FragColor = color;\n"
+				+ (Renderer.TEST_DRAW_DEPTH_TO_COLOR
+						? "  gl_FragColor.a = 1.0;\n"
+						: "")
+				+ ";\n"
 				
 				+ "} ";
 
