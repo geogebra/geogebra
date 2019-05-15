@@ -247,6 +247,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void forceHeaderVisibility(Visibility visible) {
 		forcedHeaderVisibility = visible;
+		updateHeaderVisible();
 		fitSizeToScreen();
 	}
 
@@ -342,6 +343,19 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				header.removeClassName("compact");
 			}
 			updateArticleHeight();
+		}
+	}
+
+	private void updateHeaderVisible() {
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (header != null) {
+		boolean visible = forcedHeaderVisibility != Visibility.HIDDEN;
+			header.getStyle().setProperty("display", visible ? "" : "none");
+			if (isHeaderVisible != visible) {
+				isHeaderVisible = visible;
+		        app.onHeaderVisible();
+			}
+		    updateArticleHeight();
 		}
 	}
 
