@@ -19,6 +19,7 @@ import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorTypingTest {
+
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
@@ -27,28 +28,48 @@ public class EditorTypingTest {
 	}
 
 	private void checkEditorInsert(String input, String output) {
-		MathFieldD mathField = new MathFieldD();
-		mathField.insertString(input);
-		MathSequence rootComponent = getRootComponent(mathField);
-		Assert.assertEquals(output,
-				GeoGebraSerializer.serialize(rootComponent));
+		new EditorChecker().insert(input).checkAsciiMath(output);
+
 	}
 
-	private void checkEditorTypeRaw(String[] inputs, String output) {
-		MathFieldD mathField = new MathFieldD();
-		for (String input : inputs) {
-			KeyboardInputAdapter.emulateInput(mathField.getInternal(), input);
-			mathField.getInternal()
-					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
+	private class EditorChecker {
+		private MathFieldD mathField = new MathFieldD();
+
+		protected EditorChecker() {
+			// avoid synthetic access: can't be private
 		}
-		MathSequence rootComponent = getRootComponent(mathField);
-		Assert.assertEquals(output, rootComponent + "");
-	}
 
-	private MathSequence getRootComponent(MathFieldD mathField) {
-		MathFieldInternal mathFieldInternal = mathField.getInternal();
-		EditorState editorState = mathFieldInternal.getEditorState();
-		return editorState.getRootComponent();
+		public void checkAsciiMath(String output) {
+			MathSequence rootComponent = getRootComponent(mathField);
+			Assert.assertEquals(output,
+					GeoGebraSerializer.serialize(rootComponent));
+		}
+
+		public EditorChecker type(String input) {
+			KeyboardInputAdapter.emulateInput(mathField.getInternal(), input);
+			return this;
+		}
+
+		public EditorChecker insert(String input) {
+			mathField.insertString(input);
+			return this;
+		}
+
+		public EditorChecker typeKey(int key) {
+			mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
+			return this;
+		}
+
+		public void checkRaw(String output) {
+			MathSequence rootComponent = getRootComponent(mathField);
+			Assert.assertEquals(output, rootComponent + "");
+		}
+
+		private MathSequence getRootComponent(MathFieldD mathField) {
+			MathFieldInternal mathFieldInternal = mathField.getInternal();
+			EditorState editorState = mathFieldInternal.getEditorState();
+			return editorState.getRootComponent();
+		}
 	}
 
 	@Test
@@ -157,9 +178,11 @@ public class EditorTypingTest {
 		checkEditorInsert(Korean.flattenKorean("\u3134"), "\u1102");
 		checkEditorInsert(Korean.flattenKorean("\uC8FC\uC778\uC7A5"),
 				"\uC8FC\uC778\uC7A5");
-		checkEditorInsert(Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"),
+		checkEditorInsert(
+				Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"),
 				"\uC774\uC81C\uC880\uC790\uC790");
-		checkEditorInsert(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
+		checkEditorInsert(
+				Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
 				"\uC544\uBAA8\uB974\uACA0\uB2E4");
 
 		checkEditorInsert("\u3146\u1161\u11BC", "\uC30D");
@@ -196,8 +219,7 @@ public class EditorTypingTest {
 
 	@Test
 	public void testInverseTrigEditor() {
-		checkEditorTypeRaw(new String[] {
-				"cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2" },
+		type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2").checkRaw(
 				"MathSequence[FnFRAC[MathSequence[FnAPPLY[MathSequence[c, o, s, "
 						+ Unicode.SUPERSCRIPT_MINUS + ", "
 						+ Unicode.SUPERSCRIPT_1
@@ -206,7 +228,29 @@ public class EditorTypingTest {
 
 	@Test
 	public void testLogBase() {
-		checkEditorTypeRaw(new String[] { "log_2", "(4)" },
+		type("log_2").typeKey(JavaKeyCodes.VK_RIGHT).type("(4)").checkRaw(
 				"MathSequence[FnLOG[MathSequence[2], MathSequence[4]]]");
+	}
+
+	@Test
+	public void testSlash() {
+		type("/1").typeKey(JavaKeyCodes.VK_RIGHT).type("2")
+				.checkAsciiMath("(1)/(2)");
+		type("1/2").checkAsciiMath("(1)/(2)");
+		type("12").typeKey(JavaKeyCodes.VK_LEFT).type("/")
+				.checkAsciiMath("(1)/()2");
+	}
+
+	@Test
+	public void testDivision() {
+		type(Unicode.DIVIDE + "1").typeKey(JavaKeyCodes.VK_RIGHT).type("2")
+				.checkAsciiMath("1/2");
+		type("1" + Unicode.DIVIDE + "2").checkAsciiMath("1/2");
+		type("12").typeKey(JavaKeyCodes.VK_LEFT).type(Unicode.DIVIDE + "")
+				.checkAsciiMath("1/2");
+	}
+
+	private EditorChecker type(String input) {
+		return new EditorChecker().type(input);
 	}
 }
