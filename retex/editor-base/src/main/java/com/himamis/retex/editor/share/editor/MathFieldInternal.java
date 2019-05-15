@@ -717,4 +717,16 @@ public class MathFieldInternal
 			listener.onTab(shiftDown);
 		}
 	}
+
+	/**
+	 * When division is the first character in current sequence (first in whole
+	 * formula, first under square root...), jump before it. Needs to be called
+	 * explicitly so that we can distinguish between keyboard input and other
+	 * other inputs (paste)
+	 */
+	public void onDivisionInserted() {
+		if (editorState.getCurrentField().size() == 1) {
+			editorState.setCurrentOffset(0);
+		}
+	}
 }

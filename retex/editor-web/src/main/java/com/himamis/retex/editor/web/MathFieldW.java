@@ -1146,4 +1146,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		mathFieldInternal.setCaretPath(path);
 	}
 
+	/**
+	 * Update cursor position after division sign was inserted
+	 */
+	public void onDivisionInserted() {
+		mathFieldInternal.onDivisionInserted();
+	}
+
 }
