@@ -58,7 +58,6 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, PERPENDICULAR);
 
 		row = mathKeyboard.nextRow(10.0f);
-		addButton(row, buttonFactory.createEmptySpace(0.5f));
 		addInputButton(row, buttonFactory, ELEMENT_OF);
 		addInputButton(row, buttonFactory, SUBSET_OF);
 		addInputButton(row, buttonFactory, SUBSET_OF_OR_EQUAL_TO);
@@ -70,16 +69,17 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, AMPERSAND);
 		addInputButton(row, buttonFactory, AT);
 		addInputButton(row, buttonFactory, HASHTAG);
-		addButton(row, buttonFactory.createEmptySpace(0.5f));
+		addTranslateInputCommandButton(row, buttonFactory, "Translate.currency",
+				"Translate.currency", 1.0f);
 
 		row = mathKeyboard.nextRow(10.0f);
-		addButton(row, buttonFactory.createEmptySpace(1.5f));
+		addButton(row, buttonFactory.createEmptySpace(0.5f));
+		addInputButton(row, buttonFactory, "(");
+		addInputButton(row, buttonFactory, ")");
 		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
 		addInputButton(row, buttonFactory, RIGHT_SQUARE_BRACKET);
 		addInputButton(row, buttonFactory, COLON);
 		addInputButton(row, buttonFactory, QUOTATION_MARK);
-		addTranslateInputCommandButton(row, buttonFactory, "Translate.currency",
-				"Translate.currency", 1.0f);
 		addInputButton(row, buttonFactory, MINUTES);
 		addInputButton(row, buttonFactory, SECONDS);
 		addButton(row, buttonFactory.createEmptySpace(0.3f));
