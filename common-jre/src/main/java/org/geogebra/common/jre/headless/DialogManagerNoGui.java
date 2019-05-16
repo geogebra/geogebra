@@ -72,12 +72,13 @@ public class DialogManagerNoGui extends DialogManager implements ErrorHandler {
 		new SegmentHandler(geoPoint2, geoPoint2.getKernel())
 				.doSegmentFixedAsync(getInput(), handler, this,
 
-				new AsyncOperation<Boolean>() {
+						new AsyncOperation<Boolean>() {
 
-					public void callback(Boolean obj) {
+							@Override
+							public void callback(Boolean obj) {
 								// ignore
-					}
-				});
+							}
+						});
 
 	}
 

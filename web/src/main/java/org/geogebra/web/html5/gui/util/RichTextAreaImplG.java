@@ -10,7 +10,4 @@ public class RichTextAreaImplG extends RichTextAreaImplMozilla {
 		// makeEditable(true);
 	}
 
-	private native void makeEditable(boolean editable) /*-{
-		_this.@com.google.gwt.user.client.ui.impl.RichTextAreaImpl::elem.contentWindow.document.body.contentEditable = editable;
-	}-*/;
 }

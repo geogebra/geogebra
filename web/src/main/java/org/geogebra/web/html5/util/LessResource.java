@@ -22,7 +22,7 @@ import com.google.gwt.resources.ext.ResourceGeneratorType;
 /**
  * A resource for compiled LESS file
  */
-@DefaultExtensions(value = { ".less" })
+@DefaultExtensions({ ".less" })
 @ResourceGeneratorType(LessResourceGenerator.class)
 public interface LessResource extends TextResource {
 	//this is a hacked version of SVGResource, alll fancy stuff is gone

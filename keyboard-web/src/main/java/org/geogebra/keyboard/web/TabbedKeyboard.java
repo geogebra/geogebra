@@ -230,6 +230,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		updatePanel(keyboard, layout, bh);
 		layout.registerKeyboardObserver(new KeyboardObserver() {
 
+			@Override
 			public void keyboardModelChanged(Keyboard l2) {
 				updatePanel(keyboard, l2, bh);
 			}

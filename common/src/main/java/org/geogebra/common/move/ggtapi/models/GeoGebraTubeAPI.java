@@ -353,7 +353,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	@Override
 	public void getUsersOwnMaterials(MaterialCallbackI cb, Order order) {
-		System.out.println(client.getModel().getUserId());
 		performRequest(
 				MaterialRequest.forUser(client.getModel().getUserId(), client)
 						.toJSONString(client),

@@ -19,11 +19,6 @@ import com.google.gwt.core.client.JsArrayString;
 public class AnimatedGifEncoderW implements Encoder {
 
 	/**
-	 * Reference to the gif object created internally.
-	 */
-	private JavaScriptObject internal;
-
-	/**
 	 * Milliseconds between frames.
 	 */
 	private int frameDelay;

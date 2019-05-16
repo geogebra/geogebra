@@ -34,8 +34,6 @@ import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -207,21 +205,6 @@ public class PerformanceTest implements EntryPoint {
 		GeoGebraProfiler.getInstance().profileEnd();
 	}
 
-	private static void loadAppletAsync() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			@Override
-			public void onSuccess() {
-				startGeoGebra(ArticleElement.getGeoGebraMobileTags());
-			}
-
-			@Override
-			public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-			}
-		});
-	}
-
 	/**
 	 * @param geoGebraMobileTags
 	 *            article tags
@@ -229,10 +212,5 @@ public class PerformanceTest implements EntryPoint {
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 		GeoGebraFrameSimple.main(geoGebraMobileTags);
 	}
-
-	private native void exportGGBElementRenderer() /*-{
-		$wnd.renderGGBElement = $entry(@org.geogebra.web.html5.gui.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
-	}-*/;
 
 }

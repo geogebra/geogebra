@@ -1,7 +1,7 @@
 
 buildscript {
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
     }
 }
 
@@ -10,7 +10,7 @@ plugins {
     id 'pmd'
     id 'checkstyle'
     id 'com.github.spotbugs' version '1.6.9'
-    id 'de.aaschmid.cpd' version '1.1'
+    id 'de.aaschmid.cpd' version '2.0'
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -121,7 +121,7 @@ gwt {
             localWorkers = project.getProperty("gworkers")
         }
         if (project.hasProperty("gdetailed")){
-            style = de.richsource.gradle.plugins.gwt.Style.DETAILED
+            style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED
         } else {
             disableClassMetadata = true
         }
@@ -132,7 +132,7 @@ gwt {
     }
 }
 
-tasks.withType(de.richsource.gradle.plugins.gwt.AbstractGwtActionTask) {
+tasks.withType(org.wisepersist.gradle.plugins.gwt.AbstractGwtActionTask) {
     jvmArgs '-Xss512M'
 }
 

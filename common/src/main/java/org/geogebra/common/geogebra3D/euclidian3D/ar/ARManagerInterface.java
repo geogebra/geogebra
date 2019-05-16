@@ -5,8 +5,11 @@ import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * Interface for Augmented Reality managers
+ * 
+ * @param <T>
+ *            touch event type
  */
-public interface ARManagerInterface<TouchEventType> {
+public interface ARManagerInterface<T> {
 
     Coords getHittingDirection();
 
@@ -14,7 +17,7 @@ public interface ARManagerInterface<TouchEventType> {
 
     Coords getHittingFloor();
 
-    void proceed(TouchEventType event);
+    void proceed(T event);
 
     double checkHittingFloorZ(double z);
 

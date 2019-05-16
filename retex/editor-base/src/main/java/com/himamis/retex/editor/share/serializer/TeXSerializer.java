@@ -24,12 +24,6 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
 			{ "\u223C ", "\\^{\\ } ", "\\backslash{}" } };
 
-	/**
-	 * Creates new TeX serializer
-	 */
-	public TeXSerializer() {
-	}
-
 	@Override
 	public void serialize(MathCharacter mathCharacter,
 			StringBuilder stringBuilder) {

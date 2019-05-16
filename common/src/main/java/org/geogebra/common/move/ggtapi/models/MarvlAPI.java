@@ -130,7 +130,6 @@ public class MarvlAPI implements BackendAPI {
 				null, new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
-						System.out.println(responseStr);
 						try {
 							MarvlAPI.this.availabilityCheckDone = true;
 
@@ -153,7 +152,7 @@ public class MarvlAPI implements BackendAPI {
 
 					@Override
 					public void onError(String error) {
-						System.out.println(error);
+						Log.warn(error);
 						MarvlAPI.this.availabilityCheckDone = true;
 						MarvlAPI.this.available = false;
 						user.setShibbolethAuth(true);

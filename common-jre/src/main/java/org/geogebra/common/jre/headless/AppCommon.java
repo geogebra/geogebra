@@ -82,7 +82,7 @@ public class AppCommon extends App {
 
 			@Override
 			protected void print(String logEntry, Level level) {
-				System.out.println(logEntry);
+				System.out.println(logEntry); // NOPMD
 			}
 
 			@Override
@@ -359,24 +359,25 @@ public class AppCommon extends App {
     public GgbAPI getGgbApi() {
 		return new GgbAPIJre(this) {
 
+			@Override
 			public byte[] getGGBfile() {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
+			@Override
 			public void setErrorDialogsActive(boolean flag) {
 				// TODO Auto-generated method stub
-
 			}
 
+			@Override
 			public void refreshViews() {
 				// TODO Auto-generated method stub
-
 			}
 
+			@Override
 			public void openFile(String strURL) {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override

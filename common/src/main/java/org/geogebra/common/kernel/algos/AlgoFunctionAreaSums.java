@@ -748,7 +748,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 	@Override
 	public final void compute() {
-		System.out.println("compute");
 		compute(false);
 	}
 

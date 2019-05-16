@@ -9,6 +9,9 @@ dependencies {
 		'io.bit3:jsass:5.4.0'
 }
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 configurations.all {
    resolutionStrategy {
        failOnVersionConflict()

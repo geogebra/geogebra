@@ -8,13 +8,13 @@ import java.util.Map;
  */
 public class Exponents {
 
-	private Map<Base, Integer> exponents;
+	private Map<Base, Integer> exponentMap;
 
 	/**
 	 * Initializes the exponents with a new Map and sets every exponent to zero.
 	 */
 	public Exponents() {
-		exponents = new HashMap<>();
+		exponentMap = new HashMap<>();
 		initWithZero();
 	}
 
@@ -22,11 +22,11 @@ public class Exponents {
 	 * Sets every exponent to zero.
 	 */
 	public void initWithZero() {
-		exponents.put(Base.x, 0);
-		exponents.put(Base.y, 0);
-		exponents.put(Base.z, 0);
-		exponents.put(Base.theta, 0);
-		exponents.put(Base.pi, 0);
+		exponentMap.put(Base.x, 0);
+		exponentMap.put(Base.y, 0);
+		exponentMap.put(Base.z, 0);
+		exponentMap.put(Base.theta, 0);
+		exponentMap.put(Base.pi, 0);
 	}
 
 	/**
@@ -34,9 +34,9 @@ public class Exponents {
 	 * @param base The base on which the exponent is increased.
 	 */
 	public void increase(Base base) {
-		int exponent = exponents.get(base);
+		int exponent = exponentMap.get(base);
 		exponent++;
-		exponents.put(base, exponent);
+		exponentMap.put(base, exponent);
 	}
 
 	/**
@@ -44,6 +44,6 @@ public class Exponents {
 	 * @return The exponent of a base.
 	 */
 	public int get(Base base) {
-		return exponents.get(base);
+		return exponentMap.get(base);
 	}
 }

@@ -992,7 +992,6 @@ public class ToolBar {
 				}
 			}
 			if (!found) {
-				System.out.println(menu);
 				return false;
 			}
 		}

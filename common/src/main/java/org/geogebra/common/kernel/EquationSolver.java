@@ -50,16 +50,6 @@ public class EquationSolver implements EquationSolverInterface {
 	private NewtonSolver rootFinderNewton;
 	private static Comparator<Complex> comparatorReal;
 
-	/**
-	 * Creates new equation solver
-	 * 
-	 */
-	public EquationSolver() {
-		// we need someone to polish our roots
-		// rootPolisher = new RealRoot();
-		// extrFinder = kernel.getExtremumFinder();
-	}
-
 	@Override
 	final public int polynomialRoots(double[] roots, boolean multiple) {
 		int realRoots;

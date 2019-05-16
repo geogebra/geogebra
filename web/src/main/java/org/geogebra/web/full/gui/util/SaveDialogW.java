@@ -398,10 +398,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
-	private static String getTitleOnly(String key) {
-		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
-	}
-
 	/**
 	 * Update localization
 	 */

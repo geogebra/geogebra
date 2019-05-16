@@ -21,11 +21,11 @@ public interface GGraphics2D {
 	 * @see #setClip
 	 * @see #setComposite
 	 */
-	public abstract void draw(GShape s);
+	void draw(GShape s);
 
-	public abstract void drawImage(GBufferedImage img, int x, int y);
+	void drawImage(GBufferedImage img, int x, int y);
 
-	public abstract void drawImage(MyImage img, int x, int y);
+	void drawImage(MyImage img, int x, int y);
 
 	/**
 	 * Renders the text of the specified <code>String</code>, using the current
@@ -50,7 +50,7 @@ public interface GGraphics2D {
 	 *             if <code>str</code> is <code>null</code>
 	 * @since JDK1.0
 	 */
-	public abstract void drawString(String str, int x, int y);
+	void drawString(String str, int x, int y);
 
 	/**
 	 * Renders the text specified by the specified <code>String</code>, using
@@ -80,7 +80,7 @@ public interface GGraphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	public abstract void drawString(String str, double x, double y);
+	void drawString(String str, double x, double y);
 
 	/**
 	 * Fills the interior of a <code>Shape</code> using the settings of the
@@ -97,7 +97,7 @@ public interface GGraphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	public abstract void fill(GShape s);
+	void fill(GShape s);
 
 	/**
 	 * Sets the <code>Composite</code> for the <code>Graphics2D</code> context.
@@ -124,7 +124,7 @@ public interface GGraphics2D {
 	 * @see GAlphaComposite
 	 * @see SecurityManager#checkPermission
 	 */
-	public abstract void setComposite(GComposite comp);
+	void setComposite(GComposite comp);
 
 	/**
 	 * Sets the <code>Paint</code> attribute for the <code>Graphics2D</code>
@@ -139,7 +139,7 @@ public interface GGraphics2D {
 	 * @see GGradientPaint
 	 * @see GTexturePaint
 	 */
-	public abstract void setPaint(GPaint paint);
+	void setPaint(GPaint paint);
 
 	/**
 	 * Sets the <code>Stroke</code> for the <code>Graphics2D</code> context.
@@ -150,7 +150,7 @@ public interface GGraphics2D {
 	 * @see GBasicStroke
 	 * @see #getStroke
 	 */
-	public abstract void setStroke(GBasicStroke s);
+	void setStroke(GBasicStroke s);
 
 	/**
 	 * Sets the value of a single preference for the rendering algorithms. Hint
@@ -166,7 +166,7 @@ public interface GGraphics2D {
 	 *            category.
 	 * @see com.himamis.retex.renderer.share.platform.graphics.RenderingHints
 	 */
-	public abstract void setRenderingHint(int hintKey, int hintValue);
+	void setRenderingHint(int hintKey, int hintValue);
 
 	/**
 	 * Concatenates the current <code>Graphics2D</code> <code>Transform</code>
@@ -186,7 +186,7 @@ public interface GGraphics2D {
 	 * @param ty
 	 *            the distance to translate along the y-axis
 	 */
-	public abstract void translate(double tx, double ty);
+	void translate(double tx, double ty);
 
 	/**
 	 * Concatenates the current <code>Graphics2D</code> <code>Transform</code>
@@ -210,7 +210,7 @@ public interface GGraphics2D {
 	 *            operations are multiplied relative to previous rendering
 	 *            operations.
 	 */
-	public abstract void scale(double sx, double sy);
+	void scale(double sx, double sy);
 
 	/**
 	 * Composes an <code>AffineTransform</code> object with the
@@ -230,7 +230,7 @@ public interface GGraphics2D {
 	 * 
 	 * @see GAffineTransform
 	 */
-	public abstract void transform(GAffineTransform Tx);
+	void transform(GAffineTransform Tx);
 
 	/**
 	 * Returns the current <code>Composite</code> in the <code>Graphics2D</code>
@@ -240,7 +240,7 @@ public interface GGraphics2D {
 	 *         defines a compositing style.
 	 * @see #setComposite
 	 */
-	public abstract GComposite getComposite();
+	GComposite getComposite();
 
 	/**
 	 * Returns the background color used for clearing a region.
@@ -248,7 +248,7 @@ public interface GGraphics2D {
 	 * @return the current <code>Graphics2D</code> <code>Color</code>, which
 	 *         defines the background color.
 	 */
-	public abstract GColor getBackground();
+	GColor getBackground();
 
 	/**
 	 * Returns the current <code>Stroke</code> in the <code>Graphics2D</code>
@@ -258,7 +258,7 @@ public interface GGraphics2D {
 	 *         defines the line style.
 	 * @see #setStroke
 	 */
-	public abstract GBasicStroke getStroke();
+	GBasicStroke getStroke();
 
 	/**
 	 * Intersects the current <code>Clip</code> with the interior of the
@@ -300,70 +300,70 @@ public interface GGraphics2D {
 	 * @since 1.2
 	 */
 
-	public abstract GFontRenderContext getFontRenderContext();
+	GFontRenderContext getFontRenderContext();
 
-	public abstract GColor getColor();
+	GColor getColor();
 
-	public abstract GFont getFont();
+	GFont getFont();
 
-	public abstract void setFont(GFont font);
+	void setFont(GFont font);
 
-	public abstract void setColor(GColor selColor);
+	void setColor(GColor selColor);
 
-	public abstract void fillRect(int x, int y, int w, int h);
+	void fillRect(int x, int y, int w, int h);
 
-	public abstract void clearRect(int x, int y, int w, int h);
+	void clearRect(int x, int y, int w, int h);
 
-	public abstract void drawLine(int x1, int y1, int x2, int y2);
+	void drawLine(int x1, int y1, int x2, int y2);
 
-	public abstract void setClip(GShape shape);
+	void setClip(GShape shape);
 
-	public abstract void setClip(GShape shape, boolean restoreSaveContext);
+	void setClip(GShape shape, boolean restoreSaveContext);
 
-	public void resetClip();
+	void resetClip();
 
-	public abstract void drawRect(int x, int y, int width, int height);
+	void drawRect(int x, int y, int width, int height);
 
-	public abstract void setClip(int x, int y, int width, int height);
+	void setClip(int x, int y, int width, int height);
 
-	public abstract void setClip(int x, int y, int width, int height,
+	void setClip(int x, int y, int width, int height,
 			boolean restoreSaveContext);
 
-	public abstract void drawRoundRect(int x, int y, int width, int height,
+	void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
-	public abstract void fillRoundRect(int x, int y, int width, int height,
+	void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
-	public abstract void setAntialiasing();
+	void setAntialiasing();
 
-	public abstract void setTransparent();
+	void setTransparent();
 
-	public abstract Object setInterpolationHint(
+	Object setInterpolationHint(
 			boolean needsInterpolationRenderingHint);
 
-	public abstract void resetInterpolationHint(Object oldInterpolationHint);
+	void resetInterpolationHint(Object oldInterpolationHint);
 
-	public abstract void updateCanvasColor();
+	void updateCanvasColor();
 
-	public abstract void drawStraightLine(double xCrossPix, double d,
+	void drawStraightLine(double xCrossPix, double d,
 			double xCrossPix2, double i);
 
 	/**
 	 * Saves the state of the current transformation matrix.
 	 */
-	public void saveTransform();
+	void saveTransform();
 
 	/**
 	 * Restores the transformation matrix to the state where
 	 * <b>saveTransform()</b> was called.
 	 */
-	public void restoreTransform();
+	void restoreTransform();
 
 	/**
 	 * start a new general path we'll add lines etc. to
 	 */
-	public abstract void startGeneralPath();
+	void startGeneralPath();
 
 	/**
 	 * add straight line to current general path
@@ -377,13 +377,13 @@ public interface GGraphics2D {
 	 * @param y2
 	 *            second point y coordinate
 	 */
-	public abstract void addStraightLineToGeneralPath(double x1, double y1,
+	void addStraightLineToGeneralPath(double x1, double y1,
 			double x2, double y2);
 
 	/**
 	 * end current general path and draw it
 	 */
-	public abstract void endAndDrawGeneralPath();
+	void endAndDrawGeneralPath();
 
 	/**
 	 * @param img
@@ -401,6 +401,6 @@ public interface GGraphics2D {
 	 * @param dy
 	 *            dest rect min y
 	 */
-	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
+	void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy);
 }

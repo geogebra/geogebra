@@ -389,11 +389,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return style && style.direction === "rtl";
 	}-*/;
 
-	private static native String getTransform(JavaScriptObject style) /*-{
-		return style.transform || style.webkitTransform || style.MozTransform
-				|| style.msTransform || style.oTransform || "";
-	}-*/;
-
 	private native double envScale(JavaScriptObject current, String type,
 			boolean deep) /*-{
 		var sx = 1;

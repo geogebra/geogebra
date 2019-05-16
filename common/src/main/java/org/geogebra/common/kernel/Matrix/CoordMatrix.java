@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.Matrix;
 import java.util.ArrayList;
 
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Simple matrix description with basic linear algebra methods.
@@ -1234,8 +1235,6 @@ public class CoordMatrix {
 		public void divideFirst(int index, double factor) {
 			for (int i = 0; i < columns; i++) {
 				inverse[i].set(index + 1, matrixRes[i * columns] / factor);
-				// System.out.println(inverse[index + i*columns] +" , "+
-				// matrixRes[i*columns]);
 			}
 		}
 
@@ -1683,53 +1682,15 @@ public class CoordMatrix {
 	 * 
 	 */
 	public static void test() {
-		/*
-		 * CoordMatrix m1 = CoordMatrix.Identity(3); m1.set(1, 2, 5.0);
-		 * m1.set(3, 1, 4.0); m1.set(3, 2, 3.0); m1.transpose();
-		 * Log.debug("m1"); m1.SystemPrint();
-		 * 
-		 * CoordMatrix m2 = new CoordMatrix(3, 4); m2.set(1, 1, 1.0); m2.set(2,
-		 * 2, 2.0); m2.set(3, 3, 3.0); m2.set(1, 4, 4.0); m2.set(2, 4, 3.0);
-		 * m2.set(3, 4, 1.0); m2.set(3, 2, -1.0); Log.debug("m2");
-		 * m2.SystemPrint();
-		 * 
-		 * CoordMatrix m4 = m1.add(m2); Log.debug("m4"); m4.SystemPrint();
-		 * 
-		 * CoordMatrix m5 = m1.mul(m2); Log.debug("m5"); m5.SystemPrint();
-		 * 
-		 * Log.debug("subMatrix"); m5.subMatrix(2, 3).SystemPrint();
-		 * 
-		 * m1.set(1, 2, -2.0); m1.set(3, 1, -9.0); m1.set(3, 2, -8.0);
-		 * Log.debug("m1"); m1.SystemPrint(); Log.debug("det m1 = " + m1.det());
-		 * 
-		 * Log.debug("inverse"); CoordMatrix m4inv = m4.inverse();
-		 * m4inv.SystemPrint(); m4.mul(m4inv).SystemPrint();
-		 * m4inv.mul(m4).SystemPrint();
-		 */
-
-		/*
-		 * double[][] matrix = { {1, 0, 0, 0}, {1, 1, 0, 0}, {0, 0, 1, 0}, {0,
-		 * 0, 0, 1} };
-		 * 
-		 * double[] res = {2, 3, 4, 1};
-		 * 
-		 * double[] sol = new double[4];
-		 * 
-		 * pivot(matrix, sol, res);
-		 * 
-		 * String s = "==== SOL ====\n"; for (int i = 0 ; i < sol.length ; i++){
-		 * s+=sol[i]+", "; } System.out.println(s);
-		 */
-
 		CoordMatrix matrix = new CoordMatrix4x4();
 		matrix.setVx(new Coords(1, 1, -1, 0));
 		matrix.setVy(new Coords(-1, 1, -1, 0));
 		matrix.setVz(new Coords(1, 2, 5, 0));
 		matrix.setOrigin(new Coords(4, 5, 6, 1));
 
-		System.out.println("==== MATRIX ====\n" + matrix.toString());
+		Log.debug("==== MATRIX ====\n" + matrix.toString());
 
-		System.out.println("==== INVERSE ====\n" + matrix.inverse().toString());
+		Log.debug("==== INVERSE ====\n" + matrix.inverse().toString());
 
 		// matrix.inverse = new CoordMatrix(4, 4);
 		matrix.pivotInverseMatrix = new PivotInverseMatrix();
@@ -1748,35 +1709,13 @@ public class CoordMatrix {
 		}
 		pivot(matrixD, matrix.pivotInverseMatrix);
 
-		System.out.println(
+		Log.debug(
 				"==== PIVOT INVERSE ====\n" + matrix.inverse.toString());
 
-		System.out.println("==== MATRIX * INVERSE ====\n"
+		Log.debug("==== MATRIX * INVERSE ====\n"
 				+ matrix.mul(matrix.inverse).toString());
 
-		/*
-		 * matrix.pivot(sol, res);
-		 * 
-		 * System.out.println("==== SOL ====\n"+sol.toString());
-		 * 
-		 * System.out.println("==== SOL INV ====\n"
-		 * +matrix.solve(res).toString()) ;
-		 * 
-		 * 
-		 * System.out.println("==== VERIF ====\n"+matrix.mul(sol).toString());
-		 * 
-		 * 
-		 * long time = System.currentTimeMillis(); int loop = 10000; for (int i
-		 * = 0 ; i < loop ; i++){ Coords ret = matrix.solve(res); } long delay1
-		 * = System.currentTimeMillis() - time; System.out.println(
-		 * "==== matrix.solve : "+delay1);
-		 * 
-		 * time = System.currentTimeMillis(); for (int i = 0 ; i < loop ; i++){
-		 * Coords ret = new Coords(4); matrix.pivot(ret, res); } long delay2 =
-		 * System.currentTimeMillis() - time; System.out.println(
-		 * "==== matrix.pivot : "+delay2); System.out.println(
-		 * "=========== ratio : "+(delay1/delay2));
-		 */
+
 	}
 
 }

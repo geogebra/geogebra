@@ -24,7 +24,7 @@ import com.google.gwt.resources.ext.ResourceGeneratorType;
 /**
  * A resource for compiled LESS file
  */
-@DefaultExtensions(value = { ".scss" })
+@DefaultExtensions({ ".scss" })
 @ResourceGeneratorType(SassResourceGenerator.class)
 public interface SassResource extends TextResource {
 	//this is a hacked version of SVGResource, alll fancy stuff is gone

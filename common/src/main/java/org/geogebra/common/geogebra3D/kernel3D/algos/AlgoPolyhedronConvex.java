@@ -82,11 +82,9 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 			p.startNewFace();
 			for (int k = 0; k < faceIndices[i].length; k++) {
 				int index = faceIndices[i][k];
-				System.out.print(index + " ");
 				p.addPointToCurrentFace(this.pointList[index]);
 			}
 			p.endCurrentFace();
-			System.out.println("");
 		}
 
 		p.createFaces();

@@ -223,8 +223,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private NetworkOperation networkOperation;
 	private PageListControllerInterface pageController;
 
-	private String[] modulesToPreload;
-
 	/*
 	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
 	 * symbol buttons with data-param-allowSymbolTable parameter)
@@ -2236,11 +2234,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// ============================================
 	// IMAGES
 	// ============================================
-
-	private static String createImageSrc(String ext, String base64) {
-		String dataUrl = "data:image/" + ext + ";base64," + base64;
-		return dataUrl;
-	}
 
 	/**
 	 * @return refresh applet image

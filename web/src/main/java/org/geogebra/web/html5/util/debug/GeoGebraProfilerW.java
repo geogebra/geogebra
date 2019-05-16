@@ -43,8 +43,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 
 	@Override
 	public native void profile() /*-{
-		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
-				&& $wnd.console.profile) {
+		if ($wnd.console && $wnd.console.profile) {
 			$wnd.console.profile();
 		} else {
 			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
@@ -53,8 +52,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 
 	@Override
 	public native void profileEnd() /*-{
-		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
-				&& $wnd.console.profileEnd) {
+		if ($wnd.console && $wnd.console.profileEnd) {
 			$wnd.console.profileEnd();
 		} else {
 			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
@@ -63,8 +61,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 
 	@Override
 	public native void time(String label) /*-{
-		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
-				&& $wnd.console.time) {
+		if ($wnd.console && $wnd.console.time) {
 			$wnd.console.time(label);
 		} else {
 			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
@@ -73,8 +70,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 
 	@Override
 	public native void timeEnd(String label) /*-{
-		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
-				&& $wnd.console.timeEnd) {
+		if ($wnd.console && $wnd.console.timeEnd) {
 			$wnd.console.timeEnd(label);
 		} else {
 			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
@@ -83,8 +79,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 
 	@Override
 	public native void trace() /*-{
-		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
-				&& $wnd.console.trace) {
+		if ($wnd.console && $wnd.console.trace) {
 			$wnd.console.trace();
 		} else {
 			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
@@ -94,10 +89,6 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 	private static void showError() {
 		Log.debug("console methods for profiling not supported");
 	}
-
-	private static native boolean isConsoleSupported() /*-{
-		return (typeof $wnd.console === 'object');
-	}-*/;
 
 	/**
 	 * @return current milliseconds

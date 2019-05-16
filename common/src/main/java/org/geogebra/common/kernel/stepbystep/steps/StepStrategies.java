@@ -86,9 +86,9 @@ public class StepStrategies {
 
 				if (tracker.stepAdded()) {
 					if (printDebug) {
-						System.out.println("changed at " + simplificationStep);
-						System.out.println("from: " + old);
-						System.out.println("to: " + current);
+						Log.debug("changed at " + simplificationStep);
+						Log.debug("from: " + old);
+						Log.debug("to: " + current);
 					}
 
 					if (simplificationStep.isGroupType()) {

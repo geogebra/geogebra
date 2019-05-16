@@ -22,7 +22,7 @@ package org.geogebra.common.main;
  * 
  * @author Markus
  */
-public class MyError extends java.lang.Error {
+public class MyError extends Error {
 
 	private static final long serialVersionUID = 1L;
 	/** application */
