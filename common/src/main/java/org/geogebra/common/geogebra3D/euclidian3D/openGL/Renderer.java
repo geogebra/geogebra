@@ -13,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -71,9 +70,6 @@ public abstract class Renderer {
 	public static final int LAYER_DEFAULT = 0;
     /** layer to ensure no z-fighting between text and its background */
     public static final int LAYER_FOR_TEXTS = 5;
-
-	/** drawables list */
-	public Drawable3DListsForView drawable3DLists;
 
 	/** 3D view */
 	protected EuclidianView3D view3D;
@@ -274,16 +270,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * set the list of {@link Drawable3D} to be drawn
-	 *
-	 * @param dl
-	 *            list of {@link Drawable3D}
-	 */
-	public void setDrawable3DLists(Drawable3DListsForView dl) {
-		drawable3DLists = dl;
-	}
-
-	/**
 	 *
 	 */
 	protected void updateViewAndDrawables() {
@@ -293,7 +279,7 @@ public abstract class Renderer {
 		view3D.updateOwnDrawablesNow();
 
 		// update 3D drawables
-		view3D.updateDrawables(drawable3DLists);
+		view3D.updateDrawables();
 
 		// say that 3D view changed has been performed
 		view3D.resetViewChanged();
@@ -586,14 +572,14 @@ public abstract class Renderer {
 
 		rendererImpl.setCullFaceFront();
 		rendererImpl.drawTranspClosedCurved(); // draws inside parts
-		if (drawable3DLists.containsClippedSurfacesInclLists()) {
+		if (view3D.getDrawList3D().containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			rendererImpl.drawTranspClipped();
 			disableClipPlanesIfNeeded();
 		}
 		rendererImpl.setCullFaceBack();
 		rendererImpl.drawTranspClosedCurved(); // draws outside parts
-		if (drawable3DLists.containsClippedSurfacesInclLists()) {
+		if (view3D.getDrawList3D().containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			rendererImpl.drawTranspClipped();
 			disableClipPlanesIfNeeded();
@@ -615,8 +601,8 @@ public abstract class Renderer {
 		enableBlending();
 
 		enableTexturesForText();
-		drawable3DLists.drawLabel(this);
-		drawable3DLists.drawForAbsoluteText(this, false);
+		view3D.getDrawList3D().drawLabel(this);
+		view3D.getDrawList3D().drawForAbsoluteText(this, false);
 
 		rendererImpl.disableTextures();
 
@@ -647,7 +633,7 @@ public abstract class Renderer {
 
 		enableTexturesForText();
 
-		drawable3DLists.drawForAbsoluteText(this, true);
+		view3D.getDrawList3D().drawForAbsoluteText(this, true);
 
 		rendererImpl.disableTextures();
 
@@ -761,7 +747,7 @@ public abstract class Renderer {
 			rendererImpl.setCullFaceBack(); // draws outside parts
 		}
 		rendererImpl.drawClosedSurfacesForHiding();
-		if (drawable3DLists.containsClippedSurfacesInclLists()) {
+		if (view3D.getDrawList3D().containsClippedSurfacesInclLists()) {
 			enableClipPlanesIfNeeded();
 			rendererImpl.drawClippedSurfacesForHiding();
 			disableClipPlanesIfNeeded();

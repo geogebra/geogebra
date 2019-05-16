@@ -9,6 +9,7 @@ import javax.media.opengl.fixedfunc.GLMatrixFunc;
 import javax.media.opengl.glu.GLU;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
@@ -366,6 +367,10 @@ public class RendererImplGL2 extends RendererImpl
 		renderer.setTextureNearest();
 	}
 
+	private Drawable3DListsForView getDrawList3D() {
+		return view3D.getDrawList3D();
+	}
+
 	@Override
 	public void drawSurfacesOutline() {
 
@@ -376,10 +381,10 @@ public class RendererImplGL2 extends RendererImpl
 		disableLighting();
 		renderer.disableBlending();
 
-		renderer.drawable3DLists.drawTransp(renderer);
-		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+		getDrawList3D().drawTransp(renderer);
+		getDrawList3D().drawTranspClosedNotCurved(renderer);
 		drawTranspClosedCurved();
-		if (renderer.drawable3DLists.containsClippedSurfacesInclLists()) {
+		if (getDrawList3D().containsClippedSurfacesInclLists()) {
 			renderer.enableClipPlanesIfNeeded();
 			drawTranspClipped();
 			renderer.disableClipPlanesIfNeeded();
@@ -547,8 +552,8 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void drawTranspNotCurved() {
 		renderer.getRendererImpl().disableCulling();
-		renderer.drawable3DLists.drawTransp(renderer);
-		renderer.drawable3DLists.drawTranspClosedNotCurved(renderer);
+		getDrawList3D().drawTransp(renderer);
+		getDrawList3D().drawTranspClosedNotCurved(renderer);
 		renderer.enableCulling();
 	}
 
@@ -874,42 +879,42 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void drawNotHidden() {
-		renderer.drawable3DLists.draw(renderer);
+		getDrawList3D().draw(renderer);
 	}
 
 	@Override
 	public void drawHiddenTextured() {
-		renderer.drawable3DLists.drawHiddenTextured(renderer);
+		getDrawList3D().drawHiddenTextured(renderer);
 	}
 
 	@Override
 	public void drawHiddenNotTextured() {
-		renderer.drawable3DLists.drawHiddenNotTextured(renderer);
+		getDrawList3D().drawHiddenNotTextured(renderer);
 	}
 
 	@Override
 	public void drawTranspClosedCurved() {
-		renderer.drawable3DLists.drawTranspClosedCurved(renderer);
+		getDrawList3D().drawTranspClosedCurved(renderer);
 	}
 
 	@Override
 	public void drawClosedSurfacesForHiding() {
-		renderer.drawable3DLists.drawClosedSurfacesForHiding(renderer);
+		getDrawList3D().drawClosedSurfacesForHiding(renderer);
 	}
 
 	@Override
 	public void drawClippedSurfacesForHiding() {
-		renderer.drawable3DLists.drawClippedSurfacesForHiding(renderer);
+		getDrawList3D().drawClippedSurfacesForHiding(renderer);
 	}
 
 	@Override
 	public void drawTranspClipped() {
-		renderer.drawable3DLists.drawTranspClipped(renderer);
+		getDrawList3D().drawTranspClipped(renderer);
 	}
 
 	@Override
 	public void drawSurfacesForHiding() {
-		renderer.drawable3DLists.drawSurfacesForHiding(renderer);
+		getDrawList3D().drawSurfacesForHiding(renderer);
 	}
 
 	@Override
@@ -921,21 +926,20 @@ public class RendererImplGL2 extends RendererImpl
 		// TODO improve this !
 		renderer.enableCulling();
 		setCullFaceFront();
-		renderer.drawable3DLists.drawNotTransparentSurfaces(renderer);
-		renderer.drawable3DLists.drawNotTransparentSurfacesClosed(renderer);
-		if (renderer.drawable3DLists.containsClippedSurfacesInclLists()) {
+		getDrawList3D().drawNotTransparentSurfaces(renderer);
+		getDrawList3D().drawNotTransparentSurfacesClosed(renderer);
+		if (getDrawList3D().containsClippedSurfacesInclLists()) {
 			renderer.enableClipPlanesIfNeeded();
-			renderer.drawable3DLists
+			getDrawList3D()
 					.drawNotTransparentSurfacesClipped(renderer);
 			renderer.disableClipPlanesIfNeeded();
 		}
 		setCullFaceBack();
-		renderer.drawable3DLists.drawNotTransparentSurfaces(renderer);
-		renderer.drawable3DLists.drawNotTransparentSurfacesClosed(renderer);
-		if (renderer.drawable3DLists.containsClippedSurfacesInclLists()) {
+		getDrawList3D().drawNotTransparentSurfaces(renderer);
+		getDrawList3D().drawNotTransparentSurfacesClosed(renderer);
+		if (getDrawList3D().containsClippedSurfacesInclLists()) {
 			renderer.enableClipPlanesIfNeeded();
-			renderer.drawable3DLists
-					.drawNotTransparentSurfacesClipped(renderer);
+			getDrawList3D().drawNotTransparentSurfacesClipped(renderer);
 			renderer.disableClipPlanesIfNeeded();
 		}
 

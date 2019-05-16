@@ -291,7 +291,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		for (int i = 0; i < 3; i++) {
 			getAxisDrawable(i).export(m, false);
 		}
-		getRenderer().drawable3DLists.export(m);
+		getDrawList3D().export(m);
 	}
 
 	@Override

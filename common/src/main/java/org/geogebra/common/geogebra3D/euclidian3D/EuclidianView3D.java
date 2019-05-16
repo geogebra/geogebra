@@ -418,7 +418,6 @@ public abstract class EuclidianView3D extends EuclidianView
 			initAxisAndPlane();
 			return;
 		}
-		renderer.setDrawable3DLists(drawable3DLists);
 
 		createPanel();
 
@@ -3478,8 +3477,11 @@ public abstract class EuclidianView3D extends EuclidianView
 				.updateOwnDrawablesNow();
 	}
 
-	public void updateDrawables(Drawable3DListsForView drawables3D) {
-		drawables3D.updateAll(renderer);
+	/**
+	 * update all drawables
+	 */
+	public void updateDrawables() {
+		drawable3DLists.updateAll(renderer);
 	}
 
 	/**
