@@ -140,5 +140,6 @@ eclipse {
     }
 }
 checkstyle {
+    configDir = file("config/checkstyle/")
     toolVersion = "8.8"
 }
