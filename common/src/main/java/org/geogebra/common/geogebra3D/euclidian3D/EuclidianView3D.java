@@ -3440,14 +3440,18 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (viewChangedByRotate()) {
 
-			// we need to update axis numbers locations
-			for (int i = 0; i < 3; i++) {
-				axisDrawable[i].updateDecorations();
-				axisDrawable[i].setLabelWaitForUpdate();
-			}
+			updateDecoration();
 
 			// update e.g. Corner[]
 			kernel.notifyEuclidianViewCE(EVProperty.ROTATION);
+		}
+	}
+
+	public void updateDecoration() {
+		// we need to update axis numbers locations
+		for (int i = 0; i < 3; i++) {
+			axisDrawable[i].updateDecorations();
+			axisDrawable[i].setLabelWaitForUpdate();
 		}
 	}
 

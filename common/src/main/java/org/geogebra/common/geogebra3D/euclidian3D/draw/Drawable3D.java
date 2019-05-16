@@ -389,7 +389,7 @@ public abstract class Drawable3D extends DrawableND {
 
 		label.update(getGeoElement().getLabelDescription(),
 				getView3D().getFontPoint(), getGeoElement().getObjectColor(),
-				getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY());
+				getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0);
 
 	}
 

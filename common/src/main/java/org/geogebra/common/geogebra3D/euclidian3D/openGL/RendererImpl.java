@@ -473,6 +473,9 @@ public abstract class RendererImpl {
         return CoordMatrix4x4.IDENTITY;
     }
 
+    public abstract CoordMatrix4x4 getArViewMatrix();
+
+
 	/**
 	 * draw not hidden parts
 	 */

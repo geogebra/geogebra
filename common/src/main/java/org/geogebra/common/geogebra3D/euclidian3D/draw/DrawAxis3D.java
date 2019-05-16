@@ -12,6 +12,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 import org.geogebra.common.util.debug.Log;
 
@@ -24,10 +25,13 @@ import org.geogebra.common.util.debug.Log;
 public class DrawAxis3D extends DrawLine3D {
 
 	private TreeMap<String, DrawLabel3D> labels;
-	private int numbersXOffset;
-	private int numbersYOffset;
+	private float numbersXOffset;
+	private float numbersYOffset;
+	private float numbersZOffset;
 	private boolean outsideBox = false;
 	static private double SQRT3_DIV_3 = Math.sqrt(3.0) / 3.0;
+	private Coords tmpCoords1 = new Coords(4);
+	private Coords tmpCoords2 = new Coords(4);
 
 	/**
 	 * common constructor
@@ -138,7 +142,7 @@ public class DrawAxis3D extends DrawLine3D {
 					tickLabel.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),
 							origin.copyVector(), numbersXOffset,
-							numbersYOffset);
+							numbersYOffset, numbersZOffset);
 					tickLabel.updatePosition(getView3D().getRenderer());
 					// TODO optimize this
 				} else {
@@ -148,7 +152,7 @@ public class DrawAxis3D extends DrawLine3D {
 					tickLabel.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),
 							origin.copyVector(), numbersXOffset,
-							numbersYOffset);
+							numbersYOffset, numbersZOffset);
 					tickLabel.updatePosition(getView3D().getRenderer());
 					labels.put(strNum, tickLabel);
 				}
@@ -167,7 +171,8 @@ public class DrawAxis3D extends DrawLine3D {
 					getGeoElement().getObjectColor(),
 					((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
 					getGeoElement().labelOffsetX, // -4,
-					getGeoElement().labelOffsetY// -6
+					getGeoElement().labelOffsetY,// -6
+					0
 			);
 			label.updatePosition(getView3D().getRenderer());
 		}
@@ -243,33 +248,61 @@ public class DrawAxis3D extends DrawLine3D {
 	 */
 	public void updateDecorations() {
 
-		// update decorations
-		GeoAxisND axis = (GeoAxisND) getGeoElement();
+		if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET) && getView3D()
+				.isARDrawing()) {
+			// update decorations
+			GeoAxisND axis = (GeoAxisND) getGeoElement();
+			// getToScreenMatrixForGL = rotation + translation
+			// for AR, we need the projection from RendererImplShaders.arViewMatrix
+			tmpCoords2.setMul(getView3D().getToScreenMatrixForGL(),
+					axis.getDirectionInD3());
+			tmpCoords1.setMul(getView3D().getRenderer().getRendererImpl().getArViewMatrix(),
+					tmpCoords2);
+			tmpCoords1.setZ(0);
+			tmpCoords1.setW(0);
+			tmpCoords1.normalize();
+			tmpCoords1.mulInside(axis.getTickSize());
+			double valueX = tmpCoords1.getX();
+			tmpCoords1.setX(-tmpCoords1.getY());
+			tmpCoords1.setY(valueX);
 
-		// gets the direction vector of the axis as it is drawn on screen
-		Coords v = new Coords(4);
-		v.setMul(getView3D().getToScreenMatrixForGL(), axis.getDirectionInD3());
-		v.set(3, 0); // set z-coord to 0
+			getView3D().getRenderer().getRendererImpl().getArViewMatrix().solve(tmpCoords1,
+					tmpCoords2);
+			numbersXOffset  = (float) tmpCoords2.getX();
+			numbersYOffset  = (float) tmpCoords2.getY();
+			numbersZOffset  = (float) tmpCoords2.getZ();
 
-		// calc orthogonal offsets
-		int vx = (int) (v.get(1) * 1.5 * axis.getTickSize());
-		int vy = (int) (v.get(2) * 1.5 * axis.getTickSize());
-		if (getView3D().isARDrawing() && axis.getType() == GeoAxisND.Y_AXIS
-				&& vx == 0 && vy == 0) {
+			getGeoElement().setLabelOffset((int) -numbersXOffset, (int) -numbersYOffset);
+		} else {
+			// update decorations
+			GeoAxisND axis = (GeoAxisND) getGeoElement();
+
+			// gets the direction vector of the axis as it is drawn on screen
+			Coords v = new Coords(4);
+			v.setMul(getView3D().getToScreenMatrixForGL(), axis.getDirectionInD3());
+			v.set(3, 0); // set z-coord to 0
+
+			// calc orthogonal offsets
+			int vx = (int) (v.get(1) * 1.5 * axis.getTickSize());
+			int vy = (int) (v.get(2) * 1.5 * axis.getTickSize());
+			if (getView3D().isARDrawing() && axis.getType() == GeoAxisND.Y_AXIS
+					&& vx == 0 && vy == 0) {
 				vx = (int) (-SQRT3_DIV_3 * 1.5 * axis.getTickSize());
 				vy = (int) (-SQRT3_DIV_3 * 1.5 * axis.getTickSize());
-		}
-		numbersXOffset = -vy;
-		numbersYOffset = vx;
+			}
+			numbersXOffset = -vy;
+			numbersYOffset = vx;
 
-		if (axis.getType() == GeoAxisND.X_AXIS) {
-			numbersXOffset = -numbersXOffset;
-			numbersYOffset = -numbersYOffset;
-		}
+			if (axis.getType() == GeoAxisND.X_AXIS) {
+				numbersXOffset = -numbersXOffset;
+				numbersYOffset = -numbersYOffset;
+			}
 
-		getGeoElement().setLabelOffset(((-vx - numbersXOffset) * 3) / 2, // -vx,//-2*xOffset,
-				((-vy - numbersYOffset) * 3) / 2// -vy//-2*yOffset
-		);
+			getGeoElement().setLabelOffset(((-vx - ((int) numbersXOffset)) * 3) / 2, // -vx,
+					// -2*xOffset,
+					((-vy - ((int) numbersYOffset)) * 3) / 2// -vy//-2*yOffset
+			);
+		}
 
 	}
 

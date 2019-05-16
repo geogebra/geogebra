@@ -41,9 +41,10 @@ public class DrawLabel3D {
 	private Coords color;
 	/** origin of the label (left-bottom corner) */
 	protected Coords origin;
-	/** x and y offset */
+	/** x, y, z offset */
 	private float xOffset;
 	private float yOffset;
+	private float zOffset;
 	protected float xOffset2;
 	protected float yOffset2;
 	/** says if there's an anchor to do */
@@ -124,12 +125,14 @@ public class DrawLabel3D {
 	 *            abs offset in x
 	 * @param yOffset0
 	 *            abs offset in y
+	 * @param zOffset0
+	 * 	 *        abs offset in z
 	 */
 	public void update(String text0, GFont font0, GColor fgColor, Coords v,
-			float xOffset0, float yOffset0) {
+			float xOffset0, float yOffset0, float zOffset0) {
 
 		if (view.drawsLabels()) {
-			update(text0, font0, null, fgColor, v, xOffset0, yOffset0);
+			update(text0, font0, null, fgColor, v, xOffset0, yOffset0, zOffset0);
 		}
 	}
 
@@ -158,9 +161,11 @@ public class DrawLabel3D {
 	 *            abs offset in x
 	 * @param yOffset0
 	 *            abs offset in y
+	 * @param zOffset0
+	 * 	          abs offset in y
 	 */
 	public void update(String text0, GFont font0, GColor bgColor,
-			GColor fgColor, Coords v, float xOffset0, float yOffset0) {
+			GColor fgColor, Coords v, float xOffset0, float yOffset0, float zOffset0) {
 
 		this.origin = v;
 		if (text0.length() == 0) {
@@ -230,6 +235,7 @@ public class DrawLabel3D {
 
 		this.xOffset = xOffset0; // + xOffset2;
 		this.yOffset = yOffset0; // + yOffset2;
+		this.zOffset = zOffset0;
 	}
 
 	/**
@@ -436,7 +442,7 @@ public class DrawLabel3D {
 			drawY += yOffset2 / getFontScale();
 		}
 
-		drawZ = (int) vScreen.getZ();
+		drawZ = (int) (vScreen.getZ() + zOffset);
 
 	}
 

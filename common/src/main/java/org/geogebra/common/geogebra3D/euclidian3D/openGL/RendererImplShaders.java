@@ -491,16 +491,23 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glCopyToMatrixLocation(tmpFloat16);
 	}
 
+	private CoordMatrix4x4 arViewMatrix = new CoordMatrix4x4();
+
+	public CoordMatrix4x4 getArViewMatrix() {
+		return arViewMatrix;
+	}
+
 	@Override
 	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
-			float scaleFactor) {
+											 CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
+											 float scaleFactor) {
 		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
 		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
 
 		// cameraView * modelMatrix and undo rotation matrix (keeping screen orientation)
 		tmpMatrix3.setMul(cameraView, modelMatrix);
+		arViewMatrix.set(tmpMatrix3);
 
 		// invert cameraView * modelMatrix to keep labels towards to screen
 		// calculate angle to keep labels upward
