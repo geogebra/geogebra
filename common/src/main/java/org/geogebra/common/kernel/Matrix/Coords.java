@@ -2866,6 +2866,23 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
+	 * 
+	 * @param precision
+	 *            decimal precision
+	 * @return string representation with decimal precision
+	 */
+	public String toString(int precision) {
+		String format = "%+." + precision + "f";
+		StringBuilder s = new StringBuilder("(");
+		for (int i = 0; i < val.length; i++) {
+			s.append(String.format(format, val[i]));
+			s.append(i == val.length - 1 ? ")" : "  ");
+		}
+
+		return s.toString();
+	}
+
+	/**
 	 * set this = m*v
 	 * 
 	 * @param m
