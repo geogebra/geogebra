@@ -135,7 +135,15 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 
 	@Override
 	public Coords getDirectionInD3() {
-		return new Coords(0, 0, 1, 0);
+		switch (type) {
+		default:
+		case X_AXIS_3D:
+			return Coords.VX;
+		case Y_AXIS_3D:
+			return Coords.VY;
+		case Z_AXIS_3D:
+			return Coords.VZ;
+		}
 	}
 
 	@Override

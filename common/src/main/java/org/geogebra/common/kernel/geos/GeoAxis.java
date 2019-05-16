@@ -166,11 +166,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 
 	@Override
 	public Coords getDirectionInD3() {
-		if (type == X_AXIS) {
-			return new Coords(1, 0, 0, 0);
-		}
-
-		return new Coords(0, 1, 0, 0);
+		return type == X_AXIS ? Coords.VX : Coords.VY;
 	}
 
 	@Override
