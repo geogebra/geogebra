@@ -142,7 +142,6 @@ public class GeoConicPartParameters {
 
 			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
 				value = arcLength;
-				arcLength = value;
 			} else {
 				value = area;
 			}
