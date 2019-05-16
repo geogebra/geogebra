@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.embed;
 
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -10,13 +10,13 @@ import com.google.gwt.dom.client.Style.Unit;
  */
 public class CalcEmbedElement extends EmbedElement {
 
-	private final GeoGebraFrameBoth frame;
+	private final GeoGebraFrameFull frame;
 
 	/**
 	 * @param widget
 	 *            calculator frame
 	 */
-	public CalcEmbedElement(GeoGebraFrameBoth widget) {
+	public CalcEmbedElement(GeoGebraFrameFull widget) {
 		super(widget);
 		frame = widget;
 	}

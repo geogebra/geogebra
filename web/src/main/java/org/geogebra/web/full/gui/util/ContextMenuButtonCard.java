@@ -4,7 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
@@ -42,7 +42,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 	/** application */
 	protected AppW app;
 	/** geogebra frame */
-	protected GeoGebraFrameBoth frame;
+	protected GeoGebraFrameFull frame;
 
 	/**
 	 * @param app

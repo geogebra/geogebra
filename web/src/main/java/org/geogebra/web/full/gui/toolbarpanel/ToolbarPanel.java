@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -573,7 +573,7 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @return the frame with casting.
 	 */
-	GeoGebraFrameBoth getFrame() {
+	GeoGebraFrameFull getFrame() {
 		return (((AppWFull) app).getAppletFrame());
 	}
 

@@ -8,7 +8,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.full.gui.applet.AppletFactory;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.full.gui.laf.ChromeLookAndFeel;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -96,7 +96,7 @@ public class Web implements EntryPoint {
 	 *            callback
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
-		GeoGebraFrameBoth.renderArticleElement(el,
+		GeoGebraFrameFull.renderArticleElement(el,
 				(AppletFactory) GWT.create(AppletFactory.class),
 				getLAF(ArticleElement.getGeoGebraMobileTags()), clb);
 	}
@@ -106,7 +106,7 @@ public class Web implements EntryPoint {
 	 *            article elements
 	 */
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
-		GeoGebraFrameBoth.main(geoGebraMobileTags,
+		GeoGebraFrameFull.main(geoGebraMobileTags,
 				(AppletFactory) GWT.create(AppletFactory.class),
 				getLAF(geoGebraMobileTags), null);
 	}

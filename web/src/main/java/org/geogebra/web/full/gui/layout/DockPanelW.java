@@ -20,7 +20,7 @@ import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
@@ -641,8 +641,8 @@ public abstract class DockPanelW extends ResizeComposite
 	protected void onGraphicsSettingsPressed() {
 		app.hideMenu();
 		if (app.isWhiteboardActive() && app.getAppletFrame() != null
-				&& app.getAppletFrame() instanceof GeoGebraFrameBoth) {
-			((GeoGebraFrameBoth) app.getAppletFrame()).deselectDragBtn();
+				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
+			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();
 		}
 		int x = graphicsContextMenuBtn.getAbsoluteLeft();
 		final int y = 8;

@@ -7,7 +7,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.main.AppWFull;
@@ -40,7 +40,7 @@ public class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface {
 
 	private AppW app;
-	private GeoGebraFrameBoth frame;
+	private GeoGebraFrameFull frame;
 	private EuclidianDockPanelW dockPanel;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;

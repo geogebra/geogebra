@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcherProver;
 import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
 import org.geogebra.common.kernel.commands.CommandDispatcherStats;
 import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.web.kernel3D.commands.CommandDispatcher3DW;
@@ -35,7 +35,7 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	 * @param device
 	 *            device
 	 */
-	public AppWapplet3DTest(ArticleElementInterface ae, GeoGebraFrameBoth gf,
+	public AppWapplet3DTest(ArticleElementInterface ae, GeoGebraFrameFull gf,
 			GLookAndFeel laf, GDevice device) {
 		super(ae, gf, laf, device);
 	}

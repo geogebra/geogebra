@@ -5,7 +5,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -232,7 +232,7 @@ public class ToolbarMow extends FlowPanel
 	/**
 	 * @return the frame with casting.
 	 */
-	GeoGebraFrameBoth getFrame() {
+	GeoGebraFrameFull getFrame() {
 		return (((AppWFull) appW).getAppletFrame());
 	}
 

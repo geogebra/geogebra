@@ -16,7 +16,7 @@ import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManager3DW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -53,7 +53,7 @@ public class AppWapplet3D extends AppWFull {
 	 * @param device
 	 *            browser or tablet
 	 */
-	public AppWapplet3D(ArticleElementInterface ae, GeoGebraFrameBoth gf,
+	public AppWapplet3D(ArticleElementInterface ae, GeoGebraFrameFull gf,
 			GLookAndFeel laf, GDevice device) {
 		super(ae, 3, laf, device, gf);
 	}

@@ -16,7 +16,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -316,7 +316,7 @@ public class PageListController implements PageListControllerInterface,
 		// clear preview card list
 		slides.clear();
 		// clear gui
-		((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
+		((GeoGebraFrameFull) app.getAppletFrame()).getPageControlPanel()
 				.reset();
 	}
 	
@@ -368,7 +368,7 @@ public class PageListController implements PageListControllerInterface,
 			}
 			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
-			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
+			((GeoGebraFrameFull) app.getAppletFrame()).getPageControlPanel()
 					.update();
 			setCardSelected(0);
 		} catch (Exception e) {

@@ -290,11 +290,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
 	}
 
-	private int getSmallScreenHeaderHeight() {
-		if (app == null) {
-			return SMALL_SCREEN_HEADER_HEIGHT;
-		}
-		return app.getActivity().getSmallScreenHeaderHeight();
+	protected int getSmallScreenHeaderHeight() {
+		return SMALL_SCREEN_HEADER_HEIGHT;
 	}
 
 	private void setHeightWithTallHeader() {

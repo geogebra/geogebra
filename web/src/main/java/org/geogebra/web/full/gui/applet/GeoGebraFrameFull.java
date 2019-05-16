@@ -68,7 +68,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Frame for applets with GUI
  *
  */
-public class GeoGebraFrameBoth
+public class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
 
 	private AppletFactory factory;
@@ -86,7 +86,7 @@ public class GeoGebraFrameBoth
 	private PageListPanel pageListPanel;
 	private PanelTransitioner panelTransitioner;
 
-	public GeoGebraFrameBoth(GLookAndFeelI laf, ArticleElementInterface articleElement) {
+	public GeoGebraFrameFull(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		super(laf, articleElement);
 	}
 
@@ -100,8 +100,8 @@ public class GeoGebraFrameBoth
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeelI laf,
-			GDevice device, ArticleElementInterface articleElement) {
+	public GeoGebraFrameFull(AppletFactory factory, GLookAndFeelI laf,
+							 GDevice device, ArticleElementInterface articleElement) {
 		super(laf, articleElement);
 		this.device = device;
 		this.factory = factory;
@@ -148,7 +148,7 @@ public class GeoGebraFrameBoth
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
+			final GeoGebraFrameW inst = new GeoGebraFrameFull(factory, laf,
 					device, articleElement);
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
@@ -183,7 +183,7 @@ public class GeoGebraFrameBoth
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
 
-		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
+		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameFull(
 				factory, laf, null, ArticleElement.as(el)),
 				clb);
 
@@ -989,5 +989,13 @@ public class GeoGebraFrameBoth
 		} else {
 			app.updateViewSizes();
 		}
+	}
+
+	@Override
+	protected int getSmallScreenHeaderHeight() {
+		if (app instanceof AppWFull) {
+			((AppWFull)app).getActivity().getSmallScreenHeaderHeight();
+		}
+		return super.getSmallScreenHeaderHeight();
 	}
 }

@@ -40,7 +40,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -700,7 +700,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	/**
 	 * @return the frame with casting.
 	 */
-	GeoGebraFrameBoth getFrame() {
+	GeoGebraFrameFull getFrame() {
 		return (((AppWFull) app).getAppletFrame());
 	}
 

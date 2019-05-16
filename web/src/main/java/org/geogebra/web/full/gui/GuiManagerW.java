@@ -58,7 +58,7 @@ import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
@@ -172,7 +172,7 @@ public class GuiManagerW extends GuiManager
 	private ToolBarW toolbarForUpdate = null;
 	private DataCollectionView dataCollectionView;
 	private VirtualKeyboardGUI onScreenKeyboard;
-	private GeoGebraFrameBoth frame;
+	private GeoGebraFrameFull frame;
 
 	private int activeViewID;
 

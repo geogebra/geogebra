@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main.activity;
+package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;

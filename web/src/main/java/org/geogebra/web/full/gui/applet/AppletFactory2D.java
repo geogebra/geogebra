@@ -12,7 +12,7 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 public class AppletFactory2D implements AppletFactory {
 
 	@Override
-	public AppW getApplet(ArticleElementInterface ae, GeoGebraFrameBoth gf,
+	public AppW getApplet(ArticleElementInterface ae, GeoGebraFrameFull gf,
 			GLookAndFeelI laf, GDevice device) {
 		return new AppWFull(ae, 2, laf, device, gf);
     }

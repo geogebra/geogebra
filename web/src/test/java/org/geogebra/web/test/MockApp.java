@@ -1,7 +1,7 @@
 package org.geogebra.web.test;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
@@ -29,10 +29,10 @@ public class MockApp {
 				});
 		Browser.mockWebGL();
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
-		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(new AppletFactory3D() {
+		GeoGebraFrameFull fr = new GeoGebraFrameFull(new AppletFactory3D() {
 			@Override
 			public AppWFull getApplet(ArticleElementInterface params,
-					GeoGebraFrameBoth frame, GLookAndFeelI laf, GDevice device) {
+									  GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device) {
 				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
 		},

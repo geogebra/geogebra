@@ -19,7 +19,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.AppletFactory;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.embed.CalcEmbedElement;
@@ -79,7 +79,7 @@ public class EmbedManagerW implements EmbedManager {
 			return;
 		}
 		TestArticleElement parameters = new TestArticleElement("", "graphing");
-		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(
+		GeoGebraFrameFull fr = new GeoGebraFrameFull(
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
 				app.getDevice(), parameters);
 

@@ -60,7 +60,7 @@ import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -85,6 +85,7 @@ import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
 import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
+import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.GeometryActivity;
 import org.geogebra.web.full.main.activity.Graphing3DActivity;
 import org.geogebra.web.full.main.activity.GraphingActivity;
@@ -108,7 +109,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -157,7 +157,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private int activePerspective;
 
 	private boolean menuShowing = false;
-	private final GeoGebraFrameBoth frame;
+	private final GeoGebraFrameFull frame;
 	private View focusedView;
 	private DockSplitPaneW oldSplitLayoutPanel = null; // just a
 																// technical
@@ -195,7 +195,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 */
 	public AppWFull(ArticleElementInterface ae, int dimension,
 			GLookAndFeelI laf,
-			GDevice device, GeoGebraFrameBoth frame) {
+			GDevice device, GeoGebraFrameFull frame) {
 		super(ae, dimension, laf);
 		this.frame = frame;
 		this.device = device;
@@ -290,7 +290,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return activity.getConfig();
 	}
 
-	@Override
 	public GeoGebraActivity getActivity() {
 		return activity;
 	}
@@ -720,7 +719,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public GeoGebraFrameBoth getAppletFrame() {
+	public GeoGebraFrameFull getAppletFrame() {
 		return frame;
 	}
 
