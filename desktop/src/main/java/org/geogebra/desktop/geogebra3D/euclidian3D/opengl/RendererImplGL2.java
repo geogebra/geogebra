@@ -860,6 +860,12 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
+	public CoordMatrix4x4 getArViewMatrix() {
+		// used in AR only
+		return null;
+	}
+
+	@Override
 	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
 			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
 			float scaleFactor) {
