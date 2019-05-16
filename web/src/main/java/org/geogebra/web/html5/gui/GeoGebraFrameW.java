@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -231,7 +232,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	@Override
 	public void updateArticleHeight() {
-		if (shouldHaveSmallScreenLayout()) {
+		if (hasSmallWindowOrCompactHeader()) {
 			setHeightWithCompactHeader();
 		} else {
 			setHeightWithTallHeader();
@@ -293,9 +294,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private int getSmallScreenHeaderHeight() {
-		return isScientificCalculator()
-				? SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT
-				: shouldHideHeader() ? 0 : SMALL_SCREEN_HEADER_HEIGHT;
+		if (app instanceof AppWFull) {
+			return ((AppWFull)app).getActivity().getSmallScreenHeaderHeight();
+		}
+
+		return 0;
 	}
 
 	private void setHeightWithTallHeader() {
@@ -324,6 +327,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		} else {
 			header.removeClassName("smallScreen");
 		}
+		updateArticleHeight();
 	}
 
 	/**

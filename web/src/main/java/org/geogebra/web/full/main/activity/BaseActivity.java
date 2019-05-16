@@ -102,4 +102,9 @@ public class BaseActivity implements GeoGebraActivity {
 	public boolean useValidInput() {
 		return true;
 	}
+
+	@Override
+	public int getSmallScreenHeaderHeight() {
+		return 48;
+	}
 }

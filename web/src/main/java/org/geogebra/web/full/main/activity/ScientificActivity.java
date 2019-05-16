@@ -44,6 +44,7 @@ public class ScientificActivity extends BaseActivity {
 		initHeaderButtons(app);
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);
+		app.getAppletFrame().updateArticleHeight();
 	}
 
 	private static void initHeaderButtons(AppW app) {
@@ -114,5 +115,10 @@ public class ScientificActivity extends BaseActivity {
 	@Override
 	public boolean useValidInput() {
 		return false;
+	}
+
+	@Override
+	public int getSmallScreenHeaderHeight() {
+		return 80;
 	}
 }

@@ -102,4 +102,10 @@ public interface GeoGebraActivity {
 	 * @return use valid input
 	 */
 	boolean useValidInput();
+
+	/**
+	 *
+	 * @return height of header in small screen
+	 */
+	int getSmallScreenHeaderHeight();
 }
