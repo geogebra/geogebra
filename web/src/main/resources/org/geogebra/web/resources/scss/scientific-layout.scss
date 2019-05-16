@@ -15,9 +15,11 @@
 
     .undoRedoCntScientific {
         margin: 6px;
+        margin-top: 4px;
+        padding-top: 4px;
         float: left;
         position: relative;
-    }
+     }
 
     .undoRedoSettingsPanelScientific {
         @extend %paperWidth;
@@ -109,6 +111,7 @@
         top: 12px;
     }
 
+
     %panelFadeAnimation {
         opacity: 1;
         animation-iteration-count: 1;
@@ -148,4 +151,5 @@
    	100% {
    		opacity: 0;
    	}
-}
+
+   	}
