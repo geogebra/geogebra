@@ -2196,22 +2196,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 		ScientificFormatAdapter sfa = tpl.getSF(sf);
 		// get scientific format
-		String absStr;
-		if (x == 0) {
-			// avoid output of "-0.00"
-			absStr = sfa.format(0);
-		} else if (x > 0) {
-			absStr = sfa.format(x);
-		} else {
-			sbFormatSF.append('-');
-			absStr = sfa.format(-x);
-		}
-
-		// make sure ".123" is returned as "0.123".
-		if (absStr.charAt(0) == '.') {
-			sbFormatSF.append('0');
-		}
-		sbFormatSF.append(absStr);
+		StringUtil.appendFormat(sbFormatSF, x, sfa);
 		return sbFormatSF.toString();
 	}
 

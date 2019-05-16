@@ -17,7 +17,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.NumberFormatAdapter;
+import org.geogebra.common.util.ScientificFormatAdapter;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * 
@@ -2874,11 +2875,18 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @return string representation with decimal precision
 	 */
 	public String toString(int precision) {
-		NumberFormatAdapter nf = FormatFactory.getPrototype()
-				.getNumberFormat(precision);
+		ScientificFormatAdapter nf = FormatFactory.getPrototype()
+				.getScientificFormat(2, 10, false);
 		StringBuilder s = new StringBuilder("(");
 		for (int i = 0; i < val.length; i++) {
-			s.append(nf.format(val[i]));
+			if (val[i] > 0) {
+				s.append('+');
+			}
+			if (val[i] == 0) {
+				s.append("+0.").append(StringUtil.repeat('0', precision));
+			} else {
+				StringUtil.appendFormat(s, val[i], nf);
+			}
 			s.append(i == val.length - 1 ? ")" : "  ");
 		}
 
