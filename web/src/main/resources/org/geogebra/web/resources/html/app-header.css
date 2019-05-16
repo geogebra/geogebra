@@ -379,6 +379,10 @@ svg.icon.left {
 .GeoGebraFrame .headerLogo {
     margin: 0;
 }
+
+.compact.GeoGebraFrame .headerLogo,
 .smallScreen.GeoGebraFrame.calculatorHeader .headerLogo {
-    margin-top: -4px;
+    margin-top: -2px;
+    height: 34px;
+    padding: 4px 6px 4px 6px;
 }
