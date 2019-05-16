@@ -12,10 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.Matrix;
 
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.NumberFormatAdapter;
 
 /**
  * 
@@ -2872,10 +2874,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @return string representation with decimal precision
 	 */
 	public String toString(int precision) {
-		String format = "%+." + precision + "f";
+		NumberFormatAdapter nf = FormatFactory.getPrototype()
+				.getNumberFormat(precision);
 		StringBuilder s = new StringBuilder("(");
 		for (int i = 0; i < val.length; i++) {
-			s.append(String.format(format, val[i]));
+			s.append(nf.format(val[i]));
 			s.append(i == val.length - 1 ? ")" : "  ");
 		}
 
