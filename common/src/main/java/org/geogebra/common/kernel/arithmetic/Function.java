@@ -682,16 +682,11 @@ public class Function extends FunctionNVar
 
 		// get coefficients as strings
 
-		String function, var;
 		StringTemplate tpl = StringTemplate.giacTemplate;
-		// See #1322
-		try {
-			function = node.getCASstring(tpl, symbolic);
-			var = fVars[0].toString(tpl);
-		} catch (NullPointerException e) {
-			// this is not a valid polynomial
-			return null;
-		}
+		// NPE with MPReduce, OK with Giac
+		// https://jira.geogebra.org/browse/TRAC-1188
+		String function = node.getCASstring(tpl, symbolic);
+		String var = fVars[0].toString(tpl);
 
 		String[] strCoeffs = kernel.getPolynomialCoeffs(function, var);
 

@@ -121,7 +121,6 @@
 		<exclude name="AvoidLiteralsInIfCondition"/>
 		<exclude name="BeanMembersShouldSerialize"/>
 		<exclude name="NullAssignment"/>
-		<exclude name="AvoidCatchingNPE"/>
 		<exclude name="EmptyIfStmt"/>
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/>
 		<exclude name="ProperLogger"/>

@@ -95,10 +95,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		format = frame.getFormat();
 		forceGnuplot = frame.getGnuplot();
 		// init unit variables
-		try {
+		if (frame != null) {
 			xunit = frame.getXUnit();
 			yunit = frame.getYUnit();
-		} catch (NullPointerException e2) {
+		} else {
 			xunit = 1;
 			yunit = 1;
 		}
@@ -2450,80 +2450,72 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	@Override
 	protected void drawLabel(GeoElementND geo, DrawableND drawGeo0) {
 		DrawableND drawGeo = drawGeo0;
-		try {
-			if (geo.isLabelVisible()) {
-				String name = geo.getLabelDescription();
-				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
-					String nameSym = name;
-					for (int i = 0; i < name.length(); i++) {
-						char uCode = name.charAt(i);
-						if (UnicodeTeX.getMap().containsKey(uCode)) {
-							nameSym = nameSym.replaceAll("\\" + uCode, "\\$\\\\"
-									+ UnicodeTeX.getMap().get(uCode) + "\\$");
-						}
-					}
-					nameSym = nameSym.replace("$\\euro$", "euro");
-					name = nameSym;
-					if (name.contains("_")) {
-						name = "$" + name + "$";
-					}
-				} else {
-					name = "$" + StringUtil.toLaTeXString(
-							geo.getLabelDescription(), true) + "$";
-				}
-				if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
-					if (format == GeoGebraToPgf.FORMAT_LATEX) {
-						name = name.replaceAll(Unicode.DEGREE_STRING,
-								"\\\\textrm{\\\\degre}");
-						if (codePreamble.indexOf("\\degre") == -1) {
-							codePreamble.append(
-									"\\newcommand{\\degre}{\\ensuremath{^\\circ}}\n");
-						}
-					} else if (format == GeoGebraToPgf.FORMAT_CONTEXT
-							|| format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-						name = name.replaceAll(Unicode.DEGREE_STRING,
-								"{}^{\\\\circ}");
+		if (geo != null && geo.isLabelVisible()
+				&& geo.getLabelDescription() != null) {
+			String name = geo.getLabelDescription();
+			if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
+				String nameSym = name;
+				for (int i = 0; i < name.length(); i++) {
+					char uCode = name.charAt(i);
+					if (UnicodeTeX.getMap().containsKey(uCode)) {
+						nameSym = nameSym.replaceAll("\\" + uCode, "\\$\\\\"
+								+ UnicodeTeX.getMap().get(uCode) + "\\$");
 					}
 				}
-				if (null == drawGeo) {
-					drawGeo = euclidianView.getDrawableFor(geo);
+				nameSym = nameSym.replace("$\\euro$", "euro");
+				name = nameSym;
+				if (name.contains("_")) {
+					name = "$" + name + "$";
 				}
-				double xLabel = drawGeo.getxLabel();
-				double yLabel = drawGeo.getyLabel();
-				xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
-				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
-				GColor geocolor = geo.getObjectColor();
-				startBeamer(codePoint);
-				int width = (int) Math
-						.ceil(StringUtil.getPrototype()
-								.estimateLength(StringUtil.toLaTeXString(
-										geo.getLabelDescription(), true),
-										euclidianView.getFont()));
-				int height = (int) Math
-						.ceil(StringUtil.getPrototype()
-								.estimateHeight(StringUtil.toLaTeXString(
-										geo.getLabelDescription(), true),
-										euclidianView.getFont()));
-				double[] translation = new double[2];
-				translation[0] = euclidianView.getXZero() + width / 2.0;
-				translation[1] = euclidianView.getYZero() - height / 2.0;
-				translation[0] = euclidianView
-						.toRealWorldCoordX(translation[0]);
-				translation[1] = euclidianView
-						.toRealWorldCoordY(translation[1]);
-				codePoint.append("\\draw[color=");
-				colorCode(geocolor, codePoint);
-				codePoint.append("] ");
-				writePoint(xLabel + translation[0], yLabel + translation[1],
-						codePoint);
-				codePoint.append(" node {");
-				codePoint.append(name);
-				codePoint.append("};\n");
-				endBeamer(codePoint);
+			} else {
+				name = "$" + StringUtil.toLaTeXString(geo.getLabelDescription(),
+						true) + "$";
 			}
-		} catch (NullPointerException e) {
-			// For GeoElement that don't have a Label
-			// For example (created with geoList)
+			if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
+				if (format == GeoGebraToPgf.FORMAT_LATEX) {
+					name = name.replaceAll(Unicode.DEGREE_STRING,
+							"\\\\textrm{\\\\degre}");
+					if (codePreamble.indexOf("\\degre") == -1) {
+						codePreamble.append(
+								"\\newcommand{\\degre}{\\ensuremath{^\\circ}}\n");
+					}
+				} else if (format == GeoGebraToPgf.FORMAT_CONTEXT
+						|| format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
+					name = name.replaceAll(Unicode.DEGREE_STRING,
+							"{}^{\\\\circ}");
+				}
+			}
+			if (null == drawGeo) {
+				drawGeo = euclidianView.getDrawableFor(geo);
+			}
+			double xLabel = drawGeo.getxLabel();
+			double yLabel = drawGeo.getyLabel();
+			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
+			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
+			GColor geocolor = geo.getObjectColor();
+			startBeamer(codePoint);
+			int width = (int) Math.ceil(StringUtil.getPrototype()
+					.estimateLength(StringUtil
+							.toLaTeXString(geo.getLabelDescription(), true),
+							euclidianView.getFont()));
+			int height = (int) Math.ceil(StringUtil.getPrototype()
+					.estimateHeight(StringUtil
+							.toLaTeXString(geo.getLabelDescription(), true),
+							euclidianView.getFont()));
+			double[] translation = new double[2];
+			translation[0] = euclidianView.getXZero() + width / 2.0;
+			translation[1] = euclidianView.getYZero() - height / 2.0;
+			translation[0] = euclidianView.toRealWorldCoordX(translation[0]);
+			translation[1] = euclidianView.toRealWorldCoordY(translation[1]);
+			codePoint.append("\\draw[color=");
+			colorCode(geocolor, codePoint);
+			codePoint.append("] ");
+			writePoint(xLabel + translation[0], yLabel + translation[1],
+					codePoint);
+			codePoint.append(" node {");
+			codePoint.append(name);
+			codePoint.append("};\n");
+			endBeamer(codePoint);
 		}
 	}
 

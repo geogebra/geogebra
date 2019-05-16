@@ -169,10 +169,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		dotColors = frame.getKeepDotColors();
 
 		// initialize unit variables, scale ratio = yunit/xunit;
-		try {
+		if (frame != null) {
 			xunit = frame.getXUnit();
 			yunit = frame.getYUnit();
-		} catch (NullPointerException e2) {
+		} else {
 			xunit = 1;
 			yunit = 1;
 		}
@@ -2313,98 +2313,91 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	// if label is visible, draw it
 	@Override
 	protected void drawLabel(GeoElementND geo, DrawableND drawGeo0) {
-		try {
-			if (geo.isLabelVisible()) {
-				String name;
-				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
-					name = convertUnicodeToText(geo.getLabelDescription())
-							.replace("\\$", "dollar");
-					if (name.contains("_")) {
-						name = "$" + name + "$";
-					}
-				} else if (compactcse5) {
-					name = StringUtil.toLaTeXString(geo.getLabelDescription(),
-							true);
-					name = convertUnicodeToLatex(name);
-				} else {
-					name = "$" + StringUtil.toLaTeXString(
-							geo.getLabelDescription(), true) + "$";
-					name = convertUnicodeToLatex(name);
+		if (geo != null && geo.isLabelVisible()
+				&& geo.getLabelDescription() != null) {
+			String name;
+			if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
+				name = convertUnicodeToText(geo.getLabelDescription())
+						.replace("\\$", "dollar");
+				if (name.contains("_")) {
+					name = "$" + name + "$";
 				}
-				if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
-					name = name.replace(Unicode.DEGREE_STRING, "^\\\\circ");
-				}
-				DrawableND drawGeo = drawGeo0;
-				if (drawGeo == null) {
-					drawGeo = euclidianView.getDrawableFor(geo);
-				}
-				double xLabel = drawGeo.getxLabel();
-				double yLabel = drawGeo.getyLabel();
-				xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
-				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
-
-				if (!compact) {
-					codePoint.append("\n");
-				}
-				if (compactcse5
-						&& geo.getLabelMode() != GeoElementND.LABEL_CAPTION) {
-					codePoint.append("MP(\"");
-				} else {
-					codePoint.append("label(\"");
-				}
-				codePoint.append(name);
-				packSpaceBetween(codePoint, "\",", "(");
-				codePoint.append(format(xLabel));
-				codePoint.append(",");
-				codePoint.append(format(yLabel));
-				codePoint.append("),");
-				if (!compact) {
-					codePoint.append(" ");
-				}
-				codePoint.append("NE");
-				packSpace(codePoint, "*");
-				if (compact) {
-					codePoint.append("lsf");
-				}
-				if (!compact) {
-					codePoint.append("labelscalefactor");
-				}
-
-				GColor geocolor = geo.getObjectColor();
-
-				// check if label is of point
-				boolean isPointLabel = (geocolor.equals(GColor.BLUE)
-						|| colorEquals(geocolor, GColor.newColor(124, 124, 255))) // xdxdff
-						// is of the form "A" or "$A$"
-						&& (((name.length() == 1)
-								&& Character.isUpperCase(name.charAt(0)))
-								|| (((name.length() == 3)
-										&& name.charAt(0) == '$' && name
-												.charAt(2) == '$'
-										&& Character
-												.isUpperCase(name.charAt(1)))));
-				isPointLabel = isPointLabel || geo.isGeoPoint();
-				// replaced with pointfontpen:
-				// if(compactcse5) {
-				// codePoint.append(",fp");
-				// }
-				if (isPointLabel && !frame.getKeepDotColors()) {
-					// configurable or default black?
-					// temp empty
-				} else if (!geocolor.equals(GColor.BLACK)) {
-					if (compactcse5) {
-						codePoint.append(",fp+");
-					} else {
-						codePoint.append(",");
-					}
-					colorCode(geocolor, codePoint);
-				}
-				codePoint.append("); ");
+			} else if (compactcse5) {
+				name = StringUtil.toLaTeXString(geo.getLabelDescription(),
+						true);
+				name = convertUnicodeToLatex(name);
+			} else {
+				name = "$" + StringUtil.toLaTeXString(geo.getLabelDescription(),
+						true) + "$";
+				name = convertUnicodeToLatex(name);
 			}
-		} catch (NullPointerException e) {
-			// For GeoElement that don't have a Label
-			// For example (created with geoList)
-			Log.debug(e);
+			if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
+				name = name.replace(Unicode.DEGREE_STRING, "^\\\\circ");
+			}
+			DrawableND drawGeo = drawGeo0;
+			if (drawGeo == null) {
+				drawGeo = euclidianView.getDrawableFor(geo);
+			}
+			double xLabel = drawGeo.getxLabel();
+			double yLabel = drawGeo.getyLabel();
+			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
+			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
+
+			if (!compact) {
+				codePoint.append("\n");
+			}
+			if (compactcse5
+					&& geo.getLabelMode() != GeoElementND.LABEL_CAPTION) {
+				codePoint.append("MP(\"");
+			} else {
+				codePoint.append("label(\"");
+			}
+			codePoint.append(name);
+			packSpaceBetween(codePoint, "\",", "(");
+			codePoint.append(format(xLabel));
+			codePoint.append(",");
+			codePoint.append(format(yLabel));
+			codePoint.append("),");
+			if (!compact) {
+				codePoint.append(" ");
+			}
+			codePoint.append("NE");
+			packSpace(codePoint, "*");
+			if (compact) {
+				codePoint.append("lsf");
+			}
+			if (!compact) {
+				codePoint.append("labelscalefactor");
+			}
+
+			GColor geocolor = geo.getObjectColor();
+
+			// check if label is of point
+			boolean isPointLabel = (geocolor.equals(GColor.BLUE)
+					|| colorEquals(geocolor, GColor.newColor(124, 124, 255))) // xdxdff
+					// is of the form "A" or "$A$"
+					&& (((name.length() == 1)
+							&& Character.isUpperCase(name.charAt(0)))
+							|| (((name.length() == 3) && name.charAt(0) == '$'
+									&& name.charAt(2) == '$' && Character
+											.isUpperCase(name.charAt(1)))));
+			isPointLabel = isPointLabel || geo.isGeoPoint();
+			// replaced with pointfontpen:
+			// if(compactcse5) {
+			// codePoint.append(",fp");
+			// }
+			if (isPointLabel && !frame.getKeepDotColors()) {
+				// configurable or default black?
+				// temp empty
+			} else if (!geocolor.equals(GColor.BLACK)) {
+				if (compactcse5) {
+					codePoint.append(",fp+");
+				} else {
+					codePoint.append(",");
+				}
+				colorCode(geocolor, codePoint);
+			}
+			codePoint.append("); ");
 		}
 	}
 

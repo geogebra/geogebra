@@ -43,7 +43,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	private static final String TEXT_XMIN = "textxmin";
 	private static final String TEXT_YMAX = "textymax";
 	private static final String TEXT_YMIN = "textymin";
-	protected TextValue textXUnit, textYUnit, textwidth, textheight;
+	protected final TextValue textXUnit, textYUnit, textwidth, textheight;
 	protected JLabel labelwidth, labelheight, labelXUnit, labelYUnit,
 			labelFontSize, labelFormat;
 	protected TextValue textXmin, textXmax, textYmin, textYmax;

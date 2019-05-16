@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -56,6 +55,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -98,10 +98,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 		format = frame.getFormat();
 		// init unit variables
-		try {
+		if (frame != null) {
 			xunit = frame.getXUnit();
 			yunit = frame.getYUnit();
-		} catch (NullPointerException e2) {
+		} else {
 			xunit = 1;
 			yunit = 1;
 		}
@@ -1707,69 +1707,65 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawLabel(GeoElementND geo, DrawableND drawGeo0) {
 		DrawableND drawGeo = drawGeo0;
-		try {
-			if (geo.isLabelVisible()) {
-				String name = geo.getLabelDescription();
-				if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
-					String nameSym = name;
-					for (int i = 0; i < name.length(); i++) {
-						char uCode = name.charAt(i);
-						if (UnicodeTeX.getMap().containsKey(uCode)) {
-							nameSym = nameSym.replaceAll("\\" + uCode, "\\$\\\\"
-									+ UnicodeTeX.getMap().get(uCode) + "\\$");
-						}
-					}
-					nameSym = nameSym.replace("$\\euro$", "\\euro");
-					name = nameSym;
-					if (!eurosym && name.contains("\\euro")) {
-						codePreamble.append("\\usepackage{eurosym}\n");
-					}
-					if (name.contains("_")) {
-						name = "$" + name + "$";
-					}
-				} else {
-					name = "$" + StringUtil.toLaTeXString(
-							geo.getLabelDescription(), true) + "$";
-				}
-
-				if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
-					name = name.replaceAll(Unicode.DEGREE_STRING,
-							"\\\\textrm{\\\\degre}");
-					if (codePreamble.indexOf("\\degre") == -1) {
-						codePreamble.append(
-								"\\newcommand{\\degre}{\\ensuremath{^\\circ}}\n");
+		if (geo != null && geo.isLabelVisible()
+				&& geo.getLabelDescription() != null) {
+			String name = geo.getLabelDescription();
+			if (geo.getLabelMode() == GeoElementND.LABEL_CAPTION) {
+				String nameSym = name;
+				for (int i = 0; i < name.length(); i++) {
+					char uCode = name.charAt(i);
+					if (UnicodeTeX.getMap().containsKey(uCode)) {
+						nameSym = nameSym.replaceAll("\\" + uCode, "\\$\\\\"
+								+ UnicodeTeX.getMap().get(uCode) + "\\$");
 					}
 				}
-				if (null == drawGeo) {
-					drawGeo = euclidianView.getDrawableFor(geo);
+				nameSym = nameSym.replace("$\\euro$", "\\euro");
+				name = nameSym;
+				if (!eurosym && name.contains("\\euro")) {
+					codePreamble.append("\\usepackage{eurosym}\n");
 				}
-				double xLabel = drawGeo.getxLabel();
-				double yLabel = drawGeo.getyLabel();
-				xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
-				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
-
-				GColor geocolor = geo.getObjectColor();
-				startBeamer(codePoint);
-				codePoint.append("\\rput[bl](");
-				codePoint.append(format(xLabel));
-				codePoint.append(",");
-				codePoint.append(format(yLabel));
-				codePoint.append("){");
-				if (!geocolor.equals(GColor.BLACK)) {
-					codePoint.append("\\");
-					colorCode(geocolor, codePoint);
-					codePoint.append("{");
+				if (name.contains("_")) {
+					name = "$" + name + "$";
 				}
-				codePoint.append(name);
-				if (!geocolor.equals(GColor.BLACK)) {
-					codePoint.append("}");
-				}
-				codePoint.append("}\n");
-				endBeamer(codePoint);
+			} else {
+				name = "$" + StringUtil.toLaTeXString(geo.getLabelDescription(),
+						true) + "$";
 			}
-		} catch (NullPointerException e) {
-			// For GeoElement that don't have a Label
-			// For example (created with geoList)
+
+			if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
+				name = name.replaceAll(Unicode.DEGREE_STRING,
+						"\\\\textrm{\\\\degre}");
+				if (codePreamble.indexOf("\\degre") == -1) {
+					codePreamble.append(
+							"\\newcommand{\\degre}{\\ensuremath{^\\circ}}\n");
+				}
+			}
+			if (null == drawGeo) {
+				drawGeo = euclidianView.getDrawableFor(geo);
+			}
+			double xLabel = drawGeo.getxLabel();
+			double yLabel = drawGeo.getyLabel();
+			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
+			yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
+
+			GColor geocolor = geo.getObjectColor();
+			startBeamer(codePoint);
+			codePoint.append("\\rput[bl](");
+			codePoint.append(format(xLabel));
+			codePoint.append(",");
+			codePoint.append(format(yLabel));
+			codePoint.append("){");
+			if (!geocolor.equals(GColor.BLACK)) {
+				codePoint.append("\\");
+				colorCode(geocolor, codePoint);
+				codePoint.append("{");
+			}
+			codePoint.append(name);
+			if (!geocolor.equals(GColor.BLACK)) {
+				codePoint.append("}");
+			}
+			codePoint.append("}\n");
+			endBeamer(codePoint);
 		}
 	}
 
