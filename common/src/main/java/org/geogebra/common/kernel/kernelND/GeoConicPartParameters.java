@@ -136,13 +136,15 @@ public class GeoConicPartParameters {
 				ellipticArcLength = new EllipticArcLength(conic);
 			}
 
+			arcLength = ellipticArcLength.compute(paramStart, paramEnd);
+			area = conic.getHalfAxis(0) * conic.getHalfAxis(1) * paramExtent
+					/ 2.0;
+
 			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
-				// length
-				value = ellipticArcLength.compute(paramStart, paramEnd);
+				value = arcLength;
+				arcLength = value;
 			} else {
-				// area
-				value = conic.getHalfAxis(0) * conic.getHalfAxis(1)
-						* paramExtent / 2.0;
+				value = area;
 			}
 			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
 
@@ -175,9 +177,9 @@ public class GeoConicPartParameters {
 
 		default:
 			setValueDefined(false);
-			// Application.debug("GeoConicPart: unsupported conic part for conic
-			// type: "
-			// + type);
+			// Log.debug(
+			// "GeoConicPart: unsupported conic part for conic type: "
+			// + conic.getType());
 		}
 	}
 
