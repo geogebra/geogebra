@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.activity.GeoGebraActivity;
 import org.geogebra.web.resources.SVGResource;
 
 /**

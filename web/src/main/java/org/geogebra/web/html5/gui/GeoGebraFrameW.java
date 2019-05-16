@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -47,8 +46,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
-	private static final int SMALL_SCREEN_HEADER_SCIENTIFIC_HEIGHT = 80;
-
 	/** The application */
 	protected AppW app;
 
@@ -294,11 +291,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private int getSmallScreenHeaderHeight() {
-		if (app instanceof AppWFull) {
-			return ((AppWFull)app).getActivity().getSmallScreenHeaderHeight();
+		if (app == null) {
+			return SMALL_SCREEN_HEADER_HEIGHT;
 		}
-
-		return 0;
+		return app.getActivity().getSmallScreenHeaderHeight();
 	}
 
 	private void setHeightWithTallHeader() {

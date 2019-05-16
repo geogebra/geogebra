@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -119,6 +120,7 @@ import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
+import org.geogebra.web.html5.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
 import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
@@ -311,6 +313,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		getAppletFrame().fitSizeToScreen();
 	}
 
+	@Override
+	public GBufferedImage getActiveEuclidianViewExportImage(double maxX, double maxY) {
+		return super.getActiveEuclidianViewExportImage(maxX, maxY);
+	}
+
 	/**
 	 * Scale to container if needed.
 	 */
@@ -422,6 +429,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
 				: laf2.getVersion(dimension, ae.getDataParamAppName());
 	}
+
+	public GeoGebraActivity getActivity() {return null;};
 
 	/**
 	 * handler for window resize
