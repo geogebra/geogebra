@@ -56,7 +56,7 @@ gradle.projectsEvaluated {
 
 jacocoTestReport {
    afterEvaluate {
-        getClassDirectories().setFrom files(classDirectories.files.collect {
+        setClassDirectories files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['org/mozilla/**'])
         })
     }
