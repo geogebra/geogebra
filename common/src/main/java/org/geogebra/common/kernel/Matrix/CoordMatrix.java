@@ -1402,9 +1402,7 @@ public class CoordMatrix {
 				// re-add current index for pivot caller
 				stack.add(index);
 			}
-
 		}
-
 	}
 
 	/*
@@ -1714,8 +1712,6 @@ public class CoordMatrix {
 
 		Log.debug("==== MATRIX * INVERSE ====\n"
 				+ matrix.mul(matrix.inverse).toString());
-
-
 	}
 
 }

@@ -229,18 +229,6 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	/**
-	 * Yields true if the coordinates of this vector are equal to those of
-	 * vector v.
-	 * 
-	 * @param v
-	 *            other vector
-	 * @return whether they are equal, ignoring z
-	 */
-	public boolean equals(GeoVec2D v) {
-		return DoubleUtil.isEqual(x, v.getX()) && DoubleUtil.isEqual(y, v.getY());
-	}
-
-	/**
 	 * c = a + b
 	 * 
 	 * @param a
