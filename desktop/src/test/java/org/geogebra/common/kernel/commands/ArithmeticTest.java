@@ -72,22 +72,6 @@ public class ArithmeticTest extends AlgebraTest {
 		t("log_{2}2/(2)", "0.5");
 	}
 
-	@Test 
-	public void functionWithFractions() {
-		t("frac(x)=(3/2)^x", "(3 / 2)^(x)");
-		// default EvalInfo: use rounding
-		t("nineQuarters=frac(2)", "2.25");
-		t("twoThirds=frac(-1)", "0.6666666666666666");
-		t("fourNinths=frac(-2)", "0.4444444444444444");
-		// Algebra View's EvalInfo: gives fraction
-		setSymbolic("nineQuarters");
-		setSymbolic("twoThirds");
-		setSymbolic("fourNinths");
-		t("nineQuarters", "9 / 4");
-		t("twoThirds", "2 / 3");
-		t("fourNinths", "4 / 9");
-	}
-
 	private void setSymbolic(String label) {
 		((GeoNumeric) app.getKernel().lookupLabel(label)).setSymbolicMode(true,
 				false);

@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FractionTest {
@@ -23,6 +24,20 @@ public class FractionTest {
 		t("Simplify(x/3/a)", "x");
 		t("Simplify(x^a)", "cbrt(x)");
 		t("Simplify(a!)", "1 / 3 * gamma(1 / 3)");
+	}
+
+	@Test
+	public void functionWithFractions() {
+		t("frac(x)=(3/2)^x", "(3 / 2)^(x)");
+		t("frac(2)", "9 / 4");
+		t("frac(-1)", "2 / 3");
+		t("frac(-2)", "4 / 9");
+	}
+
+	@Test
+	@Ignore // until APPS-882 is fixed
+	public void scientificNotation() {
+		t("5*10^(-2)", "1/20");
 	}
 
 	private static void t(String string, String string2) {
