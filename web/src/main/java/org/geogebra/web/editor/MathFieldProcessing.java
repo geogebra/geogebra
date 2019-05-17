@@ -5,6 +5,7 @@ import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.FunctionGroup;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -80,8 +81,9 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.getKeyListener()
 					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
 		} else if ((Unicode.DIVIDE + "").equals(text)) {
-			mf.insertString(Unicode.DIVIDE + "");
-			mf.onDivisionInserted();
+			KeyboardInputAdapter.emulateInput(mf.getInternal(),
+					Unicode.DIVIDE + "");
+			mf.getInternal().onDivisionInserted();
 		} else if ("/".equals(text)) {
 			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {

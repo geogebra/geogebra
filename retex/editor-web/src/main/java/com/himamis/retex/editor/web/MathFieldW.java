@@ -1147,10 +1147,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * Update cursor position after division sign was inserted
+	 * @return the cross-platform representation of this field
 	 */
-	public void onDivisionInserted() {
-		mathFieldInternal.onDivisionInserted();
+	public MathFieldInternal getInternal() {
+		return mathFieldInternal;
 	}
 
 }
