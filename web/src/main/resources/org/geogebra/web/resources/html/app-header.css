@@ -346,7 +346,7 @@ svg.icon.left {
     max-width: calc(100% - 12px);
     height: 48px;
     margin-left: 12px;
-    margin-top: -16px;
+    margin-top: -10px;
 }
 
 .GeoGebraFrame .hidden {
@@ -372,8 +372,6 @@ svg.icon.left {
 .smallScreen.GeoGebraFrame.calculatorHeader .menuBtn {
   	margin-top: 4px;
   	margin-bottom: 4px;
-  	padding-top: 4px;
-  	padding-bottom: 4px;
 }
 
 .GeoGebraFrame .headerLogo {
@@ -382,11 +380,7 @@ svg.icon.left {
 
 .compact.GeoGebraFrame .headerLogo,
 .smallScreen.GeoGebraFrame.calculatorHeader .headerLogo {
-    margin-top: -4px;
-    height: 40px;
-    padding: 4px 6px 4px 6px;
-}
-
-.compact.GeoGebraFrame .headerLogo {
-    margin-top: 0px;
+    margin: 0px ;
+    height: 36px;
+    padding: 4px 0px 4px 0px;
 }
