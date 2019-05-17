@@ -144,6 +144,10 @@ public class InputController {
 	 * Insert braces (), [], {}, "".
 	 */
 	public void newBraces(EditorState editorState, char ch) {
+		if (editorState.hasSelection()) {
+			editorState.cursorToSelectionStart();
+		}
+
 		int initialOffset = editorState.getCurrentOffset();
 		MathComponent last = editorState.getCurrentField()
 				.getArgument(initialOffset - 1);
@@ -186,9 +190,8 @@ public class InputController {
 							.addArgument(editorState.getCurrentOffset(), array);
 					editorState.setCurrentField(seq);
 					editorState.setCurrentOffset(0);
-
+					return;
 				}
-				return;
 			}
 
 			// TODO brace type
