@@ -257,13 +257,14 @@ public abstract class EuclidianView3D extends EuclidianView
 			.identity();
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.identity();
     private CoordMatrix4x4 undoTranslationMatrixForGL = CoordMatrix4x4.identity();
-	private CoordMatrix rotationMatrix;
+	private CoordMatrix4x4 rotationMatrix = CoordMatrix4x4.identity();
 	private Coords viewDirectionPersp = new Coords(4);
 	private Coords tmpCoordsLength3 = new Coords(3);
     private Coords tmpCoordsLength4 = new Coords(4);
 	private int intersectionThickness;
 	private GeoPointND intersectionPoint;
-	private CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 tmpMatrix1 = CoordMatrix4x4.identity();
+	private CoordMatrix4x4 tmpMatrix2 = CoordMatrix4x4.identity();
 	private boolean defaultCursorWillBeHitCursor = false;
 	private double[] parameters = new double[2];
 	private boolean viewChangedByZoom = true;
@@ -843,34 +844,37 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private void updateRotationMatrix() {
-
-		CoordMatrix m1, m2;
-
 		if (mIsARDrawing) {
-            m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
-                    (-90) * EuclidianController3D.ANGLE_TO_DEGREES);
+			CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
+					(-90) * EuclidianController3D.ANGLE_TO_DEGREES, tmpMatrix1);
             if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-				m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
-						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
+				CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS,
+						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
+						tmpMatrix2);
 			} else {
-				m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
-						(0) * EuclidianController3D.ANGLE_TO_DEGREES);
+				CoordMatrix.setRotation3DMatrix(CoordMatrix.Y_AXIS,
+						(0) * EuclidianController3D.ANGLE_TO_DEGREES,
+						tmpMatrix2);
 			}
         } else {
             if (getYAxisVertical()) { // y axis taken for up-down direction
-                m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
-                        (this.b) * EuclidianController3D.ANGLE_TO_DEGREES);
-                m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
-                        (-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
+				CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
+						(this.b) * EuclidianController3D.ANGLE_TO_DEGREES,
+						tmpMatrix1);
+				CoordMatrix.setRotation3DMatrix(CoordMatrix.Y_AXIS,
+						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
+						tmpMatrix2);
             } else { // z axis taken for up-down direction
-                m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
-                        (this.b - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
-                m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
-                        (-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
+				CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
+						(this.b - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
+						tmpMatrix1);
+				CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS,
+						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
+						tmpMatrix2);
             }
         }
 
-		rotationMatrix = m1.mul(m2);
+		rotationMatrix.setMul3x3(tmpMatrix1, tmpMatrix2);
 	}
 
 	// TODO specific scaling for each direction
@@ -959,9 +963,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		mWithScale.setMul(rotationAndScaleMatrix, translationMatrixWithoutScale);
 
-        tmpMatrix4x4.setMul(undoScaleMatrix, undoRotationMatrix);
-		mInvWithUnscale.setMul(undoTranslationMatrix, tmpMatrix4x4);
-		mToSceneForGL.setMul(undoTranslationMatrixForGL, tmpMatrix4x4);
+		tmpMatrix1.setMul(undoScaleMatrix, undoRotationMatrix);
+		mInvWithUnscale.setMul(undoTranslationMatrix, tmpMatrix1);
+		mToSceneForGL.setMul(undoTranslationMatrixForGL, tmpMatrix1);
 
 		mInvTranspose.setTranspose(mInvWithUnscale);
 
@@ -2463,12 +2467,12 @@ public abstract class EuclidianView3D extends EuclidianView
 					cursorNormal.normalize();
 
 					CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
-							tmpCoords2, tmpMatrix4x4);
+							tmpCoords2, tmpMatrix1);
 
-					cursorMatrix.setVx(tmpMatrix4x4.getVy());
-					cursorMatrix.setVy(tmpMatrix4x4.getVz());
-					cursorMatrix.setVz(tmpMatrix4x4.getVx());
-					cursorMatrix.setOrigin(tmpMatrix4x4.getOrigin());
+					cursorMatrix.setVx(tmpMatrix1.getVy());
+					cursorMatrix.setVy(tmpMatrix1.getVz());
+					cursorMatrix.setVz(tmpMatrix1.getVx());
+					cursorMatrix.setOrigin(tmpMatrix1.getOrigin());
 
 				} else if (getCursor3D().hasRegion()) {
 					cursorNormal.set3(getCursor3D().getMoveNormalDirection());
