@@ -771,6 +771,28 @@ public class CoordMatrix {
 	}
 
 	/**
+	 * set this to m1 * m2, with multiplying only 3x3 interior matrix
+	 * 
+	 * @param m1
+	 *            first matrix
+	 * @param m2
+	 *            second matrix
+	 * @return this
+	 */
+	public CoordMatrix setMul3x3(CoordMatrix m1, CoordMatrix m2) {
+		for (int i = 1; i <= 3; i++) {
+			for (int j = 1; j <= 3; j++) {
+				double r = 0;
+				for (int n = 1; n <= 3; n++) {
+					r += m1.get(i, n) * m2.get(n, j);
+				}
+				set(i, j, r);
+			}
+		}
+		return this;
+	}
+
+	/**
 	 * set this to transpose(m1) * m2
 	 * 
 	 * @param m1
