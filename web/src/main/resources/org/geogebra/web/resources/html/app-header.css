@@ -382,11 +382,11 @@ svg.icon.left {
 
 .compact.GeoGebraFrame .headerLogo,
 .smallScreen.GeoGebraFrame.calculatorHeader .headerLogo {
-    margin-top: 4px;
-    height: 32px;
+    margin-top: -4px;
+    height: 40px;
     padding: 4px 6px 4px 6px;
 }
 
 .compact.GeoGebraFrame .headerLogo {
-    margin-top: 4px;
+    margin-top: 0px;
 }
