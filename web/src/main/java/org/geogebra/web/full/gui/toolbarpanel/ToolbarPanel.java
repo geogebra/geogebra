@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -8,6 +10,8 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.plugin.EventDispatcher;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -68,6 +72,8 @@ public class ToolbarPanel extends FlowPanel
 
 	/** Application */
 	private AppW app;
+
+	private EventDispatcher eventDispatcher;
 
 	/**
 	 * Tab ids.
@@ -189,12 +195,21 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public ToolbarPanel(AppW app) {
 		this.app = app;
+		eventDispatcher = app.getEventDispatcher();
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		initGUI();
 		initClickStartHandler();
 		((AccessibilityManagerW) app.getAccessibilityManager())
 				.setMenuContainer(this);
+	}
+
+	/**
+	 * This setter is for tests only.
+	 * @param eventDispatcher event dispatcher
+	 */
+	void setEventDispatcher(EventDispatcher eventDispatcher) {
+		this.eventDispatcher = eventDispatcher;
 	}
 
 	private void add(ToolbarTab tab) {
@@ -357,6 +372,16 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		header.setOpen(false);
+		dispatchEvent(EventType.LEFT_PANEL_CLOSED);
+	}
+
+	/**
+	 * This method is package-private for tests only.
+	 * @param type event type
+	 */
+	void dispatchEvent(EventType type) {
+		org.geogebra.common.plugin.Event event = new org.geogebra.common.plugin.Event(type);
+		eventDispatcher.dispatchEvent(event);
 	}
 
 	/**
@@ -637,6 +662,7 @@ public class ToolbarPanel extends FlowPanel
 		switchTab(TabIds.ALGEBRA, fade);
 		hideMoveFloatingButton();
 		setMoveMode();
+		dispatchEvent(EventType.AV_PANEL_SELECTED);
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
@@ -670,6 +696,11 @@ public class ToolbarPanel extends FlowPanel
 
 		switchTab(TabIds.TOOLS, fade);
 		updateMoveButton();
+		dispatchEvent(EventType.TOOLS_PANEL_SELECTED);
+	}
+
+	public void openTableView(boolean fade) {
+		openTableView(null, fade);
 	}
 
 	/**
@@ -681,7 +712,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @param fade
 	 *            decides if tab should fade during animation.
 	 */
-	public void openTableView(GeoEvaluatable geo, boolean fade) {
+	public void openTableView(@Nullable GeoEvaluatable geo, boolean fade) {
 		if (!app.showToolBar()) {
 			openAlgebra(fade);
 			return;
@@ -692,6 +723,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		switchTab(TabIds.TABLE, fade);
 		tabTable.scrollTo(geo);
+		dispatchEvent(EventType.TV_PANEL_SELECTED);
 	}
 
 	/**
@@ -701,9 +733,10 @@ public class ToolbarPanel extends FlowPanel
 		return tabTools;
 	}
 
-	private void open() {
+	public void open() {
 		if (!isOpen()) {
 			doOpen();
+			dispatchEvent(EventType.LEFT_PANEL_OPENED);
 		}
 		onOpen();
 	}

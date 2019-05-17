@@ -33,6 +33,13 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	/**
+	 * For tests only.
+	 */
+	ScriptManager() {
+
+	}
+
+	/**
 	 * @param app
 	 *            application
 	 */
@@ -102,6 +109,11 @@ public abstract class ScriptManager implements EventListener {
 		case EDITOR_KEY_TYPED:
 		case EDITOR_START:
 		case EDITOR_STOP:
+		case AV_PANEL_SELECTED:
+		case TOOLS_PANEL_SELECTED:
+		case TV_PANEL_SELECTED:
+		case LEFT_PANEL_OPENED:
+		case LEFT_PANEL_CLOSED:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR
@@ -119,7 +131,12 @@ public abstract class ScriptManager implements EventListener {
 		}
 	}
 
-	private void callClientListeners(List<JsScript> listeners, Event evt) {
+	/**
+	 * This method is package-private for tests only.
+	 * @param listeners listeners
+	 * @param evt event
+	 */
+	void callClientListeners(List<JsScript> listeners, Event evt) {
 		if (listeners.isEmpty()) {
 			return;
 		}

@@ -125,7 +125,13 @@ public enum EventType {
 	/** Editing stopped for an object (or new input) */
 	EDITOR_STOP("editorStop"),
 	/** Undoable event happened in external object */
-	EMBEDDED_STORE_UNDO("embeddedStoreUndo");
+	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
+
+	AV_PANEL_SELECTED("avPanelSelected"),
+	TOOLS_PANEL_SELECTED("toolsPanelSelected"),
+	TV_PANEL_SELECTED("tvPanelSelected"),
+	LEFT_PANEL_OPENED("leftPanelOpened"),
+	LEFT_PANEL_CLOSED("leftPanelClosed");
 
 	private String eventName;
 

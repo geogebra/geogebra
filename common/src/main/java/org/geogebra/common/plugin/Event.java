@@ -20,6 +20,10 @@ public class Event {
 	public final ArrayList<GeoElement> targets;
 	private boolean alwaysDispatched;
 
+	public Event(EventType type) {
+		this(type, null);
+	}
+
 	/**
 	 * @param type
 	 *            type
@@ -81,7 +85,7 @@ public class Event {
 	/**
 	 * @return whether to override blocked scripting
 	 */
-	public boolean isAlwaysDispatched() {
+	boolean isAlwaysDispatched() {
 		return this.alwaysDispatched;
 	}
 

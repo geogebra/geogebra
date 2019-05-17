@@ -18,6 +18,12 @@ import com.google.gwtmockito.fakes.FakeProvider;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class MockApp {
+
+	public static AppWFull mockApplet(Class<?> testClass) {
+		testClass.getClassLoader().setDefaultAssertionStatus(false);
+		return mockApplet(new TestArticleElement("prerelease", "graphing"));
+	}
+
 	public static AppWFull mockApplet(TestArticleElement ae) {
 		GwtMockito.useProviderForType(PopupImpl.class,
 				new FakeProvider<PopupImpl>() {

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.io.layout.panel.Panel;
+import org.geogebra.common.io.layout.panel.Panels;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -112,7 +114,9 @@ public class PerspectiveDecoder {
 										.newRectangle(100, 100, 600, 400),
 								"3", 300));
 	}
-	
+
+	private static Panels panels;
+
 	/**
 	 * @param app
 	 *            application
@@ -272,9 +276,22 @@ public class PerspectiveDecoder {
 	public static void decodeSimple(App app, String code) {
 		boolean open = code.startsWith("+");
 
+		String viewId = code.substring(1);
+		Panel panel = panels.getPanel(viewId);
+		if (panel != null) {
+			if (open) {
+				panel.open();
+			} else {
+				panel.close();
+			}
+			return;
+		}
+
 		DockPanelData view = viewCodes.get(code.charAt(1) + "");
-
 		app.getGuiManager().setShowView(open, view.getViewId());
+	}
 
+	public static void setPanels(Panels panels) {
+		PerspectiveDecoder.panels = panels;
 	}
 }

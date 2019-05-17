@@ -58,6 +58,15 @@ public class EventDispatcher implements ClientView {
 		listeners.remove(listener);
 	}
 
+
+	/**
+	 * For tests only.
+	 * @return listeners
+	 */
+	ArrayList<EventListener> getListeners() {
+		return listeners;
+	}
+
 	/**
 	 * Dispatch an event to all registered event listeners
 	 * 
@@ -114,8 +123,7 @@ public class EventDispatcher implements ClientView {
 	 * @param geos
 	 *            multiple targets
 	 */
-	public void dispatchBulkEvent(EventType evtType,
-			ArrayList<GeoElement> geos) {
+	private void dispatchBulkEvent(EventType evtType, ArrayList<GeoElement> geos) {
 		dispatchEvent(new Event(evtType, null, null, geos));
 	}
 
