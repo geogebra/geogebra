@@ -3367,8 +3367,9 @@ namespace giac {
       vecteur v(args._VECTptr->begin(),args._VECTptr->begin()+s);
       if (s<1)
 	return gendimerr(contextptr);
-      if (has_i(v) || ckmatrix(v)){
-	if ( (v.size()==2 || v.size()==3) && v.front()._VECTptr->size()>3){
+      bool ismat=ckmatrix(v);
+      if (has_i(v) || ismat){
+	if ( (v.size()==2 || v.size()==3) && ismat && v.front()._VECTptr->size()>3){
 	  v=mtran(v);
 	  for (int i=0;i<int(v.size());++i)
 	    v[i]=put_attributs(_point(v[i],contextptr),attributs,contextptr);

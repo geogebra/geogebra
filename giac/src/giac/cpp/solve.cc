@@ -6367,8 +6367,13 @@ namespace giac {
 		  res.push_back(curv);
 		}
 	      }
-	      if (i==res0.size())
+	      if (i==res0.size()){
+		// subst original var with result, for example for solve([ exp(x^2 + y^2) =8, exp(x^2 + y^2)=8*y^2],[x,y]);
+		for (int j=0;j<res.size();++j){
+		  res[j]=subst(res[j],var_orig,res[j],false,contextptr);
+		}
 		return res;
+	      }
 	    }
 	  }
 	}
