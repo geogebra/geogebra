@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+/**
+ * Hosts actions for the left side panel container.
+ */
 class TabContainer extends ToolbarPanel.ToolbarTab {
 
 	private ToolbarPanel toolbarPanel;

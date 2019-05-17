@@ -155,7 +155,14 @@ public class ToolbarPanel extends FlowPanel
 			setAlwaysShowScrollBars(false);
 		}
 
+		/**
+		 * Opens the tab.
+		 */
 		public abstract void open();
+
+		/**
+		 * Closes the tab.
+		 */
 		public abstract void close();
 
 		@Override
@@ -1039,6 +1046,11 @@ public class ToolbarPanel extends FlowPanel
 		return app;
 	}
 
+	/**
+	 * Returns the tab associated with the parameter
+	 * @param tabIdentifier one of the App.VIEW_ int constants
+	 * @return the tab identified by the parameter, or null if no related tab is found
+	 */
 	public ToolbarTab getTab(int tabIdentifier) {
 		switch (tabIdentifier) {
 			case App.VIEW_ALGEBRA:
@@ -1055,6 +1067,7 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * This getter is public for testing only.
+	 * @return algebra tab
 	 */
 	public AlgebraTab getAlgebraTab() {
 		return tabAlgebra;
@@ -1062,6 +1075,7 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * This getter is public for testing only.
+	 * @return table of values tab
 	 */
 	public TableTab getTableTab() {
 		return tabTable;
