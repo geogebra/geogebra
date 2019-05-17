@@ -182,6 +182,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public static final int VIEW_DATA_COLLECTION = 43;
 	/** id for table view */
 	public static final int VIEW_TABLE_OF_VALUES = 8192;
+
+	public static final int VIEW_TOOLS = 16384;
+
+	public static final int VIEW_LEFT_SIDE_PANEL = 32768;
+
 	public static final int DEFAULT_THRESHOLD = 3;
 	public static final int DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER = 3;
 

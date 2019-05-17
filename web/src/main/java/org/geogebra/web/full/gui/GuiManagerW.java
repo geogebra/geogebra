@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
@@ -521,36 +523,65 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void setShowView(final boolean flag, final int viewId,
-			final boolean isPermanent) {
-		if (flag) {
-			if (!showView(viewId)) {
-				layout.getDockManager().show(viewId);
-			}
-
-			if (viewId == App.VIEW_SPREADSHEET) {
-				getSpreadsheetView().requestFocus();
-			}
-			if (viewId == App.VIEW_DATA_ANALYSIS) {
-				getSpreadsheetView().requestFocus();
-			}
+	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
+		ToolbarPanel.ToolbarTab leftSidePanelTab = getLeftSidePanelTab(viewId);
+		if (leftSidePanelTab != null) {
+			handleLeftSidePanelAction(leftSidePanelTab, flag);
 		} else {
-			if (showView(viewId)) {
-				layout.getDockManager().hide(viewId, isPermanent);
+			if (flag) {
+				showViewWithId(viewId);
+			} else {
+				hideViewWith(viewId, isPermanent);
 			}
-
-			if (viewId == App.VIEW_SPREADSHEET) {
-				(getApp()).getActiveEuclidianView().requestFocus();
-			}
+			getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		}
+
 		layout.getDockManager().updateVoiceover();
 		getApp().closePopups();
-		getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
-		// toolbarPanel.validate();
-		// toolbarPanel.updateHelpText();
 
-		if (getUnbundledToolbar() != null) {
-			getUnbundledToolbar().updateUndoRedoPosition();
+		ToolbarPanel leftSidePanel = getUnbundledToolbar();
+		if (leftSidePanel != null) {
+			leftSidePanel.updateUndoRedoPosition();
+		}
+	}
+
+	@Nullable
+	private ToolbarPanel.ToolbarTab getLeftSidePanelTab(int viewId) {
+		ToolbarPanel leftSidePanel = getUnbundledToolbar();
+		if (leftSidePanel != null) {
+			return leftSidePanel.getTab(viewId);
+		}
+		return null;
+	}
+
+	private void handleLeftSidePanelAction(ToolbarPanel.ToolbarTab tab, boolean shouldOpen) {
+		if (shouldOpen) {
+			tab.open();
+		} else {
+			tab.close();
+		}
+	}
+
+	private void showViewWithId(int viewId) {
+		if (!showView(viewId)) {
+			layout.getDockManager().show(viewId);
+		}
+
+		if (viewId == App.VIEW_SPREADSHEET) {
+			getSpreadsheetView().requestFocus();
+		}
+		if (viewId == App.VIEW_DATA_ANALYSIS) {
+			getSpreadsheetView().requestFocus();
+		}
+	}
+
+	private void hideViewWith(int viewId, boolean isPermanent) {
+		if (showView(viewId)) {
+			layout.getDockManager().hide(viewId, isPermanent);
+		}
+
+		if (viewId == App.VIEW_SPREADSHEET) {
+			(getApp()).getActiveEuclidianView().requestFocus();
 		}
 	}
 

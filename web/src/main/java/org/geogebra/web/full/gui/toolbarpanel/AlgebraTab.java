@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * Algebra tab of tool panel
  */
-class AlgebraTab extends ToolbarPanel.ToolbarTab {
+public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 	private App app;
 	private final ToolbarPanel toolbarPanel;
@@ -75,6 +75,16 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 					.clearSelectedGeos();
 			av.resetItems(true);
 		}
+	}
+
+	@Override
+	public void open() {
+		toolbarPanel.openAlgebra(true);
+	}
+
+	@Override
+	public void close() {
+		toolbarPanel.close();
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
-import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -29,7 +28,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.panel.PanelsW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -67,7 +65,6 @@ public class GgbAPIW extends GgbAPI {
 		this.kernel = app.getKernel();
 		this.algebraprocessor = kernel.getAlgebraProcessor();
 		this.construction = kernel.getConstruction();
-		PerspectiveDecoder.setPanels(new PanelsW((AppW) app));
 	}
 
 	/**

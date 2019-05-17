@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.io.layout.panel.Panel;
-import org.geogebra.common.io.layout.panel.Panels;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -48,6 +46,24 @@ public class PerspectiveDecoder {
 						new DockPanelData(App.VIEW_ALGEBRA, null, false,
 								false, false, AwtFactory.getPrototype()
 										.newRectangle(100, 100, 250, 400),
+								"3,3", 200));
+		viewCodes
+				.put("Tools",
+						new DockPanelData(App.VIEW_TOOLS, null, false,
+								false, false, AwtFactory.getPrototype()
+								.newRectangle(100, 100, 250, 400),
+								"3,3", 200));
+		viewCodes
+				.put("TV",
+						new DockPanelData(App.VIEW_TABLE_OF_VALUES, null, false,
+								false, false, AwtFactory.getPrototype()
+								.newRectangle(100, 100, 250, 400),
+								"3,3", 200));
+		viewCodes
+				.put("LP",
+						new DockPanelData(App.VIEW_LEFT_SIDE_PANEL, null, false,
+								false, false, AwtFactory.getPrototype()
+								.newRectangle(100, 100, 250, 400),
 								"3,3", 200));
 		viewCodes
 				.put("S",
@@ -114,8 +130,6 @@ public class PerspectiveDecoder {
 										.newRectangle(100, 100, 600, 400),
 								"3", 300));
 	}
-
-	private static Panels panels;
 
 	/**
 	 * @param app
@@ -275,23 +289,7 @@ public class PerspectiveDecoder {
 	 */
 	public static void decodeSimple(App app, String code) {
 		boolean open = code.startsWith("+");
-
-		String viewId = code.substring(1);
-		Panel panel = panels.getPanel(viewId);
-		if (panel != null) {
-			if (open) {
-				panel.open();
-			} else {
-				panel.close();
-			}
-			return;
-		}
-
-		DockPanelData view = viewCodes.get(code.charAt(1) + "");
+		DockPanelData view = viewCodes.get(code.substring(1));
 		app.getGuiManager().setShowView(open, view.getViewId());
-	}
-
-	public static void setPanels(Panels panels) {
-		PerspectiveDecoder.panels = panels;
 	}
 }

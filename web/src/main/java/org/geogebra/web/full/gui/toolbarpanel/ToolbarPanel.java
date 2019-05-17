@@ -95,10 +95,11 @@ public class ToolbarPanel extends FlowPanel
 	private FlowPanel main;
 	private int tabCount = 0;
 	private StandardButton moveBtn;
-	private Integer lastOpenWidth = null;
-	private AlgebraTab tabAlgebra = null;
-	private TableTab tabTable = null;
-	private ToolsTab tabTools = null;
+	private Integer lastOpenWidth;
+	private AlgebraTab tabAlgebra;
+	private TableTab tabTable;
+	private ToolsTab tabTools;
+	private TabContainer tabContainer;
 	private TabIds selectedTabId;
 	private boolean closedByUser = false;
 	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
@@ -153,6 +154,9 @@ public class ToolbarPanel extends FlowPanel
 			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
 		}
+
+		public abstract void open();
+		public abstract void close();
 
 		@Override
 		public void onResize() {
@@ -254,6 +258,7 @@ public class ToolbarPanel extends FlowPanel
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab(this);
 		tabTools = new ToolsTab(this);
+		tabContainer = new TabContainer(this);
 
 		add(tabAlgebra);
 		add(tabTools);
@@ -727,9 +732,10 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
+	 * This getter is public only for testing.
 	 * @return tool tab
 	 */
-	private ToolsTab getTabTools() {
+	public ToolsTab getToolsTab() {
 		return tabTools;
 	}
 
@@ -959,7 +965,7 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void setLabels() {
 		header.setLabels();
-		if (!getTabTools().isCustomToolbar) {
+		if (!getToolsTab().isCustomToolbar) {
 			tabTools.toolsPanel.setLabels();
 			tabTools.moreBtn
 					.setText(app.getLocalization().getMenu("Tools.More"));
@@ -1023,7 +1029,7 @@ public class ToolbarPanel extends FlowPanel
 	 * Update toolbar content
 	 */
 	public void updateContent() {
-		getTabTools().updateContent();
+		getToolsTab().updateContent();
 	}
 
 	/**
@@ -1031,5 +1037,33 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public AppW getApp() {
 		return app;
+	}
+
+	public ToolbarTab getTab(int tabIdentifier) {
+		switch (tabIdentifier) {
+			case App.VIEW_ALGEBRA:
+				return getAlgebraTab();
+			case App.VIEW_TOOLS:
+				return getToolsTab();
+			case App.VIEW_TABLE_OF_VALUES:
+				return getTableTab();
+			case App.VIEW_LEFT_SIDE_PANEL:
+				return tabContainer;
+		}
+		return null;
+	}
+
+	/**
+	 * This getter is public for testing only.
+	 */
+	public AlgebraTab getAlgebraTab() {
+		return tabAlgebra;
+	}
+
+	/**
+	 * This getter is public for testing only.
+	 */
+	public TableTab getTableTab() {
+		return tabTable;
 	}
 }

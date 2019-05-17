@@ -204,6 +204,16 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	}
 
 	@Override
+	public void open() {
+		toolbarPanel.openTools(true);
+	}
+
+	@Override
+	public void close() {
+		toolbarPanel.close();
+	}
+
+	@Override
 	public void onResize() {
 		super.onResize();
 		int w = this.toolbarPanel.getTabWidth();

@@ -38,13 +38,23 @@ public class TableTab extends ToolbarPanel.ToolbarTab implements SetLabels {
 	/**
 	 * Rebuild the tab.
 	 */
-	void buildGui() {
+	private void buildGui() {
 		setWidget(tableValuesPanel);
 	}
 
 	@Override
 	public void setLabels() {
 		tableValuesPanel.setLabels();
+	}
+
+	@Override
+	public void open() {
+		toolbarPanel.openTableView(true);
+	}
+
+	@Override
+	public void close() {
+		toolbarPanel.close();
 	}
 
 	@Override
