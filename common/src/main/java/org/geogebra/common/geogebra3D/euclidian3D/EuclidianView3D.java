@@ -3447,6 +3447,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	/**
+	 * update values for ticks and labels
+	 */
 	public void updateDecoration() {
 		// we need to update axis numbers locations
 		for (int i = 0; i < 3; i++) {

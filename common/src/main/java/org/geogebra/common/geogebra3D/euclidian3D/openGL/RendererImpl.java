@@ -475,7 +475,6 @@ public abstract class RendererImpl {
 
     public abstract CoordMatrix4x4 getArViewMatrix();
 
-
 	/**
 	 * draw not hidden parts
 	 */

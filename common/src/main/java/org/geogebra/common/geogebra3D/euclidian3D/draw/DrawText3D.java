@@ -60,7 +60,7 @@ public final class DrawText3D extends Drawable3DCurves {
 			label.update(text.getTextString(), getFont(),
 					getGeoElement().getBackgroundColor(),
 					getGeoElement().getObjectColor(), getLabelPosition(),
-					getLabelOffsetX(), -getLabelOffsetY(), 0 );
+					getLabelOffsetX(), -getLabelOffsetY(), 0);
 		}
 	}
 

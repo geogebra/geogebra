@@ -171,7 +171,7 @@ public class DrawAxis3D extends DrawLine3D {
 					getGeoElement().getObjectColor(),
 					((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
 					getGeoElement().labelOffsetX, // -4,
-					getGeoElement().labelOffsetY,// -6
+					getGeoElement().labelOffsetY, // -6
 					0
 			);
 			label.updatePosition(getView3D().getRenderer());

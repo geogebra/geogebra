@@ -499,7 +499,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-											 CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
+											 CoordMatrix4x4 cameraPerspective,
+											 CoordMatrix4x4 modelMatrix,
 											 float scaleFactor) {
 		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
