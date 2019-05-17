@@ -169,13 +169,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		dotColors = frame.getKeepDotColors();
 
 		// initialize unit variables, scale ratio = yunit/xunit;
-		if (frame != null) {
-			xunit = frame.getXUnit();
-			yunit = frame.getYUnit();
-		} else {
-			xunit = 1;
-			yunit = 1;
-		}
+		xunit = frame.getXUnit();
+		yunit = frame.getYUnit();
 
 		// initialize new StringBuilders for Asymptote code
 		// overall output

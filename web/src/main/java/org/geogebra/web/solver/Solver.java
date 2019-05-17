@@ -263,7 +263,7 @@ public class Solver {
 				Log.debug("Render time: " + (endTime - solveTime) + " ms");
 			} catch (SolveFailedException e) {
 				Log.debug("Solve failed for " + solvable + " for variable " + variable);
-			} catch (NullPointerException e) {
+			} catch (RuntimeException e) {
 				Log.error("Something terrible happened when solving "
 						+ solvable + " in " + variable);
 				Log.debug(e);

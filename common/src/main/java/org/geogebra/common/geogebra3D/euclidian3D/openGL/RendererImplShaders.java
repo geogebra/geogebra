@@ -92,6 +92,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	private int currentLayer;
 	private float[] eyeOrDirection = new float[4];
 	protected float[][] ambiantDiffuse;
+	private CoordMatrix4x4 arViewMatrix = new CoordMatrix4x4();
 
 	/**
 	 * dash values for shaders
@@ -491,8 +492,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glCopyToMatrixLocation(tmpFloat16);
 	}
 
-	private CoordMatrix4x4 arViewMatrix = new CoordMatrix4x4();
-
+	@Override
 	public CoordMatrix4x4 getArViewMatrix() {
 		return arViewMatrix;
 	}

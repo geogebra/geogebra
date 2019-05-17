@@ -98,13 +98,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 		format = frame.getFormat();
 		// init unit variables
-		if (frame != null) {
-			xunit = frame.getXUnit();
-			yunit = frame.getYUnit();
-		} else {
-			xunit = 1;
-			yunit = 1;
-		}
+		xunit = frame.getXUnit();
+		yunit = frame.getYUnit();
 		// scaleratio=yunit/xunit;
 		// Initialize new StringBuilder for Pstricks code
 		// and CustomColor

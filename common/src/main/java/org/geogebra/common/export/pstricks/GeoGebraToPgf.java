@@ -95,13 +95,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		format = frame.getFormat();
 		forceGnuplot = frame.getGnuplot();
 		// init unit variables
-		if (frame != null) {
-			xunit = frame.getXUnit();
-			yunit = frame.getYUnit();
-		} else {
-			xunit = 1;
-			yunit = 1;
-		}
+		xunit = frame.getXUnit();
+		yunit = frame.getYUnit();
 		// Initialize new StringBuilder for Pstricks code
 		// and CustomColor
 		code = new StringBuilder();
@@ -234,7 +229,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.insert(0, codeBeginDoc + "");
 		code.insert(0, codePreamble + "");
 		frame.write(code);
-
 	}
 
 	@Override
