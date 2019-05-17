@@ -446,7 +446,7 @@ public class AlgebraProcessor {
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (ParseException exception) {
-			callback.callback(null);
+			callback.callback(geo);
 			handler.showError(exception.getMessage());
 		} catch (Exception e) {
 			handler.showError(e.getMessage());
