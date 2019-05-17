@@ -377,12 +377,16 @@ svg.icon.left {
 }
 
 .GeoGebraFrame .headerLogo {
-    margin: 0;
+    margin: 8px;
 }
 
 .compact.GeoGebraFrame .headerLogo,
 .smallScreen.GeoGebraFrame.calculatorHeader .headerLogo {
-    margin-top: -2px;
-    height: 34px;
+    margin-top: 4px;
+    height: 32px;
     padding: 4px 6px 4px 6px;
+}
+
+.compact.GeoGebraFrame .headerLogo {
+    margin-top: 4px;
 }
