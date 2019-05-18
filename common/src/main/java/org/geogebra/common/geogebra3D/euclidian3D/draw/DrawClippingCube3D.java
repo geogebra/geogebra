@@ -136,8 +136,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double yscale = view.getYscale();
         double zscale = view.getZscale();
 
-        Coords origin = getView3D().getToSceneMatrix().getOrigin();
-        double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
+		double x0 = -view.getXZero();
+		double y0 = -view.getYZero();
+		double z0 = -view.getZZero();
 
         double halfWidth = renderer.getWidth() / 2.0;
 
