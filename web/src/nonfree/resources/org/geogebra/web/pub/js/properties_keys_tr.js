@@ -353,7 +353,7 @@ __GGB__keysVar["tr"].command = {
     "FitLogistic.Syntax": "[ <Nokta Listesi> ]",
     "FitPoly": "UydurPolinom",
     "FitPoly.Syntax": "[ <Nokta Listesi>, <Polinom Derecesi> ]",
-    "FitPow": "Uydur\xdcs",
+    "FitPow": "UydurKuvvet",
     "FitPow.Syntax": "[ <Nokta Listesi> ]",
     "FitSin": "UydurSin",
     "FitSin.Syntax": "[ <Nokta Listesi> ]",
