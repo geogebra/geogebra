@@ -28,6 +28,10 @@ public class VoiceInputOutputController {
 		this.appW = appW;
 		dispatcher = new VoiceInputDispatcher(this);
 	}
+	
+	public AppW getAppW() {
+		return appW;
+	}
 
 	/**
 	 * @param isResult

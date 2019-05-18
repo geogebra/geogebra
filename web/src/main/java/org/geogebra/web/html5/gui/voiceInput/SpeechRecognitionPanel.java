@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 
-	private SpeechRecognitionController specRecContr;
 	private VoiceInputOutputController controller;
 	private StandardButton speechBtn;
 	private int viewID;
@@ -32,7 +31,6 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 	 *            id of view
 	 */
 	public SpeechRecognitionPanel(AppW app, int viewID) {
-		specRecContr = new SpeechRecognitionController(app);
 		controller = new VoiceInputOutputController(app);
 		this.viewID = viewID;
 		buildGui(app);
@@ -70,13 +68,6 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		return controller;
 	}
 
-	/**
-	 * @return the speech recognition controller
-	 */
-	public SpeechRecognitionController getSpecRecController() {
-		return specRecContr;
-	}
-
 	/** Sets focus to speech rec btn */
 	public void focusSpeechRec() {
 		if (speechBtn != null) {
@@ -87,11 +78,11 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (shiftDown) {
-			specRecContr.getAppW().getAccessibilityManager()
+			controller.getAppW().getAccessibilityManager()
 					.focusPrevious(AccessibilityGroup.SPEECH, getViewID());
 			return true;
 		}
-		specRecContr.getAppW().getAccessibilityManager()
+		controller.getAppW().getAccessibilityManager()
 				.focusNext(AccessibilityGroup.SPEECH, getViewID());
 		return true;
 	}
