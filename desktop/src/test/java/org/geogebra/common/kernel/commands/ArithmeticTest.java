@@ -118,6 +118,28 @@ public class ArithmeticTest extends AlgebraTest {
 		t("tan(-inf)", "NaN");
 		t("ln(-inf)", "NaN");
 		t("exp(-inf)", "0");
+		t("inf * inf", "Infinity");
+		t("inf * -inf", "-Infinity");
+		t("-inf * inf", "-Infinity");
+		t("-inf * -inf", "Infinity");
+		t("inf + inf", "Infinity");
+		t("inf + -inf", "NaN");
+		t("-inf + inf", "NaN");
+		t("-inf + -inf", "-Infinity");
+		t("inf - inf", "NaN");
+		t("inf - -inf", "Infinity");
+		t("-inf - inf", "-Infinity");
+		t("-inf - -inf", "NaN");
+		t("inf / inf", "NaN");
+		t("inf / -inf", "NaN");
+		t("-inf / inf", "NaN");
+		t("-inf / -inf", "NaN");
+		t("inf * ?", "NaN");
+		t("? * inf", "NaN");
+		t("? * ?", "NaN");
+		t("inf / ?", "NaN");
+		t("? / inf", "NaN");
+		t("? / ?", "NaN");
 	}
 
 	@Test

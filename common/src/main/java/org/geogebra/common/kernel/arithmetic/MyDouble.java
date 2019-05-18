@@ -294,6 +294,8 @@ public class MyDouble extends ValidExpression
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
 	 * 
+	 * https://tinyurl.com/ComplexMultiply
+	 * 
 	 * @param a
 	 *            1st factor
 	 * @param b
@@ -310,14 +312,6 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		// (infinity) * (-infinity) = ?
-		if (Double.isInfinite(a.val) && Double.isInfinite(bval)
-				&& Math.signum(a.val) != Math.signum(bval)) {
-			c.set(Double.NaN);
-			return;
-		}
-
-		// gives correct answer for eg -3 * infinity
 		c.set(a.val * bval);
 	}
 
@@ -325,6 +319,8 @@ public class MyDouble extends ValidExpression
 	 * c = a * b
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
+	 * 
+	 * https://tinyurl.com/ComplexMultiply
 	 * 
 	 * @param a
 	 *            1st factor
@@ -342,14 +338,6 @@ public class MyDouble extends ValidExpression
 			return;
 		}
 
-		// (infinity) * (-infinity) = ?
-		if (Double.isInfinite(a.val) && Double.isInfinite(b)
-				&& Math.signum(a.val) != Math.signum(b)) {
-			c.set(Double.NaN);
-			return;
-		}
-
-		// gives correct answer for eg -3 * infinity
 		c.set(a.val * b);
 	}
 
