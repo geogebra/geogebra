@@ -994,7 +994,7 @@ public class GeoGebraFrameFull
 	@Override
 	protected int getSmallScreenHeaderHeight() {
 		if (app instanceof AppWFull) {
-			return ((AppWFull)app).getActivity().getSmallScreenHeaderHeight();
+			return ((AppWFull) app).getActivity().getSmallScreenHeaderHeight();
 		}
 		return super.getSmallScreenHeaderHeight();
 	}

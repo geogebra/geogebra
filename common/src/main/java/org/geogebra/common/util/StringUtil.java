@@ -1878,7 +1878,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * Used to decide whether to use serif or sans serif eg axis labels
-	 * 
+	 *
 	 * @param string
 	 *            text
 	 * @return if string starts with eg \mathrm
@@ -1888,6 +1888,16 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				&& string.startsWith("$\\math");
 	}
 
+        /**
+         * Append number formated to fixed number of significant digits to a builder.
+         *
+         * @param sbFormatSF
+         *            output builder
+	 * @param x
+	 *            number
+	 * @param sfa
+	 *            format
+         */
 	public static void appendFormat(StringBuilder sbFormatSF, double x,
 			ScientificFormatAdapter sfa) {
 		String absStr;

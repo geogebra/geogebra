@@ -58,7 +58,6 @@ public class EventDispatcher implements ClientView {
 		listeners.remove(listener);
 	}
 
-
 	/**
 	 * For tests only.
 	 * @return listeners

@@ -23,6 +23,6 @@ class TabContainer extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	protected void onActive() {
-
+		// not needed
 	}
 }

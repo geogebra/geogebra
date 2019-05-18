@@ -19,8 +19,8 @@ public class CoordsTest {
 		assertEquals(v1.dotproduct(v1), 25, 1E-8);
 	}
 
-	@Test 
-	public void testToString(){
+	@Test
+	public void testToString() {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		Coords v1 = new Coords(4);
 		v1.set(.5, .31, -.17);
