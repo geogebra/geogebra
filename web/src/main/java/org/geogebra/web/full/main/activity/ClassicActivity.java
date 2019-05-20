@@ -50,6 +50,6 @@ public class ClassicActivity extends BaseActivity {
 
 	@Override
 	public HeaderResizer getHeaderResizer(AppW app) {
-		return new NullHeaderResizer();
+		return NullHeaderResizer.get();
 	}
 }

@@ -32,6 +32,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
+import org.geogebra.web.full.main.NullHeaderResizer;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -110,6 +111,7 @@ public class GeoGebraFrameFull
 		panelTransitioner = new PanelTransitioner(this);
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
+		headerResizer = NullHeaderResizer.get();
 		Event.addNativePreviewHandler(this);
 	}
 
@@ -235,9 +237,6 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateHeaderSize() {
-		if (headerResizer == null) {
-			return;
-		}
 		headerResizer.resizeHeader();
 	}
 
@@ -1003,9 +1002,6 @@ public class GeoGebraFrameFull
 
 	@Override
 	protected int getSmallScreenHeaderHeight() {
-		if (headerResizer == null) {
-			return -1;
-		}
 		return headerResizer.getSmallScreenHeight();
 	}
 }
