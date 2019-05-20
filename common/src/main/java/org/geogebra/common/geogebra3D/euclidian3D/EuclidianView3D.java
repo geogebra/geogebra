@@ -222,8 +222,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	// matrix for changing coordinate system
 	private CoordMatrix4x4 mWithoutScale = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.identity();
-	private CoordMatrix4x4 mInvWithUnscale = CoordMatrix4x4.identity();
-    private CoordMatrix4x4 mToSceneForGL = CoordMatrix4x4.identity();
+    private CoordMatrix4x4 mToScene = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.identity();
 	private double a = ANGLE_ROT_OZ;
@@ -255,8 +254,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			.identity();
 	private CoordMatrix4x4 translationMatrixWithoutScale = CoordMatrix4x4
 			.identity();
-	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.identity();
-    private CoordMatrix4x4 undoTranslationMatrixForGL = CoordMatrix4x4.identity();
+    private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.identity();
 	private CoordMatrix4x4 rotationMatrix = CoordMatrix4x4.identity();
 	private Coords viewDirectionPersp = new Coords(4);
 	private Coords tmpCoordsLength3 = new Coords(3);
@@ -772,7 +770,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            vector
 	 */
 	final public void toSceneCoords3D(Coords vInOut) {
-		changeCoords(mInvWithUnscale, vInOut);
+		changeCoords(mToScene, vInOut);
 	}
 
 	/**
@@ -792,9 +790,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	@Override
 	final public CoordMatrix4x4 getToSceneMatrix() {
-		return mInvWithUnscale;
+		return mToScene;
 	}
 
+	/**
+	 * 
+	 * @return transposed to scene matrix
+	 */
 	final public CoordMatrix4x4 getToSceneMatrixTranspose() {
 		return mInvTranspose;
 	}
@@ -808,13 +810,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		return mWithScale;
 	}
 
+	/**
+	 *
+	 * @return the matrix : scene coords (already scaled) -> screen coords.
+	 */
 	final public CoordMatrix4x4 getToScreenMatrixForGL() {
 		return mWithoutScale;
 	}
-
-    final public CoordMatrix4x4 getToSceneMatrixForGL() {
-        return mToSceneForGL;
-    }
 
 	/**
 	 * return the matrix undoing the rotation : scene coords -> screen coords.
@@ -922,12 +924,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		translationMatrixWithoutScale.set(3, 4, translationZzero);
 
 		// screen to scene translation matrix
-		undoTranslationMatrix.set(1, 4, -getXZero());
-		undoTranslationMatrix.set(2, 4, -getYZero());
-		undoTranslationMatrix.set(3, 4, -getZZero());
-        undoTranslationMatrixForGL.set(1, 4, -getXZero());
-        undoTranslationMatrixForGL.set(2, 4, -getYZero());
-        undoTranslationMatrixForGL.set(3, 4, -translationZzero);
+        undoTranslationMatrix.set(1, 4, -getXZero());
+        undoTranslationMatrix.set(2, 4, -getYZero());
+        undoTranslationMatrix.set(3, 4, -translationZzero);
     }
 
 	/**
@@ -964,10 +963,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		mWithScale.setMul(rotationAndScaleMatrix, translationMatrixWithoutScale);
 
 		tmpMatrix1.setMul(undoScaleMatrix, undoRotationMatrix);
-		mInvWithUnscale.setMul(undoTranslationMatrix, tmpMatrix1);
-		mToSceneForGL.setMul(undoTranslationMatrixForGL, tmpMatrix1);
-
-		mInvTranspose.setTranspose(mInvWithUnscale);
+		mToScene.setMul(undoTranslationMatrix, tmpMatrix1);
+		mInvTranspose.setTranspose(mToScene);
 
 		updateEye();
 	}

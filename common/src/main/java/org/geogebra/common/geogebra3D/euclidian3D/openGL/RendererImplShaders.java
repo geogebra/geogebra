@@ -549,7 +549,7 @@ public abstract class RendererImplShaders extends RendererImpl {
         CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
         tmpMatrix2.solve(ret, tmpCoords1);
         // undo screen coordinates
-        ret.setMul(view3D.getToSceneMatrixForGL(), tmpCoords1);
+		ret.setMul(view3D.getToSceneMatrix(), tmpCoords1);
 	}
 
 	@Override
