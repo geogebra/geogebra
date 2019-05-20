@@ -62,7 +62,7 @@
         margin-right: auto;
     }
 
-    .algebraPanelScientificNormalScreen {
+    .algebraPanelScientificDefaults {
         @extend %sheetOfPaper;
         &>div {
             margin-bottom: 0;
@@ -111,7 +111,6 @@
         top: 12px;
     }
 
-
     %panelFadeAnimation {
         opacity: 1;
         animation-iteration-count: 1;
@@ -151,5 +150,4 @@
    	100% {
    		opacity: 0;
    	}
-
-   	}
+}

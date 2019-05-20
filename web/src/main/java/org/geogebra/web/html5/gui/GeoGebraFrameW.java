@@ -319,13 +319,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
-		boolean visible = forcedHeaderVisibility != Visibility.HIDDEN;
+			boolean visible = forcedHeaderVisibility != Visibility.HIDDEN;
 			header.getStyle().setProperty("display", visible ? "" : "none");
 			if (isHeaderVisible != visible) {
 				isHeaderVisible = visible;
-		        app.onHeaderVisible();
+				app.onHeaderVisible();
 			}
-		    updateArticleHeight();
+			updateArticleHeight();
 		}
 	}
 
