@@ -114,6 +114,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		double x;
 
 		try {
+			// https://en.wikipedia.org/wiki/Q%E2%80%93Q_plot#Filliben's_estimate
 			x = 1 - Math.pow(0.5, 1.0 / n);
 			zValues[0] = normalDist.inverseCumulativeProbability(x);
 
