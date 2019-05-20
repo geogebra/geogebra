@@ -46,4 +46,8 @@ public class ClassicActivity extends BaseActivity {
 		return new AlgebraMenuItemCollectionCAS(view);
 	}
 
+	@Override
+	public int getSmallScreenHeaderHeight() {
+		return 0;
+	}
 }
