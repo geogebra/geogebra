@@ -24,9 +24,8 @@ public abstract class AbstractNumericProperty<T extends Number & Comparable<T>>
 		if (value.compareTo(getMin()) >= 0 && value.compareTo(getMax()) <= 0) {
 			setValueSafe(value);
 		} else {
-			throw new RuntimeException(String.format(
-					"The value %s must be between [%s, %s]", value.toString(),
-					getMin().toString(), getMax().toString()));
+			throw new RuntimeException("The value " + value
+					+ " must be between [" + getMin() + ", " + getMax() + "]");
 		}
 	}
 
