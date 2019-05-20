@@ -261,7 +261,6 @@ public class DrawAxis3D extends DrawLine3D {
 			tmpCoords1.setZ(0);
 			tmpCoords1.setW(0);
 			tmpCoords1.normalize();
-			tmpCoords1.mulInside(axis.getTickSize());
 			double valueX = tmpCoords1.getX();
 			tmpCoords1.setX(-tmpCoords1.getY());
 			tmpCoords1.setY(valueX);
@@ -400,4 +399,10 @@ public class DrawAxis3D extends DrawLine3D {
 		}
 	}
 
+	public void updateDrawPositionAxes() {
+		updateDecorations();
+		for (DrawLabel3D currentLabel : labels.values()) {
+			currentLabel.updateDrawPositionAxes(((GeoAxisND) getGeoElement()).getTickSize());
+		}
+	}
 }

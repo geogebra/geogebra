@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.MyMath;
 
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
@@ -428,22 +429,38 @@ public class DrawLabel3D {
 		labelOrigin[1] *= view.getYscale();
 		labelOrigin[2] *= view.getZscale();
 
-		drawX = (int) (vScreen.getX() + xOffset);
-		if (anchor && xOffset < 0) {
-			drawX -= width / getFontScale();
-		} else {
-			drawX += xOffset2 / getFontScale();
+		if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled() || !anchor) {
+			drawX = (int) (vScreen.getX() + xOffset);
+			if (anchor && xOffset < 0) {
+				drawX -= width / getFontScale();
+			} else {
+				drawX += xOffset2 / getFontScale();
+			}
+
+			drawY = (int) (vScreen.getY() + yOffset);
+			if (anchor && yOffset < 0) {
+				drawY -= height / getFontScale();
+			} else {
+				drawY += yOffset2 / getFontScale();
+			}
+
+			drawZ = (int) (vScreen.getZ() + zOffset);
 		}
+	}
 
-		drawY = (int) (vScreen.getY() + yOffset);
-		if (anchor && yOffset < 0) {
-			drawY -= height / getFontScale();
-		} else {
-			drawY += yOffset2 / getFontScale();
-		}
+	public void updateDrawPositionAxes(int tickSize) {
+		drawX = (int) (vScreen.getX());
+		drawY = (int) (vScreen.getY());
+		drawZ = (int) (vScreen.getZ());
 
-		drawZ = (int) (vScreen.getZ() + zOffset);
+		double radius = (MyMath.length(pickingW, pickingH) / 2) / getFontScale();
+		drawX += radius * xOffset;
+		drawY += radius * yOffset;
+		drawZ += radius * zOffset;
 
+		drawX += tickSize * xOffset;
+		drawY += tickSize * yOffset;
+		drawZ += tickSize * zOffset;
 	}
 
 	/**
@@ -689,8 +706,17 @@ public class DrawLabel3D {
 
 		int old = textIndex;
         if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
-            textIndex = drawRectangle(renderer, 0, 0, 0,
-                    width2 / getFontScale(), height2 / getFontScale(), textIndex);
+			if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
+					|| !anchor) {
+				textIndex = drawRectangle(renderer, 0, 0, 0,
+						width2 / getFontScale(), height2 / getFontScale(), textIndex);
+			} else {
+				double w = width2 / getFontScale();
+				double h = height2 / getFontScale();
+				textIndex = drawRectangle(renderer, -(pickingX + pickingW / 2) / getFontScale(),
+						-(pickingY + pickingH / 2) / getFontScale(), 0,
+						w, h, textIndex);
+			}
         } else {
             textIndex = drawRectangle(renderer, drawX, drawY, drawZ, width2 / getFontScale(),
                      height2 / getFontScale(), textIndex);
