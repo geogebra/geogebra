@@ -123,6 +123,11 @@ def iphoneosPlatform = exec_("xcrun", "--sdk", "iphoneos", "--show-sdk-platform-
 def minIosVersion = '9.0'
 
 def iosClangCompilerArgs(args, sdk, arch, minIosVersion) {
+    for (int i = args.size() - 1; i >= 0; i--) { 
+        if (args[i].equals("-nostdinc")) { 
+ 	    args.remove(i); 
+        } 
+    } 
     args << "-isysroot"
     args << "${sdk}"
     args << "-arch"
