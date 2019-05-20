@@ -384,3 +384,8 @@ svg.icon.left {
     height: 36px;
     padding: 4px 0px 4px 0px;
 }
+
+.compact.GeoGebraFrame .headerLogo {
+    padding: 6px;
+
+}
