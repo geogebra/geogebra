@@ -686,10 +686,10 @@ public abstract class Renderer {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
-		drawFaceToScreen();
-        if (view3D.getApplication().has(Feature.G3D_AR_LABELS_OFFSET)) {
-            view3D.updateDecoration();
+        if (view3D.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) && view3D.isARDrawing()) {
+            view3D.updateAxesDecoration();
         }
+		drawFaceToScreen();
 	}
 
 	private void setMatrixAndLight() {

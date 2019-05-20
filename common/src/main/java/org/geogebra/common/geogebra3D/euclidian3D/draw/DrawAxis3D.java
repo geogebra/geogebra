@@ -253,7 +253,7 @@ public class DrawAxis3D extends DrawLine3D {
 			// update decorations
 			GeoAxisND axis = (GeoAxisND) getGeoElement();
 			// getToScreenMatrixForGL = rotation + translation
-			// for AR, we need the projection from RendererImplShaders.arViewMatrix
+			// for AR, we need the rotation+translation from RendererImplShaders.arViewMatrix
 			tmpCoords2.setMul(getView3D().getToScreenMatrixForGL(),
 					axis.getDirectionInD3());
 			tmpCoords1.setMul(getView3D().getRenderer().getRendererImpl().getArViewMatrix(),

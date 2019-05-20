@@ -3444,7 +3444,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		if (viewChangedByRotate()) {
 
-			updateDecoration();
+			updateAxesDecoration();
 
 			// update e.g. Corner[]
 			kernel.notifyEuclidianViewCE(EVProperty.ROTATION);
@@ -3452,9 +3452,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 * update values for ticks and labels
+	 * update axes values for ticks and labels
 	 */
-	public void updateDecoration() {
+	public void updateAxesDecoration() {
 		// we need to update axis numbers locations
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].updateDecorations();

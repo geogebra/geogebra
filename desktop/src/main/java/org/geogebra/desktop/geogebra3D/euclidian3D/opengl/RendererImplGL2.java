@@ -862,7 +862,7 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public CoordMatrix4x4 getArViewMatrix() {
 		// used in AR only
-		return null;
+		return CoordMatrix4x4.IDENTITY;
 	}
 
 	@Override
