@@ -302,12 +302,6 @@ abstract public class ObjectSettingsModel {
         app.setPropertiesOccured();
     }
 
-    /** @deprecated use getSlopeSizeProperty().setValue(size) */
-    @Deprecated
-    public void setSlopeSize(int size) {
-        getSlopeSizeProperty().setValue(size);
-    }
-
     /**
      * @return the minimum size of the point size or the line thickness depending of the geoElement's type
      */
