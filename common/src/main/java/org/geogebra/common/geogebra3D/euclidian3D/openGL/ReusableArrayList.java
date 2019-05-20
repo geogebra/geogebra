@@ -75,17 +75,18 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 	 *            values
 	 */
 	public void addValues(T... values) {
-		if (length == size) {
+		int k = values.length;
+		if (length + k <= size) {
+			for (int i = 0; i < k; i++) {
+				set(length + i, values[i]);
+			}
+		} else {
 			for (T v : values) {
 				add(v);
 			}
-			size += values.length;
-		} else {
-			for (int i = 0; i < values.length; i++) {
-				set(length + i, values[i]);
-			}
+			size += k;
 		}
-		length += values.length;
+		length += k;
 	}
 
 }
