@@ -6,51 +6,75 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.properties.ElementProperty;
-import org.geogebra.common.properties.NumericProperty;
+import org.geogebra.common.properties.AbstractNumericProperty;
+import org.geogebra.common.properties.GeoElementProperty;
+import org.geogebra.common.properties.IntegerProperty;
+import org.geogebra.common.properties.util.GeoListPropertyHelper;
+import org.geogebra.common.properties.util.GeoPropertyDelegate;
+
+import java.util.List;
 
 /**
  * Property for triangle size of the Slope() command output
  **/
-public class SlopeSizeProperty extends ElementProperty<Integer> implements NumericProperty {
+public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implements IntegerProperty,
+        GeoElementProperty, GeoPropertyDelegate<Integer> {
+
+    private GeoListPropertyHelper<Integer> propertyHelper;
 
     /**
-     * Constructs an abstract property.
+     * Creates a new slope size property.
      *
-     * @param app for localization and notifications
+     * @param app app
      */
     public SlopeSizeProperty(App app) {
-        super(app, "Size");
+        super(app.getLocalization(), "Size");
+        propertyHelper = new GeoListPropertyHelper<>(app, this);
     }
 
     @Override
-    public Integer getValue(GeoElementND geo) {
-        return ((GeoNumeric) geo).getSlopeTriangleSize();
+    public void setGeoElements(List<GeoElementND> geoElements) {
+        propertyHelper.setGeoElements(geoElements);
     }
 
     @Override
-    public Integer getDefaultValue() {
+    protected void setValueSafe(Integer value) {
+        propertyHelper.setValue(value);
+    }
+
+    @Override
+    public Integer getMin() {
         return 1;
     }
 
     @Override
-    public void setValue(GeoElementND geo, Integer value) {
-        ((GeoNumeric) geo).setSlopeTriangleSize(value + getMin());
-        geo.updateVisualStyleRepaint(GProperty.COMBINED);
-    }
-
-    @Override
-    public boolean isEnabled(GeoElementND geo) {
-        return Algos.isUsedFor(Commands.Slope, geo);
-    }
-
-    @Override
-    public int getMin() {
-        return 1;
-    }
-
-    @Override
-    public int getMax() {
+    public Integer getMax() {
         return 10;
+    }
+
+    @Override
+    public Integer getValue() {
+        return propertyHelper.getValue();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return propertyHelper.isEnabled();
+    }
+
+    @Override
+    public Integer getPropertyValue(GeoElementND element) {
+        return ((GeoNumeric) element).getSlopeTriangleSize();
+    }
+
+    @Override
+    public void setPropertyValue(GeoElementND element, Integer value) {
+        ((GeoNumeric) element).setSlopeTriangleSize(value);
+        element.updateVisualStyleRepaint(GProperty.COMBINED);
+    }
+
+    @Override
+    public boolean hasProperty(GeoElementND element) {
+        return Algos.isUsedFor(Commands.Slope, element);
     }
 }

@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.properties.NumericProperty;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 
 /**
@@ -39,8 +38,8 @@ abstract public class ObjectSettingsModel {
      */
     protected App app;
     private GeoElement geoElement;
-    private ArrayList<GeoElement> geoElementsList;
-    private SlopeSizeProperty mSlopeProperty;
+    private List<GeoElement> geoElementsList;
+    private SlopeSizeProperty slopeSizeProperty;
 
     /**
      * Default constructor
@@ -216,10 +215,6 @@ abstract public class ObjectSettingsModel {
             return EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
         }
         return geoElement.getLineThickness();
-    }
-
-    public int getSlopeSize() {
-        return getSlopeSizeProperty().getValue();
     }
 
     /**
@@ -712,7 +707,7 @@ abstract public class ObjectSettingsModel {
     /**
      * @return with the the geoElementsList which are the selected geos
      */
-    public ArrayList<GeoElement> getGeoElementsList() {
+    public List<GeoElement> getGeoElementsList() {
         return geoElementsList;
     }
 
@@ -886,19 +881,13 @@ abstract public class ObjectSettingsModel {
     /**
      * @return slope size property for selected geos
      */
-    public NumericProperty getSlopeSizeProperty(){
-        if(mSlopeProperty == null) {
-            mSlopeProperty = new SlopeSizeProperty(app);
+    public SlopeSizeProperty getSlopeSizeProperty() {
+        if (slopeSizeProperty == null) {
+            slopeSizeProperty = new SlopeSizeProperty(app);
         }
-        mSlopeProperty.setGeos(geoElementsList);
-        return mSlopeProperty;
-    }
-
-    /**
-     * @deprecated use getSlopeProperty().isEnabled()
-     */
-    @Deprecated
-    public boolean hasSlopeSizeProperty(){
-        return getSlopeSizeProperty().isEnabled();
+        List<GeoElementND> list = new ArrayList<>();
+        list.addAll(geoElementsList);
+        slopeSizeProperty.setGeoElements(list);
+        return slopeSizeProperty;
     }
 }
