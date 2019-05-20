@@ -9,6 +9,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
+import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -18,6 +19,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionScientific;
+import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
@@ -118,7 +120,7 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public int getSmallScreenHeaderHeight() {
-		return 80;
+	public HeaderResizer getHeaderResizer(AppW app) {
+		return new ScientificHeaderResizer(app);
 	}
 }

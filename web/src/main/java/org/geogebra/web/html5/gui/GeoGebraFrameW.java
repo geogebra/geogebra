@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -313,34 +312,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		app.checkScaleContainer();
 	}
 
-	private void updateResponsiveHeader() {
-		Element header = Dom.querySelector("GeoGebraHeader");
-		if (hasSmallWindowOrCompactHeader()) {
-			header.addClassName("smallScreen");
-		} else {
-			header.removeClassName("smallScreen");
-		}
-		updateArticleHeight();
-	}
-
-	/**
-	 * Update the size of external header
-	 */
 	public void updateHeaderSize() {
-		if (isScientificCalculator()) {
-			updateResponsiveHeader();
-			return;
-		}
-		Element header = Dom.querySelector("GeoGebraHeader");
-		if (header != null) {
-			boolean smallScreen = shouldHaveSmallScreenLayout();
-			if (smallScreen) {
-				header.addClassName("compact");
-			} else {
-				header.removeClassName("compact");
-			}
-			updateArticleHeight();
-		}
+		// overriden later
 	}
 
 	private void updateHeaderVisible() {
@@ -354,14 +327,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			}
 		    updateArticleHeight();
 		}
-	}
-
-	private boolean isScientificCalculator() {
-		if (app == null) {
-			return false;
-		}
-		AppConfig config = app.getConfig();
-		return config != null && "GeoGebraScientificCalculator".equals(config.getAppName());
 	}
 
 	/**

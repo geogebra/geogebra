@@ -9,6 +9,8 @@ import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
+import org.geogebra.web.full.main.HeaderResizer;
+import org.geogebra.web.full.main.NullHeaderResizer;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -47,7 +49,7 @@ public class ClassicActivity extends BaseActivity {
 	}
 
 	@Override
-	public int getSmallScreenHeaderHeight() {
-		return 0;
+	public HeaderResizer getHeaderResizer(AppW app) {
+		return new NullHeaderResizer();
 	}
 }

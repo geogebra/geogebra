@@ -31,6 +31,7 @@ import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
+import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -85,6 +86,7 @@ public class GeoGebraFrameFull
 	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
 	private PanelTransitioner panelTransitioner;
+	private HeaderResizer headerResizer;
 
 	public GeoGebraFrameFull(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		super(laf, articleElement);
@@ -128,7 +130,7 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-
+		headerResizer = ((AppWFull)app).getActivity().getHeaderResizer(application);
 		return application;
 	}
 
@@ -229,6 +231,14 @@ public class GeoGebraFrameFull
 			app.adjustViews(true, height > width
 					|| app.getGuiManager().isVerticalSplit(false));
 		}
+	}
+
+	@Override
+	public void updateHeaderSize() {
+		if (headerResizer == null) {
+			return;
+		}
+		headerResizer.resizeHeader();
 	}
 
 	@Override
@@ -993,9 +1003,9 @@ public class GeoGebraFrameFull
 
 	@Override
 	protected int getSmallScreenHeaderHeight() {
-		if (app instanceof AppWFull) {
-			return ((AppWFull) app).getActivity().getSmallScreenHeaderHeight();
+		if (headerResizer == null) {
+			return -1;
 		}
-		return super.getSmallScreenHeaderHeight();
+		return headerResizer.getSmallScreenHeight();
 	}
 }
