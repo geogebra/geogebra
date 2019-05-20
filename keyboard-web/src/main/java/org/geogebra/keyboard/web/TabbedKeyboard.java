@@ -411,15 +411,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				|| name.equals(Action.ANS.name())) {
 			return functionButton(wb, this);
 		}
-		if ("(".equals(name)) {
-			return new KeyBoardButtonBase("(", "()", b);
-		}
-		if ("{".equals(name)) {
-			return new KeyBoardButtonBase("{", "{}", b);
-		}
-		if ("[".equals(name)) {
-			return new KeyBoardButtonBase("[", "[]", b);
-		}
+
 		String caption = wb.getResourceName();
 		String altText = wb.getAltText();
 
