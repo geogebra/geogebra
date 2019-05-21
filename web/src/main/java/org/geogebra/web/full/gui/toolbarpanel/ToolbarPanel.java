@@ -744,6 +744,9 @@ public class ToolbarPanel extends FlowPanel
 		return tabTools;
 	}
 
+	/**
+	 * Opens the toolbar, sends event through the EventDispatcher.
+	 */
 	public void open() {
 		if (!isOpen()) {
 			doOpen();
@@ -1045,10 +1048,11 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * Returns the tab associated with the parameter
+	 * Returns the tab associated with the tabIdentifier
 	 * @param tabIdentifier one of the App.VIEW_ int constants
 	 * @return the tab identified by the parameter, or null if no related tab is found
 	 */
+	@Nullable
 	public ToolbarTab getTab(int tabIdentifier) {
 		switch (tabIdentifier) {
 			case App.VIEW_ALGEBRA:
