@@ -132,7 +132,8 @@ public class GeoGebraFrameFull
 
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
-		headerResizer = ((AppWFull)app).getActivity().getHeaderResizer(application.getAppletFrame());
+		headerResizer = ((AppWFull) app).getActivity()
+				.getHeaderResizer(application.getAppletFrame());
 		return application;
 	}
 

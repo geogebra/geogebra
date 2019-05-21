@@ -107,6 +107,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 				}
 			});
 			return selector;
+
 		}
 
 		return null;

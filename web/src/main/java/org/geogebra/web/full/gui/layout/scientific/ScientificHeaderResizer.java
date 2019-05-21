@@ -13,6 +13,7 @@ public class ScientificHeaderResizer implements HeaderResizer {
 	public ScientificHeaderResizer(GeoGebraFrameW frame) {
 		this.frame = frame;
 	}
+
 	@Override
 	public void resizeHeader() {
 		Element header = Dom.querySelector("GeoGebraHeader");
