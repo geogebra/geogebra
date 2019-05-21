@@ -112,6 +112,6 @@ public class BaseActivity implements GeoGebraActivity {
 		if (headerResizer == null) {
 			headerResizer =	new BaseHeaderResizer(frame);
 		}
-		return new BaseHeaderResizer(frame);
+		return headerResizer;
 	}
 }
