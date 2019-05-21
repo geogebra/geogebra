@@ -289,10 +289,14 @@ public class Ggb2giac {
 				"[[ggbexpandarg:=%0],when(contains(ggbexpandarg,i),normal(real(ggbexpandarg))+normal(i*im(ggbexpandarg)),normal(lnexpand(ggbexpandarg)))][1]");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
+		// Extrema / Turning Points (UK)
 		p("Extremum.1",
 				"[[[ggbextremumfun:=%0],[ggbextans:=extrema(%0)],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
+
+		// InflectionPoint (internal name in XML wrong for historical reasons)
 		p("TurningPoint.1",
 				"[[[ggbinflfun:=%0],[ggbinflvar:=when(size(lname(ggbinflfun) intersect [x])==0,lname(ggbinflfun)[0],x)],[ggbinflans:=extrema(diff(%0,ggbinflvar))]],map(ggbinflans,it->point(it,normal(regroup(subst(ggbinflfun,ggbinflvar,it)))))][1]");
+
 		// factor over rationals
 		// add x so that Factor[(-k x^2+4k x+x^3)] gives a nicer answer
 		//p("Factor.1",
