@@ -30,6 +30,7 @@ import org.geogebra.web.resources.SVGResource;
 public class BaseActivity implements GeoGebraActivity {
 
 	private AppConfig config;
+	private BaseHeaderResizer headerResizer;
 
 	/**
 	 * @param appConfig
@@ -108,6 +109,9 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
+		if (headerResizer == null) {
+			headerResizer =	new BaseHeaderResizer(frame);
+		}
 		return new BaseHeaderResizer(frame);
 	}
 }
