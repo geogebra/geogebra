@@ -127,11 +127,16 @@ public enum EventType {
 	/** Undoable event happened in external object */
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
 
-	AV_PANEL_SELECTED("avPanelSelected"),
+	/** Algebra Panel selected */
+	ALGEBRA_PANEL_SELECTED("avPanelSelected"),
+	/** Tools Panel selected */
 	TOOLS_PANEL_SELECTED("toolsPanelSelected"),
-	TV_PANEL_SELECTED("tvPanelSelected"),
-	LEFT_PANEL_OPENED("leftPanelOpened"),
-	LEFT_PANEL_CLOSED("leftPanelClosed");
+	/** Table Panel selected */
+	TABLE_PANEL_SELECTED("tvPanelSelected"),
+	/** Side Panel opened */
+	SIDE_PANEL_OPENED("sidePanelOpened"),
+	/** Side Panel closed */
+	SIDE_PANEL_CLOSED("sidePanelClosed");
 
 	private String eventName;
 

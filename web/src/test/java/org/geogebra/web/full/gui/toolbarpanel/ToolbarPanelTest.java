@@ -11,6 +11,7 @@ import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.MockApp;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +48,10 @@ public class ToolbarPanelTest {
 
 	@Test
 	public void close() {
+		Assert.assertTrue(toolbarPanel.isOpen());
+
 		toolbarPanel.close();
-		verifyDispatchEventCalled(EventType.LEFT_PANEL_CLOSED);
+		verifyDispatchEventCalled(EventType.SIDE_PANEL_CLOSED);
 	}
 
 	private void verifyDispatchEventCalled(EventType eventType) {
@@ -59,13 +62,13 @@ public class ToolbarPanelTest {
 	public void open() {
 		toolbarPanel.close();
 		toolbarPanel.open();
-		verifyDispatchEventCalled(EventType.LEFT_PANEL_OPENED);
+		verifyDispatchEventCalled(EventType.SIDE_PANEL_OPENED);
 	}
 
 	@Test
 	public void openAlgebra() {
 		toolbarPanel.openAlgebra(true);
-		verifyDispatchEventCalled(EventType.AV_PANEL_SELECTED);
+		verifyDispatchEventCalled(EventType.ALGEBRA_PANEL_SELECTED);
 	}
 
 	@Test
@@ -77,6 +80,6 @@ public class ToolbarPanelTest {
 	@Test
 	public void openTableView() {
 		toolbarPanel.openTableView(true);
-		verifyDispatchEventCalled(EventType.TV_PANEL_SELECTED);
+		verifyDispatchEventCalled(EventType.TABLE_PANEL_SELECTED);
 	}
 }

@@ -30,11 +30,11 @@ public class EventDispatcherTest extends BaseUnitTest {
 		scriptManager = spy(ScriptManager.class);
 		eventDispatcher.addEventListener(scriptManager);
 
-		verifyClientListenersNotified(EventType.LEFT_PANEL_CLOSED);
-		verifyClientListenersNotified(EventType.LEFT_PANEL_OPENED);
-		verifyClientListenersNotified(EventType.AV_PANEL_SELECTED);
+		verifyClientListenersNotified(EventType.SIDE_PANEL_CLOSED);
+		verifyClientListenersNotified(EventType.SIDE_PANEL_OPENED);
+		verifyClientListenersNotified(EventType.ALGEBRA_PANEL_SELECTED);
 		verifyClientListenersNotified(EventType.TOOLS_PANEL_SELECTED);
-		verifyClientListenersNotified(EventType.TV_PANEL_SELECTED);
+		verifyClientListenersNotified(EventType.TABLE_PANEL_SELECTED);
 	}
 
 	private void verifyClientListenersNotified(EventType eventType) {

@@ -17,8 +17,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.GwtMockitoTestRunner;
@@ -42,55 +40,30 @@ public class GgbAPIWTest {
 		final GuiManagerW guiManager = spy(app.getGuiManager());
 		final ToolbarPanel toolbarPanel = spy(guiManager.getUnbundledToolbar());
 		spyTabs(toolbarPanel);
-		when(guiManager.getUnbundledToolbar()).then(new Answer<ToolbarPanel>() {
-			@Override
-			public ToolbarPanel answer(InvocationOnMock invocation) {
-				return toolbarPanel;
-			}
-		});
-		when(app.getGuiManager()).then(new Answer<GuiManagerW>() {
-			@Override
-			public GuiManagerW answer(InvocationOnMock invocation) {
-				return guiManager;
-			}
-		});
+		when(guiManager.getUnbundledToolbar()).thenReturn(toolbarPanel);
+		when(app.getGuiManager()).thenReturn(guiManager);
 		return toolbarPanel;
 	}
 
 	private void spyTabs(ToolbarPanel toolbarPanel) {
 		final AlgebraTab algebraTab = spy(new AlgebraTab(toolbarPanel));
-		when(toolbarPanel.getAlgebraTab()).then(new Answer<AlgebraTab>() {
-			@Override
-			public AlgebraTab answer(InvocationOnMock invocation) {
-				return algebraTab;
-			}
-		});
+		when(toolbarPanel.getAlgebraTab()).thenReturn(algebraTab);
 		final ToolsTab toolsTab = spy(new ToolsTab(toolbarPanel));
-		when(toolbarPanel.getToolsTab()).then(new Answer<ToolsTab>() {
-			@Override
-			public ToolsTab answer(InvocationOnMock invocation) {
-				return toolsTab;
-			}
-		});
+		when(toolbarPanel.getToolsTab()).thenReturn(toolsTab);
 		final TableTab tableTab = spy(new TableTab(toolbarPanel));
-		when(toolbarPanel.getTableTab()).then(new Answer<TableTab>() {
-			@Override
-			public TableTab answer(InvocationOnMock invocation) {
-				return tableTab;
-			}
-		});
+		when(toolbarPanel.getTableTab()).thenReturn(tableTab);
 	}
 
 	@Test
 	public void setPerspective() {
-		api.setPerspective("-LP");
+		api.setPerspective("-SP");
 		Assert.assertTrue(toolbarPanel.isClosed());
-		api.setPerspective("+LP");
+		api.setPerspective("+SP");
 		Assert.assertTrue(toolbarPanel.isOpen());
 
-		api.setPerspective("-A");
+		api.setPerspective("-Algebra");
 		Assert.assertTrue(toolbarPanel.isClosed());
-		api.setPerspective("+A");
+		api.setPerspective("+Algebra");
 		Assert.assertTrue(toolbarPanel.isOpen());
 		verify(toolbarPanel, times(1)).openAlgebra(anyBoolean());
 
@@ -100,9 +73,9 @@ public class GgbAPIWTest {
 		Assert.assertTrue(toolbarPanel.isOpen());
 		verify(toolbarPanel, times(1)).openTools(anyBoolean());
 
-		api.setPerspective("-TV");
+		api.setPerspective("-Table");
 		Assert.assertTrue(toolbarPanel.isClosed());
-		api.setPerspective("+TV");
+		api.setPerspective("+Table");
 		Assert.assertTrue(toolbarPanel.isOpen());
 		verify(toolbarPanel, times(1)).openTableView(anyBoolean());
 	}

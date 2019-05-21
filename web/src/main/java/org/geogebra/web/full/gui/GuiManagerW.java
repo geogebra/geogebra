@@ -524,9 +524,13 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
-		ToolbarPanel.ToolbarTab leftSidePanelTab = getLeftSidePanelTab(viewId);
-		if (leftSidePanelTab != null) {
-			handleLeftSidePanelAction(leftSidePanelTab, flag);
+		ToolbarPanel sidePanel = getUnbundledToolbar();
+		ToolbarPanel.ToolbarTab sidePanelTab = null;
+		if (sidePanel != null) {
+			sidePanelTab = sidePanel.getTab(viewId);
+		}
+		if (sidePanelTab != null) {
+			handleLeftSidePanelAction(sidePanelTab, flag);
 		} else {
 			if (flag) {
 				showViewWithId(viewId);
@@ -539,19 +543,9 @@ public class GuiManagerW extends GuiManager
 		layout.getDockManager().updateVoiceover();
 		getApp().closePopups();
 
-		ToolbarPanel leftSidePanel = getUnbundledToolbar();
-		if (leftSidePanel != null) {
-			leftSidePanel.updateUndoRedoPosition();
+		if (sidePanel != null) {
+			sidePanel.updateUndoRedoPosition();
 		}
-	}
-
-	@Nullable
-	private ToolbarPanel.ToolbarTab getLeftSidePanelTab(int viewId) {
-		ToolbarPanel leftSidePanel = getUnbundledToolbar();
-		if (leftSidePanel != null) {
-			return leftSidePanel.getTab(viewId);
-		}
-		return null;
 	}
 
 	private void handleLeftSidePanelAction(ToolbarPanel.ToolbarTab tab, boolean shouldOpen) {

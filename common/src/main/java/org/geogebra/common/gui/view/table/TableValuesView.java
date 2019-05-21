@@ -313,7 +313,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public int getViewID() {
-		return App.VIEW_TABLE_OF_VALUES;
+		return App.VIEW_TABLE;
 	}
 
 	@Override

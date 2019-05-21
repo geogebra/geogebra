@@ -277,6 +277,7 @@ public class ToolbarPanel extends FlowPanel
 		add(main);
 		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
+		doOpen();
 	}
 
 	@Override
@@ -368,10 +369,7 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * Opens the toolbar.
 	 */
-	public void doOpen() {
-		if (header.isOpen()) {
-			return;
-		}
+	private void doOpen() {
 		setClosedByUser(false);
 		header.setOpen(true);
 	}
@@ -384,7 +382,7 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		header.setOpen(false);
-		dispatchEvent(EventType.LEFT_PANEL_CLOSED);
+		dispatchEvent(EventType.SIDE_PANEL_CLOSED);
 	}
 
 	/**
@@ -406,12 +404,12 @@ public class ToolbarPanel extends FlowPanel
 		final ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
-		if (dockPanel != null && getLastOpenWidth() != null) {
+		if (dockParent != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			AnimationCallback animCallback = null;
 			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
-			if (header.isOpen()) {
+			if (header.isOpen() && getLastOpenWidth() != null) {
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
 				animCallback = new LandscapeAnimationCallback(header,
@@ -674,7 +672,7 @@ public class ToolbarPanel extends FlowPanel
 		switchTab(TabIds.ALGEBRA, fade);
 		hideMoveFloatingButton();
 		setMoveMode();
-		dispatchEvent(EventType.AV_PANEL_SELECTED);
+		dispatchEvent(EventType.ALGEBRA_PANEL_SELECTED);
 	}
 
 	private void switchTab(TabIds tab, boolean fade) {
@@ -735,7 +733,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 		switchTab(TabIds.TABLE, fade);
 		tabTable.scrollTo(geo);
-		dispatchEvent(EventType.TV_PANEL_SELECTED);
+		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
 	}
 
 	/**
@@ -749,7 +747,7 @@ public class ToolbarPanel extends FlowPanel
 	public void open() {
 		if (!isOpen()) {
 			doOpen();
-			dispatchEvent(EventType.LEFT_PANEL_OPENED);
+			dispatchEvent(EventType.SIDE_PANEL_OPENED);
 		}
 		onOpen();
 	}
@@ -1057,9 +1055,9 @@ public class ToolbarPanel extends FlowPanel
 				return getAlgebraTab();
 			case App.VIEW_TOOLS:
 				return getToolsTab();
-			case App.VIEW_TABLE_OF_VALUES:
+			case App.VIEW_TABLE:
 				return getTableTab();
-			case App.VIEW_LEFT_SIDE_PANEL:
+			case App.VIEW_SIDE_PANEL:
 				return tabContainer;
 		}
 		return null;

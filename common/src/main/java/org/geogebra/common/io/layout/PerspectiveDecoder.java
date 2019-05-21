@@ -42,7 +42,7 @@ public class PerspectiveDecoder {
 										.newRectangle(100, 100, 600, 400),
 								"1", 500));
 		viewCodes
-				.put("A",
+				.put("Algebra",
 						new DockPanelData(App.VIEW_ALGEBRA, null, false,
 								false, false, AwtFactory.getPrototype()
 										.newRectangle(100, 100, 250, 400),
@@ -54,14 +54,14 @@ public class PerspectiveDecoder {
 								.newRectangle(100, 100, 250, 400),
 								"3,3", 200));
 		viewCodes
-				.put("TV",
-						new DockPanelData(App.VIEW_TABLE_OF_VALUES, null, false,
+				.put("Table",
+						new DockPanelData(App.VIEW_TABLE, null, false,
 								false, false, AwtFactory.getPrototype()
 								.newRectangle(100, 100, 250, 400),
 								"3,3", 200));
 		viewCodes
-				.put("LP",
-						new DockPanelData(App.VIEW_LEFT_SIDE_PANEL, null, false,
+				.put("SP",
+						new DockPanelData(App.VIEW_SIDE_PANEL, null, false,
 								false, false, AwtFactory.getPrototype()
 								.newRectangle(100, 100, 250, 400),
 								"3,3", 200));
@@ -289,7 +289,12 @@ public class PerspectiveDecoder {
 	 */
 	public static void decodeSimple(App app, String code) {
 		boolean open = code.startsWith("+");
-		DockPanelData view = viewCodes.get(code.substring(1));
-		app.getGuiManager().setShowView(open, view.getViewId());
+		String viewShortName = code.substring(1);
+		DockPanelData view = viewCodes.get(viewShortName);
+		if (view != null) {
+			app.getGuiManager().setShowView(open, view.getViewId());
+		} else {
+			Log.error("id '" + viewShortName + "' doesn't exist");
+		}
 	}
 }

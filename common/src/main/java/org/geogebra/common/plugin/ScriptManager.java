@@ -109,11 +109,11 @@ public abstract class ScriptManager implements EventListener {
 		case EDITOR_KEY_TYPED:
 		case EDITOR_START:
 		case EDITOR_STOP:
-		case AV_PANEL_SELECTED:
+		case ALGEBRA_PANEL_SELECTED:
 		case TOOLS_PANEL_SELECTED:
-		case TV_PANEL_SELECTED:
-		case LEFT_PANEL_OPENED:
-		case LEFT_PANEL_CLOSED:
+		case TABLE_PANEL_SELECTED:
+		case SIDE_PANEL_OPENED:
+		case SIDE_PANEL_CLOSED:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR
