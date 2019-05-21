@@ -20,6 +20,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionScientific;
 import org.geogebra.web.full.main.HeaderResizer;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
@@ -30,6 +31,8 @@ import org.geogebra.web.shared.GlobalHeader;
  * @author Zbynek
  */
 public class ScientificActivity extends BaseActivity {
+
+	private ScientificHeaderResizer headerResizer = null;
 
 	/**
 	 * Activity for scientific calculator
@@ -120,7 +123,10 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public HeaderResizer getHeaderResizer(AppW app) {
-		return new ScientificHeaderResizer(app);
+	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
+		if (headerResizer == null) {
+			headerResizer = new ScientificHeaderResizer(frame);
+		}
+		return headerResizer;
 	}
 }

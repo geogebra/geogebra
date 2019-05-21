@@ -18,6 +18,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.full.main.HeaderResizer;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -106,7 +107,7 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public HeaderResizer getHeaderResizer(AppW app) {
-		return new BaseHeaderResizer(app);
+	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
+		return new BaseHeaderResizer(frame);
 	}
 }

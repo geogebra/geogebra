@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.HeaderResizer;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -106,9 +107,9 @@ public interface GeoGebraActivity {
 
 	/**
 	 *
-	 * @param app
-	 * 			  application
+	 * @param frame
+	 *  			  application frame
 	 * @return resizer class for the external header.
 	 */
-	HeaderResizer getHeaderResizer(AppW app);
+	HeaderResizer getHeaderResizer(GeoGebraFrameW frame);
 }
