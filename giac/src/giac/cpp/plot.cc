@@ -10355,7 +10355,13 @@ namespace giac {
     int couleur=0;
     decimal_digits(contextptr)=3;
     string s;
-    vecteur & v(*args._VECTptr);
+    vecteur v(*args._VECTptr);
+    if (v.size()==3 && v[2].type==_STRNG){
+      gen a=evalf_double(v[0],1,contextptr);
+      gen b=evalf_double(v[1],1,contextptr);
+      if (a.type==_DOUBLE_ && b.type==_DOUBLE_)
+	v=makevecteur(gen(a,b),v[2]);
+    }
     for (unsigned int i=1;i<v.size();++i){
       if (v[i].type==_STRNG)
 	s += *v[i]._STRNGptr;

@@ -1437,6 +1437,8 @@ namespace giac {
     if (g.type!=_VECT || g.subtype!=_SEQ__VECT || g._VECTptr->size()!=2) 
       return gensizeerr(contextptr);
     const gen & a=g._VECTptr->front(),b=g._VECTptr->back();
+    if (a.type==_DOUBLE_ && b.type==_DOUBLE_)
+      return a._DOUBLE_val-std::floor(a._DOUBLE_val/b._DOUBLE_val)*b._DOUBLE_val;
     return a-_floor(a/b,contextptr)*b;
   }
   static const char _fmod_s []="fmod";
@@ -9172,9 +9174,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     const vecteur & v=*args._VECTptr;
     gen a=v[0],b=v[1],c=v[2];
     if (a.type==_DOUBLE_ || b.type==_DOUBLE_ || c.type==_DOUBLE_){
-      a=_floor(256*a,contextptr);
-      b=_floor(256*b,contextptr);
-      c=_floor(256*c,contextptr);
+      a=_floor(255*a+.5,contextptr);
+      b=_floor(255*b+.5,contextptr);
+      c=_floor(255*c+.5,contextptr);
     }
     if (a.type==_INT_ && b.type==_INT_ && c.type==_INT_ && a.val>=0 && a.val<256 && b.val>=0 && b.val<256 && c.val>=0 && c.val<256 ){
       int d=0;

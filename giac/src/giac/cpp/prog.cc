@@ -7291,6 +7291,10 @@ namespace giac {
     }
     vecteur v=*args._VECTptr;
     int s=int(v.size());
+    if (s==3 && v[0].type==_INT_ && v[0].subtype==_INT_PLOT && v[0].val==_AXES && v[2].type==_INT_ && v[2].subtype==_INT_PLOT && v[2].val==_SET__VECT){
+      // axes.set(xlabel="",ylabel="")
+      return v[1].type==_VECT?change_subtype(v[1],_SEQ__VECT):v[1];
+    }
     if (s>=1 && v.front().type==_POLY){
       int dim=v.front()._POLYptr->dim;
       vecteur idx(dim);
@@ -11143,7 +11147,8 @@ namespace giac {
 	  // at_equal test added for e.g. matplotlib.xlim(-5,5)
 	  if (w1==at_float || w1==at_real || w1.is_symb_of_sommet(at_equal))
 	    return w1;
-	  tmp=eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr);
+	  tmp=b._SYMBptr->feuille;
+	  tmp=eval(tmp,eval_level(contextptr),contextptr);
 	  tmp=evalf_double(tmp,1,contextptr);
 	  if (b.is_symb_of_sommet(at_dot))
 	    return _prod(tmp,contextptr);

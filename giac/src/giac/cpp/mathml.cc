@@ -285,7 +285,8 @@ namespace giac {
 	    if(!((mys.feuille._VECTptr->back()==plus_one_half))){
 	      if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
 	        if  (is_positive(mys.feuille._VECTptr->front(),contextptr))
-	          s += "<mo>&times;</mo>";// F.H: 2*2^n et 22^n, 2*2^(1/7)  mais pas 2*sqrt(2). 
+		  if (s.size()<16 || s.substr(s.size()-16,16)!="<mo>&times;</mo>")
+		    s += "<mo>&times;</mo>";// F.H: 2*2^n et 22^n, 2*2^(1/7)  mais pas 2*sqrt(2). 
 	      }
 	    } 
 	}

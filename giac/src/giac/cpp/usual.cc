@@ -6064,6 +6064,12 @@ namespace giac {
   gen _normalmod(const gen & g,GIAC_CONTEXT);
   gen _irem(const gen & args,GIAC_CONTEXT){
     if (args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->front().type==_INT_ && args._VECTptr->back().type==_INT_){
+      int a=args._VECTptr->front().val,b=args._VECTptr->back().val;
+      a %= b ;
+      a -= (a>>31)*b;
+      return a;
+    }
     if (args.type==_VECT && args._VECTptr->size()>1 && args._VECTptr->front().type==_STRNG){
       vecteur v=*args._VECTptr;
       const char * fmt=v.front()._STRNGptr->c_str();

@@ -4048,6 +4048,8 @@ namespace giac {
   }
 
   gen arg(const gen & a,GIAC_CONTEXT){ 
+    if (a.type==_CPLX && a._CPLXptr->type==_DOUBLE_ && (a._CPLXptr+1)->type==_DOUBLE_)
+      return atan2((a._CPLXptr+1)->_DOUBLE_val,a._CPLXptr->_DOUBLE_val);
     if (!angle_radian(contextptr)){
       //grad
       int mode = get_mode_set_radian(contextptr); //get current mode
@@ -4088,11 +4090,13 @@ namespace giac {
     if (is_equal(a))
       return apply_to_equal(a,arg,contextptr);
     switch (a.type ) {
-    case _INT_: case _ZINT: case _DOUBLE_: case _FLOAT_: case _REAL:
+    case _INT_: case _ZINT: case _FLOAT_: case _REAL:
       if (is_positive(a,contextptr))
 	return 0;
       else
 	return cst_pi;
+    case _DOUBLE_: 
+      return a._DOUBLE_val>=0?0.0:M_PI;
     case _CPLX:
       return arg_CPLX(a,contextptr);
     case _VECT:
@@ -12539,7 +12543,7 @@ namespace giac {
     if (v.empty()){
       switch (subtype){
       case _SEQ__VECT:
-	return "NULL";
+	return xcas_mode(contextptr)==1?"NULL":"seq[]";
       case _SET__VECT:
 	if (xcas_mode(contextptr)>0 || calc_mode(contextptr)==1)
 	  return "{ }";

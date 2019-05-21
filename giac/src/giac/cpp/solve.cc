@@ -2074,7 +2074,11 @@ namespace giac {
 	if (equalposcomp(substin,lsvar))
 	  continue;
 	substin.push_back(lsvar);
+#ifdef GIAC_GGB
+	gen tmp("c_"+print_intvar_counter(contextptr),contextptr);
+#else
 	gen tmp("c__"+print_intvar_counter(contextptr),contextptr);
+#endif
 	if (!(ls[3*i+1].val %2)){
 	  assumesymbolic(symb_superieur_egal(tmp,0),0,contextptr); 
 	  assumedvars.push_back(tmp);
