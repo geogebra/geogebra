@@ -139,7 +139,7 @@ public class Fractions {
 				parts[1] = powerCheck(numL,
 						new ExpressionNode(kernel, expr.getRight(),
 								Operation.MULTIPLY, new MyDouble(kernel, -1)));
-				parts[0] = powerCheck(denL,
+				parts[0] = denL == null ? new MyDouble(kernel, 1) : powerCheck(denL,
 						new ExpressionNode(kernel, expr.getRight(),
 								Operation.MULTIPLY, new MyDouble(kernel, -1)));
 

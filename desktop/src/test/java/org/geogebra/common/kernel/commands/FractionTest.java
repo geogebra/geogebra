@@ -6,7 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class FractionTest {
@@ -35,9 +34,8 @@ public class FractionTest {
 	}
 
 	@Test
-	@Ignore // until APPS-882 is fixed
 	public void scientificNotation() {
-		t("5*10^(-2)", "1/20");
+		t("5*10^(-2)", "1 / 20");
 	}
 
 	private static void t(String string, String string2) {
