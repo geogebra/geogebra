@@ -420,7 +420,7 @@ public class ExamEnvironment {
 	/**
 	 * store end time
 	 */
-	private void storeEndTime() {
+	public void storeEndTime() {
 		this.closed = System.currentTimeMillis();
 	}
 
