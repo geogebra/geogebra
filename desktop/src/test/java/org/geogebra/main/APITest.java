@@ -50,24 +50,24 @@ public class APITest {
 	@Test
 	public void testGrid() {
 		api.setGridVisible(false);
-		Assert.assertEquals(api.getGridVisible(), false);
-		Assert.assertEquals(api.getGridVisible(1), false);
+		Assert.assertFalse(api.getGridVisible());
+		Assert.assertFalse(api.getGridVisible(1));
 		api.setGridVisible(true);
-		Assert.assertEquals(api.getGridVisible(), true);
-		Assert.assertEquals(api.getGridVisible(1), true);
+		Assert.assertTrue(api.getGridVisible());
+		Assert.assertTrue(api.getGridVisible(1));
 	}
 
 	@Test
 	public void testAxes() {
 		api.evalCommand("SetVisibleInView[xAxis,1,true]");
 		api.evalCommand("SetVisibleInView[yAxis,1,true]");
-		Assert.assertEquals(api.getVisible("xAxis", 1), true);
-		Assert.assertEquals(api.getVisible("yAxis", 1), true);
+		Assert.assertTrue(api.getVisible("xAxis", 1));
+		Assert.assertTrue(api.getVisible("yAxis", 1));
 
 		api.evalCommand("SetVisibleInView[xAxis,1,false]");
 		api.evalCommand("SetVisibleInView[yAxis,1,false]");
-		Assert.assertEquals(api.getVisible("xAxis", 1), false);
-		Assert.assertEquals(api.getVisible("yAxis", 1), false);
+		Assert.assertFalse(api.getVisible("xAxis", 1));
+		Assert.assertFalse(api.getVisible("yAxis", 1));
 
 	}
 
@@ -82,13 +82,13 @@ public class APITest {
 	@Test
 	public void perspectiveTest() {
 		api.setPerspective("G");
-		Assert.assertEquals(app.showView(App.VIEW_ALGEBRA), false);
+		Assert.assertFalse(app.showView(App.VIEW_ALGEBRA));
 		String geometryXML = api.getPerspectiveXML();
 		api.setPerspective("AG");
-		Assert.assertEquals(app.showView(App.VIEW_ALGEBRA), true);
+		Assert.assertTrue(app.showView(App.VIEW_ALGEBRA));
 		api.setPerspective(geometryXML);
-		Assert.assertEquals(app.showView(App.VIEW_ALGEBRA), false);
-		Assert.assertEquals(app.showView(App.VIEW_EUCLIDIAN), true);
+		Assert.assertFalse(app.showView(App.VIEW_ALGEBRA));
+		Assert.assertTrue(app.showView(App.VIEW_EUCLIDIAN));
 	}
 
 	@Test

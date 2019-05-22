@@ -42,6 +42,12 @@ public class PerspectiveDecoder {
 										.newRectangle(100, 100, 600, 400),
 								"1", 500));
 		viewCodes
+				.put("A",
+						new DockPanelData(App.VIEW_ALGEBRA, null, false,
+								false, false, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 250, 400),
+								"3,3", 200));
+		viewCodes
 				.put("Algebra",
 						new DockPanelData(App.VIEW_ALGEBRA, null, false,
 								false, false, AwtFactory.getPrototype()
