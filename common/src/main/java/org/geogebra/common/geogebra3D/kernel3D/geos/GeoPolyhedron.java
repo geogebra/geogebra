@@ -1511,19 +1511,13 @@ public class GeoPolyhedron extends GeoElement3D
 
 		volume = Double.NaN;
 
-		/*
-		 * for (GeoPolygon3D polygon : polygons.values()){
-		 * polygon.setEuclidianVisible(visible,false); }
-		 * 
-		 * for (GeoPolygon polygon : polygonsLinked){
-		 * polygon.setEuclidianVisible(visible,false); }
-		 * 
-		 * for (GeoSegment3D segment : segments.values()){
-		 * segment.setEuclidianVisible(visible); }
-		 * 
-		 * for (GeoSegmentND segment : segmentsLinked.values()){
-		 * segment.setEuclidianVisible(visible); }
-		 */
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setUndefined();
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.setUndefined();
+		}
 	}
 
 	/**
