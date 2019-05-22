@@ -3924,7 +3924,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return accessibilityManager;
 	}
 
-	private PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
+	/**
+	 * @return adapter for tabbing through views
+	 */
+	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
 		return new SinglePanelAccessibilityAdapter(this);
 	}
 

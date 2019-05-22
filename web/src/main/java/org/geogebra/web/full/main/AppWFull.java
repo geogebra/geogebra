@@ -1222,6 +1222,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * @return adapter for tabbing through views
 	 */
+	@Override
 	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
 		return new DockManagerAccessibilityAdapter(this);
 	}
