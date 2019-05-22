@@ -167,13 +167,24 @@ public class DrawAxis3D extends DrawLine3D {
 			label.setIsVisible(false);
 		} else {
 			label.setAnchor(true);
-			label.update(text, getView3D().getAxisLabelFont(axisIndex),
-					getGeoElement().getObjectColor(),
-					((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
-					getGeoElement().labelOffsetX, // -4,
-					getGeoElement().labelOffsetY, // -6
-					0
-			);
+
+			if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET)) {
+				label.updateDrawPositionAxes(getLineThickness());
+				label.update(text, getView3D().getAxisLabelFont(axisIndex),
+						getGeoElement().getObjectColor(),
+						((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
+						numbersXOffset,
+						numbersYOffset,
+						numbersZOffset
+				);
+			} else {
+				label.update(text, getView3D().getAxisLabelFont(axisIndex),
+				getGeoElement().getObjectColor(),
+				((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
+				getGeoElement().labelOffsetX, // -4,
+				getGeoElement().labelOffsetY, // -6
+				0
+			);}
 			label.updatePosition(getView3D().getRenderer());
 		}
 
