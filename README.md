@@ -27,11 +27,19 @@ If you need to access the server from other devices, you can specify a binding a
 ./gradlew :web:runSuperdev -Pgbind=A.B.C.D
 ```
 
-where `A.B.C.D` is your IP address. Then you can access the dev server through `http://A.B.C.D:8888`.
+where `A.B.C.D` is your IP address. 
+Then you can access the dev server through `http://A.B.C.D:8888`.
 You can also run `./gradlew :web:tasks` to list other options.
 
+## Running the desktop version (Classic 5)
+To start the desktop version from command line, run
 
-### Setup the development environment
+```
+./gradlew :desktop:run
+```
+You can also run `./gradlew :desktop:tasks` to list other options.
+
+## Setup the development environment
 
 * Open IntelliJ. If you don't have IntelliJ on your computer yet 
 then you can download and install it from [here](https://www.jetbrains.com/idea/download)
@@ -47,11 +55,3 @@ open the Run Anything tool (Double ^ on Mac) and run the following command:
 if you select graphing-canary.html and click on Launch Default Browser 
 then the Graphing Calculator app with the newest features 
 will load and start in your default browser 
-
-## Running the desktop version (Classic 5)
-To start the desktop version from command line, run
-
-```
-./gradlew :desktop:run
-```
-You can also run `./gradlew :desktop:tasks` to list other options.
