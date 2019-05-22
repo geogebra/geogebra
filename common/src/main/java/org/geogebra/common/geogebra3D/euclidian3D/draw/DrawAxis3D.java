@@ -410,6 +410,9 @@ public class DrawAxis3D extends DrawLine3D {
 		}
 	}
 
+	/**
+	 * update axis position for ticks and labels
+	 */
 	public void updateDrawPositionAxes() {
 		updateDecorations();
 		for (DrawLabel3D currentLabel : labels.values()) {
