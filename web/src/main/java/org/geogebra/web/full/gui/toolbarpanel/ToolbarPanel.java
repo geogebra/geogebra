@@ -409,15 +409,14 @@ public class ToolbarPanel extends FlowPanel
 			AnimationCallback animCallback = null;
 			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
-			if (header.isOpen() && getLastOpenWidth() != null) {
-				dockParent.setWidgetSize(dockPanel,
-						getLastOpenWidth().intValue());
-				animCallback = new LandscapeAnimationCallback(header,
-						CLOSED_WIDTH_LANDSCAPE, getLastOpenWidth());
+			if (header.isOpen()) {
+				if (lastOpenWidth != null) {
+					updateWidthForOpening(dockPanel, dockParent);
+					animCallback = new LandscapeAnimationCallback(header,
+							CLOSED_WIDTH_LANDSCAPE, lastOpenWidth);
+				}
 			} else {
-				lastOpenWidth = getOffsetWidth();
-				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
-				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
+				updateWidthForClosing(dockPanel, dockParent);
 				animCallback = new LandscapeAnimationCallback(header,
 						getLastOpenWidth(),
 						CLOSED_WIDTH_LANDSCAPE) {
@@ -432,6 +431,16 @@ public class ToolbarPanel extends FlowPanel
 			}
 			dockParent.animate(OPEN_ANIM_TIME, animCallback);
 		}
+	}
+
+	private void updateWidthForOpening(ToolbarDockPanelW dockPanel, DockSplitPaneW dockParent) {
+		dockParent.setWidgetSize(dockPanel, lastOpenWidth);
+	}
+
+	private void updateWidthForClosing(ToolbarDockPanelW dockPanel, DockSplitPaneW dockParent) {
+		lastOpenWidth = getOffsetWidth();
+		dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
+		dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 	}
 
 	private void setMinimumSize() {
@@ -453,19 +462,13 @@ public class ToolbarPanel extends FlowPanel
 			return;
 		}
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
-		final DockSplitPaneW dockParent = dockPanel != null
-				? dockPanel.getParentSplitPane() : null;
-		if (dockPanel != null) {
-			Widget evPanel = dockParent.getOpposite(dockPanel);
+		final DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
+		Widget evPanel = dockParent != null ? dockParent.getOpposite(dockPanel) : null;
+		if (evPanel != null) {
 			if (header.isOpen()) {
-				dockParent.setWidgetSize(evPanel, getOpenHeightInPortrait());
-				dockParent.removeStyleName("hide-VDragger");
+				updateHeightForOpening(dockParent, evPanel);
 			} else {
-				dockParent.setWidgetSize(evPanel,
-						app.getHeight() - header.getOffsetHeight()
-								- app.getArticleElement().getBorderThickness()
-								- VSHADOW_OFFSET);
-				dockParent.addStyleName("hide-VDragger");
+				updateHeightForClosing(dockParent, evPanel);
 			}
 
 			dockParent.animate(OPEN_ANIM_TIME,
@@ -477,6 +480,19 @@ public class ToolbarPanel extends FlowPanel
 						}
 					});
 		}
+	}
+
+	private void updateHeightForOpening(DockSplitPaneW dockParent, Widget evPanel) {
+		dockParent.setWidgetSize(evPanel, getOpenHeightInPortrait());
+		dockParent.removeStyleName("hide-VDragger");
+	}
+
+	private void updateHeightForClosing(DockSplitPaneW dockParent, Widget evPanel) {
+		dockParent.setWidgetSize(evPanel,
+				app.getHeight() - header.getOffsetHeight()
+						- app.getArticleElement().getBorderThickness()
+						- VSHADOW_OFFSET);
+		dockParent.addStyleName("hide-VDragger");
 	}
 
 	/**

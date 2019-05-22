@@ -525,10 +525,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
 		ToolbarPanel sidePanel = getUnbundledToolbar();
-		ToolbarPanel.ToolbarTab sidePanelTab = null;
-		if (sidePanel != null) {
-			sidePanelTab = sidePanel.getTab(viewId);
-		}
+		ToolbarPanel.ToolbarTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
 		if (sidePanelTab != null) {
 			handleLeftSidePanelAction(sidePanelTab, flag);
 		} else {
