@@ -389,7 +389,9 @@ public abstract class Renderer {
 				draw();
 			} else {
 				rendererImpl.clearDepthBuffer();
-				setView();
+				if (!view3D.isAREnabled()) {
+					setView();
+				}
 				draw();
 			}
 		}
@@ -1764,7 +1766,7 @@ public abstract class Renderer {
 	/**
 	 * set up the view
 	 */
-	protected void setView() {
+	public void setView() {
 		rendererImpl.setView();
 	}
 

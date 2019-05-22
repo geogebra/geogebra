@@ -135,8 +135,11 @@ public class RendererForExport extends Renderer {
 		// no need
 	}
 
+	/**
+	 * set up the view
+	 */
 	@Override
-	protected void setView() {
+	public void setView() {
 		// no need
 	}
 

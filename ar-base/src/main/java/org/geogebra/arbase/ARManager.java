@@ -170,6 +170,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             renderer.getView().setARDrawing(true);
             renderer.setARMatrix(getViewMatrix(), getProjectMatrix(),
                     getAnchorMatrixForGGB(), renderer.getARScaleAtStart());
+            renderer.setView();
             if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
                 if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
                     if (((EuclidianController3D) renderer.getView().getEuclidianController())
@@ -181,8 +182,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                                 wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                             } else {
                                 // force a drag (device may have moved)
-                                arMotionEvent = getARMotionEventMove(mView.getWidth() / 2, mView
-                                        .getHeight() / 2);
+                                arMotionEvent = getARMotionEventMove(mView.getWidth() / 2,
+                                        mView.getHeight() / 2);
                                 setHittingOriginAndDirectionFromScreenCenter();
                             }
                         } else {
