@@ -388,9 +388,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	private void updatePointsND(GeoPointND[] geos) {
-		setPointsLength(geos.length, null);
+		int newLength = geos.length;
+		int oldLength = getPointsLength();
+		int ndLength = getPointsND().length;
+		for (int i = newLength; i < ndLength && i < oldLength; i++) {
+			getPointND(i).setUndefined();
+		}
+		setPointsLength(newLength, null);
 		setPoints3DLength();
-		for (int i = 0; i < getPointsND().length && i < geos.length; i++) {
+		for (int i = 0; i < getPointsND().length && i < newLength; i++) {
 			ExpressionNode oldDef = getPointND(i).getDefinition();
 			getPointND(i).set(geos[i].toGeoElement(), false);
 			if (!getPointND(i).isIndependent()) {
@@ -493,7 +499,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			return false;
 		}
 		return super.isDefined() && coordSys.isDefined();
-		// return coordSys.isDefined();
 	}
 
 	/**
