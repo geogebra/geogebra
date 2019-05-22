@@ -275,8 +275,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @return True if the frame is shown in a small window or if it has a compact header.
 	 */
 	public boolean hasSmallWindowOrCompactHeader() {
-		boolean hasCompactHeader = articleElement.getDataParamMarginTop() <= 0;
-		return hasSmallWindow() || hasCompactHeader;
+		return hasSmallWindow() || isExternalHeaderHidden();
+	}
+
+	/**
+	 * @return whether header was forced to be closed by param
+	 */
+	protected boolean isExternalHeaderHidden() {
+		return articleElement.getDataParamMarginTop() <= 0;
 	}
 
 	private static boolean hasSmallWindow() {
@@ -284,7 +290,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setHeightWithCompactHeader() {
-		Log.debug("setHeightWithCompactHeader: 100% - " + getSmallScreenHeaderHeight());
 		articleElement.getElement().getStyle().setProperty("height",
 				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
 	}
@@ -295,7 +300,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void setHeightWithTallHeader() {
 		int headerHeight = articleElement.getDataParamMarginTop();
-		Log.debug("setHeightWithTallHeader: 100% - " + headerHeight);
 		articleElement.getElement().getStyle().setProperty("height",
 				"calc(100% - " + headerHeight + "px)");
 	}
@@ -363,7 +367,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (articleElement.getDataParamFitToScreen()) {
 			int margin = shouldHaveSmallScreenLayout() ? getSmallScreenHeaderHeight()
 					: articleElement.getDataParamMarginTop();
-		height = Window.getClientHeight() - margin;
+			height = Window.getClientHeight() - margin;
 		}
 
 		return Math.max(height, 0);
