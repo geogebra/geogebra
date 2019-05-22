@@ -32,7 +32,7 @@ public class ExamEnvironment {
 	static public final int EXAM_PROTOCOL_SAVED_NOTIFICATION_DURATION = 5000;
 
 	/** exam start timestamp (milliseconds) */
-	long examStartTime = EXAM_START_TIME_NOT_STARTED;
+	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
 	private final CheatingEvents cheatingEvents;
 	private long closed = -1;
@@ -54,8 +54,8 @@ public class ExamEnvironment {
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
 
-	private CommandDispatcher commandDispatcher = null;
-	private boolean casEnabled;
+	private CommandDispatcher commandDispatcher;
+	private boolean wasCasEnabled;
 
 	/**
 	 *
@@ -67,6 +67,7 @@ public class ExamEnvironment {
 		this.localization = app.getLocalization();
 		cheatingEvents = new CheatingEvents();
 		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
+		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
 	}
 
 	/**
@@ -234,8 +235,7 @@ public class ExamEnvironment {
 	 * @param builder
 	 *            log builder
 	 */
-	protected void appendSettings(Localization loc, Settings settings,
-			ExamLogBuilder builder) {
+	private void appendSettings(Localization loc, Settings settings, ExamLogBuilder builder) {
 		// Deactivated Views
 		boolean supportsCAS = settings.getCasSettings().isEnabled();
 		boolean supports3D = settings.supports3D();
@@ -388,7 +388,7 @@ public class ExamEnvironment {
 	 *            whether to show end time
 	 * @return log times with description separated by newline
 	 */
-	public String getLogTimes(Localization loc, boolean showEndTime) {
+	private String getLogTimes(Localization loc, boolean showEndTime) {
 		ExamLogBuilder sb = new ExamLogBuilder();
 		appendLogTimes(loc, sb, showEndTime);
 		return sb.toString();
@@ -420,7 +420,7 @@ public class ExamEnvironment {
 	/**
 	 * store end time
 	 */
-	public void storeEndTime() {
+	private void storeEndTime() {
 		this.closed = System.currentTimeMillis();
 	}
 
@@ -588,19 +588,14 @@ public class ExamEnvironment {
 	 */
 	public void setupExamEnvironment() {
 		enableExamCommandFilter();
-		restrictCommands();
 		setShowSyntax(false);
 	}
 
-	private void restrictCommands() {
-		if (casEnabled) {
-			disableCAS();
-		}
-	}
-
 	private void restoreCommands() {
-		if (!casEnabled) {
+		if (wasCasEnabled) {
 			enableCAS();
+		} else {
+			disableCAS();
 		}
 	}
 
@@ -642,7 +637,7 @@ public class ExamEnvironment {
 	/**
 	 * Handler for blur timer
 	 */
-	protected void onBlurTimer() {
+	private void onBlurTimer() {
 		if (temporaryBlur) {
 			windowLeft();
 		}
@@ -655,7 +650,6 @@ public class ExamEnvironment {
 	 *            whether CAS is enabled
 	 */
 	public void setCasEnabled(boolean casEnabled) {
-		this.casEnabled = casEnabled;
 		if (casEnabled) {
 			enableCAS();
 		} else {
