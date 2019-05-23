@@ -3815,7 +3815,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case SYMBOLIC_AV:
-			return prerelease;
+			return true;
 
 		/** GGB-2255 */
 		case GEOMETRIC_DISCOVERY:
