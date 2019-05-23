@@ -429,7 +429,8 @@ public class DrawLabel3D {
 		labelOrigin[1] *= view.getYscale();
 		labelOrigin[2] *= view.getZscale();
 
-		if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled() || !anchor) {
+		if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
+				|| !anchor) {
 			drawX = (int) (vScreen.getX() + xOffset);
 			if (anchor && xOffset < 0) {
 				drawX -= width / getFontScale();
