@@ -1706,8 +1706,15 @@ public abstract class Renderer {
 	 */
 	public void setARScaleAtStart() {
 		if (view3D.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-			float metresToCentimetres = 1f / 100;
-			arScaleAtStart = metresToCentimetres / ((float) view3D.getXscale() % 100);
+			float reduceFactor;
+			if (getARManager().getDistance() < 1) {
+				reduceFactor = 1f / 100; // 1 tick distance = 1 cm
+			} else if (getARManager().getDistance() > 10) {
+				reduceFactor = 1f; // 1 tick distance = 1 m
+			} else {
+				reduceFactor = 1f / 10; // 1 tick distance = 10 cm
+			}
+			arScaleAtStart = reduceFactor / ((float) view3D.getXscale() % 100);
 		} else {
 			float reductionFactor = 0.80f;
 			arScaleAtStart = (getARManager().getDistance() / getWidth()) * reductionFactor;
