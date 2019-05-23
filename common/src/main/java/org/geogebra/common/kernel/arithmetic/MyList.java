@@ -20,13 +20,10 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -453,10 +450,6 @@ public class MyList extends ValidExpression
 		if (tempNode.containsFreeFunctionVariable(null)) {
 			FunctionNVar toProc = kernel.getAlgebraProcessor()
 					.makeFunctionNVar(tempNode.deepCopy(kernel));
-			Set<String> fvSet = new TreeSet<>();
-			FVarCollector fvc = FVarCollector.getCollector(fvSet);
-			tempNode.traverse(fvc);
-
 			if (toProc instanceof Function) {
 				operationResult = kernel.getAlgebraProcessor().processFunction(
 						(Function) toProc, new EvalInfo(false))[0];

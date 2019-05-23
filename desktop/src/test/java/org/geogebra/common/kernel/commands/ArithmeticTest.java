@@ -191,6 +191,7 @@ public class ArithmeticTest extends AlgebraTest {
 	@Test
 	public void functionsList() {
 		t("(1..2)+x*(1..2)", "{1 + x, 2 + (x * 2)}");
+		t("x+y+(1..3)", "{x + y + 1, x + y + 2, x + y + 3}");
 		t("list1=(-2..2)", "{-2, -1, 0, 1, 2}");
 		t("(list1*t,(1-t)*(1-list1))",
 				"{((-2 * t), ((1 - t) * 3)), ((-t), ((1 - t) * 2)), ((0 * t), (1 - t)), (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
