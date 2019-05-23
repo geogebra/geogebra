@@ -150,7 +150,7 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Kernel kernel) {
+	public CommandDispatcher3D newCommand3DDispatcher(Kernel kernel) {
 		CommandDispatcher3DW cmd = new CommandDispatcher3DW(kernel);
 		if (!enableGraphing()) {
 			cmd.setEnabled(false);

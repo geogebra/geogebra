@@ -157,12 +157,12 @@ public class AppCommon extends App {
     }
 
     @Override
-    public CommandDispatcher getCommandDispatcher(Kernel cmdKernel) {
+    public CommandDispatcher newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcherJre(cmdKernel);
     }
 
     @Override
-	public CommandDispatcher getCommand3DDispatcher(Kernel cmdKernel) {
+	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
         return null;
     }
 

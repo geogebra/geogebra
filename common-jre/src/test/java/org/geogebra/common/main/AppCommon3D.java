@@ -20,7 +20,7 @@ public final class AppCommon3D extends AppCommon {
 	}
 
 	@Override
-	public CommandDispatcher getCommand3DDispatcher(Kernel cmdKernel) {
+	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DJre(cmdKernel);
 	}
 	

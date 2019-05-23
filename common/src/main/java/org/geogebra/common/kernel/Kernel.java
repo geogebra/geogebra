@@ -450,7 +450,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return a new algebra processor (used for 3D)
 	 */
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
-		return new AlgebraProcessor(kernel, app.getCommandDispatcher(kernel));
+		return new AlgebraProcessor(kernel, app.newCommandDispatcher(kernel));
 	}
 
 	/**

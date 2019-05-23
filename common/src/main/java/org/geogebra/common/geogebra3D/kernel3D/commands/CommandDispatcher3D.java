@@ -30,7 +30,7 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	 */
 	public CommandDispatcher3D(Kernel kernel) {
 		super(kernel);
-		commandDispatcher = kernel.getApplication().getCommandDispatcher(kernel);
+		commandDispatcher = kernel.getApplication().newCommandDispatcher(kernel);
 	}
 
 	@Override

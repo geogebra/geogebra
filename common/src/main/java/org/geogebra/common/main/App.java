@@ -3532,9 +3532,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return loginOperation;
 	}
 
-	public abstract CommandDispatcher getCommandDispatcher(Kernel cmdKernel);
+	public abstract CommandDispatcher newCommandDispatcher(Kernel cmdKernel);
 
-	public abstract CommandDispatcher getCommand3DDispatcher(Kernel cmdKernel);
+	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
 
 	/**
 	 * Should lose focus on Web applets, implement only where appropriate

@@ -41,7 +41,7 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Kernel cmdKernel) {
+	public CommandDispatcher3D newCommand3DDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DW(cmdKernel) {
 			@Override
 			public CommandDispatcherInterface get3DDispatcher() {
@@ -51,7 +51,7 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	}
 
 	@Override
-	public CommandDispatcherW getCommandDispatcher(Kernel cmdKernel) {
+	public CommandDispatcherW newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcherW(cmdKernel) {
 
 			@Override

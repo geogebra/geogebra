@@ -4781,12 +4781,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public CommandDispatcher getCommandDispatcher(Kernel kernel) {
+	public CommandDispatcher newCommandDispatcher(Kernel kernel) {
 		return new CommandDispatcherJre(kernel);
 	}
 
 	@Override
-	public CommandDispatcher3D getCommand3DDispatcher(Kernel kernel) {
+	public CommandDispatcher3D newCommand3DDispatcher(Kernel kernel) {
 		return new CommandDispatcher3DJre(kernel);
 	}
 
