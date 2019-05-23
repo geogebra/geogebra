@@ -8,6 +8,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdFunctionCall;
 import org.mozilla.javascript.IdFunctionObject;
 import org.mozilla.javascript.Kit;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -77,15 +78,14 @@ public class GeoGebraGlobal implements IdFunctionCall {
 					throw new Error(error);
 				}
 
-				Object value = (args.length != 0) ? args[0] : "";
-
-				((GgbAPID) app.getGgbApi()).alert(value.toString());
+				String value = getElementAsString(args, 0);
+				((GgbAPID) app.getGgbApi()).alert(value);
 
 				return "";
 			}
 			case Id_prompt: {
-				Object value0 = (args.length != 0) ? args[0] : "";
-				Object value1 = (args.length > 1) ? args[1] : "";
+				Object value0 = getElementAsString(args, 0);
+				Object value1 = getElementAsString(args, 1);
 				/*
 				 * String s = (String)JOptionPane.showInputDialog(
 				 * app.getFrame(), value0, "GeoGebra",
@@ -102,6 +102,14 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			}
 		}
 		throw f.unknown();
+	}
+
+	private static String getElementAsString(Object[] args, int i) {
+		Object value = args.length > i ? args[i] : "";
+		if (value instanceof NativeJavaObject) {
+			value = ((NativeJavaObject) value).unwrap();
+		}
+		return value.toString();
 	}
 
 	private StringBuilder sb;
