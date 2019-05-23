@@ -1,7 +1,7 @@
 package org.geogebra.common.main.exam;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.App;
@@ -36,7 +36,7 @@ public class ExamEnvironmentTest {
 		boolean casDefaultState = isCasEnabled();
 		examEnvironment.setupExamEnvironment();
 		examEnvironment.exit();
-		assertThat(isCasEnabled(), equalTo(casDefaultState));
+		assertThat(isCasEnabled(), is(casDefaultState));
 	}
 
 	@Test
@@ -49,13 +49,21 @@ public class ExamEnvironmentTest {
 		boolean casDefaultState = isCasEnabled();
 		examEnvironment.setCasEnabled(enabled);
 		examEnvironment.setupExamEnvironment();
-		assertThat(isCasEnabled(), equalTo(enabled));
+		if (enabled) {
+			assertThat(isCasEnabled(), is(true));
+		} else {
+			assertThat(isCasDisabled(), is(true));
+		}
 
 		examEnvironment.exit();
-		assertThat(isCasEnabled(), equalTo(casDefaultState));
+		assertThat(isCasEnabled(), is(casDefaultState));
 	}
 
 	private boolean isCasEnabled() {
 		return casSettings.isEnabled() && commandDispatcher.isCASAllowed();
+	}
+
+	private boolean isCasDisabled() {
+		return !casSettings.isEnabled() && !commandDispatcher.isCASAllowed();
 	}
 }
