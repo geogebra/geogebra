@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -19,6 +17,9 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -155,9 +156,21 @@ public class GeoSymbolic extends GeoElement
 		this.casOutputString = s;
 		ExpressionValue casOutput = kernel.getGeoGebraCAS().parseOutput(s, this,
 				kernel);
+
+		computeFunctionVariables();
 		setValue(casOutput);
 
 		twinUpToDate = false;
+	}
+
+	private void computeFunctionVariables() {
+		if (getDefinition() != null && getDefinition().containsFreeFunctionVariable(null)) {
+			fVars.clear();
+			FunctionVariable[] functionVariables =
+					kernel.getAlgebraProcessor().makeFunctionNVar(
+							getDefinition()).getFunctionVariables();
+			fVars.addAll(Arrays.asList(functionVariables));
+		}
 	}
 
 	@Override
