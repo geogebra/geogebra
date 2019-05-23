@@ -152,9 +152,13 @@ public class EuclidianStyleConstants {
 
 	public static final int MAX_LAYERS = 9;
 
+	/** point doesn't snap */
 	public static final int POINT_CAPTURING_OFF = 0;
+	/** point snaps to grid (axes or grid visible or not) */
 	public static final int POINT_CAPTURING_ON = 1;
+	/** point sticks to grid (axes or grid visible or not) */
 	public static final int POINT_CAPTURING_ON_GRID = 2;
+	/** point snaps to grid when axes or grid are visible */
 	public static final int POINT_CAPTURING_AUTOMATIC = 3;
 	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
 	public static final double POINT_CAPTURING_GRID = 0.125;
