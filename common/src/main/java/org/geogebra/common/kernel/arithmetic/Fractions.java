@@ -132,20 +132,16 @@ public class Fractions {
 			return;
 		case POWER:
 
-			ExpressionValue r = expr.getRight();
+			ExpressionValue exponent = expr.getRight();
 			kernel = expr.getKernel();
 
-			if (r.evaluateDouble() < 0) {
-				parts[1] = powerCheck(numL,
-						new ExpressionNode(kernel, expr.getRight(),
-								Operation.MULTIPLY, new MyDouble(kernel, -1)));
+			if (exponent.evaluateDouble() < 0) {
+				parts[1] = powerCheck(numL, ExpressionNode.unaryMinus(kernel, exponent));
 				parts[0] = denL == null ? new MyDouble(kernel, 1) : powerCheck(denL,
-						new ExpressionNode(kernel, expr.getRight(),
-								Operation.MULTIPLY, new MyDouble(kernel, -1)));
-
+						ExpressionNode.unaryMinus(kernel, exponent));
 			} else {
-				parts[0] = powerCheck(numL, expr.getRight());
-				parts[1] = powerCheck(denL, expr.getRight());
+				parts[0] = powerCheck(numL, exponent);
+				parts[1] = powerCheck(denL, exponent);
 			}
 			return;
 		case PLUS:
