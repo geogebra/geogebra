@@ -12,7 +12,7 @@ public class PointCapturingProperty extends AbstractEnumerableProperty {
 
     private static final int[] pointCapturingModes = {
             EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC,
-            EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS,
+            EuclidianStyleConstants.POINT_CAPTURING_ON,
             EuclidianStyleConstants.POINT_CAPTURING_ON_GRID,
             EuclidianStyleConstants.POINT_CAPTURING_OFF
     };
