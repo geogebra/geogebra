@@ -17,11 +17,19 @@ import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class MockApp {
+public class AppMocker {
 
-	public static AppWFull mockApplet(Class<?> testClass) {
+	public static AppWFull mockGraphing(Class<?> testClass) {
+		return mockApp("graphing", testClass);
+	}
+
+	public static AppWFull mockCas(Class<?> testClass) {
+		return mockApp("cas", testClass);
+	}
+
+	private static AppWFull mockApp(String appName, Class<?> testClass) {
 		testClass.getClassLoader().setDefaultAssertionStatus(false);
-		return mockApplet(new TestArticleElement("prerelease", "graphing"));
+		return mockApplet(new TestArticleElement("prerelease", appName));
 	}
 
 	public static AppWFull mockApplet(TestArticleElement ae) {

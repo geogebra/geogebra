@@ -1,9 +1,8 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.test.MockApp;
+import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoSingle() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		addObject("-x");
@@ -50,7 +49,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoReorder() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		addObject("-x");
@@ -79,7 +78,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoDuplicate() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
@@ -122,7 +121,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoDuplicateChain() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
@@ -171,7 +170,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void undoRedo() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 		addObject("-x");
@@ -209,7 +208,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void pageSwitch() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 
@@ -264,7 +263,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void switchFourSlides() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		addObject("x");
 
@@ -323,7 +322,7 @@ public class NotesUndoTest {
 	 */
 	@Test
 	public void singleObjectPerSlide() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 
 

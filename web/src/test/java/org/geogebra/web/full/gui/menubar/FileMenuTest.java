@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.test.MockApp;
+import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class FileMenuTest {
 	 */
 	@Test
 	public void fileNew() {
-		app = MockApp
+		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
 		FileNewAction clear = new FileNewAction(app);
 		addObject("x");

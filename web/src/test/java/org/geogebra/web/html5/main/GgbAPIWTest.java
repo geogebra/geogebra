@@ -13,7 +13,7 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolsTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.test.MockApp;
+import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class GgbAPIWTest {
 
 	@Before
 	public void setUp() {
-		AppWFull app = spy(MockApp.mockApplet(getClass()));
+		AppWFull app = spy(AppMocker.mockGraphing(getClass()));
 		toolbarPanel = spyToolbarPanel(app);
 		api = new GgbAPIW(app);
 	}

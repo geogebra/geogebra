@@ -96,7 +96,6 @@ public class ExamDialog implements ClickHandler {
 			cas.setValue(true);
 
 			app.getExam().setCasEnabled(true);
-			app.getSettings().getCasSettings().setEnabled(true);
 			cbxPanel.add(cas);
 			cas.addClickHandler(this); 
 		}
@@ -201,7 +200,7 @@ public class ExamDialog implements ClickHandler {
 	/**
 	 * Cancel button handler
 	 */
-	protected void cancelExam() {
+	private void cancelExam() {
 		app.getExam().exit();
 		app.setExam(null);
 		app.getLAF().toggleFullscreen(false);
@@ -322,7 +321,6 @@ public class ExamDialog implements ClickHandler {
 	}
 
 	private void onCasChecked() {
-		app.getSettings().getCasSettings().setEnabled(cas.getValue());
 		app.getExam().setCasEnabled(cas.getValue());
 		app.getGuiManager().updateToolbarActions();
 	}

@@ -10,7 +10,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.test.MockApp;
+import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ToolbarPanelTest {
 	}
 
 	private AppW mockApp() {
-		AppW app = MockApp.mockApplet(getClass());
+		AppW app = AppMocker.mockGraphing(getClass());
 		app.setShowToolBar(true);
 		return app;
 	}

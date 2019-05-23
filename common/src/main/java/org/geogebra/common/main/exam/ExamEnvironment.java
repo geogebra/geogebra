@@ -18,6 +18,7 @@ import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
+import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -658,10 +659,16 @@ public class ExamEnvironment {
 	}
 
 	private void enableCAS() {
+		getCasSettings().setEnabled(true);
 		commandDispatcher.removeCommandNameFilter(noCASFilter);
 	}
 
 	private void disableCAS() {
+		getCasSettings().setEnabled(false);
 		commandDispatcher.addCommandNameFilter(noCASFilter);
+	}
+
+	private CASSettings getCasSettings() {
+		return app.getSettings().getCasSettings();
 	}
 }
