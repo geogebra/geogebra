@@ -69,8 +69,9 @@ public class GraphicsPropertiesList extends PropertiesList {
 		if (!activeView.isEuclidianView3D()) {
 			propertyList.add(
 					new GridStyleProperty(localization, euclidianSettings));
-			propertyList.add(new PointCapturingProperty(app, localization));
         }
+
+        propertyList.add(new PointCapturingProperty(app, localization));
 
 		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
 		propertyList.add(
