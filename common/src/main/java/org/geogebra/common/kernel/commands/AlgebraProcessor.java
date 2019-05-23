@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
@@ -49,6 +48,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -64,7 +64,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
-import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -3036,22 +3035,15 @@ public class AlgebraProcessor {
 	 * variables it has
 	 *
 	 * @param n
-	 *            exression
+	 *            expression
 	 * @return function or nvar function
 	 */
 	public FunctionNVar makeFunctionNVar(ExpressionNode n) {
-		Set<String> fvSet = new TreeSet<>();
-		FVarCollector fvc = FVarCollector.getCollector(fvSet);
+		FunctionVarCollector fvc = FunctionVarCollector.getCollector();
 		n.traverse(fvc);
-		if (fvSet.size() == 1) {
-			return new Function(n, new FunctionVariable(kernel, fvSet
-					.iterator().next()));
-		}
-		FunctionVariable[] fvArray = new FunctionVariable[fvSet.size()];
-		Iterator<String> it = fvSet.iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			fvArray[i++] = new FunctionVariable(kernel, it.next());
+		FunctionVariable[] fvArray = fvc.buildVariables(kernel);
+		if (fvArray.length == 1) {
+			return new Function(n, fvArray);
 		}
 		return new FunctionNVar(n, fvArray);
 	}

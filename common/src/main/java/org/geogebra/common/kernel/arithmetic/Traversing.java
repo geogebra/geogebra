@@ -1176,59 +1176,6 @@ public interface Traversing {
 	}
 
 	/**
-	 * Collects all function variables
-	 * 
-	 * @author Zbynek Konecny
-	 */
-	public class FVarCollector implements Traversing {
-		private Set<String> commands;
-		private static FVarCollector collector = new FVarCollector();
-
-		@Override
-		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof Equation) {
-				return ev.wrap();
-			}
-			if (ev instanceof FunctionVariable) {
-				commands.add(((FunctionVariable) ev).getSetVarString());
-			}
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = ev.wrap();
-				if (en.getOperation() != Operation.FUNCTION
-						&& en.getOperation() != Operation.FUNCTION_NVAR
-						&& en.getOperation() != Operation.VEC_FUNCTION) {
-
-					checkFunctional(en.getLeft());
-					checkFunctional(en.getRight());
-				}
-			}
-			return ev;
-		}
-
-		private void checkFunctional(ExpressionValue right) {
-			if (right instanceof FunctionalNVar) {
-				for (FunctionVariable fv : ((FunctionalNVar) right)
-						.getFunctionVariables()) {
-					commands.add(fv.getSetVarString());
-				}
-			}
-
-		}
-
-		/**
-		 * Resets and returns the collector
-		 * 
-		 * @param commands
-		 *            set into which we want to collect the commands
-		 * @return derivative collector
-		 */
-		public static FVarCollector getCollector(Set<String> commands) {
-			collector.commands = commands;
-			return collector;
-		}
-	}
-
-	/**
 	 * Collects all geos with multiplicities
 	 * 
 	 * @author Zoltan Kovacs

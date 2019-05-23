@@ -118,6 +118,17 @@ public class Function extends FunctionNVar
 		this.kernel = kernel;
 	}
 
+	/**
+	 * @param expr
+	 *            expression
+	 * @param buildVariables
+	 *            array with a single variable
+	 */
+	public Function(ExpressionNode expr, FunctionVariable[] buildVariables) {
+		super(expr, buildVariables);
+		assert buildVariables.length == 1;
+	}
+
 	@Override
 	public Function deepCopy(Kernel kernel1) {
 		return new Function(this, kernel1);
