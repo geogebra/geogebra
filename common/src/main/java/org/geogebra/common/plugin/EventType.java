@@ -128,11 +128,11 @@ public enum EventType {
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
 
 	/** Algebra Panel selected */
-	ALGEBRA_PANEL_SELECTED("avPanelSelected"),
+	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
 	/** Tools Panel selected */
 	TOOLS_PANEL_SELECTED("toolsPanelSelected"),
 	/** Table Panel selected */
-	TABLE_PANEL_SELECTED("tvPanelSelected"),
+	TABLE_PANEL_SELECTED("tablePanelSelected"),
 	/** Side Panel opened */
 	SIDE_PANEL_OPENED("sidePanelOpened"),
 	/** Side Panel closed */

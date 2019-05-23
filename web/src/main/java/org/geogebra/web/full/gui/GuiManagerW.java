@@ -3,8 +3,6 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
@@ -527,7 +525,11 @@ public class GuiManagerW extends GuiManager
 		ToolbarPanel sidePanel = getUnbundledToolbar();
 		ToolbarPanel.ToolbarTab sidePanelTab = sidePanel != null ? sidePanel.getTab(viewId) : null;
 		if (sidePanelTab != null) {
-			handleLeftSidePanelAction(sidePanelTab, flag);
+			if (flag) {
+				sidePanelTab.open();
+			} else {
+				sidePanelTab.close();
+			}
 		} else {
 			if (flag) {
 				showViewWithId(viewId);
@@ -542,14 +544,6 @@ public class GuiManagerW extends GuiManager
 
 		if (sidePanel != null) {
 			sidePanel.updateUndoRedoPosition();
-		}
-	}
-
-	private void handleLeftSidePanelAction(ToolbarPanel.ToolbarTab tab, boolean shouldOpen) {
-		if (shouldOpen) {
-			tab.open();
-		} else {
-			tab.close();
 		}
 	}
 
