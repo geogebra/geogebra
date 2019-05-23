@@ -3,11 +3,11 @@ package org.geogebra.web.full.gui.toolbarpanel;
 /**
  * Hosts actions for the left side panel container.
  */
-class TabContainer extends ToolbarPanel.ToolbarTab {
+public class TabContainer extends ToolbarPanel.ToolbarTab {
 
 	private ToolbarPanel toolbarPanel;
 
-	TabContainer(ToolbarPanel toolbarPanel) {
+	public TabContainer(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
 	}
 

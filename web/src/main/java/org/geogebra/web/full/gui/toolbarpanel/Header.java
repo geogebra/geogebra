@@ -50,7 +50,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private MyToggleButton btnTools;
 	private MyToggleButton btnTableView;
 	private MyToggleButton btnClose;
-	private boolean open = true;
 	private Image imgClose;
 	private Image imgOpen;
 	private Image imgMenu;
@@ -82,11 +81,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	/**
 	 * @param toolbarPanel
 	 *            - panel containing the toolbar
-	 * @param app
-	 *            - application
 	 */
-	public Header(ToolbarPanel toolbarPanel, AppW app) {
-		this.app = app;
+	public Header(ToolbarPanel toolbarPanel) {
+		this.app = toolbarPanel.getApp();
 		this.toolbarPanel = toolbarPanel;
 		contents = new FlowPanel();
 		contents.addStyleName("contents");
@@ -200,10 +197,10 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Handler for Algebra button.
 	 */
 	protected void onAlgebraPressed() {
-		if (!open) {
+		if (!isOpen()) {
 			toolbarPanel.setFadeTabs(false);
 		}
-		toolbarPanel.openAlgebra(open);
+		toolbarPanel.openAlgebra(isOpen());
 		app.setKeyboardNeeded(true);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(true);
@@ -213,26 +210,26 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Handler for tools button.
 	 */
 	protected void onToolsPressed() {
-		if (!open) {
+		if (!isOpen()) {
 			toolbarPanel.setFadeTabs(false);
 		}
 		app.setKeyboardNeeded(false);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
-		toolbarPanel.openTools(open);
+		toolbarPanel.openTools(isOpen());
 	}
 
 	/**
 	 * Handler for table view button.
 	 */
 	protected void onTableViewPressed() {
-		if (!open) {
+		if (!isOpen()) {
 			toolbarPanel.setFadeTabs(false);
 		}
 		app.setKeyboardNeeded(false);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
-		toolbarPanel.openTableView(null, open);
+		toolbarPanel.openTableView(null, isOpen());
 	}
 
 	/**
@@ -262,8 +259,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			toolbarPanel.setLastOpenWidth(getOffsetWidth());
 		}
 		toolbarPanel.setMoveMode();
-		toolbarPanel.setClosedByUser(true);
-		setOpen(false);
+		toolbarPanel.close();
 		app.getAccessibilityManager().focusAnchorOrMenu();
 	}
 
@@ -278,9 +274,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			// tools or null
 			onToolsPressed();
 		}
-		setOpen(true);
+		toolbarPanel.open();
 		updateStyle();
-		toolbarPanel.setClosedByUser(false);
 	}
 
 	private void removeOrientationStyles() {
@@ -646,43 +641,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * @return - true if toolbar is open
 	 */
 	public boolean isOpen() {
-		return open;
-	}
-
-	/**
-	 * @param value
-	 *            - true if toolbar should be open
-	 */
-	public void setOpen(boolean value) {
-		this.open = value;
-		updateDraggerStyle(value);
-
-		if (app.isPortrait()) {
-			toolbarPanel.updateHeight();
-		} else {
-			toolbarPanel.updateWidth();
-		}
-
-		toolbarPanel.showKeyboardButtonDeferred(
-				isOpen() && toolbarPanel.getSelectedTabId() != TabIds.TOOLS);
-	}
-
-	private void updateDraggerStyle(boolean close) {
-		DockSplitPaneW dockParent = getDockParent();
-		if (dockParent != null) {
-			if (app.isPortrait() && !close) {
-				dockParent.removeStyleName("hide-Dragger");
-				dockParent.addStyleName("moveUpDragger");
-			} else {
-				dockParent.removeStyleName("moveUpDragger");
-				dockParent.addStyleName("hide-Dragger");
-			}
-		}
-	}
-
-	private DockSplitPaneW getDockParent() {
-		ToolbarDockPanelW dockPanel = toolbarPanel.getToolbarDockPanel();
-		return dockPanel != null ? dockPanel.getParentSplitPane() : null;
+		return toolbarPanel.isOpen();
 	}
 
 	private void removeOpenStyles() {
@@ -705,7 +664,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		updateButtonImages();
 		String orientation = app.isPortrait() ? "portrait" : "landscape";
-		if (open) {
+		if (isOpen()) {
 			removeCloseStyles();
 			addStyleName("header-open-" + orientation);
 			btnClose.getUpFace().setImage(imgClose);
@@ -732,7 +691,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (btnMenu == null) {
 			return;
 		}
-		if (open) {
+		if (isOpen()) {
 			btnMenu.removeStyleName("landscapeMenuBtn");
 		} else {
 			if (!app.isPortrait()) {
@@ -754,7 +713,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	void updateCenterSize() {
 		int h = 0;
-		if (open) {
+		if (isOpen()) {
 			h = OPEN_HEIGHT;
 		} else {
 			h = getOffsetHeight() - getMenuButtonHeight()
@@ -823,7 +782,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (lastOrientation != app.isPortrait()) {
 			removeOpenStyles();
 			removeCloseStyles();
-		} else if (open) {
+		} else if (isOpen()) {
 			removeCloseStyles();
 		} else {
 			removeOpenStyles();
@@ -919,9 +878,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			expandWidth(expandTo);
 			toolbarPanel.onOpen();
 		}
-		if (getDockParent() != null) {
-			getDockParent().onResize();
-		}
+		toolbarPanel.onResize();
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override

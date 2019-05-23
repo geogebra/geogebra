@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.toolbarpanel.AlgebraTab;
+import org.geogebra.web.full.gui.toolbarpanel.TabContainer;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.toolbarpanel.ToolsTab;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
@@ -52,6 +53,8 @@ public class GgbAPIWTest {
 		when(toolbarPanel.getToolsTab()).thenReturn(toolsTab);
 		final TableTab tableTab = spy(new TableTab(toolbarPanel));
 		when(toolbarPanel.getTableTab()).thenReturn(tableTab);
+		final TabContainer tabContainer = spy(new TabContainer(toolbarPanel));
+		when(toolbarPanel.getTabContainer()).thenReturn(tabContainer);
 	}
 
 	@Test

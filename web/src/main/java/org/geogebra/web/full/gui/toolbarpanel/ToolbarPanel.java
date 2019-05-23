@@ -101,7 +101,7 @@ public class ToolbarPanel extends FlowPanel
 	private ToolsTab tabTools;
 	private TabContainer tabContainer;
 	private TabIds selectedTabId;
-	private boolean closedByUser = false;
+	private boolean isOpen;
 	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
 		@Override
 		public void execute() {
@@ -223,6 +223,13 @@ public class ToolbarPanel extends FlowPanel
 		this.eventDispatcher = eventDispatcher;
 	}
 
+	void onResize() {
+		DockSplitPaneW dockParent = getDockParent();
+		if (dockParent != null) {
+			dockParent.onResize();
+		}
+	}
+
 	private void add(ToolbarTab tab) {
 		tab.addStyleName("tab");
 		main.add(tab);
@@ -258,7 +265,7 @@ public class ToolbarPanel extends FlowPanel
 	private void initGUI() {
 		clear();
 		addStyleName("toolbar");
-		header = new Header(this, app);
+		header = new Header(this);
 		add(header);
 		main = new FlowPanel();
 		sinkEvents(Event.ONCLICK);
@@ -370,19 +377,54 @@ public class ToolbarPanel extends FlowPanel
 	 * Opens the toolbar.
 	 */
 	private void doOpen() {
-		setClosedByUser(false);
-		header.setOpen(true);
+		isOpen = true;
+		updateDraggerStyle(true);
+		updateSizes();
+		updateKeyboardVisibility();
 	}
 
 	/**
 	 * Closes the toolbar.
 	 */
 	public void close() {
-		if (!header.isOpen()) {
+		if (!isOpen) {
 			return;
 		}
-		header.setOpen(false);
+		isOpen = false;
+		updateDraggerStyle(false);
+		updateSizes();
+		updateKeyboardVisibility();
 		dispatchEvent(EventType.SIDE_PANEL_CLOSED);
+	}
+
+	private void updateDraggerStyle(boolean close) {
+		DockSplitPaneW dockParent = getDockParent();
+		if (dockParent != null) {
+			if (app.isPortrait() && !close) {
+				dockParent.removeStyleName("hide-Dragger");
+				dockParent.addStyleName("moveUpDragger");
+			} else {
+				dockParent.removeStyleName("moveUpDragger");
+				dockParent.addStyleName("hide-Dragger");
+			}
+		}
+	}
+
+	private DockSplitPaneW getDockParent() {
+		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
+		return dockPanel != null ? dockPanel.getParentSplitPane() : null;
+	}
+
+	private void updateSizes() {
+		if (app.isPortrait()) {
+			updateHeight();
+		} else {
+			updateWidth();
+		}
+	}
+
+	private void updateKeyboardVisibility() {
+		showKeyboardButtonDeferred(isOpen() && getSelectedTabId() != TabIds.TOOLS);
 	}
 
 	/**
@@ -609,7 +651,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @return if toolbar is open or not.
 	 */
 	public boolean isOpen() {
-		return header.isOpen();
+		return isOpen;
 	}
 
 	/**
@@ -618,7 +660,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @return if toolbar is closed or not.
 	 */
 	public boolean isClosed() {
-		return !isOpen();
+		return !isOpen;
 	}
 
 	/**
@@ -911,25 +953,6 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * 
-	 * @return true if toolbar is closed by user with close button, and not by
-	 *         code.
-	 */
-	boolean isClosedByUser() {
-		return closedByUser;
-	}
-
-	/**
-	 * Sets if user closed the toolbar.
-	 * 
-	 * @param value
-	 *            to set
-	 */
-	void setClosedByUser(boolean value) {
-		this.closedByUser = value;
-	}
-
-	/**
-	 * 
 	 * @return if toolbar is animating or not.
 	 */
 	public boolean isAnimating() {
@@ -1078,7 +1101,7 @@ public class ToolbarPanel extends FlowPanel
 			case App.VIEW_TABLE:
 				return getTableTab();
 			case App.VIEW_SIDE_PANEL:
-				return tabContainer;
+				return getTabContainer();
 		}
 		return null;
 	}
@@ -1097,5 +1120,13 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public TableTab getTableTab() {
 		return tabTable;
+	}
+
+	/**
+	 * This getter is public for testing only.
+	 * @return the representation of the side panel containing all the tabs
+	 */
+	public TabContainer getTabContainer() {
+		return tabContainer;
 	}
 }
