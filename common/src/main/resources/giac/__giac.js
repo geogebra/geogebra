@@ -2448,7 +2448,10 @@ var __giac = [ {},
 { cat:"Simplify", cmd:"Simplify(3/(6x-x^2)-x/(x^2-5x-6))",result:"(-(x\u00B2 + 3x + 3)) / (x\u00B3 - 5x\u00B2 - 6x)",notes:"https://github.com/davidedc/Algebrite/blob/master/tests/simplify.coffee#L415"},
 { cat:"Simplify", cmd:"Simplify(3/(x^2)+(x+9)/(x^2+5x)-2/(x^2+10x+25))",result:"(x\u00B3 + 15x\u00B2 + 75x + 75) / (x\u2074 + 10x\u00B3 + 25x\u00B2)",notes:"https://github.com/davidedc/Algebrite/blob/master/tests/simplify.coffee#L415"},
 { cat:"Simplify", cmd:"Simplify(1/(x+1)-2/((x+1)^2)-3/((x+1)^3))",result:"(x\u00B2 - 4) / (x\u00B3 + 3x\u00B2 + 3x + 1)",notes:"https://github.com/davidedc/Algebrite/blob/master/tests/simplify.coffee#L415"},
+{ cat:"Assume", cmd:"Assume(k>0, InflectionPoint(0.25 k x^3 - 0.5x^2 + k))", result:"{(2 / (3k), (27k\u00B3 - 4) / (27k\u00B2))}" },
+{ cat:"Assume", cmd:"Assume(k>0, Extremum(k*3*x^2/4-2*x/2))", result:"{(2 / (3k), (-1) / (3k))}" },
 //JSONEND
+// { cat:"Solve", cmd:"Solve(sqrt(x-2sqrt(x-1))=sqrt(x-1)-1)", result:"{x = c_1^(2) + 1}", notes:"I have committed a change for solve, it now handles the case where a resultant is 0 in the intermediate computations, and returns 1+c__0^2 and warns that the answer has not been checked. That's the best I can do, the condition x>=2 is missed, but I think it's better than before where it returned no solution." },
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
