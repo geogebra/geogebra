@@ -37,7 +37,6 @@ public class PointStyleModel extends NumberOptionsModel {
 			// select custom button and set combo box selection
 			listener.setSelectedIndex(geo0.getPointStyle());
 		}
-
 	}
 
 	@Override
@@ -51,7 +50,6 @@ public class PointStyleModel extends NumberOptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		return match(getGeoAt(index));
-
 	}
 
 	/**
@@ -62,13 +60,8 @@ public class PointStyleModel extends NumberOptionsModel {
 	 * @return if geo has point properties
 	 */
 	public static boolean match(GeoElement geo) {
-		return !((geo.isGeoElement3D() && !(geo.isGeoPoint())) || // TODO add
-																	// point
-		// style to 3D
-		// points
-				(!geo.getGeoElementForPropertiesDialog().isGeoPoint()
-						&& (!(geo.isGeoList()
-								&& ((GeoList) geo).showPointProperties()))));
+		return geo instanceof PointProperties && ((PointProperties)geo).showPointProperties()
+				&& !geo.isGeoElement3D();
 	}
 
 	public boolean is3D() {

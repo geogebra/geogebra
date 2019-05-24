@@ -38,4 +38,6 @@ public interface PointProperties {
 	 * Updates and repaints the object
 	 */
 	public void updateRepaint();
+
+    boolean showPointProperties();
 }

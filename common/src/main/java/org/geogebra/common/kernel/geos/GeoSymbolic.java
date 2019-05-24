@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.*;
+import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -18,7 +19,7 @@ import java.util.Arrays;
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement
-		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable {
+		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -27,6 +28,9 @@ public class GeoSymbolic extends GeoElement
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
 	private GeoFunction asFunction;
+	private int pointStyle;
+	private int pointSize;
+	private boolean symbolicMode;
 
 	/**
 	 * @return output expression
@@ -236,10 +240,13 @@ public class GeoSymbolic extends GeoElement
 				: kernel.getAlgebraProcessor()
 						.evaluateToGeoElement(this.casOutputString, false);
 		if (twinGeo != null && newTwin != null) {
-			newTwin.setVisualStyle(twinGeo);
+			newTwin.setVisualStyle(this);
 			twinGeo = newTwin.toGeoElement();
+		} else if (newTwin == null) {
+			twinGeo = null;
 		} else {
-			twinGeo = newTwin == null ? null : newTwin.toGeoElement();
+			twinGeo = newTwin.toGeoElement();
+			setVisualStyle(twinGeo);
 		}
 		twinUpToDate = true;
 
@@ -365,9 +372,68 @@ public class GeoSymbolic extends GeoElement
 	public DescriptionMode needToShowBothRowsInAV() {
 		String def = getDefinition(StringTemplate.defaultTemplate);
 		String val = getValueForInputBar();
-		if (def.equals(val)){
+		if (def.equals(val)) {
 			return DescriptionMode.VALUE;
 		}
 		return super.needToShowBothRowsInAV();
+	}
+
+	@Override
+	public void setSymbolicMode(boolean mode, boolean updateParent) {
+		this.symbolicMode = mode;
+	}
+
+	@Override
+	public boolean isSymbolicMode() {
+		return symbolicMode;
+	}
+
+	@Override
+	public void setPointSize(int pointSize) {
+		this.pointSize = pointSize;
+	}
+
+	@Override
+	public int getPointSize() {
+		return pointSize;
+	}
+
+	@Override
+	public void setPointStyle(int pointStyle) {
+		this.pointStyle = pointStyle;
+	}
+
+	@Override
+	public int getPointStyle() {
+		return pointStyle;
+	}
+
+	@Override
+	public boolean showPointProperties() {
+		getTwinGeo();
+		return twinGeo instanceof PointProperties
+				&& ((PointProperties) twinGeo).showPointProperties();
+	}
+
+	@Override
+	public void update(boolean drag){
+		if (twinGeo != null) {
+			twinGeo.setVisualStyle(this);
+		}
+		super.update(drag);
+	}
+
+	@Override
+	public void updateVisualStyle(GProperty property){
+		if (twinGeo!= null) {
+			twinGeo.setVisualStyle(this);
+		}
+		super.updateVisualStyle(property);
+	}
+
+	@Override
+	public void getXMLtags(StringBuilder builder) {
+		super.getXMLtags(builder);
+		XMLBuilder.appendPointProperties(builder, this);
 	}
 }

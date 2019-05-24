@@ -18,14 +18,9 @@ public class PointSizeModel extends SliderOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
-		if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-				&& (!(geo.isGeoList()
-						&& ((GeoList) geo).showPointProperties()))) {
-			valid = false;
-		}
-		return valid;
+		return geo instanceof PointProperties
+				&& ((PointProperties)geo).showPointProperties();
 	}
 
 	@Override

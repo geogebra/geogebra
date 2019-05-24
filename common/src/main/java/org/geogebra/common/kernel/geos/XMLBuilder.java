@@ -346,4 +346,22 @@ public class XMLBuilder {
 		sb.append(color.getBlue());
 		sb.append("\"");
 	}
+
+	/**
+	 * @param sb string builder
+	 * @param point element with point properties
+	 */
+	public static void appendPointProperties(StringBuilder sb, PointProperties point) {
+		// point size
+		sb.append("\t<pointSize val=\"");
+		sb.append(point.getPointSize());
+		sb.append("\"/>\n");
+
+		// point style
+		if (point.getPointStyle() >= 0) {
+			sb.append("\t<pointStyle val=\"");
+			sb.append(point.getPointStyle());
+			sb.append("\"/>\n");
+		}
+	}
 }

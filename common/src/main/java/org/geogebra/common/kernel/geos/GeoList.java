@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
+import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -62,9 +63,9 @@ import org.geogebra.common.util.debug.Log;
  * List of GeoElements
  */
 public class GeoList extends GeoElement
-		implements ListValue, PointProperties, TextProperties, Traceable, Path,
+		implements ListValue, DelegateProperties, TextProperties, Traceable, Path,
 		Transformable, SpreadsheetTraceable, Furniture, InequalityProperties,
-		AngleProperties, HasSymbolicMode, Animatable, SegmentProperties {
+		AngleProperties, Animatable, SegmentProperties {
 
 	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;
 
@@ -970,13 +971,7 @@ public class GeoList extends GeoElement
 		}
 
 		// point style
-		sb.append("\t<pointSize val=\"");
-		sb.append(pointSize);
-		sb.append("\"/>\n");
-
-		sb.append("\t<pointStyle val=\"");
-		sb.append(pointStyle);
-		sb.append("\"/>\n");
+		XMLBuilder.appendPointProperties(sb, this);
 
 		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
 				kernel.getApplication());
@@ -1593,6 +1588,7 @@ public class GeoList extends GeoElement
 	 *
 	 * @return true if all elements have point properties
 	 */
+	@Override
 	public boolean showPointProperties() {
 		if (showAllProperties) {
 			return true;
@@ -1600,7 +1596,8 @@ public class GeoList extends GeoElement
 
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
-			if ((geo instanceof PointProperties) && !geo.isLabelSet()) {
+			if ((geo instanceof PointProperties)
+					&& ((PointProperties) geo).showPointProperties() && !geo.isLabelSet()) {
 				return true;
 			}
 		}

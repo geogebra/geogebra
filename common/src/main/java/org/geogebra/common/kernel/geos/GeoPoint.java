@@ -397,6 +397,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return pointStyle;
 	}
 
+	@Override
+	public boolean showPointProperties() {
+		return true;
+	}
+
 	/**
 	 * @author Florian Sonner
 	 * @version 2008-07-17
@@ -1810,7 +1815,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-
 		AlgoElement algo;
 		if (((algo = getParentAlgorithm()) instanceof AlgoPointOnPath)) {
 
@@ -1859,17 +1863,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
 
-		// point size
-		sb.append("\t<pointSize val=\"");
-		sb.append(getPointSize());
-		sb.append("\"/>\n");
-
-		// point style
-		if (pointStyle >= 0) {
-			sb.append("\t<pointStyle val=\"");
-			sb.append(pointStyle);
-			sb.append("\"/>\n");
-		}
+		XMLBuilder.appendPointProperties(sb, this);
 
 	}
 
