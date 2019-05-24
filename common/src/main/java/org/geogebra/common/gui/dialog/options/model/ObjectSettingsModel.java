@@ -373,10 +373,13 @@ abstract public class ObjectSettingsModel {
                 return; // should not happen...
             }
 
-			if (LabelManager.isValidLabel(name, geo.getKernel(), geo)) {
-            	geo.rename(name);
-            	geo.updateRepaint();
-            	app.setPropertiesOccured();
+            if (LabelManager.isValidLabel(name, geo.getKernel(), geo)) {
+                geo.rename(name);
+                geo.setAlgebraLabelVisible(true);
+                geo.setDescriptionNeedsUpdateInAV(true);
+                geo.getKernel().notifyUpdate(geo);
+                geo.updateRepaint();
+                app.setPropertiesOccured();
             }
 
         }
@@ -745,7 +748,7 @@ abstract public class ObjectSettingsModel {
             return null;
         }
 
-        return geoElementsList.get(0).getLabelSimple();
+        return geoElement.isAlgebraLabelVisible() ? geoElementsList.get(0).getLabelSimple() : "";
     }
 
     static public void removeNoPropertiesGeoFromList(App app, List<GeoElement> fromList, List<GeoElement> toList) {
