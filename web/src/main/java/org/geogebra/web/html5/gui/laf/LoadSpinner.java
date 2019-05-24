@@ -4,7 +4,6 @@ import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.sun.java.browser.plugin2.DOM;
 
 public class LoadSpinner {
 	private final Element spinner;
