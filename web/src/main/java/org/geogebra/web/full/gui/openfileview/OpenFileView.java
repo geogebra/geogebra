@@ -21,6 +21,7 @@ import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
@@ -73,6 +74,7 @@ public class OpenFileView extends MyHeaderPanel
 	private FlowPanel infoPanel;
 	private Label caption;
 	private Label info;
+	private LoadSpinner spinner;
 
 	private boolean[] materialListEmpty = { true, true };
 	private static final int TYPE_USER = 0;
@@ -104,11 +106,16 @@ public class OpenFileView extends MyHeaderPanel
 		this.userMaterialsCB = getUserMaterialsCB(TYPE_USER);
 		this.sharedMaterialsCB = getUserMaterialsCB(TYPE_SHARED);
 		this.ggtMaterialsCB = getGgtMaterialsCB();
+		initSpinner();
 		initHeader();
 		initContentPanel();
 		initButtonPanel();
 		initSortDropdown();
 		initMaterialPanel();
+	}
+
+	private void initSpinner() {
+		spinner = new LoadSpinner("startscreen.notes");
 	}
 
 	/**
@@ -316,6 +323,7 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public void loadAllMaterials() {
+		spinner.show();
 		clearMaterials();
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			app.getLoginOperation().getGeoGebraTubeAPI()
@@ -466,6 +474,7 @@ public class OpenFileView extends MyHeaderPanel
 		for (int i = 0; i < matList.size(); i++) {
 			addMaterial(matList.get(i));
 		}
+		spinner.hide();
 	}
 
 	private MaterialCallback getGgtMaterialsCB() {
@@ -474,6 +483,7 @@ public class OpenFileView extends MyHeaderPanel
 			public void onError(final Throwable exception) {
 				exception.printStackTrace();
 				Log.warn(exception.getMessage());
+				spinner.hide();
 			}
 
 			@Override
@@ -481,6 +491,7 @@ public class OpenFileView extends MyHeaderPanel
 					ArrayList<Chapter> meta) {
 				addGGTMaterials(response, meta);
 				addContent();
+				spinner.hide();
 			}
 		};
 	}
