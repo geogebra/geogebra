@@ -3821,7 +3821,7 @@ namespace giac {
       if ( (indice.is_symb_of_sommet(*at_interval) || indicedeuxpoints)&& indice._SYMBptr->feuille.type==_VECT && indice._SYMBptr->feuille._VECTptr->size()==2){
 	gen deb=indice._SYMBptr->feuille._VECTptr->front();
 	gen fin=indice._SYMBptr->feuille._VECTptr->back()+(indicedeuxpoints?minus_one:zero);
-	if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ )
+	if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ || fin.val>=LIST_SIZE_LIMIT)
 	  return gendimerr();
 	if (deb.val<0) deb.val+=int(vptr->size());
 	if (fin.val<0) fin.val+=int(vptr->size());
@@ -3848,7 +3848,7 @@ namespace giac {
       if (indice.type!=_VECT){
 	if (indice.type==_INT_ && indice.val<0)
 	  indice += int(vptr->size());
-	if (indice.type!=_INT_ || indice.val<0 )
+	if (indice.type!=_INT_ || indice.val<0 || indice.val>=LIST_SIZE_LIMIT)
 	  return gentypeerr(gettext("Bad index (in sto) ")+indice.print(contextptr));
 	// check size
 	int is=int(vptr->size());
@@ -3874,7 +3874,7 @@ namespace giac {
 	    return gendimerr(contextptr);
 	  if (deb.val<0) deb.val+=int(vptr->size());
 	  if (fin.val<0) fin.val+=int(vptr->size());
-	  if (deb.val<0 || fin.val<0 || deb.val>fin.val)
+	  if (deb.val<0 || fin.val<0 || deb.val>fin.val || fin.val>LIST_SIZE_LIMIT)
 	    return gendimerr(contextptr);
 	  if (a.type==_VECT && a._VECTptr->size()!=fin.val-deb.val+1)
 	    return gendimerr(contextptr);

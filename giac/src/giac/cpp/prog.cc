@@ -3504,6 +3504,8 @@ namespace giac {
     vecteur v(*it->_VECTptr);
     int subtype=it->subtype;
     ++it;
+    if (v.size()+(itend-it)>LIST_SIZE_LIMIT)
+      return gendimerr(contextptr);
     for (;it!=itend;++it)
       v.push_back(*it);
     return gen(v,subtype);
@@ -4520,6 +4522,8 @@ namespace giac {
     }
     if (is_zero(step))
       return gensizeerr(gettext("Invalid null step"));
+    if (is_greater((fin-debut)/step,LIST_SIZE_LIMIT,contextptr))
+      return gendimerr(contextptr);
     vecteur w;
     if (is_greater(fin,debut,contextptr)){
       step=abs(step,contextptr);
@@ -8459,6 +8463,8 @@ namespace giac {
     if ( (v[0].type!=_INT_) || (v[1].type!=_INT_) )
       return gensizeerr(contextptr);
     int l(giacmax(v[0].val,1)),c(giacmax(v[1].val,1));
+    if (l*longlong(c)>LIST_SIZE_LIMIT)
+      return gendimerr(contextptr);
     if (vs==3 && v[2].type<=_IDNT){
       vecteur res(l);
       for (int i=0;i<l;++i)
