@@ -6,6 +6,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -38,8 +39,7 @@ public class GeoSymbolicTest {
 	}
 
 	public static void t(String input, Matcher<String> expected) {
-		AlgebraTest.testSyntaxSingle(input,
-				Arrays.asList(expected), ap,
+		AlgebraTest.testSyntaxSingle(input, Arrays.asList(expected), ap,
 				StringTemplate.testTemplate);
 	}
 
@@ -142,7 +142,7 @@ public class GeoSymbolicTest {
 		t("Solve(f(x) = 0)", anyOf(
 				equalTo("{x = (k - sqrt(k^(2) - 16 * k)) / 2, x ="
 						+ " (k + sqrt(k^(2) - 16 * k)) / 2, x = 0}"),
-						equalTo("{x = (k + sqrt(k^(2) - 16 * k)) / 2, x = (k - sqrt(k^(2) - 16 * k)) / 2, x = 0}")));
+				equalTo("{x = (k + sqrt(k^(2) - 16 * k)) / 2, x = (k - sqrt(k^(2) - 16 * k)) / 2, x = 0}")));
 
 		t("Solve(k(k-16)>0,k)", "{k < 0, k > 16}");
 		t("Solve(x^2=4x)", "{x = 0, x = 4}");
@@ -163,7 +163,8 @@ public class GeoSymbolicTest {
 		t("eq2: 4=a*2^3+b*2^2+c*2+d", "4 = 8 * a + 4 * b + 2 * c + d");
 		t("eq3: 7=a*4^3+b*4^2+c*4+d", "7 = 64 * a + 16 * b + 4 * c + d");
 		t("eq4: 1=a*1^3+b*1^2+c*1+d", "1 = a + b + c + d");
-		t("Solve({eq1,eq2,eq3,eq4}, {a,b,c,d})", "{{a = (-3) / 2, b = 10, c = (-33) / 2, d = 9}}");
+		t("Solve({eq1,eq2,eq3,eq4}, {a,b,c,d})",
+				"{{a = (-3) / 2, b = 10, c = (-33) / 2, d = 9}}");
 	}
 
 	@Test
@@ -172,7 +173,8 @@ public class GeoSymbolicTest {
 		t("Derivative(f)", "3 * x^(2) - 4 * x");
 		t("f''(x)", "6 * x - 4");
 		t("Derivative(f, x, 3)", "6");
-		t("Solve(f(x) = 0)", "{x = (-sqrt(5) + 1) / 2, x = 1, x = (sqrt(5) + 1) / 2}");
+		t("Solve(f(x) = 0)",
+				"{x = (-sqrt(5) + 1) / 2, x = 1, x = (sqrt(5) + 1) / 2}");
 		t("Solve(f'(x) = 0)", "{x = 0, x = 4 / 3}");
 		t("Solve(f''(x) = 0)", "{x = 2 / 3}");
 	}
@@ -213,8 +215,8 @@ public class GeoSymbolicTest {
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = app.getKernel().lookupLabel("a");
-		ap.changeGeoElement(a, "p-q", true,
-				false, TestErrorHandler.INSTANCE, null);
+		ap.changeGeoElement(a, "p-q", true, false, TestErrorHandler.INSTANCE,
+				null);
 		checkInput("a", "a = p - q");
 	}
 
@@ -251,6 +253,46 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void linePropertiesShouldMatchTwin() {
+		t("f: x = y", "x = y");
+
+		GeoSymbolic f = getSymbolic("f");
+		ObjectSettingsModel model = asList(f);
+		model.setLineThickness(7);
+		Assert.assertEquals(8, f.getLineThickness());
+		Assert.assertEquals(8, f.getTwinGeo().getLineThickness());
+	}
+
+	@Test
+	public void pointPropertiesShouldMatchTwin() {
+		t("A: (1, 2)", "(1, 2)");
+
+		GeoSymbolic f = getSymbolic("A");
+		ObjectSettingsModel model = asList(f);
+		model.setPointSize(7);
+		model.setPointStyle(4);
+		Assert.assertEquals(8, f.getPointSize());
+		Assert.assertEquals(8, ((GeoPoint) f.getTwinGeo()).getPointSize());
+
+		Assert.assertEquals(4, f.getPointStyle());
+		Assert.assertEquals(4, ((GeoPoint) f.getTwinGeo()).getPointStyle());
+	}
+
+	private GeoSymbolic getSymbolic(String label) {
+		return (GeoSymbolic) app.getKernel().lookupLabel(label);
+	}
+
+	private ObjectSettingsModel asList(GeoElement f) {
+		ArrayList<GeoElement> list = new ArrayList<>();
+		list.add(f);
+		ObjectSettingsModel model = new ObjectSettingsModel(app) {
+		};
+		model.setGeoElement(f);
+		model.setGeoElementsList(list);
+		return model;
+	}
+
+	@Test
 	public void powerShouldBeOneRow() {
 		t("(b+1)^3", "(b + 1)^(3)");
 		GeoElement a = app.getKernel().lookupLabel("a");
@@ -264,12 +306,15 @@ public class GeoSymbolicTest {
 
 	private synchronized String getObjectLHS(int index) {
 		Construction cons = app.getKernel().getConstruction();
-		ArrayList<GeoElement> geos = new ArrayList<>(cons.getGeoSetConstructionOrder());
+		ArrayList<GeoElement> geos = new ArrayList<>(
+				cons.getGeoSetConstructionOrder());
 
 		try {
-			return geos.get(index).getAssignmentLHS(StringTemplate.defaultTemplate);
+			return geos.get(index)
+					.getAssignmentLHS(StringTemplate.defaultTemplate);
 		} catch (Exception e) {
 			return "";
 		}
 	}
+
 }

@@ -1,25 +1,35 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
-import org.geogebra.common.kernel.arithmetic.*;
+import org.geogebra.common.kernel.arithmetic.AssignmentType;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionExpander;
+import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * Symbolic geo for CAS computations in AV
  * 
  * @author Zbynek
  */
-public class GeoSymbolic extends GeoElement
-		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties {
+public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
+		GeoEvaluatable, GeoFunctionable, DelegateProperties {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -159,11 +169,14 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private void computeFunctionVariables() {
-		if (getDefinition() != null && getDefinition().containsFreeFunctionVariable(null)) {
+		if (getDefinition() != null
+				&& getDefinition().containsFreeFunctionVariable(null)) {
 			fVars.clear();
-			FunctionVarCollector functionVarCollector = FunctionVarCollector.getCollector();
+			FunctionVarCollector functionVarCollector = FunctionVarCollector
+					.getCollector();
 			getDefinition().traverse(functionVarCollector);
-			fVars.addAll(Arrays.asList(functionVarCollector.buildVariables(kernel)));
+			fVars.addAll(
+					Arrays.asList(functionVarCollector.buildVariables(kernel)));
 		}
 	}
 
@@ -416,7 +429,13 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public void update(boolean drag){
+	public boolean showLineProperties() {
+		getTwinGeo();
+		return twinGeo != null && twinGeo.showLineProperties();
+	}
+
+	@Override
+	public void update(boolean drag) {
 		if (twinGeo != null) {
 			twinGeo.setVisualStyle(this);
 		}
@@ -424,8 +443,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public void updateVisualStyle(GProperty property){
-		if (twinGeo!= null) {
+	public void updateVisualStyle(GProperty property) {
+		if (twinGeo != null) {
 			twinGeo.setVisualStyle(this);
 		}
 		super.updateVisualStyle(property);
