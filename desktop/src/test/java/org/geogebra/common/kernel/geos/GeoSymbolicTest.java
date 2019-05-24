@@ -206,6 +206,46 @@ public class GeoSymbolicTest {
 		checkInput("a", "a = p - q");
 	}
 
+	@Test
+	public void constantShouldBeOneRow() {
+		t("1", "1");
+		GeoElement a = app.getKernel().lookupLabel("a");
+		Assert.assertTrue(a instanceof GeoSymbolic);
+		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+	}
+
+	@Test
+	public void labeledConstantShouldBeOneRow() {
+		t("a=7", "7");
+		GeoElement a = app.getKernel().lookupLabel("a");
+		Assert.assertTrue(a instanceof GeoSymbolic);
+		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+	}
+
+	@Test
+	public void simpleEquationShouldBeOneRow() {
+		t("eq1:x+y=1", "x + y = 1");
+		GeoElement a = app.getKernel().lookupLabel("eq1");
+		Assert.assertTrue(a instanceof GeoSymbolic);
+		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+	}
+
+	@Test
+	public void simpleFracShouldBeOneRow() {
+		t("1/2", "1 / 2");
+		GeoElement a = app.getKernel().lookupLabel("a");
+		Assert.assertTrue(a instanceof GeoSymbolic);
+		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+	}
+
+	@Test
+	public void powerShouldBeOneRow() {
+		t("(b+1)^3", "(b + 1)^(3)");
+		GeoElement a = app.getKernel().lookupLabel("a");
+		Assert.assertTrue(a instanceof GeoSymbolic);
+		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+	}
+
 	private static void shouldFail(String string, String errorMsg) {
 		AlgebraTest.shouldFail(string, errorMsg, app);
 	}

@@ -370,4 +370,14 @@ public class GeoSymbolic extends GeoElement
 		GeoElementND twin = getTwinGeo();
 		return twin != null && twin.hasTableOfValues();
 	}
+
+	@Override
+	public DescriptionMode needToShowBothRowsInAV() {
+		String def = getDefinition(StringTemplate.defaultTemplate);
+		String val = getValueForInputBar();
+		if (def.equals(val)){
+			return DescriptionMode.VALUE;
+		}
+		return super.needToShowBothRowsInAV();
+	}
 }
