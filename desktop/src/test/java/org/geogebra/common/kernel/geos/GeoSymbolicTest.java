@@ -3,8 +3,10 @@ package org.geogebra.common.kernel.geos;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -198,6 +200,16 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void defaultFunctionLHS() {
+		t("x", "x");
+		t("x+3", "x + 3");
+		t("x+y", "x + y");
+		Assert.assertEquals("f(x)", getObjectLHS(0));
+		Assert.assertEquals("g(x)", getObjectLHS(1));
+		Assert.assertEquals("a(x, y)", getObjectLHS(2));
+	}
+
+	@Test
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = app.getKernel().lookupLabel("a");
@@ -248,5 +260,16 @@ public class GeoSymbolicTest {
 
 	private static void shouldFail(String string, String errorMsg) {
 		AlgebraTest.shouldFail(string, errorMsg, app);
+	}
+
+	private synchronized String getObjectLHS(int index) {
+		Construction cons = app.getKernel().getConstruction();
+		ArrayList<GeoElement> geos = new ArrayList<>(cons.getGeoSetConstructionOrder());
+
+		try {
+			return geos.get(index).getAssignmentLHS(StringTemplate.defaultTemplate);
+		} catch (Exception e) {
+			return "";
+		}
 	}
 }

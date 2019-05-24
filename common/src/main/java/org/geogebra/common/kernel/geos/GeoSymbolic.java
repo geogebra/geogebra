@@ -3,16 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
-import org.geogebra.common.kernel.arithmetic.AssignmentType;
-import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.FunctionExpander;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic.*;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -166,10 +157,9 @@ public class GeoSymbolic extends GeoElement
 	private void computeFunctionVariables() {
 		if (getDefinition() != null && getDefinition().containsFreeFunctionVariable(null)) {
 			fVars.clear();
-			FunctionVariable[] functionVariables =
-					kernel.getAlgebraProcessor().makeFunctionNVar(
-							getDefinition()).getFunctionVariables();
-			fVars.addAll(Arrays.asList(functionVariables));
+			FunctionVarCollector functionVarCollector = FunctionVarCollector.getCollector();
+			getDefinition().traverse(functionVarCollector);
+			fVars.addAll(Arrays.asList(functionVarCollector.buildVariables(kernel)));
 		}
 	}
 
