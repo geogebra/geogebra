@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -1706,15 +1707,27 @@ public abstract class Renderer {
 	 */
 	public void setARScaleAtStart() {
 		if (view3D.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-			float reduceFactor;
-			if (getARManager().getDistance() < 1) {
-				reduceFactor = 1f / 100; // 1 tick distance = 1 cm
-			} else if (getARManager().getDistance() > 10) {
-				reduceFactor = 1f; // 1 tick distance = 1 m
-			} else {
-				reduceFactor = 1f / 10; // 1 tick distance = 10 cm
-			}
-			arScaleAtStart = reduceFactor / ((float) view3D.getXscale() % 100);
+			double distance = getARManager().getDistance();
+			double deskDistance = 0.5; // desk max distance is 50 cm
+			// don't expect distance less than desk distance
+			if (distance < deskDistance) {
+                distance = deskDistance;
+            }
+            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than "desk distance")
+            double thicknessMin = 0.00025 * distance / deskDistance;
+            // 1 ggb unit ==  1 meter
+            double ggbToRw = 1.0 / view3D.getXscale();
+            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+            double pot = DoubleUtil.getPowerOfTen(ratio);
+            ratio = ratio / pot;
+            if (ratio <= 2f) {
+                ratio = 2f;
+            } else if (ratio <= 5f) {
+                ratio = 5f;
+            } else {
+                ratio = 10f;
+            }
+            arScaleAtStart = (float) (ggbToRw * ratio * pot);
 		} else {
 			float reductionFactor = 0.80f;
 			arScaleAtStart = (getARManager().getDistance() / getWidth()) * reductionFactor;

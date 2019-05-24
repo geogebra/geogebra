@@ -429,7 +429,7 @@ public class DoubleUtil {
      * @return x rounded to 1/2/5 * 10^digits
      */
     final public static double round125(double x) {
-        double pot = Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
+        double pot = getPowerOfTen(x);
         int n = (int) (x / pot);
         if (n >= 5) {
             return 5 * pot;
@@ -438,6 +438,15 @@ public class DoubleUtil {
             return 2 * pot;
         }
         return pot;
+    }
+
+    /**
+     *
+     * @param x number
+     * @return 10^n where x = v * 10^n with 1 <= v< 10
+     */
+    final public static double getPowerOfTen(double x) {
+        return Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
     }
 
 }
