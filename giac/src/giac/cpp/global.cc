@@ -1815,7 +1815,11 @@ extern "C" void Sleep(unsigned int miliSecond);
   const int BUFFER_SIZE=512;
 #else
   int CALL_LAPACK=1111;
-  int LIST_SIZE_LIMIT = 100000000 ;
+#ifdef EMCC
+  int LIST_SIZE_LIMIT = 10000000 ;
+#else
+  int LIST_SIZE_LIMIT = 500000000 ;
+#endif
 #ifdef USE_GMP_REPLACEMENTS
   int FACTORIAL_SIZE_LIMIT = 10000 ;
 #else

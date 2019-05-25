@@ -1776,7 +1776,8 @@ namespace giac {
       res += printasinnerbloc(it->_SYMBptr->feuille,contextptr);
     else {
       res += it->print(contextptr);
-      if (res[res.size()-1]!=';') 
+      char reslast=res[res.size()-1];
+      if (reslast!=';' && reslast!='}') 
 	res += ";";
     }
     debug_ptr(contextptr)->indent_spaces -=2;
@@ -2129,7 +2130,7 @@ namespace giac {
       ++it;
       ++it;
       debug_ptr(contextptr)->indent_spaces += 2;
-      if ((maplemode>0) && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
+      if ((maplemode>0 || res.substr(res.size()-3,3)=="do ") && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
 	res += printasinnerbloc(it->_SYMBptr->feuille,contextptr)+";";
       else
 	res += it->print(contextptr) +";";

@@ -6208,9 +6208,13 @@ namespace giac {
       return v.front();
     gen vf(v.front()),vb(v.back());
     if (!is_integral(vf) || !is_integral(vb) ){
+#if 1
+      return vf-_floor(vf/vb,contextptr)*vb;
+#else      
       if (vf.type==_DOUBLE_ || vb.type==_DOUBLE_)
 	return gensizeerr(contextptr);
       return symbolic(at_irem,args);
+#endif
     }
     gen r=irem(vf,vb,q);
     if (is_integer(vb) && is_strictly_positive(-r,contextptr)){
@@ -6271,11 +6275,11 @@ namespace giac {
     }
     return false;
   }
-  gen Iquo(const gen & f0,const gen & b0){
+  gen Iquo(const gen & f0,const gen & b0,GIAC_CONTEXT){
     if (f0.type==_VECT)
-      return apply1st(f0,b0,Iquo);
+      return apply1st(f0,b0,contextptr,Iquo);
     gen f(f0),b(b0);
-    if (!is_integral(f) || !is_integral(b) )
+    if (python_compat(contextptr)==0 && (!is_integral(f) || !is_integral(b) ))
       return gensizeerr(gettext("Iquo")); // return symbolic(at_iquo,args);
     if (is_exactly_zero(b))
       return 0;
@@ -6288,7 +6292,7 @@ namespace giac {
     gen & b=args._VECTptr->back();
     if (ckmatrix(args))
       return apply(f,b,iquo);
-    return Iquo(f,b);
+    return Iquo(f,b,contextptr);
   }
   static const char _iquo_s []="iquo";
   static string printasiquo(const gen & g,const char * s,GIAC_CONTEXT){
@@ -6627,7 +6631,7 @@ namespace giac {
     if (args.type==_FRAC){
       gen n=args._FRACptr->num,d=args._FRACptr->den;
       if ( ((n.type==_INT_) || (n.type==_ZINT)) && ( (d.type==_INT_) || (d.type==_ZINT)) )
-	return Iquo(n,d)+1;
+	return Iquo(n,d,contextptr)+1;
     }
     vecteur l(lidnt(args));
     vecteur lnew=*evalf(l,1,contextptr)._VECTptr;

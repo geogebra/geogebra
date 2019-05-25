@@ -9178,17 +9178,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       b=_floor(255*b+.5,contextptr);
       c=_floor(255*c+.5,contextptr);
     }
-    if (a.type==_INT_ && b.type==_INT_ && c.type==_INT_ && a.val>=0 && a.val<256 && b.val>=0 && b.val<256 && c.val>=0 && c.val<256 ){
-      int d=0;
+    if (a.type==_INT_ && b.type==_INT_ && c.type==_INT_ && a.val>=0 && b.val>=0 && c.val>=0 ){
+      int d=0,av=giacmin(a.val,255),bv=giacmin(b.val,255),cv=giacmin(c.val,255);
       if (v.size()==4 && (v.back()==888 || v.back()==at_pixon || v.back()==at_set_pixel)){
-	d=(a.val<<16)|(b.val<<8)|c.val;
+	d=(av<<16)|(bv<<8)|cv;
 	if (d>0 && d<512) 
 	  d += (1<<16);
       }
       else {
 	if (v.size()==4 && v.back()!=565)
 	  return gensizeerr(contextptr);
-	d=(((a.val*32)/256)<<11) | (((b.val*64)/256)<<5) | ((c.val*32)/256);
+	d=(((av*32)/256)<<11) | (((bv*64)/256)<<5) | ((cv*32)/256);
 	if (d>0 && d<512){
 	  d += (1<<11);
 	}
