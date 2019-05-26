@@ -85,7 +85,7 @@ test {
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("config/findbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true', '-Xmx1g']
+    jvmArgs = ['-Dfindbugs.sf.comment=true', '-Xmx2g']
 }
 
 pmd {

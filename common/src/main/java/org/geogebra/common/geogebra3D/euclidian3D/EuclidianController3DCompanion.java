@@ -217,6 +217,7 @@ public class EuclidianController3DCompanion
 							* ec.getPointCapturingPercentage()) {
 				tmpCoords1.setZ(z);
 			}
+			break;
 		case EuclidianStyleConstants.POINT_CAPTURING_OFF:
 			break;
 		}
