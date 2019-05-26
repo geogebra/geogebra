@@ -1,3 +1,10 @@
+ options {
+   static = false;
+   JAVA_TEMPLATE_TYPE="modern";
+   grammar_encoding="UTF-8";
+   unicode_input=true;
+}
+
 PARSER_BEGIN(Parser)
 package com.himamis.retex.editor.share.io.latex;
 
