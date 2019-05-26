@@ -38,6 +38,7 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -346,7 +347,12 @@ public class ToolbarConfigPanel extends JPanel
 		}
 	}
 
-	private boolean containsTool(DefaultMutableTreeNode node, Integer mode) {
+	private boolean containsTool(TreeNode node0, Integer mode) {
+		if (!(node0 instanceof DefaultMutableTreeNode)) {
+			return false;
+		}
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) node0;
+
 		// compare modes
 		Object ob = node.getUserObject();
 		if (ob != null && mode.compareTo((Integer) ob) == 0) {
@@ -354,9 +360,9 @@ public class ToolbarConfigPanel extends JPanel
 		}
 
 		if (node.getChildCount() >= 0) {
-			for (Enumeration<DefaultMutableTreeNode> e = node.children(); e
+			for (Enumeration<TreeNode> e = node.children(); e
 					.hasMoreElements();) {
-				DefaultMutableTreeNode n = e.nextElement();
+				TreeNode n = e.nextElement();
 				if (containsTool(n, mode)) {
 					return true;
 				}
