@@ -445,9 +445,9 @@ public abstract class RendererImpl {
 
 	public abstract void setMatrixView(CoordMatrix4x4 matrix);
 
-	public abstract void setProjectionMatrixViewForAR(float scaleFactor);
+	public abstract void setProjectionMatrixViewForAR();
 
-	public abstract void fromARCoreCoordsToGGBCoords(Coords coords, float scaleFactor, Coords ret);
+	public abstract void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret);
 
 	public abstract void unsetMatrixView();
 

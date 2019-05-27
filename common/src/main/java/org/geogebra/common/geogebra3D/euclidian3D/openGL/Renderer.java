@@ -147,7 +147,6 @@ public abstract class Renderer {
 
 	// AR
     private boolean arShouldStart = false;
-	private float arScaleAtStart;
 
 	/** shift for getting alpha value */
 	private static final int ALPHA_SHIFT = 24;
@@ -247,7 +246,7 @@ public abstract class Renderer {
      * @return current hitting distance (in AR)
      */
     public double getHittingDistanceAR() {
-		return getARManager().getHittingDistance() / arScaleAtStart;
+		return getARManager().getHittingDistance();
     }
 
     /**
@@ -677,7 +676,7 @@ public abstract class Renderer {
 	 *            computed ggb coords
 	 */
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-		rendererImpl.fromARCoreCoordsToGGBCoords(coords, getARScaleParameter(), ret);
+		rendererImpl.fromARCoreCoordsToGGBCoords(coords, ret);
 	}
 
 	private void drawLabels() {
@@ -1191,7 +1190,7 @@ public abstract class Renderer {
 	 */
 	public final void setProjectionMatrix() {
 		if (view3D.isARDrawing()) {
-			rendererImpl.setProjectionMatrixViewForAR(getARScaleParameter());
+			rendererImpl.setProjectionMatrixViewForAR();
 		} else {
 			switch (view3D.getProjection()) {
 				default:
@@ -1681,32 +1680,7 @@ public abstract class Renderer {
 	 * Set scale for AR
 	 */
 	public void setARScaleAtStart() {
-		if (view3D.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-			double distance = getARManager().getDistance();
-			double deskDistance = 0.5; // desk max distance is 50 cm
-			// don't expect distance less than desk distance
-			if (distance < deskDistance) {
-                distance = deskDistance;
-            }
-            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than "desk distance")
-            double thicknessMin = 0.00025 * distance / deskDistance;
-            // 1 ggb unit ==  1 meter
-            double ggbToRw = 1.0 / view3D.getXscale();
-            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-            double pot = DoubleUtil.getPowerOfTen(ratio);
-            ratio = ratio / pot;
-            if (ratio <= 2f) {
-                ratio = 2f;
-            } else if (ratio <= 5f) {
-                ratio = 5f;
-            } else {
-                ratio = 10f;
-            }
-            arScaleAtStart = (float) (ggbToRw * ratio * pot);
-		} else {
-			float reductionFactor = 0.80f;
-			arScaleAtStart = (getARManager().getDistance() / getWidth()) * reductionFactor;
-		}
+		getARManager().setARScaleAtStart();
 	}
 
 	/**
@@ -2162,13 +2136,4 @@ public abstract class Renderer {
 	protected ARManagerInterface<?> getARManager() {
 	    return null;
     }
-
-    private float getARScaleParameter() {
-        ARManagerInterface<?> arManager = getARManager();
-        if (arManager != null) {
-            return arScaleAtStart * arManager.getGestureScaleFactor();
-        }
-		return arScaleAtStart;
-	}
-
 }

@@ -34,12 +34,14 @@ public interface ARManagerInterface<T> {
 
     void setFirstFloor(double z);
 
-    float getGestureScaleFactor();
-
     CoordMatrix4x4 getViewMatrix();
 
     CoordMatrix4x4 getProjectMatrix();
 
     CoordMatrix4x4 getAnchorMatrixForGGB();
+
+    void setARScaleAtStart();
+
+    float getARScaleParameter();
 
 }

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     protected float mScaleFactor = 1;
+    private float arScaleAtStart;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
@@ -139,7 +141,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public double getHittingDistance() {
-        return hittingDistance;
+        return hittingDistance / arScaleAtStart;
     }
 
     abstract public void setHittingOriginAndDirection(float x, float y);
@@ -369,8 +371,37 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             setHittingOriginAndDirection(arMotionEvent.getX(), arMotionEvent.getY());
     }
 
-    public float getGestureScaleFactor() {
-        return arGestureManager.getScaleFactor();
+    public void setARScaleAtStart() {
+        if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
+            double distance = mDistance;
+            double deskDistance = 0.5; // desk max distance is 50 cm
+            // don't expect distance less than desk distance
+            if (distance < deskDistance) {
+                distance = deskDistance;
+            }
+            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than "desk distance")
+            double thicknessMin = 0.00025 * distance / deskDistance;
+            // 1 ggb unit ==  1 meter
+            double ggbToRw = 1.0 / mView.getXscale();
+            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+            double pot = DoubleUtil.getPowerOfTen(ratio);
+            ratio = ratio / pot;
+            if (ratio <= 2f) {
+                ratio = 2f;
+            } else if (ratio <= 5f) {
+                ratio = 5f;
+            } else {
+                ratio = 10f;
+            }
+            arScaleAtStart = (float) (ggbToRw * ratio * pot);
+        } else {
+            float reductionFactor = 0.80f;
+            arScaleAtStart = (mDistance / mView.getRenderer().getWidth())
+                    * reductionFactor;
+        }
     }
 
+    public float getARScaleParameter() {
+            return arScaleAtStart * arGestureManager.getScaleFactor();
+    }
 }
