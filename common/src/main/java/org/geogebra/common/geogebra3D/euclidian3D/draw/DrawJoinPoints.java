@@ -87,7 +87,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
-		if (isVisible()) {
+		if (isVisible() && getLineThickness() > 0) {
 			exportToPrinter3D.export(this, Type.CURVE);
 		}
 	}

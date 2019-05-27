@@ -109,7 +109,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
-		if (isVisible()) {
+		if (isVisible() && getGeoElement().getLineThickness() > 0) {
 			exportToPrinter3D.export(this, Type.CURVE);
 		}
 	}
