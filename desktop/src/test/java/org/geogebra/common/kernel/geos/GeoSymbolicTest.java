@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.main.App;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,12 +35,12 @@ public class GeoSymbolicTest {
 	}
 
 	public static void t(String input, String... expected) {
-		AlgebraTest.testSyntaxSingle(input, expected, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
 				StringTemplate.testTemplate);
 	}
 
 	public static void t(String input, Matcher<String> expected) {
-		AlgebraTest.testSyntaxSingle(input, Arrays.asList(expected), ap,
+		AlgebraTestHelper.testSyntaxSingle(input, Arrays.asList(expected), ap,
 				StringTemplate.testTemplate);
 	}
 
@@ -301,7 +302,7 @@ public class GeoSymbolicTest {
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
-		AlgebraTest.shouldFail(string, errorMsg, app);
+		AlgebraTestHelper.shouldFail(string, errorMsg, app);
 	}
 
 	private synchronized String getObjectLHS(int index) {

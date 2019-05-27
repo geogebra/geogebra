@@ -12,6 +12,8 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.commands.AlgebraTestHelper;
+import org.geogebra.test.commands.ErrorAccumulator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -40,17 +42,17 @@ public class RedefineTest extends Assert {
 	}
 
 	private static void t(String input, String expected) {
-		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	private static void t(String input, String expected, StringTemplate tpl) {
-		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				tpl);
 	}
 
 	public static void t(String s, String[] expected) {
-		AlgebraTest.testSyntaxSingle(s, expected, ap,
+		AlgebraTestHelper.testSyntaxSingle(s, expected, ap,
 				StringTemplate.xmlTemplate);
 	}
 

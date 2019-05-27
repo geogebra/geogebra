@@ -8,7 +8,7 @@ import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 
-public final class AppCommon3D extends AppCommon {
+public class AppCommon3D extends AppCommon {
 
 	public AppCommon3D(LocalizationJre loc, AwtFactory awtFactory) {
 		super(loc, awtFactory);

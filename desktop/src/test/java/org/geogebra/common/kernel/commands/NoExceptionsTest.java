@@ -2,10 +2,10 @@ package org.geogebra.common.kernel.commands;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -14,6 +14,7 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.io.XmlTest;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -24,7 +25,7 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class NoExceptionsTest extends AlgebraTest {
-	static AppDNoGui app;
+	static AppCommon app;
 	static AlgebraProcessor ap;
 
 	/**
@@ -33,7 +34,7 @@ public class NoExceptionsTest extends AlgebraTest {
 	@BeforeClass
 	public static void setupApp() {
 		app = new AppDNoGui(new LocalizationD(3), false);
-		app.setLanguage(Locale.US);
+		app.setLanguage("en_US");
 		ap = app.getKernel().getAlgebraProcessor();
 		// Setting the general timeout to 11 seconds. Feel free to change this.
 		app.getKernel().getApplication().getSettings().getCasSettings()
@@ -145,7 +146,8 @@ public class NoExceptionsTest extends AlgebraTest {
 			if (syntax.contains("[")) {
 				String[] syntaxLines = syntax.split("\n");
 				syntaxes = syntaxLines.length;
-				dummySyntaxesShouldFail(cmdName, syntaxLines, app);
+				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, syntaxLines,
+						app);
 			}
 
 			System.out.println();
@@ -2068,7 +2070,7 @@ public class NoExceptionsTest extends AlgebraTest {
 	public void cmdNIntegral() {
 		t("NIntegral[x^2,-1,1]");
 		t("NIntegral[x^2]");
-		shouldFail("Nintegral[exp(x),x,0,1]", "x", app);
+		AlgebraTestHelper.shouldFail("Nintegral[exp(x),x,0,1]", "x", app);
 	}
 
 	@Test

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,17 +30,18 @@ public class CommandFilterTest extends AlgebraTest {
 					|| cmd0 == Commands.NIntegral
 					|| cmd0 == Commands.Factors
 					|| NoExceptionsTest.betaCommand(cmd0, app)
-					|| internalCAScommand(cmd0)) {
+					|| AlgebraTestHelper.internalCAScommand(cmd0)) {
 				continue;
 			}
 			if (cf.isCommandAllowed(cmd)) {
-				if (!AlgebraTest.mayHaveZeroArgs(cmd.name())) {
+				if (!AlgebraTestHelper.mayHaveZeroArgs(cmd.name())) {
 
-					AlgebraTest.shouldFail(cmd + "()", "number of arg", "only",
+					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg",
+							"only",
 							app);
 				}
 			} else {
-				AlgebraTest.shouldFail(cmd + "()", "Unknown command",
+				AlgebraTestHelper.shouldFail(cmd + "()", "Unknown command",
 						"only", app);
 			}
 

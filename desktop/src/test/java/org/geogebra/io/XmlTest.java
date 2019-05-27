@@ -11,6 +11,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -45,7 +46,7 @@ public class XmlTest {
 	 * @param application
 	 *            app
 	 */
-	public static void testCurrentXML(AppDNoGui application) {
+	public static void testCurrentXML(AppCommon application) {
 		String xml = "";
 		try {
 
@@ -68,6 +69,7 @@ public class XmlTest {
 			}
 			Assert.assertNull(se.getLocalizedMessage(), se);
 		} catch (Exception e) {
+			e.printStackTrace();
 			Assert.assertNull(e.getLocalizedMessage(), e);
 		}
 

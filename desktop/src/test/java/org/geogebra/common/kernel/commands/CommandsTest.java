@@ -31,6 +31,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.StringContains;
 import org.junit.After;
@@ -48,12 +49,12 @@ public class CommandsTest extends AlgebraTest {
 	private static String syntax;
 
 	public static void tRound(String s, String... expected) {
-		testSyntax(s, getMatchers(expected), app, ap,
+		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.editTemplate);
 	}
 
 	public static void t(String s, String... expected) {
-		testSyntax(s, getMatchers(expected), app, ap,
+		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.xmlTemplate);
 	}
 
@@ -89,7 +90,8 @@ public class CommandsTest extends AlgebraTest {
 			if (syntax.contains("[")) {
 				String[] syntaxLines = syntax.split("\n");
 				syntaxes = syntaxLines.length;
-				dummySyntaxesShouldFail(cmdName, syntaxLines, app);
+				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, syntaxLines,
+						app);
 			}
 			System.out.println();
 			System.out.print(cmdName);
@@ -102,7 +104,7 @@ public class CommandsTest extends AlgebraTest {
 			 */
 		}
 		syntaxes--;
-		testSyntaxSingle(s, expected, proc, tpl);
+		AlgebraTestHelper.testSyntaxSingle(s, expected, proc, tpl);
 	}
 
 	private static int syntaxes = -1000;
@@ -614,7 +616,7 @@ public class CommandsTest extends AlgebraTest {
 
 	private static void ti(String in, String out) {
 		testSyntax(in.replace("i", Unicode.IMAGINARY + ""),
-				getMatchers(new String[] {
+				AlgebraTestHelper.getMatchers(new String[] {
 						out.replace("i", Unicode.IMAGINARY + "") }),
 				app,
 				ap, StringTemplate.xmlTemplate);
@@ -1270,13 +1272,13 @@ public class CommandsTest extends AlgebraTest {
 		Assert.assertEquals(
 				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
 		Assert.assertNull(get("b"));
-		shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
+		AlgebraTestHelper.shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
 		Assert.assertNotNull(get("cc"));
-		shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
+		AlgebraTestHelper.shouldFail("Rename[ cc, \"42\" ]", "Illegal", app);
 		Assert.assertNotNull(get("cc"));
-		shouldFail("Rename[ cc, \"A_{}\" ]", "Illegal", app);
+		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{}\" ]", "Illegal", app);
 		Assert.assertNotNull(get("cc"));
-		shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
+		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
 		Assert.assertNotNull(get("cc"));
 		t("Rename[ cc, \"A_\" ]", new String[0]);
 		Assert.assertNull(get("cc"));
@@ -2010,7 +2012,7 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdShowSteps() {
-		shouldFail("ShowSteps(ConstructionStep())",
+		AlgebraTestHelper.shouldFail("ShowSteps(ConstructionStep())",
 				"Illegal argument: ConstructionStep",
 				app);
 		t("First(ShowSteps(Solve(x^2=-1/4)))", "{\"x^{2} = \\frac{-1}{4}\"}");

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,12 +27,12 @@ public class ArithmeticTest extends AlgebraTest {
 	}
 
 	private static void t(String input, String expected) {
-		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	private static void t(String input, String expected, StringTemplate tpl) {
-		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				tpl);
 	}
 
@@ -156,8 +157,8 @@ public class ArithmeticTest extends AlgebraTest {
 		t("a+x", "x + y + x");
 		t("a+y", "x + y + y");
 		t("a+a", "x + y + x + y");
-		shouldFail("f+y", "Please check your input", app);
-		shouldFail("y+f", "Please check your input", app);
+		AlgebraTestHelper.shouldFail("f+y", "Please check your input", app);
+		AlgebraTestHelper.shouldFail("y+f", "Please check your input", app);
 	}
 
 	@Test

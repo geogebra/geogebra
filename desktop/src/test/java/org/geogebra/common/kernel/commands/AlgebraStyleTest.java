@@ -69,7 +69,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
-		enableCAS(app, true);
+		AlgebraTest.enableCAS(app, true);
 		app.getKernel()
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
@@ -127,7 +127,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivativeArg() {
-		enableCAS(app, false);
+		AlgebraTest.enableCAS(app, false);
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'(x)", 1);
 	}

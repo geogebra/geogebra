@@ -3,9 +3,9 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class CommandsTest2D extends AlgebraTest {
 	}
 
 	public static void t(String input, String expect) {
-		AlgebraTest.testSyntaxSingle(input, new String[] { expect }, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expect }, ap,
 				StringTemplate.testTemplate);
 	}
 

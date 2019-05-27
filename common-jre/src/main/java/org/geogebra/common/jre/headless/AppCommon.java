@@ -143,12 +143,12 @@ public class AppCommon extends App {
 
     @Override
     protected int getWindowWidth() {
-        return 0;
+		return 800;
     }
 
     @Override
     protected int getWindowHeight() {
-        return 0;
+		return 600;
     }
 
     @Override
@@ -191,7 +191,33 @@ public class AppCommon extends App {
 
     @Override
     public GTimer newTimer(GTimerListener listener, int delay) {
-        return null;
+		return new GTimer() {
+
+			public void start() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void startRepeat() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void stop() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public boolean isRunning() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			public void setDelay(int delay) {
+				// TODO Auto-generated method stub
+
+			}
+		};
     }
 
     @Override

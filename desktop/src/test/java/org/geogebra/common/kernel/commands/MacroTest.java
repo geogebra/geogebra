@@ -5,6 +5,7 @@ import org.geogebra.common.gui.dialog.ToolInputOutputListener;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class MacroTest {
 	}
 
 	private static void t(String input, String expected) {
-		AlgebraTest.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
