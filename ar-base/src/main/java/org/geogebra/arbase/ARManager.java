@@ -86,15 +86,15 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return false;
     }
 
-    private CoordMatrix4x4 getViewMatrix() {
+    public CoordMatrix4x4 getViewMatrix() {
         return viewMatrix;
     }
 
-    private CoordMatrix4x4 getProjectMatrix() {
+    public CoordMatrix4x4 getProjectMatrix() {
         return projectMatrix;
     }
 
-    private CoordMatrix4x4 getAnchorMatrixForGGB() {
+    public CoordMatrix4x4 getAnchorMatrixForGGB() {
         return mModelMatrix;
     }
 
@@ -168,8 +168,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         // to update hitting o&d
         if (isDrawing()) {
             renderer.getView().setARDrawing(true);
-            renderer.setARMatrix(getViewMatrix(), getProjectMatrix(),
-                    getAnchorMatrixForGGB(), renderer.getARScaleAtStart());
             renderer.setView();
             if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
                 if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {

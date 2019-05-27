@@ -146,12 +146,8 @@ public abstract class Renderer {
 	private Runnable export3DRunnable;
 
 	// AR
-	private CoordMatrix4x4 arCameraView;
-	private CoordMatrix4x4 arModelMatrix;
-	private CoordMatrix4x4 arCameraPerspective;
-	protected float arScaleFactor;
     private boolean arShouldStart = false;
-	protected float arScaleAtStart;
+	private float arScaleAtStart;
 
 	/** shift for getting alpha value */
 	private static final int ALPHA_SHIFT = 24;
@@ -251,7 +247,7 @@ public abstract class Renderer {
      * @return current hitting distance (in AR)
      */
     public double getHittingDistanceAR() {
-		return getARManager().getHittingDistance() / arScaleFactor;
+		return getARManager().getHittingDistance() / arScaleAtStart;
     }
 
     /**
@@ -681,8 +677,7 @@ public abstract class Renderer {
 	 *            computed ggb coords
 	 */
 	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-		rendererImpl.fromARCoreCoordsToGGBCoords(coords, arModelMatrix,
-				getARScaleParameter(), ret);
+		rendererImpl.fromARCoreCoordsToGGBCoords(coords, getARScaleParameter(), ret);
 	}
 
 	private void drawLabels() {
@@ -1196,9 +1191,7 @@ public abstract class Renderer {
 	 */
 	public final void setProjectionMatrix() {
 		if (view3D.isARDrawing()) {
-			rendererImpl.setProjectionMatrixViewForAR(arCameraView,
-					arCameraPerspective, arModelMatrix,
-					getARScaleParameter());
+			rendererImpl.setProjectionMatrixViewForAR(getARScaleParameter());
 		} else {
 			switch (view3D.getProjection()) {
 				default:
@@ -1685,24 +1678,6 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * @param cameraView
-	 *            camera view flattened matrix
-	 * @param cameraPerspective
-	 *            camera perspective flattened matrix
-	 * @param modelMatrix
-	 *            model flattened matrix
-	 * @param scaleFactor
-	 *            scale factor
-	 */
-	public void setARMatrix(CoordMatrix4x4 cameraView, CoordMatrix4x4 cameraPerspective,
-                            CoordMatrix4x4 modelMatrix, float scaleFactor) {
-		arCameraView = cameraView;
-		arCameraPerspective = cameraPerspective;
-		arModelMatrix = modelMatrix;
-		arScaleFactor = scaleFactor;
-	}
-
-	/**
 	 * Set scale for AR
 	 */
 	public void setARScaleAtStart() {
@@ -2091,10 +2066,6 @@ public abstract class Renderer {
 		// not used here
 	}
 
-	public float getARScaleAtStart() {
-		return arScaleAtStart;
-	}
-
 	/**
 	 * 
 	 * @return canvas (for desktop version at least)
@@ -2195,9 +2166,9 @@ public abstract class Renderer {
     private float getARScaleParameter() {
         ARManagerInterface<?> arManager = getARManager();
         if (arManager != null) {
-            return arScaleFactor * arManager.getGestureScaleFactor();
+            return arScaleAtStart * arManager.getGestureScaleFactor();
         }
-		return arScaleFactor;
+		return arScaleAtStart;
 	}
 
 }

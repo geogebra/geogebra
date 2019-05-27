@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.ar;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -34,5 +35,11 @@ public interface ARManagerInterface<T> {
     void setFirstFloor(double z);
 
     float getGestureScaleFactor();
+
+    CoordMatrix4x4 getViewMatrix();
+
+    CoordMatrix4x4 getProjectMatrix();
+
+    CoordMatrix4x4 getAnchorMatrixForGGB();
 
 }

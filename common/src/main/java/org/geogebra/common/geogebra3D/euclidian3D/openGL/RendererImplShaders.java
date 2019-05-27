@@ -498,16 +498,14 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-											 CoordMatrix4x4 cameraPerspective,
-											 CoordMatrix4x4 modelMatrix,
-											 float scaleFactor) {
+	public void setProjectionMatrixViewForAR(float scaleFactor) {
 		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
 		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
 
 		// cameraView * modelMatrix and undo rotation matrix (keeping screen orientation)
-		tmpMatrix3.setMul(cameraView, modelMatrix);
+		tmpMatrix3.setMul(renderer.getARManager().getViewMatrix(),
+				renderer.getARManager().getAnchorMatrixForGGB());
 		arViewMatrix.set(tmpMatrix3);
 
 		// invert cameraView * modelMatrix to keep labels towards to screen
@@ -531,7 +529,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix2.setMul(tmpMatrix3, tmpMatrix1);
 
 		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
-		projectionMatrix.setMul(cameraPerspective, tmpMatrix2);
+		projectionMatrix.setMul(renderer.getARManager().getProjectMatrix(), tmpMatrix2);
 	}
 
     @Override
@@ -540,10 +538,9 @@ public abstract class RendererImplShaders extends RendererImpl {
     }
 
 	@Override
-    public void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
-                                            float scaleFactor, Coords ret) {
+    public void fromARCoreCoordsToGGBCoords(Coords coords, float scaleFactor, Coords ret) {
 	    // undo model matrix
-        modelMatrix.solve(coords, ret);
+        renderer.getARManager().getAnchorMatrixForGGB().solve(coords, ret);
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
