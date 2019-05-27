@@ -275,14 +275,14 @@ public class DrawPoint3D extends Drawable3DCurves
 		}
 
 		double d = drawable.getView3D().getScaledDistance(p, project);
-		boolean hitted;
+		boolean hitOk;
 		if (checkRealPointSize) {
-			hitted = d <= pointSize + 2;
+			hitOk = d <= pointSize + 2;
 		} else {
-			hitted = d <= DrawPoint
+			hitOk = d <= DrawPoint
 					.getSelectionThreshold(hitting.getThreshold());
 		}
-		if (hitted) {
+		if (hitOk) {
 			double z = -parameters[0];
 			double dz = pointSize / drawable.getView3D().getScale();
 			drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
