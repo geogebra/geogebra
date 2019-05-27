@@ -902,11 +902,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-	private void disableOpaqueSurfaces() {
+	/**
+	 * disables flag for opaque surfaces
+	 */
+	protected void disableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 0);
 	}
 
-	private void enableOpaqueSurfaces() {
+	/**
+	 * enables flag for opaque surfaces
+	 */
+	protected void enableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 1);
 	}
 
