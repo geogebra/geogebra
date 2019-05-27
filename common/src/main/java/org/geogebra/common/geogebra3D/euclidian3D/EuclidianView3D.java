@@ -3465,6 +3465,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void updateAxesDecorationPosition() {
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].updateDrawPositionAxes();
+			axisDrawable[i].updateDrawPositionLabel();
 		}
 	}
 
