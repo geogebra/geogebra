@@ -168,7 +168,8 @@ public class DrawAxis3D extends DrawLine3D {
 		} else {
 			label.setAnchor(true);
 
-			if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET)) {
+			if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET)
+					&& getView3D().isARDrawing()) {
 				label.updateDrawPositionAxes(getLineThickness());
 				updateDrawPositionLabel();
 			} else {
@@ -194,9 +195,9 @@ public class DrawAxis3D extends DrawLine3D {
 		label.update(getView3D().getAxisLabel(axisIndex), getView3D().getAxisLabelFont(axisIndex),
 				getGeoElement().getObjectColor(),
 				((GeoAxisND) getGeoElement()).getPointInD(3, getDrawMinMax()[1]),
-				numbersXOffset,
-				numbersYOffset,
-				numbersZOffset);
+				-numbersXOffset,
+				-numbersYOffset,
+				-numbersZOffset);
 	}
 
 	@Override
@@ -290,6 +291,12 @@ public class DrawAxis3D extends DrawLine3D {
 			numbersXOffset  = (float) tmpCoords2.getX();
 			numbersYOffset  = (float) tmpCoords2.getY();
 			numbersZOffset  = (float) tmpCoords2.getZ();
+
+			if (axis.getType() == GeoAxisND.X_AXIS) {
+				numbersXOffset = -numbersXOffset;
+				numbersYOffset = -numbersYOffset;
+				numbersZOffset = -numbersZOffset;
+			}
 
 			getGeoElement().setLabelOffset((int) -numbersXOffset, (int) -numbersYOffset);
 		} else {
