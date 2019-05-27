@@ -1392,7 +1392,7 @@ __GGB__keysVar["hu"].menu = {
     "CasCell": "CAS cella",
     "CasCellUseAsText": "Sz\xf6veg",
     "CasTimeout": "Id\u0151 t\xfall\xe9p\xe9s",
-    "Categories": "Categories",
+    "Categories": "Kateg\xf3ri\xe1k",
     "CellAisNotDefined": "%0 cella nem defini\xe1lt",
     "CenterImage": "K\xe9p k\xf6z\xe9pre igaz\xedt\xe1sa",
     "CenterOfA": "%0 k\xf6z\xe9ppontja",
