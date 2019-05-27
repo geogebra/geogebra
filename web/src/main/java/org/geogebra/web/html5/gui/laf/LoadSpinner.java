@@ -27,22 +27,22 @@ public class LoadSpinner {
 	 * Show spinner.
 	 */
 	public void show() {
-		setDisplay(Style.Display.BLOCK);
+		setSpinnerVisibility(true);
 	}
 
 	/**
 	 * Hide spinner.
 	 */
 	public void hide() {
-		setDisplay(Style.Display.NONE);
+		setSpinnerVisibility(false);
 	}
 
-	private void setDisplay(Style.Display display) {
+	private void setSpinnerVisibility(boolean visible) {
 		if (spinner == null) {
 			return;
 		}
 
-		spinner.getStyle().setDisplay(display);
+		spinner.getStyle().setDisplay(visible ? Style.Display.BLOCK : Style.Display.NONE);
 
 	}
 }
