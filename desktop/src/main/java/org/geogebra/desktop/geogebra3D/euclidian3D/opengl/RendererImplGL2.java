@@ -866,10 +866,8 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
-			float scaleFactor) {
-		// used only with AR
+	public void setProjectionMatrixViewForAR() {
+		// used in AR only
 	}
 
 	@Override
@@ -878,9 +876,8 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void fromARCoreCoordsToGGBCoords(Coords coords,
-			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
-		// used only with AR
+	public void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
+		// used in AR only
 	}
 
 	@Override
