@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class RendererImpl {
@@ -446,8 +445,6 @@ public abstract class RendererImpl {
 	public abstract void setMatrixView(CoordMatrix4x4 matrix);
 
 	public abstract void setProjectionMatrixViewForAR();
-
-	public abstract void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret);
 
 	public abstract void unsetMatrixView();
 

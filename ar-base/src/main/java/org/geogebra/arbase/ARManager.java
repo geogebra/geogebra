@@ -404,4 +404,15 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     public float getARScaleParameter() {
             return arScaleAtStart * arGestureManager.getScaleFactor();
     }
+
+    public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
+        // undo model matrix
+        getAnchorMatrixForGGB().solve(coords, ret);
+        // undo scale matrix
+        CoordMatrix4x4.setZero(tmpMatrix2);
+        CoordMatrix4x4.setDilate(tmpMatrix2, getARScaleParameter());
+        tmpMatrix2.solve(ret, tmpCoords1);
+        // undo screen coordinates
+        ret.setMul(mView.getToSceneMatrix(), tmpCoords1);
+    }
 }

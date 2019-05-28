@@ -543,18 +543,6 @@ public abstract class RendererImplShaders extends RendererImpl {
     }
 
 	@Override
-    public void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-	    // undo model matrix
-        renderer.getARManager().getAnchorMatrixForGGB().solve(coords, ret);
-        // undo scale matrix
-        CoordMatrix4x4.setZero(tmpMatrix2);
-        CoordMatrix4x4.setDilate(tmpMatrix2, renderer.getARManager().getARScaleParameter());
-        tmpMatrix2.solve(ret, tmpCoords1);
-        // undo screen coordinates
-		ret.setMul(view3D.getToSceneMatrix(), tmpCoords1);
-	}
-
-	@Override
 	public void unsetMatrixView() {
 		setModelViewIdentity();
 	}

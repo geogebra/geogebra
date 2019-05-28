@@ -216,7 +216,7 @@ public abstract class Renderer {
     public void getHittingDirectionAR(Coords ret) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			fromARCoreCoordsToGGBCoords(arManager.getHittingDirection(), ret);
+            arManager.fromARCoordsToGGBCoords(arManager.getHittingDirection(), ret);
 			ret.normalize();
 		}
     }
@@ -228,7 +228,7 @@ public abstract class Renderer {
 	public void getHittingOriginAR(Coords ret) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			fromARCoreCoordsToGGBCoords(arManager.getHittingOrigin(), ret);
+            arManager.fromARCoordsToGGBCoords(arManager.getHittingOrigin(), ret);
 		}
 	}
 
@@ -244,7 +244,7 @@ public abstract class Renderer {
 			if (hittingFloor == null) {
 				return false;
 			}
-			fromARCoreCoordsToGGBCoords(hittingFloor, ret);
+            arManager.fromARCoordsToGGBCoords(hittingFloor, ret);
 			return true;
 		}
 		return false;
@@ -683,18 +683,6 @@ public abstract class Renderer {
 		if (!enableClipPlanes) {
 			rendererImpl.disableClipPlanes();
 		}
-	}
-
-	/**
-	 * turn AR coords into ggb scene coords
-	 *
-	 * @param coords
-	 *            AR coords
-	 * @param ret
-	 *            computed ggb coords
-	 */
-	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-		rendererImpl.fromARCoreCoordsToGGBCoords(coords, ret);
 	}
 
 	private void drawLabels() {

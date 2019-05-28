@@ -44,4 +44,6 @@ public interface ARManagerInterface<T> {
 
     float getARScaleParameter();
 
+    void fromARCoordsToGGBCoords(Coords coords, Coords ret);
+
 }
