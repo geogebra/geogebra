@@ -5,6 +5,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -62,10 +63,8 @@ public class GraspableEmbedElement extends EmbedElement {
 		$wnd.loadGM(initCanvas, { version: 'latest' });
 		var that = this;
 		function initCanvas() {
-			var app = manager.@org.geogebra.web.full.main.EmbedManagerW::getApp()();
-			var scriptManager = ggbApp.@org.geogebra.common.main.App::getScriptManager()();
-			var notesApi = scriptManager.@org.geogebra.web.html5.main.ScriptManagerW::getApi()();
-			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {ggbNotesAPI: notesApi});
+			var apiObject = that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::getApi(Lorg/geogebra/web/full/main/EmbedManagerW;)(manager);
+			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {ggbNotesAPI: apiObject});
 			if ($wnd.ExternalApi) {
 				var storeContent = function(core) {
 					manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
@@ -89,6 +88,11 @@ public class GraspableEmbedElement extends EmbedElement {
 			}
 		}
 	}-*/;
+
+	private JavaScriptObject getApi(EmbedManagerW embedManager) {
+		ScriptManagerW scriptManager = (ScriptManagerW) embedManager.getApp().getScriptManager();
+		return scriptManager.getApi();
+	}
 
 	@Override
 	public void setContent(String string) {
