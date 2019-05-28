@@ -876,11 +876,6 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-		// used in AR only
-	}
-
-	@Override
 	public void drawNotHidden() {
 		getDrawList3D().draw(renderer);
 	}
