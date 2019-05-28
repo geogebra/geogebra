@@ -188,7 +188,7 @@ public class DrawAxis3D extends DrawLine3D {
 	/**
 	 * update position for end of axis label
 	 */
-	public void updateDrawPositionLabel() {
+	private void updateDrawPositionLabel() {
 		GeoAxisND axis = (GeoAxisND) getGeoElement();
 		int axisIndex = axis.getType();
 
@@ -434,10 +434,11 @@ public class DrawAxis3D extends DrawLine3D {
 	 * update axis position for ticks and labels
 	 */
 	public void updateDrawPositionAxes() {
-		updateDrawPositionLabel();
-		setLabelWaitForUpdate();
+	    updateDecorations();
+		int tickSize = ((GeoAxisND) getGeoElement()).getTickSize();
 		for (DrawLabel3D currentLabel : labels.values()) {
-			currentLabel.updateDrawPositionAxes(((GeoAxisND) getGeoElement()).getTickSize());
+			currentLabel.updateDrawPositionAxes(tickSize);
 		}
+		label.updateDrawPositionAxes(-numbersXOffset, -numbersYOffset, -numbersZOffset, tickSize);
 	}
 }

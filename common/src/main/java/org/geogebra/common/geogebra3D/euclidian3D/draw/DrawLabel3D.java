@@ -449,6 +449,13 @@ public class DrawLabel3D {
 		}
 	}
 
+	public void updateDrawPositionAxes(float xOffset, float yOffset, float zOffset, int tickSize) {
+	    this.xOffset = xOffset;
+	    this.yOffset = yOffset;
+	    this.zOffset = zOffset;
+	    updateDrawPositionAxes(tickSize);
+    }
+
 	/**
 	 * update axes draw position
 	 */
