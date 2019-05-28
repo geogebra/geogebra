@@ -44,6 +44,7 @@ public class DrawSymbolic extends Drawable {
 			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
 			if (twinDrawable instanceof Drawable) {
 				((Drawable) twinDrawable).setGeoForLabel(symbolic);
+				twinDrawable.update();
 			}
 		}
 	}

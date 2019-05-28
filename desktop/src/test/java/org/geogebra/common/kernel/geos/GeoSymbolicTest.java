@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
@@ -260,23 +261,47 @@ public class GeoSymbolicTest {
 		GeoSymbolic f = getSymbolic("f");
 		ObjectSettingsModel model = asList(f);
 		model.setLineThickness(7);
+		model.setLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		assertEquals(8, f.getLineThickness());
 		assertEquals(8, f.getTwinGeo().getLineThickness());
+
+		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
+				f.getLineType());
+		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
+				f.getLineType());
 	}
 
 	@Test
 	public void pointPropertiesShouldMatchTwin() {
 		t("A: (1, 2)", "(1, 2)");
 
-		GeoSymbolic f = getSymbolic("A");
-		ObjectSettingsModel model = asList(f);
+		GeoSymbolic pointA = getSymbolic("A");
+		ObjectSettingsModel model = asList(pointA);
 		model.setPointSize(7);
 		model.setPointStyle(4);
-		assertEquals(8, f.getPointSize());
-		assertEquals(8, ((GeoPoint) f.getTwinGeo()).getPointSize());
+		assertEquals(8, pointA.getPointSize());
+		assertEquals(8, ((GeoPoint) pointA.getTwinGeo()).getPointSize());
 
-		assertEquals(4, f.getPointStyle());
-		assertEquals(4, ((GeoPoint) f.getTwinGeo()).getPointStyle());
+		assertEquals(4, pointA.getPointStyle());
+		assertEquals(4, ((GeoPoint) pointA.getTwinGeo()).getPointStyle());
+	}
+
+	@Test
+	public void lineShouldSavePropertiesToXML() {
+		t("f: x = y", "x = y");
+
+		GeoSymbolic f = getSymbolic("f");
+		f.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineThickness(8);
+		f.setLineOpacity(42);
+		app.setXML(app.getXML(), true);
+
+		GeoSymbolic fReloaded = getSymbolic("f");
+		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
+				fReloaded.getLineType());
+		assertEquals(8, fReloaded.getLineThickness());
+		assertEquals(42, fReloaded.getLineOpacity());
+
 	}
 
 	private GeoSymbolic getSymbolic(String label) {

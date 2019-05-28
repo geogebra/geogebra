@@ -466,4 +466,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		XMLBuilder.appendPointProperties(builder, this);
 	}
 
+	@Override
+	public boolean hasLineOpacity() {
+		getTwinGeo();
+		return twinGeo != null && twinGeo.hasLineOpacity();
+	}
+
 }
