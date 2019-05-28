@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -107,10 +106,6 @@ public class SymbolicProcessor {
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
 			sym = new GeoSymbolic(cons);
-			if (replaced.unwrap() instanceof FunctionNVar) {
-				sym.setVariables(((FunctionNVar) replaced.unwrap())
-						.getFunctionVariables());
-			}
 			sym.setDefinition(replaced);
 			sym.computeOutput();
 		}

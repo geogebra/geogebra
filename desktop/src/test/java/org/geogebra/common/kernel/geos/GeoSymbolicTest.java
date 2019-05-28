@@ -22,6 +22,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class GeoSymbolicTest {
 	private static App app;
 	private static AlgebraProcessor ap;
@@ -65,8 +67,8 @@ public class GeoSymbolicTest {
 	}
 
 	private void checkInput(String label, String expectedInput) {
-		assertEquals(expectedInput, app.getKernel().lookupLabel(label)
-				.toString(StringTemplate.defaultTemplate));
+		assertEquals(expectedInput,
+				app.getKernel().lookupLabel(label).getDefinitionForEditor());
 	}
 
 	@Test
@@ -302,6 +304,13 @@ public class GeoSymbolicTest {
 		assertEquals(8, fReloaded.getLineThickness());
 		assertEquals(42, fReloaded.getLineOpacity());
 
+	}
+
+	@Test
+	public void testDerivativeShorthand() {
+		t("f(x)=exp(x)", Unicode.EULER_STRING + "^(x)");
+		t("f'(x)=f'(x)", Unicode.EULER_STRING + "^(x)");
+		checkInput("f'", "f'(x) = f'(x)");
 	}
 
 	private GeoSymbolic getSymbolic(String label) {

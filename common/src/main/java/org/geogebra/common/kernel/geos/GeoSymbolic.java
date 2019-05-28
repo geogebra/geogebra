@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -169,14 +170,19 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private void computeFunctionVariables() {
-		if (getDefinition() != null
-				&& getDefinition().containsFreeFunctionVariable(null)) {
+		if (getDefinition() == null) {
+			return;
+		}
+		ExpressionValue def = getDefinition().unwrap();
+		if (getDefinition().containsFreeFunctionVariable(null)) {
 			fVars.clear();
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
 			getDefinition().traverse(functionVarCollector);
 			fVars.addAll(
 					Arrays.asList(functionVarCollector.buildVariables(kernel)));
+		} else if (def instanceof FunctionNVar) {
+			setVariables(((FunctionNVar) def).getFunctionVariables());
 		}
 	}
 
