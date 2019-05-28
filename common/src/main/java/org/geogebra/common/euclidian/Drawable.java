@@ -112,6 +112,7 @@ public abstract class Drawable extends DrawableND {
 	 * Whether current paint is the first one
 	 */
 	protected boolean firstCall = true;
+	private GeoElement geoForLabel;
 
 	// boolean createdByDrawList = false;
 
@@ -832,6 +833,14 @@ public abstract class Drawable extends DrawableND {
 	@Override
 	public GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
+	}
+	
+	public GeoElement getGeoForLabel(){
+		return geoForLabel == null ? getGeoElement() : geoForLabel;
+	}
+
+	public void setGeoForLabel(GeoElement geo){
+		geoForLabel = geo;
 	}
 
 	/**

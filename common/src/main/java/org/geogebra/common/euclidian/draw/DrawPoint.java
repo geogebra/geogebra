@@ -179,7 +179,7 @@ public final class DrawPoint extends SetDrawable {
 	private void update(double[] coords2, boolean rwCoords) {
 
 		isVisible = true;
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getGeoForLabel().isLabelVisible();
 		this.coords = coords2;
 
 		if (rwCoords) {
@@ -338,12 +338,11 @@ public final class DrawPoint extends SetDrawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				// view.updateBackground();
 			}
 		}
 
 		if (isVisible && labelVisible) {
-			labelDesc = geo.getLabelDescription();
+			labelDesc = getGeoForLabel().getLabelDescription();
 			xLabel = (int) Math.round(coords[0] + 4);
 			yLabel = (int) Math.round(yUL - pointSize);
 			addLabelOffsetEnsureOnScreen(view.getFontPoint());

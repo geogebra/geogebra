@@ -42,6 +42,9 @@ public class DrawSymbolic extends Drawable {
 			twinDrawable.update();
 		} else {
 			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
+			if (twinDrawable instanceof Drawable) {
+				((Drawable) twinDrawable).setGeoForLabel(symbolic);
+			}
 		}
 	}
 
@@ -50,7 +53,6 @@ public class DrawSymbolic extends Drawable {
 		if (twinDrawable != null && geo.isEuclidianVisible()) {
 			((Drawable) twinDrawable).draw(g2);
 		}
-
 	}
 
 	@Override

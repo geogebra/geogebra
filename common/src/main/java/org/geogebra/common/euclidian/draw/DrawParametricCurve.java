@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -95,7 +96,7 @@ public class DrawParametricCurve extends Drawable {
 			((GeoFunction) curve).getFunctionExpression()
 					.inspect(checkPointwise());
 		}
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getGeoForLabel().isLabelVisible();
 		updateStrokes(geo);
 		if (dataExpression != null) {
 			updatePointwise();
@@ -147,10 +148,13 @@ public class DrawParametricCurve extends Drawable {
 				StringTemplate tpl = StringTemplate.latexTemplate;
 				labelSB.setLength(0);
 				labelSB.append('$');
-				labelSB.append(geo.getLabel(tpl));
-				labelSB.append('(');
-				labelSB.append(((VarString) geo).getVarString(tpl));
-				labelSB.append(")\\;=\\;");
+				String label = getGeoForLabel().getLabel(tpl);
+				if (LabelManager.isShowableLabel(label)) {
+					labelSB.append(label);
+					labelSB.append('(');
+					labelSB.append(((VarString) geo).getVarString(tpl));
+					labelSB.append(")\\;=\\;");
+				}
 				labelSB.append(geo.getLaTeXdescription());
 				labelSB.append('$');
 
@@ -168,7 +172,7 @@ public class DrawParametricCurve extends Drawable {
 
 			case GeoElementND.LABEL_CAPTION:
 			default: // case LABEL_NAME:
-				labelDesc = geo.getLabelDescription();
+				labelDesc = getGeoForLabel().getLabelDescription();
 			}
 			addLabelOffsetEnsureOnScreen(view.getFontConic());
 		}

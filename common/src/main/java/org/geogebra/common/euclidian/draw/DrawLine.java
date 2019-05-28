@@ -195,7 +195,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 		// take line g here, not geo this object may be used for conics too
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
-			labelVisible = geo.isLabelVisible();
+			labelVisible = getGeoForLabel().isLabelVisible();
 			updateStrokes(g);
 
 			Coords equation = g.getCartesianEquationVector(matrix);
@@ -234,11 +234,10 @@ public class DrawLine extends SetDrawable implements Previewable {
 			}
 
 			if (labelVisible) {
-				labelDesc = geo.getLabelDescription();
+				labelDesc = getGeoForLabel().getLabelDescription();
 				setLabelPosition();
 				addLabelOffsetEnsureOnScreen(view.getFontLine());
 			}
-
 		}
 	}
 

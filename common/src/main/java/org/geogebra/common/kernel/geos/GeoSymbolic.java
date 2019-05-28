@@ -187,7 +187,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		}
 		StringBuilder sb = new StringBuilder();
 		appendAssignmentLHS(sb, tpl);
-		sb.append(" = ");
+		sb.append(getLabelDelimiterWithSpace());
 		sb.append(value.toString(tpl));
 		return sb.toString();
 	}
@@ -264,6 +264,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		twinUpToDate = true;
 
 		return twinGeo;
+	}
+
+	@Override
+	final public void setVisualStyle(final GeoElement geo, boolean copyAux) {
+		super.setVisualStyle(geo, copyAux);
+		if (geo instanceof PointProperties) {
+			setPointSize(((PointProperties) geo).getPointSize());
+			setPointStyle(((PointProperties) geo).getPointStyle());
+		}
 	}
 
 	@Override
@@ -453,6 +462,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
+		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 	}
+
 }
