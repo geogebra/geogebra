@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -499,13 +500,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void setProjectionMatrixViewForAR() {
+		ARManagerInterface<?> arManager = renderer.getARManager();
+		if (arManager == null) {
+			return;
+		}
 		// scaleMatrix
 		CoordMatrix4x4.setZero(tmpMatrix1);
-		CoordMatrix4x4.setDilate(tmpMatrix1, renderer.getARManager().getARScaleParameter());
+		CoordMatrix4x4.setDilate(tmpMatrix1, arManager.getARScaleParameter());
 
 		// cameraView * modelMatrix and undo rotation matrix (keeping screen orientation)
-		tmpMatrix3.setMul(renderer.getARManager().getViewMatrix(),
-				renderer.getARManager().getAnchorMatrixForGGB());
+		tmpMatrix3.setMul(arManager.getViewMatrix(),
+				arManager.getAnchorMatrixForGGB());
 		arViewMatrix.set(tmpMatrix3);
 
 		// invert cameraView * modelMatrix to keep labels towards to screen
@@ -529,7 +534,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		tmpMatrix2.setMul(tmpMatrix3, tmpMatrix1);
 
 		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
-		projectionMatrix.setMul(renderer.getARManager().getProjectMatrix(), tmpMatrix2);
+		projectionMatrix.setMul(arManager.getProjectMatrix(), tmpMatrix2);
 	}
 
     @Override

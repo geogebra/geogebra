@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -215,8 +214,11 @@ public abstract class Renderer {
      * @param ret Hitting Direction from AR. Override in RendererWithImplA
 	 */
     public void getHittingDirectionAR(Coords ret) {
-        fromARCoreCoordsToGGBCoords(getARManager().getHittingDirection(), ret);
-        ret.normalize();
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			fromARCoreCoordsToGGBCoords(getARManager().getHittingDirection(), ret);
+			ret.normalize();
+		}
     }
 
 	/**
@@ -224,7 +226,10 @@ public abstract class Renderer {
      *            Hitting Origin from AR. Override in RendererWithImplA
 	 */
 	public void getHittingOriginAR(Coords ret) {
-		fromARCoreCoordsToGGBCoords(getARManager().getHittingOrigin(), ret);
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			fromARCoreCoordsToGGBCoords(getARManager().getHittingOrigin(), ret);
+		}
 	}
 
     /**
@@ -233,12 +238,17 @@ public abstract class Renderer {
      * @return true if there is an hitting on floor
      */
     public boolean getHittingFloorAR(Coords ret) {
-		Coords hittingFloor = getARManager().getHittingFloor();
-		if (hittingFloor == null) {
-			return false;
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			Coords hittingFloor = getARManager().getHittingFloor();
+			if (hittingFloor == null) {
+				return false;
+			}
+			fromARCoreCoordsToGGBCoords(hittingFloor, ret);
+			return true;
 		}
-		fromARCoreCoordsToGGBCoords(hittingFloor, ret);
-		return true;
+		return false;
+
     }
 
     /**
@@ -246,7 +256,11 @@ public abstract class Renderer {
      * @return current hitting distance (in AR)
      */
     public double getHittingDistanceAR() {
-		return getARManager().getHittingDistance();
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return getARManager().getHittingDistance();
+		}
+		return 0;
     }
 
     /**
@@ -255,7 +269,11 @@ public abstract class Renderer {
      * @return hit z value (if already computed)
      */
     public double checkHittingFloorZ(double z) {
-		return getARManager().checkHittingFloorZ(z);
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return getARManager().checkHittingFloorZ(z);
+		}
+		return 0;
     }
 
 	/**
@@ -669,7 +687,7 @@ public abstract class Renderer {
 
 	/**
 	 * turn AR coords into ggb scene coords
-	 * 
+	 *
 	 * @param coords
 	 *            AR coords
 	 * @param ret
@@ -1680,7 +1698,10 @@ public abstract class Renderer {
 	 * Set scale for AR
 	 */
 	public void setARScaleAtStart() {
-		getARManager().setARScaleAtStart();
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			getARManager().setARScaleAtStart();
+		}
 	}
 
 	/**
@@ -1722,7 +1743,10 @@ public abstract class Renderer {
      * @param z altitude
      */
     public void setARFloorZ(double z) {
-		getARManager().setFirstFloor(z);
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			getARManager().setFirstFloor(z);
+		}
     }
 
 	/**
