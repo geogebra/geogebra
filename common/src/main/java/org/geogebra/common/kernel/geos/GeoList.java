@@ -991,23 +991,8 @@ public class GeoList extends GeoElement
 		}
 
 		// AngleProperties
-		if (angleStyle != AngleStyle.ANTICLOCKWISE) {
-			sb.append("\t<allowReflexAngle val=\"");
-			sb.append(angleStyle != AngleStyle.NOTREFLEX);
-			sb.append("\"/>\n");
-		}
-		if (angleStyle == AngleStyle.ISREFLEX) {
-			sb.append("\t<forceReflexAngle val=\"");
-			sb.append(true);
-			sb.append("\"/>\n");
-		}
+		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
 
-		if (!emphasizeRightAngle) {
-			// only store emphasizeRightAngle if "false"
-			sb.append("\t<emphasizeRightAngle val=\"");
-			sb.append(emphasizeRightAngle);
-			sb.append("\"/>\n");
-		}
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
@@ -1020,7 +1005,6 @@ public class GeoList extends GeoElement
 		}
 
 		sb.append("</element>\n");
-
 	}
 
 	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list
