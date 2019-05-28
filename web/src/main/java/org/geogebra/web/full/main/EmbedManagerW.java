@@ -356,4 +356,8 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		}
 	}
+
+	public AppWFull getApp() {
+		return app;
+	}
 }

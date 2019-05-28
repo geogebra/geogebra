@@ -1031,4 +1031,7 @@ public class ScriptManagerW extends ScriptManager {
 
 	}-*/;
 
+	public JavaScriptObject getApi() {
+		return api;
+	}
 }

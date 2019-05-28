@@ -62,7 +62,10 @@ public class GraspableEmbedElement extends EmbedElement {
 		$wnd.loadGM(initCanvas, { version: 'latest' });
 		var that = this;
 		function initCanvas() {
-			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {ggbNotesAPI: api});
+			var app = manager.@org.geogebra.web.full.main.EmbedManagerW::getApp()();
+			var scriptManager = ggbApp.@org.geogebra.common.main.App::getScriptManager()();
+			var notesApi = scriptManager.@org.geogebra.web.html5.main.ScriptManagerW::getApi()();
+			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {ggbNotesAPI: notesApi});
 			if ($wnd.ExternalApi) {
 				var storeContent = function(core) {
 					manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
