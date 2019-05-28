@@ -216,7 +216,7 @@ public abstract class Renderer {
     public void getHittingDirectionAR(Coords ret) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			fromARCoreCoordsToGGBCoords(getARManager().getHittingDirection(), ret);
+			fromARCoreCoordsToGGBCoords(arManager.getHittingDirection(), ret);
 			ret.normalize();
 		}
     }
@@ -228,7 +228,7 @@ public abstract class Renderer {
 	public void getHittingOriginAR(Coords ret) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			fromARCoreCoordsToGGBCoords(getARManager().getHittingOrigin(), ret);
+			fromARCoreCoordsToGGBCoords(arManager.getHittingOrigin(), ret);
 		}
 	}
 
@@ -240,7 +240,7 @@ public abstract class Renderer {
     public boolean getHittingFloorAR(Coords ret) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			Coords hittingFloor = getARManager().getHittingFloor();
+			Coords hittingFloor = arManager.getHittingFloor();
 			if (hittingFloor == null) {
 				return false;
 			}
@@ -258,7 +258,7 @@ public abstract class Renderer {
     public double getHittingDistanceAR() {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			return getARManager().getHittingDistance();
+			return arManager.getHittingDistance();
 		}
 		return 0;
     }
@@ -271,7 +271,7 @@ public abstract class Renderer {
     public double checkHittingFloorZ(double z) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			return getARManager().checkHittingFloorZ(z);
+			return arManager.checkHittingFloorZ(z);
 		}
 		return 0;
     }
@@ -1700,7 +1700,7 @@ public abstract class Renderer {
 	public void setARScaleAtStart() {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			getARManager().setARScaleAtStart();
+            arManager.setARScaleAtStart();
 		}
 	}
 
@@ -1745,7 +1745,7 @@ public abstract class Renderer {
     public void setARFloorZ(double z) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			getARManager().setFirstFloor(z);
+            arManager.setFirstFloor(z);
 		}
     }
 
