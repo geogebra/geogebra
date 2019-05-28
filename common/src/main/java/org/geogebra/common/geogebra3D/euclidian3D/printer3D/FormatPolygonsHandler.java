@@ -16,6 +16,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class FormatPolygonsHandler {
 
+	private ArrayList<Polygon> polygons;
+	private TreeSet<Integer> polygonsLeft;
+	private Polygon currentPolygon;
+
 	static private class Polygon {
 		private Coords normal;
 		private Coords orientedNormal;
@@ -50,7 +54,8 @@ public class FormatPolygonsHandler {
 		}
 
 		public void getRandomPoint(Coords ret, Coords tmp) {
-			int index = 3 * ((int) (Math.random() * (indices.size() / 3)));
+			int size = indices.size() / 3;
+			int index = 3 * ((int) (Math.random() * size));
 			double a = Math.random();
 			double b = Math.random() * (1 - a);
 			ret.setMul3(vertices.get(indices.get(index)), a);
@@ -76,7 +81,7 @@ public class FormatPolygonsHandler {
 			tmpO.setW(1);
 			tmp1.setW(0);
 			tmp2.setW(0);
-			for (int i = 0 ; i < indices.size(); i+=3) { 
+			for (int i = 0; i < indices.size(); i += 3) {
 				tmpO.set3(vertices.get(indices.get(i)));
 				tmp1.setSub3(vertices.get(indices.get(i + 1)), tmpO);
 				tmp2.setSub3(vertices.get(indices.get(i + 2)), tmpO);
@@ -126,10 +131,6 @@ public class FormatPolygonsHandler {
 			return sb.toString();
 		}
 	}
-
-	private ArrayList<Polygon> polygons;
-	private TreeSet<Integer> polygonsLeft;
-	private Polygon currentPolygon;
 
 	/**
 	 * constructor

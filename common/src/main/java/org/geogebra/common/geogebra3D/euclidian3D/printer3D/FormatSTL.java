@@ -325,6 +325,7 @@ public class FormatSTL extends Format {
 		}
 	}
 
+	@Override
 	public boolean exportsOnlyPolygons() {
 		return !usesThickness;
 	}
