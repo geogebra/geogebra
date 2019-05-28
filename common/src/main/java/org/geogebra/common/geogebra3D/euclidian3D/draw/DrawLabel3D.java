@@ -462,9 +462,10 @@ public class DrawLabel3D {
 		drawY += radius * yOffset;
 		drawZ += radius * zOffset;
 
-		drawX += tickSize * xOffset;
-		drawY += tickSize * yOffset;
-		drawZ += tickSize * zOffset;
+		double f = 1.5;
+		drawX += f * tickSize * xOffset;
+		drawY += f * tickSize * yOffset;
+		drawZ += f * tickSize * zOffset;
 	}
 
 	/**
