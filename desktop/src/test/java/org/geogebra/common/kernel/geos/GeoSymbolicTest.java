@@ -2,12 +2,13 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -16,7 +17,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class GeoSymbolicTest {
 	}
 
 	private void checkInput(String label, String expectedInput) {
-		Assert.assertEquals(expectedInput, app.getKernel().lookupLabel(label)
+		assertEquals(expectedInput, app.getKernel().lookupLabel(label)
 				.toString(StringTemplate.defaultTemplate));
 	}
 
@@ -94,7 +94,7 @@ public class GeoSymbolicTest {
 	public void latex() {
 		t("a=sqrt(8)", "2 * sqrt(2)");
 		String text = getLatex("a");
-		Assert.assertEquals("a \\, = \\,2 \\; \\sqrt{2}", text);
+		assertEquals("a \\, = \\,2 \\; \\sqrt{2}", text);
 	}
 
 	private static String getLatex(String string) {
@@ -107,7 +107,7 @@ public class GeoSymbolicTest {
 	@Test
 	public void variables() {
 		t("f(x,y)=x+y", "x + y");
-		Assert.assertEquals("f\\left(x, y \\right) \\, = \\,x + y",
+		assertEquals("f\\left(x, y \\right) \\, = \\,x + y",
 				getLatex("f"));
 	}
 
@@ -190,16 +190,16 @@ public class GeoSymbolicTest {
 	public void defaultEquationLabel() {
 		t("x=y", "x = y");
 		t("x=y+a", "x = a + y");
-		Assert.assertEquals("eq1", app.getGgbApi().getObjectName(0));
-		Assert.assertEquals("eq2", app.getGgbApi().getObjectName(1));
+		assertEquals("eq1", app.getGgbApi().getObjectName(0));
+		assertEquals("eq2", app.getGgbApi().getObjectName(1));
 	}
 
 	@Test
 	public void defaultFunctionLabel() {
 		t("y=x", "y = x");
 		t("y=x+a", "y = a + x");
-		Assert.assertEquals("f", app.getGgbApi().getObjectName(0));
-		Assert.assertEquals("g", app.getGgbApi().getObjectName(1));
+		assertEquals("f", app.getGgbApi().getObjectName(0));
+		assertEquals("g", app.getGgbApi().getObjectName(1));
 	}
 
 	@Test
@@ -207,9 +207,9 @@ public class GeoSymbolicTest {
 		t("x", "x");
 		t("x+3", "x + 3");
 		t("x+y", "x + y");
-		Assert.assertEquals("f(x)", getObjectLHS(0));
-		Assert.assertEquals("g(x)", getObjectLHS(1));
-		Assert.assertEquals("a(x, y)", getObjectLHS(2));
+		assertEquals("f(x)", getObjectLHS("f"));
+		assertEquals("g(x)", getObjectLHS("g"));
+		assertEquals("a(x, y)", getObjectLHS("a"));
 	}
 
 	@Test
@@ -225,32 +225,32 @@ public class GeoSymbolicTest {
 	public void constantShouldBeOneRow() {
 		t("1", "1");
 		GeoElement a = app.getKernel().lookupLabel("a");
-		Assert.assertTrue(a instanceof GeoSymbolic);
-		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertTrue(a instanceof GeoSymbolic);
+		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
 		GeoElement a = app.getKernel().lookupLabel("a");
-		Assert.assertTrue(a instanceof GeoSymbolic);
-		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertTrue(a instanceof GeoSymbolic);
+		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
 	public void simpleEquationShouldBeOneRow() {
 		t("eq1:x+y=1", "x + y = 1");
 		GeoElement a = app.getKernel().lookupLabel("eq1");
-		Assert.assertTrue(a instanceof GeoSymbolic);
-		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertTrue(a instanceof GeoSymbolic);
+		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
 	public void simpleFracShouldBeOneRow() {
 		t("1/2", "1 / 2");
 		GeoElement a = app.getKernel().lookupLabel("a");
-		Assert.assertTrue(a instanceof GeoSymbolic);
-		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertTrue(a instanceof GeoSymbolic);
+		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
@@ -260,8 +260,8 @@ public class GeoSymbolicTest {
 		GeoSymbolic f = getSymbolic("f");
 		ObjectSettingsModel model = asList(f);
 		model.setLineThickness(7);
-		Assert.assertEquals(8, f.getLineThickness());
-		Assert.assertEquals(8, f.getTwinGeo().getLineThickness());
+		assertEquals(8, f.getLineThickness());
+		assertEquals(8, f.getTwinGeo().getLineThickness());
 	}
 
 	@Test
@@ -272,11 +272,11 @@ public class GeoSymbolicTest {
 		ObjectSettingsModel model = asList(f);
 		model.setPointSize(7);
 		model.setPointStyle(4);
-		Assert.assertEquals(8, f.getPointSize());
-		Assert.assertEquals(8, ((GeoPoint) f.getTwinGeo()).getPointSize());
+		assertEquals(8, f.getPointSize());
+		assertEquals(8, ((GeoPoint) f.getTwinGeo()).getPointSize());
 
-		Assert.assertEquals(4, f.getPointStyle());
-		Assert.assertEquals(4, ((GeoPoint) f.getTwinGeo()).getPointStyle());
+		assertEquals(4, f.getPointStyle());
+		assertEquals(4, ((GeoPoint) f.getTwinGeo()).getPointStyle());
 	}
 
 	private GeoSymbolic getSymbolic(String label) {
@@ -297,21 +297,18 @@ public class GeoSymbolicTest {
 	public void powerShouldBeOneRow() {
 		t("(b+1)^3", "(b + 1)^(3)");
 		GeoElement a = app.getKernel().lookupLabel("a");
-		Assert.assertTrue(a instanceof GeoSymbolic);
-		Assert.assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertTrue(a instanceof GeoSymbolic);
+		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
 		AlgebraTestHelper.shouldFail(string, errorMsg, app);
 	}
 
-	private synchronized String getObjectLHS(int index) {
-		Construction cons = app.getKernel().getConstruction();
-		ArrayList<GeoElement> geos = new ArrayList<>(
-				cons.getGeoSetConstructionOrder());
-
+	private static String getObjectLHS(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
 		try {
-			return geos.get(index)
+			return geo
 					.getAssignmentLHS(StringTemplate.defaultTemplate);
 		} catch (Exception e) {
 			return "";
