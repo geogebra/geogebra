@@ -60,7 +60,7 @@ public class GraspableEmbedElement extends EmbedElement {
 	 */
 	protected native void addListeners(Element element, int id,
 			EmbedManagerW manager) /*-{
-		$wnd.loadGM(initCanvas, { version: 'latest' });
+		$wnd.loadGM(initCanvas, { version: 'latest', build: 'ggb' });
 		var that = this;
 		function initCanvas() {
 			var apiObject = that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::getApi(Lorg/geogebra/web/full/main/EmbedManagerW;)(manager);
