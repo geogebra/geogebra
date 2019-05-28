@@ -18,7 +18,18 @@ public class FormatSTL extends Format {
 	private Coords tmpCoords3 = new Coords(3);
 	private Coords n = new Coords(3);
 
-	private double scale;
+	protected double scale;
+
+	private boolean usesThickness;
+
+	private FormatPolygonsHandler polygonHandler;
+
+	/**
+	 * constructor
+	 */
+	public FormatSTL() {
+		usesThickness = true;
+	}
 
 	@Override
 	public String getExtension() {
@@ -32,6 +43,9 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getScriptEnd(StringBuilder sb) {
+		if (!usesThickness) {
+			polygonHandler.setOrientedNormals();
+		}
 		appendNewline(sb);
 		sb.append("endsolid geogebra");
 	}
@@ -44,7 +58,9 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getPolyhedronStart(StringBuilder sb) {
-		// nothing to do
+		if (!usesThickness) {
+			polygonHandler.startPolygon();
+		}
 	}
 
 	@Override
@@ -59,9 +75,14 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		verticesList.addValue(x * scale);
-		verticesList.addValue(y * scale);
-		verticesList.addValue(z * scale);
+		if (usesThickness) {
+			verticesList.addValue(x * scale);
+			verticesList.addValue(y * scale);
+			verticesList.addValue(z * scale);
+		} else {
+			polygonHandler.addVertex(x * scale, y * scale, z * scale);
+		}
+
 	}
 
 	@Override
@@ -98,6 +119,11 @@ public class FormatSTL extends Format {
 
 	@Override
 	public boolean getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
+		if (!usesThickness) {
+			polygonHandler.addTriangle(v1, v2, v3);
+			return true;
+		}
+
 		double v1x = verticesList.get(3 * v1);
 		double v1y = verticesList.get(3 * v1 + 1);
 		double v1z = verticesList.get(3 * v1 + 2);
@@ -217,13 +243,17 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getNormal(StringBuilder sb, double x, double y, double z, boolean withThickness) {
-		normalsList.addValue(x);
-		normalsList.addValue(y);
-		normalsList.addValue(z);
-		if (withThickness) {
-			normalsList.addValue(-x);
-			normalsList.addValue(-y);
-			normalsList.addValue(-z);
+		if (usesThickness) {
+			normalsList.addValue(x);
+			normalsList.addValue(y);
+			normalsList.addValue(z);
+			if (withThickness) {
+				normalsList.addValue(-x);
+				normalsList.addValue(-y);
+				normalsList.addValue(-z);
+			}
+		} else {
+			polygonHandler.setNormal(x, y, z);
 		}
 	}
 
@@ -244,7 +274,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public boolean needsClosedObjects() {
-		return true;
+		return usesThickness;
 	}
 
 	@Override
@@ -275,5 +305,27 @@ public class FormatSTL extends Format {
 			sb.append("0");
 		}
 		sb.append(decimals);
+	}
+
+	@Override
+	public boolean needsScale() {
+		return true;
+	}
+
+	@Override
+	public boolean needsBothSided() {
+		return usesThickness;
+	}
+
+	@Override
+	public void setUsesThickness(boolean flag) {
+		usesThickness = flag;
+		if (!usesThickness) {
+			polygonHandler = new FormatPolygonsHandler();
+		}
+	}
+
+	public boolean exportsOnlyPolygons() {
+		return !usesThickness;
 	}
 }

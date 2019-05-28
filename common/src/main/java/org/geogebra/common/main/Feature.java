@@ -111,5 +111,8 @@ public enum Feature {
 	G3D_AR_LABELS_OFFSET,
 
 	/** G3D-340 */
-	G3D_AR_SIMPLE_SCALE
+	G3D_AR_SIMPLE_SCALE,
+
+	/** G3D-302 */
+	G3D_STL_SOLID
 }

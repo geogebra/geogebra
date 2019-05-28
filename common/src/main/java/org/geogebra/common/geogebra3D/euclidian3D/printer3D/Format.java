@@ -230,6 +230,12 @@ abstract public class Format {
 
 	/**
 	 * 
+	 * @return true if needs scaling (for stl export)
+	 */
+	abstract public boolean needsScale();
+
+	/**
+	 * 
 	 * @return true if it handles normals
 	 */
 	abstract public boolean handlesNormals();
@@ -266,5 +272,25 @@ abstract public class Format {
 	protected void appendNewline(StringBuilder sb) {
 		sb.append(newline);
 	}
+
+	/**
+	 * 
+	 * @return true if it needs both-sided surfaces
+	 */
+	abstract boolean needsBothSided();
+
+	/**
+	 * set if it uses thickness for surfaces
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	abstract public void setUsesThickness(boolean flag);
+
+	/**
+	 * 
+	 * @return true if exports only polygons
+	 */
+	abstract public boolean exportsOnlyPolygons();
 
 }

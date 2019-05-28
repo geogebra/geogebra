@@ -430,4 +430,24 @@ public class FormatCollada extends Format {
 		// not used so far
 	}
 
+	@Override
+	public boolean needsScale() {
+		return false;
+	}
+
+	@Override
+	public boolean needsBothSided() {
+		return true;
+	}
+
+	@Override
+	public void setUsesThickness(boolean flag) {
+		// not used
+	}
+
+	@Override
+	public boolean exportsOnlyPolygons() {
+		return false;
+	}
+
 }

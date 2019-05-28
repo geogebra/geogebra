@@ -211,6 +211,9 @@ public class ExportToPrinter3D {
 	 *            export object type
 	 */
 	public void export(Drawable3D d, Type type) {
+		if (format.exportsOnlyPolygons()) {
+			return;
+		}
 		GeoElement geo = d.getGeoElement();
 		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
 				geo);
@@ -229,6 +232,9 @@ public class ExportToPrinter3D {
 	public void export(int geometryIndex, Type type, String geoType,
 			GeoElement geo) {
 
+		if (format.exportsOnlyPolygons()) {
+			return;
+		}
 		reverse = false;
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
@@ -310,6 +316,9 @@ public class ExportToPrinter3D {
 	 *            says if surface/mesh is to export
 	 */
 	public void export(DrawSurface3DElements d, boolean exportSurface) {
+		if (format.exportsOnlyPolygons()) {
+			return;
+		}
 		if (format.handlesSurfaces()) {
 			reverse = false;
 			GeoElement geo = d.getGeoElement();
@@ -321,7 +330,6 @@ public class ExportToPrinter3D {
 							GColor.BLACK, 1, false);
 				}
 			}
-
 		} else {
 			GeoElement geo = d.getGeoElement();
 			if (!geo.isGeoFunctionNVar()) {
@@ -343,6 +351,9 @@ public class ExportToPrinter3D {
 	 *            drawable
 	 */
 	public void exportSurface(Drawable3D d) {
+		if (format.exportsOnlyPolygons()) {
+			return;
+		}
 		if (format.needsClosedObjects()) { // draw only spheres so far
 			if (d instanceof DrawQuadric3D) {
 				GeoQuadric3D q = (GeoQuadric3D) d.getGeoElement();
@@ -599,31 +610,40 @@ public class ExportToPrinter3D {
 					} else {
 						getVertex(notFirst, x, y, z);
 						notFirst = true;
-						getVertex(notFirst, x, y, z); // we need it twice for
-														// front/back sides
+						if (format.needsBothSided()) {
+							getVertex(notFirst, x, y, z); // we need it twice
+															// for
+							// front/back sides
+						}
 					}
 				}
 				format.getVerticesEnd(sb);
 
 				// normal
 				if (format.handlesNormals()) {
-					format.getNormalsStart(sb, 2);
+					format.getNormalsStart(sb, format.needsBothSided() ? 2 : 1);
 					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ(),
 							false);
-					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ(),
-							false);
+					if (format.needsBothSided()) {
+						getNormalHandlingReverse(-n.getX(), -n.getY(),
+								-n.getZ(), false);
+					}
 					format.getNormalsEnd(sb);
 				}
 
 				// faces
+				int twice = format.needsBothSided() ? 2 : 1;
 				format.getFacesStart(sb, format.needsClosedObjects()
-						? (length - 2) * 2 + 2 : (length - 2) * 2, true);
+						? (length - 2) * twice + 2
+						: (length - 2) * twice, true);
 				notFirst = false;
 
 				for (int i = 1; i < length - 1; i++) {
-					getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
+					getFace(notFirst, 0, twice * i, twice * (i + 1), 0); // top
 					notFirst = true;
-					getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
+					if (format.needsBothSided()) {
+						getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
+					}
 				}
 
 				if (format.needsClosedObjects()) {
@@ -676,11 +696,13 @@ public class ExportToPrinter3D {
 
 				// normal
 				if (format.handlesNormals()) {
-					format.getNormalsStart(sb, 2);
+					format.getNormalsStart(sb, format.needsBothSided() ? 2 : 1);
 					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ(),
 							false);
-					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ(),
-							false);
+					if (format.needsBothSided()) {
+						getNormalHandlingReverse(-n.getX(), -n.getY(),
+								-n.getZ(), false);
+					}
 					format.getNormalsEnd(sb);
 				}
 
@@ -736,7 +758,9 @@ public class ExportToPrinter3D {
 							current = triFan.getVertexIndex(i);
 							getFace(notFirst, apex, old, current, 0); // top
 							notFirst = true;
-							getFace(notFirst, apex, current, old, 1); // bottom
+							if (format.needsBothSided()) {
+								getFace(notFirst, apex, current, old, 1); // bottom
+							}
 						}
 					}
 				}

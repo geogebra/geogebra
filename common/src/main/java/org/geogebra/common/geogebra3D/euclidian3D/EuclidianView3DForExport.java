@@ -17,9 +17,11 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.Geometry3DGetter;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 3D view in the background (no display)
@@ -175,7 +177,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		settingsChanged(getSettings());
 		useSpecificThickness = false;
 		updateScene();
-		if (format.needsClosedObjects()) {
+		if (format.needsScale()) {
 			if (updateObjectsBounds(true, true)) {
 				useSpecificThickness = true;
 				double thickness = THICKNESS_FOR_PRINT_LINES;
@@ -231,7 +233,10 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 							});
 					return null;
 				}
-
+				if (getApplication().has(Feature.G3D_STL_SOLID)) {
+					scale = 1;
+					thickness = 0;
+				}
 				setThicknessAndScale(format, thickness, scale);
 			} else {
 				format.setScale(10); // default value: 1unit = 10mm
@@ -262,6 +267,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 		specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
 		format.setScale(scale);
+		format.setUsesThickness(!DoubleUtil.isZero(thickness));
 		reset();
 		updateScene();
 	}
