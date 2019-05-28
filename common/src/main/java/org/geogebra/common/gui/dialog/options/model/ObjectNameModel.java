@@ -6,10 +6,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
 
 public class ObjectNameModel extends OptionsModel {
@@ -19,6 +22,7 @@ public class ObjectNameModel extends OptionsModel {
 	private GeoElementND currentGeo;
 	private boolean redefinitionFailed;
 	private boolean busy;
+	private LabelController labelController=null;
 
 	public interface IObjectNameListener extends PropertyListener {
 		void setNameText(final String text);
@@ -77,7 +81,7 @@ public class ObjectNameModel extends OptionsModel {
 
 		// take name of first geo
 		GeoElement geo0 = getGeoAt(0);
-		listener.updateName(geo0.getLabel(StringTemplate.editTemplate));
+		updateName(geo0);
 
 		// if a focus lost is called in between, we keep the current definition
 		// text
@@ -113,13 +117,28 @@ public class ObjectNameModel extends OptionsModel {
 
 	}
 
+	private void updateName(GeoElement geo) {
+		String name = "";
+		if (!isAutoLabelNeeded(geo) || getLabelController().hasLabel(geo)) {
+			name = geo.getLabel(StringTemplate.editTemplate);
+		}
+		listener.updateName(name);
+	}
+
 	@Override
 	public boolean checkGeos() {
 		return (getGeosLength() == 1);
 	}
 
 	public void applyNameChange(final String name, ErrorHandler handler) {
-
+		if (isAutoLabelNeeded(getCurrentGeo())) {
+			if ("".equals(name)) {
+				hideLabel();
+				return;
+			} else {
+				showLabel();
+			}
+		}
 		nameInputHandler.setGeoElement(currentGeo);
 		nameInputHandler.processInput(name, handler,
 				new AsyncOperation<Boolean>() {
@@ -140,6 +159,29 @@ public class ObjectNameModel extends OptionsModel {
 		currentGeo.updateRepaint();
 		storeUndoInfo();
 
+	}
+
+
+	private boolean isAutoLabelNeeded(GeoElementND geo) {
+		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
+			return false;
+		}
+		return geo instanceof GeoSymbolic;
+	}
+
+	private void showLabel() {
+		getLabelController().showLabel((GeoElement)currentGeo);
+	}
+
+	private void hideLabel() {
+		getLabelController().hideLabel((GeoElement)currentGeo);
+	}
+
+	private LabelController getLabelController() {
+		if (labelController == null) {
+			labelController = new LabelController();
+		}
+		return labelController;
 	}
 
 	public void applyDefinitionChange(final String definition,

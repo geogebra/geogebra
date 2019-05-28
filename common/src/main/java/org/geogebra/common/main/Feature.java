@@ -114,5 +114,8 @@ public enum Feature {
 	G3D_AR_SIMPLE_SCALE,
 
 	/** G3D-302 */
-	G3D_STL_SOLID
+	G3D_STL_SOLID,
+
+	/** APPS-890 */
+	AUTOLABEL_CAS_SETTINGS
 }

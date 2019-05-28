@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -19,6 +20,11 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Class for Name, Definition and Caption settings panel.
+ *
+ * @author Laszlo
+ */
 class NamePanel extends OptionPanel
 		implements ObjectNameModel.IObjectNameListener, ErrorHandler {
 	ObjectNameModel model;
@@ -45,6 +51,13 @@ class NamePanel extends OptionPanel
 	private AppW app;
 	private ShowLabelModel showLabelModel;
 
+	/**
+	 *
+	 * @param app
+	 * 				The application.
+	 * @param showLabelModel
+	 * 				Model for showing/hiding label.
+	 */
 	NamePanel(final AppW app, ShowLabelModel showLabelModel) {
 		this.app = app;
 		this.showLabelModel = showLabelModel;
@@ -237,8 +250,15 @@ class NamePanel extends OptionPanel
 
 	@Override
 	public void setNameText(final String text) {
+		if ("".equals(text)) {
+			handleEmptyName();
+		}
 		tfName.setText(text);
 		tfName.requestFocus();
+	}
+
+	private void handleEmptyName() {
+		Log.debug("name is empty");
 	}
 
 	@Override
