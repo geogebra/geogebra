@@ -486,30 +486,12 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	public CoordMatrix4x4 getArViewMatrix() {
-		ARManagerInterface<?> arManager = renderer.getARManager();
-		if (arManager != null) {
-			return arManager.getViewModelMatrix();
-		}
-		return CoordMatrix4x4.IDENTITY;
-	}
-
-	@Override
 	public void setProjectionMatrixViewForAR() {
 		ARManagerInterface<?> arManager = renderer.getARManager();
 		if (arManager != null) {
 			arManager.setProjectionMatrixViewForAR(projectionMatrix);
 		}
 	}
-
-    @Override
-    public CoordMatrix4x4 getUndoRotationMatrixAR() {
-		ARManagerInterface<?> arManager = renderer.getARManager();
-		if (arManager != null) {
-			return arManager.getUndoRotationMatrix();
-		}
-		return CoordMatrix4x4.IDENTITY;
-    }
 
 	@Override
 	public void unsetMatrixView() {

@@ -548,7 +548,7 @@ public class DrawLabel3D {
 		    if (positionMatrix == null) {
                 positionMatrix = new CoordMatrix4x4();
             }
-            positionMatrix.set(renderer.getRendererImpl().getUndoRotationMatrixAR());
+            positionMatrix.set(renderer.getUndoRotationMatrixAR());
             Coords origin = positionMatrix.getOrigin();
             origin.setX(drawX);
             origin.setY(drawY);

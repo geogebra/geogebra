@@ -2148,4 +2148,26 @@ public abstract class Renderer {
 	protected ARManagerInterface<?> getARManager() {
 	    return null;
     }
+
+	/**
+	 * return ArViewMatrix.
+	 */
+	public CoordMatrix4x4 getArViewMatrix() {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return arManager.getViewModelMatrix();
+		}
+		return CoordMatrix4x4.IDENTITY;
+	}
+
+	/**
+	 * return undoRotationMatrixAR.
+	 */
+	public CoordMatrix4x4 getUndoRotationMatrixAR() {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return arManager.getUndoRotationMatrix();
+		}
+		return CoordMatrix4x4.IDENTITY;
+	}
 }
