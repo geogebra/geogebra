@@ -179,7 +179,7 @@ public final class DrawPoint extends SetDrawable {
 	private void update(double[] coords2, boolean rwCoords) {
 
 		isVisible = true;
-		labelVisible = getGeoForLabel().isLabelVisible();
+		labelVisible = getTopLevelGeo().isLabelVisible();
 		this.coords = coords2;
 
 		if (rwCoords) {
@@ -342,7 +342,7 @@ public final class DrawPoint extends SetDrawable {
 		}
 
 		if (isVisible && labelVisible) {
-			labelDesc = getGeoForLabel().getLabelDescription();
+			labelDesc = getTopLevelGeo().getLabelDescription();
 			xLabel = (int) Math.round(coords[0] + 4);
 			yLabel = (int) Math.round(yUL - pointSize);
 			addLabelOffsetEnsureOnScreen(view.getFontPoint());
@@ -409,7 +409,7 @@ public final class DrawPoint extends SetDrawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			if (geo.doHighlighting()) {
+			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);

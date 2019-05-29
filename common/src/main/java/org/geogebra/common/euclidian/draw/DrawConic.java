@@ -1427,7 +1427,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 			fillEllipseParabola(g2);
 
-			if (geo.doHighlighting()) {
+			if (isHighlighted()) {
 				g2.setStroke(selStroke);
 				g2.setColor(geo.getSelColor());
 				g2.draw(fillShape);
@@ -1491,7 +1491,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	protected void drawHyperbola(GGraphics2D g2) {
 		fillHyperbola(g2);
 
-		if (geo.doHighlighting()) {
+		if (isHighlighted()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
 

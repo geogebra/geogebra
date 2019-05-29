@@ -421,7 +421,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		if (isVisible) {
-			if (geo.doHighlighting()) {
+			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(line);

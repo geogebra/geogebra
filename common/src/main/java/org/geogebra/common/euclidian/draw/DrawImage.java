@@ -333,7 +333,7 @@ public final class DrawImage extends Drawable {
 				g3.translate(-screenX, -screenY);
 				g3.drawImage(image, screenX, screenY);
 				g3.restoreTransform();
-				if (!isInBackground && geo.doHighlighting()) {
+				if (!isInBackground && isHighlighted()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
 					g3.setPaint(GColor.LIGHT_GRAY);
@@ -379,7 +379,7 @@ public final class DrawImage extends Drawable {
 				}
 				
 				g3.restoreTransform();
-				if (!isInBackground && geo.doHighlighting()) {
+				if (!isInBackground && isHighlighted()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
 					g3.setPaint(GColor.LIGHT_GRAY);

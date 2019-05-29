@@ -654,7 +654,6 @@ public abstract class Drawable extends DrawableND {
 						geo.getAlphaValue(), geo.getHatchingDistance(),
 						geo.getHatchingAngle(), geo.getFillType(),
 						geo.getFillSymbol(), geo.getKernel().getApplication());
-
 			}
 
 			g2.setPaint(gpaint);
@@ -671,7 +670,6 @@ public abstract class Drawable extends DrawableND {
 				AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
 						subImage2, geo.getKernel().getApplication());
 			}
-
 		} else if (geo.getFillType() == FillType.IMAGE) {
 			getHatchingHandler().setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(fillShape);
@@ -680,7 +678,6 @@ public abstract class Drawable extends DrawableND {
 			// magic for switching off dash emulation moved to GGraphics2DW
 			g2.fill(fillShape);
 		}
-
 	}
 
 	private HatchingHandler getHatchingHandler() {
@@ -834,12 +831,19 @@ public abstract class Drawable extends DrawableND {
 	public GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
 	}
-	
-	public GeoElement getGeoForLabel(){
+
+	/**
+	 * @return geo that determines labeling and highlighting
+	 */
+	public GeoElement getTopLevelGeo() {
 		return geoForLabel == null ? getGeoElement() : geoForLabel;
 	}
 
-	public void setGeoForLabel(GeoElement geo){
+	/**
+	 * @param geo
+	 *            that determines labeling and highlighting
+	 */
+	public void setTopLevelGeo(GeoElement geo) {
 		geoForLabel = geo;
 	}
 
@@ -887,5 +891,12 @@ public abstract class Drawable extends DrawableND {
 	@Override
 	public DrawableND createDrawableND(GeoElement subGeo) {
 		return view.newDrawable(subGeo);
+	}
+
+	/**
+	 * @return whether the drawable should be highlighted
+	 */
+	public boolean isHighlighted() {
+		return getTopLevelGeo().doHighlighting();
 	}
 }

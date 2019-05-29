@@ -612,7 +612,7 @@ public class DrawInequality extends Drawable {
 		}
 		if (!isForceNoFill()) {
 			if (gpAxis != null) {
-				if (geo.doHighlighting()) {
+				if (isHighlighted()) {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; gpAxis[i] != null; i++) {

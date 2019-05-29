@@ -224,7 +224,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (isVisible) {
 			// fill using default/hatching/image as appropriate
 			fill(g2, (fillShape ? getShape() : gp));
-			if (geo.doHighlighting()) {
+			if (isHighlighted()) {
 				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);

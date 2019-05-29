@@ -192,7 +192,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the label is latex
 	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && geo.doHighlighting()) {
+		if (geo.isLabelVisible() && isHighlighted()) {
 			if (!view.getApplication().isDesktop()) {
 				g2.setPaint(GColor.LIGHT_GRAY);
 			}
