@@ -193,27 +193,32 @@ public class AppCommon extends App {
     public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimer() {
 
+			@Override
 			public void start() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void startRepeat() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void stop() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public boolean isRunning() {
 				// TODO Auto-generated method stub
 				return false;
 			}
 
-			public void setDelay(int delay) {
+			@Override
+			public void setDelay(int timerDelay) {
 				// TODO Auto-generated method stub
 
 			}
