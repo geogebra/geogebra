@@ -1700,7 +1700,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * calculates projection of this as far as possible to the 3D-line
+	 * calculates projection of this as close as possible to the 3D-line
 	 * represented by the matrix {V O} regarding V2 direction.
 	 * 
 	 * @param o
