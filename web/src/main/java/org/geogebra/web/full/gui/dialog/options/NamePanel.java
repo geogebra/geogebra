@@ -50,6 +50,7 @@ class NamePanel extends OptionPanel
 	private String redefinitionForFocusLost = "";
 	private AppW app;
 	private ShowLabelModel showLabelModel;
+	private String lastTypedName = null;
 
 	/**
 	 *
@@ -74,8 +75,7 @@ class NamePanel extends OptionPanel
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
-				model.applyNameChange(tfName.getText(),
-						app.getErrorHandler());
+				applyName();
 			}
 		});
 		tfName.addKeyHandler(new KeyHandler() {
@@ -83,8 +83,7 @@ class NamePanel extends OptionPanel
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					model.applyNameChange(tfName.getText(),
-							app.getErrorHandler());
+					applyName();
 				}
 			}
 		});
@@ -185,6 +184,12 @@ class NamePanel extends OptionPanel
 		captionPanel.setStyleName("optionsInput");
 		setWidget(mainWidget);
 		updateGUI(true, true);
+	}
+
+	private void applyName() {
+		model.applyNameChange(tfName.getText(),
+				app.getErrorHandler());
+
 	}
 
 	@Override

@@ -96,5 +96,4 @@ public class NameValueModel extends ShowLabelModel {
 	public boolean isLabelVisible() {
 		return getGeoAt(0).isLabelVisible();
 	}
-
 }

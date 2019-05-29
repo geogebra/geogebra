@@ -135,6 +135,7 @@ public class ObjectNameModel extends OptionsModel {
 			showLabel(currentGeo);
 			boolean autoLabelJustAdded = "".equals(name);
 			if (autoLabelJustAdded) {
+				resetLabel(name);
 				return;
 			}
 		}
@@ -151,14 +152,18 @@ public class ObjectNameModel extends OptionsModel {
 				});
 
 		// reset label if not successful
+		resetLabel(name);
+		currentGeo.updateRepaint();
+		storeUndoInfo();
+
+	}
+
+	private void resetLabel(String name) {
 		final String strName = currentGeo
 				.getLabel(StringTemplate.defaultTemplate);
 		if (!strName.equals(name)) {
 			listener.setNameText(strName);
 		}
-		currentGeo.updateRepaint();
-		storeUndoInfo();
-
 	}
 
 
@@ -339,5 +344,4 @@ public class ObjectNameModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
-
 }
