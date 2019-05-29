@@ -132,13 +132,13 @@ public class ObjectNameModel extends OptionsModel {
 
 	public void applyNameChange(final String name, ErrorHandler handler) {
 		if (isAutoLabelNeeded(getCurrentGeo())) {
-			if ("".equals(name)) {
-				hideLabel();
+			showLabel(currentGeo);
+			boolean autoLabelJustAdded = "".equals(name);
+			if (autoLabelJustAdded) {
 				return;
-			} else {
-				showLabel();
 			}
 		}
+
 		nameInputHandler.setGeoElement(currentGeo);
 		nameInputHandler.processInput(name, handler,
 				new AsyncOperation<Boolean>() {
@@ -162,19 +162,31 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 
-	private boolean isAutoLabelNeeded(GeoElementND geo) {
+	/**
+	 *
+	 * @param
+	 * 			geo the geo eelement
+	 * @return
+	 * 			true if auto-labeling in CAS is needed.
+	 */
+	protected boolean isAutoLabelNeeded(GeoElementND geo) {
 		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
 			return false;
 		}
 		return geo instanceof GeoSymbolic;
 	}
 
-	private void showLabel() {
-		getLabelController().showLabel((GeoElement)currentGeo);
+	private void ensureLabelOfCurrentGeo() {
+		if (!hasLabel(currentGeo)) {
+			showLabel(currentGeo);
+		}
+	}
+	private void showLabel(GeoElementND geo) {
+		getLabelController().showLabel((GeoElement) geo);
 	}
 
-	private void hideLabel() {
-		getLabelController().hideLabel((GeoElement)currentGeo);
+	private boolean hasLabel(GeoElementND geo) {
+		return getLabelController().hasLabel((GeoElement) geo);
 	}
 
 	private LabelController getLabelController() {

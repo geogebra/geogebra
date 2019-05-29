@@ -57,14 +57,18 @@ public class NameValueModel extends ShowLabelModel {
 	 * 
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (isForceCaption() || (kernel.lookupLabel(name) != null
-				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())
-				|| !LabelManager.isValidLabel(name, kernel, null)) {
+		if (nameModel.isAutoLabelNeeded(getGeoAt(0)) || shouldNameChange(name)) {
+			nameModel.applyNameChange(name, handler);
+		} else {
 			nameModel.applyCaptionChange(name);
 			setForceCaption(!StringUtil.emptyTrim(name));
-		} else {
-			nameModel.applyNameChange(name, handler);
 		}
+	}
+
+	private boolean shouldNameChange(String name) {
+		return !(isForceCaption() || (kernel.lookupLabel(name) != null
+				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())
+				|| !LabelManager.isValidLabel(name, kernel, null));
 	}
 
 	/**
