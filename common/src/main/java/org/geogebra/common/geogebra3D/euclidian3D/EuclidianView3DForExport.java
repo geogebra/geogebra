@@ -234,7 +234,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 					return null;
 				}
 				if (getApplication().has(Feature.G3D_STL_SOLID)) {
-					scale = 1;
 					thickness = 0;
 				}
 				setThicknessAndScale(format, thickness, scale);

@@ -20,6 +20,9 @@ public class FormatPolygonsHandler {
 	private TreeSet<Integer> polygonsLeft;
 	private Polygon currentPolygon;
 
+	final private Coords tmp1;
+	final private Coords tmp2;
+
 	static private class Polygon {
 		private Coords normal;
 		private Coords orientedNormal;
@@ -100,6 +103,30 @@ public class FormatPolygonsHandler {
 			return Double.NaN;
 		}
 
+		public void getTriangles(StringBuilder sb, FormatSTL format,
+				Coords tmp1, Coords tmp2) {
+			for (int i = 0; i < indices.size(); i += 3) {
+				Coords v1 = vertices.get(indices.get(i));
+				Coords v2 = vertices.get(indices.get(i + 1));
+				Coords v3 = vertices.get(indices.get(i + 2));
+				tmp1.setSub3(v2, v1);
+				tmp2.setSub3(v3, v1);
+				if (orientedNormal.dotCrossProduct(tmp1, tmp2) > 0) {
+					getTriangle(sb, format, v1, v2, v3);
+				} else {
+					getTriangle(sb, format, v1, v3, v2);
+				}
+			}
+		}
+
+		private void getTriangle(StringBuilder sb, FormatSTL format, Coords v1,
+				Coords v2, Coords v3) {
+			format.getTriangle(sb, orientedNormal.getX(), orientedNormal.getY(),
+					orientedNormal.getZ(), v1.getX(), v1.getY(), v1.getZ(),
+					v2.getX(), v2.getY(), v2.getZ(), v3.getX(), v3.getY(),
+					v3.getZ());
+		}
+
 		@Override
 		public String toString() {
 			return toString(2, 2);
@@ -137,6 +164,8 @@ public class FormatPolygonsHandler {
 	 */
 	public FormatPolygonsHandler() {
 		polygons = new ArrayList<>();
+		tmp1 = new Coords(4);
+		tmp2 = new Coords(4);
 	}
 
 	/**
@@ -195,8 +224,6 @@ public class FormatPolygonsHandler {
 	public void setOrientedNormals() {
 		Coords start = Coords.createInhomCoorsInD3();
 		Coords tmpP = Coords.createInhomCoorsInD3();
-		Coords tmp1 = new Coords(4);
-		Coords tmp2 = new Coords(4);
 		Coords inPlaneCoords = new Coords(4);
 		Coords normal = new Coords(4);
 		TreeMap<Double, Polygon> sortedPolygons = new TreeMap<>();
@@ -252,6 +279,20 @@ public class FormatPolygonsHandler {
 			debug("\n" + p.toString());
 		}
 
+	}
+
+	/**
+	 * get triangles from polygons
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param format
+	 *            calling format
+	 */
+	public void getTriangles(StringBuilder sb, FormatSTL format) {
+		for (Polygon p : polygons) {
+			p.getTriangles(sb, format, tmp1, tmp2);
+		}
 	}
 
 	static private void debug(String message) {

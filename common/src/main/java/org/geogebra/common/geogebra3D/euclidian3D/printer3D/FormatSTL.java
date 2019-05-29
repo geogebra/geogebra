@@ -45,6 +45,7 @@ public class FormatSTL extends Format {
 	public void getScriptEnd(StringBuilder sb) {
 		if (!usesThickness) {
 			polygonHandler.setOrientedNormals();
+			polygonHandler.getTriangles(sb, this);
 		}
 		appendNewline(sb);
 		sb.append("endsolid geogebra");
@@ -162,13 +163,61 @@ public class FormatSTL extends Format {
 			n.setZ(normalsList.get(3 * normal + 2));
 			break;
 		}
+
+		boolean notReversed = normal == ExportToPrinter3D.NORMAL_NOT_SET
+				|| tmpCoords1.dotproduct(n) > 0;
+		if (notReversed) {
+			getTriangle(sb, n.getX(), n.getY(), n.getZ(), v1x, v1y, v1z, v2x,
+					v2y, v2z, v3x, v3y, v3z);
+		} else {
+			getTriangle(sb, n.getX(), n.getY(), n.getZ(), v1x, v1y, v1z, v3x,
+					v3y, v3z, v2x, v2y, v2z);
+		}
+
+		return notReversed;
+	}
+
+	/**
+	 * write triangle to string builder
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param nx
+	 *            normal x
+	 * @param ny
+	 *            normal y
+	 * @param nz
+	 *            normal z
+	 * @param v1x
+	 *            first vertex x
+	 * @param v1y
+	 *            first vertex y
+	 * @param v1z
+	 *            first vertex z
+	 * @param v2x
+	 *            second vertex x
+	 * @param v2y
+	 *            second vertex y
+	 * @param v2z
+	 *            second vertex z
+	 * @param v3x
+	 *            third vertex x
+	 * @param v3y
+	 *            third vertex y
+	 * @param v3z
+	 *            third vertex z
+	 */
+	public void getTriangle(StringBuilder sb, double nx,
+			double ny, double nz, double v1x, double v1y, double v1z,
+			double v2x, double v2y, double v2z, double v3x, double v3y,
+			double v3z) {
 		appendNewline(sb);
 		sb.append("facet normal ");
-		appendValue(sb, n.getX());
+		appendValue(sb, nx);
 		sb.append(" ");
-		appendValue(sb, n.getY());
+		appendValue(sb, ny);
 		sb.append(" ");
-		appendValue(sb, n.getZ());
+		appendValue(sb, nz);
 
 		// vertex 1
 		appendNewline(sb);
@@ -181,49 +230,28 @@ public class FormatSTL extends Format {
 		sb.append(" ");
 		appendValue(sb, v1z);
 		appendNewline(sb);
-		boolean notReversed = normal == ExportToPrinter3D.NORMAL_NOT_SET
-				|| tmpCoords1.dotproduct(n) > 0;
-		if (notReversed) {
-			// vertex 2
-			sb.append("        vertex ");
-			appendValue(sb, v2x);
-			sb.append(" ");
-			appendValue(sb, v2y);
-			sb.append(" ");
-			appendValue(sb, v2z);
-			appendNewline(sb);
-			// vertex 3
-			sb.append("        vertex ");
-			appendValue(sb, v3x);
-			sb.append(" ");
-			appendValue(sb, v3y);
-			sb.append(" ");
-			appendValue(sb, v3z);
-			appendNewline(sb);
-		} else {
-			// vertex 3
-			sb.append("        vertex ");
-			appendValue(sb, v3x);
-			sb.append(" ");
-			appendValue(sb, v3y);
-			sb.append(" ");
-			appendValue(sb, v3z);
-			appendNewline(sb);
-			// vertex 2
-			sb.append("        vertex ");
-			appendValue(sb, v2x);
-			sb.append(" ");
-			appendValue(sb, v2y);
-			sb.append(" ");
-			appendValue(sb, v2z);
-			appendNewline(sb);
-		}
+		// vertex 2
+		sb.append("        vertex ");
+		appendValue(sb, v2x);
+		sb.append(" ");
+		appendValue(sb, v2y);
+		sb.append(" ");
+		appendValue(sb, v2z);
+		appendNewline(sb);
+		// vertex 3
+		sb.append("        vertex ");
+		appendValue(sb, v3x);
+		sb.append(" ");
+		appendValue(sb, v3y);
+		sb.append(" ");
+		appendValue(sb, v3z);
+		appendNewline(sb);
 		sb.append("    endloop");
 
 		// end
 		appendNewline(sb);
 		sb.append("endfacet");
-		return notReversed;
+
 	}
 
 	@Override
