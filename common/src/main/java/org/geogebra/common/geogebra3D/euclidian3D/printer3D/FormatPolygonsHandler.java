@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -56,9 +57,8 @@ public class FormatPolygonsHandler {
 			indices.add(v3);
 		}
 
-		public void getRandomPoint(Coords ret, Coords tmp) {
-			int size = indices.size() / 3;
-			int index = 3 * ((int) (Math.random() * size));
+		public void getRandomPoint(Coords ret, Coords tmp, Random r) {
+			int index = 3 * r.nextInt(indices.size() / 3);
 			double a = Math.random();
 			double b = Math.random() * (1 - a);
 			ret.setMul3(vertices.get(indices.get(index)), a);
@@ -226,6 +226,7 @@ public class FormatPolygonsHandler {
 		Coords tmpP = Coords.createInhomCoorsInD3();
 		Coords inPlaneCoords = new Coords(4);
 		Coords normal = new Coords(4);
+		Random r = new Random();
 		TreeMap<Double, Polygon> sortedPolygons = new TreeMap<>();
 
 		polygonsLeft = new TreeSet<>();
@@ -240,7 +241,7 @@ public class FormatPolygonsHandler {
 		while (attempts > 0 && polygonsLeft.size() > 0) {
 			int currentId = polygonsLeft.first();
 			Polygon p0 = polygons.get(currentId);
-			p0.getRandomPoint(start, tmp1);
+			p0.getRandomPoint(start, tmp1, r);
 			debug("\nSTART: " + p0.getId() + ", start= "
 					+ start.toString(2, 2));
 			p0.getNormal(normal);
