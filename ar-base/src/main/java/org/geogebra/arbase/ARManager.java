@@ -62,6 +62,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     private ARMotionEvent lastARMotionEvent;
 
+    protected ARSnackBarManagerInterface mArSnackBarManagerInterface;
+
     abstract public void onSurfaceCreated();
 
     abstract public void onSurfaceChanged(int width, int height);
@@ -452,7 +454,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    protected void showSnackbar(double ratio) {
-
+    private void showSnackbar(double ratio) {
+        String text;
+        if(ratio == (long) ratio)
+            text = String.format("1 : %d cm",(long)ratio);
+        else
+            text = String.format("1 : %s cm",ratio);
+         mArSnackBarManagerInterface.showRatio(text);
     }
 }
