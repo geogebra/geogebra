@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles polygons to give a correct normal orientation (inside to outside) if
@@ -235,15 +234,10 @@ public class FormatPolygonsHandler {
 		}
 		// always stop after some attempts
 		int attempts = polygons.size();
-
-		debug("\n=========\nSORT\n=========\n");
-
 		while (attempts > 0 && polygonsLeft.size() > 0) {
 			int currentId = polygonsLeft.first();
 			Polygon p0 = polygons.get(currentId);
 			p0.getRandomPoint(start, tmp1, r);
-			debug("\nSTART: " + p0.getId() + ", start= "
-					+ start.toString(2, 2));
 			p0.getNormal(normal);
 			sortedPolygons.put(0.0, p0);
 			// find polygons traversed and position on line
@@ -255,7 +249,6 @@ public class FormatPolygonsHandler {
 
 					if (!Double.isNaN(position)) {
 						sortedPolygons.put(position, p);
-						debug("\n>>> " + i + ", position = " + position);
 					}
 				}
 			}
@@ -275,11 +268,6 @@ public class FormatPolygonsHandler {
 			attempts--;
 		}
 
-		debug("\n=========\nORIENTED\n=========\n");
-		for (Polygon p : polygons) {
-			debug("\n" + p.toString());
-		}
-
 	}
 
 	/**
@@ -295,9 +283,4 @@ public class FormatPolygonsHandler {
 			p.getTriangles(sb, format, tmp1, tmp2);
 		}
 	}
-
-	static private void debug(String message) {
-		Log.debug(message);
-	}
-
 }
