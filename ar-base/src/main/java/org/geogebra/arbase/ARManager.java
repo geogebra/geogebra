@@ -407,7 +407,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
         // undo model matrix
-        getAnchorMatrixForGGB().solve(coords, ret);
+        mModelMatrix.solve(coords, ret);
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, getARScaleParameter());
