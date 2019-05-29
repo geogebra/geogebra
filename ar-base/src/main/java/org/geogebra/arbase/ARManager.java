@@ -386,6 +386,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 ratio = 10f;
             }
             arScaleAtStart = (float) (ggbToRw * ratio * pot);
+            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+                showSnackbar(ratio);
+            }
         } else {
             float reductionFactor = 0.80f;
             arScaleAtStart = (mDistance / mView.getRenderer().getWidth())
@@ -447,5 +450,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public CoordMatrix4x4 getViewModelMatrix() {
         return viewModelMatrix;
+    }
+
+    protected void showSnackbar(double ratio) {
+
     }
 }
