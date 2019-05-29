@@ -8,6 +8,7 @@ import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.validator.NumberValidator;
 import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -84,11 +85,15 @@ public class Export3dDialog extends OptionDialog
 		 * 
 		 * @param showError
 		 *            if error should be shown
+		 * @param canBeEqual
+		 *            if value can be equel to min value
 		 * @return true if parsed ok
 		 */
-		public boolean parse(boolean showError) {
+		public boolean parse(boolean showError, boolean canBeEqual) {
 			try {
-				parsedValue = numberValidator.getDouble(getText(), 0d);
+				parsedValue = canBeEqual
+						? numberValidator.getDoubleGreaterOrEqual(getText(), 0d)
+						: numberValidator.getDouble(getText(), 0d);
 				setErrorResolved();
 				return true;
 			} catch (NumberValueOutOfBoundsException e) {
@@ -219,7 +224,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		void parseAndUpdateOthers() {
-			if (inputField.parse(false)) {
+			if (inputField.parse(false, false)) {
 				updateOthers(calcCurrentRatio());
 			}
 		}
@@ -254,7 +259,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		public boolean parse() {
-			return !isUsed || inputField.parse(true);
+			return !isUsed || inputField.parse(true, false);
 		}
 	}
 
@@ -355,7 +360,8 @@ public class Export3dDialog extends OptionDialog
 			ok = checkOkAndSetFocus(ok, f.parse(), f.inputField);
 
 		}
-		ok = checkOkAndSetFocus(ok, lineThicknessValue.parse(true),
+		ok = checkOkAndSetFocus(ok,
+				lineThicknessValue.parse(true, app.has(Feature.G3D_STL_SOLID)),
 				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
