@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
@@ -39,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Zbynek
  */
-public class VoiceoverTabber implements ClickHandler {
+public class VirtualTabber implements ClickHandler {
 
 	private AppW app;
 	private double[] oldVal;
@@ -53,7 +52,7 @@ public class VoiceoverTabber implements ClickHandler {
 	 * @param app
 	 *            app
 	 */
-	public VoiceoverTabber(AppW app) {
+	public VirtualTabber(AppW app) {
 		this.app = app;
 		this.ranges = new SliderW[3];
 		buildUI();
@@ -174,7 +173,6 @@ public class VoiceoverTabber implements ClickHandler {
 			return;
 		}
 		double step = range.getValue() - oldVal[index];
-		Log.error(range.getValue() + "/" + oldVal[index]);
 		String unit = "";
 		oldVal[index] += step;
 		if (sel != null && sel.isGeoPoint()) {
@@ -197,6 +195,13 @@ public class VoiceoverTabber implements ClickHandler {
 		focusTrapN.getElement().setTabIndex(5000);
 
 		ImageWrapper.nativeon(focusTrapN.getElement(), "focus",
+				new ImageLoadCallback() {
+					@Override
+					public void onLoad() {
+						onFocusTrap(backward);
+					}
+				});
+		ImageWrapper.nativeon(focusTrapN.getElement(), "click",
 				new ImageLoadCallback() {
 					@Override
 					public void onLoad() {

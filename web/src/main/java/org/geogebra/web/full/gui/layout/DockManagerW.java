@@ -24,7 +24,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
+import org.geogebra.web.full.gui.layout.panels.VirtualTabber;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
@@ -84,7 +84,7 @@ public class DockManagerW extends DockManager {
 	private boolean panelsMoved;
 
 	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
-	private VoiceoverTabber voiceoverTabber;
+	private VirtualTabber voiceoverTabber;
 
 	/**
 	 * @param layout
@@ -2023,9 +2023,9 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
-	private VoiceoverTabber getVoiceoverTabber() {
+	private VirtualTabber getVoiceoverTabber() {
 		if (this.voiceoverTabber == null) {
-			voiceoverTabber = new VoiceoverTabber(app);
+			voiceoverTabber = new VirtualTabber(app);
 		}
 		return voiceoverTabber;
 	}
@@ -2037,7 +2037,7 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW panel : dockPanels) {
 			boolean bottomRight = getRoot() == null
 					|| getRoot().isBottomRight(panel);
-			if (bottomRight && Browser.isiOS()) {
+			if (bottomRight && Browser.needsVirtualTabber()) {
 				panel.addVoiceover(getVoiceoverTabber());
 			}
 		}

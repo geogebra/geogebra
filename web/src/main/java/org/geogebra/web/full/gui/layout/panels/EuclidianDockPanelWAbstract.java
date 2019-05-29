@@ -500,7 +500,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void addVoiceover(VoiceoverTabber tabber) {
+	public void addVoiceover(VirtualTabber tabber) {
 		tabber.add(getEuclidianPanel(), getCanvas());
 	}
 }
