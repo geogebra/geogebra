@@ -34,16 +34,16 @@ public interface ARManagerInterface<T> {
 
     void setFirstFloor(double z);
 
-    CoordMatrix4x4 getViewMatrix();
-
-    CoordMatrix4x4 getProjectMatrix();
-
-    CoordMatrix4x4 getAnchorMatrixForGGB();
-
     void setARScaleAtStart();
 
     float getARScaleParameter();
 
+    CoordMatrix4x4 getUndoRotationMatrix();
+
+    CoordMatrix4x4 getViewModelMatrix();
+
     void fromARCoordsToGGBCoords(Coords coords, Coords ret);
+
+    void setProjectionMatrixViewForAR(CoordMatrix4x4 projectionMatrix);
 
 }
