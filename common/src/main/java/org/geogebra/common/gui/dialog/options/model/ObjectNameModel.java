@@ -132,12 +132,7 @@ public class ObjectNameModel extends OptionsModel {
 
 	public void applyNameChange(final String name, ErrorHandler handler) {
 		if (isAutoLabelNeeded(getCurrentGeo())) {
-			showLabel(currentGeo);
-			boolean autoLabelJustAdded = "".equals(name);
-			if (autoLabelJustAdded) {
-				resetLabel(name);
-				return;
-			}
+			getLabelController().ensureHasLabel(currentGeo);
 		}
 
 		nameInputHandler.setGeoElement(currentGeo);
@@ -166,7 +161,6 @@ public class ObjectNameModel extends OptionsModel {
 		}
 	}
 
-
 	/**
 	 *
 	 * @param
@@ -179,19 +173,6 @@ public class ObjectNameModel extends OptionsModel {
 			return false;
 		}
 		return geo instanceof GeoSymbolic;
-	}
-
-	private void ensureLabelOfCurrentGeo() {
-		if (!hasLabel(currentGeo)) {
-			showLabel(currentGeo);
-		}
-	}
-	private void showLabel(GeoElementND geo) {
-		getLabelController().showLabel((GeoElement) geo);
-	}
-
-	private boolean hasLabel(GeoElementND geo) {
-		return getLabelController().hasLabel((GeoElement) geo);
 	}
 
 	private LabelController getLabelController() {
