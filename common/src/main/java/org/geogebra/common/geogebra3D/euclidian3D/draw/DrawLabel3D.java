@@ -449,15 +449,32 @@ public class DrawLabel3D {
 		}
 	}
 
-	public void updateDrawPositionAxes(float xOffset, float yOffset, float zOffset, int tickSize) {
-	    this.xOffset = xOffset;
-	    this.yOffset = yOffset;
-	    this.zOffset = zOffset;
+	/**
+	 * 
+	 * update position for axes labels (x/y/z)
+	 * 
+	 * @param xOffset1
+	 *            x offset
+	 * @param yOffset1
+	 *            y offset
+	 * @param zOffset1
+	 *            z offset
+	 * @param tickSize
+	 *            tick size
+	 */
+	public void updateDrawPositionAxes(float xOffset1, float yOffset1,
+			float zOffset1, int tickSize) {
+		this.xOffset = xOffset1;
+		this.yOffset = yOffset1;
+		this.zOffset = zOffset1;
 	    updateDrawPositionAxes(tickSize);
     }
 
 	/**
-	 * update axes draw position
+	 * update position for axes numbers
+	 * 
+	 * @param tickSize
+	 *            tick sizes
 	 */
 	public void updateDrawPositionAxes(int tickSize) {
 		drawX = (int) (vScreen.getX());
