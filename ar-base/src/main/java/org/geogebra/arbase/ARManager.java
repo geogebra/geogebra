@@ -29,6 +29,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix4 = new CoordMatrix4x4();
     protected float mScaleFactor = 1;
     private float arScaleAtStart;
+    private double arRatio;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
@@ -240,6 +241,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected void updateModelMatrixFields() {
         /* translating */
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
+
+        /* update ratio */
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+            showSnackbar();
+        }
     }
 
     protected void clearAnchors() {
@@ -390,7 +396,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             arScaleAtStart = (float) (ggbToRw * ratio * pot);
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
                 int mToCm = 100;
-                showSnackbar(ratio * pot * mToCm);
+                arRatio = ratio * pot * mToCm;
+                showSnackbar();
             }
         } else {
             float reductionFactor = 0.80f;
@@ -455,12 +462,21 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    private void showSnackbar(double ratio) {
+    private void showSnackbar() {
+        double ratio;
+        if (arGestureManager != null) {
+            ratio = arRatio * arGestureManager.getScaleFactor();
+        } else {
+            ratio = arRatio;
+        }
+        // round double for precision 3
+        ratio = (double)Math.round(ratio * 100d) / 100d;
         String text;
-        if(ratio == (long) ratio)
-            text = String.format("1 : %d cm",(long)ratio);
-        else
-            text = String.format("1 : %s cm",ratio);
+        if(ratio == (long) ratio) {
+            text = String.format("1 : %d cm", (long)ratio);
+        } else {
+            text = String.format("1 : %.4s cm", ratio);
+        }
          mArSnackBarManagerInterface.showRatio(text);
     }
 }
