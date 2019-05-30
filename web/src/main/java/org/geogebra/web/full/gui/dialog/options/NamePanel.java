@@ -50,7 +50,6 @@ class NamePanel extends OptionPanel
 	private String redefinitionForFocusLost = "";
 	private AppW app;
 	private ShowLabelModel showLabelModel;
-	private String lastTypedName = null;
 
 	/**
 	 *
@@ -75,6 +74,9 @@ class NamePanel extends OptionPanel
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
+				if (model.noLabelUpdateNeeded(tfName.getText())) {
+					return;
+				}
 				applyName();
 			}
 		});

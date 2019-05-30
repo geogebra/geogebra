@@ -153,6 +153,14 @@ public class ObjectNameModel extends OptionsModel {
 
 	}
 
+	public boolean noLabelUpdateNeeded(String label) {
+		return "".equals(label)  && !hasLabelOfCurrentGeo();
+	}
+
+	private boolean hasLabelOfCurrentGeo() {
+		return getLabelController().hasLabel((GeoElement) getCurrentGeo());
+	}
+
 	private void resetLabel(String name) {
 		final String strName = currentGeo
 				.getLabel(StringTemplate.defaultTemplate);
