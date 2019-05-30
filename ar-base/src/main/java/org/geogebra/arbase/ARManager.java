@@ -389,7 +389,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             }
             arScaleAtStart = (float) (ggbToRw * ratio * pot);
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                showSnackbar(ratio);
+                int mToCm = 100;
+                showSnackbar(ratio * pot * mToCm);
             }
         } else {
             float reductionFactor = 0.80f;
