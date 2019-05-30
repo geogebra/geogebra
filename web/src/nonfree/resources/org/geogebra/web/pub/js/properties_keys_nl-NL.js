@@ -2994,7 +2994,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "TrueOnPartsFalseOnParts": "(deels juist, deels fout)",
     "Turtle": "Turtle",
     "Tutorial": "Initiatiehandleiding",
-    "Tutorial3D": "jQmdP6ee",
+    "Tutorial3D": "rvuqmcee",
     "TutorialClassic": "jaQ4NQ3U",
     "TutorialGeometry": "pZjCXAbs",
     "TutorialGraphing": "x6chykxu",
