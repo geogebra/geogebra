@@ -2152,7 +2152,7 @@ public abstract class Renderer {
 	/**
 	 * return ArViewMatrix.
 	 */
-	public CoordMatrix4x4 getArViewMatrix() {
+	public CoordMatrix4x4 getArViewModelMatrix() {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
 			return arManager.getViewModelMatrix();
