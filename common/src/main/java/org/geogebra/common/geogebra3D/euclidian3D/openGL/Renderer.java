@@ -2150,7 +2150,7 @@ public abstract class Renderer {
     }
 
 	/**
-	 * return ArViewMatrix.
+	 * @return ArViewMatrix.
 	 */
 	public CoordMatrix4x4 getArViewModelMatrix() {
 		ARManagerInterface<?> arManager = getARManager();
@@ -2161,7 +2161,7 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * return undoRotationMatrixAR.
+	 * @return undoRotationMatrixAR.
 	 */
 	public CoordMatrix4x4 getUndoRotationMatrixAR() {
 		ARManagerInterface<?> arManager = getARManager();
