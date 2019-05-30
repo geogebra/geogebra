@@ -153,6 +153,13 @@ public class ObjectNameModel extends OptionsModel {
 
 	}
 
+	/**
+	 *
+	 * @param label
+	 * 				the new label
+	 *
+	 * @return if label should change to the new one.
+	 */
 	public boolean noLabelUpdateNeeded(String label) {
 		return "".equals(label)  && !hasLabelOfCurrentGeo();
 	}

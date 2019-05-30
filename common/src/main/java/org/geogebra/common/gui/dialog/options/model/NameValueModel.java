@@ -72,10 +72,20 @@ public class NameValueModel extends ShowLabelModel {
 	}
 
 	/**
-	 * 
+	 *
+	 * @param label
+	 * 				the new label
+	 *
+	 * @return if label should change to the new one.
+	 */
+	public boolean noLabelUpdateNeeded(String label) {
+		return nameModel.noLabelUpdateNeeded(label);
+	}
+
+	/**
+	 *
 	 * @return caption should be changed or not.
 	 */
-
 	public boolean isForceCaption() {
 		return forceCaption;
 	}
