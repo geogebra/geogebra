@@ -8,7 +8,6 @@ import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
 
 /**
@@ -106,11 +105,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	@Override
-	public JSONObject getExerciseResult() {
-		return null;
 	}
 
 	/**
