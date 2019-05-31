@@ -2126,9 +2126,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		int n = xList.size();
-		/*
-		 * if (n<=3){ return true; }
-		 */
+		
+		if (n <= 3) {
+			return true;
+		}
 
 		// remove last point if equals first points
 		if (DoubleUtil.isEqual(xList.get(0), xList.get(n - 1))
