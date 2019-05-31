@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -10,6 +11,9 @@ import org.geogebra.web.html5.main.GgbFile;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ * Processes file input
+ */
 public class ViewW {
 
 	private GgbFile archiveContent;
@@ -91,6 +95,7 @@ public class ViewW {
 		populateArchiveContent(getBase64Reader(dataParamBase64String));
 	}
 
+	@ExternalAccess
 	private void putIntoArchiveContent(String key, String value) {
 		archiveContent.put(key, value);
 		if (archiveContent.size() == zippedLength) {
@@ -281,7 +286,6 @@ public class ViewW {
 	 */
 	public void processBinaryString(JavaScriptObject binary) {
 		populateArchiveContent(getBinaryReader(binary));
-
 	}
 
 	private native JavaScriptObject getBinaryReader(Object blob) /*-{
@@ -299,6 +303,7 @@ public class ViewW {
 		return workerUrls;
 	}
 
+	@ExternalAccess
 	private void prepare(int t) {
 		archiveContent = new GgbFile();
 		this.zippedLength = t;

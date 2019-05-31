@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
@@ -60,19 +61,26 @@ public class GraspableEmbedElement extends EmbedElement {
 	 */
 	protected native void addListeners(Element element, int id,
 			EmbedManagerW manager) /*-{
-		$wnd.loadGM(initCanvas, { version: 'latest', build: 'ggb' });
+		$wnd.loadGM(initCanvas, {
+			version : 'latest',
+			build : 'ggb'
+		});
 		var that = this;
 		function initCanvas() {
 			var apiObject = that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::getApi(Lorg/geogebra/web/full/main/EmbedManagerW;)(manager);
-			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {ggbNotesAPI: apiObject});
+			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {
+				ggbNotesAPI : apiObject
+			});
 			if ($wnd.ExternalApi) {
 				var storeContent = function(core) {
 					manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
-					core.getAsJSON().then(
-								function(content) {
-									$wnd.console.log("storing content");
-									manager.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id, content);
-								});
+					core
+							.getAsJSON()
+							.then(
+									function(content) {
+										$wnd.console.log("storing content");
+										manager.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id, content);
+									});
 				};
 
 				var loadCallback = function(core) {
@@ -82,13 +90,15 @@ public class GraspableEmbedElement extends EmbedElement {
 					});
 				};
 
-				$wnd.ExternalApi(element, 'https://graspablemath.com', loadCallback);
+				$wnd.ExternalApi(element, 'https://graspablemath.com',
+						loadCallback);
 			} else {
 				print("no external api");
 			}
 		}
 	}-*/;
 
+	@ExternalAccess
 	private JavaScriptObject getApi(EmbedManagerW embedManager) {
 		ScriptManagerW scriptManager = (ScriptManagerW) embedManager.getApp().getScriptManager();
 		return scriptManager.getApi();

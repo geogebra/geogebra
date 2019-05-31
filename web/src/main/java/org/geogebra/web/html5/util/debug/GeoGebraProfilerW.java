@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util.debug;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 
@@ -86,6 +87,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 		}
 	}-*/;
 
+	@ExternalAccess
 	private static void showError() {
 		Log.debug("console methods for profiling not supported");
 	}

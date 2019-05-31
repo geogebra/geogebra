@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.video;
 
+import org.geogebra.common.util.ExternalAccess;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -163,12 +165,14 @@ public class VideoWidget extends Widget {
 		switchAttribute("autoplay", b);
 	}
 
+	@ExternalAccess
 	private void listenerOnLoad(int width, int height) {
 		if (listener != null) {
 			listener.onLoad(width, height);
 		}
 	}
 
+	@ExternalAccess
 	private void listenerOnError() {
 		if (listener != null) {
 			listener.onError();

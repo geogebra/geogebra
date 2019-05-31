@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util.pdf;
 
+import org.geogebra.common.util.ExternalAccess;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -59,10 +61,12 @@ public class PDFWrapper {
 		read(file);
 	}
 
+	@ExternalAccess
 	private void finishLoading(boolean result) {
 		listener.finishLoading(result);
 	}
 
+	@ExternalAccess
 	private void setProgressBarPercent(double percent) {
 		listener.setProgressBarPercent(percent);
 	}
@@ -92,6 +96,7 @@ public class PDFWrapper {
 
 	}-*/;
 
+	@ExternalAccess
 	private native void load(String src) /*-{
 		var loadingTask = $wnd.PDFJS.getDocument(src);
 		var that = this;
@@ -151,6 +156,7 @@ public class PDFWrapper {
 						});
 	}-*/;
 
+	@ExternalAccess
 	private void onPageDisplay(String src) {
 		if (listener == null) {
 			return;
@@ -237,6 +243,7 @@ public class PDFWrapper {
 	// convert something like
 	// xlink:href="blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f"
 	// to base64 PNG
+	@ExternalAccess
 	private native void convertBlobs(JavaScriptObject svg,
 			JavaScriptObject callback) /*-{
 
@@ -254,6 +261,7 @@ public class PDFWrapper {
 		}
 	}-*/;
 
+	@ExternalAccess
 	private native void blobToBase64(String blobURI, JavaScriptObject svg,
 			JavaScriptObject callback) /*-{
 

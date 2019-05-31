@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -117,6 +118,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}-*/;
 
+	@ExternalAccess
 	private native void loadGoogleDrive() /*-{
 		var _this = this;
 		if ($wnd.gapi) {
@@ -146,6 +148,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}-*/;
 
+	@ExternalAccess
 	private void googleDriveLoaded() {
 		this.driveLoaded = true;
 		onEvent(new GoogleDriveLoadedEvent());
@@ -189,6 +192,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 				);
 	}-*/;
 
+	@ExternalAccess
 	private void authorizeCallback(String token, String error) {
 		if (error != null && error.length() > 0) {
 			Log.debug("GOOGLE LOGIN" + error);
@@ -372,6 +376,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 				});
 	}-*/;
 
+	@ExternalAccess
 	private void processGoogleDriveFileContentAsBase64(String base64,
 			String description, final String title, String id) {
 		// true = reload the whole doc
@@ -386,6 +391,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		app.setUnsaved();
 	}
 
+	@ExternalAccess
 	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary,
 	        String description, String title, String id) {
 		app.loadGgbFileAsBinaryAgain(binary);
@@ -433,6 +439,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		};
 	}-*/;
 
+	@ExternalAccess
 	private void saveFileToGoogleDrive(final String fileName,
 			final String description, final String fileContent,
 			boolean isggb) {
@@ -509,12 +516,14 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		updateFile(fId, metaData, base64);
 	}-*/;
 
+	@ExternalAccess
 	private void showUploadError() {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
 		        .getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
 
+	@ExternalAccess
 	private void updateAfterGoogleDriveSave(String id, String fileName,
 			String description, boolean isggb) {
 		app.getSaveController().runAfterSaveCallback(true);

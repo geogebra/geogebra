@@ -482,15 +482,10 @@ public class GGWToolBar extends Composite
 		for (ToolBarW toolbar : toolbars) {
 			if (toolbar != null) {
 				toolbar.buildGui();
-				// TODO
-				// toolbarPanel.add(toolbar,
-				// Integer.toString(getViewId(toolbar)));
 				toolBPanel.add(toolbar);
 			}
 		}
 
-		// TODO
-		// toolbarPanel.show(Integer.toString(activeToolbar));
 		onResize();
 		if (app.isExam() && !app.enableGraphing()) {
 			toolBPanel.setVisible(false);
@@ -1101,16 +1096,6 @@ public class GGWToolBar extends Composite
 	@Override
 	public int setMode(int mode, ModeSetter ms) {
 		return toolbars.get(0).setMode(mode, ms);
-	}
-
-	/**
-	 * @param toolbar
-	 *            toolbar
-	 * @return The ID of the dock panel associated with the passed toolbar or -1
-	 */
-	private static int getViewId(ToolBarW toolbar) {
-		return (toolbar.getDockPanel() != null
-				? toolbar.getDockPanel().getViewId() : -1);
 	}
 
 	@Override

@@ -453,17 +453,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 				tx.getTranslateY());
 	}
 
-	private void setTransform(GAffineTransform tx) {
-		context.setDevicePixelRatio(getDevicePixelRatio());
-
-		context.setTransform2(getDevicePixelRatio() * tx.getScaleX(),
-				getDevicePixelRatio() * tx.getShearY(),
-				getDevicePixelRatio() * tx.getShearX(),
-				getDevicePixelRatio() * tx.getScaleY(),
-				getDevicePixelRatio() * tx.getTranslateX(),
-				getDevicePixelRatio() * tx.getTranslateY());
-	}
-
 	@Override
 	public GComposite getComposite() {
 		return new GAlphaCompositeW(context.getGlobalAlpha());

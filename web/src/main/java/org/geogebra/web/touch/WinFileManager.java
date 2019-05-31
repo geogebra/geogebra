@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
@@ -228,6 +229,7 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 
+	@ExternalAccess
 	private void addMaterials(String jsString) {
 		JSONTokener tok = new JSONTokener(jsString);
 		try {

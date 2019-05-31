@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -77,11 +78,13 @@ public class PointerEventHandler {
 		this.off = off == null ? new MsOffset(tc) : off;
 	}
 
+	@ExternalAccess
 	private void pointersUp() {
 		this.tc.getLongTouchManager().cancelTimer();
 		this.tc.setExternalHandling(false);
 	}
 
+	@ExternalAccess
 	private void twoPointersDown(double x1, double y1, double x2, double y2) {
 		this.tc.setExternalHandling(true);
 		this.tc.twoTouchStart(off.touchEventX((int) x1),
@@ -89,12 +92,14 @@ public class PointerEventHandler {
 				off.touchEventY((int) y2));
 	}
 
+	@ExternalAccess
 	private void twoPointersMove(double x1, double y1, double x2, double y2) {
 		this.tc.twoTouchMove(off.touchEventX((int) x1),
 				off.touchEventY((int) y1), off.touchEventX((int) x2),
 				off.touchEventY((int) y2));
 	}
 
+	@ExternalAccess
 	private void singleDown(double x, double y, int type, int modifiers) {
 		tc.getOffsets().closePopups();
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
@@ -118,6 +123,7 @@ public class PointerEventHandler {
 		}
 	}
 
+	@ExternalAccess
 	private void singleMove(double x, double y, int type, int modifiers) {
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
@@ -125,6 +131,7 @@ public class PointerEventHandler {
 		this.tc.onPointerEventMove(e);
 	}
 
+	@ExternalAccess
 	private void singleUp(double x, double y, int type, int modifiers) {
 		this.tc.getLongTouchManager().cancelTimer();
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
@@ -133,11 +140,13 @@ public class PointerEventHandler {
 		this.tc.onPointerEventEnd(e);
 	}
 
+	@ExternalAccess
 	private void setPointerType(int i, boolean pointerDown) {
 		tc.getOffsets().calculateEnvironment();
 		tc.setDefaultEventType(types[i], pointerDown);
 	}
 
+	@ExternalAccess
 	private void startLongTouch(int x, int y) {
 		if (this.tc.getMode() == EuclidianConstants.MODE_MOVE) {
 			this.tc.getLongTouchManager().scheduleTimer(tc, off.touchEventX(x),
@@ -145,6 +154,7 @@ public class PointerEventHandler {
 		}
 	}
 
+	@ExternalAccess
 	private void checkMoveLongTouch() {
 		if (tc.isDraggingBeyondThreshold()) {
 			this.tc.getLongTouchManager().cancelTimer();

@@ -98,10 +98,6 @@ public abstract class VideoPlayer implements IsWidget {
 		}
 	}
 
-	private static void onPlayerStateChange() {
-		// implement later;
-	}
-
 	/**
 	 *
 	 * @return if iframe is valid.

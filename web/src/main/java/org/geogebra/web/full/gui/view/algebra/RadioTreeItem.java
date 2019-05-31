@@ -1753,10 +1753,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getLatexController().onEnter(keepFocus, false);
 	}
 
-	private void onEnterWithSliders() {
-		getLatexController().onEnter(true, true);
-	}
-
 	@Override
 	public void setText(String text0) {
 		if (!"".equals(text0)) {

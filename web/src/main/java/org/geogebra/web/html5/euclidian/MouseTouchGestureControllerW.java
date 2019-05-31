@@ -118,27 +118,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 	}
 
-	private double getEnvWidthScale() {
-		if (ec.getView() == null) {
-			return 1;
-		}
-		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.getView();
-		if (v.getG2P().getOffsetWidth() != 0) {
-			return v.getG2P().getCoordinateSpaceWidth()
-					/ (double) v.getG2P().getOffsetWidth();
-		}
-		return 0;
-	}
-
-	private double getEnvHeightScale() {
-		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.getView();
-		if (v.getG2P().getOffsetHeight() != 0) {
-			return v.getG2P().getCoordinateSpaceHeight()
-					/ (double) v.getG2P().getOffsetHeight();
-		}
-		return 0;
-	}
-
 	private int getEnvXoffset() {
 		// return EuclidianViewXOffset;
 		// the former solution doesn't update on scrolling
@@ -333,13 +312,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		        second.getY());
 		first.release();
 		second.release();
-
-	}
-
-	private static double distance(final AbstractEvent t1,
-	        final AbstractEvent t2) {
-		return Math.sqrt(Math.pow(t1.getX() - t2.getX(), 2)
-		        + Math.pow(t1.getY() - t2.getY(), 2));
 	}
 
 	/**

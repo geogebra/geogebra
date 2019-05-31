@@ -57,12 +57,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		return false;
 	}-*/;
 
-	private static native JavaScriptObject getCallback(String marker) /*-{
-		return function(url) {
-			@org.geogebra.web.html5.Browser::exportImage(Ljava/lang/String;Ljava/lang/String;)(marker+url, "screenshot.png");
-		};
-	}-*/;
-
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (getApp().isExam()) {

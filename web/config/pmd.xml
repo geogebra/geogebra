@@ -32,7 +32,6 @@
 		<exclude name="AvoidPrintStackTrace"/>
 		<exclude name="OneDeclarationPerLine"/>
 		<exclude name="ReplaceVectorWithList"/>
-		<exclude name="UnusedPrivateMethod"/>
 	</rule>
 	<rule ref="category/java/codestyle.xml">
 		<exclude name="AtLeastOneConstructor"/>
@@ -97,6 +96,11 @@
 		<exclude name="SimplifyBooleanReturns"/>
 		<exclude name="AbstractClassWithoutAnyMethod"/>
 		<exclude name="DoNotExtendJavaLangError"/>
+	</rule>
+	<rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
+		<properties>
+        <property name="ignoredAnnotations" value="org.geogebra.common.util.ExternalAccess"/>
+    </properties>
 	</rule>
 	<rule ref="category/java/bestpractices.xml/UnusedPrivateField">
 		<properties>

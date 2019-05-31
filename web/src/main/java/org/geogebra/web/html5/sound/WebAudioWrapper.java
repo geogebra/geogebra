@@ -76,6 +76,7 @@ public class WebAudioWrapper {
 		return listener.getValueAt(t);
 	}
 
+	@ExternalAccess
 	private static native void onAudioProcess(JavaScriptObject e) /*-{
 		var data = e.outputBuffer.getChannelData(0);
 

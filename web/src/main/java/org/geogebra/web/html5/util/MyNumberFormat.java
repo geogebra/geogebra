@@ -959,26 +959,6 @@ public class MyNumberFormat {
 	}
 
 	/**
-	 * Replace locale-independent digits with locale-specific ones.
-	 *
-	 * @param digits
-	 *            StringBuilder containing formatted number
-	 * @param zero
-	 *            locale-specific zero character -- the rest of the digits must
-	 *            be consecutive
-	 */
-	private static void localizeDigits(StringBuilder digits, char zero) {
-		// don't use digitsLength since we may have added an exponent
-		int n = digits.length();
-		for (int i = 0; i < n; ++i) {
-			char ch = digits.charAt(i);
-			if (ch >= '0' && ch <= '9') {
-				digits.setCharAt(i, (char) (ch - '0' + zero));
-			}
-		}
-	}
-
-	/**
 	 * This method parses affix part of pattern.
 	 *
 	 * @param pattern
