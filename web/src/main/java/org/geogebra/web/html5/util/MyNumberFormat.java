@@ -318,7 +318,6 @@ public class MyNumberFormat {
 	 * {@link #setForcedLatinDigits(boolean)} for changing it.
 	 */
 	// Cached instances of standard formatters.
-	private static MyNumberFormat cachedCurrencyFormat;
 	private static MyNumberFormat cachedDecimalFormat;
 	private static MyNumberFormat cachedPercentFormat;
 	private static MyNumberFormat cachedScientificFormat;

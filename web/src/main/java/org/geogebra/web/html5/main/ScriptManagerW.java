@@ -3,6 +3,7 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -12,6 +13,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class ScriptManagerW extends ScriptManager {
 
+	@ExternalAccess
 	private String ggbApplet;
 	private JavaScriptObject api;
 

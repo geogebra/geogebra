@@ -3,7 +3,6 @@ package org.geogebra.web.cas.giac;
 import java.util.ArrayList;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.Evaluate;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -29,7 +28,6 @@ public class CASgiacW extends CASgiac {
 
 	/** kernel */
 	Kernel kernel;
-	private Evaluate giac;
 	private static boolean externalCAS = Browser.externalCAS();
 
 	/**

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.exam;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -92,12 +93,14 @@ public class ExamUtil {
 		}
 	}-*/ ;
 
+	@ExternalAccess
 	private void startCheating() {
 		if (app.getExam() != null && !app.getExam().isClosed()) {
 			app.getExam().checkedWindowLeft();
 		}
 	}
 
+	@ExternalAccess
 	private void stopCheating() {
 		if (app.getExam() != null) {
 			app.getExam().stopCheating();

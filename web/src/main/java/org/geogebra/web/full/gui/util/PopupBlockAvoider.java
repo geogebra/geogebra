@@ -1,7 +1,10 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.util.ExternalAccess;
+
 public class PopupBlockAvoider {
 
+	@ExternalAccess
 	private String showURLinBrowserPageUrl = null;
 
 	public PopupBlockAvoider() {

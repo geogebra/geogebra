@@ -1,13 +1,10 @@
 package org.geogebra.web.html5.video;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -19,15 +16,12 @@ import com.google.gwt.user.client.ui.IsWidget;
  *
  */
 public abstract class VideoPlayer implements IsWidget {
-	private static boolean youTubeAPI;
 	/** The application */
 	protected App app;
 
 	/** Video geo to play */
 	protected GeoVideo video;
-	private JavaScriptObject ytPlayer;
 	private String playerId;
-	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
 
 	/**
 	 * Constructor. *

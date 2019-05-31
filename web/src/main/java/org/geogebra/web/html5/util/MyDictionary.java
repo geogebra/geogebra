@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
+import org.geogebra.common.util.ExternalAccess;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -35,6 +37,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public final class MyDictionary {
 
 	private static Map<String, MyDictionary> cache = new HashMap<>();
+	@ExternalAccess
 	private JavaScriptObject dict;
 
 	private String label;

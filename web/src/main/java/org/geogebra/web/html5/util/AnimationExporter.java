@@ -149,7 +149,7 @@ public class AnimationExporter {
 			return new WebMEncoderW(timeBetweenFrames, isLoop, filename);
 
 		case PDF_HTML5:
-			return new PDFEncoderW(ev, filename);
+			return new PDFEncoderW(ev);
 		}
 
 	}

@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.sound;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -9,10 +10,15 @@ public class WebAudioWrapper {
 	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
 	private FunctionAudioListener listener = null;
 	private boolean supported;
+	@ExternalAccess
 	private static double time;
+	@ExternalAccess
 	private static double deltaTime;
+	@ExternalAccess
 	private static double stopTime;
+	@ExternalAccess
 	private static JavaScriptObject context;
+	@ExternalAccess
 	private static JavaScriptObject processor;
 
 	public interface FunctionAudioListener {

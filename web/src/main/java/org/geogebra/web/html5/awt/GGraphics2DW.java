@@ -54,9 +54,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 	private int canvasWidth;
 	private int canvasHeight;
 
-	private boolean lastDebugOk = false;
-	private boolean lastDebugException = false;
-
 	/**
 	 * the pixel ratio of the canvas.
 	 */

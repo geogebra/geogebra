@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
@@ -112,12 +113,14 @@ public class UploadImagePanel extends VerticalPanel {
 		}
 	}-*/;
 
+	@ExternalAccess
 	private void setMoveMode() {
 		if (uploadImageWithoutDialog != null) {
 			uploadImageWithoutDialog.setSelectMode();
 		}
 	}
 
+	@ExternalAccess
 	private void fileSelected(String fData, String fName) {
 		this.fileData = fData;
 		this.fileName = fName;
