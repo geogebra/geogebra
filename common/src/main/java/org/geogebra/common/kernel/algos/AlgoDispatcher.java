@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.TransformMirror;
@@ -2593,9 +2594,14 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(f, c);
-		if (existingAlgo != null) {
+		
+		if (existingAlgo instanceof AlgoIntersectPolynomialConic) {
 			return (AlgoIntersectPolynomialConic) existingAlgo;
 		}
+		
+		if (existingAlgo !=null) {
+			Log.debug("unexpected class returned: " + existingAlgo.getClass() + " " + existingAlgo.getClassName() + " " + existingAlgo.toString(StringTemplate.defaultTemplate));
+		}	
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialConic algo = new AlgoIntersectPolynomialConic(
