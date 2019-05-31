@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -109,10 +110,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            parent
 	 */
 	protected static void tackleLastDummy(Element parentElement) {
-		lastDummy = DOM.createSpan().cast();
-		lastDummy.addClassName("geogebraweb-dummy-invisible");
-		lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
-		parentElement.appendChild(lastDummy);
+		if (!Browser.needsVirtualTabber()) {
+			lastDummy = DOM.createSpan().cast();
+			lastDummy.addClassName("geogebraweb-dummy-invisible");
+			lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
+			parentElement.appendChild(lastDummy);
+		}
 	}
 
 	/**
@@ -316,6 +319,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		app.checkScaleContainer();
 	}
 
+	/**
+	 * Update size of external header if applicable.
+	 */
 	public void updateHeaderSize() {
 		// overriden later
 	}
