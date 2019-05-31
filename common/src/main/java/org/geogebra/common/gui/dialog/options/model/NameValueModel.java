@@ -66,9 +66,13 @@ public class NameValueModel extends ShowLabelModel {
 	}
 
 	private boolean shouldNameChange(String name) {
-		return !(isForceCaption() || (kernel.lookupLabel(name) != null
-				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())
-				|| !LabelManager.isValidLabel(name, kernel, null));
+		return !isForceCaption() && !isUsedForOtherGeo(name)
+				&& LabelManager.isValidLabel(name, kernel, null);
+	}
+
+	private boolean isUsedForOtherGeo(String name) {
+		return kernel.lookupLabel(name) != null
+				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo();
 	}
 
 	/**

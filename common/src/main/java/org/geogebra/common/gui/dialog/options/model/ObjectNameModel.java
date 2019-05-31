@@ -53,32 +53,6 @@ public class ObjectNameModel extends OptionsModel {
 
 	@Override
 	public void updateProperties() {
-		/*
-		 * DON'T WORK : MAKE IT A TRY FOR 5.0 ? //apply textfields modification
-		 * on previous geo before switching to new geo //skip this if label is
-		 * not set (we re in the middle of redefinition) //skip this if action
-		 * is performing if (currentGeo!=null && currentGeo.isLabelSet() &&
-		 * !actionPerforming && (geos.length!=1 || geos[0]!=currentGeo)){
-		 * 
-		 * //App.printStacktrace("\n"+tfName.getText()+"\n"+currentGeo.getLabel(
-		 * StringTemplate.defaultTemplate));
-		 * 
-		 * String strName = tfName.getText(); if (strName !=
-		 * currentGeo.getLabel(StringTemplate.defaultTemplate))
-		 * nameInputHandler.processInput(tfName.getText());
-		 * 
-		 * 
-		 * String strDefinition = tfDefinition.getText(); if
-		 * (strDefinition.length()>0 &&
-		 * !strDefinition.equals(getDefText(currentGeo)))
-		 * defInputHandler.processInput(strDefinition);
-		 * 
-		 * String strCaption = tfCaption.getText(); if
-		 * (!strCaption.equals(currentGeo.getCaptionSimple())){
-		 * currentGeo.setCaption(tfCaption.getText());
-		 * currentGeo.updateVisualStyleRepaint(); } }
-		 */
-
 		// take name of first geo
 		GeoElement geo0 = getGeoAt(0);
 		updateName(geo0);
@@ -104,17 +78,12 @@ public class ObjectNameModel extends OptionsModel {
 			listener.updateDefLabel();
 		}
 		// CAPTION
-		boolean showCaption = !(getCurrentGeo() instanceof TextValue); // borcherds
-																		// was
-		// currentGeo.isGeoBoolean();
+		boolean showCaption = !(getCurrentGeo() instanceof TextValue);
 		if (showCaption) {
 			listener.updateCaption(getCurrentGeo().getRawCaption());
 		}
-		// captionLabel.setVisible(showCaption);
-		// inputPanelCap.setVisible(showCaption);
 
 		listener.updateGUI(showDefinition, showCaption);
-
 	}
 
 	private void updateName(GeoElement geo) {
