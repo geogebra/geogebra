@@ -78,8 +78,6 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.SensorLogger.Types;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -146,7 +144,6 @@ public class MyXMLHandler implements DocHandler {
 	private GeoCasCell geoCasCell;
 	private Command cmd;
 	private Macro macro;
-	private Assignment assignment;
 	/** application */
 	protected final App app;
 	/** lacalization */
@@ -371,7 +368,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_ASSIGNMENT:
-			startResultElement(eName, attrs);
+			// ignore all assignment tags
 			break;
 
 		case MODE_DEFAULTS:
@@ -731,25 +728,6 @@ public class MyXMLHandler implements DocHandler {
 		} else {
 			Log.error("unknown tag in <macro>: " + eName);
 		}
-	}
-
-	private void startResultElement(String eName,
-			LinkedHashMap<String, String> attrs) {
-		if ("result".equals(eName)) {
-			String name = attrs.get("name");
-			String hint = attrs.get("hint");
-			String fractionS = attrs.get("fraction");
-			if (hint != null && !hint.isEmpty()) {
-				assignment.setHintForResult(Result.valueOf(name), hint);
-			}
-			if (fractionS != null && !fractionS.isEmpty()) {
-				assignment.setFractionForResult(Result.valueOf(name),
-						Float.parseFloat(fractionS));
-			}
-		} else {
-			Log.error("unknown tag in <assignment>: " + eName);
-		}
-
 	}
 
 	// ====================================
