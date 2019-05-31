@@ -230,7 +230,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		initCoreObjects();
 		checkExamPerspective();
 		afterCoreObjectsInited();
-		resetFonts();
+		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
 		if (ae.getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");

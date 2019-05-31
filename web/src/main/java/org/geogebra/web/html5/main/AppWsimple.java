@@ -64,7 +64,7 @@ public class AppWsimple extends AppW {
 		initCoreObjects();
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
-		resetFonts();
+		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
 		if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)

@@ -59,7 +59,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
         initCoreObjects();
 
-        resetFonts();
+		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
         Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
         if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
             new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
