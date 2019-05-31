@@ -43,11 +43,11 @@ public class Export3dDialog extends OptionDialog
 	/**
 	 * number formating for dimensions
 	 */
-	static final NumberFormatAdapter dimensionNF;
+	private static final NumberFormatAdapter dimensionNF;
 	/**
 	 * number formating for scale
 	 */
-	static final NumberFormatAdapter scaleNF;
+	private static final NumberFormatAdapter scaleNF;
 
 	static {
 		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);

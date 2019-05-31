@@ -86,10 +86,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		public MyImageFileInputDialog(AppW app) {
 			super(app);
 			createGUI();
-			if (app.isUnbundledOrWhiteboard()) {
-				btCancel.addStyleName("dialogBtn");
-				this.setStyleName("MaterialDialogBox");
-			}
 		}
 
 		@Override
