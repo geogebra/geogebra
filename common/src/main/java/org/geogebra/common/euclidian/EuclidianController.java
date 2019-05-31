@@ -7197,7 +7197,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			} else if (movedGeoText.hasAbsoluteLocation()) {
 				// absolute location: change location
-				GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
+				GeoPointND loc = movedGeoText.getStartPoint();
 				if (loc == null) {
 					loc = new GeoPoint(kernel.getConstruction());
 					loc.setCoords(0, 0, 1.0);
@@ -7208,17 +7208,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					}
 					setStartPointLocation();
 				} else {
-					setStartPointLocationWithOrigin(loc.inhomX, loc.inhomY);
+					setStartPointLocationWithOrigin(loc.getInhomX(), loc.getInhomY());
 
-					GeoPoint loc2 = new GeoPoint(loc);
+					GeoPointND loc2 = loc.copy();
 					movedGeoText.setNeedsUpdatedBoundingBox(true);
 					movedGeoText.update();
 					if (movedGeoText.getBoundingBox() != null) {
 						loc2.setCoords(movedGeoText.getBoundingBox().getX(),
 								movedGeoText.getBoundingBox().getY(), 1.0);
 
-						transformCoordsOffset[0] = loc2.inhomX - xRW;
-						transformCoordsOffset[1] = loc2.inhomY - yRW;
+						transformCoordsOffset[0] = loc2.getInhomX() - xRW;
+						transformCoordsOffset[1] = loc2.getInhomY() - yRW;
 					}
 				}
 			} else {
