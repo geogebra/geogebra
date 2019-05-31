@@ -902,26 +902,6 @@ public class ScriptManagerW extends ScriptManager {
 			$doc[ggbApplet] = $wnd[ggbApplet] = api = null;
 		};
 
-		// APPS-646 deprecated
-		api.getExerciseResult = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getExerciseResult()();
-		};
-
-		// APPS-646 deprecated, needs changing to getValue("correct") 
-		api.getExerciseFraction = function() {
-			return ggbAPI.@org.geogebra.common.plugin.GgbAPI::getExerciseFraction()();
-		};
-
-		// APPS-646 deprecated
-		api.isExercise = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isExercise()();
-		};
-
-		// APPS-646 deprecated
-		api.startExercise = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::startExercise()();
-		};
-
 		api.setExternalPath = function(path) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path + "");
 		};

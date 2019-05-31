@@ -943,8 +943,6 @@ public interface JavaScriptAPI {
 
 	public int getCASObjectNumber();
 
-	public double getExerciseFraction();
-
 	public String getVersion();
 
 	public void enableCAS(boolean enable);
@@ -978,8 +976,6 @@ public interface JavaScriptAPI {
 	public void setRounding(String format);
 
 	public void newConstruction();
-
-	public boolean isExercise();
 
 	public void undo(boolean repaint);
 

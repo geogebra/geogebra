@@ -1610,11 +1610,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return XML for or macros and/or Exercise or empty string if there are
+	 * @return XML for or macros or empty string if there are
 	 *         none
 	 */
 	public String getMacroXMLorEmpty() {
-		if (!kernel.hasMacros() && kernel.getExercise().isEmpty()) {
+		if (!kernel.hasMacros()) {
 			return "";
 		}
 		ArrayList<Macro> macros = kernel.getAllMacros();
@@ -3784,9 +3784,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case SOLVE_QUARTIC:
-			return prerelease;
-
-		case EXERCISES:
 			return prerelease;
 
 		// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH

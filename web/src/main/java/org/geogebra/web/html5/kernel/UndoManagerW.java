@@ -111,10 +111,7 @@ public class UndoManagerW extends UndoManager {
 			app.getScriptManager().disableListeners();
 			processXML(tempXML, false);
 			app.getScriptManager().enableListeners();
-			// If there are Exercises we also have to update the Exercises
-			if (app.getKernel().hasExercise()) {
-				app.getKernel().getExercise().notifyUpdate();
-			}
+
 			AppW appW = (AppW) app;
 			if (appW.getPageController() != null) {
 				appW.getPageController().updatePreviewImage();

@@ -7,8 +7,6 @@ public enum Feature {
 
 	TUBE_BETA,
 
-	EXERCISES,
-
 	TOOL_EDITOR,
 
 	IMPLICIT_SURFACES,

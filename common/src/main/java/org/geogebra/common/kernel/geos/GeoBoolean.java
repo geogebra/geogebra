@@ -171,9 +171,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 				kernel.notifyUpdate(geo);
 			}
 		}
-		if (kernel.hasExercise()) {
-			kernel.getExercise().notifyUpdate();
-		}
 		super.doRemove();
 	}
 

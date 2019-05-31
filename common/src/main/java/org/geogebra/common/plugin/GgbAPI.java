@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -53,7 +53,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1846,43 +1845,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * If there are Macros or an Exercise present in the current file this can
-	 * be used to check if parts of the construction are equivalent to the
-	 * Macros in the file. <br>
-	 * It will return the overall Fraction of the Exercise.<br>
-	 * This is the sum of all the Fractions in the Assignment or 1 if one of the
-	 * Assignments has a fraction of 100 and no negative fractions are present.
-	 * Use {@link #getExerciseResult()} to get the fractions of each Assignment.
-	 * If you don't want that a standard exercise (using all the Macros in the
-	 * Construction and setting each fraction to 100) will be created, check if
-	 * this is a Exercise with {@link #isExercise()} first. <br>
-	 * 
-	 * @return the overall fraction of the Exercise
-	 * 
-	 */
-	@Override
-	public double getExerciseFraction() {
-		Exercise ex = kernel.getExercise();
-		ex.checkExercise();
-		return ex.getFraction();
-	}
-
-	/**
-	 * Check whether this applet is an Exercise
-	 * 
-	 * @return true if the Exercise has assignments, this will happen when
-	 *         either {@link #getExerciseResult()} or
-	 *         {@link #getExerciseFraction()} are called with user defined Tools
-	 *         present in the applet or if the ExerciseBuilderDialog was used to
-	 *         create the Exercise.
-	 */
-	@Override
-	public boolean isExercise() {
-		Exercise ex = kernel.getExercise();
-		return !ex.isEmpty();
-	}
-
-	/**
 	 * @param localeStr
 	 *            language or language_country
 	 */
@@ -1908,39 +1870,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return kernel.getPrintFigures() + "s";
 		}
 		return kernel.getPrintDecimals() + "";
-	}
-
-	/**
-	 * If there are Macros or an Exercise present in the current file this can
-	 * be used to check if parts of the construction are equivalent to the
-	 * Macros in the file. <br />
-	 * If you don't want that a Standard Exercise (using all the Macros in the
-	 * Construction and setting each fraction to 100) will be created, check if
-	 * this is a Exercise with {@link #isExercise()} first. <br>
-	 * Hint will be empty unless specified otherwise with the ExerciseBuilder.
-	 * <br />
-	 * Fraction will be 0 or 1 unless specified otherwise with the
-	 * ExerciseBuilder. <br />
-	 * Result will be in {@link org.geogebra.common.util.Assignment.Result},i.e:
-	 * <br />
-	 * CORRECT, The assignment is CORRECT <br />
-	 * WRONG, if the assignment is WRONG and we can't tell why <br />
-	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check
-	 * <br />
-	 * WRONG_INPUT_TYPES, if there are enough input geos, but one or more are of
-	 * the wrong type <br />
-	 * WRONG_OUTPUT_TYPE, if there is no output geo matching our macro <br />
-	 * WRONG_AFTER_RANDOMIZE, if the assignment was correct in the first place
-	 * but wrong after randomization <br />
-	 * UNKNOWN, if the assignment could not be checked
-	 * 
-	 * @return JavaScriptObject representation of the exercise result. For
-	 *         Example: "{"Tool1":{ "result":"CORRECT", "hint":"",
-	 *         "fraction":1}}", will be empty if now Macros or Assignments have
-	 *         been found.
-	 */
-	public Object getExerciseResult() {
-		return "";
 	}
 
 	@Override

@@ -284,8 +284,6 @@ public abstract class MyXMLio {
 		// save construction
 		sb.append(kernel.getMacroXML(macros));
 
-		sb.append(kernel.getExercise().getExerciseXML());
-
 		sb.append("</geogebra>");
 		return sb.toString();
 	}

@@ -433,9 +433,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_tools_create.svg")
 	SVGResource tools_create_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/new_exercise_black.png")
-	ImageResource new_exercise_black();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/signin_black.svg")
 	SVGResource signin_black();
 

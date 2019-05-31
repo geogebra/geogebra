@@ -82,8 +82,6 @@ import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.Exercise;
-import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -148,7 +146,6 @@ public class MyXMLHandler implements DocHandler {
 	private GeoCasCell geoCasCell;
 	private Command cmd;
 	private Macro macro;
-	private Exercise exercise;
 	private Assignment assignment;
 	/** application */
 	protected final App app;
@@ -684,7 +681,6 @@ public class MyXMLHandler implements DocHandler {
 			break;
 		case "assignment":
 			mode = MODE_ASSIGNMENT;
-			initExercise(attrs);
 			break;
 		case "construction":
 			mode = MODE_CONSTRUCTION;
@@ -2661,40 +2657,6 @@ public class MyXMLHandler implements DocHandler {
 		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
-	}
-
-	private void initExercise(LinkedHashMap<String, String> attrs) {
-		if (exercise == null) {
-			exercise = kernel.getExercise();
-			exercise.reset();
-		}
-		String name = attrs.get("commandName");
-		if (name == null) {
-			name = attrs.get("toolName");
-		}
-		if (name == null) {
-			name = attrs.get("booleanName");
-			if (name != null) {
-				assignment = exercise.addAssignment(name);
-			}
-		} else {
-			Macro m = kernel.getMacro(name);
-			// this should not be needed but for files saved between 41946 and
-			// 42226
-			// fileloading won't work (only files created in beta, probably
-			// only Judith and me, but...)
-			if (m == null) {
-				m = kernel.getMacro(name.replace(" ", ""));
-			}
-			assignment = exercise.addAssignment(m);
-
-			String op = attrs.get("checkOperation");
-			if (op == null) {
-				((GeoAssignment) assignment).setCheckOperation("AreEqual");
-			} else {
-				((GeoAssignment) assignment).setCheckOperation(op);
-			}
-		}
 	}
 
 	private void endExerciseElement(String eName) {
