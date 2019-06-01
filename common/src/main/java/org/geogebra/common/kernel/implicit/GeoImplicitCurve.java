@@ -2429,6 +2429,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String[] getEquationVariables() {
+		
+		if (expression == null || expression.getFunctionVariables() == null) {
+			return null;
+		}
+		
 		ArrayList<String> vars = new ArrayList<>();
 		for (FunctionVariable var : expression.getFunctionVariables()) {
 			if (expression.getFunctionExpression().contains(var)) {
