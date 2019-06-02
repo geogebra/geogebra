@@ -914,24 +914,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return label depending on given string type
 	 */
 	public String printVariableName(final String label) {
-		String variableName = printVariableName(getStringType(), label);
 
-		if ("l".equals(variableName) && hasType(StringType.LATEX)) {
-			variableName = "\\ell";
-		}
-
-		return variableName;
-	}
-
-	private String printVariableName(final StringType printForm,
-			final String label) {
-		switch (printForm) {
+		switch (getStringType()) {
 		case GIAC:
-			// make sure we don't interfer with reserved names
+			// make sure we don't interfere with reserved names
 			// or command names in the underlying CAS
 			// see TRAC-793
 			return addTempVariablePrefix(label.replace("$", ""));
 
+		case LATEX:
+			if ("l".equals(label)) {
+				return "\\ell";
+			}
 		default:
 			// standard case
 			return label;
