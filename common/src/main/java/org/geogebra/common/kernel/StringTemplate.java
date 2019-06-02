@@ -926,6 +926,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			if ("l".equals(label)) {
 				return "\\ell";
 			}
+			
+			// eg $1 in "Keep Input" mode
+			return label.replace("$", "\\$");
 		default:
 			// standard case
 			return label;
