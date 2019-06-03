@@ -367,10 +367,6 @@ public class MyXMLHandler implements DocHandler {
 			startMacroElement(eName, attrs);
 			break;
 
-		case MODE_ASSIGNMENT:
-			// ignore all assignment tags
-			break;
-
 		case MODE_DEFAULTS:
 			startDefault(eName, attrs);
 			break;
@@ -593,10 +589,6 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 
-		case MODE_ASSIGNMENT:
-			endExerciseElement(eName);
-			break;
-
 		case MODE_GEOGEBRA:
 			if ("geogebra".equals(eName)) {
 				// start animation if necessary
@@ -675,9 +667,6 @@ public class MyXMLHandler implements DocHandler {
 		case "macro":
 			mode = MODE_MACRO;
 			initMacro(attrs);
-			break;
-		case "assignment":
-			mode = MODE_ASSIGNMENT;
 			break;
 		case "construction":
 			mode = MODE_CONSTRUCTION;
@@ -2635,12 +2624,6 @@ public class MyXMLHandler implements DocHandler {
 		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
-	}
-
-	private void endExerciseElement(String eName) {
-		if ("assignment".equals(eName)) {
-			mode = MODE_GEOGEBRA;
-		}
 	}
 
 	/*

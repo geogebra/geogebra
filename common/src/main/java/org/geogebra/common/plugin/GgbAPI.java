@@ -865,8 +865,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public synchronized void registerObjectClickListener(String objName,
-			String JSFunctionName) {
-		app.getScriptManager().registerObjectClickListener(objName,
+			String JSFunctionName) {		app.getScriptManager().registerObjectClickListener(objName,
 				JSFunctionName);
 	}
 
@@ -2371,5 +2370,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// not implemented in iOS / Android
 		return false;
 	}
+
+	@Deprecated
+	public double getExerciseFraction() {
+		return getValue("correct");
+	};
 
 }
