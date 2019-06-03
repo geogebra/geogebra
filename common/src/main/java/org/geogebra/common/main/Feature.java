@@ -81,9 +81,6 @@ public enum Feature {
 	/** G3D-66 */
 	G3D_IMPROVE_AUTOMATIC_ROTATION,
 
-	/** G3D-266 */
-	G3D_ARMotionEvent,
-
 	/** G3D-272 */
 	G3D_NEW_SURFACE_FUNCTIONS_COLORS,
 
