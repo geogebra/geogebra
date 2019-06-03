@@ -57,7 +57,7 @@ public class NameValueModel extends ShowLabelModel {
 	 * 
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (nameModel.isAutoLabelNeeded() || shouldNameChange(name)) {
+		if (shouldNameChange(name)) {
 			nameModel.applyNameChange(name, handler);
 		} else {
 			nameModel.applyCaptionChange(name);
@@ -66,8 +66,8 @@ public class NameValueModel extends ShowLabelModel {
 	}
 
 	private boolean shouldNameChange(String name) {
-		return !isForceCaption() && !isUsedForOtherGeo(name)
-				&& LabelManager.isValidLabel(name, kernel, null);
+		return "".equals(name) || (!isForceCaption() && !isUsedForOtherGeo(name)
+				&& LabelManager.isValidLabel(name, kernel, null));
 	}
 
 	private boolean isUsedForOtherGeo(String name) {

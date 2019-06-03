@@ -87,7 +87,7 @@ public class ObjectNameModel extends OptionsModel {
 
 	private void updateName(GeoElement geo) {
 		String name = "";
-		if (!isAutoLabelNeeded() || getLabelController().hasLabel(geo)) {
+		if (getLabelController().hasLabel(geo)) {
 			name = geo.getLabel(StringTemplate.editTemplate);
 		}
 		listener.updateName(name);
@@ -144,12 +144,7 @@ public class ObjectNameModel extends OptionsModel {
 		}
 	}
 
-	/**
-	 *
-	 * @return
-	 * 			true if auto-labeling in CAS is needed.
-	 */
-	boolean isAutoLabelNeeded() {
+	private boolean isAutoLabelNeeded() {
 		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
 			return false;
 		}
