@@ -57,7 +57,7 @@ public class NameValueModel extends ShowLabelModel {
 	 * 
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (nameModel.isAutoLabelNeeded(getGeoAt(0)) || shouldNameChange(name)) {
+		if (nameModel.isAutoLabelNeeded() || shouldNameChange(name)) {
 			nameModel.applyNameChange(name, handler);
 		} else {
 			nameModel.applyCaptionChange(name);

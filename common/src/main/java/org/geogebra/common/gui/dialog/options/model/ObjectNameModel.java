@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -88,7 +87,7 @@ public class ObjectNameModel extends OptionsModel {
 
 	private void updateName(GeoElement geo) {
 		String name = "";
-		if (!isAutoLabelNeeded(geo) || getLabelController().hasLabel(geo)) {
+		if (!isAutoLabelNeeded() || getLabelController().hasLabel(geo)) {
 			name = geo.getLabel(StringTemplate.editTemplate);
 		}
 		listener.updateName(name);
@@ -100,7 +99,7 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (isAutoLabelNeeded(getCurrentGeo())) {
+		if (isAutoLabelNeeded()) {
 			getLabelController().ensureHasLabel(currentGeo);
 		}
 
@@ -147,16 +146,15 @@ public class ObjectNameModel extends OptionsModel {
 
 	/**
 	 *
-	 * @param
-	 * 			geo the geo eelement
 	 * @return
 	 * 			true if auto-labeling in CAS is needed.
 	 */
-	protected boolean isAutoLabelNeeded(GeoElementND geo) {
+	boolean isAutoLabelNeeded() {
 		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
 			return false;
 		}
-		return geo instanceof GeoSymbolic;
+
+		return !app.getConfig().hasAutomaticLabels();
 	}
 
 	private LabelController getLabelController() {
