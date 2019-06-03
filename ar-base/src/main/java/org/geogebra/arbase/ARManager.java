@@ -375,13 +375,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     public void setARScaleAtStart() {
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             double distance = mDistance;
-            double deskDistance = 0.5; // desk max distance is 50 cm
             // don't expect distance less than desk distance
-            if (distance < deskDistance) {
-                distance = deskDistance;
+            if (distance < DESK_DISTANCE_MAX) {
+                distance = DESK_DISTANCE_MAX;
             }
-            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than "desk distance")
-            double thicknessMin = 0.00025 * distance / deskDistance;
+            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
+            double thicknessMin = THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
             // 1 ggb unit ==  1 meter
             double ggbToRw = 1.0 / mView.getXscale();
             double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio

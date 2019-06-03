@@ -12,6 +12,12 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public interface ARManagerInterface<T> {
 
+    /** desk max distance is 50 cm */
+    final static public double DESK_DISTANCE_MAX = 0.5;
+
+    /** 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX) */
+    final static public double THICKNESS_MIN = 0.00025;
+
     Coords getHittingDirection();
 
     Coords getHittingOrigin();
