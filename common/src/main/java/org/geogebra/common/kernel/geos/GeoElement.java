@@ -7711,7 +7711,7 @@ public abstract class GeoElement extends ConstructionElement
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		App app = kernel.getApplication();
 		if (getScript(EventType.CLICK) != null
-				&& getScript(EventType.CLICK).getText().length() > 0) {
+				&& getScript(EventType.CLICK).getText().length() > 0 && !sb.isMobile()) {
 			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
 		}
 
@@ -7723,7 +7723,7 @@ public abstract class GeoElement extends ConstructionElement
 				} else {
 					sb.append(loc.getMenuDefault("PressSlashToShow", "Press / to show object"));
 				}
-				}
+			}
 			sb.appendSpace();
 		}
 		if (app.showToolBar() && !isGeoInputBox()) {

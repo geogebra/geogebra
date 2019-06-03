@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
@@ -447,7 +448,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return sel.getCaption(StringTemplate.screenReader);
 		}
 		if (sel != null && sel.getScript(EventType.CLICK) != null) {
-			return ScreenReader.getAuralText(sel);
+			return ScreenReader.getAuralText(sel, new ScreenReaderBuilder(Browser.isMobile()));
 		}
 
 		return null;
