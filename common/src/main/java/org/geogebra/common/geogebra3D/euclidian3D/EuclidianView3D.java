@@ -1895,7 +1895,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void setRotAnimation(Coords vn, boolean checkSameValues,
 			boolean animated) {
-		CoordMatrixUtil.sphericalCoords(vn, tmpCoordsLength3);
+		tmpCoords1.set3(vn);
+		scaleXYZ(tmpCoords1);
+		CoordMatrixUtil.sphericalCoords(tmpCoords1, tmpCoordsLength3);
 		setRotAnimation(tmpCoordsLength3.get(2) * 180 / Math.PI,
 				tmpCoordsLength3.get(3) * 180 / Math.PI, checkSameValues,
 				animated);
