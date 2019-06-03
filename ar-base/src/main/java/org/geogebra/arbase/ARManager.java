@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.DoubleUtil;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix4 = new CoordMatrix4x4();
-    protected float mScaleFactor = 1;
+    private float mScaleFactor = 1;
     private float arScaleAtStart;
     private double arRatio;
     protected float rotateAngel = 0;
@@ -407,7 +408,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public float getARScaleParameter() {
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            return arScaleAtStart * arGestureManager.getScaleFactor() * mScaleFactor;
+        } else {
             return arScaleAtStart * arGestureManager.getScaleFactor();
+        }
     }
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
@@ -478,5 +483,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             text = String.format("1 : %.4s cm", ratio);
         }
          mArSnackBarManagerInterface.showRatio(text);
+    }
+
+    public void fitThickness(float scale) {
+        EuclidianSettings3D settings =
+                (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
+        settings.setXscale(settings.getXscale() * scale);
+        settings.setYscale(settings.getYscale() * scale);
+        settings.setZscale(settings.getZscale() * scale);
+        mScaleFactor = mScaleFactor / scale;
     }
 }

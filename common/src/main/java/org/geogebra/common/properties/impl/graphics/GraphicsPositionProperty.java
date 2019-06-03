@@ -3,6 +3,7 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
@@ -26,7 +27,17 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
             new Runnable() {
                 @Override
                 public void run() {
-                    euclidianView.setStandardView(true);
+
+                    if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                        EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
+                        if (euclidianView3D.isAREnabled()) {
+                            euclidianView3D.getRenderer().fitThicknessInAR();
+                        } else {
+                            euclidianView.setStandardView(true);
+                        }
+                    } else {
+                        euclidianView.setStandardView(true);
+                    }
                 }
             },
             new Runnable() {
@@ -109,11 +120,19 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     public String[] getValues() {
         if (euclidianView.isAREnabled()) {
             if (valuesAR == null) {
-                valuesAR = new String[]{
-                        "ar.restart",
-                        "StandardView",
-                        "ShowAllObjects"
-                };
+                if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                    valuesAR = new String[]{
+                            "ar.restart",
+                            "Fit thickness",
+                            "ShowAllObjects"
+                    };
+                } else {
+                    valuesAR = new String[]{
+                            "ar.restart",
+                            "StandardView",
+                            "ShowAllObjects"
+                    };
+                }
                 localizeValues(valuesAR);
             }
             return valuesAR;
