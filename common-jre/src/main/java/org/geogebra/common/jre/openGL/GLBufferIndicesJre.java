@@ -41,19 +41,19 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 		if (impl == null || impl.capacity() < length) {
 			impl = ShortBuffer.allocate(length);
 		} else {
-			((Buffer)impl).rewind();
+			((Buffer) impl).rewind();
 		}
 
-		((Buffer)impl).limit(length);
+		((Buffer) impl).limit(length);
 
 	}
 
 	@Override
 	public void setLimit(int length) {
-		((Buffer)impl).limit(length);
+		((Buffer) impl).limit(length);
 		currentLength = length;
 
-		((Buffer)impl).rewind();
+		((Buffer) impl).rewind();
 		isEmpty = false;
 	}
 
@@ -74,7 +74,7 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 
 	@Override
 	public void rewind() {
-		((Buffer)impl).rewind();
+		((Buffer) impl).rewind();
 	}
 
 	@Override

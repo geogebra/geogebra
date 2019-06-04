@@ -39,19 +39,19 @@ public class GLBufferJre implements GLBuffer {
 		if (impl == null || impl.capacity() < length) {
 			impl = FloatBuffer.allocate(length);
 		} else {
-			((Buffer)impl).rewind();
+			((Buffer) impl).rewind();
 		}
 
-		((Buffer)impl).limit(length);
+		((Buffer) impl).limit(length);
 
 	}
 
 	@Override
 	public void setLimit(int length) {
-		((Buffer)impl).limit(length);
+		((Buffer) impl).limit(length);
 		currentLength = length;
 
-		((Buffer)impl).rewind();
+		((Buffer) impl).rewind();
 		isEmpty = false;
 	}
 
@@ -67,7 +67,7 @@ public class GLBufferJre implements GLBuffer {
 
 	@Override
 	public void rewind() {
-		((Buffer)impl).rewind();
+		((Buffer) impl).rewind();
 	}
 
 	@Override
@@ -102,8 +102,7 @@ public class GLBufferJre implements GLBuffer {
 			int offset, int length) {
 		for (int i = 0; i < length; i++) {
 			impl.put(i + offset,
-					array.get(i).floatValue() * scale
-							+ translate[i % 3]);
+					array.get(i).floatValue() * scale + translate[i % 3]);
 		}
 	}
 
