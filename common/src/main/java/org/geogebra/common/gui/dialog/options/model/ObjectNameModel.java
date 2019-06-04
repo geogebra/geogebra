@@ -145,6 +145,17 @@ public class ObjectNameModel extends OptionsModel {
 	}
 
 	private boolean isAutoLabelNeeded() {
+		return isAutoLabelNeeded(app);
+	}
+
+	/**
+	 *
+	 * @param app
+	 * 				The application.
+	 * @return if app needs autolabeling.
+	 *
+	 */
+	public static boolean isAutoLabelNeeded(App app) {
 		if (!app.has(Feature.AUTOLABEL_CAS_SETTINGS)) {
 			return false;
 		}

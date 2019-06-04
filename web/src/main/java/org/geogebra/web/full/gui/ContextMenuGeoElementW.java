@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
+import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.Kernel;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -66,6 +68,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	protected Localization loc;
 	private AriaMenuItem mnuPaste;
+	private LabelController labelController;
 
 	/**
 	 * Creates new context menu
@@ -107,7 +110,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		String title;
 		if (geos.size() == 1) {
-			title = getDescription(getGeo(), false);
+			title = getGeoTitle();
 		} else {
 			title = loc.getMenu("Selection");
 		}
@@ -118,6 +121,21 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 	}
 
+	private String getGeoTitle() {
+		if (noLabel()) {
+			return getGeo().getTypeString();
+		}
+		return getDescription(getGeo(), false);
+	}
+
+
+	private boolean noLabel() {
+		if (labelController == null) {
+			labelController = new LabelController();
+		}
+		return ObjectNameModel.isAutoLabelNeeded(app)
+				&& !labelController.hasLabel(getGeo());
+	}
 	/**
 	 * add other items like special for lines and conics
 	 */
