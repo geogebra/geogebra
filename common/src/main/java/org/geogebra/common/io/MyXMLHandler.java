@@ -100,7 +100,6 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_INVALID = -1;
 	private static final int MODE_GEOGEBRA = 1;
 	private static final int MODE_MACRO = 50;
-	private static final int MODE_ASSIGNMENT = 60;
 	private static final int MODE_EUCLIDIAN_VIEW = 100;
 	/** currently parsing tags for Euclidian3D view */
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
