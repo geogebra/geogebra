@@ -473,15 +473,27 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         } else {
             ratio = arRatio;
         }
-        // round double for precision 3
-        ratio = (double)Math.round(ratio * 100d) / 100d;
         String text;
-        if(ratio == (long) ratio) {
-            text = String.format("1 : %d cm", (long)ratio);
+        if (ratio >= 100) {
+            // round double for precision 3 in m
+            ratio = (double)Math.round(ratio) / 100d;
+            text = getRatioMessage(ratio, "m");
         } else {
-            text = String.format("1 : %.4s cm", ratio);
+            // round double for precision 3 in cm
+            ratio = (double)Math.round(ratio * 100d) / 100d;
+            text = getRatioMessage(ratio, "cm");
         }
          mArSnackBarManagerInterface.showRatio(text);
+    }
+
+    private String getRatioMessage(double ratio, String units) {
+        String message;
+        if(DoubleUtil.isInteger(ratio)) {
+            message = String.format("1 : %d %s", (long)ratio, units);
+        } else {
+            message = String.format("1 : %.4s %s", ratio, units);
+        }
+        return message;
     }
 
     public void fitThickness(float scale) {
