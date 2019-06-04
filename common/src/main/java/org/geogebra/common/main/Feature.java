@@ -75,9 +75,6 @@ public enum Feature {
 	/** G3D-170 */
 	G3D_IMPROVE_SOLID_TOOLS,
 
-	/** G3D-151 */
-	G3D_IOS_NATIVE_AR,
-
 	/** G3D-66 */
 	G3D_IMPROVE_AUTOMATIC_ROTATION,
 

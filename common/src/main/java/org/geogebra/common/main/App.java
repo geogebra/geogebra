@@ -3855,10 +3855,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_IMPROVE_SOLID_TOOLS:
 			return true;
 
-		/** G3D-151 */
-		case G3D_IOS_NATIVE_AR:
-			return true;
-
 		/** G3D-66 */
 		case G3D_IMPROVE_AUTOMATIC_ROTATION:
 			return true;
