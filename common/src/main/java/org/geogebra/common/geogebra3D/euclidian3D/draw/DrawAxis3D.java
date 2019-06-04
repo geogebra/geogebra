@@ -170,7 +170,6 @@ public class DrawAxis3D extends DrawLine3D {
 
 			if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET)
 					&& getView3D().isARDrawing()) {
-				label.updateDrawPositionAxes(getLineThickness());
 				updateDrawPositionLabel();
 			} else {
 				label.update(text, getView3D().getAxisLabelFont(axisIndex),
@@ -437,7 +436,8 @@ public class DrawAxis3D extends DrawLine3D {
 	    updateDecorations();
 		int tickSize = ((GeoAxisND) getGeoElement()).getTickSize();
 		for (DrawLabel3D currentLabel : labels.values()) {
-			currentLabel.updateDrawPositionAxes(tickSize);
+			currentLabel.updateDrawPositionAxes(numbersXOffset, numbersYOffset, numbersZOffset,
+                    tickSize);
 		}
 		label.updateDrawPositionAxes(-numbersXOffset, -numbersYOffset, -numbersZOffset, tickSize);
 	}

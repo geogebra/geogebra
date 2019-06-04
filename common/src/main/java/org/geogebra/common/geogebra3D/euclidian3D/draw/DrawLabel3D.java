@@ -476,7 +476,7 @@ public class DrawLabel3D {
 	 * @param tickSize
 	 *            tick sizes
 	 */
-	public void updateDrawPositionAxes(int tickSize) {
+	private void updateDrawPositionAxes(int tickSize) {
 		drawX = (int) (vScreen.getX());
 		drawY = (int) (vScreen.getY());
 		drawZ = (int) (vScreen.getZ());
