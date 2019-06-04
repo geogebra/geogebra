@@ -648,6 +648,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		AlgoDependentPoint algo = (AlgoDependentPoint) this
 				.getParentAlgorithm();
 		ExpressionNode exp = algo.getExpression();
+		
+		if (exp == null) {
+			return false;
+		}
 
 		ExpressionValue left = exp.getLeft();
 		ExpressionValue right = exp.getRight();
