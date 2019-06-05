@@ -89,8 +89,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		}
 		setLabels();
-
-		setTabIndexes();
 	}
 
 	/**
@@ -493,7 +491,6 @@ public class ZoomPanel extends FlowPanel
 		if (ZoomPanel.needsFullscreenButton(app) && bottomRight) {
 			if (fullscreenBtn == null) {
 				addFullscreenButton();
-				setTabIndexes();
 			} else {
 				add(fullscreenBtn);
 			}
