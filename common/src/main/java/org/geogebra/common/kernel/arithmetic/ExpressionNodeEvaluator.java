@@ -1284,7 +1284,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public MyError illegalBinary(ExpressionValue lt, ExpressionValue rt,
 			String type, String opname) {
-		return new MyError(loc, type, lt, opname,rt);
+		return new MyError(loc, type, lt, opname, rt);
 
 	}
 
