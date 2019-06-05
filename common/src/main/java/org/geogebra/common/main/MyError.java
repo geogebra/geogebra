@@ -18,12 +18,16 @@ the Free Software Foundation.
 
 package org.geogebra.common.main;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+
 /**
  * 
  * @author Markus
  */
 public class MyError extends Error {
 
+	private static final StringTemplate errorTemplate = StringTemplate.defaultTemplate;
 	private static final long serialVersionUID = 1L;
 	/** application */
 	protected Localization loc;
@@ -78,6 +82,27 @@ public class MyError extends Error {
 		this.loc = loc0;
 		// set localized message
 		this.strs = strs;
+	}
+	
+	public MyError(Localization loc0, String message, ExpressionValue lt, String opname, ExpressionValue rt) {
+		super(message);
+		this.loc = loc0;
+
+		strs = new String[3];
+		
+		strs[0] = toErrorString(lt);
+
+		strs[1] = opname == null ? "null" : opname;
+
+		strs[2] = toErrorString(rt);
+	
+	}
+
+	public static String toErrorString(ExpressionValue ev) {
+		if (ev == null) {
+			return "null";
+		}
+		return ev.toString(errorTemplate);
 	}
 
 	/**
