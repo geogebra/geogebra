@@ -2257,9 +2257,24 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// copy drawing pad to the system clipboard
 		Image img = GBufferedImageD.getAwtBufferedImage(
 				((EuclidianViewD) ev).getExportImage(scale));
-		ImageSelection imgSel = new ImageSelection(img);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
-				null);
+		copyImageToClipboard(img);
+	}
+
+	/**
+	 * Copy image to system clipboard
+	 * 
+	 * @param dataURI data URI of image to copy
+	 */
+	@Override
+	public void copyImageToClipboard(String dataURI) {
+
+		String base64Image = dataURI;
+
+		if (base64Image.startsWith(StringUtil.pngMarker)) {
+			base64Image = base64Image.substring(StringUtil.pngMarker.length(),
+					base64Image.length());
+		}
+		handleImageExport(base64Image);
 	}
 
 	private static Rectangle screenSize = null;
@@ -5256,7 +5271,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		
 	}
 
-	private static void copyImageToClipboard(BufferedImage img) {
+	private static void copyImageToClipboard(Image img) {
 		ImageSelection imgSel = new ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
 				null);

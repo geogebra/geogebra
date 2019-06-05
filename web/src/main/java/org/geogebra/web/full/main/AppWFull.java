@@ -95,7 +95,6 @@ import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -2003,26 +2002,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 	}
-
-	@Override
-	public void copyGraphicsViewToClipboard() {
-		if (!isCopyImageToClipboardAvailable()) {
-			return;
-		}
-
-		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
-		nativeCopyToClipboardExternal(
-				ev.getExportImageDataUrl(3, false, false));
-	}
-
-	private native String nativeCopyToClipboardExternal(String s) /*-{
-		return $wnd.copyGraphicsToClipboardExternal(s);
-	}-*/;
-
-	@Override
-	public native boolean isCopyImageToClipboardAvailable() /*-{
-		return !!$wnd.copyGraphicsToClipboardExternal;
-	}-*/;
 
 	@Override
 	public void showCustomizeToolbarGUI() {

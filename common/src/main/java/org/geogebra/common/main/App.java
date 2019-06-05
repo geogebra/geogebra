@@ -5086,4 +5086,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
 		return new SettingsUpdaterBuilder(this);
 	}
+
+	/**
+	 * Copy image to system clipboard
+	 * 
+	 * @param dataURI data URI of image to copy
+	 */
+	public void copyImageToClipboard(String dataURI) {
+		// implemented in AppD, AppW
+	}
 }

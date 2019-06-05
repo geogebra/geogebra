@@ -63,6 +63,7 @@ public class CmdExportImage extends CmdScripting {
 		double scaleCM = 1;
 		int view = 1;
 		boolean transparent = false;
+		boolean clipboard = false;
 		boolean grayscale = false;
 		// boolean copyToClipboard = true;
 		String filename = null;
@@ -117,6 +118,9 @@ public class CmdExportImage extends CmdScripting {
 			case "transparent":
 				transparent = "true".equals(
 						value.toValueString(StringTemplate.defaultTemplate));
+				break;
+			case "clipboard":
+				clipboard = "true".equals(value.toValueString(StringTemplate.defaultTemplate));
 				break;
 			case "greyscale":
 			case "grayscale":
@@ -258,6 +262,11 @@ public class CmdExportImage extends CmdScripting {
 
 					throw MyError.forCommand(loc, loc.getPlain("ImageErrorAB",
 							w + "", h + ""), c.getName(), null);
+				}
+
+				if (clipboard) {
+					kernel.getApplication().copyImageToClipboard(StringUtil.pngMarker + png);
+					return null;
 				}
 
 				if (label != null) {
