@@ -180,6 +180,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public static final int VIEW_TABLE_MODEL = 9000;
 	/** data collection view (web only) */
 	public static final int VIEW_DATA_COLLECTION = 43;
+	/** accessibility view in Web */
+	public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
 	public static final int VIEW_TABLE = 8192;
 	/** id for tools view */

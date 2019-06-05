@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -256,7 +257,7 @@ public abstract class GlobalKeyDispatcher {
 	 * 
 	 * @return whether any object was moved
 	 */
-	public boolean handleArrowKeyMovement(ArrayList<GeoElement> geos,
+	public boolean handleArrowKeyMovement(List<GeoElement> geos,
 			double xdiff, double ydiff, double zdiff, double increment) {
 		GeoElement geo = geos.get(0);
 

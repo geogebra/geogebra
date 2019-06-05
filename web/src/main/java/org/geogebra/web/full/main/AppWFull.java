@@ -72,7 +72,6 @@ import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.layout.panels.VirtualTabber;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -1310,8 +1309,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
 			if (Browser.needsVirtualTabber()) {
-				euclidianDockPanel
-						.addVoiceover(new VirtualTabber(this));
+				getGuiManager().getLayout().getDockManager().updateVoiceover();
 			}
 		}
 	}

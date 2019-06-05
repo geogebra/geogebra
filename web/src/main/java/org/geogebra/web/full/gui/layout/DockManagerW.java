@@ -24,13 +24,13 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.layout.panels.VirtualTabber;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -84,7 +84,7 @@ public class DockManagerW extends DockManager {
 	private boolean panelsMoved;
 
 	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
-	private VirtualTabber voiceoverTabber;
+	private AccessibilityView accessibilityView;
 
 	/**
 	 * @param layout
@@ -2023,23 +2023,27 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
-	private VirtualTabber getVoiceoverTabber() {
-		if (this.voiceoverTabber == null) {
-			voiceoverTabber = new VirtualTabber(app);
+	/**
+	 * @return accessibility view
+	 */
+	protected AccessibilityView getAccessibilityView() {
+		if (this.accessibilityView == null) {
+			accessibilityView = new AccessibilityView(app);
 		}
-		return voiceoverTabber;
+		return accessibilityView;
 	}
 
 	/**
 	 * Connect voiceover with the right panel
 	 */
 	public void updateVoiceover() {
-		for (DockPanelW panel : dockPanels) {
-			boolean bottomRight = getRoot() == null
-					|| getRoot().isBottomRight(panel);
-			if (bottomRight && Browser.needsVirtualTabber()) {
-				panel.addVoiceover(getVoiceoverTabber());
-			}
+		if (Browser.needsVirtualTabber()) {
+			app.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					getAccessibilityView().rebuild();
+				}
+			});
 		}
 	}
 }

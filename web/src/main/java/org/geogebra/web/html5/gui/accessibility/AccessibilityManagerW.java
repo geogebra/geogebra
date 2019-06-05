@@ -438,12 +438,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public String getSpaceAction() {
-		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			return app.getLocalization().getMenu("Animation");
-		}
-
-		GeoElement sel = getSelectedGeo();
+	public String getSpaceAction(GeoElement sel) {
 		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
 			return sel.getCaption(StringTemplate.screenReader);
 		}
@@ -463,18 +458,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public SliderInput getSliderAction() {
-		return activeButton;
-	}
-
-	@Override
-	public void sliderChange(double step) {
-		if (activeButton == SliderInput.ROTATE_Z) {
+	public void sliderChange(double step, SliderInput input) {
+		if (input == SliderInput.ROTATE_Z) {
 			app.getEuclidianView3D().rememberOrigins();
 			app.getEuclidianView3D().shiftRotAboutZ(step);
 			app.getEuclidianView3D().repaintView();
 		}
-		if (activeButton == SliderInput.TILT) {
+		if (input == SliderInput.TILT) {
 			app.getEuclidianView3D().rememberOrigins();
 			app.getEuclidianView3D().shiftRotAboutY(step);
 			app.getEuclidianView3D().repaintView();
@@ -523,6 +513,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return handleTabExitGeos(false);
 	}
 
+	/**
+	 * @param toolbarPanel side bar adapter
+	 */
 	public void setMenuContainer(SideBarAccessibilityAdapter toolbarPanel) {
 		this.menuContainer = toolbarPanel;
 	}

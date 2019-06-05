@@ -120,7 +120,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 
 public abstract class GeoElement extends ConstructionElement
-		implements GeoElementND {
+		implements GeoElementND, ToGeoElement {
 
 	/**
 	 * Column headings for spreadsheet trace
@@ -7812,5 +7812,26 @@ public abstract class GeoElement extends ConstructionElement
 			return EquationType.EXPLICIT;
 		}
 		return EquationType.IMPLICIT;
+	}
+
+	/**
+	 * @param i
+	 *            1 for EV1, 2 for EV2, 3 for 3D
+	 * @return whether the locus is visible
+	 */
+	public boolean isVisibleInEV(int i) {
+		switch (i) {
+		case 1:
+			return isVisibleInView(App.VIEW_EUCLIDIAN)
+					&& kernel.getApplication().getEuclidianView1().isShowing();
+
+		case 2:
+			return isVisibleInView(App.VIEW_EUCLIDIAN2) && kernel.getApplication().hasEuclidianView2(1);
+
+		case 3:
+			return isVisibleInView3D()
+					&& kernel.getApplication().isEuclidianView3Dinited();
+		}
+		return false;
 	}
 }
