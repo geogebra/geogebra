@@ -245,7 +245,7 @@ public class Graphics2DD implements Graphics2DInterface {
 		if (pngBase64.startsWith(pngMarker)) {
 			pngBase64 = pngBase64.substring(pngMarker.length());
 		} else {
-			FactoryProvider.getInstance().debug("invalid base64 image");
+			FactoryProvider.debugS("invalid base64 image");
 			return null;
 		}
 

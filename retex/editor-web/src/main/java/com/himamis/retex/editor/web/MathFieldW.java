@@ -205,7 +205,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if ((mobileBrowser() || isMacOS() || isIE()) && !"".equals(label)) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
-			FactoryProvider.getInstance().debug(label);
+			FactoryProvider.debugS(label);
 			if (!"textbox".equals(parent.getElement().getAttribute("role"))) {
 				parent.getElement().setAttribute("aria-live", "assertive");
 				parent.getElement().setAttribute("aria-atomic", "true");
@@ -1084,7 +1084,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			formula = parser.parse(text0);
 			mf.setFormula(formula);
 		} catch (ParseException e) {
-			FactoryProvider.getInstance().debug("Problem parsing: " + text0);
+			FactoryProvider.debugS("Problem parsing: " + text0);
 			e.printStackTrace();
 		}
 	}

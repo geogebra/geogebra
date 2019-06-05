@@ -46,7 +46,7 @@ public class TeXAtomSerializer {
 	 */
 	public String serialize(Atom root) {
 
-		// FactoryProvider.getInstance().debug("root = " + root.getClass());
+		// FactoryProvider.debugS("root = " + root.getClass());
 		if (root instanceof FractionAtom) {
 			FractionAtom frac = (FractionAtom) root;
 			return "(" + serialize(frac.getNumerator()) + ")/("
@@ -170,9 +170,7 @@ public class TeXAtomSerializer {
 			return serialize(((HasTrueBase) root).getTrueBase());
 		}
 
-		FactoryProvider.getInstance().debug(
-				"Unhandled atom:"
-				+ (root == null ? "null" : root.getClass()));
+		FactoryProvider.debugS("Unhandled atom:" + (root == null ? "null" : root.getClass()));
 		// FactoryProvider.getInstance().printStacktrace();
 
 		return "?";

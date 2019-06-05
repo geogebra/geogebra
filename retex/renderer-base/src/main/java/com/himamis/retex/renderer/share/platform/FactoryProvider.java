@@ -101,9 +101,13 @@ public abstract class FactoryProvider {
 		return boxDecorator;
 	}
 
+	/**
+	 * Overridden in eg FactoryProviderGWT
+	 * 
+	 * @param string debug message
+	 */
 	public void debug(Object string) {
 		System.out.println("[LaTeX] " + string);
-
 	}
 
 	public static void setInstance(FactoryProvider factory) {
@@ -132,6 +136,15 @@ public abstract class FactoryProvider {
 	// TODO remove as part of Android / iOS cleanup
 	protected ResourceLoaderFactory createResourceLoaderFactory() {
 		return null;
+	}
+
+	public static void debugS(String message) {
+		if (INSTANCE != null) {
+			INSTANCE.debug(message);
+		} else {
+			System.out.println(message);
+		}
+		
 	}
 
 }

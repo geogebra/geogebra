@@ -85,7 +85,7 @@ public class FencedAtom extends Atom implements HasTrueBase {
 		left = l == Symbols.NORMALDOT ? null : l;
 		right = r == Symbols.NORMALDOT ? null : r;
 		middle = m;
-		// FactoryProvider.getInstance().debug("creating FencedAtom");
+		// FactoryProvider.debugS("creating FencedAtom");
 	}
 
 	/**

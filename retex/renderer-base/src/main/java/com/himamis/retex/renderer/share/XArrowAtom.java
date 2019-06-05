@@ -157,7 +157,7 @@ public class XArrowAtom extends XAtom {
 			return vb;
 		}
 		default:
-			FactoryProvider.getInstance().debug(kind + " not implemented");
+			FactoryProvider.debugS(kind + " not implemented");
 			return StrutBox.getEmpty();
 		}
 	}
