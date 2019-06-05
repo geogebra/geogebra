@@ -243,7 +243,7 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getPolyhedronStart(StringBuilder sb) {
+	public void getPolyhedronStart(StringBuilder sb, boolean isFlat) {
 		sb.append("<geometry id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh\" name=\"");
@@ -406,7 +406,7 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public boolean handlesSurfaces() {
+	public boolean handlesSurfacesDirectly() {
 		return true;
 	}
 

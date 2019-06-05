@@ -56,8 +56,10 @@ abstract public class Format {
 	 * 
 	 * @param sb
 	 *            output builder
+	 * @param isFlat
+	 *            all geometries are in the same plane
 	 */
-	abstract public void getPolyhedronStart(StringBuilder sb);
+	abstract public void getPolyhedronStart(StringBuilder sb, boolean isFlat);
 
 	/**
 	 * end for polyhedron
@@ -220,7 +222,7 @@ abstract public class Format {
 	 * 
 	 * @return true if this format can export surfaces
 	 */
-	abstract public boolean handlesSurfaces();
+	abstract public boolean handlesSurfacesDirectly();
 
 	/**
 	 * 

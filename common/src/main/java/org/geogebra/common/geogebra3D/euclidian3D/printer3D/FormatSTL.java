@@ -58,9 +58,9 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public void getPolyhedronStart(StringBuilder sb) {
+	public void getPolyhedronStart(StringBuilder sb, boolean isFlat) {
 		if (!usesThickness) {
-			polygonHandler.startPolygon();
+			polygonHandler.startPolygon(isFlat);
 		}
 	}
 
@@ -296,7 +296,7 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public boolean handlesSurfaces() {
+	public boolean handlesSurfacesDirectly() {
 		return false;
 	}
 

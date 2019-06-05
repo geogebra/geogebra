@@ -248,7 +248,7 @@ public class ExportToPrinter3D {
 				format.getObjectStart(sb, geoType, geo, false, null, 1);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb);
+				format.getPolyhedronStart(sb, false);
 
 				// vertices
 				boolean notFirst = false;
@@ -316,10 +316,7 @@ public class ExportToPrinter3D {
 	 *            says if surface/mesh is to export
 	 */
 	public void export(DrawSurface3DElements d, boolean exportSurface) {
-		if (format.exportsOnlyPolygons()) {
-			return;
-		}
-		if (format.handlesSurfaces()) {
+		if (format.handlesSurfacesDirectly()) {
 			reverse = false;
 			GeoElement geo = d.getGeoElement();
 			if (exportSurface) {
@@ -335,8 +332,9 @@ public class ExportToPrinter3D {
 			if (!geo.isGeoFunctionNVar()) {
 				reverse = false;
 				if (exportSurface) {
-					exportSurface(geo, d.getSurfaceIndex(), true);
-				} else {
+					exportSurface(geo, d.getSurfaceIndex(),
+							format.needsClosedObjects());
+				} else if (!format.exportsOnlyPolygons()) {
 					if (geo.getLineThickness() > 0) {
 						export(d.getGeometryIndex(), Type.CURVE,
 								geo.getLabelSimple(), geo);
@@ -380,7 +378,7 @@ public class ExportToPrinter3D {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
 		export(geo, index, "SURFACE", true, null, alpha, withThickness);
-		if (!format.needsClosedObjects()) {
+		if (!format.needsClosedObjects() && format.needsBothSided()) {
 			reverse = true;
 			export(geo, index, "SURFACE", true, null, alpha, false);
 		}
@@ -406,7 +404,7 @@ public class ExportToPrinter3D {
 						alpha);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb);
+				format.getPolyhedronStart(sb, false);
 
 				// normals
 				if (withThickness) {
@@ -592,7 +590,7 @@ public class ExportToPrinter3D {
 						polygon, true, color, alpha);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb);
+				format.getPolyhedronStart(sb, true);
 
 				// vertices
 				boolean notFirst = false;
@@ -672,7 +670,7 @@ public class ExportToPrinter3D {
 						polygon, true, color, alpha);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb);
+				format.getPolyhedronStart(sb, true);
 
 				// vertices
 				boolean notFirst = false;
