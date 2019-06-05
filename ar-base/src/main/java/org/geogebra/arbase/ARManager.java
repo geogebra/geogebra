@@ -31,6 +31,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private float arScaleAtStart;
     private float scaleThickness = 1;
     private float lastScaleFactor = 1;
+    private float arScaleAtStartDiff = 1;
     private double arRatio;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -374,8 +375,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARScaleAtStart() {
+            arScaleAtStart = setARScaleAtStart(mDistance);
+            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+                showSnackbar();
+            }
+    }
+
+    public float setARScaleAtStart(double distance) {
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-            double distance = mDistance;
             // don't expect distance less than desk distance
             if (distance < DESK_DISTANCE_MAX) {
                 distance = DESK_DISTANCE_MAX;
@@ -394,15 +401,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             } else {
                 ratio = 10f;
             }
-            arScaleAtStart = (float) (ggbToRw * ratio * pot);
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
                 int mToCm = 100;
                 arRatio = ratio * pot * mToCm;
-                showSnackbar();
             }
+            return (float) (ggbToRw * ratio * pot);
         } else {
             float reductionFactor = 0.80f;
-            arScaleAtStart = (mDistance / mView.getRenderer().getWidth())
+            return (mDistance / mView.getRenderer().getWidth())
                     * reductionFactor;
         }
     }
@@ -512,5 +518,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         settings.setZscale(settings.getZscale() * scale);
         scaleThickness = scaleThickness / scale;
         lastScaleFactor = arGestureManager.getScaleFactor();
+
+        float previousARScaleAtStart = arScaleAtStart;
+        arScaleAtStart = setARScaleAtStart(viewModelMatrix.getOrigin().calcNorm3());
+        arScaleAtStartDiff = arScaleAtStart / previousARScaleAtStart;
+        settings.setXscale(settings.getXscale() * (1f / arScaleAtStartDiff));
+        settings.setYscale(settings.getYscale() * (1f / arScaleAtStartDiff));
+        settings.setZscale(settings.getZscale() * (1f / arScaleAtStartDiff));
+
+        showSnackbar();
     }
 }
