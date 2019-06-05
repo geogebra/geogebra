@@ -742,7 +742,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial + polynomial
 		else {
-			Log.error(lt.getValueType() + "+" + rt.getValueType());
 			throw new MyError(loc, "IllegalAddition", lt, "+", rt);
 		}
 
@@ -888,7 +887,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial - polynomial
 		else {
-			Log.error(lt.getValueType() + " - " + rt.getValueType());
 			throw new MyError(loc, "IllegalSubtraction", lt, "-", rt);
 		}
 	}
@@ -1007,7 +1005,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial ^ number
 		else {
-			Log.error(lt.getValueType() + "^" + rt.getValueType());
 			throw new MyError(loc, "IllegalExponent", lt, "^", rt);
 		}
 	}
