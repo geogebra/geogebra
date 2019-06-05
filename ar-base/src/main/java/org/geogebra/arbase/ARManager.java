@@ -28,8 +28,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix4 = new CoordMatrix4x4();
-    private float mScaleFactor = 1;
     private float arScaleAtStart;
+    private float scaleThickness = 1;
+    private float lastScaleFactor = 1;
     private double arRatio;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -408,7 +409,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public float getARScaleParameter() {
         if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-            return arScaleAtStart * arGestureManager.getScaleFactor() * mScaleFactor;
+            return arScaleAtStart * arGestureManager.getScaleFactor() * scaleThickness;
         } else {
             return arScaleAtStart * arGestureManager.getScaleFactor();
         }
@@ -502,12 +503,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return message;
     }
 
-    public void fitThickness(float scale) {
+    public void fitThickness() {
+        float scale = arGestureManager.getScaleFactor() / lastScaleFactor;
         EuclidianSettings3D settings =
                 (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
         settings.setXscale(settings.getXscale() * scale);
         settings.setYscale(settings.getYscale() * scale);
         settings.setZscale(settings.getZscale() * scale);
-        mScaleFactor = mScaleFactor / scale;
+        scaleThickness = scaleThickness / scale;
+        lastScaleFactor = arGestureManager.getScaleFactor();
     }
 }

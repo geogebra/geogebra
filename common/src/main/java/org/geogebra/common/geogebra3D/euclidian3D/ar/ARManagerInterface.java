@@ -52,5 +52,5 @@ public interface ARManagerInterface<T> {
 
     void setProjectionMatrixViewForAR(CoordMatrix4x4 projectionMatrix);
 
-    void fitThickness(float scale);
+    void fitThickness();
 }
