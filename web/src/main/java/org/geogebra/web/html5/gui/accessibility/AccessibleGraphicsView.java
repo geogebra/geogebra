@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.gui.SliderInput;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.layout.panels.HasSliders;
-import org.geogebra.web.full.gui.layout.panels.SliderFactory;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
 /**

@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.layout.panels;
+package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 

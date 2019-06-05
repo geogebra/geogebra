@@ -7,8 +7,6 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.layout.panels.HasSliders;
-import org.geogebra.web.full.gui.layout.panels.SliderFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
@@ -18,7 +16,7 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	private double[] oldVal = new double[3];
 	private AccessibilityView view;
 	private Kernel kernel;
-	private GeoPointND sel;
+	private GeoPointND point;
 
 	/**
 	 * @param point  point
@@ -27,7 +25,7 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	 */
 	public AccessiblePoint(GeoPointND point, SliderFactory sliderFactory, AccessibilityView view) {
 		this.view = view;
-		this.sel = point;
+		this.point = point;
 		slider = new ArrayList<>(3);
 		kernel = point.getKernel();
 		for (int i = 0; i < point.getDimension(); i++) {
@@ -41,15 +39,15 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 		return slider;
 	}
 
-	private void updatePointSlider(SliderW range, GeoPointND sel, int index) {
+	private void updatePointSlider(SliderW range, int index) {
 		String[] labels = { "x coordinate of", "y coordinate of", "z coordinate of" };
-		AriaHelper.setLabel(range, labels[index] + sel.getNameDescription());
-		App app = sel.getKernel().getApplication();
+		AriaHelper.setLabel(range, labels[index] + point.getNameDescription());
+		App app = kernel.getApplication();
 		range.setMinimum(Math.floor(app.getActiveEuclidianView().getXmin()));
 		range.setMaximum(Math.ceil(app.getActiveEuclidianView().getXmax()));
-		range.setStep(sel.getAnimationStep());
-		double coord = sel.getInhomCoords().get(index + 1);
-		double[] coords = sel.getInhomCoords().get();
+		range.setStep(point.getAnimationStep());
+		double coord = point.getInhomCoords().get(index + 1);
+		double[] coords = point.getInhomCoords().get();
 		for (int i = 0; i < coords.length; i++) {
 			oldVal[i] = coords[i];
 		}
@@ -62,19 +60,20 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 		double step = slider.get(index).getValue() - oldVal[index];
 
 		oldVal[index] += step;
-		if (sel != null && sel.isGeoPoint()) {
+		if (point != null && point.isGeoPoint()) {
+			double[] increments = { 0, 0, 0 };
+			increments[index] = step;
 			kernel.getApplication().getGlobalKeyDispatcher().handleArrowKeyMovement(
-					Collections.singletonList(sel.toGeoElement()),
-					index == 0 ? step : 0, index == 1 ? step : 0,
-					index == 2 ? step : 0, 1);
+					Collections.singletonList(point.toGeoElement()),
+					increments, step);
 		}
 		view.updateValueText(slider.get(index), slider.get(index).getValue(), "");
 	}
 
 	@Override
 	public void update() {
-		for (int i = 0; i < sel.getDimension(); i++) {
-			updatePointSlider(slider.get(i), sel, i);
+		for (int i = 0; i < point.getDimension(); i++) {
+			updatePointSlider(slider.get(i), i);
 		}
 	}
 

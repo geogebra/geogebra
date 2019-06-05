@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.web.full.gui.layout.panels.HasSliders;
-import org.geogebra.web.full.gui.layout.panels.SliderFactory;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
 public class AccessibleNumeric implements AccessibleWidget, HasSliders {

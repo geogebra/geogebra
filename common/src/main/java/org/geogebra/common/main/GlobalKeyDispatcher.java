@@ -246,19 +246,15 @@ public abstract class GlobalKeyDispatcher {
 	 * 
 	 * @param geos
 	 *            moved geos
-	 * @param xdiff
-	 *            translation in x direction
-	 * @param ydiff
-	 *            translation in y direction
-	 * @param zdiff
-	 *            translation in z direction
+	 * @param diff
+	 *            translation in x, y and z directions
 	 * @param increment
 	 *            multiplier for x,y,z
 	 * 
 	 * @return whether any object was moved
 	 */
 	public boolean handleArrowKeyMovement(List<GeoElement> geos,
-			double xdiff, double ydiff, double zdiff, double increment) {
+			double[] diff, double increment) {
 		GeoElement geo = geos.get(0);
 
 		boolean allSliders = true;
@@ -280,12 +276,8 @@ public abstract class GlobalKeyDispatcher {
 			tempVec = new Coords(4); // 4 coords for 3D
 		}
 
-		double xd = increment * xdiff;
-		double yd = increment * ydiff;
-		double zd = increment * zdiff;
-		tempVec.setX(xd);
-		tempVec.setY(yd);
-		tempVec.setZ(zd);
+		tempVec.set(diff);
+		tempVec.mulInside(increment);
 
 		// move objects
 		boolean moved = MoveGeos.moveObjects(geos, tempVec, null, null,
@@ -1534,8 +1526,8 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-			moved = handleArrowKeyMovement(geos, changeValX, changeValY,
-					changeValZ, getIncrement(geos));
+			double[] diff = new double[] { changeValX, changeValY, changeValZ };
+			moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
 		}
 
 		if (moved) {

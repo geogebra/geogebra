@@ -14,8 +14,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-//import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
-import org.geogebra.web.full.gui.layout.panels.SliderFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
