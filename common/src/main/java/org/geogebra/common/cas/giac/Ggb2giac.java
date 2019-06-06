@@ -1217,7 +1217,7 @@ public class Ggb2giac {
 		p("SD.1", listToNumber("stddev"));
 		p("stdevp.1", listToNumber("stddev"));
 
-		// p("Defined.1", "%0!=?");
+		p("Defined.1", "%0!=?");
 		p("Sort.1", "sort(%0)");
 		p("Shuffle.1", "randperm(%0)");
 
