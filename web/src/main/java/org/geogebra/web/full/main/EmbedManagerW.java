@@ -57,14 +57,14 @@ public class EmbedManagerW implements EmbedManager {
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
-	private HashMap<Integer, JavaScriptObject> apis = new HashMap<>();
+	private HashMap<String, JavaScriptObject> apis = new HashMap<>();
 	private MyImage preview;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public EmbedManagerW(AppWFull app) {
+	EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
 		preview = new MyImageW(ImageManagerW.getInternalImage(
@@ -118,12 +118,16 @@ public class EmbedManagerW implements EmbedManager {
 		}
 
 		widgets.put(drawEmbed, calcEmbedElement);
-		addApi(drawEmbed.getEmbedID(), fr);
+		addApi(getAPILabel(drawEmbed), fr);
 	}
 
-	private void addApi(int id, GeoGebraFrameFull frame) {
+	private void addApi(String label, GeoGebraFrameFull frame) {
 		ScriptManagerW sm = (ScriptManagerW) frame.getApplication().getScriptManager();
-		apis.put(id, sm.getApi());
+		apis.put(label, sm.getApi());
+	}
+
+	private static String getAPILabel(DrawEmbed drawEmbed) {
+		return drawEmbed.getGeoEmbed().getLabelSimple();
 	}
 
 	private void addToGraphics(FlowPanel scaler) {
@@ -261,7 +265,7 @@ public class EmbedManagerW implements EmbedManager {
 	public void remove(DrawEmbed draw) {
 		removeFrame(widgets.get(draw));
 		widgets.remove(draw);
-		apis.remove(draw.getEmbedID());
+		apis.remove(getAPILabel(draw));
 	}
 
 	@Override
@@ -375,23 +379,19 @@ public class EmbedManagerW implements EmbedManager {
 	 *
 	 * @return the APIs of the embedded calculators.
 	 */
-	public JavaScriptObject getEmbedCalculators() {
+	JavaScriptObject getEmbedCalculators() {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 
-		for (Integer key : apis.keySet()) {
-			String name = getEmbedName(key);
-			pushApisIntoNativeEntry(name, apis.get(key), jso);
+		for (Entry<String, JavaScriptObject> entry : apis.entrySet()) {
+			pushApisIntoNativeEntry(entry.getKey(), entry.getValue(), jso);
 		}
 		return jso;
 	}
 
-	private String getEmbedName(Integer id) {
-		return "embed" + id;
-	}
-
-	private static native void pushApisIntoNativeEntry(String embedName,
-													   JavaScriptObject api,
-													   JavaScriptObject jso) /*-{
+	private static native void pushApisIntoNativeEntry(
+			String embedName,
+   			JavaScriptObject api,
+			JavaScriptObject jso) /*-{
 		jso[embedName] = api;
 	}-*/;
 }
