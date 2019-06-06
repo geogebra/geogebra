@@ -22,6 +22,14 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	private App app;
 	private Widget activeWidget;
 
+	/**
+	 * @param geo
+	 *            construction element
+	 * @param app
+	 *            app
+	 * @param view
+	 *            accessibility view
+	 */
 	public AccessibleGeoElement(final GeoElement geo, final App app,
 			final AccessibilityView view) {
 		this.geo = geo;
@@ -33,9 +41,9 @@ public class AccessibleGeoElement implements AccessibleWidget {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				view.select(geo);
 				app.handleSpaceKey();
 				button.setFocus(true);
+				view.select(geo);
 			}
 		});
 	}

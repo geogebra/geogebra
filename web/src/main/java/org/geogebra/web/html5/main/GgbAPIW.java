@@ -1084,7 +1084,6 @@ public class GgbAPIW extends GgbAPI {
 				(AppW) app);
 	}
 
-
 	public void asyncEvalCommand(String command, JavaScriptObject onSuccess,
 			JavaScriptObject onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);

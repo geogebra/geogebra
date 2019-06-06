@@ -15,7 +15,8 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 
 	private AccessibilityView view;
 	private App app;
-	private List<SliderInput> sliderTypes = new ArrayList<>(Arrays.asList(SliderInput.ROTATE_Z, SliderInput.TILT));
+	private List<SliderInput> sliderTypes = new ArrayList<>(
+			Arrays.asList(SliderInput.ROTATE_Z, SliderInput.TILT));
 	private List<SliderW> sliders = new ArrayList<>();
 	// TODO add toggle button for animation, fullscreen button
 

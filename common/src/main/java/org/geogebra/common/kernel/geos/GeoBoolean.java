@@ -508,7 +508,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
-		if (sb.isMobile() ) {
+		if (sb.isMobile()) {
 			return;
 		}
 

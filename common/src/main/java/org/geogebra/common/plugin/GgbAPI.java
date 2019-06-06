@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -865,7 +865,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public synchronized void registerObjectClickListener(String objName,
-			String JSFunctionName) {		app.getScriptManager().registerObjectClickListener(objName,
+			String JSFunctionName) {
+		app.getScriptManager().registerObjectClickListener(objName,
 				JSFunctionName);
 	}
 
@@ -2374,6 +2375,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Deprecated
 	public double getExerciseFraction() {
 		return getValue("correct");
-	};
+	}
 
 }

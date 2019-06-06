@@ -14,6 +14,12 @@ public class AccessibleCheckbox implements AccessibleWidget {
 	private CheckBox checkbox;
 	private GeoBoolean geo;
 
+	/**
+	 * @param geo
+	 *            boolean object
+	 * @param view
+	 *            accessibility view
+	 */
 	public AccessibleCheckbox(final GeoBoolean geo,
 			final AccessibilityView view) {
 		this.checkbox = new CheckBox();

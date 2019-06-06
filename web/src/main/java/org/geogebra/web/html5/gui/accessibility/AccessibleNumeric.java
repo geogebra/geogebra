@@ -7,6 +7,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
+/**
+ * Accessibility adapter for sliders
+ */
 public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 
 	private SliderW slider;
@@ -36,7 +39,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 		range.setMaximum(numeric.getIntervalMax());
 		range.setStep(numeric.getAnimationStep());
 		range.setValue(numeric.getValue());
-		updateValueText(range, numeric);
+		updateValueText();
 	}
 
 	@Override
@@ -45,15 +48,12 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 		numeric.setValue(value);
 		numeric.updateRepaint();
 		slider.getElement().focus();
-		updateValueText(slider, numeric);
+		updateValueText();
 	}
 
-	/**
-	 * @param range slider
-	 * @param sel   selected number
-	 */
-	protected void updateValueText(SliderW range, GeoNumeric sel) {
-		range.getElement().setAttribute("aria-valuetext", sel.toValueString(StringTemplate.screenReader));
+	private void updateValueText() {
+		slider.getElement().setAttribute("aria-valuetext",
+				numeric.toValueString(StringTemplate.screenReader));
 	}
 
 	@Override

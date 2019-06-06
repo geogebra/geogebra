@@ -84,20 +84,34 @@ public class MyError extends Error {
 		this.strs = strs;
 	}
 	
-	public MyError(Localization loc0, String message, ExpressionValue lt, String opname, ExpressionValue rt) {
+	/**
+	 * @param loc0
+	 *            localization
+	 * @param message
+	 *            message
+	 * @param lt
+	 *            left expression
+	 * @param opname
+	 *            operation
+	 * @param rt
+	 *            right expression
+	 */
+	public MyError(Localization loc0, String message, ExpressionValue lt,
+			String opname, ExpressionValue rt) {
 		super(message);
 		this.loc = loc0;
 
 		strs = new String[3];
-		
 		strs[0] = toErrorString(lt);
-
-		strs[1] = opname == null ? "null" : opname;
-
+		strs[1] = String.valueOf(opname); // handles null
 		strs[2] = toErrorString(rt);
-	
 	}
 
+	/**
+	 * @param ev
+	 *            expression
+	 * @return expression as string or "null"
+	 */
 	public static String toErrorString(ExpressionValue ev) {
 		if (ev == null) {
 			return "null";

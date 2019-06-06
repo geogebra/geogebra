@@ -22,12 +22,14 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * View for representation of geo elements as hidden DOM controls
+ */
 public class AccessibilityView implements View {
 	private SliderFactory sliderFactory;
 	private FlowPanel controls;
 	private Map<GeoElement, AccessibleWidget> widgets;
 	private AppW app;
-	private PerspectiveAccessibilityAdapter adapter;
 	private AccessibleGraphicsView graphicsView;
 
 	/**
@@ -88,6 +90,10 @@ public class AccessibilityView implements View {
 		return false;
 	}
 
+	/**
+	 * @param geo
+	 *            element to select
+	 */
 	protected void select(GeoElement geo) {
 		app.getSelectionManager().clearSelectedGeos();
 		app.getSelectionManager().addSelectedGeo(geo);

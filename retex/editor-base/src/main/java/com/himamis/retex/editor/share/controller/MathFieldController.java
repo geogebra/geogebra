@@ -137,9 +137,11 @@ public class MathFieldController {
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
 		} catch (Exception e) {
-			FactoryProvider.debugS(serializedFormula + ", selection" + selectionStart + ":" + selectionEnd);
+			FactoryProvider.debugS(serializedFormula + ", selection"
+					+ selectionStart + ":" + selectionEnd);
 		} catch (Error e) {
-			FactoryProvider.debugS(""+(e.getCause() != null ? e.getCause() : e));
+			FactoryProvider
+					.debugS("" + (e.getCause() != null ? e.getCause() : e));
 		}
 
 	}

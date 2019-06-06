@@ -2598,9 +2598,11 @@ public class AlgoDispatcher {
 		if (existingAlgo instanceof AlgoIntersectPolynomialConic) {
 			return (AlgoIntersectPolynomialConic) existingAlgo;
 		}
-		
-		if (existingAlgo !=null) {
-			Log.debug("unexpected class returned: " + existingAlgo.getClass() + " " + existingAlgo.getClassName() + " " + existingAlgo.toString(StringTemplate.defaultTemplate));
+
+		if (existingAlgo != null) {
+			Log.debug("unexpected class returned: " + existingAlgo.getClass()
+					+ " " + existingAlgo.getClassName() + " "
+					+ existingAlgo.toString(StringTemplate.defaultTemplate));
 		}	
 
 		// we didn't find a matching algorithm, so create a new one

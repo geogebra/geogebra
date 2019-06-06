@@ -128,7 +128,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return getDescription(getGeo(), false);
 	}
 
-
 	private boolean noLabel() {
 		if (labelController == null) {
 			labelController = new LabelController();
@@ -136,6 +135,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return ObjectNameModel.isAutoLabelNeeded(app)
 				&& !labelController.hasLabel(getGeo());
 	}
+
 	/**
 	 * add other items like special for lines and conics
 	 */

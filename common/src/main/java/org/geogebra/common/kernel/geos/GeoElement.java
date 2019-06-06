@@ -120,7 +120,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 
 public abstract class GeoElement extends ConstructionElement
-		implements GeoElementND, ToGeoElement {
+		implements GeoElementND {
 
 	/**
 	 * Column headings for spreadsheet trace
@@ -7826,7 +7826,8 @@ public abstract class GeoElement extends ConstructionElement
 					&& kernel.getApplication().getEuclidianView1().isShowing();
 
 		case 2:
-			return isVisibleInView(App.VIEW_EUCLIDIAN2) && kernel.getApplication().hasEuclidianView2(1);
+			return isVisibleInView(App.VIEW_EUCLIDIAN2)
+					&& kernel.getApplication().hasEuclidianView2(1);
 
 		case 3:
 			return isVisibleInView3D()
