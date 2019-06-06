@@ -250,7 +250,10 @@ public interface GeoGebraConstants {
 	public static final String GOOGLE_CLIENT_ID = "656990710877-g0tjpnhriv39e59f5s5ubs81sv2686m6"
 			+ ".apps.googleusercontent.com";
 
-
+	/**
+	 * The Graphing Chrome app's client ID from the Google APIs Console
+	 * (http://code.google.com/apis/console).
+	 */
 	public static final String CHROME_APP_CLIENT_ID =
 			"656990710877-3uu4empvnqi7co987usqk0talj3hnt2r.apps.googleusercontent.com";
 

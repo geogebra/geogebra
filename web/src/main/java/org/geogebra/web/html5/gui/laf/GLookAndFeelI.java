@@ -68,5 +68,8 @@ public interface GLookAndFeelI {
 	 */
 	SignInControllerI getSignInController(App app);
 
+	/**
+	 * @return client id
+	 */
 	String getClientId();
 }
