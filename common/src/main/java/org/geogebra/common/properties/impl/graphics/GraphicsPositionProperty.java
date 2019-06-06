@@ -29,8 +29,8 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
                 public void run() {
 
                     if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                        EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
-                        if (euclidianView3D.isAREnabled()) {
+                        if (euclidianView.isAREnabled()) {
+                            EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
                             euclidianView3D.getRenderer().fitThicknessInAR();
                         } else {
                             euclidianView.setStandardView(true);
