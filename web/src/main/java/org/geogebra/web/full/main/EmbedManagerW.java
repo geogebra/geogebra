@@ -51,13 +51,13 @@ public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
 	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
-	private HashMap<String, JavaScriptObject> apis = new HashMap<>();
 	// cache for undo: index by label, drawables will change on reload
 	private HashMap<String, EmbedElement> cache = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
+	private HashMap<Integer, JavaScriptObject> apis = new HashMap<>();
 	private MyImage preview;
 
 	/**
@@ -118,13 +118,12 @@ public class EmbedManagerW implements EmbedManager {
 		}
 
 		widgets.put(drawEmbed, calcEmbedElement);
-		addApi(fr);
+		addApi(drawEmbed.getEmbedID(), fr);
 	}
 
-	private void addApi(GeoGebraFrameFull frame) {
-		String key = "Embed" + counter;
+	private void addApi(int id, GeoGebraFrameFull frame) {
 		ScriptManagerW sm = (ScriptManagerW) frame.getApplication().getScriptManager();
-		apis.put(key, sm.getApi());
+		apis.put(id, sm.getApi());
 	}
 
 	private void addToGraphics(FlowPanel scaler) {
@@ -262,6 +261,7 @@ public class EmbedManagerW implements EmbedManager {
 	public void remove(DrawEmbed draw) {
 		removeFrame(widgets.get(draw));
 		widgets.remove(draw);
+		apis.remove(draw.getEmbedID());
 	}
 
 	@Override
@@ -378,10 +378,15 @@ public class EmbedManagerW implements EmbedManager {
 	public JavaScriptObject getEmbedCalculators() {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 
-		for (String key : apis.keySet()) {
-			pushApisIntoNativeEntry(key, apis.get(key), jso);
+		for (Integer key : apis.keySet()) {
+			String name = getEmbedName(key);
+			pushApisIntoNativeEntry(name, apis.get(key), jso);
 		}
 		return jso;
+	}
+
+	private String getEmbedName(Integer id) {
+		return "embed" + id;
 	}
 
 	private static native void pushApisIntoNativeEntry(String embedName,
