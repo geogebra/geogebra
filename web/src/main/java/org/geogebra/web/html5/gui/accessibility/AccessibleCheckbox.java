@@ -10,9 +10,13 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 
+/**
+ * Accessibility adapter for a checkbox
+ */
 public class AccessibleCheckbox implements AccessibleWidget {
 	private CheckBox checkbox;
 	private GeoBoolean geo;
+	private AccessibilityView view;
 
 	/**
 	 * @param geo
@@ -24,22 +28,29 @@ public class AccessibleCheckbox implements AccessibleWidget {
 			final AccessibilityView view) {
 		this.checkbox = new CheckBox();
 		this.geo = geo;
+		this.view = view;
 		update();
 		checkbox.addDomHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				view.select(geo);
-				geo.setValue(checkbox.getValue());
-				geo.updateRepaint();
-				checkbox.setFocus(true);
-
+				updateGeoElement();
+				setFocus(true);
 			}
 		}, ChangeEvent.getType());
 	}
 
+	/**
+	 * Update geo from checkbox
+	 */
+	protected void updateGeoElement() {
+		view.select(geo);
+		geo.setValue(checkbox.getValue());
+		geo.updateRepaint();
+	}
+
 	@Override
-	public List<CheckBox> getControl() {
+	public List<CheckBox> getWidgets() {
 		return Collections.singletonList(checkbox);
 	}
 
@@ -48,4 +59,10 @@ public class AccessibleCheckbox implements AccessibleWidget {
 		checkbox.setValue(geo.getBoolean());
 		checkbox.setText(geo.getCaption(StringTemplate.screenReader));
 	}
+
+	@Override
+	public void setFocus(boolean focused) {
+		checkbox.setFocus(focused);
+	}
+
 }

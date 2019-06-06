@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -51,6 +52,7 @@ public class AccessibilityView implements View {
 				app.getKernel().notifyAddAll(AccessibilityView.this);
 			}
 		}.schedule(500);
+		addControl(graphicsView, null);
 	}
 
 	@Override
@@ -58,9 +60,7 @@ public class AccessibilityView implements View {
 		if (!isInteractive(geo) || widgets.containsKey(geo)) {
 			return;
 		}
-		for (Widget drawcontrol : graphicsView.getControl()) {
-			drawcontrol.removeFromParent();
-		}
+
 		AccessibleWidget control;
 		if (geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider()) {
 			control = new AccessibleNumeric((GeoNumeric) geo, sliderFactory, this);
@@ -72,8 +72,15 @@ public class AccessibilityView implements View {
 		} else {
 			control = new AccessibleGeoElement(geo, app, this);
 		}
-		addControl(control);
-		addControl(graphicsView);
+		GeoElement prevGeo = geo;
+		AccessibleWidget prevWidget = null;
+		TreeSet<GeoElement> tabbingSet = app.getSelectionManager().getEVFilteredTabbingSet();
+		do {
+			prevGeo = tabbingSet.lower(prevGeo);
+			prevWidget = widgets.get(prevGeo);
+		} while (prevGeo != null && prevWidget == null);
+		addControl(control, prevWidget);
+
 		widgets.put(geo, control);
 		attachToDom();
 	}
@@ -99,17 +106,31 @@ public class AccessibilityView implements View {
 		app.getSelectionManager().addSelectedGeo(geo);
 	}
 
-	private void addControl(AccessibleWidget widget) {
-		for (Widget control : widget.getControl()) {
-			controls.add(control);
+	private void addControl(AccessibleWidget widget, AccessibleWidget prevWidget) {
+		int position = -1;
+		if (prevWidget != null) {
+			int lastControlPosition = findLastControlOf(prevWidget);
+			position = lastControlPosition - prevWidget.getWidgets().size() + 1;
 		}
+		for (Widget control : widget.getWidgets()) {
+			controls.insert(control, position + 1);
+			position++;
+		}
+	}
+
+	private int findLastControlOf(AccessibleWidget prevWidget) {
+		int i = controls.getWidgetCount() - 1;
+		while (i >= 0 && !prevWidget.getWidgets().contains(controls.getWidget(i))) {
+			i--;
+		}
+		return i;
 	}
 
 	@Override
 	public void remove(GeoElement geo) {
 		AccessibleWidget widget = widgets.get(geo);
 		if (widget != null) {
-			for (Widget control : widget.getControl()) {
+			for (Widget control : widget.getWidgets()) {
 				control.removeFromParent();
 			}
 		}
@@ -168,7 +189,7 @@ public class AccessibilityView implements View {
 	public void clearView() {
 		controls.clear();
 		widgets.clear();
-		addControl(graphicsView);
+		addControl(graphicsView, null);
 	}
 
 	@Override
@@ -217,6 +238,16 @@ public class AccessibilityView implements View {
 			update(geo);
 		}
 		app.getKernel().notifyAddAll(this);
+		ArrayList<GeoElement> list = app.getSelectionManager().getSelectedGeos();
+		if (list != null && list.size() == 1) {
+			selectWidget(list.get(0));
+		}
+	}
+
+	private void selectWidget(GeoElement geoElement) {
+		if (widgets.get(geoElement) != null) {
+			widgets.get(geoElement).setFocus(true);
+		}
 	}
 
 	/**

@@ -2,6 +2,9 @@ package org.geogebra.web.html5.gui.accessibility;
 
 import org.geogebra.common.euclidian.EuclidianView;
 
+/**
+ * Accessibility adapter for euclidian view
+ */
 public interface EuclidianViewAccessibiliyAdapter {
 
 	/**

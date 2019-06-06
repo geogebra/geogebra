@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SliderInput;
-import org.geogebra.common.main.App;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
 /**
@@ -14,7 +14,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderW;
 public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 
 	private AccessibilityView view;
-	private App app;
+	private AppW app;
 	private List<SliderInput> sliderTypes = new ArrayList<>(
 			Arrays.asList(SliderInput.ROTATE_Z, SliderInput.TILT));
 	private List<SliderW> sliders = new ArrayList<>();
@@ -25,7 +25,7 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	 * @param sliderFactory slider factory
 	 * @param view          accessibility view
 	 */
-	public AccessibleGraphicsView(App app, SliderFactory sliderFactory,
+	public AccessibleGraphicsView(AppW app, SliderFactory sliderFactory,
 			final AccessibilityView view) {
 		this.app = app;
 		this.view = view;
@@ -36,7 +36,7 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	}
 
 	@Override
-	public List<SliderW> getControl() {
+	public List<SliderW> getWidgets() {
 		return sliders;
 	}
 
@@ -71,7 +71,13 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	public void update() {
 		for (int i = 0; i < sliderTypes.size(); i++) {
 			updateNumericRange(sliders.get(i), sliderTypes.get(i));
+			sliders.get(i).getElement().setTitle(sliderTypes.get(i).getDescription());
 		}
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		sliders.get(0).setFocus(focus);
 	}
 
 }

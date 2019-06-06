@@ -30,7 +30,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	}
 
 	@Override
-	public List<SliderW> getControl() {
+	public List<SliderW> getWidgets() {
 		return Collections.singletonList(slider);
 	}
 
@@ -59,6 +59,11 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	@Override
 	public void update() {
 		updateNumericRange(slider);
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		slider.setFocus(focus);
 	}
 
 }

@@ -10,9 +10,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
+/**
+ * Accessibility adapter for 2D and 3D points
+ */
 public class AccessiblePoint implements AccessibleWidget, HasSliders {
 
-	private List<SliderW> slider;
+	private List<SliderW> sliders;
 	private double[] oldVal = new double[3];
 	private AccessibilityView view;
 	private Kernel kernel;
@@ -26,17 +29,17 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	public AccessiblePoint(GeoPointND point, SliderFactory sliderFactory, AccessibilityView view) {
 		this.view = view;
 		this.point = point;
-		slider = new ArrayList<>(3);
+		sliders = new ArrayList<>(3);
 		kernel = point.getKernel();
 		for (int i = 0; i < point.getDimension(); i++) {
-			slider.add(sliderFactory.makeSlider(i, this));
+			sliders.add(sliderFactory.makeSlider(i, this));
 		}
 		update();
 	}
 
 	@Override
-	public List<SliderW> getControl() {
-		return slider;
+	public List<SliderW> getWidgets() {
+		return sliders;
 	}
 
 	private void updatePointSlider(SliderW range, int index) {
@@ -57,7 +60,7 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 
 	@Override
 	public void onValueChange(int index, double value) {
-		double step = slider.get(index).getValue() - oldVal[index];
+		double step = sliders.get(index).getValue() - oldVal[index];
 
 		oldVal[index] += step;
 		if (point != null && point.isGeoPoint()) {
@@ -67,14 +70,19 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 					Collections.singletonList(point.toGeoElement()),
 					increments, step);
 		}
-		view.updateValueText(slider.get(index), slider.get(index).getValue(), "");
+		view.updateValueText(sliders.get(index), sliders.get(index).getValue(), "");
 	}
 
 	@Override
 	public void update() {
 		for (int i = 0; i < point.getDimension(); i++) {
-			updatePointSlider(slider.get(i), i);
+			updatePointSlider(sliders.get(i), i);
 		}
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		sliders.get(0).setFocus(focus);
 	}
 
 }

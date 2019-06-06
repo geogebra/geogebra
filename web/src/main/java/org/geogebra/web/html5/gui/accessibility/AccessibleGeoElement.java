@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Accessibility adapter for any element that may or may not have attached
+ * scripts
+ */
 public class AccessibleGeoElement implements AccessibleWidget {
 
 	private Button button;
@@ -42,7 +46,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 			@Override
 			public void onClick(ClickEvent event) {
 				app.handleSpaceKey();
-				button.setFocus(true);
+				setFocus(true);
 				view.select(geo);
 			}
 		});
@@ -56,8 +60,15 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	}
 
 	@Override
-	public List<Widget> getControl() {
+	public List<Widget> getWidgets() {
 		return Collections.singletonList(activeWidget);
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		if (activeWidget == button) {
+			button.setFocus(focus);
+		}
 	}
 
 }
