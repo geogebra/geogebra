@@ -3963,4 +3963,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public SettingsBuilder newSettingsBuilder() {
 		return new SettingsBuilderW(this);
 	}
+
+	/**
+	 *
+	 * @return then embedded calculator apis.
+	 */
+	public JavaScriptObject getEmbedCalculators() {
+		// iplemented in AppWFull
+		return null;
+
+	}
 }

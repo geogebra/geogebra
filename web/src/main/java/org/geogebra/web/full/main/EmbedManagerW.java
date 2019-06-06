@@ -2,7 +2,6 @@ package org.geogebra.web.full.main;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.MyImage;
@@ -376,7 +375,18 @@ public class EmbedManagerW implements EmbedManager {
 	 *
 	 * @return the APIs of the embedded calculators.
 	 */
-	public Map<String, JavaScriptObject> getApis() {
-		return apis;
+	public JavaScriptObject getEmbedCalculators() {
+		JavaScriptObject jso = JavaScriptObject.createObject();
+
+		for (String key : apis.keySet()) {
+			pushApisIntoNativeEntry(key, apis.get(key), jso);
+		}
+		return jso;
 	}
+
+	private static native void pushApisIntoNativeEntry(String embedName,
+													   JavaScriptObject api,
+													   JavaScriptObject jso) /*-{
+		jso[embedName] = api;
+	}-*/;
 }

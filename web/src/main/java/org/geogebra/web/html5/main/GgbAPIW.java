@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
@@ -1425,22 +1424,12 @@ public class GgbAPIW extends GgbAPI {
 		return editor == null ? "" : editor.getState();
 	}
 
+	/**
+	 *
+	 * @return then embedded calculator apis.
+	 */
 	public JavaScriptObject getEmbedCalculators() {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager == null) {
-			return null;
-		}
-		JavaScriptObject jso = JavaScriptObject.createObject();
-//		Map<String, JavaScriptObject> apis = ((EmbedManagerW) embedManager).getApis();
-//		for (String key: apis.keySet()) {
-//			pushApisIntoNativeEntry(key, apis.get(key), jso);
-//		}
-		return jso;
+		return ((AppW)app).getEmbedCalculators();
 	}
 
-	private static native void pushApisIntoNativeEntry(String embedName,
-													   JavaScriptObject api,
-												   JavaScriptObject jso) /*-{
-		jso[embedName] = api;
-	}-*/;
 }

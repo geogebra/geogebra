@@ -2074,4 +2074,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		return getGuiManager().getAlgebraView();
 	}
+
+	@Override
+	public JavaScriptObject getEmbedCalculators() {
+		EmbedManagerW embedManager = (EmbedManagerW) getEmbedManager();
+		return embedManager != null ? embedManager.getEmbedCalculators(): null;
+	}
 }
