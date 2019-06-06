@@ -2,6 +2,7 @@ package org.geogebra.web.full.main;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.MyImage;
@@ -27,11 +28,13 @@ import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -49,6 +52,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
 	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
+	private HashMap<String, JavaScriptObject> apis = new HashMap<>();
 	// cache for undo: index by label, drawables will change on reload
 	private HashMap<String, EmbedElement> cache = new HashMap<>();
 
@@ -115,6 +119,13 @@ public class EmbedManagerW implements EmbedManager {
 		}
 
 		widgets.put(drawEmbed, calcEmbedElement);
+		addApi(fr);
+	}
+
+	private void addApi(GeoGebraFrameFull frame) {
+		String key = "Embed" + counter;
+		ScriptManagerW sm = (ScriptManagerW) frame.getApplication().getScriptManager();
+		apis.put(key, sm.getApi());
 	}
 
 	private void addToGraphics(FlowPanel scaler) {
@@ -359,5 +370,13 @@ public class EmbedManagerW implements EmbedManager {
 
 	public AppWFull getApp() {
 		return app;
+	}
+
+	/**
+	 *
+	 * @return the APIs of the embedded calculators.
+	 */
+	public Map<String, JavaScriptObject> getApis() {
+		return apis;
 	}
 }

@@ -2,8 +2,10 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
@@ -25,6 +27,7 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1424,4 +1427,22 @@ public class GgbAPIW extends GgbAPI {
 		return editor == null ? "" : editor.getState();
 	}
 
+	public JavaScriptObject getEmbedCalculators() {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager == null) {
+			return null;
+		}
+		Map<String, JavaScriptObject> apis = ((EmbedManagerW) embedManager).getApis();
+		JavaScriptObject jso = JavaScriptObject.createObject();
+		for (String key: apis.keySet()) {
+			pushApisIntoNativeEntry(key, apis.get(key), jso);
+		}
+		return jso;
+	}
+
+	private static native void pushApisIntoNativeEntry(String embedName,
+													   JavaScriptObject api,
+												   JavaScriptObject jso) /*-{
+		jso[embedName] = api;
+	}-*/;
 }
