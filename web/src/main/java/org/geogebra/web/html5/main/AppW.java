@@ -105,7 +105,8 @@ import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.laf.MebisVendorSettings;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -3923,9 +3924,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public VendorSettings getVendorSettings() {
 		if (vendorSettings == null) {
 			if ("mebis".equalsIgnoreCase(articleElement.getParamVendor())) {
-				vendorSettings = new MebisVendorSettings();
+				vendorSettings = new MebisSettings();
 			} else {
-				vendorSettings = new VendorSettings();
+				vendorSettings = new GgbSettings();
 			}
 		}
 		return vendorSettings;

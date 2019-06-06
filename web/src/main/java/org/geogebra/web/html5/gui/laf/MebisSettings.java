@@ -4,9 +4,16 @@ import org.geogebra.common.main.AppConfig;
 
 import com.google.gwt.user.client.Window.Location;
 
-public class MebisVendorSettings extends VendorSettings {
+public class MebisSettings implements VendorSettings {
 
 	private static final String MEBIS_LICENSE_PATH = "/static/license.html?";
+
+	private ViewPreferences viewPreferences;
+
+	public MebisSettings() {
+		viewPreferences = new ViewPreferences();
+		viewPreferences.setMobileFullScreenButtonEnabled(true);
+	}
 
 	@Override
 	public String getLicenseURL() {
@@ -19,5 +26,10 @@ public class MebisVendorSettings extends VendorSettings {
 	@Override
 	public String getAppTitle(AppConfig config) {
 		return "Tafel";
+	}
+
+	@Override
+	public ViewPreferences getViewPreferences() {
+		return viewPreferences;
 	}
 }

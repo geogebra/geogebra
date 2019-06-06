@@ -315,9 +315,12 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private static boolean isFullscreenButtonRequested(AppW app) {
+		boolean isMobileFullScreenButtonEnabled =
+				app.getVendorSettings().getViewPreferences().isMobileFullScreenButtonEnabled();
+		boolean isRequestedForScreenType = !Browser.isMobile() || isMobileFullScreenButtonEnabled;
 		return app.getArticleElement().getDataParamShowFullscreenButton()
 				|| (app.getArticleElement().getDataParamApp()
-						&& !Browser.isMobile());
+						&& isRequestedForScreenType);
 	}
 
 	private static boolean isFullscreenAvailable(AppW app) {
