@@ -2076,8 +2076,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public JavaScriptObject getEmbedCalculators() {
+	public JavaScriptObject getEmbeddedCalculators() {
 		EmbedManagerW embedManager = (EmbedManagerW) getEmbedManager();
-		return embedManager != null ? embedManager.getEmbedCalculators(): null;
+		return embedManager != null ? embedManager.getEmbeddedCalculators(): null;
 	}
 }

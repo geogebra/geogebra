@@ -3969,7 +3969,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JavaScriptObject getEmbedCalculators() {
+	public JavaScriptObject getEmbeddedCalculators() {
 		// iplemented in AppWFull
 		return null;
 

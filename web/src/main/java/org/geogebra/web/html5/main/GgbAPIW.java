@@ -1427,8 +1427,8 @@ public class GgbAPIW extends GgbAPI {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JavaScriptObject getEmbedCalculators() {
-		return ((AppW)app).getEmbedCalculators();
+	public JavaScriptObject getEmbeddedCalculators() {
+		return ((AppW)app).getEmbeddedCalculators();
 	}
 
 }

@@ -1013,8 +1013,8 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::nextConstructionStep()();
 		};
 
-		api.getEmbedCalculators = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getEmbedCalculators()();
+		api.getEmbeddedCalculators = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getEmbeddedCalculators()();
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

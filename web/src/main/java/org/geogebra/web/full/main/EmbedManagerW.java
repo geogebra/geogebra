@@ -379,7 +379,7 @@ public class EmbedManagerW implements EmbedManager {
 	 *
 	 * @return the APIs of the embedded calculators.
 	 */
-	JavaScriptObject getEmbedCalculators() {
+	JavaScriptObject getEmbeddedCalculators() {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 
 		for (Entry<String, JavaScriptObject> entry : apis.entrySet()) {
