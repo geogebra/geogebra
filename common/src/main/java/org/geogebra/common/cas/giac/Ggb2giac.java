@@ -1171,7 +1171,7 @@ public class Ggb2giac {
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
 		p("RandomUniform.2", "exact(%0+rand(0,1)*(%1-%0))");
-		p("Random.2", "(%0+rand(%1-(%0+0*rndvar)+1))"); // "RandomBetween"
+		p("Random.2", "(%0+rand(%1-(%0)+1))"); // "RandomBetween"
 		p("RandomBinomial.2", "binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1", "poisson_icdf(%0,rand(0,1))"); // could also make
@@ -1217,7 +1217,8 @@ public class Ggb2giac {
 		p("SD.1", listToNumber("stddev"));
 		p("stdevp.1", listToNumber("stddev"));
 
-		// removed,Shuffle[{1,2}] kills Giac
+		// p("Defined.1", "%0!=?");
+		p("Sort.1", "sort(%0)");
 		p("Shuffle.1", "randperm(%0)");
 
 		// regroup for r*r^n
