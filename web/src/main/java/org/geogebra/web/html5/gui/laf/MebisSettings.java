@@ -4,6 +4,9 @@ import org.geogebra.common.main.AppConfig;
 
 import com.google.gwt.user.client.Window.Location;
 
+/**
+ * Mebis specific settings
+ */
 public class MebisSettings implements VendorSettings {
 
 	private static final String MEBIS_LICENSE_PATH = "/static/license.html?";

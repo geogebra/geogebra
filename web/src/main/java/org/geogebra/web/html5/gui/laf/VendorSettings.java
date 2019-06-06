@@ -2,6 +2,9 @@ package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.main.AppConfig;
 
+/**
+ * Vendor dependent settings
+ */
 public interface VendorSettings {
 
 	/**
@@ -20,5 +23,8 @@ public interface VendorSettings {
 	 */
 	String getAppTitle(AppConfig config);
 
+	/**
+	 * @return view preferences
+	 */
 	ViewPreferences getViewPreferences();
 }
