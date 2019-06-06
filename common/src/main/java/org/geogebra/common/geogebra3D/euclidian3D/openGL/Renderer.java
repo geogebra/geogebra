@@ -2175,6 +2175,9 @@ public abstract class Renderer {
 	 * fit thickness to screen distance in AR.
 	 */
 	public void fitThicknessInAR() {
-		getARManager().fitThickness();
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.fitThickness();
+		}
     }
 }

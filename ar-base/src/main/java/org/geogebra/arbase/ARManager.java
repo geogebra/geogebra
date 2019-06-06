@@ -375,13 +375,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARScaleAtStart() {
-            arScaleAtStart = setARScaleAtStart(mDistance);
+            arScaleAtStart = setARScaleAtStart(mDistance, true);
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
                 showSnackbar();
             }
     }
 
-    public float setARScaleAtStart(double distance) {
+    public float setARScaleAtStart(double distance, boolean withPOT) {
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             // don't expect distance less than desk distance
             if (distance < DESK_DISTANCE_MAX) {
@@ -390,22 +390,31 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
             double thicknessMin = THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
             // 1 ggb unit ==  1 meter
-            double ggbToRw = 1.0 / mView.getXscale();
+            double ggbToRw = arGestureManager.getScaleFactor() / mView.getXscale();
             double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-            double pot = DoubleUtil.getPowerOfTen(ratio);
-            ratio = ratio / pot;
-            if (ratio <= 2f) {
-                ratio = 2f;
-            } else if (ratio <= 5f) {
-                ratio = 5f;
+            if (withPOT) {
+                double pot = DoubleUtil.getPowerOfTen(ratio);
+                ratio = ratio / pot;
+                if (ratio <= 2f) {
+                    ratio = 2f;
+                } else if (ratio <= 5f) {
+                    ratio = 5f;
+                } else {
+                    ratio = 10f;
+                }
+                if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+                    int mToCm = 100;
+                    arRatio = ratio  * mToCm;
+                }
+                return (float) (ggbToRw * ratio * pot);
             } else {
-                ratio = 10f;
+                if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+                    int mToCm = 100;
+                    arRatio = ratio  * mToCm;
+                }
+                return (float) (ggbToRw * ratio);
             }
-            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                int mToCm = 100;
-                arRatio = ratio * pot * mToCm;
-            }
-            return (float) (ggbToRw * ratio * pot);
+
         } else {
             float reductionFactor = 0.80f;
             return (mDistance / mView.getRenderer().getWidth())
@@ -413,7 +422,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         }
     }
 
-    public float getARScaleParameter() {
+    private float getARScaleParameter() {
         if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
             return arScaleAtStart * arGestureManager.getScaleFactor() * scaleThickness;
         } else {
@@ -509,21 +518,19 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void fitThickness() {
         float scale = arGestureManager.getScaleFactor() / lastScaleFactor;
-        EuclidianSettings3D settings =
-                (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
-        settings.setXscale(settings.getXscale() * scale);
-        settings.setYscale(settings.getYscale() * scale);
-        settings.setZscale(settings.getZscale() * scale);
         scaleThickness = scaleThickness / scale;
         lastScaleFactor = arGestureManager.getScaleFactor();
 
         float previousARScaleAtStart = arScaleAtStart;
-        arScaleAtStart = setARScaleAtStart(viewModelMatrix.getOrigin().calcNorm3());
+        arScaleAtStart = setARScaleAtStart(viewModelMatrix.getOrigin().calcNorm3(), false);
         arScaleAtStartDiff = arScaleAtStart / previousARScaleAtStart;
-        settings.setXscale(settings.getXscale() * (1f / arScaleAtStartDiff));
-        settings.setYscale(settings.getYscale() * (1f / arScaleAtStartDiff));
-        settings.setZscale(settings.getZscale() * (1f / arScaleAtStartDiff));
+        float factor = (1f / arScaleAtStartDiff) * scale;
 
+        EuclidianSettings3D settings =
+                (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
+        settings.setXYZscaleValues(settings.getXscale() * factor,
+                settings.getYscale() * factor,
+                settings.getZscale() * factor);
         showSnackbar();
     }
 }

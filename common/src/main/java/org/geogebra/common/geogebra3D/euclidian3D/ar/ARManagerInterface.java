@@ -42,8 +42,6 @@ public interface ARManagerInterface<T> {
 
     void setARScaleAtStart();
 
-    float getARScaleParameter();
-
     CoordMatrix4x4 getUndoRotationMatrix();
 
     CoordMatrix4x4 getViewModelMatrix();

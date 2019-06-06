@@ -90,6 +90,22 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
+	 * @param x
+	 *            x-axis scale
+	 * @param y
+	 *            y-axis scale
+	 * @param z
+	 *			  z-axis scale
+	 */
+	public void setXYZscaleValues(double x, double y, double z) {
+		this.xscale = x;
+		this.yscale = y;
+		this.zscale = z;
+		settingChanged();
+		updateScaleHelpers();
+	}
+
+	/**
 	 * @param scale
 	 *            screen : RW ratio for z-axis
 	 */

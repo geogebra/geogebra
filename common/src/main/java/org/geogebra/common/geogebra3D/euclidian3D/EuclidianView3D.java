@@ -4999,4 +4999,12 @@ public abstract class EuclidianView3D extends EuclidianView
 				&& euclidianController.isCreatingPointAR();
 	}
 
+	/**
+	 * queue runnable on GL thread (needs platform-specific implementation)
+	 * @param runnable runnable
+	 */
+	public void queueOnGLThread(Runnable runnable) {
+		runnable.run();
+	}
+
 }
