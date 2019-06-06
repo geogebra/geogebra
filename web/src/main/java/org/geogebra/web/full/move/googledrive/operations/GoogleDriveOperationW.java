@@ -193,6 +193,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}-*/;
 
 	@ExternalAccess
+	private String getClientId() {
+		return app.getLAF().getClientId();
+	}
+
+	@ExternalAccess
 	private void authorizeCallback(String token, String error) {
 		if (error != null && error.length() > 0) {
 			Log.debug("GOOGLE LOGIN" + error);
