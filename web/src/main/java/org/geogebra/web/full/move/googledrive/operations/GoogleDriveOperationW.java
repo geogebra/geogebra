@@ -169,7 +169,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 */
 	public native void login(boolean immediate) /*-{
 		var _this = this, config = {
-			'client_id' : @org.geogebra.common.GeoGebraConstants::GOOGLE_CLIENT_ID,
+			'client_id' : _this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::getClientId()(),
 			'scope' : @org.geogebra.common.GeoGebraConstants::DRIVE_SCOPE
 					+ " "
 					+ @org.geogebra.common.GeoGebraConstants::USERINFO_EMAIL_SCOPE

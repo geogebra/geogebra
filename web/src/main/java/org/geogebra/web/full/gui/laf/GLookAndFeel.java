@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.laf;
 
 import java.util.Date;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -139,6 +140,11 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public SignInController getSignInController(App app) {
 		return new SignInController(app, 0, null);
     }
+
+	@Override
+	public String getClientId() {
+		return GeoGebraConstants.GOOGLE_CLIENT_ID;
+	}
 
 	@Override
     public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
