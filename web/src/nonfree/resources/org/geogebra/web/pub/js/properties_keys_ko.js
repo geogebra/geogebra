@@ -2277,7 +2277,7 @@ __GGB__keysVar["ko"].menu = {
     "Offline": "\uc624\ud504\ub77c\uc778",
     "OldExpression": "\uc774\uc804 \uc2dd",
     "OmitGreen": "\ub179\uc0c9 \uc81c\uac70",
-    "On": "\ucf1c\uae30",
+    "On": "\uc0ac\uc6a9",
     "OnClick": "\ud074\ub9ad\ud560 \ub54c",
     "OnMouseOver": "\ub9c8\uc6b0\uc2a4 \uc624\ubc84",
     "OnUpdate": "\uc0c8\ub85c\uace0\uce68\ud560 \ub54c",
