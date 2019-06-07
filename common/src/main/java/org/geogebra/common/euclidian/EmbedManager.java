@@ -116,5 +116,4 @@ public interface EmbedManager {
 	 * Permanently remove cached embeds
 	 */
 	public void clearStoredEmbeds();
-
 }

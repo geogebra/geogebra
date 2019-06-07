@@ -507,6 +507,13 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
+	public void addAuralStatus(Localization loc, ScreenReaderBuilder sb) {
+		if (sb.isMobile()) {
+			sb.append(getAuralCheckboxStatus());
+		}
+	}
+
+	@Override
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		if (sb.isMobile()) {
 			return;
@@ -524,6 +531,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	public String getAuralTextForSpace() {
+		return getAuralCheckboxStatus();
+	}
+
+	private String getAuralCheckboxStatus() {
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
 		addAuralName(loc, sb);
