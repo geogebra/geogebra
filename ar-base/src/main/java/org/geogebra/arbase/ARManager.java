@@ -31,7 +31,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private float arScaleAtStart;
     private float scaleThickness = 1;
     private float lastScaleFactor = 1;
-    private float arScaleAtStartDiff = 1;
     private double arRatio;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -96,10 +95,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public boolean isDrawing(){
         return false;
-    }
-
-    public float getDistance() {
-        return mDistance;
     }
 
     abstract public void setBackgroundColor();
@@ -375,23 +370,36 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARScaleAtStart() {
-            arScaleAtStart = setARScaleAtStart(mDistance, true);
+            setARScaleAtStart(true);
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
                 showSnackbar();
             }
     }
 
-    private float setARScaleAtStart(double distance, boolean atStart) {
+    private void updateARRatio()
+    {
+        double ggbToRw = arGestureManager.getScaleFactor() / mView.getXscale();
+        int mToCm = 100;
+        arRatio = getRatioFromDistance(ggbToRw) *mToCm;
+    }
+
+    private double getRatioFromDistance(double ggbToRw) {
+        // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
+        double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
+        // 1 ggb unit ==  1 meter
+        double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+        return ratio;
+    }
+
+    private void setARScaleAtStart(boolean atStart) {
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-            // don't expect distance less than desk distance
-            if (atStart && distance < DESK_DISTANCE_MAX) {
-                distance = DESK_DISTANCE_MAX;
+            // don't expect distance less than desk distance at start
+            if (atStart && mDistance < DESK_DISTANCE_MAX) {
+                mDistance = (float) DESK_DISTANCE_MAX;
             }
-            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
-            double thicknessMin = THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
             // 1 ggb unit ==  1 meter
             double ggbToRw = arGestureManager.getScaleFactor() / mView.getXscale();
-            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+            double ratio = getRatioFromDistance(ggbToRw);
             if (atStart) {
                 double pot = DoubleUtil.getPowerOfTen(ratio);
                 ratio = ratio / pot;
@@ -406,19 +414,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                     int mToCm = 100;
                     arRatio = ratio  * mToCm;
                 }
-                return (float) (ggbToRw * ratio * pot);
+                arScaleAtStart =  (float) (ggbToRw * ratio * pot);
             } else {
-                if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                    int mToCm = 100;
-                    arRatio = ratio  * mToCm;
-                }
-                return (float) (ggbToRw * ratio);
+                arScaleAtStart =  (float) (ggbToRw * ratio);
             }
-
         } else {
             float reductionFactor = 0.80f;
-            return (mDistance / mView.getRenderer().getWidth())
-                    * reductionFactor;
+            arScaleAtStart =  (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
         }
     }
 
@@ -522,8 +524,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         lastScaleFactor = arGestureManager.getScaleFactor();
 
         float previousARScaleAtStart = arScaleAtStart;
-        arScaleAtStart = setARScaleAtStart(viewModelMatrix.getOrigin().calcNorm3(), false);
-        arScaleAtStartDiff = arScaleAtStart / previousARScaleAtStart;
+        mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
+        setARScaleAtStart(false);
+        float arScaleAtStartDiff = arScaleAtStart / previousARScaleAtStart;
         float factor = (1f / arScaleAtStartDiff) * scale;
 
         EuclidianSettings3D settings =
@@ -531,6 +534,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         settings.setXYZscaleValues(settings.getXscale() * factor,
                 settings.getYscale() * factor,
                 settings.getZscale() * factor);
+        updateARRatio();
         showSnackbar();
     }
 }

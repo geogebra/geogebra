@@ -30,8 +30,6 @@ public interface ARManagerInterface<T> {
 
     double getHittingDistance();
 
-    float getDistance();
-
     void setBackgroundColor();
 
     void setBackgroundStyle(Renderer.BackgroundStyle backgroundStyle);
