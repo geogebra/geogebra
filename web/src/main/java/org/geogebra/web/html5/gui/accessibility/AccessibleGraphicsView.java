@@ -25,7 +25,7 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	 * @param sliderFactory slider factory
 	 * @param view          accessibility view
 	 */
-	public AccessibleGraphicsView(AppW app, SliderFactory sliderFactory,
+	public AccessibleGraphicsView(AppW app, WidgetFactory sliderFactory,
 			final AccessibilityView view) {
 		this.app = app;
 		this.view = view;

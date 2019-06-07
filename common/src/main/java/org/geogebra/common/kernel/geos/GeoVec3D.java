@@ -80,7 +80,7 @@ public abstract class GeoVec3D extends GeoElement
 	@Override
 	public void setUndefined() {
 		setUndefinedCoords();
-		update(); // TODO hide undefined elements in algebraView
+		updateGeo(false); // TODO hide undefined elements in algebraView
 	}
 
 	/**

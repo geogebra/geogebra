@@ -168,7 +168,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/** floating menu */
 	FloatingMenuPanel floatingMenuPanel = null;
 
-	private EmbedManager embedManager;
+	private EmbedManagerW embedManager;
 
 	private SaveController saveController = null;
 
@@ -2077,7 +2077,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public JavaScriptObject getEmbeddedCalculators() {
-		EmbedManagerW embedManager = (EmbedManagerW) getEmbedManager();
-		return embedManager != null ? embedManager.getEmbeddedCalculators(): null;
+		getEmbedManager();
+		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
 	}
 }

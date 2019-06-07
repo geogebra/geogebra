@@ -27,21 +27,23 @@ import com.google.gwt.user.client.ui.Widget;
  * View for representation of geo elements as hidden DOM controls
  */
 public class AccessibilityView implements View {
-	private SliderFactory sliderFactory;
+	private WidgetFactory sliderFactory;
 	private FlowPanel controls;
 	private Map<GeoElement, AccessibleWidget> widgets;
 	private AppW app;
-	private AccessibleGraphicsView graphicsView;
+	private AccessibleGraphicsView graphicsView3D;
 
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
+	 * @param sliderFactory
+	 *            slider factory
 	 */
-	public AccessibilityView(final AppW app) {
+	public AccessibilityView(final AppW app, WidgetFactory sliderFactory) {
 		this.app = app;
-		controls = new FlowPanel();
+		this.controls = sliderFactory.newPanel();
 		controls.addStyleName("accessibilityView");
-		sliderFactory = new SliderFactory();
-		graphicsView = new AccessibleGraphicsView(app, sliderFactory, this);
+		this.sliderFactory = sliderFactory;
 		hideUIElement(controls);
 		widgets = new HashMap<>();
 		app.getKernel().attach(this);
@@ -52,7 +54,16 @@ public class AccessibilityView implements View {
 				app.getKernel().notifyAddAll(AccessibilityView.this);
 			}
 		}.schedule(500);
-		addControl(graphicsView, null);
+		initGraphics3DControls();
+	}
+
+	private void initGraphics3DControls() {
+		if (app.showView(App.VIEW_EUCLIDIAN3D)) {
+			if (graphicsView3D == null) {
+				graphicsView3D = new AccessibleGraphicsView(app, sliderFactory, this);
+			}
+			addControl(graphicsView3D, null);
+		}
 	}
 
 	@Override
@@ -70,7 +81,7 @@ public class AccessibilityView implements View {
 		} else if (geo instanceof GeoPointND) {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
 		} else {
-			control = new AccessibleGeoElement(geo, app, this);
+			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
 		GeoElement prevGeo = geo;
 		AccessibleWidget prevWidget = null;
@@ -109,8 +120,7 @@ public class AccessibilityView implements View {
 	private void addControl(AccessibleWidget widget, AccessibleWidget prevWidget) {
 		int position = -1;
 		if (prevWidget != null) {
-			int lastControlPosition = findLastControlOf(prevWidget);
-			position = lastControlPosition - prevWidget.getWidgets().size() + 1;
+			position = findLastControlOf(prevWidget);
 		}
 		for (Widget control : widget.getWidgets()) {
 			controls.insert(control, position + 1);
@@ -189,7 +199,7 @@ public class AccessibilityView implements View {
 	public void clearView() {
 		controls.clear();
 		widgets.clear();
-		addControl(graphicsView, null);
+		initGraphics3DControls();
 	}
 
 	@Override

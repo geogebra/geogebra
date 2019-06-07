@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
+import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 
 /**
  * Accessibility adapter for sliders
@@ -21,7 +22,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	 * @param sliderFactory slider factory
 	 * @param view          accessibility view
 	 */
-	public AccessibleNumeric(GeoNumeric geo, SliderFactory sliderFactory,
+	public AccessibleNumeric(GeoNumeric geo, WidgetFactory sliderFactory,
 			final AccessibilityView view) {
 		this.numeric = geo;
 		this.view = view;
@@ -34,7 +35,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 		return Collections.singletonList(slider);
 	}
 
-	private void updateNumericRange(SliderW range) {
+	private void updateNumericRange(SliderWI range) {
 		range.setMinimum(numeric.getIntervalMin());
 		range.setMaximum(numeric.getIntervalMax());
 		range.setStep(numeric.getAnimationStep());

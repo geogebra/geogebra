@@ -8,14 +8,17 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Set of hidden widgets for navigating the construction with Voiceover (iOS)
+ * Creates widgets for navigating the construction with Voiceover (iOS) or
+ * Talkback (Android)
  * 
  * @author Zbynek
  */
-public class SliderFactory {
+public class WidgetFactory {
 
 	/**
 	 * For sliders we want more restrictive hide method than
@@ -49,6 +52,20 @@ public class SliderFactory {
 		});
 		range.getElement().setTabIndex(5000);
 		return range;
+	}
+
+	/**
+	 * @return flow panel; to be mocked
+	 */
+	public FlowPanel newPanel() {
+		return new FlowPanel();
+	}
+
+	/**
+	 * @return button, to be mocked
+	 */
+	public Button newButton() {
+		return new Button();
 	}
 
 }

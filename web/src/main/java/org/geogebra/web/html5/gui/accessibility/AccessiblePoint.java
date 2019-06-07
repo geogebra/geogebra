@@ -16,7 +16,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderW;
 public class AccessiblePoint implements AccessibleWidget, HasSliders {
 
 	private List<SliderW> sliders;
-	private double[] oldVal = new double[3];
+	private double[] oldVal = new double[4];
 	private AccessibilityView view;
 	private Kernel kernel;
 	private GeoPointND point;
@@ -26,7 +26,7 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	 * @param sliderFactory slider factory
 	 * @param view   accessibility view
 	 */
-	public AccessiblePoint(GeoPointND point, SliderFactory sliderFactory, AccessibilityView view) {
+	public AccessiblePoint(GeoPointND point, WidgetFactory sliderFactory, AccessibilityView view) {
 		this.view = view;
 		this.point = point;
 		sliders = new ArrayList<>(3);
@@ -43,7 +43,7 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	}
 
 	private void updatePointSlider(SliderW range, int index) {
-		String[] labels = { "x coordinate of", "y coordinate of", "z coordinate of" };
+		String[] labels = { "x coordinate of ", "y coordinate of ", "z coordinate of " };
 		AriaHelper.setLabel(range, labels[index] + point.getNameDescription());
 		App app = kernel.getApplication();
 		range.setMinimum(Math.floor(app.getActiveEuclidianView().getXmin()));

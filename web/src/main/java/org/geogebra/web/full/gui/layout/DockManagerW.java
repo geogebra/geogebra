@@ -31,6 +31,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
+import org.geogebra.web.html5.gui.accessibility.WidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -2028,7 +2029,7 @@ public class DockManagerW extends DockManager {
 	 */
 	protected AccessibilityView getAccessibilityView() {
 		if (this.accessibilityView == null) {
-			accessibilityView = new AccessibilityView(app);
+			accessibilityView = new AccessibilityView(app, new WidgetFactory());
 		}
 		return accessibilityView;
 	}

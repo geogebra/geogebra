@@ -7823,7 +7823,7 @@ public abstract class GeoElement extends ConstructionElement
 		switch (i) {
 		case 1:
 			return isVisibleInView(App.VIEW_EUCLIDIAN)
-					&& kernel.getApplication().getEuclidianView1().isShowing();
+					&& kernel.getApplication().showView(App.VIEW_EUCLIDIAN);
 
 		case 2:
 			return isVisibleInView(App.VIEW_EUCLIDIAN2)

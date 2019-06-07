@@ -33,12 +33,14 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	 *            app
 	 * @param view
 	 *            accessibility view
+	 * @param factory
+	 *            controls factory
 	 */
 	public AccessibleGeoElement(final GeoElement geo, final App app,
-			final AccessibilityView view) {
+			final AccessibilityView view, WidgetFactory factory) {
 		this.geo = geo;
 		this.label = new Label();
-		this.button = new Button();
+		this.button = factory.newButton();
 		this.app = app;
 		update();
 		button.addClickHandler(new ClickHandler() {
