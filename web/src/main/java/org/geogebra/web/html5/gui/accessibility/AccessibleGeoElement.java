@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,7 +40,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	public AccessibleGeoElement(final GeoElement geo, final App app,
 			final AccessibilityView view, WidgetFactory factory) {
 		this.geo = geo;
-		this.label = new Label();
+		this.label = factory.newLabel();
 		this.button = factory.newButton();
 		this.app = app;
 		update();
@@ -47,9 +48,9 @@ public class AccessibleGeoElement implements AccessibleWidget {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				view.select(geo);
 				app.handleSpaceKey();
 				setFocus(true);
-				view.select(geo);
 			}
 		});
 	}
@@ -57,7 +58,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	@Override
 	public void update() {
 		button.setText(app.getAccessibilityManager().getSpaceAction(geo));
-		label.setText(geo.getAuralText(new ScreenReaderBuilder()));
+		label.setText(geo.getAuralText(new ScreenReaderBuilder(Browser.isMobile())));
 		activeWidget = geo.getScript(EventType.CLICK) == null ? label : button;
 	}
 

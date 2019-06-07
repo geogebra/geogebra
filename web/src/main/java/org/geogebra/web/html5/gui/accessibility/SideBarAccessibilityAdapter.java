@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+/**
+ * Adapter for tabbing to the main controls (menu, AV)
+ */
 public interface SideBarAccessibilityAdapter {
 
 	/** Sets focus to Burger menu */

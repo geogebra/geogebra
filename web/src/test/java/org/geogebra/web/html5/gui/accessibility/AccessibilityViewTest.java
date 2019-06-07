@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.accessibility;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 
@@ -44,27 +43,30 @@ public class AccessibilityViewTest {
 
 		mockPanel = new ArrayFlowPanel();
 		WidgetFactory factory = mock(WidgetFactory.class);
-		Button mockButton = spy(new Button());
-		Element element = DomMocker.getElement();
-		when(mockButton.getElement()).thenReturn(element);
-		when(factory.newButton()).thenReturn(mockButton);
-		when(factory.newPanel()).thenReturn(mockPanel);
+		when(factory.newButton()).thenAnswer(new Answer<Button>() {
+
+			@Override
+			public Button answer(InvocationOnMock invocation) throws Throwable {
+				return DomMocker.withElement(new Button());
+			}
+		});
+		when(factory.newLabel()).thenAnswer(new Answer<Label>() {
+
+			@Override
+			public Label answer(InvocationOnMock invocation) throws Throwable {
+				return DomMocker.newLabel();
+			}
+		});
 		when(factory.makeSlider(Matchers.anyInt(), Matchers.<HasSliders> any()))
 				.thenAnswer(new Answer<SliderW>() {
 
 					@Override
 					public SliderW answer(InvocationOnMock invocation) throws Throwable {
-						return mockSlider();
+						return DomMocker.withElement(new SliderW(0, 1));
 					}
 				});
+		when(factory.newPanel()).thenReturn(mockPanel);
 		aView = new AccessibilityView(app, factory);
-	}
-
-	protected static SliderW mockSlider() {
-		SliderW slider = spy(new SliderW(0, 1));
-		Element element = DomMocker.getElement();
-		when(slider.getElement()).thenReturn(element);
-		return slider;
 	}
 
 	@Test
@@ -79,12 +81,18 @@ public class AccessibilityViewTest {
 	}
 
 	@Test
-	public void buttonsShouldBeClickable() {
+	public void buttonsShouldReadCaption() {
 		GeoElement button = add("Button(\"Click Me\")").toGeoElement();
 		button.remove();
 		button.setClickScript(new GgbScript(app, "42"));
 		button.setLabel("B");
 		assertText(0, "click me");
+	}
+
+	@Test
+	public void elementsShouldReadDescription() {
+		add("\"legend\"");
+		assertText(0, "legend");
 	}
 
 	private void assertDescription(int i, String string) {
@@ -96,9 +104,7 @@ public class AccessibilityViewTest {
 
 	private void assertText(int i, String string) {
 		Assert.assertTrue(mockPanel.getWidgetCount() > i);
-		MatcherAssert.assertThat(
-				mockPanel.getWidget(i).getClass()
-						+ mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(),
+		MatcherAssert.assertThat(mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(),
 				CoreMatchers.containsString(string));
 	}
 

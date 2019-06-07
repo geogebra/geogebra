@@ -22,17 +22,20 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	private GeoPointND point;
 
 	/**
-	 * @param point  point
-	 * @param sliderFactory slider factory
-	 * @param view   accessibility view
+	 * @param point
+	 *            point
+	 * @param widgetFactory
+	 *            slider factory
+	 * @param view
+	 *            accessibility view
 	 */
-	public AccessiblePoint(GeoPointND point, WidgetFactory sliderFactory, AccessibilityView view) {
+	public AccessiblePoint(GeoPointND point, WidgetFactory widgetFactory, AccessibilityView view) {
 		this.view = view;
 		this.point = point;
 		sliders = new ArrayList<>(3);
 		kernel = point.getKernel();
 		for (int i = 0; i < point.getDimension(); i++) {
-			sliders.add(sliderFactory.makeSlider(i, this));
+			sliders.add(widgetFactory.makeSlider(i, this));
 		}
 		update();
 	}

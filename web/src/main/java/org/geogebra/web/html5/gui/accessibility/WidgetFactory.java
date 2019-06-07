@@ -10,6 +10,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -47,7 +48,6 @@ public class WidgetFactory {
 			@Override
 			public void onValueChange(ValueChangeEvent<Double> event) {
 				source.onValueChange(index, event.getValue());
-
 			}
 		});
 		range.getElement().setTabIndex(5000);
@@ -66,6 +66,13 @@ public class WidgetFactory {
 	 */
 	public Button newButton() {
 		return new Button();
+	}
+
+	/**
+	 * @return button, to be mocked
+	 */
+	public Label newLabel() {
+		return new Label();
 	}
 
 }

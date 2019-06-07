@@ -18,15 +18,18 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	private GeoNumeric numeric;
 
 	/**
-	 * @param geo           numeric
-	 * @param sliderFactory slider factory
-	 * @param view          accessibility view
+	 * @param geo
+	 *            numeric
+	 * @param widgetFactory
+	 *            factory for sliders
+	 * @param view
+	 *            accessibility view
 	 */
-	public AccessibleNumeric(GeoNumeric geo, WidgetFactory sliderFactory,
+	public AccessibleNumeric(GeoNumeric geo, WidgetFactory widgetFactory,
 			final AccessibilityView view) {
 		this.numeric = geo;
 		this.view = view;
-		slider = sliderFactory.makeSlider(0, this);
+		slider = widgetFactory.makeSlider(0, this);
 		update();
 	}
 
