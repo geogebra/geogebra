@@ -13,6 +13,9 @@ public class MebisSettings implements VendorSettings {
 
 	private ViewPreferences viewPreferences;
 
+	/**
+	 * Mebis specific settings
+	 */
 	public MebisSettings() {
 		viewPreferences = new ViewPreferences();
 		viewPreferences.setMobileFullScreenButtonEnabled(true);

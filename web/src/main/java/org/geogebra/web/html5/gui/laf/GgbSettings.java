@@ -10,6 +10,9 @@ public class GgbSettings implements VendorSettings {
 
 	private ViewPreferences viewPreferences;
 
+	/**
+	 * Ggb specific settings
+	 */
 	public GgbSettings() {
 		viewPreferences = new ViewPreferences();
 		viewPreferences.setMobileFullScreenButtonEnabled(false);
