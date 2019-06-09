@@ -2703,14 +2703,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ret[0] = kernel.getManager3D().intersectQuadricLimited(null,
 						getSelectedPlanes()[0],
 						(GeoQuadricND) getSelectedQuadricLimited()[0]);
-				if (!firstElementDefined(ret)) {
-					return null;
+				if (firstElementDefined(ret)) {
+					// also compute corner points
+					kernel.getManager3D().corner(null, (GeoConicSection) ret[0]);
+					return ret;
 				}
-				// also compute corner points
-				kernel.getManager3D().corner(null, (GeoConicSection) ret[0]);
 
-				return ret;
-
+				return null;
 			} else if (selPolygons() == 1) { // plane-polygon
 				GeoPlaneND plane = getSelectedPlanes()[0];
 				GeoPolygon poly = getSelectedPolygons()[0];
