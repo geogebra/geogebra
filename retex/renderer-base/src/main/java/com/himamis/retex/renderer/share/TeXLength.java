@@ -75,14 +75,20 @@ public class TeXLength {
 			put("scriptspace", new TeXLength(Unit.PT, 0.5));
 			put("nulldelimiterspace", new TeXLength(Unit.PT, 1.2));
 			put("delimitershortfall", new TeXLength(Unit.PT, 5.));
-			put("delimiterfactor", new TeXLength(Unit.NONE, 901.));
 			put("dashlength", new TeXLength(Unit.PT, 6.));
 			put("dashdash", new TeXLength(Unit.PT, 3.));
 			put("shadowsize", new TeXLength(Unit.PT, 4.));
-			put("cornersize", new TeXLength(Unit.NONE, 0.5));
 			put("baselineskip", new TeXLength(Unit.EX, 1.));
 			put("textwidth",
 					new TeXLength(Unit.NONE, Double.POSITIVE_INFINITY));
+		}
+	};
+
+	private static final Map<String, Double> factorMap = new HashMap<String, Double>() {
+		{
+			put("delimiterfactor", 901.);
+			put("cornersize", 0.5);
+			put("arraystretch", 1.);
 		}
 	};
 
@@ -178,6 +184,10 @@ public class TeXLength {
 		return 0.;
 	}
 
+	public static double getFactor(final String name) {
+		return factorMap.get(name);
+	}
+
 	public static TeXLength getLength(final String name, final double factor) {
 		final TeXLength l = map.get(name);
 		if (l != null) {
@@ -192,8 +202,16 @@ public class TeXLength {
 		}
 	}
 
+	public static void setFactor(final String name, final double f) {
+		factorMap.put(name, f);
+	}
+
 	public static boolean isLengthName(final String name) {
 		return map.containsKey(name);
+	}
+
+	public static boolean isFactorName(final String name) {
+		return factorMap.containsKey(name);
 	}
 
 	public static Atom getLength(final String name) {

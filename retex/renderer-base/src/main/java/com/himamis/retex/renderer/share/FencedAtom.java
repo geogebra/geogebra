@@ -110,7 +110,7 @@ public class FencedAtom extends Atom implements HasTrueBase {
 		final double delta = Math.max(content.getHeight() - axis,
 				content.getDepth() + axis);
 		final double minHeight = Math.max(
-				(delta / 500.) * TeXLength.getLength("delimiterfactor", env),
+				(delta / 500.) * TeXLength.getFactor("delimiterfactor"),
 				2. * delta - TeXLength.getLength("delimitershortfall", env));
 
 		// construct box

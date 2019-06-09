@@ -1870,15 +1870,11 @@ public class TeXParser {
 		// We must begin with Commands because some commands overwrite
 		// a symbol (e.g. \int overwrites int symbol)
 		if (!Commands.exec(this, command) && !SymbolAtom.put(this, command)
-				&& !NewCommandMacro.exec(this, command)
-		/* XXX && !JLMPackage.exec(this, command) */) {
+				&& !NewCommandMacro.exec(this, command)) {
 			if (command.length() == 1) {
-				// UnicodeMapping.get(command.charAt(0));
 				if (SymbolAtom.put(this, command)) {
 					return;
 				}
-			} else if (setLength(command)) {
-				return;
 			}
 
 			throw new ParseException(this, "Unknown command: " + command,
@@ -2241,24 +2237,6 @@ public class TeXParser {
 			}
 		}
 		return '\0';
-	}
-
-	public boolean setLength(final String com) {
-		if (TeXLength.isLengthName(com)) {
-			skipPureWhites();
-			if (pos < len) {
-				final char c = parseString.charAt(pos);
-				if (c == '=') {
-					++pos;
-					skipPureWhites();
-					final TeXLength l = getLength(TeXLength.Unit.NONE);
-					TeXLength.setLength(com, l);
-					cancelPrevPos();
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public TeXLength getLength() {

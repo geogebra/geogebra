@@ -159,6 +159,8 @@ public class ArrayAtom extends Atom {
 		double hinit = Double.NEGATIVE_INFINITY;
 		double dinit = Double.NEGATIVE_INFINITY;
 
+		double arraystretch = TeXLength.getFactor("arraystretch");
+
 		for (final Box b : separatorBoxes) {
 			hinit = Math.max(hinit, b.getHeight());
 			dinit = Math.max(dinit, b.getDepth());
@@ -189,6 +191,7 @@ public class ArrayAtom extends Atom {
 					}
 				}
 			}
+			rowHeight[i] *= arraystretch;
 		}
 
 		final double[] seps = getColumnSep(env, 0. /* not used */);
