@@ -2684,7 +2684,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoQuadricND quad = getSelectedQuadric()[0];
 				GeoElement[] ret = {
 						kernel.getManager3D().intersect(null, plane, quad) };
-				if (ret[0].isDefined()) {
+				if (firstElementDefined(ret)) {
 					return ret;
 				}
 				return null;
@@ -2693,7 +2693,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoElement[] ret = getKernel().getManager3D().intersectRegion(
 						new String[] { null }, getSelectedPlanes()[0],
 						getSelectedPolyhedron()[0].toGeoElement(), null);
-				if (ret[0].isDefined()) {
+				if (firstElementDefined(ret)) {
 					return ret;
 				}
 				return null;
@@ -2703,7 +2703,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ret[0] = kernel.getManager3D().intersectQuadricLimited(null,
 						getSelectedPlanes()[0],
 						(GeoQuadricND) getSelectedQuadricLimited()[0]);
-				if (!ret[0].isDefined()) {
+				if (!firstElementDefined(ret)) {
 					return null;
 				}
 				// also compute corner points
@@ -2716,7 +2716,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoPolygon poly = getSelectedPolygons()[0];
 				GeoElement[] ret = getKernel().getManager3D()
 						.intersectPath(new String[] { null }, plane, poly);
-				if (ret[0].isDefined()) {
+				if (firstElementDefined(ret)) {
 					// create also intersect points
 					getKernel().getManager3D().intersectionPoint(
 							new String[] { null }, plane, poly);
@@ -2745,7 +2745,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoQuadricND[] quads = getSelectedQuadric();
 			GeoElement[] ret = kernel.getManager3D().intersectAsCircle(null,
 					quads[0], quads[1]);
-			if (ret[0].isDefined()) {
+			if (firstElementDefined(ret)) {
 				return ret;
 			}
 			return null;
@@ -2757,6 +2757,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		return null;
+	}
+
+	private boolean firstElementDefined(GeoElement[] ret) {
+		return ret != null && ret.length > 0 && ret[0].isDefined();
 	}
 
 	/**
