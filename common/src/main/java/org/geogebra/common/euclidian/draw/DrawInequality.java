@@ -121,6 +121,13 @@ public class DrawInequality extends Drawable {
 					leftIneq.ignoreLines();
 				}
 			}
+			if (!(right.drawable instanceof DrawInequality1Var)) {
+				Log.error("right.drawable not instanceof DrawInequality1Var");
+				if (right.drawable != null) {
+					Log.error("class = " + right.drawable.getClass());
+				}
+				return;
+			}
 			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
 			if (rightIneq.isMinBoundSet()) {
 				double minRight = rightIneq
