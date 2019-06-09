@@ -51,28 +51,24 @@ package com.himamis.retex.renderer.share;
 public class ResizeAtom extends Atom {
 
 	private Atom base;
-	private TeXLength.Unit wunit;
-	private TeXLength.Unit hunit;
+	private Unit wunit;
+	private Unit hunit;
 	private double w, h;
 	private boolean keepaspectratio;
-
-	private ResizeAtom() {
-		//
-	}
 
 	public ResizeAtom(Atom base, TeXLength width, TeXLength height,
 			boolean keepaspectratio) {
 		this.base = base;
 		this.keepaspectratio = keepaspectratio;
 		if (width == null) {
-			this.wunit = TeXLength.Unit.NONE;
+			this.wunit = Unit.NONE;
 			this.w = 0;
 		} else {
 			this.wunit = width.getUnit();
 			this.w = width.getL();
 		}
 		if (height == null) {
-			this.hunit = TeXLength.Unit.NONE;
+			this.hunit = Unit.NONE;
 			this.h = 0;
 		} else {
 			this.hunit = height.getUnit();
@@ -87,24 +83,24 @@ public class ResizeAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
-		if (wunit == TeXLength.Unit.NONE && hunit == TeXLength.Unit.NONE) {
+		if (wunit == Unit.NONE && hunit == Unit.NONE) {
 			return bbox;
 		} else {
 			double xscl = 1.;
 			double yscl = 1.;
-			if (wunit != TeXLength.Unit.NONE && hunit != TeXLength.Unit.NONE) {
-				xscl = w * TeXLength.getFactor(wunit, env) / bbox.width;
-				yscl = h * TeXLength.getFactor(hunit, env) / bbox.height;
+			if (wunit != Unit.NONE && hunit != Unit.NONE) {
+				xscl = w * wunit.getFactor(env) / bbox.width;
+				yscl = h * hunit.getFactor(env) / bbox.height;
 				if (keepaspectratio) {
 					xscl = Math.min(xscl, yscl);
 					yscl = xscl;
 				}
-			} else if (wunit != TeXLength.Unit.NONE
-					&& hunit == TeXLength.Unit.NONE) {
-				xscl = w * TeXLength.getFactor(wunit, env) / bbox.width;
+			} else if (wunit != Unit.NONE
+					&& hunit == Unit.NONE) {
+				xscl = w * wunit.getFactor(env) / bbox.width;
 				yscl = xscl;
 			} else {
-				yscl = h * TeXLength.getFactor(hunit, env) / bbox.height;
+				yscl = h * hunit.getFactor(env) / bbox.height;
 				xscl = yscl;
 			}
 

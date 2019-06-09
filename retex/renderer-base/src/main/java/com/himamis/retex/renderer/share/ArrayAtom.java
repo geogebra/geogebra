@@ -50,16 +50,16 @@ import java.util.List;
 
 public class ArrayAtom extends Atom {
 
-	public static final SpaceAtom hsep = new SpaceAtom(TeXLength.Unit.EM, 1.0,
+	public static final SpaceAtom hsep = new SpaceAtom(Unit.EM, 1.0,
 			0.0, 0.0);
-	public static final SpaceAtom semihsep = new SpaceAtom(TeXLength.Unit.EM,
+	public static final SpaceAtom semihsep = new SpaceAtom(Unit.EM,
 			0.5, 0.0, 0.0);
-	public static final SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX,
+	public static final SpaceAtom vsep_in = new SpaceAtom(Unit.EX,
 			0.0, 1., 0.0);
 	public static final SpaceAtom vsep_ext_top = new SpaceAtom(
-			TeXLength.Unit.EX, 0.0, 0.4, 0.0);
+			Unit.EX, 0.0, 0.4, 0.0);
 	public static final SpaceAtom vsep_ext_bot = new SpaceAtom(
-			TeXLength.Unit.EX, 0.0, 0.4, 0.0);
+			Unit.EX, 0.0, 0.4, 0.0);
 
 	protected ArrayOfAtoms matrix;
 	protected ArrayOptions options;
@@ -159,7 +159,7 @@ public class ArrayAtom extends Atom {
 		double hinit = Double.NEGATIVE_INFINITY;
 		double dinit = Double.NEGATIVE_INFINITY;
 
-		double arraystretch = TeXLength.getFactor("arraystretch");
+		double arraystretch = env.lengthSettings().getFactor("arraystretch");
 
 		for (final Box b : separatorBoxes) {
 			hinit = Math.max(hinit, b.getHeight());
@@ -232,7 +232,7 @@ public class ArrayAtom extends Atom {
 		vb.add(vsep_ext_top.createBox(env));
 		final double vsepH = Vsep.getHeight();
 		final double halfVsepH = vsepH / 2.;
-		final double textwidth = TeXLength.getTextwidth(env);
+		final double textwidth = env.lengthSettings().getTextwidth(env);
 
 		for (int i = 0; i < row; ++i) {
 			final HorizontalBox hb = new HorizontalBox();

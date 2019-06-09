@@ -425,9 +425,9 @@ public class TeXFormula {
 
 			Box box = createBox(te);
 			TeXIcon ti;
-			final double textwidth = TeXLength.getLength("textwidth", te);
+			final double textwidth = te.lengthSettings().getLength("textwidth", te);
 			if (!Double.isInfinite(textwidth) && !Double.isNaN(textwidth)) {
-				final double baselineskip = TeXLength.getLength("baselineskip",
+				final double baselineskip = te.lengthSettings().getLength("baselineskip",
 						te);
 				box = BreakFormula.split(box, textwidth, baselineskip, align);
 			}
