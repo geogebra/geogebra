@@ -2750,7 +2750,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoFunction[] lines = getSelectedFunctions();
 				// create new line
-				return companion.orthogonal(points[0], (Lineable2D) lines[0]);
+				return companion.orthogonal(points[0], lines[0]);
 			}
 		}
 		return null;
@@ -11971,14 +11971,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			scale = dist2P / getOldDistance();
 
 			// index 0 is the midpoint, index 1 is the point on the circle
-			GeoPointND p = scaleConic.getFreeInputPoints(view).get(1);
-			double newX = midpoint[0]
-					+ (originalPointX[1] - midpoint[0]) * scale;
-			double newY = midpoint[1]
-					+ (originalPointY[1] - midpoint[1]) * scale;
-			p.setCoords(newX, newY, 1.0);
-			p.updateCascade();
-			kernel.notifyRepaint();
+			ArrayList<GeoPointND> points = scaleConic.getFreeInputPoints(view);
+
+			if (points.size() > 1) {
+				GeoPointND p = points.get(1);
+				double newX = midpoint[0] + (originalPointX[1] - midpoint[0]) * scale;
+				double newY = midpoint[1] + (originalPointY[1] - midpoint[1]) * scale;
+				p.setCoords(newX, newY, 1.0);
+				p.updateCascade();
+				kernel.notifyRepaint();
+			}
 			break;
 		case circleRadius:
 			double distR = MyMath.length(x1 - x2, y1 - y2);
