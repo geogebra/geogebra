@@ -142,6 +142,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
@@ -3904,6 +3905,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							(GeoElement) movedGeoPoint,
 							hits.getFirstHit(TestGeo.GEOPOINTND));
 				} catch (Exception e) {
+					e.printStackTrace();
+				} catch (MyError e) {
 					e.printStackTrace();
 				}
 
@@ -11974,7 +11977,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			ArrayList<GeoPointND> points = scaleConic.getFreeInputPoints(view);
 
 			if (points.size() > 1) {
-				GeoPointND p = points.get(1);
+				GeoPointND p = scaleConic.getFreeInputPoints(view).get(1);
 				double newX = midpoint[0] + (originalPointX[1] - midpoint[0]) * scale;
 				double newY = midpoint[1] + (originalPointY[1] - midpoint[1]) * scale;
 				p.setCoords(newX, newY, 1.0);
