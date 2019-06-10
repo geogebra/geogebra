@@ -299,6 +299,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
 	private Target target;
+	private double xScaleARStart;
 
 	/**
 	 * common constructor
@@ -4968,7 +4969,17 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * reset view for AR
 	 */
 	public void resetViewFromAR() {
-        resetSettings();
+		getSettings().setXscaleValue(xScaleARStart);
+		getSettings().setYscaleValue(xScaleARStart);
+		getSettings().setZscaleValue(xScaleARStart);
+		resetSettings();
+	}
+
+	/**
+	 * store xScale value at start of AR
+	 */
+	public void setXScaleARStart() {
+		xScaleARStart = getSettings().getXscale();
 	}
 
 	@Override

@@ -200,7 +200,8 @@ public abstract class Renderer {
 	 */
     public void mayStartAR() {
         if (arShouldStart) {
-            doStartAR();
+			view3D.setXScaleARStart();
+			doStartAR();
             arShouldStart = false;
         }
     }
