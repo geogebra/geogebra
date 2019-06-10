@@ -907,6 +907,11 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.common.plugin.GgbAPI::getExerciseFraction()();
 		};
 
+		// APPS-646 Exercises no longer supported
+        api.isExercise = function() {
+			return false;
+		};
+
 		api.setExternalPath = function(path) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path + "");
 		};
