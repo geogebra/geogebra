@@ -88,9 +88,9 @@ namespace giac {
     // depends whether args.tmp.size()==mode
     giac::gen function_tmp,function_final,args_push; 
     giac::vecteur args_tmp; // WARNING should only contain numeric value
-    giac::context * contextptr;
     unsigned args_tmp_push_size;
   public:
+    const giac::context * contextptr;
     std::vector<std::string> args_help;
     bool no_handle; // disable mouse handling
     bool show_mouse_on_object; // FL_MOVE always handled or not

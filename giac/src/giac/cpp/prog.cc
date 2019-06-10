@@ -6723,6 +6723,7 @@ namespace giac {
   static const char _insmod_s []="insmod";
   static define_unary_function_eval (__insmod,&_insmod,_insmod_s);
   define_unary_function_ptr5( at_insmod ,alias_at_insmod,&__insmod,0,true);
+  // QUOTE_ARGUMENTS ??
 
   gen _rmmod(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;

@@ -2162,9 +2162,10 @@ namespace giac {
     if (setcplx)
       complex_mode(true,contextptr);
 #if 1
-    if (lvarx(expr,x).size()==1){
+    vecteur lvarxexpr(lvarx(expr,x));
+    if (lvarxexpr.size()==1){
       // quick check for expr=alpha*x^n+beta
-      vecteur ll(1,x);
+      vecteur ll(1,x);// vecteur ll(1,lvarxexpr.front());
       lvar(expr,ll);
       fraction f=sym2r(expr,ll,contextptr);
       if (f.num.type==_POLY){

@@ -59,6 +59,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_lcoeff ;
   extern const unary_function_ptr * const  at_set_language ;
   extern const unary_function_ptr * const  at_float ;
+  gen _build_complex(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_complex ;
 
   gen _tcoeff(const gen & args,GIAC_CONTEXT);
@@ -74,6 +75,7 @@ namespace giac {
   gen _dfc2f(const gen & g,GIAC_CONTEXT);
   gen _float2rational(const gen & g,GIAC_CONTEXT);
   gen _gramschmidt(const gen & g,GIAC_CONTEXT);
+  gen _fmod(const gen & g,GIAC_CONTEXT);
   gen _pmin(const gen & g,GIAC_CONTEXT);
   gen _potential(const gen & g,GIAC_CONTEXT);
   gen _vpotential(const gen & g,GIAC_CONTEXT);
@@ -277,6 +279,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_coth ;
   extern const unary_function_ptr * const  at_atan2 ;
   extern const unary_function_ptr * const  at_get_pixel ;
+  gen _set_pixel(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_set_pixel ;
   extern const unary_function_ptr * const  at_strip ;
   extern const unary_function_ptr * const  at_lower ;

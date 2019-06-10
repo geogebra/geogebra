@@ -19,7 +19,6 @@
 #define _GIAC_MATHML_H
 
 #include "first.h"
-#include "tex.h"
 #include <string>
 
 #ifndef NO_NAMESPACE_GIAC 
