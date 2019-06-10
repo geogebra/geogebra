@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * @author ggb3D
@@ -651,4 +652,20 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		return ((GeoElement) getBottomPoints()[0]).getLabelVisible();
 	}
 
+	/**
+	 * if the user clicks a 2D polygon for bottom, and one of the bottom vertex
+	 * for apex, segment can be a 2D segment
+	 * 
+	 * @param outputSegmentsHandler
+	 *            output handler
+	 * @param segment
+	 *            segment to add
+	 */
+	static protected void addToOutputIf3D(
+			OutputHandler<GeoSegment3D> outputSegmentsHandler,
+			GeoSegmentND segment) {
+		if (segment instanceof GeoSegment3D) {
+			outputSegmentsHandler.addOutput((GeoSegment3D) segment, false);
+		}
+	}
 }
