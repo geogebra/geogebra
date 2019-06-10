@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
-import com.himamis.retex.renderer.share.ColorUtil;
+import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.Configuration;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -60,7 +60,7 @@ public class TestJlmDesktop extends JFrame {
 		for (String text : texts) {
 			TeXFormula formula = new TeXFormula(text);
 			Image im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
-					30, ColorUtil.BLACK, ColorUtil.WHITE);
+					30, Colors.BLACK, Colors.WHITE);
 			g2d.drawImage(im, 100, y);
 			y += im.getHeight() + 10;
 		}

@@ -49,7 +49,7 @@ import java.awt.Graphics2D;
 
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.desktop.graphics.Graphics2DD;
-import com.himamis.retex.renderer.share.ColorUtil;
+import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Icon;
@@ -70,7 +70,7 @@ public class IconHelper {
 						if (component != null) {
 							return new ColorD(component.getForeground());
 						}
-						return ColorUtil.BLACK;
+						return Colors.BLACK;
 					}
 				}, g2d, x, y);
 			}

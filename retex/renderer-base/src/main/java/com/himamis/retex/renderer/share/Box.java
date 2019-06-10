@@ -349,7 +349,7 @@ public abstract class Box {
 					height + depth));
 			if (showDepth) {
 				Color c = g2.getColor();
-				g2.setColor(ColorUtil.RED);
+				g2.setColor(Colors.RED);
 				if (depth > 0) {
 					g2.fill(geom.createRectangle2D(x1, y, width, depth));
 					g2.setColor(c);

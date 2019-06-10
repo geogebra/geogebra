@@ -10,7 +10,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.ColorAtom;
+import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
@@ -69,7 +69,7 @@ public class TeXBuilder {
 				SelectionAtom sa = new SelectionAtom(
 						buildSequence(mathFormula, i,
 								selectionEnd.getParentIndex()),
-						ColorAtom.getColor("#CCCCFF"), null);
+						Colors.SELECTION, null);
 				ra.add(sa);
 				i = selectionEnd.getParentIndex();
 			} else {

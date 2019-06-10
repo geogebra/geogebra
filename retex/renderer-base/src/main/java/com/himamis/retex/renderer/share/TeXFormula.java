@@ -557,7 +557,7 @@ public class TeXFormula {
 			g2.fillRect(0, 0, w, h);
 		}
 
-		icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
+		icon.setForeground(fg == null ? Colors.BLACK : fg);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
 
@@ -589,7 +589,7 @@ public class TeXFormula {
 			g2.fillRect(0, 0, w, h);
 		}
 
-		icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
+		icon.setForeground(fg == null ? Colors.BLACK : fg);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
 

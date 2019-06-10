@@ -1438,7 +1438,7 @@ public class TeXParser {
 			char c = parseString.charAt(pos);
 			if (c == stop) {
 				++pos;
-				return ColorUtil.BLACK;
+				return Colors.BLACK;
 			}
 			prevpos = pos;
 			if (c == '#') {
@@ -1585,7 +1585,7 @@ public class TeXParser {
 			final Color color = Colors.getFromName(name);
 			if (color == null) {
 				try {
-					final Color ret = ColorUtil.decode("#" + name);
+					final Color ret = Colors.decode("#" + name);
 					cancelPrevPos();
 					return ret;
 				} catch (NumberFormatException e) {
