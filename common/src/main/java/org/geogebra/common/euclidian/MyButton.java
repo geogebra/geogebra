@@ -204,7 +204,7 @@ public class MyButton implements Observer {
 		GColor paint;
 
 		// change background color on mouse click
-		if (pressed) {
+		if (pressed && !geoButton.getKernel().getApplication().isExporting()) {
 			if (bg.equals(GColor.WHITE)) {
 				paint = GColor.LIGHTEST_GRAY;
 			} else {
