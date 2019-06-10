@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -3179,6 +3180,9 @@ public class AlgoDispatcher {
 			// clearSelections();
 			return newPoint;
 		} catch (Exception e1) {
+			e1.printStackTrace();
+			return null;
+		} catch (MyError e1) {
 			e1.printStackTrace();
 			return null;
 		}
