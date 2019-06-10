@@ -97,6 +97,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return false;
     }
 
+    public float getDistance() {
+        return mDistance;
+    }
+
     abstract public void setBackgroundColor();
 
     abstract public void setBackgroundStyle(Renderer.BackgroundStyle backgroundStyle);
