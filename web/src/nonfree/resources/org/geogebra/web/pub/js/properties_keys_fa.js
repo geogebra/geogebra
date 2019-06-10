@@ -751,7 +751,7 @@ __GGB__keysVar["fa"].command = {
     "RectangleSum.Syntax": "[ <Function>, <Start x-Value>, <End x-Value>, <Number of Rectangles>, <Position for rectangle start> ]",
     "ReducedRowEchelonForm": "ReducedRowEchelonForm",
     "ReducedRowEchelonForm.Syntax": "[ <Matrix> ]",
-    "Relation": "Relation",
+    "Relation": "\u0631\u0627\u0628\u0637\u0647",
     "Relation.Syntax": "[ <\u0644\u06cc\u0633\u062a> ]\n[ <\u0634\u06cc\u0621>, <\u0634\u06cc\u0621> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <List>, <List> ]",
