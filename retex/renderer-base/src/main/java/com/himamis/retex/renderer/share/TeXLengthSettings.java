@@ -22,6 +22,7 @@ public class TeXLengthSettings {
 		defaultMap.put("dashlength", new TeXLength(Unit.PT, 6.));
 		defaultMap.put("dashdash", new TeXLength(Unit.PT, 3.));
 		defaultMap.put("shadowsize", new TeXLength(Unit.PT, 4.));
+		defaultMap.put("tabcolsep", new TeXLength(Unit.PT, 0));
 		defaultMap.put("baselineskip", new TeXLength(Unit.EX, 1.));
 		defaultMap.put("textwidth", new TeXLength(Unit.NONE, Double.POSITIVE_INFINITY));
 

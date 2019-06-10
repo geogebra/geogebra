@@ -160,6 +160,7 @@ public class ArrayAtom extends Atom {
 		double dinit = Double.NEGATIVE_INFINITY;
 
 		double arraystretch = env.lengthSettings().getFactor("arraystretch");
+		final double tabcolsep = env.lengthSettings().getLength("tabcolsep", env);
 
 		for (final Box b : separatorBoxes) {
 			hinit = Math.max(hinit, b.getHeight());
@@ -180,6 +181,7 @@ public class ArrayAtom extends Atom {
 
 				if (b.type != TeXConstants.TYPE_MULTICOLUMN) {
 					colWidth[j] = Math.max(b.getWidth(), colWidth[j]);
+					colWidth[j] += tabcolsep;
 				} else {
 					final MulticolumnAtom mcat = (MulticolumnAtom) at;
 					mcat.setRowColumn(i, j);
