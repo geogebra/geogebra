@@ -1904,6 +1904,18 @@ namespace giac {
     return res;
   }
 
+  // v are solutions in varx, solve for x
+  static vecteur solve_subst(const vecteur & v,const identificateur & x,const gen & varx,int isolate_mode,GIAC_CONTEXT){
+    if (x==varx)
+      return v;
+    vecteur res;
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      in_solve(varx-*it,x,res,isolate_mode,contextptr);
+    }
+    return res;
+  }
+
   static vecteur solve_cleaned(const gen & e,const gen & e_check,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     if (e.is_symb_of_sommet(at_exp))
       return vecteur(0);
@@ -2165,7 +2177,7 @@ namespace giac {
     vecteur lvarxexpr(lvarx(expr,x));
     if (lvarxexpr.size()==1){
       // quick check for expr=alpha*x^n+beta
-      vecteur ll(1,x);// vecteur ll(1,lvarxexpr.front());
+      vecteur ll(1,lvarxexpr.front());
       lvar(expr,ll);
       fraction f=sym2r(expr,ll,contextptr);
       if (f.num.type==_POLY){
@@ -2217,7 +2229,7 @@ namespace giac {
 		}
 		if (n0)
 		  res.push_back(0);
-		return res;
+		return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	      }
 	      vecteur res;
 	      if (n0)
@@ -2228,13 +2240,13 @@ namespace giac {
 		  res.push_back(-pow(g2g1,inv(n,contextptr),contextptr));
 		else
 		  res.push_back(pow(-g2g1,inv(n,contextptr),contextptr));
-		return res;
+		return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	      }
 	      if (is_positive(g2g1,contextptr))
-		return res;
+		return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	      gen g=pow(-g2g1,inv(n,contextptr),contextptr);
 	      res.push_back(-g); res.push_back(g);
-	      return res;
+	      return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	    }
 	  }
 	}
