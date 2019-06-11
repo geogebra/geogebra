@@ -1194,6 +1194,7 @@ __GGB__keysVar["et"].error = {
     "UndefinedVariable": "Defineerimata muutuja",
     "UnknownCommand": "Tundmatu k\xe4sk",
     "VectorExpected": "Sisestage punkt v\xf5i vektor.",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

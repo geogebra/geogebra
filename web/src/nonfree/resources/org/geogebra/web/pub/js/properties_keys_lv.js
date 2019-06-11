@@ -1194,6 +1194,7 @@ __GGB__keysVar["lv"].error = {
     "UndefinedVariable": "Main\u012bgais nav defin\u0113ts",
     "UnknownCommand": "Nezin\u0101ms uzdevums",
     "VectorExpected": "Tiek pras\u012bts punkts vai vektors",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

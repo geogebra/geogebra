@@ -1194,6 +1194,7 @@ __GGB__keysVar["ar-MA"].error = {
     "UndefinedVariable": "\u0645\u062a\u063a\u064a\u0631 \u063a\u064a\u0631 \u0645\u0639\u0651\u0631\u0641",
     "UnknownCommand": "\u0623\u0645\u0631 \u0645\u062c\u0647\u0648\u0644",
     "VectorExpected": "\u0646\u0642\u0637\u0629 \u0623\u0648 \u0645\u062a\u062c\u0647\u0629 \u0645\u0646\u062a\u0638\u0631\u0629",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

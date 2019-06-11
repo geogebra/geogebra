@@ -1194,6 +1194,7 @@ __GGB__keysVar["id"].error = {
     "UndefinedVariable": "Peubah tidak terdefinisi",
     "UnknownCommand": "Perintah tidak dikenal",
     "VectorExpected": "Diharapkan titik atau vektor",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

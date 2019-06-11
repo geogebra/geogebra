@@ -1194,6 +1194,7 @@ __GGB__keysVar["is"].error = {
     "UndefinedVariable": "\xd3skilgreind breyta",
     "UnknownCommand": "\xd3\xfeekkt skipun",
     "VectorExpected": "B\xfaist var vi\xf0 punkti e\xf0a vigur",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

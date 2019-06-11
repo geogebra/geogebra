@@ -1194,6 +1194,7 @@ __GGB__keysVar["cs"].error = {
     "UndefinedVariable": "Nedefinovan\xe1 prom\u011bnn\xe1",
     "UnknownCommand": "Nezn\xe1m\xfd p\u0159\xedkaz",
     "VectorExpected": "O\u010dek\xe1v\xe1n bod nebo vektor",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

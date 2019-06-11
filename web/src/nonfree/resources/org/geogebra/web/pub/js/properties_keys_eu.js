@@ -1194,6 +1194,7 @@ __GGB__keysVar["eu"].error = {
     "UndefinedVariable": "Definitu gabeko aldagaia",
     "UnknownCommand": "Komando ezezaguna",
     "VectorExpected": "Puntu edo bektore baten zain...",
+    "VideoAccessError": "Zerbaitek huts egin du.",
 };
 
 

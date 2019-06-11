@@ -1194,6 +1194,7 @@ __GGB__keysVar["vi"].error = {
     "UndefinedVariable": "Bi\u1ebfn s\u1ed1 ch\u01b0a \u0111\u1ecbnh ngh\u0129a",
     "UnknownCommand": "C\xe2u l\u1ec7nh ch\u01b0a \u0111\u1ecbnh ngh\u0129a",
     "VectorExpected": "\u0110i\u1ec3m ho\u1eb7c v\xe9ct\u01a1 th\u1ecfa m\xe3n",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

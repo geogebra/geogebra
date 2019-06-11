@@ -1194,6 +1194,7 @@ __GGB__keysVar["ne"].error = {
     "UndefinedVariable": "\u0905\u092a\u0930\u093f\u092d\u093e\u0937\u093f\u0924 \u091a\u0932",
     "UnknownCommand": "\u0905\u091c\u094d\u091e\u093e\u0924 \u0906\u091c\u094d\u091e\u093e",
     "VectorExpected": "\u0906\u0936\u093e\u0924\u093f\u0924 \u092d\u0947\u0915\u094d\u091f\u0930 \u0935\u093e \u092c\u093f\u0928\u094d\u0926\u0941",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

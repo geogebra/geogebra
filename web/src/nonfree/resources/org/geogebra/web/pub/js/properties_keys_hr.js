@@ -1194,6 +1194,7 @@ __GGB__keysVar["hr"].error = {
     "UndefinedVariable": "Nedefinirana varijabla",
     "UnknownCommand": "Nepoznata naredba",
     "VectorExpected": "Treba unijeti to\u010dku ili vektor",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

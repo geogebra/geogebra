@@ -1194,6 +1194,7 @@ __GGB__keysVar["ms"].error = {
     "UndefinedVariable": "Pembolehubah tak tertakrif",
     "UnknownCommand": "Perintah yang tidak dikenali",
     "VectorExpected": "Titik atau vektor dijangka",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

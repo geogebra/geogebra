@@ -1194,6 +1194,7 @@ __GGB__keysVar["it"].error = {
     "UndefinedVariable": "Variabile non definita",
     "UnknownCommand": "Comando sconosciuto",
     "VectorExpected": "Atteso punto o vettore",
+    "VideoAccessError": "Something went wrong.",
 };
 
 
@@ -2994,7 +2995,7 @@ __GGB__keysVar["it"].menu = {
     "TrueOnPartsFalseOnParts": "(in parte vero, in parte falso)",
     "Turtle": "Tartaruga",
     "Tutorial": "Tutorial",
-    "Tutorial3D": "AMJWuxeN",
+    "Tutorial3D": "djz4pvvn",
     "TutorialClassic": "drdaMdqN",
     "TutorialGeometry": "pNd6qEgg",
     "TutorialGraphing": "kfdvpqnm",

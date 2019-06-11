@@ -1194,6 +1194,7 @@ __GGB__keysVar["sq"].error = {
     "UndefinedVariable": "Variabel i papercaktuar",
     "UnknownCommand": "Komande e panjohur",
     "VectorExpected": "Pika apo vektori i pritur",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

@@ -1194,6 +1194,7 @@ __GGB__keysVar["hu"].error = {
     "UndefinedVariable": "Nem defini\xe1lt v\xe1ltoz\xf3",
     "UnknownCommand": "Ismeretlen parancs",
     "VectorExpected": "Pontot vagy vektort kell megadni",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

@@ -1194,6 +1194,7 @@ __GGB__keysVar["fil"].error = {
     "UndefinedVariable": "Ito ay hindi nadefine bilang variable",
     "UnknownCommand": "Ito ay hindi kilalang command",
     "VectorExpected": "Ang point o vector ang inaasahan",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

@@ -1194,6 +1194,7 @@ __GGB__keysVar["ca-XV"].error = {
     "UndefinedVariable": "No s'ha definit la variable",
     "UnknownCommand": "L'ordre \xe9s desconeguda",
     "VectorExpected": "S'esperava un punt o un vector.",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

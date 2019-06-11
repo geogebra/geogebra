@@ -1194,6 +1194,7 @@ __GGB__keysVar["uz"].error = {
     "UndefinedVariable": "Aniqlanmagan o'zgaruvchi",
     "UnknownCommand": "Notanish buyruq",
     "VectorExpected": "Nuqta yoki vektorni tanlang",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

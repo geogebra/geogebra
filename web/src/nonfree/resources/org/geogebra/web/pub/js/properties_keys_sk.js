@@ -1194,6 +1194,7 @@ __GGB__keysVar["sk"].error = {
     "UndefinedVariable": "Nedefinovan\xe1 premenn\xe1",
     "UnknownCommand": "Nezn\xe1my pr\xedkaz",
     "VectorExpected": "O\u010dak\xe1vam bod alebo vektor",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

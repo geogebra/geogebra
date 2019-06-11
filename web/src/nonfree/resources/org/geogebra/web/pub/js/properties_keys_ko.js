@@ -1194,6 +1194,7 @@ __GGB__keysVar["ko"].error = {
     "UndefinedVariable": "\uc815\uc758\ub418\uc9c0 \uc54a\ub294 \ubcc0\uc218",
     "UnknownCommand": "\uc54c \uc218 \uc5c6\ub294 \uba85\ub839",
     "VectorExpected": "\uc608\uc0c1\ub41c \uc810\uc774\ub098 \ubca1\ud130",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

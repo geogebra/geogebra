@@ -1194,6 +1194,7 @@ __GGB__keysVar["zh-TW"].error = {
     "UndefinedVariable": "\u672a\u5b9a\u7fa9\u7684\u8b8a\u6578",
     "UnknownCommand": "\u4e0d\u660e\u7684\u6307\u4ee4",
     "VectorExpected": "\u60a8\u5fc5\u9808\u8f38\u5165\u9ede\u5ea7\u6a19\u6216\u662f\u5411\u91cf",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

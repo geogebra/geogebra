@@ -1194,6 +1194,7 @@ __GGB__keysVar["az"].error = {
     "UndefinedVariable": "Undefined variable",
     "UnknownCommand": "Nam\u0259lum komanda",
     "VectorExpected": "Point or vector expected",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

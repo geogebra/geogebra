@@ -1194,6 +1194,7 @@ __GGB__keysVar["lt"].error = {
     "UndefinedVariable": "Neapibr\u0117\u017etas kintamasis",
     "UnknownCommand": "Ne\u017einoma komanda",
     "VectorExpected": "Reikalingas ta\u0161kas ar vektorius",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

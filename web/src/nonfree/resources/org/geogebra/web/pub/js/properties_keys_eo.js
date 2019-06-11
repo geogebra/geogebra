@@ -1194,6 +1194,7 @@ __GGB__keysVar["eo"].error = {
     "UndefinedVariable": "Nedifinita variablo",
     "UnknownCommand": "Nekonata komando",
     "VectorExpected": "Point or vector expected",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

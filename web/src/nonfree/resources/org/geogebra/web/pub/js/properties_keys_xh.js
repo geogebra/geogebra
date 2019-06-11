@@ -1194,6 +1194,7 @@ __GGB__keysVar["xh"].error = {
     "UndefinedVariable": "Isimelimanani esingachazwanga",
     "UnknownCommand": "Umyalelo Ongaziwayo",
     "VectorExpected": "Kulindeleke ichaphaza okanye ivektha",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

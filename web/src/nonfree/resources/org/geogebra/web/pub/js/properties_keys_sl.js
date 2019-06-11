@@ -1194,6 +1194,7 @@ __GGB__keysVar["sl"].error = {
     "UndefinedVariable": "Nedefinirana spremenljivka",
     "UnknownCommand": "Neznan ukaz",
     "VectorExpected": "Pri\u010dakujem to\u010dko ali vektor",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

@@ -1194,6 +1194,7 @@ __GGB__keysVar["cy"].error = {
     "UndefinedVariable": "Newidyn anniffiniedig",
     "UnknownCommand": "Gorchymyn anhysbys",
     "VectorExpected": "Disgwylir pwynt neu fector",
+    "VideoAccessError": "Something went wrong.",
 };
 
 

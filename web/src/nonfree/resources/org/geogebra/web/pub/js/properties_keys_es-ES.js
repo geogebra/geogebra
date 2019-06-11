@@ -1194,6 +1194,7 @@ __GGB__keysVar["es-ES"].error = {
     "UndefinedVariable": "Variable no definida.",
     "UnknownCommand": "Comando desconocido.",
     "VectorExpected": "Se esperaba un punto o un vector.",
+    "VideoAccessError": "Something went wrong.",
 };
 
 
