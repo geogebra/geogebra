@@ -53,8 +53,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	}
 
 	private void updateValueText() {
-		slider.getElement().setAttribute("aria-valuetext",
-				numeric.toValueString(StringTemplate.screenReader));
+		slider.getElement().setAttribute("aria-valuetext", numeric.getLabelDescription());
 	}
 
 	@Override
