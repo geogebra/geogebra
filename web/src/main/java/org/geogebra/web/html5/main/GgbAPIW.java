@@ -208,7 +208,13 @@ public class GgbAPIW extends GgbAPI {
 								exportScale, transparent, greyscale));
 			}
 		}
-		return pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
+		String ret = pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
+
+		if (copyToClipboard) {
+			app.copyImageToClipboard(StringUtil.pngMarker + ret);
+		}
+
+		return ret;
 	}
 
 	private static String pngBase64(String pngURL) {
