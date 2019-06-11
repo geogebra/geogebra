@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 
@@ -38,18 +39,14 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 		return Collections.singletonList(slider);
 	}
 
-	private void updateNumericRange(SliderWI range) {
-		range.setMinimum(numeric.getIntervalMin());
-		range.setMaximum(numeric.getIntervalMax());
-		range.setStep(numeric.getAnimationStep());
-		range.setValue(numeric.getValue());
-		updateValueText();
-	}
-
 	@Override
 	public void onValueChange(int index, double value) {
 		view.select(numeric);
-		numeric.setValue(value);
+
+		double step = numeric.getAnimationStep();
+		double intervalMin = numeric.getIntervalMin();
+		double numericValue = value * step + intervalMin;
+		numeric.setValue(numericValue);
 		numeric.updateRepaint();
 		slider.getElement().focus();
 		updateValueText();
@@ -63,6 +60,20 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	@Override
 	public void update() {
 		updateNumericRange(slider);
+	}
+
+	private void updateNumericRange(SliderWI range) {
+		double intervalMin = numeric.getIntervalMin();
+		double intervalMax = numeric.getIntervalMax();
+		double step = numeric.getAnimationStep();
+		double value = numeric.getValue();
+
+		range.setMinimum(0);
+		range.setMaximum(Math.round((intervalMax - intervalMin) / step));
+		range.setStep(1);
+		range.setValue((double) Math.round((value - intervalMin) / step));
+
+		updateValueText();
 	}
 
 	@Override
