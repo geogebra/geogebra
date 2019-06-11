@@ -33,8 +33,12 @@ public class YouTubePlayer extends VideoPlayer {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	public YouTubePlayer(GeoVideo video, int id) {
+	YouTubePlayer(GeoVideo video, int id) {
 		super(video, id);
+	}
+
+	@Override
+	protected void initPlayerAPI() {
 		initYouTubeApi();
 		if (youTubeAPI) {
 			createPlayerDeferred();
@@ -81,7 +85,7 @@ public class YouTubePlayer extends VideoPlayer {
 	/**
 	 * Initializes YouTube API.
 	 */
-	public static void initYouTubeApi() {
+	private static void initYouTubeApi() {
 		if (youTubeAPI) {
 			return;
 		}
@@ -127,7 +131,7 @@ public class YouTubePlayer extends VideoPlayer {
 			String youtubeId) /*-{
 		var that = this;
 		var ytPlayer = new $wnd.YT.Player(
-				that.@org.geogebra.web.html5.video.VideoPlayer::playerId,
+				that.@org.geogebra.web.html5.video.AbstractVideoPlayer::playerId,
 				{
 					videoId : youtubeId,
 					events : {

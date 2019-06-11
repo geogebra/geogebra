@@ -505,4 +505,11 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 			}
 		}
 	}
+
+	public String getErrorId() {
+		if (getFormat() == MediaFormat.VIDEO_MEBIS) {
+			return "MebisAccessError";
+		}
+		return "VideoAccessError";
+	}
 }

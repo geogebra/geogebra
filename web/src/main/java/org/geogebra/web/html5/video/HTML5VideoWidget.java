@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class VideoWidget extends Widget {
+public class HTML5VideoWidget extends Widget {
 	private Element elem;
 	private VideoListener listener;
 
@@ -45,7 +45,7 @@ public class VideoWidget extends Widget {
 	 * @param listener
 	 *            Video listener.
 	 */
-	public VideoWidget(VideoListener listener) {
+	public HTML5VideoWidget(VideoListener listener) {
 		this.listener = listener;
 		elem = DOM.createElement("video");
 		setElement(elem);
@@ -55,12 +55,12 @@ public class VideoWidget extends Widget {
 	private native void addHandlers(JavaScriptObject video) /*-{
 		var that = this;
 		video.oncanplaythrough = function() {
-			that.@org.geogebra.web.html5.video.VideoWidget::listenerOnLoad(II)(
+			that.@org.geogebra.web.html5.video.HTML5VideoWidget::listenerOnLoad(II)(
 					video.videoWidth, video.videoHeight);
 		}
 
 		video.onerror = function() {
-			that.@org.geogebra.web.html5.video.VideoWidget::listenerOnError()();
+			that.@org.geogebra.web.html5.video.HTML5VideoWidget::listenerOnError()();
 		}
 	}-*/;
 
@@ -73,7 +73,7 @@ public class VideoWidget extends Widget {
 	 * @param listener
 	 *            Video listener.
 	 */
-	public VideoWidget(String src, VideoListener listener) {
+	public HTML5VideoWidget(String src, VideoListener listener) {
 		this(listener);
 		setSrc(src);
 	}

@@ -3772,6 +3772,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_PEN_IS_LOCUS:
 			return whiteboard;
 
+		/** MOW-763 */
+		case VIDEO_PLAYER_OFFLINE:
+			return prerelease && whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

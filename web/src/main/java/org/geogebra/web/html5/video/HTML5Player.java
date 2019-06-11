@@ -2,7 +2,7 @@ package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.util.PersistablePanel;
-import org.geogebra.web.html5.video.VideoWidget.VideoListener;
+import org.geogebra.web.html5.video.HTML5VideoWidget.VideoListener;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class HTML5Player extends VideoPlayer implements VideoListener {
-	private VideoWidget v;
+	private HTML5VideoWidget v;
 	private PersistablePanel main;
 
 	/**
@@ -33,8 +33,13 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	@Override
 	protected void createGUI() {
 		main = new PersistablePanel();
-		v = new VideoWidget(video.getSrc(), this);
+		v = new HTML5VideoWidget(video.getSrc(), this);
 		main.add(v);
+	}
+
+	@Override
+	protected void initPlayerAPI() {
+
 	}
 
 	@Override
@@ -90,9 +95,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	 * @return the error widget needs to be displayed.
 	 */
 	protected Widget getErrorWidget() {
-		return new Label(app.getLocalization().getMenuDefault("HTML5VideoAccessError",
-						"Something went wrong. Please, check "
-						+ "if you are online, the link exists or have permission to the video"));
+		return new Label();
 	}
 
 	@Override
