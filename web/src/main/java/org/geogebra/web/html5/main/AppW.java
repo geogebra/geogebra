@@ -113,7 +113,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LightBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
-import org.geogebra.web.html5.gui.util.ZoomPanel;
+import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;

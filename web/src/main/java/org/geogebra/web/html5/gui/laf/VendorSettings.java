@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
  * Vendor dependent settings
@@ -27,4 +28,7 @@ public interface VendorSettings {
 	 * @return view preferences
 	 */
 	ViewPreferences getViewPreferences();
+
+	FullScreenHandler getFullscreenHandler();
+
 }

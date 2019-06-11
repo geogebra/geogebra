@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.zoompanel;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -7,6 +7,8 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
@@ -291,6 +293,7 @@ public class ZoomController {
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
 			}
+			handleIframeFullscreen();
 		} else {
 			ArticleElementInterface ae = app.getArticleElement();
 			final Element scaler = ae.getParentElement();
@@ -345,6 +348,16 @@ public class ZoomController {
 		}
 	}
 
+	private void handleIframeFullscreen() {
+		if (isRunningInIframe() && useEmulatedFullscreen(app)) {
+			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
+			if (fullScreenHandler != null) {
+				fullScreenHandler.toggleFullscreen();
+				setFullScreenActive(!fullScreenActive);
+			}
+		}
+	}
+
 	/**
 	 * Remove the inline style for transform overriding
 	 */
@@ -370,6 +383,10 @@ public class ZoomController {
 		return Browser.isiOS() || !StringUtil
 				.empty(app.getArticleElement().getParamFullscreenContainer());
 	}
+
+	protected static native boolean isRunningInIframe() /*-{
+		return $wnd != $wnd.parent;
+	}-*/;
 
 	/**
 	 * Handler that runs on switching to fullscreen.

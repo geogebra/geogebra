@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
  * Ggb specific settings
@@ -32,4 +33,10 @@ public class GgbSettings implements VendorSettings {
 	public ViewPreferences getViewPreferences() {
 		return viewPreferences;
 	}
+
+	@Override
+	public FullScreenHandler getFullscreenHandler() {
+		return null;
+	}
+
 }

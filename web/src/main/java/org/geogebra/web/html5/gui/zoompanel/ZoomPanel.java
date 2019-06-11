@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.html5.gui.zoompanel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +16,8 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -109,9 +111,7 @@ public class ZoomPanel extends FlowPanel
 					getPanelElement());
 		}
 		if (ae.getDataParamApp() && fullscreenBtn != null) {
-			fullscreenBtn.setVisible(
-					isFullScreen()
-							|| !Browser.isCoveringWholeScreen());
+			fullscreenBtn.setVisible(isFullScreen() || !Browser.isCoveringWholeScreen());
 		}
 	}
 
@@ -325,12 +325,9 @@ public class ZoomPanel extends FlowPanel
 
 	private static boolean isFullscreenAvailable(AppW app) {
 		return !ZoomController.useEmulatedFullscreen(app)
-				|| !isRunningInIframe();
+				|| !ZoomController.isRunningInIframe()
+				|| app.getVendorSettings().getFullscreenHandler() != null;
 	}
-
-	private static native boolean isRunningInIframe() /*-{
-		return $wnd != $wnd.parent;
-	}-*/;
 
 	private static boolean needsZoomButtons(AppW app) {
 		return (app.getArticleElement().getDataParamShowZoomButtons()

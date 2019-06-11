@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
+import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
 import com.google.gwt.user.client.Window.Location;
 
@@ -38,4 +40,10 @@ public class MebisSettings implements VendorSettings {
 	public ViewPreferences getViewPreferences() {
 		return viewPreferences;
 	}
+
+	@Override
+	public FullScreenHandler getFullscreenHandler() {
+		return new MebisFullscreenHandler();
+	}
+
 }
