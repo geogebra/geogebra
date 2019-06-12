@@ -27,7 +27,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	 */
 	public HTML5Player(GeoVideo video, int id) {
 		super(video, id);
-
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 
 	@Override
 	protected void initPlayerAPI() {
-
+		// no API
 	}
 
 	@Override

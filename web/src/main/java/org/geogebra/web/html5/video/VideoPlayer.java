@@ -39,7 +39,6 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 	 */
 	protected abstract void createGUI();
 
-
 	/**
 	 * Init player specific stuff here.
 	 */

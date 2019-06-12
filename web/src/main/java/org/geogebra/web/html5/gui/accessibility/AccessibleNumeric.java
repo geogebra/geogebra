@@ -3,9 +3,7 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 

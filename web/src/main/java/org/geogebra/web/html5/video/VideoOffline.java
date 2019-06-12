@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class VideoOffline extends AbstractVideoPlayer {
 
 	private VideoErrorPanel errorPanel;
+
 	/**
 	 * Constructor. *
 	 *
@@ -32,6 +33,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 	/**
 	 * Updates the player based on video object.
 	 */
+	@Override
 	public void update() {
 		Style style = asWidget().getElement().getStyle();
 		style.setLeft(video.getScreenLocX(app.getActiveEuclidianView()),
