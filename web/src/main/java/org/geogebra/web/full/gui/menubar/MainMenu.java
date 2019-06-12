@@ -13,7 +13,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.TabHandler;
-import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -40,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class MainMenu extends FlowPanel
-		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler, KeyDownHandler {
+		implements EventRenderable, BooleanRenderable, TabHandler, KeyDownHandler {
 
 	/**
 	 * Appw app
