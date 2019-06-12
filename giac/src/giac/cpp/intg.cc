@@ -61,7 +61,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-  // Left redimension p to degree n, i.e. size n+1
+  // Left redimension p to degree n, i.e. size n+1 
   void lrdm(modpoly & p,int n){
     int s=int(p.size());
     if (n+1>s)
