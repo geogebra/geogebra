@@ -3617,7 +3617,7 @@ namespace giac {
 	return res;
       } // end integer exponent
       if ( is_zero(im(expo,contextptr),contextptr) && is_zero(im(e,contextptr),contextptr) ){
-	gen sgn=sign(e,contextptr);
+	gen sgn=atan_tan_no_floor(contextptr)?1:sign(e,contextptr); // workaround for int(sqrt(x+sqrt(x)))
 	if (!is_integer(expo)){
 	  if (sgn==-1)
 	    return pow(-e,expo,contextptr)*cos(cst_pi*expo,contextptr);
@@ -3743,7 +3743,7 @@ namespace giac {
       if ( is_zero(im(expo,contextptr),contextptr) && is_zero(im(e,contextptr),contextptr) ){
 	// e must also be positive for non-integral power
 	if (!is_integer(expo)){
-	  gen sgn=sign(e,contextptr);
+	  gen sgn=atan_tan_no_floor(contextptr)?1:sign(e,contextptr); // workaround for int(sqrt(x+sqrt(x)))
 	  if (sgn==-1)
 	    return pow(-e,expo,contextptr)*sin(cst_pi*expo,contextptr);
 	  if (sgn!=1)
