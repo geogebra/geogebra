@@ -2462,6 +2462,7 @@ var __giac = [ {},
 { cat:"Defined.1", cmd:"Defined(3)", result:"true" },
 { cat:"Integral", cmd:"Integral(Integral(x*y^2,x,0,2),y,0,1)", result:"2/3" },
 { cat:"Solve", cmd:"Solve(8/(p^(-4000*x))=6,x)", result:"{x = (ln(3) - ln(4)) / (4000ln(p))}" },
+{ cat:"Integral", cmd:"Integral(sqrt(x+sqrt(x)))", result:"2 (2sqrt(x + sqrt(x)) (sqrt(x) (1 / 6 sqrt(x) + 1 / 24) - 1 / 16) - 1 / 16 ln(-2 (-sqrt(x) + sqrt(x + sqrt(x))) + 1)) + c_0" },
 //JSONEND
 // { cat:"Solve", cmd:"Solve(sqrt(x-2sqrt(x-1))=sqrt(x-1)-1)", result:"{x = c_1^(2) + 1}", notes:"I have committed a change for solve, it now handles the case where a resultant is 0 in the intermediate computations, and returns 1+c__0^2 and warns that the answer has not been checked. That's the best I can do, the condition x>=2 is missed, but I think it's better than before where it returned no solution." },
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
