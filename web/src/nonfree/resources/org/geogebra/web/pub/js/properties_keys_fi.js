@@ -1194,7 +1194,7 @@ __GGB__keysVar["fi"].error = {
     "UndefinedVariable": "M\xe4\xe4rittelem\xe4t\xf6n muuttuja",
     "UnknownCommand": "Tuntematon komento",
     "VectorExpected": "Pistett\xe4 tai vektoria odotetaan",
-    "VideoAccessError": "Something went wrong.",
+    "VideoAccessError": "Jotain meni pieleen.",
 };
 
 
