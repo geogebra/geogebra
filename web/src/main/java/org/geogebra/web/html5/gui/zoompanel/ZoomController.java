@@ -384,6 +384,10 @@ public class ZoomController {
 				.empty(app.getArticleElement().getParamFullscreenContainer());
 	}
 
+	/**
+	 * @return whether the current window is an iframe embedded in another
+	 *         window.
+	 */
 	protected static native boolean isRunningInIframe() /*-{
 		return $wnd != $wnd.parent;
 	}-*/;

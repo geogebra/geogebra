@@ -29,6 +29,12 @@ public interface VendorSettings {
 	 */
 	ViewPreferences getViewPreferences();
 
+	/**
+	 * Gets helper for toggling emulated fullscreen when running in an iframe,
+	 * only available for specific cases.
+	 * 
+	 * @return helper for fullscreen or null.
+	 */
 	FullScreenHandler getFullscreenHandler();
 
 }
