@@ -46,4 +46,8 @@ public class MebisSettings implements VendorSettings {
 		return new MebisFullscreenHandler();
 	}
 
+	@Override
+	public String getVideoAccessErrorKey() {
+		return "MebisAccessError";
+	}
 }

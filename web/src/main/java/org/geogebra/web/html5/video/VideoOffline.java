@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
@@ -16,13 +17,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class VideoOffline extends AbstractVideoPlayer {
 
+	private final static int DEFAULT_WIDTH = 420;
+	private final static int DEFAULT_HEIGHT = 365;
 	private VideoErrorPanel errorPanel;
 	private Command commandSelect = new Command() {
 		@Override
 		public void execute() {
 			selectPlayer();
+			update();
 		}
 	};
+
 	/**
 	 * Constructor. *
 	 *
@@ -33,7 +38,8 @@ public class VideoOffline extends AbstractVideoPlayer {
 	 */
 	VideoOffline(GeoVideo video, int id) {
 		super(video, id);
-		errorPanel = new VideoErrorPanel(app.getLocalization(), video.getErrorId());
+		String errorId = ((AppW)app).getVendorSettings().getVideoAccessErrorKey();
+		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
 		stylePlayer();
 		selectDeferred();
 	}
@@ -49,20 +55,30 @@ public class VideoOffline extends AbstractVideoPlayer {
 	 */
 	@Override
 	public void update() {
+		setDefaultSize();
 		Style style = asWidget().getElement().getStyle();
 		style.setLeft(video.getScreenLocX(app.getActiveEuclidianView()),
 				Unit.PX);
 		style.setTop(video.getScreenLocY(app.getActiveEuclidianView()),
 				Unit.PX);
-		if (video.hasSize()) {
-			asWidget().setWidth(video.getWidth() + "px");
-			asWidget().setHeight(video.getHeight() + "px");
-		}
+		asWidget().setWidth(video.getWidth() + "px");
+		asWidget().setHeight(video.getHeight() + "px");
+
+
 		if (video.isBackground()) {
 			asWidget().addStyleName("background");
 		} else {
 			asWidget().removeStyleName("background");
 		}
+	}
+
+	private void setDefaultSize() {
+		if (video.hasSize()) {
+			return;
+		}
+		video.setWidth(DEFAULT_WIDTH);
+		video.setHeight(DEFAULT_HEIGHT);
+
 	}
 
 	@Override

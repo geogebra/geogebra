@@ -37,4 +37,9 @@ public interface VendorSettings {
 	 */
 	FullScreenHandler getFullscreenHandler();
 
+	/**
+	 *
+	 * @return the error key if a video cannot be accessed.
+	 */
+	String getVideoAccessErrorKey();
 }
