@@ -123,6 +123,7 @@ public class VideoManagerW implements VideoManager {
 		AppW app = (AppW) video.getKernel().getApplication();
 		boolean offline = app.has(Feature.VIDEO_PLAYER_OFFLINE)
 				&& !video.isOnline();
+		offline = true;
 		GeoGebraFrameW appFrame = app.getAppletFrame();
 		final AbstractVideoPlayer player = offline ?
 				createPlayerOffline(video, players.size()) :

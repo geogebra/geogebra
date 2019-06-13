@@ -35,7 +35,7 @@ public class VideoErrorPanel extends PersistablePanel {
 		setWidth("100%");
 		setHeight("100%");
 		addStyleName("mowWidget");
-		addStyleName("mowVideo");
+		addStyleName("error");
 	}
 
 	private void setErrorMessage() {

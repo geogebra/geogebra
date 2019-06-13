@@ -479,7 +479,16 @@
 	.mowVideo video {
 		width: 100%;
 		height: 100%;
+
 	}
+
+    .mowWidget.error {
+		@extend .mowVideo;
+        div {
+            text-align: center;
+            padding: 33% 0;
+        }
+     }
 
 	.mowDoubleCanvas {
 		.mowVideo {
