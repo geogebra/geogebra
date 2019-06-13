@@ -85,9 +85,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 
 	@Override
 	public void onError() {
-		main.clear();
-		main.add(getErrorWidget());
-		update();
+		app.getVideoManager().onError(video);
 	}
 
 	/**

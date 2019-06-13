@@ -123,17 +123,25 @@ public class VideoManagerW implements VideoManager {
 		AppW app = (AppW) video.getKernel().getApplication();
 		boolean offline = app.has(Feature.VIDEO_PLAYER_OFFLINE)
 				&& !video.isOnline();
-		GeoGebraFrameW appFrame = app.getAppletFrame();
+
 		final AbstractVideoPlayer player = offline ?
 				createPlayerOffline(video, players.size()) :
 				createPlayer(video, players.size()) ;
-		if (player != null) {
-			players.put(video, player);
-			appFrame.add(player);
-		}
 
+		addPlayerToFrame(video, player);
 	}
 
+	private void addPlayerToFrame(GeoVideo video, AbstractVideoPlayer player) {
+		if (player == null) {
+			return;
+		}
+
+		AppW app = (AppW) video.getKernel().getApplication();
+		GeoGebraFrameW appFrame = app.getAppletFrame();
+		players.put(video, player);
+		appFrame.add(player);
+
+	}
 	private AbstractVideoPlayer createPlayerOffline(GeoVideo video, int id) {
 		return new VideoOffline(video, id);
 	}
@@ -249,4 +257,10 @@ public class VideoManagerW implements VideoManager {
 		cache.clear();
 	}
 
+	@Override
+	public void onError(GeoVideo video) {
+		removePlayer(video);
+		AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size());
+		addPlayerToFrame(video, offlinePlayer);
+	}
 }
