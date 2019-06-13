@@ -133,7 +133,9 @@ public abstract class GlobalKeyDispatcher {
 				if (geo instanceof GeoInputBox) {
 					DrawInputBox dt = (DrawInputBox) app
 							.getActiveEuclidianView().getDrawableFor(geo);
-					dt.setFocus(ch + "");
+					if (dt != null) {
+						dt.setFocus(ch + "");
+					}
 				} else {
 					if (app.getDialogManager() != null) {
 						app.getDialogManager().showRenameDialog(geo, true,
