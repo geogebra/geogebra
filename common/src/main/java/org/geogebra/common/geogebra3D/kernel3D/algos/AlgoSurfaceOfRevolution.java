@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
 
+
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
  * to]
@@ -196,11 +197,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		input = new GeoElement[3];
 		input[0] = path.toGeoElement();
 		input[1] = (GeoElement) angle;
-		if (line == null) {
-			input[2] = kernel.getXAxis();
-		} else {
-			input[2] = line.toGeoElement();
-		}
+		input[2] = line.toGeoElement();
+
 		setOnlyOutput(surface);
 		setDependencies(); // done by AlgoElement
 	}
@@ -217,8 +215,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		if (path instanceof GeoPoly) {
 			((GeoPoly) path)
 					.toGeoCurveCartesian((GeoCurveCartesianND) function);
-		}
-		if (path instanceof GeoConicND) {
+		} else if (path instanceof GeoConicND) {
 			((GeoConicND) path)
 					.toGeoCurveCartesian((GeoCurveCartesianND) function);
 		}
@@ -227,10 +224,11 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		} else {
 			surface.setUndefined();
 		}
-		if (line != null || path != function) {
+		boolean isXAxis = line == kernel.getXAxis();
+		if (!isXAxis || path != function) {
 			ExpressionValue[][] coeffs = new ExpressionValue[4][4];
 			FunctionNVar[] fun = surface.getFunctions();
-			if (line == null) {
+			if (isXAxis) {
 				rotation4x4(Coords.VX, funVar[1], coeffs, kernel);
 				transform(function, coeffs, fun, Coords.O);
 			} else {
@@ -278,7 +276,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 			fun1[row].setExpression(trans.plus(startPoint.get(row + 1)));
 		}
-
 	}
 
 	private static final void rotation4x4(Coords u, ExpressionValue angle,
@@ -318,7 +315,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		// use (Id-M)center for translation
 		// vec[3].set(0.0);
 		// m.setOrigin(center.sub(m.mul(center)));
-
 	}
 
 }
