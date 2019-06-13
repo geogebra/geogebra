@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.video;
 
-import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
 
 import com.google.gwt.dom.client.Style;
@@ -73,14 +71,7 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 	@Override
 	public void onReady() {
 		video.setBackground(true);
-		EuclidianView view = app.getActiveEuclidianView();
-		Drawable d = ((Drawable) view.getDrawableFor(video));
-		d.update();
-		if (d.getBoundingBox().getRectangle() != null) {
-			view.setBoundingBox(d.getBoundingBox());
-			view.repaintView();
-			app.getSelectionManager().addSelectedGeo(video);
-		}
+		selectPlayer();
 	}
 
 	/**

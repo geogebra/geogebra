@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.video;
 
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
@@ -17,6 +19,20 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 		this.video = video;
 		app = video.getKernel().getApplication();
 		playerId = "video_player" + id;
+	}
+
+	/**
+	 * Selects player showing its bounding box.
+	 */
+	void selectPlayer() {
+		EuclidianView view = app.getActiveEuclidianView();
+		Drawable d = ((Drawable) view.getDrawableFor(video));
+		d.update();
+		if (d.getBoundingBox().getRectangle() != null) {
+			view.setBoundingBox(d.getBoundingBox());
+			view.repaintView();
+			app.getSelectionManager().addSelectedGeo(video);
+		}
 	}
 
 	/**

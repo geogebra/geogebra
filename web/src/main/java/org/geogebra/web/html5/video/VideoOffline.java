@@ -2,8 +2,10 @@ package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -15,7 +17,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class VideoOffline extends AbstractVideoPlayer {
 
 	private VideoErrorPanel errorPanel;
-
+	private Command commandSelect = new Command() {
+		@Override
+		public void execute() {
+			selectPlayer();
+		}
+	};
 	/**
 	 * Constructor. *
 	 *
@@ -28,6 +35,13 @@ public class VideoOffline extends AbstractVideoPlayer {
 		super(video, id);
 		errorPanel = new VideoErrorPanel(app.getLocalization(), video.getErrorId());
 		stylePlayer();
+		selectDeferred();
+	}
+
+	private void selectDeferred() {
+		// need to call this at the end of page rendering
+		// to make sure that bounding box appears.
+		Scheduler.get().scheduleDeferred(commandSelect);
 	}
 
 	/**
@@ -53,7 +67,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 
 	@Override
 	public void onReady() {
-		// intentionally empty
 	}
 
 	@Override
