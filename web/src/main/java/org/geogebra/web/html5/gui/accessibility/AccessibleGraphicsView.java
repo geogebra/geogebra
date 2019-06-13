@@ -77,7 +77,9 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 
 	@Override
 	public void setFocus(boolean focus) {
-		sliders.get(0).setFocus(focus);
+		if (sliders.size() > 0) {
+			sliders.get(0).setFocus(focus);
+		}
 	}
 
 }
