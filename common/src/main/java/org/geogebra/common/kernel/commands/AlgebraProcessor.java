@@ -340,7 +340,7 @@ public class AlgebraProcessor {
 			} catch (Exception e) {
 				app.getScriptManager().enableListeners();
 				e.printStackTrace();
-				casCell.setError("RedefinitionFailed");
+				casCell.setError("ReplaceFailed");
 				// app.showError(e.getMessage());
 			} catch (CommandNotLoadedError e) {
 				throw e;
