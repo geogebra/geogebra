@@ -61,7 +61,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-  // Left redimension p to degree n, i.e. size n+1 
+  // Left redimension p to degree n, i.e. size n+1
   void lrdm(modpoly & p,int n){
     int s=int(p.size());
     if (n+1>s)
@@ -3261,7 +3261,7 @@ namespace giac {
   gen _integrate(const gen & args,GIAC_CONTEXT){
     if (complex_variables(contextptr))
       *logptr(contextptr) << gettext("Warning, complex variables is set, this can lead to fairly complex answers. It is recommended to switch off complex variables in the settings or by complex_variables:=0; and declare individual variables to be complex by e.g. assume(a,complex).") << endl;
-#ifdef LOGINT 
+#ifdef LOGINT
     *logptr(contextptr) << gettext("integrate begin") << endl;
 #endif
     if ( args.type==_STRNG && args.subtype==-1) return  args;

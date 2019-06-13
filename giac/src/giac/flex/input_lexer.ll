@@ -494,6 +494,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "XOR"                    index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_AND_OP;
 ".."                    index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_INTERVAL;
 "interval"                    index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_UNARY_OP;
+"trier"                    index_status(yyextra)=0; (*yylval)=gen(at_sort,1); return T_UNARY_OP;
 "..."                    index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_INTERVAL;
 "'..'"                  index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_QUOTED_BINARY;
 "_range"                  index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_QUOTED_BINARY;

@@ -4134,28 +4134,28 @@ namespace giac {
 
   static gen in_increment3(const gen & prev,const gen & val,const gen & var,int mult,GIAC_CONTEXT){
     if (mult==0)
-      return sto(prev+val,var,contextptr);
+      return sto(prev+val,var,true,contextptr);
     if (mult==1)
-      return sto(prev*val,var,contextptr);
+      return sto(prev*val,var,true,contextptr);
     if (mult==2)
-      return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_iquo(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==3)
-      return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_irem(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==4)
-      return sto(_bitand(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_bitand(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==5)
-      return sto(_bitor(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_bitor(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==6){
       if (python_compat(contextptr))
-	return sto(_bitxor(makesequence(prev,val),contextptr),var,contextptr);
-      return sto(_pow(makesequence(prev,val),contextptr),var,contextptr);
+	return sto(_bitxor(makesequence(prev,val),contextptr),var,true,contextptr);
+      return sto(_pow(makesequence(prev,val),contextptr),var,true,contextptr);
     }
     if (mult==7)
-      return sto(_shift(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_shift(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==8)
-      return sto(_rotate(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_rotate(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==9)
-      return sto(_pow(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_pow(makesequence(prev,val),contextptr),var,true,contextptr);
     return gensizeerr(gettext("Increment"));
   }
 
