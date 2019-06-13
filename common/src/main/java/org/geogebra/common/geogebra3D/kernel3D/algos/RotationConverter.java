@@ -7,10 +7,10 @@ import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.CoordConverter;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 public class RotationConverter implements CoordConverter {
 
+	private static final double SNAP_PRECISION = 5 * Kernel.PI_180;
 	private GeoLineND axis;
 	private Coords rotationCenter = new Coords(3);
 	private Coords vStart = new Coords(3);
@@ -29,9 +29,19 @@ public class RotationConverter implements CoordConverter {
 		vCurrent.setAdd3(vStart, rwTransVec);
 		double sin = direction.dotCrossProduct(vStart, vCurrent);
 		double cos = vStart.dotproduct3(vCurrent);
-		Log.debug(Math.atan2(sin, cos) / Kernel.PI_180);
 
-		return (Math.atan2(sin, cos) + startValue + Kernel.PI_2) % Kernel.PI_2;
+
+		return snap(DoubleUtil
+				.convertToAngleValue(Math.atan2(sin, cos) + startValue), view);
+	}
+
+	@Override
+	public double snap(double val, EuclidianView view) {
+		double roundedVal = Math.round(val / Kernel.PI_HALF) * Kernel.PI_HALF;
+		if (DoubleUtil.isEqual(val, roundedVal, SNAP_PRECISION)) {
+			return roundedVal;
+		}
+		return val;
 	}
 
 	@Override

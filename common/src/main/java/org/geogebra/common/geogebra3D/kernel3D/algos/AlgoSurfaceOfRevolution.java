@@ -102,7 +102,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		}
 
 		this.angle = angle;
-		this.line = line;
+		this.line = line == null ? kernel.getXAxis() : line;
 		this.path = path;
 		min = new double[2];
 		max = new double[2];
@@ -127,8 +127,10 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		}
 		GeoNumeric changeableAngle = ChangeableParent.getGeoNumeric(angle);
 		if (changeableAngle != null) {
+			
 			ChangeableParent changeableParent = new ChangeableParent(
-					changeableAngle, line, new RotationConverter(line));
+					changeableAngle, this.line,
+					new RotationConverter(this.line));
 			surface.setChangeableParent(changeableParent);
 		}
 

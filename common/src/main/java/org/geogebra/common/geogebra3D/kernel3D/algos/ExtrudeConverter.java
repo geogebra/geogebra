@@ -20,27 +20,14 @@ public class ExtrudeConverter implements CoordConverter {
 		return snap(direction.dotproduct3(rwTransVec) + startValue, view);
 	}
 
-	private static double snap(double val, EuclidianView view) {
-		switch (view.getPointCapturingMode()) {
-		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-			// TODO
-			return val;
-		default:
-		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-			if (!view.isGridOrAxesShown()) {
-				break;
-			}
-		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-			double g = view.getGridDistances(0);
-			double valRound = Kernel.roundToScale(val, g);
-			if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| (Math.abs(valRound - val) < g
-							* view.getEuclidianController()
-									.getPointCapturingPercentage())) {
-				return valRound;
-			}
-			break;
+	@Override
+	public double snap(double val, EuclidianView view) {
+		double g = view.getGridDistances(0);
+		double valRound = Kernel.roundToScale(val, g);
+		if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+				|| (Math.abs(valRound - val) < g * view.getEuclidianController()
+						.getPointCapturingPercentage())) {
+			return valRound;
 		}
 		return val;
 	}

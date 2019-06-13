@@ -45,4 +45,13 @@ public interface CoordConverter {
 			Coords rayOrigin, Coords rayDirection,
 			Coords translationVec3D);
 
+	/**
+	 * @param val
+	 *            raw value
+	 * @param view
+	 *            view
+	 * @return value snapped to closest "nice" value
+	 */
+	double snap(double val, EuclidianView view);
+
 }

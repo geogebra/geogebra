@@ -173,7 +173,9 @@ public class ChangeableParent {
 				direction.set(0, 0, 0);
 			}
 		} else {
-			direction.set3(directorGeo.getMainDirection());
+			direction.set3(
+
+					directorGeo.getMainDirection());
 			converter.record(this, startPoint);
 		}
 	}
@@ -233,6 +235,9 @@ public class ChangeableParent {
 				.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 			val = converter.translationToValue(direction, rwTransVec,
 					getStartValue(), view);
+			if (needsSnap(view)) {
+				val = converter.snap(val, view);
+			}
 			if (!MyDouble.isFinite(val)) {
 				return false;
 			}
@@ -254,27 +259,14 @@ public class ChangeableParent {
 				return false;
 			}
 			val = getStartValue() + shift;
-			if (!forPolyhedronNet) {
-				switch (view.getPointCapturingMode()) {
-				case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-					// TODO
-					break;
-				default:
-				case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-					if (!view.isGridOrAxesShown()) {
-						break;
-					}
-				case EuclidianStyleConstants.POINT_CAPTURING_ON:
-				case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-					double g = view.getGridDistances(0);
-					double valRound = Kernel.roundToScale(val, g);
-					if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-							|| (Math.abs(valRound - val) < g
-									* view.getEuclidianController()
-											.getPointCapturingPercentage())) {
-						val = valRound;
-					}
-					break;
+			if (!forPolyhedronNet && needsSnap(view)) {
+				double g = view.getGridDistances(0);
+				double valRound = Kernel.roundToScale(val, g);
+				if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+						|| (Math.abs(valRound - val) < g
+								* view.getEuclidianController()
+										.getPointCapturingPercentage())) {
+					val = valRound;
 				}
 			}
 		}
@@ -283,6 +275,20 @@ public class ChangeableParent {
 		GeoElement.addParentToUpdateList(var, updateGeos, tempMoveObjectList);
 
 		return true;
+	}
+
+	private static boolean needsSnap(EuclidianView view) {
+		switch (view.getPointCapturingMode()) {
+		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+			// TODO
+			return false;
+		default:
+		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+			return view.isGridOrAxesShown();
+		case EuclidianStyleConstants.POINT_CAPTURING_ON:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+			return true;
+		}
 	}
 
 	/**
