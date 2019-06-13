@@ -416,7 +416,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 }
                 if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
                     int mToCm = 100;
-                    arRatio = ratio  * mToCm;
+                    arRatio = ratio  * mToCm * pot;
                 }
                 arScaleAtStart =  (float) (ggbToRw * ratio * pot);
             } else {
