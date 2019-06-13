@@ -30,8 +30,10 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -98,6 +100,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 					.newCurve(path.isGeoElement3D() ? 3 : 2, cons);
 			this.function = gc;
 		}
+
 		this.angle = angle;
 		this.line = line;
 		this.path = path;
@@ -121,6 +124,12 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		if (path instanceof ParametricCurve
 				&& ((ParametricCurve) path).isFunctionInX()) {
 			surface.setIsSurfaceOfRevolutionAroundOx(true);
+		}
+		GeoNumeric changeableAngle = ChangeableParent.getGeoNumeric(angle);
+		if (changeableAngle != null) {
+			ChangeableParent changeableParent = new ChangeableParent(
+					changeableAngle, line, new RotationConverter(line));
+			surface.setChangeableParent(changeableParent);
 		}
 
 		setInputOutput(); // for AlgoElement

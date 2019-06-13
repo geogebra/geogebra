@@ -55,7 +55,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -64,6 +63,7 @@ import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -3576,7 +3576,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			event.release();
 			if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
 				if (updateTranslationVector(handledGeo
-						.getChangeableParent3D().getDirection())) {
+						.getChangeableParent3D())) {
 					handledGeo.getChangeableParent3D().move(
 							translationVec3D, startPoint3D,
 							view3D.getViewDirection(), null, null, view3D);
@@ -3608,25 +3608,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            direction for the move
 	 * @return true if move is possible
 	 */
-	protected boolean updateTranslationVector(Coords moveDirection) {
+	protected boolean updateTranslationVector(
+			ChangeableParent changeableParent) {
 		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-			if (project1 == null) {
-				project1 = new Coords(4);
-				project2 = new Coords(4);
-				lineCoords = new double[2];
-				tmp = new double[4];
-			}
+
 			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
 			view3D.getHittingDirection(tmpCoordsForDirection);
-			CoordMatrixUtil.nearestPointsFromTwoLines(startPoint3D,
-					moveDirection, tmpCoordsForOrigin, tmpCoordsForDirection,
-					project1.val, project2.val, lineCoords, tmp);
 
-			// if two lines are parallel, it will return NaN
-			if (Double.isNaN(lineCoords[0])) {
-				return false;
-			}
-			project1.sub(startPoint3D, translationVec3D);
+			changeableParent.getConverter().updateTranslation(startPoint3D,
+					changeableParent.getDirection(), tmpCoordsForOrigin,
+					tmpCoordsForDirection, translationVec3D);
+			return translationVec3D.isDefined();
 		} else {
 			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
 			view3D.toSceneCoords3D(tmpCoordsForOrigin);
@@ -3782,7 +3774,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// TODO else
 			if (movedGeoElement.hasChangeableParent3D()) {
 				if (updateTranslationVector(movedGeoElement
-						.getChangeableParent3D().getDirection())) {
+						.getChangeableParent3D())) {
 					doMoveDependent(startPoint3D);
 				}
 			}

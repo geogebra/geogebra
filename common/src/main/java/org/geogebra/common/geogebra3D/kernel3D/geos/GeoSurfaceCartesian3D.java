@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
@@ -56,6 +57,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private Coords normal = new Coords(3);
 	private CoordsDouble3 p1 = new CoordsDouble3();
 	private CoordsDouble3 p2 = new CoordsDouble3();
+	private ChangeableParent changeableParent;
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -755,6 +757,24 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			return AutoColor.SURFACES;
 		}
 		return super.getAutoColorScheme();
+	}
+
+	@Override
+	public boolean hasChangeableParent3D() {
+		return changeableParent != null;
+	}
+
+	@Override
+	public ChangeableParent getChangeableParent3D() {
+		return changeableParent;
+	}
+
+	/**
+	 * @param cp
+	 *            changeable parent
+	 */
+	final public void setChangeableParent(ChangeableParent cp) {
+		changeableParent = cp;
 	}
 
 }

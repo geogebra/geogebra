@@ -249,7 +249,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		// create ChangeableParent if possible
 		GeoNumeric changeableHeight = ChangeableParent.getGeoNumeric(height);
 		if (changeableHeight != null) {
-			heightChangeableParent = new ChangeableParent(changeableHeight, polygon);
+			heightChangeableParent = new ChangeableParent(changeableHeight,
+					polygon, new ExtrudeConverter());
 		}
 
 		initCoords();
