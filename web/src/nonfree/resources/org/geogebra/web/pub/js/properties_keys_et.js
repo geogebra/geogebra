@@ -1174,6 +1174,7 @@ __GGB__keysVar["et"].error = {
     "InvalidInput": "Kahjuks l\xe4ks midagi valesti! Kontrollige sisendit",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Faili avamine eba\xf5nnestus.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "See t\xe4his on juba kasutusel.",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Sisestage arv",

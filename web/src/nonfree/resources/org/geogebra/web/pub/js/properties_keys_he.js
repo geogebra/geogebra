@@ -1174,6 +1174,7 @@ __GGB__keysVar["he"].error = {
     "InvalidInput": "\u05de\u05e6\u05d8\u05e2\u05e8, \u05de\u05e9\u05d4\u05d5 \u05dc\u05d0 \u05d1\u05e1\u05d3\u05e8. \u05d0\u05e0\u05d0 \u05d1\u05d3\u05e7\u05d9 \u05d0\u05ea \u05d4\u05e7\u05dc\u05d8 \u05e9\u05dc\u05da",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "\u05e4\u05ea\u05d9\u05d7\u05ea \u05e7\u05d5\u05d1\u05e5 \u05e0\u05db\u05e9\u05dc\u05d4",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "\u05ea\u05d5\u05d5\u05d9\u05ea \u05d6\u05d5 \u05e0\u05de\u05e6\u05d0\u05ea \u05db\u05d1\u05e8 \u05d1\u05e9\u05d9\u05de\u05d5\u05e9",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "\u05de\u05e6\u05e4\u05d4 \u05dc\u05de\u05e1\u05e4\u05e8",

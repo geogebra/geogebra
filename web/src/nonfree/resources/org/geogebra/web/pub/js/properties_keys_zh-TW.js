@@ -1174,6 +1174,7 @@ __GGB__keysVar["zh-TW"].error = {
     "InvalidInput": "\u5f88\u62b1\u6b49\uff0c\u60a8\u7684\u8f38\u5165\u6709\u8aa4\uff0c\u8acb\u518d\u6aa2\u67e5\u4e00\u6b21\u3002",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "\u7121\u6cd5\u958b\u555f\u6a94\u6848",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "\u9019\u500b\u6a19\u7c64\u540d\u7a31\u5df2\u88ab\u4f7f\u7528",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "\u60a8\u5fc5\u9808\u8f38\u5165\u6578\u5b57",

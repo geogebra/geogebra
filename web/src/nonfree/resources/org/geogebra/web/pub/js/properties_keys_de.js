@@ -1174,6 +1174,7 @@ __GGB__keysVar["de"].error = {
     "InvalidInput": "\xdcberpr\xfcfen Sie bitte Ihre Eingabe",
     "LabelAlreadyUsed": "Diese Beschriftung wird bereits verwendet.",
     "LoadFileFailed": "\xd6ffnen der Datei fehlgeschlagen",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Dieser Name ist bereits vergeben.",
     "NotAuthorized": "Nicht authorisiert",
     "NumberExpected": "Zahl erwartet",

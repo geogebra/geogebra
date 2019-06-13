@@ -1174,6 +1174,7 @@ __GGB__keysVar["hu"].error = {
     "InvalidInput": "Ellen\u0151rizd a bemeneti adatokat",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "F\xe1jl megnyit\xe1sa sikertelen",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Ez a c\xedmke m\xe1r haszn\xe1latban van",
     "NotAuthorized": "Jogosulatlan",
     "NumberExpected": "Sz\xe1mot kell megadni",

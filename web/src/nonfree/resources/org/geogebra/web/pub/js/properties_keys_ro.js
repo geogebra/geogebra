@@ -1174,6 +1174,7 @@ __GGB__keysVar["ro"].error = {
     "InvalidInput": "Ceva nu func\u0163ioneaz\u0103 corect. Verifica\u0163i intrarea",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Deschiderea fi\u015fierului a e\u015fuat",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Aceast\u0103 etichet\u0103 este deja \xeen uz",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Se a\u015fteapt\u0103 un num\u0103r",

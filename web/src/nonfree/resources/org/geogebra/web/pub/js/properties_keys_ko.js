@@ -1174,6 +1174,7 @@ __GGB__keysVar["ko"].error = {
     "InvalidInput": "\uc785\ub825 \ub0b4\uc6a9\uc744 \uc810\uac80\ud558\uc2ed\uc2dc\uc624",
     "LabelAlreadyUsed": "\uc774 \ub808\uc774\ube14\uc740 \uc774\ubbf8 \uc0ac\uc6a9\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
     "LoadFileFailed": "\ud30c\uc77c \uc5f4\uae30 \uc2e4\ud328",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "\uc774 \ub808\uc774\ube14\uc740 \uc774\ubbf8 \uc0ac\uc6a9\ub418\uace0 \uc788\uc2b5\ub2c8\ub2e4.",
     "NotAuthorized": "\ud5c8\uac00\ubc1b\uc9c0 \uc54a\uc74c",
     "NumberExpected": "\uc608\uc0c1\ub41c \uc22b\uc790",

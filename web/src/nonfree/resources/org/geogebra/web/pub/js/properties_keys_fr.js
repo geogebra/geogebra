@@ -1174,6 +1174,7 @@ __GGB__keysVar["fr"].error = {
     "InvalidInput": "D\xe9sol\xe9, la saisie n'est pas valide",
     "LabelAlreadyUsed": "Ce nom est d\xe9j\xe0 utilis\xe9.",
     "LoadFileFailed": "Impossible d'ouvrir le fichier.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Cette \xe9tiquette est d\xe9j\xe0 utilis\xe9e.",
     "NotAuthorized": "Non autoris\xe9",
     "NumberExpected": "Nombre attendu",

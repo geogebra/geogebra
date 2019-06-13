@@ -1174,6 +1174,7 @@ __GGB__keysVar["ms"].error = {
     "InvalidInput": "Maaf, input tidak boleh diterima",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Pembukaan fail gagal.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Label ini telah pun dalam penggunaan.",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Nombor dijangkakan",

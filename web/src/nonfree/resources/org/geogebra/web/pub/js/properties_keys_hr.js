@@ -1174,6 +1174,7 @@ __GGB__keysVar["hr"].error = {
     "InvalidInput": "Provjerite va\u0161 unos",
     "LabelAlreadyUsed": "Ova oznaka je ve\u0107 u uporabi.",
     "LoadFileFailed": "Otvaranje nije uspjelo",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Oznaka je ve\u0107 upotrijebljena",
     "NotAuthorized": "Nije dopu\u0161teno",
     "NumberExpected": "Treba upisati broj",

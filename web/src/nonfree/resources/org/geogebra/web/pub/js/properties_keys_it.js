@@ -1174,6 +1174,7 @@ __GGB__keysVar["it"].error = {
     "InvalidInput": "Verifica i dati immessi",
     "LabelAlreadyUsed": "Questa etichetta \xe8 gi\xe0 in uso.",
     "LoadFileFailed": "Non \xe8 possibile aprire il file.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Questa etichetta \xe8 gi\xe0 in uso.",
     "NotAuthorized": "Non autorizzato",
     "NumberExpected": "Atteso un numero",

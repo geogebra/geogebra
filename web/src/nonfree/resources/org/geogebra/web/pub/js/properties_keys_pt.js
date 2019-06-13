@@ -1174,6 +1174,7 @@ __GGB__keysVar["pt"].error = {
     "InvalidInput": "Por favor, verifique a estrutura do seu comando",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "N\xe3o foi poss\xedvel abrir o arquivo.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Este r\xf3tulo j\xe1 est\xe1 sendo usado.",
     "NotAuthorized": "N\xe3o autorizado",
     "NumberExpected": "Entre com um n\xfamero",

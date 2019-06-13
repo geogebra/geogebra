@@ -1174,6 +1174,7 @@ __GGB__keysVar["sl"].error = {
     "InvalidInput": "Preveri vnos",
     "LabelAlreadyUsed": "Ta oznaka je \u017ee uporabljena.",
     "LoadFileFailed": "Odpiranje ni uspelo",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Ta oznaka je \u017ee uporabljena",
     "NotAuthorized": "Neprijavljen",
     "NumberExpected": "Pri\u010dakujem \u0161tevilo",

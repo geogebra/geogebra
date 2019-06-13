@@ -1174,6 +1174,7 @@ __GGB__keysVar["sr"].error = {
     "InvalidInput": "Na\u017ealost, unos nije prihvatljiv",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Otvaranje datoteke nije uspelo",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Oznaka je ve\u0107 upotrebljena",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Treba upisati broj",

@@ -1174,6 +1174,7 @@ __GGB__keysVar["pt-PT"].error = {
     "InvalidInput": "Lamentamos, a express\xe3o que digitou n\xe3o \xe9 aceit\xe1vel",
     "LabelAlreadyUsed": "Este r\xf3tulo j\xe1 est\xe1 a ser usado.",
     "LoadFileFailed": "N\xe3o foi poss\xedvel abrir o ficheiro",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "Este r\xf3tulo j\xe1 est\xe1 a ser utilizado",
     "NotAuthorized": "N\xe3o autorizado",
     "NumberExpected": "Entre com um n\xfamero",

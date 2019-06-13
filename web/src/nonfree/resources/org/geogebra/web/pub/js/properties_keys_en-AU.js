@@ -1174,6 +1174,7 @@ __GGB__keysVar["en-AU"].error = {
     "InvalidInput": "Please check your input",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Opening file failed",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "This label is already in use",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Number expected",

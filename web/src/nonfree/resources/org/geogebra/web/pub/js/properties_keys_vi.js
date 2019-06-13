@@ -1174,6 +1174,7 @@ __GGB__keysVar["vi"].error = {
     "InvalidInput": "Gi\xe1 tr\u1ecb nh\u1eadp v\xe0o kh\xf4ng h\u1ee3p l\u1ec7",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "L\u1ed7i khi m\u1edf t\u1eadp tin",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
     "NameUsed": "T\xean n\xe0y \u0111\xe3 \u0111\u01b0\u1ee3c s\u1eed d\u1ee5ng",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "S\u1ed1 th\u1ecfa m\xe3n",
