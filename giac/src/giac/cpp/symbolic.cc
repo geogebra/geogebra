@@ -445,7 +445,7 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
     s += '^';
 #else
-    s += __pow.s;
+    s += python_compat(contextptr)?"**":__pow.s;
 #endif
     bool puipar = pui.type==_SYMB || pui.type==_FRAC || pui.type==_CPLX || (pui.type==_VECT && pui.subtype==_SEQ__VECT);
     if (puipar)
