@@ -11,6 +11,7 @@ import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.HlineAtom;
+import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
@@ -135,6 +136,10 @@ public class TeXAtomSerializer {
 			return sb.toString();
 		}
 
+		if (root instanceof JavaFontRenderingAtom) {
+			return ((JavaFontRenderingAtom) root).getString();
+		}
+
 		// serialise table to eg {{1,2,3},{3,4,5}}
 		if (root instanceof ArrayAtom) {
 			ArrayAtom atom = (ArrayAtom) root;
@@ -170,7 +175,8 @@ public class TeXAtomSerializer {
 			return serialize(((HasTrueBase) root).getTrueBase());
 		}
 
-		FactoryProvider.debugS("Unhandled atom:" + (root == null ? "null" : root.getClass()));
+		FactoryProvider.debugS("Unhandled atom:"
+				+ (root == null ? "null" : (root.getClass() + " " + root.toString())));
 		// FactoryProvider.getInstance().printStacktrace();
 
 		return "?";
