@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -161,6 +163,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	private Corner firstCorner;
 
 	private CurveHitting curveHitting;
+
+	private ArrayList<GeoCurveCartesian3D> borders = new ArrayList<>();
 	
 	private static class NotEnoughCornersException extends Exception {
 		private static final long serialVersionUID = 1L;
@@ -344,7 +348,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		boolean drawOccured = false;
 
 		if (drawFromScratch) {
-
+			borders.clear();
 			drawUpToDate = false;
 
 			if (levelOfDetail == LevelOfDetail.QUALITY
@@ -3160,6 +3164,19 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		}
 		resetZPick();
 		boolean isHit = false;
+		if (borders.isEmpty()) {
+			calculateBorders();
+		}
+		for (GeoCurveCartesian3D border : borders) {
+				isHit = curveHitting.hit(hitting, border,
+						Math.max(5, getGeoElement().getLineThickness()))
+						|| isHit;
+
+		}
+		return isHit;
+	}
+
+	private void calculateBorders() {
 		for (int axis = 0; axis < 2; axis++) {
 			double[] paramValues = new double[] {
 					surfaceGeo.getMinParameter(axis),
@@ -3167,12 +3184,9 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			for (int borderIndex = 0; borderIndex < 2; borderIndex++) {
 				GeoCurveCartesian3D border = setHitting(axis,
 						paramValues[borderIndex]);
-				isHit = curveHitting.hit(hitting, border,
-						Math.max(5, getGeoElement().getLineThickness()))
-						|| isHit;
+				borders.add(border);
 			}
 		}
-		return isHit;
 	}
 
 	private GeoCurveCartesian3D setHitting(int axis, double paramValue) {
