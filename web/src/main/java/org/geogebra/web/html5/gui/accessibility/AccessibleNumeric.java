@@ -3,7 +3,10 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 
@@ -51,7 +54,29 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	}
 
 	private void updateValueText() {
-		slider.getElement().setAttribute("aria-valuetext", numeric.getAuralCurrentValue());
+		slider.getElement().setAttribute("aria-valuetext", getAriaValueText());
+	}
+
+	private String getAriaValueText() {
+		ScreenReaderBuilder builder = new ScreenReaderBuilder();
+
+		builder.append(numeric.toValueString(StringTemplate.screenReader));
+		builder.appendSpace();
+
+		if (!StringUtil.empty(numeric.getCaptionSimple())) {
+			String caption = numeric.getCaptionSimple();
+			if (numeric.getCaptionSimple().indexOf("=") > 0) {
+				caption = numeric.getCaptionSimple().substring(0,
+						numeric.getCaptionSimple().indexOf("="));
+			}
+			builder.append(caption);
+		} else {
+			builder.append(numeric.getLabelSimple());
+		}
+
+		builder.endSentence();
+
+		return builder.toString();
 	}
 
 	@Override
