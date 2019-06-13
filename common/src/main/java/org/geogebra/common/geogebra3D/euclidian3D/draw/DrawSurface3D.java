@@ -7,9 +7,19 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -27,7 +37,7 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  * 
  */
-public class DrawSurface3D extends Drawable3DSurfaces {
+public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 	final static private boolean DEBUG = false;
 
@@ -149,8 +159,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * first corner from root mesh
 	 */
 	private Corner firstCorner;
+
+	private CurveHitting curveHitting;
 	
 	private static class NotEnoughCornersException extends Exception {
+		private static final long serialVersionUID = 1L;
 		private DrawSurface3D surface;
 
 		public NotEnoughCornersException(DrawSurface3D surface, String message) {
@@ -3138,78 +3151,132 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+			return hitFunction2Var(hitting);
+		}
 
-			GeoFunctionNVar geoF = (GeoFunctionNVar) surfaceGeo;
 
-			hitting.calculateClippedValues();
-			if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
-											// clipping box
-				resetLastHitParameters(geoF);
-				return false;
+		if (curveHitting == null) {
+			curveHitting = new CurveHitting(this, getView3D());
+		}
+		resetZPick();
+		boolean isHit = false;
+		for (int axis = 0; axis < 2; axis++) {
+			double[] paramValues = new double[] {
+					surfaceGeo.getMinParameter(axis),
+					surfaceGeo.getMaxParameter(axis) };
+			for (int borderIndex = 0; borderIndex < 2; borderIndex++) {
+				GeoCurveCartesian3D border = setHitting(axis,
+						paramValues[borderIndex]);
+				isHit = curveHitting.hit(hitting, border,
+						Math.max(5, getGeoElement().getLineThickness()))
+						|| isHit;
 			}
+		}
+		return isHit;
+	}
 
-			double[][] xyzf = geoF.getXYZF();
+	private GeoCurveCartesian3D setHitting(int axis, double paramValue) {
+		GeoCurveCartesian3D border = new GeoCurveCartesian3D(
+				getGeoElement().getConstruction());
+		GeoSurfaceCartesian3D geoSurface3D = (GeoSurfaceCartesian3D) getGeoElement();
+		FunctionNVar[] functions = geoSurface3D
+				.getFunctions();
+		Function[] borderFunctions = new Function[functions.length];
+		for (int i = 0; i < functions.length; i++) {
+			Kernel kernel = geoSurface3D.getKernel();
+			ExpressionNode expr = functions[i].getFunctionExpression()
+					.deepCopy(kernel);
+			FunctionVariable fVar = new FunctionVariable(kernel, "u");
+			expr = expr
+					.traverse(VariableReplacer.getReplacer(
+							functions[i].getVarString(axis,
+									StringTemplate.defaultTemplate),
+							new MyDouble(kernel,
+									paramValue),
+							kernel))
+					.wrap();
+			expr = expr
+					.traverse(VariableReplacer.getReplacer(
+							functions[i].getVarString(1 - axis,
+									StringTemplate.defaultTemplate),
+					fVar, kernel)).wrap();
+			borderFunctions[i] = new Function(expr, fVar);
+		}
+		border.setFun(borderFunctions);
+		border.setInterval(geoSurface3D.getMinParameter(1 - axis),
+				geoSurface3D.getMaxParameter(1 - axis));
+		return border;
 
-			// compute samples from xyz0 to xyz1, try to find consecutive +/-
-			geoF.setXYZ(hitting.x0, hitting.y0, hitting.z0,
-					xyzf[GeoFunctionNVar.DICHO_LAST]);
-			boolean isLessZ0 = false, isLessZ1;
-			isLessZ1 = GeoFunctionNVar
-					.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
-			double t = 0;
+	}
 
-			for (int i = 1; i <= HIT_SAMPLES; i++) {
-				double[] tmp = xyzf[GeoFunctionNVar.DICHO_FIRST];
-				xyzf[GeoFunctionNVar.DICHO_FIRST] = xyzf[GeoFunctionNVar.DICHO_LAST];
-				xyzf[GeoFunctionNVar.DICHO_LAST] = tmp;
-				t = i * DELTA_SAMPLES;
-				geoF.setXYZ(hitting.x0 * (1 - t) + hitting.x1 * t,
-						hitting.y0 * (1 - t) + hitting.y1 * t,
-						hitting.z0 * (1 - t) + hitting.z1 * t,
-						xyzf[GeoFunctionNVar.DICHO_LAST]);
-				isLessZ0 = isLessZ1;
-				isLessZ1 = GeoFunctionNVar
-						.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
-				if (isLessZ0 ^ isLessZ1) {
-					break; // found
-				}
-			}
+	private boolean hitFunction2Var(Hitting hitting) {
+		GeoFunctionNVar geoF = (GeoFunctionNVar) surfaceGeo;
 
-			// set - as first value, + as second value, or return false
-			if (isLessZ0) {
-				if (isLessZ1) {
-					resetLastHitParameters(geoF);
-					return false;
-				}
-				double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
-						- hitting.origin.getX();
-				double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
-						- hitting.origin.getY();
-				double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
-						- hitting.origin.getZ();
-				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-				setZPick(-d, -d, hitting.discardPositiveHits(), d);
-				setLastHitParameters(geoF, false);
-				return true;
-			}
-
-			if (isLessZ1) {
-				double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
-						- hitting.origin.getX();
-				double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
-						- hitting.origin.getY();
-				double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
-						- hitting.origin.getZ();
-				double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-				setZPick(-d, -d, hitting.discardPositiveHits(), d);
-				setLastHitParameters(geoF, true);
-				return true;
-			}
-
+		hitting.calculateClippedValues();
+		if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
+										// clipping box
 			resetLastHitParameters(geoF);
 			return false;
 		}
 
+		double[][] xyzf = geoF.getXYZF();
+
+		// compute samples from xyz0 to xyz1, try to find consecutive +/-
+		geoF.setXYZ(hitting.x0, hitting.y0, hitting.z0,
+				xyzf[GeoFunctionNVar.DICHO_LAST]);
+		boolean isLessZ0 = false, isLessZ1;
+		isLessZ1 = GeoFunctionNVar.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
+		double t = 0;
+
+		for (int i = 1; i <= HIT_SAMPLES; i++) {
+			double[] tmp = xyzf[GeoFunctionNVar.DICHO_FIRST];
+			xyzf[GeoFunctionNVar.DICHO_FIRST] = xyzf[GeoFunctionNVar.DICHO_LAST];
+			xyzf[GeoFunctionNVar.DICHO_LAST] = tmp;
+			t = i * DELTA_SAMPLES;
+			geoF.setXYZ(hitting.x0 * (1 - t) + hitting.x1 * t,
+					hitting.y0 * (1 - t) + hitting.y1 * t,
+					hitting.z0 * (1 - t) + hitting.z1 * t,
+					xyzf[GeoFunctionNVar.DICHO_LAST]);
+			isLessZ0 = isLessZ1;
+			isLessZ1 = GeoFunctionNVar
+					.isLessZ(xyzf[GeoFunctionNVar.DICHO_LAST]);
+			if (isLessZ0 ^ isLessZ1) {
+				break; // found
+			}
+		}
+
+		// set - as first value, + as second value, or return false
+		if (isLessZ0) {
+			if (isLessZ1) {
+				resetLastHitParameters(geoF);
+				return false;
+			}
+			double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
+					- hitting.origin.getX();
+			double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
+					- hitting.origin.getY();
+			double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
+					- hitting.origin.getZ();
+			double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+			setZPick(-d, -d, hitting.discardPositiveHits(), d);
+			setLastHitParameters(geoF, false);
+			return true;
+		}
+
+		if (isLessZ1) {
+			double dx = xyzf[GeoFunctionNVar.DICHO_FIRST][0]
+					- hitting.origin.getX();
+			double dy = xyzf[GeoFunctionNVar.DICHO_FIRST][1]
+					- hitting.origin.getY();
+			double dz = xyzf[GeoFunctionNVar.DICHO_FIRST][2]
+					- hitting.origin.getZ();
+			double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+			setZPick(-d, -d, hitting.discardPositiveHits(), d);
+			setLastHitParameters(geoF, true);
+			return true;
+		}
+
+		resetLastHitParameters(geoF);
 		return false;
 	}
 
@@ -3255,4 +3322,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		drawFromScratch = false;
 		stillRoomLeft = false;
 	}
+
+	@Override
+	public void setZPickIfBetter(double zNear, double zFar,
+			boolean discardPositive, double positionOnHitting) {
+		if (!needsDiscardZPick(discardPositive, zNear, zFar)
+				&& (zNear > getZPickNear())) {
+			setZPickValue(zNear, zFar);
+			setPositionOnHitting(positionOnHitting);
+		}
+	}
+
 }
