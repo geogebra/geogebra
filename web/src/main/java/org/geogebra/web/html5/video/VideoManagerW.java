@@ -260,7 +260,7 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public void onError(GeoVideo video) {
 		removePlayer(video);
-		AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size());
+		AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size() + 1);
 		addPlayerToFrame(video, offlinePlayer);
 	}
 }
