@@ -10,6 +10,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.HttpRequestW;
+import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONString;
@@ -37,7 +38,11 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		if (!StringUtil.empty(articleElement.getLoginAPIurl())) {
 			setLoginURL(articleElement.getLoginAPIurl());
 		}
-		urlChecker = new EmbedURLChecker(articleElement.getParamBackendURL());
+		if (Location.getHost() != null && Location.getHost().contains("geogebra")) {
+			urlChecker = new EmbedURLChecker(articleElement.getParamBackendURL());
+		} else {
+			urlChecker = new MarvlURLChecker();
+		}
 	}
 
 	@Override

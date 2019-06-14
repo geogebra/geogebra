@@ -32,9 +32,9 @@ public class GraspableEmbedElement extends EmbedElement {
 		super(widget);
 	}
 
-	private native void setContentNative(JavaScriptObject core,
+	private native void setContentNative(JavaScriptObject canvas,
 			String string) /*-{
-		core.loadFromJSON(string);
+		canvas.loadFromJSON(string);
 	}-*/;
 
 	/**
@@ -71,30 +71,17 @@ public class GraspableEmbedElement extends EmbedElement {
 			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {
 				ggbNotesAPI : apiObject
 			});
-			if ($wnd.ExternalApi) {
-				var storeContent = function(core) {
-					manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
-					core
-							.getAsJSON()
-							.then(
-									function(content) {
-										$wnd.console.log("storing content");
-										manager.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id, content);
-									});
-				};
 
-				var loadCallback = function(core) {
-					that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::setAPI(*)(core);
-					core.addEventListener('undoable-action', function() {
-						storeContent(core);
-					});
-				};
+			var storeContent = function() {
+				manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
+				var content = canvas.toJSON();
+				manager.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id, content);
+			};
 
-				$wnd.ExternalApi(element, 'https://graspablemath.com',
-						loadCallback);
-			} else {
-				print("no external api");
-			}
+			canvas.controller.on('undoable-action', function() {
+				storeContent();
+			});
+			that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::setAPI(*)(canvas);
 		}
 	}-*/;
 
@@ -157,11 +144,11 @@ public class GraspableEmbedElement extends EmbedElement {
 		}
 	}
 
-	private native void undoNative(JavaScriptObject core) /*-{
-		core.undo();
+	private native void undoNative(JavaScriptObject canvas) /*-{
+		canvas.controller.undo();
 	}-*/;
 
-	private native void redoNative(JavaScriptObject core) /*-{
-		core.redo();
+	private native void redoNative(JavaScriptObject canvas) /*-{
+		canvas.controller.redo();
 	}-*/;
 }

@@ -1437,4 +1437,11 @@ public class GgbAPIW extends GgbAPI {
 		return ((AppW) app).getEmbeddedCalculators();
 	}
 
+	/**
+	 * @return frame DOM element
+	 */
+	public Element getFrame() {
+		return ((AppW) app).getFrameElement();
+	}
+
 }
