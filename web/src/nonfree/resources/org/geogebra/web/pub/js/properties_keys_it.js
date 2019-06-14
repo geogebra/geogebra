@@ -1174,7 +1174,7 @@ __GGB__keysVar["it"].error = {
     "InvalidInput": "Verifica i dati immessi",
     "LabelAlreadyUsed": "Questa etichetta \xe8 gi\xe0 in uso.",
     "LoadFileFailed": "Non \xe8 possibile aprire il file.",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Si \xe8 verificato un problema: verifica di essere online e di avere eseguito l'accesso a mebis.",
     "NameUsed": "Questa etichetta \xe8 gi\xe0 in uso.",
     "NotAuthorized": "Non autorizzato",
     "NumberExpected": "Atteso un numero",
@@ -1195,7 +1195,7 @@ __GGB__keysVar["it"].error = {
     "UndefinedVariable": "Variabile non definita",
     "UnknownCommand": "Comando sconosciuto",
     "VectorExpected": "Atteso punto o vettore",
-    "VideoAccessError": "Si \xe8 verificato un errore.",
+    "VideoAccessError": "Si \xe8 verificato un problema.",
 };
 
 
@@ -2840,6 +2840,7 @@ __GGB__keysVar["it"].menu = {
     "SumSquares.short": "SQ",
     "SumsAndIntegrals": "Somme e integrali",
     "Surface": "Superficie",
+    "SurfaceOfRevolution": "Surface of Revolution",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

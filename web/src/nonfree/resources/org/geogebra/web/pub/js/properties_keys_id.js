@@ -2840,6 +2840,7 @@ __GGB__keysVar["id"].menu = {
     "SumSquares.short": "JK",
     "SumsAndIntegrals": "Jumlah dan Integral",
     "Surface": "Surface",
+    "SurfaceOfRevolution": "Surface of Revolution",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

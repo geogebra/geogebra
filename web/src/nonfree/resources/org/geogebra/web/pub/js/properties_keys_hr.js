@@ -2840,6 +2840,7 @@ __GGB__keysVar["hr"].menu = {
     "SumSquares.short": "ZB",
     "SumsAndIntegrals": "Zbrojevi i integrali",
     "Surface": "Ploha",
+    "SurfaceOfRevolution": "Surface of Revolution",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

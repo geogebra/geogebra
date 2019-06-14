@@ -2840,6 +2840,7 @@ __GGB__keysVar["hu"].menu = {
     "SumSquares.short": "SS",
     "SumsAndIntegrals": "\xd6sszegek,integr\xe1l \xe9s hat\xe1r\xe9rt\xe9k",
     "Surface": "Fel\xfclet",
+    "SurfaceOfRevolution": "Surface of Revolution",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

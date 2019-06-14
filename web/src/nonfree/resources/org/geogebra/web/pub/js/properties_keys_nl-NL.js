@@ -2840,6 +2840,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "SumSquares.short": "SS",
     "SumsAndIntegrals": "Sommatie en Integralen",
     "Surface": "Oppervlak",
+    "SurfaceOfRevolution": "Surface of Revolution",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

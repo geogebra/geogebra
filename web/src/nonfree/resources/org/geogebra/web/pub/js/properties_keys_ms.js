@@ -2840,6 +2840,7 @@ __GGB__keysVar["ms"].menu = {
     "SumSquares.short": "SS",
     "SumsAndIntegrals": "Hasiltambah dan Kamiran",
     "Surface": "Permukaan",
+    "SurfaceOfRevolution": "Surface of Revolution",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",
