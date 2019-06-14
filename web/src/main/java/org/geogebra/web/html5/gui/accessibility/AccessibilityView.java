@@ -97,7 +97,8 @@ public class AccessibilityView implements View {
 	}
 
 	private static boolean isInteractive(GeoElement geo) {
-		if (!geo.isEuclidianVisible() || !geo.isSelectionAllowed(null)) {
+		if (!geo.isEuclidianVisible() || !geo.isSelectionAllowed(null)
+				|| geo.getLabelSimple() == null) {
 			return false;
 		}
 		for (int euclidianView = 1; euclidianView < 4; euclidianView++) {
