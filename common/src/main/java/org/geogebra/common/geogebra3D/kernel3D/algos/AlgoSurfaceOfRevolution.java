@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
 
-
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
  * to]
@@ -62,11 +61,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	private double[] max;
 
 	/**
-	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param function
 	 *            path to be rotated
 	 * @param angle

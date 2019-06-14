@@ -3158,7 +3158,6 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			return hitFunction2Var(hitting);
 		}
 
-
 		if (curveHitting == null) {
 			curveHitting = new CurveHitting(this, getView3D());
 		}

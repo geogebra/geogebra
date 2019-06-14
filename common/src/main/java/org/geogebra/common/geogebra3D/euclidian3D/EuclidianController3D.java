@@ -187,19 +187,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private GeoPointND singleIntersectionPoint;
 
-    private boolean isModeForCreatingPoint;
+	private boolean isModeForCreatingPoint;
 
-    private SchedulerFactory.Scheduler schedulerForMouseExit;
-    private ScheduledMouseExit mScheduledMouseExit;
+	private SchedulerFactory.Scheduler schedulerForMouseExit;
+	private ScheduledMouseExit mScheduledMouseExit;
 
 	private List<GeoElement> hitsForSingleIntersectionPoint;
 
 	private RotationSpeedHandler rotationSpeedHandler;
-
-	private Coords project1;
-	private Coords project2;
-	private double[] lineCoords;
-	private double[] tmp;
 
 	/**
 	 * Store infos for intersection curve
