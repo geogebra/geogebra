@@ -85,7 +85,6 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -2633,115 +2632,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (caption.indexOf('%') < 0) {
 			return caption;
 		}
-		StringBuilder captionSB = new StringBuilder();
-
-		// replace %v with value and %n with name
-		for (int i = 0; i < caption.length(); i++) {
-			char ch = caption.charAt(i);
-			if ((ch == '%') && (i < (caption.length() - 1))) {
-				// get number after %
-				i++;
-				ch = caption.charAt(i);
-				switch (ch) {
-				case 'c':
-					// (text value) of next cell to the right
-					String cText = "";
-					if (label != null) {
-						GPoint p = GeoElementSpreadsheet
-								.spreadsheetIndices(label);
-						if (p.x > -1 && p.y > -1) {
-							String labelR1 = GeoElementSpreadsheet
-									.getSpreadsheetCellName(p.x + 1, p.y);
-							GeoElement geoR1 = kernel.lookupLabel(labelR1);
-							if (geoR1 != null) {
-								cText = geoR1.toValueString(tpl);
-							}
-						}
-					}
-					captionSB.append(cText);
-					break;
-				case 'f':
-					captionSB.append(getDefinition(tpl));
-					break;
-				case 'd':
-					captionSB.append(getDefinitionDescription(tpl));
-					break;
-				case 'v':
-					captionSB.append(toValueString(tpl));
-					break;
-				case 'n':
-					captionSB.append(getLabel(tpl));
-					break;
-				case 'x':
-					if (isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) this).getInhomCoords().getX(),
-								tpl));
-					} else if (isGeoVector()) {
-						captionSB.append(kernel.format(
-								((GeoVectorND) this).getInhomCoords()[0], tpl));
-					} else if (isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) this).getX(), tpl));
-					} else {
-						captionSB.append("%x");
-					}
-
-					break;
-				case 'y':
-					if (isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) this).getInhomCoords().getY(),
-								tpl));
-					} else if (isGeoVector()) {
-						captionSB.append(kernel.format(
-								((GeoVectorND) this).getInhomCoords()[1], tpl));
-					} else if (isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) this).getY(), tpl));
-					} else {
-						captionSB.append("%y");
-					}
-					break;
-				case 'z':
-					if (isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) this).getInhomCoords().getZ(),
-								tpl));
-					} else if (isGeoVector()) {
-						captionSB.append(
-								((GeoVectorND) this).getInhomCoords().length < 3
-										? "0"
-										: kernel.format(
-												((GeoVectorND) this)
-														.getInhomCoords()[2],
-												tpl));
-					} else if (isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) this).getZ(), tpl));
-					} else {
-						captionSB.append("%z");
-					}
-					break;
-
-				// Can't use %s as %style is used for something else
-				case 's':
-				default:
-					captionSB.append('%');
-					captionSB.append(ch);
-				}
-			} else {
-				captionSB.append(ch);
-			}
-		}
-
-		if (captionSB.length() == 0) {
-			// can't return empty string
-			// eg if %c used when not a spreadsheet cell
-			return getLabel(tpl);
-		}
-
-		return captionSB.toString();
+		return CaptionBuilder.getCaption(caption, this, tpl);
 	}
 
 	@Override
