@@ -82,12 +82,4 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 		return this.contentWindow != null;
 	}-*/;
 
-	/**
-	 * Sends the player background.
-	 */
-	@Override
-	public void sendBackground() {
-		video.setBackground(true);
-		update();
-	}
 }
