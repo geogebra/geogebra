@@ -27,6 +27,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolyhedron3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurfaceOfRevolution;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
@@ -1541,6 +1542,25 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
+	final protected GeoElement[] surfaceOfRevolution(Hits hits,
+			boolean selPreview) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+
+		addSelectedFunction(hits, 1, false, selPreview);
+		
+		if (selFunctions() == 1 && selNumberValues() == 1) {
+			GeoNumberValue angle = getSelectedNumberValues()[0];
+			GeoElement surface = getKernel().getManager3D()
+					.surfaceOfRevolution(getSelectedFunctions()[0], angle);
+			surface.setLabel(null);
+			return surface.asArray();
+		}
+
+		return null;
+	}
+
 	@Override
 	protected boolean draggingOccurredBeforeRelease(boolean notAlreadyStarted) {
 		if (notAlreadyStarted && lastGetNewPointWasExistingPoint
@@ -1877,7 +1897,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_EXTRUSION:
 			return view3D.createPreviewExtrusion(
 					getSelectedPolygonList(), getSelectedConicNDList());
-
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			return view3D.createPreviewSurfaceOfRevolution(
+					getSelectedFunctionList());
 		case EuclidianConstants.MODE_CONIFY:
 			return view3D.createPreviewConify(
 					getSelectedPolygonList(), getSelectedConicNDList());
@@ -2074,6 +2096,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			ret = extrusionOrConify(hits, selectionPreview);
 			break;
 
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			ret = surfaceOfRevolution(hits, selectionPreview);
+			break;
 		case EuclidianConstants.MODE_TETRAHEDRON:
 			ret = archimedeanSolid(hits, Commands.Tetrahedron,
 					selectionPreview);
@@ -2253,14 +2278,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits.removePolygons();
 			createNewPoint(hits, true, false, false, true, false);
 			break;
-
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			setViewHits(type);
+			hits = getView().getHits();
+			surfaceOfRevolution(hits, false);
+			// Log.debug(surface);
+			view3D.updatePreviewable();
+			break;
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
 			setViewHits(type);
 			hits = getView().getHits();
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
-			extrusionOrConify(hits, false);
+			GeoElement conify = extrusionOrConify(hits, false)[0];
+			Log.debug(conify);
 			view3D.updatePreviewable();
 			break;
 
@@ -2362,6 +2394,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			boolean runScripts) {
 		switch (releaseMode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
+			return true;
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			((DrawSurfaceOfRevolution) view3D.getPreviewDrawable())
+					.createAngle();
 			return true;
 		case EuclidianConstants.MODE_EXTRUSION:
 			((DrawExtrusionOrConify3D) view3D.getPreviewDrawable())
@@ -3544,7 +3580,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setHandledGeo(GeoElement geo, GeoElement source) {
 		handledGeo = geo;
 		setStartPointLocation(source);
-		handledGeo.getChangeableParent3D().record(view3D, null);
+		handledGeo.getChangeableParent3D().record(view3D, startPoint3D);
 	}
 
 	/**

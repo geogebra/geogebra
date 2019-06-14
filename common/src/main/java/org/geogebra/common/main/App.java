@@ -3917,6 +3917,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case SPEECH_RECOGNITION:
 			return false;
 
+		case SURFACE_OF_REVOLUTION_TOOL:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

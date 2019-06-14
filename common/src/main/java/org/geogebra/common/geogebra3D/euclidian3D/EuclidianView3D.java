@@ -55,6 +55,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurfaceComposite;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurfaceOfRevolution;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -2240,6 +2241,11 @@ public abstract class EuclidianView3D extends EuclidianView
 			ArrayList<GeoPolygon> selectedPolygons,
 			ArrayList<GeoConicND> selectedConics) {
 		return new DrawExtrusion3D(this, selectedPolygons, selectedConics);
+	}
+
+	public Previewable createPreviewSurfaceOfRevolution(
+			ArrayList<GeoFunction> selectedPolygons) {
+		return new DrawSurfaceOfRevolution(this, selectedPolygons);
 	}
 
 	/**

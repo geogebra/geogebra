@@ -598,18 +598,16 @@ public interface Manager3DInterface {
 	/**
 	 * surface of revolution, rotating function around x-axis, from 0 to angle
 	 * 
-	 * @param label
-	 *            name
 	 * @param function
 	 *            x-&gt;y function
 	 * @param angle
 	 *            angle
 	 * @return surface of revolution
 	 */
-	public GeoElement surfaceOfRevolution(String label,
-			ParametricCurve function, GeoNumberValue angle);
+	public GeoElement surfaceOfRevolution(ParametricCurve function,
+			GeoNumberValue angle);
 
-	public GeoElement surfaceOfRevolution(String label, Path function,
+	public GeoElement surfaceOfRevolution(Path function,
 			GeoNumberValue angle, GeoLineND line);
 
 	// //////////////////////////////////////////////

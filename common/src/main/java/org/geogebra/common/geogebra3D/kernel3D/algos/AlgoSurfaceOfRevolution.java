@@ -72,17 +72,15 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	 * @param angle
 	 *            max angle
 	 */
-	public AlgoSurfaceOfRevolution(Construction cons, String label,
+	public AlgoSurfaceOfRevolution(Construction cons,
 			ParametricCurve function, GeoNumberValue angle) {
-		this(cons, label, function, angle, null);
+		this(cons, function, angle, null);
 	}
 
 	/**
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param path
 	 *            path to be rotated
 	 * @param angle
@@ -90,7 +88,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	 * @param line
 	 *            rotation axis
 	 */
-	public AlgoSurfaceOfRevolution(Construction cons, String label, Path path,
+	public AlgoSurfaceOfRevolution(Construction cons, Path path,
 			GeoNumberValue angle, GeoLineND line) {
 
 		super(cons);
@@ -139,8 +137,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 		// compute value
 		compute();
-		surface.setLabel(label);
-
 	}
 
 	private void rotateAroundX() {

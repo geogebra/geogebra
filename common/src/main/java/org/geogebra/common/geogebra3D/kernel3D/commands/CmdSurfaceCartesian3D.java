@@ -49,8 +49,9 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (ParametricCurve) arg[0],
+						(ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1]);
+				ret[0].setLabel(c.getLabel());
 
 				return ret;
 			}
@@ -60,9 +61,9 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
+						(Path) arg[0], (GeoNumberValue) arg[1],
 						null);
-
+				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
@@ -74,9 +75,9 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (ParametricCurve) arg[0],
+						(ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
-
+				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			if ((ok[0] = (arg[0] instanceof GeoPoly
@@ -86,9 +87,9 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
+						(Path) arg[0], (GeoNumberValue) arg[1],
 						(GeoLineND) arg[2]);
-
+				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));

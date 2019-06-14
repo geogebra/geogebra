@@ -1142,17 +1142,17 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	public GeoElement surfaceOfRevolution(String label,
+	public GeoElement surfaceOfRevolution(
 			ParametricCurve function, GeoNumberValue angle) {
-		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
+		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons,
 				function, angle);
 		return algo.getSurface();
 	}
 
 	@Override
-	public GeoElement surfaceOfRevolution(String label, Path function,
+	public GeoElement surfaceOfRevolution(Path function,
 			GeoNumberValue angle, GeoLineND line) {
-		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
+		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons,
 				function, angle, line);
 		return algo.getSurface();
 	}
