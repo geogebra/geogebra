@@ -114,6 +114,9 @@ public enum Feature {
 	/** G3D-302 */
 	G3D_STL_SOLID,
 
+	/** G3D-343 */
+	G3D_SELECT_META,
+
 	/** APPS-890 */
 	AUTOLABEL_CAS_SETTINGS,
 
