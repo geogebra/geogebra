@@ -64,7 +64,7 @@ public class CmdZoomIn extends CmdScripting {
 			return zoomIn2(arg, c, arg[0].evaluateDouble(), this);
 		case 4:
 			arg = resArgs(c);
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 4; i++) {
 				if (!(arg[i] instanceof NumberValue)) {
 					throw argErr(c, arg[i]);
 				}
@@ -85,6 +85,43 @@ public class CmdZoomIn extends CmdScripting {
 					arg[3].evaluateDouble());
 
 			view.repaintView();
+			// don't return the args: don't need to delete them in case they are
+			// dynamic
+			return new GeoElement[0];
+
+		case 6:
+			if (!app.isEuclidianView3Dinited()) {
+				return new GeoElement[0];
+			}
+
+			arg = resArgs(c);
+			for (int i = 0; i < 6; i++) {
+				if (!(arg[i] instanceof NumberValue)) {
+					throw argErr(c, arg[i]);
+				}
+			}
+
+
+			/*
+			 * Dynamic zoom not supported for 3D View
+			 * 
+			 * EuclidianView3DInterface view3D = app.getEuclidianView3D(); EuclidianSettings
+			 * evs3D = view3D.getSettings();
+			 * 
+			 * 
+			 * // eg ZoomIn(a, a, a, 4, 4, 4) evs3D.setXminObject((GeoNumeric) arg[0],
+			 * false); evs3D.setYminObject((GeoNumeric) arg[1], false);
+			 * evs3D.setZminObject((GeoNumeric) arg[2], false);
+			 * evs3D.setXmaxObject((GeoNumeric) arg[3], false);
+			 * evs3D.setYmaxObject((GeoNumeric) arg[4], true);
+			 * evs3D.setZmaxObject((GeoNumeric) arg[5], true);
+			 */
+
+			// eg ZoomIn(-5, 5, -5, 5, 5, 5)
+			kernel.getApplication().getGgbApi().setCoordSystem(arg[0].evaluateDouble(),
+					arg[3].evaluateDouble(), arg[1].evaluateDouble(), arg[4].evaluateDouble(),
+					arg[2].evaluateDouble(), arg[5].evaluateDouble(), false);
+
 			// don't return the args: don't need to delete them in case they are
 			// dynamic
 			return new GeoElement[0];
