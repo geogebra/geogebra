@@ -217,25 +217,21 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 			surface.setUndefined();
 		}
 		boolean isXAxis = line == kernel.getXAxis();
-		if (!isXAxis || path != function) {
-			ExpressionValue[][] coeffs = new ExpressionValue[4][4];
-			FunctionNVar[] fun = surface.getFunctions();
-			if (isXAxis) {
-				rotation4x4(Coords.VX, funVar[1], coeffs, kernel);
-				transform(function, coeffs, fun, Coords.O);
-			} else {
-				rotation4x4(line.getDirectionInD3().normalized(), funVar[1],
-						coeffs, kernel);
-				transform(function, coeffs, fun, line.getStartInhomCoords());
-			}
+		ExpressionValue[][] coeffs = new ExpressionValue[4][4];
+		FunctionNVar[] fun = surface.getFunctions();
+		if (isXAxis) {
+			rotation4x4(Coords.VX, funVar[1], coeffs, kernel);
+			transform(function, coeffs, fun, Coords.O);
+		} else {
+			rotation4x4(line.getDirectionInD3().normalized(), funVar[1], coeffs, kernel);
+			transform(function, coeffs, fun, line.getStartInhomCoords());
+		}
 
-			String var = function.getFunctionVariables()[0] + "";
-			for (int i = 0; i < 3; i++) {
-				fun[i].getExpression().replaceVariables(var, funVar[0]);
-				fun[i].getExpression().replaceVariables(
-						funVar[1].toString(StringTemplate.defaultTemplate),
-						funVar[1]);
-			}
+		String var = function.getFunctionVariables()[0] + "";
+		for (int i = 0; i < 3; i++) {
+			fun[i].getExpression().replaceVariables(var, funVar[0]);
+			fun[i].getExpression().replaceVariables(
+					funVar[1].toString(StringTemplate.defaultTemplate), funVar[1]);
 		}
 		min[0] = function.getMinParameter();
 		max[0] = function.getMaxParameter();
