@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -107,7 +108,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 			if (geo1.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
-					if (!metaElements.contains(meta)) {
+					if (!metaElements.contains(meta)  && (meta != geoSelected || !app.has(Feature.G3D_SELECT_META))) {
 						tmpAnotherMenuItemList.add(meta);
 					}
 				}
