@@ -209,7 +209,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		// the coord-functions don't have to be updated,
 		// so we only set the interval
 		surface.setIntervals(min, max);
-
 	}
 
 	private void transform(ParametricCurve curve, ExpressionValue[][] m,
@@ -227,7 +226,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 			ExpressionNode trans = new ExpressionNode(kernel, coeff[3]);
 			for (int i = 0; i < 3; i++) {
-				trans = trans.plus(expr[i].multiply(coeff[i]));
+				trans = trans.plus(expr[i].multiplyR(coeff[i]));
 			}
 
 			fun1[row].setExpression(trans.plus(startPoint.get(row + 1)));

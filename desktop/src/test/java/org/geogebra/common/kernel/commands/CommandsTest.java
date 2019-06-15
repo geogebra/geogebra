@@ -707,7 +707,7 @@ public class CommandsTest extends AlgebraTest {
 				"((u * v), u + v, u^(2) + v^(2))");
 		t("Surface[2x,2pi]", "(u, ((2 * u) * cos(v)), ((2 * u) * sin(v)))");
 		t("Surface[2x,2pi,yAxis]",
-				"((cos(v) * u), ((1 - cos(v) + cos(v)) * (2 * u)), ((-sin(v)) * u))");
+				"((u * cos(v)), (2 * u), (u * (-sin(v))))");
 
 		t("g3=Surface[(u,v,u),u,-1,1,v,1,3]", "(u, v, u)");
 		Assert.assertEquals("\\left(u, v, u \\right)",

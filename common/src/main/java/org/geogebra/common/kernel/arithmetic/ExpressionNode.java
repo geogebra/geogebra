@@ -2292,7 +2292,7 @@ public class ExpressionNode extends ValidExpression
 		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1)) {
 			return v2.wrap();
 		}
-		if (isConstantDouble(v2, 1)) {
+		if (isConstantDouble(v2, 1) || isConstantDouble(this, 0)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, v2);
