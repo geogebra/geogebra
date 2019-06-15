@@ -1174,7 +1174,7 @@ __GGB__keysVar["hr"].error = {
     "InvalidInput": "Provjerite va\u0161 unos",
     "LabelAlreadyUsed": "Ova oznaka je ve\u0107 u uporabi.",
     "LoadFileFailed": "Otvaranje nije uspjelo",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Ne\u0161to je po\u0161lo po zlu. Provjerite jeste li na mre\u017ei i prijavljeni na mebis.",
     "NameUsed": "Oznaka je ve\u0107 upotrijebljena",
     "NotAuthorized": "Nije dopu\u0161teno",
     "NumberExpected": "Treba upisati broj",
@@ -1195,7 +1195,7 @@ __GGB__keysVar["hr"].error = {
     "UndefinedVariable": "Nedefinirana varijabla",
     "UnknownCommand": "Nepoznata naredba",
     "VectorExpected": "Treba unijeti to\u010dku ili vektor",
-    "VideoAccessError": "Something went wrong.",
+    "VideoAccessError": "Ne\u0161to je po\u0161lo po zlu.",
 };
 
 

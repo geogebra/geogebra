@@ -2840,7 +2840,7 @@ __GGB__keysVar["eu"].menu = {
     "SumSquares.short": "SS - Karratuen Batura",
     "SumsAndIntegrals": "Baturak eta Integralak",
     "Surface": "Gainazala",
-    "SurfaceOfRevolution": "Surface of Revolution",
+    "SurfaceOfRevolution": "Biraketa-gainazala",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",
