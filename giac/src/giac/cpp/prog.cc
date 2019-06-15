@@ -1187,7 +1187,10 @@ namespace giac {
     }
     vecteur newcsto(lop(c,at_sto)),newc1,newc2;
     for (size_t i=0;i<newcsto.size();++i){
-      gen var=newcsto[i]._SYMBptr->feuille[1];
+      gen & val=newcsto[i]._SYMBptr->feuille._VECTptr->front();
+      if (val.type==_VECT && (is_numericv(*val._VECTptr) || is_integer_vecteur(*val._VECTptr))) // in-place modification
+	val=symbolic(at_copy,val);
+      gen var=newcsto[i]._SYMBptr->feuille._VECTptr->back();
       if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
 	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
