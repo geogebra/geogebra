@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -40,7 +41,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
@@ -105,17 +105,13 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		this.funVar = new FunctionVariable[2];
 		funVar[0] = new FunctionVariable(kernel, "u");
 		funVar[1] = new FunctionVariable(kernel, "v");
-		if (line == null && function == path) {
-			rotateAroundX();
-		} else {
 
-			FunctionNVar[] fun = new FunctionNVar[3];
-			fun[0] = new FunctionNVar(funVar[0].wrap(), funVar);
-			fun[1] = new FunctionNVar(funVar[0].wrap(), funVar);
-			fun[2] = new FunctionNVar(funVar[0].wrap(), funVar);
-			surface = createSurface(cons, fun);
+		FunctionNVar[] fun = new FunctionNVar[3];
+		fun[0] = new FunctionNVar(funVar[0].wrap(), funVar);
+		fun[1] = new FunctionNVar(funVar[0].wrap(), funVar);
+		fun[2] = new FunctionNVar(funVar[0].wrap(), funVar);
+		surface = createSurface(cons, fun);
 
-		}
 		if (path instanceof ParametricCurve
 				&& ((ParametricCurve) path).isFunctionInX()) {
 			surface.setIsSurfaceOfRevolutionAroundOx(true);
@@ -135,34 +131,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		compute();
 	}
 
-	private void rotateAroundX() {
-
-		// functions describing the surface
-		ExpressionNode expU, expF, expV;
-		if (function.isFunctionInX()) {
-			expU = new ExpressionNode(kernel, funVar[0]);
-			expF = new ExpressionNode(kernel, function, Operation.FUNCTION,
-					funVar[0]);
-		} else {
-			expF = function.getFun(1).getExpression().deepCopy(kernel).replace(
-					function.getFun(1).getFunctionVariable(), funVar[0]).wrap();
-			expU = function.getFun(0).getExpression().deepCopy(kernel).replace(
-					function.getFun(0).getFunctionVariable(), funVar[0]).wrap();
-
-		}
-		expV = new ExpressionNode(kernel, funVar[1]);
-		ExpressionNode expCos = expV.cos();
-		ExpressionNode expSin = expV.sin();
-
-		FunctionNVar[] fun = new FunctionNVar[3];
-		fun[0] = new FunctionNVar(expU, funVar);
-		fun[1] = new FunctionNVar(expCos.multiply(expF), funVar);
-		fun[2] = new FunctionNVar(expSin.multiply(expF), funVar);
-
-		// create the curve
-		surface = createSurface(cons, fun);
-
-	}
 
 	/**
 	 * creates a surface
@@ -277,32 +245,33 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		ExpressionNode s = angle.wrap().sin();
 		ExpressionNode oneMinusC = new ExpressionNode(kernel, 1).subtract(c);
 		// Coords[] vec = m.vectors;
-		m[0][0] = oneMinusC.multiply(ux * ux).plus(c);
+		m[0][0] = diagonalCoeff(ux, c, kernel);
 		m[0][1] = oneMinusC.multiply(ux * uy).subtract(s.multiply(uz));
 		m[0][2] = oneMinusC.multiply(ux * uz).plus(s.multiply(uy));
 		// vals[3] = 0;
 
 		m[1][0] = oneMinusC.multiply(ux * uy).plus(s.multiply(uz));
-		m[1][1] = oneMinusC.multiply(uy * uy).plus(c);
+		m[1][1] = diagonalCoeff(uy, c, kernel);
 		m[1][2] = oneMinusC.multiply(uy * uz).subtract(s.multiply(ux));
 		// vals[7] = 0;
 
 		m[2][0] = oneMinusC.multiply(ux * uz).subtract(s.multiply(uy));
 		m[2][1] = oneMinusC.multiply(uy * uz).plus(s.multiply(ux));
-		m[2][2] = oneMinusC.multiply(uz * uz).plus(c);
+		m[2][2] = diagonalCoeff(uy, c, kernel);
 
-		m[3][0] = new ExpressionNode(kernel, 0);
-		m[3][1] = new ExpressionNode(kernel, 0);
-		m[3][2] = new ExpressionNode(kernel, 0);
-		// vals[11] = 0;
-		m[0][3] = new ExpressionNode(kernel, 0);
-		m[1][3] = new ExpressionNode(kernel, 0);
-		m[2][3] = new ExpressionNode(kernel, 0);
+		for (int i = 0; i < 3; i++) {
+			m[3][i] = new ExpressionNode(kernel, 0);
+			m[i][3] = new ExpressionNode(kernel, 0);
+		}
 
 		m[3][3] = new ExpressionNode(kernel, 1);
-		// use (Id-M)center for translation
-		// vec[3].set(0.0);
-		// m.setOrigin(center.sub(m.mul(center)));
+	}
+
+	private static ExpressionValue diagonalCoeff(double ux, ExpressionNode c,
+			Kernel kernel) {
+		// use plus(ExpressionValue) rather than plus(double) to make sure
+		// zeros are canceled
+		return c.multiply(1 - ux * ux).plus(new MyDouble(kernel, ux * ux));
 	}
 
 }
