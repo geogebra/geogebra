@@ -202,7 +202,7 @@ public class RedefineTest extends Assert {
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
 		t("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
-				"(If(t < 0.5, -2t^3 + 0t^2 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0t^2 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
+				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
 				StringTemplate.editTemplate);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");

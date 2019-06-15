@@ -1027,7 +1027,7 @@ public class CommandsTest extends AlgebraTest {
 
 	@Test
 	public void cmdSpline() {
-		String theSpline = "(If(t < 0.38743, 0.88246t^3 + 0t^2 + 2.44868t, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377), If(t < 0.38743, -5.43794t^3 + 0t^2 + 3.39737t, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623))";
+		String theSpline = "(If(t < 0.38743, 0.88246t^3 + 2.44868t, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377), If(t < 0.38743, -5.43794t^3 + 3.39737t, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623))";
 		tRound("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline));
 		tRound("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline));
 		tRound("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]",
