@@ -4,8 +4,8 @@ http://www.geogebra.org
 
 This file is part of GeoGebra.
 
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
@@ -118,7 +118,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		}
 		GeoNumeric changeableAngle = ChangeableParent.getGeoNumeric(angle);
 		if (changeableAngle != null) {
-			
 			ChangeableParent changeableParent = new ChangeableParent(
 					changeableAngle, this.line,
 					new RotationConverter(this.line));
@@ -130,7 +129,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		// compute value
 		compute();
 	}
-
 
 	/**
 	 * creates a surface
@@ -213,7 +211,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	private void transform(ParametricCurve curve, ExpressionValue[][] m,
 			FunctionNVar[] fun1, Coords startPoint) {
-
 		// current expressions
 		ExpressionNode[] expr = new ExpressionNode[3];
 		for (int i = 0; i < 3; i++) {

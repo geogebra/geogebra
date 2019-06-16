@@ -18,7 +18,6 @@ import com.google.gwt.user.client.Window.Location;
  */
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
-
 	/**
 	 * @param beta
 	 *            whether to use the beta site

@@ -38,7 +38,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 	 */
 	VideoOffline(GeoVideo video, int id) {
 		super(video, id);
-		String errorId = ((AppW)app).getVendorSettings().getVideoAccessErrorKey();
+		String errorId = ((AppW) app).getVendorSettings().getVideoAccessErrorKey();
 		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
 		stylePlayer();
 		selectDeferred();
@@ -64,7 +64,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 		asWidget().setWidth(video.getWidth() + "px");
 		asWidget().setHeight(video.getHeight() + "px");
 
-
 		if (video.isBackground()) {
 			asWidget().addStyleName("background");
 		} else {
@@ -83,6 +82,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 
 	@Override
 	public void onReady() {
+		// intentionally empty
 	}
 
 	@Override
