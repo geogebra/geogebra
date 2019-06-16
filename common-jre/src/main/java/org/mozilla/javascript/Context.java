@@ -10,12 +10,21 @@ package org.mozilla.javascript;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.net.URL;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -486,7 +495,8 @@ public class Context
             factory = ContextFactory.getGlobal();
         }
         return call(factory, new ContextAction() {
-            public Object run(Context cx) {
+            @Override
+			public Object run(Context cx) {
                 return callable.call(cx, scope, thisObj, args);
             }
         });
@@ -2107,10 +2117,12 @@ public class Context
             return null;
         hasClassShutter = true;
         return new ClassShutterSetter() {
-            public void setClassShutter(ClassShutter shutter) {
+            @Override
+			public void setClassShutter(ClassShutter shutter) {
                 classShutter = shutter;
             }
-            public ClassShutter getClassShutter() {
+            @Override
+			public ClassShutter getClassShutter() {
                 return classShutter;
             }
         };
@@ -2691,7 +2703,7 @@ public class Context
     int version;
 
     private SecurityController securityController;
-    private boolean hasClassShutter;
+	public boolean hasClassShutter;
     private ClassShutter classShutter;
     private ErrorReporter errorReporter;
     RegExpProxy regExpProxy;
