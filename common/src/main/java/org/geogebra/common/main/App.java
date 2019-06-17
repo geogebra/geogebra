@@ -1662,8 +1662,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public final void showGenericError(Exception e) {
 		e.printStackTrace();
-		showError(getLocalization().getErrorDefault("InvalidInput",
-				"Please check your input"));
+		showError(getLocalization().getInvalidInputError());
 	}
 
 	/**

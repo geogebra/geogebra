@@ -453,8 +453,7 @@ public class Command extends ValidExpression
 		}
 		Log.debug("invalid command evaluation: " + name);
 		throw new MyError(app.getLocalization(),
-				app.getLocalization().getErrorDefault("InvalidInput",
-						"Please check your input") + ":\n" + this);
+				app.getLocalization().getInvalidInputError() + ":\n" + this);
 
 	}
 
@@ -477,8 +476,7 @@ public class Command extends ValidExpression
 		}
 		Log.debug("invalid command evaluation: " + name);
 		throw new MyError(app.getLocalization(),
-				app.getLocalization().getErrorDefault("InvalidInput",
-						"Please check your input") + ":\n" + this);
+				app.getLocalization().getInvalidInputError() + ":\n" + this);
 
 	}
 
@@ -511,8 +509,7 @@ public class Command extends ValidExpression
 
 		if (evalGeos == null || evalGeos.length == 0) {
 			throw new MyError(app.getLocalization(),
-					app.getLocalization().getErrorDefault("InvalidInput",
-							"Please check your input") + ":\n"
+					app.getLocalization().getInvalidInputError() + ":\n"
 							+ this);
 		}
 

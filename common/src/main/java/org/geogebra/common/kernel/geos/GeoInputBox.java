@@ -365,8 +365,7 @@ public class GeoInputBox extends GeoButton {
 	private void showError() {
 		kernel.getApplication()
 				.showError(kernel.getApplication().getLocalization()
-						.getErrorDefault("InvalidInput",
-								"Please check your input"));
+						.getInvalidInputError());
 	}
 
 	/**

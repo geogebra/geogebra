@@ -455,8 +455,7 @@ public class AlgebraProcessor {
 			Log.debug("ERROR" + e.getMessage() + ":" + newValue);
 			e.printStackTrace();
 			handler.showError(
-					loc.getErrorDefault("InvalidInput",
-							"Please check your input") + ":\n"
+					loc.getInvalidInputError() + ":\n"
 							+ newValue);
 		}
 	}
