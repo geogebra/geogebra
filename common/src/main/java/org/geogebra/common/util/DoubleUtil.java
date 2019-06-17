@@ -421,6 +421,56 @@ public class DoubleUtil {
 		return root;
 	}
 
+	/**
+	 * 
+	 * checks min value like 0.29999998880325357 Check if 0.3 is a better minimum ->
+	 * return 0.3 otherwise return root
+	 * 
+	 * @param root potential max (of f) to check
+	 * @param f    function with root
+	 * @return root / better min
+	 */
+	public static double checkMin(double root, UnivariateFunction f) {
+
+		// change 12.34000000001 to 12.34
+		double betterVal = DoubleUtil.checkDecimalFraction(root, 10000000);
+
+		// check if betterVal is actually better
+		if (f.value(betterVal) <= f.value(root)) {
+			// use new one
+			return betterVal;
+		}
+
+		// original value is better
+		return root;
+
+	}
+
+	/**
+	 * 
+	 * checks max value like 0.29999998880325357 Check if 0.3 is a better maximum ->
+	 * return 0.3 otherwise return root
+	 * 
+	 * @param root potential max (of f) to check
+	 * @param f    function with root
+	 * @return root / better min
+	 */
+	public static double checkMax(double root, UnivariateFunction f) {
+
+		// change 12.34000000001 to 12.34
+		double betterVal = DoubleUtil.checkDecimalFraction(root, 10000000);
+
+		// check if betterVal is actually better
+		if (f.value(betterVal) >= f.value(root)) {
+			// use new one
+			return betterVal;
+		}
+
+		// original value is better
+		return root;
+
+	}
+
     /**
      *
      * @param x number
