@@ -1174,7 +1174,7 @@ __GGB__keysVar["tr"].error = {
     "InvalidInput": "Maalesef girdi ge\xe7erli de\u011fil",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Dosyay\u0131 a\xe7mak ba\u015far\u0131s\u0131z oldu",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Bu etiket hali haz\u0131rda kullan\u0131lmaktad\u0131r",
     "NotAuthorized": "Yetkili de\u011fil",
     "NumberExpected": "Say\u0131 bekleniyor",

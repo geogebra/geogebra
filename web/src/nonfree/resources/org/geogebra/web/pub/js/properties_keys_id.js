@@ -1174,7 +1174,7 @@ __GGB__keysVar["id"].error = {
     "InvalidInput": "Maaf, masukannya tidak dapat diterima",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Pembukaan berkas gagal.",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Label ini telah digunakan",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Diharapkan angka",

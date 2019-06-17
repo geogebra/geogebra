@@ -1174,7 +1174,7 @@ __GGB__keysVar["sk"].error = {
     "InvalidInput": "Prep\xe1\u010dte, vstupn\xe9 \xfadaje nie s\xfa akceptovate\u013en\xe9",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Otvorenie s\xfaboru zlyhalo",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Toto ozna\u010denie sa u\u017e pou\u017e\xedva",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "O\u010dak\xe1vam \u010d\xedslo",

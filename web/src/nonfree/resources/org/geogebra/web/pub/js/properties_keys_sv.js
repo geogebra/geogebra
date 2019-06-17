@@ -1174,7 +1174,7 @@ __GGB__keysVar["sv"].error = {
     "InvalidInput": "V\xe4nligen kontrollera din inmatning",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Kunde inte \xf6ppna filen",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Denna etikett anv\xe4nds redan",
     "NotAuthorized": "Till\xe5ts ej",
     "NumberExpected": "Ett tal f\xf6rv\xe4ntades",

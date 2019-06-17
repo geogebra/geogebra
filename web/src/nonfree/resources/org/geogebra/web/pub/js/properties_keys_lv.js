@@ -1174,7 +1174,7 @@ __GGB__keysVar["lv"].error = {
     "InvalidInput": "Atvainojiet, kaot kas neizdev\u0101s. L\u016bdzu p\u0101rbaudiet savienojumu",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Neizdev\u0101s atv\u0113rt failu",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "\u0160is nosaukums jau tiek izmantots",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Tiek pras\u012bts nummurs",

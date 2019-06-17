@@ -1174,7 +1174,7 @@ __GGB__keysVar["az"].error = {
     "InvalidInput": "Ba\u011f\u0131\u015flay\u0131n, x\u0259ta ba\u015f verdi. L\xfctf\u0259n daxil olunan m\u0259lumat\u0131 yoxlay\u0131n",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Opening file failed",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "This label is already in use",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Number expected",

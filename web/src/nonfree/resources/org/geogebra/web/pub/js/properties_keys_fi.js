@@ -1174,7 +1174,7 @@ __GGB__keysVar["fi"].error = {
     "InvalidInput": "Tarkista sy\xf6te",
     "LabelAlreadyUsed": "T\xe4m\xe4 nimi on jo k\xe4yt\xf6ss\xe4.",
     "LoadFileFailed": "Tiedoston avaaminen ep\xe4onnistui",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "T\xe4m\xe4 nimi on jo k\xe4yt\xf6ss\xe4",
     "NotAuthorized": "Ei sallittu",
     "NumberExpected": "Lukua odotetaan",

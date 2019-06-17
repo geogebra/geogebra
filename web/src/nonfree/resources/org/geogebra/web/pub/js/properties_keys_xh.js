@@ -1174,7 +1174,7 @@ __GGB__keysVar["xh"].error = {
     "InvalidInput": "Uxolo, ikhona into erongo eyenzekileyo. Phinda ujonge lento uyifakileyo",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Uvulu lwefayile aluphumelelanga",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Le leyibheli seleisetyenziswa",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Inani elilindelekileyo",

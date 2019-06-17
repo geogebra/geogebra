@@ -1174,7 +1174,7 @@ __GGB__keysVar["cy"].error = {
     "InvalidInput": "Mae'r mewnbwn yn annerbyniol",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Wedi methu agor y ffeil.",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Defnyddir y label hon eisoes.",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Disgwylir rhif",

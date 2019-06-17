@@ -1174,7 +1174,7 @@ __GGB__keysVar["nb"].error = {
     "InvalidInput": "Det du satte inn ble ikke akseptert",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Fila kunne ikke \xe5pnes.",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Dette navnet er alt brukt.",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Her var det ventet et tall.",

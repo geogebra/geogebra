@@ -1174,7 +1174,7 @@ __GGB__keysVar["gl"].error = {
     "InvalidInput": "S\xedntoo, a entrada non \xe9 v\xe1lida",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Erro ao abrir o ficheiro",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "A etiqueta xa est\xe1 a ser usada",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Agard\xe1base un n\xfamero",

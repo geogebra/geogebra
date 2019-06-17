@@ -1174,7 +1174,7 @@ __GGB__keysVar["nl"].error = {
     "InvalidInput": "Controleer a.u.b. je invoer",
     "LabelAlreadyUsed": "Dit label wordt al gebruikt",
     "LoadFileFailed": "Openen van het bestand is mislukt",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Deze naam is reeds in gebruik",
     "NotAuthorized": "Niet toegestaan",
     "NumberExpected": "Geef een getal",

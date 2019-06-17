@@ -1174,7 +1174,7 @@ __GGB__keysVar["is"].error = {
     "InvalidInput": "\xdev\xed mi\xf0ur gengur \xfeetta inntak ekki",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "T\xf3kst ekki a\xf0 opna skr\xe1",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "\xdeetta merki er \xfeegar \xed notkun",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "B\xfaist var vi\xf0 t\xf6lu",

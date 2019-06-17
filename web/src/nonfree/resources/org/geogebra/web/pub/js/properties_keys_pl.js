@@ -1174,7 +1174,7 @@ __GGB__keysVar["pl"].error = {
     "InvalidInput": "Sprawd\u017a swoje dane wej\u015bciowe",
     "LabelAlreadyUsed": "Ta etykieta jest ju\u017c u\u017cywana.",
     "LoadFileFailed": "B\u0142\u0105d otwarcia pliku",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Ta nazwa jest aktualnie w u\u017cyciu",
     "NotAuthorized": "Brak autoryzacji",
     "NumberExpected": "Oczekiwana jest liczba",

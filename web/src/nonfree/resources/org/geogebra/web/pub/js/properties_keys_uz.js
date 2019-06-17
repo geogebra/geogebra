@@ -1174,7 +1174,7 @@ __GGB__keysVar["uz"].error = {
     "InvalidInput": "Kiritish xatoligi",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Faylni ochishda xatolik",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Bu belgidan avval foydalanilmoqda",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Son kiritishda xatolik",

@@ -1174,7 +1174,7 @@ __GGB__keysVar["cs"].error = {
     "InvalidInput": "Zkontrolujte pros\xedm vstup",
     "LabelAlreadyUsed": "Tento n\xe1zev prom\u011bnn\xe9 je u\u017e pou\u017eit.",
     "LoadFileFailed": "Nelze otev\u0159\xedt soubor.",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Toto jm\xe9no je ji\u017e u\u017e\xedv\xe1no.",
     "NotAuthorized": "Nedostate\u010dn\xe9 opr\xe1vn\u011bn\xed",
     "NumberExpected": "O\u010dek\xe1v\xe1 se \u010d\xedslo",

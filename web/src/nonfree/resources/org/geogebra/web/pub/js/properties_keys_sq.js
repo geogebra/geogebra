@@ -1174,7 +1174,7 @@ __GGB__keysVar["sq"].error = {
     "InvalidInput": "Na vjen keq, inputi(cfare futet) nuk pranohet",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Hapja e dokumentit deshtoi",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Kjo etikete tashme eshte ne perdorim.",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Numer i pritur",

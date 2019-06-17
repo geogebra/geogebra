@@ -1174,7 +1174,7 @@ __GGB__keysVar["bg"].error = {
     "InvalidInput": "\u041c\u043e\u043b\u044f, \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u0442\u0435 \u043f\u0440\u0438 \u0432\u044a\u0432\u0435\u0436\u0434\u0430\u043d\u0435 \u043e\u0442\u043d\u043e\u0432\u043e",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "\u041e\u0442\u0432\u0430\u0440\u044f\u043d\u0435\u0442\u043e \u043d\u0430 \u0444\u0430\u0439\u043b\u0430 \u0441\u0435 \u043f\u0440\u043e\u0432\u0430\u043b\u0438",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "\u0422\u0430\u043a\u044a\u0432 \u043d\u0430\u0434\u043f\u0438\u0441 \u0432\u0435\u0447\u0435 \u0435 \u0438\u0437\u043f\u043e\u043b\u0437\u0432\u0430\u043d",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "\u041e\u0447\u0430\u043a\u0432\u0430 \u0441\u0435 \u0432\u044a\u0432\u0435\u0436\u0434\u0430\u043d\u0435 \u043d\u0430 \u0447\u0438\u0441\u043b\u043e",

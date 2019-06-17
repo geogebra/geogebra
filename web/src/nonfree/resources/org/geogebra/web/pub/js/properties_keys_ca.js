@@ -1174,7 +1174,7 @@ __GGB__keysVar["ca"].error = {
     "InvalidInput": "Ho sento, l'entrada no \xe9s correcta",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Error en obrir el fitxer",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Aquesta etiqueta est\xe0 en \xfas",
     "NotAuthorized": "No autoritzat",
     "NumberExpected": "S'esperava un nombre",

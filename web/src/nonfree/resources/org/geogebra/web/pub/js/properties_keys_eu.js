@@ -1174,7 +1174,7 @@ __GGB__keysVar["eu"].error = {
     "InvalidInput": "Idatzitakoa berrikusi, mesedez",
     "LabelAlreadyUsed": "Etiketa hau erabilita dago dagoeneko.",
     "LoadFileFailed": "Errorea fitxategia irekitzean",
-    "MebisAccessError": "Arazoren bat egon da. Ziurtatu linean zaudela eta mebisen saioa hasi duzula.",
+    "MebisAccessError": "Arazoren bat egon da. Ziurtatu linean zaudela eta Mebisen saioa hasi duzula.",
     "NameUsed": "Izena edo etiketa erabilita jadanik",
     "NotAuthorized": "Ez duzu baimenik",
     "NumberExpected": "Zenbaki baten zain...",

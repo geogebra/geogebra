@@ -1174,7 +1174,7 @@ __GGB__keysVar["lt"].error = {
     "InvalidInput": "Atsipra\u0161au, \u012fvestis nepriimtina",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Dokumento atverti nepavyko.",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "\u0160is pavadinimas jau naudojamas.",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Lauktas skai\u010dius",

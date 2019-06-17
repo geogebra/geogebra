@@ -1174,7 +1174,7 @@ __GGB__keysVar["es-UY"].error = {
     "InvalidInput": "Por favor, revisa la entrada",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Error al abrir el archivo",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Esta etiqueta ya est\xe1 en uso",
     "NotAuthorized": "Sin autorizaci\xf3n",
     "NumberExpected": "Se esperaba un n\xfamero.",

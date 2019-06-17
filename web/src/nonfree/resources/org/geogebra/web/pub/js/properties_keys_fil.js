@@ -1174,7 +1174,7 @@ __GGB__keysVar["fil"].error = {
     "InvalidInput": "Paumanhin, may nangyaring mali. Mangyaring suriin ang iyong input",
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Hindi mabuksan ang file",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to mebis.",
+    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
     "NameUsed": "Ang label na ito ay ginagamit na",
     "NotAuthorized": "Not authorized",
     "NumberExpected": "Number ang inaasahan",
