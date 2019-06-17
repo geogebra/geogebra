@@ -296,6 +296,9 @@ public enum TargetType {
 					return onFail;
 				}
 			}
+            if (point.isPointOnPath()) {
+                return onSuccess;
+            }
 			return NOTHING;
 		default:
 			return NOT_USED;
