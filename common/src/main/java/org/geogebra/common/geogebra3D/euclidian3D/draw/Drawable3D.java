@@ -1900,6 +1900,32 @@ public abstract class Drawable3D extends DrawableND {
 		}
 	}
 
+    /**
+     * enlarge min and max to boundsMin and boundsMax
+     *
+     * @param min
+     *            (x,y,z) min
+     * @param max
+     *            (x,y,z) max
+     * @param boundsMin
+     *            (x,y,z) object bounds min
+     * @param boundsMax
+     *            (x,y,z) object bounds max
+     * @param radius
+     *            e.g. line radius
+     */
+    static protected void enlargeBounds(Coords min, Coords max,
+                                        Coords boundsMin, Coords boundsMax, double radius) {
+        for (int i = 0; i < 3; i++) {
+            if (min.val[i] > boundsMin.val[i] - radius) {
+                min.val[i] = boundsMin.val[i] - radius;
+            }
+            if (max.val[i] < boundsMax.val[i] + radius) {
+                max.val[i] = boundsMax.val[i] + radius;
+            }
+        }
+    }
+
 	/**
 	 * enlarge min and max to boundsMin and boundsMax
 	 * 
