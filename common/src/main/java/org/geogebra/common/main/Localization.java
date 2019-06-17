@@ -1561,4 +1561,12 @@ public abstract class Localization {
 		}
 		return ret;
 	}
+
+	/**
+	 * 
+	 * @return Translation of "Please check your Input"
+	 */
+	public String getInvalidInputError() {
+		return getErrorDefault("InvalidInput", "Please check your input");
+	}
 }

@@ -37,7 +37,7 @@ public final class AVErrorHandler implements ErrorHandler {
 	@Override
 	public void showError(String msg) {
 		this.radioTreeItem.errorMessage = valid ? msg
-				: this.radioTreeItem.loc.getError("InvalidInput");
+				: this.radioTreeItem.loc.getInvalidInputError();
 
 		this.radioTreeItem.commandError = null;
 		this.radioTreeItem.showCurrentError();

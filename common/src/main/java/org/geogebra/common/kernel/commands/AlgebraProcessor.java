@@ -1339,7 +1339,7 @@ public class AlgebraProcessor {
 			if (temp[0] instanceof GeoBoolean) {
 				bool = (GeoBoolean) temp[0];
 			} else {
-				handler.showError(loc.getError("InvalidInput"));
+				handler.showError(loc.getInvalidInputError());
 			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
@@ -1349,7 +1349,7 @@ public class AlgebraProcessor {
 			throw e;
 		} catch (Error e) {
 			e.printStackTrace();
-			handler.showError(loc.getError("InvalidInput"));
+			handler.showError(loc.getInvalidInputError());
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
@@ -1847,7 +1847,7 @@ public class AlgebraProcessor {
 					return kernel.lookupLabel(ve.getLabel()).asArray();
 				}
 				throw new MyError(loc,
-						loc.getError("InvalidInput") + ":\n" + ve);
+						loc.getInvalidInputError() + ":\n" + ve);
 			}
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
