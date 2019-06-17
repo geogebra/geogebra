@@ -388,14 +388,12 @@ public class DoubleUtil {
 
 	/**
 	 * 
-	 * checks root like 0.29999998880325357 1) Check if there's a whole at 0.3
-	 * -> return NaN 2) Check if 0.3 is a better root -> return 0.3 3) otherwise
-	 * return root
+	 * checks root like 0.29999998880325357 1) Check if there's a hole at 0.3 ->
+	 * return NaN 2) Check if 0.3 is a better root -> return 0.3 3) otherwise return
+	 * root
 	 * 
-	 * @param root
-	 *            potential root (of f) to check
-	 * @param f
-	 *            function with root
+	 * @param root potential root (of f) to check
+	 * @param f    function with root
 	 * @return root / better root / NaN
 	 */
 	public static double checkRoot(double root, UnivariateFunction f) {
