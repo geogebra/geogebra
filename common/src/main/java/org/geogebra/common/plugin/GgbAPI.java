@@ -1737,7 +1737,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		
 		setPerspectiveWithViews(code);
-		if (app.getActiveEuclidianView() != null) {
+		if (app.getActiveEuclidianView() != null
+				&& !kernel.getConstruction().isScriptRunningForGeo()) {
 			app.getActiveEuclidianView().requestFocus();
 		}
 	}

@@ -269,6 +269,13 @@ public class Construction {
 	}
 
 	/**
+	 * @return whether a click/update script is currently running
+	 */
+	public boolean isScriptRunningForGeo() {
+		return selfGeo != null;
+	}
+
+	/**
 	 * Returns x-axis
 	 * 
 	 * @return x-axis
