@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -141,6 +142,31 @@ public class ArithmeticTest extends AlgebraTest {
 		t("inf / ?", "NaN");
 		t("? / inf", "NaN");
 		t("? / ?", "NaN");
+	}
+
+	@Test
+	public void testRounding() {
+
+		int angleUnit = app.getKernel().getAngleUnit();
+
+		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+
+		t("round(6740340335894, 5)", "6740340335894");
+		t("round(6.740340335894E12, 5.0)", "6740340335894");
+		t("round(6.740340335894E10, 10.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 7.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 8.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 8.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 10.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 7.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 8.0)", "6.740340335894E10");
+		t("round(6.740340335894E10, 10.0)", "6.740340335894E10");
+		t("round(6.740340335894E9, 8.0)", "6.740340335894E9");
+		t("round(6.740340335894E8, 7.0)", "6.740340335894E8");
+		t("round(6.740340335894E7, 8.0)", "6.740340335894E7");
+
+		app.getKernel().setAngleUnit(angleUnit);
+
 	}
 
 	@Test

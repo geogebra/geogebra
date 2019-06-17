@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.arithmetic;
 import java.math.BigDecimal;
 import java.util.HashSet;
 
+import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -717,6 +718,12 @@ public class MyDouble extends ValidExpression
 		if (!DoubleUtil.isInteger(digits)) {
 			set(Double.NaN);
 		}
+
+		if (!Kernel.angleUnitUsesDegrees(angleUnit)) {
+			set(Precision.round(val, (int) digits));
+			return this;
+		}
+
 		double pow = Math.pow(10, digits);
 		set(val * pow);
 		round(angleUnit);
