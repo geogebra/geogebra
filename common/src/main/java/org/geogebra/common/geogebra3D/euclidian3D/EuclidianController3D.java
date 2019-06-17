@@ -2369,9 +2369,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 								&& view3D.getCursor3D().getRegion() == kernel
 										.getXOYPlane())
 						|| (view3D
-								.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_PATH
-								&& view3D.getCursor3D().getPath().toGeoElement()
-										.isAxis())) {
+								.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_PATH)) {
 					createNewPoint(hits, true, true, true, true, false);
 				}
 			} else {
@@ -3556,7 +3554,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 							return point.getRegion() == kernel.getXOYPlane();
 						}
 						if (point.isPointOnPath()) {
-							return point.getPath().toGeoElement().isAxis();
+							return true;
 						}
 					}
 					return false;
