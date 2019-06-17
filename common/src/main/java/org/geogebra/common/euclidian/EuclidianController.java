@@ -47,11 +47,11 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -7631,12 +7631,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	private boolean tempRightClick() {
+		return temporaryMode && app.isRightClickEnabled();
+	}
+
 	/**
-	 * checks wheter the slider itself or the point of the slider should be
-	 * moved
+	 * checks whether the slider itself or the point of the slider should be moved
 	 *
-	 * @return true if the slider should be moved; false if the point on the
-	 *         slider should be moved (i.e. change the number)
+	 * @return true if the slider should be moved; false if the point on the slider
+	 *         should be moved (i.e. change the number)
 	 */
 	protected boolean isMoveSliderExpected(int hitThreshold) {
 		DrawSlider ds = (DrawSlider) view.getDrawableFor(movedGeoNumeric);
@@ -7644,20 +7647,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// or right-hand mouse button
 
 		boolean hitSliderNotBlob = ds.hitSliderNotBlob(mouseLoc.x, mouseLoc.y, hitThreshold);
-		return ((temporaryMode && app.isRightClickEnabled()) || !movedGeoNumeric.isSliderFixed())
-					&& hitSliderNotBlob;
+		return ((tempRightClick()) || !movedGeoNumeric.isSliderFixed()) && hitSliderNotBlob;
 	}
 
 	protected boolean isMoveAudioExpected(int hitThreshold) {
 		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoMedia);
 		boolean hitSlider = da.isSliderHit(mouseLoc.x, mouseLoc.y, hitThreshold);
-		return (temporaryMode && app.isRightClickEnabled())
-				|| !hitSlider;
+		return (tempRightClick()) || !hitSlider;
 	}
 
 	protected boolean isMoveCheckboxExpected() {
-		return ((temporaryMode && app.isRightClickEnabled())
-				|| !movedGeoBoolean.isCheckboxFixed()
+		return (tempRightClick() || !movedGeoBoolean.isCheckboxFixed()
 				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 	}
 
@@ -7666,8 +7666,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return false;
 		}
 		GeoButton button = (GeoButton) geo;
-		return (!button.isGeoInputBox() && ((temporaryMode
-				&& app.isRightClickEnabled() || !button.isLocked()
+		return (!button.isGeoInputBox() && ((tempRightClick() || !button.isLocked()
 				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
 	}
 
@@ -7676,8 +7675,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return false;
 		}
 		GeoInputBox textField = (GeoInputBox) geo;
-		return (textField.isTextField() && ((temporaryMode
-				&& app.isRightClickEnabled() || !textField.isLocked()
+		return (textField.isTextField() && ((tempRightClick() || !textField.isLocked()
 				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)));
 	}
 
