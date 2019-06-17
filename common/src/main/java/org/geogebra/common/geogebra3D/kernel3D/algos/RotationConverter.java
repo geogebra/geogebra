@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.CoordConverter;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 public class RotationConverter implements CoordConverter {
 
@@ -32,8 +31,6 @@ public class RotationConverter implements CoordConverter {
 		vCurrent.setAdd3(vStart, rwTransVec);
 		double sin = direction.dotCrossProduct(vStart, vCurrent);
 		double cos = vStart.dotproduct3(vCurrent);
-		Log.debug("cos " + cos);
-
 		return snap(DoubleUtil
 				.convertToAngleValue(Math.atan2(sin, cos) + startValue), view);
 	}
