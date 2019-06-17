@@ -482,14 +482,14 @@
 
 	}
 
-    .mowWidget.error {
-		@extend .mowVideo;
-        div {
-            text-align: center;
-            padding: 33% 0;
-        }
-        border: 1px solid;
-     }
+   .mowWidget.error {
+	    @extend .mowVideo;
+		div {
+		    text-align: center;
+		    padding: 33% 0;
+		}
+		border: 1px solid;
+	 }
 
 	.mowDoubleCanvas {
 		.mowVideo {
