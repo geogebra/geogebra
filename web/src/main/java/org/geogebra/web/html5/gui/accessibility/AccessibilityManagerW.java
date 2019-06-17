@@ -438,7 +438,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public String getSpaceAction(GeoElement sel) {
+	public String getAction(GeoElement sel) {
 		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
 			return sel.getCaption(StringTemplate.screenReader);
 		}

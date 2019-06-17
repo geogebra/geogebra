@@ -57,7 +57,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 
 	@Override
 	public void update() {
-		button.setText(app.getAccessibilityManager().getSpaceAction(geo));
+		button.setText(app.getAccessibilityManager().getAction(geo));
 		label.setText(geo.getAuralText(new ScreenReaderBuilder(Browser.isMobile())));
 		activeWidget = geo.getScript(EventType.CLICK) == null ? label : button;
 	}

@@ -75,6 +75,13 @@ public class NoDragImage extends Image implements HasResource {
 
 	public void setResource(ResourcePrototype res) {
 		this.setUrl(NoDragImage.safeURI(res));
-		
+	}
+
+	/**
+	 * Sets the ARIA role to presentation, effectively making this invisible to
+	 * screen readers
+	 */
+	public void setPresentation() {
+		getElement().setAttribute("role", "presentation");
 	}
 }

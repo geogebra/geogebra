@@ -40,7 +40,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		getElement().setAttribute("aria-live", "polite");
 		getElement().setAttribute("aria-atomic", "true");
 		getElement().setAttribute("aria-relevant", "additions text");
-		if (Browser.needsVirtualTabber()) {
+		if (Browser.needsAccessibilityView()) {
 			setVisible(false);
 		} else {
 			offscreen(this);
@@ -112,7 +112,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 */
 	@Override
 	public void readText(String text) {
-		if (!hasParentWindow() && !Browser.needsVirtualTabber()) {
+		if (!hasParentWindow() && !Browser.needsAccessibilityView()) {
 			readTextImmediate(text);
 		}
 	}

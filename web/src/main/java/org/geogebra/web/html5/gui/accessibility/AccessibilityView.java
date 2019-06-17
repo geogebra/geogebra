@@ -71,18 +71,28 @@ public class AccessibilityView implements View {
 		if (!isInteractive(geo) || widgets.containsKey(geo)) {
 			return;
 		}
+		AccessibleWidget control = createControl(geo);
+		AccessibleWidget prevWidget = getPreviousWidget(geo);
+		addControl(control, prevWidget);
+		widgets.put(geo, control);
+		attachToDom();
+	}
 
+	private AccessibleWidget createControl(GeoElement geo) {
 		AccessibleWidget control;
 		if (geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider()) {
-			control = new AccessibleNumeric((GeoNumeric) geo, sliderFactory, this);
+			control = new AccessibleSlider((GeoNumeric) geo, sliderFactory, this);
 		} else if (geo instanceof GeoBoolean) {
-			control = new AccessibleCheckbox(
-					(GeoBoolean) geo, this);
+			control = new AccessibleCheckbox((GeoBoolean) geo, this);
 		} else if (geo instanceof GeoPointND) {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
 		} else {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
+		return control;
+	}
+
+	private AccessibleWidget getPreviousWidget(GeoElement geo) {
 		GeoElement prevGeo = geo;
 		AccessibleWidget prevWidget = null;
 		TreeSet<GeoElement> tabbingSet = app.getSelectionManager().getEVFilteredTabbingSet();
@@ -90,10 +100,7 @@ public class AccessibilityView implements View {
 			prevGeo = tabbingSet.lower(prevGeo);
 			prevWidget = widgets.get(prevGeo);
 		} while (prevGeo != null && prevWidget == null);
-		addControl(control, prevWidget);
-
-		widgets.put(geo, control);
-		attachToDom();
+		return prevWidget;
 	}
 
 	private static boolean isInteractive(GeoElement geo) {

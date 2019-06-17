@@ -110,7 +110,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            parent
 	 */
 	protected static void tackleLastDummy(Element parentElement) {
-		if (!Browser.needsVirtualTabber()) {
+		if (!Browser.needsAccessibilityView()) {
 			lastDummy = DOM.createSpan().cast();
 			lastDummy.addClassName("geogebraweb-dummy-invisible");
 			lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
@@ -297,6 +297,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
 	}
 
+	/**
+	 * @return height of header for small screens
+	 */
 	protected int getSmallScreenHeaderHeight() {
 		return SMALL_SCREEN_HEADER_HEIGHT;
 	}

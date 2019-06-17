@@ -2038,7 +2038,7 @@ public class DockManagerW extends DockManager {
 	 * Connect voiceover with the right panel
 	 */
 	public void updateVoiceover() {
-		if (Browser.needsVirtualTabber()) {
+		if (Browser.needsAccessibilityView()) {
 			app.invokeLater(new Runnable() {
 				@Override
 				public void run() {

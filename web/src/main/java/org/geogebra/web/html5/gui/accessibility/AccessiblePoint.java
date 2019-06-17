@@ -34,10 +34,14 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 		this.point = point;
 		sliders = new ArrayList<>(3);
 		kernel = point.getKernel();
+		initSliders(widgetFactory);
+		update();
+	}
+
+	private void initSliders(WidgetFactory widgetFactory) {
 		for (int i = 0; i < point.getDimension(); i++) {
 			sliders.add(widgetFactory.makeSlider(i, this));
 		}
-		update();
 	}
 
 	@Override

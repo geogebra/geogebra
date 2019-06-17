@@ -3,17 +3,14 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 
 /**
  * Accessibility adapter for sliders
  */
-public class AccessibleNumeric implements AccessibleWidget, HasSliders {
+public class AccessibleSlider implements AccessibleWidget, HasSliders {
 
 	private SliderW slider;
 	private AccessibilityView view;
@@ -27,7 +24,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	 * @param view
 	 *            accessibility view
 	 */
-	public AccessibleNumeric(GeoNumeric geo, WidgetFactory widgetFactory,
+	public AccessibleSlider(GeoNumeric geo, WidgetFactory widgetFactory,
 			final AccessibilityView view) {
 		this.numeric = geo;
 		this.view = view;

@@ -100,7 +100,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 				this.getElement().appendChild(btnImage.getElement());
 				this.getElement().appendChild(new Label(label).getElement());
 			}
-			btnImage.getElement().setAttribute("role", "button");
+			btnImage.setPresentation();
 			return;
 		}
 
@@ -114,14 +114,6 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	public void setText(String text) {
 		this.label = text;
 		setIconAndLabel(this.icon, text, this.width, this.height);
-	}
-
-	/**
-	 * @param btnImage
-	 *            image
-	 */
-	public void setBtnImage(NoDragImage btnImage) {
-		this.btnImage = btnImage;
 	}
 
 	@Override
@@ -193,18 +185,15 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		AriaHelper.setTitle(this, title, app);
 	}
 
-	public void setTitleWithLocalizationKey(String localizationKey) {
-		setTitle(app.getLocalization().getMenu(localizationKey));
-	}
-
 	/**
 	 * @param altText
 	 *            - alt text
 	 */
 	@Override
 	public void setAltText(String altText) {
-		btnImage.getElement().setAttribute("alt", altText);
-		btnImage.getElement().setAttribute("role", "button");
+		if (btnImage != null) {
+			btnImage.setPresentation();
+		}
 		AriaHelper.setLabel(this, altText);
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
