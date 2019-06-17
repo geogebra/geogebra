@@ -54,29 +54,7 @@ public class AccessibleNumeric implements AccessibleWidget, HasSliders {
 	}
 
 	private void updateValueText() {
-		slider.getElement().setAttribute("aria-valuetext", getAriaValueText());
-	}
-
-	private String getAriaValueText() {
-		ScreenReaderBuilder builder = new ScreenReaderBuilder();
-
-		builder.append(numeric.toValueString(StringTemplate.screenReader));
-		builder.appendSpace();
-
-		if (!StringUtil.empty(numeric.getCaptionSimple())) {
-			String caption = numeric.getCaptionSimple();
-			if (numeric.getCaptionSimple().indexOf("=") > 0) {
-				caption = numeric.getCaptionSimple().substring(0,
-						numeric.getCaptionSimple().indexOf("="));
-			}
-			builder.append(caption);
-		} else {
-			builder.append(numeric.getLabelSimple());
-		}
-
-		builder.endSentence();
-
-		return builder.toString();
+		slider.getElement().setAttribute("aria-valuetext", numeric.getAuralCurrentValue());
 	}
 
 	@Override
