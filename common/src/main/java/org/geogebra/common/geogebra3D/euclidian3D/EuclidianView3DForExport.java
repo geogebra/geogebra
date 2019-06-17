@@ -178,7 +178,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		useSpecificThickness = false;
 		updateScene();
 		if (format.needsScale()) {
-			if (updateObjectsBounds(true, true)) {
+			if (updateObjectsBounds(true, true, true)) {
 				useSpecificThickness = true;
 				double thickness = THICKNESS_FOR_PRINT_LINES;
 				GeoElement thicknessGeo = getKernel()

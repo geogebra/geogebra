@@ -180,6 +180,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         minMax[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
         minMax[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
+        standsOnFloorIfAR(minMax);
+
         setVertices();
 
         horizontalDiagonal = renderer.getWidth() * (1 - 2 * rv) * Math.sqrt(2);
@@ -214,8 +216,19 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         minMaxLarge[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
         minMaxLarge[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
+        standsOnFloorIfAR(minMaxLarge);
+
         // update ev 3D depending algos
         getView3D().updateBounds();
+    }
+
+    private void standsOnFloorIfAR(double[][] mm) {
+        EuclidianView3D view = getView3D();
+        if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && view.isAREnabled()) {
+            double d = mm[Z][MAX] - mm[Z][MIN];
+            mm[Z][MIN] = view.getARFloorZ();
+            mm[Z][MAX] = mm[Z][MIN] + d;
+        }
     }
 
     /**

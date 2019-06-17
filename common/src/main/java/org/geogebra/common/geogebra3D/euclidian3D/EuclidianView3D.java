@@ -229,6 +229,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double a = ANGLE_ROT_OZ;
 	private double b = ANGLE_ROT_XOY; // angles (in degrees)
 	private double translationZzeroForAR = 0;
+	private double arFloorZ = 0;
 
 	/**
 	 * direction of view
@@ -902,7 +903,7 @@ public abstract class EuclidianView3D extends EuclidianView
             if (mIsARDrawing) {
                 if (getShowAxis(AXIS_Z)) {
                     translationZzero = -getZmin();
-                } else if (updateObjectsBounds(true, true)) {
+                } else if (updateObjectsBounds(true, true, true)) {
                     translationZzero = -boundsMin.getZ();
                     // ensure showing plane if visible and not too far
 					if ((getShowGrid() || getShowPlane())
@@ -4261,22 +4262,25 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *
 	 */
 	private boolean updateObjectsBounds() {
-		return updateObjectsBounds(false, false);
+		return updateObjectsBounds(false, false, false);
 	}
 
 	/**
 	 * update bounds that enclose all objects
 	 *
-	 * @param includeAxesIfVisible
-	 *            if axes should enlarge bounds
+	 * @param includeXYAxesIfVisible
+	 *            if x & y axes should enlarge bounds
+     * @param includeZAxisIfVisible
+     *            if z axis should enlarge bounds
 	 * @param dontExtend
 	 *            set to true if clipped curves/surfaces should not be larger
 	 *            than the view itself; and when point radius should extend
 	 *
 	 * @return true if bounds were computed
 	 */
-	protected boolean updateObjectsBounds(boolean includeAxesIfVisible,
-			boolean dontExtend) {
+	protected boolean updateObjectsBounds(boolean includeXYAxesIfVisible,
+                                          boolean includeZAxisIfVisible,
+                                          boolean dontExtend) {
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);
 			boundsMax = new Coords(3);
@@ -4286,17 +4290,22 @@ public abstract class EuclidianView3D extends EuclidianView
 		boundsMax.setNegativeInfinity();
 
 		drawable3DLists.enlargeBounds(boundsMin, boundsMax, dontExtend);
-		if (includeAxesIfVisible) {
-			for (int i = 0; i < 3; i++) {
-				DrawAxis3D d = axisDrawable[i];
-				if (d.isVisible()) {
-					d.enlargeBounds(boundsMin, boundsMax, dontExtend);
-				}
-			}
+		if (includeXYAxesIfVisible) {
+            enlargeBounds(axisDrawable[AXIS_X], dontExtend);
+            enlargeBounds(axisDrawable[AXIS_Y], dontExtend);
 		}
+		if (includeZAxisIfVisible) {
+            enlargeBounds(axisDrawable[AXIS_Z], dontExtend);
+        }
 
 		return !Double.isInfinite(boundsMin.getX());
 	}
+
+	private void enlargeBounds(DrawAxis3D d, boolean dontExtend) {
+        if (d.isVisible()) {
+            d.enlargeBounds(boundsMin, boundsMax, dontExtend);
+        }
+    }
 
 	@Override
 	public void zoomRW(Coords boundsMin2, Coords boundsMax2) {
@@ -4824,29 +4833,31 @@ public abstract class EuclidianView3D extends EuclidianView
 			mIsARDrawing = isARDrawing;
 			if (isARDrawing) {
 				if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-				    boolean boundsNeededUpdate = updateObjectsBounds(true, true);
+				    boolean boundsNeededUpdate = updateObjectsBounds(true,
+                            !app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z), true);
 				    if (boundsNeededUpdate) {
                         clippingCubeDrawable.enlargeFor(boundsMin);
                         clippingCubeDrawable.enlargeFor(boundsMax);
                     }
-					if (getShowAxis(AXIS_Z)) {
-						if (boundsNeededUpdate && boundsMin
-								.getZ() < clippingCubeDrawable.getZminLarge()) {
-							translationZzeroForAR = -boundsMin.getZ();
-						} else {
+                    if (!app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && getShowAxis(AXIS_Z)) {
+                        if (boundsNeededUpdate && boundsMin
+                                .getZ() < clippingCubeDrawable.getZminLarge()) {
+                            translationZzeroForAR = -boundsMin.getZ();
+                        } else {
                             translationZzeroForAR = -clippingCubeDrawable.getZminLarge();
                         }
                     } else if (boundsNeededUpdate) {
                         translationZzeroForAR = -boundsMin.getZ();
                         // ensure showing plane if visible and not too far
-						if ((getShowGrid() || getShowPlane())
-								&& translationZzeroForAR < 0 && getZmin() < 0) {
+						if (translationZzeroForAR < 0
+                                && (((getShowGrid() || getShowPlane()) && getZmin() < 0)
+                                    || isAtLeastOneAxisVisible())) {
                             translationZzeroForAR = 0;
                         }
                     } else {
                         translationZzeroForAR = 0;
                     }
-                    getRenderer().setARFloorZ(-translationZzeroForAR);
+                    setARFloorZ(-translationZzeroForAR);
                     translationZzeroForAR -= getZZero();
                 }
                 getRenderer().setARScaleAtStart();
@@ -4861,6 +4872,28 @@ public abstract class EuclidianView3D extends EuclidianView
             }
 		}
 	}
+
+	private boolean isAtLeastOneAxisVisible() {
+	    for (int i = 0; i < 3; i++) {
+	        if (axisDrawable[i].isVisible()) {
+	            return true;
+            }
+        }
+	    return false;
+    }
+
+	private void setARFloorZ(double z) {
+	    arFloorZ = z;
+        getRenderer().setARFloorZ(z);
+    }
+
+    /**
+     *
+     * @return z value which stands on the floor (AR)
+     */
+    public double getARFloorZ() {
+	    return arFloorZ;
+    }
 
 	/**
 	 * @return whether AR is active
@@ -4959,7 +4992,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void enlargeClippingWhenAREnabled() {
         if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
             if (isAREnabled()) {
-                if (updateObjectsBounds(true, true)) {
+                if (updateObjectsBounds(true, true, true)) {
                     boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
                     boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
                     if (needsUpdate1 || needsUpdate2) {
