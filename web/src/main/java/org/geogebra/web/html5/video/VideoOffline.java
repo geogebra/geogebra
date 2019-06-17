@@ -114,4 +114,9 @@ public class VideoOffline extends AbstractVideoPlayer {
 	public Widget asWidget() {
 		return errorPanel;
 	}
+
+	@Override
+	boolean isOffline() {
+		return true;
+	}
 }

@@ -82,4 +82,8 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 		return this.contentWindow != null;
 	}-*/;
 
+	@Override
+	boolean isOffline() {
+		return false;
+	}
 }

@@ -47,11 +47,11 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -9789,6 +9789,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return false;
 		}
 
+		if (videoHasError()) {
+			return false;
+		}
+
 		if (selection.containsSelectedGeo(lastVideo)) {
 			if (lastVideo.isReady()) {
 				view.setBoundingBox(null);
@@ -9804,6 +9808,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		return false;
 	}
+
+	private boolean videoHasError() {
+		return lastVideo instanceof GeoVideo
+				&& app.getVideoManager().isPlayerOffline((GeoVideo) lastVideo);
+
+		}
 
 	private void setMoveModeForFurnitures() {
 		Hits hits = view.getHits();

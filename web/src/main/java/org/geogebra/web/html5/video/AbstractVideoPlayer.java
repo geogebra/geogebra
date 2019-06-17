@@ -83,4 +83,9 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 		update();
 	}
 
+	/**
+	 *
+	 * @return if player is offline.
+	 */
+	abstract boolean isOffline();
 }
