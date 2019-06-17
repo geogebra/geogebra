@@ -17,12 +17,12 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -34,7 +34,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -269,22 +268,21 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void showEmptyListNotification() {
-		contentPanel.clear();
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("emptyMaterialListInfo");
-		Image image = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_lightbulb(), 112, 112);
-		// init texts
-		caption = new Label(localize("emptyMaterialList.caption.mow"));
-		caption.setStyleName("caption");
-		info = new Label(localize("emptyMaterialList.info.mow"));
-		info.setStyleName("info");
-		// build panel
-		infoPanel.add(image);
-		infoPanel.add(caption);
-		infoPanel.add(info);
-		// add panel to content panel
+		infoPanel.add(createMessagePanel());
+
+		contentPanel.clear();
 		contentPanel.add(infoPanel);
+	}
+
+	private MessagePanel createMessagePanel() {
+		MessagePanel messagePanel = new MessagePanel();
+		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
+		messagePanel.setTitle(localize("emptyMaterialList.caption.mow"));
+		messagePanel.setMessage(localize("emptyMaterialList.info.mow"));
+
+		return messagePanel;
 	}
 
 	private void setExtendedButtonStyle() {
