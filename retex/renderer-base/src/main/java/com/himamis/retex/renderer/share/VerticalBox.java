@@ -88,8 +88,6 @@ class VerticalBox extends Box {
 
 	private final void justAdd(Box b) {
 		children.add(b);
-		b.parent = this;
-		b.elderParent = elderParent;
 	}
 
 	public final void add(Box b) {
@@ -119,8 +117,6 @@ class VerticalBox extends Box {
 
 	private final void justAdd(int pos, Box b) {
 		children.add(pos, b);
-		b.parent = this;
-		b.elderParent = elderParent;
 	}
 
 	public void add(int pos, Box b) {

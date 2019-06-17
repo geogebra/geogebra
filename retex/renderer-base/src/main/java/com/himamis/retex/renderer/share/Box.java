@@ -134,9 +134,6 @@ public abstract class Box {
 
 	protected int type = -1;
 
-	protected Box parent;
-	protected Box elderParent;
-
 	protected Color markForDEBUG;
 	protected Atom atom;
 
@@ -168,14 +165,6 @@ public abstract class Box {
 		return null;
 	}
 
-	public void setParent(Box parent) {
-		this.parent = parent;
-	}
-
-	public Box getParent() {
-		return parent;
-	}
-
 	public Box setBg(Color bg) {
 		background = bg;
 		return this;
@@ -184,14 +173,6 @@ public abstract class Box {
 	public Box setFg(Color fg) {
 		foreground = fg;
 		return this;
-	}
-
-	public void setElderParent(Box elderParent) {
-		this.elderParent = elderParent;
-	}
-
-	public Box getElderParent() {
-		return elderParent;
 	}
 
 	/**
