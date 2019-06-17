@@ -2703,7 +2703,7 @@ public class Context
     int version;
 
     private SecurityController securityController;
-	public boolean hasClassShutter;
+	private boolean hasClassShutter;
     private ClassShutter classShutter;
     private ErrorReporter errorReporter;
     RegExpProxy regExpProxy;

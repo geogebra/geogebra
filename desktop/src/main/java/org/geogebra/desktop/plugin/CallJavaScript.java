@@ -4,9 +4,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.mozilla.javascript.ClassShutter;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Context.ClassShutterSetter;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 public class CallJavaScript {
 
@@ -24,19 +24,11 @@ public class CallJavaScript {
 		// create new scope
 		Context cx = Context.enter();
 
-		// No class loader for unsigned applets so don't try and optimize.
-		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
-		// if (!AppD.hasFullPermissions()) {
-		// cx.setOptimizationLevel(-1);
-		// Context.setCachingEnabled(false);
-		// }
+		Scriptable scope = cx.initStandardObjects();
 
-		Scriptable scope = cx.initStandardObjects();//
-		// ScriptableObject scope = cx.initSafeStandardObjects();
-		boolean sealed = false;
-
-		if (!cx.hasClassShutter) {
-			cx.setClassShutter(sandboxClassShutter);
+		ClassShutterSetter setter = cx.getClassShutterSetter();
+		if (setter != null) {
+			setter.setClassShutter(sandboxClassShutter);
 		}
 
 		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
@@ -71,10 +63,11 @@ public class CallJavaScript {
 
 		Context cx = Context.enter();
 
-		ScriptableObject scope = cx.initStandardObjects();
+		cx.initStandardObjects();
 
-		if (!cx.hasClassShutter) {
-			cx.setClassShutter(sandboxClassShutter);
+		ClassShutterSetter setter = cx.getClassShutterSetter();
+		if (setter != null) {
+			setter.setClassShutter(sandboxClassShutter);
 		}
 
 		// Create a new scope that shares the global scope
