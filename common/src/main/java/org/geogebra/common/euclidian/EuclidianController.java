@@ -6991,7 +6991,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void handleMovedElementDependent() {
 		translateableGeos = null;
-		GeoVector vec = null;
+		GeoVectorND vec = null;
 		boolean sameVector = true;
 
 		// allow dragging of Translate[Object, vector] if 'vector' is
@@ -7009,7 +7009,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoElement[] input = algo.getInput();
 
 				if (input[1].isIndependent()) {
-					vec = (GeoVector) input[1];
+					vec = (GeoVectorND) input[1];
 
 					// now check other points are translated by the same vector
 					for (int i = 1; i < pts.length; i++) {
@@ -7020,7 +7020,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						}
 						input = algo.getInput();
 
-						GeoVector vec2 = (GeoVector) input[1];
+						GeoVectorND vec2 = (GeoVectorND) input[1];
 						if (vec != vec2) {
 							sameVector = false;
 							break;
@@ -7064,9 +7064,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if ((algo instanceof AlgoTranslate)
 						&& (algo2 instanceof AlgoTranslate)) {
 					GeoElement[] input = algo.getInput();
-					vec = (GeoVector) input[1];
+					vec = (GeoVectorND) input[1];
 					GeoElement[] input2 = algo2.getInput();
-					GeoVector vec2 = (GeoVector) input2[1];
+					GeoVectorND vec2 = (GeoVectorND) input2[1];
 
 					// now check if points are translated by the same vector
 					if (vec != vec2) {
@@ -7081,13 +7081,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if ((input[1].isIndependent() || input[1]
 						.getParentAlgorithm() instanceof AlgoVectorPoint)
 						&& input[1] instanceof GeoVectorND) {
-					vec = (GeoVector) input[1];
+					vec = (GeoVectorND) input[1];
 				}
 			}
 		} else if (movedGeoElement
 				.getParentAlgorithm() instanceof AlgoVectorPoint) {
 			// allow Vector[(1,2)] to be dragged
-			vec = (GeoVector) movedGeoElement;
+			vec = (GeoVectorND) movedGeoElement;
 		}
 
 		if (vec != null) {
@@ -7096,16 +7096,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				AlgoVectorPoint algo = (AlgoVectorPoint) vec
 						.getParentAlgorithm();
 				moveMode = MOVE_POINT_WITH_OFFSET;
-				transformCoordsOffset[0] = xRW - vec.x;
-				transformCoordsOffset[1] = yRW - vec.y;
+				transformCoordsOffset[0] = xRW - vec.getX();
+				transformCoordsOffset[1] = yRW - vec.getY();
 				movedGeoPoint = algo.getP();
 				return;
 			}
 
 			if (sameVector && ((vec.getLabelSimple() == null)
 					|| vec.isIndependent())) {
-				transformCoordsOffset[0] = xRW - vec.x;
-				transformCoordsOffset[1] = yRW - vec.y;
+				transformCoordsOffset[0] = xRW - vec.getX();
+				transformCoordsOffset[1] = yRW - vec.getY();
 				movedGeoVector = vec;
 				moveMode = MOVE_VECTOR_NO_GRID;
 				return;
