@@ -483,10 +483,10 @@
 	}
 
    .mowWidget.error {
-	    @extend .mowVideo;
+		@extend .mowVideo;
 		div {
-		    text-align: center;
-		    padding: 33% 0;
+			text-align: center;
+			padding: 33% 0;
 		}
 		border: 1px solid;
 	 }
