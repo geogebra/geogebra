@@ -4889,12 +4889,19 @@ public abstract class EuclidianView3D extends EuclidianView
         arZZeroAtStart = getZZero();
     }
 
+    public double getARFloorShift() {
+	    if (app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z)) {
+            return arZZeroAtStart - getZZero();
+        }
+	    return 0;
+    }
+
     /**
      *
      * @return z value which stands on the floor (AR)
      */
     public double getARMinZ() {
-	    return arFloorZ - getZZero() + arZZeroAtStart;
+        return arFloorZ + getARFloorShift();
     }
 
 	/**

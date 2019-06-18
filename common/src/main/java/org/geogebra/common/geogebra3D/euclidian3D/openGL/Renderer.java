@@ -272,7 +272,7 @@ public abstract class Renderer {
     public double checkHittingFloorZ(double z) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			return arManager.checkHittingFloorZ(z);
+			return arManager.checkHittingFloorZ(z) + view3D.getARFloorShift();
 		}
 		return 0;
     }
