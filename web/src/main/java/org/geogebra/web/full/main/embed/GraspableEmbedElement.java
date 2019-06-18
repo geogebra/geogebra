@@ -68,7 +68,7 @@ public class GraspableEmbedElement extends EmbedElement {
 		var that = this;
 		function initCanvas() {
 			var apiObject = that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::getApi(Lorg/geogebra/web/full/main/EmbedManagerW;)(manager);
-			canvas = new $wnd.gmath.Canvas('#gm-div' + id, {
+			var canvas = new $wnd.gmath.Canvas('#gm-div' + id, {
 				ggbNotesAPI : apiObject
 			});
 
@@ -150,7 +150,11 @@ public class GraspableEmbedElement extends EmbedElement {
 		canvas.controller.redo();
 	}-*/;
 
-	public native String getContentSync() /*-{
+	public String getContentSync() {
+		return getContentByCanvas(api);
+	}
+
+	private native String getContentByCanvas(JavaScriptObject canvas) /*-{
 		return canvas.toJSON();
 	}-*/;
 }
