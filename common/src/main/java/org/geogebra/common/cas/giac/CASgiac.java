@@ -394,7 +394,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Giac uses round(x):=floor(x+0.5) but we want "round half up" to be
 		 * consistent with the Algebra View
 		 */
-		GGB_ROUND("ggbround", "ggbround(x):=when(type(evalf(x))==DOM_COMPLEX, ggbround(real(x))+i*ggbround(im(x)), when(x<0,-round(-x),round(x)))"),
+		GGB_ROUND("ggbround",
+				"ggbround(x):=when(type(evalf(x))==DOM_LIST,seq(ggbround(x[j]),j,0,length(x)-1),when(type(evalf(x))==DOM_COMPLEX, ggbround(real(x))+i*ggbround(im(x)), when(x<0,-round(-x),round(x))))"),
 
 		/**
 		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.

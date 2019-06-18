@@ -2465,6 +2465,8 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral(sqrt(x+sqrt(x)))", result:"2 (2sqrt(x + sqrt(x)) (sqrt(x) (1 / 6 sqrt(x) + 1 / 24) - 1 / 16) - 1 / 16 ln(-2 (-sqrt(x) + sqrt(x + sqrt(x))) + 1)) + c_0" },
 { cat:"SolveODE", cmd:"SolveODE(y''-3y'+2=x,(2,3),(1,2))", result:"y = (-9x\u00B2 \u212F\u00B3 + 30x \u212F\u00B3 - 32(\u212F\u00B3)\u00B2 + 138\u212F\u00B3 + 32\u212F^(3x)) / (54\u212F\u00B3)" },
 { cat:"Solve", cmd:"Solve(sqrt(x-2sqrt(x-1))=sqrt(x-1)-1)", result:"{x = d_0\u00B2 + 1}", notes:"I have committed a change for solve, it now handles the case where a resultant is 0 in the intermediate computations, and returns 1+c__0^2 and warns that the answer has not been checked. That's the best I can do, the condition x>=2 is missed, but I think it's better than before where it returned no solution." },
+{ cat:"Evaluate", cmd:"Evaluate(round({{1.2,3.5},{4.4,6.6}}))", result:"{{1, 4}, {4, 7}}" },
+{ cat:"Evaluate", cmd:"Evaluate(round({1.2,3.5,-6}))", result:"{1, 4, -6}" },
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
