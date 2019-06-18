@@ -2467,6 +2467,7 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Solve(sqrt(x-2sqrt(x-1))=sqrt(x-1)-1)", result:"{x = d_0\u00B2 + 1}", notes:"I have committed a change for solve, it now handles the case where a resultant is 0 in the intermediate computations, and returns 1+c__0^2 and warns that the answer has not been checked. That's the best I can do, the condition x>=2 is missed, but I think it's better than before where it returned no solution." },
 { cat:"Evaluate", cmd:"Evaluate(round({{1.2,3.5},{4.4,6.6}}))", result:"{{1, 4}, {4, 7}}" },
 { cat:"Evaluate", cmd:"Evaluate(round({1.2,3.5,-6}))", result:"{1, 4, -6}" },
+{ cat:"Text.1", cmd:"Sequence(Text(round(i/100)),i,1,100,10)", result:"{\"0\", \"0\", \"0\", \"0\", \"0\", \"1\", \"1\", \"1\", \"1\", \"1\"}" },
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32

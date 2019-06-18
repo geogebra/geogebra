@@ -1352,6 +1352,8 @@ public class Ggb2giac {
 
 		// eg ToBase(10^23,2)
 
+		p("Text.1", "%0+\"\"");
+
 		String lookupList = "\"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\"";
 		p("ToBase.2", "ggbText(\"\"+[[lookuplist:=" + lookupList
 				+ "[0..%1-1]],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
