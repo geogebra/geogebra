@@ -4,7 +4,9 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -72,12 +74,20 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 */
 	public void attachApp(AppW application) {
 		app = application;
+		initFrame();
 
 		// GuiManager can be null at the startup of the application,
 		// but then the addNavigationBar method will be called explicitly.
 		if (app.getGuiManager() != null
 				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
+		}
+	}
+
+	private void initFrame() {
+		GeoGebraFrameW frame = app.getAppletFrame();
+		if (frame instanceof GeoGebraFrameFull) {
+			setFrame((GeoGebraFrameFull) frame);
 		}
 	}
 

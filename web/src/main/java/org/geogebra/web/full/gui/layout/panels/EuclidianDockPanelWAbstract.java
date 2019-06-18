@@ -1,10 +1,14 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
@@ -33,7 +37,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId, EuclidianViewAccessibiliyAdapter {
+
 	private ConstructionProtocolNavigationW consProtNav;
+
+	@Nullable
+	private GeoGebraFrameFull frame;
+
 	private boolean hasEuclidianFocus;
 	private boolean mayHaveZoomButtons = false;
 	/**
@@ -307,6 +316,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	public void onResize() {
 		super.onResize();
+		updateFloatingButtonsPosition();
+	}
+
+	private void updateFloatingButtonsPosition() {
+		ToolbarMow toolbarMow = frame != null ? frame.getToolbarMow() : null;
+		if (toolbarMow != null) {
+			toolbarMow.updateFloatingButtonsPosition();
+		}
 	}
 
 	@Override
@@ -499,4 +516,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
+	protected void setFrame(GeoGebraFrameFull frame) {
+		this.frame = frame;
+	}
 }
