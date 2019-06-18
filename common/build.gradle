@@ -85,9 +85,10 @@ test {
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("config/findbugs.xml")
-    maxHeapSize = '1g'
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
+
+spotbugsMain.maxHeapSize = '1g'
 
 pmd {
     ignoreFailures = true
