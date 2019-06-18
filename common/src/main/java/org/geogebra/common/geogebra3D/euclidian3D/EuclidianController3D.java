@@ -2277,7 +2277,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 			setViewHits(type);
 			hits = getView().getHits();
 			surfaceOfRevolution(hits, false);
-			// Log.debug(surface);
 			view3D.updatePreviewable();
 			break;
 		case EuclidianConstants.MODE_EXTRUSION:
@@ -2286,8 +2285,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits = getView().getHits();
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
-			GeoElement conify = extrusionOrConify(hits, false)[0];
-			Log.debug(conify);
+			extrusionOrConify(hits, false);
 			view3D.updatePreviewable();
 			break;
 
