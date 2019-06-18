@@ -28,6 +28,7 @@ import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -134,7 +135,6 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {
-		Log.printStacktrace("adding" + drawEmbed.getEmbedID());
 		Widget parentPanel = createParentPanel(drawEmbed);
 		FlowPanel scaler = new FlowPanel();
 		scaler.add(parentPanel);
@@ -379,8 +379,11 @@ public class EmbedManagerW implements EmbedManager {
 		}
 	}
 
-	public AppWFull getApp() {
-		return app;
+	/**
+	 * @return script manager of the top level app
+	 */
+	public ScriptManagerW getScriptManager() {
+		return (ScriptManagerW) app.getScriptManager();
 	}
 
 	/**

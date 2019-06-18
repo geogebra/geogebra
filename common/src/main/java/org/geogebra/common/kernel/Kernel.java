@@ -4449,9 +4449,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getApplication().getVideoManager() != null) {
 			getApplication().getVideoManager().clearStoredVideos();
 		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().clearStoredEmbeds();
-		}
 	}
 
 	/**

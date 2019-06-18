@@ -103,8 +103,7 @@ public class GraspableEmbedElement extends EmbedElement {
 
 	@ExternalAccess
 	private JavaScriptObject getApi() {
-		ScriptManagerW scriptManager = (ScriptManagerW) embedManager.getApp()
-				.getScriptManager();
+		ScriptManagerW scriptManager = embedManager.getScriptManager();
 		return scriptManager.getApi();
 	}
 

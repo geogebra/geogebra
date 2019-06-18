@@ -288,6 +288,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return activity.getConfig();
 	}
 
+	/**
+	 * @return current activity (graphing, geometry, 3D, ...)
+	 */
 	public GeoGebraActivity getActivity() {
 		return activity;
 	}
