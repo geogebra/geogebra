@@ -230,6 +230,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double b = ANGLE_ROT_XOY; // angles (in degrees)
 	private double translationZzeroForAR = 0;
 	private double arFloorZ = 0;
+	private double arZZeroAtStart;
 
 	/**
 	 * direction of view
@@ -4885,14 +4886,15 @@ public abstract class EuclidianView3D extends EuclidianView
 	private void setARFloorZ(double z) {
 	    arFloorZ = z;
         getRenderer().setARFloorZ(z);
+        arZZeroAtStart = getZZero();
     }
 
     /**
      *
      * @return z value which stands on the floor (AR)
      */
-    public double getARFloorZ() {
-	    return arFloorZ;
+    public double getARMinZ() {
+	    return arFloorZ - getZZero() + arZZeroAtStart;
     }
 
 	/**
