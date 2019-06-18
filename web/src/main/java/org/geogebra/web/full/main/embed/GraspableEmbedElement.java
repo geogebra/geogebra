@@ -74,8 +74,6 @@ public class GraspableEmbedElement extends EmbedElement {
 
 			var storeContent = function() {
 				manager.@org.geogebra.web.full.main.EmbedManagerW::createUndoAction(I)(id);
-				var content = canvas.toJSON();
-				manager.@org.geogebra.web.full.main.EmbedManagerW::storeContent(ILjava/lang/String;)(id, content);
 			};
 
 			canvas.controller.on('undoable-action', function() {
@@ -150,5 +148,9 @@ public class GraspableEmbedElement extends EmbedElement {
 
 	private native void redoNative(JavaScriptObject canvas) /*-{
 		canvas.controller.redo();
+	}-*/;
+
+	public native String getContentSync() /*-{
+		return canvas.toJSON();
 	}-*/;
 }

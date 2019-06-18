@@ -168,16 +168,6 @@ public class EmbedManagerW implements EmbedManager {
 		return frame;
 	}
 
-	/**
-	 * @param embedID
-	 *            embed ID
-	 * @param embedContent
-	 *            JSON encoded content
-	 */
-	protected void storeContent(int embedID, String embedContent) {
-		this.content.put(embedID, embedContent);
-	}
-
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
 			final TestArticleElement parameters) {
 		return new OpenFileListener() {
