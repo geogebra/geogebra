@@ -14,7 +14,7 @@ evaluationDependsOn(':renderer-web')
 
 buildscript {
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
     }
 }
 
