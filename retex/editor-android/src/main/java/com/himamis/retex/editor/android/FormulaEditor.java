@@ -448,30 +448,35 @@ public class FormulaEditor extends View implements MathField {
             mHiddenCanvas.drawColor(Color.BLACK);
         }
         drawShifted(mHiddenCanvas, 0);
-        int[] pix = new int[mIconWidth * iconHeight];
-        mHiddenBitmap.getPixels(pix, 0, mIconWidth, 0, 0, mIconWidth, iconHeight);
         int pixRed = 0;
         int cursorRed = 0;
-        int index = 0;
-        for (int y = 0; y < iconHeight; y++) {
-            for (int x = 0; x < mIconWidth; x++) {
-                int color = pix[index];
-                int red = Color.red(color);
-                if (red > GraphicsFactory.CURSOR_RED - CURSOR_TOLERANCE
-                        && red < GraphicsFactory.CURSOR_RED + CURSOR_TOLERANCE) {
-                    int green = Color.green(color);
-                    if (green > GraphicsFactory.CURSOR_GREEN - CURSOR_TOLERANCE
-                            && green < GraphicsFactory.CURSOR_GREEN + CURSOR_TOLERANCE) {
-                        int blue = Color.blue(color);
-                        if (blue > GraphicsFactory.CURSOR_BLUE - CURSOR_TOLERANCE
-                                && blue < GraphicsFactory.CURSOR_BLUE + CURSOR_TOLERANCE) {
-                            pixRed++;
-                            cursorRed += x;
-                        }
-                    }
-                }
-                index++;
-            }
+        try {
+	        int[] pix = new int[mIconWidth * iconHeight];
+	        mHiddenBitmap.getPixels(pix, 0, mIconWidth, 0, 0, mIconWidth, iconHeight);
+	        int index = 0;
+	        for (int y = 0; y < iconHeight; y++) {
+	            for (int x = 0; x < mIconWidth; x++) {
+	                int color = pix[index];
+	                int red = Color.red(color);
+	                if (red > GraphicsFactory.CURSOR_RED - CURSOR_TOLERANCE
+	                        && red < GraphicsFactory.CURSOR_RED + CURSOR_TOLERANCE) {
+	                    int green = Color.green(color);
+	                    if (green > GraphicsFactory.CURSOR_GREEN - CURSOR_TOLERANCE
+	                            && green < GraphicsFactory.CURSOR_GREEN + CURSOR_TOLERANCE) {
+	                        int blue = Color.blue(color);
+	                        if (blue > GraphicsFactory.CURSOR_BLUE - CURSOR_TOLERANCE
+	                                && blue < GraphicsFactory.CURSOR_BLUE + CURSOR_TOLERANCE) {
+	                            pixRed++;
+	                            cursorRed += x;
+	                        }
+	                    }
+	                }
+	                index++;
+	            }
+	        }
+        } catch (java.lang.OutOfMemoryError e) {
+        	debug("problem allocating array");
+        	return -1;
         }
 
         // if no red pixel, no cursor: do nothing
