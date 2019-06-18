@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -96,7 +97,8 @@ public class CmdZoomIn extends CmdScripting {
 
 			arg = resArgs(c);
 			for (int i = 0; i < 6; i++) {
-				if (!(arg[i] instanceof NumberValue)) {
+				if (!(arg[i] instanceof NumberValue)
+						|| !MyDouble.isFinite(arg[i].evaluateDouble())) {
 					throw argErr(c, arg[i]);
 				}
 			}
@@ -117,10 +119,26 @@ public class CmdZoomIn extends CmdScripting {
 			 * evs3D.setZmaxObject((GeoNumeric) arg[5], true);
 			 */
 
+			double xMin = arg[0].evaluateDouble();
+			double yMin = arg[1].evaluateDouble();
+			double zMin = arg[2].evaluateDouble();
+			double xMax = arg[3].evaluateDouble();
+			double yMax = arg[4].evaluateDouble();
+			double zMax = arg[5].evaluateDouble();
+
+			if (xMin >= xMax) {
+				throw argErr(c, arg[0]);
+			}
+			if (yMin >= yMax) {
+				throw argErr(c, arg[1]);
+			}
+			if (zMin >= zMax) {
+				throw argErr(c, arg[2]);
+			}
+
 			// eg ZoomIn(-5, 5, -5, 5, 5, 5)
-			kernel.getApplication().getGgbApi().setCoordSystem(arg[0].evaluateDouble(),
-					arg[3].evaluateDouble(), arg[1].evaluateDouble(), arg[4].evaluateDouble(),
-					arg[2].evaluateDouble(), arg[5].evaluateDouble(), false);
+			kernel.getApplication().getGgbApi().setCoordSystem(xMin, xMax, yMin, yMax, zMin, zMax,
+					false);
 
 			// don't return the args: don't need to delete them in case they are
 			// dynamic
