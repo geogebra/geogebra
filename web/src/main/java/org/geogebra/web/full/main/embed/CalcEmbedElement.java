@@ -1,8 +1,10 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.JSON;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
 
 /**
@@ -33,5 +35,14 @@ public class CalcEmbedElement extends EmbedElement {
 	public String getContentSync() {
 		return JSON.stringify(
 				frame.getApplication().getGgbApi().getFileJSON(false));
+	}
+
+	/**
+	 * @return API
+	 */
+	public JavaScriptObject getApi() {
+		ScriptManagerW sm = (ScriptManagerW) frame.getApplication()
+				.getScriptManager();
+		return sm.getApi();
 	}
 }

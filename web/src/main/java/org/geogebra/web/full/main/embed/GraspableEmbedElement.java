@@ -39,6 +39,7 @@ public class GraspableEmbedElement extends EmbedElement {
 
 	private native void setContentNative(JavaScriptObject canvas,
 			String string) /*-{
+		$wnd.console.trace(string);
 		canvas.loadFromJSON(string);
 	}-*/;
 

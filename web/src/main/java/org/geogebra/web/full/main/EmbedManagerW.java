@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
@@ -27,7 +28,6 @@ import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
-import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -51,13 +51,12 @@ public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
 	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
-	// cache for undo: index by label, drawables will change on reload
-	private HashMap<String, EmbedElement> cache = new HashMap<>();
+	// cache for undo: index by embed ID, drawables will change on reload
+	private HashMap<Integer, EmbedElement> cache = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
-	private HashMap<String, JavaScriptObject> apis = new HashMap<>();
 	private MyImage preview;
 
 	/**
@@ -118,12 +117,6 @@ public class EmbedManagerW implements EmbedManager {
 		}
 
 		widgets.put(drawEmbed, calcEmbedElement);
-		addApi(getAPILabel(drawEmbed), fr);
-	}
-
-	private void addApi(String label, GeoGebraFrameFull frame) {
-		ScriptManagerW sm = (ScriptManagerW) frame.getApplication().getScriptManager();
-		apis.put(label, sm.getApi());
 	}
 
 	private static String getAPILabel(DrawEmbed drawEmbed) {
@@ -141,6 +134,7 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {
+		Log.printStacktrace("adding" + drawEmbed.getEmbedID());
 		Widget parentPanel = createParentPanel(drawEmbed);
 		FlowPanel scaler = new FlowPanel();
 		scaler.add(parentPanel);
@@ -148,11 +142,21 @@ public class EmbedManagerW implements EmbedManager {
 		addToGraphics(scaler);
 
 		String url = drawEmbed.getGeoEmbed().getURL();
-		EmbedElement value = url.contains("graspablemath.com")
-				? new GraspableEmbedElement(parentPanel, this)
-				: new EmbedElement(parentPanel);
-		widgets.put(drawEmbed, value);
-		value.addListeners(drawEmbed.getEmbedID());
+		EmbedElement old = cache.get(drawEmbed.getEmbedID());
+		if (old == null) {
+			EmbedElement value = url.contains("graspablemath.com")
+					? new GraspableEmbedElement(parentPanel, this)
+					: new EmbedElement(parentPanel);
+			widgets.put(drawEmbed, value);
+			value.addListeners(drawEmbed.getEmbedID());
+		} else {
+			old.setVisible(true);
+			widgets.put(drawEmbed, old);
+			cache.remove(drawEmbed.getEmbedID());
+			// the cached widget is in correct state
+			content.remove(drawEmbed.getEmbedID());
+		}
+
 	}
 
 	private static Widget createParentPanel(DrawEmbed embed) {
@@ -218,7 +222,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void storeEmbeds() {
 		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
-			cache.put(entry.getKey().getGeoElement().getLabelSimple(),
+			cache.put(entry.getKey().getEmbedID(),
 					entry.getValue());
 		}
 		for (EmbedElement frame : widgets.values()) {
@@ -236,8 +240,8 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void restoreEmbeds() {
-		for (Entry<String, EmbedElement> entry : cache.entrySet()) {
-			GeoElement geoEmbed = app.getKernel().lookupLabel(entry.getKey());
+		for (Entry<Integer, EmbedElement> entry : cache.entrySet()) {
+			GeoElement geoEmbed = findById(entry.getKey());
 			DrawEmbed drawEmbed = (DrawEmbed) app.getActiveEuclidianView()
 					.getDrawableFor(geoEmbed);
 			EmbedElement frame = entry.getValue();
@@ -247,6 +251,18 @@ public class EmbedManagerW implements EmbedManager {
 		cache.clear();
 	}
 
+	private GeoElement findById(Integer key) {
+		Set<GeoElement> set = app.getKernel().getConstruction()
+				.getGeoSetConstructionOrder();
+		for (GeoElement geo : set) {
+			if (geo instanceof GeoEmbed
+					&& ((GeoEmbed) geo).getEmbedID() == key) {
+				return geo;
+			}
+		}
+		return null;
+	}
+
 	private static void removeFrame(EmbedElement frame) {
 		frame.getGreatParent().removeFromParent();
 		frame.getGreatParent().getElement().removeFromParent();
@@ -254,9 +270,10 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void remove(DrawEmbed draw) {
-		removeFrame(widgets.get(draw));
+		EmbedElement frame = widgets.get(draw);
+		removeFrame(frame);
 		widgets.remove(draw);
-		apis.remove(getAPILabel(draw));
+		cache.put(draw.getEmbedID(), frame);
 	}
 
 	@Override
@@ -373,8 +390,15 @@ public class EmbedManagerW implements EmbedManager {
 	JavaScriptObject getEmbeddedCalculators() {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 
-		for (Entry<String, JavaScriptObject> entry : apis.entrySet()) {
-			pushApisIntoNativeEntry(entry.getKey(), entry.getValue(), jso);
+		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+			EmbedElement embedElement = entry.getValue();
+			if (embedElement instanceof CalcEmbedElement) {
+				JavaScriptObject api = ((CalcEmbedElement) embedElement)
+						.getApi();
+				pushApisIntoNativeEntry(
+						entry.getKey().getGeoElement().getLabelSimple(), api,
+						jso);
+			}
 		}
 		return jso;
 	}
