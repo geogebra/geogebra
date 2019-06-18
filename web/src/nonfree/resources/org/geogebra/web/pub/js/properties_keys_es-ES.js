@@ -1195,7 +1195,7 @@ __GGB__keysVar["es-ES"].error = {
     "UndefinedVariable": "Variable no definida.",
     "UnknownCommand": "Comando desconocido.",
     "VectorExpected": "Se esperaba un punto o un vector.",
-    "VideoAccessError": "Something went wrong.",
+    "VideoAccessError": "Algo no funcion\xf3",
 };
 
 
@@ -3037,6 +3037,7 @@ __GGB__keysVar["es-ES"].menu = {
     "UnlockObject": "Desbloquear objeto",
     "UnpinFromScreen": "Despegar de la pantalla",
     "UnsavedChangesFound": "GeoGebra ha encontrado cambios sin guardar. \xbfQuieres recuperarlos o eliminarlos?",
+    "UnsupportedBrowser": "This browser is not supported.",
     "Untitled": "Sin t\xedtulo",
     "UntitledA": "SinT\xedtulo%0",
     "UntitledConstruction": "Construcci\xf3n sin t\xedtulo",
@@ -3294,6 +3295,7 @@ __GGB__keysVar["es-ES"].menu = {
     "mow.offlineMyFiles": "Abrir archivo sin conexi\xf3n",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.unsupportedBrowserMessage": "Please try a different browser to use mebis Tafel.",
     "of": "de",
     "off": "desactivar",
     "on": "Activar",

@@ -1174,7 +1174,7 @@ __GGB__keysVar["pt-PT"].error = {
     "InvalidInput": "Lamentamos, a express\xe3o que digitou n\xe3o \xe9 aceit\xe1vel",
     "LabelAlreadyUsed": "Este r\xf3tulo j\xe1 est\xe1 a ser usado.",
     "LoadFileFailed": "N\xe3o foi poss\xedvel abrir o ficheiro",
-    "MebisAccessError": "Something went wrong. Please check if you are online and logged in to Mebis.",
+    "MebisAccessError": "Algo deu errado. Por favor, verifique se voc\xea est\xe1 online e logado no Mebis.",
     "NameUsed": "Este r\xf3tulo j\xe1 est\xe1 a ser utilizado",
     "NotAuthorized": "N\xe3o autorizado",
     "NumberExpected": "Entre com um n\xfamero",
@@ -1195,7 +1195,7 @@ __GGB__keysVar["pt-PT"].error = {
     "UndefinedVariable": "Vari\xe1vel n\xe3o definida.",
     "UnknownCommand": "Comando desconhecido.",
     "VectorExpected": "Entre com um ponto ou com um vetor.",
-    "VideoAccessError": "Something went wrong.",
+    "VideoAccessError": "Algo deu errado.",
 };
 
 
@@ -2840,7 +2840,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "SumSquares.short": "SQ",
     "SumsAndIntegrals": "Somas e Integrais",
     "Surface": "Superf\xedcie Lateral",
-    "SurfaceOfRevolution": "Surface of Revolution",
+    "SurfaceOfRevolution": "Superf\xedcie da Revolu\xe7\xe3o",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Syy",
@@ -3037,6 +3037,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "UnlockObject": "Desbloquer Objeto",
     "UnpinFromScreen": "Desbloquear do Ecr\xe3",
     "UnsavedChangesFound": "GeoGebra encontrado altera\xe7\xf5es n\xe3o gravadas. Quer recuperar ou exclu\xed-las?",
+    "UnsupportedBrowser": "This browser is not supported.",
     "Untitled": "Sem T\xedtulo",
     "UntitledA": "SemNome%0",
     "UntitledConstruction": "Constru\xe7\xe3o Sem Nome",
@@ -3294,6 +3295,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "mow.offlineMyFiles": "Abrir ficheiro off-line",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.unsupportedBrowserMessage": "Please try a different browser to use mebis Tafel.",
     "of": "do",
     "off": "Desativada",
     "on": "Ativada",
