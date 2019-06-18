@@ -149,9 +149,10 @@ public class EmbedManagerW implements EmbedManager {
 
 		String url = drawEmbed.getGeoEmbed().getURL();
 		EmbedElement value = url.contains("graspablemath.com")
-				? new GraspableEmbedElement(parentPanel) : new EmbedElement(parentPanel);
+				? new GraspableEmbedElement(parentPanel, this)
+				: new EmbedElement(parentPanel);
 		widgets.put(drawEmbed, value);
-		value.addListeners(drawEmbed.getEmbedID(), this);
+		value.addListeners(drawEmbed.getEmbedID());
 	}
 
 	private static Widget createParentPanel(DrawEmbed embed) {
