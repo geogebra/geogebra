@@ -29,8 +29,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix4 = new CoordMatrix4x4();
     private float arScaleAtStart;
-    private float scaleThickness = 1;
-    private float lastScaleFactor = 1;
     private double arRatio;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -374,54 +372,44 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARScaleAtStart() {
-            setARScaleAtStart(true);
-            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                showSnackbar();
-            }
-    }
-
-    private void setARScaleAtStart(boolean atStart) {
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             // don't expect distance less than desk distance at start
-            if (atStart && mDistance < DESK_DISTANCE_MAX) {
+            if (mDistance < DESK_DISTANCE_MAX) {
                 mDistance = (float) DESK_DISTANCE_MAX;
             }
             // 1 ggb unit ==  1 meter
-            double ggbToRw = arGestureManager.getScaleFactor() / mView.getXscale();
+            double ggbToRw = 1.0 / mView.getXscale();
             // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
             double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
             // 1 ggb unit ==  1 meter
             double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-            if (atStart) {
-                double pot = DoubleUtil.getPowerOfTen(ratio);
-                ratio = ratio / pot;
-                if (ratio <= 2f) {
-                    ratio = 2f;
-                } else if (ratio <= 5f) {
-                    ratio = 5f;
-                } else {
-                    ratio = 10f;
-                }
-                if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                    int mToCm = 100;
-                    arRatio = ratio  * mToCm * pot;
-                }
-                arScaleAtStart =  (float) (ggbToRw * ratio * pot);
+            double pot = DoubleUtil.getPowerOfTen(ratio);
+            ratio = ratio / pot;
+            if (ratio <= 2f) {
+                ratio = 2f;
+            } else if (ratio <= 5f) {
+                ratio = 5f;
             } else {
-                arScaleAtStart =  (float) (ggbToRw * ratio);
+                ratio = 10f;
             }
+            ratio = ratio * pot;
+            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+                int mToCm = 100;
+                arRatio = ratio * mToCm;
+            }
+            arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
         } else {
             float reductionFactor = 0.80f;
-            arScaleAtStart =  (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
+            arScaleAtStart = (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
+        }
+
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+            showSnackbar();
         }
     }
 
     private float getARScaleParameter() {
-        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-            return arScaleAtStart * arGestureManager.getScaleFactor() * scaleThickness;
-        } else {
-            return arScaleAtStart * arGestureManager.getScaleFactor();
-        }
+        return arScaleAtStart * arGestureManager.getScaleFactor();
     }
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
@@ -511,15 +499,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void fitThickness() {
-        float scale = arGestureManager.getScaleFactor() / lastScaleFactor;
-        scaleThickness = scaleThickness / scale;
-        lastScaleFactor = arGestureManager.getScaleFactor();
-
         float previousARScaleAtStart = arScaleAtStart;
         mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
-        setARScaleAtStart(false);
-        float arScaleAtStartDiff = arScaleAtStart / previousARScaleAtStart;
-        float factor = (1f / arScaleAtStartDiff) * scale;
+        // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
+        double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
+        arScaleAtStart = (float) (thicknessMin / arGestureManager.getScaleFactor());
+        float factor = previousARScaleAtStart / arScaleAtStart;
 
         EuclidianSettings3D settings =
                 (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
