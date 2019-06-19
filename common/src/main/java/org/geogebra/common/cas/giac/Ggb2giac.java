@@ -1800,9 +1800,11 @@ public class Ggb2giac {
 		// p("PolyLine.N","open_polygon(%)");
 
 		p("Tangent.2",
-				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x])==0,lname(ggbtanarg1)[0],x)]],"
-						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]=='=',"
-						+
+				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],"
+						// convert y=x^2 into x^2 but leave x^2+y^2=1 and x^3+y^3=1 alone
+						+ "[ggbtanarg1:=when(ggbtanarg1[0]=='='&&length(zeros(ggbtanarg1,y))==1&&degree(ggbtanarg1[1])<3&&degree(ggbtanarg1[2])<3,zeros(ggbtanarg1,y)[0],ggbtanarg1)],"
+						+ "[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x])==0,lname(ggbtanarg1)[0],x)]],"
+						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]=='='," +
 						// Tangent[conic/implicit,point on curve]
 						"when(type(equation(tangent(ggbtanarg1,ggbtanarg0)))==DOM_LIST,"
 						+ "equation(tangent(ggbtanarg1,ggbtanarg0)),"
@@ -1819,6 +1821,7 @@ public class Ggb2giac {
 						// needed for #5526
 						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,ggbtanvar=ggbtanarg0))"
 						+ ")][1]");
+
 
 		// p("TangentThroughPoint.2",
 		// "[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"

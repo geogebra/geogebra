@@ -202,11 +202,10 @@ public class GeoSymbolicTest {
 
 	@Test
 	public void testTangentCommand() {
-		// not working
-		// t("Tangent(bbb, y = aaa x^2)", "{y = 2 * aaa * bbb * x - aaa * bbb^(2)}");
+		t("Tangent(bbb, y = aaa x^2)", "y = -aaa * bbb^(2) + 2 * aaa * bbb * x");
 		t("Tangent((bbb, bbb^2 aaa), y = aaa x^2)",
-				"{y = 2 * aaa * bbb * x - aaa * bbb^(2)}");
-		t("Tangent((1,aaa), y = aaa x^2)", "{y = 2 * aaa * x - aaa}");
+				"y = -aaa * bbb^(2) + 2 * aaa * bbb * x");
+		t("Tangent((1,aaa), y = aaa x^2)", "y = 2 * aaa * x - aaa");
 	}
 
 	@Test
