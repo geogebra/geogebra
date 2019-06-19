@@ -1761,7 +1761,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				app.getXMLio().parsePerspectiveXML(
 						"<geogebra format=\"5.0\"><gui><perspectives>" + code
 								+ "</perspectives></gui></geogebra>");
-				app.getGuiManager().updateGUIafterLoadFile(true, false);
+				if (app.getGuiManager() != null) {
+					app.getGuiManager().updateGUIafterLoadFile(true, false);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
