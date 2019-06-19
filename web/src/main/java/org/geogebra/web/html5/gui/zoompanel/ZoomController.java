@@ -401,6 +401,7 @@ public class ZoomController {
 	void onFullscreen(StandardButton fullscreenBtn) {
 		setFullScreenActive(true);
 		fullscreenBtn.setDown(true);
+		fullscreenBtn.getElement().focus();
 	}
 
 	/**

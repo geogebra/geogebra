@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -172,7 +173,7 @@ public class Construction {
 	private String yAxisLocalName;
 	private GeoPoint origin;
 
-	private GeoElement selfGeo;
+	private Stack<GeoElement> selfGeoStack = new Stack<>();
 	private boolean undoEnabled = true;
 
 	private boolean isGettingXMLForReplace;
@@ -265,14 +266,21 @@ public class Construction {
 	 *            new value of "self" variable
 	 */
 	public void setSelfGeo(GeoElement selfGeo) {
-		this.selfGeo = selfGeo;
+		this.selfGeoStack.add(selfGeo);
+	}
+
+	/**
+	 * Sets self geo to the previous one
+	 */
+	public void restoreSelfGeo() {
+		this.selfGeoStack.pop();
 	}
 
 	/**
 	 * @return whether a click/update script is currently running
 	 */
 	public boolean isScriptRunningForGeo() {
-		return selfGeo != null;
+		return !selfGeoStack.isEmpty();
 	}
 
 	/**
@@ -2243,7 +2251,7 @@ public class Construction {
 			}
 		}
 		if ("self".equals(label1)) {
-			return this.selfGeo;
+			return this.selfGeoStack.peek();
 		}
 		if ("undefined".equals(label1)) {
 			GeoNumeric n = new GeoNumeric(this);

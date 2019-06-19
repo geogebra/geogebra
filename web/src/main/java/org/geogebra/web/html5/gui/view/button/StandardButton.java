@@ -117,11 +117,6 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	}
 
 	@Override
-	public void focusInput(boolean force) {
-		app.getAccessibilityManager().focusInput(force);
-	}
-
-	@Override
 	public void onHoldPressDownStyle() {
 		// TODO Auto-generated method stub
 	}
