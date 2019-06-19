@@ -49,11 +49,11 @@ gwt {
             draftCompile = true
         }
         if (project.hasProperty("gdetailed")){
-            style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+            style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED;
         } else {
             disableClassMetadata = true;
         }
-        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
+        // style = org.wisepersist.gradle.plugins.gwt.Style.PRETTY;    
     }
 }
 
