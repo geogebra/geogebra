@@ -105,8 +105,8 @@ import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -3484,7 +3484,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		EuclidianViewW ev = getEuclidianView1();
 		visible = ev != null && ev.isShowing();
 		if (visible) {
-			ev.getCanvas().getElement().focus();
+			ev.getCanvasElement().focus();
 			ev.focusGained();
 		}
 	}

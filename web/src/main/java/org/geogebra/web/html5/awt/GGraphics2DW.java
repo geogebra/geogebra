@@ -100,7 +100,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void setImageInterpolation(boolean interpolate) {
 		// canvas.getContext2d() doesn't work with canvas2svg.js
 		try {
-			setImageInterpolationNative(canvas.getContext2d(), interpolate);
+			setImageInterpolationNative(context, interpolate);
 		} catch (Exception e) {
 			// do nothing
 		}
@@ -125,9 +125,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 * will probably fail * labels are malformed, eg )A=(1,2
 	 */
 	private void setDirection() {
-		if (canvas != null) {
-			this.canvas.getElement().setDir("ltr");
-		}
+		getElement().setDir("ltr");
 	}
 
 	/**
@@ -777,12 +775,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	@Override
+	public Element getElement() {
+		return this.canvas.getElement();
+	}
+
+	@Override
 	public void drawRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
 		// arcHeight ignored
 		roundRect(x, y, width, height, arcWidth / 2.0);
 		context.stroke();
-
 	}
 
 	/**
@@ -973,13 +975,13 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public boolean setAltText(String altStr) {
-		boolean ret = !(canvas.getElement().getInnerText() + "").equals(altStr);
-		canvas.getElement().setInnerText(altStr);
+		boolean ret = !(getElement().getInnerText() + "").equals(altStr);
+		getElement().setInnerText(altStr);
 		return ret;
 	}
 
 	public String getAltText() {
-		return canvas.getElement().getInnerText();
+		return getElement().getInnerText();
 	}
 
 	@Override
@@ -1015,6 +1017,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 		if (devicePixelRatio != 0) { // GGB-2355
 			this.devicePixelRatio = devicePixelRatio;
 		}
+	}
+
+	public boolean isAttached() {
+		return canvas != null && canvas.isAttached();
 	}
 
 }

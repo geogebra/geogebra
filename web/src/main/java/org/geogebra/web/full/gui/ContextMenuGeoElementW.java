@@ -44,9 +44,9 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
@@ -1199,9 +1199,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param y
 	 *            coord
 	 */
-	public void show(Canvas c, int x, int y) {
+	public void showScaled(Element c, int x, int y) {
 		updateEditItems();
-		wrappedPopup.show(c, x, y);
+		wrappedPopup.showScaled(c, x, y);
 		focusDeferred();
 	}
 

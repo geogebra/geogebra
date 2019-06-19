@@ -228,7 +228,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void initAriaDefaults() {
-		Element elem = g2p.getCanvas().getElement();
+		Element elem = g2p.getElement();
 		elem.setAttribute("role", "application");
 		elem.setAttribute("aria-label", "Graphics View " + evNo);
 	}
@@ -626,9 +626,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
-			g2p.getCanvas().getElement().getParentElement().getStyle()
+			g2p.getElement().getParentElement().getStyle()
 			        .setWidth(width, Style.Unit.PX);
-			g2p.getCanvas().getElement().getParentElement().getStyle()
+			g2p.getElement().getParentElement().getStyle()
 			        .setHeight(height, Style.Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
@@ -885,15 +885,16 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	static final public void updateFirstAndLast(EuclidianViewWInterface ev,
 			boolean anyway) {
-		if (ev.getCanvas() == null) {
+		if (ev.getCanvasElement() == null) {
 			return;
 		}
-		ev.getCanvas().setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
+		ev.getCanvasElement()
+				.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		if (firstInstance == null) {
 			firstInstance = ev;
-		} else if (ev.getCanvas().isAttached()) {
-			if (compareDocumentPosition(ev.getCanvas().getCanvasElement(),
-					firstInstance.getCanvas().getCanvasElement())) {
+		} else if (ev.isAttached()) {
+			if (compareDocumentPosition(ev.getCanvasElement(),
+					firstInstance.getCanvasElement())) {
 				firstInstance = ev;
 			}
 		} else if (anyway) {
@@ -907,21 +908,20 @@ public class EuclidianViewW extends EuclidianView implements
 			if (compareDocumentPosition(
 					((AppW) ev.getApplication()).getFrameElement(),
 					firstInstance
-					.getCanvas().getCanvasElement())) {
+							.getCanvasElement())) {
 				firstInstance = ev;
 			}
 		}
 
 		if (lastInstance == null) {
 			lastInstance = ev;
-		} else if (ev.getCanvas().isAttached()) {
-			if (compareDocumentPosition(lastInstance.getCanvas()
-					.getCanvasElement(), ev.getCanvas().getCanvasElement())) {
+		} else if (ev.isAttached()) {
+			if (compareDocumentPosition(lastInstance.getCanvasElement(),
+					ev.getCanvasElement())) {
 				lastInstance = ev;
 			}
 		} else if (anyway) {
-			if (compareDocumentPosition(lastInstance.getCanvas()
-					.getCanvasElement(),
+			if (compareDocumentPosition(lastInstance.getCanvasElement(),
 					((AppW) ev.getApplication()).getFrameElement())) {
 				lastInstance = ev;
 			}
@@ -935,7 +935,8 @@ public class EuclidianViewW extends EuclidianView implements
 				updateFirstAndLast(this, anyway);
 			} else {
 				// is this the best?
-				getCanvas().setTabIndex(
+				getCanvasElement()
+						.setTabIndex(
 						GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX - 1);
 			}
 		}
@@ -1113,9 +1114,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		if (g2p.getCanvas() != null) {
-			g2p.getCanvas().getCanvasElement().focus();
-		}
+		g2p.getElement().focus();
 		focusGained();
 		return true;
 	}
@@ -1133,8 +1132,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public void focusGained() {
 		if (!inFocus) {
 			this.inFocus = true;
-			if (getCanvas() != null) {
-				this.appW.focusGained(this, getCanvas().getElement());
+			if (getCanvasElement() != null) {
+				this.appW.focusGained(this, getCanvasElement());
 			}
 		}
 	}
@@ -1154,11 +1153,11 @@ public class EuclidianViewW extends EuclidianView implements
 	private void setCursorClass(String className) {
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
-		if (g2p.getCanvas() != null
-				&& !g2p.getCanvas().getElement().hasClassName(className)) {
+		if (g2p.getElement() != null
+				&& !g2p.getElement().hasClassName(className)) {
 			this.appW.resetCursor();
-			g2p.getCanvas().setStyleName("");
-			g2p.getCanvas().addStyleName(className);
+			g2p.getElement().setClassName("");
+			g2p.getElement().addClassName(className);
 		}
 	}
 
@@ -1365,8 +1364,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public Canvas getCanvas() {
-		return g2p.getCanvas();
+	public Element getCanvasElement() {
+		return g2p.getElement();
 	}
 
 	@Override
@@ -1553,7 +1552,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void addScreenReader() {
-		screenReader = new ReaderWidget(evNo, g2p.getCanvas());
+		screenReader = new ReaderWidget(evNo, g2p.getElement());
 		attachReaderWidget(screenReader, app);
 	}
 
@@ -1627,7 +1626,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 			// except EuclidianViewW.lastInstance, do not prevent:
 			if (EuclidianViewW.lastInstance.isInFocus()) {
-				EuclidianViewW.lastInstance.getCanvas().getElement().blur();
+				EuclidianViewW.lastInstance.getCanvasElement().blur();
 				return true;
 			}
 			return false;
@@ -1799,5 +1798,10 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public final AbsolutePanel getAbsolutePanel() {
 		return evPanel.getAbsolutePanel();
+	}
+
+	@Override
+	public boolean isAttached() {
+		return g2p != null && g2p.isAttached();
 	}
 }

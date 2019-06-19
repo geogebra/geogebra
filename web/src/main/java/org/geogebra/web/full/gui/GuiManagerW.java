@@ -240,12 +240,12 @@ public class GuiManagerW extends GuiManager
 	public void showPopupMenu(final ArrayList<GeoElement> selectedGeos,
 			final EuclidianViewInterfaceCommon view, final GPoint mouseLoc) {
 		showPopupMenu(selectedGeos,
-				((EuclidianViewW) view).getG2P().getCanvas(),
+				((EuclidianViewWInterface) view).getG2P().getElement(),
 				mouseLoc);
 	}
 
 	private void showPopupMenu(final ArrayList<GeoElement> geos,
-			final Canvas invoker, final GPoint p) {
+			final Element invoker, final GPoint p) {
 		if (geos == null || !getApp().letShowPopupMenu()) {
 			return;
 		}
@@ -254,7 +254,7 @@ public class GuiManagerW extends GuiManager
 		} else {
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
-			getPopupMenu(geos).show(invoker, p.x, p.y);
+			getPopupMenu(geos).showScaled(invoker, p.x, p.y);
 		}
 	}
 
@@ -322,12 +322,13 @@ public class GuiManagerW extends GuiManager
 			showDrawingPadPopup(view, p);
 		} else {
 
-			final Canvas invoker = ((EuclidianViewWInterface) view).getCanvas();
+			final Element invoker = ((EuclidianViewWInterface) view)
+					.getCanvasElement();
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
 			ContextMenuGeoElementW menu = getPopupMenu(view, selectedGeos,
 					geos, p);
-			menu.show(invoker, p.x, p.y);
+			menu.showScaled(invoker, p.x, p.y);
 		}
 	}
 
@@ -482,7 +483,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void showDrawingPadPopup(final EuclidianViewInterfaceCommon view,
 			final GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getCanvas(),
+		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getElement(),
 				mouseLoc);
 	}
 
@@ -492,10 +493,10 @@ public class GuiManagerW extends GuiManager
 		// 3D stuff
 	}
 
-	private void showDrawingPadPopup(final Canvas invoker, final GPoint p) {
+	private void showDrawingPadPopup(final Element invoker, final GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getDrawingPadpopupMenu(p.x, p.y).show(invoker, p.x, p.y);
+		getDrawingPadpopupMenu(p.x, p.y).showScaled(invoker, p.x, p.y);
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,

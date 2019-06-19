@@ -5,11 +5,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	private Timer timer;
-	private UIObject anchor;
+	private Element anchor;
 
 	/**
 	 * Constructor.
@@ -31,7 +31,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 * @param anchor
 	 *            object to focus afterwards
 	 */
-	public ReaderWidget(int evNo, UIObject anchor) {
+	public ReaderWidget(int evNo, Element anchor) {
 		this.anchor = anchor;
 		getElement().setId("screenReader" + evNo);
 		// can't be tabbed, but can get the focus programmatically
@@ -139,7 +139,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		JavaScriptObject scrollState = JavaScriptObject.createObject();
 		int scrolltop = getScrollTop(scrollState);
 		read(text);
-		anchor.getElement().focus();
+		anchor.focus();
 		setScrollTop(scrolltop, scrollState);
 
 	}
