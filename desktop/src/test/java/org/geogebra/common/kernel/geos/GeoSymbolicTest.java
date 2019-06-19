@@ -180,6 +180,39 @@ public class GeoSymbolicTest {
 	@Test
 	public void testExpandCommand() {
 		t("Expand((a+b)^3)", "a^(3) + 3 * a^(2) * b + 3 * a * b^(2) + b^(3)");
+		t("Expand((x+1/x)^2)", "(x^(4) + 2 * x^(2) + 1) / x^(2)");
+		t("Expand((x+(1/aaa)x^2)^2)", "(aaa^(2) * x^(2) + 2 * aaa * x^(3) + x^(4)) / aaa^(2)");
+	}
+
+	@Test
+	public void testPolynomialCommand() {
+		t("Polynomial((x+(1/aaa)x^2)^2)",
+				"1 / aaa^(2) * x^(4) + 2 * aaa / aaa^(2) * x^(3) + x^(2)");
+	}
+
+	@Test
+	public void testCoefficientsCommand() {
+		t("Coefficients((x+(1/aaa)x^2)^2)", "{1 / aaa^(2), 2 * aaa / aaa^(2), 1, 0, 0}");
+	}
+
+	@Test
+	public void testDegreeCommand() {
+		t("Degree((x+(1/aaa)x^2)^2)", "2");
+	}
+
+	@Test
+	public void testTangentCommand() {
+		// not working
+		// t("Tangent(bbb, y = aaa x^2)", "{y = 2 * aaa * bbb * x - aaa * bbb^(2)}");
+		t("Tangent((bbb, bbb^2 aaa), y = aaa x^2)",
+				"{y = 2 * aaa * bbb * x - aaa * bbb^(2)}");
+		t("Tangent((1,aaa), y = aaa x^2)", "{y = 2 * aaa * x - aaa}");
+	}
+
+	@Test
+	public void testPartialFractionsCommand() {
+		t("PartialFractions(x/(x+1))", "1 - 1 / (x + 1)");
+		t("PartialFractions(aaa * x/(x+1))", "aaa - aaa / (x + 1)");
 	}
 
 	@Test
