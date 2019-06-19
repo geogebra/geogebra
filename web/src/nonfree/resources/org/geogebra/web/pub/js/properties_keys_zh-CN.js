@@ -3295,7 +3295,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "mow.offlineMyFiles": "\u6253\u5f00\u79bb\u7ebf\u6587\u4ef6",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "mow.unsupportedBrowserMessage": "Please try a different browser to use mebis Tafel.",
+    "mow.unsupportedBrowserMessage": "\u8bf7\u5c1d\u8bd5\u5176\u4ed6\u6d4f\u89c8\u5668\u4f7f\u7528 mebis Tafel.",
     "of": "/",
     "off": "\u5173\u95ed",
     "on": "\u6253\u5f00",
