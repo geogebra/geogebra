@@ -60,4 +60,8 @@ jacocoTestReport {
             fileTree(dir: it, exclude: ['org/mozilla/**'])
         })
     }
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
 }
