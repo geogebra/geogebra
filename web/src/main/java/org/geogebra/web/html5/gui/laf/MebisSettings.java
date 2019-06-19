@@ -50,4 +50,9 @@ public class MebisSettings implements VendorSettings {
 	public String getVideoAccessErrorKey() {
 		return "MebisAccessError";
 	}
+
+	@Override
+	public String getUnsupportedBrowserErrorKey() {
+		return "mow.unsupportedBrowserMessage";
+	}
 }

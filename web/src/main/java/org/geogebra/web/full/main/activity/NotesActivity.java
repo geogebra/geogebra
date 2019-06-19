@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.NotesMenuItemProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -45,17 +46,19 @@ public class NotesActivity extends BaseActivity {
 	}
 
 	private void showBrowserNotSupportedMessage(AppW app) {
-		MessagePanel messagePanel = createBrowserNotSupportedMessage(app.getLocalization());
+		Localization localization = app.getLocalization();
+		VendorSettings vendorSettings = app.getVendorSettings();
+		MessagePanel messagePanel = createBrowserNotSupportedMessage(localization, vendorSettings);
 		GeoGebraFrameW frame = app.getAppletFrame();
 		frame.add(messagePanel);
 	}
 
-	private MessagePanel createBrowserNotSupportedMessage(Localization localization) {
+	private MessagePanel createBrowserNotSupportedMessage(Localization localization, VendorSettings vendorSettings) {
 		MessagePanel messagePanel = new MessagePanel();
 		messagePanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
 		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
 		messagePanel.setTitle(localization.getMenu("UnsupportedBrowser"));
-		messagePanel.setMessage(localization.getMenu("mow.unsupportedBrowserMessage"));
+		messagePanel.setMessage(localization.getMenu(vendorSettings.getUnsupportedBrowserErrorKey()));
 
 		return messagePanel;
 	}

@@ -42,4 +42,12 @@ public interface VendorSettings {
 	 * @return the error key if a video cannot be accessed.
 	 */
 	String getVideoAccessErrorKey();
+
+	/**
+	 * Returns the translation key for the error message
+	 * describing that the browser is not supported.
+	 *
+	 * @return the translation key
+	 */
+	String getUnsupportedBrowserErrorKey();
 }
