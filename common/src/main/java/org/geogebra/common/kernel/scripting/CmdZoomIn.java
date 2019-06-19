@@ -103,7 +103,6 @@ public class CmdZoomIn extends CmdScripting {
 				}
 			}
 
-
 			/*
 			 * Dynamic zoom not supported for 3D View
 			 * 

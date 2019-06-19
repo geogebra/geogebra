@@ -104,19 +104,22 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			// do not add xoy plane or selected geo
 			if (geo1 != geoSelected && geo1 != app.getKernel().getXOYPlane()) {
 				tmpAnotherMenuItemList.add(geo1);
-
 				if (geo1.getMetasLength() > 0) {
-				for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
-					if (!metaElements.contains(meta)
-							&& (meta != geoSelected || !app.has(Feature.G3D_SELECT_META))) {
-						tmpAnotherMenuItemList.add(meta);
-						}
-					}
+					addMetas(geo1, geoSelected, metaElements);
 				}
 			}
-
 		}
 
+	}
+
+	private void addMetas(GeoElement geo1, GeoElement geoSelected,
+			TreeSet<GeoElement> metaElements) {
+		for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
+			if (!metaElements.contains(meta) && (meta != geoSelected
+					|| !app.has(Feature.G3D_SELECT_META))) {
+				tmpAnotherMenuItemList.add(meta);
+			}
+		}
 	}
 
 	private class MyMouseOverListener implements EventListener {

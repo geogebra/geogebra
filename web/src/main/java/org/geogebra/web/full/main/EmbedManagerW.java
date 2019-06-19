@@ -120,10 +120,6 @@ public class EmbedManagerW implements EmbedManager {
 		widgets.put(drawEmbed, calcEmbedElement);
 	}
 
-	private static String getAPILabel(DrawEmbed drawEmbed) {
-		return drawEmbed.getGeoEmbed().getLabelSimple();
-	}
-
 	private void addToGraphics(FlowPanel scaler) {
 		FlowPanel container = new FlowPanel();
 		container.add(scaler);

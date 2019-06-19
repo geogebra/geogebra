@@ -146,8 +146,7 @@ public class ArithmeticTest extends AlgebraTest {
 
 	@Test
 	public void testRounding() {
-
-		int angleUnit = app.getKernel().getAngleUnit();
+		final int angleUnit = app.getKernel().getAngleUnit();
 
 		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 
@@ -166,7 +165,6 @@ public class ArithmeticTest extends AlgebraTest {
 		t("round(6.740340335894E7, 8.0)", "6.740340335894E7");
 
 		app.getKernel().setAngleUnit(angleUnit);
-
 	}
 
 	@Test
