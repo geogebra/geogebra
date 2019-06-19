@@ -2469,6 +2469,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate(round({{1.2,3.5},{4.4,6.6}}))", result:"{{1, 4}, {4, 7}}" },
 { cat:"Evaluate", cmd:"Evaluate(round({1.2,3.5,-6}))", result:"{1, 4, -6}" },
 { cat:"Text.1", cmd:"Sequence(Text(round(i/100)),i,1,100,10)", result:"{\"0\", \"0\", \"0\", \"0\", \"0\", \"1\", \"1\", \"1\", \"1\", \"1\"}" },
+{ cat:"Solutions", cmd:"Solutions(x^2=a)", result:"{-sqrt(a), sqrt(a)}" },
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32

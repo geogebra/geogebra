@@ -1039,8 +1039,19 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return contains;
 	}
 
+	/**
+	 * change Solutions({x+y=1, x-y=3}) to Solutions({x+y=1, x-y=3},{x,y})
+	 * 
+	 */
 	private static String switchVarsToSolutions(ArrayList<ExpressionNode> args,
 			StringBuilder sbCASCommand) {
+
+		// eg Solutions(x^2=a)
+		// not Solutions({x+y=1, x-y=3})
+		if (args.get(0).unwrap() instanceof Equation) {
+			return sbCASCommand.toString();
+		}
+
 		Set<String> setOfDummyVars = new TreeSet<>();
 		args.get(0)
 				.traverse(DummyVariableCollector.getCollector(setOfDummyVars));

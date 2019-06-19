@@ -128,12 +128,25 @@ public class GeoSymbolicTest {
 	@Test
 	public void nestedCommands() {
 		t("Derivative(Derivative(a*x^3))", "6 * a * x");
+		t("Factor(Expand((x-aaa)^2+4x aaa))", "(x + aaa)^(2)");
 	}
 
 	@Test
-	public void sequence() {
+	public void testSequenceCommand() {
 		t("2*Sequence(Mod(n,3),n,1,5)", "{2, 4, 0, 2, 4}");
 		t("Sequence(Mod(n,3),n,1,5)", "{1, 2, 0, 1, 2}");
+	}
+
+	@Test
+	public void testSubstituteCommand() {
+		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
+		t("Substitute(x^2+y^2, {x=aaa, y=bbb})", "aaa^(2) + bbb^(2)");
+	}
+
+	@Test
+	public void testNoCommand() {
+		t("x+x", "2 * x");
+		t("aaa + aaa", "2 * aaa");
 	}
 
 	@Test
@@ -156,6 +169,19 @@ public class GeoSymbolicTest {
 		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
 		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
 		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
+	}
+
+	@Test
+	public void testSolutionsCommand() {
+		t("Solutions(x*a^2=4*a, a)", "{4 / x, 0}");
+		t("Solutions(x^2=4x)", "{0, 4}");
+		t("Solutions({x=4x+y,y+x=2},{x, y})", "{{-1, 3}}");
+		t("Solutions(sin(x)=cos(x))",
+				"{(-3) / 4 * " + Unicode.pi + ", 1 / 4 * " + Unicode.pi + "}");
+		t("Solutions(x^2=1)", "{-1, 1}");
+		t("Solutions({x+y=1, x-y=3})", "{{2, -1}}");
+		t("Solutions({aa+bb=1, aa-bb=3})", "{{2, -1}}");
+		t("Solutions(x^2=a)", "{-sqrt(a), sqrt(a)}");
 	}
 
 	@Test
