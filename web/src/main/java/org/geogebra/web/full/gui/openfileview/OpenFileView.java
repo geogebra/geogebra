@@ -71,8 +71,7 @@ public class OpenFileView extends MyHeaderPanel
 	private MaterialCallbackI sharedMaterialsCB;
 	// info panel
 	private FlowPanel infoPanel;
-	private Label caption;
-	private Label info;
+	private MessagePanel messagePanel;
 	private LoadSpinner spinner;
 
 	private boolean[] materialListEmpty = { true, true };
@@ -270,7 +269,9 @@ public class OpenFileView extends MyHeaderPanel
 	private void showEmptyListNotification() {
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("emptyMaterialListInfo");
-		infoPanel.add(createMessagePanel());
+
+		messagePanel = createMessagePanel();
+		infoPanel.add(messagePanel);
 
 		contentPanel.clear();
 		contentPanel.add(infoPanel);
@@ -279,10 +280,13 @@ public class OpenFileView extends MyHeaderPanel
 	private MessagePanel createMessagePanel() {
 		MessagePanel messagePanel = new MessagePanel();
 		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
+		setMessagePanelLabels(messagePanel);
+		return messagePanel;
+	}
+
+	private void setMessagePanelLabels(MessagePanel messagePanel) {
 		messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
 		messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
-
-		return messagePanel;
 	}
 
 	private void setExtendedButtonStyle() {
@@ -398,9 +402,8 @@ public class OpenFileView extends MyHeaderPanel
 				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
 			}
 		}
-		if (infoPanel != null) {
-			caption.setText(localize("emptyMaterialList.caption.mow"));
-			info.setText(localize("emptyMaterialList.info.mow"));
+		if (messagePanel != null) {
+			setMessagePanelLabels(messagePanel);
 		}
 	}
 
