@@ -4,6 +4,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.CanvasElement;
 import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 import com.himamis.retex.renderer.share.platform.geom.Shape;
 import com.himamis.retex.renderer.web.geom.AreaW;
@@ -23,6 +24,27 @@ public class JLMContext2d extends Context2d {
 	protected JLMContext2d() {
 		// constructor extending Context2d must be empty
 	}
+
+	/**
+	 * Gets 2D context, desynchronized if possible. Currently only Chrome 75 and
+	 * 76 are supported because 77 has a serious issue:
+	 * https://bugs.chromium.org/p/chromium/issues/detail?id=976774
+	 * 
+	 * @param canvas
+	 *            canvas
+	 * @return context
+	 */
+	public static JLMContext2d forCanvas(Canvas canvas) {
+		return forCanvas(canvas.getCanvasElement());
+	}
+
+	private static native JLMContext2d forCanvas(
+			CanvasElement canvasElement) /*-{
+		var supported = navigator.userAgent.match(/Chrome\/7[56]/);
+		return canvasElement.getContext('2d', {
+			desynchronized : supported
+		});
+	}-*/;
 
 	/**
 	 * Fills the current path.

@@ -70,7 +70,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public GGraphics2DW(Canvas canvas) {
 		this.canvas = canvas;
 		setDirection();
-		this.context = (JLMContext2d) canvas.getContext2d();
+		this.context = JLMContext2d.forCanvas(canvas);
 		this.context.initTransform();
 		preventContextMenu(canvas.getElement());
 	}
