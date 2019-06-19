@@ -1019,6 +1019,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		}
 	}
 
+	@Override
 	public boolean isAttached() {
 		return canvas != null && canvas.isAttached();
 	}

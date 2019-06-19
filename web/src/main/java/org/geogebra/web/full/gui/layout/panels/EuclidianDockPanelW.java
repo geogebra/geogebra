@@ -4,9 +4,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;

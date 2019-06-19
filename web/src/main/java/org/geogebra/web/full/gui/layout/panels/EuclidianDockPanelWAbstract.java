@@ -1,14 +1,10 @@
 package org.geogebra.web.full.gui.layout.panels;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;

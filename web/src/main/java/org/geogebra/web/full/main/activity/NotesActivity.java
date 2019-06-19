@@ -55,12 +55,14 @@ public class NotesActivity extends BaseActivity {
 		frame.add(messagePanel);
 	}
 
-	private MessagePanel createBrowserNotSupportedMessage(Localization localization, VendorSettings vendorSettings) {
+	private MessagePanel createBrowserNotSupportedMessage(
+			Localization localization, VendorSettings vendorSettings) {
 		MessagePanel messagePanel = new MessagePanel();
 		messagePanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
 		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
 		messagePanel.setPanelTitle(localization.getMenu("UnsupportedBrowser"));
-		messagePanel.setPanelMessage(localization.getMenu(vendorSettings.getUnsupportedBrowserErrorKey()));
+		messagePanel.setPanelMessage(localization
+				.getMenu(vendorSettings.getUnsupportedBrowserErrorKey()));
 
 		return messagePanel;
 	}

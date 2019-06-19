@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 
 /**
  * Panel for displaying a message to the user with a title and an image.

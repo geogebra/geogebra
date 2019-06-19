@@ -769,6 +769,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		EuclidianViewW.attachReaderWidget(screenReader, app);
 	}
 
+	@Override
 	public boolean isAttached() {
 		return g2p != null && g2p.isAttached();
 	}
