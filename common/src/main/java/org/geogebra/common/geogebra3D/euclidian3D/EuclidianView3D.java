@@ -4889,6 +4889,10 @@ public abstract class EuclidianView3D extends EuclidianView
         arZZeroAtStart = getZZero();
     }
 
+	/**
+	 * 
+	 * @return shift used for AR floor
+	 */
     public double getARFloorShift() {
 	    if (app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z)) {
             return arZZeroAtStart - getZZero();
