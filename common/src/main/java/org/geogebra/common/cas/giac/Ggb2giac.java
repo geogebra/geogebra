@@ -1233,7 +1233,8 @@ public class Ggb2giac {
 		p("Regroup.1", "regroup(%0)");
 		p("ExpandOnly.1", "expand(%0)");
 
-		p("Solutions.1", "ggbsort(normal(zeros(%0,x)))");
+		 p("Solutions.1",
+				"ggbsort(normal(zeros(%0,when(type(%0)==DOM_LIST,lname(%0),when(indexOf(x,lname(%0))!=?,x,lname(%0)[0])))))");
 		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
 
 		// Root.1 and Solve.1 should be the same

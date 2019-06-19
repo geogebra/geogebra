@@ -181,7 +181,9 @@ public class GeoSymbolicTest {
 		t("Solutions(x^2=1)", "{-1, 1}");
 		t("Solutions({x+y=1, x-y=3})", "{{2, -1}}");
 		t("Solutions({aa+bb=1, aa-bb=3})", "{{2, -1}}");
-		t("Solutions(x^2=a)", "{-sqrt(a), sqrt(a)}");
+		t("Solutions(x^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
+		t("Solutions(y^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
+		t("Solutions(bbb^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
 	}
 
 	@Test
