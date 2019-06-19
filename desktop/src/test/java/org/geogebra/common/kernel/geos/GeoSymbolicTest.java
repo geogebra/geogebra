@@ -152,6 +152,34 @@ public class GeoSymbolicTest {
 		t("Solve(x^2=4x)", "{x = 0, x = 4}");
 		t("Solve({x=4x+y,y+x=2},{x, y})", "{{x = -1, y = 3}}");
 		t("Solve(sin(x)=cos(x))", "{x = k_1 * \u03c0 + 1 / 4 * \u03c0}");
+		t("Solve(x^2=1)", "{x = -1, x = 1}");
+		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
+		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
+		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
+	}
+
+	@Test
+	public void testSumCommand() {
+		t("Sum(m*(1/2)^(m),m,0,inf)", "2");
+		t("Sum(Sum(n*m*(1/2)^(n+m),n,0,inf),m,0,inf)", "4");
+	}
+
+	@Test
+	public void testIntegralCommand() {
+		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
+		t("Integral(Integral(x*y^2,x,0,2),y,0,1)", "2 / 3");
+		t("Integral(Integral(x*y^2,x,0,2),y,0,aaa)", "2 / 3 * aaa^(3)");
+	}
+
+	@Test
+	public void testFactorCommand() {
+		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
+		t("Factor(x^2-a^2 y^2)", "(x - a * y) * (x + a * y)");
+	}
+
+	@Test
+	public void testExpandCommand() {
+		t("Expand((a+b)^3)", "a^(3) + 3 * a^(2) * b + 3 * a * b^(2) + b^(3)");
 	}
 
 	@Test
