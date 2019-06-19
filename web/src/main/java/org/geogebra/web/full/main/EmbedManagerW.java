@@ -210,7 +210,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void removeAll() {
 		for (EmbedElement frame : widgets.values()) {
-				removeFrame(frame);
+			removeFrame(frame);
 		}
 		widgets.clear();
 	}
@@ -267,7 +267,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void remove(DrawEmbed draw) {
 		EmbedElement frame = widgets.get(draw);
-		removeFrame(frame);
+		frame.setVisible(false);
 		widgets.remove(draw);
 		cache.put(draw.getEmbedID(), frame);
 	}
