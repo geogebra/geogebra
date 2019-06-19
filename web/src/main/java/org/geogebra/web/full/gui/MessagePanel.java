@@ -58,7 +58,7 @@ public class MessagePanel extends FlowPanel {
      *
      * @param title title of the panel
      */
-    public void setTitle(String title) {
+    public void setPanelTitle(String title) {
         titleLabel.setText(title);
     }
 
@@ -67,7 +67,7 @@ public class MessagePanel extends FlowPanel {
      *
      * @param message message of the panel
      */
-    public void setMessage(String message) {
+    public void setPanelMessage(String message) {
         messageLabel.setText(message);
     }
 }

@@ -279,8 +279,8 @@ public class OpenFileView extends MyHeaderPanel
 	private MessagePanel createMessagePanel() {
 		MessagePanel messagePanel = new MessagePanel();
 		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
-		messagePanel.setTitle(localize("emptyMaterialList.caption.mow"));
-		messagePanel.setMessage(localize("emptyMaterialList.info.mow"));
+		messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
+		messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
 
 		return messagePanel;
 	}
