@@ -76,6 +76,7 @@ import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
@@ -1956,7 +1957,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public void centerAndResizePopups() {
+	public void centerAndResizeViews() {
+		centerAndResizePopups();
+		resizePropertiesView();
+		updateFloatingButtonsPosition();
+	}
+
+	private void centerAndResizePopups() {
 		for (Widget w : popups) {
 			if (w instanceof HasKeyboardPopup) {
 				if (w instanceof DialogBoxW) {
@@ -1965,10 +1972,20 @@ public class AppWFull extends AppW implements HasKeyboard {
 				}
 			}
 		}
+	}
+
+	private void resizePropertiesView() {
 		if (getGuiManager().hasPropertiesView()
 				&& isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) getGuiManager().getPropertiesView()).resize(
 					getWidth(), getHeight() - frame.getKeyboardHeight());
+		}
+	}
+
+	private void updateFloatingButtonsPosition() {
+		ToolbarMow toolbarMow = frame.getToolbarMow();
+		if (toolbarMow != null) {
+			toolbarMow.updateFloatingButtonsPosition();
 		}
 	}
 

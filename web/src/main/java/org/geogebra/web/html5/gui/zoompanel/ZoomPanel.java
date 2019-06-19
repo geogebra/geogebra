@@ -113,7 +113,7 @@ public class ZoomPanel extends FlowPanel
 					getPanelElement());
 		}
 		if (ae.getDataParamApp() && fullscreenBtn != null) {
-			fullscreenBtn.setVisible(isFullScreen() || !Browser.isCoveringWholeScreen());
+			fullscreenBtn.setVisible(!isFullScreen() || !Browser.isCoveringWholeScreen());
 		}
 	}
 

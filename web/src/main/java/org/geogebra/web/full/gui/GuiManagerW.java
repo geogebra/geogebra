@@ -689,7 +689,7 @@ public class GuiManagerW extends GuiManager
 
 			@Override
 			public void execute() {
-				getApp().centerAndResizePopups();
+				getApp().centerAndResizeViews();
 				resizeKeyboard();
 			}
 

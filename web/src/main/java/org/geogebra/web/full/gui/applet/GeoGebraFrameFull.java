@@ -311,7 +311,7 @@ public class GeoGebraFrameFull
 			public void run() {
 
 				keyBoard.resetKeyboardState();
-				getApplication().centerAndResizePopups();
+				getApplication().centerAndResizeViews();
 
 			}
 		});
@@ -402,7 +402,7 @@ public class GeoGebraFrameFull
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
 		}
-		app.centerAndResizePopups();
+		app.centerAndResizeViews();
 		keyboardState = KeyboardState.SHOWN;
 
 	}

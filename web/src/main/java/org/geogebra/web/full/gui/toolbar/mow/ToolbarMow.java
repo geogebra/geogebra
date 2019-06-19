@@ -48,7 +48,8 @@ public class ToolbarMow extends FlowPanel
 	private TabIds currentTab;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
-	private final static int FLOATING_BTNS_WIDTH = 80;
+	private final static int FLOATING_BTNS_WIDTH = 48;
+	private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
 
 	/**
 	 * Tab ids.
@@ -162,14 +163,14 @@ public class ToolbarMow extends FlowPanel
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) (appW.getGuiManager()
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		if (!appW.isWhiteboardActive()) {
-			if (appW.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
+			if (isSpaceForFloatingButtonBesideToolbar()) {
 				dp.setZoomPanelBottom(true);
 			} else {
 				dp.setZoomPanelBottom(false);
 				dp.moveZoomPanelUpOrDown(isOpen);
 			}
 		} else {
-			if (appW.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
+			if (isSpaceForFloatingButtonBesideToolbar()) {
 				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 				dp.setZoomPanelBottom(true);
 			} else {
@@ -180,6 +181,12 @@ public class ToolbarMow extends FlowPanel
 				dp.moveZoomPanelUpOrDown(isOpen);
 			}
 		}
+	}
+
+	private boolean isSpaceForFloatingButtonBesideToolbar() {
+		int spaceNeededForFloatingButton = (FLOATING_BTNS_WIDTH + FLOATING_BTNS_MARGIN_RIGHT) * 2;
+		int toolbarWithFloatingButtonWidth = MAX_TOOLBAR_WIDTH + spaceNeededForFloatingButton;
+		return appW.getWidth() > toolbarWithFloatingButtonWidth;
 	}
 
 	/**

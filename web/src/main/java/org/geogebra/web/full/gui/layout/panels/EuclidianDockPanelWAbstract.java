@@ -40,9 +40,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	private ConstructionProtocolNavigationW consProtNav;
 
-	@Nullable
-	private GeoGebraFrameFull frame;
-
 	private boolean hasEuclidianFocus;
 	private boolean mayHaveZoomButtons = false;
 	/**
@@ -314,19 +311,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void onResize() {
-		super.onResize();
-		updateFloatingButtonsPosition();
-	}
-
-	private void updateFloatingButtonsPosition() {
-		ToolbarMow toolbarMow = frame != null ? frame.getToolbarMow() : null;
-		if (toolbarMow != null) {
-			toolbarMow.updateFloatingButtonsPosition();
-		}
-	}
-
-	@Override
 	public void tryBuildZoomPanel() {
 		if (zoomPanel != null) {
 			zoomPanel.removeFromParent();
@@ -514,9 +498,5 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			getEuclidianPanel().oldWidth = 0;
 			getEuclidianPanel().oldHeight = 0;
 		}
-	}
-
-	protected void setFrame(GeoGebraFrameFull frame) {
-		this.frame = frame;
 	}
 }

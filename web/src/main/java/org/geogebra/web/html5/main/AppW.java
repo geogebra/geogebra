@@ -2430,7 +2430,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		popups.add(widget);
 	}
 
-	public void centerAndResizePopups() {
+	public void centerAndResizeViews() {
 		// to be overridden in AppWFull
 	}
 

@@ -9,7 +9,7 @@
 	$z_mow_toolbar_slider: 54;
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 
-	.showMowSubmenu {
+    .showMowSubmenu {
         bottom: $toolbarPanelHeight;
         transition: $mowsubmenu-transition;
     }

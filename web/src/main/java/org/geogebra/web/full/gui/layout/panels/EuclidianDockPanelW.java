@@ -74,20 +74,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 */
 	public void attachApp(AppW application) {
 		app = application;
-		initFrame();
 
 		// GuiManager can be null at the startup of the application,
 		// but then the addNavigationBar method will be called explicitly.
 		if (app.getGuiManager() != null
 				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
-		}
-	}
-
-	private void initFrame() {
-		GeoGebraFrameW frame = app.getAppletFrame();
-		if (frame instanceof GeoGebraFrameFull) {
-			setFrame((GeoGebraFrameFull) frame);
 		}
 	}
 
