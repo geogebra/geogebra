@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.NotesMenuItemProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 
@@ -40,7 +41,8 @@ public class NotesActivity extends BaseActivity {
 	@Override
 	public void start(AppW appW) {
 		super.start(appW);
-		if (Browser.isIE()) {
+		// TODO: Remove this check when implementing APPS-996
+		if (Browser.isIE() && appW.getVendorSettings() instanceof MebisSettings) {
 			showBrowserNotSupportedMessage(appW);
 		}
 	}
