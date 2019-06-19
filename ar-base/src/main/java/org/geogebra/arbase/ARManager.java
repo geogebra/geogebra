@@ -380,21 +380,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             }
     }
 
-    private void updateARRatio()
-    {
-        double ggbToRw = arGestureManager.getScaleFactor() / mView.getXscale();
-        int mToCm = 100;
-        arRatio = getRatioFromDistance(ggbToRw) *mToCm;
-    }
-
-    private double getRatioFromDistance(double ggbToRw) {
-        // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
-        double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
-        // 1 ggb unit ==  1 meter
-        double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-        return ratio;
-    }
-
     private void setARScaleAtStart(boolean atStart) {
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             // don't expect distance less than desk distance at start
@@ -403,7 +388,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             }
             // 1 ggb unit ==  1 meter
             double ggbToRw = arGestureManager.getScaleFactor() / mView.getXscale();
-            double ratio = getRatioFromDistance(ggbToRw);
+            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
+            double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
+            // 1 ggb unit ==  1 meter
+            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
             if (atStart) {
                 double pot = DoubleUtil.getPowerOfTen(ratio);
                 ratio = ratio / pot;
@@ -538,7 +526,5 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         settings.setXYZscaleValues(settings.getXscale() * factor,
                 settings.getYscale() * factor,
                 settings.getZscale() * factor);
-        updateARRatio();
-        showSnackbar();
     }
 }
