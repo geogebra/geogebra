@@ -167,8 +167,10 @@ public class GeoSymbolicTest {
 	@Test
 	public void testIntegralCommand() {
 		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
+		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * ((-1) / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,1)", "2 / 3");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,aaa)", "2 / 3 * aaa^(3)");
+		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + Unicode.pi + ")");
 	}
 
 	@Test
@@ -212,6 +214,24 @@ public class GeoSymbolicTest {
 	public void testPartialFractionsCommand() {
 		t("PartialFractions(x/(x+1))", "1 - 1 / (x + 1)");
 		t("PartialFractions(aaa * x/(x+1))", "aaa - aaa / (x + 1)");
+	}
+
+	@Test
+	public void testSimplifyCommand() {
+		t("Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+	}
+
+	@Test
+	public void testTrigCommands() {
+		t("TrigExpand(tan(aaa+bbb))",
+				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
+		t("TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
+	}
+
+	@Test
+	public void testTaylorPolynomialCommand() {
+		t("TaylorPolynomial(x^2, a, 1)", "a^(2) + 2 * a * (x - a)");
 	}
 
 	@Test
