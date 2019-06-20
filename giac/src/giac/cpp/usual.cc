@@ -4034,7 +4034,7 @@ namespace giac {
 	  return string2gen("[] index start 1",false);
 	}
       }
-      string errmsg=b.print(contextptr)+ gettext(" is a reserved word, sto not allowed:");
+      string errmsg=b.print(contextptr)+ gettext(" is a reserved word, sto not allowed: ")+a.print(contextptr);
       if (abs_calc_mode(contextptr)!=38)
 	*logptr(contextptr) << errmsg << endl;
       return makevecteur(string2gen(errmsg,false),a);
