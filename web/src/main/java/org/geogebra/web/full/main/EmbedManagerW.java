@@ -79,8 +79,28 @@ public class EmbedManagerW implements EmbedManager {
 				widgets.get(drawEmbed)
 						.setContent(content.get(drawEmbed.getEmbedID()));
 			}
-			return;
+		} else {
+			addCalcEmbed(drawEmbed);
 		}
+	}
+
+	private void addCalcEmbed(DrawEmbed drawEmbed) {
+		CalcEmbedElement element = getCalcEmbed(drawEmbed);
+		widgets.put(drawEmbed, element);
+	}
+
+	private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
+		CalcEmbedElement element = null;
+		if (cache.containsKey(drawEmbed.getEmbedID())) {
+			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
+			element.setVisible(true);
+		} else {
+			element = createCalcEmbed(drawEmbed);
+		}
+		return element;
+	}
+
+	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
 		TestArticleElement parameters = new TestArticleElement("", "graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
@@ -108,7 +128,7 @@ public class EmbedManagerW implements EmbedManager {
 		parameters.setParentElement(scaler.getElement());
 
 		addToGraphics(scaler);
-		CalcEmbedElement calcEmbedElement = new CalcEmbedElement(fr);
+		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
 			fr.getApplication().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
@@ -116,8 +136,7 @@ public class EmbedManagerW implements EmbedManager {
 			fr.getApplication().getGgbApi().setFileJSON(
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
 		}
-
-		widgets.put(drawEmbed, calcEmbedElement);
+		return element;
 	}
 
 	private void addToGraphics(FlowPanel scaler) {
@@ -372,6 +391,14 @@ public class EmbedManagerW implements EmbedManager {
 			if (entry.getKey().getEmbedID() == embedId) {
 				entry.getValue().executeAction(action);
 			}
+		}
+	}
+
+	@Override
+	public void executeAction(EventType action) {
+		restoreEmbeds();
+		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+			entry.getValue().executeAction(action);
 		}
 	}
 

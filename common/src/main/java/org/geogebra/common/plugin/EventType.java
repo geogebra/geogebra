@@ -126,6 +126,8 @@ public enum EventType {
 	EDITOR_STOP("editorStop"),
 	/** Undoable event happened in external object */
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
+	/** Prune state list in external object */
+	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
 
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),

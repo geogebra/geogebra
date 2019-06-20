@@ -230,6 +230,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	private boolean allowSymbolTables = true;
 	private boolean stylebarAllowed = true;
+	private boolean undoRedoPanelAllowed = true;
 	private TimerSystemW timers;
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBroserCallback;
@@ -1431,6 +1432,24 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isStyleBarAllowed() {
 		return stylebarAllowed;
+	}
+
+	/**
+	 * Set wether the undo redo panel is allowed in the app.
+	 *
+	 * @param flag true if the panel is allowed, false otherwise
+	 */
+	public void setUndoRedoPanelAllowed(boolean flag) {
+		undoRedoPanelAllowed = flag;
+	}
+
+	/**
+	 * Returns if the undo redo panel is allowed in the app.
+	 *
+	 * @return true if the panel is allowed, false otherwise
+	 */
+	public boolean isUndoRedoPanelAllowed() {
+		return undoRedoPanelAllowed;
 	}
 
 	@Override

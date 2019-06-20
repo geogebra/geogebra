@@ -100,6 +100,14 @@ public interface EmbedManager {
 	public MyImage getPreview(DrawEmbed drawEmbed);
 
 	/**
+	 * Executes an action in all embedded elements.
+	 *
+	 * @param action
+	 *            event type
+	 */
+	public void executeAction(EventType action);
+
+	/**
 	 * @param action
 	 *            event type
 	 * @param embedId

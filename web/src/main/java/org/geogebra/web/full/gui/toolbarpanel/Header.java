@@ -91,13 +91,19 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		createRightSide();
 		createCenter();
-		if (app.isUndoRedoEnabled()) {
-			addUndoRedoButtons();
-		}
+		maybeAddUndoRedoPanel();
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
+	}
+
+	private boolean maybeAddUndoRedoPanel() {
+		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
+		if (isAllowed) {
+			addUndoRedoButtons();
+		}
+		return isAllowed;
 	}
 
 	private void createCenter() {
@@ -572,9 +578,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
-			if (app.isUndoRedoEnabled()) {
-				addUndoRedoButtons();
-			} else {
+			boolean panelAdded = maybeAddUndoRedoPanel();
+			if (!panelAdded) {
 				return;
 			}
 		}
