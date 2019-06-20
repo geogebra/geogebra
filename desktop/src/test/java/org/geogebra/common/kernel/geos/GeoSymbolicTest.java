@@ -263,6 +263,23 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void testMatrixCommands() {
+		t("Invert({{a,b},{c,d}})",
+				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
+		t("{{a,b},{c,d}}^-1",
+				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
+		t("Transpose({{a,b},{c,d}})", "{{a, c}, {b, d}}");
+		t("EigenValues({{a,b},{c,d}})",
+				"{(a + d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2, (a + d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2}");
+		t("EigenVectors({{a,b},{c,d}})",
+				"{{a - d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c), a - d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)}, {2 * c, 2 * c}}");
+		t("{{a,b},{c,d}} {{a,b},{c,d}}",
+				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}");
+		t("{{aa,bb},{cc,dd}} {{ee,ff},{gg,hh}}",
+				"{{aa * ee + bb * gg, aa * ff + bb * hh}, {cc * ee + dd * gg, cc * ff + dd * hh}}");
+	}
+
+	@Test
 	public void testReplacingAssignments() {
 		t("eq1:x+y=3", "x + y = 3");
 		t("eq2:x-y=1", "x - y = 1");
