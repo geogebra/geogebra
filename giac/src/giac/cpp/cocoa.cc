@@ -14173,7 +14173,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       for (int t=0;t<=th;++t){
 	if (t==th){
 	  // extract from current
-	  if (gbmod.size()<G.size())
+	  if (rur || gbmod.size()<G.size())
 	    gbmod.resize(G.size());
 	  for (i=0;i<G.size();++i){
 	    gbmod[i]=resmod[G[i]];
@@ -14188,7 +14188,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	    continue;
 	  thread_gbasis_t<tdeg_t> * ptr = (thread_gbasis_t<tdeg_t> *) ptr_;
 	  // extract from current
-	  if (gbmod.size()<ptr->G.size())
+	  if (rur || gbmod.size()<ptr->G.size())
 	    gbmod.resize(ptr->G.size());
 	  for (i=0;i<ptr->G.size();++i)
 	    gbmod[i]=ptr->resmod[ptr->G[i]];
