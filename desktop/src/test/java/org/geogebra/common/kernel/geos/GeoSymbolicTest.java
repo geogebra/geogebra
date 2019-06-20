@@ -280,6 +280,16 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void testIntersectCommand() {
+		t("Intersect(x^2+y^2=5, x+y=sqrt(2))", "{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
+		t("Intersect(x+y=sqrt(2), y-x=pi)", "{((-1) / 2 * " + Unicode.pi
+				+ " + sqrt(2) / 2, 1 / 2 * " + Unicode.pi + " + sqrt(2) / 2)}");
+		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
+				"{((-37) / 8, (sqrt(103) + 32) / 8), ((-37) / 8, (-sqrt(103) + 32) / 8)}");
+		// t("Intersect((x+1)^2+(y+1)^2=9-4sqrt(2), y^2+(x-2)^2=10)", "");
+	}
+
+	@Test
 	public void testReplacingAssignments() {
 		t("eq1:x+y=3", "x + y = 3");
 		t("eq2:x-y=1", "x - y = 1");
