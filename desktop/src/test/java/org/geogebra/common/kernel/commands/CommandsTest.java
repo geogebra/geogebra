@@ -485,6 +485,16 @@ public class CommandsTest extends AlgebraTest {
 		t("Numerator[ 3/7 ]", "3");
 		t("Numerator[ 5/(-8) ]", "-5");
 		t("Numerator[ 2/0 ]", "1");
+		t("Numerator[ 1234/5678 ]", "617");
+		t("Numerator[ 12345/67890 ]", "823");
+		t("Numerator[ 123456/789012 ]", "10288");
+		t("Numerator[ 1234567/8901234 ]", "1234567");
+		t("Numerator[ 12345678/90123456 ]", "2057613");
+		t("Numerator[ 123456789/12345678 ]", "13717421");
+		t("Numerator[ 1234567890/1234567890 ]", "1");
+		t("Numerator[ 12345678901/23456789012 ]", "12345678901");
+		t("Numerator[ 123456789012/3456789012 ]", "10288065751");
+		t("Numerator[ 1234567890123/45678901234 ]", "1234567890123");
 	}
 
 	@Test
@@ -493,6 +503,16 @@ public class CommandsTest extends AlgebraTest {
 		t("Denominator[ 3/7 ]", "7");
 		t("Denominator[ 5/(-8) ]", "8");
 		t("Denominator[ 2/0 ]", "0");
+		t("Denominator[ 1234/5678 ]", "2839");
+		t("Denominator[ 12345/67890 ]", "4526");
+		t("Denominator[ 123456/789012 ]", "65751");
+		t("Denominator[ 1234567/8901234 ]", "8901234");
+		t("Denominator[ 12345678/90123456 ]", "15020576");
+		t("Denominator[ 123456789/12345678 ]", "1371742");
+		t("Denominator[ 1234567890/1234567890 ]", "1");
+		t("Denominator[ 12345678901/23456789012 ]", "23456789012");
+		t("Denominator[ 123456789012/3456789012 ]", "288065751");
+		t("Denominator[ 1234567890123/45678901234 ]", "45678901234");
 	}
 
 	@Test
