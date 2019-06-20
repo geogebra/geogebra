@@ -47,7 +47,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Coords previousTranslationOffset = new Coords(3);
     private Coords mPosXY = new Coords(2);
 
-    protected float mDistance;
+    private float mDistance;
     protected boolean objectIsRendered = false;
     protected boolean mDrawing = false;
     protected boolean mARIsRendering = false;
@@ -93,10 +93,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public boolean isDrawing(){
         return false;
-    }
-
-    public float getDistance() {
-        return mDistance;
     }
 
     abstract public void setBackgroundColor();
@@ -372,6 +368,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARScaleAtStart() {
+        mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             // don't expect distance less than desk distance at start
             if (mDistance < DESK_DISTANCE_MAX) {
