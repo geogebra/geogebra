@@ -200,7 +200,6 @@ public abstract class Renderer {
 	 */
     public void mayStartAR() {
         if (arShouldStart) {
-			view3D.setXScaleARStart();
 			doStartAR();
             arShouldStart = false;
         }
@@ -2040,10 +2039,15 @@ public abstract class Renderer {
 	 * set AR to end
 	 */
 	public void setARShouldEnd() {
+		float factor = 1;
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			factor = getARManager().getArScaleFactor();
+		}
 		killARSession();
+		view3D.resetViewFromAR(factor);
 		view3D.setARDrawing(false);
 		view3D.setAREnabled(false);
-		view3D.resetViewFromAR();
 	}
 
 	/**

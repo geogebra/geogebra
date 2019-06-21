@@ -494,17 +494,19 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void fitThickness() {
+        float previousARScale = arScale;
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
         double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
         arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
         arScaleFactor = arScaleAtStart / arScale;
-        double[] xyzScale = mView.getXyzScaleARStart();
+        float f = previousARScale / arScale;
 
         EuclidianSettings3D settings =
                 (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
-        settings.setXYZscaleValues(xyzScale[0] * arScaleFactor, xyzScale[1] * arScaleFactor,
-                xyzScale[2] * arScaleFactor);
+        settings.setXYZscaleValues(settings.getXscale() * f,
+                settings.getYscale() * f,
+                settings.getZscale() * f);
     }
 
     public float getArScaleFactor() {

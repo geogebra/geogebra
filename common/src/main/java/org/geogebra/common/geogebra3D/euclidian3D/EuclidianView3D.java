@@ -302,7 +302,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private boolean mIsARDrawing;
 	private boolean mIsAREnabled;
 	private Target target;
-	private double[] xyzScaleARStart;
 
 	/**
 	 * common constructor
@@ -5020,23 +5019,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * reset view for AR
 	 */
-	public void resetViewFromAR() {
-		getSettings().setXscaleValue(xyzScaleARStart[0]);
-		getSettings().setYscaleValue(xyzScaleARStart[1]);
-		getSettings().setZscaleValue(xyzScaleARStart[2]);
+	public void resetViewFromAR(float factor) {
+		EuclidianSettings3D s = getSettings();
+		s.setXYZscaleValues(s.getXscale() / factor,
+				s.getYscale() / factor,
+				s.getZscale() / factor);
 		resetSettings();
-	}
-
-	/**
-	 * store xScale value at start of AR
-	 */
-	public void setXScaleARStart() {
-		if (xyzScaleARStart == null) {
-			xyzScaleARStart = new double[3];
-		}
-		xyzScaleARStart[0] = getSettings().getXscale();
-		xyzScaleARStart[1] = getSettings().getYscale();
-		xyzScaleARStart[2] = getSettings().getZscale();
 	}
 
 	@Override
@@ -5073,13 +5061,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void queueOnGLThread(Runnable runnable) {
 		runnable.run();
-	}
-
-	/**
-	 * return last xyzScale before AR started
-	 */
-	public double[] getXyzScaleARStart() {
-		return xyzScaleARStart;
 	}
 
 }
