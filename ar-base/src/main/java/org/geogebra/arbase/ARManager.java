@@ -347,6 +347,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         // used in iOS
         translationOffset.set(0,0,0);
         previousTranslationOffset.set(0,0,0);
+        arScaleFactor = 1;
     }
 
     /**

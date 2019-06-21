@@ -3,6 +3,8 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -103,6 +105,20 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.zscale = z;
 		settingChanged();
 		updateScaleHelpers();
+	}
+
+	/**
+	 * restart XYZ scale values from AR
+	 */
+	public void restartXYZscaleValuesFromAR() {
+		ARManagerInterface<?> arManager =
+				((EuclidianView3D) app.getActiveEuclidianView()).getRenderer().getARManager();
+		if (arManager != null) {
+			float factor = arManager.getArScaleFactor();
+			xscale = xscale / factor;
+			yscale = yscale / factor;
+			zscale = zscale / factor;
+		}
 	}
 
 	/**
