@@ -36,6 +36,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Map<Object, Double> trackablesZ;
     protected Object hittingTrackable;
     protected double hittingDistance;
+    private float arScaleFactor = 1;
 
     private Coords tmpCoords1 = new Coords(4);
     private Coords tmpCoords2 = new Coords(4);
@@ -499,12 +500,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
         double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
         arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
-        float factor = arScaleAtStart / arScale;
+        arScaleFactor = arScaleAtStart / arScale;
         double[] xyzScale = mView.getXyzScaleARStart();
 
         EuclidianSettings3D settings =
                 (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
-        settings.setXYZscaleValues(xyzScale[0] * factor, xyzScale[1] * factor,
-                xyzScale[2] * factor);
+        settings.setXYZscaleValues(xyzScale[0] * arScaleFactor, xyzScale[1] * arScaleFactor,
+                xyzScale[2] * arScaleFactor);
+    }
+
+    public float getArScaleFactor() {
+        return arScaleFactor;
     }
 }

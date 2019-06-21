@@ -2146,7 +2146,7 @@ public abstract class Renderer {
      *
      * @return AR manager (can be null)
      */
-	protected ARManagerInterface<?> getARManager() {
+	public ARManagerInterface<?> getARManager() {
 	    return null;
     }
 
