@@ -4601,8 +4601,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void snapMoveView(int dx, int dy) {
+	protected void snapMoveView() {
 		// no snap for 3D view
+		int dx = mouseLoc.x - startLoc.x;
+		int dy = mouseLoc.y - startLoc.y;
 		view3D.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
 

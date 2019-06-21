@@ -216,7 +216,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
 	protected static final int DRAG_THRESHOLD = 10;
-	private static final int MOVE_VIEW_THRESHOLD = 50;
 	/**
 	 * factor by which hit-threshold is increased while dragging for
 	 * attachDetach (while the point is attached to a Path or Region)
@@ -302,7 +301,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected int previousPointCapturing;
 	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<>();
 	protected GPoint startLoc;
-	private GPoint lastStartLoc;
 	protected GPoint lastMouseLoc;
 	protected GPoint oldLoc = new GPoint();
 	protected GPoint2D.Double lineEndPoint = null;
@@ -412,11 +410,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
-	private boolean snapMoveView = true;
 	private GeoFrame lastVideo = null;
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
+
+	private SnapController snapController = new SnapController();
 
 	/**
 	 * state for selection tool over press/release
@@ -8253,26 +8252,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveView() {
-		int dx = mouseLoc.x - startLoc.x;
-		int dy = mouseLoc.y - startLoc.y;
-		snapMoveView(dx, dy);
+		snapMoveView();
 	}
 
-	protected void snapMoveView(int dx0, int dy0) {
-		int dx = dx0;
-		int dy = dy0;
-		if (startLoc != lastStartLoc) {
-			snapMoveView = true;
-		}
-		if (Math.abs(dx) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
-			dx = 0; // move up/down
-		} else if (Math.abs(dy) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
-			dy = 0; // move left/right
-		} else {
-			snapMoveView = false; // release snap
-		}
-		lastStartLoc = startLoc;
-		view.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
+	protected void snapMoveView() {
+		snapController.touchMoved(mouseLoc);
+
+		GPoint delta = snapController.getDeltaPoint();
+		view.setCoordSystemFromMouseMove(delta.x, delta.y, MOVE_VIEW);
 	}
 
 	protected void scaleXAxis(boolean repaint) {
@@ -9280,6 +9267,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		startLoc = mouseLoc;
+		snapController.touchStarted(startLoc);
 
 		setDragCursorIfMoveView();
 
