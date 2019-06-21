@@ -552,7 +552,6 @@ public enum Language {
 	 */
 	final public boolean hasTranslatedKeyboard() {
 		switch (this) {
-		case Chinese_Simplified:
 		case Chinese_Traditional:
 			return false;
 		default:
