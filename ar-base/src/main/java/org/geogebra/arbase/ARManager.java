@@ -48,7 +48,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Coords previousTranslationOffset = new Coords(3);
     private Coords mPosXY = new Coords(2);
 
-    private float mDistance;
     protected boolean objectIsRendered = false;
     protected boolean mDrawing = false;
     protected boolean mARIsRendering = false;
@@ -133,7 +132,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public double getHittingDistance() {
-        return hittingDistance / arScaleAtStart;
+        return hittingDistance / arScale;
     }
 
     abstract public void setHittingOriginAndDirection(float x, float y);
@@ -155,7 +154,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         Renderer renderer = mView.getRenderer();
         renderer.getRendererImpl().glViewPort();
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
-        // cameraView * modelMatrix and undo rotation matrix (keeping screen orientation)
         viewModelMatrix.setMul(viewMatrix, mModelMatrix);
         ARMotionEvent arMotionEvent = null;
         if (mView.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
@@ -371,7 +369,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARScaleAtStart() {
-        mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
+        float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             // don't expect distance less than desk distance at start
             if (mDistance < DESK_DISTANCE_MAX) {
@@ -496,7 +494,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void fitThickness() {
-        mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
+        float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
         double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
         arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
