@@ -380,8 +380,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             double ggbToRw = 1.0 / mView.getXscale();
             // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
             double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
-            // 1 ggb unit ==  1 meter
-            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+            // ratio
+            double ratio;
+            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                float reductionFactor = 0.8f;
+                float fittingScreenScale =
+                        reductionFactor * mDistance / mView.getRenderer().getWidth();
+                ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
+            } else {
+                ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+            }
             double pot = DoubleUtil.getPowerOfTen(ratio);
             ratio = ratio / pot;
             if (ratio <= 2f) {
@@ -397,11 +405,18 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 arRatio = ratio * mToCm;
             }
             arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
+            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                arScale = (float) thicknessMin;
+                arScaleFactor = arScaleAtStart / arScale;
+                updateSettingsScale(arScaleFactor);
+            } else {
+                arScale = arScaleAtStart;
+            }
         } else {
             float reductionFactor = 0.80f;
             arScaleAtStart = (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
+            arScale = arScaleAtStart;
         }
-        arScale = arScaleAtStart;
 
         if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
             showSnackbar();
@@ -501,13 +516,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
         arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
         arScaleFactor = arScaleAtStart / arScale;
-        float f = previousARScale / arScale;
+        updateSettingsScale(previousARScale / arScale);
+    }
 
-        EuclidianSettings3D settings =
-                (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
-        settings.setXYZscaleValues(settings.getXscale() * f,
-                settings.getYscale() * f,
-                settings.getZscale() * f);
+    private void updateSettingsScale(float factor) {
+        EuclidianSettings3D settings = mView.getSettings();
+        settings.setXYZscaleValues(settings.getXscale() * factor,
+                settings.getYscale() * factor,
+                settings.getZscale() * factor);
     }
 
     public float getArScaleFactor() {
