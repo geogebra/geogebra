@@ -7,8 +7,22 @@ import org.geogebra.common.awt.GPoint;
  */
 public class SnapController {
 
+    /* Threshold to both directions, where value larger that this
+    * will end the snapping behaviour. */
     private static final int MOVE_VIEW_THRESHOLD = 50;
+
+    /* If this distance threshold is crossed without snapping,
+    * we consider the movement without any. */
     private static final int DISTANCE_THRESHOLD = 40;
+
+    /* Distance threshold to consider snapping to either direction. */
+    private static final int INITIAL_DISTANE_TRESHOLD = 5;
+
+    /* The size of the angle in degrees in which we consider snapping.
+    * We consider angles on both side of a directionality, e.g.
+    * with angle size 30, we consider the angles between 75 and 105
+    * and between 255 and 285. */
+    private static final int ANGLE_OPENING = 50;
 
     /**
      * Describes the state of the controller.
@@ -89,16 +103,26 @@ public class SnapController {
                 state = State.FREE;
             } else {
                 float angle = calculateAngle(startLocation, movedLocation);
-                if (distance > 5) {
-                    if ((angle < 25 || angle > 335) && Math.abs(dy) <= MOVE_VIEW_THRESHOLD) {
+                if (distance > INITIAL_DISTANE_TRESHOLD) {
+                    if (angleInHorizontal(angle) && Math.abs(dy) <= MOVE_VIEW_THRESHOLD) {
                         state = State.SNAPPED_HORIZONTAL;
-                    } else if ((((angle > 65 && angle < 115) || (angle > 245 && angle < 295)))
-                            && Math.abs(dx) <= MOVE_VIEW_THRESHOLD) {
+                    } else if (angleInVertical(angle) && Math.abs(dx) <= MOVE_VIEW_THRESHOLD) {
                         state = State.SNAPPED_VERTICAL;
                     }
                 }
             }
         }
+    }
+
+    private boolean angleInHorizontal(float angle) {
+        float halfOpening = ANGLE_OPENING / 2.0f;
+        return angle < halfOpening || angle > 360 - halfOpening;
+    }
+
+    private boolean angleInVertical(float angle) {
+        float halfOpening = ANGLE_OPENING / 2.0f;
+        return (angle > 90 - halfOpening && angle < 90 + halfOpening) ||
+                (angle > 270 - halfOpening && angle < 270 + halfOpening);
     }
 
     private float calculateAngle(GPoint point1, GPoint point2) {
@@ -109,6 +133,5 @@ public class SnapController {
         }
 
         return angle;
-
     }
 }
