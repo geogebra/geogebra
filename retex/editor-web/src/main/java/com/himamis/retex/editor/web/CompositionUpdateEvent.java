@@ -22,14 +22,14 @@ import com.google.gwt.event.dom.client.DomEvent;
 /**
  * Represents a native focus event.
  */
-public class CompositionEvent extends DomEvent<CompositionHandler> {
+public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 
 	/**
 	 * Event type for focus events. Represents the meta-data associated with
 	 * this event.
 	 */
 	private static final Type<CompositionHandler> TYPE = new Type<CompositionHandler>(
-			"compositionupdate", new CompositionEvent());
+			"compositionupdate", new CompositionUpdateEvent());
 
 	/**
 	 * Gets the event type associated with focus events.
@@ -45,7 +45,7 @@ public class CompositionEvent extends DomEvent<CompositionHandler> {
 	 * {@link DomEvent#fireNativeEvent(com.google.gwt.dom.client.NativeEvent, com.google.gwt.event.shared.HasHandlers)}
 	 * to fire focus events.
 	 */
-	protected CompositionEvent() {
+	protected CompositionUpdateEvent() {
 	}
 
 	@Override

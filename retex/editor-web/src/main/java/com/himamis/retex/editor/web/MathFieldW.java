@@ -68,7 +68,6 @@ import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
@@ -807,30 +806,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			Element el = getHiddenTextAreaNative(counter++, clip.getElement());
 			wrap = MyTextArea.wrap(el);
 
-			wrap.addCompositionUpdateHandler(new CompositionHandler() {
-
-				@Override
-				public void onCompositionUpdate(CompositionEvent event) {
-					// this works fine for Korean as the editor has support for
-					// combining Korean characters
-					// but for eg Japanese probably will need to hook into
-					// compositionstart & compositionend events as well
-
-					// in Chrome typing fast gives \u3137\uB450
-					// instead of \u3137\u315C
-					// so flatten the result and send just the last character
-					String data = Korean.flattenKorean(event.getData());
-
-					// fix for swedish
-					if (!"^".equals(data)) {
-						// also convert to compatibility Jamo
-						// as that's what the editor expects
-						insertString("" + Korean.convertToCompatibilityJamo(
-								data.charAt(data.length() - 1)));
-						// logNative("onCompositionUpdate" + event.getData());
-					}
-				}
-			});
+			wrap.addCompositionUpdateHandler(
+					new EditorCompositionHandler(this));
 
 			wrap.addFocusHandler(new FocusHandler() {
 

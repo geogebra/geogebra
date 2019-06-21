@@ -5,10 +5,12 @@ import com.google.gwt.event.shared.EventHandler;
 public interface CompositionHandler extends EventHandler {
 
 	/**
-	 * Called when FocusEvent is fired.
+	 * Called when CompositionUpdateEvent is fired.
 	 * 
 	 * @param event
-	 *            the {@link FocusEvent} that was fired
+	 *            the {@link CompositionUpdateEvent} that was fired
 	 */
-	void onCompositionUpdate(CompositionEvent event);
+	void onCompositionUpdate(CompositionUpdateEvent event);
+
+
 }
