@@ -5075,4 +5075,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		runnable.run();
 	}
 
+	/**
+	 * return last xyzScale before AR started
+	 */
+	public double[] getXyzScaleARStart() {
+		return xyzScaleARStart;
+	}
+
 }

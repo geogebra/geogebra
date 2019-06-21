@@ -28,6 +28,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
     private float arScaleAtStart;
+    private float arScale = 1;
     private double arRatio;
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -400,6 +401,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             float reductionFactor = 0.80f;
             arScaleAtStart = (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
         }
+        arScale = arScaleAtStart;
 
         if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
             showSnackbar();
@@ -407,7 +409,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private float getARScaleParameter() {
-        return arScaleAtStart * arGestureManager.getScaleFactor();
+        return arScale * arGestureManager.getScaleFactor();
     }
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
@@ -493,17 +495,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void fitThickness() {
-        float previousARScaleAtStart = arScaleAtStart;
         mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
         double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
-        arScaleAtStart = (float) (thicknessMin / arGestureManager.getScaleFactor());
-        float factor = previousARScaleAtStart / arScaleAtStart;
+        arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
+        float factor = arScaleAtStart / arScale;
+        double[] xyzScale = mView.getXyzScaleARStart();
 
         EuclidianSettings3D settings =
                 (EuclidianSettings3D) mView.getApplication().getSettings().getEuclidian(3);
-        settings.setXYZscaleValues(settings.getXscale() * factor,
-                settings.getYscale() * factor,
-                settings.getZscale() * factor);
+        settings.setXYZscaleValues(xyzScale[0] * factor, xyzScale[1] * factor,
+                xyzScale[2] * factor);
     }
 }
