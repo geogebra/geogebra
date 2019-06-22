@@ -104,6 +104,8 @@ public class CallJavaScript {
 					// https://gist.github.com/murkle/f4d0c02aa595f404df143d0bd31b6b88
 					|| fullClassName.equals(java.util.Timer.class.getName())
 					|| fullClassName.equals(java.util.TimerTask.class.getName())
+					// eg java.lang.String
+					|| fullClassName.startsWith("java.lang")
 					// needed for TimerTask
 					|| fullClassName.equals("adapter1");
 
