@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -29,6 +30,8 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 	private GeoNumeric f; // input
 	private GeoNumeric g; // output
 	private Commands type;
+
+	private ExpressionValue[] fraction = new ExpressionValue[2];
 
 	/**
 	 * @param cons
@@ -77,22 +80,34 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 			return;
 		}
 
-		// check if it's already a fraction!
-		if (f.getDefinition() != null && f.getDefinition().isSimpleFraction()) {
+		ExpressionNode def = f.getDefinition();
 
-			ExpressionNode def = f.getDefinition();
+		// check if it's possible to get as an exact fraction!
+		if (def != null) {
+			if (def.isSimpleFraction()) {
 
-			long num = (long) def.getLeft().evaluateDouble();
-			long den = (long) def.getRight().evaluateDouble();
-			long gcd = Kernel.gcd(num, den);
-			
-			double val = (type == Commands.Numerator) ? num / gcd : den / gcd;
-			
-			g.setValue(val);
-			return;
+				// cancel down to lowest terms
+				long num = (long) def.getLeft().evaluateDouble();
+				long den = (long) def.getRight().evaluateDouble();
+				long gcd = Kernel.gcd(num, den);
+				double val = (type == Commands.Numerator) ? num / gcd : den / gcd;
+
+				g.setValue(val);
+				return;
+			}
+
+			def.getFraction(fraction, true);
+
+			if (fraction[0] != null && fraction[1] != null) {
+				double val = (type == Commands.Numerator) ? fraction[0].evaluateDouble()
+						: fraction[1].evaluateDouble();
+				g.setValue(val);
+				return;
+			}
 
 		}
 
+		// regular decimal -> find approximate fraction
 		double[] frac = AlgoFractionText.decimalToFraction(f.getDouble(),
 				Kernel.STANDARD_PRECISION);
 		if (frac.length < 2) {
