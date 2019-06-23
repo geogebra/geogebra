@@ -169,6 +169,8 @@ public class GeoSymbolicTest {
 		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
 		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
 		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
+		t("Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})",
+				"{{x = 3, y = 2, t = 0, s = -1}}");
 	}
 
 	@Test
