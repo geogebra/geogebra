@@ -89,8 +89,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		reuseDefinition(geo);
 		fVars.clear();
 		if (geo instanceof GeoSymbolic) {
-			fVars.addAll(((GeoSymbolic) geo).fVars);
-			value = ((GeoSymbolic) geo).getValue();
+			GeoSymbolic symbolic = (GeoSymbolic) geo;
+			fVars.addAll(symbolic.fVars);
+			value = symbolic.getValue();
+			casOutputString = symbolic.casOutputString;
+			twinUpToDate = false;
 		}
 	}
 
