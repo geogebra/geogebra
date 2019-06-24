@@ -521,7 +521,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     private void updateSettingsScale(float factor) {
         EuclidianSettings3D settings = mView.getSettings();
-        settings.setXYZscaleValues(settings.getXscale() * factor,
+        settings.setXYZscale(settings.getXscale() * factor,
                 settings.getYscale() * factor,
                 settings.getZscale() * factor);
     }

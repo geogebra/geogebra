@@ -5021,7 +5021,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void resetViewFromAR(float factor) {
 		EuclidianSettings3D s = getSettings();
-		s.setXYZscaleValues(s.getXscale() / factor,
+		s.setXYZscale(s.getXscale() / factor,
 				s.getYscale() / factor,
 				s.getZscale() / factor);
 		resetSettings();
