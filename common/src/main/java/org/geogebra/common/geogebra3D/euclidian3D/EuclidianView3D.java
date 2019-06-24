@@ -2973,28 +2973,17 @@ public abstract class EuclidianView3D extends EuclidianView
 		sb.append(getZZero());
 		sb.append("\"");
 
-
-        double arScaleFactor = 1;
-        if (getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON) && isAREnabled()) {
-            if (renderer != null) {
-                ARManagerInterface<?> arManager = renderer.getARManager();
-                if (arManager != null) {
-                    arScaleFactor = renderer.getARManager().getArScaleFactor();
-                }
-            }
-        }
-
 		sb.append(" scale=\"");
-		sb.append(getXscale() / arScaleFactor);
+		sb.append(getXscale());
 		sb.append("\"");
 
 		if (!getSettings().hasSameScales()) {
 			sb.append(" yscale=\"");
-			sb.append(getYscale() / arScaleFactor);
+			sb.append(getYscale());
 			sb.append("\"");
 
 			sb.append(" zscale=\"");
-			sb.append(getZscale() / arScaleFactor);
+			sb.append(getZscale());
 			sb.append("\"");
 		}
 
