@@ -253,7 +253,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 		m[2][0] = oneMinusC.multiply(ux * uz).subtract(s.multiply(uy));
 		m[2][1] = oneMinusC.multiply(uy * uz).plus(s.multiply(ux));
-		m[2][2] = diagonalCoeff(uy, c, kernel);
+		m[2][2] = diagonalCoeff(uz, c, kernel);
 
 		for (int i = 0; i < 3; i++) {
 			m[3][i] = new ExpressionNode(kernel, 0);
