@@ -331,6 +331,9 @@ public class CommandsTest extends AlgebraTest {
 		// but causes problems for other cases
 		// t("NIntegral(intFunp, 1 / 2, 2)", "-0.5589329791322");
 		// t("Integral(intFunp, 1 / 2, 2)", "-0.5589329791322");
+		t("Integral(1/(x^2+1),-inf,inf)", "3.14159265359");
+		t("Integral(1/(x^2+1),0,inf)", "1.570796326795");
+		t("Integral(1/(x^2+1),-inf,0)", "1.570796326795");
 	}
 
 	@Test
