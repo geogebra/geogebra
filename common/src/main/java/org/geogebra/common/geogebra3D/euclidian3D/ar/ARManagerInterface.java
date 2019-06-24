@@ -59,4 +59,6 @@ public interface ARManagerInterface<T> {
 
     float getArScaleFactor();
 
+    void resetScaleFromAR();
+
 }

@@ -2039,13 +2039,12 @@ public abstract class Renderer {
 	 * set AR to end
 	 */
 	public void setARShouldEnd() {
-		float factor = 1;
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			factor = getARManager().getArScaleFactor();
+			arManager.resetScaleFromAR();
 		}
 		killARSession();
-		view3D.resetViewFromAR(factor);
+		view3D.resetViewFromAR();
 		view3D.setARDrawing(false);
 		view3D.setAREnabled(false);
 	}

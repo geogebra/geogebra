@@ -544,4 +544,14 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     public float getArScaleFactor() {
         return arScaleFactor;
     }
+
+    public void resetScaleFromAR() {
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            EuclidianSettings3D s = mView.getSettings();
+            s.setXYZscaleValues(s.getXscale() / arScaleFactor,
+                    s.getYscale() / arScaleFactor,
+                    s.getZscale() / arScaleFactor);
+            arScaleFactor = 1f;
+        }
+    }
 }
