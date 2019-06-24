@@ -439,7 +439,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private float getARScaleParameter() {
-        return arScale * arGestureManager.getScaleFactor();
+        return arGestureManager == null ? arScale : arScale * arGestureManager.getScaleFactor();
     }
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
