@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -2972,17 +2973,28 @@ public abstract class EuclidianView3D extends EuclidianView
 		sb.append(getZZero());
 		sb.append("\"");
 
+
+        double arScaleFactor = 1;
+        if (getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON) && isAREnabled()) {
+            if (renderer != null) {
+                ARManagerInterface<?> arManager = renderer.getARManager();
+                if (arManager != null) {
+                    arScaleFactor = renderer.getARManager().getArScaleFactor();
+                }
+            }
+        }
+
 		sb.append(" scale=\"");
-		sb.append(getXscale());
+		sb.append(getXscale() / arScaleFactor);
 		sb.append("\"");
 
 		if (!getSettings().hasSameScales()) {
 			sb.append(" yscale=\"");
-			sb.append(getYscale());
+			sb.append(getYscale() / arScaleFactor);
 			sb.append("\"");
 
 			sb.append(" zscale=\"");
-			sb.append(getZscale());
+			sb.append(getZscale() / arScaleFactor);
 			sb.append("\"");
 		}
 
