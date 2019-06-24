@@ -4,6 +4,7 @@ package org.geogebra.arbase;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -369,32 +370,47 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             setHittingOriginAndDirection(arMotionEvent.getX(), arMotionEvent.getY());
     }
 
+    private double getThicknessMin(double distance) {
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            return THICKNESS_MIN_FACTOR * distance / DESK_DISTANCE_MIN;
+        }
+        return THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
+    }
+
     public void setARScaleAtStart() {
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
             // don't expect distance less than desk distance at start
-            if (mDistance < DESK_DISTANCE_MAX) {
-                mDistance = (float) DESK_DISTANCE_MAX;
+            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                if (mDistance < DESK_DISTANCE_MIN) {
+                    mDistance = (float) DESK_DISTANCE_MIN;
+                }
+            } else {
+                if (mDistance < DESK_DISTANCE_MAX) {
+                    mDistance = (float) DESK_DISTANCE_MAX;
+                }
             }
             // 1 ggb unit ==  1 meter
             double ggbToRw = 1.0 / mView.getXscale();
-            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
-            double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
+            double thicknessMin = getThicknessMin(mDistance);
             // ratio
             double ratio;
             if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                float reductionFactor = 0.8f;
-                float fittingScreenScale =
-                        reductionFactor * mDistance / mView.getRenderer().getWidth();
+                float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
+                                * (mDistance / projectMatrix.get(1 ,1))
+                                / mView.getRenderer().getWidth());
                 ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
             } else {
                 ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
             }
             double pot = DoubleUtil.getPowerOfTen(ratio);
             ratio = ratio / pot;
-            if (ratio <= 2f) {
+            // use geometric means (approx.) between 1,2,5,10
+            if (ratio <= 1.4f) {
+                ratio = 1f;
+            } else if (ratio <= 3f) {
                 ratio = 2f;
-            } else if (ratio <= 5f) {
+            } else if (ratio <= 7f) {
                 ratio = 5f;
             } else {
                 ratio = 10f;
@@ -513,7 +529,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         float previousARScale = arScale;
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
-        double thicknessMin = THICKNESS_MIN * mDistance / DESK_DISTANCE_MAX;
+        double thicknessMin = getThicknessMin(mDistance);
         arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
         arScaleFactor = arScaleAtStart / arScale;
         updateSettingsScale(previousARScale / arScale);

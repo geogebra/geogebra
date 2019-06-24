@@ -36,7 +36,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	static private double REDUCTION_LARGE = 0; // (1-1./1)/2
 
-	static private double REDUCTION_ENLARGE = 1.5;
+    /**
+     * enlarging factor from minMax values to minMaxLarge values
+     */
+	final static public double REDUCTION_ENLARGE = 1.5;
 
 	static private double[] REDUCTION_VALUES = { (1 - 1. / Math.sqrt(3)) / 2, // small
 			(1 - 1. / Math.sqrt(2)) / 2, // medium

@@ -18,6 +18,12 @@ public interface ARManagerInterface<T> {
     /** 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX) */
     final static public double THICKNESS_MIN = 0.00025;
 
+    /** desk min distance is 10 cm */
+    final static public double DESK_DISTANCE_MIN = 0.1;
+
+    /** 1 thickness in ggb == 0.15 mm (for distance = DESK_DISTANCE_MIN) */
+    final static public double THICKNESS_MIN_FACTOR = 0.00015;
+
     Coords getHittingDirection();
 
     Coords getHittingOrigin();
