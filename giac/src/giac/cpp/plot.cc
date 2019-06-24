@@ -1404,7 +1404,7 @@ namespace giac {
       int protect=giac_bind(vecteur(1,xmin),localvar,newcontextptr);
       vecteur chemin;
       double i=xmin;
-      for (;i<xmax;i+= step){
+      for (;!ctrl_c && !interrupted && i<xmax;i+= step){
 	// yy=evalf_double(subst(f,vars,i,false,contextptr),1,contextptr);
 	local_sto_double(i,*vars._IDNTptr,newcontextptr);
 	// vars._IDNTptr->localvalue->back()._DOUBLE_val =i;
@@ -8277,7 +8277,7 @@ namespace giac {
     int nstep=int((function_tmax-function_tmin)/function_tstep+.5);
     // bool old_io_graph=io_graph(contextptr);
     // io_graph(false,contextptr);
-    for (int count=0;count<=nstep;++count,t+= function_tstep){
+    for (int count=0;!ctrl_c && !interrupted && count<=nstep;++count,t+= function_tstep){
       local_sto_double(t,*vars._IDNTptr,newcontextptr);
       // vars._IDNTptr->localvalue->back()._DOUBLE_val =t;
       if (xy.type==_VECT && xy._VECTptr->size()==2){
@@ -13131,10 +13131,10 @@ namespace giac {
     vector< vector<double> > fij;
     vecteur xy(makevecteur(xvar,yvar)),xyval(xy);
     // eval f from xmin to xmax, in jstep and ymin to ymax in kstep
-    for (int i=0;i<imax;++i){
+    for (int i=0; i<imax;++i){
       vector<double> fi;
       xyval[0]=xmin+i*dx;
-      for (int j=0;j<jmax;++j){
+      for (int j=0;!ctrl_c && !interrupted &&j<jmax;++j){
 	xyval[1]=ymin+j*dy;
 	gen f1=evalf_double(evalf(quotesubst(f,xy,xyval,contextptr),eval_level(contextptr),contextptr),eval_level(contextptr),contextptr);
 	double zero=0.0;
