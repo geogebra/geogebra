@@ -372,8 +372,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     private double getThicknessMin(double distance) {
         if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-            return mView.dipToPx(THICKNESS_MIN_FACTOR) / projectMatrix.get(1 ,1)
-                    * distance / DESK_DISTANCE_MIN;
+            return mView.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
         }
         return THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
     }
@@ -381,8 +380,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     public void setARScaleAtStart() {
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
         if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-            // don't expect distance less than desk distance at start
+            double thicknessMin;
             if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                thicknessMin = getThicknessMin(mDistance);
+                // don't expect distance less than desk distance at start
                 if (mDistance < DESK_DISTANCE_MIN) {
                     mDistance = (float) DESK_DISTANCE_MIN;
                 }
@@ -390,10 +391,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 if (mDistance < DESK_DISTANCE_MAX) {
                     mDistance = (float) DESK_DISTANCE_MAX;
                 }
+                thicknessMin = getThicknessMin(mDistance);
             }
             // 1 ggb unit ==  1 meter
             double ggbToRw = 1.0 / mView.getXscale();
-            double thicknessMin = getThicknessMin(mDistance);
             // ratio
             double ratio;
             if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
@@ -406,15 +407,12 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             }
             double pot = DoubleUtil.getPowerOfTen(ratio);
             ratio = ratio / pot;
-            // use geometric means (approx.) between 1,2,5,10
-            if (ratio <= 1.4f) {
-                ratio = 1f;
-            } else if (ratio <= 3f) {
-                ratio = 2f;
-            } else if (ratio <= 7f) {
+            if (ratio > 5f) {
                 ratio = 5f;
+            } else if (ratio > 2f) {
+                ratio = 2f;
             } else {
-                ratio = 10f;
+                ratio = 1f;
             }
             ratio = ratio * pot;
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
