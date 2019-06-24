@@ -372,7 +372,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     private double getThicknessMin(double distance) {
         if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-            return THICKNESS_MIN_FACTOR * distance / DESK_DISTANCE_MIN;
+            return mView.dipToPx(THICKNESS_MIN_FACTOR) / projectMatrix.get(1 ,1)
+                    * distance / DESK_DISTANCE_MIN;
         }
         return THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
     }

@@ -5063,4 +5063,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		runnable.run();
 	}
 
+    /**
+     *
+     * @param value value in dip
+     * @return value in pixels
+     */
+    public float dipToPx(float value) {
+        return value;
+    }
+
 }

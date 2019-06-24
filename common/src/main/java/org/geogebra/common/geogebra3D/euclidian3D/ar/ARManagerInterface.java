@@ -21,8 +21,8 @@ public interface ARManagerInterface<T> {
     /** desk min distance is 10 cm */
     final static public double DESK_DISTANCE_MIN = 0.1;
 
-    /** 1 thickness in ggb == 0.15 mm (for distance = DESK_DISTANCE_MIN) */
-    final static public double THICKNESS_MIN_FACTOR = 0.00015;
+    /** 1 thickness in ggb >> THICKNESS_MIN_FACTOR (for distance = DESK_DISTANCE_MIN) */
+    final static public float THICKNESS_MIN_FACTOR = 0.0001f;
 
     Coords getHittingDirection();
 
