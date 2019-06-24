@@ -163,14 +163,14 @@ public class ToolbarMow extends FlowPanel
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) (appW.getGuiManager()
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		if (!appW.isWhiteboardActive()) {
-			if (isSpaceForFloatingButtonBesideToolbar()) {
+			if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
 				dp.setZoomPanelBottom(true);
 			} else {
 				dp.setZoomPanelBottom(false);
 				dp.moveZoomPanelUpOrDown(isOpen);
 			}
 		} else {
-			if (isSpaceForFloatingButtonBesideToolbar()) {
+			if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
 				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 				dp.setZoomPanelBottom(true);
 			} else {
@@ -183,7 +183,7 @@ public class ToolbarMow extends FlowPanel
 		}
 	}
 
-	private boolean isSpaceForFloatingButtonBesideToolbar() {
+	private boolean isEnoughSpaceForFloatingButtonBesideToolbar() {
 		int spaceNeededForFloatingButton = (FLOATING_BTNS_WIDTH + FLOATING_BTNS_MARGIN_RIGHT) * 2;
 		int toolbarWithFloatingButtonWidth = MAX_TOOLBAR_WIDTH + spaceNeededForFloatingButton;
 		return appW.getWidth() > toolbarWithFloatingButtonWidth;
