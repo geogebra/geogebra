@@ -72,9 +72,6 @@ public enum Feature {
 	/** G3D-160 */
 	G3D_AR_TARGET,
 
-	/** G3D-277 */
-	G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES,
-
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
 

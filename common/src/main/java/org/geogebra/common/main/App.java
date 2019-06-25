@@ -3899,10 +3899,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_AR_TARGET:
 			return true;
 
-		/** G3D-277 */
-		case G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES:
-			return true;
-
 		/** G3D-28 */
         case G3D_AR_LABELS_POSITION:
 			return true;
