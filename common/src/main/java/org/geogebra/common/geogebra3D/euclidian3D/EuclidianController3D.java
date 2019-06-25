@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.RotationSpeedHandler;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
@@ -165,12 +164,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private double scaleOld;
 	private double scaleDistanceInPixelsStart;
 
-	/** for animated rotation */
-	protected double animatedRotSpeed;
-	/** used when time is needed */
-	protected double timeOld;
-	/** used to record x information */
-	private int xOld;
 	private Coords tmpCoords = new Coords(4);
 	private Coords tmpCoords2 = new Coords(4);
 	private Coords tmpCoordsForOrigin = new Coords(4);
@@ -1954,13 +1947,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		getView().rememberOrigins();
 		getView().setCursor(EuclidianCursor.DEFAULT);
 
-		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			rotationSpeedHandler.setStart(startLoc.x, pointerEventType);
-		} else {
-			timeOld = UtilFactory.getPrototype().getMillisecondTime();
-			xOld = startLoc.x;
-			animatedRotSpeed = 0;
-		}
+		rotationSpeedHandler.setStart(startLoc.x, pointerEventType);
 	}
 
 	/**
@@ -1971,16 +1958,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected boolean processRotate3DView() {
 		int x = mouseLoc.x;
-		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			rotationSpeedHandler.rotationOccurred(x);
-		} else {
-			double time = UtilFactory.getPrototype().getMillisecondTime();
-			double dx = x - xOld;
-			animatedRotSpeed = dx / (time - timeOld);
-			timeOld = time;
-		}
-
-		xOld = x;
+		rotationSpeedHandler.rotationOccurred(x);
 		getView().setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
 				mouseLoc.y - startLoc.y, MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
@@ -2022,9 +2000,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	private void setRotContinueAnimation(int x) {
-		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			rotationSpeedHandler.rotationOccurred(x);
-		}
+		rotationSpeedHandler.rotationOccurred(x);
 		setRotContinueAnimation();
 	}
 
@@ -2032,15 +2008,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * set animation for automatic rotation
 	 */
 	protected void setRotContinueAnimation() {
-		if (app.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			((EuclidianView3D) getView()).setRotContinueAnimation(
-					rotationSpeedHandler.getLastDelay(),
-					rotationSpeedHandler.getSpeed());
-		} else {
-			((EuclidianView3D) getView()).setRotContinueAnimation(
-					UtilFactory.getPrototype().getMillisecondTime() - timeOld,
-					animatedRotSpeed);
-		}
+		((EuclidianView3D) getView()).setRotContinueAnimation(
+				rotationSpeedHandler.getLastDelay(),
+				rotationSpeedHandler.getSpeed());
 	}
 
 	// /////////////////////////////////////////
@@ -4477,35 +4447,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	public void setViewRotationOccured(boolean flag) {
 		viewRotationOccured = flag;
-	}
-
-	/**
-	 * set recorded time
-	 * 
-	 * @param time
-	 *            time
-	 */
-	public void setTimeOld(double time) {
-		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
-		timeOld = time;
-	}
-
-	/**
-	 * 
-	 * @return last recorded time
-	 */
-	public double getTimeOld() {
-		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
-		return timeOld;
-	}
-
-	/**
-	 * @param speed
-	 *            rotation speed
-	 */
-	public void setAnimatedRotSpeed(double speed) {
-		// TODO remove this method whan G3D_IMPROVE_AUTOMATIC_ROTATION released
-		animatedRotSpeed = speed;
 	}
 
 	@Override
