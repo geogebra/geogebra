@@ -124,14 +124,25 @@ public class MathFieldInternal
 		mathField.setKeyListener(this);
 	}
 
+	/**
+	 * @param size
+	 *            font size
+	 */
 	public void setSize(double size) {
 		mathFieldController.setSize(size);
 	}
 
+	/**
+	 * @param type
+	 *            font type
+	 */
 	public void setType(int type) {
 		mathFieldController.setType(type);
 	}
 
+	/**
+	 * @return edited formula
+	 */
 	public MathFormula getFormula() {
 		return mathFormula;
 	}
@@ -327,7 +338,10 @@ public class MathFieldInternal
 		this.inputController.setCreateFrac(!plainText);
 	}
 
-	private void notifyAndUpdate() {
+	/**
+	 * Notifies listener about key event and updates the view.
+	 */
+	public void notifyAndUpdate() {
 		if (listener != null) {
 			listener.onKeyTyped();
 		}

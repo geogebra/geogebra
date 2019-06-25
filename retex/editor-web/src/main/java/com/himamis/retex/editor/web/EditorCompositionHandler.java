@@ -1,13 +1,21 @@
 package com.himamis.retex.editor.web;
 
 import com.himamis.retex.editor.share.model.Korean;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
+/**
+ * Composition handler for math input
+ * 
+ * @author Zbynek
+ */
 final class EditorCompositionHandler
 		implements CompositionHandler, CompositionEndHandler {
 	private MathFieldW editor;
 	private String toInsert = null;
 
+	/**
+	 * @param editor
+	 *            equation editor
+	 */
 	public EditorCompositionHandler(MathFieldW editor) {
 		this.editor = editor;
 	}
@@ -40,9 +48,9 @@ final class EditorCompositionHandler
 
 	@Override
 	public void onCompositionEnd(CompositionEndEvent event) {
-		FactoryProvider.debugS("ENDING" + event.getData());
 		if (toInsert != null) {
 			editor.insertString(toInsert);
+			editor.getInternal().notifyAndUpdate();
 		}
 	}
 }
