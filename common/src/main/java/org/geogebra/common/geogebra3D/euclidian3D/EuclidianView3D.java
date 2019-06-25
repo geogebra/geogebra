@@ -1021,9 +1021,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
-	 *
+	 * Gives direction vector from user input, e.g. if user clicks on screen, it
+	 * will return the user-to-screen vector in ggb scene coordinate system; for
+	 * orthographic projection, the vector will be orthogonal to the screen.
+	 * 
 	 * @param ret
-	 *            direction for hitting
+	 *            returned direction
 	 */
 	final public void getHittingDirection(Coords ret) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && mIsAREnabled) {
@@ -1428,9 +1431,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	/**
+	 * Gives origin coordinates from user input, e.g. if user clicks on screen,
+	 * it will return the click coordinates in ggb scene coordinate system. The
+	 * depth position is calculated to be between the user and scene objects.
+	 * 
 	 * @param mouse
 	 *            mouse position
-	 * @param ret TODO
+	 * @param ret
+	 *            returned origin
 	 */
 	final public void getHittingOrigin(GPoint mouse, Coords ret) {
 		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
