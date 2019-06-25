@@ -609,10 +609,8 @@ public class ToolBar {
 
 		// polygons
 		sb.append(EuclidianConstants.MODE_POLYGON);
-		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
 		sb.append(" | ");
 
 		// conics
