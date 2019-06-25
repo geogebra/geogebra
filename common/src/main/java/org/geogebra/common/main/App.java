@@ -3942,7 +3942,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         // **********************************************************************
 		/** G3D-343 */
 		case G3D_SELECT_META:
-			return prerelease;
+			return false;
 
 		// **********************************************************************
         // G3D END
