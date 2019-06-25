@@ -60,9 +60,15 @@ public class ZoomController {
 	/**
 	 * @param fullScreenActive
 	 *            true if fillscreen
+	 * @param fullscreenBtn
+	 *            button
 	 */
-	public void setFullScreenActive(boolean fullScreenActive) {
+	public void setFullScreenActive(boolean fullScreenActive,
+			StandardButton fullscreenBtn) {
 		this.fullScreenActive = fullScreenActive;
+		if (fullscreenBtn != null) {
+			fullscreenBtn.setDown(fullScreenActive);
+		}
 	}
 
 	/**
@@ -207,7 +213,7 @@ public class ZoomController {
 	 */
 	public void onExitFullscreen(Element elem,
 			StandardButton fullscreenButton) {
-		setFullScreenActive(false);
+		setFullScreenActive(false, fullscreenButton);
 		if (!app.getArticleElement().getDataParamFitToScreen()) {
 			final Element scaler = app.getArticleElement().getParentElement();
 			// check for null in case external website removed applet from DOM
@@ -225,7 +231,6 @@ public class ZoomController {
 				app.checkScaleContainer();
 			}
 		}
-		fullscreenButton.setDown(false);
 		Browser.scale(elem, 1, 0, 0);
 	}
 
@@ -293,7 +298,7 @@ public class ZoomController {
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
 			}
-			handleIframeFullscreen();
+			handleIframeFullscreen(fullscreenBtn);
 		} else {
 			ArticleElementInterface ae = app.getArticleElement();
 			final Element scaler = ae.getParentElement();
@@ -343,17 +348,17 @@ public class ZoomController {
 			}
 		}
 		if (!emulated) {
-			setFullScreenActive(!isFullScreenActive());
+			setFullScreenActive(!isFullScreenActive(), fullscreenBtn);
 			Browser.toggleFullscreen(isFullScreenActive(), container);
 		}
 	}
 
-	private void handleIframeFullscreen() {
+	private void handleIframeFullscreen(StandardButton fullscreenBtn) {
 		if (isRunningInIframe() && useEmulatedFullscreen(app)) {
 			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
 			if (fullScreenHandler != null) {
 				fullScreenHandler.toggleFullscreen();
-				setFullScreenActive(!fullScreenActive);
+				setFullScreenActive(!fullScreenActive, fullscreenBtn);
 			}
 		}
 	}
@@ -399,8 +404,7 @@ public class ZoomController {
 	 *            fullscreen button
 	 */
 	void onFullscreen(StandardButton fullscreenBtn) {
-		setFullScreenActive(true);
-		fullscreenBtn.setDown(true);
+		setFullScreenActive(true, fullscreenBtn);
 		fullscreenBtn.getElement().focus();
 	}
 
