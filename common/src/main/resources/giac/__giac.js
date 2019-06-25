@@ -2471,13 +2471,17 @@ var __giac = [ {},
 { cat:"Text.1", cmd:"Sequence(Text(round(i/100)),i,1,100,10)", result:"{\"0\", \"0\", \"0\", \"0\", \"0\", \"1\", \"1\", \"1\", \"1\", \"1\"}" },
 { cat:"Solutions", cmd:"Solutions(x^2=a)", result:"{-sqrt(a), sqrt(a)}" },
 { cat:"Solutions", cmd:"Solutions(y^2=a)", result:"{-sqrt(a), sqrt(a)}" },
+{ cat:"Solve", cmd:"Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})", result:"{{x = 3, y = 2, t = 0, s = -1}}" },
+{ cat:"Integral", cmd:"Integral(1/(x^2+1),-inf,inf)", result:"\u03C0" },
+{ cat:"Integral", cmd:"Integral(1/(x^2+1),0,inf)", result:"1 / 2 \u03C0" },
+{ cat:"Integral", cmd:"Integral(1/(x^2+1),-inf,0)", result:"1 / 2 \u03C0" },
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
 
 // gives odd result, tricky to fix
-//{ cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
+//{ cat:"Element", cmd:"Element[(1,2), 1]", result:"?"# },
 
 // Solve[x<5&&x<13]
 // Solve[x<5||x<13]
