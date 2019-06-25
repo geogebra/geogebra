@@ -1543,12 +1543,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 		}
 
-		addSelectedFunction(hits, 1, false, selPreview);
-		
-		if (selFunctions() == 1 && selNumberValues() == 1) {
+		addSelectedPath(hits, 1, false, selPreview);
+
+		if (selPaths() == 1 && selNumberValues() == 1) {
 			GeoNumberValue angle = getSelectedNumberValues()[0];
 			GeoElement surface = getKernel().getManager3D()
-					.surfaceOfRevolution(getSelectedFunctions()[0], angle);
+					.surfaceOfRevolution(getSelectedPaths()[0], angle, null);
 			surface.setLabel(null);
 			return surface.asArray();
 		}
@@ -1894,7 +1894,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					getSelectedPolygonList(), getSelectedConicNDList());
 		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
 			return view3D.createPreviewSurfaceOfRevolution(
-					getSelectedFunctionList());
+					getSelectedPathList());
 		case EuclidianConstants.MODE_CONIFY:
 			return view3D.createPreviewConify(
 					getSelectedPolygonList(), getSelectedConicNDList());

@@ -44,18 +44,8 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoFunction
-					|| arg[0] instanceof GeoCurveCartesian))
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = new GeoElement[1];
-
-				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						(ParametricCurve) arg[0],
-						(GeoNumberValue) arg[1]);
-				ret[0].setLabel(c.getLabel());
-
-				return ret;
-			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoCurveCartesian
+					|| arg[0] instanceof GeoPoly
 					|| arg[0] instanceof GeoConicND))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];

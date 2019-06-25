@@ -80,6 +80,7 @@ import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
@@ -2253,8 +2254,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public Previewable createPreviewSurfaceOfRevolution(
-			ArrayList<GeoFunction> selectedPolygons) {
-		return new DrawSurfaceOfRevolution(this, selectedPolygons);
+			ArrayList<Path> selectedPaths) {
+		return new DrawSurfaceOfRevolution(this, selectedPaths);
 	}
 
 	/**

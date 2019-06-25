@@ -10,9 +10,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.RotationConverter;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * Preview for surface of revolution tool.
@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class DrawSurfaceOfRevolution extends Drawable3DSurfaces
 		implements Previewable {
 
-	private ArrayList<GeoFunction> selectedFunctions;
+	private ArrayList<Path> selectedFunctions;
 	private GeoElement previewSurface;
 	private GeoAngle angle;
 
@@ -34,7 +34,7 @@ public class DrawSurfaceOfRevolution extends Drawable3DSurfaces
 	 *            selected functions
 	 */
 	public DrawSurfaceOfRevolution(EuclidianView3D a_view3d,
-			ArrayList<GeoFunction> selectedFunctions) {
+			ArrayList<Path> selectedFunctions) {
 		super(a_view3d);
 		this.selectedFunctions = selectedFunctions;
 	}
@@ -47,12 +47,13 @@ public class DrawSurfaceOfRevolution extends Drawable3DSurfaces
 			boolean oldSilent = kernel.isSilentMode();
 			kernel.setSilentMode(true);
 			previewSurface = kernel.getManager3D()
-					.surfaceOfRevolution(selectedFunctions.get(0), angle);
+					.surfaceOfRevolution(selectedFunctions.get(0), angle, null);
 			kernel.setSilentMode(oldSilent);
 			previewSurface.setAlgebraVisible(false);
 			previewSurface.setLabel(null);
 			((EuclidianController3D) getView3D().getEuclidianController())
-					.setHandledGeo(previewSurface, selectedFunctions.get(0));
+					.setHandledGeo(previewSurface,
+							selectedFunctions.get(0).toGeoElement());
 		}
 	}
 

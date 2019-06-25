@@ -69,7 +69,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	 *            max angle
 	 */
 	public AlgoSurfaceOfRevolution(Construction cons,
-			ParametricCurve function, GeoNumberValue angle) {
+			Path function, GeoNumberValue angle) {
 		this(cons, function, angle, null);
 	}
 
@@ -181,6 +181,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 			surface.setDefined(true);
 		} else {
 			surface.setUndefined();
+			return;
 		}
 		boolean isXAxis = line == kernel.getXAxis();
 		ExpressionValue[][] coeffs = new ExpressionValue[4][4];

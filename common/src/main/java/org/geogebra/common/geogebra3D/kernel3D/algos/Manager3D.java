@@ -63,7 +63,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
 import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1138,14 +1137,6 @@ public class Manager3D implements Manager3DInterface {
 				new GeoNumeric[] { uVar, vVar },
 				new GeoNumberValue[] { uFrom, vFrom },
 				new GeoNumberValue[] { uTo, vTo });
-		return algo.getSurface();
-	}
-
-	@Override
-	public GeoElement surfaceOfRevolution(
-			ParametricCurve function, GeoNumberValue angle) {
-		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons,
-				function, angle);
 		return algo.getSurface();
 	}
 
