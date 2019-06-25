@@ -6,18 +6,11 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.geogebra.common.main.App;
 
 /**
  * ToolCollectionFactory for the 3D Grapher app.
  */
 public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFactory {
-
-    private App app;
-
-    public Graphing3DToolCollectionFactory(App app) {
-        this.app = app;
-    }
 
     @Override
     public ToolCollection createToolCollection() {

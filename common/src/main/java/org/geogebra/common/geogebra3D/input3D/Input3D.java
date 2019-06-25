@@ -60,8 +60,6 @@ abstract public class Input3D implements Input3DConstants {
 	private Coords vx;
 	private Coords vz;
 
-	private double angleOld;
-
 	private Coords rightDragElevation = new Coords(3);
 
 	private Quaternion mouse3DOrientation;
