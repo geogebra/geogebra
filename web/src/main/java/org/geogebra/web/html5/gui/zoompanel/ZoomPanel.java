@@ -169,7 +169,11 @@ public class ZoomPanel extends FlowPanel
 	 * Handler that runs on exiting to fullscreen.
 	 */
 	void onExitFullscreen() {
-		getZoomController().onExitFullscreen(getElement(), fullscreenBtn);
+		// we may have multiple zoom panels; if this one doesn't have FS button,
+		// it shouldn't handle FS
+		if (fullscreenBtn != null) {
+			getZoomController().onExitFullscreen(getElement(), fullscreenBtn);
+		}
 	}
 
 	/**
