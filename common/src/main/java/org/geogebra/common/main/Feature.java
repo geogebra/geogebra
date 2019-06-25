@@ -78,9 +78,6 @@ public enum Feature {
 	/** APPS-284 */
 	COMMAND_FILTERING,
 
-	/** G3D-28 */
-	G3D_AR_LABELS_POSITION,
-
 	/** APPS-634 */
 	BUTTON_HIGHLIGHTING,
 
