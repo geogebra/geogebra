@@ -180,6 +180,17 @@ public class GeoSymbolicTest {
 		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
 	}
 
+
+	@Test
+	public void testNumericCommand() {
+		t("Numeric(2/3,10)", "0.6666666667");
+		t("Numeric(pi,10)", "3.141592654");
+		// wrong
+		t("Numeric(pi,100)", pi + "");
+		// wrong
+		t("Numeric(2pi,100)", "6.2831853072");
+	}
+
 	@Test
 	public void testMultiStep() {
 		t("f(x) = (p x^3 + q x)", "p * x^(3) + q * x");
@@ -188,7 +199,6 @@ public class GeoSymbolicTest {
 		t("Solve(f=0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
 		t("Integral(f,0,1)", "1 / 4 * (p + 2 * q)");
 		t("Solve(Integral(f,0,1)=0,p)", "{p = -2 * q}");
-
 	}
 
 	@Test
@@ -242,6 +252,44 @@ public class GeoSymbolicTest {
 		t("e=Element(c,2)",
 				"((r^(2) - s^(2) + 1) / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)");
 		t("Line(d,e)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
+	}
+
+	/**
+	 * https://www.geogebra.org/m/mxtyvd22#material/vcdtdhjk
+	 */
+	@Test
+	public void testMultiStep7() {
+		t("f(x)=p x^4 + q x^3 + r x^2 + s x + k", "p * x^(4) + q * x^(3) + r * x^(2) + s * x + k");
+		t("eq1:f(1)=10", "k + p + q + r + s = 10");
+		t("eq2:f'(1)=0", "4 * p + 3 * q + 2 * r + s = 0");
+		t("eq3:f(4)=-1", "k + 256 * p + 64 * q + 16 * r + 4 * s = -1");
+		t("eq4:f''(4)=0", "192 * p + 24 * q + 2 * r = 0");
+		t("eq5:f(-3)=0", "k + 81 * p - 27 * q + 9 * r - 3 * s = 0");
+		t("u=Solve({eq1, eq2, eq3, eq4, eq5})",
+				"{{k = 18659 / 2142, p = 437 / 12852, q = (-535) / 2856, r = (-311) / 306, s = 63197 / 25704}}");
+		t("Substitute(f,u)",
+				"437 / 12852 * x^(4) - 535 / 2856 * x^(3) - 311 / 306 * x^(2) + 63197 / 25704 * x + 18659 / 2142");
+	}
+
+	/**
+	 * https://www.geogebra.org/m/mxtyvd22#material/ukkups2n
+	 */
+	@Test
+	public void testMultiStep8() {
+		t("f(x)=sqrt(x) (x^2-10x+25)", "sqrt(x) * (x^(2) - 10 * x + 25)");
+		t("list1=Solutions(f=0)", "{0, 5}");
+		t("list2=Solutions(f'(x)=0)", "{1, 5}");
+		// not working
+		// t("f''(list1)", "");
+		// t("f(list2)", "");
+		t("f''({1,5})", "{-10, 2 * sqrt(5)}");
+		t("f({1,5})", "{16, 0}");
+		t("Solve(f''(x)=0)", "{x = (-2 * sqrt(6) + 3) / 3, x = (2 * sqrt(6) + 3) / 3}");
+		t("list=Solutions(f''(x)=0)", "{(-2 * sqrt(6) + 3) / 3, (2 * sqrt(6) + 3) / 3}");
+		t("root=Element(list,2)", "(2 * sqrt(6) + 3) / 3");
+		t("Numeric(f(root))", "9.0912560746");
+		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513612, x = 5.1267111169}");
+		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
 	}
 
 	@Test
