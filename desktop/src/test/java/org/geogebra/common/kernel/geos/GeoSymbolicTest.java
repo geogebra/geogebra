@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
+import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -21,8 +23,6 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoSymbolicTest {
 	private static App app;
@@ -175,6 +175,8 @@ public class GeoSymbolicTest {
 		t("Solve(p x^3 + q x = 0,x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
 		t("Solve(p x^3 + q x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
 		t("Solve(p x^3 + q x = 0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
+		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.93, p = 0.93}");
 	}
 
 	@Test
@@ -191,16 +193,16 @@ public class GeoSymbolicTest {
 	@Test
 	public void testMultiStep2() {
 		t("h(t):=8/(1+15exp(-0.46t))",
-				"8 / (15 * " + Unicode.EULER_STRING + "^((-23) / 50 * t) + 1)");
+				"8 / (15 * " + EULER_STRING + "^((-23) / 50 * t) + 1)");
 		t("a=h(10)-h(0)",
-				"(-1) / 2 + 8 / (15 * 1 / nroot(" + Unicode.EULER_STRING + "^(23),5) + 1)");
+				"(-1) / 2 + 8 / (15 * 1 / nroot(" + EULER_STRING + "^(23),5) + 1)");
 		t("b=a/(7-0.6)",
-				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + Unicode.EULER_STRING + "^(23),5) + 1))");
+				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
 		t("Solve(h''(t)=0)", "{t = 50 / 23 * log(15)}");
 		t("h'(5.8871)",
-				"276 * " + Unicode.EULER_STRING + "^((-1354033) / 500000) / (1125 * ("
-						+ Unicode.EULER_STRING + "^((-1354033) / 500000))^(2) + 150 * "
-						+ Unicode.EULER_STRING + "^((-1354033) / 500000) + 5)");
+				"276 * " + EULER_STRING + "^((-1354033) / 500000) / (1125 * (" + EULER_STRING
+						+ "^((-1354033) / 500000))^(2) + 150 * " + EULER_STRING
+						+ "^((-1354033) / 500000) + 5)");
 	
 	}
 
@@ -210,15 +212,55 @@ public class GeoSymbolicTest {
 		t("Solve({h_1(0)=0.6, h_1(12)=7.6}, {kk,dd})", "{{kk = 7 / 12, dd = 3 / 5}}");
 		// strange answer with missing underscore in second h_1
 		t("Solve({h_1(0)=0.6, h1(12)=7.6}, {kk,dd})", "{{kk = kk, dd = 3 / 5}}");
-		
 	}
+
+	@Test
+	public void testMultiStep4() {
+		t("f(t)=21000000-21000000exp(-0.18t)",
+				"-21000000 * " + EULER_STRING + "^((-9) / 50 * t) + 21000000");
+		t("b=(f(8)-f(7))/f(7)", "(1 / nroot(" + EULER_STRING + "^(36),25) - 1 / nroot("
+				+ EULER_STRING + "^(63),50)) / (1 / nroot(" + EULER_STRING + "^(63),50) - 1)");
+		t("Solve(f(t)=20*10^6)", "{t = 50 / 9 * log(21)}");
+	}
+
+	@Test
+	public void testMultiStep5() {
+		t("a(p)=-(-p+1)^2+1", "-(-p + 1)^(2) + 1");
+		t("a'(p)", "-2 * p + 2");
+		t("Solve(a'(p)>0)", "{p < 1}");
+	}
+
+	@Test
+	public void testMultiStep6() {
+		t("eq1:x^2+y^2=r^2", "x^(2) + y^(2) = r^(2)");
+		t("eq2:(x-1)^2+y^2=s^2", "y^(2) + (x - 1)^(2) = s^(2)");
+		t("c:Intersect(eq1, eq2)",
+				"{(1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2), (1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)}");
+		t("d=Element(c,1)",
+				"((r^(2) - s^(2) + 1) / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2)");
+		t("e=Element(c,2)",
+				"((r^(2) - s^(2) + 1) / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)");
+		t("Line(d,e)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
+	}
+
+	@Test
+	public void testFitPolyCommand() {
+		t("FitPoly({(0,0.6), (12,7.6)})", "7 / 12 * x + 3 / 5");
+	}
+
+	@Test
+	public void testLimitCommands() {
+		t("Limit(4/(1+exp(-0.7t)),t,infinity)", "4");
+		t("Limit(p/(q+exp(-2 t)),t,infinity)", "p / q");
+	}
+
 	@Test
 	public void testSolutionsCommand() {
 		t("Solutions(x*a^2=4*a, a)", "{4 / x, 0}");
 		t("Solutions(x^2=4x)", "{0, 4}");
 		t("Solutions({x=4x+y,y+x=2},{x, y})", "{{-1, 3}}");
 		t("Solutions(sin(x)=cos(x))",
-				"{(-3) / 4 * " + Unicode.pi + ", 1 / 4 * " + Unicode.pi + "}");
+				"{(-3) / 4 * " + pi + ", 1 / 4 * " + pi + "}");
 		t("Solutions(x^2=1)", "{-1, 1}");
 		t("Solutions({x+y=1, x-y=3})", "{{2, -1}}");
 		t("Solutions({aa+bb=1, aa-bb=3})", "{{2, -1}}");
@@ -239,7 +281,7 @@ public class GeoSymbolicTest {
 		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * ((-1) / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,1)", "2 / 3");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,aaa)", "2 / 3 * aaa^(3)");
-		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + Unicode.pi + ")");
+		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
 
 	@Test
@@ -323,8 +365,8 @@ public class GeoSymbolicTest {
 	@Test
 	public void testIntersectCommand() {
 		t("Intersect(x^2+y^2=5, x+y=sqrt(2))", "{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
-		t("Intersect(x+y=sqrt(2), y-x=pi)", "{((-1) / 2 * " + Unicode.pi
-				+ " + sqrt(2) / 2, 1 / 2 * " + Unicode.pi + " + sqrt(2) / 2)}");
+		t("Intersect(x+y=sqrt(2), y-x=pi)",
+				"{((-1) / 2 * " + pi + " + sqrt(2) / 2, 1 / 2 * " + pi + " + sqrt(2) / 2)}");
 		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
 				"{((-37) / 8, (sqrt(103) + 32) / 8), ((-37) / 8, (-sqrt(103) + 32) / 8)}");
 		// t("Intersect((x+1)^2+(y+1)^2=9-4sqrt(2), y^2+(x-2)^2=10)", "");
@@ -522,8 +564,8 @@ public class GeoSymbolicTest {
 
 	@Test
 	public void testDerivativeShorthand() {
-		t("f(x)=exp(x)", Unicode.EULER_STRING + "^(x)");
-		t("f'(x)=f'(x)", Unicode.EULER_STRING + "^(x)");
+		t("f(x)=exp(x)", EULER_STRING + "^(x)");
+		t("f'(x)=f'(x)", EULER_STRING + "^(x)");
 		checkInput("f'", "f'(x) = f'(x)");
 	}
 
