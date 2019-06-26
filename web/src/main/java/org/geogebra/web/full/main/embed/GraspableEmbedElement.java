@@ -2,17 +2,11 @@ package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.ExternalAccess;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,7 +33,6 @@ public class GraspableEmbedElement extends EmbedElement {
 
 	private native void setContentNative(JavaScriptObject canvas,
 			String string) /*-{
-		$wnd.console.trace(string);
 		canvas.loadFromJSON(string);
 	}-*/;
 
@@ -57,31 +50,11 @@ public class GraspableEmbedElement extends EmbedElement {
 		}
 	}
 
-	/**
-	 * @param element
-	 *            iframe element
-	 * @param id
-	 *            embed ID
-	 */
-	protected native void loadGraspableMath(Element element, int id) /*-{
-		var that = this;
-		$wnd.loadGM(initCanvas, {
-			version : 'latest',
-			build : 'ggb'
-		});
-
-		function initCanvas() {
-			that
-					.@org.geogebra.web.full.main.embed.GraspableEmbedElement::initCanvas(Lcom/google/gwt/dom/client/Element;I)
-					(element, id);
-		}
-	}-*/;
-
 	private static native boolean isGraspableMathLoaded() /*-{
 		return !!$wnd.gmath;
 	}-*/;
 
-	private native void initCanvas(Element element, int id) /*-{
+	native void initCanvas(int id) /*-{
 		var that = this;
 		var apiObject = that.@org.geogebra.web.full.main.embed.GraspableEmbedElement::getApi()();
 		var canvas = new $wnd.gmath.Canvas('#gm-div' + id, {
@@ -119,29 +92,10 @@ public class GraspableEmbedElement extends EmbedElement {
 	@Override
 	public void addListeners(final int embedID) {
 		if (isGraspableMathLoaded()) {
-			initCanvas(getElement(), embedID);
+			initCanvas(embedID);
 			return;
 		}
-		ScriptElement gmInject = Document.get().createScriptElement();
-		gmInject.setSrc(
-				"https://graspablemath.com/shared/libs/gmath/gm-inject.js");
-		ResourcesInjector.loadJS(gmInject, new ScriptLoadCallback() {
-
-			@Override
-			public void onLoad() {
-				loadGraspableMath(getElement(), embedID);
-			}
-
-			@Override
-			public void onError() {
-				Log.warn("Could not load Graspable Math API");
-			}
-
-			@Override
-			public void cancel() {
-				// no need to cancel
-			}
-		});
+		GMLoader.INSTANCE.load(this, embedID);
 	}
 
 	@Override
