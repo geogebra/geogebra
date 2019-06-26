@@ -1992,7 +1992,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ImplicitConicEquation": "a x\xb2 + b x y + c y\xb2 + d x + e y = f",
     "ImplicitLineEquation": "a x + b y = c",
     "ImplicitPoly": "\u9690\u5f0f\u66f2\u7ebf",
-    "ImplicitSurface": "\u9690\u51fd\u66f2\u9762",
+    "ImplicitSurface": "\u9690\u5f0f\u66f2\u9762",
     "ImportDataFile": "\u5bfc\u5165\u6570\u636e\u6587\u4ef6",
     "IncircleOfTriangleABC": "\u25b3%0%1%2 \u7684\u5185\u5207\u5706",
     "Increasing": "\u9012\u589e",
