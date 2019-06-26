@@ -1226,8 +1226,9 @@ public class Ggb2giac {
 		// texpand() added for Simplify[exp(x)/exp(x+1)]
 		// normal needed for Simplify[sqrt(2)*sqrt(5)]
 		// exp2pow(lin(pow2exp()) added for Simplify(x^(8*k+9)*x^(5*k))
+		// factor() for Simplify((x^2+2*x+1)/((x+1)^8))
 		p("Simplify.1",
-				"[[[ggbsimparg:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=exp2pow(lin(pow2exp(ggbsimparg)))]],"
+				"[[[ggbsimparg:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg))))]],"
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");

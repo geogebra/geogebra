@@ -22,7 +22,7 @@ public class FractionTest {
 		t("a=2/3-1/3", "1 / 3");
 		t("Simplify(x/3/a)", "x");
 		t("Simplify(x^a)", "cbrt(x)");
-		t("Simplify(a!)", "1 / 3 * gamma(1 / 3)");
+		t("Simplify(a!)", "gamma(1 / 3) / 3");
 	}
 
 	@Test

@@ -1036,7 +1036,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void simplify_0() {
-		t("Simplify[3 * x + 4 * x + a * x]", "a * x + 7 * x", "x * a + 7 * x");
+		t("Simplify[3 * x + 4 * x + a * x]", "x * (a + 7)", "a * x + 7 * x", "x * a + 7 * x");
 	}
 
 	/* Solutions */
