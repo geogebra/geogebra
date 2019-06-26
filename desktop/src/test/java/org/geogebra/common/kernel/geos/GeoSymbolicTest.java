@@ -323,8 +323,8 @@ public class GeoSymbolicTest {
 		t("list1=Solutions(f=0)", "{0, 5}");
 		t("list2=Solutions(f'(x)=0)", "{1, 5}");
 		// not working
-		// t("f''(list1)", "");
 		// t("f(list2)", "");
+		// t("f''(list1)", "");
 		t("f''({1,5})", "{-10, 2 * sqrt(5)}");
 		t("f({1,5})", "{16, 0}");
 		t("Solve(f''(x)=0)", "{x = (-2 * sqrt(6) + 3) / 3, x = (2 * sqrt(6) + 3) / 3}");
@@ -345,6 +345,22 @@ public class GeoSymbolicTest {
 		t("a=pi Integral(g^2,0,h)", "10 / 3 * sqrt(h) * h * " + pi);
 		t("b=Solve(a=500)", "{h = 5 * cbrt(180 * " + pi + ") / " + pi + "}");
 		t("Numeric(b)", "{h = 13.1611626882}");
+	}
+
+	@Test
+	public void testLists() {
+		t("f(x)=x^2", "x^(2)");
+		t("l1={1,2,3}", "{1, 2, 3}");
+		t("f(l1)", "{1, 4, 9}");
+
+		t("f(x)=(3x^3+6x^2-10x+1)", "3 * x^(3) + 6 * x^(2) - 10 * x + 1");
+		t("list2=Solutions(f'(x)=0)", "{(-sqrt(14) - 2) / 3, (sqrt(14) - 2) / 3}");
+		// not working
+		// t("f(list2)", "");
+		t("list3={(-sqrt(14) - 2) / 3, (sqrt(14) - 2) / 3}",
+				"{1 / 3 * (-sqrt(14) - 2), 1 / 3 * (sqrt(14) - 2)}");
+		// not working
+		// t("f(list3)", "");
 	}
 
 	@Test

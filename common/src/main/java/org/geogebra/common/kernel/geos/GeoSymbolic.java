@@ -481,4 +481,14 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return twinGeo != null && twinGeo.hasLineOpacity();
 	}
 
+	@Override
+	public boolean evaluatesToList() {
+		return value != null && value.evaluatesToList();
+	}
+
+	@Override
+	public int getListDepth() {
+		return value != null ? value.getListDepth() : 0;
+	}
+
 }
