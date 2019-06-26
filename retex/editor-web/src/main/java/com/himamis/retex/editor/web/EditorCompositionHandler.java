@@ -40,7 +40,7 @@ final class EditorCompositionHandler
 					|| Korean.isSingleKoreanChar(jamo)) {
 				editor.insertString("" + jamo);
 			} else {
-				toInsert = "" + jamo;
+				toInsert = data;
 			}
 
 		}
