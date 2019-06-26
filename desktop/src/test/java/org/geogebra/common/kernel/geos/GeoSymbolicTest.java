@@ -180,7 +180,6 @@ public class GeoSymbolicTest {
 		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
 	}
 
-
 	@Test
 	public void testNumericCommand() {
 		t("Numeric(2/3,10)", "0.6666666667");
