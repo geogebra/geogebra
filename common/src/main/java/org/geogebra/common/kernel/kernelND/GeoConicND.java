@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.FromMeta;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1249,31 +1248,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public final ArrayList<GeoPointND> getPointsOnConic() {
 		return pointsOnConic;
-	}
-
-	/**
-	 * Return n points on conic
-	 * 
-	 * @param n
-	 *            number of points
-	 * @return Array list of points
-	 */
-	public ArrayList<GeoPoint> getPointsOnConic(int n) {
-		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
-		this.toGeoCurveCartesian(curve);
-
-		double startInterval = -Math.PI, endInterval = Math.PI;
-
-		if (this.type == CONIC_HYPERBOLA) {
-			startInterval = -Math.PI / 2;
-			endInterval = Math.PI / 2;
-		}
-		if (this.type == CONIC_PARABOLA) {
-			startInterval = -1;
-			endInterval = 1;
-		}
-
-		return curve.getPointsOnCurve(n, startInterval, endInterval);
 	}
 
 	/**
@@ -3945,7 +3919,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				|| type == CONIC_CIRCLE && curve.getDimension() == 3) {
 			evX = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.COS, null),
-					Operation.MULTIPLY, new MyDouble(kernel, -halfAxes[0]));
+					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[0]));
 			evY = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.SIN, null),
 					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[1]));

@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartParameters;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
@@ -917,5 +918,11 @@ public class GeoConicPart extends GeoConic
 	@Override
 	public boolean isInverseFillable() {
 		return false;
+	}
+
+	@Override
+	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
+		super.toGeoCurveCartesian(curve);
+		parameters.updateCurve(curve);
 	}
 }

@@ -426,4 +426,16 @@ public class GeoConicPartParameters {
 	public void setValueDefined(boolean valueDefined) {
 		this.valueDefined = valueDefined;
 	}
+
+	/**
+	 * @param curve
+	 *            curve
+	 */
+	public void updateCurve(GeoCurveCartesianND curve) {
+		if (paramStart < paramEnd) {
+			curve.setInterval(paramStart, paramEnd);
+		} else {
+			curve.setInterval(paramStart, paramEnd + Kernel.PI_2);
+		}
+	}
 }
