@@ -171,8 +171,47 @@ public class GeoSymbolicTest {
 		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 		t("Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})",
 				"{{x = 3, y = 2, t = 0, s = -1}}");
+		t("Solve(p x^3 + q x,x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		t("Solve(p x^3 + q x = 0,x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		t("Solve(p x^3 + q x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		t("Solve(p x^3 + q x = 0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
 	}
 
+	@Test
+	public void testMultiStep() {
+		t("f(x) = (p x^3 + q x)", "p * x^(3) + q * x");
+		t("f'(0)", "q");
+		t("Solve(f(x)=0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		t("Solve(f=0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		t("Integral(f,0,1)", "1 / 4 * (p + 2 * q)");
+		t("Solve(Integral(f,0,1)=0,p)", "{p = -2 * q}");
+
+	}
+
+	@Test
+	public void testMultiStep2() {
+		t("h(t):=8/(1+15exp(-0.46t))",
+				"8 / (15 * " + Unicode.EULER_STRING + "^((-23) / 50 * t) + 1)");
+		t("a=h(10)-h(0)",
+				"(-1) / 2 + 8 / (15 * 1 / nroot(" + Unicode.EULER_STRING + "^(23),5) + 1)");
+		t("b=a/(7-0.6)",
+				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + Unicode.EULER_STRING + "^(23),5) + 1))");
+		t("Solve(h''(t)=0)", "{t = 50 / 23 * log(15)}");
+		t("h'(5.8871)",
+				"276 * " + Unicode.EULER_STRING + "^((-1354033) / 500000) / (1125 * ("
+						+ Unicode.EULER_STRING + "^((-1354033) / 500000))^(2) + 150 * "
+						+ Unicode.EULER_STRING + "^((-1354033) / 500000) + 5)");
+	
+	}
+
+	@Test
+	public void testMultiStep3() {
+		t("h_1(tt)=kk tt + dd", "kk * tt + dd");
+		t("Solve({h_1(0)=0.6, h_1(12)=7.6}, {kk,dd})", "{{kk = 7 / 12, dd = 3 / 5}}");
+		// strange answer with missing underscore in second h_1
+		t("Solve({h_1(0)=0.6, h1(12)=7.6}, {kk,dd})", "{{kk = kk, dd = 3 / 5}}");
+		
+	}
 	@Test
 	public void testSolutionsCommand() {
 		t("Solutions(x*a^2=4*a, a)", "{4 / x, 0}");
@@ -289,6 +328,44 @@ public class GeoSymbolicTest {
 		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
 				"{((-37) / 8, (sqrt(103) + 32) / 8), ((-37) / 8, (-sqrt(103) + 32) / 8)}");
 		// t("Intersect((x+1)^2+(y+1)^2=9-4sqrt(2), y^2+(x-2)^2=10)", "");
+	}
+
+	@Test
+	public void testVectors() {
+		// these should give Vector not point
+		t("u=(1,2)", "(1, 2)");
+		t("u=(1,2,3)", "(1, 2, 3)");
+
+		// wrong GGB-1025
+		// t("Length(Vector((3,4)))", "5");
+		// t("x(Vector((3,4)))", "3");
+		// t("y(Vector((3,4)))", "4");
+		// t("z(Vector((3,4)))", "0");
+		// t("x(Vector((3,4,5)))", "3");
+		// t("y(Vector((3,4,5)))", "4");
+		// t("z(Vector((3,4,5)))", "5");
+		// t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
+		// t("Dot[Vector[(a,b)],Vector[(c,d)]]", "p * r + q * s");
+		// t("Cross[Vector[(1,2)], Vector[(3,4)]]", "");
+		// t("Cross[Vector[(p,q)], Vector[(r,s)]]", "");
+		// t("abs(Vector((1,2))", "sqrt(5)");
+		// t("UnitVector((1,2))", "");
+		// t("UnitVector((p,q))", "");
+		// t("UnitPerpendicularVector((1,2))", "");
+		// t("UnitPerpendicularVector((p,q))", "");
+		// t("PerpendicularVector((1,2))", "");
+		// t("PerpendicularVector((p,q))", "");
+
+		t("Dot((p,q),(r,s))", "p * r + q * s");
+		t("Dot((1,2),(3,4))", "11");
+
+	}
+
+	@Test
+	public void testAngleCommand() {
+		t("Angle((1,2),(3,4))", "cos\u207B\u00B9(11 * sqrt(5) / 25)");
+		// not working
+		// t("Angle[(a,b,c),(d,e,f),(g,h,i)]", "");
 	}
 
 	@Test
