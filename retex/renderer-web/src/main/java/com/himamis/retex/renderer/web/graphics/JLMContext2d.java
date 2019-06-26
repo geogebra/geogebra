@@ -40,9 +40,8 @@ public class JLMContext2d extends Context2d {
 
 	private static native JLMContext2d forCanvas(
 			CanvasElement canvasElement) /*-{
-		var supported = navigator.userAgent.match(/Chrome\/7[56]/);
 		return canvasElement.getContext('2d', {
-			desynchronized : supported
+			desynchronized : true
 		});
 	}-*/;
 
