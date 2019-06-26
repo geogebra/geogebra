@@ -6495,8 +6495,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Store several layers in a single bitmap.
 	 * 
-	 * @param topLayer
-	 *            index of highrst layer to cache or -1 to clear the cache
+	 * @param topLayer index of highest layer to cache or -1 to clear the cache
 	 */
 	public void cacheLayers(int topLayer) {
 		if (topLayer < 0) {
