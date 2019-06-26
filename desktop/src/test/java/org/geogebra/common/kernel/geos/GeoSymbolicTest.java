@@ -255,10 +255,54 @@ public class GeoSymbolicTest {
 	}
 
 	/**
+	 * https://www.geogebra.org/m/mxtyvd22
+	 */
+	@Test
+	public void testTutorial() {
+		t("a+a", "2 * a");
+		t("4x+3y-2x+y", "2 * x + 4 * y");
+		t("(1/(x+y)-1/x)/y", "(-1) / (x^(2) + x * y)");
+		t("(x+y)(x-y)(x-y)", "(x + y) * (x - y)^(2)");
+		t("Expand((x+y)(x-y)(x-y))", "x^(3) - x^(2) * y - x * y^(2) + y^(3)");
+		t("Factor(x^2+2x+1)", "(x + 1)^(2)");
+		t("Factor(x^3-x^2-8x+12)", "(x - 2)^(2) * (x + 3)");
+		t("Factor((x^2+2x-15)/(x^3+3x^2-4))", "(x - 3) * (x + 5) / ((x - 1) * (x + 2)^(2))");
+		t("Substitute(x^2-2x+23,x,y^2)", "y^(4) - 2 * y^(2) + 23");
+		t("Solve(3(x-2)=5x+14)", "{x = -10}");
+		t("Solve(2x^2-x=15)", "{x = (-5) / 2, x = 3}");
+		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
+		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
+		t("Solve(12exp(x)=150)", "{x = log(25 / 2)}");
+		t("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}");
+		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
+		// doesn't work without space (multiply) APPS-1031
+		t("Solve(x (x-5)>x+7)", "{x < -1, x > 7}");
+		t("Solve(2x+3y=x^2/y,x)", "{x = 3 * y, x = -y}");
+		t("Solve(2x+3y=x^2/y,y)", "{y = 1 / 3 * x, y = -x}");
+		t("Solve({x+2y+3z=60, 2x-3y+5z=68, -x+y-z=-13})",
+				"{{x = 27 / 11, y = 57 / 11, z = 173 / 11}}");
+	}
+
+	/**
+	 * https://www.geogebra.org/m/mxtyvd22#material/gjsw6npx
+	 */
+	@Test
+	public void testTutorial2() {
+		t("f(x)=x^3+6x^2+6x-4", "x^(3) + 6 * x^(2) + 6 * x - 4");
+		t("Solve(f=0)", "{x = -sqrt(6) - 2, x = -2, x = sqrt(6) - 2}");
+		t("f({-5,0,2.15})", "{-9, -4, 372587 / 8000}");
+		t("Solve(f=4)", "{x = -4, x = -sqrt(3) - 1, x = sqrt(3) - 1}");
+		t("ff(x,aa)=sqrt(x-aa)", "sqrt(-aa + x)");
+		t("ff(x,0)", "sqrt(x)");
+		t("ff(x,-1)", "sqrt(x + 1)");
+		t("ff(x,2)", "sqrt(x - 2)");
+	}
+
+	/**
 	 * https://www.geogebra.org/m/mxtyvd22#material/vcdtdhjk
 	 */
 	@Test
-	public void testMultiStep7() {
+	public void testTutorial3() {
 		t("f(x)=p x^4 + q x^3 + r x^2 + s x + k", "p * x^(4) + q * x^(3) + r * x^(2) + s * x + k");
 		t("eq1:f(1)=10", "k + p + q + r + s = 10");
 		t("eq2:f'(1)=0", "4 * p + 3 * q + 2 * r + s = 0");
@@ -275,7 +319,7 @@ public class GeoSymbolicTest {
 	 * https://www.geogebra.org/m/mxtyvd22#material/ukkups2n
 	 */
 	@Test
-	public void testMultiStep8() {
+	public void testTutorial4() {
 		t("f(x)=sqrt(x) (x^2-10x+25)", "sqrt(x) * (x^(2) - 10 * x + 25)");
 		t("list1=Solutions(f=0)", "{0, 5}");
 		t("list2=Solutions(f'(x)=0)", "{1, 5}");
@@ -290,6 +334,18 @@ public class GeoSymbolicTest {
 		t("Numeric(f(root))", "9.0912560746");
 		t("Solve(f'(x)=tan(30deg))", "{x = 0.9446513612, x = 5.1267111169}");
 		t("Tangent(2,f)", "y = -15 * sqrt(2) / 4 * x + 33 * sqrt(2) / 2");
+	}
+
+	/**
+	 * https://www.geogebra.org/m/mxtyvd22#material/jueqqgec
+	 */
+	@Test
+	public void testTutorial5() {
+		t("f(x)=1/25 x^4", "1 / 25 * x^(4)");
+		t("g=Invert(f)", "nroot(25 * x,4)");
+		t("a=pi Integral(g^2,0,h)", "10 / 3 * sqrt(h) * h * " + pi);
+		t("b=Solve(a=500)", "{h = 5 * cbrt(180 * " + pi + ") / " + pi + "}");
+		t("Numeric(b)", "{h = 13.1611626882}");
 	}
 
 	@Test
