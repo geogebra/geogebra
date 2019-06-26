@@ -32,6 +32,7 @@ public class GeoSymbolicTest {
 	public static void setup() {
 		app = AlgebraTest.createApp();
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		app.setRounding("10");
 		ap = app.getKernel().getAlgebraProcessor();
 		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
 				StringTemplate.defaultTemplate, app.getKernel());
@@ -176,7 +177,7 @@ public class GeoSymbolicTest {
 		t("Solve(p x^3 + q x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
 		t("Solve(p x^3 + q x = 0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
 		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
-		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.93, p = 0.93}");
+		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
 	}
 
 	@Test
@@ -246,6 +247,8 @@ public class GeoSymbolicTest {
 	@Test
 	public void testFitPolyCommand() {
 		t("FitPoly({(0,0.6), (12,7.6)})", "7 / 12 * x + 3 / 5");
+		t("FitPoly({(0,0.3707), (20,0.2091), (10, 0.2428)},2)",
+				"4.71E-4 * x^(2) - 0.0175 * x + 0.3707");
 	}
 
 	@Test
