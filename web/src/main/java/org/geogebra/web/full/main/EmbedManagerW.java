@@ -1,9 +1,7 @@
 package org.geogebra.web.full.main;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
@@ -255,15 +253,21 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void restoreEmbeds() {
+		List<Integer> entries = new ArrayList<>();
 		for (Entry<Integer, EmbedElement> entry : cache.entrySet()) {
 			GeoElement geoEmbed = findById(entry.getKey());
 			DrawEmbed drawEmbed = (DrawEmbed) app.getActiveEuclidianView()
 					.getDrawableFor(geoEmbed);
-			EmbedElement frame = entry.getValue();
-			widgets.put(drawEmbed, frame);
-			frame.setVisible(true);
+			if (drawEmbed != null) {
+				EmbedElement frame = entry.getValue();
+				widgets.put(drawEmbed, frame);
+				frame.setVisible(true);
+				entries.add(entry.getKey());
+			}
 		}
-		cache.clear();
+		for (Integer entry: entries) {
+			cache.remove(entry);
+		}
 	}
 
 	private GeoElement findById(Integer key) {
