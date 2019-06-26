@@ -11,6 +11,11 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 
+/**
+ * 
+ * Loader for Graspable Math
+ *
+ */
 public class GMLoader {
 	static final GMLoader INSTANCE = new GMLoader();
 	private Map<Integer, GraspableEmbedElement> loadQueue = new HashMap<>();
