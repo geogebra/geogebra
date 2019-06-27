@@ -1501,6 +1501,14 @@ $duration: 0.2s;
 	   			max-width: 96px;
 	   		}
    		}
+   		.gwt-CheckBox {
+    			padding-left: 16px;
+		}
+   		.gwt-CheckBox label {
+    			padding-left: 8px;
+    			//color: $text-secondary;
+    			opacity: 0.7;
+		}
    		.equal {
    			// margin top and bottom set to center it with text field
    			margin-top: 0px;
