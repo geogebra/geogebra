@@ -68,25 +68,29 @@ public class GLookAndFeel implements GLookAndFeelI {
 			return;
 		}
 		// popup when the user wants to exit accidentally
-        this.windowClosingHandler = Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            @Override
-			public void onWindowClosing(ClosingEvent event) {
-						event.setMessage(app.getLocalization()
-								.getMenu("CloseApplicationLoseUnsavedData"));
-            }
-        });
+		if (windowClosingHandler == null) {
+			this.windowClosingHandler = Window
+					.addWindowClosingHandler(new Window.ClosingHandler() {
+						@Override
+						public void onWindowClosing(ClosingEvent event) {
+							event.setMessage(app.getLocalization().getMenu(
+									"CloseApplicationLoseUnsavedData"));
+						}
+					});
+		}
 
-        if (this.windowCloseHandler == null) {
-            //onClose is called, if user leaves the page correct
-            //not called if browser crashes
-            this.windowCloseHandler = Window.addCloseHandler(new CloseHandler<Window>() {
+		if (this.windowCloseHandler == null) {
+			// onClose is called, if user leaves the page correct
+			// not called if browser crashes
+			this.windowCloseHandler = Window
+					.addCloseHandler(new CloseHandler<Window>() {
 
-    			@Override
-    			public void onClose(CloseEvent<Window> event) {
-    				app.getFileManager().deleteAutoSavedFile();
-    			}
-    		});
-        }
+						@Override
+						public void onClose(CloseEvent<Window> event) {
+							app.getFileManager().deleteAutoSavedFile();
+						}
+					});
+		}
 	}
 
 	/**
@@ -95,8 +99,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public void removeWindowClosingHandler() {
-		if (this.windowClosingHandler != null) {
-			this.windowClosingHandler.removeHandler();
+		if (windowClosingHandler != null) {
+			windowClosingHandler.removeHandler();
+			windowClosingHandler = null;
 		}
 	}
 
