@@ -181,7 +181,7 @@ task copyHtml {
             .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
             .replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://cdn.geogebra.org/apps/latest/")
         }
-        def classicHtml = { prerelease, offline ->
+        def classicHtml = {app, prerelease, offline=false ->
             
            def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
            return replaceVendor(html, "GeoGebra").replace("<!--SPLASH-->", splash)
@@ -222,24 +222,21 @@ task copyHtml {
             .replace("<!--APP NAME-->", appName)
             .replace("<!--LANG-->", "en")
         }
-        
-        file("war/app-release.html").text = english(classicHtml(false, false), "Classic")
-        file("war/app.html").text = english(classicHtml(true, false), "Classic")
-        file("war/app-offline.html").text = english(classicHtml(false, true), "Classic")
-        file("war/classic-template.html").text = classicHtml(false, false)
+
         if(!file("war/debug.css").exists()){
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
-        appSpecs.each({app-> if(app.id != "classic") {
+        appSpecs.each({app->
             def appID = app.id.split("-")[0]
+            def replaceHtml = app.id == "classic" ? classicHtml : appHtml
             // TODO notes features should go to stable, then we simplify this
-            file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(appID))
-            file("war/${app.id}-template-beta.html").text = appHtml(app, true)
+            file("war/${app.id}-template.html").text = replaceHtml(app, "notes".equals(appID))
+            file("war/${app.id}-template-beta.html").text = replaceHtml(app, true)
             // TODO notes features should go to stable, then we simplify this
-            file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(appID), true), app.title)
-            file("war/${app.id}.html").text = english(appHtml(app, true), app.title)
-            file("war/${app.id}-canary.html").text = english(appHtml(app, "\"canary\""), app.title)
-        }});
+            file("war/${app.id}-offline.html").text = english(replaceHtml(app, "notes".equals(appID), true), app.title)
+            file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
+            file("war/${app.id}-canary.html").text = english(replaceHtml(app, "\"canary\""), app.title)
+        });
     }
 }
 
