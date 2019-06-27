@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
+import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
@@ -26,11 +27,11 @@ public abstract class Localization {
 	public final static String syntax3D = ".Syntax3D";
 	/** syntax suffix for keys in command bundle */
 	public final static String syntaxStr = ".Syntax";
+	private final LocalizedCommandSyntax commandSyntax = new LocalizedCommandSyntax(this);
 	/** used when a secondary language is being used for tooltips. */
 	private String[] fontSizeStrings = null;
 
 	protected Locale currentLocale = Locale.ENGLISH;
-	static final public String ROUNDING_MENU_SEPARATOR = "---";
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int dimension = 2;
@@ -871,7 +872,7 @@ public abstract class Localization {
 			}
 			list.add(getPlain(key, String.valueOf(decimalPlaces[i])));
 		}
-		list.add(ROUNDING_MENU_SEPARATOR);
+		list.add(LocalizedCommandSyntax.ROUNDING_MENU_SEPARATOR);
 		for (int i = 0; i < significantFigures.length; i++) {
 			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures[i])));
 		}
@@ -1017,7 +1018,7 @@ public abstract class Localization {
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	public String getCommandSyntax(String key) {
-		return getCommandSyntax(key, dimension);
+		return commandSyntax.getCommandSyntax(key, dimension);
 	}
 
 	/**
@@ -1028,52 +1029,8 @@ public abstract class Localization {
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	public String getCommandSyntax(String key, int dim) {
-		String command = getCommand(key);
-		if (dim == 3) {
-			String key3D = key + Localization.syntax3D;
-			String cmdSyntax3D = getCommand(key3D);
-			if (!cmdSyntax3D.equals(key3D)) {
-				cmdSyntax3D = buildSyntax(cmdSyntax3D, command);
-				return cmdSyntax3D;
-			}
-		}
 
-		String syntaxKey = key + Localization.syntaxStr;
-		String syntax = getCommand(syntaxKey);
-		syntax = buildSyntax(syntax, command);
-
-		return syntax;
-	}
-
-
-	/**
-	 * @param key
-	 *            command name
-	 * @param dim
-	 *            dimension override
-	 * @return command syntax in english
-	 */
-	public String getEnglishCommandSyntax(String key, int dim) {
-		String command = getEnglishCommand(key);
-		if (dim == 3) {
-			String key3D = key + Localization.syntax3D;
-			String cmdSyntax3D = getCommand(key3D);
-			if (!cmdSyntax3D.equals(key3D)) {
-				cmdSyntax3D = buildSyntax(cmdSyntax3D, command);
-				return cmdSyntax3D;
-			}
-		}
-
-		String syntaxKey = key + Localization.syntaxStr;
-		String syntax = getEnglishCommand(syntaxKey);
-		syntax = buildSyntax(syntax, command);
-
-		return syntax;
-	}
-
-
-	private String buildSyntax(String syntax, String command) {
-		return syntax.replace("[", command + '(').replace(']', ')');
+		return commandSyntax.getCommandSyntax(key, dim);
 	}
 
 	/**
@@ -1136,20 +1093,7 @@ public abstract class Localization {
 	 * @return CAS syntax
 	 */
 	public String getCommandSyntaxCAS(String key) {
-		String keyCAS = key + syntaxCAS;
-
-		String command = getCommand(key);
-		String syntax = getCommand(keyCAS);
-
-		// make sure "PointList.SyntaxCAS" not displayed in dialog
-		if (syntax.equals(keyCAS)) {
-			syntax = getCommand(key + syntaxStr);
-		}
-
-		syntax = buildSyntax(syntax, command);
-
-		return syntax;
-	}
+		return commandSyntax.getCommandSyntaxCAS(key);	}
 
 	/**
 	 * 

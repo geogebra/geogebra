@@ -110,6 +110,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.main.syntax.CommandSyntax;
+import org.geogebra.common.main.syntax.EnglishCommandSyntax;
+import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -169,6 +172,8 @@ public class AlgebraProcessor {
 	private CommandNameFilter noCASfilter;
 
 	private SymbolicProcessor symbolicProcessor;
+	private CommandSyntax localizedCommandSyntax;
+	private CommandSyntax englishCommandSyntax;
 
 	/**
 	 * @param kernel
@@ -3537,35 +3542,10 @@ public class AlgebraProcessor {
 	 * @return syntax
 	 */
 	public String getSyntax(String cmdInt, Settings settings) {
-		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
-		if (cmdDispatcher.isCASAllowed()) {
-			return loc.getCommandSyntax(cmdInt, dim);
+		if (localizedCommandSyntax == null) {
+			localizedCommandSyntax = new LocalizedCommandSyntax(loc);
 		}
-		Commands cmd = null;
-		try {
-			cmd = Commands.valueOf(cmdInt);
-		} catch (Exception e) {
-			// macro or error
-		}
-		if (cmd == null) {
-			return loc.getCommandSyntax(cmdInt, dim);
-		}
-		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
-			return null;
-		}
-		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
-		// gives suggestions for NIntegral
-		if (cmd == Commands.Integral) {
-			return loc.getCommandSyntaxCAS("NIntegral");
-		}
-		if (noCASfilter == null) {
-			noCASfilter = CommandNameFilterFactory.createNoCasCommandNameFilter();
-		}
-		if (!noCASfilter.isCommandAllowed(cmd)) {
-			return null;
-		}
-
-		return loc.getCommandSyntax(cmdInt, dim);
+		return getSyntax(localizedCommandSyntax, cmdInt, settings);
 	}
 
 	/**
@@ -3573,12 +3553,19 @@ public class AlgebraProcessor {
 	 *            command name
 	 * @param settings
 	 *            settings
-	 * @return syntax
+	 * @return syntax in english // as fallback
 	 */
 	public String getEnglishSyntax(String cmdInt, Settings settings) {
+		if (englishCommandSyntax == null) {
+			englishCommandSyntax = new EnglishCommandSyntax(loc);
+		}
+		return getSyntax(englishCommandSyntax, cmdInt, settings);
+	}
+
+	private String getSyntax(CommandSyntax syntax, String cmdInt, Settings settings) {
 		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
 		if (cmdDispatcher.isCASAllowed()) {
-			return loc.getCommandSyntax(cmdInt, dim);
+			return syntax.getCommandSyntax(cmdInt, dim);
 		}
 		Commands cmd = null;
 		try {
@@ -3587,7 +3574,7 @@ public class AlgebraProcessor {
 			// macro or error
 		}
 		if (cmd == null) {
-			return loc.getCommandSyntax(cmdInt, dim);
+			return syntax.getCommandSyntax(cmdInt, dim);
 		}
 		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
 			return null;
@@ -3595,7 +3582,7 @@ public class AlgebraProcessor {
 		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
 		// gives suggestions for NIntegral
 		if (cmd == Commands.Integral) {
-			return loc.getCommandSyntaxCAS("NIntegral");
+			return syntax.getCommandSyntaxCAS("NIntegral");
 		}
 		if (noCASfilter == null) {
 			noCASfilter = CommandNameFilterFactory.createNoCasCommandNameFilter();
@@ -3604,8 +3591,9 @@ public class AlgebraProcessor {
 			return null;
 		}
 
-		return loc.getEnglishCommandSyntax(cmdInt, dim);
+		return syntax.getCommandSyntax(cmdInt, dim);
 	}
+
 
 	/**
 	 * @return command dispatcher
