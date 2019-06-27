@@ -19,6 +19,8 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandle
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.OnBackSpaceHandler;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -89,9 +91,16 @@ public class Export3dDialog extends OptionDialog
 		 *            if error should be shown
 		 * @param canBeEqual
 		 *            if value can be equel to min value
+		 * @param canBeEmpty
+		 *            if textfield can be empty (value is 0)
 		 * @return true if parsed ok
 		 */
-		public boolean parse(boolean showError, boolean canBeEqual) {
+		public boolean parse(boolean showError, boolean canBeEqual,
+				boolean canBeEmpty) {
+			if (canBeEmpty && getText().trim().length() == 0) {
+				parsedValue = 0;
+				return true;
+			}
 			try {
 				parsedValue = canBeEqual
 						? numberValidator.getDoubleGreaterOrEqual(getText(), 0d)
@@ -226,7 +235,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		void parseAndUpdateOthers() {
-			if (inputField.parse(false, false)) {
+			if (inputField.parse(false, false, false)) {
 				updateOthers(calcCurrentRatio());
 			}
 		}
@@ -261,7 +270,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		public boolean parse() {
-			return !isUsed || inputField.parse(true, false);
+			return !isUsed || inputField.parse(true, false, false);
 		}
 	}
 
@@ -333,6 +342,13 @@ public class Export3dDialog extends OptionDialog
 				thicknessPanel);
 		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
 			filledSolid = new CheckBox();
+			filledSolid.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					if (filledSolid.getValue()) {
+						lineThicknessValue.setInputText("");
+					}
+				}
+			});
 			thicknessPanel.add(filledSolid);
 		}
 		root.add(thicknessPanel);
@@ -371,7 +387,8 @@ public class Export3dDialog extends OptionDialog
 
 		}
 		ok = checkOkAndSetFocus(ok,
-				lineThicknessValue.parse(true, app.has(Feature.G3D_STL_SOLID)),
+				lineThicknessValue.parse(true, app.has(Feature.G3D_STL_SOLID),
+						true),
 				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
