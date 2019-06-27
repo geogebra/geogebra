@@ -1398,8 +1398,7 @@ public abstract class Localization {
 			}
 		}
 
-		Log.debug("nothing found, English name must be " + internalName);
-
+		// nothing found, English name must be internalName
 		return internalName;
 	}
 
