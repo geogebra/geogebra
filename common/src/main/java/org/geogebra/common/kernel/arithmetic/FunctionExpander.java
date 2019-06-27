@@ -180,16 +180,14 @@ public class FunctionExpander implements Traversing {
 					// or else replacing f(x,y) with f(y,x)
 					// will result in f(x, x)
 					for (int i = 0; i < fv.length; i++) {
-						if (en.getOperation() == Operation.FUNCTION_NVAR
-								|| surface) {
+						if (en.getOperation() == Operation.FUNCTION_NVAR || surface) {
 							ithArg = ((MyList) argument).getListElement(i);
 						}
-						VariableReplacer.addVars(fv[i].getSetVarString(),
-								ithArg);
-							}
+						VariableReplacer.addVars(fv[i].getSetVarString(), ithArg);
+					}
 					en2 = en2.traverse(vr).wrap();
 					return en2;
-						}
+				}
 			} else if (en.getOperation() == Operation.DERIVATIVE) {
 				// should not get there
 
