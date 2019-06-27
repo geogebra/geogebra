@@ -69,6 +69,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public ValueType getValueType() {
+		if (value != null) {
+			return value.getValueType();
+		}
 		return ValueType.UNKNOWN;
 	}
 
@@ -350,7 +353,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (twin instanceof GeoFunctionable) {
 			return ((GeoFunctionable) twin).value(x);
 		}
-		return 42;
+		return Double.NaN;
 	}
 
 	@Override
