@@ -398,8 +398,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             // ratio
             double ratio;
             if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                double projectFactor = projectMatrix.get(1 ,1);
+                double precisionPoT = DoubleUtil.getPowerOfTen(projectFactor);
+                double precision = Math.round(projectFactor / precisionPoT) * precisionPoT
+                                * PROJECT_FACTOR_RELATIVE_PRECISION;
+                projectFactor = Math.round(projectFactor / precision) * precision;
                 float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
-                                * (mDistance / projectMatrix.get(1 ,1))
+                                * (mDistance / projectFactor)
                                 / mView.getRenderer().getWidth());
                 ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
             } else {

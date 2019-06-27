@@ -25,8 +25,11 @@ public interface ARManagerInterface<T> {
      * this is for to get the visible thickness (on screen) quite the same as in regular 3D view */
     final static public float THICKNESS_MIN_FACTOR = 0.001f;
 
-    /** when setting scale at start, the ratio can't be emphasized more than a third */
-    final static public float MAX_FACTOR_TO_EMPHASIZE = 1f + 1f / 3f;
+    /** when setting scale at start, the ratio can't be emphasized more than 40% */
+    final static public float MAX_FACTOR_TO_EMPHASIZE = 1.40f;
+
+    /** in projection matrix, we don't trust factors more than 10% precision */
+    final static public float PROJECT_FACTOR_RELATIVE_PRECISION = 0.10f;
 
     Coords getHittingDirection();
 
