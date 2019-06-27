@@ -3927,10 +3927,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         case G3D_AR_STANDS_ON_ZERO_Z:
             return true;
 
-        // **********************************************************************
 		/** G3D-343 */
 		case G3D_SELECT_META:
 			return false;
+
+		/** G3D-380 */
+		case G3D_FILLED_SOLID_CHECKBOX:
+			return prerelease;
 
 		// **********************************************************************
         // G3D END

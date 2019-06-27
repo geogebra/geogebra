@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -37,6 +38,7 @@ public class Export3dDialog extends OptionDialog
 
 	private Runnable onExportButtonPressed;
 	private ParsableComponentInputField lineThicknessValue;
+	private CheckBox filledSolid;
 	private double lastUpdatedScale;
 	private double lastUpdatedThickness;
 
@@ -325,7 +327,15 @@ public class Export3dDialog extends OptionDialog
 	}
 
 	private void buildLineThicknessPanel(FlowPanel root) {
-		lineThicknessValue = addTextField("STL.Thickness", "mm", root);
+		FlowPanel thicknessPanel = new FlowPanel();
+		thicknessPanel.setStyleName("panelRow");
+		lineThicknessValue = addTextField("STL.Thickness", "mm",
+				thicknessPanel);
+		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
+			filledSolid = new CheckBox();
+			thicknessPanel.add(filledSolid);
+		}
+		root.add(thicknessPanel);
 	}
 
 	private ParsableComponentInputField addTextField(String labelText,
@@ -380,6 +390,10 @@ public class Export3dDialog extends OptionDialog
 			f.inputField.setLabels();
 		}
 		lineThicknessValue.setLabels();
+		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
+			filledSolid.setText(app.getLocalization()
+					.getMenuDefault("STL.FilledSolid", "Filled Solid"));
+		}
 		updateButtonLabels("Download");
 	}
 
