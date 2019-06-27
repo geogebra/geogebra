@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -227,7 +228,9 @@ public class InputSuggestions implements HasSuggestions {
 		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
 			String cmdInt = app.getInternalCommand(cmd);
-			if (cmdInt == null && isFallbackCompletitionAllowed()) {
+			boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed();
+
+			if (englishOnly) {
 				cmdInt = app.englishToInternal(cmd);
 			}
 			String syntaxString;
@@ -235,8 +238,9 @@ public class InputSuggestions implements HasSuggestions {
 				syntaxString = app.getLocalization()
 						.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = app.getKernel().getAlgebraProcessor()
-						.getSyntax(cmdInt, app.getSettings());
+				AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+				syntaxString = englishOnly ? ap.getEnglishSyntax(cmdInt, app.getSettings())
+						: ap.getSyntax(cmdInt, app.getSettings());
 			}
 
 			if (syntaxString == null) {

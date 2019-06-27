@@ -3569,6 +3569,45 @@ public class AlgebraProcessor {
 	}
 
 	/**
+	 * @param cmdInt
+	 *            command name
+	 * @param settings
+	 *            settings
+	 * @return syntax
+	 */
+	public String getEnglishSyntax(String cmdInt, Settings settings) {
+		int dim = settings.getEuclidian(-1).isEnabled() ? 3 : 2;
+		if (cmdDispatcher.isCASAllowed()) {
+			return loc.getCommandSyntax(cmdInt, dim);
+		}
+		Commands cmd = null;
+		try {
+			cmd = Commands.valueOf(cmdInt);
+		} catch (Exception e) {
+			// macro or error
+		}
+		if (cmd == null) {
+			return loc.getCommandSyntax(cmdInt, dim);
+		}
+		if (!this.cmdDispatcher.isAllowedByNameFilter(cmd)) {
+			return null;
+		}
+		// IntegralBetween gives all syntaxes. Typing Integral or NIntegral
+		// gives suggestions for NIntegral
+		if (cmd == Commands.Integral) {
+			return loc.getCommandSyntaxCAS("NIntegral");
+		}
+		if (noCASfilter == null) {
+			noCASfilter = CommandNameFilterFactory.createNoCasCommandNameFilter();
+		}
+		if (!noCASfilter.isCommandAllowed(cmd)) {
+			return null;
+		}
+
+		return loc.getEnglishCommandSyntax(cmdInt, dim);
+	}
+
+	/**
 	 * @return command dispatcher
 	 */
 	public CommandDispatcher getCommandDispatcher() {

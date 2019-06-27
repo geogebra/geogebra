@@ -3,7 +3,6 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-//import java.util.Locale;
 import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -16,6 +15,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 import com.himamis.retex.editor.share.util.Unicode;
+
+//import java.util.Locale;
 
 public abstract class Localization {
 
@@ -1037,11 +1038,39 @@ public abstract class Localization {
 			}
 		}
 
-		String syntax = getCommand(key + Localization.syntaxStr);
+		String syntaxKey = key + Localization.syntaxStr;
+		String syntax = getCommand(syntaxKey);
 		syntax = buildSyntax(syntax, command);
 
 		return syntax;
 	}
+
+
+	/**
+	 * @param key
+	 *            command name
+	 * @param dim
+	 *            dimension override
+	 * @return command syntax in english
+	 */
+	public String getEnglishCommandSyntax(String key, int dim) {
+		String command = getEnglishCommand(key);
+		if (dim == 3) {
+			String key3D = key + Localization.syntax3D;
+			String cmdSyntax3D = getCommand(key3D);
+			if (!cmdSyntax3D.equals(key3D)) {
+				cmdSyntax3D = buildSyntax(cmdSyntax3D, command);
+				return cmdSyntax3D;
+			}
+		}
+
+		String syntaxKey = key + Localization.syntaxStr;
+		String syntax = getEnglishCommand(syntaxKey);
+		syntax = buildSyntax(syntax, command);
+
+		return syntax;
+	}
+
 
 	private String buildSyntax(String syntax, String command) {
 		return syntax.replace("[", command + '(').replace(']', ')');
@@ -1569,4 +1598,5 @@ public abstract class Localization {
 	public String getInvalidInputError() {
 		return getErrorDefault("InvalidInput", "Please check your input");
 	}
+
 }
