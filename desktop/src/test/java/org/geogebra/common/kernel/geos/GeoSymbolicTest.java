@@ -323,9 +323,9 @@ public class GeoSymbolicTest {
 		t("f(x)=sqrt(x) (x^2-10x+25)", "sqrt(x) * (x^(2) - 10 * x + 25)");
 		t("list1=Solutions(f=0)", "{0, 5}");
 		t("list2=Solutions(f'(x)=0)", "{1, 5}");
-		// not working
-		// t("f(list2)", "");
-		// t("f''(list1)", "");
+		t("f(list2)", "{16, 0}");
+		// not working, same problem in CAS View
+		// t("f''(list1)", "{-10, 2 * sqrt(5)}");
 		t("f''({1,5})", "{-10, 2 * sqrt(5)}");
 		t("f({1,5})", "{16, 0}");
 		t("Solve(f''(x)=0)", "{x = (-2 * sqrt(6) + 3) / 3, x = (2 * sqrt(6) + 3) / 3}");
@@ -356,12 +356,10 @@ public class GeoSymbolicTest {
 
 		t("f(x)=(3x^3+6x^2-10x+1)", "3 * x^(3) + 6 * x^(2) - 10 * x + 1");
 		t("list2=Solutions(f'(x)=0)", "{(-sqrt(14) - 2) / 3, (sqrt(14) - 2) / 3}");
-		// not working
-		// t("f(list2)", "");
+		t("f(list2)", "{1 / 9 * (28 * sqrt(14) + 85), 1 / 9 * (-28 * sqrt(14) + 85)}");
 		t("list3={(-sqrt(14) - 2) / 3, (sqrt(14) - 2) / 3}",
 				"{1 / 3 * (-sqrt(14) - 2), 1 / 3 * (sqrt(14) - 2)}");
-		// not working
-		// t("f(list3)", "");
+		t("f(list3)", "{1 / 9 * (28 * sqrt(14) + 85), 1 / 9 * (-28 * sqrt(14) + 85)}");
 	}
 
 	@Test
