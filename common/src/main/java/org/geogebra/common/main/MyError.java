@@ -160,8 +160,8 @@ public class MyError extends Error {
 		sb.append(getError(getMessage()));
 		if (strs != null) {
 			for (int i = 0; i < strs.length; i++) {
-				sb.append(getError(strs[i]));
 				sb.append(" : ");
+				sb.append(getError(strs[i]));
 			}
 		}
 		return sb.toString();
