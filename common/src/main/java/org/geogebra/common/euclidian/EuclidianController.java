@@ -6567,8 +6567,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean hitResetIcon() {
-		return view.showResetIcon() && ((mouseLoc.y < 30)
-				&& (mouseLoc.x > (view.getViewWidth() - 24)));
+		return view.showResetIcon()
+				&& ((mouseLoc.y < 40) && (mouseLoc.x > (view.getViewWidth() - 40)));
 	}
 
 	protected void setHitCursor() {
