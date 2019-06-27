@@ -343,6 +343,7 @@ public class Export3dDialog extends OptionDialog
 		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
 			filledSolid = new CheckBox();
 			filledSolid.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					if (filledSolid.getValue()) {
 						lineThicknessValue.setInputText("");
