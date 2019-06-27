@@ -211,7 +211,7 @@ public class ExportToPrinter3D {
 	 *            export object type
 	 */
 	public void export(Drawable3D d, Type type) {
-		if (format.exportsOnlyPolygons()) {
+		if (format.wantsFilledSolids()) {
 			return;
 		}
 		GeoElement geo = d.getGeoElement();
@@ -232,7 +232,7 @@ public class ExportToPrinter3D {
 	public void export(int geometryIndex, Type type, String geoType,
 			GeoElement geo) {
 
-		if (format.exportsOnlyPolygons()) {
+		if (format.wantsFilledSolids()) {
 			return;
 		}
 		reverse = false;
@@ -334,7 +334,7 @@ public class ExportToPrinter3D {
 				if (exportSurface) {
 					exportSurface(geo, d.getSurfaceIndex(),
 							format.needsClosedObjects(), false);
-				} else if (!format.exportsOnlyPolygons()) {
+				} else if (!format.wantsFilledSolids()) {
 					if (geo.getLineThickness() > 0) {
 						export(d.getGeometryIndex(), Type.CURVE,
 								geo.getLabelSimple(), geo);
@@ -356,7 +356,7 @@ public class ExportToPrinter3D {
 	 */
 	public void exportSurface(Drawable3D d, boolean isFlat,
 			boolean plainSolidPart) {
-		if (!plainSolidPart && format.exportsOnlyPolygons()) {
+		if (!plainSolidPart && format.wantsFilledSolids()) {
 			return;
 		}
 		if (format.needsClosedObjects()) { // draw only spheres so far

@@ -441,12 +441,12 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void setUsesThickness(boolean flag) {
+	public void setWantsFilledSolids(boolean flag) {
 		// not used
 	}
 
 	@Override
-	public boolean exportsOnlyPolygons() {
+	public boolean wantsFilledSolids() {
 		return false;
 	}
 

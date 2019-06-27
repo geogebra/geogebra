@@ -282,17 +282,17 @@ abstract public class Format {
 	abstract boolean needsBothSided();
 
 	/**
-	 * set if it uses thickness for surfaces
+	 * set if it wants filled solids
 	 * 
 	 * @param flag
 	 *            flag
 	 */
-	abstract public void setUsesThickness(boolean flag);
+	abstract public void setWantsFilledSolids(boolean flag);
 
 	/**
 	 * 
 	 * @return true if exports only polygons
 	 */
-	abstract public boolean exportsOnlyPolygons();
+	abstract public boolean wantsFilledSolids();
 
 }

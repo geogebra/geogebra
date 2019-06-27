@@ -437,4 +437,13 @@ public class Export3dDialog extends OptionDialog
 		return lastUpdatedThickness;
 	}
 
+	@Override
+	public boolean wantsFilledSolids() {
+		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
+			return filledSolid.getValue()
+					|| DoubleUtil.isZero(getCurrentThickness());
+		}
+		return DoubleUtil.isZero(getCurrentThickness());
+	}
+
 }

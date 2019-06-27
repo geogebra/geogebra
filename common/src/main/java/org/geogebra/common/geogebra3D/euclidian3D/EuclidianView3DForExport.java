@@ -219,7 +219,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 								public void run() {
 									setThicknessAndScale(format,
 											dialog.getCurrentThickness() / 2,
-											dialog.getCurrentScale());
+											dialog.getCurrentScale(),
+											dialog.wantsFilledSolids());
 									ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(
 											EuclidianView3DForExport.this,
 											renderer.getGeometryManager());
@@ -236,7 +237,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				if (getApplication().has(Feature.G3D_STL_SOLID)) {
 					thickness = 0;
 				}
-				setThicknessAndScale(format, thickness, scale);
+				setThicknessAndScale(format, thickness, scale,
+						DoubleUtil.isZero(thickness));
 			} else {
 				format.setScale(10); // default value: 1unit = 10mm
 			}
@@ -255,9 +257,11 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 *            thickness
 	 * @param scale
 	 *            scale
+	 * @param wantsFilledSolids
+	 *            if user wants filled solid
 	 */
 	void setThicknessAndScale(Format format, double thickness,
-			double scale) {
+			double scale, boolean wantsFilledSolids) {
 		specificThicknessForLines = (float) (thickness / scale * getXscale());
 		specificThicknessForSurfaces = (float) ((thickness
 				+ SHIFT_LINE_TO_SURFACE_THICKNESS) / scale * getXscale());
@@ -266,7 +270,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 		specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
 		format.setScale(scale);
-		format.setUsesThickness(!DoubleUtil.isZero(thickness));
+		format.setWantsFilledSolids(wantsFilledSolids);
 		reset();
 		updateScene();
 	}
