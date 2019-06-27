@@ -494,4 +494,39 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return value != null ? value.getListDepth() : 0;
 	}
 
+	@Override
+	public boolean evaluatesTo3DVector() {
+		return value != null && value.evaluatesTo3DVector();
+	}
+
+	@Override
+	public boolean evaluatesToNDVector() {
+		return value != null && value.evaluatesToNDVector();
+	}
+
+	@Override
+	public boolean evaluatesToNonComplex2DVector() {
+		return value != null && value.evaluatesToNonComplex2DVector();
+	}
+
+	@Override
+	public boolean evaluatesToText() {
+		return value != null && value.evaluatesToText();
+	}
+
+	@Override
+	public boolean evaluatesToVectorNotPoint() {
+		return value != null && value.evaluatesToVectorNotPoint();
+	}
+
+	@Override
+	public boolean evaluatesToNumber(boolean def) {
+		return value != null && value.evaluatesToNumber(def);
+	}
+
+	@Override
+	public double evaluateDouble() {
+		return value != null ? value.evaluateDouble() : Double.NaN;
+	}
+
 }
