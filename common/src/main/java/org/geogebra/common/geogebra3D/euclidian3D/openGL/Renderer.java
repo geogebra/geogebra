@@ -2039,10 +2039,7 @@ public abstract class Renderer {
 	 * set AR to end
 	 */
 	public void setARShouldEnd() {
-		ARManagerInterface<?> arManager = getARManager();
-		if (arManager != null) {
-			arManager.resetScaleFromAR();
-		}
+		resetScaleFromAR();
 		killARSession();
 		view3D.resetViewFromAR();
 		view3D.setARDrawing(false);
@@ -2183,5 +2180,15 @@ public abstract class Renderer {
 		if (arManager != null) {
 			arManager.fitThickness();
 		}
+    }
+
+    /**
+     * reset 3D view scale if AR has changed it
+     */
+    protected void resetScaleFromAR() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.resetScaleFromAR();
+        }
     }
 }
