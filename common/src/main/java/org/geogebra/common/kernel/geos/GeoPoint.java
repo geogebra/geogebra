@@ -47,7 +47,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -466,9 +465,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			GeoPoint p = new GeoPoint(cons, endPosition.getX(),
 					endPosition.getY(), 1);
 
-			AlgoDependentPoint algo = (AlgoDependentPoint) this
-					.getParentAlgorithm();
-			ExpressionNode exp = algo.getExpression();
+			ExpressionNode exp = getDefinition();
 
 			GeoCurveCartesian curve = (GeoCurveCartesian) exp.getLeft();
 			GeoNumeric param = (GeoNumeric) exp.getRight();
@@ -640,14 +637,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *         Slider a
 	 */
 	private boolean isPointOnCurveWithSlider() {
-		
-		if (!(getParentAlgorithm() instanceof AlgoDependentPoint)) {
-			return false;
-		}
-	
-		AlgoDependentPoint algo = (AlgoDependentPoint) this
-				.getParentAlgorithm();
-		ExpressionNode exp = algo.getExpression();
+		ExpressionNode exp = getDefinition();
 		
 		if (exp == null) {
 			return false;
@@ -680,15 +670,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
 			changeableCoordNumbers = new ArrayList<>(2);
-			AlgoElement parentAlgo = getParentAlgorithm();
-
+			ExpressionNode en = getDefinition();
 			// dependent point of form P = (a, b)
-			if (parentAlgo instanceof AlgoDependentPoint) {
-				AlgoDependentPoint algo = (AlgoDependentPoint) parentAlgo;
-				ExpressionNode en = algo.getExpression();
-
+			if (!isIndependent() && en != null) {
 				// (xExpression, yExpression)
-				if (en.isLeaf() && en.getLeft() instanceof MyVecNode) {
+				if (en.unwrap() instanceof MyVecNode) {
 					// (xExpression, yExpression)
 					MyVecNode vn = (MyVecNode) en.getLeft();
 					hasPolarParentNumbers = vn.hasPolarCoords();
