@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestErrorHandler;
@@ -69,7 +70,7 @@ public class GeoSymbolicTest {
 
 	private void checkInput(String label, String expectedInput) {
 		assertEquals(expectedInput,
-				app.getKernel().lookupLabel(label).getDefinitionForEditor());
+				getSymbolic(label).getDefinitionForEditor());
 	}
 
 	@Test
@@ -102,7 +103,7 @@ public class GeoSymbolicTest {
 	}
 
 	private static String getLatex(String string) {
-		GeoElement geo1 = app.getKernel().lookupLabel(string);
+		GeoElement geo1 = getSymbolic(string);
 		return geo1.getLaTeXAlgebraDescription(
 				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
@@ -596,7 +597,7 @@ public class GeoSymbolicTest {
 	@Test
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
-		GeoElement a = app.getKernel().lookupLabel("a");
+		GeoElement a = getSymbolic("a");
 		ap.changeGeoElement(a, "p-q", true, false, TestErrorHandler.INSTANCE,
 				null);
 		checkInput("a", "a = p - q");
@@ -605,23 +606,21 @@ public class GeoSymbolicTest {
 	@Test
 	public void constantShouldBeOneRow() {
 		t("1", "1");
-		GeoElement a = app.getKernel().lookupLabel("a");
-		assertTrue(a instanceof GeoSymbolic);
+		GeoElement a = getSymbolic("a");
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
-		GeoElement a = app.getKernel().lookupLabel("a");
-		assertTrue(a instanceof GeoSymbolic);
+		GeoElement a = getSymbolic("a");
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
 	public void simpleEquationShouldBeOneRow() {
 		t("eq1:x+y=1", "x + y = 1");
-		GeoElement a = app.getKernel().lookupLabel("eq1");
+		GeoElement a = getSymbolic("eq1");
 		assertTrue(a instanceof GeoSymbolic);
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
@@ -629,8 +628,7 @@ public class GeoSymbolicTest {
 	@Test
 	public void simpleFracShouldBeOneRow() {
 		t("1/2", "1 / 2");
-		GeoElement a = app.getKernel().lookupLabel("a");
-		assertTrue(a instanceof GeoSymbolic);
+		GeoElement a = getSymbolic("a");
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
@@ -691,8 +689,10 @@ public class GeoSymbolicTest {
 		checkInput("f'", "f'(x) = f'(x)");
 	}
 
-	private GeoSymbolic getSymbolic(String label) {
-		return (GeoSymbolic) app.getKernel().lookupLabel(label);
+	private static GeoSymbolic getSymbolic(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		assertTrue(geo instanceof GeoSymbolic);
+		return (GeoSymbolic) geo;
 	}
 
 	private ObjectSettingsModel asList(GeoElement f) {
@@ -708,9 +708,19 @@ public class GeoSymbolicTest {
 	@Test
 	public void powerShouldBeOneRow() {
 		t("(b+1)^3", "(b + 1)^(3)");
-		GeoElement a = app.getKernel().lookupLabel("a");
-		assertTrue(a instanceof GeoSymbolic);
+		GeoElement a = getSymbolic("a");
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+	}
+
+	/**
+	 * APPS-1013
+	 */
+	@Test
+	public void updateShouldChangeTheTwin() {
+		t("f(x)=x^2", "x^(2)");
+		t("f(x)=x^3", "x^(3)");
+		GeoElementND twin = getSymbolic("f").getTwinGeo();
+		assertEquals("x^(3)", twin.toValueString(StringTemplate.testTemplate));
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
@@ -718,7 +728,7 @@ public class GeoSymbolicTest {
 	}
 
 	private static String getObjectLHS(String label) {
-		GeoElement geo = app.getKernel().lookupLabel(label);
+		GeoElement geo = getSymbolic(label);
 		try {
 			return geo
 					.getAssignmentLHS(StringTemplate.defaultTemplate);
