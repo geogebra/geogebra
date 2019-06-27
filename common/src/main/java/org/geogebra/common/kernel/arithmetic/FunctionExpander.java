@@ -194,10 +194,10 @@ public class FunctionExpander implements Traversing {
 								case 0:
 									ithArg = vec.getX();
 									break;
-								case 2:
+								case 1:
 									ithArg = vec.getY();
 									break;
-								case 3:
+								case 2:
 									ithArg = vec.getZ();
 									break;
 								}
