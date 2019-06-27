@@ -107,6 +107,7 @@ public class MyVec3DNode extends ValidExpression
 	/**
 	 * @return x coordinate
 	 */
+	@Override
 	public ExpressionValue getX() {
 		return x;
 	}
@@ -114,6 +115,7 @@ public class MyVec3DNode extends ValidExpression
 	/**
 	 * @return y coordinate
 	 */
+	@Override
 	public ExpressionValue getY() {
 		return y;
 	}
@@ -121,6 +123,7 @@ public class MyVec3DNode extends ValidExpression
 	/**
 	 * @return z coordinate
 	 */
+	@Override
 	public ExpressionValue getZ() {
 		return z;
 	}
