@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.dialog.options;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -336,7 +336,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			String[] strDecimalSpaces = app.getLocalization()
 					.getRoundingMenu();
 			for (String str : strDecimalSpaces) {
-				if (!LocalizedCommandSyntax.ROUNDING_MENU_SEPARATOR.equals(str)) {
+				if (!Localization.ROUNDING_MENU_SEPARATOR.equals(str)) {
 					roundingList.addItem(str);
 				}
 			}

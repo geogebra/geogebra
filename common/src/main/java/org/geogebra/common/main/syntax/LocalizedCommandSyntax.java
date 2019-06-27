@@ -4,7 +4,6 @@ import org.geogebra.common.main.Localization;
 
 public class LocalizedCommandSyntax implements CommandSyntax {
 	private final Localization loc;
-	static final public String ROUNDING_MENU_SEPARATOR = "---";
 
 	public LocalizedCommandSyntax(Localization localization) {
 		this.loc = localization;

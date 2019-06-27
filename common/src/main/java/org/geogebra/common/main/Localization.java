@@ -31,6 +31,8 @@ public abstract class Localization {
 	/** used when a secondary language is being used for tooltips. */
 	private String[] fontSizeStrings = null;
 
+	static final public String ROUNDING_MENU_SEPARATOR = "---";
+
 	protected Locale currentLocale = Locale.ENGLISH;
 
 	// Giac works to 13 sig digits (for "double" calculations)
@@ -872,7 +874,7 @@ public abstract class Localization {
 			}
 			list.add(getPlain(key, String.valueOf(decimalPlaces[i])));
 		}
-		list.add(LocalizedCommandSyntax.ROUNDING_MENU_SEPARATOR);
+		list.add(ROUNDING_MENU_SEPARATOR);
 		for (int i = 0; i < significantFigures.length; i++) {
 			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures[i])));
 		}
