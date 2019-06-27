@@ -93,6 +93,7 @@ public class MyVecNode extends ValidExpression
 	/**
 	 * @return x-coord
 	 */
+	@Override
 	public ExpressionValue getX() {
 		return x;
 	}
@@ -100,6 +101,7 @@ public class MyVecNode extends ValidExpression
 	/**
 	 * @return y-coord
 	 */
+	@Override
 	public ExpressionValue getY() {
 		return y;
 	}
@@ -410,6 +412,11 @@ public class MyVecNode extends ValidExpression
 			return result;
 		}
 		return super.evaluate(tpl);
+	}
+
+	@Override
+	public ExpressionValue getZ() {
+		return null;
 	}
 
 }

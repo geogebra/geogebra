@@ -16,4 +16,10 @@ public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {
 	 */
 	public int getDimension();
 
+	public ExpressionValue getX();
+
+	public ExpressionValue getY();
+
+	public ExpressionValue getZ();
+
 }
