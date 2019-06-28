@@ -10,7 +10,7 @@ import com.himamis.retex.editor.share.model.Korean;
 final class EditorCompositionHandler
 		implements CompositionHandler, CompositionEndHandler {
 	private MathFieldW editor;
-	private String toInsert = null;
+	private boolean insertOnEnd = false;
 
 	/**
 	 * @param editor
@@ -31,7 +31,7 @@ final class EditorCompositionHandler
 		// instead of \u3137\u315C
 		// so flatten the result and send just the last character
 		String data = Korean.flattenKorean(event.getData());
-		toInsert = null;
+		insertOnEnd = false;
 		// ^: fix for swedish
 		if (!"^".equals(data) && data.length() > 0) {
 			char inputChar = data.charAt(data.length() - 1);
@@ -40,7 +40,7 @@ final class EditorCompositionHandler
 					|| Korean.isSingleKoreanChar(jamo)) {
 				editor.insertString("" + jamo);
 			} else {
-				toInsert = data;
+				insertOnEnd = true;
 			}
 
 		}
@@ -48,8 +48,10 @@ final class EditorCompositionHandler
 
 	@Override
 	public void onCompositionEnd(CompositionEndEvent event) {
-		if (toInsert != null) {
-			editor.insertString(toInsert);
+		if (insertOnEnd) {
+			// inserted string should only depend on `compositionend`
+			// in Safari the data in `cmpositionupdate` is just Latin chars
+			editor.insertString(event.getData());
 			editor.getInternal().notifyAndUpdate();
 		}
 	}
