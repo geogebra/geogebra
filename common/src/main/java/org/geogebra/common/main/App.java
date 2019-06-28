@@ -809,9 +809,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 			if (!companion.tableVisible(comm.getTable())
 					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
-					if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-						putInTranslateCommandTable(comm, null);
-					}
+				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
+					putInTranslateCommandTable(comm, null);
+				}
+
 				continue;
 			}
 			String internal = comm.name();
@@ -1077,10 +1078,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
-	public String englishToInternal(String cmd)  {
+	/**
+	 *
+	 * Converts english command name to internal command key.
+	 *
+	 * @param englishName
+	 * 				the english command name.
+	 * @return the internal key of the command
+	 *
+	 */
+	public String englishToInternal(String englishName)  {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(cmd);
+		String cmdLower = StringUtil.toLowerCaseUS(englishName);
 		for (Commands c : Commands.values()) {
 			s = Commands.englishToInternal(c).name();
 
