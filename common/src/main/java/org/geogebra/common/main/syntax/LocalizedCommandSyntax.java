@@ -2,9 +2,19 @@ package org.geogebra.common.main.syntax;
 
 import org.geogebra.common.main.Localization;
 
+/**
+ * Class to get the syntax of the command with the
+ * current locale
+ *
+ * @author Laszlo
+ */
 public class LocalizedCommandSyntax implements CommandSyntax {
 	private final Localization loc;
 
+	/**
+	 *
+	 * @param localization the localization.
+	 */
 	public LocalizedCommandSyntax(Localization localization) {
 		this.loc = localization;
 	}
@@ -32,6 +42,11 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 		return syntax;
 	}
 
+	/**
+	 *
+	 * @param key internal key
+	 * @return the localized command
+	 */
 	protected String getLocalizedCommand(String key) {
 		return loc.getCommand(key);
 	}
@@ -67,6 +82,10 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 		return syntax;
 	}
 
+	/**
+	 *
+	 * @return the localization.
+	 */
 	protected Localization getLocalization() {
 		return loc;
 	}
