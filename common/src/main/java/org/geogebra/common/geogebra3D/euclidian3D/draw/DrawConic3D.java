@@ -124,7 +124,7 @@ public class DrawConic3D extends Drawable3DCurves
 						exportType = Type.CURVE;
 						break;
 					}
-					exportToPrinter3D.export(this, exportType);
+					exportToPrinter3D.exportCurve(this, exportType);
 				}
 			}
 		}

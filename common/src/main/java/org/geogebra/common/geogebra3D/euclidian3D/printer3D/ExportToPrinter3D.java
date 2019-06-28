@@ -210,12 +210,12 @@ public class ExportToPrinter3D {
 	 * @param type
 	 *            export object type
 	 */
-	public void export(Drawable3D d, Type type) {
-		if (format.wantsFilledSolids()) {
+	public void exportCurve(Drawable3D d, Type type) {
+		if (!format.exportsPointsAndLines()) {
 			return;
 		}
 		GeoElement geo = d.getGeoElement();
-		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
+		exportCurve(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
 				geo);
 	}
 
@@ -229,10 +229,10 @@ public class ExportToPrinter3D {
 	 * @param geo
 	 *            construction element
 	 */
-	public void export(int geometryIndex, Type type, String geoType,
+	public void exportCurve(int geometryIndex, Type type, String geoType,
 			GeoElement geo) {
 
-		if (format.wantsFilledSolids()) {
+		if (!format.exportsPointsAndLines()) {
 			return;
 		}
 		reverse = false;
@@ -248,7 +248,7 @@ public class ExportToPrinter3D {
 				format.getObjectStart(sb, geoType, geo, false, null, 1);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb, false);
+				format.getPolyhedronStart(sb, false, true);
 
 				// vertices
 				boolean notFirst = false;
@@ -323,7 +323,7 @@ public class ExportToPrinter3D {
 				exportSurface(geo, d.getSurfaceIndex(), false, false);
 			} else {
 				if (geo.getLineThickness() > 0) {
-					export(geo, d.getGeometryIndex(), "SURFACE_MESH", false,
+					exportSurface(geo, d.getGeometryIndex(), "SURFACE_MESH", false,
 							GColor.BLACK, 1, false, false);
 				}
 			}
@@ -336,7 +336,7 @@ public class ExportToPrinter3D {
 							format.needsClosedObjects(), false);
 				} else if (!format.wantsFilledSolids()) {
 					if (geo.getLineThickness() > 0) {
-						export(d.getGeometryIndex(), Type.CURVE,
+						exportCurve(d.getGeometryIndex(), Type.CURVE,
 								geo.getLabelSimple(), geo);
 					}
 				}
@@ -387,14 +387,14 @@ public class ExportToPrinter3D {
 			boolean withThickness, boolean isFlat) {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
-		export(geo, index, "SURFACE", true, null, alpha, withThickness, isFlat);
+		exportSurface(geo, index, "SURFACE", true, null, alpha, withThickness, isFlat);
 		if (!format.needsClosedObjects() && format.needsBothSided()) {
 			reverse = true;
-			export(geo, index, "SURFACE", true, null, alpha, false, isFlat);
+			exportSurface(geo, index, "SURFACE", true, null, alpha, false, isFlat);
 		}
 	}
 
-	private void export(GeoElement geo, int geometryIndex, String group,
+	private void exportSurface(GeoElement geo, int geometryIndex, String group,
 			boolean transparency, GColor color, double alpha,
 			boolean withThickness, boolean isFlat) {
 
@@ -414,7 +414,7 @@ public class ExportToPrinter3D {
 						alpha);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb, isFlat);
+				format.getPolyhedronStart(sb, isFlat, false);
 
 				// normals
 				if (withThickness) {
@@ -600,7 +600,7 @@ public class ExportToPrinter3D {
 						polygon, true, color, alpha);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb, true);
+				format.getPolyhedronStart(sb, true, false);
 
 				// vertices
 				boolean notFirst = false;
@@ -680,7 +680,7 @@ public class ExportToPrinter3D {
 						polygon, true, color, alpha);
 
 				// object is a polyhedron
-				format.getPolyhedronStart(sb, true);
+				format.getPolyhedronStart(sb, true, false);
 
 				// vertices
 				boolean notFirst = false;

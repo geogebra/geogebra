@@ -702,7 +702,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			if (exportSurface) {
 				exportToPrinter3D.exportSurface(this, true, false);
 			} else {
-				exportToPrinter3D.export(this, Type.CURVE);
+				if (isGridVisible()) {
+					exportToPrinter3D.exportCurve(this, Type.CURVE);
+				}
 			}
 		}
 	}

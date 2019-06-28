@@ -18,9 +18,11 @@ public class FormatSTL extends Format {
 	private Coords tmpCoords3 = new Coords(3);
 	private Coords n = new Coords(3);
 
-	protected double scale;
+	private double scale;
 
 	private boolean wantsFilledSolids;
+	private boolean exportsPointsAndLines;
+	private boolean currentExportIsCurve;
 
 	private FormatPolygonsHandler polygonHandler;
 
@@ -29,6 +31,7 @@ public class FormatSTL extends Format {
 	 */
 	public FormatSTL() {
 		wantsFilledSolids = false;
+		exportsPointsAndLines = true;
 	}
 
 	@Override
@@ -58,8 +61,10 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public void getPolyhedronStart(StringBuilder sb, boolean isFlat) {
-		if (wantsFilledSolids()) {
+	public void getPolyhedronStart(StringBuilder sb, boolean isFlat,
+			boolean isCurve) {
+		currentExportIsCurve = isCurve;
+		if (currentExportAsFilledSolids()) {
 			polygonHandler.startPolygon(isFlat);
 		}
 	}
@@ -76,7 +81,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		if (!wantsFilledSolids()) {
+		if (!currentExportAsFilledSolids()) {
 			verticesList.addValue(x * scale);
 			verticesList.addValue(y * scale);
 			verticesList.addValue(z * scale);
@@ -120,7 +125,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public boolean getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
-		if (wantsFilledSolids()) {
+		if (currentExportAsFilledSolids()) {
 			polygonHandler.addTriangle(v1, v2, v3);
 			return true;
 		}
@@ -271,7 +276,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getNormal(StringBuilder sb, double x, double y, double z, boolean withThickness) {
-		if (!wantsFilledSolids()) {
+		if (!currentExportAsFilledSolids()) {
 			normalsList.addValue(x);
 			normalsList.addValue(y);
 			normalsList.addValue(z);
@@ -302,7 +307,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public boolean needsClosedObjects() {
-		return !wantsFilledSolids;
+		return !currentExportAsFilledSolids();
 	}
 
 	@Override
@@ -356,5 +361,19 @@ public class FormatSTL extends Format {
 	@Override
 	public boolean wantsFilledSolids() {
 		return wantsFilledSolids;
+	}
+
+	private boolean currentExportAsFilledSolids() {
+		return wantsFilledSolids && !currentExportIsCurve;
+	}
+
+	@Override
+	public void setExportsPointsAndLines(boolean flag) {
+		exportsPointsAndLines = flag;
+	}
+
+	@Override
+	public boolean exportsPointsAndLines() {
+		return exportsPointsAndLines;
 	}
 }

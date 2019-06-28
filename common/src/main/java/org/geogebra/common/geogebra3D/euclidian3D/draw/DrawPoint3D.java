@@ -61,7 +61,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
-			exportToPrinter3D.export(this, Type.POINT);
+			exportToPrinter3D.exportCurve(this, Type.POINT);
 		}
 	}
 

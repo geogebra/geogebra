@@ -501,7 +501,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			if (exportSurface) {
 				exportToPrinter3D.exportSurface(this, true, false);
 			} else {
-				exportToPrinter3D.export(this, Type.CURVE);
+				exportToPrinter3D.exportCurve(this, Type.CURVE);
 			}
 		}
 	}

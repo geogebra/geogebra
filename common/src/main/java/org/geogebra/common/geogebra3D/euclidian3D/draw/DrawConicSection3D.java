@@ -201,7 +201,7 @@ public class DrawConicSection3D extends DrawConic3D {
 			if (exportSurface) {
 				exportToPrinter3D.exportSurface(this, true, true);
 			} else {
-				exportToPrinter3D.export(this, Type.CURVE);
+				exportToPrinter3D.exportCurve(this, Type.CURVE);
 			}
 		}
 	}
