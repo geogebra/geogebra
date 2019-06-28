@@ -1016,6 +1016,10 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final double getIntervalMax() {
+		if (intervalMax == null) {
+			Log.error("intervalMax is null");
+			return Double.NaN;
+		}
 		return intervalMax.getDouble();
 	}
 
@@ -1026,6 +1030,10 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final double getIntervalMin() {
+		if (intervalMin == null) {
+			Log.error("intervalMin is null");
+			return Double.NaN;
+		}
 		return intervalMin.getDouble();
 	}
 
