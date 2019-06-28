@@ -8,13 +8,11 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.NotesMenuItemProvider;
-import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.GlobalHeader;
 
 /**
  * Activity class for the notes app
@@ -47,23 +45,7 @@ public class NotesActivity extends BaseActivity {
 		if (Browser.isIE() && appW.getVendorSettings() instanceof MebisSettings) {
 			showBrowserNotSupportedMessage(appW);
 		}
-		initHeaderButtons(appW);
 	}
-
-	private static void initHeaderButtons(AppW app) {
-		initMenuToggleButton(app);
-		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
-		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
-	}
-
-	private static void initMenuToggleButton(AppW app) {
-		if (GlobalHeader.isInDOM()) {
-			MenuToggleButton btn = new MenuToggleButton(app);
-			btn.setExternal(true);
-			btn.addToGlobalHeader();
-		}
-	}
-
 
 	private void showBrowserNotSupportedMessage(AppW app) {
 		Localization localization = app.getLocalization();
