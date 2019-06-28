@@ -82,7 +82,7 @@ import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
-import org.geogebra.web.full.helper.ResourcesInjectorReTeX;
+import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
@@ -445,9 +445,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		super.doSetLanguage(lang, asyncCall);
 
 		if (getLocalization().isRightToLeftReadingOrder()) {
-			ResourcesInjectorReTeX.injectRTLstyles();
+			ResourcesInjectorFull.injectRTLstyles();
 		} else {
-			ResourcesInjectorReTeX.injectLTRstyles();
+			ResourcesInjectorFull.injectLTRstyles();
 		}
 	}
 

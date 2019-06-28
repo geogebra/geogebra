@@ -10,7 +10,7 @@ import org.geogebra.web.shared.SharedResources;
 /**
  * Resource injector that includes UI styles.
  */
-public class ResourcesInjectorReTeX extends ResourcesInjector {
+public class ResourcesInjectorFull extends ResourcesInjector {
 
 	@Override
 	protected void injectResourcesGUI() {
