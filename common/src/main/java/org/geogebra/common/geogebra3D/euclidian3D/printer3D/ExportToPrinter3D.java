@@ -282,7 +282,7 @@ public class ExportToPrinter3D {
 				}
 				bi.rewind();
 
-				if (type == Type.CURVE && format.needsClosedObjects()) {
+				if (type == Type.CURVE && format.needsClosedObjectsForCurves()) {
 					// face for start
 					for (int i = 1; i < 7; i++) {
 						getFace(notFirst, 0, 0, i, i + 1, NORMAL_NOT_SET);
@@ -333,8 +333,8 @@ public class ExportToPrinter3D {
 				reverse = false;
 				if (exportSurface) {
 					exportSurface(geo, d.getSurfaceIndex(),
-							format.needsClosedObjects(), false);
-				} else if (!format.wantsFilledSolids()) {
+							format.needsClosedObjectsForSurfaces(), false);
+				} else if (format.exportsPointsAndLines()) {
 					if (geo.getLineThickness() > 0) {
 						exportCurve(d.getGeometryIndex(), Type.CURVE,
 								geo.getLabelSimple(), geo);
@@ -359,7 +359,8 @@ public class ExportToPrinter3D {
 		if (!plainSolidPart && format.wantsFilledSolids()) {
 			return;
 		}
-		if (format.needsClosedObjects()) { // draw only spheres so far
+		if (format.needsClosedObjectsForSurfaces()) { // draw only spheres so
+														// far
 			if (d instanceof DrawQuadric3D) {
 				GeoQuadric3D q = (GeoQuadric3D) d.getGeoElement();
 				exportSurface(d.getGeoElement(), d.getSurfaceIndex(),
@@ -388,7 +389,8 @@ public class ExportToPrinter3D {
 		double alpha = geo.getAlphaValue();
 		reverse = false;
 		exportSurface(geo, index, "SURFACE", true, null, alpha, withThickness, isFlat);
-		if (!format.needsClosedObjects() && format.needsBothSided()) {
+		if (!format.needsClosedObjectsForSurfaces()
+				&& format.needsBothSided()) {
 			reverse = true;
 			exportSurface(geo, index, "SURFACE", true, null, alpha, false, isFlat);
 		}
@@ -564,7 +566,7 @@ public class ExportToPrinter3D {
 		if (pt.getMaxPointIndex() > 2) {
 			Coords n = polygon.getMainDirection();
 			double delta = 0;
-			if (format.needsClosedObjects()) {
+			if (format.needsClosedObjectsForSurfaces()) {
 				delta = view.getThicknessForSurface();
 			}
 			if (view.scaleAndNormalizeNormalXYZ(n, tmpNormal)) {
@@ -572,7 +574,7 @@ public class ExportToPrinter3D {
 			}
 
 			double dx = 0, dy = 0, dz = 0;
-			if (format.needsClosedObjects()) {
+			if (format.needsClosedObjectsForSurfaces()) {
 				dx = n.getX() * delta;
 				dy = n.getY() * delta;
 				dz = n.getZ() * delta;
@@ -592,7 +594,7 @@ public class ExportToPrinter3D {
 
 				reverse = polygon.getReverseNormalForDrawing()
 						^ (convexity == Convexity.CLOCKWISE);
-				if (!format.needsClosedObjects()) {
+				if (!format.needsClosedObjectsForSurfaces()) {
 					reverse = !reverse; // TODO fix that
 				}
 
@@ -611,7 +613,7 @@ public class ExportToPrinter3D {
 					x = v.getX() * view.getXscale();
 					y = v.getY() * view.getYscale();
 					z = v.getZ() * view.getZscale();
-					if (format.needsClosedObjects()) {
+					if (format.needsClosedObjectsForSurfaces()) {
 						getVertex(notFirst, x + dx, y + dy, z + dz);
 						notFirst = true;
 						getVertex(notFirst, x - dx, y - dy, z - dz);
@@ -641,7 +643,8 @@ public class ExportToPrinter3D {
 
 				// faces
 				int twice = format.needsBothSided() ? 2 : 1;
-				format.getFacesStart(sb, format.needsClosedObjects()
+				format.getFacesStart(sb,
+						format.needsClosedObjectsForSurfaces()
 						? (length - 2) * twice + 2
 						: (length - 2) * twice, true);
 				notFirst = false;
@@ -654,7 +657,7 @@ public class ExportToPrinter3D {
 					}
 				}
 
-				if (format.needsClosedObjects()) {
+				if (format.needsClosedObjectsForSurfaces()) {
 					for (int i = 0; i < length; i++) { // side
 						getFace(notFirst, 0, 2 * i, 2 * i + 1,
 								(2 * i + 3) % (2 * length), NORMAL_NOT_SET);
@@ -691,7 +694,7 @@ public class ExportToPrinter3D {
 					x = v.getX() * view.getXscale();
 					y = v.getY() * view.getYscale();
 					z = v.getZ() * view.getZscale();
-					if (format.needsClosedObjects()) {
+					if (format.needsClosedObjectsForSurfaces()) {
 						getVertex(notFirst, x + dx, y + dy, z + dz);
 						notFirst = true;
 						getVertex(notFirst, x - dx, y - dy, z - dz);
@@ -718,14 +721,14 @@ public class ExportToPrinter3D {
 				int size = 0;
 				ArrayList<TriangleFan> triFanList = pt.getTriangleFans();
 				for (TriangleFan triFan : triFanList) {
-					size += format.needsClosedObjects()
+					size += format.needsClosedObjectsForSurfaces()
 							? triFan.size() - 1 + (triFan.size() + 1) * 2
 							: triFan.size() - 1;
 				}
 				format.getFacesStart(sb, size * 2, true);
 				notFirst = false;
 
-				if (format.needsClosedObjects()) {
+				if (format.needsClosedObjectsForSurfaces()) {
 					for (TriangleFan triFan : triFanList) {
 						int apex = triFan.getApexPoint();
 						int current = triFan.getVertexIndex(0);

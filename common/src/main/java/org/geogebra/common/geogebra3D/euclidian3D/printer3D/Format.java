@@ -231,7 +231,13 @@ abstract public class Format {
 	 * 
 	 * @return true if needs closed objects (for stl export)
 	 */
-	abstract public boolean needsClosedObjects();
+	abstract public boolean needsClosedObjectsForCurves();
+
+	/**
+	 * 
+	 * @return true if needs closed objects (for stl export)
+	 */
+	abstract public boolean needsClosedObjectsForSurfaces();
 
 	/**
 	 * 

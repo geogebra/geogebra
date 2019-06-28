@@ -412,7 +412,12 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public boolean needsClosedObjects() {
+	public boolean needsClosedObjectsForCurves() {
+		return false;
+	}
+
+	@Override
+	public boolean needsClosedObjectsForSurfaces() {
 		return false;
 	}
 

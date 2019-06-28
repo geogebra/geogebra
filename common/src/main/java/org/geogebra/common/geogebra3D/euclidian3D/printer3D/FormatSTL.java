@@ -306,8 +306,13 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public boolean needsClosedObjects() {
-		return !currentExportAsFilledSolids();
+	public boolean needsClosedObjectsForCurves() {
+		return true;
+	}
+
+	@Override
+	public boolean needsClosedObjectsForSurfaces() {
+		return !wantsFilledSolids();
 	}
 
 	@Override
