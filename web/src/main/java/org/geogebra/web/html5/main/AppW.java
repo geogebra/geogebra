@@ -3665,6 +3665,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
+
+		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
+			try {
+				$wnd.navigator.clipboard.writeText(value);
+			} catch (e) {
+				$wnd.console.log(e);
+			}
+		}
 	}-*/;
 
 	@Override
