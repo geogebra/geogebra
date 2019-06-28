@@ -36,25 +36,30 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 		return loc.getCommand(key);
 	}
 
-	protected String getLocalizedSyntax(String key) {
+	private String getLocalizedSyntax(String key) {
 		String syntaxKey = key + Localization.syntaxStr;
-		return loc.getCommand(syntaxKey);
+		return getLocalizedCommand(syntaxKey);
 	}
 
-	public String buildSyntax(String syntax, String command) {
+	private String getLocalizedSyntaxCAS(String key) {
+		String syntaxKey = key + Localization.syntaxCAS;
+		return getLocalizedCommand(syntaxKey);
+	}
+
+	private String buildSyntax(String syntax, String command) {
 		return syntax.replace("[", command + '(').replace(']', ')');
 	}
 
 	@Override
 	public String getCommandSyntaxCAS(String key) {
+
+		String command = getLocalizedCommand(key);
+		String syntax = getLocalizedSyntaxCAS(key);
+
 		String keyCAS = key + Localization.syntaxCAS;
-
-		String command = loc.getCommand(key);
-		String syntax = loc.getCommand(keyCAS);
-
 		// make sure "PointList.SyntaxCAS" not displayed in dialog
 		if (syntax.equals(keyCAS)) {
-			syntax = loc.getCommand(key + Localization.syntaxStr);
+			syntax = getLocalizedSyntax(key);
 		}
 
 		syntax = buildSyntax(syntax, command);

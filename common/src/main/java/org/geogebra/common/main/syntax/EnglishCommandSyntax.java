@@ -8,15 +8,8 @@ public class EnglishCommandSyntax extends LocalizedCommandSyntax {
 		super(localization);
 	}
 
-
 	@Override
 	protected String getLocalizedCommand(String key) {
 		return getLocalization().getEnglishCommand(key);
-	}
-
-	@Override
-	protected String getLocalizedSyntax(String key) {
-		String syntaxKey = key + Localization.syntaxStr;
-		return getLocalization().getEnglishCommand(syntaxKey);
 	}
 }
