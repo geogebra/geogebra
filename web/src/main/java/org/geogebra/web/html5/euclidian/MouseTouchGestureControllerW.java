@@ -720,8 +720,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	public boolean hitResetIcon() {
 		return app.showResetIcon()
-				&& ((ec.mouseLoc.y < 20) && (ec.mouseLoc.x > (ec.getView()
-						.getViewWidth() - 18)));
+				&& ((ec.mouseLoc.y < 32) && (ec.mouseLoc.x > (ec.getView().getViewWidth() - 32)));
 	}
 
 	@Override
