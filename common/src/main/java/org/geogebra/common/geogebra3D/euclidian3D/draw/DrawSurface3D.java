@@ -3158,6 +3158,10 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			return hitFunction2Var(hitting);
 		}
 
+		if (!(getGeoElement() instanceof GeoSurfaceCartesian3D)) {
+		    return false;
+        }
+
 		if (curveHitting == null) {
 			curveHitting = new CurveHitting(this, getView3D());
 		}
