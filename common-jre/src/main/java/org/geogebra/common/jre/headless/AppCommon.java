@@ -198,31 +198,31 @@ public class AppCommon extends App {
 
 			@Override
 			public void start() {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
 			@Override
 			public void startRepeat() {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
 			@Override
 			public void stop() {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
 			@Override
 			public boolean isRunning() {
-				// TODO Auto-generated method stub
+				// stub
 				return false;
 			}
 
 			@Override
 			public void setDelay(int timerDelay) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 		};
@@ -317,19 +317,19 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				// TODO Auto-generated method stub
+				// stub
 				return null;
 			}
 
 			@Override
 			public void setImageFileName(String fileName) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
 			@Override
 			public void convertToSaveableFormat() {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 		};
@@ -395,50 +395,50 @@ public class AppCommon extends App {
 
 			@Override
 			public byte[] getGGBfile() {
-				// TODO Auto-generated method stub
+				// stub
 				return null;
 			}
 
 			@Override
 			public void setErrorDialogsActive(boolean flag) {
-				// TODO Auto-generated method stub
+				// stub
 			}
 
 			@Override
 			public void refreshViews() {
-				// TODO Auto-generated method stub
+				// stub
 			}
 
 			@Override
 			public void openFile(String strURL) {
-				// TODO Auto-generated method stub
+				// stub
 			}
 
 			@Override
 			public boolean writePNGtoFile(String filename, double exportScale,
 					boolean transparent, double DPI, boolean greyscale) {
-				// TODO Auto-generated method stub
+				// stub
 				return false;
 			}
 
 			@Override
 			protected void exportPNGClipboard(boolean transparent, int DPI,
 					double exportScale, EuclidianView ev) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
 			@Override
 			protected void exportPNGClipboardDPIisNaN(boolean transparent,
 					double exportScale, EuclidianView ev) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
 			@Override
 			protected String base64encodePNG(boolean transparent, double DPI,
 					double exportScale, EuclidianView ev) {
-				// TODO Auto-generated method stub
+				// stub
 				return "";
 			}
 		};
@@ -448,76 +448,82 @@ public class AppCommon extends App {
     public SoundManager getSoundManager() {
 		return new SoundManager() {
 
+			@Override
 			public void pauseResumeSound(boolean b) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public void playSequenceNote(int double1, double double2, int i,
 					int j) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public void playSequenceFromString(String string, int double1) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public void playFunction(GeoFunction geoFunction, double double1,
 					double double2) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public void playFile(String string) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public void playFunction(GeoFunction geoFunction, double double1,
 					double double2, int double3, int double4) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public void loadGeoAudio(GeoAudio geo) {
-				// TODO Auto-generated method stub
-
+				// stub
 			}
 
+			@Override
 			public int getDuration(String url) {
-				// TODO Auto-generated method stub
+				// stub
 				return 0;
 			}
 
+			@Override
 			public int getCurrentTime(String url) {
-				// TODO Auto-generated method stub
+				// stub
 				return 0;
 			}
 
+			@Override
 			public void setCurrentTime(String url, int pos) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
+			@Override
 			public void checkURL(String url, AsyncOperation<Boolean> callback) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
+			@Override
 			public void play(GeoAudio geo) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
+			@Override
 			public void pause(GeoAudio geo) {
-				// TODO Auto-generated method stub
+				// stub
 
 			}
 
+			@Override
 			public boolean isPlaying(GeoAudio geo) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		};
