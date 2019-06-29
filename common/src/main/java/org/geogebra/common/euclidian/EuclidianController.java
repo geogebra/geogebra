@@ -79,7 +79,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -138,6 +137,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
+import org.geogebra.common.kernel.statistics.CmdFitLineY;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
@@ -4234,7 +4234,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if (selPoints() > 1) {
 				GeoPoint[] points = getSelectedPoints();
-				list = CommandProcessor.wrapInList(kernel, points,
+				list = new CmdFitLineY(kernel).wrapInList(kernel, points,
 						points.length, GeoClass.POINT);
 				if (list != null) {
 					ret[0] = fitLineY(null, list);

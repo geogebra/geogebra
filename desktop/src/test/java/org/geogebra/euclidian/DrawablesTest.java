@@ -3,6 +3,7 @@ package org.geogebra.euclidian;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -13,7 +14,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.io.XmlTest;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class DrawablesTest {
 					expectDrawableFor(geo), draw != null);
 			types.add(geo.getGeoClassType());
 		}
-		XmlTest.testCurrentXML(app);
+		XmlTestUtil.testCurrentXML(app);
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "", types.contains(type)
 					|| (GeoClass.IMPLICIT_SURFACE_3D == type

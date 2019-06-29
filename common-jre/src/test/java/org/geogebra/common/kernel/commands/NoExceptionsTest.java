@@ -2,19 +2,20 @@ package org.geogebra.common.kernel.commands;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.Localization;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.io.XmlTest;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.geogebra.test.commands.CommandSignatures;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -24,7 +25,7 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class NoExceptionsTest extends AlgebraTest {
+public class NoExceptionsTest {
 	static AppCommon app;
 	static AlgebraProcessor ap;
 
@@ -33,7 +34,8 @@ public class NoExceptionsTest extends AlgebraTest {
 	 */
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), false);
+		AwtFactory awt = new AwtFactoryCommon();
+		app = new AppCommon3D(new LocalizationCommon(3), awt);
 		app.setLanguage("en_US");
 		ap = app.getKernel().getAlgebraProcessor();
 		// Setting the general timeout to 11 seconds. Feel free to change this.
@@ -140,13 +142,11 @@ public class NoExceptionsTest extends AlgebraTest {
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			String syntax = app.getLocalization()
-					.getCommand(cmdName + Localization.syntaxStr);
+			List<Integer> signature = CommandSignatures.getSigneture(cmdName);
 			syntaxes = 0;
-			if (syntax.contains("[")) {
-				String[] syntaxLines = syntax.split("\n");
-				syntaxes = syntaxLines.length;
-				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, syntaxLines,
+			if (signature != null) {
+				syntaxes = signature.size();
+				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
 						app);
 			}
 
@@ -180,33 +180,6 @@ public class NoExceptionsTest extends AlgebraTest {
 		}
 	}
 
-	@Test
-	public void selfTest() {
-		Method[] mtds = NoExceptionsTest.class.getMethods();
-		Set<String> methodNames = new TreeSet<>();
-		for (int i = 0; i < mtds.length; i++) {
-			methodNames.add(mtds[i].getName());
-		}
-
-		mtds = CommandsTest.class.getMethods();
-		for (int i = 0; i < mtds.length; i++) {
-			methodNames.add(mtds[i].getName());
-		}
-		StringBuilder missing = new StringBuilder();
-		for (Commands a : Commands.values()) {
-			if (!methodNames
-					.contains("cmd" + Commands.englishToInternal(a).name())
-					&& Commands.englishToInternal(a)
-							.getTable() != CommandsConstants.TABLE_ENGLISH
-					&& Commands.englishToInternal(a)
-							.getTable() != CommandsConstants.TABLE_CAS
-					&& !betaCommand(a, app)) {
-				missing.append(a.getCommand());
-				missing.append("\n");
-			}
-		}
-		Assert.assertEquals("", missing.toString());
-	}
 
 	/**
 	 * @param a
@@ -1014,13 +987,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdLocusEquation() {
-		t("LocusEquation[ Depoint, ptonpath1 ]");
-		t("LocusEquation[ loc ]");
-		t("LocusEquation[ seg1==seg2, Pt4 ]");
-	}
-
-	@Test
 	public void cmdLowerSum() {
 		t("LowerSum[ f1, n2, n3, n1 ]");
 	}
@@ -1230,18 +1196,6 @@ public class NoExceptionsTest extends AlgebraTest {
 	@Test
 	public void cmdPrimeFactors() {
 		t("PrimeFactors[ n1 ]");
-	}
-
-	@Test
-	public void cmdProve() {
-		t("Prove[ true ]");
-		t("Prove[ Pt1==Pt2 ]");
-	}
-
-	@Test
-	public void cmdProveDetails() {
-		t("ProveDetails[ true ]");
-		t("ProveDetails[ Pt1==Pt2 ]");
 	}
 
 	@Test
@@ -2163,7 +2117,7 @@ public class NoExceptionsTest extends AlgebraTest {
 	@AfterClass
 	public static void testSaving() {
 		// System.out.println(app.getXML());
-		XmlTest.testCurrentXML(app);
+		XmlTestUtil.testCurrentXML(app);
 
 		app.getKernel().getConstruction().initUndoInfo();
 		app.getKernel().getConstruction().undo();

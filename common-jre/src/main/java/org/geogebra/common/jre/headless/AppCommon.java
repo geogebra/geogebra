@@ -27,8 +27,10 @@ import org.geogebra.common.kernel.DefaultUndoManager;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
@@ -42,6 +44,7 @@ import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -436,14 +439,88 @@ public class AppCommon extends App {
 			protected String base64encodePNG(boolean transparent, double DPI,
 					double exportScale, EuclidianView ev) {
 				// TODO Auto-generated method stub
-				return null;
+				return "";
 			}
 		};
     }
 
     @Override
     public SoundManager getSoundManager() {
-        return null;
+		return new SoundManager() {
+
+			public void pauseResumeSound(boolean b) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void playSequenceNote(int double1, double double2, int i,
+					int j) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void playSequenceFromString(String string, int double1) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void playFunction(GeoFunction geoFunction, double double1,
+					double double2) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void playFile(String string) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void playFunction(GeoFunction geoFunction, double double1,
+					double double2, int double3, int double4) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void loadGeoAudio(GeoAudio geo) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public int getDuration(String url) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			public int getCurrentTime(String url) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+			public void setCurrentTime(String url, int pos) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void checkURL(String url, AsyncOperation<Boolean> callback) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void play(GeoAudio geo) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void pause(GeoAudio geo) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public boolean isPlaying(GeoAudio geo) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
     }
 
     @Override
@@ -591,10 +668,10 @@ public class AppCommon extends App {
         return localization;
     }
 
-    @Override
-    public MyXMLio createXMLio(Construction cons) {
-		return new MyXMLioCommon(getKernel(), getKernel().getConstruction());
-    }
+	@Override
+	public MyXMLio createXMLio(Construction cons) {
+		return new MyXMLioCommon(cons.getKernel(), cons);
+	}
 
     @Override
     public void showCustomizeToolbarGUI() {

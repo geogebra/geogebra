@@ -36,14 +36,14 @@ public class AlgebraTestHelper {
 				errorStore, info, null);
 		if (!errorStore.getErrors().contains(errorMsg) && (altErrorMsg == null
 				|| !errorStore.getErrors().contains(altErrorMsg))) {
-			fail(string + ":" + errorStore.getErrors());
+			fail(string + ":" + errorStore.getErrors() + "," + errorMsg
+					+ " expected");
 		}
 	}
 
 	public static void dummySyntaxesShouldFail(String cmdName,
-			String[] syntaxLines, App app) {
-		for (String line : syntaxLines) {
-			int args = line.split(",").length;
+			List<Integer> signature, App app) {
+		for (int args : signature) {
 			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
 			for (int i = 0; i < args - 1; i++) {
 				withArgs.append("space,");
@@ -70,11 +70,12 @@ public class AlgebraTestHelper {
 					&& !"TableText".equals(cmdName) && !"Q1".equals(cmdName)
 					&& !"Q3".equals(cmdName) && !"SetValue".equals(cmdName)) {
 
-				shouldFail(withArgs.toString(), "arg", app);
+				shouldFail(withArgs.toString(), "arg", "IllegalArgument:", app);
 			}
 		}
-		if (syntaxLines.length > 0 && !mayHaveZeroArgs(cmdName)) {
-			shouldFail(cmdName + "()", "Illegal number of arguments: 0", app);
+		if (!mayHaveZeroArgs(cmdName)) {
+			shouldFail(cmdName + "()", "Illegal number of arguments: 0",
+					"IllegalArgumentNumber", app);
 		}
 	}
 
@@ -136,7 +137,7 @@ public class AlgebraTestHelper {
 		testSyntaxSingle(s, getMatchers(expected), proc, tpl);
 	}
 
-	public static List<Matcher<String>> getMatchers(String[] expected) {
+	public static List<Matcher<String>> getMatchers(String... expected) {
 		ArrayList<Matcher<String>> matchers = new ArrayList<>();
 		for (String exp : expected) {
 			matchers.add(IsEqual.equalTo(exp));

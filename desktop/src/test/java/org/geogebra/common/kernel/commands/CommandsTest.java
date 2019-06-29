@@ -32,6 +32,7 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.geogebra.test.commands.CommandSignatures;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.StringContains;
 import org.junit.After;
@@ -63,7 +64,7 @@ public class CommandsTest extends AlgebraTest {
 				StringTemplate.xmlTemplate);
 	}
 
-	private static void testSyntax(String s, List<Matcher<String>> expected,
+	protected static void testSyntax(String s, List<Matcher<String>> expected,
 			App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
 		if (syntaxes == -1000) {
@@ -87,11 +88,11 @@ public class CommandsTest extends AlgebraTest {
 			if (syntax3D.contains("[")) {
 				syntax += "\n" + syntax3D;
 			}
+			List<Integer> signature = CommandSignatures.getSigneture(cmdName);
 			if (syntax.contains("[")) {
-				String[] syntaxLines = syntax.split("\n");
-				syntaxes = syntaxLines.length;
-				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, syntaxLines,
-						app);
+				syntaxes = signature.size();
+				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
+						app1);
 			}
 			System.out.println();
 			System.out.print(cmdName);
