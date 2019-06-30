@@ -82,25 +82,33 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 
 		ExpressionNode def = f.getDefinition();
 
+		ExpressionValue top = null;
+		ExpressionValue bottom = null;
+
 		// check if it's possible to get as an exact fraction!
 		if (def != null) {
 			if (def.isSimpleFraction()) {
 
+				top = def.getLeft();
+				bottom = def.getRight();
+
+			} else {
+
+				def.getFraction(fraction, true);
+
+				if (fraction[0] != null && fraction[1] != null) {
+					top = fraction[0];
+					bottom = fraction[1];
+				}
+			}
+
+			if (top != null && bottom != null) {
 				// cancel down to lowest terms
-				long num = (long) def.getLeft().evaluateDouble();
-				long den = (long) def.getRight().evaluateDouble();
+				long num = (long) top.evaluateDouble();
+				long den = (long) bottom.evaluateDouble();
 				long gcd = Kernel.gcd(num, den);
 				double val = (type == Commands.Numerator) ? num / gcd : den / gcd;
 
-				g.setValue(val);
-				return;
-			}
-
-			def.getFraction(fraction, true);
-
-			if (fraction[0] != null && fraction[1] != null) {
-				double val = (type == Commands.Numerator) ? fraction[0].evaluateDouble()
-						: fraction[1].evaluateDouble();
 				g.setValue(val);
 				return;
 			}

@@ -499,6 +499,15 @@ public class CommandsTest extends AlgebraTest {
 		t("Numerator[ 12345678901/23456789012 ]", "12345678901");
 		t("Numerator[ 123456789012/3456789012 ]", "10288065751");
 		t("Numerator[ 1234567890123/45678901234 ]", "1234567890123");
+		t("frac=10/6", "1.6666666666666667");
+		t("Numerator(frac)", "5");
+		t("Denominator(frac)", "3");
+		t("frac2=-10/6", "-1.6666666666666667");
+		t("Numerator(frac2)", "-5");
+		t("Denominator(frac2)", "3");
+		t("frac3=-10/-6", "1.6666666666666667");
+		t("Numerator(frac3)", "5");
+		t("Denominator(frac3)", "3");
 	}
 
 	@Test
