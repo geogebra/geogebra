@@ -952,7 +952,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		StringBuilder sb = new StringBuilder();
 		// TMP_VARIABLE_PREFIX + label
-		sb.append(Kernel.TMP_VARIABLE_PREFIX);
+		if (!label.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
+			sb.append(Kernel.TMP_VARIABLE_PREFIX);
+		}
 
 		// make sure gbtmpvarp' not interpreted as derivative
 		// #3607

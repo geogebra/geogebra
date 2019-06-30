@@ -405,12 +405,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				casParser.setNrOfVars(0);
 			}
 			for (String str : varsInEqus) {
-				if (!"x".equals(str) && !"y".equals(str) && !"z".equals(str)) {
-					// add current variable to the completion string
-					complOfVarsStr += "," + Kernel.TMP_VARIABLE_PREFIX + str;
-				} else {
-					complOfVarsStr += ", " + str;
-				}
+				complOfVarsStr += "," + addCASPrefix(str);
+
 				// get equation of current variable
 				ValidExpression node = app.getKernel().getConstruction()
 						.geoCeListLookup(str);
@@ -811,6 +807,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	// add ggbtmpvar as prefix if necessary
+	private String addCASPrefix(String str) {
+		return "x".equals(str) || "y".contentEquals(str) || "z".equals(str)
+				|| str.startsWith(Kernel.TMP_VARIABLE_PREFIX) ? str
+						: str + Kernel.TMP_VARIABLE_PREFIX;
 	}
 
 	private static void updateArgsAndSbForPoint(ArrayList<ExpressionNode> args,
