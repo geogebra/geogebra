@@ -699,7 +699,7 @@ public class GeoNumeric extends GeoElement
 				}
 			}
 			if (!sendValueToCas) {
-				return "(ggbtmpvar" + label + ")";
+				return "(" + Kernel.TMP_VARIABLE_PREFIX + label + ")";
 			}
 			// make sure random() works inside Sequence, see #3558 TRAC-1465
 			if (this.isRandomGeo() && !this.isLabelSet()

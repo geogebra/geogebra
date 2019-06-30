@@ -407,7 +407,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			for (String str : varsInEqus) {
 				if (!"x".equals(str) && !"y".equals(str) && !"z".equals(str)) {
 					// add current variable to the completion string
-					complOfVarsStr += ",ggbtmpvar" + str;
+					complOfVarsStr += "," + Kernel.TMP_VARIABLE_PREFIX + str;
 				} else {
 					complOfVarsStr += ", " + str;
 				}
@@ -1063,7 +1063,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			// if not x then switch
 			if (!"x".equals(var)) {
 				newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
-						",ggbtmpvar" + var + ")");
+						"," + Kernel.TMP_VARIABLE_PREFIX + var + ")");
 			}
 			return newSbCASCommand;
 		}
@@ -1074,7 +1074,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		while (ite.hasNext()) {
 			String currVar = ite.next();
 			if (!"x".equals(currVar) && !"y".equals(currVar)) {
-				listOfVars.append(",ggbtmpvar");
+				listOfVars.append("," + Kernel.TMP_VARIABLE_PREFIX);
 			} else {
 				listOfVars.append(",");
 			}
