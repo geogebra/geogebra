@@ -29,6 +29,9 @@ public class GeoSymbolicTest {
 	private static App app;
 	private static AlgebraProcessor ap;
 
+	/**
+	 * Create the app
+	 */
 	@BeforeClass
 	public static void setup() {
 		app = AlgebraTest.createApp();

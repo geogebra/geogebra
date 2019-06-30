@@ -12,6 +12,9 @@ public class ProveCommandTest {
 	private static AppDNoGui app;
 	private static AlgebraProcessor proc;
 
+	/**
+	 * Creates the app
+	 */
 	@BeforeClass
 	public static void setup(){
 		app = new AppDNoGui(new LocalizationD(3), false);

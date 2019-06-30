@@ -1076,16 +1076,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// create list of variables
 		while (ite.hasNext()) {
 			String currVar = ite.next();
+			listOfVars.append(",");
 			if (!"x".equals(currVar) && !"y".equals(currVar)) {
-				listOfVars.append("," + Kernel.TMP_VARIABLE_PREFIX);
-			} else {
-				listOfVars.append(",");
+				listOfVars.append(Kernel.TMP_VARIABLE_PREFIX);
 			}
 			listOfVars.append(currVar);
 		}
 
 		if (listOfVars.length() > 0) {
-			listOfVars = listOfVars.deleteCharAt(0);
+			listOfVars.deleteCharAt(0);
 			newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
 					",{" + listOfVars.toString() + "})");
 		}

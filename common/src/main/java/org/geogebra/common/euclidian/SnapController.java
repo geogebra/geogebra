@@ -119,11 +119,11 @@ public class SnapController {
         return angle < halfOpening || angle > 360 - halfOpening;
     }
 
-    private boolean angleInVertical(float angle) {
-        float halfOpening = ANGLE_OPENING / 2.0f;
-        return (angle > 90 - halfOpening && angle < 90 + halfOpening) ||
-                (angle > 270 - halfOpening && angle < 270 + halfOpening);
-    }
+	private boolean angleInVertical(float angle) {
+		float halfOpening = ANGLE_OPENING / 2.0f;
+		return (angle > 90 - halfOpening && angle < 90 + halfOpening)
+				|| (angle > 270 - halfOpening && angle < 270 + halfOpening);
+	}
 
     private float calculateAngle(GPoint point1, GPoint point2) {
         float angle = (float) Math.toDegrees(Math.atan2(point2.y - point1.y, point2.x - point1.x));

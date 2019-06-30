@@ -3676,7 +3676,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		// currently seems to work in Chrome, IE11, Edge+Chromium
 		// doesn't seem to work in Edge, Firefox from GGB button
-		// document.execCommand('cut'/'copy') was denied because it was not called from inside a short running user-generated event handler.
+		// document.execCommand('cut'/'copy') was denied because it was not called 
+		// from inside a short running user-generated event handler.
 		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();

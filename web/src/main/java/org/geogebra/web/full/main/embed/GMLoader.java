@@ -21,6 +21,12 @@ public class GMLoader {
 	private Map<Integer, GraspableEmbedElement> loadQueue = new HashMap<>();
 	private boolean loadingStarted;
 
+	/**
+	 * @param graspableEmbedElement
+	 *            GM embedded element
+	 * @param embedID
+	 *            embed ID
+	 */
 	public void load(GraspableEmbedElement graspableEmbedElement, int embedID) {
 		loadQueue.put(embedID, graspableEmbedElement);
 		if (loadingStarted) {

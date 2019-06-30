@@ -18,7 +18,6 @@ public interface CommandSyntax {
 	 */
 	String getCommandSyntax(String key, int dim);
 
-
 	/**
 	 *
 	 * @param key

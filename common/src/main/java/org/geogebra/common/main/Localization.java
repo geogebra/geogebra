@@ -1095,7 +1095,8 @@ public abstract class Localization {
 	 * @return CAS syntax
 	 */
 	public String getCommandSyntaxCAS(String key) {
-		return commandSyntax.getCommandSyntaxCAS(key);	}
+		return commandSyntax.getCommandSyntaxCAS(key);
+	}
 
 	/**
 	 * 

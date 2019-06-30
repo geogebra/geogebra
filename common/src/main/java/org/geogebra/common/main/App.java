@@ -841,14 +841,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
-
 	private void clearSubCommandDict() {
 		for (LowerCaseDictionary lowerCaseDictionary : subCommandDict) {
 			lowerCaseDictionary.clear();
 		}
 	}
 
-	private void addCommandEntry(Commands comm, String translated, HashMap<String, String> translateCommandTable) {
+	private void addCommandEntry(Commands comm, String translated,
+			HashMap<String, String> translateCommandTable) {
 		putInTranslateCommandTable(comm, translated);
 		if (translated != null) {
 			String local = translated.trim();
@@ -1102,8 +1102,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 		}
 		return null;
-
 	}
+
 	/**
 	 * Translate key and then show error dialog
 	 *

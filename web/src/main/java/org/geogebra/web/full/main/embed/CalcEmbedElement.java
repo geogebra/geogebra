@@ -80,7 +80,8 @@ public class CalcEmbedElement extends EmbedElement {
 		private UndoManager embeddedUndoManager;
 		private EmbedManagerW embedManager;
 
-		private UndoRedoGlue(int embedId, UndoManager embeddedUndoManager, EmbedManagerW embedManager) {
+		private UndoRedoGlue(int embedId, UndoManager embeddedUndoManager,
+				EmbedManagerW embedManager) {
 			this.embedId = embedId;
 			this.ignoreUndoInfoStored = false;
 			this.embeddedUndoManager = embeddedUndoManager;

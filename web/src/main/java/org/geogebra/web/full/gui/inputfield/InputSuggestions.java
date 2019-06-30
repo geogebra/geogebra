@@ -209,8 +209,8 @@ public class InputSuggestions implements HasSuggestions {
 	}
 
 	private boolean isFallbackCompletitionAllowed() {
-		return app.has(Feature.COMMAND_COMPLETION_FALLBACK) &&
-				"zh".equals(app.getLocalization().getLanguage());
+		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
+				&& "zh".equals(app.getLocalization().getLanguage());
 	}
 
 	/**

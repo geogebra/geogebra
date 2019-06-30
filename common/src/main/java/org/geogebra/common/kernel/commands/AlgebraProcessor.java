@@ -3594,7 +3594,6 @@ public class AlgebraProcessor {
 		return syntax.getCommandSyntax(cmdInt, dim);
 	}
 
-
 	/**
 	 * @return command dispatcher
 	 */

@@ -765,8 +765,6 @@ public abstract class CommandProcessor {
 	 *            etc. for specific types
 	 * @return null if GeoElement objects did not have the correct type
 	 * @author Markus Hohenwarter
-	 * @param kernel
-	 *            kernel
 	 * @param length
 	 *            number of arguments
 	 */
