@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.js;
 
-import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.util.*;
+import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.PDFEncoderW;
+import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
