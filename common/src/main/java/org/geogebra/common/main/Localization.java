@@ -17,8 +17,6 @@ import org.geogebra.common.util.lang.Language;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-//import java.util.Locale;
-
 public abstract class Localization {
 
 	/** CAS syntax suffix for keys in command bundle */
