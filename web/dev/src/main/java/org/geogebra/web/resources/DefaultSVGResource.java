@@ -5,9 +5,9 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
 
 /**
- * Abstract implementation of SVGResource.
+ * Implementation of SVGResource.
  */
-public abstract class DefaultSVGResource implements SVGResource {
+public class DefaultSVGResource implements SVGResource {
 
 	@SuppressWarnings({"unused", "FieldCanBeLocal"})
 	private static JavaScriptObject parser;
@@ -30,13 +30,17 @@ public abstract class DefaultSVGResource implements SVGResource {
 
 
 	private String svg;
+	private String name;
 
 	/**
 	 * Creates a new SVG Resource.
+	 *
 	 * @param svg
+	 * @param name
 	 */
-	public DefaultSVGResource(String svg) {
+	public DefaultSVGResource(String svg, String name) {
 		this.svg = svg;
+		this.name = name;
 	}
 
 	@Override
@@ -45,11 +49,17 @@ public abstract class DefaultSVGResource implements SVGResource {
 	}
 
 	@Override
-	public void setFill(String color) {
-		parseAndSetFill(color);
+	public String getName() {
+		return name;
 	}
 
-	private native void parseAndSetFill(String color) /*-{
+	@Override
+	public SVGResource withFill(String color) {
+		String filled = createFilled(color);
+		return new DefaultSVGResource(filled, name);
+	}
+
+	private native String createFilled(String color) /*-{
 	    var that = this;
 		var parser = @org.geogebra.web.resources.DefaultSVGResource::parser;
 		var serializer = @org.geogebra.web.resources.DefaultSVGResource::serializer;
@@ -57,7 +67,7 @@ public abstract class DefaultSVGResource implements SVGResource {
 		var doc = parser.parseFromString(svg, "image/svg+xml");
 		doc.rootElement.style.fill = color;
 		var xml = serializer.serializeToString(doc);
-		that.@org.geogebra.web.resources.DefaultSVGResource::svg = xml;
+		return xml;
 	}-*/;
 
 	@Override
