@@ -577,7 +577,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 			rbJavaUI = MyResourceBundle.createBundle(LocalizationD.RB_JAVA_UI,
 					currentLocale);
 		}
-
+		if (rbJavaUI == null) {
+			return;
+		}
 		Enumeration<String> keys = rbJavaUI.getKeys();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
