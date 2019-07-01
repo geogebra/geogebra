@@ -122,6 +122,7 @@ public class ItemControls extends FlowPanel
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");
+			TestHarness.setAttr(btnMore, "avItemMoreButton");
 			ClickStartHandler.init(btnMore, new ClickStartHandler(true, true) {
 
 				@Override
@@ -163,6 +164,9 @@ public class ItemControls extends FlowPanel
 		ctrl.createGeoFromInput(createOpenMenuCallback());
 	}
 
+	/**
+	 * @return callback for context menu after geo is created from preview
+	 */
 	AsyncOperation<GeoElementND[]> createOpenMenuCallback() {
 		return new AsyncOperation<GeoElementND[]>() {
 
