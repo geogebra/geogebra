@@ -47,6 +47,13 @@ public abstract class MenuAction<T> {
 	}
 
 	/**
+	 * @return internal title
+	 */
+	public String getTitle(){
+		return title;
+	}
+
+	/**
 	 * @return action image
 	 */
 	public SVGResource getImage() {

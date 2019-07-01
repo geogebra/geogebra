@@ -1130,4 +1130,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return mathFieldInternal;
 	}
 
+	/**
+	 * @return textarea
+	 */
+	public MyTextArea getInputTextArea() {
+		return wrap;
+	}
+
 }

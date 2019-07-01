@@ -19,6 +19,7 @@ import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -53,6 +54,7 @@ public class ItemControls extends FlowPanel
 		this.radioTreeItem = radioTreeItem;
 		this.ctrl = radioTreeItem.getLatexController();
 		addStyleName("AlgebraViewObjectStylebar");
+		TestHarness.setAttr(this, "algebraViewObjectStylebar");
 		addStyleName("smallStylebar");
 		addStyleName("withContextMenu");
 		buildGUI();

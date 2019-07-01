@@ -66,6 +66,7 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -1664,6 +1665,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
+		TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());

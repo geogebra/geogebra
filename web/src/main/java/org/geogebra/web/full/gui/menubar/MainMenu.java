@@ -19,6 +19,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
@@ -267,6 +268,8 @@ public class MainMenu extends FlowPanel
 				int index = getWidgetCount() - 1;
 				setStackText(index, stackText, getMenuAt(index).getTitle(app.getLocalization()),
 						null);
+				TestHarness.setAttr(w,
+						"menu_" + getMenuAt(index).getTitleTranslationKey());
 			}
 
 			@Override

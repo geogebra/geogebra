@@ -21,6 +21,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
@@ -332,6 +333,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void setTitle(Widget btn, String avTitle) {
 		if (btn != null) {
 			btn.setTitle(app.getLocalization().getMenu(avTitle));
+			TestHarness.setAttr(btn, "btn_" + avTitle);
 		}
 	}
 
