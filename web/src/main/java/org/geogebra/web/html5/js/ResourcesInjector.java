@@ -3,9 +3,7 @@ package org.geogebra.web.html5.js;
 import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.PDFEncoderW;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
+import org.geogebra.web.html5.util.*;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -29,8 +27,9 @@ public class ResourcesInjector {
 
 	/**
 	 * Inject all JS/CSS resources
+	 * @param ae article element
 	 */
-	public static void injectResources(StylesProvider stylesProvider) {
+	public static void injectResources(ArticleElementInterface ae) {
 		if (resourcesInjected) {
 			return;
 		}
@@ -51,7 +50,7 @@ public class ResourcesInjector {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
 
 		injectScss();
-		instance.injectResourcesGUI(stylesProvider);
+		instance.injectResourcesGUI(ae);
 
 		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null
@@ -90,8 +89,9 @@ public class ResourcesInjector {
 	 * Inject resources for GUI, overridden in ReTeX injector (to add JQuery +
 	 * JqueryUI for sliders)
 	 *
+	 * @param ae article element
 	 */
-	protected void injectResourcesGUI(StylesProvider stylesProvider) {
+	protected void injectResourcesGUI(ArticleElementInterface ae) {
 		// overridden elsewhere
 	}
 

@@ -7,8 +7,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.laf.VendorSettings;
-import org.geogebra.web.html5.gui.laf.VendorSettingsFactory;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
@@ -531,10 +529,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		VendorSettingsFactory factory = new VendorSettingsFactory(articleElement);
-		VendorSettings settings = factory.createVendorSettings();
 		ResourcesInjector
-				.injectResources(settings.getStylesProvider());
+				.injectResources(articleElement);
 		ResourcesInjector.loadFont(articleElement.getDataParamFontsCssUrl());
 		// More testing is needed how can we use
 		// createApplicationSimple effectively

@@ -3957,8 +3957,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public VendorSettings getVendorSettings() {
 		if (vendorSettings == null) {
-			VendorSettingsFactory factory = new VendorSettingsFactory(articleElement);
-			vendorSettings = factory.createVendorSettings();
+			if ("mebis".equalsIgnoreCase(articleElement.getParamVendor())) {
+				vendorSettings = new MebisSettings();
+			} else {
+				vendorSettings = new GgbSettings();
+			}
 		}
 		return vendorSettings;
 	}

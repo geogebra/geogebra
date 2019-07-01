@@ -50,9 +50,4 @@ public class GgbSettings implements VendorSettings {
 	public String getUnsupportedBrowserErrorKey() {
 		return null;
 	}
-
-	@Override
-	public StylesProvider getStylesProvider() {
-		return GuiResources.INSTANCE;
-	}
 }

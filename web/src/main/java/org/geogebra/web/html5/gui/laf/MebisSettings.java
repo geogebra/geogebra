@@ -57,9 +57,4 @@ public class MebisSettings implements VendorSettings {
 	public String getUnsupportedBrowserErrorKey() {
 		return "mow.unsupportedBrowserMessage";
 	}
-
-	@Override
-	public StylesProvider getStylesProvider() {
-		return MebisResources.INSTANCE;
-	}
 }

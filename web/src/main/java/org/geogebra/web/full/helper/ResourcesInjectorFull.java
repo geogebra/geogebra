@@ -2,11 +2,12 @@ package org.geogebra.web.full.helper;
 
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MebisResources;
 import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
-import org.geogebra.web.shared.SharedResources;
 
 /**
  * Resource injector that includes UI styles.
@@ -14,9 +15,10 @@ import org.geogebra.web.shared.SharedResources;
 public class ResourcesInjectorFull extends ResourcesInjector {
 
 	@Override
-	protected void injectResourcesGUI(StylesProvider stylesProvider) {
+	protected void injectResourcesGUI(ArticleElementInterface ae) {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
+		StylesProvider stylesProvider = createStylesProvider(ae);
 		StyleInjector.inject(stylesProvider.dialogStylesScss());
 		StyleInjector.inject(stylesProvider.mowStyle());
 		StyleInjector.inject(stylesProvider.mowToolbarStyle());
@@ -44,6 +46,14 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 
 		injectLTRstyles();
 		injectGreekFonts();
+	}
+
+	private StylesProvider createStylesProvider(ArticleElementInterface ae) {
+		if ("mebis".equalsIgnoreCase(ae.getParamVendor())) {
+			return MebisResources.INSTANCE;
+		} else {
+			return GuiResources.INSTANCE;
+		}
 	}
 
 	/**
