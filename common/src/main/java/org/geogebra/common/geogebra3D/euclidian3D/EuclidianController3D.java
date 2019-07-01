@@ -586,6 +586,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					point3D = (GeoPoint3D) getKernel().getManager3D()
 							.point3D(null, path, false);
 					point3D.setWillingCoords(point.getCoords());
+					view3D.getHittingDirection(tmpCoordsForDirection);
+					point3D.setWillingDirection(tmpCoordsForDirection);
 					point3D.doPath();
 					point3D.setWillingCoordsUndefined();
 					point3D.setWillingDirectionUndefined();
