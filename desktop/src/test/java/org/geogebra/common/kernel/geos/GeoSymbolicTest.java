@@ -140,8 +140,27 @@ public class GeoSymbolicTest {
 	public void testSequenceCommand() {
 		t("2*Sequence(Mod(n,3),n,1,5)", "{2, 4, 0, 2, 4}");
 		t("Sequence(Mod(n,3),n,1,5)", "{1, 2, 0, 1, 2}");
+		t("Sequence(j,j,1,10)", "{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}");
+		t("Sequence(Sequence(k+1/j,k,1,3),j,1,3)",
+				"{{2, 3, 4}, {3 / 2, 5 / 2, 7 / 2}, {4 / 3, 7 / 3, 10 / 3}}");
+		t("Sequence(Sequence(Sequence(k+1/j+m^2,k,1,2),j,1,2),m,1,2)",
+				"{{{3, 4}, {5 / 2, 7 / 2}}, {{6, 7}, {11 / 2, 13 / 2}}}");
+		t("Invert(Sequence(Sequence(1/k^2+j^3+(k+j)^2,k,1,3),j,1,3))",
+				"{{3593 / 1316, (-4449) / 1316, 340 / 329}, {(-1444) / 329, 1684 / 329, (-492) / 329}, {2277 / 1316, (-2475) / 1316, 351 / 658}}");
+
 	}
 
+	@Test
+	public void testLongNumbers() {
+		// long output
+		t("LCM(Sequence(j, j, 60, 76))", "2601813677319187531200");
+		t("111111111111111^2", "12345679012345654320987654321");
+		// APPS-1038 long input:
+		// t("11111111111111111^2", "123456790123456787654320987654321");
+		// t("111111111111111111111111111111^2",
+		// "12345679012345679012345679012320987654320987654320987654321");
+
+	}
 	@Test
 	public void testSubstituteCommand() {
 		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
@@ -376,7 +395,10 @@ public class GeoSymbolicTest {
 	public void testLimitCommands() {
 		t("Limit(4/(1+exp(-0.7t)),t,infinity)", "4");
 		t("Limit(p/(q+exp(-2 t)),t,infinity)", "p / q");
+		t("LimitAbove(1/x,0)", "Infinity");
+		t("LimitBelow(1/x,0)", "-Infinity");
 	}
+
 
 	@Test
 	public void testSolutionsCommand() {
