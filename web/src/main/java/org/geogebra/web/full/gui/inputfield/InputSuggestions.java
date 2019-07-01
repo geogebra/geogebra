@@ -189,7 +189,7 @@ public class InputSuggestions implements HasSuggestions {
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
 
-		if (completions == null && isFallbackCompletitionAllowed(app)) {
+		if (completions == null && isFallbackCompletitionAllowed()) {
 			completions = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
 		}
 
@@ -208,7 +208,7 @@ public class InputSuggestions implements HasSuggestions {
 		return completions;
 	}
 
-	public static boolean isFallbackCompletitionAllowed(App app) {
+	private boolean isFallbackCompletitionAllowed() {
 		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
 				&& "zh".equals(app.getLocalization().getLanguage());
 	}
@@ -228,7 +228,7 @@ public class InputSuggestions implements HasSuggestions {
 		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
 			String cmdInt = app.getInternalCommand(cmd);
-			boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed(app);
+			boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed();
 
 			if (englishOnly) {
 				cmdInt = app.englishToInternal(cmd);

@@ -23,12 +23,12 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.inputfield.InputSuggestions;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
@@ -440,7 +440,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
 
-		if (completions == null && InputSuggestions.isFallbackCompletitionAllowed(app)) {
+		if (completions == null && isFallbackCompletitionAllowed()) {
 			completions = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
 		}
 
@@ -470,7 +470,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			String cmdInt = app.getInternalCommand(cmd);
 
-			boolean englishOnly = cmdInt == null && InputSuggestions.isFallbackCompletitionAllowed(app);
+			boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed();
 
 			if (englishOnly) {
 				cmdInt = app.englishToInternal(cmd);
@@ -507,6 +507,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 		}
 		return syntaxes;
+	}
+	private boolean isFallbackCompletitionAllowed() {
+		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
+				&& "zh".equals(app.getLocalization().getLanguage());
 	}
 
 	public void cancelAutoCompletion() {
