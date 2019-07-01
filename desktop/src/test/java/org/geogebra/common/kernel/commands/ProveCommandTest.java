@@ -16,7 +16,7 @@ public class ProveCommandTest {
 	 * Creates the app
 	 */
 	@BeforeClass
-	public static void setup(){
+	public static void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		proc = app.getKernel().getAlgebraProcessor();
 	}
