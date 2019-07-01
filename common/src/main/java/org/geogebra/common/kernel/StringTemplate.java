@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -944,17 +945,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private String addTempVariablePrefix(final String label) {
 
 		// keep x, y, z so that x^2+y^2=1 works in Giac
-		if (getStringType().isGiac()
-				&& ("x".equals(label) || "y".equals(label) || "y'".equals(label)
-						|| "y''".equals(label) || "z".equals(label))) {
+		if (!GeoGebraCAS.needsTmpPrefix(label)) {
 			return label;
 		}
 
 		StringBuilder sb = new StringBuilder();
 		// TMP_VARIABLE_PREFIX + label
-		if (!label.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
-			sb.append(Kernel.TMP_VARIABLE_PREFIX);
-		}
+		sb.append(Kernel.TMP_VARIABLE_PREFIX);
 
 		// make sure gbtmpvarp' not interpreted as derivative
 		// #3607

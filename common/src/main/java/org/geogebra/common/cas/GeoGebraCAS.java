@@ -809,11 +809,22 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
+	/**
+	 * variables like i, e have a special meaning in Giac so all GeoGebra variables
+	 * need "ggbtmpvar" as a prefix
+	 * 
+	 * @param str
+	 * @return whether str should have "ggbtmpvar" on the front
+	 */
+	public static boolean needsTmpPrefix(String str) {
+		return !("x".equals(str) || "y".contentEquals(str) || "y'".contentEquals(str)
+				|| "y''".contentEquals(str) || "z".equals(str)
+				|| str.startsWith(Kernel.TMP_VARIABLE_PREFIX));
+	}
+
 	// add ggbtmpvar as prefix if necessary
-	private String addCASPrefix(String str) {
-		return "x".equals(str) || "y".contentEquals(str) || "z".equals(str)
-				|| str.startsWith(Kernel.TMP_VARIABLE_PREFIX) ? str
-						: str + Kernel.TMP_VARIABLE_PREFIX;
+	private static String addCASPrefix(String str) {
+		return needsTmpPrefix(str) ? Kernel.TMP_VARIABLE_PREFIX + str : str;
 	}
 
 	private static void updateArgsAndSbForPoint(ArrayList<ExpressionNode> args,
@@ -1077,7 +1088,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		while (ite.hasNext()) {
 			String currVar = ite.next();
 			listOfVars.append(",");
-			if (!"x".equals(currVar) && !"y".equals(currVar)) {
+			if (needsTmpPrefix(currVar)) {
 				listOfVars.append(Kernel.TMP_VARIABLE_PREFIX);
 			}
 			listOfVars.append(currVar);
