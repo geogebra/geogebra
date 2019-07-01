@@ -11,7 +11,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
 @SuppressWarnings("javadoc")
-public interface GuiResources extends ClientBundle {
+public interface GuiResources extends ClientBundle, StylesProvider {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
@@ -417,4 +417,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/header.scss")
 	SassResource headerScss();
+
+	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
+	SassResource dialogStylesScss();
 }

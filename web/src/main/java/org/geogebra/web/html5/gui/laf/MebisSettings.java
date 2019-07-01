@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.web.full.css.MebisResources;
+import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
@@ -54,5 +56,10 @@ public class MebisSettings implements VendorSettings {
 	@Override
 	public String getUnsupportedBrowserErrorKey() {
 		return "mow.unsupportedBrowserMessage";
+	}
+
+	@Override
+	public StylesProvider getStylesProvider() {
+		return MebisResources.INSTANCE;
 	}
 }

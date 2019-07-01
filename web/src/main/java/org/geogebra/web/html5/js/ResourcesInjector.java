@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.js;
 
+import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.Dom;
@@ -29,7 +30,7 @@ public class ResourcesInjector {
 	/**
 	 * Inject all JS/CSS resources
 	 */
-	public static void injectResources() {
+	public static void injectResources(StylesProvider stylesProvider) {
 		if (resourcesInjected) {
 			return;
 		}
@@ -50,7 +51,7 @@ public class ResourcesInjector {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
 
 		injectScss();
-		instance.injectResourcesGUI();
+		instance.injectResourcesGUI(stylesProvider);
 
 		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null
@@ -90,7 +91,7 @@ public class ResourcesInjector {
 	 * JqueryUI for sliders)
 	 *
 	 */
-	protected void injectResourcesGUI() {
+	protected void injectResourcesGUI(StylesProvider stylesProvider) {
 		// overridden elsewhere
 	}
 
