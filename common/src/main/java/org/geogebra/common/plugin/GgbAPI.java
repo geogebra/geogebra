@@ -1532,12 +1532,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return ret.evaluateDouble();
 	}
 
-	/**
-	 * Cast undo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
-	 */
 	@Override
 	public void undo(boolean repaint) {
 		app.getKernel().undo();
@@ -1560,12 +1554,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		redo(false);
 	}
 
-	/**
-	 * Cast redo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
-	 */
 	@Override
 	public void redo(boolean repaint) {
 		app.getKernel().redo();
@@ -1637,7 +1625,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(label);
 		if (geo instanceof TextProperties) {
 			TextProperties text = (TextProperties) geo;
-			text.setFontSizeMultiplier(size / (0.0 + app.getFontSize()));
+			text.setFontSizeMultiplier(size / (0.0
+					+ app.getSettings().getFontSettings().getAppFontSize()));
 			text.setFontStyle((bold ? GFont.BOLD : GFont.PLAIN)
 					| (italic ? GFont.ITALIC : GFont.PLAIN));
 			text.setSerifFont(serif);
@@ -2375,7 +2364,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return false;
 	}
 
-	@Deprecated
+	/**
+	 * @return exercise fraction (same as getValue("correct"))
+	 */
 	public double getExerciseFraction() {
 		return getValue("correct");
 	}

@@ -977,8 +977,20 @@ public interface JavaScriptAPI {
 
 	public void newConstruction();
 
+	/**
+	 * Cast undo
+	 * 
+	 * @param repaint
+	 *            true to repaint the views afterwards
+	 */
 	public void undo(boolean repaint);
 
+	/**
+	 * Cast redo
+	 * 
+	 * @param repaint
+	 *            true to repaint the views afterwards
+	 */
 	public void redo(boolean repaint);
 
 	public String getViewProperties(int viewID);
