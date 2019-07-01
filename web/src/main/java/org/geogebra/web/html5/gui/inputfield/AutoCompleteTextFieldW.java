@@ -19,6 +19,7 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
@@ -27,6 +28,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.inputfield.InputSuggestions;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
@@ -438,6 +440,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
 
+		if (completions == null && InputSuggestions.isFallbackCompletitionAllowed(app)) {
+			completions = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
+		}
+
 		List<String> commandCompletions = getSyntaxes(completions);
 
 		// Start with the built-in function completions
@@ -464,13 +470,21 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			String cmdInt = app.getInternalCommand(cmd);
 
+			boolean englishOnly = cmdInt == null && InputSuggestions.isFallbackCompletitionAllowed(app);
+
+			if (englishOnly) {
+				cmdInt = app.englishToInternal(cmd);
+			}
+
 			String syntaxString;
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = app.getKernel().getAlgebraProcessor()
-						.getSyntax(cmdInt, app.getSettings());
+				AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+				syntaxString = englishOnly ? ap.getEnglishSyntax(cmdInt, app.getSettings())
+						: ap.getSyntax(cmdInt, app.getSettings());
 			}
+
 			if (syntaxString == null) {
 				continue;
 			}
