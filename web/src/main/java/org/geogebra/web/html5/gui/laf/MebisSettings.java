@@ -55,4 +55,9 @@ public class MebisSettings implements VendorSettings {
 	public String getUnsupportedBrowserErrorKey() {
 		return "mow.unsupportedBrowserMessage";
 	}
+
+	@Override
+	public String getPrimaryColor() {
+		return "#00a8d5";
+	}
 }

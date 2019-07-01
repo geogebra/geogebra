@@ -50,4 +50,11 @@ public interface VendorSettings {
 	 * @return the translation key
 	 */
 	String getUnsupportedBrowserErrorKey();
+
+	/**
+	 * Returns the primary color in HEX format.
+	 *
+	 * @return the primary color in HEX
+	 */
+	String getPrimaryColor();
 }

@@ -48,4 +48,9 @@ public class GgbSettings implements VendorSettings {
 	public String getUnsupportedBrowserErrorKey() {
 		return null;
 	}
+
+	@Override
+	public String getPrimaryColor() {
+		return "#6557D2";
+	}
 }
