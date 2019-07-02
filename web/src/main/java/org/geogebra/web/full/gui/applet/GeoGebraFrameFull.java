@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
+import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -48,6 +49,7 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -729,7 +731,13 @@ public class GeoGebraFrameFull
 	public void attachToolbar(AppW app1) {
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
-			attachMowMainMenu(app1, this);
+
+			//TODO eliminate this if
+			if (app1.getVendorSettings().isMainMenuExternal()) {
+				menuToHeader(app1);
+			} else {
+				attachMowMainMenu(app1, this);
+			}
 			initPageControlPanel(app1);
 			return;
 		}
@@ -773,6 +781,14 @@ public class GeoGebraFrameFull
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
 		frame.add(openMenuButton);	}
+
+	public void menuToHeader(AppW appW) {
+		if (GlobalHeader.isInDOM()) {
+			MenuToggleButton btn = new MenuToggleButton(appW);
+			btn.setExternal(true);
+			btn.addToGlobalHeader();
+		}
+	}
 
 
 	private void attachToolbarMow(AppW app) {

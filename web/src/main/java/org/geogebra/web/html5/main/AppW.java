@@ -4021,9 +4021,4 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public GColor getPrimaryColor() {
 		return getVendorSettings().getPrimaryColor();
 	}
-
-	/**
-	 * Puts main menu to header
-	 */
-	public void menuToHeader() {}
 }
