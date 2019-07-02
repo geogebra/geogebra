@@ -148,6 +148,19 @@ task cleanWar(type: Delete) {
     }
 }
 
+def template = { fileName ->
+    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
+    return file(templateDir + fileName).text
+}
+
+def headerPartials = { header, appPartials ->
+    def partials = appPartials ?: ["share-button", "signin-button"]
+    partials.each({
+        header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));
+    })
+    return header
+}
+
 task copyHtml {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
@@ -165,8 +178,7 @@ task copyHtml {
             from file("src/main/resources/org/geogebra/web/resources/war")
             into warDirRel
         }
-        String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
-        def template = {fileName -> file(templateDir + fileName).text}
+
         String html = template("app-template.html")
         String splash = template("classic-splash.html")
 
@@ -194,10 +206,7 @@ task copyHtml {
             def appID = app.id.split("-")[0]
             def appTransKey = app.transKey
             def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
-            def partials = app.partials ?: ["share-button", "signin-button"]
-            partials.each({
-                header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));
-            })
+            header = headerPartials(header, app.partials)
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = String.valueOf(prerelease).contains("canary") ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
@@ -216,9 +225,7 @@ task copyHtml {
         def english = {raw, appName ->
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
             .replace("<!--APP NAME FULL-->", "GeoGebra ${appName}")
-            .replace("<!--TRY APP-->", "Try App")
             .replace("<!--SIGN IN-->", "Sign in")
-            .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--APP NAME-->", appName)
             .replace("<!--LANG-->", "en")
         }
@@ -241,24 +248,26 @@ task copyHtml {
 }
 
 task createSolverHtml {
-    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
-    String solver = file(templateDir + "solver-template.html").text
-            .replace("<!--HEADER-->", file(templateDir + "app-header-beta.html").text)
-            .replace("<!--TRY APP-->", "Try App")
-            .replace("<!--CONTINUE-->", "Continue")
-            .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-    // for server rendering
-    file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
-    file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
-    // for direct use autotest
-    file("war/solver.html").text = solver
+    doLast {
+        def header = headerPartials(template("app-header-beta.html"), null);
+        String solver = template("solver-template.html")
+            .replace("<!--HEADER-->", header)
+            .replace("<!--SPLASH STYLE-->", template("app-header.css"))
+        // for server rendering
+        file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
+        file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
+        // for direct use autotest
+        file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")
             .replace("<!--APP TYPE-->", "solver")
+            .replace("<!--SIGN IN-->", "Sign In")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
-    file("war/exercise.html").text = solver
+        file("war/exercise.html").text = solver
             .replace("<!--APP NAME-->", "Exercise app")
+            .replace("<!--SIGN IN-->", "Sign In")
             .replace("<!--APP TYPE-->", "practice")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
+    }
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
