@@ -10,9 +10,9 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -34,7 +34,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private Localization loc;
 	/** file chooser */
-	FileChooser fileChooser;
+	private FileChooser fileChooser;
 
 	/**
 	 * @param app
@@ -63,129 +63,9 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 			addItem(new ExitExamAction(getApp()));
 			return;
 		}
-		/*
-		 * } else { if (app.isExam()) { return; } }
-		 */
-		// this is enabled always
-		addItem(new FileNewAction(getApp()));
 
-		// open menu is always visible in menu
-		openFileItem = addItem(
-				MainMenu.getMenuBarHtml(
-						getApp().isWhiteboardActive()
-								? MaterialDesignResources.INSTANCE.folder_open()
-								: MaterialDesignResources.INSTANCE
-										.search_black(),
-						loc.getMenu(getApp().isWhiteboardActive()
-								? "mow.myfiles" : "Open")),
-				true, new MenuCommand(getApp()) {
+		buildFileMenu();
 
-					@Override
-					public void doExecute() {
-						if (getApp().isWhiteboardActive() && isMowLoggedOut()) {
-							getApp().getLoginOperation().showLoginDialog();
-							getApp().getLoginOperation().getView()
-									.add(new EventRenderable() {
-										@Override
-										public void renderEvent(
-												BaseEvent event) {
-											if (event instanceof LoginEvent
-													&& ((LoginEvent) event)
-															.isSuccessful()) {
-												getApp().openSearch(null);
-											}
-											if (event instanceof LoginEvent
-													|| event instanceof StayLoggedOutEvent) {
-												getApp().getLoginOperation()
-														.getView().remove(this);
-											}
-										}
-									});
-						} else {
-							getApp().openSearch(null);
-						}
-					}
-				});
-
-		if (getApp().isWhiteboardActive()) {
-			addItem(
-					MainMenu.getMenuBarHtml(
-							MaterialDesignResources.INSTANCE
-									.mow_pdf_open_folder(),
-							loc.getMenu("mow.offlineMyFiles")),
-					true, new MenuCommand(getApp()) {
-
-						@Override
-						public void doExecute() {
-							if (fileChooser == null) {
-								fileChooser = new FileChooser();
-								fileChooser.addStyleName("hidden");
-							}
-							app.getPanel().add(fileChooser);
-							fileChooser.open();
-						}
-					});
-		}
-
-		if (getApp().getLAF().undoRedoSupported()) {
-			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.save_black(),
-					loc.getMenu("Save")), true,
-					new MenuCommand(getApp()) {
-
-						@Override
-						public void doExecute() {
-							getApp().getGuiManager().save();
-						}
-					});
-		}
-		addSeparator();
-		if (!getApp().isWhiteboardActive()) {
-			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.export_image_black(),
-					loc.getMenu("exportImage")), true,
-					new MenuCommand(getApp()) {
-
-						@Override
-						public void doExecute() {
-							app.getDialogManager().showExportImageDialog(null);
-						}
-					});
-		}
-		shareItem = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.share_black(),
-						loc.getMenu("Share")),
-				true, new MenuCommand(getApp()) {
-
-					@Override
-					public void doExecute() {
-						share(getApp(), null);
-					}
-				});
-		if (getApp().getLAF().exportSupported()
-				&& !getApp().isUnbundledOrWhiteboard()) {
-			addItem(MainMenu.getMenuBarHtml(
-					MaterialDesignResources.INSTANCE.file_download_black(),
-					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS), true,
-					new ExportMenuW(getApp()), true);
-		}
-		if (getApp().getLAF().printSupported()) {
-			AriaMenuItem printItem = new AriaMenuItem(
-					MainMenu.getMenuBarHtml(
-							MaterialDesignResources.INSTANCE.print_black(),
-							loc.getMenu("PrintPreview")),
-					true, new MenuCommand(getApp()) {
-
-						@Override
-						public void doExecute() {
-							((DialogManagerW) getApp().getDialogManager())
-									.showPrintPreview();
-						}
-					});
-			// updatePrintMenu();
-			addItem(printItem);
-		}
 		getApp().getNetworkOperation().getView().add(this);
 		if (!getApp().getNetworkOperation().isOnline()) {
 			render(false);
@@ -196,6 +76,35 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		updateShareButton();
 	}
 
+	private void buildFileMenu() {
+		if (isMebis()) {
+			buildFileMenuMebis();
+		} else {
+			buildFileMenuBase();
+		}
+	}
+
+	private void buildFileMenuBase() {
+		addFileNewItem();
+		addOpenFileItem();
+		addSaveItem();
+		addSeparator();
+		addExportImageItem();
+		addDownloadAsItem();
+		addPrintItem();
+		addShareItem();
+	}
+
+	private void buildFileMenuMebis() {
+		addFileNewItem();
+		addOpenFileItemMebis();
+		addOpenOfflineFilesItem();
+		addSaveItem();
+		addSeparator();
+		addPrintItem();
+		addShareItem();
+	}
+
 	private void updateShareButton() {
 		shareItem.setVisible(getApp().getLoginOperation() != null
 				&& getApp().getLoginOperation().canUserShare());
@@ -203,18 +112,18 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void updateOpenFileButton() {
 		openFileItem.setHTML(MainMenu.getMenuBarHtmlClassic(
-				getApp().isWhiteboardActive() ? MaterialDesignResources.INSTANCE
+				isMebis() ? MaterialDesignResources.INSTANCE
 						.folder_open().getSafeUri().asString()
 						: MaterialDesignResources.INSTANCE.search_black()
 						.getSafeUri().asString(),
-				loc.getMenu(getApp().isWhiteboardActive() ? "mow.myfiles" : "Open")));
+				loc.getMenu(isMebis() ? "mow.myfiles" : "Open")));
 	}
 
 	/**
 	 * @return true if the whiteboard is active and the user logged in
 	 */
-	boolean isMowLoggedOut() {
-		return getApp().isWhiteboardActive()
+	private boolean isMowLoggedOut() {
+		return isMebis()
 				&& getApp().getLoginOperation() != null
 				&& !getApp().getLoginOperation().isLoggedIn();
 	}
@@ -291,7 +200,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	@Override
 	public SVGResource getImage() {
-		return getApp().isWhiteboardActive() ? MaterialDesignResources.INSTANCE.file()
+		return isMebis() ? MaterialDesignResources.INSTANCE.file()
 				: MaterialDesignResources.INSTANCE.insert_file_black();
 	}
 
@@ -300,4 +209,147 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		return "File";
 	}
 
+	private boolean isMebis() {
+		return getApp().getVendorSettings() instanceof MebisSettings;
+	}
+
+	private void addFileNewItem() {
+		addItem(new FileNewAction(getApp()));
+	}
+
+	private void addShareItem() {
+		shareItem = addItem(
+				MainMenu.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.share_black(),
+						getApp().getLocalization().getMenu("Share")),
+				true, new MenuCommand(getApp()) {
+
+					@Override
+					public void doExecute() {
+						share(app, null);
+					}
+				});
+	}
+
+	private void addExportImageItem() {
+		addItem(MainMenu.getMenuBarHtml(
+				MaterialDesignResources.INSTANCE.export_image_black(),
+				getApp().getLocalization().getMenu("exportImage")), true,
+				new MenuCommand(getApp()) {
+
+					@Override
+					public void doExecute() {
+						app.getDialogManager().showExportImageDialog(null);
+					}
+				});
+	}
+
+	private void addSaveItem() {
+		if (getApp().getLAF().undoRedoSupported()) {
+			addItem(MainMenu.getMenuBarHtml(
+					MaterialDesignResources.INSTANCE.save_black(),
+					loc.getMenu("Save")), true,
+					new MenuCommand(getApp()) {
+
+						@Override
+						public void doExecute() {
+							app.getGuiManager().save();
+						}
+					});
+		}
+	}
+
+	private void addOpenOfflineFilesItem() {
+		addItem(MainMenu.getMenuBarHtml(
+				MaterialDesignResources.INSTANCE
+						.mow_pdf_open_folder(),
+				loc.getMenu("mow.offlineMyFiles")),
+				true, new MenuCommand(getApp()) {
+
+					@Override
+					public void doExecute() {
+						if (fileChooser == null) {
+							fileChooser = new FileChooser();
+							fileChooser.addStyleName("hidden");
+						}
+						app.getPanel().add(fileChooser);
+						fileChooser.open();
+					}
+				});
+	}
+
+	private void addOpenFileItem() {
+		openFileItem =
+				addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.search_black(),
+						loc.getMenu("Open")), true, new MenuCommand(getApp()) {
+
+					@Override
+					public void doExecute() {
+						app.openSearch(null);
+					}
+				});
+	}
+
+	private void addOpenFileItemMebis() {
+		openFileItem =
+				addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.folder_open(),
+						loc.getMenu("mow.myfiles")),
+						true, new MenuCommand(getApp()) {
+
+							@Override
+							public void doExecute() {
+								if (isMowLoggedOut()) {
+									app.getLoginOperation().showLoginDialog();
+									app.getLoginOperation().getView()
+											.add(new EventRenderable() {
+												@Override
+												public void renderEvent(
+														BaseEvent event) {
+													if (event instanceof LoginEvent
+															&& ((LoginEvent) event)
+															.isSuccessful()) {
+														app.openSearch(null);
+													}
+													if (event instanceof LoginEvent
+															|| event instanceof StayLoggedOutEvent) {
+														app.getLoginOperation()
+																.getView().remove(this);
+													}
+												}
+											});
+								} else {
+									app.openSearch(null);
+								}
+							}
+						});
+	}
+
+	private void addDownloadAsItem() {
+		if (getApp().getLAF().exportSupported()
+				&& !getApp().isUnbundledOrWhiteboard()) {
+			addItem(MainMenu.getMenuBarHtml(
+					MaterialDesignResources.INSTANCE.file_download_black(),
+					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS), true,
+					new ExportMenuW(getApp()), true);
+		}
+	}
+
+	private void addPrintItem() {
+		if (getApp().getLAF().printSupported()) {
+			AriaMenuItem printItem = new AriaMenuItem(
+					MainMenu.getMenuBarHtml(
+							MaterialDesignResources.INSTANCE.print_black(),
+							loc.getMenu("PrintPreview")),
+					true, new MenuCommand(getApp()) {
+
+				@Override
+				public void doExecute() {
+					getApp().getDialogManager()
+							.showPrintPreview();
+				}
+			});
+			// updatePrintMenu();
+			addItem(printItem);
+		}
+	}
 }

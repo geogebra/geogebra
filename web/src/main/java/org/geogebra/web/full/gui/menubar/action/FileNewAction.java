@@ -4,6 +4,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -18,8 +19,8 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 	 *            application
 	 */
 	public FileNewAction(AppW app) {
-		super(app.isWhiteboardActive() ? "mow.newFile" : "New",
-				app.isWhiteboardActive() ? MaterialDesignResources.INSTANCE.file_plus()
+		super(app.getVendorSettings() instanceof MebisSettings ? "mow.newFile" : "New",
+				app.getVendorSettings() instanceof MebisSettings ? MaterialDesignResources.INSTANCE.file_plus()
 						: MaterialDesignResources.INSTANCE.add_black());
 		this.app = app;
 	}

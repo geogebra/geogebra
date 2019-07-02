@@ -7,6 +7,7 @@ import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
+import org.geogebra.web.full.gui.menubar.MebisMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.NotesMenuItemProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -35,7 +36,8 @@ public class NotesActivity extends BaseActivity {
 
 	@Override
 	public MainMenuItemProvider getMenuItemProvider(AppW app) {
-		return new NotesMenuItemProvider(app);
+		return app.getVendorSettings() instanceof MebisSettings ? new MebisMenuItemProvider(app) :
+				new NotesMenuItemProvider(app);
 	}
 
 	@Override
