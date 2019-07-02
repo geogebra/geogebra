@@ -810,10 +810,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * variables like i, e have a special meaning in Giac so all GeoGebra variables
-	 * need "ggbtmpvar" as a prefix
+	 * variables like i, e have a special meaning in Giac so all GeoGebra
+	 * variables need "ggbtmpvar" as a prefix
 	 * 
 	 * @param str
+	 *            variable name
 	 * @return whether str should have "ggbtmpvar" on the front
 	 */
 	public static boolean needsTmpPrefix(String str) {

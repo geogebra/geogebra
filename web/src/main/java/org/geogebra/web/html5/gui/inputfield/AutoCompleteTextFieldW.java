@@ -508,6 +508,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		return syntaxes;
 	}
+
 	private boolean isFallbackCompletitionAllowed() {
 		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
 				&& "zh".equals(app.getLocalization().getLanguage());

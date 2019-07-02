@@ -49,7 +49,7 @@ public abstract class MenuAction<T> {
 	/**
 	 * @return internal title
 	 */
-	public String getTitle(){
+	public String getTitle() {
 		return title;
 	}
 

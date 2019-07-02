@@ -87,6 +87,7 @@ public class BoundingBox {
 	 * Sets the color of the bounding box.
 	 *
 	 * @param color
+	 *            box color
 	 */
 	public void setColor(GColor color) {
 		this.color = color;

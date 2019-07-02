@@ -159,8 +159,8 @@ public class GeoSymbolicTest {
 		// t("11111111111111111^2", "123456790123456787654320987654321");
 		// t("111111111111111111111111111111^2",
 		// "12345679012345679012345679012320987654320987654320987654321");
-
 	}
+
 	@Test
 	public void testSubstituteCommand() {
 		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
@@ -398,7 +398,6 @@ public class GeoSymbolicTest {
 		t("LimitAbove(1/x,0)", "Infinity");
 		t("LimitBelow(1/x,0)", "-Infinity");
 	}
-
 
 	@Test
 	public void testSolutionsCommand() {
