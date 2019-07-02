@@ -1095,33 +1095,6 @@ $duration: 0.2s;
     		width: fit-content;
     		// auto margin fix for firefox
     		display: table;
-
-			.getLinkBtn {
-				cursor: pointer;
-				transition: background-color 0.15s;
-
-				img {
-					padding: 8px;
-	    			background-color: $mow_primary;
-	    			border-radius: 50%;
-	    			display: block;
-    				margin: 0px auto;
-	    		}
-
-	    		.gwt-Label {
-	    			text-align: center;
-	    			margin: 4px 0px 0px 0px;
-	    			color: $text-secondary;
-	    			font-size: 88%;
-	    			cursor: pointer;
-	    		}
-
-	    		&:hover {
-	    			img {
-	    				background-color: $mow_hover;
-	    			}
-	    		}
-			}
 		}
 	}
 
