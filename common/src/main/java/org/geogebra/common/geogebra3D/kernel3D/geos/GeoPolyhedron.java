@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -273,6 +274,10 @@ public class GeoPolyhedron extends GeoElement3D
 
 		static public double getNormalized(double t) {
 			return (PathNormalizer.inverseInfFunction(t) + 1) / 2;
+		}
+
+		static public double getUnNormalized(double t) {
+			return PathNormalizer.infFunction(2 * t - 1);
 		}
 	}
 
@@ -2382,7 +2387,17 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public void regionChanged(GeoPointND P) {
-
+		RegionParameters rp = P.getRegionParameters();
+		double t1 = rp.getT1();
+		int index = (int) t1;
+		GeoPolygon polygon = index < getFacesSize() ? getFace(index)
+				: polygons.lastEntry().getValue();
+		rp.setT1(PointChangedHelper.getUnNormalized(t1 - index));
+		Region oldRegion = P.getRegion();
+		P.setRegion(polygon);
+		polygon.regionChanged(P);
+		rp.setT1(t1);
+		P.setRegion(oldRegion);
 	}
 
 	@Override
