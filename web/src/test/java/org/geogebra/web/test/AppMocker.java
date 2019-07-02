@@ -1,5 +1,6 @@
 package org.geogebra.web.test;
 
+import com.google.gwt.resources.client.ClientBundle;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -41,6 +42,7 @@ public class AppMocker {
 						return new PopupImpl();
 					}
 				});
+		GwtMockito.useProviderForType(ClientBundle.class, new CustomFakeClientBundleProvider());
 		Browser.mockWebGL();
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(new AppletFactory3D() {
