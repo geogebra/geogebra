@@ -67,6 +67,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -3009,5 +3010,49 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				geoPoint.getCaption(StringTemplate.defaultTemplate),
 				geoPoint.getValueForInputBar());
 
+	}
+
+	@Override
+	public void setRegionChanged(double x, double y) {
+		this.x = x;
+		this.y = y;
+		this.z = 1;
+	}
+
+	@Override
+	public void pointChanged(GeoPolygon polygon) {
+		Coords coords = getCoordsInD2();
+		double qx = coords.getX() / coords.getZ();
+		double qy = coords.getY() / coords.getZ();
+
+		double minDist = Double.POSITIVE_INFINITY;
+		double resx = 0, resy = 0, resz = 0, param = 0;
+
+		// find closest point on each segment
+		PathParameter pp = getPathParameter();
+		GeoSegmentND[] segments = polygon.getSegments();
+		if (segments != null) {
+
+			for (int i = 0; i < segments.length; i++) {
+				setCoords2D(qx, qy, 1);
+				updateCoordsFrom2D(false);
+				segments[i].pointChanged(this);
+				coords = getCoordsInD2();
+				double x1 = coords.getX() / coords.getZ() - qx;
+				double y1 = coords.getY() / coords.getZ() - qy;
+				double dist = x1 * x1 + y1 * y1;
+				if (dist < minDist) {
+					minDist = dist;
+					// remember closest point
+					resx = coords.getX();
+					resy = coords.getY();
+					resz = coords.getZ();
+					param = i + pp.t;
+				}
+			}
+		}
+		setCoords2D(resx, resy, resz);
+		updateCoordsFrom2D(false);
+		pp.t = param;
 	}
 }
