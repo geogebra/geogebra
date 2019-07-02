@@ -412,14 +412,24 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             }
             double pot = DoubleUtil.getPowerOfTen(ratio);
             ratio = ratio / pot;
-            if (ratio < 2f / MAX_FACTOR_TO_EMPHASIZE) {
-                ratio = 1f;
-            } else if (ratio < 5f / MAX_FACTOR_TO_EMPHASIZE) {
-                ratio = 2f;
-            } else if (ratio < 10f / MAX_FACTOR_TO_EMPHASIZE) {
-                ratio = 5f;
+            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+                if (ratio < 2f / MAX_FACTOR_TO_EMPHASIZE) {
+                    ratio = 1f;
+                } else if (ratio < 5f / MAX_FACTOR_TO_EMPHASIZE) {
+                    ratio = 2f;
+                } else if (ratio < 10f / MAX_FACTOR_TO_EMPHASIZE) {
+                    ratio = 5f;
+                } else {
+                    ratio = 10f;
+                }
             } else {
-                ratio = 10f;
+                if (ratio <= 2f) {
+                    ratio = 2f;
+                } else if (ratio <= 5f) {
+                    ratio = 5f;
+                } else {
+                    ratio = 10f;
+                }
             }
             ratio = ratio * pot;
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
