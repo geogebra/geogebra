@@ -414,11 +414,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	public void moveZoomPanelToBottom() {
-		zoomPanel.removeStyleName("narrowscreen");
+		if (zoomPanel != null) {
+			zoomPanel.removeStyleName("narrowscreen");
+		}
 	}
 
 	public void moveZoomPanelAboveToolbar() {
-		zoomPanel.addStyleName("narrowscreen");
+		if (zoomPanel != null) {
+			zoomPanel.addStyleName("narrowscreen");
+		}
 	}
 
 	@Override
