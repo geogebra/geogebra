@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.HasFaces;
 import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
@@ -66,7 +67,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoPolyhedron extends GeoElement3D
 		implements HasSegments, HasVolume, Traceable, RotateableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
-		Path, GeoPolyhedronInterface, GeoNumberValue, Region {
+		Path, GeoPolyhedronInterface, GeoNumberValue, Region, HasFaces {
 
 	/** unknown */
 	public static final int TYPE_UNKNOWN = 0;
@@ -1012,11 +1013,7 @@ public class GeoPolyhedron extends GeoElement3D
 		return polygons.values();
 	}
 
-	/**
-	 * @param index
-	 *            face index
-	 * @return face
-	 */
+	@Override
 	public GeoPolygon getFace(int index) {
 		int polygonsLinkedSize = polygonsLinked.size();
 		if (index < polygonsLinkedSize) {
@@ -1025,9 +1022,7 @@ public class GeoPolyhedron extends GeoElement3D
 		return polygons.get(index - polygonsLinkedSize);
 	}
 
-	/**
-	 * @return total number of faces
-	 */
+	@Override
 	public int getFacesSize() {
 		return polygonsLinked.size() + polygons.size();
 	}

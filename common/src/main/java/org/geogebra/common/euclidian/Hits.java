@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.HasFaces;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 
@@ -311,6 +312,25 @@ public class Hits extends ArrayList<GeoElement> {
 
 				if (sidePresent != sidePresentWanted) {
 					it.remove();
+				}
+			}
+		}
+	}
+
+	/**
+	 * remove HasFaces geos if a face is present in this
+	 */
+	final public void removeHasFacesIfFacePresent() {
+		Iterator<GeoElement> it = this.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo instanceof HasFaces) {
+				HasFaces hasFaces = (HasFaces) geo;
+				for (int k = 0; k < hasFaces.getFacesSize(); k++) {
+					if (this.contains(hasFaces.getFace(k))) {
+						it.remove();
+						break;
+					}
 				}
 			}
 		}

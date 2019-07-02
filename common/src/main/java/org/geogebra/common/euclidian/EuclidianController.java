@@ -5103,6 +5103,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			// check if point lies in a region and if we are allowed to place a
 			// point in a region
+			if (mode != EuclidianConstants.MODE_POINT_ON_OBJECT) {
+				regionHits.removeHasFacesIfFacePresent();
+			}
 			if (!regionHits.isEmpty()) {
 				if (inRegionPossible) {
 					if (chooseGeo) {
