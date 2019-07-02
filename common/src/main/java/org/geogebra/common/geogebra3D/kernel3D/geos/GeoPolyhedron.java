@@ -218,6 +218,7 @@ public class GeoPolyhedron extends GeoElement3D
 		private double t2;
 		private int index;
 		private int resultIndex;
+		private GeoPolygon resultPolygon;
 
 		public PointChangedHelper(GeoPoint3D point) {
 			this.point = point;
@@ -239,38 +240,41 @@ public class GeoPolyhedron extends GeoElement3D
 				double dist = point.getInhomCoords().sub(point.getWillingCoords())
 						.squareNorm();
 				if (DoubleUtil.isGreater(minDistLine, distLine)) {
-					update(distLine, dist);
+					update(distLine, dist, polygon);
 				} else if (DoubleUtil.isEqual(minDistLine, distLine)) {
 					if (dist < minDist) {
-						update(dist);
+						update(dist, polygon);
 					}
 				}
 			} else {
 				double dist = point.getInhomCoords().sub(coordsOld).squareNorm();
 				if (dist < minDist) {
-					update(dist);
+					update(dist, polygon);
 				}
 			}
 			index++;
 		}
 
-		private void update(double distLine, double dist) {
+		private void update(double distLine, double dist, GeoPolygon polygon) {
 			minDistLine = distLine;
-			update(dist);
+			update(dist, polygon);
 		}
 
-		private void update(double dist) {
+		private void update(double dist, GeoPolygon polygon) {
 			minDist = dist;
 			result = point.getInhomCoords().copyVector();
 			t1 = point.getRegionParameters().getT1();
 			t2 = point.getRegionParameters().getT2();
 			resultIndex = index;
+			resultPolygon = polygon;
 		}
 
 		public void setResult() {
 			point.setCoords(result, false);
-			point.getRegionParameters().setT1(getNormalized(t1) + resultIndex);
-			point.getRegionParameters().setT2(t2);
+			RegionParameters rp = point.getRegionParameters();
+			rp.setT1(getNormalized(t1) + resultIndex);
+			rp.setT2(t2);
+			rp.setNormal(resultPolygon.getDirectionInD3());
 		}
 
 		static public double getNormalized(double t) {
@@ -2397,6 +2401,7 @@ public class GeoPolyhedron extends GeoElement3D
 		P.setRegion(polygon);
 		polygon.regionChanged(P);
 		rp.setT1(t1);
+		rp.setNormal(polygon.getDirectionInD3());
 		P.setRegion(oldRegion);
 	}
 
