@@ -63,7 +63,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 
 	private void initGui() {
 		addStyleName(
-				app.isWhiteboardActive() ? "shareLinkMow" : "shareLinkGgb");
+				app.isMebis() ? "shareLinkMow" : "shareLinkGgb");
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -97,7 +97,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		// share help text
 		shareHelp = new Label();
 		shareHelp.addStyleName("shareHelpTxt");
-		if (app.isWhiteboardActive()) {
+		if (app.isMebis()) {
 			mainPanel.add(shareHelp);
 		}
 		// build button panel (print prev, export img)
@@ -115,7 +115,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		exportImgBtn.addFastClickHandler(this);
 		cancelBtn = new StandardButton(localize("Cancel"), app);
 		cancelBtn.addFastClickHandler(this);
-		if (app.isWhiteboardActive()) {
+		if (app.isMebis()) {
 			buttonPanel.setStyleName("DialogButtonPanel");
 			buttonPanel.add(cancelBtn);
 		} else {
@@ -193,13 +193,13 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	public void setLabels() {
 		// dialog title
 		getCaption().setText(
-				localize(app.isWhiteboardActive() ? "shareByLink" : "Share"));
+				localize(app.isMebis() ? "shareByLink" : "Share"));
 		linkLabel.setText(localize("Link"));
 		copyBtn.setText(localize("Copy"));
 		printBtn.setText(localize("Print"));
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
-		shareHelp.setText(localize(app.isWhiteboardActive()
+		shareHelp.setText(localize(app.isMebis()
 				? "ShareLinkHelpTxtMebis" : "SharedLinkHelpTxt"));
 	}
 

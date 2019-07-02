@@ -451,7 +451,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	public SaveDialogI getSaveDialog() {
 		if (saveDialog == null) {
-			saveDialog = app.isWhiteboardActive()
+			saveDialog = app.isMebis()
 					? new SaveDialogMow((AppW) app)
 					: new SaveDialogW((AppW) app);
 		}

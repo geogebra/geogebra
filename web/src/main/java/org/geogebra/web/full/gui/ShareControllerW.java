@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
@@ -122,17 +123,17 @@ public class ShareControllerW implements ShareController {
 						.getActiveMaterial().getSharingKey() != null) {
 					sharingKey = getAppW().getActiveMaterial().getSharingKey();
 				}
-				if (!getAppW().isWhiteboardActive()) {
+				if (getAppW().isMebis()) {
+					shareDialogMow = new ShareDialogMow(getAppW(),
+							getAppW().getCurrentURL(sharingKey, true),
+							null);
+					shareDialogMow.show();
+				} else {
 					shareDialog = new ShareLinkDialog(getAppW(),
 							getAppW().getCurrentURL(sharingKey, true),
 							getAnchor());
 					shareDialog.setVisible(true);
 					shareDialog.center();
-				} else {
-					shareDialogMow = new ShareDialogMow(getAppW(),
-								getAppW().getCurrentURL(sharingKey, true),
-								null);
-						shareDialogMow.show();
 				}
 			}
 		};

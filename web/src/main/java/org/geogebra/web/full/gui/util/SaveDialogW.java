@@ -75,7 +75,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel(), app);
-		this.defaultVisibility = app.isWhiteboardActive() ? MaterialVisibility.Private
+		this.defaultVisibility = app.isMebis() ? MaterialVisibility.Private
 				: MaterialVisibility.Shared;
 		this.appW = app;
 		this.loc = appW.getLocalization();
@@ -245,7 +245,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-		if (!appW.isWhiteboardActive()) {
+		if (!appW.isMebis()) {
 			buttonPanel.add(providerPopup);
 			buttonPanel.add(listBox);
 		}

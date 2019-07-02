@@ -3985,6 +3985,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
+	/**
+	 * Is running mebis app.
+	 *
+	 * @return true if mebis is running.
+	 */
+	public boolean isMebis() {
+		return false;
+	}
+
 	public boolean isUnbundledOrWhiteboard() {
 		return isUnbundled() || isWhiteboardActive();
 	}
