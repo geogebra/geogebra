@@ -13,6 +13,7 @@ import java.util.Vector;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.singularws.SingularWebService;
@@ -5147,5 +5148,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void copyImageToClipboard(String dataURI) {
 		// implemented in AppD, AppW
+	}
+
+	/**
+	 * Returns the primary color of the app.
+	 *
+	 * @return primary color
+	 */
+	public GColor getPrimaryColor() {
+		return GeoGebraColorConstants.GEOGEBRA_ACCENT;
 	}
 }

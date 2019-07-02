@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -4006,6 +4007,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public JavaScriptObject getEmbeddedCalculators() {
 		// iplemented in AppWFull
 		return null;
+	}
 
+	@Override
+	public GColor getPrimaryColor() {
+		return getVendorSettings().getPrimaryColor();
 	}
 }

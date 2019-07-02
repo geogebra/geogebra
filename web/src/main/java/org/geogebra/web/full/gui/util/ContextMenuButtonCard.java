@@ -84,7 +84,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 
 	private SVGResource getActiveImageResource() {
 		SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
-		return resource.withFill(app.getVendorSettings().getPrimaryColor());
+		return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
 	}
 
 	/**

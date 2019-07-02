@@ -45,7 +45,7 @@ public class ToolButton extends StandardButton {
 				.getMenu(EuclidianConstants.getModeText(mode)), 24, app);
 		this.mode = mode;
 		this.appW = app;
-		this.selectedColor = app.getVendorSettings().getPrimaryColor();
+		this.selectedColor = app.getVendorSettings().getPrimaryColor().toString();
 		setStyleName("toolButton");
 		setAccessible();
 		setSelected(false); // update icon

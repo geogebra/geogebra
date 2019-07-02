@@ -183,6 +183,6 @@ public class ContextMenuPopup extends MyCJButton
 
 	private SVGResource getActiveMoreVert() {
 		SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
-		return resource.withFill(app.getVendorSettings().getPrimaryColor());
+		return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
 	}
 }

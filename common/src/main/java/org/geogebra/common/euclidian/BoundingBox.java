@@ -18,7 +18,7 @@ import org.geogebra.common.factories.AwtFactory;
 
 /**
  * bounding box construction for selected elements
- * 
+ *
  * @author csilla
  *
  */
@@ -29,6 +29,7 @@ public class BoundingBox {
 	private int nrHandlers = 8;
 	private boolean isCropBox = false;
 	private boolean isImage = false;
+	private GColor color;
 	private static final int ROTATION_HANDLER_DISTANCE = 25;
 	/**
 	 * size of handler
@@ -41,7 +42,7 @@ public class BoundingBox {
 
 	/**
 	 * Make new bounding box
-	 * 
+	 *
 	 * @param isImage
 	 *            true if is boundingBox of image
 	 * @param hasRotationHandler
@@ -54,11 +55,12 @@ public class BoundingBox {
 			this.isImage = isImage;
 			setCropHandlers(new ArrayList<GGeneralPath>());
 		}
+		setColor(GColor.GEOGEBRA_BLUE);
 	}
 
 	/**
 	 * New bounding box with defined rectangle
-	 * 
+	 *
 	 * @param rect
 	 *            defined rectangle
 	 * @param isImage
@@ -70,6 +72,24 @@ public class BoundingBox {
 			boolean hasRotationHandler) {
 		this(isImage, hasRotationHandler);
 		setRectangle(rect);
+	}
+
+	/**
+	 * Get the color of the bounding box.
+	 *
+	 * @return color
+	 */
+	public GColor getColor() {
+		return color;
+	}
+
+	/**
+	 * Sets the color of the bounding box.
+	 *
+	 * @param color
+	 */
+	public void setColor(GColor color) {
+		this.color = color;
 	}
 
 	/**
@@ -304,7 +324,7 @@ public class BoundingBox {
 
 	/**
 	 * method to draw the bounding box construction for selected geo
-	 * 
+	 *
 	 * @param g2
 	 *            - graphics
 	 */
@@ -315,7 +335,7 @@ public class BoundingBox {
 			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 			g2.fill(rectangle);
-			g2.setColor(GColor.MOW_MEBIS_TEAL);
+			g2.setColor(color);
 			g2.draw(rectangle);
 		}
 		if (handlers != null && !handlers.isEmpty() && !isCropBox) {
@@ -326,12 +346,12 @@ public class BoundingBox {
 						rectangle.getMinY(),
 						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
-				g2.setColor(GColor.MOW_MEBIS_TEAL);
+				g2.setColor(color);
 				g2.draw(line);
 			}
 
 			for (int i = 0; i < /* = */nrHandlers; i++) {
-				g2.setPaint(GColor.MOW_MEBIS_TEAL);
+				g2.setPaint(color);
 				g2.fill(handlers.get(i));
 				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 						GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
@@ -364,7 +384,7 @@ public class BoundingBox {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param threshold
 	 *            controller threshold
 	 * @return distance threshold to select a point
@@ -415,7 +435,7 @@ public class BoundingBox {
 
 	/**
 	 * Does the same as hitHandlers but returns a EuclidianBoundingBoxHandler
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coord
 	 * @param y

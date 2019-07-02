@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.gui.laf;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
@@ -57,7 +59,7 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public String getPrimaryColor() {
-		return "#00a8d5";
+	public GColor getPrimaryColor() {
+		return GeoGebraColorConstants.MEBIS_ACCENT;
 	}
 }

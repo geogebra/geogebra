@@ -899,4 +899,22 @@ public abstract class Drawable extends DrawableND {
 	public boolean isHighlighted() {
 		return getTopLevelGeo().doHighlighting();
 	}
+
+	/**
+	 * Helper method for creating a BoundingBox object.
+	 * @param isImage is image
+	 * @param hasRotationHandler has rotation handler
+	 * @return bounding box
+	 */
+	protected BoundingBox createBoundingBox(boolean isImage, boolean hasRotationHandler) {
+		BoundingBox boundingBox = new BoundingBox(isImage, hasRotationHandler);
+		boundingBox.setColor(getActiveColor());
+
+		return boundingBox;
+	}
+
+	private GColor getActiveColor() {
+		App app = geo.getKernel().getApplication();
+		return app.getPrimaryColor();
+	}
 }

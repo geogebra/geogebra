@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.laf;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
@@ -52,9 +53,9 @@ public interface VendorSettings {
 	String getUnsupportedBrowserErrorKey();
 
 	/**
-	 * Returns the primary color in HEX format.
+	 * Returns the primary color.
 	 *
-	 * @return the primary color in HEX
+	 * @return the primary color
 	 */
-	String getPrimaryColor();
+	GColor getPrimaryColor();
 }
