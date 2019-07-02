@@ -474,7 +474,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		updateMenuPosition();
 		markMenuAsExpanded(false);
-
 		btnMenu.addTabHandler(this);
 	}
 

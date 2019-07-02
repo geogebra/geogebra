@@ -10,7 +10,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -40,7 +39,6 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -52,9 +50,6 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -71,7 +66,9 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class GeoGebraFrameFull
-		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
+		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard,
+		FastClickHandler
+{
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -84,7 +81,7 @@ public class GeoGebraFrameFull
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private ToolbarMow toolbarMow;
-	private StandardButton openMenuButton;
+//	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
@@ -713,6 +710,11 @@ public class GeoGebraFrameFull
 		ggwToolBar.attachMenubar();
 	}
 
+	@Override
+	public int getAbsoluteTop() {
+		return super.getAbsoluteTop();
+	}
+
 	/**
 	 * Adds toolbar
 	 *
@@ -722,7 +724,7 @@ public class GeoGebraFrameFull
 	public void attachToolbar(AppW app1) {
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
-			attachOpenMenuButton();
+			app1.getVendorSettings().attachMainMenu(app1, this);
 			initPageControlPanel(app1);
 			return;
 		}
@@ -862,43 +864,6 @@ public class GeoGebraFrameFull
 		return panelTransitioner.getCurrentPanel() != null;
 	}
 
-	private void attachOpenMenuButton() {
-		openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
-				24, app);
-		/*
-		 * openMenuButton.getUpHoveringFace()
-		 * .setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(), 32));
-		 */
-		openMenuButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onMenuButtonPressed();
-				if (getApplication().isWhiteboardActive()) {
-					deselectDragBtn();
-				}
-			}
-		});
-
-		openMenuButton.addDomHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					getApplication().toggleMenu();
-				}
-				// if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-				// GGWToolBar.this.selectMenuButton(0);
-				// }
-				// if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-				// GGWToolBar.this.toolBar.selectMenu(0);
-				// }
-			}
-		}, KeyUpEvent.getType());
-
-		openMenuButton.addStyleName("mowOpenMenuButton");
-		add(openMenuButton);
-	}
-
 	/**
 	 * Actions performed when menu button is pressed
 	 */
@@ -1007,5 +972,13 @@ public class GeoGebraFrameFull
 			return 0;
 		}
 		return headerResizer.getSmallScreenHeight();
+	}
+
+	@Override
+	public void onClick(Widget source) {
+		onMenuButtonPressed();
+		if (getApplication().isWhiteboardActive()) {
+			deselectDragBtn();
+		}
 	}
 }

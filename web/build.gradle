@@ -193,7 +193,7 @@ task copyHtml {
             def vendor = app.vendor ?: "GeoGebra"
             def appID = app.id.split("-")[0]
             def appTransKey = app.transKey
-            def header = appID == "notes" ? "" : template("app-header-beta.html")
+            def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
             def partials = app.partials ?: ["share-button", "signin-button"]
             partials.each({
                 header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));

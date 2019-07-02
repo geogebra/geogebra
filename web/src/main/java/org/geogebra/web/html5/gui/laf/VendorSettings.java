@@ -2,7 +2,9 @@ package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
+import org.geogebra.web.html5.main.AppW;
 
 /**
  * Vendor dependent settings
@@ -58,4 +60,14 @@ public interface VendorSettings {
 	 * @return the primary color
 	 */
 	GColor getPrimaryColor();
+
+	/**
+	 * Attach main menu button to the right place.
+	 *
+	 * @param app
+	 * 				The application.
+	 * @param handler
+	 * 				handler for the menu
+	 */
+	void attachMainMenu(AppW app, FastClickHandler handler);
 }

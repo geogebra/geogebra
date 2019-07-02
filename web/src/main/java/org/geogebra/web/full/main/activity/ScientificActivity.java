@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
-import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -20,6 +19,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionScientific;
 import org.geogebra.web.full.main.HeaderResizer;
+import org.geogebra.web.html5.gui.ExternalMainMenu;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -53,17 +53,9 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	private static void initHeaderButtons(AppW app) {
-		initMenuToggleButton(app);
+		ExternalMainMenu.menuToGlobalHeader(app);
 		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
 		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
-	}
-
-	private static void initMenuToggleButton(AppW app) {
-		if (GlobalHeader.isInDOM()) {
-			MenuToggleButton btn = new MenuToggleButton(app);
-			btn.setExternal(true);
-			btn.addToGlobalHeader();
-		}
 	}
 
 	@Override
