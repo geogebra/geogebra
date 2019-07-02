@@ -204,7 +204,7 @@ task copyHtml {
             def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
                     "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
             return replaceVendor(html, vendor)
-            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(appID+"-splash.html") + "</div>")
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(app.id+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
