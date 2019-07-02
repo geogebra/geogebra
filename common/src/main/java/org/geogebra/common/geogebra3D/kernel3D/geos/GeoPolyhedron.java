@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.ConstructionElementCycle;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
+import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
@@ -50,7 +51,9 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -62,7 +65,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoPolyhedron extends GeoElement3D
 		implements HasSegments, HasVolume, Traceable, RotateableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
-		Path, GeoPolyhedronInterface, GeoNumberValue {
+		Path, GeoPolyhedronInterface, GeoNumberValue, Region {
 
 	/** unknown */
 	public static final int TYPE_UNKNOWN = 0;
@@ -200,6 +203,77 @@ public class GeoPolyhedron extends GeoElement3D
 			return index;
 		}
 
+	}
+
+	static private class PointChangedHelper {
+		private Coords coordsOld;
+		private GeoPoint3D point;
+		private boolean useLine;
+		private double minDistLine;
+		private double minDist;
+		private Coords result;
+		private double t1;
+		private double t2;
+		private int index;
+		private int resultIndex;
+
+		public PointChangedHelper(GeoPoint3D point) {
+			this.point = point;
+			coordsOld = Coords.createInhomCoorsInD3();
+			coordsOld.set3(point.getInhomCoordsInD3());
+			minDistLine = Double.POSITIVE_INFINITY;
+			minDist = Double.POSITIVE_INFINITY;
+			useLine = point.hasWillingCoords() && point.hasWillingDirection();
+			index = 0;
+		}
+
+		public void update(GeoPolygon polygon) {
+			point.setRegion(polygon);
+			point.setCoords(coordsOld, false);
+			polygon.pointChangedForRegion(point);
+			if (useLine) {
+				double distLine = point.getInhomCoords().distLine(
+						point.getWillingCoords(), point.getWillingDirection());
+				double dist = point.getInhomCoords().sub(point.getWillingCoords())
+						.squareNorm();
+				if (DoubleUtil.isGreater(minDistLine, distLine)) {
+					update(distLine, dist);
+				} else if (DoubleUtil.isEqual(minDistLine, distLine)) {
+					if (dist < minDist) {
+						update(dist);
+					}
+				}
+			} else {
+				double dist = point.getInhomCoords().sub(coordsOld).squareNorm();
+				if (dist < minDist) {
+					update(dist);
+				}
+			}
+			index++;
+		}
+
+		private void update(double distLine, double dist) {
+			minDistLine = distLine;
+			update(dist);
+		}
+
+		private void update(double dist) {
+			minDist = dist;
+			result = point.getInhomCoords().copyVector();
+			t1 = point.getRegionParameters().getT1();
+			t2 = point.getRegionParameters().getT2();
+			resultIndex = index;
+		}
+
+		public void setResult() {
+			point.setCoords(result, false);
+			point.getRegionParameters().setT1(getNormalized(t1) + resultIndex);
+			point.getRegionParameters().setT2(t2);
+		}
+
+		static public double getNormalized(double t) {
+			return (PathNormalizer.inverseInfFunction(t) + 1) / 2;
+		}
 	}
 
 	/**
@@ -2280,6 +2354,51 @@ public class GeoPolyhedron extends GeoElement3D
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean isRegion() {
+		return kernel.getApplication().has(Feature.G3D_POLYHEDRON_IS_REGION);
+	}
+
+	@Override
+	public boolean isRegion3D() {
+		return kernel.getApplication().has(Feature.G3D_POLYHEDRON_IS_REGION);
+	}
+
+	@Override
+	public void pointChangedForRegion(GeoPointND P) {
+		Region oldRegion = P.getRegion();
+		PointChangedHelper helper = new PointChangedHelper((GeoPoint3D) P);
+		for (GeoPolygon p : getPolygonsLinked()) {
+			helper.update(p);
+		}
+		for (GeoPolygon3D p : getPolygons()) {
+			helper.update(p);
+		}
+		helper.setResult();
+		P.setRegion(oldRegion);
+	}
+
+	@Override
+	public void regionChanged(GeoPointND P) {
+
+	}
+
+	@Override
+	public boolean isInRegion(GeoPointND P) {
+		for (GeoPolygon3D p : getPolygons()) {
+			if (p.isInRegion(P)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isInRegion(double x0, double y0) {
+		// not used
+		return false;
 	}
 
 }
