@@ -945,8 +945,13 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public GeoSegmentND[] getSegments() {
-		GeoSegmentND[] ret = new GeoSegmentND[segments.size()];
+		GeoSegmentND[] ret = new GeoSegmentND[segmentsLinked.size()
+				+ segments.size()];
 		int i = 0;
+		for (GeoSegmentND segment : segmentsLinked.values()) {
+			ret[i] = segment;
+			i++;
+		}
 		for (GeoSegment3D segment : segments.values()) {
 			ret[i] = segment;
 			i++;

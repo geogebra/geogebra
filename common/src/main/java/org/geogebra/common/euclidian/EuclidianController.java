@@ -136,6 +136,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.kernel.statistics.CmdFitLineY;
 import org.geogebra.common.main.App;
@@ -5118,8 +5119,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						}
 
 						boolean sideInHits = false;
-						if (region.isGeoPolygon()) {
-							GeoSegmentND[] sides = ((GeoPolygon) region)
+						if (region instanceof HasSegments) {
+							GeoSegmentND[] sides = ((HasSegments) region)
 									.getSegments();
 
 							if (sides != null) {
@@ -5169,7 +5170,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						// for path (use it also when region is conic, etc.)
 						if (!sideInHits) {
 							createPoint = true;
-							hits.removePolygonsIfSideNotPresent(); // if a
+							hits.removeHasSegmentsIfSideNotPresent(); // if a
 							// polygon is a region, need only polygons
 							// that should be a path
 							if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
@@ -6422,7 +6423,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_SELECT_MOW:
-			hits.removePolygonsIfSidePresent();
+			hits.removeHasSegmentsIfSidePresent();
 			break;
 		default:
 			hits.removePolygons();

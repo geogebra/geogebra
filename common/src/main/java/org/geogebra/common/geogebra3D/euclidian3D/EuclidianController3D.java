@@ -2396,7 +2396,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits.clear();
 			return null;
 		}
-		hits.removePolygonsIfSidePresent();
+		hits.removeHasSegmentsIfSidePresent();
 
 		if (goodHits == null) {
 			goodHits = new Hits3D();
