@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.web.html5.gui.ExternalMainMenu;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -61,6 +60,5 @@ public class GgbSettings implements VendorSettings {
 
 	@Override
 	public void attachMainMenu(AppW app, FastClickHandler handler) {
-		ExternalMainMenu.menuToGlobalHeader(app);
 	}
 }
