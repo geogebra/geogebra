@@ -1137,7 +1137,8 @@ $duration: 0.2s;
 			    border-bottom: 2px solid $mow_dark !important;
 			}
 			.linkBox::selection {
-  				background: $mow_primary_20;
+  				background: rgba($mow_primary, 0.2)
+
   			}
   		}
 
@@ -1362,7 +1363,7 @@ $duration: 0.2s;
 				    border-bottom: 2px solid $mow_dark !important;
 				}
 				.linkBox::selection {
-	  				background: $mow_primary_20;
+	  				background: rgba($mow_primary, 0.2);
 	  			}
 
 	  			.copyButton {

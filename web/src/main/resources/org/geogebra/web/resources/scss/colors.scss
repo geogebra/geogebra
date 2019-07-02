@@ -2,7 +2,6 @@
 // PURPLE
 $purple-light: #9984FF;
 $purple-default: #6557D2;
-$purple-default-20: rgba($purple-default, 0.2);
 $purple-dark: #4C42A1;
 $purple-dark-26: rgba($purple-dark, 0.26);
 $purple-dark-87: rgba($purple-dark, 0.87);
@@ -88,7 +87,6 @@ $slider-track: rgba(0, 0, 0, 0.4);
 $slider-track-focus: rgba(0, 0, 0, 0.6);
 
 $mow_primary: $purple-default !default;
-$mow_primary_20: $purple-default-20 !default;
 $mow_toolbar: $purple-default !default;
 $mow_highlight: $purple-default !default;
 $mow_dark: $purple-dark !default;
@@ -96,6 +94,8 @@ $mow_light: $purple-light !default;
 $mow_hover: $purple-dark !default;
 $mow_dark_26: $purple-dark-26 !default;
 $mow_dark_87: $purple-dark-87 !default;
+
+// New set of colors
 
 $mow_grey_button: #f5f5f5;
 $mow_card_background: #fafafa;
