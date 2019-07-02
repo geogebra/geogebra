@@ -409,7 +409,7 @@
 	    		transition: border-bottom 0.3s ease-out;
 	    		
 	    		&:hover {
-	    		  	border-bottom: 1px solid $mow_highlight !important;
+	    		  	border-bottom: 1px solid $mow_primary !important;
 	    		}
 	    	}
 	    	.materialPanel {
@@ -568,7 +568,7 @@
 					}	
 				}
 				.FABteal {
-					background-color: $mow_highlight;
+					background-color: $mow_primary;
 					&:hover {
 						background-color: $mow_hover;
 					}
