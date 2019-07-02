@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -39,6 +40,7 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -50,6 +52,9 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -724,7 +729,7 @@ public class GeoGebraFrameFull
 	public void attachToolbar(AppW app1) {
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
-			app1.getVendorSettings().attachMainMenu(app1, this);
+			attachMowMainMenu(app1, this);
 			initPageControlPanel(app1);
 			return;
 		}
@@ -747,6 +752,28 @@ public class GeoGebraFrameFull
 			insert(ggwToolBar, 0);
 		}
 	}
+
+	public void attachMowMainMenu(final AppW app, FastClickHandler handler) {
+		StandardButton openMenuButton = new StandardButton(
+				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
+				24, app);
+
+		final GeoGebraFrameW frame = app.getAppletFrame();
+
+		openMenuButton.addFastClickHandler(handler);
+
+		openMenuButton.addDomHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					app.toggleMenu();
+				}
+			}
+		}, KeyUpEvent.getType());
+
+		openMenuButton.addStyleName("mowOpenMenuButton");
+		frame.add(openMenuButton);	}
+
 
 	private void attachToolbarMow(AppW app) {
 		initToolbarMowIfNull(app);

@@ -85,6 +85,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
+import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -125,6 +126,7 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Visibility;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -2537,6 +2539,14 @@ public class GuiManagerW extends GuiManager
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().updateTabs();
+		}
+	}
+
+	public void menuToHeader(AppW appW) {
+		if (GlobalHeader.isInDOM()) {
+			MenuToggleButton btn = new MenuToggleButton(appW);
+			btn.setExternal(true);
+			btn.addToGlobalHeader();
 		}
 	}
 }

@@ -105,7 +105,10 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
-import org.geogebra.web.html5.gui.laf.*;
+import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.laf.GgbSettings;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LightBox;
@@ -4018,4 +4021,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public GColor getPrimaryColor() {
 		return getVendorSettings().getPrimaryColor();
 	}
+
+	/**
+	 * Puts main menu to header
+	 */
+	public void menuToHeader() {}
 }

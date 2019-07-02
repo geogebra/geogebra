@@ -60,5 +60,6 @@ public class GgbSettings implements VendorSettings {
 
 	@Override
 	public void attachMainMenu(AppW app, FastClickHandler handler) {
+
 	}
 }

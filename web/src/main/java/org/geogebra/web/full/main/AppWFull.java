@@ -2100,4 +2100,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		getEmbedManager();
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
 	}
+
+	@Override
+	public void menuToHeader() {
+		guiManager.menuToHeader(this);
+	}
 }
