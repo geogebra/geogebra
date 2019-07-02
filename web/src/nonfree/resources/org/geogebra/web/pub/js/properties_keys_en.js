@@ -3097,7 +3097,7 @@ __GGB__keysVar["en"].menu = {
     "Webcam": "Webcam",
     "Webcam.Chrome": "Please select 'Allow' in the pop-up bar",
     "Webcam.Denied.Caption": "You denied access to the Camera",
-    "Webcam.Denied.Message": "Without access to the Camera the Video Tool will not work. Please change your Browser Settings.",
+    "Webcam.Denied.Message": "GeoGebra requires access to your camera. Click the camera blocked icon in your browser's address bar.",
     "Webcam.Denied.Message.Mebis": "Mebis requires access to your camera. Click the camera blocked icon in your browser's address bar.",
     "Webcam.Edge": "Please select 'Yes' in the pop-up bar",
     "Webcam.Firefox": "Please select 'Allow' in the pop-up",

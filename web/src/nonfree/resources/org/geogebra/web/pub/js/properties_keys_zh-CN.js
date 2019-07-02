@@ -3097,7 +3097,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Webcam": "\u7f51\u7edc\u6444\u50cf\u5934",
     "Webcam.Chrome": "\u8bf7\u5728\u5f39\u51fa\u680f\u4e2d\u9009\u62e9\"\u5141\u8bb8\"",
     "Webcam.Denied.Caption": "Camera \u88ab\u963b\u6b62\u4f7f\u7528",
-    "Webcam.Denied.Message": "GeoGebra \u8981\u6c42\u8bbf\u95ee\u6444\u50cf\u5934\u65f6, \u5355\u51fb\u6d4f\u89c8\u5668\u5730\u5740\u680f\u4e2d\u7684\u6444\u50cf\u5934\u963b\u6b62\u56fe\u6807.",
+    "Webcam.Denied.Message": "GeoGebra \u8981\u6c42\u8bbf\u95ee\u6444\u50cf\u5934. \u5355\u51fb\u6d4f\u89c8\u5668\u5730\u5740\u680f\u4e2d\u7684\u6444\u50cf\u5934\u963b\u6b62\u56fe\u6807.",
     "Webcam.Denied.Message.Mebis": "Mebis requires access to your camera. Click the camera blocked icon in your browser's address bar.",
     "Webcam.Edge": "\u8bf7\u5728\u5f39\u51fa\u680f\u4e2d\u9009\u62e9\"\u786e\u5b9a\"",
     "Webcam.Firefox": "\u8bf7\u5728\u5f39\u51fa\u7a97\u53e3\u4e2d\u9009\u62e9\"\u5141\u8bb8\"",
