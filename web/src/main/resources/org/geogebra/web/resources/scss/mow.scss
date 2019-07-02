@@ -200,7 +200,7 @@
 /*****************
 *   FLOATING ACTION BUTTONS
 ******************/
-	.mowFloatingButton{
+	.mowFloatingButton {
 		cursor: pointer;
 		position: fixed;
     	border-radius: 50%;
@@ -211,7 +211,7 @@
     	transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
     	
     	&:hover {
-    		background-color: $mow_dark;
+    		background-color: $mow_primary_variant;
     	}
 	}
 	.mowPlusButton{
