@@ -87,21 +87,21 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		}
 		switch (dialogType) {
 		case PERMISSION_REQUEST:
-			caption = loc.getMenu(app1.isWhiteboardActive()
+			caption = loc.getMenu(app1.isMebis()
 					? "Webcam.Request.Mebis" : "Webcam.Request");
 			message = loc.getMenu(
-					app1.isWhiteboardActive() ? "Webcam.Request.Message.Mebis"
+					app1.isMebis() ? "Webcam.Request.Message.Mebis"
 							: "Webcam.Request.Message");
 			break;
 		case PERMISSION_DENIED:
 			caption = loc.getMenu("Webcam.Denied.Caption");
-			message = loc.getMenu(app1.isWhiteboardActive()
+			message = loc.getMenu(app1.isMebis()
 					? "Webcam.Denied.Message.Mebis" : "Webcam.Denied.Message");
 			break;
 		case ERROR:
 			caption = loc.getMenu("Webcam.Problem");
 			message = loc.getMenu(
-					app1.isWhiteboardActive() ? "Webcam.Problem.Message.Mebis"
+					app1.isMebis() ? "Webcam.Problem.Message.Mebis"
 							: "Webcam.Problem.Message");
 			break;
 		case NOT_SUPPORTED:
