@@ -7246,7 +7246,7 @@ namespace giac {
       if ((a==plus_inf) || (a==minus_inf))
 	return 0;
       {
-	vecteur v=alg_lvar(a);
+	vecteur v=alg_lvar(a); // change for limit(1/(1+sqrt(2)*cos(x))*sin(x-3*pi/4),x=3*pi/4); maybe we should only do evalf test and return undef
 	if (v.size()==1 && v.front().type==_VECT && v.front()._VECTptr->empty() && is_zero(evalf(a,1,contextptr)) && is_exactly_zero(recursive_normal(a,contextptr)))
 	return unsigned_inf;
       }
