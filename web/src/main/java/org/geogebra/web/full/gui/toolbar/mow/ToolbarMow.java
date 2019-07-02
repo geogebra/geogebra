@@ -160,27 +160,53 @@ public class ToolbarMow extends FlowPanel
 	 * updates position of pageControlButton and zoomPanel
 	 */
 	public void updateFloatingButtonsPosition() {
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) (appW.getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		if (!appW.isWhiteboardActive()) {
 			if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
-				dp.setZoomPanelBottom(true);
+				moveZoomPanelDown();
 			} else {
-				dp.setZoomPanelBottom(false);
-				dp.moveZoomPanelUpOrDown(isOpen);
+				moveZoomPanelAboveToolbar();
 			}
 		} else {
 			if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
-				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
-				dp.setZoomPanelBottom(true);
+				moveZoomPanelDown();
+				movePageControlButtonDown();
 			} else {
-				pageControlButton.getElement().getStyle().clearBottom();
-				dp.setZoomPanelBottom(false);
-				Dom.toggleClass(pageControlButton, "showMowSubmenu",
-						"hideMowSubmenu", isOpen);
-				dp.moveZoomPanelUpOrDown(isOpen);
+				moveZoomPanelAboveToolbar();
+				movePageControlButtonAboveToolbar();
 			}
 		}
+	}
+
+	private void movePageControlButtonDown() {
+		pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
+		pageControlButton.removeStyleName("narrowscreen");
+	}
+
+	private void movePageControlButtonAboveToolbar() {
+		pageControlButton.getElement().getStyle().clearBottom();
+		Dom.toggleClass(
+				pageControlButton,
+				"showMowSubmenu", "hideMowSubmenu",
+				isOpen);
+		pageControlButton.addStyleName("narrowscreen");
+	}
+
+	private void moveZoomPanelDown() {
+		getDockPanel().moveZoomPanelToBottom();
+	}
+
+	private void moveZoomPanelAboveToolbar() {
+		EuclidianDockPanelW dockPanel = getDockPanel();
+		dockPanel.moveZoomPanelAboveToolbar();
+		dockPanel.moveZoomPanelUpOrDown(isOpen);
+	}
+
+	private EuclidianDockPanelW getDockPanel() {
+		return (EuclidianDockPanelW) appW
+				.getGuiManager()
+				.getLayout()
+				.getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN);
 	}
 
 	private boolean isEnoughSpaceForFloatingButtonBesideToolbar() {

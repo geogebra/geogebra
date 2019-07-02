@@ -17,7 +17,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -414,21 +413,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
-	/**
-	 * Sets the bottom attribute of zoomPanel
-	 *
-	 * @param add
-	 *            true if needs to be set, false if needs to be removed
-	 */
-	public void setZoomPanelBottom(boolean add) {
-		if (zoomPanel == null) {
-			return;
-		}
-		if (add) {
-			zoomPanel.getElement().getStyle().setBottom(0, Unit.PX);
-		} else {
-			zoomPanel.getElement().getStyle().clearBottom();
-		}
+	public void moveZoomPanelToBottom() {
+		zoomPanel.removeStyleName("narrowscreen");
+	}
+
+	public void moveZoomPanelAboveToolbar() {
+		zoomPanel.addStyleName("narrowscreen");
 	}
 
 	@Override
