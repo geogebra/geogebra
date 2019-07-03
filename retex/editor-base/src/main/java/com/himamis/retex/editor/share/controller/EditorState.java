@@ -177,8 +177,23 @@ public class EditorState {
 	}
 
 	/**
-	 * @param left
-	 *            whether to search left
+	 * Select from cursor position to end of current sub-formula
+	 */
+	public void selectToStart() {
+		extendSelection(getCursorField(false));
+		extendSelection(getCurrentField().getArgument(0));
+	}
+
+	/**
+	 * Select from cursor position to start of current sub-formula
+	 */
+	public void selectToEnd() {
+		extendSelection(getCursorField(true));
+		extendSelection(getCurrentField().getArgument(getCurrentField().size() - 1));
+	}
+
+	/**
+	 * @param left whether to search left
 	 * @return field directly left or right to the caret
 	 */
 	public MathComponent getCursorField(boolean left) {

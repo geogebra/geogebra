@@ -70,10 +70,18 @@ public class KeyListenerImpl {
 			// inputController.escSymbol(editorState);
 			return true;
 		case JavaKeyCodes.VK_HOME:
-			CursorController.firstField(editorState);
+			if (shiftPressed) {
+				editorState.selectToStart();
+			} else {
+				CursorController.firstField(editorState);
+			}
 			return true;
 		case JavaKeyCodes.VK_END:
-			CursorController.lastField(editorState);
+			if (shiftPressed) {
+				editorState.selectToEnd();
+			} else {
+				CursorController.lastField(editorState);
+			}
 			return true;
 		case JavaKeyCodes.VK_LEFT:
 			cursorController.prevCharacter(editorState);
