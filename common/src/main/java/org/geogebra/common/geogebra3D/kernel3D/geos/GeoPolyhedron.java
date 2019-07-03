@@ -2380,10 +2380,14 @@ public class GeoPolyhedron extends GeoElement3D
 		Region oldRegion = P.getRegion();
 		PointChangedHelper helper = new PointChangedHelper((GeoPoint3D) P);
 		for (GeoPolygon p : getPolygonsLinked()) {
-			helper.update(p);
+			if (p.isDefined()) {
+				helper.update(p);
+			}
 		}
 		for (GeoPolygon3D p : getPolygons()) {
-			helper.update(p);
+			if (p.isDefined()) {
+				helper.update(p);
+			}
 		}
 		helper.setResult();
 		P.setRegion(oldRegion);
