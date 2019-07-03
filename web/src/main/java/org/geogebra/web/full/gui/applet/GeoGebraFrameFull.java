@@ -26,7 +26,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
-import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -49,7 +48,6 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
-import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -74,8 +72,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GeoGebraFrameFull
 		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard,
-		FastClickHandler
-{
+		FastClickHandler, KeyUpHandler {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -88,7 +85,6 @@ public class GeoGebraFrameFull
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private ToolbarMow toolbarMow;
-//	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
@@ -717,11 +713,6 @@ public class GeoGebraFrameFull
 		ggwToolBar.attachMenubar();
 	}
 
-	@Override
-	public int getAbsoluteTop() {
-		return super.getAbsoluteTop();
-	}
-
 	/**
 	 * Adds toolbar
 	 *
@@ -734,9 +725,9 @@ public class GeoGebraFrameFull
 
 			//TODO eliminate this if
 			if (app1.getVendorSettings().isMainMenuExternal()) {
-				menuToHeader(app1);
+				app1.getGuiManager().menuToGlobalHeader();
 			} else {
-				attachMowMainMenu(app1, this);
+				attachMowMainMenu(app1);
 			}
 			initPageControlPanel(app1);
 			return;
@@ -761,34 +752,28 @@ public class GeoGebraFrameFull
 		}
 	}
 
-	public void attachMowMainMenu(final AppW app, FastClickHandler handler) {
+	private void attachMowMainMenu(final AppW app) {
 		StandardButton openMenuButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
 				24, app);
 
 		final GeoGebraFrameW frame = app.getAppletFrame();
 
-		openMenuButton.addFastClickHandler(handler);
-
-		openMenuButton.addDomHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					app.toggleMenu();
-				}
-			}
-		}, KeyUpEvent.getType());
+		openMenuButton.addFastClickHandler(this);
+		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
-		frame.add(openMenuButton);	}
+		frame.add(openMenuButton);
+	}
 
-	public void menuToHeader(AppW appW) {
-		if (GlobalHeader.isInDOM()) {
-			MenuToggleButton btn = new MenuToggleButton(appW);
-			btn.setExternal(true);
-			btn.addToGlobalHeader();
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			app.toggleMenu();
 		}
 	}
+
 
 
 	private void attachToolbarMow(AppW app) {

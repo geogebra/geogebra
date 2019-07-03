@@ -770,5 +770,4 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splash.canNowHide();
 		}
 	}
-
 }
