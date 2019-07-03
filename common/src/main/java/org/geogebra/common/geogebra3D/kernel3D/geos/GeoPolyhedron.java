@@ -216,6 +216,7 @@ public class GeoPolyhedron extends GeoElement3D
 		private Coords result;
 		private double t1;
 		private double t2;
+		private boolean isOnPath;
 		private int index;
 		private int resultIndex;
 		private GeoPolygon resultPolygon;
@@ -263,8 +264,10 @@ public class GeoPolyhedron extends GeoElement3D
 		private void update(double dist, GeoPolygon polygon) {
 			minDist = dist;
 			result = point.getInhomCoords().copyVector();
-			t1 = point.getRegionParameters().getT1();
-			t2 = point.getRegionParameters().getT2();
+			RegionParameters rp = point.getRegionParameters();
+			t1 = rp.getT1();
+			t2 = rp.getT2();
+			isOnPath = rp.isOnPath();
 			resultIndex = index;
 			resultPolygon = polygon;
 		}
@@ -275,6 +278,7 @@ public class GeoPolyhedron extends GeoElement3D
 			rp.setT1(getNormalized(t1) + resultIndex);
 			rp.setT2(t2);
 			rp.setNormal(resultPolygon.getDirectionInD3());
+			rp.setIsOnPath(isOnPath);
 		}
 
 		static public double getNormalized(double t) {
