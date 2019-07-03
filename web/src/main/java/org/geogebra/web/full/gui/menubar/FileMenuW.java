@@ -91,8 +91,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		addSeparator();
 		addExportImageItem();
 		addDownloadAsItem();
-		addPrintItem();
 		addShareItem();
+		addPrintItem();
 	}
 
 	private void buildFileMenuMebis() {
@@ -101,8 +101,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		addOpenOfflineFilesItem();
 		addSaveItem();
 		addSeparator();
-		addPrintItem();
 		addShareItem();
+		addPrintItem();
 	}
 
 	private void updateShareButton() {
