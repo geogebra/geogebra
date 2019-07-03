@@ -2,6 +2,7 @@ package org.geogebra.web.shared;
 
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -199,8 +200,9 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		printBtn.setText(localize("Print"));
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
-		shareHelp.setText(localize(app.isMebis()
-				? "ShareLinkHelpTxtMebis" : "SharedLinkHelpTxt"));
+
+		VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+		shareHelp.setText(localize(vendorSettings.getMenuLocalizationKey("SharedLinkHelpTxt")));
 	}
 
 	private String localize(String id) {
