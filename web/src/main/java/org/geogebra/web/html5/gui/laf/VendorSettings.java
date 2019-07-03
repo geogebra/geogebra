@@ -62,7 +62,7 @@ public interface VendorSettings {
 	 * Transforms the style name to the vendor specific version.
 	 *
 	 * @param styleName the default style name
-	 * @return the vendor spefici style name
+	 * @return the vendor specific style name
 	 */
 	String getStyleName(String styleName);
 }

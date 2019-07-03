@@ -292,7 +292,7 @@ public class ToolbarMow extends FlowPanel
 	private void createUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
 		undoRedoPanel.addStyleName("undoRedoPanel");
-		undoRedoPanel.addStyleName("undoRedoPositionMow");
+		undoRedoPanel.addStyleName(appW.getVendorSettings().getStyleName("undoRedoPosition"));
 		// create buttons
 		btnUndo = new StandardButton(
 				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
