@@ -63,4 +63,12 @@ public interface VendorSettings {
 	 * returns if main menu button should be external.
 	 */
 	boolean isMainMenuExternal();
+
+	/**
+	 * Transforms a localization key to the vendor specific version.
+	 *
+	 * @param key the default menu localization key
+	 * @return vendor specific localization key
+	 */
+	String getMenuLocalizationKey(String key);
 }

@@ -60,4 +60,9 @@ public class GgbSettings implements VendorSettings {
 	public boolean isMainMenuExternal() {
 		return true;
 	}
+
+	@Override
+	public String getMenuLocalizationKey(String key) {
+		return key;
+	}
 }
