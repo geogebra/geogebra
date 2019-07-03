@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWI;
 
@@ -24,11 +25,11 @@ public class AccessibleSlider implements AccessibleWidget, HasSliders {
 	 * @param view
 	 *            accessibility view
 	 */
-	public AccessibleSlider(GeoNumeric geo, WidgetFactory widgetFactory,
+	public AccessibleSlider(GeoNumeric geo, BaseWidgetFactory widgetFactory,
 			final AccessibilityView view) {
 		this.numeric = geo;
 		this.view = view;
-		slider = widgetFactory.makeSlider(0, this);
+		slider = WidgetFactory.makeSlider(0, this, widgetFactory);
 		update();
 	}
 

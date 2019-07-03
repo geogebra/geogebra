@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,7 +39,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	 *            controls factory
 	 */
 	public AccessibleGeoElement(final GeoElement geo, final App app,
-			final AccessibilityView view, WidgetFactory factory) {
+			final AccessibilityView view, BaseWidgetFactory factory) {
 		this.geo = geo;
 		this.label = factory.newLabel();
 		this.button = factory.newButton();

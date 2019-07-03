@@ -1,7 +1,11 @@
 package org.geogebra.web.full.gui.menubar;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
@@ -10,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.gwt.dom.client.TextAreaElement;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 
@@ -31,6 +36,10 @@ public class FileMenuTest {
 	public void fileNew() {
 		app = AppMocker
 				.mockApplet(new TestArticleElement("canary", "notes"));
+		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
+		ListBox mockBox = mock(ListBox.class);
+		when(factory.newListBox()).thenReturn(mockBox);
+		app.getDialogManager().setWidgetFactory(factory);
 		FileNewAction clear = new FileNewAction(app);
 		addObject("x");
 		clear.execute(null, app);

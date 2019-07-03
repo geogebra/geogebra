@@ -1,6 +1,7 @@
 package org.geogebra.web.test;
 
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -12,13 +13,14 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DomMocker {
 	public static Element getElement() {
-		Element elementWithTitle = Mockito.mock(Element.class);
+		Element elementWithTitle = mock(Element.class);
 		final Map<String, String> title = new HashMap<>();
 		Mockito.doAnswer(new Answer<Void>() {
 
@@ -45,7 +47,7 @@ public class DomMocker {
 						return title.get(invocation.getArgumentAt(0, String.class));
 					}
 				});
-		Mockito.when(elementWithTitle.getInnerText())
+		when(elementWithTitle.getInnerText())
 				.thenAnswer(new Answer<String>() {
 
 					@Override
@@ -53,6 +55,8 @@ public class DomMocker {
 						return String.valueOf(title.get("innerText"));
 					}
 				});
+		Style mockStyle = mock(Style.class);
+		when(elementWithTitle.getStyle()).thenReturn(mockStyle);
 		return elementWithTitle;
 	}
 

@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
@@ -27,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  * View for representation of geo elements as hidden DOM controls
  */
 public class AccessibilityView implements View {
-	private WidgetFactory sliderFactory;
+	private BaseWidgetFactory sliderFactory;
 	private FlowPanel controls;
 	private Map<GeoElement, AccessibleWidget> widgets;
 	private AppW app;
@@ -39,7 +40,7 @@ public class AccessibilityView implements View {
 	 * @param sliderFactory
 	 *            slider factory
 	 */
-	public AccessibilityView(final AppW app, WidgetFactory sliderFactory) {
+	public AccessibilityView(final AppW app, BaseWidgetFactory sliderFactory) {
 		this.app = app;
 		this.controls = sliderFactory.newPanel();
 		controls.addStyleName("accessibilityView");

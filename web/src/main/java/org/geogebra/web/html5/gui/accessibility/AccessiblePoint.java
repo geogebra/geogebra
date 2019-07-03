@@ -7,6 +7,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
@@ -29,7 +30,8 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	 * @param view
 	 *            accessibility view
 	 */
-	public AccessiblePoint(GeoPointND point, WidgetFactory widgetFactory, AccessibilityView view) {
+	public AccessiblePoint(GeoPointND point, BaseWidgetFactory widgetFactory,
+			AccessibilityView view) {
 		this.view = view;
 		this.point = point;
 		sliders = new ArrayList<>(3);
@@ -38,9 +40,9 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 		update();
 	}
 
-	private void initSliders(WidgetFactory widgetFactory) {
+	private void initSliders(BaseWidgetFactory widgetFactory) {
 		for (int i = 0; i < point.getDimension(); i++) {
-			sliders.add(widgetFactory.makeSlider(i, this));
+			sliders.add(WidgetFactory.makeSlider(i, this, widgetFactory));
 		}
 	}
 
