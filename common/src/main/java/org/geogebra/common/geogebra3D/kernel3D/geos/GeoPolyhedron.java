@@ -2400,6 +2400,12 @@ public class GeoPolyhedron extends GeoElement3D
 		int index = (int) t1;
 		GeoPolygon polygon = index < getFacesSize() ? getFace(index)
 				: polygons.lastEntry().getValue();
+		if (!polygon.isDefined()) {
+			for (int i = getFacesSize() - 1; i >= 0
+					&& !polygon.isDefined(); i--) {
+				polygon = getFace(i);
+			}
+		}
 		rp.setT1(PointChangedHelper.getUnNormalized(t1 - index));
 		Region oldRegion = P.getRegion();
 		P.setRegion(polygon);
