@@ -1,11 +1,10 @@
-package org.geogebra.io.latex;
+package org.geogebra.common.io;
 
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.KeyEvent;
@@ -15,7 +14,6 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorTypingTest {
@@ -23,7 +21,7 @@ public class EditorTypingTest {
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
-			FactoryProvider.setInstance(new FactoryProviderDesktop());
+			// FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
@@ -33,14 +31,14 @@ public class EditorTypingTest {
 	}
 
 	private class EditorChecker {
-		private MathFieldD mathField = new MathFieldD();
+		private MathFieldCommon mathField = new MathFieldCommon();
 
 		protected EditorChecker() {
 			// avoid synthetic access: can't be private
 		}
 
 		public void checkAsciiMath(String output) {
-			MathSequence rootComponent = getRootComponent(mathField);
+			MathSequence rootComponent = getRootComponent();
 			Assert.assertEquals(output,
 					GeoGebraSerializer.serialize(rootComponent));
 		}
@@ -61,11 +59,11 @@ public class EditorTypingTest {
 		}
 
 		public void checkRaw(String output) {
-			MathSequence rootComponent = getRootComponent(mathField);
+			MathSequence rootComponent = getRootComponent();
 			Assert.assertEquals(output, rootComponent + "");
 		}
 
-		private MathSequence getRootComponent(MathFieldD mathField) {
+		private MathSequence getRootComponent() {
 			MathFieldInternal mathFieldInternal = mathField.getInternal();
 			EditorState editorState = mathFieldInternal.getEditorState();
 			return editorState.getRootComponent();
