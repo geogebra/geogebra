@@ -6210,9 +6210,7 @@ namespace giac {
 	for (unsigned i=0;i<eq.size();++i){
 	  for (unsigned j=0;j<var.size();++j){
 	    if (is_linear_wrt(eq[i],var[j],a,b,contextptr)){
-	      if (j==0 && is_zero(a)){
-		if (!is_zero(b))
-		  return vecteur(0);
+	      if (j==0 && is_zero(a) && is_zero(b)){
 		// suppress eq[i]
 		eq.erase(eq.begin()+i);
 		--i;
