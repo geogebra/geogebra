@@ -10,21 +10,24 @@ import com.google.gwt.resources.client.ClientBundle;
  */
 public interface MebisResources extends ClientBundle, StylesProvider {
 
+	/**
+	 * Singleton instance
+	 */
 	MebisResources INSTANCE = GWT.create(MebisResources.class);
 
 	@Override
-	@ClientBundle.Source("org/geogebra/web/resources/scss/mebis/mow.scss")
+	@Source("org/geogebra/web/resources/scss/mebis/mow.scss")
 	SassResource mowStyle();
 
 	@Override
-	@ClientBundle.Source("org/geogebra/web/resources/scss/mebis/mow-toolbar.scss")
+	@Source("org/geogebra/web/resources/scss/mebis/mow-toolbar.scss")
 	SassResource mowToolbarStyle();
 
 	@Override
-	@ClientBundle.Source("org/geogebra/web/resources/scss/mebis/open-screen.scss")
+	@Source("org/geogebra/web/resources/scss/mebis/open-screen.scss")
 	SassResource openScreenStyle();
 
 	@Override
-	@ClientBundle.Source("org/geogebra/web/resources/scss/mebis/dialog-styles.scss")
+	@Source("org/geogebra/web/resources/scss/mebis/dialog-styles.scss")
 	SassResource dialogStylesScss();
 }
