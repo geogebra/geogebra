@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
