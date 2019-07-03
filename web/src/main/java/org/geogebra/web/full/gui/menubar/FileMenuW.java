@@ -144,12 +144,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 		@Override
 		public void onChange(ChangeEvent event) {
-			openFile(getSelectedFile(), bg);
+			bg.openFile(getSelectedFile());
 			this.removeFromParent();
-		}
-
-		private void openFile(JavaScriptObject fileToHandle, BrowseGUI brG) {
-			brG.openFile(fileToHandle, null);
 		}
 
 		private native JavaScriptObject getSelectedFile()/*-{

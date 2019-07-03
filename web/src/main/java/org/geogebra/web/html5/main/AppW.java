@@ -1296,14 +1296,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param fileToHandle
 	 *            archive
-	 * @param callback
-	 *            callback
 	 * @return whether file is valid
 	 */
-	public boolean openFile(JavaScriptObject fileToHandle,
-			JavaScriptObject callback) {
+	public boolean openFile(JavaScriptObject fileToHandle) {
 		resetPerspectiveParam();
-		return doOpenFile(fileToHandle, callback);
+		return doOpenFile(fileToHandle, null);
 	}
 
 	/**

@@ -250,18 +250,12 @@ public class OpenFileView extends MyHeaderPanel
 		close();
 	}
 
-	/**
-	 * @param fileToHandle
-	 *            JS file object
-	 * @param callback
-	 *            callback after file is open
-	 */
-	public void openFile(final JavaScriptObject fileToHandle,
-			final JavaScriptObject callback) {
+	@Override
+	public void openFile(final JavaScriptObject fileToHandle) {
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
-		app.openFile(fileToHandle, callback);
+		app.openFile(fileToHandle);
 		close();
 	}
 
