@@ -4960,10 +4960,10 @@ namespace giac {
     vecteur v(gen2vecteur(g));
     if (v.size()==1)
       v=gen2vecteur(eval(g,contextptr));
-    if (v.size()<3)
-      return v.front();
     if (v.size()<4){
-      gen v2=eval(v[2],1,contextptr);
+      gen v2;
+      if (v.size()==3)
+	v2=eval(v[2],1,contextptr);
       if (type==0 && v.size()==3 && v2.type==_VECT){
 	// for example seq(2^k,k,[1,2,5])
 	gen f=_unapply(makesequence(v[0],v[1]),contextptr);
