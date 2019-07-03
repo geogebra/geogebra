@@ -42,11 +42,6 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public String getVideoAccessErrorKey() {
-		return "VideoAccessError";
-	}
-
-	@Override
 	public String getUnsupportedBrowserErrorKey() {
 		return null;
 	}
