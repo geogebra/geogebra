@@ -35,7 +35,8 @@ public class FileMenuTest {
 	@Test
 	public void fileNew() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("canary", "notes"));
+				.mockApplet(new TestArticleElement("canary", "notes")
+						.attr("vendor", "mebis"));
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
 		ListBox mockBox = mock(ListBox.class);
 		when(factory.newListBox()).thenReturn(mockBox);

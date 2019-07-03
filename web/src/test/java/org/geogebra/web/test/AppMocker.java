@@ -33,7 +33,7 @@ public class AppMocker {
 		return mockApplet(new TestArticleElement("prerelease", appName));
 	}
 
-	public static AppWFull mockApplet(TestArticleElement ae) {
+	public static AppWFull mockApplet(ArticleElementInterface ae) {
 		GwtMockito.useProviderForType(PopupImpl.class,
 				new FakeProvider<PopupImpl>() {
 
