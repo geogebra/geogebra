@@ -42,11 +42,6 @@ public class GgbSettings implements VendorSettings {
 	}
 
 	@Override
-	public String getUnsupportedBrowserErrorKey() {
-		return null;
-	}
-
-	@Override
 	public GColor getPrimaryColor() {
 		return GeoGebraColorConstants.GEOGEBRA_ACCENT;
 	}

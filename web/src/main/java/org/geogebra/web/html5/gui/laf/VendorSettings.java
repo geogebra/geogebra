@@ -39,14 +39,6 @@ public interface VendorSettings {
 	FullScreenHandler getFullscreenHandler();
 
 	/**
-	 * Returns the translation key for the error message
-	 * describing that the browser is not supported.
-	 *
-	 * @return the translation key
-	 */
-	String getUnsupportedBrowserErrorKey();
-
-	/**
 	 * Returns the primary color.
 	 *
 	 * @return the primary color

@@ -63,8 +63,8 @@ public class NotesActivity extends BaseActivity {
 		messagePanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
 		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
 		messagePanel.setPanelTitle(localization.getMenu("UnsupportedBrowser"));
-		messagePanel.setPanelMessage(localization
-				.getMenu(vendorSettings.getUnsupportedBrowserErrorKey()));
+		String messageKey = vendorSettings.getMenuLocalizationKey("UnsupportedBrowser.Message");
+		messagePanel.setPanelMessage(localization.getMenu(messageKey));
 
 		return messagePanel;
 	}

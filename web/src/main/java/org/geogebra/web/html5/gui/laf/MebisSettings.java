@@ -49,11 +49,6 @@ public class MebisSettings implements VendorSettings {
 	}
 
 	@Override
-	public String getUnsupportedBrowserErrorKey() {
-		return "mow.unsupportedBrowserMessage";
-	}
-
-	@Override
 	public GColor getPrimaryColor() {
 		return GeoGebraColorConstants.MEBIS_ACCENT;
 	}
