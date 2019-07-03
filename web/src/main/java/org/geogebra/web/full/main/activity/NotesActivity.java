@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Visibility;
 
 /**
  * Activity class for the notes app
@@ -43,8 +44,7 @@ public class NotesActivity extends BaseActivity {
 	@Override
 	public void start(AppW appW) {
 		super.start(appW);
-		// TODO: Remove this check when implementing APPS-996
-		if (Browser.isIE() && appW.getVendorSettings() instanceof MebisSettings) {
+		if (Browser.isIE()) {
 			showBrowserNotSupportedMessage(appW);
 		}
 	}
@@ -54,7 +54,9 @@ public class NotesActivity extends BaseActivity {
 		VendorSettings vendorSettings = app.getVendorSettings();
 		MessagePanel messagePanel = createBrowserNotSupportedMessage(localization, vendorSettings);
 		GeoGebraFrameW frame = app.getAppletFrame();
+		frame.clear();
 		frame.add(messagePanel);
+		frame.forceHeaderVisibility(Visibility.HIDDEN);
 	}
 
 	private MessagePanel createBrowserNotSupportedMessage(
