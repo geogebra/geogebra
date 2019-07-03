@@ -57,4 +57,12 @@ public interface VendorSettings {
 	 * @return vendor specific localization key
 	 */
 	String getMenuLocalizationKey(String key);
+
+	/**
+	 * Transforms the style name to the vendor specific version.
+	 *
+	 * @param styleName the default style name
+	 * @return the vendor spefici style name
+	 */
+	String getStyleName(String styleName);
 }

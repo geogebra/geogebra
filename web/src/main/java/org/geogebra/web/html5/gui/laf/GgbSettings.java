@@ -55,4 +55,9 @@ public class GgbSettings implements VendorSettings {
 	public String getMenuLocalizationKey(String key) {
 		return key;
 	}
+
+	@Override
+	public String getStyleName(String styleName) {
+		return styleName;
+	}
 }

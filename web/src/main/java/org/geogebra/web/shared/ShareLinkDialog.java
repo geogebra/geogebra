@@ -63,8 +63,8 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private void initGui() {
-		addStyleName(
-				app.isMebis() ? "shareLinkMow" : "shareLinkGgb");
+		VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+		addStyleName(vendorSettings.getStyleName("shareLink"));
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addCloseHandler(new CloseHandler<GPopupPanel>() {

@@ -62,4 +62,9 @@ public class MebisSettings implements VendorSettings {
 	public String getMenuLocalizationKey(String key) {
 		return key + ".Mebis";
 	}
+
+	@Override
+	public String getStyleName(String styleName) {
+		return styleName + "Mebis";
+	}
 }

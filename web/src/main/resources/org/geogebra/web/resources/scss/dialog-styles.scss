@@ -829,7 +829,7 @@ $duration: 0.2s;
    			}
    		}
 	}
-	.MaterialDialogBox.shareLinkGgb {
+	.MaterialDialogBox.shareLink {
 		padding-bottom: 24px;
 		padding-right: 24px;
 
@@ -1098,8 +1098,8 @@ $duration: 0.2s;
 		}
 	}
 
-	.MaterialDialogBox.shareLinkMow {
-		@extend .shareLinkGgb;
+	.MaterialDialogBox.shareLinkMebis {
+		@extend .shareLink;
 
 		padding: 24px 8px 0px 24px;
 
