@@ -177,7 +177,7 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		if (app.isWhiteboardActive()) {
+		if (app.isMebis()) {
 			FileOpenButton mb = new FileOpenButton("containedButton");
 			OpenFileView of = new OpenFileView(app, mb);
 			mb.setOpenFileView(of);
