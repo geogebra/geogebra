@@ -250,6 +250,14 @@ public class EditorTypingTest {
 				.checkAsciiMath("1/2");
 	}
 
+	@Test
+	public void testBracketsAroundFunction() {
+		type("ln(x").typeKey(JavaKeyCodes.VK_LEFT)
+				.typeKey(JavaKeyCodes.VK_LEFT).typeKey(JavaKeyCodes.VK_LEFT)
+				.typeKey(JavaKeyCodes.VK_LEFT).type("(")
+				.checkAsciiMath("(ln(x))");
+	}
+
 	private EditorChecker type(String input) {
 		return new EditorChecker().type(input);
 	}

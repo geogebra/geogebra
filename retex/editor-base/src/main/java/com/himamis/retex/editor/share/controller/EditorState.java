@@ -362,8 +362,7 @@ public class EditorState {
 
 	private boolean endOfFunctionName() {
 		return currentField.getParent() instanceof MathFunction
-				&& ((MathFunction) currentField.getParent())
-						.getName() == Tag.APPLY
+				&& currentField.getParent().hasTag(Tag.APPLY)
 				&& currentField.getParentIndex() == 0;
 	}
 

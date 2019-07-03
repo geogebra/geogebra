@@ -86,6 +86,7 @@ public class InputController {
 	 */
 	public MathArray newArray(EditorState editorState, int size,
 			char arrayOpenKey, boolean reverse) {
+		moveCursorOutOfFunctionName(editorState);
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		MetaArray meta = metaModel.getArray(arrayOpenKey);
@@ -116,6 +117,21 @@ public class InputController {
 		return array;
 	}
 
+	private static void moveCursorOutOfFunctionName(EditorState editorState) {
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentField.getParent() != null
+				&& currentField.getParent().hasTag(Tag.APPLY)
+				&& currentField.getParentIndex() == 0) {
+			MathContainer function = currentField.getParent();
+			if (function.getParent() != null
+					&& function.getParent() instanceof MathSequence) {
+				editorState
+						.setCurrentField((MathSequence) function.getParent());
+				editorState.setCurrentOffset(function.getParentIndex());
+			}
+		}
+	}
+
 	/**
 	 * Insert matrix.
 	 */
@@ -142,6 +158,11 @@ public class InputController {
 
 	/**
 	 * Insert braces (), [], {}, "".
+	 * 
+	 * @param editorState
+	 *            editor state
+	 * @param ch
+	 *            opening bracket character
 	 */
 	public void newBraces(EditorState editorState, char ch) {
 		if (editorState.hasSelection()) {
@@ -597,7 +618,7 @@ public class InputController {
 				// if '|' typed at the end of an abs function
 				// special case
 			} else if (parent instanceof  MathFunction
-					&& Tag.ABS.equals(((MathFunction) parent).getName())
+					&& parent.hasTag(Tag.ABS)
 					&& ch == '|'
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				currentOffset = parent.getParentIndex() + 1;

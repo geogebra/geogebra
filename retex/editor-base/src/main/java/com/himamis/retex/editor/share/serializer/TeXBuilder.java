@@ -2,7 +2,6 @@ package com.himamis.retex.editor.share.serializer;
 
 import java.util.HashMap;
 
-import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -55,13 +54,8 @@ public class TeXBuilder {
 				addCursor(ra);
 			}
 
-			if (mathFormula.getArgument(i + 1) instanceof MathFunction) {
-				Tag name = ((MathFunction) mathFormula.getArgument(i + 1))
-						.getName();
-				if (Tag.SUPERSCRIPT == name || Tag.SUBSCRIPT == name) {
-					i++;
-					continue;
-				}
+			if (mathFormula.isScript(i + 1)) {
+				continue;
 			}
 
 			if (mathFormula.getArgument(i) == selectionStart) {
