@@ -723,7 +723,6 @@ public class GeoGebraFrameFull
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
 
-			//TODO eliminate this if
 			if (app1.getVendorSettings().isMainMenuExternal()) {
 				app1.getGuiManager().menuToGlobalHeader();
 			} else {
@@ -766,15 +765,12 @@ public class GeoGebraFrameFull
 		frame.add(openMenuButton);
 	}
 
-
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			app.toggleMenu();
 		}
 	}
-
-
 
 	private void attachToolbarMow(AppW app) {
 		initToolbarMowIfNull(app);
