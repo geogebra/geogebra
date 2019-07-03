@@ -19,12 +19,10 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
 		StylesProvider stylesProvider = createStylesProvider(ae);
-		StyleInjector.inject(stylesProvider.dialogStylesScss());
 		StyleInjector.inject(stylesProvider.mowStyle());
 		StyleInjector.inject(stylesProvider.mowToolbarStyle());
-		StyleInjector.inject(stylesProvider.openScreenStyle());
-
 		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
+		StyleInjector.inject(stylesProvider.openScreenStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.fonts());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 
@@ -35,6 +33,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.componentStyles());
+		StyleInjector.inject(stylesProvider.dialogStylesScss());
 		StyleInjector.inject(GuiResources.INSTANCE.settingsStyleScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
