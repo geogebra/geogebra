@@ -2,7 +2,6 @@ package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -66,12 +65,4 @@ public interface VendorSettings {
 	 * @return the vendor specific style name
 	 */
 	String getStyleName(String styleName);
-
-
-	/**
-	 * Returns with an icon provider which handles the vendor specific icons
-	 *
-	 * @return vendor specific icon provider
-	 */
-	ResourceIconProvider getResourceIconProvider();
 }

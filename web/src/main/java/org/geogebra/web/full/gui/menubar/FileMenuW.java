@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -113,7 +114,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void updateOpenFileButton() {
 		openFileItem.setHTML(MainMenu.getMenuBarHtmlClassic(
-				vendorSettings.getResourceIconProvider().openFileMenu().getSafeUri().asString(),
+				((AppWFull) getApp()).getActivity().getResourceIconProvider().openFileMenu().getSafeUri().asString(),
 				loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))));
 	}
 
@@ -194,7 +195,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	@Override
 	public SVGResource getImage() {
-		return vendorSettings.getResourceIconProvider().fileMenu();
+		return ((AppWFull) getApp()).getActivity().getResourceIconProvider().fileMenu();
 	}
 
 	@Override
@@ -269,7 +270,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItem() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(vendorSettings.getResourceIconProvider().openFileMenu(),
+				addItem(MainMenu.getMenuBarHtml(((AppWFull) getApp()).getActivity().getResourceIconProvider().openFileMenu(),
 						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))), true, new MenuCommand(getApp()) {
 
 					@Override
@@ -281,7 +282,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItemMebis() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(vendorSettings.getResourceIconProvider().openFileMenu(),
+				addItem(MainMenu.getMenuBarHtml(((AppWFull) getApp()).getActivity().getResourceIconProvider().openFileMenu(),
 						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))),
 						true, new MenuCommand(getApp()) {
 

@@ -16,7 +16,7 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 	 */
 	public FileNewAction(AppW app) {
 		super(app.getVendorSettings().getMenuLocalizationKey("New"),
-				app.getVendorSettings().getResourceIconProvider().newFileMenu());
+				((AppWFull) app).getActivity().getResourceIconProvider().newFileMenu());
 		this.app = app;
 	}
 

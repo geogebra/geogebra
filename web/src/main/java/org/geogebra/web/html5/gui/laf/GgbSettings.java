@@ -4,8 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -61,10 +59,5 @@ public class GgbSettings implements VendorSettings {
 	@Override
 	public String getStyleName(String styleName) {
 		return styleName;
-	}
-
-	@Override
-	public ResourceIconProvider getResourceIconProvider() {
-		return MaterialDesignResources.INSTANCE;
 	}
 }
