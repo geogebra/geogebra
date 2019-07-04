@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -403,22 +404,22 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public void moveZoomPanelUpOrDown(boolean up) {
 		if (zoomPanel != null) {
-			if (up) {
-				zoomPanel.removeStyleName("hideMowSubmenu");
-				zoomPanel.addStyleName("showMowSubmenu");
-			} else {
-				zoomPanel.removeStyleName("showMowSubmenu");
-				zoomPanel.addStyleName("hideMowSubmenu");
-			}
+			Dom.toggleClass(zoomPanel, "showMowSubmenu", "hideMowSubmenu", up);
 		}
 	}
 
+	/**
+	 * Move zoom panel to bottom
+	 */
 	public void moveZoomPanelToBottom() {
 		if (zoomPanel != null) {
 			zoomPanel.removeStyleName("narrowscreen");
 		}
 	}
 
+	/**
+	 * Move zoom panel to avoid conflicts with toolbar
+	 */
 	public void moveZoomPanelAboveToolbar() {
 		if (zoomPanel != null) {
 			zoomPanel.addStyleName("narrowscreen");

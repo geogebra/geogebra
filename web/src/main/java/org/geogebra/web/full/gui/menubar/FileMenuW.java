@@ -270,8 +270,12 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItem() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(((AppWFull) getApp()).getActivity().getResourceIconProvider().openFileMenu(),
-						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))), true, new MenuCommand(getApp()) {
+				addItem(MainMenu.getMenuBarHtml(
+						((AppWFull) getApp()).getActivity()
+								.getResourceIconProvider().openFileMenu(),
+						loc.getMenu(
+								vendorSettings.getMenuLocalizationKey("Open"))),
+						true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -282,7 +286,9 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItemMebis() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(((AppWFull) getApp()).getActivity().getResourceIconProvider().openFileMenu(),
+				addItem(MainMenu.getMenuBarHtml(
+						((AppWFull) getApp()).getActivity()
+								.getResourceIconProvider().openFileMenu(),
 						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))),
 						true, new MenuCommand(getApp()) {
 

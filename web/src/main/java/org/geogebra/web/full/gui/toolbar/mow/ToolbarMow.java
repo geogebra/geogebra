@@ -160,20 +160,12 @@ public class ToolbarMow extends FlowPanel
 	 * updates position of pageControlButton and zoomPanel
 	 */
 	public void updateFloatingButtonsPosition() {
-		if (!appW.isWhiteboardActive()) {
-			if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
-				moveZoomPanelDown();
-			} else {
-				moveZoomPanelAboveToolbar();
-			}
+		if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
+			moveZoomPanelDown();
+			movePageControlButtonDown();
 		} else {
-			if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
-				moveZoomPanelDown();
-				movePageControlButtonDown();
-			} else {
-				moveZoomPanelAboveToolbar();
-				movePageControlButtonAboveToolbar();
-			}
+			moveZoomPanelAboveToolbar();
+			movePageControlButtonAboveToolbar();
 		}
 	}
 
