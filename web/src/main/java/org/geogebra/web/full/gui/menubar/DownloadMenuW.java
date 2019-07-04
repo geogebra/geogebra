@@ -25,7 +25,7 @@ public class DownloadMenuW extends Submenu implements MenuBarI {
 
 	@Override
 	public SVGResource getImage() {
-		return ((AppWFull)getApp()).getActivity().getResourceIconProvider().downloadMenu();
+		return ((AppWFull) getApp()).getActivity().getResourceIconProvider().downloadMenu();
 	}
 
 	@Override
