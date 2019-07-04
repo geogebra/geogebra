@@ -139,7 +139,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-//@SuppressWarnings("javadoc")
 public class GuiManagerW extends GuiManager
 		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
 
@@ -445,8 +444,12 @@ public class GuiManagerW extends GuiManager
 		if (getApp().getToolbar() != null) {
 			getApp().getToolbar().closeAllSubmenu();
 		}
-		((DialogManagerW) app.getDialogManager())
-		.showWebcamInputDialog(this.device);
+		DialogManagerW dialogManager = (DialogManagerW) app.getDialogManager();
+		if (Browser.isiOS()) {
+			dialogManager.showImageInputDialog(null, device);
+		} else {
+			dialogManager.showWebcamInputDialog(device);
+		}
 	}
 
 	/**
