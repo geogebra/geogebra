@@ -91,10 +91,12 @@ public class InputController {
 		int currentOffset = editorState.getCurrentOffset();
 		MetaArray meta = metaModel.getArray(arrayOpenKey);
 		MathArray array = new MathArray(meta, size);
+		int cutPosition = reverse ?
+				findBackwardCutPosition(currentField, currentOffset) : currentOffset;
 		ArrayList<MathComponent> removed = reverse
-				? cut(currentField, 0, currentOffset - 1, editorState, array,
+				? cut(currentField, cutPosition, currentOffset - 1, editorState, array,
 						true)
-				: cut(currentField, currentOffset, -1, editorState, array,
+				: cut(currentField, cutPosition, -1, editorState, array,
 						true);
 
 		// add sequence
@@ -109,12 +111,27 @@ public class InputController {
 		// set current
 		if (reverse) {
 			editorState.setCurrentField(currentField);
-			editorState.setCurrentOffset(1);
+			editorState.setCurrentOffset(cutPosition + 1);
 		} else {
 			editorState.setCurrentField(field);
 			editorState.setCurrentOffset(0);
 		}
 		return array;
+	}
+
+	private static int findBackwardCutPosition(MathSequence currentField, int currentPosition) {
+		int index = currentPosition;
+		while (index > 0) {
+			MathComponent component = currentField.getArgument(index - 1);
+			if (component instanceof MathCharacter) {
+				MathCharacter character = (MathCharacter) component;
+				if (character.getName() == "=") {
+					return index;
+				}
+			}
+			index -= 1;
+		}
+		return index;
 	}
 
 	private static void moveCursorOutOfFunctionName(EditorState editorState) {
