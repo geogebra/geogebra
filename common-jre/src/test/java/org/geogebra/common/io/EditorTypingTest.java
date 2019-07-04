@@ -21,7 +21,7 @@ public class EditorTypingTest {
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
-			// FactoryProvider.setInstance(new FactoryProviderCommon());
+			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 	}
 
