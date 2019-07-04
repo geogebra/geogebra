@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShareDialogMow extends DialogBoxW
 		implements FastClickHandler, SetLabels, SaveListener {
 	private AppW appW;
+	private Localization localization;
 	private Label selGroupLbl;
 	private ScrollPanel scrollPanel;
 	private Label noGroupsLbl;
@@ -51,7 +53,6 @@ public class ShareDialogMow extends DialogBoxW
 	private java.util.HashMap<String, Boolean> changedGroups = new java.util.HashMap<>();
 	private List<String> sharedGroups = new ArrayList<>();
 	private Label sharingAvailableInfo;
-
 	/**
 	 * @param app
 	 *            see {@link AppW}
@@ -63,6 +64,7 @@ public class ShareDialogMow extends DialogBoxW
 	public ShareDialogMow(AppW app, String shareURL, Material mat) {
 		super(app.getPanel(), app);
 		this.appW = app;
+		this.localization = app.getLocalization();
 		this.material = mat == null ? app.getActiveMaterial() : mat;
 		buildGui(shareURL);
 	}
@@ -219,7 +221,7 @@ public class ShareDialogMow extends DialogBoxW
 
 	private void buildSharingAvailableInfo(FlowPanel dialogContent) {
 		sharingAvailableInfo = new Label();
-		sharingAvailableInfo.addStyleName("shareLinkAvailableInfo");
+		sharingAvailableInfo.setStyleName("shareLinkAvailableInfo");
 		dialogContent.add(sharingAvailableInfo);
 	}
 
@@ -235,7 +237,7 @@ public class ShareDialogMow extends DialogBoxW
 		linkPanel.setStyleName("linkPanel");
 		linkBox = new ComponentLinkBox(true, shareURL, "linkBox");
 		// build and add copy button
-		copyBtn = new StandardButton(app.getLocalization().getMenu("Copy"),
+		copyBtn = new StandardButton(localization.getMenu("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
 		copyBtn.addFastClickHandler(this);
@@ -253,9 +255,9 @@ public class ShareDialogMow extends DialogBoxW
 	 */
 	public void onSwitch(boolean isSwitchOn) {
 		linkShareOnOffLbl
-				.setText(app.getLocalization().getMenu(
+				.setText(localization.getMenu(
 						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
-		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
+		linkShareHelpLbl.setText(localization.getMenu(isShareLinkOn()
 				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
 		linkPanel.setVisible(isSwitchOn);
 		if (isSwitchOn) {
@@ -287,28 +289,28 @@ public class ShareDialogMow extends DialogBoxW
 
 	@Override
 	public void setLabels() {
-		getCaption().setText(app.getLocalization()
+		getCaption().setText(localization
 				.getMenu("Share"));
 		if (selGroupLbl != null) {
 			selGroupLbl
-				.setText(app.getLocalization().getMenu("shareGroupHelpText"));
+				.setText(localization.getMenu("shareGroupHelpText"));
 		}
-		cancelBtn.setText(app.getLocalization().getMenu("Cancel"));
+		cancelBtn.setText(localization.getMenu("Cancel"));
 		saveBtn.setText(appW.getLocalization().getMenu("Save"));
 		if (noGroupsLbl != null && noGroupsHelpLbl != null) {
-			noGroupsLbl.setText(app.getLocalization().getMenu("NoGroups"));
+			noGroupsLbl.setText(localization.getMenu("NoGroups"));
 			noGroupsHelpLbl
-					.setText(app.getLocalization().getMenu("NoGroupShareTxt"));
+					.setText(localization.getMenu("NoGroupShareTxt"));
 		}
 		linkShareOnOffLbl
-				.setText(app.getLocalization().getMenu(
+				.setText(localization.getMenu(
 						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
-		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
+		linkShareHelpLbl.setText(localization.getMenu(isShareLinkOn()
 				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
 		sharingAvailableInfo
-				.setText(app.getLocalization().getMenu("SharingAvailableMow"));
+				.setText(localization.getMenu("SharingAvailableMow"));
 
-		copyBtn.setText(app.getLocalization().getMenu("Copy"));
+		copyBtn.setText(localization.getMenu("Copy"));
 	}
 
 	@Override
