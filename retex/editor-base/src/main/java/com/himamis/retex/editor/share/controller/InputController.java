@@ -125,7 +125,7 @@ public class InputController {
 			MathComponent component = currentField.getArgument(index - 1);
 			if (component instanceof MathCharacter) {
 				MathCharacter character = (MathCharacter) component;
-				if ("".equals(character.getName())) {
+				if ("=".equals(character.getName())) {
 					return index;
 				}
 			}
