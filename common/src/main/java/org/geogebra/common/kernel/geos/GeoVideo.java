@@ -56,6 +56,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	private boolean background = true;
 	private double xScale;
 	private double yScale;
+	private Runnable sizeSetCallback;
 
 	/**
 	 * Constructor.
@@ -208,6 +209,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		super.setWidth(width);
 		setReady();
 		changed = true;
+		runSizeCallbackIfReady();
 	}
 
 	@Override
@@ -215,6 +217,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		super.setHeight(height);
 		setReady();
 		changed = true;
+		runSizeCallbackIfReady();
 	}
 
 	@Override
@@ -503,6 +506,24 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 				zoomY(app.getActiveEuclidianView().getYscale() / yScale);
 				yScale = app.getActiveEuclidianView().getYscale();
 			}
+		}
+	}
+
+	/**
+	 * Runs callback once after size is set
+	 * 
+	 * @param sizeCallback
+	 *            size callback
+	 */
+	public void afterSizeSet(Runnable sizeCallback) {
+		sizeSetCallback = sizeCallback;
+		runSizeCallbackIfReady();
+	}
+
+	private void runSizeCallbackIfReady() {
+		if (sizeSetCallback != null && getWidth() > 0 && getHeight() > 0) {
+			sizeSetCallback.run();
+			sizeSetCallback = null;
 		}
 	}
 }
