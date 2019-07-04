@@ -91,8 +91,8 @@ public class InputController {
 		int currentOffset = editorState.getCurrentOffset();
 		MetaArray meta = metaModel.getArray(arrayOpenKey);
 		MathArray array = new MathArray(meta, size);
-		int cutPosition = reverse ?
-				findBackwardCutPosition(currentField, currentOffset) : currentOffset;
+		int cutPosition = reverse ? findBackwardCutPosition(currentField,
+				currentOffset) : currentOffset;
 		ArrayList<MathComponent> removed = reverse
 				? cut(currentField, cutPosition, currentOffset - 1, editorState, array,
 						true)
