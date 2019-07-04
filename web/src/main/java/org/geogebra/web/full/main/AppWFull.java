@@ -89,6 +89,7 @@ import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.GeometryActivity;
 import org.geogebra.web.full.main.activity.Graphing3DActivity;
 import org.geogebra.web.full.main.activity.GraphingActivity;
+import org.geogebra.web.full.main.activity.MebisNotesActivity;
 import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
@@ -301,29 +302,29 @@ public class AppWFull extends AppW implements HasKeyboard {
 			return;
 		}
 		switch (articleElement.getDataParamAppName()) {
-		case "graphing":
-			activity = new GraphingActivity();
-			break;
-		case "geometry":
-			activity = new GeometryActivity();
-			break;
-		case "3d":
-			activity = new Graphing3DActivity();
-			break;
-		case "mr":
-			activity = new MixedRealityActivity();
-			break;
-		case "cas":
-			activity = new CASActivity();
-			break;
-		case "calculator":
-			activity = new ScientificActivity();
-			break;
-		case "notes":
-			activity = new NotesActivity();
-			break;
-		default:
-			activity = new ClassicActivity(new AppConfigDefault());
+			case "graphing":
+				activity = new GraphingActivity();
+				break;
+			case "geometry":
+				activity = new GeometryActivity();
+				break;
+			case "3d":
+				activity = new Graphing3DActivity();
+				break;
+			case "mr":
+				activity = new MixedRealityActivity();
+				break;
+			case "cas":
+				activity = new CASActivity();
+				break;
+			case "calculator":
+				activity = new ScientificActivity();
+				break;
+			case "notes":
+				activity = isMebis() ? new MebisNotesActivity() : new NotesActivity();
+				break;
+			default:
+				activity = new ClassicActivity(new AppConfigDefault());
 		}
 	}
 

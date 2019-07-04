@@ -12,7 +12,7 @@ import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
-import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -35,6 +35,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	private Localization loc;
 	/** file chooser */
 	private FileChooser fileChooser;
+	private VendorSettings vendorSettings;
 
 	/**
 	 * @param app
@@ -44,6 +45,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		super("file", app);
 		addExpandableStyleWithColor(false);
 		this.loc = app.getLocalization();
+		vendorSettings = getApp().getVendorSettings();
 		initActions();
 	}
 
@@ -77,7 +79,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void buildFileMenu() {
-		if (isMebis()) {
+		if (getApp().isMebis()) {
 			buildFileMenuMebis();
 		} else {
 			buildFileMenuBase();
@@ -90,8 +92,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		addSaveItem();
 		addSeparator();
 		addExportImageItem();
-		addDownloadAsItem();
 		addShareItem();
+		addDownloadAsItem();
 		addPrintItem();
 	}
 
@@ -100,7 +102,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		addOpenFileItemMebis();
 		addOpenOfflineFilesItem();
 		addSaveItem();
-		addSeparator();
 		addShareItem();
 		addPrintItem();
 	}
@@ -112,18 +113,15 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void updateOpenFileButton() {
 		openFileItem.setHTML(MainMenu.getMenuBarHtmlClassic(
-				isMebis() ? MaterialDesignResources.INSTANCE
-						.folder_open().getSafeUri().asString()
-						: MaterialDesignResources.INSTANCE.search_black()
-						.getSafeUri().asString(),
-				loc.getMenu(isMebis() ? "mow.myfiles" : "Open")));
+				vendorSettings.getResourceIconProvider().openFileMenu().getSafeUri().asString(),
+				loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))));
 	}
 
 	/**
 	 * @return true if the whiteboard is active and the user logged in
 	 */
 	private boolean isMowLoggedOut() {
-		return isMebis()
+		return getApp().isMebis()
 				&& getApp().getLoginOperation() != null
 				&& !getApp().getLoginOperation().isLoggedIn();
 	}
@@ -196,17 +194,12 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	@Override
 	public SVGResource getImage() {
-		return isMebis() ? MaterialDesignResources.INSTANCE.file()
-				: MaterialDesignResources.INSTANCE.insert_file_black();
+		return vendorSettings.getResourceIconProvider().fileMenu();
 	}
 
 	@Override
 	protected String getTitleTranslationKey() {
 		return "File";
-	}
-
-	private boolean isMebis() {
-		return getApp().getVendorSettings() instanceof MebisSettings;
 	}
 
 	private void addFileNewItem() {
@@ -276,8 +269,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItem() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.search_black(),
-						loc.getMenu("Open")), true, new MenuCommand(getApp()) {
+				addItem(MainMenu.getMenuBarHtml(vendorSettings.getResourceIconProvider().openFileMenu(),
+						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -288,8 +281,8 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItemMebis() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.folder_open(),
-						loc.getMenu("mow.myfiles")),
+				addItem(MainMenu.getMenuBarHtml(vendorSettings.getResourceIconProvider().openFileMenu(),
+						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))),
 						true, new MenuCommand(getApp()) {
 
 							@Override

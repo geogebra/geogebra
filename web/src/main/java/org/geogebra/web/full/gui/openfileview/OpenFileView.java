@@ -157,7 +157,7 @@ public class OpenFileView extends MyHeaderPanel
 		buttonPanel = new FlowPanel();
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.file_plus(),
-				localize("mow.newFile"), 18, app);
+				localize("New.Mebis"), 18, app);
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -383,7 +383,7 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void setLabels() {
 		headerView.setCaption(localize("mow.openFileViewTitle"));
-		newFileBtn.setText(localize("mow.newFile"));
+		newFileBtn.setText(localize("New.Mebis"));
 		openFileBtn
 				.setImageAndText(
 						MaterialDesignResources.INSTANCE.mow_pdf_open_folder()

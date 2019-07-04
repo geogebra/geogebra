@@ -56,9 +56,7 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 	private void buildMenuNotes(final AppW app, Localization loc) {
 		addForumItem(app, loc);
-		addSeparator();
 		addReportBugItem(app, loc);
-		addSeparator();
 		addAboutItem(app);
 	}
 

@@ -3,6 +3,8 @@ package org.geogebra.web.html5.gui.laf;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.web.full.css.MebisResources;
+import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
@@ -66,5 +68,10 @@ public class MebisSettings implements VendorSettings {
 	@Override
 	public String getStyleName(String styleName) {
 		return styleName + "Mebis";
+	}
+
+	@Override
+	public ResourceIconProvider getResourceIconProvider() {
+		return MebisResources.INSTANCE;
 	}
 }

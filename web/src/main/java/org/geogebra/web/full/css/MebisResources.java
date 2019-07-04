@@ -1,5 +1,6 @@
 package org.geogebra.web.full.css;
 
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
@@ -8,7 +9,7 @@ import com.google.gwt.resources.client.ClientBundle;
 /**
  * Resources related to the mebis Notes app.
  */
-public interface MebisResources extends ClientBundle, StylesProvider {
+public interface MebisResources extends ClientBundle, StylesProvider, ResourceIconProvider {
 
 	/**
 	 * Singleton instance
@@ -30,4 +31,21 @@ public interface MebisResources extends ClientBundle, StylesProvider {
 	@Override
 	@Source("org/geogebra/web/resources/scss/mebis/dialog-styles.scss")
 	SassResource dialogStylesScss();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file_plus.svg")
+	SVGResource newFileMenu();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/folder-open.svg")
+	SVGResource openFileMenu();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file.svg")
+	SVGResource fileMenu();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/arrow-alt-circle-down.svg")
+	SVGResource downloadMenu();
+
 }
