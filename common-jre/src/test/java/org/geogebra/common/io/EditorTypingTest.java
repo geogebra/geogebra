@@ -256,6 +256,13 @@ public class EditorTypingTest {
 				.checkAsciiMath("(ln(x))");
 	}
 
+	@Test
+	public void testBracketsAfterEquals() {
+		type("f(p").typeKey(JavaKeyCodes.VK_RIGHT)
+				.type("=ln(p*2.72").typeKey(JavaKeyCodes.VK_RIGHT)
+				.type("+3)").checkAsciiMath("f(p)=(ln(p*2.72)+3)");
+	}
+
 	private EditorChecker type(String input) {
 		return new EditorChecker().type(input);
 	}
