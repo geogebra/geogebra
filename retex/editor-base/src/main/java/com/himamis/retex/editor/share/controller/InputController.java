@@ -803,9 +803,7 @@ public class InputController {
 				// not a fraction, and cursor is right after the sign
 			} else {
 				if (currentField.getParentIndex() == 1) {
-					int len = parent.getArgument(0).size();
-					delContainer(editorState, parent, parent.getArgument(0));
-					editorState.setCurrentOffset(len);
+					removeParenthesesOfFunction(parent, editorState);
 				} else if (currentField.getParentIndex() > 1) {
 					MathSequence prev = parent
 							.getArgument(currentField.getParentIndex() - 1);
@@ -850,6 +848,19 @@ public class InputController {
 		}
 
 		// we stop here for now
+	}
+
+	private void removeParenthesesOfFunction(MathFunction function, EditorState editorState) {
+		MathSequence functionName = function.getArgument(0);
+		int offset = calculateOffsetForRemovingExpressionArguments(function, functionName);
+		delContainer(editorState, function, functionName);
+		editorState.setCurrentOffset(offset);
+	}
+
+	private static int calculateOffsetForRemovingExpressionArguments(
+			MathComponent expression,
+			MathSequence operand) {
+		return expression.getParentIndex() + operand.size();
 	}
 
 	/**
@@ -991,14 +1002,16 @@ public class InputController {
 		if (container.getParent() instanceof MathSequence) {
 			// when parent is sequence
 			MathSequence parent = (MathSequence) container.getParent();
-			int offset = container.getParentIndex();
+			int offset = calculateOffsetForRemovingExpressionArguments(container, operand);
+			int containerIndex = container.getParentIndex();
 			// delete container
-			parent.delArgument(container.getParentIndex());
+			parent.delArgument(containerIndex);
 			// add content of operand
 			while (operand.size() > 0) {
-				MathComponent element = operand.getArgument(operand.size() - 1);
-				operand.delArgument(operand.size() - 1);
-				parent.addArgument(offset, element);
+				int lastArgumentIndex = operand.size() - 1;
+				MathComponent element = operand.getArgument(lastArgumentIndex);
+				operand.delArgument(lastArgumentIndex);
+				parent.addArgument(containerIndex, element);
 			}
 			editorState.setCurrentField(parent);
 			editorState.setCurrentOffset(offset);
