@@ -138,7 +138,8 @@ public class InputController {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.getParent() != null
 				&& currentField.getParent().hasTag(Tag.APPLY)
-				&& currentField.getParentIndex() == 0) {
+				&& currentField.getParentIndex() == 0
+				&& editorState.getCurrentOffset() == 0) {
 			MathContainer function = currentField.getParent();
 			if (function.getParent() != null
 					&& function.getParent() instanceof MathSequence) {
