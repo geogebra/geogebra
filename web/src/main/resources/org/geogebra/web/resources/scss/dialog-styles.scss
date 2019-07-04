@@ -873,6 +873,7 @@ $duration: 0.2s;
 				}
 			}
 		}
+
 		.buttonPanel {
   			padding-top: 20px;
 
@@ -1032,6 +1033,8 @@ $duration: 0.2s;
 
 		.dialogContent {
     	   width: 350px;
+
+
     	}
 
 		.chooseGrTxt {
@@ -1088,7 +1091,8 @@ $duration: 0.2s;
 					background-color: $white-5-overlay;
 				}
 			}
-		}
+        }
+
 
 		.buttonPanel {
 			margin: 20px auto 0px auto;
@@ -1128,7 +1132,7 @@ $duration: 0.2s;
   		}
 	}
 
-	.MaterialDialogBox.saveDialogMow {
+ 	.MaterialDialogBox.saveDialogMow {
 		@extend .mediaDialog;
 
 		.mowMediaDialogContent {
@@ -1291,6 +1295,7 @@ $duration: 0.2s;
 			    text-align: center;
 			    color: $text-secondary;
 			}
+
 		}
 
 		.shareByLink {
@@ -1360,6 +1365,12 @@ $duration: 0.2s;
 				}
 	  		}
 		}
+
+        .shareLinkAvailableInfo {
+            width: 474px;
+            margin: 16px 24px 0px 24px;
+            font-size: 87%;
+        }
 
 		.DialogButtonPanel {
 			padding-right: 8px !important;

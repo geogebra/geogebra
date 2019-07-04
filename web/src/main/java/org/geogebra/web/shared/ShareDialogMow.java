@@ -50,6 +50,7 @@ public class ShareDialogMow extends DialogBoxW
 	private MaterialCallbackI callback;
 	private java.util.HashMap<String, Boolean> changedGroups = new java.util.HashMap<>();
 	private List<String> sharedGroups = new ArrayList<>();
+	private Label sharingAvailableInfo;
 
 	/**
 	 * @param app
@@ -133,6 +134,7 @@ public class ShareDialogMow extends DialogBoxW
 			buildGroupPanel(dialogContent);
 		}
 		buildShareByLinkPanel(dialogContent, shareURL);
+		buildSharingAvailableInfo(dialogContent);
 		buildButtonPanel(dialogContent);
 		add(dialogContent);
 		setLabels();
@@ -213,6 +215,12 @@ public class ShareDialogMow extends DialogBoxW
 		shareByLinkPanel.add(shareSwitch);
 		buildLinkPanel(shareByLinkPanel, shareURL);
 		dialogContent.add(shareByLinkPanel);
+	}
+
+	private void buildSharingAvailableInfo(FlowPanel dialogContent) {
+		sharingAvailableInfo = new Label();
+		sharingAvailableInfo.addStyleName("shareLinkAvailableInfo");
+		dialogContent.add(sharingAvailableInfo);
 	}
 
 	private static boolean isMatShared(Material mat) {
@@ -297,6 +305,9 @@ public class ShareDialogMow extends DialogBoxW
 						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
 		linkShareHelpLbl.setText(app.getLocalization().getMenu(isShareLinkOn()
 				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
+		sharingAvailableInfo
+				.setText(app.getLocalization().getMenu("SharingAvailableMow"));
+
 		copyBtn.setText(app.getLocalization().getMenu("Copy"));
 	}
 
