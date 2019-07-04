@@ -12,7 +12,7 @@ subprojects {
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
 	}
 
-	
+	// add auto formatter to every project
 	task eclipseJdtPrepare(type: Copy) {
 		description 'Copies Eclipse jdt.core preference file.'
 		from rootProject.file('eclipse/org.eclipse.jdt.core.prefs')
