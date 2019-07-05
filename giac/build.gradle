@@ -899,6 +899,6 @@ task emMakeMpfr {
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo',
-        'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
+        'androidCopyX86LibjavagiacSo', 'androidCopyX86_64LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
 }
