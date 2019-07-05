@@ -15,7 +15,7 @@ public class SyntaxLocalizationTest {
 	@Test
 	public void checkSyntaxTranslations() {
 		LocalizationD loc = new LocalizationD(3);
-		AppCommon app = new AppCommon(loc, new AwtFactoryD());
+		loc.setApp(new AppCommon(loc, new AwtFactoryD()));
 
 		for (Commands cmd : Commands.values()) {
 			String syntax = loc.getCommand(cmd + Localization.syntaxStr);

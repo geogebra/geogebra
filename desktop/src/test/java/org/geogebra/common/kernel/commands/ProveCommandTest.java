@@ -7,6 +7,7 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -26,6 +27,11 @@ public class ProveCommandTest {
 	private static void t(String s, String... expected) {
 		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
 				proc, StringTemplate.defaultTemplate);
+	}
+
+	@Before
+	public void clean() {
+		app.getKernel().clearConstruction(true);
 	}
 
 	@Test

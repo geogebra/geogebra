@@ -25,7 +25,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -43,7 +42,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class CommandsTest {
 	static AppCommon3D app;
 	static AlgebraProcessor ap;
-	private static String syntax;
+	static List<Integer> signature;
 
 	public static void tRound(String s, String... expected) {
 		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
@@ -66,39 +65,20 @@ public class CommandsTest {
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			syntax = app1.getLocalization()
-					.getCommand(cmdName + Localization.syntaxStr);
-			if (!syntax.contains("[")) {
+			try {
+				Commands.valueOf(cmdName);
+			} catch (Exception e) {
 				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
-				syntax = app1.getLocalization()
-						.getCommand(cmdName + Localization.syntaxStr);
 			}
-			syntaxes = 0;
-			for (int i = 0; i < syntax.length(); i++) {
-				if (syntax.charAt(i) == '[') {
-					syntaxes++;
-				}
-			}
-			String syntax3D = app1.getLocalization()
-					.getCommand(cmdName + ".Syntax3D");
-			if (syntax3D.contains("[")) {
-				syntax += "\n" + syntax3D;
-			}
-			List<Integer> signature = CommandSignatures.getSigneture(cmdName);
-			if (syntax.contains("[")) {
+
+			signature = CommandSignatures.getSigneture(cmdName);
+			if (signature != null) {
 				syntaxes = signature.size();
 				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
 						app1);
 			}
 			System.out.println();
 			System.out.print(cmdName);
-			/*
-			 * // This code helps to force timeout for each syntax. Not used at
-			 * the moment. GeoGebraCAS cas = (GeoGebraCAS) app.getKernel()
-			 * .getGeoGebraCAS(); try {
-			 * cas.getCurrentCAS().evaluateRaw("caseval(\"timeout 8\")"); }
-			 * catch (Throwable e) { App.error("CAS error " + e); }
-			 */
 		}
 		syntaxes--;
 		AlgebraTestHelper.testSyntaxSingle(s, expected, proc, tpl);
@@ -123,7 +103,7 @@ public class CommandsTest {
 	}
 
 	public static void checkSyntaxesStatic() {
-		Assert.assertTrue("unchecked syntaxes: " + syntaxes + syntax,
+		Assert.assertTrue("unchecked syntaxes: " + syntaxes + signature,
 				syntaxes <= 0);
 	}
 
