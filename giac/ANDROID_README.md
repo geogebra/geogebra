@@ -42,10 +42,10 @@ Prerequisites
    ```
    
 10. Repeat the steps 4-8 above but instead in step 4 use
-   ```
-   ARCH=x86_64
-   HOST=x86_64-linux-android
-   ```
+    ```
+    ARCH=x86_64
+    HOST=x86_64-linux-android
+    ```
 
 11. Now you may remove the `$NDK_DIR` folder and save some disk space.
 
@@ -55,9 +55,9 @@ Compilation
 1. Make sure that the `PATH` variable is properly set (see step 6 above).
 
 2. Run
-  ```
-  ../gradlew androidAar
-  ```
+   ```
+   ../gradlew androidAar
+   ```
    in this directory.
 
 Troubleshooting
