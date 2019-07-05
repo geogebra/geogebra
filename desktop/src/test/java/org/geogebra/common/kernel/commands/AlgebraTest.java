@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.Locale;
 
-import org.geogebra.common.main.App;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -23,7 +22,4 @@ public class AlgebraTest extends Assert {
 		return app2;
 	}
 
-	public static void enableCAS(App app, boolean enabled) {
-		app.getSettings().getCasSettings().setEnabled(enabled);
-	}
 }

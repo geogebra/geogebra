@@ -12,7 +12,7 @@ public class SpecialPointsTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 	}
 
 	@Before

@@ -155,6 +155,10 @@ public class AlgebraTestHelper {
 				"Checkbox", "InputBox", "RandomBetween" }).contains(cmdName);
 	}
 
+	public static void enableCAS(App app, boolean enabled) {
+		app.getSettings().getCasSettings().setEnabled(enabled);
+	}
+
 	/**
 	 * @param cmd0
 	 *            command

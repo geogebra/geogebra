@@ -229,7 +229,7 @@ public class ArithmeticTest extends AlgebraTest {
 
 	@Test
 	public void absFunction() {
-		enableCAS(app, false);
+		AlgebraTestHelper.enableCAS(app, false);
 		t("f:abs(x+2)", "abs(x + 2)");
 		Assert.assertTrue(((GeoFunction) app.getKernel().lookupLabel("f"))
 				.isPolynomialFunction(true));

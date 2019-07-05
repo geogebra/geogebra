@@ -15,7 +15,8 @@ public class SelfTest {
 		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
 		Set<String> methodNames = new TreeSet<>();
 		Class<?>[] classes = new Class[] { NoExceptionsTest.class,
-				CommandsTest.class, ProveCommandTest.class };
+				CommandsTest.class, CommandsUsingCASTest.class,
+				ProveCommandTest.class };
 		for (Class<?> c : classes) {
 			Method[] mtds = c.getMethods();
 			for (int i = 0; i < mtds.length; i++) {

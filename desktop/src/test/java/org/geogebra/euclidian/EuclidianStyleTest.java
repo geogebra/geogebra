@@ -2,7 +2,7 @@ package org.geogebra.euclidian;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -16,7 +16,7 @@ public class EuclidianStyleTest {
 
 	@BeforeClass
 	public static void setupApp() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 		cd = app.getKernel().getConstruction().getConstructionDefaults();
 	}
 

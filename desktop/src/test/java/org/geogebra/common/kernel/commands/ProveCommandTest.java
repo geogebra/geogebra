@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -21,7 +23,7 @@ public class ProveCommandTest {
 		proc = app.getKernel().getAlgebraProcessor();
 	}
 
-	private static void t(String s, String expected) {
+	private static void t(String s, String... expected) {
 		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
 				proc, StringTemplate.defaultTemplate);
 	}
@@ -54,5 +56,13 @@ public class ProveCommandTest {
 		t("seg1 = Segment(P, (0,0))", "1");
 		t("LocusEquation[ seg1==1, P ]",
 				TestStringUtil.unicode("x^2 + y^2 = 1"));
+	}
+
+	@Test
+	public void cmdEnvelope() {
+		t("circ: x^2+y^2=1", unicode("x^2 + y^2 = 1"));
+		t("P=Point[circ]", "(1, 0)");
+		t("tgt=Tangent[P,circ]", new String[] { "x = 1", "y = ?" });
+		t("Envelope[ tgt, P ]", "?");
 	}
 }

@@ -20,6 +20,7 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -69,7 +70,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 	@Before
 	public void resetSyntaxes() {
 		app.getKernel().clearConstruction(true);
-		AlgebraTest.enableCAS(app, true);
+		AlgebraTestHelper.enableCAS(app, true);
 		app.getKernel()
 				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
@@ -112,7 +113,7 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 	@Test
 	public void twoRowsAlgebraGraphing() {
-		enableCAS(app, false);
+		AlgebraTestHelper.enableCAS(app, false);
 		checkRows("Line((0,0),(0,1))", 2);
 		checkRows("Circle((0,0),(0,1))", 2);
 		checkRows("x=y", 1);
@@ -120,14 +121,14 @@ public class AlgebraStyleTest extends AlgebraTest {
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivative() {
-		enableCAS(app, false);
+		AlgebraTestHelper.enableCAS(app, false);
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'", 1);
 	}
 
 	@Test
 	public void twoRowsAlgebraGraphingDerivativeArg() {
-		AlgebraTest.enableCAS(app, false);
+		AlgebraTestHelper.enableCAS(app, false);
 		checkRows("f(x)=x^2", 1);
 		checkRows("f'(x)", 1);
 	}

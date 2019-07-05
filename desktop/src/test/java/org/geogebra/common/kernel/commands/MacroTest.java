@@ -16,7 +16,7 @@ public class MacroTest {
 
 	@BeforeClass
 	public static void setupApp() {
-		app = CommandsTest.createApp();
+		app = AlgebraTest.createApp();
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 
