@@ -3040,7 +3040,7 @@ __GGB__keysVar["eu"].menu = {
     "UnpinFromScreen": "Pantailatik askatu",
     "UnsavedChangesFound": "GeoGebrak gorde gabeko aldaketak aurkitu ditu. Berreskuratu ala ezabatu egin nahi dituzu?",
     "UnsupportedBrowser": "Nabigatzaile hau ez da bateragarria.",
-    "UnsupportedBrowser.Message": "Please try a different browser to use GeoGebra Notes.",
+    "UnsupportedBrowser.Message": "GeoGebra Oharrak erabiltzeko, beste nabigatzaileren batekin saiatu.",
     "UnsupportedBrowser.Message.Mebis": "Mebis Tafel erabiltzeko, beste nabigatzaileren batekin saiatu.",
     "Untitled": "Titulurik gabe",
     "UntitledA": "Izengabea%0",
