@@ -53,6 +53,7 @@ public class ShareDialogMow extends DialogBoxW
 	private java.util.HashMap<String, Boolean> changedGroups = new java.util.HashMap<>();
 	private List<String> sharedGroups = new ArrayList<>();
 	private Label sharingAvailableInfo;
+
 	/**
 	 * @param app
 	 *            see {@link AppW}
