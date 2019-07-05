@@ -46,7 +46,7 @@ public interface VendorSettings {
 	GColor getPrimaryColor();
 
 	/**
-	 * returns if main menu button should be external.
+	 * @return if main menu button should be external.
 	 */
 	boolean isMainMenuExternal();
 
