@@ -50,6 +50,7 @@ public class MediaFactory {
 		video.setBackground(true);
 		video.afterSizeSet(new Runnable() {
 
+			@Override
 			public void run() {
 				video.setAbsoluteScreenLoc(
 						(ev.getWidth() - video.getWidth()) / 2,

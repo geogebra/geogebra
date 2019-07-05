@@ -942,7 +942,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * important eg i -> ggbtmpvari, e -> ggbtmpvare so that they aren't
 	 * confused with the constants
 	 */
-	private String addTempVariablePrefix(final String label) {
+	private static String addTempVariablePrefix(final String label) {
 
 		// keep x, y, z so that x^2+y^2=1 works in Giac
 		if (!GeoGebraCAS.needsTmpPrefix(label)) {
