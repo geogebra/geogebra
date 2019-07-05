@@ -25,21 +25,20 @@ def abiSplits = ["armeabi-v7a": "/../arm-linux-androideabi/lib/",
 task copyCrystaxSo {
     group 'android'
     description 'Copies Crystax .so files to the appropriate folders.'
-    def found = 0
     doLast {
         def so = "libcrystax.so"
+        def missing = abiSplits.size()
         def PATH = System.env['PATH'].split(":").each { d ->
             abiSplits.each { arch, libDirSuffix ->
                 def libdirArch = d + libDirSuffix 
                 if (file(libdirArch + so).exists()) {
                     println " Found $arch .so"
-                    found ++
+                    missing --
                     copy { from libdirArch include so into "$jniLibsDir/$arch" }
                 }
             }
         }
-        if (found < 2) {
-            def missing = 2 - found
+        if (missing > 0) {
             throw new GradleException("Missing $missing $so libraries, check PATH")
         }
     }
