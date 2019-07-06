@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathNormalizer;
@@ -72,9 +71,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND
-		implements Path, Translateable, GeoConicNDConstants,
+		implements Translateable, GeoConicNDConstants,
 		MatrixTransformable, PointRotateable, Transformable, Mirrorable,
-		Dilateable, GeoCoordSys2D, FromMeta {
+		Dilateable, GeoCoordSys2D, FromMeta, Parametrizable {
 	/** avoid very large and small coefficients for numerical stability */
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
 	/** avoid very large and small coefficients for numerical stability */
@@ -3884,12 +3883,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	/**
-	 * Sets curve to this conic
-	 * 
-	 * @param curve
-	 *            curve for storing this conic
-	 */
+	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		FunctionVariable fv = new FunctionVariable(kernel, "t");
 		ExpressionNode evX = null, evY = null;

@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
+import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -822,8 +823,7 @@ public class Manager3D implements Manager3DInterface {
 	public GeoConicND circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoDirectionND orientation) {
 
-		if (!((GeoElement) A).isGeoElement3D()
-				&& !((GeoElement) B).isGeoElement3D() // 2D geos
+		if (!A.isGeoElement3D() && !B.isGeoElement3D() // 2D geos
 				&& orientation == kernel.getXOYPlane()) { // xOy plane is
 															// default
 															// orientation for
@@ -1618,7 +1618,7 @@ public class Manager3D implements Manager3DInterface {
 		}
 
 		// rotate B around A using angle alpha
-		GeoPointND C = (GeoPointND) rotate3D(pointLabel, (GeoElement) B, alpha,
+		GeoPointND C = (GeoPointND) rotate3D(pointLabel, B, alpha,
 				A, orientation)[0];
 
 		// create angle according to orientation
@@ -1989,14 +1989,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoElement[] rotate3D(String label, GeoElement geoRot,
+	final public GeoElement[] rotate3D(String label, GeoElementND geoRot,
 			GeoNumberValue phi, GeoPointND center, GeoDirectionND orientation) {
 		Transform t = new TransformRotate3D(cons, phi, center, orientation);
 		return t.transform(geoRot, label);
 	}
 
 	@Override
-	final public GeoElement[] rotate3D(String label, GeoElement geoRot,
+	final public GeoElement[] rotate3D(String label, GeoElementND geoRot,
 			GeoNumberValue phi, GeoLineND line) {
 		Transform t = new TransformRotate3D(cons, phi, line);
 		return t.transform(geoRot, label);
@@ -2170,10 +2170,9 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoConicPartND circleArcSector3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type) {
-
-		if (((GeoElement) A).isGeoElement3D()
-				|| ((GeoElement) B).isGeoElement3D()
-				|| ((GeoElement) C).isGeoElement3D()) { // at least one 3D geo
+		if (A.isGeoElement3D()
+				|| B.isGeoElement3D() || C.isGeoElement3D()) { // at least one
+																// 3D geo
 			if (orientation == kernel.getSpace()) { // space is default
 													// orientation for 3D
 													// objects
@@ -2219,9 +2218,7 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoConicPartND semicircle3D(String label, GeoPointND A,
 			GeoPointND B, GeoDirectionND orientation) {
-
-		if (((GeoElement) A).isGeoElement3D()
-				|| ((GeoElement) B).isGeoElement3D()) { // at least one 3D geo
+		if (A.isGeoElement3D() || B.isGeoElement3D()) { // at least one 3D geo
 			// use view orientation
 			AlgoSemicircle3D algo = new AlgoSemicircle3D(cons, label, A, B,
 					orientation);
@@ -2401,7 +2398,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoElement locus3D(String label, GeoPointND Q, GeoPointND P) {
-		if (!kernel.getAlgoDispatcher().locusCheck(P, Q)) {
+		if (!AlgoDispatcher.locusCheck(P, Q)) {
 			return null;
 		}
 

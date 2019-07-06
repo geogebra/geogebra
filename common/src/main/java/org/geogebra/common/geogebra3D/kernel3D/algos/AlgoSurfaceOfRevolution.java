@@ -35,12 +35,11 @@ import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
+import org.geogebra.common.kernel.kernelND.Parametrizable;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
@@ -69,7 +68,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	 *            max angle
 	 */
 	public AlgoSurfaceOfRevolution(Construction cons,
-			Path function, GeoNumberValue angle) {
+			Parametrizable function, GeoNumberValue angle) {
 		this(cons, function, angle, null);
 	}
 
@@ -170,11 +169,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (path instanceof GeoPoly) {
-			((GeoPoly) path)
-					.toGeoCurveCartesian((GeoCurveCartesianND) function);
-		} else if (path instanceof GeoConicND) {
-			((GeoConicND) path)
+		if (path instanceof Parametrizable) {
+			((Parametrizable) path)
 					.toGeoCurveCartesian((GeoCurveCartesianND) function);
 		}
 		if (function.isDefined() && angle.isDefined()) {
