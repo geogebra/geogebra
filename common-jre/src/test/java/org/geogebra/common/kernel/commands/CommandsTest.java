@@ -587,6 +587,8 @@ public class CommandsTest {
 		t("pia", "12.566370614359172");
 		t("pix", "(" + Unicode.PI_STRING + " * x)");
 		t("sinx", "sin(x)");
+		t("sin x", "sin(x)");
+		t("f(t)=sin t", "sin(t)");
 		t("x" + Unicode.PI_STRING, "(" + Unicode.PI_STRING + " * x)");
 		t("sinxdeg", "sin((1*" + Unicode.DEGREE_STRING + " * x))");
 	}
