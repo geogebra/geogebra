@@ -74,6 +74,9 @@ class ProductCreator {
 								.power(new MyDouble(kernel,
 										exponents.get(Base.z))))
 				.multiplyR(new ExpressionNode(kernel,
+						new FunctionVariable(kernel, "t"))
+								.power(new MyDouble(kernel, exponents.get(Base.t))))
+				.multiplyR(new ExpressionNode(kernel,
 						new FunctionVariable(kernel, Unicode.theta_STRING))
 								.power(new MyDouble(kernel,
 										exponents.get(Base.theta))));

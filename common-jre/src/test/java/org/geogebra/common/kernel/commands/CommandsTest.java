@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
+import static com.himamis.retex.editor.share.util.Unicode.DEGREE_STRING;
+import static com.himamis.retex.editor.share.util.Unicode.PI_STRING;
+import static com.himamis.retex.editor.share.util.Unicode.theta_STRING;
 import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +39,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.editor.share.util.Unicode;;
+
 
 @SuppressWarnings("javadoc")
 public class CommandsTest {
@@ -258,7 +262,7 @@ public class CommandsTest {
 	}
 
 	private static String deg(String string) {
-		return string + "*" + Unicode.DEGREE_STRING;
+		return string + "*" + DEGREE_STRING;
 	}
 
 
@@ -585,12 +589,15 @@ public class CommandsTest {
 	public void parsePower() {
 		t("a=4", "4");
 		t("pia", "12.566370614359172");
-		t("pix", "(" + Unicode.PI_STRING + " * x)");
+		t("pix", "(" + PI_STRING + " * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
+		t("f(" + theta_STRING + ")=sin " + theta_STRING, "sin(" + theta_STRING + ")");
+		t("f(" + theta_STRING + ")=sin" + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
-		t("x" + Unicode.PI_STRING, "(" + Unicode.PI_STRING + " * x)");
-		t("sinxdeg", "sin((1*" + Unicode.DEGREE_STRING + " * x))");
+		t("f(t)=sint", "sin(t)");
+		t("x" + PI_STRING, "(" + PI_STRING + " * x)");
+		t("sinxdeg", "sin((1*" + DEGREE_STRING + " * x))");
 	}
 
 	@Test
