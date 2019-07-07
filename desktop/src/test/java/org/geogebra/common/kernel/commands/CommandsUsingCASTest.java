@@ -11,11 +11,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.StringContains;
@@ -344,6 +346,19 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("eq:x*x=1/4", unicode("(-x - 0.5) (-x + 0.5) = 0"));
 		t("IndexOf(Text(\"x = \\pm \\frac{1}{2}\"),ShowSteps(Solve(eq)))>0",
 				"true");
+	}
+
+	@Test
+	public void testDerivativeDegrees() {
+		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
+	}
+
+	private static void deg(String def, String expect) {
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
+				false, TestErrorHandler.INSTANCE,
+				new EvalInfo(true, true).addDegree(true), null);
+		String res = geo[0].toValueString(StringTemplate.editTemplate);
+		Assert.assertEquals(expect, res);
 	}
 
 	private static void checkSize(String string, int cols, int rows) {

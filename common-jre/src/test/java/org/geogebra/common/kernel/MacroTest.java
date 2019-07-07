@@ -1,22 +1,25 @@
-package org.geogebra.common.kernel.commands;
+package org.geogebra.common.kernel;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.gui.dialog.ToolInputOutputListener;
-import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class MacroTest {
-	static AppDNoGui app;
+	static AppCommon3D app;
 	static AlgebraProcessor ap;
 	private static String syntax;
 
 	@BeforeClass
 	public static void setupApp() {
-		app = AlgebraTest.createApp();
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 

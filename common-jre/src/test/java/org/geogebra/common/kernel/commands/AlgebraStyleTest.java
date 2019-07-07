@@ -1,10 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
-import java.util.Locale;
-
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -15,9 +16,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -28,8 +28,8 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class AlgebraStyleTest extends AlgebraTest {
-	static AppDNoGui app;
+public class AlgebraStyleTest extends Assert {
+	static AppCommon app;
 	static AlgebraProcessor ap;
 
 	private static void checkRows(String def, int rows) {
@@ -80,8 +80,9 @@ public class AlgebraStyleTest extends AlgebraTest {
 	 */
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), false);
-		app.setLanguage(Locale.US);
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
+		app.setLanguage("en_US");
 		ap = app.getKernel().getAlgebraProcessor();
 		// make sure x=y is a line, not plane
 		app.getGgbApi().setPerspective("1");
@@ -649,7 +650,6 @@ public class AlgebraStyleTest extends AlgebraTest {
 		deg("sin(22.5" + Unicode.DEGREE_STRING
 				+ ")-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
 		deg("(tan(30)+tan(15))/(1-tan(30)*tan(15))", "1");
-		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
 		deg("sin(x)", "sin(x)");
 		deg("sin(pi)", "0");
 		deg("sin(deg)", "0.01745");

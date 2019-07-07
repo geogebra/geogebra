@@ -1,27 +1,27 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class CommandsTest2D extends AlgebraTest {
+public class CommandsTest2D {
 
 	private static App app;
 	private static AlgebraProcessor ap;
 
 	@BeforeClass
 	public static void setup() {
-		app = new AppCommon(new LocalizationCommon(2), new AwtFactoryD());
+		app = new AppCommon(new LocalizationCommon(2), new AwtFactoryCommon());
 		app.setLanguage("en");
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 
-	public static void t(String input, String expect) {
+	private static void t(String input, String expect) {
 		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expect }, ap,
 				StringTemplate.testTemplate);
 	}
