@@ -6303,8 +6303,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		// stop animation if slider dragged
-		movedGeoNumeric.setAnimating(false);
+		// stop all animation if slider dragged
+		if (movedGeoNumeric.isAnimating()) {
+			kernel.getAnimatonManager().stopAnimation();
+		}
 
 		movedGeoNumeric.setValue(newVal);
 		movedGeoNumeric.updateRepaint();
