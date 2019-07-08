@@ -28,6 +28,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -7300,6 +7302,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
+	@Nullable
 	public ExpressionNode getDefinition() {
 		return definition;
 	}

@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -111,6 +113,7 @@ public class AlgoDependentPoint extends AlgoElement
 	}
 
 	@Override
+	@Nullable
 	public ExpressionNode getExpression() {
 		return P.getDefinition();
 	}
