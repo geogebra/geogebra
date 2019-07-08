@@ -110,7 +110,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
                 if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
                     valuesAR = new String[]{
                             "ar.restart",
-                            "Fit thickness"
+                            "ar.FitThickness"
                     };
                 } else {
                     valuesAR = new String[]{
