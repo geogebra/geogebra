@@ -30,7 +30,7 @@ import org.geogebra.common.util.debug.HasDebugString;
 
 public class Polynomial implements HasDebugString {
 
-	private static final int MAX_ALLOWED_DEGREE = 5000;
+	private static final int MAX_ALLOWED_DEGREE = 1000;
 
 	private ArrayList<Term> terms = new ArrayList<>();
 	private Kernel kernel;
