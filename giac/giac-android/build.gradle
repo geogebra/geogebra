@@ -20,7 +20,8 @@ android {
 def jniLibsDir = "src/main/jniLibs"
 def abiSplits = ["armeabi-v7a": "/../arm-linux-androideabi/lib/",
                  "x86"        : "/../i686-linux-android/lib/",
-                 "x86_64"     : "/../x86_64-linux-android/lib/"]
+                 "x86_64"     : "/../x86_64-linux-android/lib/",
+                 "arm64"     : "/../aarch64-linux-android/lib/"]
 
 task copyCrystaxSo {
     group 'android'
@@ -32,7 +33,7 @@ task copyCrystaxSo {
             abiSplits.each { arch, libDirSuffix ->
                 def libdirArch = d + libDirSuffix 
                 if (file(libdirArch + so).exists()) {
-                    println " Found $arch .so"
+                    println " Found $arch .so in $d"
                     missing --
                     copy { from libdirArch include so into "$jniLibsDir/$arch" }
                 }

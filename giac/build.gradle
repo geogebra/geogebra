@@ -216,6 +216,10 @@ model {
             architecture 'x86_64'
             operatingSystem 'android'
         }
+        androidarm64 {
+            architecture 'arm64'
+            operatingSystem 'android'
+        }
         ios_armv7 {
             architecture 'armv7'
             operatingSystem 'ios'
@@ -315,6 +319,10 @@ model {
                 cppCompiler.executable 'x86_64-linux-android-g++'
                 linker.executable 'x86_64-linux-android-g++'
             }
+            target('androidarm64') {
+                cppCompiler.executable 'aarch64-linux-android-g++'
+                linker.executable 'aarch64-linux-android-g++'
+            }
         }
     }
 
@@ -394,6 +402,7 @@ model {
             targetPlatform 'androideabi'
             targetPlatform 'androidx86'
             targetPlatform 'androidx86_64'
+            targetPlatform 'androidarm64'
 
             sources.cpp {
                 source {
@@ -618,6 +627,14 @@ task androidCopyX86_64LibjavagiacSo (dependsOn: 'javagiacAndroidx86_64SharedLibr
     into 'giac-android/src/main/jniLibs/x86_64'
     include ('libjavagiac.so')
 }
+
+task androidCopyArm64LibjavagiacSo (dependsOn: 'javagiacAndroidarm64SharedLibrary', type: Copy) {
+    description 'Copies libjavagiac.so files to the src/android folder.'
+    from 'build/libs/javagiac/shared/androidarm64'
+    into 'giac-android/src/main/jniLibs/arm64'
+    include ('libjavagiac.so')
+}
+
 
 task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description "Runs Giac's minigiac terminal"
@@ -899,6 +916,6 @@ task emMakeMpfr {
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo',
-        'androidCopyX86LibjavagiacSo', 'androidCopyX86_64LibjavagiacSo', 'giac-android:assemble']) {
+        'androidCopyX86LibjavagiacSo', 'androidCopyX86_64LibjavagiacSo', 'androidCopyArm64LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
 }
