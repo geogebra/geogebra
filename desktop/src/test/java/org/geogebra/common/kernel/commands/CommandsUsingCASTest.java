@@ -2,8 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 
-import java.util.Arrays;
-
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
@@ -13,18 +11,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.hamcrest.Matcher;
 import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -327,10 +321,29 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
 	}
 
+	@Test
+	public void symbolicFractionsCAS() {
+		frac("a=2/3-1/3", "1 / 3");
+		frac("Simplify(x/3/a)", "x");
+		frac("Simplify(x^a)", "cbrt(x)");
+		frac("Simplify(a!)", "gamma(1 / 3) / 3");
+	}
+
+	private void frac(String def, String expect) {
+		EvalInfo evalInfo = new EvalInfo(true, true).withFractions(true);
+		checkWithEvalInfo(def, expect, evalInfo);
+	}
+
 	private static void deg(String def, String expect) {
+		EvalInfo evalInfo = new EvalInfo(true, true).addDegree(true);
+		checkWithEvalInfo(def, expect, evalInfo);
+	}
+
+	private static void checkWithEvalInfo(String def, String expect,
+			EvalInfo evalInfo) {
 		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE,
-				new EvalInfo(true, true).addDegree(true), null);
+				evalInfo, null);
 		String res = geo[0].toValueString(StringTemplate.editTemplate);
 		Assert.assertEquals(expect, res);
 	}

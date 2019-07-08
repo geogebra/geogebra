@@ -23,14 +23,6 @@ public class FractionTest {
 	}
 
 	@Test
-	public void symbolicFractionsCAS() {
-		t("a=2/3-1/3", "1 / 3");
-		t("Simplify(x/3/a)", "x");
-		t("Simplify(x^a)", "cbrt(x)");
-		t("Simplify(a!)", "gamma(1 / 3) / 3");
-	}
-
-	@Test
 	public void functionWithFractions() {
 		t("frac(x)=(3/2)^x", "(3 / 2)^(x)");
 		t("frac(2)", "9 / 4");
