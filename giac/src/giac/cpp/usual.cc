@@ -7982,6 +7982,8 @@ namespace giac {
     return gammatofactorial(x,contextptr);
 #else
     // if (x.is_symb_of_sommet(at_plus) && x._SYMBptr->feuille.type==_VECT && !x._SYMBptr->feuille._VECTptr->empty() && is_one(x._SYMBptr->feuille._VECTptr->back())) return gammatofactorial(x,contextptr);
+    if (is_assumed_integer(x,contextptr))
+      return gammatofactorial(x,contextptr);
     return symbolic(at_Gamma,x);
 #endif
   }
