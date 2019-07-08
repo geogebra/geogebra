@@ -28,8 +28,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -1760,6 +1758,10 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public void setAlgebraLabelVisible(boolean algebraLabelVisible) {
+		Log.debug(label + " algebraLabelVisible = " + algebraLabelVisible);
+		if ("v03".contentEquals(label)) {
+			Log.printStacktrace("");
+		}
 		this.algebraLabelVisible = algebraLabelVisible;
 	}
 
@@ -4352,17 +4354,22 @@ public abstract class GeoElement extends ConstructionElement
 
 	final public String getAlgebraDescriptionTextOrHTMLDefault(
 			IndexHTMLBuilder builder) {
+		Log.debug(label + " " + algebraLabelVisible);
 		if (!isAlgebraLabelVisible()) {
 			String desc = getLaTeXDescriptionRHS(false,
 					StringTemplate.defaultTemplate);
+			Log.debug("desc = " + desc);
 			if (LabelManager.isShowableLabel(desc)) {
+				Log.debug("A");
 				builder.clear();
 				builder.append(desc);
+				Log.debug(builder.toString());
 				return builder.toString();
 			}
 		}
 		if (strAlgebraDescTextOrHTMLneedsUpdate) {
 			final String algDesc = getAlgebraDescriptionDefault();
+			Log.debug("algDesc = " + algDesc);
 			// convertion to html is only needed if indices are found
 			if (hasIndexLabel()) {
 				builder.indicesToHTML(algDesc);
@@ -4384,6 +4391,7 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		}
 
+		Log.debug(strAlgebraDescTextOrHTML);
 		return strAlgebraDescTextOrHTML;
 	}
 
@@ -7302,7 +7310,6 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	@Nullable
 	public ExpressionNode getDefinition() {
 		return definition;
 	}

@@ -93,7 +93,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
 			ExpressionNode en = algoDP.getExpression();
 
-			if (en != null && en.getOperation() == Operation.VEC_FUNCTION
+			if (en.getOperation() == Operation.VEC_FUNCTION
 					&& en.getLeft().unwrap() == f) {
 				pointOnCurveSpecial = true;
 				pointOnCurveSpecialParam = en.getRight().unwrap();
