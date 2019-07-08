@@ -88,7 +88,7 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
             if (iconsAR == null) {
                 iconsAR = new PropertyResource[]{
                         PropertyResource.ICON_RELOAD_AR,
-                        PropertyResource.ICON_STANDARD_VIEW
+                        PropertyResource.ICON_AR_FIT_THICKNESS
                 };
             }
             return iconsAR;
