@@ -21,6 +21,7 @@ import org.geogebra.common.util.DoubleUtil;
 public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		implements PathPlotter {
 
+	private static final double EPSILON = 0.0001;
 	private boolean lineDrawn;
 	private Coords tmpCoords = new Coords(4);
 
@@ -83,6 +84,10 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		}
 
 		if (isLine) {
+			// Safari does not draw points with moveTo lineTo
+			if (x == point.getX() && y == point.getY()) {
+				x += EPSILON;
+			}
 			addPoint(x, y, lineTo);
 			lineDrawn = true;
 		} else {
