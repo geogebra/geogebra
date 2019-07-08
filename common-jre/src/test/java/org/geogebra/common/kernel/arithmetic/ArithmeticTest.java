@@ -1,16 +1,31 @@
-package org.geogebra.common.kernel.commands;
+package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ArithmeticTest extends AlgebraTest {
+public class ArithmeticTest extends Assert {
+
+	static AlgebraProcessor ap;
+	static AppCommon3D app;
+
+	@BeforeClass
+	public static void setup() {
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
+		ap = app.getKernel().getAlgebraProcessor();
+	}
 
 	@Before
 	public void clean() {

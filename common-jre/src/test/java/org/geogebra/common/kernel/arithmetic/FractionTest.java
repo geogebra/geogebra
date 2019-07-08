@@ -1,8 +1,12 @@
-package org.geogebra.common.kernel.commands;
+package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -14,7 +18,8 @@ public class FractionTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = AlgebraTest.createApp();
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 	}
 
 	@Test

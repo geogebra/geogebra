@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCommon3D;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -8,11 +11,12 @@ import org.junit.Test;
 
 public class SpecialPointsTest {
 
-	private static AppDNoGui app;
+	private static App app;
 
 	@BeforeClass
 	public static void setup() {
-		app = AlgebraTest.createApp();
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 	}
 
 	@Before

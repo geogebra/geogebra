@@ -1,29 +1,30 @@
-package org.geogebra.euclidian;
+package org.geogebra.common.euclidian;
 
 import java.util.TreeSet;
 
-import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class DrawablesTest {
-	private static AppDNoGui app;
+	private static AppCommon3D app;
 
 	@BeforeClass
 	public static void setupApp() {
-		app = AlgebraTest.createApp();
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 	}
 
 	@Test
