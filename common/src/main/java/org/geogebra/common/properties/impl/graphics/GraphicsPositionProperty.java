@@ -23,40 +23,6 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     private String[] values;
     private String[] valuesAR;
 
-    private Runnable[] callbacksAll = {
-            new Runnable() {
-                @Override
-                public void run() {
-
-                    if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                        if (euclidianView.isAREnabled()) {
-                            EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
-                            euclidianView3D.getRenderer().fitThicknessInAR();
-                        } else {
-                            euclidianView.setStandardView(true);
-                        }
-                    } else {
-                        euclidianView.setStandardView(true);
-                    }
-                }
-            },
-            new Runnable() {
-                @Override
-                public void run() {
-                    boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
-                    euclidianView.setViewShowAllObjects(true, keepRatio);
-                }
-            },
-            new Runnable() {
-                @Override
-                public void run() {
-                    // restart AR session
-                    EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
-                    euclidianView3D.getRenderer().setARShouldRestart();
-                }
-            }
-    };
-
     private Runnable[] callbacks;
     private Runnable[] callbacksAR;
 
@@ -76,17 +42,40 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         if (euclidianView.isAREnabled()) {
             if (callbacksAR == null) {
                 callbacksAR = new Runnable[]{
-                        callbacksAll[2],
-                        callbacksAll[0],
-                        callbacksAll[1]
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                // restart AR session
+                                EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
+                                euclidianView3D.getRenderer().setARShouldRestart();
+                            }
+                        },
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
+                                euclidianView3D.getRenderer().fitThicknessInAR();
+                            }
+                        }
                 };
             }
             return callbacksAR;
         } else {
             if (callbacks == null) {
                 callbacks = new Runnable[]{
-                        callbacksAll[0],
-                        callbacksAll[1]
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                euclidianView.setStandardView(true);
+                            }
+                        },
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
+                                euclidianView.setViewShowAllObjects(true, keepRatio);
+                            }
+                        }
                 };
             }
             return callbacks;
@@ -99,12 +88,10 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
             if (iconsAR == null) {
                 iconsAR = new PropertyResource[]{
                         PropertyResource.ICON_RELOAD_AR,
-                        PropertyResource.ICON_STANDARD_VIEW,
-                        PropertyResource.ICON_ZOOM_TO_FIT
+                        PropertyResource.ICON_STANDARD_VIEW
                 };
             }
             return iconsAR;
-
         } else {
             if (icons == null) {
                 icons = new PropertyResource[]{
@@ -123,14 +110,11 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
                 if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
                     valuesAR = new String[]{
                             "ar.restart",
-                            "Fit thickness",
-                            "ShowAllObjects"
+                            "Fit thickness"
                     };
                 } else {
                     valuesAR = new String[]{
-                            "ar.restart",
-                            "StandardView",
-                            "ShowAllObjects"
+                            "ar.restart"
                     };
                 }
                 localizeValues(valuesAR);
