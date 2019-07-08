@@ -1,15 +1,23 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class AuralTextTest {
 
-	static AppDNoGui app = AlgebraTest.createApp();
+	static AppCommon3D app;
+
+	@Before
+	public void startApp() {
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
+	}
 
 	private static void aural(String in, String... out) {
 		GeoElementND[] geos = add(in);

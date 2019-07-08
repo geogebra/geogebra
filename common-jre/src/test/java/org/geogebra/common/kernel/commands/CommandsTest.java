@@ -11,12 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.headless.ScreenReaderAccumulator;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
+import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -33,6 +35,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.hamcrest.Matcher;
+import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -1786,6 +1789,37 @@ public class CommandsTest {
 		t("ReadText(\"Can anybody hear me?\")");
 		assertTrue(((ScreenReaderAccumulator) app.getActiveEuclidianView()
 				.getScreenReader()).hasRead("Can anybody hear me?"));
+	}
+
+	@Test
+	public void cmdTableText() {
+		t("tables=TableText[1..5]", StringContains.containsString("array"));
+		checkSize("tables", 5, 1);
+		t("tableh=TableText[ 1..5, 1..5,\"h\" ]",
+				StringContains.containsString("array"));
+		checkSize("tableh", 5, 2);
+		t("tablev=TableText[ {1..5, 1..5},\"v\" ]",
+				StringContains.containsString("array"));
+		checkSize("tablev", 2, 5);
+		t("tablesplit=TableText[1..5,\"v\",3]",
+				StringContains.containsString("array"));
+		checkSize("tablesplit", 2, 3);
+		t("tablesplit=TableText[1..5,\"h\",3]",
+				StringContains.containsString("array"));
+		checkSize("tablesplit", 3, 2);
+	}
+
+	private static void checkSize(String string, int cols, int rows) {
+		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
+				.getSize();
+		if (((AlgoTableText) get(string).getParentAlgorithm())
+				.getAlignment() == 'h') {
+			assertEquals(cols, d.getWidth());
+			assertEquals(rows, d.getHeight());
+		} else {
+			assertEquals(rows, d.getWidth());
+			assertEquals(cols, d.getHeight());
+		}
 	}
 
 }

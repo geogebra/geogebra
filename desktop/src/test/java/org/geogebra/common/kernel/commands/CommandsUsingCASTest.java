@@ -2,11 +2,9 @@ package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
 
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -15,7 +13,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.hamcrest.core.StringContains;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -285,24 +282,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdTableText() {
-		t("tables=TableText[1..5]", StringContains.containsString("array"));
-		checkSize("tables", 5, 1);
-		t("tableh=TableText[ 1..5, 1..5,\"h\" ]",
-				StringContains.containsString("array"));
-		checkSize("tableh", 5, 2);
-		t("tablev=TableText[ {1..5, 1..5},\"v\" ]",
-				StringContains.containsString("array"));
-		checkSize("tablev", 2, 5);
-		t("tablesplit=TableText[1..5,\"v\",3]",
-				StringContains.containsString("array"));
-		checkSize("tablesplit", 2, 3);
-		t("tablesplit=TableText[1..5,\"h\",3]",
-				StringContains.containsString("array"));
-		checkSize("tablesplit", 3, 2);
-	}
-
-	@Test
 	public void cmdShowSteps() {
 		AlgebraTestHelper.shouldFail("ShowSteps(ConstructionStep())",
 				"Illegal argument: ConstructionStep", app);
@@ -346,19 +325,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 				evalInfo, null);
 		String res = geo[0].toValueString(StringTemplate.editTemplate);
 		Assert.assertEquals(expect, res);
-	}
-
-	private static void checkSize(String string, int cols, int rows) {
-		GDimension d = ((AlgoTableText) get(string).getParentAlgorithm())
-				.getSize();
-		if (((AlgoTableText) get(string).getParentAlgorithm())
-				.getAlignment() == 'h') {
-			assertEquals(cols, d.getWidth());
-			assertEquals(rows, d.getHeight());
-		} else {
-			assertEquals(rows, d.getWidth());
-			assertEquals(cols, d.getHeight());
-		}
 	}
 
 	private static void tdeg(String string, String string2) {
