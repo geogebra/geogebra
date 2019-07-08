@@ -4,23 +4,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ArithmeticTest extends AlgebraTest {
-	static AlgebraProcessor ap;
-	static AppDNoGui app;
-
-	@BeforeClass
-	public static void setup() {
-		app = AlgebraTest.createApp();
-		ap = app.getKernel().getAlgebraProcessor();
-	}
 
 	@Before
 	public void clean() {

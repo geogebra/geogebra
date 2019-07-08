@@ -31,32 +31,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class CommandsUsingCASTest extends AlgebraTest {
 
-	private static AppDNoGui app;
-	private static AlgebraProcessor ap;
-
-	private static void t(String s, String... expected) {
-		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
-				ap,
-				StringTemplate.xmlTemplate);
-	}
-
-	private static void tRound(String s, String... expected) {
-		CommandsTest.testSyntax(s, AlgebraTestHelper.getMatchers(expected), app,
-				ap,
-				StringTemplate.editTemplate);
-	}
-
-	public static void t(String s, Matcher<String> expected) {
-		CommandsTest.testSyntax(s, Arrays.asList(expected), app, ap,
-				StringTemplate.xmlTemplate);
-	}
-
-	@BeforeClass
-	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), false);
-		ap = app.getKernel().getAlgebraProcessor();
-	}
-
 	@Before
 	public void resetSyntaxes() {
 		CommandsTest.resetSyntaxCounter();

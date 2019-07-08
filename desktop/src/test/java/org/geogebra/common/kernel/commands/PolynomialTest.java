@@ -2,23 +2,12 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Test inputs related to polynomials.
  */
 public class PolynomialTest extends AlgebraTest {
-
-	static AlgebraProcessor ap;
-	static AppDNoGui app;
-
-	@BeforeClass
-	public static void setup() {
-		app = AlgebraTest.createApp();
-		ap = app.getKernel().getAlgebraProcessor();
-	}
 
 	@Test
 	public void testPolynomialMaxDegree() {

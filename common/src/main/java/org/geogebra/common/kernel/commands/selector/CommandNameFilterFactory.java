@@ -33,7 +33,7 @@ public final class CommandNameFilterFactory {
 				Commands.Expand, Commands.Factor, Commands.Factors,
 				Commands.IFactor, Commands.CFactor, Commands.Simplify,
 				Commands.SurdText, Commands.ParametricDerivative,
-				Commands.Derivative, Commands.TrigExpand, Commands.TrigCombine,
+				Commands.TrigExpand, Commands.TrigCombine,
 				Commands.TrigSimplify, Commands.Limit, Commands.LimitBelow,
 				Commands.LimitAbove, Commands.Degree, Commands.Coefficients,
 				Commands.CompleteSquare, Commands.PartialFractions,
