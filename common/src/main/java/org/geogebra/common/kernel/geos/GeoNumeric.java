@@ -776,7 +776,7 @@ public class GeoNumeric extends GeoElement
 			sb.append(" random=\"true\"");
 		}
 		sb.append("/>\n");
-		XMLBuilder.appendSymbolicMode(sb, this);
+		XMLBuilder.appendSymbolicMode(sb, this, false);
 		// colors
 		getXMLvisualTags(sb);
 

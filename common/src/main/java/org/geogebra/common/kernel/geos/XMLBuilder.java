@@ -371,10 +371,15 @@ public class XMLBuilder {
 	 *
 	 * @param builder string builder
 	 * @param symbolicMode element with symbolic mode
+	 * @param defaultMode the default symbolic mode
 	 */
-	public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode) {
-		if (symbolicMode.isSymbolicMode()) {
+	public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode,
+			boolean defaultMode) {
+		boolean isSymbolicMode = symbolicMode.isSymbolicMode();
+		if (isSymbolicMode && !defaultMode) {
 			builder.append("\t<symbolic val=\"true\" />\n");
+		} else if (!isSymbolicMode && defaultMode) {
+			builder.append("\t<symbolic val=\"false\" />\n");
 		}
 	}
 

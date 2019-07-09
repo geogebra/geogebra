@@ -489,6 +489,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		super.getXMLtags(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
+		XMLBuilder.appendSymbolicMode(builder, this, true);
 	}
 
 	@Override
