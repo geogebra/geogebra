@@ -542,13 +542,15 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void fitThickness() {
-        float previousARScale = arScale;
-        float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
-        // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
-        double thicknessMin = getThicknessMin(mDistance);
-        arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
-        arScaleFactor = arScaleAtStart / arScale;
-        updateSettingsScale(previousARScale / arScale);
+        if (isDrawing()) {
+            float previousARScale = arScale;
+            float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
+            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
+            double thicknessMin = getThicknessMin(mDistance);
+            arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
+            arScaleFactor = arScaleAtStart / arScale;
+            updateSettingsScale(previousARScale / arScale);
+        }
     }
 
     private void updateSettingsScale(float factor) {
