@@ -2905,7 +2905,7 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !isStringNode(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -3032,6 +3032,10 @@ public class AlgebraProcessor {
 		// if we get here, nothing worked
 		Log.debug("Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
 		return null;
+	}
+
+	private boolean isStringNode(ExpressionNode ev) {
+		return ev.unwrap() instanceof MyStringBuffer;
 	}
 
 	/**
