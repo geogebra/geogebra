@@ -12,6 +12,7 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
+import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
@@ -53,6 +54,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
+import org.geogebra.web.full.gui.properties.AnimationStepPanelW;
 import org.geogebra.web.full.gui.properties.ComboBoxPanel;
 import org.geogebra.web.full.gui.properties.IOptionPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
@@ -338,6 +340,9 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof AnimationSpeedModel) {
 			return new AnimationSpeedPanelW((AnimationSpeedModel) m, app);
+		}
+		if (m instanceof AnimationStepModel) {
+			return new AnimationStepPanelW((AnimationStepModel) m, app);
 		}
 		return null;
 	}
