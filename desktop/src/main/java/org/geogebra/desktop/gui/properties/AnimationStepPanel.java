@@ -46,6 +46,11 @@ public class AnimationStepPanel extends JPanel
 		this(new AnimationStepModel(app), app);
 	}
 
+	/**
+	 *
+	 * @param m model
+	 * @param app application
+	 */
 	public AnimationStepPanel(AnimationStepModel m, AppD app) {
 		kernel = app.getKernel();
 		model = m;
