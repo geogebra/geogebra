@@ -4395,7 +4395,7 @@ public abstract class GeoElement extends ConstructionElement
 			IndexHTMLBuilder builder) {
 		String algDesc = getAlgebraDescriptionRHS();
 
-		// convertion to html is only needed if indices are found
+		// conversion to html is only needed if indices are found
 		builder.indicesToHTML(algDesc);
 		return algDesc;
 	}
