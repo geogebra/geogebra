@@ -648,10 +648,10 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
-	public void simpleFracShouldBeOneRow() {
+	public void simpleFracShouldBeTwoRows() {
 		t("1/2", "1 / 2");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.DEFINITION_VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
@@ -743,6 +743,15 @@ public class GeoSymbolicTest {
 		t("f(x)=x^3", "x^(3)");
 		GeoElementND twin = getSymbolic("f").getTwinGeo();
 		assertEquals("x^(3)", twin.toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void testSymbolicMode() {
+		t("a=1/2", "1 / 2");
+		GeoSymbolic symbolic = getSymbolic("a");
+		symbolic.setSymbolicMode(false, false);
+		assertEquals("0.5", symbolic.toValueString(StringTemplate.algebraTemplate));
+
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
