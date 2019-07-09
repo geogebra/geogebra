@@ -2,10 +2,11 @@ package org.geogebra.common.kernel.geos;
 
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -643,7 +645,6 @@ public class GeoSymbolicTest {
 	public void simpleEquationShouldBeOneRow() {
 		t("eq1:x+y=1", "x + y = 1");
 		GeoElement a = getSymbolic("eq1");
-		assertTrue(a instanceof GeoSymbolic);
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
@@ -713,7 +714,7 @@ public class GeoSymbolicTest {
 
 	private static GeoSymbolic getSymbolic(String label) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
-		assertTrue(geo instanceof GeoSymbolic);
+		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
 		return (GeoSymbolic) geo;
 	}
 
@@ -757,7 +758,7 @@ public class GeoSymbolicTest {
 	public void testStrings() {
 		t("\"Hello World!\"", "Hello World!");
 		GeoElement element = app.getKernel().getConstruction().getLastGeoElement();
-		assertTrue(element instanceof GeoText);
+		assertThat(element, instanceOf(GeoText.class));
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
