@@ -367,6 +367,18 @@ public class XMLBuilder {
 	}
 
 	/**
+	 * Appends properties related to the symbolic mode.
+	 *
+	 * @param builder string builder
+	 * @param symbolicMode element with symbolic mode
+	 */
+	public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode) {
+		if (symbolicMode.isSymbolicMode()) {
+			builder.append("\t<symbolic val=\"true\" />\n");
+		}
+	}
+
+	/**
 	 * @param sb
 	 *            string builder
 	 * @param angleStyle
