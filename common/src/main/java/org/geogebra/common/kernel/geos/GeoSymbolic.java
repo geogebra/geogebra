@@ -112,10 +112,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (value != null) {
-			return value.toValueString(tpl);
+		GeoElementND twin = getTwinGeo();
+		if (symbolicMode || twin == null) {
+			if (value != null) {
+				return value.toValueString(tpl);
+			}
+			return getDefinition().toValueString(tpl);
+		} else {
+			return twin.toValueString(tpl);
 		}
-		return getDefinition().toValueString(tpl);
 	}
 
 	@Override
@@ -405,11 +410,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
 		String def = getDefinition(StringTemplate.defaultTemplate);
-		String val = getValueForInputBar();
+		String val = null;
+		GeoElementND twin = getTwinGeo();
+		if (twin != null) {
+			val = twin.getValueForInputBar();
+		} else {
+			val = getValueForInputBar();
+		}
 		if (def.equals(val)) {
 			return DescriptionMode.VALUE;
+		} else {
+			return DescriptionMode.DEFINITION_VALUE;
 		}
-		return super.needToShowBothRowsInAV();
 	}
 
 	@Override
