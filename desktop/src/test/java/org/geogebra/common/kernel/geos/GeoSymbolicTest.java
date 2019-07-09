@@ -751,7 +751,13 @@ public class GeoSymbolicTest {
 		GeoSymbolic symbolic = getSymbolic("a");
 		symbolic.setSymbolicMode(false, false);
 		assertEquals("0.5", symbolic.toValueString(StringTemplate.algebraTemplate));
+	}
 
+	@Test
+	public void testStrings() {
+		t("\"Hello World!\"", "Hello World!");
+		GeoElement element = app.getKernel().getConstruction().getLastGeoElement();
+		assertTrue(element instanceof GeoText);
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
