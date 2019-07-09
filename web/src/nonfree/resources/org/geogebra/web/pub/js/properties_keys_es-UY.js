@@ -2678,6 +2678,7 @@ __GGB__keysVar["es-UY"].menu = {
     "SharedByA": "Compartido por: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Muestra",
     "ShowAas2DView": "Representaci\xf3n 2D de %0",
     "ShowAllObjects": "Ver todos los objetos",

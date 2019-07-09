@@ -2678,6 +2678,7 @@ __GGB__keysVar["lt"].menu = {
     "SharedByA": "Bendrina: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Rodyti",
     "ShowAas2DView": "Rodyti %0 kaip 2D vaizd\u0105",
     "ShowAllObjects": "Rodyti visus objektus",

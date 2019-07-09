@@ -2678,6 +2678,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "SharedByA": "\u5206\u4eab\u8005\uff1a%0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "\u986f\u793a",
     "ShowAas2DView": "\u986f\u793a %0 \u7684\u5e73\u9762\u5716",
     "ShowAllObjects": "\u986f\u793a\u6240\u6709\u7269\u4ef6",

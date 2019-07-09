@@ -2678,6 +2678,7 @@ __GGB__keysVar["sq"].menu = {
     "SharedByA": "Shared by: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Shfaq",
     "ShowAas2DView": "Shfaq %0 si Pamje 2D",
     "ShowAllObjects": "Shfaq Gjithe Objektet",

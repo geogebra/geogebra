@@ -2678,6 +2678,7 @@ __GGB__keysVar["sl"].menu = {
     "SharedByA": "Posredovano od: %0",
     "SharedLinkHelpTxt": "Vsakdo s povezavo lahko vidi",
     "SharedLinkHelpTxt.Mebis": "Kdorkoli s povezavo, ki je prijavljen v mebis lahko vidi to datoteko, dela z njo in shrani kopijo.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Prika\u017ei",
     "ShowAas2DView": "%0 prika\u017ei v 2D",
     "ShowAllObjects": "Pribli\u017eaj, da se vidi vse",

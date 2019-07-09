@@ -2678,6 +2678,7 @@ __GGB__keysVar["ro"].menu = {
     "SharedByA": "\xcemp\u0103rt\u0103\u0219it de: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Arat\u0103",
     "ShowAas2DView": "Crea\u021bi vizualizare 2D de la %0",
     "ShowAllObjects": "Arat\u0103 toate obictele",

@@ -2678,6 +2678,7 @@ __GGB__keysVar["vi"].menu = {
     "SharedByA": "Shared by: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Hi\u1ec3n th\u1ecb",
     "ShowAas2DView": "Hi\u1ec3n th\u1ecb %0 trong kh\xf4ng gian 2 chi\u1ec1u",
     "ShowAllObjects": "Hi\u1ec3n th\u1ecb t\u1ea5t c\u1ea3 c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng",

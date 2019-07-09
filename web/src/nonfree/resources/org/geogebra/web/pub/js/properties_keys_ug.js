@@ -2678,6 +2678,7 @@ __GGB__keysVar["ug"].menu = {
     "SharedByA": "\u06be\u06d5\u0645\u0628\u06d5\u06be\u0649\u0631\u0644\u0649\u06af\u06c8\u0686\u0649: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "\u0643\u06c6\u0631\u0633\u0649\u062a\u0649\u0634",
     "ShowAas2DView": "%0 \u0646\u0649\u06ad \u062a\u06d5\u0643\u0634\u0649\u0644\u0649\u0643\u062a\u0649\u0643\u0649 \u06af\u0631\u0627\u0641\u0649\u0643\u0649\u0646\u0649 \u0643\u06c6\u0631\u0633\u0649\u062a\u0649\u0634",
     "ShowAllObjects": "\u0628\u0627\u0631\u0644\u0649\u0642 \u0626\u0648\u0628\u064a\u06d0\u0643\u062a\u0644\u0627\u0631\u0646\u0649 \u0643\u06c6\u0631\u0633\u0649\u062a\u0649\u0634",

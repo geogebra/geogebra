@@ -2678,6 +2678,7 @@ __GGB__keysVar["eu"].menu = {
     "SharedByA": "%0-(e)k partekatua",
     "SharedLinkHelpTxt": "Esteka duen edonork ikus dezake",
     "SharedLinkHelpTxt.Mebis": "Mebisen saioa hasi eta esteka duen edonork artxibo hau ikusi, lan egin eta kopia gorde dezake.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Erakutsi",
     "ShowAas2DView": "%0 objektuaren 2D ikuspegia sortu",
     "ShowAllObjects": "Erakutsi Objektu Guztiak",

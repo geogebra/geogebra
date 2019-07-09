@@ -2678,6 +2678,7 @@ __GGB__keysVar["fr"].menu = {
     "SharedByA": "Partag\xe9 par : %0",
     "SharedLinkHelpTxt": "Toutes les personnes ayant ce lien ont acc\xe8s",
     "SharedLinkHelpTxt.Mebis": "Toutes les personnes connect\xe9es \xe0 mebis peuvent voir ce fichier, travailler avec et sauvegarder une copie.",
+    "SharingAvailableMow": "",
     "Show": "Afficher",
     "ShowAas2DView": "Cr\xe9er une vue 2D de %0",
     "ShowAllObjects": "Recadrer",

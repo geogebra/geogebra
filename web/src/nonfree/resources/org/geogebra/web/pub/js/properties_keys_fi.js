@@ -2678,6 +2678,7 @@ __GGB__keysVar["fi"].menu = {
     "SharedByA": "Jakanut %0",
     "SharedLinkHelpTxt": "Jokainen, jolla on linkki n\xe4kee t\xe4m\xe4n tiedoston.",
     "SharedLinkHelpTxt.Mebis": "Jokainen, jolla on linkki ja on kirjautunut Mebisiin, n\xe4kee t\xe4m\xe4n tiedoston voi muokata sit\xe4  ja tallentaa kopion.",
+    "SharingAvailableMow": "",
     "Show": "N\xe4yt\xe4",
     "ShowAas2DView": "Luo 2D-n\xe4kym\xe4 %0",
     "ShowAllObjects": "N\xe4yt\xe4 kaikki objektit",

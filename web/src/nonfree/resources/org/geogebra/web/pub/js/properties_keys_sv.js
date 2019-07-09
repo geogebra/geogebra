@@ -2678,6 +2678,7 @@ __GGB__keysVar["sv"].menu = {
     "SharedByA": "Delad av: %0",
     "SharedLinkHelpTxt": "Alla med l\xe4nken kan \xf6ppna filen.",
     "SharedLinkHelpTxt.Mebis": "Alla med l\xe4nken som \xe4r inloggade i Mebis kan visa filen, anv\xe4nda den och spara en kopia.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Visa",
     "ShowAas2DView": "Visa %0 som 2D-f\xf6nster",
     "ShowAllObjects": "Visa alla objekt",

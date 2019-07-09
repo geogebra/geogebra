@@ -2678,6 +2678,7 @@ __GGB__keysVar["hr"].menu = {
     "SharedByA": "Dijeljeno od: %0",
     "SharedLinkHelpTxt": "Bilo tko s poveznicom mo\u017ee vidjeti",
     "SharedLinkHelpTxt.Mebis": "Svatko s poveznicom prijavljen na 'mebis' mo\u017ee pregledati ovu datoteku, raditi na njoj, i spremiti je kao kopiju.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Poka\u017ei",
     "ShowAas2DView": "Prika\u017ei %0 u 2D prozoru",
     "ShowAllObjects": "Zumiraj da stane",

@@ -2678,6 +2678,7 @@ __GGB__keysVar["tr"].menu = {
     "SharedByA": "Payla\u015fan: %0",
     "SharedLinkHelpTxt": "Bu ba\u011flant\u0131ya sahip herkes g\xf6rebilir",
     "SharedLinkHelpTxt.Mebis": "Bu ba\u011flant\u0131ya sahip olan herkes bu dosyay\u0131 g\xf6r\xfcnt\xfcleyebilir. .",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "G\xf6ster",
     "ShowAas2DView": "%0 dan 2D G\xf6r\xfcn\xfcm\xfc olu\u015ftur",
     "ShowAllObjects": "T\xfcm Nesneleri G\xf6ster",

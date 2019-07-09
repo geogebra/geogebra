@@ -2678,6 +2678,7 @@ __GGB__keysVar["hu"].menu = {
     "SharedByA": "Megosztotta: %0",
     "SharedLinkHelpTxt": "A hivatkoz\xe1s birtok\xe1ban b\xe1rki megtekintheti ezt a f\xe1jlt.",
     "SharedLinkHelpTxt.Mebis": "A hivatkoz\xe1s birtok\xe1ban b\xe1rki megtekintheti ezt a f\xe1jlt.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Mutat",
     "ShowAas2DView": "%0 mutat\xe1sa 2D-s n\xe9zetben",
     "ShowAllObjects": "Minden objektum mutat\xe1sa",

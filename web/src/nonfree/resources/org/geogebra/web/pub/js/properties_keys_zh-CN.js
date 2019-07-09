@@ -2678,6 +2678,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "SharedByA": "\u5171\u4eab\u8005: %0",
     "SharedLinkHelpTxt": "\u4efb\u4f55\u4eba\u6709\u6b64\u94fe\u63a5\u90fd\u80fd\u67e5\u770b.",
     "SharedLinkHelpTxt.Mebis": "\u5177\u6709\u767b\u5f55 mebis \u94fe\u63a5\u7684\u4efb\u4f55\u4eba\u90fd\u53ef\u4ee5\u67e5\u770b\u6b64\u6587\u4ef6\u3001\u4f7f\u7528\u5b83\u5e76\u4fdd\u5b58\u526f\u672c.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "\u663e\u793a",
     "ShowAas2DView": "\u521b\u5efa %0 \u7684\u5e73\u9762\u89c6\u56fe",
     "ShowAllObjects": "\u9002\u5e94\u7a97\u53e3",

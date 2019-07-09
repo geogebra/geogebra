@@ -2678,6 +2678,7 @@ __GGB__keysVar["sk"].menu = {
     "SharedByA": "\u0160\xedren\xe9 medzi: %0",
     "SharedLinkHelpTxt": "Anyone with the link can view",
     "SharedLinkHelpTxt.Mebis": "Anyone with the link who is logged into mebis can view this file, work with it and save a copy.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "Zobrazi\u0165",
     "ShowAas2DView": "Uk\xe1\u017e %0 v 2D poh\u013eade",
     "ShowAllObjects": "Uk\xe1za\u0165 v\u0161etky objekty",

@@ -2678,6 +2678,7 @@ __GGB__keysVar["ko"].menu = {
     "SharedByA": "%0 \ub2d8\uc5d0 \uc758\ud574 \uacf5\uc720\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
     "SharedLinkHelpTxt": "\ub9c1\ud06c\uac00 \uc788\ub294 \ub204\uad6c\ub098 \ubcfc \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "SharedLinkHelpTxt.Mebis": "mebis\uc5d0 \ub85c\uadf8\uc778 \ub41c \ub9c1\ud06c\uac00 \uc788\ub294 \ubaa8\ub4e0 \uc0ac\uc6a9\uc790\ub294 \uc774 \ud30c\uc77c\uc744 \ubcf4\uba70 \uc791\uc5c5\ud558\uace0, \uc0ac\ubcf8\uc744 \uc800\uc7a5\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
+    "SharingAvailableMow": "The sharing of files is available for this school year and will be deactivated automatically afterwards.",
     "Show": "\ubcf4\uc774\uae30",
     "ShowAas2DView": "2\ucc28\uc6d0 \uae30\ud558\ucc3d\uc73c\ub85c %0 \ubcf4\uc774\uae30",
     "ShowAllObjects": "\ubaa8\ub4e0 \ub300\uc0c1 \ubcf4\uc774\uae30",
