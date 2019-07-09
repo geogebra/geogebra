@@ -124,8 +124,10 @@ public class CASgiacW extends CASgiac {
 			}
 		}
 
-		evaluateRaw("timeout " + (timeoutMilliseconds / 1000), false,
-				externalCAS);
+		// timeout doesn't work for giac.js / webassembly
+		if (externalCAS) {
+			evaluateRaw("timeout " + (timeoutMilliseconds / 1000), false, externalCAS);
+		}
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);
