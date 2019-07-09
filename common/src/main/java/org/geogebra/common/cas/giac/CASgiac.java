@@ -545,6 +545,8 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String exp = input;
 
+		Log.debug("input = " + input);
+
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
@@ -552,8 +554,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		// and they are still correct (e.g. from eliminateFactorized).
 		// TODO: Find a better way for checking, now we assume that \"[ start is
 		// OK (or \"\").
-
-		Log.debug("input = " + input);
 
 		String rtrimmed = result.trim();
 		if (rtrimmed.startsWith("\"") && rtrimmed.endsWith("\"")) {
