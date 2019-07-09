@@ -65,6 +65,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 */
 	public GeoSymbolic(Construction c) {
 		super(c);
+		symbolicMode = true;
 	}
 
 	@Override
