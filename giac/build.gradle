@@ -631,7 +631,7 @@ task androidCopyX86_64LibjavagiacSo (dependsOn: 'javagiacAndroidx86_64SharedLibr
 task androidCopyArm64LibjavagiacSo (dependsOn: 'javagiacAndroidarm64SharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/libs/javagiac/shared/androidarm64'
-    into 'giac-android/src/main/jniLibs/arm64'
+    into 'giac-android/src/main/jniLibs/arm64-v8a'
     include ('libjavagiac.so')
 }
 
@@ -911,7 +911,6 @@ task emMakeMpfr {
         }
     }
 }
-
 
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 

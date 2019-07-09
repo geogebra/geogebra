@@ -46,6 +46,12 @@ Prerequisites
     ARCH=x86_64
     HOST=x86_64-linux-android
     ```
+    
+11. Repeat the steps 4-8 above but instead in step 4 use
+    ```
+    ARCH=arm64
+    HOST=aarch64-linux-android
+    ```
 
 11. Now you may remove the `$NDK_DIR` folder and save some disk space.
 
