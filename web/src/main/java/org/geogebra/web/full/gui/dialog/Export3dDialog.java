@@ -40,6 +40,7 @@ public class Export3dDialog extends OptionDialog
 
 	private Runnable onExportButtonPressed;
 	private ParsableComponentInputField lineThicknessValue;
+	private String oldLineThicknessValue;
 	private CheckBox filledSolid;
 	private double lastUpdatedScale;
 	private double lastUpdatedThickness;
@@ -346,7 +347,15 @@ public class Export3dDialog extends OptionDialog
 				@Override
 				public void onClick(ClickEvent event) {
 					if (filledSolid.getValue()) {
+						oldLineThicknessValue = lineThicknessValue.getText();
 						lineThicknessValue.setInputText("");
+					} else {
+						String current = lineThicknessValue.getText();
+						if (oldLineThicknessValue != null && current == null
+								|| current.trim().length() == 0) {
+							lineThicknessValue
+									.setInputText(oldLineThicknessValue);
+						}
 					}
 				}
 			});
