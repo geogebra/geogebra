@@ -1,7 +1,7 @@
 pipeline {
     agent any
-    triggers { 
-        cron('H 10,19 * * 1-5') 
+    triggers {
+        cron('H 10,19 * * 1-5')
     }
     stages {
         stage('build') {
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 junit '**/build/test-results/test/*.xml'
                 recordIssues tools: [
-                 cpd(pattern: '**/build/reports/cpd/cpdCheck.xml'), 
+                    cpd(pattern: '**/build/reports/cpd/cpdCheck.xml'),
                     checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
                 ]
                 recordIssues qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [
