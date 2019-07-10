@@ -2242,7 +2242,8 @@ public class AlgebraProcessor {
 			return array(f);
 		}
 		f.remove();
-		throw new MyError(loc, "InvalidFunction");
+		throw new MyError(loc,
+				loc.getPlain("InvalidFunctionA", fun.getFunctionVariable().getSetVarString()));
 
 	}
 
