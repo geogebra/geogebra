@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
@@ -758,6 +759,18 @@ public class GeoSymbolicTest {
 	public void testStrings() {
 		t("\"Hello World!\"", "Hello World!");
 		GeoElement element = app.getKernel().getConstruction().getLastGeoElement();
+		assertThat(element, instanceOf(GeoText.class));
+	}
+
+	@Test
+	public void testStringExpression() {
+		t("p = 7", "7");
+		t("p + \" is a prime\"", "p is a prime");
+		GeoElement lastGeoElement = app.getKernel().getConstruction().getLastGeoElement();
+		new LabelController().hideLabel(lastGeoElement);
+		assertEquals("p + \" is a prime\"",
+				lastGeoElement.getDefinitionForEditor());
+		GeoElement element = lastGeoElement;
 		assertThat(element, instanceOf(GeoText.class));
 	}
 

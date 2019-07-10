@@ -755,9 +755,11 @@ public abstract class GeoElement extends ConstructionElement
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a
-			inputBarStr = getAssignmentLHS(stringTemplate)
+			if (isAlgebraLabelVisible()) {
+				inputBarStr = getAssignmentLHS(stringTemplate)
 					+ getLabelDelimiterWithSpace()
 						+ inputBarStr;
+			}
 
 		} else {
 			inputBarStr = getAlgebraDescription(stringTemplate);
