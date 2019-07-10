@@ -109,7 +109,7 @@ public class Variable extends ValidExpression {
 	public GeoElement resolve(boolean allowAutoCreateGeoElement,
 	                          boolean throwError, SymbolicMode mode) {
 		// keep bound CAS variables when resolving a CAS expression
-		if (mode != SymbolicMode.NONE) {
+		if (mode == SymbolicMode.SYMBOLIC) {
 			// resolve unknown variable as dummy geo to keep its name and
 			// avoid an "unknown variable" error message
 			return new GeoDummyVariable(kernel.getConstruction(), name);
