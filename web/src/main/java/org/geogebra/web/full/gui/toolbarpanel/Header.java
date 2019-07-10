@@ -135,13 +135,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void createAlgebraButton() {
-		SVGResource img;
-		if (!app.isUnbundledGeometry()) {
-			img = MaterialDesignResources.INSTANCE.toolbar_algebra_graphing();
-		} else {
-			img = MaterialDesignResources.INSTANCE.toolbar_algebra_geometry();
-		}
-		btnAlgebra = new MyToggleButton(new NoDragImage(img, 24, 24), app);
+		btnAlgebra = new MyToggleButton(new NoDragImage(
+				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing(), 24, 24),
+				app);
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 

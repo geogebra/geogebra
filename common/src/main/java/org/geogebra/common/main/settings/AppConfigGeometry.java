@@ -35,7 +35,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public String getAVTitle() {
-		return "Steps";
+		return "Algebra";
 	}
 
 	@Override

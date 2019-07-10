@@ -321,9 +321,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_white.svg")
 	SVGResource toolbar_algebra_graphing();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_geometry_white.svg")
-	SVGResource toolbar_algebra_geometry();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_white.svg")
 	SVGResource toolbar_tools();
 
