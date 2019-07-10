@@ -196,6 +196,11 @@ abstract public class MathContainer extends MathComponent {
 		if (arguments == null) {
 			arguments = new ArrayList<>(i + 1);
 		}
+
+		if (i >= arguments.size()) {
+			return;
+		}
+
 		if (arguments.get(i) != null) {
 			arguments.get(i).setParent(null);
 		}
