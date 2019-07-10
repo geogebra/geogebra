@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
-import org.geogebra.common.main.MyParseError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -136,14 +136,11 @@ public class MyVecNode extends ValidExpression
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// check if both ExpressionNodes represent NumberValues
 		ExpressionValue evx = x.evaluate(tpl);
-		if (!(evx instanceof NumberValue)) {
-			throw new MyParseError(kernel.getApplication().getLocalization(),
-					"NumberExpected", evx.wrap().toString(tpl));
-		}
 		ExpressionValue evy = y.evaluate(tpl);
-		if (!(evy instanceof NumberValue)) {
-			throw new MyParseError(kernel.getApplication().getLocalization(),
-					"NumberExpected", evy.wrap().toString(tpl));
+		if (!(evx instanceof NumberValue) || !(evy instanceof NumberValue)) {
+			// don't need to throw MyParseError
+			// evx.evaluateDouble() / evy.evaluateDouble() will give NaN
+			Log.debug("evx or evy not a number");
 		}
 
 		if (mode == Kernel.COORD_POLAR) {
