@@ -2047,7 +2047,7 @@ __GGB__keysVar["vi"].menu = {
     "Interval": "Kho\u1ea3ng",
     "IntervalProb": "Kho\u1ea3ng x\xe1c su\u1ea5t",
     "IntervalType": "Ki\u1ec3u kho\u1ea3ng",
-    "InvalidFunctionA": "H\xe0m s\u1ed1 kh\xf4ng h\u1ee3p l\u1ec7: Vui l\xf2ng nh\u1eadp v\xe0o h\xe0m s\u1ed1 theo x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "\u0110\u1ea3o ng\u01b0\u1ee3c s\u1ef1 l\u1ea5p \u0111\u1ea7y",
     "InvertSelection": "\u0110\u1ea3o ng\u01b0\u1ee3c l\u1ef1a ch\u1ecdn",
     "Isometric": "\u0110\u1eb3ng c\u1ef1",

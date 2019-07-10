@@ -2047,7 +2047,7 @@ __GGB__keysVar["et"].menu = {
     "Interval": "Intervall",
     "IntervalProb": "Kahepoolne",
     "IntervalType": "Intervalli t\xfc\xfcp",
-    "InvalidFunctionA": "Sobimatu funktsioon:\nPalun sisestage x-i suhtes ilmutatud funktsioon.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Inverse filling",
     "InvertSelection": "P\xf6\xf6ra valik",
     "Isometric": "Isomeetriline",

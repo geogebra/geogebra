@@ -2047,7 +2047,7 @@ __GGB__keysVar["eu"].menu = {
     "Interval": "Tartea",
     "IntervalProb": "Bi aldeetatik",
     "IntervalType": "Tarte-mota",
-    "InvalidFunctionA": "Funtzio baliogabea:\nSartu x-dun funtzio esplizitua.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Alderantzikatu itzaldura",
     "InvertSelection": "Alderantzikatu Hautatutakoa",
     "Isometric": "Isometrikoa",

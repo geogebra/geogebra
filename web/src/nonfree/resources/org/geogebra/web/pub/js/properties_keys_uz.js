@@ -2047,7 +2047,7 @@ __GGB__keysVar["uz"].menu = {
     "Interval": "Oraliq",
     "IntervalProb": "Oraliq",
     "IntervalType": "Oraliq turi",
-    "InvalidFunctionA": "Iltimos, x ga nisbatan funksiyani kiriting",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "To'ldirishni invertlash",
     "InvertSelection": "Tanlashni invertlash",
     "Isometric": "Izometrik",

@@ -2047,7 +2047,7 @@ __GGB__keysVar["hu"].menu = {
     "Interval": "Intervallum",
     "IntervalProb": "Intervallum",
     "IntervalType": "Intarvallum t\xedpusa",
-    "InvalidFunctionA": "\xc9rv\xe9nytelen f\xfcggv\xe9ny:\nAdj meg egy explicit f\xfcggv\xe9nyt x-re",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Ellent\xe9tes kit\xf6lt\xe9s",
     "InvertSelection": "Ellent\xe9tes kijel\xf6l\xe9s",
     "Isometric": "Izometrikus",

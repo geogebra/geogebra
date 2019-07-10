@@ -2047,7 +2047,7 @@ __GGB__keysVar["xh"].menu = {
     "Interval": "iSithuba",
     "IntervalProb": "Ithuba",
     "IntervalType": "Uhlobo lwethuba",
-    "InvalidFunctionA": "Ifankshini engalunganga:\nNceda ufake ifankshini ecacileyo eno x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "iInverse Filling",
     "InvertSelection": "Guqula Oyikhethileyo",
     "Isometric": "Ziyalingana",

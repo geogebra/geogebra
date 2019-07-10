@@ -2047,7 +2047,7 @@ __GGB__keysVar["ca"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Tipus d\u2019interval",
-    "InvalidFunctionA": "Equaci\xf3 il\xb7legal:\nEntreu una funci\xf3 expl\xedcita en x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Inverteix l'ombrejat",
     "InvertSelection": "Inverteix selecci\xf3",
     "Isometric": "Isom\xe8triques",

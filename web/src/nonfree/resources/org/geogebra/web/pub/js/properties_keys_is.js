@@ -2047,7 +2047,7 @@ __GGB__keysVar["is"].menu = {
     "Interval": "Bil",
     "IntervalProb": "Bil",
     "IntervalType": "Ger\xf0 bils",
-    "InvalidFunctionA": "\xd3gilt fallt:\nSetji\xf0 inn fall af x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Umhverf fylling",
     "InvertSelection": "Umhverfa vali",
     "Isometric": "Einsfir\xf0a",

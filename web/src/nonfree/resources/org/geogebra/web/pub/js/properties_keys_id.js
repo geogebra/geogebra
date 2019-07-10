@@ -2047,7 +2047,7 @@ __GGB__keysVar["id"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Tipe Interval",
-    "InvalidFunctionA": "Fungsi yang tidak valid:\nSilahkan masukan suatu fungsi eksplisit dalam x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Invers Pengisian Warna",
     "InvertSelection": "Inverse Seleksi",
     "Isometric": "Isometrik",

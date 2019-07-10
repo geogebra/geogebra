@@ -2047,7 +2047,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Interval": "\u5340\u9593",
     "IntervalProb": "\u9650\u5236\u5169\u7aef",
     "IntervalType": "\u5340\u9593\u985e\u578b",
-    "InvalidFunctionA": "\u4e0d\u6b63\u78ba\u7684\u51fd\u6578\uff1a\n\u8acb\u8f38\u5165\u4ee5 x \u70ba\u81ea\u8b8a\u6578\u7684\u51fd\u6578",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "\u53cd\u5411\u586b\u6eff",
     "InvertSelection": "\u53cd\u5411\u9078\u53d6",
     "Isometric": "\u7b49\u8ddd\u7dda",

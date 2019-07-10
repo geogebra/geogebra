@@ -2047,7 +2047,7 @@ __GGB__keysVar["cy"].menu = {
     "Interval": "Cyfwng",
     "IntervalProb": "Cyfng Teb",
     "IntervalType": "Math y Cyfwng",
-    "InvalidFunctionA": "Ffwythiant annilys:\nRhowch ffwythiant echblyg yn x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Llenwi gwrthdro",
     "InvertSelection": "Gwrthdroi'r Dewisiad",
     "Isometric": "Isomedrig",

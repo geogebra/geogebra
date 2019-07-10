@@ -2047,7 +2047,7 @@ __GGB__keysVar["sq"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Tip Intervali",
-    "InvalidFunctionA": "Funksion i pavlefshem:\nJu lutem, futni nje funksion eksplicit lidhur me x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Mbushje Invers",
     "InvertSelection": "Kthe Selektimin",
     "Isometric": "Izometrik",

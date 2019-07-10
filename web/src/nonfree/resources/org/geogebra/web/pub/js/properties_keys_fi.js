@@ -2047,7 +2047,7 @@ __GGB__keysVar["fi"].menu = {
     "Interval": "V\xe4li",
     "IntervalProb": "V\xe4li",
     "IntervalType": "V\xe4lin tyyppi",
-    "InvalidFunctionA": "Kelvoton funktio:\nSy\xf6t\xe4 x:n funktio ratkaistuna y:n suhteen.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "K\xe4\xe4nteis t\xe4ytt\xf6",
     "InvertSelection": "K\xe4\xe4nteinen valinta",
     "Isometric": "Isometrinen",

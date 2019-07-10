@@ -2047,7 +2047,7 @@ __GGB__keysVar["pt"].menu = {
     "Interval": "Intervalo",
     "IntervalProb": "Intervalo",
     "IntervalType": "Tipo de Intervalo",
-    "InvalidFunctionA": "Fun\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o expl\xedcita em x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Inverter Preenchimento",
     "InvertSelection": "Inverter Sele\xe7\xe3o",
     "Isometric": "Isom\xe9trica",

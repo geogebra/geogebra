@@ -2047,7 +2047,7 @@ __GGB__keysVar["pl"].menu = {
     "Interval": "Przedzia\u0142",
     "IntervalProb": "Przedzia\u0142",
     "IntervalType": "Typ przedzia\u0142u",
-    "InvalidFunctionA": "Nieprawid\u0142owa funkcja:\nWprowad\u017a fukcj\u0119 zmiennej x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Odwr\xf3\u0107 wype\u0142nienie",
     "InvertSelection": "Odwr\xf3\u0107 Zaznaczenie",
     "Isometric": "Izometryczny",

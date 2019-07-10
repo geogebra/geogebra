@@ -2047,7 +2047,7 @@ __GGB__keysVar["fil"].menu = {
     "Interval": "Puwang",
     "IntervalProb": "Interval",
     "IntervalType": "Interval Type",
-    "InvalidFunctionA": "Maling function:\nPaki-enter ang explicit function sa x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Pagpunong pabaliktad",
     "InvertSelection": "Invert Selection",
     "Isometric": "Isometric",

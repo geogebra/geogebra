@@ -2047,7 +2047,7 @@ __GGB__keysVar["ml"].menu = {
     "Interval": "\u0d05\u0d15\u0d32\u0d02",
     "IntervalProb": "Interval",
     "IntervalType": "Interval Type",
-    "InvalidFunctionA": "\u0d38\u0d3e\u0d27\u0d41\u0d24 \u0d07\u0d32\u0d4d\u0d32\u0d3e\u0d24\u0d4d\u0d24 \u0d2b\u0d32\u0d28\u0d02 : \u0d26\u0d2f\u0d35\u0d3e\u0d2f\u0d3f x \u0d7d \u0d09\u0d33\u0d4d\u0d33 \u0d12\u0d30\u0d41 \u0d38\u0d4d\u0d2a\u0d37\u0d4d\u0d1f\u0d2e\u0d3e\u0d2f \u0d2b\u0d32\u0d28\u0d02 \u0d28\u0d3f\u0d35\u0d47\u0d36\u0d28\u0d02 \u0d1a\u0d46\u0d2f\u0d4d\u0d2f\u0d41\u0d15",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Inverse Filling",
     "InvertSelection": "Invert Selection",
     "Isometric": "Isometric",

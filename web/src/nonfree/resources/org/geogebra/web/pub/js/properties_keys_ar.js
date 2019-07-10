@@ -2047,7 +2047,7 @@ __GGB__keysVar["ar"].menu = {
     "Interval": "\u0645\u062c\u0627\u0644",
     "IntervalProb": "\u0645\u062c\u0627\u0644",
     "IntervalType": "\u0646\u0648\u0639 \u0627\u0644\u0645\u062c\u0627\u0644",
-    "InvalidFunctionA": "\u062f\u0627\u0644\u0629 \u063a\u064a\u0631 \u0645\u0642\u0628\u0648\u0644\u0629",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "\u0639\u0643\u0633 \u0627\u0644\u062a\u0639\u0628\u0626\u0629",
     "InvertSelection": "\u0639\u0643\u0633 \u0627\u0644\u0627\u062e\u062a\u064a\u0627\u0631",
     "Isometric": "\u0645\u062a\u0642\u0627\u064a\u0633\u0629",

@@ -2047,7 +2047,7 @@ __GGB__keysVar["ro"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Tip interval",
-    "InvalidFunctionA": "Func\u0163ie invalid\u0103:\nIntroduce\u0163i o func\u0163ie explicit\u0103 \xeen x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Umplere invers\u0103",
     "InvertSelection": "Inverseaz\u0103 selec\u0163ia",
     "Isometric": "Izometric",

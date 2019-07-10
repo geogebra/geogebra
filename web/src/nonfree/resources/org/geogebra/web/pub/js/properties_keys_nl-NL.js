@@ -2047,7 +2047,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Intervaltype",
-    "InvalidFunctionA": "Ongeldig functievoorschrift:\nvoer een expliciet functievoorschrift in x in",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Omgekeerde vulling",
     "InvertSelection": "Intervalselectie",
     "Isometric": "Isometrisch",

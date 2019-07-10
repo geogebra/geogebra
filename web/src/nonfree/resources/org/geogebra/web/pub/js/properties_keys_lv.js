@@ -2047,7 +2047,7 @@ __GGB__keysVar["lv"].menu = {
     "Interval": "Interv\u0101ls",
     "IntervalProb": "Interv\u0101ls",
     "IntervalType": "Interv\u0101la veids",
-    "InvalidFunctionA": "Neder\u012bga funkcija:\nL\u016bdzu ievadiet prec\u012bzu funkciju izmantojot main\u012bgo x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Inv\u0113rsa Piepild\u012b\u0161ana",
     "InvertSelection": "Izv\u0113l\u0113ties pret\u0113ji",
     "Isometric": "Izometriski",

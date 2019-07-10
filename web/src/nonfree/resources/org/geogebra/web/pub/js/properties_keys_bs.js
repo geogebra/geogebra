@@ -2047,7 +2047,7 @@ __GGB__keysVar["bs"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Tip intervala",
-    "InvalidFunctionA": "Pogre\u0161an unos:\n\nMolimo upi\u0161ite eksplicitno zadanu funkciju po x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Inverzna ispuna",
     "InvertSelection": "Obrni izbor",
     "Isometric": "Izometri\u010dna mre\u017ea",

@@ -2047,7 +2047,7 @@ __GGB__keysVar["ko"].menu = {
     "Interval": "\uad6c\uac04",
     "IntervalProb": "\uad6c\uac04",
     "IntervalType": "\uad6c\uac04 \uc720\ud615",
-    "InvalidFunctionA": "\ud0c0\ub2f9\ud558\uc9c0 \uc54a\uc740 \ud568\uc218 : \nx\uc758 \uc591\ud568\uc218\ub97c \uc785\ub825\ud574 \uc8fc\uc138\uc694.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "\ucc44\uc6c0 \ubc18\uc804",
     "InvertSelection": "\uc120\ud0dd \ubc18\uc804",
     "Isometric": "\ub4f1\uc7a5\ubcc0\ud658",

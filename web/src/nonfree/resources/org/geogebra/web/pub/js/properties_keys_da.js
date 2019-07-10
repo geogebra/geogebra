@@ -2047,7 +2047,7 @@ __GGB__keysVar["da"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Interval",
     "IntervalType": "Intervaltype",
-    "InvalidFunctionA": "Ugyldig funktion:\nSkriv en funktion i x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Modsat udfyldning",
     "InvertSelection": "Modsat udvalg",
     "Isometric": "Isometrisk",

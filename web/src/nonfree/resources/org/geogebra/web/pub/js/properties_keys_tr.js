@@ -2047,7 +2047,7 @@ __GGB__keysVar["tr"].menu = {
     "Interval": "Aral\u0131k",
     "IntervalProb": "Aral\u0131k",
     "IntervalType": "Aral\u0131k Tipi",
-    "InvalidFunctionA": "Ge\xe7ersiz i\u015flev:\nL\xfctfen x cinsinden a\xe7\u0131k bir i\u015flev giriniz",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Ters Dolgu",
     "InvertSelection": "Se\xe7imi ters \xe7evir",
     "Isometric": "\u0130zometrik",

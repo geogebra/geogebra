@@ -2047,7 +2047,7 @@ __GGB__keysVar["sk"].menu = {
     "Interval": "Interval",
     "IntervalProb": "Dvojstrann\xfd",
     "IntervalType": "Typ intervalu",
-    "InvalidFunctionA": "Neplatn\xe1 funkcia:\nZadajte, pros\xedm, explicitn\xfa funkciu premennej x",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "inverzn\xe9 vyplnenie",
     "InvertSelection": "Invertova\u0165 vyzna\u010den\xe9",
     "Isometric": "Izometrick\xe9",

@@ -2047,7 +2047,7 @@ __GGB__keysVar["ms"].menu = {
     "Interval": "Selang",
     "IntervalProb": "Selang",
     "IntervalType": "Jenis Selang",
-    "InvalidFunctionA": "Fungsi tidak sah:\nSila masukkan satu fungsi tak tersirat dalam x.",
+    "InvalidFunctionA": "Invalid function:\nPlease enter an explicit function in %0",
     "InverseFilling": "Isian Songsang",
     "InvertSelection": "Songsangkan pilihan",
     "Isometric": "Isometrik",
