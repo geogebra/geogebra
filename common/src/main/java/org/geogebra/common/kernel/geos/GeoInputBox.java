@@ -550,7 +550,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
-		this.symbolicMode = true;
+		this.symbolicMode = mode;
 	}
 
 	@Override
