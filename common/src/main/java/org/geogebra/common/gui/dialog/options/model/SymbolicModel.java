@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 public class SymbolicModel extends BooleanOptionModel {
 
@@ -14,7 +15,8 @@ public class SymbolicModel extends BooleanOptionModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
 
-		return geo.isGeoNumeric() || geo.isGeoText();
+		return geo.isGeoNumeric() || geo.isGeoText() ||
+				(app.has(Feature.SYMBOLIC_INPUTFIELDS) && geo.isGeoInputBox());
 	}
 
 	@Override

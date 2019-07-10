@@ -31,7 +31,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Michael
  *
  */
-public class GeoInputBox extends GeoButton {
+public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private static int defaultLength = 20;
 	private int length;
 	private int printDecimals = -1;
@@ -41,6 +41,7 @@ public class GeoInputBox extends GeoButton {
 	private GeoElementND linkedGeo = null;
 
 	private String text = null;
+	private boolean symbolicMode=false;
 
 	/**
 	 * Creates new text field
@@ -547,4 +548,13 @@ public class GeoInputBox extends GeoButton {
 		return sb.toString();
 	}
 
+	@Override
+	public void setSymbolicMode(boolean mode, boolean updateParent) {
+		this.symbolicMode = true;
+	}
+
+	@Override
+	public boolean isSymbolicMode() {
+		return symbolicMode;
+	}
 }
