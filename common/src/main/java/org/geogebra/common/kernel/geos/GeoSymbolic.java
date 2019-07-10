@@ -542,9 +542,4 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public double evaluateDouble() {
 		return value != null ? value.evaluateDouble() : Double.NaN;
 	}
-
-	@Override
-	public boolean isGeoFunction() {
-		return twinGeo != null ? twinGeo.isGeoFunction() : super.isGeoFunction();
-	}
 }

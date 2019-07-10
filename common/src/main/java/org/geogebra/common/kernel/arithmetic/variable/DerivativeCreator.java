@@ -26,8 +26,7 @@ class DerivativeCreator {
 			String label = funcName.substring(0, index + 1);
 			geo = kernel.lookupLabel(label);
 			// stop if f' is defined but f is not defined, see #1444
-			if (geo != null
-					&& (geo.isGeoFunction() || geo.isGeoCurveCartesian())) {
+			if (hasDerivative(geo)) {
 				break;
 			}
 
@@ -35,10 +34,17 @@ class DerivativeCreator {
 			index++;
 		}
 
-		if (geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian())) {
+		if (hasDerivative(geo)) {
 			return FunctionParser.derivativeNode(kernel, geo, order,
 					geo.isGeoCurveCartesian(), new FunctionVariable(kernel));
 		}
 		return null;
+	}
+
+	private boolean hasDerivative(GeoElement geoElement) {
+		if (geoElement != null) {
+			return geoElement.isRealValuedFunction() || geoElement.isGeoCurveCartesian();
+		}
+		return false;
 	}
 }
