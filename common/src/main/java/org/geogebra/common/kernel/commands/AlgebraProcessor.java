@@ -659,6 +659,25 @@ public class AlgebraProcessor {
 		}
 	}
 
+	/**
+	 * @param cmd       string to process
+	 * @param storeUndo true to make undo step
+	 * @param callback  callback after the geos are created
+	 * @return resulting geos
+	 */
+	public GeoElementND[] processAlgebraCommand(String cmd, boolean storeUndo,
+			final AsyncOperation<GeoElementND[]> callback) {
+
+		try {
+			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
+					app.getErrorHandler(), false, callback);
+		} catch (Exception e) {
+			e.printStackTrace();
+			app.showError(e.getMessage());
+			return null;
+		}
+	}
+
 	// G.Sturr 2010-7-5
 	//
 	/**
