@@ -1535,6 +1535,25 @@ namespace giac {
 	return;
       vecteur v=*ef._VECTptr;
       int vs=int(v.size());
+#if 0
+      // find num and den, check if gcd is 1, otherwise simplify
+      gen num(1),den(1);
+      for (int i=0;i<vs;++i){
+	if (v[i].is_symb_of_sommet(at_inv))
+	  den = den*v[i]._SYMBptr->feuille;
+	else {
+	  if (v[i].is_symb_of_sommet(at_pow) && v[i]._SYMBptr->feuille[1].type==_INT_ && v[i]._SYMBptr->feuille[1].val<0)
+	    den=den*inv(v[i],contextptr);
+	  else
+	    num= num*v[i];
+	}
+      }
+      gen g=gcd(num,den,contextptr);
+      if (!is_constant_wrt(g,x,contextptr)){
+	v=makevecteur(num,inv(den,contextptr));
+	vs=2;
+      }
+#endif
       for (int i=0;i<vs;++i)
 	clean(v[i],x,contextptr);
       ef=gen(v,ef.subtype);
@@ -2133,8 +2152,14 @@ namespace giac {
 		res.push_back(*it);
 	      continue;
 	    }
-	    if (is_undef(tmp))
+	    if (is_undef(tmp)){
+#ifdef EMCC // computation takes too long in emscripten, accept the solution without check
+	      tmp=0;
+	      *logptr(contextptr) << "Warning, " << *it << " not checked" << endl;
+#else
 	      tmp=limit(e_check,x,*it,0,contextptr);
+#endif
+	    }
 	    if (is_zero(tmp,contextptr))
 	      res.push_back(*it);
 	  }
