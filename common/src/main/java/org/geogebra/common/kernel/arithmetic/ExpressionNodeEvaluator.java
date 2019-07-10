@@ -1183,7 +1183,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						return new MyBoolean(kernel, funN.evaluate(pt) > 0);
 					}
 					return new MyDouble(kernel, funN.evaluate(pt));
-				} else if ((ev instanceof ListValue) && ((ListValue) ev)
+				} else if ((ev instanceof ListValue) && (((ListValue) ev)
+						.getMyList().size() > 0) && ((ListValue) ev)
 						.getMyList().getListElement(0).evaluate(
 								StringTemplate.defaultTemplate) instanceof NumberValue) {
 					// TODO can we avoid evaluate here
