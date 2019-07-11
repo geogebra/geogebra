@@ -123,6 +123,9 @@ public enum Feature {
 	/** G3D-385 */
 	G3D_POLYHEDRON_IS_REGION,
 
+	/** G3D-372 */
+	G3D_AR_RATIO_SETTINGS,
+
 	/** APPS-1035 */
 	SYMBOLIC_INPUTFIELDS;
 }
