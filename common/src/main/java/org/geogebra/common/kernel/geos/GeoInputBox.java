@@ -567,11 +567,4 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	public boolean isSymbolicMode() {
 		return symbolicMode;
 	}
-
-	@Override
-	public boolean isGeoFunction() {
-		return super.isGeoFunction();
-	}
-
-
 }
