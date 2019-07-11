@@ -800,7 +800,9 @@ public class GeoSymbolicTest {
 	@Test
 	public void testStringExpression() {
 		t("p = 7", "7");
-		t("p + \" is a prime\"", "p is a prime");
+		testMultipleValidResults(
+				"p + \" is a prime\"",
+				"p is a prime", "7 is a prime");
 		GeoElement lastGeoElement = app.getKernel().getConstruction().getLastGeoElement();
 		new LabelController().hideLabel(lastGeoElement);
 		assertEquals("p + \" is a prime\"",
