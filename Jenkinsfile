@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    triggers {
-        cron('H 10,19 * * 1-5')
-    }
     stages {
         stage('build') {
             steps {
@@ -22,6 +19,13 @@ pipeline {
                     spotBugs(pattern: '**/build/reports/spotbugs/*.xml', useRankAsPriority: true), 
                     pmdParser(pattern: '**/build/reports/pmd/main.xml')
                 ]
+                publishCoverage adapters: [jacocoAdapter('**/build/reports/jacoco/test/*.xml')],
+                    sourceFileResolver: sourceFiles('NEVER_STORE')
+            }
+        }
+        stage('archive') {
+            steps {
+                archiveArtifacts 'web/war/web3d/**, web/war/webSimple/**, web/war/*.html'
             }
         }
     }
