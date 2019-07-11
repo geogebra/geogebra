@@ -45,6 +45,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * @author Michael
  */
+
 public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
@@ -375,18 +376,26 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		String text = getGeoInputBox().getText();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 		g2.setPaint(geo.getObjectColor());
-		int textLeft = boxLeft + 2;
 		if (geoInputBox.isSymbolicMode()) {
-			int textBottom = boxTop
-					+ (boxHeight - latexDimension.getHeight()) / 2;
-
-			drawLatex(g2, geo, textFont, text, textLeft, textBottom);
+			drawSymbolicValue(g2, text);
 		} else {
 			int textBottom = boxTop + getTextBottom();
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					text.substring(0, getTruncIndex(text, g2)), textLeft,
+					text.substring(0, getTruncIndex(text, g2)), getTextLeft(),
 					textBottom, false);
 		}
+	}
+
+	private void drawSymbolicValue(GGraphics2D g2, String text) {
+		int left = getTextLeft();
+		int bottom = boxTop
+				+ (boxHeight - latexDimension.getHeight()) / 2;
+
+		drawLatex(g2, geo, textFont, text, left, bottom);
+	}
+
+	private int getTextLeft() {
+		return boxLeft + 2;
 	}
 
 	private int getTextBottom() {
@@ -439,7 +448,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			g2.setFont(textFont.deriveFont(GFont.PLAIN));
 
 			if (geoInputBox.isSymbolicMode()) {
-				drawLatex(g2, geo, textFont, text, textLeft, textBottom);
+				drawSymbolicValue(g2, text);
 			} else {
 				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 						text.substring(0, getTruncIndex(text, g2)), textLeft,

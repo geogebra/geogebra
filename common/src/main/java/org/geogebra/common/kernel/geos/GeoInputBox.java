@@ -555,6 +555,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	@Override
 	public boolean isSymbolicMode() {
-		return symbolicMode;
+		return symbolicMode || isLinkedGeoSymbolic();
+	}
+
+	private boolean isLinkedGeoSymbolic() {
+		if (linkedGeo instanceof HasSymbolicMode) {
+			return ((HasSymbolicMode)linkedGeo).isSymbolicMode();
+		}
+
+		return false;
 	}
 }
