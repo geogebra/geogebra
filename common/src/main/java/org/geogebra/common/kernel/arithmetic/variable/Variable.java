@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -106,26 +107,38 @@ public class Variable extends ValidExpression {
 	 *            symbolic mode
 	 * @return GeoElement with same label
 	 */
-	public GeoElement resolve(boolean allowAutoCreateGeoElement,
-	                          boolean throwError, SymbolicMode mode) {
-		// keep bound CAS variables when resolving a CAS expression
-		if (mode == SymbolicMode.SYMBOLIC) {
-			// resolve unknown variable as dummy geo to keep its name and
-			// avoid an "unknown variable" error message
-			return new GeoDummyVariable(kernel.getConstruction(), name);
+	public GeoElement resolve(boolean allowAutoCreateGeoElement, boolean throwError,
+							  SymbolicMode mode) {
+		switch (mode) {
+			case SYMBOLIC:
+				return resolveForSymbolic();
+			case SYMBOLIC_AV:
+				return resolveForSymbolicAv(allowAutoCreateGeoElement);
+			case NONE:
+				GeoElement resolvedElement = resolveForNonSymbolic(allowAutoCreateGeoElement);
+				if (resolvedElement != null || !throwError) {
+					return resolvedElement;
+				}
 		}
 
-		// lookup variable name, create missing variables automatically if
-		// allowed
-		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement,
-				mode);
-		if (geo != null || !throwError) {
-			return geo;
-		}
+		Localization localization = kernel.getApplication().getLocalization();
+		throw new MyParseError(localization, "UndefinedVariable", name);
+	}
 
-		// if we get here we couldn't resolve this variable name as a GeoElement
-		throw new MyParseError(kernel.getApplication().getLocalization(),
-				"UndefinedVariable", name);
+	private GeoElement resolveForSymbolic() {
+		return new GeoDummyVariable(kernel.getConstruction(), name);
+	}
+
+	private GeoElement resolveForSymbolicAv(boolean allowAutoCreateGeoElement) {
+		GeoElement resolvedElement = resolveForNonSymbolic(allowAutoCreateGeoElement);
+		if (resolvedElement != null) {
+			return resolvedElement;
+		}
+		return resolveForSymbolic();
+	}
+
+	private GeoElement resolveForNonSymbolic(boolean allowAutoCreateGeoElement) {
+		return kernel.lookupLabel(name, allowAutoCreateGeoElement, SymbolicMode.NONE);
 	}
 
 	/**
