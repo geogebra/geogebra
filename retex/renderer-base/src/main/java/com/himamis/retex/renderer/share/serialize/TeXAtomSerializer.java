@@ -4,6 +4,7 @@ import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.ArrayAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
@@ -169,6 +170,12 @@ public class TeXAtomSerializer {
 			return sb.toString();
 		}
 
+		if (root instanceof BigOperatorAtom) {
+			BigOperatorAtom bigOp = (BigOperatorAtom) root;
+			return serialize(bigOp.getTrueBase()) + " from " + serialize(bigOp.getBottom()) + " to "
+					+ serialize(bigOp.getTop());
+		}
+		
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
