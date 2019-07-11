@@ -50,6 +50,12 @@ public class GeoSymbolicTest {
 				StringTemplate.testTemplate);
 	}
 
+	public static void testMultipleValidResults(String input, String... validResults) {
+		AlgebraTestHelper.testMultipleResults(
+				input, validResults,
+				ap, StringTemplate.testTemplate);
+	}
+
 	public static void t(String input, Matcher<String> expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, Arrays.asList(expected), ap,
 				StringTemplate.testTemplate);
@@ -198,10 +204,22 @@ public class GeoSymbolicTest {
 		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 		t("Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})",
 				"{{x = 3, y = 2, t = 0, s = -1}}");
-		t("Solve(p x^3 + q x,x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
-		t("Solve(p x^3 + q x = 0,x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
-		t("Solve(p x^3 + q x)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
-		t("Solve(p x^3 + q x = 0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		testMultipleValidResults(
+				"Solve(p x^3 + q x,x)",
+				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
+				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
+		testMultipleValidResults(
+				"Solve(p x^3 + q x = 0,x)",
+				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
+				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
+		testMultipleValidResults(
+				"Solve(p x^3 + q x)",
+				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
+				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
+		testMultipleValidResults(
+				"Solve(p x^3 + q x = 0)",
+				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
+				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
 		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
 		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
 	}
@@ -220,8 +238,14 @@ public class GeoSymbolicTest {
 	public void testMultiStep() {
 		t("f(x) = (p x^3 + q x)", "p * x^(3) + q * x");
 		t("f'(0)", "q");
-		t("Solve(f(x)=0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
-		t("Solve(f=0)", "{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}");
+		testMultipleValidResults(
+				"Solve(f(x)=0)",
+				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
+				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
+		testMultipleValidResults(
+				"Solve(f=0)",
+				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
+				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
 		t("Integral(f,0,1)", "1 / 4 * (p + 2 * q)");
 		t("Solve(Integral(f,0,1)=0,p)", "{p = -2 * q}");
 	}
@@ -235,11 +259,15 @@ public class GeoSymbolicTest {
 		t("b=a/(7-0.6)",
 				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
 		t("Solve(h''(t)=0)", "{t = 50 / 23 * log(15)}");
-		t("h'(5.8871)",
+		testMultipleValidResults(
+				"h'(5.8871)",
 				"276 * " + EULER_STRING + "^((-1354033) / 500000) / (1125 * (" + EULER_STRING
 						+ "^((-1354033) / 500000))^(2) + 150 * " + EULER_STRING
-						+ "^((-1354033) / 500000) + 5)");
-	
+						+ "^((-1354033) / 500000) + 5)",
+				"276 * " + EULER_STRING + "^((-1354033) / 500000) / "
+						+ "(150 * " + EULER_STRING + "^((-1354033) / 500000) + "
+						+ "1125 * (" + EULER_STRING + "^((-1354033) / 500000))^(2)"
+						+ " + 5)");
 	}
 
 	@Test
@@ -286,7 +314,9 @@ public class GeoSymbolicTest {
 	public void testTutorial() {
 		t("a+a", "2 * a");
 		t("4x+3y-2x+y", "2 * x + 4 * y");
-		t("(1/(x+y)-1/x)/y", "(-1) / (x^(2) + x * y)");
+		testMultipleValidResults(
+				"(1/(x+y)-1/x)/y",
+				"(-1) / (x^(2) + x * y)", "(-1) / (x * y + x^(2))");
 		t("(x+y)(x-y)(x-y)", "(x + y) * (x - y)^(2)");
 		t("Expand((x+y)(x-y)(x-y))", "x^(3) - x^(2) * y - x * y^(2) + y^(3)");
 		t("Factor(x^2+2x+1)", "(x + 1)^(2)");
@@ -302,8 +332,12 @@ public class GeoSymbolicTest {
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
 		t("Solve(x (x-5)>x+7)", "{x < -1, x > 7}");
-		t("Solve(2x+3y=x^2/y,x)", "{x = 3 * y, x = -y}");
-		t("Solve(2x+3y=x^2/y,y)", "{y = 1 / 3 * x, y = -x}");
+		testMultipleValidResults(
+				"Solve(2x+3y=x^2/y,x)",
+				"{x = 3 * y, x = -y}", "{x = -y, x = 3 * y}");
+		testMultipleValidResults(
+				"Solve(2x+3y=x^2/y,y)",
+				"{y = 1 / 3 * x, y = -x}", "{y = -x, y = 1 / 3 * x}");
 		t("Solve({x+2y+3z=60, 2x-3y+5z=68, -x+y-z=-13})",
 				"{{x = 27 / 11, y = 57 / 11, z = 173 / 11}}");
 	}
@@ -504,8 +538,9 @@ public class GeoSymbolicTest {
 				"{(a + d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2, (a + d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2}");
 		t("EigenVectors({{a,b},{c,d}})",
 				"{{a - d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c), a - d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)}, {2 * c, 2 * c}}");
-		t("{{a,b},{c,d}} {{a,b},{c,d}}",
-				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}");
+		testMultipleValidResults("{{a,b},{c,d}} {{a,b},{c,d}}",
+				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}",
+				"{{b * c + a^(2), a * b + b * d}, {a * c + c * d, b * c + d^(2)}}");
 		t("{{aa,bb},{cc,dd}} {{ee,ff},{gg,hh}}",
 				"{{aa * ee + bb * gg, aa * ff + bb * hh}, {cc * ee + dd * gg, cc * ff + dd * hh}}");
 	}
