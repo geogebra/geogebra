@@ -3740,7 +3740,7 @@ namespace giac {
 		return false;
 	      polynome pD,QP(dim),QQ(dim),R(dim);
 	      convert_back_xn(trygcd,pD);
-	      if (divremmod(p,pD,modulo,QP,R) && R.coord.empty()){
+	      if (pD.coord.size()<=p.coord.size() && pD.coord.size()<=q.coord.size() && divremmod(p,pD,modulo,QP,R) && R.coord.empty()){
 		if (divremmod(q,pD,modulo,QQ,R) && R.coord.empty()){
 		  pD=pD*cont;
 		  d=smod(pD*invmod(pD.coord.front().value,modulo),modulo);
