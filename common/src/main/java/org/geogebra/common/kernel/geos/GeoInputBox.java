@@ -41,7 +41,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private GeoElementND linkedGeo = null;
 
 	private String text = null;
-	private boolean symbolicMode=false;
+	private boolean symbolicMode = false;
 
 	/**
 	 * Creates new text field
