@@ -89,7 +89,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 */
 	public void setLinkedGeo(GeoElementND geo) {
 		linkedGeo = geo;
-		text = geo.getValueForInputBar();
+		text = getLinkedGeoText();
 
 		// remove quotes from start and end
 		if (text.length() > 0 && text.charAt(0) == '"') {
@@ -98,6 +98,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (text.length() > 0 && text.charAt(text.length() - 1) == '"') {
 			text = text.substring(0, text.length() - 1);
 		}
+	}
+
+	private String getLinkedGeoText() {
+		return isLinkedGeoSymbolic()
+				? linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate)
+				: linkedGeo.getValueForInputBar();
 	}
 
 	/**
@@ -416,7 +422,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			textFieldToUpdate.setText(text);
 		}
 
-		setText(textFieldToUpdate.getText());
+		if (isLinkedGeoSymbolic()) {
+			setText(getLinkedGeoText());
+		} else {
+			setText(textFieldToUpdate.getText());
+		}
 
 	}
 
