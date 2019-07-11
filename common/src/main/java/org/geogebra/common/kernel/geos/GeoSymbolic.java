@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -290,6 +291,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
 			setPointStyle(((PointProperties) geo).getPointStyle());
+		} else if (geo instanceof EquationValue) {
+			((EquationValue) geo).setToUser();
 		}
 	}
 
