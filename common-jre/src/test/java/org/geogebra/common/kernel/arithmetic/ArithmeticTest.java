@@ -29,6 +29,7 @@ public class ArithmeticTest extends Assert {
 
 	@Before
 	public void clean() {
+		app.getSettings().getCasSettings().setEnabled(true);
 		app.getKernel().clearConstruction(true);
 	}
 
@@ -246,6 +247,14 @@ public class ArithmeticTest extends Assert {
 	public void xcoordAsMultiplication() {
 		t("x(x+1)", "(x * (x + 1))");
 		t("x(x+1)^2", "(x * (x + 1)^(2))");
+	}
+
+	@Test
+	public void derivativeShouldBeHiddenWithNoCas() {
+		app.getSettings().getCasSettings().setEnabled(false);
+		t("f(x)=x","x");
+		t("f'", "NDerivative[f]");
+		t("f'(7)", "1");
 	}
 
 }
