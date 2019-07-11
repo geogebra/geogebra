@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.Parametrizable;
  * 
  * @author Zbynek & Michael
  */
-public interface GeoPoly extends Path, Parametrizable {
+public interface GeoPoly extends Parametrizable {
 	/**
 	 * Returns true iff all vertices are labeled
 	 * 

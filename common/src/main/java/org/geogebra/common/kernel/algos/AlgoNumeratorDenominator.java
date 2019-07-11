@@ -107,7 +107,7 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 				long num = (long) top.evaluateDouble();
 				long den = (long) bottom.evaluateDouble();
 				long gcd = Kernel.gcd(num, den);
-				double val = (type == Commands.Numerator) ? num / gcd : den / gcd;
+				long val = (type == Commands.Numerator) ? num / gcd : den / gcd;
 
 				g.setValue(val);
 				return;
