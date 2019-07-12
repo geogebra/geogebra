@@ -340,13 +340,16 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			latexDimension = geoInputBox.isSymbolicMode()
-					? measureLatex(g2, geo, textFont, geoInputBox.getText())
-					: null;
+			calculateLatexDimensionIfNeeded(g2);
 			drawOnCanvas(g2, getGeoInputBox().getText());
 		}
 	}
 
+	private void calculateLatexDimensionIfNeeded(GGraphics2D g2) {
+		if (geoInputBox.isSymbolicMode()) {
+			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
+		}
+	}
 	/**
 	 * Draw outline and the text on the canvas.
 	 */
