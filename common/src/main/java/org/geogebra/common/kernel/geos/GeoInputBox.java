@@ -192,6 +192,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			}
 		}
 
+		if (isSymbolicMode()) {
+			sb.append("\t<symbolic val=\"true\" />\n");
+		}
+
 		if (getLength() != defaultLength) {
 			sb.append("\t<length val=\"");
 			sb.append(getLength());
