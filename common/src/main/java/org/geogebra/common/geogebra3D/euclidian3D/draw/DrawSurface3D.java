@@ -24,9 +24,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -46,19 +44,11 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
 
-	private double uDelta;
-	private double vDelta;
-
 	// number of intervals in root mesh (for each parameters, if parameters
 	// delta are equals)
 	private static final short ROOT_MESH_INTERVALS_SPEED = 10;
 	private static final short ROOT_MESH_INTERVALS_SPEED_SQUARE = ROOT_MESH_INTERVALS_SPEED
 			* ROOT_MESH_INTERVALS_SPEED;
-	private static final short ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR = 2;
-	// max factor
-	private static final short ROOT_MESH_INTERVALS_MAX_FACTOR = 2;
-	private static final double ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE = 1.0
-			/ ROOT_MESH_INTERVALS_MAX_FACTOR;
 
 	// number of split for boundary
 	private static final short BOUNDARY_SPLIT = 10;
@@ -117,18 +107,6 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	private int wireframeBottomCornersLength;
 	private int wireframeRightCornersLength;
 
-	// says if we draw borders for wireframe
-	// (we use short for array index shifting)
-	private short wireframeBorderU;
-	private short wireframeBorderV;
-
-	// says if only one wireframe line is drawn
-	private boolean wireframeUniqueU;
-	private boolean wireframeUniqueV;
-
-	// steps to draw wireframe
-	private int wireFrameStepU;
-	private int wireFrameStepV;
 	private Coords3 evaluatedPoint = newCoords3();
 	private Coords3 evaluatedNormal = newCoords3();
 	/**
@@ -165,12 +143,16 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	private CurveHitting curveHitting;
 
 	private ArrayList<GeoCurveCartesian3D> borders = new ArrayList<>();
-	
+
+	private SurfaceParameter uParam = new SurfaceParameter();
+	private SurfaceParameter vParam = new SurfaceParameter();
+
 	private static class NotEnoughCornersException extends Exception {
 		private static final long serialVersionUID = 1L;
 		private DrawSurface3D surface;
 
-		public NotEnoughCornersException(DrawSurface3D surface, String message) {
+		public NotEnoughCornersException(DrawSurface3D surface,
+				String message) {
 			super(message);
 			this.surface = surface;
 		}
@@ -361,60 +343,11 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			surfaceGeo.setDerivatives();
 
 			// calc min/max values
-			double uBorderMin = surfaceGeo.getMinParameter(0);
-			double uBorderMax = surfaceGeo.getMaxParameter(0);
-			double vBorderMin = surfaceGeo.getMinParameter(1);
-			double vBorderMax = surfaceGeo.getMaxParameter(1);
-			double uStep = Double.NaN;
-			double vStep = Double.NaN;
+			uParam.initBorder(surfaceGeo, getView3D(), 0);
+			vParam.initBorder(surfaceGeo, getView3D(), 1);
 
-			if (((GeoElement) surfaceGeo).isGeoFunctionNVar()
-					|| (surfaceGeo instanceof GeoFunction)) {
-				if (Double.isNaN(uBorderMin)) {
-					uBorderMin = getView3D().getXmin();
-				}
-				if (Double.isNaN(uBorderMax)) {
-					uBorderMax = getView3D().getXmax();
-				}
-				if (Double.isNaN(vBorderMin)) {
-					vBorderMin = getView3D().getYmin();
-				}
-				if (Double.isNaN(vBorderMax)) {
-					vBorderMax = getView3D().getYmax();
-				}
-				// don't draw borders
-				wireframeBorderU = 0;
-				wireframeBorderV = 0;
-
-				// wireframe follows the grid
-				uStep = getView3D().getAxisNumberingDistance(0);
-				vStep = getView3D().getAxisNumberingDistance(1);
-			} else if (((GeoSurfaceCartesianND) surfaceGeo)
-					.isSurfaceOfRevolutionAroundOx()) {
-				// cartesian surface of revolution
-				uBorderMin = getView3D().getXmin();
-				uBorderMax = getView3D().getXmax();
-				// draw borders for v, not for u=x
-				wireframeBorderU = 0;
-				wireframeBorderV = 1;
-
-				// wireframe follows the grid
-				uStep = getView3D().getAxisNumberingDistance(0);
-			} else {
-				// cartesian surface NOT of revolution
-				// draw borders for u and v
-				wireframeBorderU = 1;
-				wireframeBorderV = 1;
-			}
-
-			uDelta = uBorderMax - uBorderMin;
-			if (DoubleUtil.isZero(uDelta)) {
-				setSurfaceIndex(-1);
-				setWireframeInvisible();
-				return true;
-			}
-			vDelta = vBorderMax - vBorderMin;
-			if (DoubleUtil.isZero(vDelta)) {
+			if (DoubleUtil.isZero(uParam.delta)
+					|| DoubleUtil.isZero(vParam.delta)) {
 				setSurfaceIndex(-1);
 				setWireframeInvisible();
 				return true;
@@ -432,130 +365,25 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 					+ maxRWDistanceNoAngleCheck);
 
 			// create root mesh
-			wireFrameStepU = 1;
-			wireFrameStepV = 1;
-			wireframeUniqueU = false;
-			wireframeUniqueV = false;
-
-			double uOverVFactor = uDelta / vDelta;
+			double uOverVFactor = uParam.delta / vParam.delta;
 			if (uOverVFactor > ROOT_MESH_INTERVALS_SPEED) {
 				uOverVFactor = ROOT_MESH_INTERVALS_SPEED;
 			} else if (uOverVFactor < 1.0 / ROOT_MESH_INTERVALS_SPEED) {
 				uOverVFactor = 1.0 / ROOT_MESH_INTERVALS_SPEED;
 			}
-			int uN = (int) (ROOT_MESH_INTERVALS_SPEED * uOverVFactor);
-			int vN = ROOT_MESH_INTERVALS_SPEED_SQUARE / uN;
-			uN += 2;
-			vN += 2;
+			uParam.n = (int) (ROOT_MESH_INTERVALS_SPEED * uOverVFactor);
+			vParam.n = ROOT_MESH_INTERVALS_SPEED_SQUARE / uParam.n;
+			uParam.n += 2;
+			vParam.n += 2;
 
-			double uMin = Double.NaN;
-			double uMax = Double.NaN;
-			double vMin = Double.NaN;
-			double vMax = Double.NaN;
+			uParam.init(levelOfDetail);
+			vParam.init(levelOfDetail);
 
-			if (!Double.isNaN(uStep)) {
-				if (uStep > uDelta) {
-					// we have maximum one wireframe line
-					wireframeUniqueU = true;
-					double uWireFrame = Math.ceil(uBorderMin / uStep) * uStep;
-					wireFrameStepU = (int) ((uN * (uBorderMax - uWireFrame))
-							/ uDelta);
-
-					uStep = uDelta / uN;
-					uMax = uWireFrame + uStep * wireFrameStepU;
-					if (wireFrameStepU == uN - 1) {
-						wireFrameStepU--;
-						uMax -= uStep;
-					}
-					// uMin = uBorderMin;
-				} else {
-					double factor = uN * uStep / uDelta;
-					if (factor > 1) {
-						wireFrameStepU = (int) Math.ceil(factor);
-					} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
-						int stepFactor = (int) Math
-								.ceil(ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE
-										/ factor);
-						// Log.debug("stepFactor = " + stepFactor);
-						uStep *= stepFactor;
-					}
-					if (levelOfDetail == LevelOfDetail.QUALITY
-							&& wireFrameStepU == 1) {
-						wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-					}
-					uMax = Math.floor(uBorderMax / uStep) * uStep;
-					uMin = Math.ceil(uBorderMin / uStep) * uStep;
-					uDelta = uMax - uMin;
-					int ratioInt = (int) Math.ceil(uDelta / uStep);
-					uN = (ratioInt + 1) * wireFrameStepU + 1;
-					// delta has to widened a bit to start at a correct tick
-					uDelta += (1 + 1.0 / wireFrameStepU) * uStep;
-				}
-			} else {
-				if (levelOfDetail == LevelOfDetail.QUALITY) {
-					wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-					uN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				}
-			}
-			if (!Double.isNaN(vStep)) {
-				if (vStep > vDelta) {
-					// we have maximum one wireframe line
-					wireframeUniqueV = true;
-					double vWireFrame = Math.ceil(vBorderMin / vStep) * vStep;
-					wireFrameStepV = (int) ((vN * (vBorderMax - vWireFrame))
-							/ vDelta);
-					vStep = vDelta / vN;
-					vMax = vWireFrame + vStep * wireFrameStepV;
-					if (wireFrameStepV == vN - 1) {
-						wireFrameStepV--;
-						vMax -= vStep;
-					}
-					// vMin = vBorderMin;
-				} else {
-					double factor = vN * vStep / vDelta;
-					if (factor > 1) {
-						wireFrameStepV = (int) Math.ceil(factor);
-					} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
-						int stepFactor = (int) Math
-								.ceil(ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE
-										/ factor);
-						// Log.debug("stepFactor = " + stepFactor);
-						vStep *= stepFactor;
-					}
-					if (levelOfDetail == LevelOfDetail.QUALITY
-							&& wireFrameStepV == 1) {
-						wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-					}
-					vMax = Math.floor(vBorderMax / vStep) * vStep;
-					vMin = Math.ceil(vBorderMin / vStep) * vStep;
-					vDelta = vMax - vMin;
-					int ratioInt = (int) Math.ceil(vDelta / vStep);
-					vN = (ratioInt + 1) * wireFrameStepV + 1;
-					// delta has to widened a bit to start at a correct tick
-					vDelta += (1 + 1.0 / wireFrameStepV) * vStep;
-				}
-			} else {
-				if (levelOfDetail == LevelOfDetail.QUALITY) {
-					wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-					vN *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				}
-			}
-
-			debug("grids: " + uN + ", " + vN);
+			debug("grids: " + uParam.n + ", " + vParam.n);
 			cornerListIndex = 0;
-			double du = uDelta / uN;
-			double dv = vDelta / vN;
-
-			if (Double.isNaN(uMax)) {
-				uMax = uBorderMax - du;
-			}
-			if (Double.isNaN(vMax)) {
-				vMax = vBorderMax - dv;
-			}
 
 			try {
-				firstCorner = createRootMesh(uBorderMin, uMax, uBorderMax, uN,
-						vBorderMin, vMax, vBorderMax, vN);
+				firstCorner = createRootMesh();
 
 				// split root mesh as start
 				currentSplitIndex = 0;
@@ -941,54 +769,34 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		}
 	}
 
-	private Corner createRootMesh(double uBorderMin, double uMax,
-			double uBorderMax, int uN, double vBorderMin, double vMax,
-			double vBorderMax, int vN) throws NotEnoughCornersException {
-
+	private Corner createRootMesh() throws NotEnoughCornersException {
+		int uN = uParam.n;
+		int vN = vParam.n;
 		if (wireframeNeeded()) {
-			if (wireframeUniqueU) {
-				if (wireFrameStepU < 0) {
-					wireframeBottomCorners = new Corner[2 * wireframeBorderU];
-				} else {
-					wireframeBottomCorners = new Corner[1
-							+ 2 * wireframeBorderU];
-				}
-			} else {
-				wireframeBottomCorners = new Corner[(uN - 1) / wireFrameStepU
-						+ 2 * wireframeBorderU];
-			}
-			if (wireframeUniqueV) {
-				if (wireFrameStepV < 0) {
-					wireframeRightCorners = new Corner[2 * wireframeBorderV];
-				} else {
-					wireframeRightCorners = new Corner[1
-							+ 2 * wireframeBorderV];
-				}
-			} else {
-				wireframeRightCorners = new Corner[(vN - 1) / wireFrameStepV
-						+ 2 * wireframeBorderV];
-			}
+			wireframeBottomCorners = new Corner[uParam.getCornerCount()];
+			wireframeRightCorners = new Corner[vParam.getCornerCount()];
 		}
 
-		Corner bottomRight = newCorner(uBorderMax, vBorderMax);
+		Corner bottomRight = newCorner(uParam.borderMax, vParam.borderMax);
 		Corner first = bottomRight;
 
 		wireframeBottomCornersLength = 0;
 		wireframeRightCornersLength = 0;
-		int wireFrameSetU = wireFrameStepU, wireFrameSetV = wireFrameStepV;
+		int wireFrameSetU = uParam.wireFrameStep,
+				wireFrameSetV = vParam.wireFrameStep;
 		if (wireframeNeeded()) {
-			if (wireframeUniqueU) {
+			if (uParam.wireframeUnique) {
 				wireFrameSetU = 0;
 			}
-			if (wireframeBorderU == 1) { // draw edges
+			if (uParam.wireframeBorder == 1) { // draw edges
 				wireframeBottomCorners[0] = first;
 				wireframeBottomCornersLength = 1;
 				wireFrameSetU = 1;
 			}
-			if (wireframeUniqueV) {
+			if (vParam.wireframeUnique) {
 				wireFrameSetV = 0;
 			}
-			if (wireframeBorderV == 1) { // draw edges
+			if (vParam.wireframeBorder == 1) { // draw edges
 				wireframeRightCorners[0] = first;
 				wireframeRightCornersLength = 1;
 				wireFrameSetV = 1;
@@ -998,12 +806,13 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		// first row
 		Corner right = bottomRight;
 		for (int i = 0; i < uN - 1; i++) {
-			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, vBorderMax);
+			right = addLeftToMesh(right, uParam.max - (uParam.delta * i) / uN,
+					vParam.borderMax);
 			if (wireframeNeeded()) {
-				if (wireFrameSetU == wireFrameStepU) { // set wireframe
+				if (wireFrameSetU == uParam.wireFrameStep) { // set wireframe
 					wireframeBottomCorners[wireframeBottomCornersLength] = right;
 					wireframeBottomCornersLength++;
-					if (wireframeUniqueU) {
+					if (uParam.wireframeUnique) {
 						wireFrameSetU++;
 					} else {
 						wireFrameSetU = 1;
@@ -1013,9 +822,9 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				}
 			}
 		}
-		right = addLeftToMesh(right, uBorderMin, vBorderMax);
+		right = addLeftToMesh(right, uParam.borderMin, vParam.borderMax);
 		if (wireframeNeeded()) {
-			if (wireframeBorderU == 1) {
+			if (uParam.wireframeBorder == 1) {
 				wireframeBottomCorners[wireframeBottomCornersLength] = right;
 				wireframeBottomCornersLength++;
 			}
@@ -1024,12 +833,13 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		// all intermediate rows
 		for (int j = 0; j < vN - 1; j++) {
 			bottomRight = addRowAboveToMesh(bottomRight,
-					vMax - (vDelta * j) / vN, uBorderMin, uBorderMax, uMax, uN);
+					vParam.max - (vParam.delta * j) / vN, uParam.borderMin,
+					uParam.borderMax, uParam.max, uN);
 			if (wireframeNeeded()) {
-				if (wireFrameSetV == wireFrameStepV) { // set wireframe
+				if (wireFrameSetV == vParam.wireFrameStep) { // set wireframe
 					wireframeRightCorners[wireframeRightCornersLength] = bottomRight;
 					wireframeRightCornersLength++;
-					if (wireframeUniqueV) {
+					if (vParam.wireframeUnique) {
 						wireFrameSetV++;
 					} else {
 						wireFrameSetV = 1;
@@ -1041,17 +851,16 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		}
 
 		// last row
-		bottomRight = addRowAboveToMesh(bottomRight, vBorderMin, uBorderMin,
-				uBorderMax, uMax, uN);
+		bottomRight = addRowAboveToMesh(bottomRight, vParam.borderMin,
+				uParam.borderMin, uParam.borderMax, uParam.max, uN);
 		if (wireframeNeeded()) {
-			if (wireframeBorderV == 1) {
+			if (vParam.wireframeBorder == 1) {
 				wireframeRightCorners[wireframeRightCornersLength] = bottomRight;
 				wireframeRightCornersLength++;
 			}
 		}
 
 		return first;
-
 	}
 
 	final private Corner addLeftToMesh(Corner right, double u, double v)
@@ -1068,7 +877,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		Corner right = newCorner(uBorderMax, v);
 		below.a = right;
 		for (int i = 0; i < uN - 1; i++) {
-			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, v);
+			right = addLeftToMesh(right, uMax - (uParam.delta * i) / uN, v);
 			below = below.l;
 			below.a = right;
 		}
@@ -1079,7 +888,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		return bottomRight.a;
 	}
 
-	private static void splitRootMesh(Corner first) throws NotEnoughCornersException {
+	private static void splitRootMesh(Corner first)
+			throws NotEnoughCornersException {
 
 		Corner nextAbove, nextLeft;
 
@@ -2804,7 +2614,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2,
 			Corner c3) {
-		return isAngleOK(c1.normal, c2.normal, bend) && isAngleOK(c2.normal, c3.normal, bend)
+		return isAngleOK(c1.normal, c2.normal, bend)
+				&& isAngleOK(c2.normal, c3.normal, bend)
 				&& isAngleOK(c3.normal, c1.normal, bend);
 	}
 
@@ -2824,8 +2635,10 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2,
 			Corner c3, Corner c4) {
-		return isAngleOK(c1.normal, c2.normal, bend) && isAngleOK(c2.normal, c3.normal, bend)
-				&& isAngleOK(c3.normal, c4.normal, bend) && isAngleOK(c4.normal, c1.normal, bend);
+		return isAngleOK(c1.normal, c2.normal, bend)
+				&& isAngleOK(c2.normal, c3.normal, bend)
+				&& isAngleOK(c3.normal, c4.normal, bend)
+				&& isAngleOK(c4.normal, c1.normal, bend);
 	}
 
 	/**
@@ -2844,7 +2657,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 */
 	protected static boolean isAngleOKNoLoop(double bend, Corner c1, Corner c2,
 			Corner c3, Corner c4) {
-		return isAngleOK(c1.normal, c2.normal, bend) && isAngleOK(c2.normal, c3.normal, bend)
+		return isAngleOK(c1.normal, c2.normal, bend)
+				&& isAngleOK(c2.normal, c3.normal, bend)
 				&& isAngleOK(c3.normal, c4.normal, bend);
 	}
 
@@ -3107,7 +2921,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	 *             if no new corner left in array
 	 * @return new corner calculated for parameters u, v
 	 */
-	protected Corner newCorner(double u, double v) throws NotEnoughCornersException {
+	protected Corner newCorner(double u, double v)
+			throws NotEnoughCornersException {
 		if (cornerListIndex >= cornerListSize) {
 			throw new NotEnoughCornersException(this, "Index " + cornerListIndex
 					+ " is larger than size " + cornerListSize);
@@ -3159,8 +2974,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		}
 
 		if (!(getGeoElement() instanceof GeoSurfaceCartesian3D)) {
-		    return false;
-        }
+			return false;
+		}
 
 		if (curveHitting == null) {
 			curveHitting = new CurveHitting(this, getView3D());
@@ -3171,9 +2986,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			calculateBorders();
 		}
 		for (GeoCurveCartesian3D border : borders) {
-				isHit = curveHitting.hit(hitting, border,
-						Math.max(5, getGeoElement().getLineThickness()))
-						|| isHit;
+			isHit = curveHitting.hit(hitting, border,
+					Math.max(5, getGeoElement().getLineThickness())) || isHit;
 
 		}
 		return isHit;
@@ -3196,27 +3010,23 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		GeoCurveCartesian3D border = new GeoCurveCartesian3D(
 				getGeoElement().getConstruction());
 		GeoSurfaceCartesian3D geoSurface3D = (GeoSurfaceCartesian3D) getGeoElement();
-		FunctionNVar[] functions = geoSurface3D
-				.getFunctions();
+		FunctionNVar[] functions = geoSurface3D.getFunctions();
 		Function[] borderFunctions = new Function[functions.length];
 		for (int i = 0; i < functions.length; i++) {
 			Kernel kernel = geoSurface3D.getKernel();
 			ExpressionNode expr = functions[i].getFunctionExpression()
 					.deepCopy(kernel);
 			FunctionVariable fVar = new FunctionVariable(kernel, "u");
-			expr = expr
-					.traverse(VariableReplacer.getReplacer(
-							functions[i].getVarString(axis,
-									StringTemplate.defaultTemplate),
-							new MyDouble(kernel,
-									paramValue),
-							kernel))
-					.wrap();
+			expr = expr.traverse(VariableReplacer.getReplacer(
+					functions[i].getVarString(axis,
+							StringTemplate.defaultTemplate),
+					new MyDouble(kernel, paramValue), kernel)).wrap();
 			expr = expr
 					.traverse(VariableReplacer.getReplacer(
 							functions[i].getVarString(1 - axis,
 									StringTemplate.defaultTemplate),
-					fVar, kernel)).wrap();
+							fVar, kernel))
+					.wrap();
 			borderFunctions[i] = new Function(expr, fVar);
 		}
 		border.setFun(borderFunctions);
@@ -3314,18 +3124,18 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-        super.setWaitForUpdateVisualStyle(prop);
-        if (prop == GProperty.LINE_STYLE) {
-            // also update for line width (e.g when translated)
-            setWaitForUpdate();
-        } else if (prop == GProperty.COLOR) {
-            setWaitForUpdateColor();
-        } else if (prop == GProperty.HIGHLIGHT) {
-            setWaitForUpdateColor();
-        } else if (prop == GProperty.VISIBLE) {
-            setWaitForUpdateVisibility();
-        }
-    }
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width (e.g when translated)
+			setWaitForUpdate();
+		} else if (prop == GProperty.COLOR) {
+			setWaitForUpdateColor();
+		} else if (prop == GProperty.HIGHLIGHT) {
+			setWaitForUpdateColor();
+		} else if (prop == GProperty.VISIBLE) {
+			setWaitForUpdateVisibility();
+		}
+	}
 
 	@Override
 	protected GColor getObjectColorForOutline() {
