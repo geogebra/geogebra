@@ -136,13 +136,14 @@ public class SurfaceParameter {
 			// cartesian surface NOT of revolution
 			// draw borders for u and v
 			wireframeBorder = 1;
-
 		}
 
 		delta = borderMax - borderMin;
-
 	}
 
+	/**
+	 * @return number of mesh nodes
+	 */
 	public int getCornerCount() {
 		if (this.wireframeUnique) {
 			if (this.wireFrameStep < 0) {
