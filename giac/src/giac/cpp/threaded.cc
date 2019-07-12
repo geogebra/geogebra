@@ -2846,9 +2846,11 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      // We have enough evaluations, let's try SPMOD
 	      // Build the matrix, each line has coeffs / vzero
 	      vector< vector<int> > m,minverse;
+	      m.reserve(e+1);
 	      for (int j=0;j<=e;++j){
 		index_t::reverse_iterator it=vzero.rbegin(),itend=vzero.rend();
 		vector<int> line;
+		line.reserve(e+1); // overflow if modulo too large
 		for (int p=alphav[j],pp=1;it!=itend;++it,pp=smod(p*pp,modulo)){
 		  if (*it)
 		    line.push_back(pp);
@@ -2865,22 +2867,37 @@ mpz_class smod(const mpz_class & a,int reduce){
 		// hence gcd=minverse*gcdv, where the i-th component of gcd
 		// must be "multiplied" by xn^degree_corresponding_vzero[i]
 		vector< vector< T_unsigned<int,hashgcd_U> > > minversegcd(e+1);
+		// find size required
+		size_t taille=0;
+		for (int k=0;k<=e;++k){
+		  taille += gcdv[k].size();
+		}
+		for (int j=0;j<=e;++j)
+		  minversegcd[j].reserve(taille);
+		vector< T_unsigned<int,hashgcd_U> > tmpadd,tmpmult;
+		tmpadd.reserve(taille);
+		size_t taille2=0;
 		for (int j=0;j<=e;++j){
 		  for (int k=0;k<=e;++k){
-		    vector< T_unsigned<int,hashgcd_U> > tmp(gcdv[k]);
-		    smallmult(minverse[j][k],tmp,tmp,modulo);
-		    smalladd(minversegcd[j],tmp,minversegcd[j],modulo);
+		    tmpmult=gcdv[k];
+		    smallmult(minverse[j][k],tmpmult,tmpmult,modulo);
+		    tmpadd.swap(minversegcd[j]);
+		    smalladd(tmpadd,tmpmult,minversegcd[j],modulo);
 		    // CERR << minversegcd[j] << endl;
 		  }
+		  taille2 += minversegcd[j].size();
 		}
 		vector< T_unsigned<int,hashgcd_U> > trygcd,pquo,qquo,tmprem;
+		trygcd.reserve(taille2);
+		tmprem.reserve(taille2);
 		index_t::const_iterator it=vzero.begin(),itend=vzero.end();
 		int deg=int(itend-it)-1;
 		for (int j=0;it!=itend;++it,--deg){
 		  if (!*it)
 		    continue;
 		  smallshift(minversegcd[j],deg*var2,minversegcd[j]);
-		  smalladd(trygcd,minversegcd[j],trygcd,modulo);
+		  tmprem.swap(trygcd);
+		  smalladd(tmprem,minversegcd[j],trygcd,modulo);
 		  ++j;
 		}
 		// Check if trygcd is the gcd!

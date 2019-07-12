@@ -3421,13 +3421,13 @@ namespace giac {
 
   bool mod_gcd(const polynome &p_orig, const polynome & q_orig, const gen & modulo, polynome & pgcd,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors){
     if (debug_infolevel)
-      CERR << "modgcd begin " << CLOCK() << endl;
+      CERR << "modgcd begin " << CLOCK()*1e-6 << endl;
     int dim=p_orig.dim;
     if ( dim==1 || p_orig.coord.empty() || is_one(q_orig) || q_orig.coord.empty() || is_one(p_orig) || modulo.type!=_INT_ ){
       return mod_gcd_c(p_orig,q_orig,modulo,pgcd,pcofactor,qcofactor,compute_cofactors);
     }
     if (debug_infolevel)
-      CERR << "modgcd begin 2 " << CLOCK() << endl;
+      CERR << "modgcd begin dim>=2 " << CLOCK()*1e-6 << endl;
     std::vector<hashgcd_U> vars(dim);
     vector< T_unsigned<int,hashgcd_U> > p,q,g,pcof,qcof;
     index_t d(dim);
@@ -3689,11 +3689,86 @@ namespace giac {
 	  gcdv.push_back(g);
 	  if (gcddeg-nzero==e){ 
 	    // We have enough evaluations, let's try SPMOD
+#if 1
 	    // Build the matrix, each line has coeffs / vzero
-	    matrice m;
+	    vector< vector<int> > m,minverse;
+	    m.reserve(e+1);
 	    for (int j=0;j<=e;++j){
 	      index_t::reverse_iterator it=vzero.rbegin(),itend=vzero.rend();
-	      vecteur line;
+	      vector<int> line;
+	      line.reserve(e+1); // overflow if modulo too large
+	      for (int p=alphav[j].val,pp=1;it!=itend;++it,pp=smod(p*pp,modulo.val)){
+		if (*it)
+		  line.push_back(pp);
+	      }
+	      reverse(line.begin(),line.end());
+	      m.push_back(line);
+	    }
+	    // assume gcd is the vector of non zero coeffs of the gcd in x^n
+	    // we have the relation
+	    // m*gcd=gcdv
+	    // invert m (if invertible)
+	    longlong det_mod_p;
+	    if (smallmodinv(m,minverse,modulo.val,det_mod_p) && det_mod_p){
+	      // hence gcd=minverse*gcdv, where the i-th component of gcd
+	      // must be "multiplied" by xn^degree_corresponding_vzero[i]
+	      vector< polynome > minversegcd(e+1,polynome(dim));
+	      // find bound of required size
+	      size_t taille=1;
+	      for (int k=0;k<=e;++k){
+		if (gcdv[k].type==_POLY)
+		  taille += gcdv[k]._POLYptr->coord.size();
+	      }
+	      for (int j=0;j<=e;++j)
+		minversegcd[j].coord.reserve(taille);
+	      polynome tmpadd(dim),tmpmult(dim);
+	      tmpadd.coord.reserve(taille);
+	      size_t taille2=0;
+	      for (int j=0;j<=e;++j){
+		for (int k=0;k<=e;++k){
+		  // smallmult(minverse[j][k],tmpmult,tmpmult,modulo);
+		  int fact=minverse[j][k];
+		  if (!fact)
+		    continue;
+		  if (gcdv[k].type==_POLY)
+		    tmpmult=*gcdv[k]._POLYptr;
+		  else
+		    tmpmult=polynome(gcdv[k],dim-1);
+		  vector< monomial<gen> >::iterator it=tmpmult.coord.begin(),itend=tmpmult.coord.end();
+		  for (;it!=itend;++it){
+		    it->value=smod(fact*it->value,modulo);
+		  }
+		  tmpadd.coord.swap(minversegcd[j].coord);
+		  // smalladd(tmpadd,tmpmult,minversegcd[j],modulo);
+		  tmpadd.TAdd(tmpmult,minversegcd[j]);
+		}
+		polynome res(minversegcd[j].dim);
+		res.coord.reserve(minversegcd[j].coord.size());
+		res.coord.swap(minversegcd[j].coord);
+		smod(res,modulo,minversegcd[j]);
+		taille2 += minversegcd[j].coord.size();
+	      }
+	      polynome trygcd(dim-1);
+	      index_t::const_iterator it=vzero.begin(),itend=vzero.end();
+	      int deg=int(itend-it)-1;
+	      for (int pos=0;it!=itend;++it,--deg){
+		if (!*it)
+		  continue;
+		polynome & tmp=minversegcd[pos];
+		tmp.untruncn(deg);
+		polynome tmpxn;
+		convert_xn(tmp,tmpxn);
+		trygcd=trygcd+tmpxn;
+		++pos;
+	      }
+#else
+	    // Build the matrix, each line has coeffs / vzero
+	    if (debug_infolevel>1)
+	      CERR << CLOCK()*1e-6 << " SPMOD start" << endl;
+	    matrice m; m.reserve(e+1);
+	    for (int j=0;j<=e;++j){
+	      index_t::reverse_iterator it=vzero.rbegin(),itend=vzero.rend();
+	      vecteur line; line.reserve(e+2);
 	      for (gen p=alphav[j],pp=plus_one;it!=itend;++it,pp=smod(p*pp,modulo)){
 		if (*it)
 		  line.push_back( pp);
@@ -3704,10 +3779,12 @@ namespace giac {
 	    }
 	    // Reduce linear system modulo modulo
 	    gen det; vecteur pivots; matrice mred;
-	    // CERR << "SPMOD " << CLOCK() << endl;
+	    if (debug_infolevel>1)
+	      CERR << CLOCK()*1e-6 << " SPMOD begin rref" << endl;
 	    if (!modrref(m,mred,pivots,det,0,int(m.size()),0,int(m.front()._VECTptr->size())-1,true,false,modulo,false,false))
 	      return false;
-	    // CERR << "SPMODend " << CLOCK() << endl;
+	    if (debug_infolevel>1)
+	      CERR << CLOCK()*1e-6 << " SPMOD end rref" << endl;
 	    if (!is_zero(det)){	      
 	      // Last column is the solution, it should be polynomials
 	      // that must be untrunced with index = to non-0 coeff of vzero
@@ -3734,12 +3811,15 @@ namespace giac {
 		}
 		++pos;
 	      }
+#endif
 	      // Check if trygcd is the gcd!
 	      vecteur tmpv;
 	      if (!pp_mod(trygcd,tmpv,&env))
 		return false;
 	      polynome pD,QP(dim),QQ(dim),R(dim);
 	      convert_back_xn(trygcd,pD);
+	      if (debug_infolevel>1)
+		CERR << CLOCK()*1e-6 << " SPMOD try gcd candidate" << endl;
 	      if (pD.coord.size()<=p.coord.size() && pD.coord.size()<=q.coord.size() && divremmod(p,pD,modulo,QP,R) && R.coord.empty()){
 		if (divremmod(q,pD,modulo,QQ,R) && R.coord.empty()){
 		  pD=pD*cont;
