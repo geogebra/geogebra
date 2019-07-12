@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Find Numerator
@@ -102,12 +103,19 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 				}
 			}
 
-			if (top != null && bottom != null) {
+			if (top != null && bottom != null && DoubleUtil.isInteger(top.evaluateDouble())
+					&& DoubleUtil.isInteger(bottom.evaluateDouble())) {
 				// cancel down to lowest terms
 				long num = (long) top.evaluateDouble();
 				long den = (long) bottom.evaluateDouble();
 				long gcd = Kernel.gcd(num, den);
-				long val = (type == Commands.Numerator) ? num / gcd : den / gcd;
+
+				long val;
+				if (gcd == 0) {
+					val = (type == Commands.Numerator) ? num : den;
+				} else {
+					val = (type == Commands.Numerator) ? num / gcd : den / gcd;
+				}
 
 				g.setValue(val);
 				return;

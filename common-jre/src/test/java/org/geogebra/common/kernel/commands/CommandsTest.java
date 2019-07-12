@@ -423,6 +423,10 @@ public class CommandsTest {
 		t("frac3=-10/-6", "1.6666666666666667");
 		t("Numerator(frac3)", "5");
 		t("Denominator(frac3)", "3");
+		t("Numerator(0.125/0.166666666666666666)", "3");
+		t("Numerator(0.125/3)", "1");
+		t("Numerator(3/0.166666666666666666)", "18");
+
 	}
 
 	@Test
@@ -441,6 +445,9 @@ public class CommandsTest {
 		t("Denominator[ 12345678901/23456789012 ]", "23456789012");
 		t("Denominator[ 123456789012/3456789012 ]", "288065751");
 		t("Denominator[ 1234567890123/45678901234 ]", "45678901234");
+		t("Denominator(0.125/0.166666666666666666)", "4");
+		t("Denominator(0.125/3)", "24");
+		t("Denominator(3/0.166666666666666666)", "1");
 	}
 
 	@Test
