@@ -3806,7 +3806,7 @@ namespace giac {
 		  if (!is_zero(tmp)){
 		    vecteur tmpxn(deg+1);
 		    tmpxn.front()=tmp;
-		    trygcd=trygcd+monomial<gen>(tmpxn,dim-1);
+		    trygcd=trygcd+monomial<gen>(gen(tmpxn,_POLY1__VECT),dim-1);
 		  }
 		}
 		++pos;
