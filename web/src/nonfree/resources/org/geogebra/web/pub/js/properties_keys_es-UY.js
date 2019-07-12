@@ -168,7 +168,7 @@ __GGB__keysVar["es-UY"].command = {
     "CircumcircleArc.Syntax": "[ <Punto (extremo)>, <Punto>, <Punto (extremo)> ]",
     "CircumcircleSector": "SectorTresPuntos",
     "CircumcircleSector.Syntax": "[ <Punto (extremo)>, <Punto>, <Punto (extremo)> ]",
-    "Circumference": "Contorno",
+    "Circumference": "Per\xedmetro",
     "Circumference.Syntax": "[ <Pol\xedgono o C\xf3nica> ]",
     "Classes": "Clases",
     "Classes.Syntax": "[ <Lista de datos>, <N\xfamero de clases> ]\n[ <Lista de datos>, <Inicio>, <Ancho de las clases> ]",
