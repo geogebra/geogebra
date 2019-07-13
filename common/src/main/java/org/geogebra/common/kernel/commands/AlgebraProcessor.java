@@ -3003,6 +3003,12 @@ public class AlgebraProcessor {
 			if (n.isForcedFunction()) {
 				return processFunction(new Function(kernel, eval.wrap()), info);
 			}
+
+			// complex number stored in XML as exp="3" so looks like a GeoNumeric
+			if (n.isForcedPoint()) {
+				return processPointVector(n, eval);
+			}
+
 			return processNumber(n, eval, info);
 		} else if (eval instanceof VectorValue) {
 			return processPointVector(n, eval);
@@ -3280,7 +3286,18 @@ public class AlgebraProcessor {
 				return processEquationIntersect(x, y);
 			}
 		}
-		GeoVec2D p = ((VectorValue) evaluate).getVector();
+
+		GeoVec2D p;
+		if (evaluate instanceof MyDouble) {
+			// complex number in XML as eg exp="3" goes to 3+0i
+			double real = evaluate.evaluateDouble();
+			// exp="?" -> ?+i?
+			double im = Double.isNaN(real) ? Double.NaN : 0;
+			p = new GeoVec2D(kernel, real, im);
+		} else {
+			p = ((VectorValue) evaluate).getVector();
+
+		}
 
 		boolean polar = p.getToStringMode() == Kernel.COORD_POLAR;
 
