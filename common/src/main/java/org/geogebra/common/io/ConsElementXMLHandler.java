@@ -1141,7 +1141,7 @@ public class ConsElementXMLHandler {
 		String exp = attrs.get("exp");
 
 		if (exp != null) {
-			// store (geo, epxression, number) values
+			// store (geo, expression, number) values
 			// they will be processed in processLinkedGeos() later
 			linkedGeoList.add(new GeoExpPair(geo, exp));
 		} else {
