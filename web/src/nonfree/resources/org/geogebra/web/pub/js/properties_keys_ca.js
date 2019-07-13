@@ -757,7 +757,7 @@ __GGB__keysVar["ca"].command = {
     "Remove.Syntax": "[ <Llista>, <Llista> ]",
     "RemoveUndefined": "EliminaNoDefinits",
     "RemoveUndefined.Syntax": "[ <Llista> ]",
-    "Rename": "CanviaNom",
+    "Rename": "Rebateja",
     "Rename.Syntax": "[ <Objecte>, <Nom> ]",
     "Repeat": "Repeteix",
     "Repeat.Syntax": "[ <N\xfamero>, <Comandament de GeoGebra>, <Comandament de GeoGebra>, ... ]",
