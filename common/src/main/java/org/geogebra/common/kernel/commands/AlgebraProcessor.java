@@ -3288,7 +3288,7 @@ public class AlgebraProcessor {
 		}
 
 		GeoVec2D p;
-		if (evaluate instanceof MyDouble) {
+		if (!(evaluate instanceof VectorValue)) {
 			// complex number in XML as eg exp="3" goes to 3+0i
 			double real = evaluate.evaluateDouble();
 			// exp="?" -> ?+i?
