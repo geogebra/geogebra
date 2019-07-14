@@ -10,7 +10,6 @@ import org.geogebra.test.commands.CommandSignatures;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 public class SyntaxLocalizationTest {
 
 	@Test

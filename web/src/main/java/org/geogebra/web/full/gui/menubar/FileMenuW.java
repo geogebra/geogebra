@@ -39,6 +39,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	private FileChooser fileChooser;
 	private VendorSettings vendorSettings;
 	private GeoGebraActivity activity;
+
 	/**
 	 * @param app
 	 *            application

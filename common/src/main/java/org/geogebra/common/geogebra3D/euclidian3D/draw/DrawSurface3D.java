@@ -770,8 +770,6 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	}
 
 	private Corner createRootMesh() throws NotEnoughCornersException {
-		int uN = uParam.n;
-		int vN = vParam.n;
 		if (wireframeNeeded()) {
 			wireframeBottomCorners = new Corner[uParam.getCornerCount()];
 			wireframeRightCorners = new Corner[vParam.getCornerCount()];
@@ -805,6 +803,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 		// first row
 		Corner right = bottomRight;
+		int uN = uParam.n;
 		for (int i = 0; i < uN - 1; i++) {
 			right = addLeftToMesh(right, uParam.max - (uParam.delta * i) / uN,
 					vParam.borderMax);
@@ -829,7 +828,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				wireframeBottomCornersLength++;
 			}
 		}
-
+		int vN = vParam.n;
 		// all intermediate rows
 		for (int j = 0; j < vN - 1; j++) {
 			bottomRight = addRowAboveToMesh(bottomRight,

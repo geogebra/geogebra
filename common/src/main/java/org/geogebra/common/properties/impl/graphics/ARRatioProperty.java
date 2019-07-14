@@ -36,7 +36,7 @@ public class ARRatioProperty extends AbstractProperty
 
     @Override
     public void setValue(String value) {
-
+		// TODO
     }
 
     @Override
