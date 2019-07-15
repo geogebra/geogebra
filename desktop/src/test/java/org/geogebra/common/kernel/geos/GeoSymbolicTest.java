@@ -806,7 +806,7 @@ public class GeoSymbolicTest {
 
 		assertTrue("Fraction should have a symbolic toggle",
 				AlgebraItem.isSymbolicDiffers(fraction));
-		assertTrue("Fraction should have a symbolic toggle",
+		assertTrue("List of fractions should have a symbolic toggle",
 				AlgebraItem.isSymbolicDiffers(list));
 		assertFalse("Equation should not have any symbolic toggle",
 				AlgebraItem.isSymbolicDiffers(equation));
