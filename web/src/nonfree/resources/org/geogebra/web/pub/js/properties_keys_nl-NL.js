@@ -168,7 +168,7 @@ __GGB__keysVar["nl-NL"].command = {
     "CircumcircleArc.Syntax": "[ <Punt>, <Punt>, <Punt> ]",
     "CircumcircleSector": "CirkelsectorDriePunten",
     "CircumcircleSector.Syntax": "[ <Punt>, <Punt>, <Punt> ]",
-    "Circumference": "OmtrekKegelsnede",
+    "Circumference": "Omtrek",
     "Circumference.Syntax": "[ <Kegelsnede> ]",
     "Classes": "Klassengrenzen",
     "Classes.Syntax": "[ <Lijst met waarnemingsgetallen>, <Aantal klassen> ]\n[ <Lijst met waarnemingsgetallen>, <Start>, <Klassenbreedte> ]",
