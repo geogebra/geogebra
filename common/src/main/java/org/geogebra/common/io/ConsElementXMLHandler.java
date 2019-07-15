@@ -1187,12 +1187,14 @@ public class ConsElementXMLHandler {
 		String style = attrs.get("style");
 		String parameter = attrs.get("parameter");
 		if (geo instanceof EquationValue) {
+			// GeoConic handled here
 			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else if (geo instanceof GeoLineND && "parametric".equals(style)) {
 			((GeoLineND) geo).setToParametric(parameter);
 		} else if (geo instanceof GeoConicND) {
+			// GeoConic3D handled here
 			if ("parametric".equals(style)) {
 				((GeoConicND) geo).setToParametric(parameter);
 			}
