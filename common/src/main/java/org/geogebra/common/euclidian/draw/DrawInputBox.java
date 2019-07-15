@@ -366,7 +366,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		if (geoInputBox.isSymbolicMode()) {
 			int h2 = (latexDimension.getHeight() - labelSize.y) / 2;
 			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop - h2,
-					latexDimension.getWidth(),
+					Math.max(boxWidth, latexDimension.getWidth()),
 					latexDimension.getHeight() + h2);
 		} else {
 			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
