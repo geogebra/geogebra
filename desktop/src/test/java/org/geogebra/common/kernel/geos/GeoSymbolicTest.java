@@ -804,10 +804,14 @@ public class GeoSymbolicTest {
 		t("l2=Solve(eq1, x)", "{x = 7 / 2}");
 		GeoElement solveResult = getSymbolic("l2");
 
-		assertTrue(AlgebraItem.isSymbolicDiffers(fraction));
-		assertTrue(AlgebraItem.isSymbolicDiffers(list));
-		assertFalse(AlgebraItem.isSymbolicDiffers(equation));
-		assertTrue(AlgebraItem.isSymbolicDiffers(solveResult));
+		assertTrue("Fraction should have a symbolic toggle",
+				AlgebraItem.isSymbolicDiffers(fraction));
+		assertTrue("Fraction should have a symbolic toggle",
+				AlgebraItem.isSymbolicDiffers(list));
+		assertFalse("Equation should not have any symbolic toggle",
+				AlgebraItem.isSymbolicDiffers(equation));
+		assertTrue("Solve result should have a symbolic toggle",
+				AlgebraItem.isSymbolicDiffers(solveResult));
 	}
 
 	@Test
