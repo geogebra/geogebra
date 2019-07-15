@@ -426,7 +426,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			textFieldToUpdate.setText(text);
 		}
 
-		if (isSymbolicMode()) {
+		if (linkedGeo != null && isSymbolicMode()) {
 			setText(getLinkedGeoText());
 		} else {
 			setText(textFieldToUpdate.getText());
