@@ -22,8 +22,6 @@ import java.util.TreeSet;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -32,6 +30,8 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -445,8 +445,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			for (int i = 0; i < algorithm.getOutputLength(); i++) {
 				GeoElement geo = algorithm.getOutput(i);
 				if (geo instanceof SurfaceEvaluable) {
+
 					// the cast here is needed for FindBugs
-					surfaceEvaluables.remove((SurfaceEvaluable) geo);
+					// leave as separate statement so it's not automatically removed
+					SurfaceEvaluable surface = (SurfaceEvaluable) geo;
+
+					surfaceEvaluables.remove(surface);
 				}
 			}
 		}
@@ -1064,6 +1068,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			P.setX(P.getX() / P.getZ());
 		}
 		if (!P.isDefined()) {
+			// TRAC-3494
 			P.setX(0);
 		}
 		if (!isBooleanFunction()) {
