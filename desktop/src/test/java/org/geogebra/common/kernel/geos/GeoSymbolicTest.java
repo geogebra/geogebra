@@ -7,11 +7,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -788,6 +791,23 @@ public class GeoSymbolicTest {
 		GeoSymbolic symbolic = getSymbolic("a");
 		symbolic.setSymbolicMode(false, false);
 		assertEquals("0.5", symbolic.toValueString(StringTemplate.algebraTemplate));
+	}
+
+	@Test
+	public void testSymbolicDiffers() {
+		t("a=1/2", "1 / 2");
+		GeoSymbolic fraction = getSymbolic("a");
+		t("l1={1/4, 2,3}", "{1 / 4, 2, 3}");
+		GeoSymbolic list = getSymbolic("l1");
+		t("eq1:x-3=1/2", "x - 3 = 1 / 2");
+		GeoElement equation = getSymbolic("eq1");
+		t("l2=Solve(eq1, x)", "{x = 7 / 2}");
+		GeoElement solveResult = getSymbolic("l2");
+
+		assertTrue(AlgebraItem.isSymbolicDiffers(fraction));
+		assertTrue(AlgebraItem.isSymbolicDiffers(list));
+		assertFalse(AlgebraItem.isSymbolicDiffers(equation));
+		assertTrue(AlgebraItem.isSymbolicDiffers(solveResult));
 	}
 
 	@Test
