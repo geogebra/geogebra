@@ -64,6 +64,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private int oldLength = 0;
 	private GFont textFont;
 	private GDimension latexDimension;
+	private int latexTop;
 
 	/**
 	 * @param view
@@ -365,7 +366,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				: view.getBackgroundCommon();
 		if (geoInputBox.isSymbolicMode()) {
 			int h2 = (latexDimension.getHeight() - labelSize.y) / 2;
-			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop - h2,
+			latexTop = boxTop - h2;
+			getTextField().drawBounds(g2, bgColor, boxLeft, latexTop,
 					Math.max(boxWidth, latexDimension.getWidth()),
 					latexDimension.getHeight() + h2);
 		} else {
@@ -550,6 +552,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * Get view's textfield and attach to this
 	 */
 	public void attachTextField() {
+		if (geoInputBox.isSymbolicMode()) {
+			attachMathField();
+			return;
+		}
 
 		updateBoxPosition();
 		AutoCompleteTextField tf = getTextField();
@@ -582,6 +588,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	private void attachMathField() {
+		view.attachMathField(boxLeft, latexTop, geoInputBox);
+	}
+
 	/**
 	 * Hide the widget.
 	 */
@@ -590,7 +600,15 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
-		getTextField().hideDeferred(getBox());
+		if (geoInputBox.isSymbolicMode()) {
+			hideMathField();
+		} else {
+			getTextField().hideDeferred(getBox());
+		}
+
+	}
+
+	private void hideMathField() {
 	}
 
 	/**

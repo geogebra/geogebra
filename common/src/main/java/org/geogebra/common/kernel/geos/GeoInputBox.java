@@ -582,4 +582,25 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		}
 		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
 	}
+
+	public String getTextForEditor() {
+		if (!isSymbolicMode()) {
+			return getText();
+		}
+
+		if (linkedGeo.isGeoFunction()) {
+			return getLinkedGeoTextForEditor();
+		}
+
+		HasSymbolicMode symbolic = (HasSymbolicMode)linkedGeo;
+		boolean orig = symbolic.isSymbolicMode();
+		symbolic.setSymbolicMode(true, false);
+		String text = getLinkedGeoTextForEditor();
+		symbolic.setSymbolicMode(orig, false);
+		return text;
+	}
+
+	private String getLinkedGeoTextForEditor() {
+		return linkedGeo.getValueForInputBar();
+	}
 }
