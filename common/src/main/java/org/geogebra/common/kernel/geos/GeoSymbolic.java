@@ -271,6 +271,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		GeoElementND newTwin = casOutputString == null ? null
 				: kernel.getAlgebraProcessor()
 						.evaluateToGeoElement(this.casOutputString, false);
+
+		if (newTwin instanceof EquationValue) {
+			((EquationValue) newTwin).setToUser();
+		}
+
 		if (twinGeo != null && newTwin != null) {
 			newTwin.setVisualStyle(this);
 			twinGeo = newTwin.toGeoElement();
@@ -291,8 +296,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
 			setPointStyle(((PointProperties) geo).getPointStyle());
-		} else if (geo instanceof EquationValue) {
-			((EquationValue) geo).setToUser();
 		}
 	}
 
