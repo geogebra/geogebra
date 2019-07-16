@@ -138,4 +138,9 @@ public interface AppConfig {
 	 * @return the Command Selector for the app.
 	 */
 	CommandNameFilter getCommandNameFilter();
+
+	/**
+	 * @return whether the app should show the tools panel or not
+	 */
+	boolean showToolsPanel();
 }

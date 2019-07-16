@@ -1,0 +1,9 @@
+.DS_Store
+build/
+**/build
+web/war/*.*
+web/war/web*
+.project
+.settings
+.idea
+*.iml

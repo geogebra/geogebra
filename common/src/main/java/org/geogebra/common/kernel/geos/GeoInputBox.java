@@ -426,7 +426,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			textFieldToUpdate.setText(text);
 		}
 
-		if (isSymbolicMode()) {
+		if (linkedGeo != null && isSymbolicMode()) {
 			setText(getLinkedGeoText());
 		} else {
 			setText(textFieldToUpdate.getText());
@@ -569,6 +569,38 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	@Override
 	public boolean isSymbolicMode() {
-		return symbolicMode;
+		return canLinkedGeoBeSybolic() && symbolicMode;
+	}
+
+	/**
+	 *
+	 * @return if linked object can be a symbolic one.
+	 */
+	public boolean canLinkedGeoBeSybolic() {
+		if (linkedGeo == null) {
+			return false;
+		}
+		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
+	}
+
+	public String getTextForEditor() {
+		if (!isSymbolicMode()) {
+			return getText();
+		}
+
+		if (linkedGeo.isGeoFunction()) {
+			return getLinkedGeoTextForEditor();
+		}
+
+		HasSymbolicMode symbolic = (HasSymbolicMode)linkedGeo;
+		boolean orig = symbolic.isSymbolicMode();
+		symbolic.setSymbolicMode(true, false);
+		String text = getLinkedGeoTextForEditor();
+		symbolic.setSymbolicMode(orig, false);
+		return text;
+	}
+
+	private String getLinkedGeoTextForEditor() {
+		return linkedGeo.getValueForInputBar();
 	}
 }

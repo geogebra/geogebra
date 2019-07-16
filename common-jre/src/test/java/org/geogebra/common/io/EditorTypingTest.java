@@ -1,5 +1,10 @@
 package org.geogebra.common.io;
 
+import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -18,11 +23,14 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorTypingTest {
 
+	private static AppCommon appC;
+
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
+		appC = BaseUnitTest.createAppCommon();
 	}
 
 	private void checkEditorInsert(String input, String output) {
@@ -41,6 +49,22 @@ public class EditorTypingTest {
 			MathSequence rootComponent = getRootComponent();
 			Assert.assertEquals(output,
 					GeoGebraSerializer.serialize(rootComponent));
+		}
+
+		public void checkGGBMath(String output) {
+			MathSequence rootComponent = getRootComponent();
+
+			String exp = GeoGebraSerializer.serialize(rootComponent);
+
+			ExpressionNode en;
+			try {
+				en = appC.getKernel().getParser().parseExpression(exp);
+				Assert.assertEquals(output, en.toString(StringTemplate.defaultTemplate));
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Assert.assertEquals(output, "Exception: " + e.toString());
+			}
+
 		}
 
 		public EditorChecker type(String input) {
@@ -98,6 +122,20 @@ public class EditorTypingTest {
 		checkEditorInsert("x*|x*x", "x*abs(x*x)");
 		checkEditorInsert("x sqrt(x)", "x sqrt(x)");
 		checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
+	}
+
+	@Test
+	public void testTrig() {
+
+		type("sin(x)").checkGGBMath("sin(x)");
+		type("sin(x)^2").checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
+		type("sin(x)^3").checkGGBMath("sin" + Unicode.SUPERSCRIPT_3 + "(x)");
+		type("sin(x)^123").checkGGBMath("sin" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_2
+				+ Unicode.SUPERSCRIPT_3 + "(x)");
+		type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
+				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
+		type("sin^-1").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
+				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test

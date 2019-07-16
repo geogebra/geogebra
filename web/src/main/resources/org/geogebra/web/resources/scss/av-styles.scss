@@ -557,6 +557,11 @@ $duration: 0.2s;
     .algebraPanel {
         height: 100%;
     }
+
+    .evInputEditor {
+        position: absolute;
+        border: 1px solid;
+     }
 }
 
 @keyframes removeSuggestions {

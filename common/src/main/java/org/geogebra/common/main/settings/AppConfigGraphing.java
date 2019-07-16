@@ -194,4 +194,9 @@ public class AppConfigGraphing implements AppConfig {
 		return CommandNameFilterFactory.createNoCasCommandNameFilter();
 	}
 
+	@Override
+	public boolean showToolsPanel() {
+		return true;
+	}
+
 }

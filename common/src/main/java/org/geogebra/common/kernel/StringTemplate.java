@@ -2739,8 +2739,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			boolean finished = false;
 
-			// support for sin^2(x) for LaTeX, eg FormulaText[]
-			if (stringType.equals(StringType.LATEX)
+			// support for sin^2(x)
+			if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
 					&& left.isExpressionNode()) {
 				switch (((ExpressionNode) left).getOperation()) {
 				// #1592
@@ -2757,29 +2757,31 @@ public class StringTemplate implements ExpressionNodeConstants {
 				case CSCH:
 				case COTH:
 
+					boolean latex = stringType.equals(StringType.LATEX);
+
 					double indexD = right.evaluateDouble();
 					int index = (int) Math.round(indexD);
 
 					// only positive integers
 					// sin^-1(x) is arcsin
 					// sin^-2(x) not standard notation
-					if (!(Double.isInfinite(indexD) || Double.isNaN(indexD))
-							&& (index > 0)) {
+					if (index > 0 && DoubleUtil.isInteger(indexD)) {
 
 						String leftStrTrimmed = leftStr.trim();
 
-						int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
+						int spaceIndex = leftStrTrimmed.trim().indexOf(latex ? ' ' : '(');
 						sb.append(leftStrTrimmed.substring(0, spaceIndex));
 
+						if (latex) {
 						sb.append(" ^{");
 						sb.append(rightStr);
 						sb.append("}");
-
+						} else {
 						// alternative using Unicode
-						// sb.append(Unicode.numberToIndex(index));
-
-						// everything except the "\\sin "
-						sb.append(leftStrTrimmed.substring(spaceIndex + 1));
+							sb.append(StringUtil.numberToIndex(index));
+						}
+						// everything except the "\\sin " or "sin"
+						sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
 
 						finished = true;
 

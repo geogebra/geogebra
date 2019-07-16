@@ -57,4 +57,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public boolean hasAutomaticSliders() {
 		return false;
 	}
+
+	@Override
+	public boolean showToolsPanel() {
+		return false;
+	}
 }
