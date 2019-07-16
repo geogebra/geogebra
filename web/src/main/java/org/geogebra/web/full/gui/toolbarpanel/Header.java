@@ -122,13 +122,18 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		center.add(btnAlgebra);
 
-		Element indicator = DOM.createDiv();
-		indicator.addClassName("indicator");
-		center.getElement().insertFirst(indicator);
-		center.add(btnTools);
+		boolean showToolPanel = app.getConfig().showToolsPanel();
+		if(showToolPanel) {
+			Element indicator = DOM.createDiv();
+			indicator.addClassName("indicator");
+			center.getElement().insertFirst(indicator);
+			center.add(btnTools);
+		}
 		if (app.getConfig().hasTableView()) {
 			center.add(btnTableView);
-			center.addStyleName("threeTab");
+			if(showToolPanel) {
+				center.addStyleName("threeTab");
+			}
 		}
 
 		contents.add(center);
@@ -314,7 +319,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	void setLabels() {
 		setTitle(btnMenu, "Menu");
-		setTitle(btnTools, "Tools");
+		if (btnTools != null ) {
+			setTitle(btnTools, "Tools");
+		}
 		if (btnTableView != null) {
 			setTitle(btnTableView, "Table");
 		}
@@ -336,7 +343,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void setAltTexts() {
 		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
 		setAltText(btnAlgebra, app.getConfig().getAVTitle());
-		setAltText(btnTools, "Tools");
+		if( btnTools != null ) {
+			setAltText(btnTools, "Tools");
+		}
 		if (btnTableView != null) {
 			setAltText(btnTableView, "Table");
 		}
