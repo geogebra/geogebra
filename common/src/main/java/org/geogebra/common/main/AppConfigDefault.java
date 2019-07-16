@@ -193,4 +193,9 @@ public class AppConfigDefault implements AppConfig {
 		return null;
 	}
 
+	@Override
+	public boolean showToolsPanel() {
+		return true;
+	}
+
 }

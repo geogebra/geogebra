@@ -197,4 +197,9 @@ public class AppConfigGeometry implements AppConfig {
 	public CommandNameFilter getCommandNameFilter() {
 		return CommandNameFilterFactory.createNoCasCommandNameFilter();
 	}
+
+	@Override
+	public boolean showToolsPanel() {
+		return true;
+	}
 }
