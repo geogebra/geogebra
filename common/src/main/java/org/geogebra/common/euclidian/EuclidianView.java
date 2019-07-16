@@ -89,7 +89,6 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -532,7 +531,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
-	private MathField mathField;
+	private SymbolicEditor symbolicEditor = null;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -6612,13 +6611,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
         settingsChanged(getSettings());
     }
     
-    public void attachMathField(int left, int top, GeoInputBox geoInputBox) {
-    	if (mathField == null) {
-    		mathField = createMathField();
+    public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+    	if (symbolicEditor == null) {
+			symbolicEditor = createSymbolicEditor();
 		}
-    	placeMathField(left, top, geoInputBox);
+    	symbolicEditor.attach(geoInputBox, bounds);
 	}
 
-	protected MathField createMathField() {return null;}
-	protected void placeMathField(int width, int height, GeoInputBox geoInputBox) {}
+	protected SymbolicEditor createSymbolicEditor() {return null;}
 }

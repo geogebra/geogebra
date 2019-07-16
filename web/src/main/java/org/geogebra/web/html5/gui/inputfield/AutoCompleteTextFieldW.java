@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -1708,6 +1709,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (Browser.isAndroid()) {
 			removeDummyCursor();
 		}
+	}
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
+		drawBounds(g2, bgColor, ((int)bounds.getX()), ((int)bounds.getY()),
+				((int)bounds.getWidth()), ((int)bounds.getHeight()));
 	}
 
 	@Override

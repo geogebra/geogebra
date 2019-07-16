@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -64,7 +65,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private int oldLength = 0;
 	private GFont textFont;
 	private GDimension latexDimension;
-	private int latexTop;
+	private GRectangle inputFieldBounds;
 
 	/**
 	 * @param view
@@ -341,14 +342,22 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			calculateLatexDimensionIfNeeded(g2);
+			calculateInputFieldBounds(g2);
 			drawOnCanvas(g2, getGeoInputBox().getText());
 		}
 	}
 
-	private void calculateLatexDimensionIfNeeded(GGraphics2D g2) {
+	private void calculateInputFieldBounds(GGraphics2D g2) {
 		if (geoInputBox.isSymbolicMode()) {
 			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
+			int h2 = (latexDimension.getHeight() - labelSize.y) / 2;
+			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
+					boxLeft, boxTop - h2,
+					Math.max(boxWidth, latexDimension.getWidth()),
+					latexDimension.getHeight() + h2);
+		} else {
+			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
+					boxLeft, boxTop, boxWidth, boxHeight);
 		}
 	}
 	/**
@@ -364,17 +373,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor()
 				: view.getBackgroundCommon();
-		if (geoInputBox.isSymbolicMode()) {
-			int h2 = (latexDimension.getHeight() - labelSize.y) / 2;
-			latexTop = boxTop - h2;
-			getTextField().drawBounds(g2, bgColor, boxLeft, latexTop,
-					Math.max(boxWidth, latexDimension.getWidth()),
-					latexDimension.getHeight() + h2);
-		} else {
-			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
-					boxHeight);
 
-		}
+			getTextField().drawBounds(g2, bgColor, inputFieldBounds);
 	}
 
 	private void drawTextOnCanvas() {
@@ -553,7 +553,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 */
 	public void attachTextField() {
 		if (geoInputBox.isSymbolicMode()) {
-			attachMathField();
+			attachSymbolicEditor();
 			return;
 		}
 
@@ -588,8 +588,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private void attachMathField() {
-		view.attachMathField(boxLeft, latexTop, geoInputBox);
+	private void attachSymbolicEditor() {
+		view.attachSymbolicEditor(geoInputBox, inputFieldBounds);
 	}
 
 	/**

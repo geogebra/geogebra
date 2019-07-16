@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -21,15 +22,12 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -90,7 +88,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -1433,26 +1430,10 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected MathField createMathField() {
-		inputBoxEditor = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(new FormatConverterImpl(kernel), inputBoxEditor,
-				canvas,null,
-				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
-				null);
-		inputBoxEditor.addStyleName("evInputEditor");
-		inputBoxEditor.add(mf);
-		getAbsolutePanel().add(inputBoxEditor);
-		return mf;
-	}
-
-	@Override
-	protected void placeMathField(int left, int top, GeoInputBox geoInputBox) {
-		mf.setText(geoInputBox.getTextForEditor(), false);
-		mf.setFontSize((app.getFontSizeWeb() + 1) * geoInputBox.getFontSizeMultiplier());
-		Style style = inputBoxEditor.getElement().getStyle();
-		style.setLeft(left, Style.Unit.PX);
-		style.setTop(top, Style.Unit.PX);
+	protected SymbolicEditor createSymbolicEditor() {
+		SymbolicEditorW editor = new SymbolicEditorW(app);
+		getAbsolutePanel().add(editor);
+		return editor;
 	}
 
 	@Override
