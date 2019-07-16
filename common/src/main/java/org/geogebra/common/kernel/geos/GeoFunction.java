@@ -459,10 +459,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * initializes function type; if boolean, uses default styl for inequalities
+	 * initializes function type; if boolean, uses default style for inequalities
 	 * 
-	 * @param simplifyInt
-	 *            whether integer subexperessions should be simplified
+	 * @param simplifyInt whether integer sub-expressions should be simplified
 	 */
 	public void initFunction(boolean simplifyInt) {
 		fun.initFunction(simplifyInt);
