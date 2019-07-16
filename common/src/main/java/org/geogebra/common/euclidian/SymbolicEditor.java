@@ -19,4 +19,6 @@ public abstract class SymbolicEditor {
 
 	protected void createMathField() {}
 
+	public void hide() {
+	}
 }

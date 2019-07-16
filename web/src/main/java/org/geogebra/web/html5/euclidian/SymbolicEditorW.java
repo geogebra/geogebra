@@ -34,19 +34,20 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		super();
 		this.kernel = app.getKernel();
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
-		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 1;
+		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 2;
 	}
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		mathField.setText(geoInputBox.getTextForEditor(), false);
-		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
 		style.setTop(bounds.getY(), Style.Unit.PX);
 		style.setWidth(bounds.getWidth(), Style.Unit.PX);
 		style.setHeight(bounds.getHeight() - PADDING_TOP, Style.Unit.PX);
-
+		main.removeStyleName("hidden");
+		mathField.setText(geoInputBox.getTextForEditor(), false);
+		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		mathField.setFocus(true);
 	}
 
 	@Override
@@ -59,6 +60,10 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 				null);
 		main.addStyleName("evInputEditor");
 		main.add(mathField);
+	}
+
+	public void hide() {
+		main.addStyleName("hidden");
 	}
 
 	@Override

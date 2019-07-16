@@ -6619,4 +6619,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	protected SymbolicEditor createSymbolicEditor() {return null;}
+
+	public void hideSymbolicEditor() {
+    	if (symbolicEditor == null) {
+    		return;
+		}
+    	symbolicEditor.hide();
+	}
 }

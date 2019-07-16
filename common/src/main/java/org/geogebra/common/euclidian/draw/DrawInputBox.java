@@ -469,6 +469,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	@Override
+	protected boolean hitWidgetBounds(int x, int y) {
+		return geoInputBox.isSymbolicMode() ? inputFieldBounds.contains(x, y)
+			: super.hitWidgetBounds(x, y);
+	}
+
 	private boolean hasAlignedInputboxes() {
 		return !view.getApplication().isDesktop();
 	}
@@ -557,6 +563,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			return;
 		}
 
+		hideSymbolicField();
 		updateBoxPosition();
 		AutoCompleteTextField tf = getTextField();
 
@@ -589,6 +596,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void attachSymbolicEditor() {
+		hideTextField();
 		view.attachSymbolicEditor(geoInputBox, inputFieldBounds);
 	}
 
@@ -601,14 +609,18 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		if (geoInputBox.isSymbolicMode()) {
-			hideMathField();
+			hideSymbolicField();
 		} else {
-			getTextField().hideDeferred(getBox());
+			hideTextField();
 		}
 
 	}
+	private void hideSymbolicField() {
+		view.hideSymbolicEditor();
+	}
 
-	private void hideMathField() {
+	private void hideTextField() {
+		getTextField().hideDeferred(getBox());
 	}
 
 	/**
