@@ -4,8 +4,8 @@
 
 project.setDescription('Giac CAS for GeoGebra')
 
-apply from: 'gradle-scripts/repositories.gradle'
-apply from: 'gradle-scripts/versions.gradle'
+apply from: '../gradle-scripts/repositories.gradle'
+apply from: '../gradle-scripts/versions.gradle'
 
 apply plugin: 'cpp'
 apply plugin: 'visual-studio'
