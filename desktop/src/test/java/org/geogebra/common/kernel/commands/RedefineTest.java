@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class RedefineTest extends Assert {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
@@ -246,6 +248,18 @@ public class RedefineTest extends Assert {
 		t("a=?", "NaN");
 		t("a=1", "1");
 		t("A", "(0, 0)");
+	}
+
+	@Test
+	public void pointOnPartialFunctionShouldStayUndefined() {
+		t("ZoomIn[0,0,100,100]", new String[0]);
+		t("a=.9", "0.9");
+		// undefined for most onscreen points
+		t("f=If(x==0, 1, ?)",
+				"If[x " + Unicode.QUESTEQ + " 0, 1, NaN]");
+		t("A=Point[f, a]", "(NaN, NaN)");
+		t("a=.8", "0.8");
+		t("A", "(NaN, NaN)");
 	}
 
 	@Test

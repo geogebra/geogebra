@@ -1060,15 +1060,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * Path interface
 	 */
 	private void pointChanged(Coords P, boolean closestPoly) {
-
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
 		} else {
 			P.setX(P.getX() / P.getZ());
-		}
-		if (!P.isDefined()) {
-			// TRAC-3494
-			P.setX(0);
 		}
 		if (!isBooleanFunction()) {
 			if (interval) {
@@ -1181,6 +1176,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private void pointChanged(GeoPointND P, boolean closestPoly) {
 
 		Coords coords = P.getCoordsInD2();
+		if (!coords.isDefined() && P.isMoveable()) {
+			// TRAC-3494
+			coords.setX(0);
+		}
 		pointChanged(coords, closestPoly);
 
 		// set path parameter for compatibility with
