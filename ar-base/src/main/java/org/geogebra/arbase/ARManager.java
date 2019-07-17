@@ -30,9 +30,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
     private float arScaleAtStart;
     private float arScale = 1;
-    private double arRatio;
-    private String units = "cm";
-    private String arRatioText = "1";
+
+    // Ratio
+    private double arRatioAtStart;
+    private float ratioChange = 1;      // change of ratio when ratio is set from menu
+    private String units = "cm";        // current units used for Ratio snack bar and ratio settings
+    private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
+
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
@@ -436,7 +440,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             ratio = ratio * pot;
             if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
                 int mToCm = 100;
-                arRatio = ratio * mToCm;
+                arRatioAtStart = ratio * mToCm;
             }
             arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
             if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
@@ -458,7 +462,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private float getARScaleParameter() {
-        return arGestureManager == null ? arScale : arScale * arGestureManager.getScaleFactor();
+        return arGestureManager == null ? arScale :
+                arScale * arGestureManager.getScaleFactor() * ratioChange;
     }
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
@@ -512,9 +517,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private void showSnackbar() {
         double ratio;
         if (arGestureManager != null) {
-            ratio = arRatio * arGestureManager.getScaleFactor();
+            ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange;
         } else {
-            ratio = arRatio;
+            ratio = arRatioAtStart;
         }
         String text;
         if (ratio >= 100) {
@@ -549,7 +554,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
             // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
             double thicknessMin = getThicknessMin(mDistance);
-            arScale = (float) (thicknessMin / arGestureManager.getScaleFactor());
+            arScale = (float) (thicknessMin / (arGestureManager.getScaleFactor() * ratioChange));
             arScaleFactor = arScaleAtStart / arScale;
             updateSettingsScale(previousARScale / arScale);
         }
@@ -578,6 +583,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public String getARRatioInString() {
         return arRatioText;
+    }
+
+    public void setARRatio(double ratio) {
+        ratioChange = (float) (ratio / arRatioAtStart);
+        arGestureManager.resetScaleFactor();
+        fitThickness();
+        showSnackbar();
     }
 
     public String getUnits() {

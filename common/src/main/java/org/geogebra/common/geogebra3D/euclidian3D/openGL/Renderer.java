@@ -2204,6 +2204,19 @@ public abstract class Renderer {
 		return null;
 	}
 
+	/**
+	 * set AR ratio
+	 *
+	 * @param ratio
+	 *            new ratio for AR
+	 */
+	public void setARRatio(double ratio) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatio(ratio);
+		}
+	}
+
     /**
      *
      * @return ar ratio units (can be null)

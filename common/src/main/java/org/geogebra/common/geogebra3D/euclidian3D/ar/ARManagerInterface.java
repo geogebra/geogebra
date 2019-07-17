@@ -69,6 +69,8 @@ public interface ARManagerInterface<T> {
 
     String getARRatioInString();
 
+    void setARRatio(double ratio);
+
     String getUnits();
 
     }
