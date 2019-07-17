@@ -29,6 +29,8 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 	private MathFieldW mathField;
 	private int fontSize;
 	private static final int PADDING_TOP = 16;
+	private static final int PADDING_LEFT = 4;
+	private GeoInputBox geoInputBox;
 
 	SymbolicEditorW(App app)  {
 		super();
@@ -42,12 +44,13 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
 		style.setTop(bounds.getY(), Style.Unit.PX);
-		style.setWidth(bounds.getWidth(), Style.Unit.PX);
+		style.setWidth(bounds.getWidth() - PADDING_LEFT, Style.Unit.PX);
 		style.setHeight(bounds.getHeight() - PADDING_TOP, Style.Unit.PX);
 		main.removeStyleName("hidden");
 		mathField.setText(geoInputBox.getTextForEditor(), false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
+		this.geoInputBox = geoInputBox;
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		main = new FlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, this,
+				canvas, null,
 				directFormulaConversion,
 				null);
 		main.addStyleName("evInputEditor");
@@ -68,7 +71,6 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 
 	@Override
 	public void onEnter() {
-
 	}
 
 	@Override
