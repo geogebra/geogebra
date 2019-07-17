@@ -2475,6 +2475,7 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral(1/(x^2+1),-inf,inf)", result:"\u03C0" },
 { cat:"Integral", cmd:"Integral(1/(x^2+1),0,inf)", result:"1 / 2 \u03C0" },
 { cat:"Integral", cmd:"Integral(1/(x^2+1),-inf,0)", result:"1 / 2 \u03C0" },
+{ cat:"Limit", cmd:"limit(1/(1+sqrt(2)*cos(x))*sin(x-3*pi/4),x=3*pi/4)", result:"-1" },
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
