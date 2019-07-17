@@ -73,4 +73,8 @@ public interface ARManagerInterface<T> {
 
     String getUnits();
 
+    int getARRatioMetricSystem();
+
+    void setARRatioMetricSystem(int metricSystem);
+
     }

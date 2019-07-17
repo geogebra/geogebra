@@ -20,11 +20,9 @@ public class ARRatioProperty extends AbstractProperty
      * @param localization      localization for the title
      * @param renderer            euclidianView3D
      * @param kernel            kernel
-     * @param label             the name of the axis
      */
-    public ARRatioProperty(Localization localization, Renderer renderer, Kernel kernel,
-                           String label) {
-        super(localization, label);
+    public ARRatioProperty(Localization localization, Renderer renderer, Kernel kernel) {
+        super(localization, "Ratio");
         this.renderer = renderer;
         this.kernel = kernel;
     }

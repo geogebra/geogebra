@@ -2228,4 +2228,28 @@ public abstract class Renderer {
         }
         return null;
     }
+
+	/**
+	 *
+	 * @return ar ratio metric system (cm or inch)
+	 */
+    public int getARRatioMetricSystem() {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return arManager.getARRatioMetricSystem();
+		}
+		return 0;
+	}
+
+	/**
+	 *
+	 * @param metricSystem
+	 *                  ar ratio metric system (cm or inch)
+	 */
+	public void setARRatioMetricSystem(int metricSystem) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatioMetricSystem(metricSystem);
+		}
+	}
 }

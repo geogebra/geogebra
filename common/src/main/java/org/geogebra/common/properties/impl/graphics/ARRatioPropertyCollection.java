@@ -31,7 +31,9 @@ public class ARRatioPropertyCollection extends AbstractProperty
         Kernel kernel = app.getKernel();
         Renderer renderer = ((EuclidianView3D) app.getActiveEuclidianView()).getRenderer();
         ArrayList<Property> properties = new ArrayList<>();
-        properties.add(new ARRatioProperty(localization, renderer, kernel, "Ratio"));
+        properties.add(new ARRatioProperty(localization, renderer, kernel));
+        properties.add(new RatioUnitProperty((EuclidianView3D) app.getActiveEuclidianView(),
+                localization));
 
         collection = new PropertiesList(properties);
     }

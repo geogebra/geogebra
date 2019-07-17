@@ -36,6 +36,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private float ratioChange = 1;      // change of ratio when ratio is set from menu
     private String units = "cm";        // current units used for Ratio snack bar and ratio settings
     private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
+    private int ratioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
 
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -517,23 +518,30 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private void showSnackbar() {
         double ratio;
         if (arGestureManager != null) {
-            ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange;
+            ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
+                            * getUnitConversion();
         } else {
             ratio = arRatioAtStart;
         }
         String text;
-        if (ratio >= 100) {
-            // round double for precision 3 in m
-            ratio = (double) Math.round(ratio) / 100d;
-            units = "m";
-        } else if (ratio < 0.5 ) {
-            // round double for precision 3 in mm
-            ratio = (double) Math.round(ratio * 1000d) / 100d;
-            units = "mm";
-        } else {
-            // round double for precision 3 in cm
+        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS) &&
+                ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
             ratio = (double) Math.round(ratio * 100d) / 100d;
-            units = "cm";
+            units = "inch";
+        } else {
+            if (ratio >= 100) {
+                // round double for precision 3 in m
+                ratio = (double) Math.round(ratio) / 100d;
+                units = "m";
+            } else if (ratio < 0.5 ) {
+                // round double for precision 3 in mm
+                ratio = (double) Math.round(ratio * 1000d) / 100d;
+                units = "mm";
+            } else {
+                // round double for precision 3 in cm
+                ratio = (double) Math.round(ratio * 100d) / 100d;
+                units = "cm";
+            }
         }
         text = getRatioMessage(ratio);
         mArSnackBarManagerInterface.showRatio(text);
@@ -586,7 +594,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARRatio(double ratio) {
-        ratioChange = (float) (ratio / arRatioAtStart);
+        if (ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+            ratioChange = (float) ((ratio * EuclidianView3D.FROM_INCH_TO_CM) / arRatioAtStart);
+        } else {
+            ratioChange = (float) ((ratio) / arRatioAtStart);
+        }
         arGestureManager.resetScaleFactor();
         fitThickness();
         showSnackbar();
@@ -594,5 +606,23 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public String getUnits() {
         return units;
+    }
+
+    public int getARRatioMetricSystem() {
+        return ratioMetricSystem;
+    }
+
+    public void setARRatioMetricSystem(int metricSystem) {
+        ratioMetricSystem = metricSystem;
+        showSnackbar();
+    }
+
+    private float getUnitConversion() {
+        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS) &&
+                ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+            return EuclidianView3D.FROM_CM_TO_INCH;
+        } else {
+            return 1;
+        }
     }
 }
