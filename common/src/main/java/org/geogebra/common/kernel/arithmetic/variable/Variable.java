@@ -111,11 +111,11 @@ public class Variable extends ValidExpression {
 							  SymbolicMode mode) {
 		switch (mode) {
 			case SYMBOLIC:
-				return resolveForSymbolic();
+				return newGeoDummyVariable();
 			case SYMBOLIC_AV:
-				return resolveForSymbolicAv(allowAutoCreateGeoElement);
+				return lookupLabel(allowAutoCreateGeoElement, mode);
 			case NONE:
-				GeoElement resolvedElement = resolveForNonSymbolic(allowAutoCreateGeoElement);
+				GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
 				if (resolvedElement != null || !throwError) {
 					return resolvedElement;
 				}
@@ -125,20 +125,12 @@ public class Variable extends ValidExpression {
 		throw new MyParseError(localization, "UndefinedVariable", name);
 	}
 
-	private GeoElement resolveForSymbolic() {
+	private GeoElement newGeoDummyVariable() {
 		return new GeoDummyVariable(kernel.getConstruction(), name);
 	}
 
-	private GeoElement resolveForSymbolicAv(boolean allowAutoCreateGeoElement) {
-		GeoElement resolvedElement = resolveForNonSymbolic(allowAutoCreateGeoElement);
-		if (resolvedElement != null) {
-			return resolvedElement;
-		}
-		return resolveForSymbolic();
-	}
-
-	private GeoElement resolveForNonSymbolic(boolean allowAutoCreateGeoElement) {
-		return kernel.lookupLabel(name, allowAutoCreateGeoElement, SymbolicMode.NONE);
+	private GeoElement lookupLabel(boolean allowAutoCreateGeoElement, SymbolicMode symbolicMode) {
+		return kernel.lookupLabel(name, allowAutoCreateGeoElement, symbolicMode);
 	}
 
 	/**
@@ -159,8 +151,14 @@ public class Variable extends ValidExpression {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
 			}
-			ExpressionValue ret = replacement(name);
-			return ret instanceof Variable ? resolve(true, mode) : ret;
+			ExpressionValue replacement = replacement(name);
+			if (isReplacementValid(replacement)) {
+				return replacement;
+			}
+			if (mode == SymbolicMode.SYMBOLIC_AV) {
+				return new GeoDummyVariable(kernel.getConstruction(), name);
+			}
+			return resolve(true, mode);
 		}
 
 		// spreadsheet dollar sign reference
@@ -186,6 +184,10 @@ public class Variable extends ValidExpression {
 
 		// standard case: no dollar sign
 		return geo;
+	}
+
+	private boolean isReplacementValid(ExpressionValue replacement) {
+		return (replacement instanceof Variable);
 	}
 
 	/**

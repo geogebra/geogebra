@@ -12,8 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.HashSet;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -124,4 +128,10 @@ public class FunctionVariable extends MyDouble {
 		return false;
 	}
 
+	@Override
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+		HashSet<GeoElement> variables = new HashSet<>();
+		variables.add(new GeoDummyVariable(kernel.getConstruction(), varStr));
+		return variables;
+	}
 }
