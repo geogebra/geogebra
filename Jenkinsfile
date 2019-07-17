@@ -32,4 +32,18 @@ pipeline {
             }
         }
     }
+    post {
+        failure {
+            slackSend(color: '#FF0000', tokenCredentialId: 'slack.token', username: 'jenkins',
+                message:  "Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        unstable {
+            slackSend(color: '#FFFF00', tokenCredentialId: 'slack.token', username: 'jenkins',
+                message:  "Unstable: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        fixed {
+            slackSend(color: '#00FF00', tokenCredentialId: 'slack.token', username: 'jenkins',
+                message:  "Back to normal: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
 }
