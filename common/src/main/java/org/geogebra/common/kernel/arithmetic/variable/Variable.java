@@ -187,7 +187,7 @@ public class Variable extends ValidExpression {
 	}
 
 	private boolean isReplacementValid(ExpressionValue replacement) {
-		return (replacement instanceof Variable);
+		return !(replacement instanceof Variable);
 	}
 
 	/**
