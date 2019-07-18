@@ -185,7 +185,12 @@ public class MyError extends Error {
 		if ("InvalidInput".equals(ret)) {
 			return "Please check your input";
 		}
-
+		if ("InvalidFunction".equals(ret)) {
+			return "Invalid function:\n" + "Please enter an explicit function in x";
+		}
+		if ("UnbalancedBrackets".equals(ret)) {
+			return "Unbalanced brackets";
+		}
 		return ret;
 	}
 
