@@ -2266,6 +2266,7 @@ __GGB__keysVar["lt"].menu = {
     "NotAvailable": "Neleistina",
     "NotIncluded": "ne\u012ftraukta",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Nulin\u0117 hipotez\u0117",
     "NullHypothesis.short": "Nulis",
     "Number": "Skai\u010dius",

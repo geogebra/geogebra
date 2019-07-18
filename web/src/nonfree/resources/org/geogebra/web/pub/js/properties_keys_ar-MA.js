@@ -2266,6 +2266,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "NotAvailable": "\u063a\u064a\u0631 \u0645\u062a\u0648\u0641\u0631",
     "NotIncluded": "\u063a\u064a\u0631 \u0645\u062d\u062a\u0648\u0627\u062a \u0641\u064a",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "\u0627\u0644\u0641\u0631\u0636\u064a\u0629 \u0627\u0644\u0645\u0646\u0639\u062f\u0645\u0629",
     "NullHypothesis.short": "\u0645\u0646\u0639\u062f\u0645\u0629",
     "Number": "\u0639\u062f\u062f",

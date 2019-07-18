@@ -2266,6 +2266,7 @@ __GGB__keysVar["nl"].menu = {
     "NotAvailable": "Niet beschikbaar",
     "NotIncluded": "niet inbegrepen",
     "NotSharedLinkHelpTxt": "Priv\xe9, niet gedeeld",
+    "Notes": "Notes",
     "NullHypothesis": "Nul hypothese",
     "NullHypothesis.short": "Nul",
     "Number": "Getal",

@@ -2266,6 +2266,7 @@ __GGB__keysVar["et"].menu = {
     "NotAvailable": "Pole k\xe4ttesaadav",
     "NotIncluded": "pole kaasa arvatud",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Nullh\xfcpotees",
     "NullHypothesis.short": "Null",
     "Number": "Arv",

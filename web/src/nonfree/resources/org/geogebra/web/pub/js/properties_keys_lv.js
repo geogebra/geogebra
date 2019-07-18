@@ -2266,6 +2266,7 @@ __GGB__keysVar["lv"].menu = {
     "NotAvailable": "Nav Pieejams",
     "NotIncluded": "nav iek\u013cauts",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Nulles Hipot\u0113ze",
     "NullHypothesis.short": "Nulle",
     "Number": "Skaitlis",

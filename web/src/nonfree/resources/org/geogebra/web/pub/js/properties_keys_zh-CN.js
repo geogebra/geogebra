@@ -2266,6 +2266,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "NotAvailable": "\u4e0d\u53ef\u7528",
     "NotIncluded": "\u4e0d\u5305\u542b",
     "NotSharedLinkHelpTxt": "\u79c1\u6709, \u672a\u5171\u4eab",
+    "Notes": "\u7b14\u8bb0",
     "NullHypothesis": "\u865a\u65e0\u5047\u8bbe",
     "NullHypothesis.short": "\u865a\u65e0\u5047\u8bbe",
     "Number": "\u6570\u5b57",

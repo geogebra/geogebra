@@ -2266,6 +2266,7 @@ __GGB__keysVar["is"].menu = {
     "NotAvailable": "Ekki til",
     "NotIncluded": "ekki innifali\xf0",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "N\xfalltilg\xe1ta",
     "NullHypothesis.short": "N\xfalltilg\xe1ta",
     "Number": "Tala",

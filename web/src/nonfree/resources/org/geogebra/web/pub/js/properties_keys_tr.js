@@ -2266,6 +2266,7 @@ __GGB__keysVar["tr"].menu = {
     "NotAvailable": "Mevcut de\u011fil",
     "NotIncluded": "dahil de\u011fil",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Bo\u015f Hipotez",
     "NullHypothesis.short": "Bo\u015f",
     "Number": "Say\u0131",

@@ -2266,6 +2266,7 @@ __GGB__keysVar["eo"].menu = {
     "NotAvailable": "Ne disponebla",
     "NotIncluded": "not included",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Nulhipotezo",
     "NullHypothesis.short": "Nula",
     "Number": "Nombro",

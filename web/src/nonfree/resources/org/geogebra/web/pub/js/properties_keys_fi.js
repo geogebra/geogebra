@@ -2266,6 +2266,7 @@ __GGB__keysVar["fi"].menu = {
     "NotAvailable": "Ei saatavilla",
     "NotIncluded": "ei sis\xe4lly",
     "NotSharedLinkHelpTxt": "Yksityinen, ei jaettu",
+    "Notes": "Notes",
     "NullHypothesis": "Nollahypoteesi",
     "NullHypothesis.short": "Nolla",
     "Number": "Numero",

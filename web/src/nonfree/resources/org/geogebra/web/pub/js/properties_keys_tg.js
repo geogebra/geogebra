@@ -2266,6 +2266,7 @@ __GGB__keysVar["tg"].menu = {
     "NotAvailable": "Not Available",
     "NotIncluded": "not included",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Null Hypothesis",
     "NullHypothesis.short": "Null",
     "Number": "Number",

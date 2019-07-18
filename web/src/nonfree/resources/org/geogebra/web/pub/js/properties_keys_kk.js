@@ -2266,6 +2266,7 @@ __GGB__keysVar["kk"].menu = {
     "NotAvailable": "\u049a\u0430\u0431\u044b\u043b\u0434\u0430\u043d\u0431\u0430\u0439\u0434\u044b",
     "NotIncluded": "\u043a\u0456\u0440\u043c\u0435\u0439\u0434\u0456",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "\u041d\u0443\u043b\u044c \u0442\u04b1\u0436\u044b\u0440\u044b\u043c\u044b",
     "NullHypothesis.short": "\u041d\u0443\u043b\u044c",
     "Number": "\u0421\u0430\u043d",

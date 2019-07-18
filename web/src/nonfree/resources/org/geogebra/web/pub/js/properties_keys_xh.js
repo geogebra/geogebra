@@ -2266,6 +2266,7 @@ __GGB__keysVar["xh"].menu = {
     "NotAvailable": "Ayifumaneki",
     "NotIncluded": "Ayifakwanga",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "iNull Hypothesis",
     "NullHypothesis.short": "eNgekhoyo",
     "Number": "iNani",

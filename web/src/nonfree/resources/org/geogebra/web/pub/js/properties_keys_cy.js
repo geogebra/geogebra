@@ -2266,6 +2266,7 @@ __GGB__keysVar["cy"].menu = {
     "NotAvailable": "Nid yw ar gael",
     "NotIncluded": "nid yw hwn wedi ei gynnwys",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Rhagdybiaeth Nwl",
     "NullHypothesis.short": "Nwl",
     "Number": "Rhif",

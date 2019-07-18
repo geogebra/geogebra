@@ -2266,6 +2266,7 @@ __GGB__keysVar["sq"].menu = {
     "NotAvailable": "Jo ne Dispozicion",
     "NotIncluded": "jo perfshire",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Hipoteza Zero",
     "NullHypothesis.short": "Zero",
     "Number": "Numer",

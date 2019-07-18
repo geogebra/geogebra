@@ -2266,6 +2266,7 @@ __GGB__keysVar["pl"].menu = {
     "NotAvailable": "Niedost\u0119pny",
     "NotIncluded": "nie zawiera",
     "NotSharedLinkHelpTxt": "Prywatny, nieudost\u0119pniony",
+    "Notes": "Notes",
     "NullHypothesis": "Hipoteza zerowa",
     "NullHypothesis.short": "Zero",
     "Number": "Liczba",

@@ -2266,6 +2266,7 @@ __GGB__keysVar["th"].menu = {
     "NotAvailable": "\u0e44\u0e21\u0e48\u0e21\u0e35\u0e2d\u0e22\u0e39\u0e48",
     "NotIncluded": "\u0e44\u0e21\u0e48\u0e23\u0e27\u0e21\u0e2d\u0e22\u0e39\u0e48\u0e14\u0e49\u0e27\u0e22",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "\u0e2a\u0e21\u0e21\u0e15\u0e34\u0e10\u0e32\u0e19\u0e27\u0e48\u0e32\u0e07",
     "NullHypothesis.short": "\u0e27\u0e48\u0e32\u0e07",
     "Number": "\u0e08\u0e33\u0e19\u0e27\u0e19",

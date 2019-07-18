@@ -2266,6 +2266,7 @@ __GGB__keysVar["sr"].menu = {
     "NotAvailable": "Nije dostupno",
     "NotIncluded": "nije uklju\u010deno",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Nulta hipoteza",
     "NullHypothesis.short": "Null",
     "Number": "Broj",

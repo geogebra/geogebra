@@ -2266,6 +2266,7 @@ __GGB__keysVar["eu"].menu = {
     "NotAvailable": "Erabilezina",
     "NotIncluded": "ez sartua",
     "NotSharedLinkHelpTxt": "Pribatua, partekatu gabe",
+    "Notes": "Notes",
     "NullHypothesis": "Hipotesi Nulua",
     "NullHypothesis.short": "Nulua",
     "Number": "Zenbakia",

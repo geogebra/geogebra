@@ -2266,6 +2266,7 @@ __GGB__keysVar["hu"].menu = {
     "NotAvailable": "Nem el\xe9rhet\u0151",
     "NotIncluded": "Nem tartalmazott",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Nullhipot\xe9zis",
     "NullHypothesis.short": "Null",
     "Number": "Sz\xe1m",

@@ -2266,6 +2266,7 @@ __GGB__keysVar["sl"].menu = {
     "NotAvailable": "Ni na voljo",
     "NotIncluded": "ni vklju\u010deno",
     "NotSharedLinkHelpTxt": "Zasebno, ni deljenja",
+    "Notes": "Notes",
     "NullHypothesis": "Ni\u010delna hipoteza",
     "NullHypothesis.short": "NH",
     "Number": "\u0160tevilo",

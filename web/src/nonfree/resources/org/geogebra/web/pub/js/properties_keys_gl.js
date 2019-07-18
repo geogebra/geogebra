@@ -2266,6 +2266,7 @@ __GGB__keysVar["gl"].menu = {
     "NotAvailable": "Non dispo\xf1ible",
     "NotIncluded": "non inclu\xeddo",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Hip\xf3tese nula",
     "NullHypothesis.short": "Nulo",
     "Number": "N\xfamero",

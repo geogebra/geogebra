@@ -2266,6 +2266,7 @@ __GGB__keysVar["id"].menu = {
     "NotAvailable": "Tidak tersedia",
     "NotIncluded": "tidak dimasukan",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Hipotesis Nol",
     "NullHypothesis.short": "Nol",
     "Number": "Angka",

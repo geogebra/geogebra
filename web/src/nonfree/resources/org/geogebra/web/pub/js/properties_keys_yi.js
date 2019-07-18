@@ -2266,6 +2266,7 @@ __GGB__keysVar["yi"].menu = {
     "NotAvailable": "\u05e0\u05d9\u05e9\u05d8 \u05e6\u05d5\u05d8\u05e8\u05d9\u05d8\u05dc\u05e2\u05da",
     "NotIncluded": "\u05d2\u05e2\u05d4\u05e2\u05e8\u05d8 \u05e0\u05d9\u05e9\u05d8 \u05e6\u05d5",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "\u05e0\u05d5\u05dc\u05be\u05d4\u05e0\u05d7\u05d4",
     "NullHypothesis.short": "\u05e0\u05d5\u05dc",
     "Number": "\u05e6\u05d0\u05b8\u05dc",
