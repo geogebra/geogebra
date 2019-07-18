@@ -542,6 +542,7 @@ public abstract class Localization {
 		}
 
 		if (!found) {
+
 			/*
 			 * If no parameters were found in key, this key is missing for some
 			 * reason (maybe it is not added to the ggbtrans database yet). In

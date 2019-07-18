@@ -304,6 +304,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	private boolean mIsAREnabled;
 	private Target target;
 
+	// AR Ratio
+	final public static int RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS = 1;
+	final public static int RATIO_UNIT_INCHES = 2;
+	final public static float FROM_INCH_TO_CM = 2.54f;
+	final public static float FROM_CM_TO_INCH = 0.393700787f;
+
 	/**
 	 * common constructor
 	 *

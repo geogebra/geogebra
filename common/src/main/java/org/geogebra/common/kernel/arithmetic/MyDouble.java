@@ -947,7 +947,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	final public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		return null;
 	}
 
@@ -1176,7 +1176,9 @@ public class MyDouble extends ValidExpression
 
 	@Override
 	public int hashCode() {
-		return Double.hashCode(val);
+		// like Double.hashCode, but Android compatible
+		long bits = Double.doubleToLongBits(val);
+		return (int) (bits ^ (bits >>> 32));
 	}
 
 	@Override

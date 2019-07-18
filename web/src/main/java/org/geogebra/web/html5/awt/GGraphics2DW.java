@@ -509,12 +509,18 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public int getOffsetWidth() {
+		if (canvas == null) {
+			return canvasWidth;
+		}
 		int width = canvas.getOffsetWidth();
 		return width == 0 ? canvasWidth : width;
 	}
 
 	@Override
 	public int getOffsetHeight() {
+		if (canvas == null) {
+			return canvasHeight;
+		}
 		int height = canvas.getOffsetHeight();
 		return height == 0 ? canvasHeight : height;
 	}
@@ -905,17 +911,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 			return;
 		}
 		try {
-			if (bi.hasCanvas()) {
-				if (bi.getCanvas().getCoordinateSpaceWidth() > 0) {
-					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
-						bi.getCanvas().getCoordinateSpaceWidth(),
-						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
-							checkSize(bi.getCanvas().getCoordinateSpaceWidth(),
-									bi, getCoordinateSpaceWidth()),
-							checkSize(bi.getCanvas().getCoordinateSpaceHeight(),
-									bi, getCoordinateSpaceHeight()));
-				}
+			if (bi.hasCanvas() && canvas != null) {
+				int width = bi.getCanvas().getCoordinateSpaceWidth();
+				int height = bi.getCanvas().getCoordinateSpaceHeight();
+
 				// zero width canvas throws error in FF
+				if (width > 0) {
+					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0, width, height, x, y,
+							checkSize(width, bi, getCoordinateSpaceWidth()),
+							checkSize(height, bi, getCoordinateSpaceHeight()));
+				}
 			} else {
 				context.drawImage(bi.getImageElement(), 0, 0, bi.getWidth(),
 						bi.getHeight(), x, y, this.getOffsetWidth(),

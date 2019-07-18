@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.inputfield;
 
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,14 +9,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
@@ -1045,6 +1043,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void prepareShowSymbolButton(boolean b) {
 		this.setShowSymbolTableIcon(b);
+	}
+
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
+		drawBounds(g2, bgColor, ((int)bounds.getX()), ((int)bounds.getY()),
+				((int)bounds.getWidth()), ((int)bounds.getHeight()));
 	}
 
 	@Override

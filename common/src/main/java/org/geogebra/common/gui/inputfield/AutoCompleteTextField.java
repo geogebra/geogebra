@@ -3,6 +3,7 @@ package org.geogebra.common.gui.inputfield;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -92,4 +93,6 @@ public interface AutoCompleteTextField
 	 * @param text to read.
 	 */
 	void setAuralText(String text);
+
+	void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle inputFieldBounds);
 }

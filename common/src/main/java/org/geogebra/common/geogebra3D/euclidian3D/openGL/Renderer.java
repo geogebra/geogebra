@@ -2204,6 +2204,19 @@ public abstract class Renderer {
 		return null;
 	}
 
+	/**
+	 * set AR ratio
+	 *
+	 * @param ratio
+	 *            new ratio for AR
+	 */
+	public void setARRatio(double ratio) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatio(ratio);
+		}
+	}
+
     /**
      *
      * @return ar ratio units (can be null)
@@ -2215,4 +2228,28 @@ public abstract class Renderer {
         }
         return null;
     }
+
+	/**
+	 *
+	 * @return ar ratio metric system (cm or inch)
+	 */
+    public int getARRatioMetricSystem() {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return arManager.getARRatioMetricSystem();
+		}
+		return 0;
+	}
+
+	/**
+	 *
+	 * @param metricSystem
+	 *                  ar ratio metric system (cm or inch)
+	 */
+	public void setARRatioMetricSystem(int metricSystem) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatioMetricSystem(metricSystem);
+		}
+	}
 }

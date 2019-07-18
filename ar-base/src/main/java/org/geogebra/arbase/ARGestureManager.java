@@ -35,6 +35,10 @@ abstract public class ARGestureManager{
         return mScaleFactor;
     }
 
+    synchronized public void resetScaleFactor() {
+        mScaleFactor = 1;
+    }
+
     synchronized public void copyXYPosition(Coords ret) {
         ret.setX(mPos.getX());
         ret.setY(mPos.getY());
