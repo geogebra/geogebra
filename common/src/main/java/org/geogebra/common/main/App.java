@@ -76,6 +76,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
@@ -1701,6 +1702,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return;
 		}
 		getErrorHandler().showCommandError(command, message);
+	}
+
+	/**
+	 * Show localized message for an error.
+	 * 
+	 * @param key   main error
+	 * @param error extra information
+	 */
+	public void showError(Errors key, String error) {
+		showError(key.getError(getLocalization()), error);
 	}
 
 	/**

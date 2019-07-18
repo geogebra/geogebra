@@ -109,9 +109,9 @@ public class MyError extends Error {
 	 * @param rt
 	 *            right expression
 	 */
-	public MyError(Localization loc0, String message, ExpressionValue lt,
+	public MyError(Localization loc0, String message0, ExpressionValue lt,
 			String opname, ExpressionValue rt) {
-		super(message);
+		super(message0);
 		this.loc = loc0;
 
 		strs = new String[3];
@@ -168,7 +168,9 @@ public class MyError extends Error {
 		
 		// using new Errors enum
 		if (message != null) {
-			return message.getError(loc, strs);
+			String ret = message.getError(loc, strs);
+			strs = new String[0];
+			return ret;
 		}
 		
 		// using old string method
@@ -276,16 +278,26 @@ public class MyError extends Error {
 		}
 
 		public String getError(Localization loc, String[] strs) {
-			String ret = null;
+			StringBuilder sb = new StringBuilder();
 			if (loc != null) {
-				ret = loc.getError(key);
+				sb.append(loc.getError(key));
 			}
 
-			if (ret == null || key.equals(ret)) {
-				ret = defaultTranslation;
+			if (sb.length() == 0 || sb.toString().equals(key)) {
+				sb.setLength(0);
+				sb.append(defaultTranslation);
+
 			}
 
-			return ret;
+			if (strs != null) {
+				sb.append(" \n");
+				for (String part : strs) {
+					sb.append(part);
+					sb.append(" ");
+				}
+			}
+
+			return sb.toString();
 		}
 
 		public String getError(Localization loc) {
