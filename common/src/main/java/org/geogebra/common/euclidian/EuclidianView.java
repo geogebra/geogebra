@@ -6610,16 +6610,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
         // settings should have been reset before
         settingsChanged(getSettings());
     }
-    
-    public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+
+	/**
+	 * Attaches a symbolic-capable editor to the input box
+	 * @param geoInputBox
+	 * 			the input box to attach
+	 * @param bounds
+	 * 			where the editor should be attached to.
+	 */
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
     	if (symbolicEditor == null) {
 			symbolicEditor = createSymbolicEditor();
 		}
     	symbolicEditor.attach(geoInputBox, bounds);
 	}
 
-	protected SymbolicEditor createSymbolicEditor() {return null;}
+	/**
+	 * Creates the symbolic editor by platform
+	 *
+	 * @return the symbolic editor instance.
+	 */
+	protected SymbolicEditor createSymbolicEditor() {
+		return null;
+	}
 
+	/**
+	 * Hides the symbolic editor of EV input fields
+	 */
 	public void hideSymbolicEditor() {
     	if (symbolicEditor == null) {
     		return;

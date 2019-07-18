@@ -17,7 +17,9 @@ public abstract class SymbolicEditor {
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
 	}
 
-	protected void createMathField() {}
+	protected void createMathField() {
+		// implement this in descendants.
+	}
 
 	public void hide() {
 	}

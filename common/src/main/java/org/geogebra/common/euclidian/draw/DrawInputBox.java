@@ -360,6 +360,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 					boxLeft, boxTop, boxWidth, boxHeight);
 		}
 	}
+
 	/**
 	 * Draw outline and the text on the canvas.
 	 */
@@ -615,6 +616,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 
 	}
+
 	private void hideSymbolicField() {
 		view.hideSymbolicEditor();
 	}

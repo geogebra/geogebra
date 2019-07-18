@@ -30,7 +30,6 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 	private int fontSize;
 	private static final int PADDING_TOP = 16;
 	private static final int PADDING_LEFT = 4;
-	private GeoInputBox geoInputBox;
 
 	SymbolicEditorW(App app)  {
 		super();
@@ -50,7 +49,6 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		mathField.setText(geoInputBox.getTextForEditor(), false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
-		this.geoInputBox = geoInputBox;
 	}
 
 	@Override
@@ -65,32 +63,34 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		main.add(mathField);
 	}
 
+	@Override
 	public void hide() {
 		main.addStyleName("hidden");
 	}
 
 	@Override
 	public void onEnter() {
+		// TODO: implement this.
 	}
 
 	@Override
 	public void onKeyTyped() {
-
+		// TODO: implement this.
 	}
 
 	@Override
 	public void onCursorMove() {
-
+		// TODO: implement this.
 	}
 
 	@Override
 	public void onUpKeyPressed() {
-
+		// TODO: implement this.
 	}
 
 	@Override
 	public void onDownKeyPressed() {
-
+		// TODO: implement this.
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 
 	@Override
 	public void onInsertString() {
-
+		// TODO: implement this.
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 
 	@Override
 	public void onTab(boolean shiftDown) {
-
+		// TODO: implement this.
 	}
 
 	@Override

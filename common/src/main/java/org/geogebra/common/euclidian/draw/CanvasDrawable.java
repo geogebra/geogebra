@@ -275,10 +275,18 @@ public abstract class CanvasDrawable extends Drawable {
 		int bottom = top + boxHeight;
 		return x > left && x < right && y > top && y < bottom;
 	}
+
+	/**
+	 *
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @return if label rectangle was hit by (x, y) pointer.
+	 */
 	protected boolean hitLabelBounds(int x, int y) {
 		return x > xLabel && x < xLabel + labelSize.x && y > yLabel
 				&& y < yLabel + labelSize.y;
 	}
+
 	/**
 	 * @return font for label
 	 */

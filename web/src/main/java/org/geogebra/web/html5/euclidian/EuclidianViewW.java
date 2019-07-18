@@ -88,7 +88,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Web implementation of graphics view
@@ -161,8 +160,6 @@ public class EuclidianViewW extends EuclidianView implements
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
-	private FlowPanel inputBoxEditor;
-	private MathFieldW mf;
 
 	/**
 	 * @param euclidianViewPanel

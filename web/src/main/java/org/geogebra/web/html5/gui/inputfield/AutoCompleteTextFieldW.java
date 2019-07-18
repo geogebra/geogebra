@@ -1710,10 +1710,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			removeDummyCursor();
 		}
 	}
+
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
-		drawBounds(g2, bgColor, ((int)bounds.getX()), ((int)bounds.getY()),
-				((int)bounds.getWidth()), ((int)bounds.getHeight()));
+		drawBounds(g2, bgColor, ((int) bounds.getX()), ((int) bounds.getY()),
+				((int) bounds.getWidth()), ((int) bounds.getHeight()));
 	}
 
 	@Override

@@ -112,6 +112,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private String toLaTex(GeoElementND geo) {
 		return geo.toLaTeXString(symbolicMode, StringTemplate.latexTemplate);
 	}
+
 	/**
 	 * Returns the linked geo
 	 *
@@ -386,10 +387,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (canLinkedGeoBeSybolic() && linkedGeo.isGeoNumeric()) {
 			GeoNumeric evaluatedNumber = new GeoNumeric(kernel.getConstruction());
 			kernel.getAlgebraProcessor().evaluateToDouble(text, true, evaluatedNumber);
-			if (getNonSymbolicNumberValue(linkedGeo).
-					equals(getNonSymbolicNumberValue(evaluatedNumber))) {
-				return true;
-			}
+			return getNonSymbolicNumberValue(linkedGeo)
+					.equals(getNonSymbolicNumberValue(evaluatedNumber));
 		}
 
 		return false;
@@ -399,8 +398,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (!geo.isGeoNumeric()) {
 			return null;
 		}
-		return ((GeoNumeric)geo).toValueStringMinimal();
+		return ((GeoNumeric) geo).toValueStringMinimal();
 	}
+
 	private void showError() {
 		kernel.getApplication()
 				.showError(kernel.getApplication().getLocalization()
@@ -616,6 +616,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
 	}
 
+	/**
+	 *
+	 * @return text to edit.
+	 */
 	public String getTextForEditor() {
 		if (!isSymbolicMode()) {
 			return getText();
@@ -630,7 +634,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	private String getSymbolicNumberText() {
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return symbolicMode ? toLaTex(number): number.toValueStringMinimal();
+		return symbolicMode ? toLaTex(number) : number.toValueStringMinimal();
 	}
 
 	private String getLinkedGeoTextForEditor() {
