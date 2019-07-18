@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Checkbox
@@ -80,7 +79,7 @@ public class CmdCheckbox extends CommandProcessor {
 
 		if (!geo.isGeoBoolean()) {
 			// invalid input
-			app.showError(Errors.InvalidInput,
+			app.showError("InvalidInput",
 					label + " = " + c.toString(StringTemplate.defaultTemplate));
 			return new GeoElement[] { null };
 		}
