@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 
 public final class StepConstant extends StepExpression {
@@ -31,7 +32,7 @@ public final class StepConstant extends StepExpression {
 
 	@Override
 	public int hashCode() {
-		return Double.hashCode(value);
+		return DoubleUtil.hashCode(value);
 	}
 
 	@Override

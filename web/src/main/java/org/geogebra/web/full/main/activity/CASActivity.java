@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -39,6 +40,8 @@ public class CASActivity extends BaseActivity {
 	@Override
 	public void start(AppW app) {
 		app.getKernel().getGeoGebraCAS().initCurrentCAS();
+		app.getKernel().getAlgebraProcessor()
+				.addCommandNameFilter(CommandNameFilterFactory.createCasCommandNameFilter());
 	}
 
 }

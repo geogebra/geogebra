@@ -1,9 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.geogebra.common.main.Localization;
 
@@ -103,12 +100,20 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 		}
 
 		if (isSetOperation(SetOperation.INTERSECT) || isSetOperation(SetOperation.UNION)) {
-			operands.sort(new Comparator<StepLogical>() {
+			Collections.sort(operands, new Comparator<StepLogical>() {
 				@Override
 				public int compare(StepLogical o1, StepLogical o2) {
 					return o1.hashCode() - o2.hashCode();
 				}
 			});
+
+			/*
+			operands.sort(new Comparator<StepLogical>() {
+				@Override
+				public int compare(StepLogical o1, StepLogical o2) {
+					return o1.hashCode() - o2.hashCode();
+				}
+			});*/
 		}
 
 		return this;
