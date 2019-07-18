@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -1549,7 +1550,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return error for a,b where b is not a condition
 	 */
 	public MyError illegalCondition(ExpressionValue condition) {
-		return new MyError(getKernel().getLocalization(), "InvalidInput");
+		return new MyError(getKernel().getLocalization(), Errors.InvalidInput);
 	}
 
 }
