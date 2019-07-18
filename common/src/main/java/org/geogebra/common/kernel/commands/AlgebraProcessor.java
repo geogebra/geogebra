@@ -107,6 +107,7 @@ import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.Settings;
@@ -2242,8 +2243,8 @@ public class AlgebraProcessor {
 			return array(f);
 		}
 		f.remove();
-		throw new MyError(loc,
-				loc.getPlain("InvalidFunctionA", fun.getFunctionVariable().getSetVarString()));
+		throw new MyError(loc, Errors.InvalidFunctionA,
+				fun.getFunctionVariable().getSetVarString());
 
 	}
 

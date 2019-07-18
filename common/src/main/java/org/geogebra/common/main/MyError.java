@@ -33,6 +33,7 @@ public class MyError extends Error {
 	protected Localization loc;
 	private String[] strs;
 	private String commandName = null;
+	private Errors message;
 
 	/**
 	 * Creates new MyError
@@ -82,6 +83,18 @@ public class MyError extends Error {
 		this.loc = loc0;
 		// set localized message
 		this.strs = strs;
+	}
+
+	/**
+	 * @param loc0    localization
+	 * @param message primary message
+	 * @param strs    parts of the error (space separated)
+	 */
+	public MyError(Localization loc0, Errors message0, String... strs0) {
+		super(message0.key);
+		this.loc = loc0;
+		this.message = message0;
+		this.strs = strs0;
 	}
 	
 	/**
@@ -140,7 +153,7 @@ public class MyError extends Error {
 	public String getLocalizedMessage() {
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
-		sb.append(getError(getMessage()));
+		sb.append(getError());
 		if (strs != null) {
 			sb.append(" \n");
 			for (String part : strs) {
@@ -151,13 +164,24 @@ public class MyError extends Error {
 		return sb.toString();
 	}
 
+	private String getError() {
+		
+		// using new Errors enum
+		if (message != null) {
+			return message.getError(loc, strs);
+		}
+		
+		// using old string method
+		return getError(getMessage());
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(getClass().toString());
 		sb.append(": ");
-		sb.append(getError(getMessage()));
+		sb.append(getError());
 		if (strs != null) {
 			for (int i = 0; i < strs.length; i++) {
 				sb.append(" : ");
@@ -172,7 +196,7 @@ public class MyError extends Error {
 	 *            key
 	 * @return localized error
 	 */
-	protected String getError(String s) {
+	private String getError(String s) {
 		String ret = loc == null ? s : loc.getError(s);
 
 		// no loc, or running webSimple
@@ -191,10 +215,83 @@ public class MyError extends Error {
 		if ("UnbalancedBrackets".equals(ret)) {
 			return "Unbalanced brackets";
 		}
-		if (ret != null && ret.startsWith("InvalidFunctionA")) {
-			return ret.replace("InvalidFunctionA", "Please enter an explicit function in ");
-		}
+//		if (ret != null && ret.startsWith("InvalidFunctionA")) {
+//			return ret.replace("InvalidFunctionA", "Please enter an explicit function in ");
+//		}
 		return ret;
+	}
+
+	/**
+	 * 
+	 * Errors and default translations
+	 * 
+	 * (defaults needed eg in webSimple)
+	 *
+	 */
+	public enum Errors {
+
+		UndefinedVariable("UndefinedVariable", "Undefined variable"),
+
+		InvalidInput("InvalidInput", "Please check your input"),
+
+		UnbalancedBrackets("UnbalancedBrackets", "Unbalanced brackets"),
+
+		ReplaceFailed("ReplaceFailed", "Redefinition failed"),
+
+		InvalidFunction("InvalidFunction",
+				"Invalid function:\nPlease enter an explicit function in x"),
+
+		InvalidFunctionA("InvalidFunctionA",
+				"Invalid function:\nPlease enter an explicit function in %0") {
+			@Override
+			public String getError(Localization loc, String[] strs) {
+				String ret = null;
+				if (loc != null) {
+					ret = loc.getPlain(key, strs.length > 0 ? strs[0] : "x");
+				}
+
+				if (ret == null || ret.startsWith(key)) {
+					if (strs.length > 0) {
+						ret = defaultTranslation.replace("%0", strs[0]);
+					} else {
+						ret = InvalidFunction.defaultTranslation();
+					}
+				}
+
+				return ret;
+			}
+		};
+
+		String key;
+		String defaultTranslation;
+
+		Errors(String key0, String default0) {
+			key = key0;
+			defaultTranslation = default0;
+
+		};
+
+		protected String defaultTranslation() {
+			return defaultTranslation;
+		}
+
+		public String getError(Localization loc, String[] strs) {
+			String ret = null;
+			if (loc != null) {
+				ret = loc.getError(key);
+			}
+
+			if (ret == null || key.equals(ret)) {
+				ret = defaultTranslation;
+			}
+
+			return ret;
+		}
+
+		public String getError(Localization loc) {
+			return getError(loc, null);
+		}
+
 	}
 
 }
