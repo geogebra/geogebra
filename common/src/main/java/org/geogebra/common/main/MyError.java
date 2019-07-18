@@ -191,6 +191,9 @@ public class MyError extends Error {
 		if ("UnbalancedBrackets".equals(ret)) {
 			return "Unbalanced brackets";
 		}
+		if (ret != null && ret.startsWith("UnbalancedBracketsA")) {
+			return ret.replace("UnbalancedBracketsA", "Please enter an explicit function in ");
+		}
 		return ret;
 	}
 
