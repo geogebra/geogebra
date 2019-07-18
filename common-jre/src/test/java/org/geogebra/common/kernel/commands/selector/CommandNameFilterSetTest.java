@@ -22,7 +22,15 @@ public class CommandNameFilterSetTest extends BaseUnitTest {
 
 
     @Test
-    public void testCommandNameFilterTestIsAvailable() {
-        Assert.assertTrue(factory.isCommandAllowed(Commands.Delete));
+    public void T1() {
+        Assert.assertFalse(factory.isCommandAllowed(Commands.Delete));
+    }
+    @Test
+    public void T2() {
+        Assert.assertTrue(factory.isCommandAllowed(Commands.First));
+    }
+    @Test
+    public void T3() {
+        Assert.assertFalse(factory.isCommandAllowed(Commands.Intersect));
     }
 }
