@@ -34,16 +34,16 @@ pipeline {
     }
     post {
         failure {
-            slackSend(color: '#FF0000', tokenCredentialId: 'slack.token', username: 'jenkins',
-                message:  "Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend(color: 'danger', tokenCredentialId: 'slack.token', username: 'jenkins',
+                message:  "${env.JOB_NAME} [${env.BUILD_NUMBER}]: Build failed. (<${env.BUILD_URL}|Open>)")
         }
         unstable {
-            slackSend(color: '#FFFF00', tokenCredentialId: 'slack.token', username: 'jenkins',
-                message:  "Unstable: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend(color: 'warning', tokenCredentialId: 'slack.token', username: 'jenkins',
+                message:  "${env.JOB_NAME} [${env.BUILD_NUMBER}]: Unstable. (<${env.BUILD_URL}|Open>)")
         }
         fixed {
-            slackSend(color: '#00FF00', tokenCredentialId: 'slack.token', username: 'jenkins',
-                message:  "Back to normal: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            slackSend(color: 'good', tokenCredentialId: 'slack.token', username: 'jenkins',
+                message:  "${env.JOB_NAME} [${env.BUILD_NUMBER}]: Back to normal. (<${env.BUILD_URL}|Open>)")
         }
     }
 }
