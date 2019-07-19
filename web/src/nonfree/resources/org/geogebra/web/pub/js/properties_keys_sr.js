@@ -1619,7 +1619,7 @@ __GGB__keysVar["sr"].menu = {
     "DeleteARows": "Obri\u0161i %0 redove",
     "DeleteColumnA": "Delete Column %0",
     "DeleteColumnsAtoB": "Delete Columns %0 to %1",
-    "DeleteFailed": "Delete failed.",
+    "DeleteFailed": "Delete failed",
     "DeleteObjects": "Obri\u0161i objekte",
     "DeleteRowA": "Obri\u0161i red %0",
     "DeleteRowsAtoB": "Obri\u0161i redobe %0 do %1",

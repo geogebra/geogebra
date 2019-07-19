@@ -1619,7 +1619,7 @@ __GGB__keysVar["mk"].menu = {
     "DeleteARows": "Delete %0 rows",
     "DeleteColumnA": "Delete Column %0",
     "DeleteColumnsAtoB": "Delete Columns %0 to %1",
-    "DeleteFailed": "Delete failed.",
+    "DeleteFailed": "Delete failed",
     "DeleteObjects": "\u0418\u0437\u0431\u0440\u0438\u0448\u0438 \u043e\u0431\u0458\u0435\u043a\u0442\u0438",
     "DeleteRowA": "\u0418\u0437\u0431\u0440\u0438\u0448\u0438 \u0420\u0435\u0434 %0",
     "DeleteRowsAtoB": "\u0418\u0437\u0431\u0440\u0438\u0448\u0438 \u0420\u0435\u0434\u043e\u0432\u0438 %0 \u0434\u043e %1",

@@ -1619,7 +1619,7 @@ __GGB__keysVar["id"].menu = {
     "DeleteARows": "Delete %0 rows",
     "DeleteColumnA": "Delete Column %0",
     "DeleteColumnsAtoB": "Delete Columns %0 to %1",
-    "DeleteFailed": "Delete failed.",
+    "DeleteFailed": "Delete failed",
     "DeleteObjects": "Hapus Objek-objek",
     "DeleteRowA": "Hapus Baris %0",
     "DeleteRowsAtoB": "Hapus baris %0 hingga %1",

@@ -1619,7 +1619,7 @@ __GGB__keysVar["fil"].menu = {
     "DeleteARows": "Delete %0 rows",
     "DeleteColumnA": "Delete Column %0",
     "DeleteColumnsAtoB": "Delete Columns %0 to %1",
-    "DeleteFailed": "Delete failed.",
+    "DeleteFailed": "Delete failed",
     "DeleteObjects": "Delete Objects",
     "DeleteRowA": "Burahin ang hanay %0",
     "DeleteRowsAtoB": "Burahin ang mga hanay mula %0 hanggang %1",
