@@ -54,7 +54,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	public static final double TF_WIDTH_FACTOR = 0.81;
 
 	private static final int TF_MARGIN = 10;
-	private static final int MARGIN = 1;
+	private static final double MARGIN = 0.4;
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
@@ -351,9 +351,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private void calculateInputFieldBounds(GGraphics2D g2) {
 		if (geoInputBox.isSymbolicMode()) {
 			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
-			int inputHeigth = latexDimension.getHeight() + getSymbolicMargin(g2);
+			int marginTop = getSymbolicMargin(g2);
+			int inputHeigth = latexDimension.getHeight() + marginTop;
+			int top = TF_MARGIN + marginTop + yLabel - inputHeigth / 2;
 			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
-					boxLeft, boxTop - inputHeigth/4,
+					boxLeft, top,
 					Math.max(boxWidth, latexDimension.getWidth()),
 					 inputHeigth);
 		} else {
@@ -363,7 +365,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private int getSymbolicMargin(GGraphics2D g2)  {
-		return MARGIN * g2.getFont().getSize();
+		return (int) Math.round(MARGIN * g2.getFont().getSize());
 	}
 	/**
 	 * Draw outline and the text on the canvas.
