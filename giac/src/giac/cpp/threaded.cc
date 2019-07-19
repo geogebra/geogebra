@@ -2850,7 +2850,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      for (int j=0;j<=e;++j){
 		index_t::reverse_iterator it=vzero.rbegin(),itend=vzero.rend();
 		vector<int> line;
-		line.reserve(e+1); // overflow if modulo too large
+		line.reserve(e+1); // overflow if modulo too large 
 		for (int p=alphav[j],pp=1;it!=itend;++it,pp=smod(p*pp,modulo)){
 		  if (*it)
 		    line.push_back(pp);
@@ -2879,13 +2879,19 @@ mpz_class smod(const mpz_class & a,int reduce){
 		size_t taille2=0;
 		for (int j=0;j<=e;++j){
 		  for (int k=0;k<=e;++k){
+#if 1
 		    tmpmult=gcdv[k];
 		    smallmult(minverse[j][k],tmpmult,tmpmult,modulo);
 		    tmpadd.swap(minversegcd[j]);
 		    smalladd(tmpadd,tmpmult,minversegcd[j],modulo);
+#else
+		    vector< T_unsigned<int,hashgcd_U> > tmp(gcdv[k]);
+		    smallmult(minverse[j][k],tmp,tmp,modulo);
+		    smalladd(minversegcd[j],tmp,minversegcd[j],modulo);
+#endif
 		    // CERR << minversegcd[j] << endl;
 		  }
-		  taille2 += minversegcd[j].size();
+		  taille2 += minversegcd[j].size(); 
 		}
 		vector< T_unsigned<int,hashgcd_U> > trygcd,pquo,qquo,tmprem;
 		trygcd.reserve(taille2);
@@ -2896,8 +2902,12 @@ mpz_class smod(const mpz_class & a,int reduce){
 		  if (!*it)
 		    continue;
 		  smallshift(minversegcd[j],deg*var2,minversegcd[j]);
+#if 1
 		  tmprem.swap(trygcd);
 		  smalladd(tmprem,minversegcd[j],trygcd,modulo);
+#else
+		  smalladd(trygcd,minversegcd[j],trygcd,modulo);
+#endif
 		  ++j;
 		}
 		// Check if trygcd is the gcd!
