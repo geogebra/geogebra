@@ -348,7 +348,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void calculateInputFieldBounds(GGraphics2D g2) {
-		if (geoInputBox.isSymbolicMode()) {
+		if (geoInputBox.isSymbolicAndCompound()) {
 			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
 			int h2 = (latexDimension.getHeight() - labelSize.y) / 2;
 			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
@@ -383,7 +383,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		String text = getGeoInputBox().getText();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 		g2.setPaint(geo.getObjectColor());
-		if (geoInputBox.isSymbolicMode()) {
+		if (geoInputBox.isSymbolicAndCompound()) {
 			drawSymbolicValue(g2, text);
 		} else {
 			int textBottom = boxTop + getTextBottom();

@@ -1,5 +1,5 @@
 @import 'colors';
-	
+
 .GeoGebraFrame {
 	$always_on_top: 60;
 	
@@ -18,7 +18,7 @@
 	.button.flatButton.graphicsContextMenuBtn.button-up {
 		margin-top: 10px;
 		margin-right: 10px;	
-		position: relative;
+	    position: relative;
 		right: 0px;
 		border-radius: 50%;
 		transition: background-color 150ms ease 0ms;
