@@ -367,6 +367,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private int getSymbolicMargin(GGraphics2D g2)  {
 		return (int) Math.round(MARGIN * g2.getFont().getSize());
 	}
+
 	/**
 	 * Draw outline and the text on the canvas.
 	 */
