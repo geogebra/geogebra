@@ -1175,7 +1175,7 @@ __GGB__keysVar["en-GB"].error = {
     "LabelAlreadyUsed": "This label is already used.",
     "LoadFileFailed": "Opening file failed",
     "NameUsed": "This label is already in use",
-    "NotAuthorized": "Not authorized",
+    "NotAuthorized": "Not authorised",
     "NumberExpected": "Number expected",
     "PasteImageFailed": "Sorry - couldn't paste bitmap from the clipboard",
     "RenameFailed": "Rename failed",
