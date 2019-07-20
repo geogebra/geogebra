@@ -72,6 +72,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -1352,7 +1353,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			} catch (Exception e) {
 				getApp().setDefaultCursor();
 				e.printStackTrace();
-				getApp().localizeAndShowError("PasteImageFailed");
+				getApp().showError(Errors.PasteImageFailed);
 				return null;
 			}
 		}
@@ -1617,7 +1618,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
-			getApp().localizeAndShowError("LoadFileFailed");
+			getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
 
@@ -1712,7 +1713,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
-			getApp().localizeAndShowError("LoadFileFailed");
+			getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
 
@@ -2631,7 +2632,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 					+ " " + page + " " + type);
-			getApp().localizeAndShowError(e.getMessage());
+			getApp().showError(e.getMessage());
 			e.printStackTrace();
 		}
 	}

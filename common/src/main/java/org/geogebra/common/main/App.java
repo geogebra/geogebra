@@ -1715,11 +1715,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Show localized message for an error.
+	 * 
+	 * @param key main error
+	 */
+	public void showError(Errors key) {
+		showError(key.getError(getLocalization()));
+	}
+
+	/**
 	 * Unexpected exception: can't work out anything better, just show "Invalid
 	 * Input"
 	 *
-	 * @param e
-	 *            exception
+	 * @param e exception
 	 */
 	public final void showGenericError(Exception e) {
 		e.printStackTrace();
@@ -3726,7 +3734,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		} catch (Exception e) {
 			e.printStackTrace();
 			ok = false;
-			localizeAndShowError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
 		return ok;
 	}

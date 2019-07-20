@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -402,9 +403,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private void showError() {
-		kernel.getApplication()
-				.showError(kernel.getApplication().getLocalization()
-						.getInvalidInputError());
+		kernel.getApplication().showError(Errors.InvalidInput);
 	}
 
 	/**

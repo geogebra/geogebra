@@ -38,6 +38,7 @@ import javax.swing.ImageIcon;
 
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
@@ -473,15 +474,13 @@ public class ImageManagerD extends ImageManager {
 		} catch (Exception e) {
 			app.setDefaultCursor();
 			e.printStackTrace();
-			app.localizeAndShowError("LoadFileFailed");
+			app.showError(Errors.LoadFileFailed);
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
 			Log.debug("Out of memory");
 			System.gc();
 			app.setDefaultCursor();
-			// t.printStackTrace();
-			// TODO change to OutOfMemoryError
-			app.localizeAndShowError("LoadFileFailed");
+			app.showError(Errors.LoadFileFailed);
 			return null;
 		}
 	}

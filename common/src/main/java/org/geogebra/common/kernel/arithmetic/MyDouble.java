@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.LambertW;
@@ -1073,7 +1074,7 @@ public class MyDouble extends ValidExpression
 			return StringUtil.parseDouble(sb.toString());
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, "InvalidInput", str);
+			throw new MyError(app, Errors.InvalidInput, str);
 		}
 		/*
 		 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",

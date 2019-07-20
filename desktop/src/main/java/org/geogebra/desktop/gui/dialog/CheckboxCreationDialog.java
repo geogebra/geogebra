@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -207,7 +208,7 @@ public class CheckboxCreationDialog extends JDialog implements
 				geo.setShowObjectCondition(geoBoolean);
 			}
 		} catch (CircularDefinitionException e) {
-			app.localizeAndShowError("CircularDefinition");
+			app.showError(Errors.CircularDefinition);
 		}
 
 		// set caption text

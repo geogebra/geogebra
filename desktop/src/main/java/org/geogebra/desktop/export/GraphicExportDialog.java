@@ -54,6 +54,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -772,11 +773,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			return true;
 		} catch (Exception ex) {
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		}
@@ -813,12 +814,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 
 			return false;
 		} catch (Error ex) {
 			ex.printStackTrace();
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 
 			return false;
 		}
@@ -846,7 +847,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 
 		try {
-			exportSVG(app, (EuclidianViewD) ev, file, textAsShapes, pixelWidth,
+			exportSVG(app, ev, file, textAsShapes, pixelWidth,
 					pixelHeight, cmWidth, cmHeight, exportScale, transparent);
 
 			if (exportToClipboard) {
@@ -858,11 +859,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} finally {
@@ -911,11 +912,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			return true;
 		} catch (Exception ex) {
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.localizeAndShowError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		}

@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
@@ -174,8 +175,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
 			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
 			if (ret == null) {
-				throw new CASException(new Exception(app.getLocalization()
-						.getError("CAS.GeneralErrorMessage")));
+				throw new CASException(new Exception(
+						Errors.CASGeneralErrorMessage.getError(app.getLocalization())));
 			}
 			return ret;
 		} catch (Throwable t) {

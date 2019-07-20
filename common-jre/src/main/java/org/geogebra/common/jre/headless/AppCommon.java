@@ -38,6 +38,7 @@ import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -385,7 +386,7 @@ public class AppCommon extends App {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			showError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
     }
 

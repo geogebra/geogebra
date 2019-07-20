@@ -51,6 +51,7 @@ import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -1089,7 +1090,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			localizeAndShowError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
 	}
 
@@ -2813,15 +2814,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// ================================================
 
 	@Override
+	@Deprecated
+	// use showError(Errors, String)
 	public void showError(String key, String error) {
 
 		String translatedError = getLocalization().getError(key);
-
-		// in case translations not available
-		// eg webSimple
-		if ("InvalidInput".equals(translatedError)) {
-			translatedError = "Please check your input";
-		}
 
 		showErrorDialog(translatedError + ":\n" + error);
 	}

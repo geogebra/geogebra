@@ -32,6 +32,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
@@ -917,14 +918,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 							}
 							setActiveMaterial(material);
 						} else {
-							onError.callback("LoadFileFailed");
+							onError.callback(Errors.LoadFileFailed.getKey());
 						}
 					}
 
 					@Override
 					public void onError(Throwable error) {
 						onError.callback(error.getMessage().contains("401")
-								? "NotAuthorized" : "LoadFileFailed");
+								? Errors.NotAuthorized.getKey()
+								: Errors.LoadFileFailed.getKey());
 					}
 				});
 	}
