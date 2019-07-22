@@ -402,7 +402,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private void drawSymbolicValue(GGraphics2D g2, String text) {
 		int left = getTextLeft();
-		int top = (int) (inputFieldBounds.getY() + getSymbolicMargin(g2) / 2);
+		int top = (int) (inputFieldBounds.getY() + getSymbolicMargin(g2) / 2.0);
 
 		drawLatex(g2, geo, textFont, text, left, top);
 	}

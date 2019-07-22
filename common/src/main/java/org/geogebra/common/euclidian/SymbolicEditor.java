@@ -8,19 +8,9 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
  *
  * @author Laszlo
  */
-public abstract class SymbolicEditor {
+public interface SymbolicEditor {
 
-	public SymbolicEditor()  {
-		createMathField();
-	}
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds);
 
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-	}
-
-	protected void createMathField() {
-		// implement this in descendants.
-	}
-
-	public void hide() {
-	}
+	public void hide();
 }
