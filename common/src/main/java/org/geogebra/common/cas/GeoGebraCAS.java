@@ -1059,6 +1059,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	private static boolean containsVariable(Set<GeoElement> variables, String labelOfVariable) {
+		if (variables == null) {
+			return false;
+		}
 		for (GeoElement var : variables) {
 			if (labelOfVariable.equals(getLabel(var))) {
 				return true;
