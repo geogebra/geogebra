@@ -46,11 +46,11 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -6619,10 +6619,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 			where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
-    	if (symbolicEditor == null) {
+		if (symbolicEditor == null) {
 			symbolicEditor = createSymbolicEditor();
 		}
-    	symbolicEditor.attach(geoInputBox, bounds);
+		if (symbolicEditor != null) {
+			symbolicEditor.attach(geoInputBox, bounds);
+		}
 	}
 
 	/**
