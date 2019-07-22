@@ -881,7 +881,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	public void onLandscapeAnimationEnd(double expandFrom, double expandTo) {
 		if (!isOpen()) {
-			expandWidth(expandFrom);
+			getElement().getStyle().clearWidth();
 			setHeight("100%");
 			toolbarPanel.updateUndoRedoPosition();
 		} else {
