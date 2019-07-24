@@ -1028,7 +1028,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return containsExpressionVariablesOrFunctionVariablesFromList(
-				variableContainer, listOfVars);
+				variableContainer, listOfVars)
+				|| variableContainer.isConstant();
 	}
 
 	private static boolean containsExpressionVariablesOrFunctionVariablesFromList(
