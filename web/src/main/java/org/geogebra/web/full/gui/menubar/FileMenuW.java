@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
@@ -12,6 +11,7 @@ import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
+import org.geogebra.web.full.gui.menubar.action.FileOpenActionMebis;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -121,14 +121,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 				loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))));
 	}
 
-	/**
-	 * @return true if the whiteboard is active and the user logged in
-	 */
-	private boolean isMowLoggedOut() {
-		return getApp().isMebis()
-				&& getApp().getLoginOperation() != null
-				&& !getApp().getLoginOperation().isLoggedIn();
-	}
+
 
 	private class FileChooser extends FileUpload implements ChangeHandler {
 		private BrowseGUI bg;
@@ -287,37 +280,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItemMebis() {
 		openFileItem =
-				addItem(MainMenu.getMenuBarHtml(
-						activity.getResourceIconProvider().openFileMenu(),
-						loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))),
-						true, new MenuCommand(getApp()) {
-
-							@Override
-							public void doExecute() {
-								if (isMowLoggedOut()) {
-									app.getLoginOperation().showLoginDialog();
-									app.getLoginOperation().getView()
-											.add(new EventRenderable() {
-												@Override
-												public void renderEvent(
-														BaseEvent event) {
-													if (event instanceof LoginEvent
-															&& ((LoginEvent) event)
-															.isSuccessful()) {
-														app.openSearch(null);
-													}
-													if (event instanceof LoginEvent
-															|| event instanceof StayLoggedOutEvent) {
-														app.getLoginOperation()
-																.getView().remove(this);
-													}
-												}
-											});
-								} else {
-									app.openSearch(null);
-								}
-							}
-						});
+				addItem(new FileOpenActionMebis(getApp(), activity));
 	}
 
 	private void addDownloadAsItem() {

@@ -86,9 +86,12 @@ public class MyError extends Error {
 	}
 
 	/**
-	 * @param loc0    localization
-	 * @param message primary message
-	 * @param strs    parts of the error (space separated)
+	 * @param loc0
+	 *            localization
+	 * @param message0
+	 *            primary message
+	 * @param strs0
+	 *            parts of the error (space separated)
 	 */
 	public MyError(Localization loc0, Errors message0, String... strs0) {
 		super(message0.key);
@@ -98,11 +101,16 @@ public class MyError extends Error {
 	}
 
 	/**
-	 * @param loc0    localization
-	 * @param message message
-	 * @param lt      left expression
-	 * @param opname  operation
-	 * @param rt      right expression
+	 * @param loc0
+	 *            localization
+	 * @param message0
+	 *            message
+	 * @param lt
+	 *            left expression
+	 * @param opname
+	 *            operation
+	 * @param rt
+	 *            right expression
 	 */
 	public MyError(Localization loc0, Errors message0, ExpressionValue lt, String opname,
 			ExpressionValue rt) {
@@ -304,6 +312,7 @@ public class MyError extends Error {
 
 		InvalidFunctionA("InvalidFunctionA",
 				"Invalid function:\nPlease enter an explicit function in %0") {
+
 			@Override
 			public String getError(Localization loc, String[] strs) {
 				String ret = null;
@@ -329,13 +338,24 @@ public class MyError extends Error {
 		Errors(String key0, String default0) {
 			key = key0;
 			defaultTranslation = default0;
+		}
 
-		};
-
+		/**
+		 * @return default translation
+		 */
 		protected String defaultTranslation() {
 			return defaultTranslation;
 		}
 
+		/**
+		 * Builds error message from current key and given arguments
+		 * 
+		 * @param loc
+		 *            localization
+		 * @param strs
+		 *            arguments
+		 * @return error message
+		 */
 		public String getError(Localization loc, String[] strs) {
 			StringBuilder sb = new StringBuilder();
 			if (loc != null) {
@@ -361,15 +381,16 @@ public class MyError extends Error {
 		}
 
 		/**
-		 * remove null: as label eg 3/(x^2=1) gives Illegal division 3 / null: (-x - 1)
-		 * (-x + 1) = 0
+		 * remove null: as label eg 3/(x^2=1) gives Illegal division 3 / null:
+		 * (-x - 1) (-x + 1) = 0
 		 * 
 		 * if label really is null, doesn't matter if removed
 		 * 
 		 * @param s
-		 * @return
+		 *            input
+		 * @return input with "null:" / "undefined:" removed
 		 */
-		private String removeNull(String s) {
+		private static String removeNull(String s) {
 			if (s != null && s.startsWith("null:")) {
 				return s.substring("null:".length());
 			}
@@ -380,6 +401,11 @@ public class MyError extends Error {
 			return s;
 		}
 
+		/**
+		 * @param loc
+		 *            localization
+		 * @return error message
+		 */
 		public String getError(Localization loc) {
 			return getError(loc, null);
 		}
