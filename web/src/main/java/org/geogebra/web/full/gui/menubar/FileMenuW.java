@@ -121,8 +121,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 				loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))));
 	}
 
-
-
 	private class FileChooser extends FileUpload implements ChangeHandler {
 		private BrowseGUI bg;
 
