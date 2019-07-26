@@ -7604,7 +7604,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   // pass -inf and inf by default.
   // poi will contain point of interest: asymptotes and extremas
   // xmin and xmax will be set to values containing all points in poi
-  int step_func_(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen& periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & infl,bool printtvi,bool exactlegende,GIAC_CONTEXT,bool do_inflex){
+  int step_func_(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen& periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & infl,bool printtvi,bool exactlegende,GIAC_CONTEXT,int do_inflex_tabsign){
     if (x.type!=_IDNT)
       return 0;
     gprintf(gettext("====================\nFunction plot %gen, variable %gen"),makevecteur(f,x),1,contextptr);
@@ -7653,13 +7653,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     // Extremas
     int st=step_infolevel(contextptr);
     step_infolevel(0,contextptr);
-    gen f1=_factor(derive(f,x,contextptr),contextptr);
+    gen f1=do_inflex_tabsign==2?f:_factor(derive(f,x,contextptr),contextptr);
     gen f2=derive(f1,x,contextptr);
 #if 1
     int cm=calc_mode(contextptr);
     calc_mode(-38,contextptr); // avoid rootof
     gen c1=solve(f1,x,periode==0?2:0,contextptr);
-    gen c2=(!do_inflex || is_zero(f2))?gen(vecteur(0)):solve(_numer(f2,contextptr),x,periode==0?2:0,contextptr),c(c1);
+    gen c2=(!(do_inflex_tabsign & 1) || is_zero(f2))?gen(vecteur(0)):solve(_numer(f2,contextptr),x,periode==0?2:0,contextptr),c(c1);
     calc_mode(cm,contextptr);
     step_infolevel(st,contextptr);
     if (x!=xval)
@@ -7870,9 +7870,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gen yof=y__IDNT_e; // symb_of(y__IDNT_e,x); // 
     vecteur tvif=makevecteur(symb_equal(yof,f),y);
     gen nothing=string2gen(" ",false);
-    vecteur tvidf=makevecteur(symb_equal(symbolic(at_derive,yof),f1),try_limit_undef(f1,xid,nextx,1,contextptr));
+    vecteur tvidf=makevecteur(do_inflex_tabsign==2?f1:symb_equal(symbolic(at_derive,yof),f1),try_limit_undef(f1,xid,nextx,1,contextptr));
     vecteur tvidf2;
-    if (do_inflex)
+    if ((do_inflex_tabsign & 1))
       tvidf2=makevecteur(symbolic(at_derive,symbolic(at_derive,yof)),try_limit_undef(f2,xid,nextx,1,contextptr));
     int tvs=int(tvx.size());
     for (int i=1;i<tvs;++i){
@@ -7883,17 +7883,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvix.push_back(nothing);
       if (is_inf(nextx) && is_inf(curx)){
 	dfx=try_limit_undef(f1,xid,0,0,contextptr);
-	if (do_inflex) df2=try_limit_undef(f2,xid,0,0,contextptr);
+	if ((do_inflex_tabsign & 1)) df2=try_limit_undef(f2,xid,0,0,contextptr);
       }
       else {
 	if (curx==minus_inf){
 	  dfx=try_limit_undef(f1,xid,nextx-1,0,contextptr);
-	  if (do_inflex) df2=try_limit_undef(f2,xid,nextx-1,0,contextptr);
+	  if ((do_inflex_tabsign & 1)) df2=try_limit_undef(f2,xid,nextx-1,0,contextptr);
 	}
 	else {
 	  if (nextx==plus_inf){
 	    dfx=try_limit_undef(f1,xid,curx+1,0,contextptr);
-	    if (do_inflex) df2=try_limit_undef(f2,xid,curx+1,0,contextptr);
+	    if ((do_inflex_tabsign & 1)) df2=try_limit_undef(f2,xid,curx+1,0,contextptr);
 	  }
 	  else {
 	    gen m=(curx+nextx)/2;
@@ -7907,7 +7907,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    }
 	    if (in_domain(df,x,m,contextptr)){
 	      dfx=try_limit_undef(f1,xid,m,0,contextptr);
-	      if (do_inflex) df2=try_limit_undef(f2,xid,m,0,contextptr);
+	      if ((do_inflex_tabsign & 1)) df2=try_limit_undef(f2,xid,m,0,contextptr);
 	    }
 	    else dfx=df2=undef;
 	  }
@@ -7939,7 +7939,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  tvidf.push_back(string2gen("-",false));
 	}
       }
-      if (do_inflex){
+      if ((do_inflex_tabsign & 1)){
 	if (is_undef(df2))
 	  tvidf2.push_back(string2gen("X",false));
 	else {
@@ -7961,7 +7961,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvix.push_back(nextx);
 	tvif.push_back(crunch_rootof(y,contextptr));
 	tvidf.push_back(string2gen("||",false));
-	if (do_inflex) tvidf2.push_back(string2gen("||",false));
+	if ((do_inflex_tabsign & 1)) tvidf2.push_back(string2gen("||",false));
 	y=try_limit_undef(f,xid,nextx,1,contextptr);
 	y=recursive_normal(y,contextptr);
 	if (!has_inf_or_undef(y) && is_greater(ymin,y,contextptr))
@@ -7971,7 +7971,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvix.push_back(nextx);
 	tvif.push_back(crunch_rootof(y,contextptr));
 	tvidf.push_back(string2gen("||",false));
-	if (do_inflex) tvidf2.push_back(string2gen("||",false));
+	if ((do_inflex_tabsign & 1)) tvidf2.push_back(string2gen("||",false));
       }
       else {
 	y=try_limit_undef(f,xid,nextx,-1,contextptr); 
@@ -7991,15 +7991,15 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  y=makevecteur(y,ysecond);
 	y=recursive_normal(y,contextptr);
 	tvidf.push_back(crunch_rootof(y,contextptr));
-	if (do_inflex){
+	if ((do_inflex_tabsign & 1)){
 	  y=try_limit_undef(f2,xid,nextx,0,contextptr);
 	  y=recursive_normal(y,contextptr);
 	  tvidf2.push_back(crunch_rootof(y,contextptr));
 	}
       }
     }
-    tvi=makevecteur(tvix,tvidf,tvif);
-    if (do_inflex) tvi.push_back(tvidf2);
+    tvi=do_inflex_tabsign==2?makevecteur(tvix,tvidf):makevecteur(tvix,tvidf,tvif);
+    if ((do_inflex_tabsign & 1)) tvi.push_back(tvidf2);
     vecteur tvit(mtran(tvi));
     for (size_t i=1;i<tvit.size();++i){
       if (tvit[i]==tvit[i-1])
@@ -8039,14 +8039,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     return 1 + (periode!=0);
   }
 
-  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT,bool do_inflex){
+  // bit 0 of do_inflex_tabsign = set to 1 for inflexion (valid for tabvar)
+  // bit 1 of do_inflex_tabsign = set to 1 for tabsign, 0 for tabvar
+  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT,int do_inflex_tabsign){
     bool c=complex_mode(contextptr); int st=step_infolevel(contextptr),s=0;
     step_infolevel(0,contextptr);
 #ifdef NO_STDEXCEPT
-    s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr,do_inflex);
+    s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr,do_inflex_tabsign);
 #else
     try {
-      s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr,do_inflex);
+      s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr,do_inflex_tabsign);
     } catch (std::runtime_error & e){
       last_evaled_argptr(contextptr)=NULL;
       s=0;
@@ -8066,8 +8068,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 #else
     int plot=0;
 #endif
-    bool return_tabvar=false,return_equation=false,return_coordonnees=false,do_inflex=true;
+    bool return_tabvar=false,return_equation=false,return_coordonnees=false;
+    int do_inflex_tabsign=1;
     for (int i=0;i<s;++i){
+      if (v[i]==at_sign){
+	v.erase(v.begin()+i);
+	do_inflex_tabsign=2;
+	--s; --i; continue;
+      }
       if (v[i]==at_plot){
 	plot=2;
 	v.erase(v.begin()+i);
@@ -8089,7 +8097,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	--s; --i; continue;
       }
       if (v[i]==at_derive){
-	do_inflex=false;
+	do_inflex_tabsign=0;
 	v.erase(v.begin()+i);
 	--s; --i; continue;
       }
@@ -8097,9 +8105,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	gen & f=v[i]._SYMBptr->feuille;
 	if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front()==at_derive){
 	  if (f._VECTptr->back()==2)
-	    do_inflex=true;
+	    do_inflex_tabsign=1;
 	  else
-	    do_inflex=false;
+	    do_inflex_tabsign=0;
 	  v.erase(v.begin()+i);
 	  --s; --i; continue;
 	}
@@ -8155,7 +8163,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       periodic=step_param(f._VECTptr->front(),f._VECTptr->back(),x,xmin,xmax,poi,tvi,false,exactlegende,contextptr);
     else {
       gen periode; vecteur asym,parab,crit,inflex;
-      periodic=step_func(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,false,exactlegende,contextptr,do_inflex);
+      periodic=step_func(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,false,exactlegende,contextptr,do_inflex_tabsign);
     }
     // round floats in tvi
     for (int i=0;i<int(tvi.size());++i){
@@ -8215,6 +8223,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _tabvar_s []="tabvar";
   static define_unary_function_eval (__tabvar,&_tabvar,_tabvar_s);
   define_unary_function_ptr5( at_tabvar ,alias_at_tabvar,&__tabvar,0,true);
+
+  gen _tabsign(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    vecteur v(gen2vecteur(g));
+    v.push_back(at_sign);
+    return _tabvar(gen(v,_SEQ__VECT),contextptr);
+  }
+  static const char _tabsign_s []="tabsign";
+  static define_unary_function_eval (__tabsign,&_tabsign,_tabsign_s);
+  define_unary_function_ptr5( at_tabsign ,alias_at_tabsign,&__tabsign,0,true);
 
   gen _printf(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args.subtype!=_SEQ__VECT){
