@@ -7607,7 +7607,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   int step_func_(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen& periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & infl,bool printtvi,bool exactlegende,GIAC_CONTEXT,int do_inflex_tabsign){
     if (x.type!=_IDNT)
       return 0;
-    gprintf(gettext("====================\nFunction plot %gen, variable %gen"),makevecteur(f,x),1,contextptr);
+    if (do_inflex_tabsign!=2) 
+      gprintf(gettext("====================\nFunction plot %gen, variable %gen"),makevecteur(f,x),1,contextptr);
     if (is_periodic(f,x,periode,contextptr)){
       gprintf(gettext("Periodic function T=%gen"),vecteur(1,periode),1,contextptr);
       if (is_greater(xmax-xmin,periode,contextptr)){
@@ -7621,7 +7622,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	gprintf(gettext("Even function %gen. Reflection Oy"),vecteur(1,f),1,contextptr);
       else
 	gprintf(gettext("Odd function %gen. Center O"),vecteur(1,f),1,contextptr);
-      xmin=0;
+      if (do_inflex_tabsign & 1==1)
+	xmin=0;
     }
     gen xmin0=ratnormal(xmin,contextptr),xmax0=ratnormal(xmax,contextptr);
     vecteur lv=lidnt(evalf(f,1,contextptr));
@@ -7729,7 +7731,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
     }
     it=sing.begin();itend=sing.end();
-    for (;it!=itend;++it){
+    for (;do_inflex_tabsign!=2 && it!=itend;++it){
       gen equ;
       if (!has_inf_or_undef(*it)){ // vertical
 	if (is_greater(xmin,*it,contextptr))
@@ -8029,7 +8031,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gly.subtype=_INT_PLOT;
     gly=symb_equal(gly,symb_interval(ymin-yscale/2,ymax+yscale/2));
     poi.insert(poi.begin(),gly);
-    gprintf(gettext("Variations %gen\n%gen"),makevecteur(f,tvi),1,contextptr);
+    gprintf(gettext(do_inflex_tabsign==2?"Sign %gen\n%gen":"Variations %gen\n%gen"),makevecteur(f,tvi),1,contextptr);
 #ifndef EMCC
     if (printtvi && step_infolevel(contextptr)==0)
       *logptr(contextptr) << tvi << endl;
