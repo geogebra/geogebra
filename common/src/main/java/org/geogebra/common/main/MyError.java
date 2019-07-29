@@ -314,6 +314,27 @@ public class MyError extends Error {
 
 				return ret;
 			}
+		},
+
+		CellAisNotDefined("CellAisNotDefined", "Cell %0 is not defined") {
+			@Override
+			public String getError(Localization loc, String[] strs) {
+				String ret = null;
+				if (loc != null) {
+					ret = loc.getPlain(key, strs.length > 0 ? strs[0] : "x");
+				}
+
+				if (ret == null || ret.startsWith(key)) {
+					if (strs.length > 0) {
+						ret = defaultTranslation.replace("%0", strs[0]);
+					} else {
+						ret = InvalidInput.defaultTranslation();
+					}
+				}
+
+				return ret;
+			}
+
 		};
 
 		String key;
@@ -340,7 +361,7 @@ public class MyError extends Error {
 		 *            arguments
 		 * @return error message
 		 */
-		public String getError(Localization loc, String[] strs) {
+		public String getError(Localization loc, String... strs) {
 			StringBuilder sb = new StringBuilder();
 			if (loc != null) {
 				sb.append(loc.getError(key));
