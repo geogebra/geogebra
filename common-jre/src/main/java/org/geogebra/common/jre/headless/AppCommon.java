@@ -32,6 +32,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
@@ -62,6 +64,7 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
+	private AppConfig config = new AppConfigDefault();
 
     /**
 	 * Construct an AppCommon.
@@ -719,5 +722,14 @@ public class AppCommon extends App {
 	 */
 	public void initDialogManager(boolean clear, String... inputs) {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
+	}
+
+	@Override
+	public AppConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(AppConfig config) {
+		this.config = config;
 	}
 }
