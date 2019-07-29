@@ -111,7 +111,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private String toLaTex(GeoElementND geo) {
-		return geo.toLaTeXString(symbolicMode, StringTemplate.latexTemplate);
+		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
 	/**
@@ -453,12 +453,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			textFieldToUpdate.setText(text);
 		}
 
-		if (linkedGeo != null && isSymbolicMode()) {
+		if (isSymbolicMode()) {
 			setText(getLinkedGeoText());
+		} else if (isLinkedNumberValueNotChanged(text)) {
+			setText(getNonSymbolicNumberValue(linkedGeo));
 		} else {
 			setText(textFieldToUpdate.getText());
 		}
-
 	}
 
 	/**
