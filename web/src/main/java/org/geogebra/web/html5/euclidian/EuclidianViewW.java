@@ -37,6 +37,7 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -307,6 +308,7 @@ public class EuclidianViewW extends EuclidianView implements
 		// repaint the preview line
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
+		FpsProfiler.getInstance().notifyRepaint();
 	}
 
 	/**

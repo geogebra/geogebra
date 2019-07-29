@@ -55,6 +55,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.profiler.FpsProfiler;
 
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
@@ -2371,4 +2372,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return getValue("correct");
 	}
 
+	@Override
+	public void enableFpsMeasurement() {
+		FpsProfiler.getInstance().setEnabled(true);
+	}
+
+	@Override
+	public void disableFpsMeasurement() {
+		FpsProfiler.getInstance().setEnabled(false);
+	}
 }
