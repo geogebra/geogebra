@@ -19,7 +19,8 @@ public interface CoordConverter {
 	 *            3D view
 	 * @return new parameter value
 	 */
-	double translationToValue(Coords direction, Coords rwTransVec, double startValue, EuclidianView view);
+	double translationToValue(Coords direction, Coords rwTransVec,
+			double startValue, EuclidianView view);
 
 	/**
 	 * @param parent

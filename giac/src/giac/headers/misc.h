@@ -258,7 +258,9 @@ namespace giac {
   // step by step utilities
   // poi=point of interest, tvi=table of variation
   // asym=list of asymptotes, crit=critical points, inflex=inflection points
-  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poig,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT,bool do_inflex=true);
+  // bit 0 of do_inflex_tabsign = set to 1 for inflexion (valid for tabvar)
+  // bit 1 of do_inflex_tabsign = set to 1 for tabsign, 0 for tabvar
+  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poig,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT,int do_inflex_tabsign=1);
   extern const unary_function_ptr * const  at_tabvar;
   int step_param(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT);
   // translate HTML Xcas for Firefox link to a giac list of commands

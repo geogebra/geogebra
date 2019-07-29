@@ -65,11 +65,6 @@ public class MyToggleButton extends GToggleButton
 		AriaHelper.setTitle(this, title, app);
 	}
 
-	@Override
-	public void focusInput(boolean force) {
-		app.getAccessibilityManager().focusInput(force);
-	}
-
 	/**
 	 * Sets alternate text for button.
 	 * 

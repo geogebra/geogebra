@@ -3529,7 +3529,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			SymbolicMode resMode) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 
-		if ((geo == null) && resMode != SymbolicMode.NONE) {
+		if ((geo == null) && resMode == SymbolicMode.SYMBOLIC) {
 			// lookup CAS variables too
 			geo = lookupCasCellLabel(label);
 
@@ -4448,9 +4448,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		app.getSelectionManager().recallSelectedGeosNames(this);
 		if (getApplication().getVideoManager() != null) {
 			getApplication().getVideoManager().clearStoredVideos();
-		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().clearStoredEmbeds();
 		}
 	}
 

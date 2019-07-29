@@ -70,7 +70,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public GGraphics2DW(Canvas canvas) {
 		this.canvas = canvas;
 		setDirection();
-		this.context = (JLMContext2d) canvas.getContext2d();
+		this.context = JLMContext2d.forCanvas(canvas);
 		this.context.initTransform();
 		preventContextMenu(canvas.getElement());
 	}
@@ -100,7 +100,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void setImageInterpolation(boolean interpolate) {
 		// canvas.getContext2d() doesn't work with canvas2svg.js
 		try {
-			setImageInterpolationNative(canvas.getContext2d(), interpolate);
+			setImageInterpolationNative(context, interpolate);
 		} catch (Exception e) {
 			// do nothing
 		}
@@ -125,9 +125,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 * will probably fail * labels are malformed, eg )A=(1,2
 	 */
 	private void setDirection() {
-		if (canvas != null) {
-			this.canvas.getElement().setDir("ltr");
-		}
+		getElement().setDir("ltr");
 	}
 
 	/**
@@ -511,12 +509,18 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public int getOffsetWidth() {
+		if (canvas == null) {
+			return canvasWidth;
+		}
 		int width = canvas.getOffsetWidth();
 		return width == 0 ? canvasWidth : width;
 	}
 
 	@Override
 	public int getOffsetHeight() {
+		if (canvas == null) {
+			return canvasHeight;
+		}
 		int height = canvas.getOffsetHeight();
 		return height == 0 ? canvasHeight : height;
 	}
@@ -777,12 +781,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	@Override
+	public Element getElement() {
+		return this.canvas.getElement();
+	}
+
+	@Override
 	public void drawRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
 		// arcHeight ignored
 		roundRect(x, y, width, height, arcWidth / 2.0);
 		context.stroke();
-
 	}
 
 	/**
@@ -903,17 +911,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 			return;
 		}
 		try {
-			if (bi.hasCanvas()) {
-				if (bi.getCanvas().getCoordinateSpaceWidth() > 0) {
-					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
-						bi.getCanvas().getCoordinateSpaceWidth(),
-						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
-							checkSize(bi.getCanvas().getCoordinateSpaceWidth(),
-									bi, getCoordinateSpaceWidth()),
-							checkSize(bi.getCanvas().getCoordinateSpaceHeight(),
-									bi, getCoordinateSpaceHeight()));
-				}
+			if (bi.hasCanvas() && canvas != null) {
+				int width = bi.getCanvas().getCoordinateSpaceWidth();
+				int height = bi.getCanvas().getCoordinateSpaceHeight();
+
 				// zero width canvas throws error in FF
+				if (width > 0) {
+					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0, width, height, x, y,
+							checkSize(width, bi, getCoordinateSpaceWidth()),
+							checkSize(height, bi, getCoordinateSpaceHeight()));
+				}
 			} else {
 				context.drawImage(bi.getImageElement(), 0, 0, bi.getWidth(),
 						bi.getHeight(), x, y, this.getOffsetWidth(),
@@ -973,13 +980,13 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public boolean setAltText(String altStr) {
-		boolean ret = !(canvas.getElement().getInnerText() + "").equals(altStr);
-		canvas.getElement().setInnerText(altStr);
+		boolean ret = !(getElement().getInnerText() + "").equals(altStr);
+		getElement().setInnerText(altStr);
 		return ret;
 	}
 
 	public String getAltText() {
-		return canvas.getElement().getInnerText();
+		return getElement().getInnerText();
 	}
 
 	@Override
@@ -1015,6 +1022,11 @@ public class GGraphics2DW implements GGraphics2DWI {
 		if (devicePixelRatio != 0) { // GGB-2355
 			this.devicePixelRatio = devicePixelRatio;
 		}
+	}
+
+	@Override
+	public boolean isAttached() {
+		return canvas != null && canvas.isAttached();
 	}
 
 }

@@ -3,6 +3,7 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
@@ -112,4 +113,11 @@ public interface GeoGebraActivity {
 	 * @return resizer class for the external header.
 	 */
 	HeaderResizer getHeaderResizer(GeoGebraFrameW frame);
+
+	/**
+	 * Returns with an icon provider which handles the vendor specific icons
+	 *
+	 * @return vendor specific icon provider
+	 */
+	ResourceIconProvider getResourceIconProvider();
 }

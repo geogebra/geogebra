@@ -383,7 +383,7 @@ public class EditMenuD extends BaseMenu {
 			// check if there's an image on the clipboard
 			String[] fileName = ((GuiManagerD) app.getGuiManager())
 					.getImageFromTransferable(null);
-			clipboardMenu.setEnabled(fileName.length > 0);
+			clipboardMenu.setEnabled(fileName != null && fileName.length > 0);
 		}
 
 	}

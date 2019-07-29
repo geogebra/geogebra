@@ -138,7 +138,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false, false);
+			boundingBox = createBoundingBox(false, false);
 			setMetrics();
 		}
 		return video.isBackground() ? boundingBox : null;

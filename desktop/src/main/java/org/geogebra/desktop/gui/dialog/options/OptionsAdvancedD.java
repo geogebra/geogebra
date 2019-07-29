@@ -33,6 +33,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Util;
@@ -725,7 +726,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 				int windowHeight = Integer.parseInt(tfKeyboardHeight.getText());
 				kbs.setKeyboardHeight(windowHeight);
 			} catch (NumberFormatException ex) {
-				app.showError("InvalidInput", tfKeyboardHeight.getText());
+				app.showError(Errors.InvalidInput, tfKeyboardHeight.getText());
 				tfKeyboardHeight
 						.setText(Integer.toString(kbs.getKeyboardHeight()));
 			}
@@ -734,7 +735,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 				int windowWidth = Integer.parseInt(tfKeyboardWidth.getText());
 				kbs.setKeyboardWidth(windowWidth);
 			} catch (NumberFormatException ex) {
-				app.showError("InvalidInput", tfKeyboardWidth.getText());
+				app.showError(Errors.InvalidInput, tfKeyboardWidth.getText());
 				tfKeyboardWidth
 						.setText(Integer.toString(kbs.getKeyboardWidth()));
 			}

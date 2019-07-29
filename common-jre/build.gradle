@@ -22,6 +22,21 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.7.22'
 }
 
+sourceSets {
+    nonfree
+    main {
+        resources {
+            if (!project.hasProperty("usegpl")) {
+                srcDirs += nonfree.resources.srcDirs
+            }
+        }
+    }
+}
+
+if(hasProperty("eclipse")){
+    eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+}
+
 spotbugs {
      ignoreFailures = true
      excludeFilter = file("config/findbugs.xml")
@@ -35,6 +50,7 @@ pmd {
 test {
 	ignoreFailures = true
 }
+
 checkstyle {
     toolVersion = "8.8"
 }
@@ -59,5 +75,9 @@ jacocoTestReport {
         setClassDirectories files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['org/mozilla/**'])
         })
+    }
+    reports {
+        xml.enabled true
+        html.enabled false
     }
 }

@@ -85,6 +85,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_EXTENSION:
 			case EuclidianConstants.MODE_CAMERA:
 			case EuclidianConstants.MODE_PDF:
+			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
 				continue;
 			default:
 				ImageResourceD res = man.getToolImageResource(modeText);

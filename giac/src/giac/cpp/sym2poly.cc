@@ -3700,6 +3700,8 @@ namespace giac {
     if (s<2)
       return gendimerr(contextptr);
     gen res=v.front();
+    if (s==2 && v[1].type==_VECT)
+      return symb2poly(res,v[1],contextptr);
     for (int i=1;i<s;++i){
       res=symb2poly(res,v[i],contextptr);
     }

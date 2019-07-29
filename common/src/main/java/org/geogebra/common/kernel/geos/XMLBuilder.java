@@ -197,7 +197,7 @@ public class XMLBuilder {
 		}
 
 		if (!geo.isAlgebraLabelVisible()) {
-			sb.append("\t<algebra labelVisible=\"false\"/>");
+			sb.append("\t<algebra labelVisible=\"false\"/>\n");
 		}
 	}
 
@@ -363,6 +363,23 @@ public class XMLBuilder {
 			sb.append("\t<pointStyle val=\"");
 			sb.append(point.getPointStyle());
 			sb.append("\"/>\n");
+		}
+	}
+
+	/**
+	 * Appends properties related to the symbolic mode.
+	 *
+	 * @param builder string builder
+	 * @param symbolicMode element with symbolic mode
+	 * @param defaultMode the default symbolic mode
+	 */
+	public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode,
+			boolean defaultMode) {
+		boolean isSymbolicMode = symbolicMode.isSymbolicMode();
+		if (isSymbolicMode && !defaultMode) {
+			builder.append("\t<symbolic val=\"true\" />\n");
+		} else if (!isSymbolicMode && defaultMode) {
+			builder.append("\t<symbolic val=\"false\" />\n");
 		}
 	}
 

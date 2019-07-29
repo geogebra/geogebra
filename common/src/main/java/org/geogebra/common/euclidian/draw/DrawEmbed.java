@@ -135,7 +135,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false, false);
+			boundingBox = createBoundingBox(false, false);
 			setMetrics();
 		}
 		return boundingBox;

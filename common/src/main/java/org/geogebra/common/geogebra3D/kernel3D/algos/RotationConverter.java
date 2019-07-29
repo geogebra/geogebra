@@ -10,7 +10,8 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class RotationConverter implements CoordConverter {
 
-	private static final double SNAP_PRECISION = 5 * Kernel.PI_180;
+	/** Difference from closest 90deg multiple that allows snapping */
+	public static final double SNAP_PRECISION = 5 * Kernel.PI_180;
 	private GeoLineND axis;
 	private Coords rotationCenter = new Coords(3);
 	private Coords vStart = new Coords(3);
@@ -25,12 +26,11 @@ public class RotationConverter implements CoordConverter {
 	}
 
 	@Override
-	public double translationToValue(Coords direction, Coords rwTransVec, double startValue, EuclidianView view) {
+	public double translationToValue(Coords direction, Coords rwTransVec,
+			double startValue, EuclidianView view) {
 		vCurrent.setAdd3(vStart, rwTransVec);
 		double sin = direction.dotCrossProduct(vStart, vCurrent);
 		double cos = vStart.dotproduct3(vCurrent);
-
-
 		return snap(DoubleUtil
 				.convertToAngleValue(Math.atan2(sin, cos) + startValue), view);
 	}
@@ -49,7 +49,7 @@ public class RotationConverter implements CoordConverter {
 		startPoint.projectLine(axis.getStartInhomCoords(),
 				axis.getDirectionInD3(), rotationCenter);
 		vStart.setSub3(startPoint, rotationCenter);
-		this.lastStartPoint.set3(startPoint);
+		lastStartPoint.set3(startPoint);
 	}
 
 	@Override
@@ -67,8 +67,6 @@ public class RotationConverter implements CoordConverter {
 		} else {
 			translationVec3D.setSub3(result, startPoint3D);
 		}
-
 	}
-
 
 }

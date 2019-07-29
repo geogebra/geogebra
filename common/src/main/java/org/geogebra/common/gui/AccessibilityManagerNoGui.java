@@ -122,7 +122,7 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public String getSpaceAction(GeoElement geo) {
+	public String getAction(GeoElement geo) {
 		return "";
 	}
 }

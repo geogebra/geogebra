@@ -31,12 +31,4 @@ public interface AccessibilityInterface {
 	 */
 	void setAltText(String text);
 
-	/**
-	 * Focus algebra input
-	 * 
-	 * @param force
-	 *            force to open AV tab if not active
-	 */
-	void focusInput(boolean force);
-
 }

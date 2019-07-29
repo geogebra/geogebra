@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.script.GgbScript;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.test.AppMocker;
@@ -42,7 +43,7 @@ public class AccessibilityViewTest {
 		app = AppMocker.mockGraphing(AccessibilityViewTest.class);
 
 		mockPanel = new ArrayFlowPanel();
-		WidgetFactory factory = mock(WidgetFactory.class);
+		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
 		when(factory.newButton()).thenAnswer(new Answer<Button>() {
 
 			@Override
@@ -57,11 +58,13 @@ public class AccessibilityViewTest {
 				return DomMocker.newLabel();
 			}
 		});
-		when(factory.makeSlider(Matchers.anyInt(), Matchers.<HasSliders> any()))
+		
+		when(factory.newSlider(Matchers.anyInt(), Matchers.anyInt()))
 				.thenAnswer(new Answer<SliderW>() {
 
 					@Override
-					public SliderW answer(InvocationOnMock invocation) throws Throwable {
+					public SliderW answer(InvocationOnMock invocation)
+							throws Throwable {
 						return DomMocker.withElement(new SliderW(0, 1));
 					}
 				});

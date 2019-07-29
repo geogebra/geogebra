@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -20,6 +21,7 @@ public class PointerEventHandler {
 
 	private final IsEuclidianController tc;
 	private HasOffsets off;
+	private FpsProfiler fpsProfiler;
 
 	private final PointerEventType[] types = new PointerEventType[] {
 			PointerEventType.MOUSE, PointerEventType.TOUCH,
@@ -76,6 +78,7 @@ public class PointerEventHandler {
 		Log.debug("Zoomer for" + off);
 		// this.off = (HasOffsets)this.tc;
 		this.off = off == null ? new MsOffset(tc) : off;
+		fpsProfiler = FpsProfiler.getInstance();
 	}
 
 	@ExternalAccess
@@ -106,6 +109,7 @@ public class PointerEventHandler {
 				false);
 		adjust(e, modifiers);
 		this.tc.onPointerEventStart(e);
+		fpsProfiler.notifyTouchStart();
 	}
 
 	private static void adjust(PointerEvent e, int modifiers) {
@@ -125,8 +129,7 @@ public class PointerEventHandler {
 
 	@ExternalAccess
 	private void singleMove(double x, double y, int type, int modifiers) {
-		PointerEvent e = new PointerEvent(x, y, types[type], off,
-				false);
+		PointerEvent e = new PointerEvent(x, y, types[type], off, false);
 		adjust(e, modifiers);
 		this.tc.onPointerEventMove(e);
 	}
@@ -138,6 +141,7 @@ public class PointerEventHandler {
 				false);
 		adjust(e, modifiers);
 		this.tc.onPointerEventEnd(e);
+		fpsProfiler.notifyTouchEnd();
 	}
 
 	@ExternalAccess

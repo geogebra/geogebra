@@ -2912,34 +2912,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public String toString(int digits, int precision) {
 		StringBuilder s = new StringBuilder("(");
 		for (int i = 0; i < val.length; i++) {
-			if (val[i] < 0) {
-				s.append('-');
-			} else {
-				s.append('+');
-			}
-			int v = (int) Math
-					.round(Math.abs(val[i] * Math.pow(10, precision)));
-			int[] decimalsList = new int[precision];
-			for (int j = precision - 1; j >= 0; j--) {
-				decimalsList[j] = v % 10;
-				v /= 10;
-			}
-			int[] digitsList = new int[digits];
-			for (int j = digits - 1; j >= 0; j--) {
-				digitsList[j] = v % 10;
-				v /= 10;
-			}
-			if (v > 0) { // overflow
-				s.append(StringUtil.repeat('X', digits + 1 + precision));
-			} else {
-				for (int d : digitsList) {
-					s.append(d);
-				}
-				s.append(".");
-				for (int d : decimalsList) {
-					s.append(d);
-				}
-			}
+			StringUtil.toString(val[i], digits, precision, s);
 			s.append(i == val.length - 1 ? ")" : "  ");
 		}
 		return s.toString();

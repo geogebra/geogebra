@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
@@ -27,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  * View for representation of geo elements as hidden DOM controls
  */
 public class AccessibilityView implements View {
-	private WidgetFactory sliderFactory;
+	private BaseWidgetFactory sliderFactory;
 	private FlowPanel controls;
 	private Map<GeoElement, AccessibleWidget> widgets;
 	private AppW app;
@@ -39,7 +40,7 @@ public class AccessibilityView implements View {
 	 * @param sliderFactory
 	 *            slider factory
 	 */
-	public AccessibilityView(final AppW app, WidgetFactory sliderFactory) {
+	public AccessibilityView(final AppW app, BaseWidgetFactory sliderFactory) {
 		this.app = app;
 		this.controls = sliderFactory.newPanel();
 		controls.addStyleName("accessibilityView");
@@ -71,18 +72,28 @@ public class AccessibilityView implements View {
 		if (!isInteractive(geo) || widgets.containsKey(geo)) {
 			return;
 		}
+		AccessibleWidget control = createControl(geo);
+		AccessibleWidget prevWidget = getPreviousWidget(geo);
+		addControl(control, prevWidget);
+		widgets.put(geo, control);
+		attachToDom();
+	}
 
+	private AccessibleWidget createControl(GeoElement geo) {
 		AccessibleWidget control;
 		if (geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider()) {
-			control = new AccessibleNumeric((GeoNumeric) geo, sliderFactory, this);
+			control = new AccessibleSlider((GeoNumeric) geo, sliderFactory, this);
 		} else if (geo instanceof GeoBoolean) {
-			control = new AccessibleCheckbox(
-					(GeoBoolean) geo, this);
+			control = new AccessibleCheckbox((GeoBoolean) geo, this);
 		} else if (geo instanceof GeoPointND) {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
 		} else {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
+		return control;
+	}
+
+	private AccessibleWidget getPreviousWidget(GeoElement geo) {
 		GeoElement prevGeo = geo;
 		AccessibleWidget prevWidget = null;
 		TreeSet<GeoElement> tabbingSet = app.getSelectionManager().getEVFilteredTabbingSet();
@@ -90,14 +101,12 @@ public class AccessibilityView implements View {
 			prevGeo = tabbingSet.lower(prevGeo);
 			prevWidget = widgets.get(prevGeo);
 		} while (prevGeo != null && prevWidget == null);
-		addControl(control, prevWidget);
-
-		widgets.put(geo, control);
-		attachToDom();
+		return prevWidget;
 	}
 
 	private static boolean isInteractive(GeoElement geo) {
-		if (!geo.isEuclidianVisible() || !geo.isSelectionAllowed(null)) {
+		if (!geo.isEuclidianVisible() || !geo.isSelectionAllowed(null)
+				|| geo.getLabelSimple() == null) {
 			return false;
 		}
 		for (int euclidianView = 1; euclidianView < 4; euclidianView++) {

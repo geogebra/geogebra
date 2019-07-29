@@ -68,6 +68,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
@@ -294,7 +295,7 @@ public class MyXMLHandler implements DocHandler {
 						.append('\n');
 			}
 			app.showError(
-					new MyError(loc, "LoadFileFailed", sb.toString()));
+					new MyError(loc, Errors.LoadFileFailed, sb.toString()));
 		}
 		if (mode == MODE_INVALID) {
 			throw new SAXException(

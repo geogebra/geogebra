@@ -31,6 +31,11 @@ public abstract class CanvasDrawable extends Drawable {
 	int boxWidth;
 	int boxHeight;
 
+	@Override
+	public boolean isHighlighted() {
+		return super.isHighlighted();
+	}
+
 	/**
 	 * @param text
 	 *            text
@@ -260,14 +265,26 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
+		return hitLabelBounds(x, y) || hitWidgetBounds(x, y);
+	}
+
+	protected boolean hitWidgetBounds(int x, int y) {
 		int left = xLabel;
 		int top = boxTop;
 		int right = left + labelSize.x + boxWidth;
 		int bottom = top + boxHeight;
-		//
-		return (x > left && x < right && y > top && y < bottom)
-				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
-						&& y < yLabel + labelSize.y);
+		return x > left && x < right && y > top && y < bottom;
+	}
+
+	/**
+	 *
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @return if label rectangle was hit by (x, y) pointer.
+	 */
+	protected boolean hitLabelBounds(int x, int y) {
+		return x > xLabel && x < xLabel + labelSize.x && y > yLabel
+				&& y < yLabel + labelSize.y;
 	}
 
 	/**

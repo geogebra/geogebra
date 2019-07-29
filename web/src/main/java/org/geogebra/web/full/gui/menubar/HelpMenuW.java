@@ -31,8 +31,37 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		super("help", app);
 		addExpandableStyleWithColor(false);
 		Localization loc = app.getLocalization();
+
+		if (app.isWhiteboardActive()) {
+			buildMenuNotes(app, loc);
+		} else {
+			buildMenuBase(app, loc);
+		}
+
+		if (!app.getNetworkOperation().isOnline()) {
+			render(false);
+		}
+		app.getNetworkOperation().getView().add(this);
+	}
+
+	private void buildMenuBase(final AppW app, Localization loc) {
+		addTutorialItem(app, loc);
+		addManualItem(app, loc);
+		addForumItem(app, loc);
+		addSeparator();
+		addReportBugItem(app, loc);
+		addSeparator();
+		addAboutItem(app);
+	}
+
+	private void buildMenuNotes(final AppW app, Localization loc) {
+		addForumItem(app, loc);
+		addReportBugItem(app, loc);
+		addAboutItem(app);
+	}
+
+	private void addTutorialItem(final AppW app, Localization loc) {
 		final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
-		// Tutorials
 		if (!StringUtil.empty(tutorialURL)) {
 			tutorials = addItem(
 					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.tutorial_black(),
@@ -45,7 +74,9 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 						}
 					});
 		}
-		// Help
+	}
+
+	private void addManualItem(final AppW app, Localization loc) {
 		manual = addItem(
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.manual_black(),
@@ -58,6 +89,9 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 					}
 				});
+	}
+
+	private void addForumItem(final AppW app, Localization loc) {
 		forum = addItem(
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.forum_black(),
@@ -69,8 +103,9 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
 					}
 				});
-		addSeparator();
-		// Report Bug
+	}
+
+	private void addReportBugItem(final AppW app, Localization loc) {
 		bug = addItem(
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.bug_report_black(),
@@ -85,12 +120,10 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 										+ app.getLocalization().getLanguage());
 					}
 				});
-		addSeparator();
+	}
+
+	private void addAboutItem(final AppW app) {
 		about = addItem(new LicenseAction(app));
-		if (!app.getNetworkOperation().isOnline()) {
-			render(false);
-		}
-		app.getNetworkOperation().getView().add(this);
 	}
 
 	@Override

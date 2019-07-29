@@ -17,7 +17,7 @@ public enum EventType {
 	/** ADD */
 	ADD("add"),
 
-	/** STOREUNDO */
+	/** when an undo point is created */
 	STOREUNDO("storeUndo"),
 
 	/** REMOVE */
@@ -80,10 +80,10 @@ public enum EventType {
 	/** DESELECT */
 	DESELECT("deselect"),
 
-	/** UNDO */
+	/** eg when the user presses the Undo button */
 	UNDO("undo"),
 
-	/** REDO */
+	/** eg when the user presses the redo button */
 	REDO("redo"),
 
 	/** EXPORT */
@@ -126,6 +126,8 @@ public enum EventType {
 	EDITOR_STOP("editorStop"),
 	/** Undoable event happened in external object */
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
+	/** Prune state list in external object */
+	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
 
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),

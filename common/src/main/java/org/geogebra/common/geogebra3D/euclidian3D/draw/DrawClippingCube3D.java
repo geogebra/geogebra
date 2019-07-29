@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
@@ -35,7 +36,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	static private double REDUCTION_LARGE = 0; // (1-1./1)/2
 
-	static private double REDUCTION_ENLARGE = 1.5;
+    /**
+     * enlarging factor from minMax values to minMaxLarge values
+     */
+	final static public double REDUCTION_ENLARGE = 1.5;
 
 	static private double[] REDUCTION_VALUES = { (1 - 1. / Math.sqrt(3)) / 2, // small
 			(1 - 1. / Math.sqrt(2)) / 2, // medium
@@ -140,19 +144,31 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double y0 = -view.getYZero();
 		double z0 = -view.getZZero();
 
-        double halfWidth = renderer.getWidth() / 2.0;
+		double halfWidth = renderer.getWidth() / 2.0;
+		double bottom = renderer.getBottom();
+		double top = renderer.getTop();
+
+		if (view.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON) && view.isAREnabled()) {
+			ARManagerInterface<?> arManager = renderer.getARManager();
+			if (arManager != null) {
+				double arScaleFactor = renderer.getARManager().getArScaleFactor();
+				halfWidth *= arScaleFactor;
+				bottom *= arScaleFactor;
+				top *= arScaleFactor;
+			}
+		}
 
         currentBounds[X][MIN] = -halfWidth / xscale + x0;
         currentBounds[X][MAX] = halfWidth / xscale + x0;
 
         if (getView3D().getYAxisVertical()) {
-            currentBounds[Y][MIN] = (renderer.getBottom()) / yscale + y0;
-            currentBounds[Y][MAX] = (renderer.getTop()) / yscale + y0;
+            currentBounds[Y][MIN] = (bottom) / yscale + y0;
+            currentBounds[Y][MAX] = (top) / yscale + y0;
             currentBounds[Z][MIN] = -halfWidth / zscale + z0;
             currentBounds[Z][MAX] = halfWidth / zscale + z0;
         } else {
-            currentBounds[Z][MIN] = (renderer.getBottom()) / zscale + z0;
-            currentBounds[Z][MAX] = (renderer.getTop()) / zscale + z0;
+            currentBounds[Z][MIN] = (bottom) / zscale + z0;
+            currentBounds[Z][MAX] = (top) / zscale + z0;
             currentBounds[Y][MIN] = -halfWidth / yscale + y0;
             currentBounds[Y][MAX] = halfWidth / yscale + y0;
         }
@@ -179,6 +195,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         minMax[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
         minMax[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
         minMax[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
+
+        standsOnFloorIfAR(minMax);
 
         setVertices();
 
@@ -214,8 +232,19 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         minMaxLarge[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
         minMaxLarge[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
+        standsOnFloorIfAR(minMaxLarge);
+
         // update ev 3D depending algos
         getView3D().updateBounds();
+    }
+
+    private void standsOnFloorIfAR(double[][] mm) {
+        EuclidianView3D view = getView3D();
+        if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && view.isAREnabled()) {
+            double d = mm[Z][MAX] - mm[Z][MIN];
+            mm[Z][MIN] = view.getARMinZ();
+            mm[Z][MAX] = mm[Z][MIN] + d;
+        }
     }
 
     /**

@@ -243,7 +243,8 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getPolyhedronStart(StringBuilder sb, boolean isFlat) {
+	public void getPolyhedronStart(StringBuilder sb, boolean isFlat,
+			boolean isCurve) {
 		sb.append("<geometry id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh\" name=\"");
@@ -411,7 +412,12 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public boolean needsClosedObjects() {
+	public boolean needsClosedObjectsForCurves() {
+		return false;
+	}
+
+	@Override
+	public boolean needsClosedObjectsForSurfaces() {
 		return false;
 	}
 
@@ -441,13 +447,23 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void setUsesThickness(boolean flag) {
+	public void setWantsFilledSolids(boolean flag) {
 		// not used
 	}
 
 	@Override
-	public boolean exportsOnlyPolygons() {
+	public boolean wantsFilledSolids() {
 		return false;
+	}
+
+	@Override
+	public void setExportsPointsAndLines(boolean flag) {
+		// not used
+	}
+
+	@Override
+	public boolean exportsPointsAndLines() {
+		return true;
 	}
 
 }

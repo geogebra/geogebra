@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -38,7 +39,8 @@ public class VideoOffline extends AbstractVideoPlayer {
 	 */
 	VideoOffline(GeoVideo video, int id) {
 		super(video, id);
-		String errorId = ((AppW)app).getVendorSettings().getVideoAccessErrorKey();
+		VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+		String errorId = vendorSettings.getMenuLocalizationKey("VideoAccessError");
 		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
 		stylePlayer();
 		selectDeferred();
@@ -64,7 +66,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 		asWidget().setWidth(video.getWidth() + "px");
 		asWidget().setHeight(video.getHeight() + "px");
 
-
 		if (video.isBackground()) {
 			asWidget().addStyleName("background");
 		} else {
@@ -83,6 +84,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 
 	@Override
 	public void onReady() {
+		// intentionally empty
 	}
 
 	@Override
@@ -113,5 +115,10 @@ public class VideoOffline extends AbstractVideoPlayer {
 	@Override
 	public Widget asWidget() {
 		return errorPanel;
+	}
+
+	@Override
+	boolean isOffline() {
+		return true;
 	}
 }

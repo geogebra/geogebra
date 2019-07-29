@@ -52,6 +52,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.resources.SVGResource;
 
 /**
  * Toolbar for web, includes ToolbarW, undo panel and search / menu
@@ -1008,75 +1009,13 @@ public class GGWToolBar extends Composite
 	 * @return colored img for selected on tool
 	 */
 	public static ResourcePrototype getColoredImageForMode(
-			ToolbarResources resourceBundle, int mode, AppW app) {
-		switch (mode) {
-		case EuclidianConstants.MODE_PEN:
-			return resourceBundle.mode_pen_teal();
-			
-		case EuclidianConstants.MODE_SELECT_MOW:
-		case EuclidianConstants.MODE_SELECT:
-			return resourceBundle.mode_select_teal();
-		
-		case EuclidianConstants.MODE_ERASER:
-			return resourceBundle.mode_eraser_teal();
-
-		case EuclidianConstants.MODE_HIGHLIGHTER:
-			return resourceBundle.mode_highlighter_teal();
-
-		case EuclidianConstants.MODE_SHAPE_LINE:
-			return resourceBundle.mode_shape_line_teal();
-
-		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
-			return resourceBundle.mode_shape_triangle_teal();
-
-		case EuclidianConstants.MODE_SHAPE_SQUARE:
-			return resourceBundle.mode_shape_square_teal();
-			
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
-			return resourceBundle.mode_shape_rectangle_teal();
-
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
-			return resourceBundle.mode_shape_polygon_teal();
-
-		case EuclidianConstants.MODE_SHAPE_FREEFORM:
-			return resourceBundle.mode_shape_freeform_teal();
-
-		case EuclidianConstants.MODE_SHAPE_CIRCLE:
-			return resourceBundle.mode_shape_circle_teal();
-
-		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
-			return resourceBundle.mode_shape_ellipse_teal();
-
-		case EuclidianConstants.MODE_MEDIA_TEXT:
-			return resourceBundle.mode_media_text_teal();
-
-		case EuclidianConstants.MODE_TEXT:
-			return resourceBundle.mode_text_32_teal();
-
-		case EuclidianConstants.MODE_IMAGE:
-			return resourceBundle.mode_image_mow_teal();
-
-		case EuclidianConstants.MODE_VIDEO:
-			return resourceBundle.mode_video_teal();
-
-		case EuclidianConstants.MODE_CAMERA:
-			return resourceBundle.mode_camera_teal();
-
-		case EuclidianConstants.MODE_AUDIO:
-			return resourceBundle.mode_audio_teal();
-
-		case EuclidianConstants.MODE_PDF:
-			return resourceBundle.mode_pdf_teal();
-
-		case EuclidianConstants.MODE_EXTENSION:
-			return resourceBundle.mode_extension_teal();
-
-		case EuclidianConstants.MODE_GRAPHING:
-			return resourceBundle.mode_graphing_teal();
-
-		default:
-			return AppResources.INSTANCE.empty();
+			ToolbarResources resourceBundle, int mode, AppW app, String color) {
+		ResourcePrototype prototype = getImageURLNotMacro(resourceBundle, mode, app);
+		if (prototype instanceof SVGResource) {
+			SVGResource resource = (SVGResource) prototype;
+			prototype = resource.withFill(color);
 		}
+		return prototype;
 	}
 
 	/**

@@ -64,10 +64,15 @@ using namespace std;
 #include <unistd.h>
 #endif
 
+#ifdef EMCC
+#include <emscripten.h>
+#endif
+
 
 #if 0 // def GIAC_HAS_STO_38
   TMillisecs PrimeGetNow();
 #endif
+
 
 #if defined(EMCC) && !defined(PNACL)
 extern "C" double emcctime();
@@ -354,6 +359,15 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
       return PrimeGetNow()/1000.;
 #endif
+#if 0 && defined(EMCC) && !defined(GIAC_GGB)
+      double res;
+      res=EM_ASM_DOUBLE_V({
+	  var hw=Date.now();
+	  return hw;
+      });
+      return res*1e-6;
+#endif // GIAC_GGB
+
 #if defined(EMCC) && !defined(PNACL)
       return emcctime()/1e6;
 #endif
@@ -374,6 +388,18 @@ namespace giac {
     }
     return 0.0;
 #endif
+#if 0 && defined(EMCC) && !defined(GIAC_GGB)
+    double T1=EM_ASM_DOUBLE_V({
+	var hw=Date.now();
+	return hw;
+      });
+    eval(a,level,contextptr);
+    double T2=EM_ASM_DOUBLE_V({
+	var hw=Date.now();
+	return hw;
+      });
+    return (T2-T1)*1e-6;
+#endif // GIAC_GGB
 #if defined(EMCC) && !defined(PNACL)
     // time_t t1,t2;
     // time(&t1);

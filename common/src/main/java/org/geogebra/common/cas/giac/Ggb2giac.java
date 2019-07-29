@@ -1226,14 +1226,16 @@ public class Ggb2giac {
 		// texpand() added for Simplify[exp(x)/exp(x+1)]
 		// normal needed for Simplify[sqrt(2)*sqrt(5)]
 		// exp2pow(lin(pow2exp()) added for Simplify(x^(8*k+9)*x^(5*k))
+		// factor() for Simplify((x^2+2*x+1)/((x+1)^8))
 		p("Simplify.1",
-				"[[[ggbsimparg:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=exp2pow(lin(pow2exp(ggbsimparg)))]],"
+				"[[[ggbsimparg:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg))))]],"
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
 		p("ExpandOnly.1", "expand(%0)");
 
-		p("Solutions.1", "ggbsort(normal(zeros(%0,x)))");
+		 p("Solutions.1",
+				"ggbsort(normal(zeros(%0,when(type(%0)==DOM_LIST,lname(%0),when(indexOf(x,lname(%0))!=?,x,lname(%0)[0])))))");
 		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
 
 		// Root.1 and Solve.1 should be the same
@@ -1351,6 +1353,8 @@ public class Ggb2giac {
 		// ),1))* sign(%1)/2");
 
 		// eg ToBase(10^23,2)
+
+		p("Text.1", "%0+\"\"");
 
 		String lookupList = "\"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\"";
 		p("ToBase.2", "ggbText(\"\"+[[lookuplist:=" + lookupList
@@ -1798,9 +1802,11 @@ public class Ggb2giac {
 		// p("PolyLine.N","open_polygon(%)");
 
 		p("Tangent.2",
-				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x])==0,lname(ggbtanarg1)[0],x)]],"
-						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]=='=',"
-						+
+				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],"
+						// convert y=x^2 into x^2 but leave x^2+y^2=1 and x^3+y^3=1 alone
+						+ "[ggbtanarg1:=when(ggbtanarg1[0]=='='&&length(zeros(ggbtanarg1,y))==1&&degree(ggbtanarg1[1])<3&&degree(ggbtanarg1[2])<3,zeros(ggbtanarg1,y)[0],ggbtanarg1)],"
+						+ "[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x])==0,lname(ggbtanarg1)[0],x)]],"
+						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]=='='," +
 						// Tangent[conic/implicit,point on curve]
 						"when(type(equation(tangent(ggbtanarg1,ggbtanarg0)))==DOM_LIST,"
 						+ "equation(tangent(ggbtanarg1,ggbtanarg0)),"
@@ -1817,6 +1823,7 @@ public class Ggb2giac {
 						// needed for #5526
 						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,ggbtanvar=ggbtanarg0))"
 						+ ")][1]");
+
 
 		// p("TangentThroughPoint.2",
 		// "[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"

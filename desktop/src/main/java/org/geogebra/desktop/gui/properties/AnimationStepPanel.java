@@ -38,9 +38,23 @@ public class AnimationStepPanel extends JPanel
 
 	private Kernel kernel;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public AnimationStepPanel(AppD app) {
+		this(new AnimationStepModel(app), app);
+	}
+
+	/**
+	 *
+	 * @param m model
+	 * @param app application
+	 */
+	public AnimationStepPanel(AnimationStepModel m, AppD app) {
 		kernel = app.getKernel();
-		model = new AnimationStepModel(this, app);
+		model = m;
+		model.setListener(this);
 		// text field for animation step
 		label = new JLabel();
 		tfAnimStep = new AngleTextField(6, app);

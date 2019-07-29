@@ -41,5 +41,12 @@ public interface SVGResource extends DataResource {
 	 * Override this explicitly for dev mode to work properly
 	 */
 	SafeUri getSafeUri();
+
+	/**
+	 * Copies this resource and sets the fill color.
+	 *
+	 * @param color color
+	 */
+	SVGResource withFill(String color);
 }
 

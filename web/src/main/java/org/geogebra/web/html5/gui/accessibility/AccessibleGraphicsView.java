@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SliderInput;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
@@ -25,12 +26,12 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	 * @param sliderFactory slider factory
 	 * @param view          accessibility view
 	 */
-	public AccessibleGraphicsView(AppW app, WidgetFactory sliderFactory,
+	public AccessibleGraphicsView(AppW app, BaseWidgetFactory sliderFactory,
 			final AccessibilityView view) {
 		this.app = app;
 		this.view = view;
 		for (int i = 0; i < sliderTypes.size(); i++) {
-			sliders.add(sliderFactory.makeSlider(i, this));
+			sliders.add(WidgetFactory.makeSlider(i, this, sliderFactory));
 		}
 		update();
 	}

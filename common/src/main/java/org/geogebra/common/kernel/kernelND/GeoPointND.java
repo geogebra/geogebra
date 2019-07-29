@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -469,4 +470,22 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public int getToStringMode();
 
 	public void addToPathParameter(double d);
+
+	/**
+	 * set region changed with x, y coords
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 */
+	void setRegionChanged(double x, double y);
+
+	/**
+	 * point changed on a polygon as path
+	 * 
+	 * @param polygon
+	 *            polygon
+	 */
+	void pointChanged(GeoPolygon polygon);
 }

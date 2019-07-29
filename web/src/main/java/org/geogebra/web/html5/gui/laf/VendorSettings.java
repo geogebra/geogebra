@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.laf;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
@@ -38,8 +39,30 @@ public interface VendorSettings {
 	FullScreenHandler getFullscreenHandler();
 
 	/**
+	 * Returns the primary color.
 	 *
-	 * @return the error key if a video cannot be accessed.
+	 * @return the primary color
 	 */
-	String getVideoAccessErrorKey();
+	GColor getPrimaryColor();
+
+	/**
+	 * @return if main menu button should be external.
+	 */
+	boolean isMainMenuExternal();
+
+	/**
+	 * Transforms a localization key to the vendor specific version.
+	 *
+	 * @param key the default menu localization key
+	 * @return vendor specific localization key
+	 */
+	String getMenuLocalizationKey(String key);
+
+	/**
+	 * Transforms the style name to the vendor specific version.
+	 *
+	 * @param styleName the default style name
+	 * @return the vendor specific style name
+	 */
+	String getStyleName(String styleName);
 }

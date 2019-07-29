@@ -200,7 +200,6 @@ public abstract class Renderer {
 	 */
     public void mayStartAR() {
         if (arShouldStart) {
-			view3D.setXScaleARStart();
 			doStartAR();
             arShouldStart = false;
         }
@@ -272,7 +271,7 @@ public abstract class Renderer {
     public double checkHittingFloorZ(double z) {
 		ARManagerInterface<?> arManager = getARManager();
 		if (arManager != null) {
-			return arManager.checkHittingFloorZ(z);
+			return arManager.checkHittingFloorZ(z) + view3D.getARFloorShift();
 		}
 		return 0;
     }
@@ -2040,10 +2039,11 @@ public abstract class Renderer {
 	 * set AR to end
 	 */
 	public void setARShouldEnd() {
+		resetScaleFromAR();
 		killARSession();
+		view3D.resetViewFromAR();
 		view3D.setARDrawing(false);
 		view3D.setAREnabled(false);
-		view3D.resetViewFromAR();
 	}
 
 	/**
@@ -2146,7 +2146,7 @@ public abstract class Renderer {
      *
      * @return AR manager (can be null)
      */
-	protected ARManagerInterface<?> getARManager() {
+	public ARManagerInterface<?> getARManager() {
 	    return null;
     }
 
@@ -2181,4 +2181,75 @@ public abstract class Renderer {
 			arManager.fitThickness();
 		}
     }
+
+    /**
+     * reset 3D view scale if AR has changed it
+     */
+    protected void resetScaleFromAR() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.resetScaleFromAR();
+        }
+    }
+
+	/**
+	 *
+	 * @return ar ratio (can be null)
+	 */
+	public String getARRatio() {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return arManager.getARRatioInString();
+		}
+		return null;
+	}
+
+	/**
+	 * set AR ratio
+	 *
+	 * @param ratio
+	 *            new ratio for AR
+	 */
+	public void setARRatio(double ratio) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatio(ratio);
+		}
+	}
+
+    /**
+     *
+     * @return ar ratio units (can be null)
+     */
+    public String getARRatioUnits() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getUnits();
+        }
+        return null;
+    }
+
+	/**
+	 *
+	 * @return ar ratio metric system (cm or inch)
+	 */
+    public int getARRatioMetricSystem() {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			return arManager.getARRatioMetricSystem();
+		}
+		return 0;
+	}
+
+	/**
+	 *
+	 * @param metricSystem
+	 *                  ar ratio metric system (cm or inch)
+	 */
+	public void setARRatioMetricSystem(int metricSystem) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatioMetricSystem(metricSystem);
+		}
+	}
 }

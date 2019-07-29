@@ -68,7 +68,6 @@ import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
@@ -105,7 +104,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private boolean pasteInstalled = false;
 
 	private int bottomOffset;
-	private MyTextArea wrap;
+	private MyTextArea inputTextArea;
 	private SimplePanel clip;
 
 	private double scale = 1.0;
@@ -187,7 +186,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 		this.focusHandler = fh;
 
-		setKeyListener(wrap, keyListener);
+		setKeyListener(inputTextArea, keyListener);
 	}
 
 	/**
@@ -215,8 +214,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			parent.getElement().setAttribute("aria-label", label);
 			return;
 		}
-		if (wrap != null) {
-			wrap.getElement().setAttribute("aria-label", label);
+		if (inputTextArea != null) {
+			inputTextArea.getElement().setAttribute("aria-label", label);
 		}
 	}
 
@@ -551,8 +550,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (lastIcon == null) {
 			return;
 		}
-		if (!active(wrap.getElement()) && this.enabled) {
-			wrap.getElement().focus();
+		if (!active(inputTextArea.getElement()) && this.enabled) {
+			inputTextArea.getElement().focus();
 		}
 		final double height = computeHeight(lastIcon);
 		final double width = roundUp(lastIcon.getIconWidth() + 30);
@@ -717,7 +716,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	private void focusTextArea() {
-		wrap.getElement().focus();
+		inputTextArea.getElement().focus();
 
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
@@ -805,34 +804,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (clip == null) {
 			clip = new SimplePanel();
 			Element el = getHiddenTextAreaNative(counter++, clip.getElement());
-			wrap = MyTextArea.wrap(el);
+			inputTextArea = MyTextArea.wrap(el);
 
-			wrap.addCompositionUpdateHandler(new CompositionHandler() {
+			inputTextArea.addCompositionUpdateHandler(
+					new EditorCompositionHandler(this));
 
-				@Override
-				public void onCompositionUpdate(CompositionEvent event) {
-					// this works fine for Korean as the editor has support for
-					// combining Korean characters
-					// but for eg Japanese probably will need to hook into
-					// compositionstart & compositionend events as well
-
-					// in Chrome typing fast gives \u3137\uB450
-					// instead of \u3137\u315C
-					// so flatten the result and send just the last character
-					String data = Korean.flattenKorean(event.getData());
-
-					// fix for swedish
-					if (!"^".equals(data)) {
-						// also convert to compatibility Jamo
-						// as that's what the editor expects
-						insertString("" + Korean.convertToCompatibilityJamo(
-								data.charAt(data.length() - 1)));
-						// logNative("onCompositionUpdate" + event.getData());
-					}
-				}
-			});
-
-			wrap.addFocusHandler(new FocusHandler() {
+			inputTextArea.addFocusHandler(new FocusHandler() {
 
 				@Override
 				public void onFocus(FocusEvent event) {
@@ -842,7 +819,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				}
 			});
 
-			wrap.addBlurHandler(new BlurHandler() {
+			inputTextArea.addBlurHandler(new BlurHandler() {
 
 				@Override
 				public void onBlur(BlurEvent event) {
@@ -853,13 +830,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 				}
 			});
-			clip.setWidget(wrap);
+			clip.setWidget(inputTextArea);
 		}
 		if (parent != null) {
 			parent.add(clip);
 		}
 
-		return wrap.getElement();
+		return inputTextArea.getElement();
 	}
 
 	// private native void logNative(String s) /*-{
@@ -1000,7 +977,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * Remove focus and call blur handler.
 	 */
 	public void blur() {
-		this.wrap.setFocus(false);
+		this.inputTextArea.setFocus(false);
 		if (this.onTextfieldBlur != null) {
 			this.onTextfieldBlur.onBlur(null);
 		}
@@ -1151,6 +1128,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public MathFieldInternal getInternal() {
 		return mathFieldInternal;
+	}
+
+	/**
+	 * @return textarea
+	 */
+	public MyTextArea getInputTextArea() {
+		return inputTextArea;
 	}
 
 }

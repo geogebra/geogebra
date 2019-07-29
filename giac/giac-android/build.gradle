@@ -18,31 +18,29 @@ android {
 }
 
 def jniLibsDir = "src/main/jniLibs"
-def armeabiDir = "$jniLibsDir/armeabi-v7a"
-def x86Dir = "$jniLibsDir/x86"
+def abiSplits = ["armeabi-v7a": "/../arm-linux-androideabi/lib/",
+                 "x86"        : "/../i686-linux-android/lib/",
+                 "x86_64"     : "/../x86_64-linux-android/lib/",
+                 "arm64-v8a"  : "/../aarch64-linux-android/lib/"]
 
 task copyCrystaxSo {
+    group 'android'
     description 'Copies Crystax .so files to the appropriate folders.'
-    def found = 0
     doLast {
-	def so = "libcrystax.so"
-	def PATH = System.env['PATH'].split(":").each { d ->
-	    def libdirArmeabi = d + "/../arm-linux-androideabi/lib/"
-	    def libdirX86 = d + "/../i686-linux-android/lib/"
-	    if (file(libdirArmeabi + so).exists()) {
-		println " Found armeabi .so"
-		found ++
-		copy { from libdirArmeabi include so into armeabiDir }
-		}
-	    if (file(libdirX86 + so).exists()) {
-		println " Found x86 .so"
-		found ++
-		copy { from libdirX86 include so into x86Dir }
-		}
-	    }
-	if (found < 2) {
-	    def missing = 2 - found
-	    throw new GradleException("Missing $missing $so libraries, check PATH")
-	    }
-	}
+        def so = "libcrystax.so"
+        def missing = abiSplits.size()
+        def PATH = System.env['PATH'].split(":").each { d ->
+            abiSplits.each { arch, libDirSuffix ->
+                def libdirArch = d + libDirSuffix 
+                if (file(libdirArch + so).exists()) {
+                    println " Found $arch .so in $d"
+                    missing --
+                    copy { from libdirArch include so into "$jniLibsDir/$arch" }
+                }
+            }
+        }
+        if (missing > 0) {
+            throw new GradleException("Missing $missing $so libraries, check PATH")
+        }
     }
+}

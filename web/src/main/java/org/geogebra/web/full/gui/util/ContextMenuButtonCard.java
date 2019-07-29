@@ -58,8 +58,8 @@ public class ContextMenuButtonCard extends MyToggleButton
 	}
 
 	private void initButton() {
-		Image hoveringFace = getImage(
-				MaterialDesignResources.INSTANCE.more_vert_mebis());
+		SVGResource resource = getActiveImageResource();
+		Image hoveringFace = getImage(resource);
 		getUpHoveringFace().setImage(hoveringFace);
 		getDownHoveringFace().setImage(hoveringFace);
 		addStyleName("mowMoreButton");
@@ -80,6 +80,11 @@ public class ContextMenuButtonCard extends MyToggleButton
 				event.stopPropagation();
 			}
 		});
+	}
+
+	private SVGResource getActiveImageResource() {
+		SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
+		return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
 	}
 
 	/**
@@ -158,8 +163,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 	 */
 	protected void toggleIcon(boolean toggle) {
 		if (toggle) {
-			getUpFace().setImage(getImage(
-					MaterialDesignResources.INSTANCE.more_vert_mebis()));
+			getUpFace().setImage(getImage(getActiveImageResource()));
 			addStyleName("active");
 		} else {
 			getUpFace().setImage(getImage(

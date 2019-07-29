@@ -17,9 +17,13 @@ public class AnimationStepModel extends OptionsModel {
 
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
 
-	public AnimationStepModel(ITextFieldListener listener, App app) {
+	/**
+	 * Constructor
+	 *
+	 * @param app application
+	 */
+	public AnimationStepModel(App app) {
 		super(app);
-		this.listener = listener;
 	}
 
 	@Override
@@ -115,6 +119,14 @@ public class AnimationStepModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
+	}
+
+	/**
+	 * Set the listener of the model
+	 * @param listener listener for the textfield
+	 */
+	public void setListener(ITextFieldListener listener) {
+		this.listener = listener;
 	}
 
 }

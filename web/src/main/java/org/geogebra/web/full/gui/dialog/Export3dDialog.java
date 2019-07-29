@@ -19,10 +19,13 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandle
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.OnBackSpaceHandler;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -37,6 +40,8 @@ public class Export3dDialog extends OptionDialog
 
 	private Runnable onExportButtonPressed;
 	private ParsableComponentInputField lineThicknessValue;
+	private String oldLineThicknessValue;
+	private CheckBox filledSolid;
 	private double lastUpdatedScale;
 	private double lastUpdatedThickness;
 
@@ -87,9 +92,16 @@ public class Export3dDialog extends OptionDialog
 		 *            if error should be shown
 		 * @param canBeEqual
 		 *            if value can be equel to min value
+		 * @param canBeEmpty
+		 *            if textfield can be empty (value is 0)
 		 * @return true if parsed ok
 		 */
-		public boolean parse(boolean showError, boolean canBeEqual) {
+		public boolean parse(boolean showError, boolean canBeEqual,
+				boolean canBeEmpty) {
+			if (canBeEmpty && getText().trim().length() == 0) {
+				parsedValue = 0;
+				return true;
+			}
 			try {
 				parsedValue = canBeEqual
 						? numberValidator.getDoubleGreaterOrEqual(getText(), 0d)
@@ -224,7 +236,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		void parseAndUpdateOthers() {
-			if (inputField.parse(false, false)) {
+			if (inputField.parse(false, false, false)) {
 				updateOthers(calcCurrentRatio());
 			}
 		}
@@ -259,7 +271,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		public boolean parse() {
-			return !isUsed || inputField.parse(true, false);
+			return !isUsed || inputField.parse(true, false, false);
 		}
 	}
 
@@ -325,7 +337,31 @@ public class Export3dDialog extends OptionDialog
 	}
 
 	private void buildLineThicknessPanel(FlowPanel root) {
-		lineThicknessValue = addTextField("STL.Thickness", "mm", root);
+		FlowPanel thicknessPanel = new FlowPanel();
+		thicknessPanel.setStyleName("panelRow");
+		lineThicknessValue = addTextField("STL.Thickness", "mm",
+				thicknessPanel);
+		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
+			filledSolid = new CheckBox();
+			filledSolid.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					if (filledSolid.getValue()) {
+						oldLineThicknessValue = lineThicknessValue.getText();
+						lineThicknessValue.setInputText("");
+					} else {
+						String current = lineThicknessValue.getText();
+						if (oldLineThicknessValue != null && current == null
+								|| current.trim().length() == 0) {
+							lineThicknessValue
+									.setInputText(oldLineThicknessValue);
+						}
+					}
+				}
+			});
+			thicknessPanel.add(filledSolid);
+		}
+		root.add(thicknessPanel);
 	}
 
 	private ParsableComponentInputField addTextField(String labelText,
@@ -361,7 +397,8 @@ public class Export3dDialog extends OptionDialog
 
 		}
 		ok = checkOkAndSetFocus(ok,
-				lineThicknessValue.parse(true, app.has(Feature.G3D_STL_SOLID)),
+				lineThicknessValue.parse(true, app.has(Feature.G3D_STL_SOLID),
+						true),
 				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
@@ -380,6 +417,10 @@ public class Export3dDialog extends OptionDialog
 			f.inputField.setLabels();
 		}
 		lineThicknessValue.setLabels();
+		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
+			filledSolid.setText(app.getLocalization()
+					.getMenuDefault("STL.FilledSolid", "Filled Solid"));
+		}
 		updateButtonLabels("Download");
 	}
 
@@ -421,6 +462,15 @@ public class Export3dDialog extends OptionDialog
 	@Override
 	public double getCurrentThickness() {
 		return lastUpdatedThickness;
+	}
+
+	@Override
+	public boolean wantsFilledSolids() {
+		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
+			return filledSolid.getValue()
+					|| DoubleUtil.isZero(getCurrentThickness());
+		}
+		return DoubleUtil.isZero(getCurrentThickness());
 	}
 
 }

@@ -170,4 +170,11 @@ public interface VideoManager {
 	 * @param video the video.
 	 */
 	void onError(GeoVideo video);
+
+	/**
+	 *
+	 * @param video to check
+	 * @return if the player of the video is offline
+	 */
+	boolean isPlayerOffline(GeoVideo video);
 }

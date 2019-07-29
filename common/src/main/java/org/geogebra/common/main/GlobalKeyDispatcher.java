@@ -1655,8 +1655,10 @@ public abstract class GlobalKeyDispatcher {
 							}
 						}
 
-						// stop animation if slider dragged
-						num.setAnimating(false);
+						// stop all animation if slider dragged
+						if (num.isAnimating()) {
+							num.getKernel().getAnimatonManager().stopAnimation();
+						}
 
 						num.setValue(newValue);
 					}

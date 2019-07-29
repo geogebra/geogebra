@@ -55,6 +55,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.profiler.FpsProfiler;
 
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
@@ -1532,12 +1533,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return ret.evaluateDouble();
 	}
 
-	/**
-	 * Cast undo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
-	 */
 	@Override
 	public void undo(boolean repaint) {
 		app.getKernel().undo();
@@ -1560,12 +1555,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		redo(false);
 	}
 
-	/**
-	 * Cast redo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
-	 */
 	@Override
 	public void redo(boolean repaint) {
 		app.getKernel().redo();
@@ -1637,7 +1626,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(label);
 		if (geo instanceof TextProperties) {
 			TextProperties text = (TextProperties) geo;
-			text.setFontSizeMultiplier(size / (0.0 + app.getFontSize()));
+			text.setFontSizeMultiplier(size / (0.0
+					+ app.getSettings().getFontSettings().getAppFontSize()));
 			text.setFontStyle((bold ? GFont.BOLD : GFont.PLAIN)
 					| (italic ? GFont.ITALIC : GFont.PLAIN));
 			text.setSerifFont(serif);
@@ -1737,7 +1727,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		
 		setPerspectiveWithViews(code);
-		if (app.getActiveEuclidianView() != null) {
+		if (app.getActiveEuclidianView() != null
+				&& !kernel.getConstruction().isScriptRunningForGeo()) {
 			app.getActiveEuclidianView().requestFocus();
 		}
 	}
@@ -1760,7 +1751,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				app.getXMLio().parsePerspectiveXML(
 						"<geogebra format=\"5.0\"><gui><perspectives>" + code
 								+ "</perspectives></gui></geogebra>");
-				app.getGuiManager().updateGUIafterLoadFile(true, false);
+				if (app.getGuiManager() != null) {
+					app.getGuiManager().updateGUIafterLoadFile(true, false);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2372,9 +2365,20 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return false;
 	}
 
-	@Deprecated
+	/**
+	 * @return exercise fraction (same as getValue("correct"))
+	 */
 	public double getExerciseFraction() {
 		return getValue("correct");
 	}
 
+	@Override
+	public void enableFpsMeasurement() {
+		FpsProfiler.getInstance().setEnabled(true);
+	}
+
+	@Override
+	public void disableFpsMeasurement() {
+		FpsProfiler.getInstance().setEnabled(false);
+	}
 }

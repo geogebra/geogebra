@@ -5,11 +5,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	private Timer timer;
-	private UIObject anchor;
+	private Element anchor;
 
 	/**
 	 * Constructor.
@@ -31,7 +31,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 * @param anchor
 	 *            object to focus afterwards
 	 */
-	public ReaderWidget(int evNo, UIObject anchor) {
+	public ReaderWidget(int evNo, Element anchor) {
 		this.anchor = anchor;
 		getElement().setId("screenReader" + evNo);
 		// can't be tabbed, but can get the focus programmatically
@@ -40,7 +40,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		getElement().setAttribute("aria-live", "polite");
 		getElement().setAttribute("aria-atomic", "true");
 		getElement().setAttribute("aria-relevant", "additions text");
-		if (Browser.needsVirtualTabber()) {
+		if (Browser.needsAccessibilityView()) {
 			setVisible(false);
 		} else {
 			offscreen(this);
@@ -90,7 +90,9 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 */
 	public void read(final String text) {
 		Log.debug("read text: " + text);
-		setText(text);
+		// make sure text isn't truncated by <return>
+		// https://help.geogebra.org/topic/alttext-reading-stops-at-hard-return
+		setText(text.replace('\n', ' '));
 		focus();
 		resetWithDelay();
 	}
@@ -112,7 +114,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 */
 	@Override
 	public void readText(String text) {
-		if (!hasParentWindow() && !Browser.needsVirtualTabber()) {
+		if (!hasParentWindow() && !Browser.needsAccessibilityView()) {
 			readTextImmediate(text);
 		}
 	}
@@ -139,7 +141,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		JavaScriptObject scrollState = JavaScriptObject.createObject();
 		int scrolltop = getScrollTop(scrollState);
 		read(text);
-		anchor.getElement().focus();
+		anchor.focus();
 		setScrollTop(scrolltop, scrollState);
 
 	}

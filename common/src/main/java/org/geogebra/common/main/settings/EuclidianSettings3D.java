@@ -97,11 +97,23 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param z
 	 *			  z-axis scale
 	 */
+	public void setXYZscale(double x, double y, double z) {
+		setXYZscaleValues(x, y, z);
+		settingChanged();
+	}
+
+	/**
+	 * @param x
+	 *            x-axis scale
+	 * @param y
+	 *            y-axis scale
+	 * @param z
+	 *			  z-axis scale
+	 */
 	public void setXYZscaleValues(double x, double y, double z) {
 		this.xscale = x;
 		this.yscale = y;
 		this.zscale = z;
-		settingChanged();
 		updateScaleHelpers();
 	}
 

@@ -9,6 +9,22 @@
 	$z_mow_toolbar_slider: 54;
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 
+    .showMowSubmenu {
+        transition: $mowsubmenu-transition;
+    }
+
+    .hideMowSubmenu {
+        transition: $mowsubmenu-transition;
+    }
+
+    .showMowSubmenu.narrowscreen {
+        bottom: $toolbarPanelHeight !important;
+    }
+
+    .hideMowSubmenu.narrowscreen {
+        bottom: $toolbarHeight !important;
+    }
+
 	.toolbarMow {
 	    bottom: 212px;
 	    position: relative;
@@ -17,23 +33,13 @@
 	    margin: 0px auto;
 	    box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.20);
 
-		&.showMowSubmenu {
-		    bottom: $toolbarPanelHeight;
-		    transition: $mowsubmenu-transition;
-		}
-
-		&.hideMowSubmenu {
-		    bottom: $toolbarHeight;
-		    transition: $mowsubmenu-transition;
-		}
-
 		.mowSubMenu {
 			width: calc(100% /3);
 			overflow: hidden;
 		}
 
 		.headerMow {
-		    background-color: $mow_toolbar;
+		    background-color: $mow_primary;
 
 		    .content {
 		    	height: $toolbarHeight;
@@ -178,7 +184,7 @@
 							 	img {
 							 		opacity: 1;
 							 	}
-					    		border: 1px solid $mow_highlight !important;
+					    		border: 1px solid $mow_primary !important;
 							 }
 						}
 					}
@@ -282,7 +288,7 @@
 			opacity: 1;
 		}
 		.gwt-Label {
-			color: $mebis-teal;
+			color: $mow_primary;
 		}
 	}
 }

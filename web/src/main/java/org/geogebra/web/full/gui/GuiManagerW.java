@@ -85,6 +85,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
+import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -125,6 +126,7 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Visibility;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -137,7 +139,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-//@SuppressWarnings("javadoc")
 public class GuiManagerW extends GuiManager
 		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
 
@@ -240,12 +241,12 @@ public class GuiManagerW extends GuiManager
 	public void showPopupMenu(final ArrayList<GeoElement> selectedGeos,
 			final EuclidianViewInterfaceCommon view, final GPoint mouseLoc) {
 		showPopupMenu(selectedGeos,
-				((EuclidianViewW) view).getG2P().getCanvas(),
+				((EuclidianViewWInterface) view).getG2P().getElement(),
 				mouseLoc);
 	}
 
 	private void showPopupMenu(final ArrayList<GeoElement> geos,
-			final Canvas invoker, final GPoint p) {
+			final Element invoker, final GPoint p) {
 		if (geos == null || !getApp().letShowPopupMenu()) {
 			return;
 		}
@@ -254,7 +255,7 @@ public class GuiManagerW extends GuiManager
 		} else {
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
-			getPopupMenu(geos).show(invoker, p.x, p.y);
+			getPopupMenu(geos).showScaled(invoker, p.x, p.y);
 		}
 	}
 
@@ -322,12 +323,13 @@ public class GuiManagerW extends GuiManager
 			showDrawingPadPopup(view, p);
 		} else {
 
-			final Canvas invoker = ((EuclidianViewWInterface) view).getCanvas();
+			final Element invoker = ((EuclidianViewWInterface) view)
+					.getCanvasElement();
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
 			ContextMenuGeoElementW menu = getPopupMenu(view, selectedGeos,
 					geos, p);
-			menu.show(invoker, p.x, p.y);
+			menu.showScaled(invoker, p.x, p.y);
 		}
 	}
 
@@ -442,8 +444,12 @@ public class GuiManagerW extends GuiManager
 		if (getApp().getToolbar() != null) {
 			getApp().getToolbar().closeAllSubmenu();
 		}
-		((DialogManagerW) app.getDialogManager())
-		.showWebcamInputDialog(this.device);
+		DialogManagerW dialogManager = (DialogManagerW) app.getDialogManager();
+		if (Browser.isiOS()) {
+			dialogManager.showImageInputDialog(null, device);
+		} else {
+			dialogManager.showWebcamInputDialog(device);
+		}
 	}
 
 	/**
@@ -482,7 +488,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void showDrawingPadPopup(final EuclidianViewInterfaceCommon view,
 			final GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getCanvas(),
+		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getElement(),
 				mouseLoc);
 	}
 
@@ -492,10 +498,10 @@ public class GuiManagerW extends GuiManager
 		// 3D stuff
 	}
 
-	private void showDrawingPadPopup(final Canvas invoker, final GPoint p) {
+	private void showDrawingPadPopup(final Element invoker, final GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getDrawingPadpopupMenu(p.x, p.y).show(invoker, p.x, p.y);
+		getDrawingPadpopupMenu(p.x, p.y).showScaled(invoker, p.x, p.y);
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,
@@ -688,7 +694,7 @@ public class GuiManagerW extends GuiManager
 
 			@Override
 			public void execute() {
-				getApp().centerAndResizePopups();
+				getApp().centerAndResizeViews();
 				resizeKeyboard();
 			}
 
@@ -2536,6 +2542,15 @@ public class GuiManagerW extends GuiManager
 	public void updateUnbundledToolbar() {
 		if (getUnbundledToolbar() != null) {
 			getUnbundledToolbar().updateTabs();
+		}
+	}
+
+	@Override
+	public void menuToGlobalHeader() {
+		if (GlobalHeader.isInDOM()) {
+			MenuToggleButton btn = new MenuToggleButton((AppW) app);
+			btn.setExternal(true);
+			btn.addToGlobalHeader();
 		}
 	}
 }

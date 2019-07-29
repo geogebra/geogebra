@@ -511,7 +511,7 @@ public final class DrawImage extends Drawable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(true, false);
+			boundingBox = createBoundingBox(true, false);
 		}
 		return boundingBox;
 	}

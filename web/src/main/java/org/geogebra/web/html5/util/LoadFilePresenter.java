@@ -280,7 +280,6 @@ public class LoadFilePresenter {
 		app.appSplashCanNowHide();
 
 		app.updateToolBar();
-		app.focusLost(null, null);
 		app.setUndoActive(true);
 		if (p != null) {
 			app.setActivePerspective(p.getDefaultID() - 1);

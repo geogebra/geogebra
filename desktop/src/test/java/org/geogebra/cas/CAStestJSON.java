@@ -351,6 +351,11 @@ public class CAStestJSON {
 		testCat("Assume.2");
 	}
 
+	@Test
+	public void testText() {
+		testCat("Text.1");
+	}
+
 	/**
 	 * IsDefined()
 	 */

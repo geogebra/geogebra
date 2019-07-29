@@ -14,10 +14,10 @@ import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -33,7 +33,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId, EuclidianViewAccessibiliyAdapter {
+
 	private ConstructionProtocolNavigationW consProtNav;
+
 	private boolean hasEuclidianFocus;
 	private boolean mayHaveZoomButtons = false;
 	/**
@@ -305,11 +307,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void onResize() {
-		super.onResize();
-	}
-
-	@Override
 	public void tryBuildZoomPanel() {
 		if (zoomPanel != null) {
 			zoomPanel.removeFromParent();
@@ -407,30 +404,25 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public void moveZoomPanelUpOrDown(boolean up) {
 		if (zoomPanel != null) {
-			if (up) {
-				zoomPanel.removeStyleName("hideMowSubmenu");
-				zoomPanel.addStyleName("showMowSubmenu");
-			} else {
-				zoomPanel.removeStyleName("showMowSubmenu");
-				zoomPanel.addStyleName("hideMowSubmenu");
-			}
+			Dom.toggleClass(zoomPanel, "showMowSubmenu", "hideMowSubmenu", up);
 		}
 	}
 
 	/**
-	 * Sets the bottom attribute of zoomPanel
-	 *
-	 * @param add
-	 *            true if needs to be set, false if needs to be removed
+	 * Move zoom panel to bottom
 	 */
-	public void setZoomPanelBottom(boolean add) {
-		if (zoomPanel == null) {
-			return;
+	public void moveZoomPanelToBottom() {
+		if (zoomPanel != null) {
+			zoomPanel.removeStyleName("narrowscreen");
 		}
-		if (add) {
-			zoomPanel.getElement().getStyle().setBottom(0, Unit.PX);
-		} else {
-			zoomPanel.getElement().getStyle().clearBottom();
+	}
+
+	/**
+	 * Move zoom panel to avoid conflicts with toolbar
+	 */
+	public void moveZoomPanelAboveToolbar() {
+		if (zoomPanel != null) {
+			zoomPanel.addStyleName("narrowscreen");
 		}
 	}
 
@@ -498,5 +490,4 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			getEuclidianPanel().oldHeight = 0;
 		}
 	}
-
 }

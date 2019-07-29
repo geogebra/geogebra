@@ -1,10 +1,8 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
@@ -19,8 +17,6 @@ import com.google.gwt.user.client.Window.Location;
  * Simple version of API just for availability check.
  */
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
-
-	private URLChecker urlChecker = null;
 
 	/**
 	 * @param beta
@@ -37,7 +33,6 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		if (!StringUtil.empty(articleElement.getLoginAPIurl())) {
 			setLoginURL(articleElement.getLoginAPIurl());
 		}
-		urlChecker = new EmbedURLChecker(articleElement.getParamBackendURL());
 	}
 
 	@Override
@@ -71,8 +66,4 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		return "";
 	}
 
-	@Override
-	public URLChecker getURLChecker() {
-		return urlChecker;
-	}
 }

@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -752,11 +751,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	@Override
 	public AutoColor getAutoColorScheme() {
-		if (kernel.getApplication()
-				.has(Feature.G3D_NEW_SURFACE_FUNCTIONS_COLORS)) {
-			return AutoColor.SURFACES;
-		}
-		return super.getAutoColorScheme();
+		return AutoColor.SURFACES;
 	}
 
 	@Override

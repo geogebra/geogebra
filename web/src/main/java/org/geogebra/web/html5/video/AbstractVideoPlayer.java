@@ -68,12 +68,24 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	 */
 	abstract void pause();
 
-	abstract void sendBackground();
-
-	/**
+		/**
 	 * @param video2
 	 *            other video
 	 * @return whether the player is compatible with the oter video
 	 */
 	abstract boolean matches(GeoVideo video2);
+
+	/**
+	 * Sends the player background.
+	 */
+	public void sendBackground() {
+		video.setBackground(true);
+		update();
+	}
+
+	/**
+	 *
+	 * @return if player is offline.
+	 */
+	abstract boolean isOffline();
 }

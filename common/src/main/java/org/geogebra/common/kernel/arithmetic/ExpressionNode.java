@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -85,9 +86,9 @@ public class ExpressionNode extends ValidExpression
 	private boolean brackets;
 	private ExpressionValue resolve;
 
-	// used by NDerivative command
+	// used by NDerivative / NIntegral / NInvert commands
 	// (answer not displayed in Algebra View)
-	private AlgoElement isSecret;
+	private AlgoElement secretMaskingAlgo;
 
 	/**
 	 * Creates dummy expression node
@@ -149,7 +150,7 @@ public class ExpressionNode extends ValidExpression
 
 		leaf = node.leaf;
 		operation = node.operation;
-		isSecret = node.isSecret;
+		secretMaskingAlgo = node.secretMaskingAlgo;
 		setLeft(node.left);
 		setRight(node.right);
 	}
@@ -299,7 +300,7 @@ public class ExpressionNode extends ValidExpression
 		newNode.forcePoint = forcePoint;
 		newNode.forceFunction = forceFunction;
 		newNode.brackets = brackets;
-		newNode.isSecret = isSecret;
+		newNode.secretMaskingAlgo = secretMaskingAlgo;
 		// Application.debug("getCopy() output: " + newNode);
 		return newNode;
 	}
@@ -893,7 +894,11 @@ public class ExpressionNode extends ValidExpression
 
 		// if we did some replacement in a leaf,
 		// we might need to update the leaf flag (#3512)
-		return ev.unwrap().wrap();
+		ExpressionNode rewrap = unwrap().wrap();
+		if (isSecret()) {
+			rewrap.secretMaskingAlgo = this.secretMaskingAlgo;
+		}
+		return rewrap;
 	}
 
 	@Override
@@ -1101,7 +1106,7 @@ public class ExpressionNode extends ValidExpression
 				expr = expr.replace(func.getFunctionVariables()[i], ev).wrap();
 			}
 		} else {
-			throw new MyError(loc, "IllegalArgumentNumber");
+			throw new MyError(loc, Errors.IllegalArgumentNumber);
 		}
 
 		if (equ.isFunctionDependent()) {
@@ -1457,7 +1462,7 @@ public class ExpressionNode extends ValidExpression
 	final public String toString(StringTemplate tpl) {
 
 		if (isSecret()) {
-			return isSecret.getDefinition(tpl);
+			return secretMaskingAlgo.getDefinition(tpl);
 		}
 
 		if (leaf) { // leaf is GeoElement or not
@@ -1512,7 +1517,7 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		if (isSecret()) {
-			return isSecret.getDefinition(tpl);
+			return secretMaskingAlgo.getDefinition(tpl);
 		}
 
 		if (isLeaf()) { // leaf is GeoElement or not
@@ -1548,7 +1553,7 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	final public String toOutputValueString(StringTemplate tpl) {
 		if (isSecret()) {
-			return isSecret.getDefinition(tpl);
+			return secretMaskingAlgo.getDefinition(tpl);
 		}
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
@@ -1584,8 +1589,8 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		String ret;
-		if (isSecret != null) {
-			return isSecret.getDefinition(tpl);
+		if (secretMaskingAlgo != null) {
+			return secretMaskingAlgo.getDefinition(tpl);
 		}
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
@@ -2292,7 +2297,7 @@ public class ExpressionNode extends ValidExpression
 		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1)) {
 			return v2.wrap();
 		}
-		if (isConstantDouble(v2, 1)) {
+		if (isConstantDouble(v2, 1) || isConstantDouble(this, 0)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, v2);
@@ -3547,8 +3552,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return this
 	 */
 	public ExpressionNode setSecret(AlgoElement algo) {
-
-		this.isSecret = algo;
+		this.secretMaskingAlgo = algo;
 		return this;
 	}
 
@@ -3558,7 +3562,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return true if expression shouldn't be displayed to the user
 	 */
 	public boolean isSecret() {
-		return isSecret != null;
+		return secretMaskingAlgo != null;
 	}
 
 	// collect factors of expression recursively

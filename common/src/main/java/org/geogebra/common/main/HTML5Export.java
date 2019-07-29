@@ -4,6 +4,9 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.util.StringUtil;
 
+/**
+ * Creates HTML5 page with interactive applet.
+ */
 public class HTML5Export {
 
 	/**

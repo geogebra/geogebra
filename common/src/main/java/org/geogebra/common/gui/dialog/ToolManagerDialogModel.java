@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
 public class ToolManagerDialogModel {
@@ -125,8 +126,7 @@ public class ToolManagerDialogModel {
 		}
 
 		if (foundUsedMacro) {
-			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
-					+ " " + macroNames.toString());
+			app.showError(Errors.ToolDeleteUsed, macroNames.toString());
 		}
 
 		return changeToolBar;

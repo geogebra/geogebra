@@ -87,16 +87,16 @@ public class JlmLib {
 	}
 
 	public static native double getPixelRatio() /*-{
-												var testCanvas = document.createElement("canvas"), testCtx = testCanvas
-												.getContext("2d");
-												devicePixelRatio = $wnd.devicePixelRatio || 1;
-												backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
-												|| testCtx.mozBackingStorePixelRatio
-												|| testCtx.msBackingStorePixelRatio
-												|| testCtx.oBackingStorePixelRatio
-												|| testCtx.backingStorePixelRatio || 1;
-												return devicePixelRatio / backingStorePixelRatio;
-												}-*/;
+		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
+				.getContext("2d");
+		devicePixelRatio = $wnd.devicePixelRatio || 1;
+		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
+				|| testCtx.mozBackingStorePixelRatio
+				|| testCtx.msBackingStorePixelRatio
+				|| testCtx.oBackingStorePixelRatio
+				|| testCtx.backingStorePixelRatio || 1;
+		return devicePixelRatio / backingStorePixelRatio;
+	}-*/;
 
 	public static JavaScriptObject draw(TeXIcon icon, Context2d ctx,
 			final int x, final int y, final String fgColorString,
@@ -144,10 +144,10 @@ public class JlmLib {
 
 	private static native void callJavascriptCallback(JavaScriptObject cb,
 			boolean async) /*-{
-							if (cb != null) {
-							cb(async);
-							}
-							}-*/;
+		if (cb != null) {
+			cb(async);
+		}
+	}-*/;
 
 	public static TeXIcon createIcon(final String latex, final double size,
 			final int type, Insets insets) {

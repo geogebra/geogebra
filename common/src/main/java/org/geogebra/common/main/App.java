@@ -13,6 +13,7 @@ import java.util.Vector;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.singularws.SingularWebService;
@@ -75,6 +76,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
@@ -373,6 +375,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	// command dictionary
 	private LowerCaseDictionary commandDict;
+	private LowerCaseDictionary englishCommandDict;
 	private LowerCaseDictionary commandDictCAS;
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
@@ -761,6 +764,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * @return command dictionary
+	 */
+	public final LowerCaseDictionary getEnglishCommandDictionary() {
+		return englishCommandDict;
+	}
+
+	/**
 	 * Fill command dictionary and translation table. Must be called before we
 	 * start using Input Bar.
 	 */
@@ -780,6 +790,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
 		commandDict = newLowerCaseDictionary();
+		englishCommandDict = newLowerCaseDictionary();
 		// else commandDict.clear();
 
 		// =====================================
@@ -787,50 +798,31 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		CommandNameFilter cf = CommandNameFilterFactory
 				.createNoCasCommandNameFilter();
 
-		if (subCommandDict == null) {
-			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
-			for (int i = 0; i < subCommandDict.length; i++) {
-				subCommandDict[i] = newLowerCaseDictionary();
-			}
-		}
-		for (int i = 0; i < subCommandDict.length; i++) {
-			subCommandDict[i].clear();
-			// =====================================
-		}
+		createSubCommandDictIfNeeded();
+		clearSubCommandDict();
+
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
+
 		for (Commands comm : Commands.values()) {
 			if (noCAS && !cf.isCommandAllowed(comm)) {
 				continue;
 			}
 
-			String internal = comm.name();
 			if (!companion.tableVisible(comm.getTable())
 					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
 				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
 					putInTranslateCommandTable(comm, null);
 				}
+
 				continue;
 			}
-
-			// Log.debug(internal);
+			String internal = comm.name();
 			String local = getLocalization().getCommand(internal);
-			putInTranslateCommandTable(comm, local);
-
-			if (local != null) {
-				local = local.trim();
-				// case is ignored in translating local command names to
-				// internal names!0
-				translateCommandTable.put(StringUtil.toLowerCaseUS(local),
-						internal);
-
-				commandDict.addEntry(local);
-				// add public commands to the sub-command dictionaries
-				subCommandDict[comm.getTable()].addEntry(local);
-
-			}
-
+			englishCommandDict.addEntry(getLocalization().getEnglishCommand(internal));
+			addCommandEntry(comm, local, translateCommandTable);
 		}
+
 		getParserFunctions().updateLocale(getLocalization());
 		// get CAS Commands
 		if (kernel.isGeoGebraCASready()) {
@@ -838,6 +830,39 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		addMacroCommands();
 		getLocalization().setCommandChanged(false);
+	}
+
+	private void createSubCommandDictIfNeeded() {
+		if (subCommandDict != null) {
+			return;
+		}
+
+		subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
+		for (int i = 0; i < subCommandDict.length; i++) {
+			subCommandDict[i] = newLowerCaseDictionary();
+		}
+	}
+
+	private void clearSubCommandDict() {
+		for (LowerCaseDictionary lowerCaseDictionary : subCommandDict) {
+			lowerCaseDictionary.clear();
+		}
+	}
+
+	private void addCommandEntry(Commands comm, String translated,
+			HashMap<String, String> translateCommandTable) {
+		putInTranslateCommandTable(comm, translated);
+		if (translated != null) {
+			String local = translated.trim();
+			// case is ignored in translating local command names to
+			// internal names!0
+			translateCommandTable.put(StringUtil.toLowerCaseUS(translated),
+					comm.name());
+			commandDict.addEntry(local);
+			// add public commands to the sub-command dictionaries
+			subCommandDict[comm.getTable()].addEntry(local);
+		}
+
 	}
 
 	private void putInTranslateCommandTable(Commands comm, String local) {
@@ -1048,6 +1073,32 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			// make sure that when si[] is typed in script, it's changed to
 			// Si[] etc
 			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
+					.equals(cmdLower)) {
+				return s;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 * Converts english command name to internal command key.
+	 *
+	 * @param englishName
+	 * 				the english command name.
+	 * @return the internal key of the command
+	 *
+	 */
+	public String englishToInternal(String englishName)  {
+		initTranslatedCommands();
+		String s;
+		String cmdLower = StringUtil.toLowerCaseUS(englishName);
+		for (Commands c : Commands.values()) {
+			s = Commands.englishToInternal(c).name();
+
+			// make sure that when si[] is typed in script, it's changed to
+			// Si[] etc
+			if (StringUtil.toLowerCaseUS(getLocalization().getEnglishCommand(s))
 					.equals(cmdLower)) {
 				return s;
 			}
@@ -1654,16 +1705,33 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Show localized message for an error.
+	 * 
+	 * @param key   main error
+	 * @param error extra information
+	 */
+	public void showError(Errors key, String error) {
+		showError(key.getError(getLocalization()), error);
+	}
+
+	/**
+	 * Show localized message for an error.
+	 * 
+	 * @param key main error
+	 */
+	public void showError(Errors key) {
+		showError(key.getError(getLocalization()));
+	}
+
+	/**
 	 * Unexpected exception: can't work out anything better, just show "Invalid
 	 * Input"
 	 *
-	 * @param e
-	 *            exception
+	 * @param e exception
 	 */
 	public final void showGenericError(Exception e) {
 		e.printStackTrace();
-		showError(getLocalization().getErrorDefault("InvalidInput",
-				"Please check your input"));
+		showError(getLocalization().getInvalidInputError());
 	}
 
 	/**
@@ -3666,7 +3734,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		} catch (Exception e) {
 			e.printStackTrace();
 			ok = false;
-			localizeAndShowError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
 		return ok;
 	}
@@ -3835,6 +3903,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		/** APPS-890 */
 		case AUTOLABEL_CAS_SETTINGS:
 			return prerelease;
+
+		/** APPS-1000 */
+		case COMMAND_COMPLETION_FALLBACK:
+			return true;
+
+		/** APPS-1035 */
+		case SYMBOLIC_INPUTFIELDS:
+			return prerelease;
 		// **********************************************************************
        // G3D START
        //
@@ -3857,26 +3933,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_AR_TARGET:
 			return true;
 
-		/** G3D-170 */
-		case G3D_IMPROVE_SOLID_TOOLS:
-			return true;
-
-		/** G3D-66 */
-		case G3D_IMPROVE_AUTOMATIC_ROTATION:
-			return true;
-
-		/** G3D-272 */
-		case G3D_NEW_SURFACE_FUNCTIONS_COLORS:
-			return true;
-
-		/** G3D-277 */
-		case G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES:
-			return true;
-
-		/** G3D-28 */
-        case G3D_AR_LABELS_POSITION:
-			return true;
-
 		/** G3D-249 */
 		case G3D_AR_EXTRUSION_TOOL:
 			return true;
@@ -3895,13 +3951,33 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** G3D-310 */
 		case G3D_AR_FIT_THICKNESS_BUTTON:
-			return prerelease;
+			return true;
 
 		/** G3D-302 */
 		case G3D_STL_SOLID:
 			return true;
 
-        // **********************************************************************
+		/** G3D-360 */
+        case G3D_AR_STANDS_ON_ZERO_Z:
+            return true;
+
+		/** G3D-343 */
+		case G3D_SELECT_META:
+			return false;
+
+		/** G3D-380 */
+		case G3D_FILLED_SOLID_CHECKBOX:
+			return true;
+
+		/** G3D-385 */
+		case G3D_POLYHEDRON_IS_REGION:
+			return prerelease;
+
+		/** G3D-372 */
+		case G3D_AR_RATIO_SETTINGS:
+			return false;
+
+		// **********************************************************************
         // G3D END
         //
         // *********************************************************
@@ -3912,6 +3988,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		 */
 		case SPEECH_RECOGNITION:
 			return false;
+
+		case SURFACE_OF_REVOLUTION_TOOL:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -3933,6 +4012,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public boolean isWhiteboardActive() {
+		return false;
+	}
+
+	/**
+	 * Is running mebis app.
+	 *
+	 * @return true if mebis is running.
+	 */
+	public boolean isMebis() {
 		return false;
 	}
 
@@ -4722,7 +4810,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			case ANDROID_NATIVE_3D:
 			case WEB_3D_GRAPHING:
 			case IOS_NATIVE_3D:
-				factory = new Graphing3DToolCollectionFactory(this);
+				factory = new Graphing3DToolCollectionFactory();
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();
@@ -5100,5 +5188,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void copyImageToClipboard(String dataURI) {
 		// implemented in AppD, AppW
+	}
+
+	/**
+	 * Returns the primary color of the app.
+	 *
+	 * @return primary color
+	 */
+	public GColor getPrimaryColor() {
+		return GeoGebraColorConstants.GEOGEBRA_ACCENT;
 	}
 }

@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -896,5 +897,10 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public char getLabelDelimiter() {
 		return '=';
+	}
+
+	@Override
+	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
+		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
 }

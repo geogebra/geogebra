@@ -864,7 +864,7 @@ public class Browser {
 	 * 
 	 * @return whether emulator of tab handler is needed
 	 */
-	public static boolean needsVirtualTabber() {
+	public static boolean needsAccessibilityView() {
 		return isMobile();
 	}
 }

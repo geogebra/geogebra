@@ -172,4 +172,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * Updates the unbundled toolbar.
 	 */
 	void updateUnbundledToolbar();
+
+	/**
+	 * Adds the main menu button to the global header.
+	 */
+	void menuToGlobalHeader();
 }

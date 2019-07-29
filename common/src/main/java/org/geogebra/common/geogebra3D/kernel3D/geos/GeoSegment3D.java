@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -621,6 +622,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public boolean isWhollyIn2DView(EuclidianView ev) {
 		return DoubleUtil.isZero(getStartPoint().getInhomCoords().getZ())
 				&& DoubleUtil.isZero(getEndPoint().getInhomCoords().getZ());
+	}
+
+	@Override
+	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
+		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
 
 }

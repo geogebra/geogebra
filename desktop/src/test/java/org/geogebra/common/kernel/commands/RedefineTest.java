@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class RedefineTest extends Assert {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
@@ -82,9 +84,32 @@ public class RedefineTest extends Assert {
 		app.getKernel().initUndoInfo();
 		app.storeUndoInfo();
 		checkError("A(x)=x", "Redefinition failed");
+		checkError("A(x)=(", "Unbalanced brackets \nA(x)=( ");
+		checkError("A(x)=1+", "Please check your input");
 		t("A", "(1, 1)");
 		t("poly1", "1");
 		t("a", "1");
+	}
+
+	@Test
+	public void testErrors() {
+		t("f(x)=x", "x");
+		checkError("f(x)=f(x)+x", "Circular definition");
+		checkError("f(x)=y", "Invalid function:\n" + "Please enter an explicit function in x");
+		checkError("f(t)=y", "Invalid function:\n" + "Please enter an explicit function in t");
+		checkError("f(t)=x", "Invalid function:\n" + "Please enter an explicit function in t");
+		checkError("f(x)=3/(x^2+y^2=1)", "Illegal division \n" + "3 /  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3*(x^2+y^2=1)",
+				"Illegal multiplication \n" + "3 *  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3+(x^2+y^2=1)", "Illegal addition \n" + "3 +  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3-(x^2+y^2=1)", "Illegal subtraction \n" + "3 -  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3^(x^2+y^2=1)", "Illegal exponent \n" + "3 ^  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=sin(x^2+y^2=1)", "Illegal argument \n" + "sin(  x\u00B2 + y\u00B2 = 1 ) ");
+		// error could be improved
+		checkError("f(x)=sin(1,2,3)", "Unknown command : sin");
+		checkError("{1,2,3}\\(1,2)", "Illegal list operation \n" + "{1, 2, 3} \\ (1, 2) ");
+		checkError("Rename(ff,\"fff\")",
+				"Please check your input :\n" + "Undefined variable \n" + "ff ");
 	}
 
 	@Test
@@ -202,7 +227,7 @@ public class RedefineTest extends Assert {
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
 		t("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
-				"(If(t < 0.5, -2t^3 + 0t^2 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0t^2 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
+				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
 				StringTemplate.editTemplate);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");
@@ -246,6 +271,18 @@ public class RedefineTest extends Assert {
 		t("a=?", "NaN");
 		t("a=1", "1");
 		t("A", "(0, 0)");
+	}
+
+	@Test
+	public void pointOnPartialFunctionShouldStayUndefined() {
+		t("ZoomIn[0,0,100,100]", new String[0]);
+		t("a=.9", "0.9");
+		// undefined for most onscreen points
+		t("f=If(x==0, 1, ?)",
+				"If[x " + Unicode.QUESTEQ + " 0, 1, NaN]");
+		t("A=Point[f, a]", "(NaN, NaN)");
+		t("a=.8", "0.8");
+		t("A", "(NaN, NaN)");
 	}
 
 	@Test

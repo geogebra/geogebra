@@ -103,4 +103,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public CommandNameFilter getCommandNameFilter() {
 		return null;
 	}
+
+	@Override
+	public boolean hasPreviewPoints() {
+		return false;
+	}
 }

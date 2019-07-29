@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.matcher.MultipleResultsMatcher;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
@@ -36,14 +37,14 @@ public class AlgebraTestHelper {
 				errorStore, info, null);
 		if (!errorStore.getErrors().contains(errorMsg) && (altErrorMsg == null
 				|| !errorStore.getErrors().contains(altErrorMsg))) {
-			fail(string + ":" + errorStore.getErrors());
+			fail(string + ":" + errorStore.getErrors() + "," + errorMsg
+					+ " expected");
 		}
 	}
 
 	public static void dummySyntaxesShouldFail(String cmdName,
-			String[] syntaxLines, App app) {
-		for (String line : syntaxLines) {
-			int args = line.split(",").length;
+			List<Integer> signature, App app) {
+		for (int args : signature) {
 			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
 			for (int i = 0; i < args - 1; i++) {
 				withArgs.append("space,");
@@ -70,11 +71,12 @@ public class AlgebraTestHelper {
 					&& !"TableText".equals(cmdName) && !"Q1".equals(cmdName)
 					&& !"Q3".equals(cmdName) && !"SetValue".equals(cmdName)) {
 
-				shouldFail(withArgs.toString(), "arg", app);
+				shouldFail(withArgs.toString(), "arg", "IllegalArgument:", app);
 			}
 		}
-		if (syntaxLines.length > 0 && !mayHaveZeroArgs(cmdName)) {
-			shouldFail(cmdName + "()", "Illegal number of arguments: 0", app);
+		if (!mayHaveZeroArgs(cmdName)) {
+			shouldFail(cmdName + "()", "Illegal number of arguments: 0",
+					"IllegalArgumentNumber", app);
 		}
 	}
 
@@ -94,8 +96,7 @@ public class AlgebraTestHelper {
 		Throwable t = null;
 		GeoElementND[] result = null;
 		try {
-			result = proc.processAlgebraCommandNoExceptionHandling(s, false,
-					TestErrorHandler.INSTANCE, false, null);
+			result = getResult(s, proc);
 		} catch (Throwable e) {
 			t = e;
 		}
@@ -121,6 +122,51 @@ public class AlgebraTestHelper {
 		System.out.print("+");
 	}
 
+	private static GeoElementND[] getResult(String input, AlgebraProcessor algebraProcessor) {
+		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
+				input,
+				false,
+				TestErrorHandler.INSTANCE,
+				false,
+				null);
+	}
+
+	public static void testMultipleResults(
+			String input,
+			String[] validResultCombinations,
+			AlgebraProcessor algebraProcessor,
+			StringTemplate template) {
+		GeoElementND[] actualResults = getResult(input, algebraProcessor);
+		assertThat(actualResults[0], validResultCombinations, template);
+	}
+
+	private static void assertThat(GeoElementND actualResult, String[] validResultCombinations,
+								   StringTemplate template) {
+		String actualResultString = actualResult.toValueString(template);
+		MultipleResultsMatcher validResultsMatcher =
+				new MultipleResultsMatcher(validResultCombinations);
+		MatcherAssert.assertThat(actualResultString, validResultsMatcher);
+	}
+
+	public static void testMultipleResults(String input,
+										   String[][] validResults,
+										   AlgebraProcessor algebraProcessor,
+										   StringTemplate template) {
+		GeoElementND[] actualResults = getResult(input, algebraProcessor);
+		Assert.assertEquals(
+				"The number of results doesn't match the number of the expected results:",
+				validResults.length, validResults.length);
+		assertThat(actualResults, validResults, template);
+	}
+
+	private static void assertThat(GeoElementND[] actualResults, String[][] validResults,
+								   StringTemplate template) {
+		for (int i = 0; i < validResults.length; i++) {
+			String[] validResultCombinations = validResults[i];
+			assertThat(actualResults[i], validResultCombinations, template);
+		}
+	}
+
 	/**
 	 * @param s
 	 *            input
@@ -136,7 +182,7 @@ public class AlgebraTestHelper {
 		testSyntaxSingle(s, getMatchers(expected), proc, tpl);
 	}
 
-	public static List<Matcher<String>> getMatchers(String[] expected) {
+	public static List<Matcher<String>> getMatchers(String... expected) {
 		ArrayList<Matcher<String>> matchers = new ArrayList<>();
 		for (String exp : expected) {
 			matchers.add(IsEqual.equalTo(exp));
@@ -152,6 +198,10 @@ public class AlgebraTestHelper {
 				"ExportImage", "Random", "Textfield", "GetTime",
 				"UpdateConstruction", "SelectObjects", "Turtle", "Function",
 				"Checkbox", "InputBox", "RandomBetween" }).contains(cmdName);
+	}
+
+	public static void enableCAS(App app, boolean enabled) {
+		app.getSettings().getCasSettings().setEnabled(enabled);
 	}
 
 	/**

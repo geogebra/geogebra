@@ -16,7 +16,8 @@ public class ExtrudeConverter implements CoordConverter {
 	private double[] tmp;
 
 	@Override
-	public double translationToValue(Coords direction, Coords rwTransVec, double startValue, EuclidianView view) {
+	public double translationToValue(Coords direction, Coords rwTransVec,
+			double startValue, EuclidianView view) {
 		return snap(direction.dotproduct3(rwTransVec) + startValue, view);
 	}
 

@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.geos.LimitedPath;
  * @author ggb3D
  *
  */
-public interface GeoSegmentND
-		extends GeoLineND, LimitedPath, GeoNumberValue, FromMeta {
+public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
+		FromMeta, Parametrizable {
 
 	/**
 	 * Sets start point and end point with inhom coords

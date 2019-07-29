@@ -39,6 +39,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -197,7 +198,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
 							ex.printStackTrace();
-							app.localizeAndShowError("SaveFileFailed");
+							app.showError(Errors.SaveFileFailed);
 							Log.debug(ex.toString());
 						}
 					}
@@ -309,7 +310,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 						((GuiManagerD) app.getGuiManager())
 								.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
-						app.localizeAndShowError("SaveFileFailed");
+						app.showError(Errors.SaveFileFailed);
 						Log.debug(ex.toString());
 					}
 				}
@@ -317,7 +318,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 			runner.start();
 
 		} catch (IOException ex) {
-			app.showError("SaveFileFailed");
+			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 		}
 

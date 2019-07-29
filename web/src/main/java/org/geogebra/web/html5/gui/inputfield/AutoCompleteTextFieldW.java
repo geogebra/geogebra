@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -19,9 +20,11 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -438,6 +441,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
 
+		if (completions == null && isFallbackCompletitionAllowed()) {
+			completions = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
+		}
+
 		List<String> commandCompletions = getSyntaxes(completions);
 
 		// Start with the built-in function completions
@@ -464,13 +471,21 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			String cmdInt = app.getInternalCommand(cmd);
 
+			boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed();
+
+			if (englishOnly) {
+				cmdInt = app.englishToInternal(cmd);
+			}
+
 			String syntaxString;
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = app.getKernel().getAlgebraProcessor()
-						.getSyntax(cmdInt, app.getSettings());
+				AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+				syntaxString = englishOnly ? ap.getEnglishSyntax(cmdInt, app.getSettings())
+						: ap.getSyntax(cmdInt, app.getSettings());
 			}
+
 			if (syntaxString == null) {
 				continue;
 			}
@@ -493,6 +508,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 		}
 		return syntaxes;
+	}
+
+	private boolean isFallbackCompletitionAllowed() {
+		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
+				&& "zh".equals(app.getLocalization().getLanguage());
 	}
 
 	public void cancelAutoCompletion() {
@@ -1689,6 +1709,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (Browser.isAndroid()) {
 			removeDummyCursor();
 		}
+	}
+
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
+		drawBounds(g2, bgColor, ((int) bounds.getX()), ((int) bounds.getY()),
+				((int) bounds.getWidth()), ((int) bounds.getHeight()));
 	}
 
 	@Override

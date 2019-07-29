@@ -11,7 +11,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
 @SuppressWarnings("javadoc")
-public interface GuiResources extends ClientBundle {
+public interface GuiResources extends ClientBundle, StylesProvider {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
@@ -325,9 +325,11 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/exam/css/exam.less")
 	LessReference examStyle();
 
+	@Override
 	@Source("org/geogebra/web/resources/scss/mow.scss")
 	SassResource mowStyle();
 
+	@Override
 	@Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
 	SassResource mowToolbarStyle();
 
@@ -340,6 +342,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
 
+	@Override
 	@Source("org/geogebra/web/resources/scss/open-screen.scss")
 	SassResource openScreenStyle();
 
@@ -417,4 +420,8 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/header.scss")
 	SassResource headerScss();
+
+	@Override
+	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
+	SassResource dialogStylesScss();
 }

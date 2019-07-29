@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -1431,8 +1430,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public AutoColor getAutoColorScheme() {
-		if (kernel.getApplication()
-				.has(Feature.G3D_NEW_SURFACE_FUNCTIONS_COLORS) && isFun2Var()) {
+		if (isFun2Var()) {
 			return AutoColor.SURFACES;
 		}
 		return super.getAutoColorScheme();

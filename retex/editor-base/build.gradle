@@ -4,7 +4,7 @@ plugins {
     id 'pmd'
     id 'checkstyle'
     id 'com.github.spotbugs' version '1.6.9'
-    id 'ca.coglinc.javacc' version '2.3.1'
+    id 'ca.coglinc.javacc' version '2.4.0'
 }
 
 

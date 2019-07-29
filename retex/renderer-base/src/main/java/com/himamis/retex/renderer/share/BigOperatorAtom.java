@@ -48,11 +48,13 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a "big operator" (or an atom that acts as one) together
  * with its limits.
  */
-public class BigOperatorAtom extends Atom {
+public class BigOperatorAtom extends Atom implements HasTrueBase {
 
 	// limits
 	private final Atom under;
@@ -175,5 +177,18 @@ public class BigOperatorAtom extends Atom {
 			return new HorizontalBox(b, maxWidth, TeXConstants.Align.CENTER);
 		}
 		return b;
+	}
+
+	public Atom getBottom() {
+		return under;
+	}
+
+	public Atom getTop() {
+		return over;
+	}
+
+	@Override
+	public Atom getTrueBase() {
+		return base;
 	}
 }

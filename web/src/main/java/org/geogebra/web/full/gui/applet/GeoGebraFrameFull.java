@@ -71,7 +71,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class GeoGebraFrameFull
-		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard {
+		extends GeoGebraFrameW implements NativePreviewHandler, FrameWithHeaderAndKeyboard,
+		FastClickHandler, KeyUpHandler {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -84,7 +85,6 @@ public class GeoGebraFrameFull
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private ToolbarMow toolbarMow;
-	private StandardButton openMenuButton;
 	private PageListPanel pageListPanel;
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
@@ -311,7 +311,7 @@ public class GeoGebraFrameFull
 			public void run() {
 
 				keyBoard.resetKeyboardState();
-				getApplication().centerAndResizePopups();
+				getApplication().centerAndResizeViews();
 
 			}
 		});
@@ -402,7 +402,7 @@ public class GeoGebraFrameFull
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
 		}
-		app.centerAndResizePopups();
+		app.centerAndResizeViews();
 		keyboardState = KeyboardState.SHOWN;
 
 	}
@@ -722,7 +722,12 @@ public class GeoGebraFrameFull
 	public void attachToolbar(AppW app1) {
 		if (app1.isWhiteboardActive()) {
 			attachToolbarMow(app1);
-			attachOpenMenuButton();
+
+			if (app1.getVendorSettings().isMainMenuExternal()) {
+				app1.getGuiManager().menuToGlobalHeader();
+			} else {
+				attachMowMainMenu(app1);
+			}
 			initPageControlPanel(app1);
 			return;
 		}
@@ -743,6 +748,27 @@ public class GeoGebraFrameFull
 			add(ggwToolBar);
 		} else {
 			insert(ggwToolBar, 0);
+		}
+	}
+
+	private void attachMowMainMenu(final AppW app) {
+		StandardButton openMenuButton = new StandardButton(
+				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
+				24, app);
+
+		final GeoGebraFrameW frame = app.getAppletFrame();
+
+		openMenuButton.addFastClickHandler(this);
+		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
+
+		openMenuButton.addStyleName("mowOpenMenuButton");
+		frame.add(openMenuButton);
+	}
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			app.toggleMenu();
 		}
 	}
 
@@ -862,43 +888,6 @@ public class GeoGebraFrameFull
 		return panelTransitioner.getCurrentPanel() != null;
 	}
 
-	private void attachOpenMenuButton() {
-		openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
-				24, app);
-		/*
-		 * openMenuButton.getUpHoveringFace()
-		 * .setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(), 32));
-		 */
-		openMenuButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onMenuButtonPressed();
-				if (getApplication().isWhiteboardActive()) {
-					deselectDragBtn();
-				}
-			}
-		});
-
-		openMenuButton.addDomHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					getApplication().toggleMenu();
-				}
-				// if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-				// GGWToolBar.this.selectMenuButton(0);
-				// }
-				// if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-				// GGWToolBar.this.toolBar.selectMenu(0);
-				// }
-			}
-		}, KeyUpEvent.getType());
-
-		openMenuButton.addStyleName("mowOpenMenuButton");
-		add(openMenuButton);
-	}
-
 	/**
 	 * Actions performed when menu button is pressed
 	 */
@@ -1007,5 +996,13 @@ public class GeoGebraFrameFull
 			return 0;
 		}
 		return headerResizer.getSmallScreenHeight();
+	}
+
+	@Override
+	public void onClick(Widget source) {
+		onMenuButtonPressed();
+		if (getApplication().isWhiteboardActive()) {
+			deselectDragBtn();
+		}
 	}
 }

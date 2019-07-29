@@ -21,6 +21,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
@@ -91,13 +92,19 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		createRightSide();
 		createCenter();
-		if (app.isUndoRedoEnabled()) {
-			addUndoRedoButtons();
-		}
+		maybeAddUndoRedoPanel();
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
+	}
+
+	private boolean maybeAddUndoRedoPanel() {
+		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
+		if (isAllowed) {
+			addUndoRedoButtons();
+		}
+		return isAllowed;
 	}
 
 	private void createCenter() {
@@ -128,13 +135,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void createAlgebraButton() {
-		SVGResource img;
-		if (!app.isUnbundledGeometry()) {
-			img = MaterialDesignResources.INSTANCE.toolbar_algebra_graphing();
-		} else {
-			img = MaterialDesignResources.INSTANCE.toolbar_algebra_geometry();
-		}
-		btnAlgebra = new MyToggleButton(new NoDragImage(img, 24, 24), app);
+		btnAlgebra = new MyToggleButton(new NoDragImage(
+				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing(), 24, 24),
+				app);
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -326,6 +329,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void setTitle(Widget btn, String avTitle) {
 		if (btn != null) {
 			btn.setTitle(app.getLocalization().getMenu(avTitle));
+			TestHarness.setAttr(btn, "btn_" + avTitle);
 		}
 	}
 
@@ -466,7 +470,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		updateMenuPosition();
 		markMenuAsExpanded(false);
-
 		btnMenu.addTabHandler(this);
 	}
 
@@ -572,9 +575,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
-			if (app.isUndoRedoEnabled()) {
-				addUndoRedoButtons();
-			} else {
+			boolean panelAdded = maybeAddUndoRedoPanel();
+			if (!panelAdded) {
 				return;
 			}
 		}

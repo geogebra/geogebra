@@ -303,6 +303,9 @@ public final class EuclidianConstants {
 	/** creates a tetrahedron */
 	public static final int MODE_TETRAHEDRON = 537;
 
+	/** creates a surface by revolving a line around x-axis */
+	public static final int MODE_SURFACE_OF_REVOLUTION = 538;
+
 	/** rotate the view */
 	public static final int MODE_ROTATEVIEW = 540;
 
@@ -505,6 +508,9 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_EXTRUSION:
 			return "Extrusion";
+
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			return "SurfaceOfRevolution";
 
 		case EuclidianConstants.MODE_CONIFY:
 			return "Conify";

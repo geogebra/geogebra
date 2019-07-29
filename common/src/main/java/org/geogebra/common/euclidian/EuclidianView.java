@@ -531,6 +531,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
+	private SymbolicEditor symbolicEditor = null;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -6495,8 +6496,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Store several layers in a single bitmap.
 	 * 
-	 * @param topLayer
-	 *            index of highrst layer to cache or -1 to clear the cache
+	 * @param topLayer index of highest layer to cache or -1 to clear the cache
 	 */
 	public void cacheLayers(int topLayer) {
 		if (topLayer < 0) {
@@ -6610,4 +6610,39 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
         // settings should have been reset before
         settingsChanged(getSettings());
     }
+
+	/**
+	 * Attaches a symbolic-capable editor to the input box
+	 * @param geoInputBox
+	 * 			the input box to attach
+	 * @param bounds
+	 * 			where the editor should be attached to.
+	 */
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+		if (symbolicEditor == null) {
+			symbolicEditor = createSymbolicEditor();
+		}
+		if (symbolicEditor != null) {
+			symbolicEditor.attach(geoInputBox, bounds);
+		}
+	}
+
+	/**
+	 * Creates the symbolic editor by platform
+	 *
+	 * @return the symbolic editor instance.
+	 */
+	protected SymbolicEditor createSymbolicEditor() {
+		return null;
+	}
+
+	/**
+	 * Hides the symbolic editor of EV input fields
+	 */
+	public void hideSymbolicEditor() {
+    	if (symbolicEditor == null) {
+    		return;
+		}
+    	symbolicEditor.hide();
+	}
 }

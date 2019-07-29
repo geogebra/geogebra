@@ -406,7 +406,7 @@ public class DrawLocus extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (geo.getKernel().getApplication().isWhiteboardActive()) {
 			if (boundingBox == null) {
-				boundingBox = new BoundingBox(false, false);
+				boundingBox = createBoundingBox(false, false);
 			}
 			return boundingBox;
 		}

@@ -179,5 +179,5 @@ public interface AccessibilityManagerInterface {
 	 *            element associated with the action
 	 * @return action description (eg Run script)
 	 */
-	public String getSpaceAction(GeoElement geo);
+	public String getAction(GeoElement geo);
 }

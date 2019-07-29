@@ -54,6 +54,7 @@ public class ZoomPanel extends FlowPanel
 	private List<StandardButton> buttons = null;
 	private ZoomController zoomController;
 	private boolean zoomButtonsVisible;
+	private LocalizationW loc;
 
 	/**
 	 *
@@ -70,6 +71,7 @@ public class ZoomPanel extends FlowPanel
 			boolean zoomable) {
 		this.view = view;
 		this.app = app;
+		loc = app.getLocalization();
 		zoomController = new ZoomController(app, view);
 		if (view != null) {
 			view.getEuclidianController().addZoomerListener(this);
@@ -111,7 +113,8 @@ public class ZoomPanel extends FlowPanel
 					getPanelElement());
 		}
 		if (ae.getDataParamApp() && fullscreenBtn != null) {
-			fullscreenBtn.setVisible(isFullScreen() || !Browser.isCoveringWholeScreen());
+			fullscreenBtn.setVisible(
+					isFullScreen() || !Browser.isCoveringWholeScreen());
 		}
 	}
 
@@ -122,9 +125,11 @@ public class ZoomPanel extends FlowPanel
 		fullscreenBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 24,
 				app);
+		NoDragImage exitFullscreenImage = new NoDragImage(ZoomPanelResources.INSTANCE
+				.fullscreen_exit_black18(), 24);
+		exitFullscreenImage.setPresentation();
 		fullscreenBtn.getDownFace()
-				.setImage(new NoDragImage(ZoomPanelResources.INSTANCE
-						.fullscreen_exit_black18(), 24));
+				.setImage(exitFullscreenImage);
 
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 
@@ -165,7 +170,11 @@ public class ZoomPanel extends FlowPanel
 	 * Handler that runs on exiting to fullscreen.
 	 */
 	void onExitFullscreen() {
-		getZoomController().onExitFullscreen(getElement(), fullscreenBtn);
+		// we may have multiple zoom panels; if this one doesn't have FS button,
+		// it shouldn't handle FS
+		if (fullscreenBtn != null) {
+			getZoomController().onExitFullscreen(getElement(), fullscreenBtn);
+		}
 	}
 
 	/**
@@ -267,18 +276,23 @@ public class ZoomPanel extends FlowPanel
 			return;
 		}
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		LocalizationW loc = app.getLocalization();
 		if (isFullScreen()) {
 			sb.append(loc.getMenuDefault("FullscreenExitButtonSelected",
-					"Full screen button selected Press space to exit full screen"));
+					"Full screen button selected (currently full screen)"));
 		} else {
 			sb.append(loc.getMenuDefault("FullscreenButtonSelected",
-				"Full screen button selected Press space to go full screen"));
+					"Full screen button selected (currently not full screen)"));
 		}
-		sb.appendSpace();
+		if (!Browser.needsAccessibilityView()) {
+			addFullscreenKeyboardControls(sb);
+		}
+		setButtonTitleAndAltText(fullscreenBtn, sb.toString());
+	}
+
+	private void addFullscreenKeyboardControls(ScreenReaderBuilder sb) {
+		addSpaceControl(sb);
 		sb.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
 		sb.endSentence();
-		setButtonTitleAndAltText(fullscreenBtn, sb.toString());
 	}
 
 	private void setZoomAuralText(StandardButton btn, boolean controlNext,
@@ -287,11 +301,16 @@ public class ZoomPanel extends FlowPanel
 			return;
 		}
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		LocalizationW loc = app.getLocalization();
 		sb.append(loc.getMenuDefault(transKey, auralDefault));
-		sb.appendSpace();
-		sb.append(loc.getMenuDefault("PressSpaceToActivate", "press space to activate"));
-		sb.endSentence();
+		if (!Browser.needsAccessibilityView()) {
+			addZoomKeyboardControls(sb, controlNext);
+		}
+
+		setButtonTitleAndAltText(btn, sb.toString());
+	}
+
+	private void addZoomKeyboardControls(ScreenReaderBuilder sb, boolean controlNext) {
+		addSpaceControl(sb);
 		if (controlNext) {
 			sb.append(loc.getMenuDefault("PressTabToSelectControls",
 					"Press tab to select controls"));
@@ -299,14 +318,18 @@ public class ZoomPanel extends FlowPanel
 			sb.append(loc.getMenuDefault("PressTabToSelectNext",
 					"Press tab to select next object"));
 		}
-
-		setButtonTitleAndAltText(btn, sb.toString());
 	}
 
-	private void setButtonTitleAndAltText(StandardButton btn, String string) {
+	private void addSpaceControl(ScreenReaderBuilder sb) {
+		sb.appendSpace();
+		sb.append(loc.getMenuDefault("PressSpaceToActivate", "press space to activate"));
+		sb.endSentence();
+	}
+
+	private static void setButtonTitleAndAltText(StandardButton btn, String string) {
 		if (btn != null) {
-			btn.setTitle(app.getLocalization().getMenu(string));
-			btn.setAltText(app.getLocalization().getMenu(string));
+			btn.setTitle(string);
+			btn.setAltText(string);
 		}
 	}
 

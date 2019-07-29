@@ -124,9 +124,9 @@ public class VideoManagerW implements VideoManager {
 		boolean offline = app.has(Feature.VIDEO_PLAYER_OFFLINE)
 				&& !video.isOnline();
 
-		final AbstractVideoPlayer player = offline ?
-				createPlayerOffline(video, players.size()) :
-				createPlayer(video, players.size()) ;
+		final AbstractVideoPlayer player = offline
+				? createPlayerOffline(video, players.size())
+				: createPlayer(video, players.size()) ;
 
 		addPlayerToFrame(video, player);
 	}
@@ -142,6 +142,7 @@ public class VideoManagerW implements VideoManager {
 		appFrame.add(player);
 
 	}
+
 	private AbstractVideoPlayer createPlayerOffline(GeoVideo video, int id) {
 		return new VideoOffline(video, id);
 	}
@@ -262,5 +263,10 @@ public class VideoManagerW implements VideoManager {
 		removePlayer(video);
 		AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size() + 1);
 		addPlayerToFrame(video, offlinePlayer);
+	}
+
+	@Override
+	public boolean isPlayerOffline(GeoVideo video) {
+		return playerOf(video).isOffline();
 	}
 }

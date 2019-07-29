@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -52,6 +53,7 @@ import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -172,7 +174,7 @@ public class Construction {
 	private String yAxisLocalName;
 	private GeoPoint origin;
 
-	private GeoElement selfGeo;
+	private Stack<GeoElement> selfGeoStack = new Stack<>();
 	private boolean undoEnabled = true;
 
 	private boolean isGettingXMLForReplace;
@@ -265,7 +267,21 @@ public class Construction {
 	 *            new value of "self" variable
 	 */
 	public void setSelfGeo(GeoElement selfGeo) {
-		this.selfGeo = selfGeo;
+		this.selfGeoStack.add(selfGeo);
+	}
+
+	/**
+	 * Sets self geo to the previous one
+	 */
+	public void restoreSelfGeo() {
+		this.selfGeoStack.pop();
+	}
+
+	/**
+	 * @return whether a click/update script is currently running
+	 */
+	public boolean isScriptRunningForGeo() {
+		return !selfGeoStack.isEmpty();
 	}
 
 	/**
@@ -1834,7 +1850,7 @@ public class Construction {
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
 			// Application.debug("consXML=\n" + consXML);
 			throw new MyError(getApplication().getLocalization(),
-					"ReplaceFailed");
+					Errors.ReplaceFailed);
 		}
 
 		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +
@@ -2236,7 +2252,7 @@ public class Construction {
 			}
 		}
 		if ("self".equals(label1)) {
-			return this.selfGeo;
+			return this.selfGeoStack.peek();
 		}
 		if ("undefined".equals(label1)) {
 			GeoNumeric n = new GeoNumeric(this);
@@ -3100,7 +3116,7 @@ public class Construction {
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
 			restoreAfterRedefine(oldXML);
 			throw new MyError(getApplication().getLocalization(),
-					"ReplaceFailed");
+					Errors.ReplaceFailed);
 		}
 	}
 

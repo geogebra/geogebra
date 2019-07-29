@@ -104,7 +104,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 *            geo which special points will be updated
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
-		if ("3D".equals(kernel.getApplication().getVersion().getAppName()) || isUpdating) {
+		if (!kernel.getApplication().getConfig().hasPreviewPoints()
+				|| isUpdating) {
 			return;
 		}
 		// Prevent calling update special points recursively

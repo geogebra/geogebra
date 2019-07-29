@@ -29,9 +29,9 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
-import org.geogebra.web.html5.gui.accessibility.WidgetFactory;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -2029,7 +2029,8 @@ public class DockManagerW extends DockManager {
 	 */
 	protected AccessibilityView getAccessibilityView() {
 		if (this.accessibilityView == null) {
-			accessibilityView = new AccessibilityView(app, new WidgetFactory());
+			accessibilityView = new AccessibilityView(app,
+					new BaseWidgetFactory());
 		}
 		return accessibilityView;
 	}
@@ -2038,7 +2039,7 @@ public class DockManagerW extends DockManager {
 	 * Connect voiceover with the right panel
 	 */
 	public void updateVoiceover() {
-		if (Browser.needsVirtualTabber()) {
+		if (Browser.needsAccessibilityView()) {
 			app.invokeLater(new Runnable() {
 				@Override
 				public void run() {

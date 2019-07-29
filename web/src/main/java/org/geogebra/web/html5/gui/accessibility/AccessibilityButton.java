@@ -80,11 +80,4 @@ public class AccessibilityButton implements AccessibilityInterface {
 		}
 	}
 
-	@Override
-	public void focusInput(boolean force) {
-		if (button instanceof AccessibilityInterface) {
-			((AccessibilityInterface) button).focusInput(force);
-		}
-
-	}
 }

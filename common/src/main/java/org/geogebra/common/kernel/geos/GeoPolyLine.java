@@ -122,7 +122,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public int getNumPoints() {
-		return points.length;
+		return points == null ? 0 : points.length;
 	}
 
 	/**

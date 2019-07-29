@@ -1692,39 +1692,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void pointChanged(GeoPointND PI) {
-		Coords coords = PI.getCoordsInD2();
-		double qx = coords.getX() / coords.getZ();
-		double qy = coords.getY() / coords.getZ();
-
-		double minDist = Double.POSITIVE_INFINITY;
-		double resx = 0, resy = 0, resz = 0, param = 0;
-
-		// find closest point on each segment
-		PathParameter pp = PI.getPathParameter();
-		if (segments != null) {
-
-			for (int i = 0; i < segments.length; i++) {
-				PI.setCoords2D(qx, qy, 1);
-				PI.updateCoordsFrom2D(false);
-				segments[i].pointChanged(PI);
-				coords = PI.getCoordsInD2();
-				double x = coords.getX() / coords.getZ() - qx;
-				double y = coords.getY() / coords.getZ() - qy;
-				double dist = x * x + y * y;
-				if (dist < minDist) {
-					minDist = dist;
-					// remember closest point
-					resx = coords.getX();
-					resy = coords.getY();
-					resz = coords.getZ();
-					param = i + pp.t;
-				}
-			}
-		}
-		PI.setCoords2D(resx, resy, resz);
-		PI.updateCoordsFrom2D(false);
-		pp.t = param;
+	final public void pointChanged(GeoPointND PI) {
+		PI.pointChanged(this);
 	}
 
 	/*
@@ -1841,11 +1810,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            y-coord
 	 */
 	public void setRegionChanged(GeoPointND PI, double x, double y) {
-		GeoPoint P = (GeoPoint) PI;
-		P.x = x;
-		P.y = y;
-		P.z = 1;
-
+		PI.setRegionChanged(x, y);
 	}
 
 	@Override

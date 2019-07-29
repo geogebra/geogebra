@@ -35,7 +35,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public String getAVTitle() {
-		return "Steps";
+		return "Algebra";
 	}
 
 	@Override
@@ -196,5 +196,10 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public CommandNameFilter getCommandNameFilter() {
 		return CommandNameFilterFactory.createNoCasCommandNameFilter();
+	}
+
+	@Override
+	public boolean showToolsPanel() {
+		return true;
 	}
 }

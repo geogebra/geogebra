@@ -12,18 +12,7 @@
 
 package org.geogebra.desktop.euclidian;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -38,7 +27,7 @@ import java.awt.print.Printable;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GBufferedImage;

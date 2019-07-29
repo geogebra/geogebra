@@ -997,19 +997,19 @@ public class ScriptManagerW extends ScriptManager {
 		api.translate = function(arg1, callback) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(arg1 + "", callback);
 		};
-		
+
 		api.exportConstruction = function(flags) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportConstruction(Lcom/google/gwt/core/client/JsArrayString;)(flags || ["color","name","definition","value"]);
 		};
-		
+
 		api.getConstructionSteps = function(breakpoints) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getConstructionSteps(Z)(!!breakpoints);
 		};
-		
+
 		api.setConstructionStep = function(n, breakpoints) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setConstructionStep(DZ)(n, !!breakpoints);
 		};
-		
+
 		api.previousConstructionStep = function() {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::previousConstructionStep()();
 		};
@@ -1020,6 +1020,18 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.getEmbeddedCalculators = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getEmbeddedCalculators()();
+		};
+
+		api.getFrame = function(){
+			return ggbApi.@org.geogebra.web.html5.main.GgbAPIW::getFrame()();
+		}
+
+		api.enableFpsMeasurement = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::enableFpsMeasurement()();
+		};
+
+		api.disableFpsMeasurement = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::disableFpsMeasurement()();
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

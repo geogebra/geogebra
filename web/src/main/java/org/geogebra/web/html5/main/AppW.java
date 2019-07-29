@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -50,6 +51,7 @@ import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -105,8 +107,8 @@ import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
+import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -230,6 +232,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	private boolean allowSymbolTables = true;
 	private boolean stylebarAllowed = true;
+	private boolean undoRedoPanelAllowed = true;
 	private TimerSystemW timers;
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBroserCallback;
@@ -1087,7 +1090,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			localizeAndShowError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
 	}
 
@@ -1294,14 +1297,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @param fileToHandle
 	 *            archive
-	 * @param callback
-	 *            callback
 	 * @return whether file is valid
 	 */
-	public boolean openFile(JavaScriptObject fileToHandle,
-			JavaScriptObject callback) {
+	public boolean openFile(JavaScriptObject fileToHandle) {
 		resetPerspectiveParam();
-		return doOpenFile(fileToHandle, callback);
+		return doOpenFile(fileToHandle, null);
 	}
 
 	/**
@@ -1431,6 +1431,24 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean isStyleBarAllowed() {
 		return stylebarAllowed;
+	}
+
+	/**
+	 * Set wether the undo redo panel is allowed in the app.
+	 *
+	 * @param flag true if the panel is allowed, false otherwise
+	 */
+	public void setUndoRedoPanelAllowed(boolean flag) {
+		undoRedoPanelAllowed = flag;
+	}
+
+	/**
+	 * Returns if the undo redo panel is allowed in the app.
+	 *
+	 * @return true if the panel is allowed, false otherwise
+	 */
+	public boolean isUndoRedoPanelAllowed() {
+		return undoRedoPanelAllowed;
 	}
 
 	@Override
@@ -2430,7 +2448,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		popups.add(widget);
 	}
 
-	public void centerAndResizePopups() {
+	public void centerAndResizeViews() {
 		// to be overridden in AppWFull
 	}
 
@@ -2796,15 +2814,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// ================================================
 
 	@Override
+	@Deprecated
+	// use showError(Errors, String)
 	public void showError(String key, String error) {
 
 		String translatedError = getLocalization().getError(key);
-
-		// in case translations not available
-		// eg webSimple
-		if ("InvalidInput".equals(translatedError)) {
-			translatedError = "Please check your input";
-		}
 
 		showErrorDialog(translatedError + ":\n" + error);
 	}
@@ -3484,7 +3498,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		EuclidianViewW ev = getEuclidianView1();
 		visible = ev != null && ev.isShowing();
 		if (visible) {
-			ev.getCanvas().getElement().focus();
+			ev.getCanvasElement().focus();
 			ev.focusGained();
 		}
 	}
@@ -3632,20 +3646,38 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}-*/;
 
 	/**
-	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome, Firefox,
-	 * Edge
+	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome
 	 *
-	 * this method doesn't always work in Edge, Firefox as needs to be run from
-	 * eg button
+	 * this method doesn't always work in Edge, Firefox as needs to be run from eg
+	 * button
+	 * 
+	 * IE11: asks user for permission
 	 *
-	 * @param value
-	 *            text to copy
+	 * @param value text to copy
 	 */
 	public static native void copyToSystemClipboardNative(String value) /*-{
+
+		// async Clipboard API
+		// doesn't work in Firefox either so might as well just use execCommand('copy')
+		//if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
+		//	// https://github.com/gwtproject/gwt/issues/9490
+		//	// .catch changed to ["catch"]
+		//	$wnd.navigator.clipboard.writeText(value).then(function() {
+		//		$wnd.console.log("Clipboard copy OK")
+		//	})["catch"](function(e) {
+		//		$wnd.console.log("Problem copying to clipboard")
+		//	});
+		//}
+
+		// currently seems to work in Chrome, IE11, Edge+Chromium
+		// doesn't seem to work in Edge, Firefox from GGB button
+		// document.execCommand('cut'/'copy') was denied because it was not called 
+		// from inside a short running user-generated event handler.
 		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
+
 	}-*/;
 
 	@Override
@@ -3923,13 +3955,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public VendorSettings getVendorSettings() {
 		if (vendorSettings == null) {
-			if ("mebis".equalsIgnoreCase(articleElement.getParamVendor())) {
+			if (isMebis()) {
 				vendorSettings = new MebisSettings();
 			} else {
 				vendorSettings = new GgbSettings();
 			}
 		}
 		return vendorSettings;
+	}
+
+	@Override
+	public boolean isMebis() {
+		return "mebis".equalsIgnoreCase(articleElement.getParamVendor());
 	}
 
 	@Override
@@ -3972,6 +4009,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public JavaScriptObject getEmbeddedCalculators() {
 		// iplemented in AppWFull
 		return null;
+	}
 
+	@Override
+	public GColor getPrimaryColor() {
+		return getVendorSettings().getPrimaryColor();
 	}
 }

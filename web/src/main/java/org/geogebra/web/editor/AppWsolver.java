@@ -68,6 +68,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 		initSignInEventFlow(new LoginOperationW(this), true);
 		GlobalHeader.INSTANCE.addSignIn(this);
 		addShareButton();
+		frame.setApplication(this);
     }
 
 	private void addShareButton() {

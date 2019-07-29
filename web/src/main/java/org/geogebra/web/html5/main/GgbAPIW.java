@@ -323,7 +323,7 @@ public class GgbAPIW extends GgbAPI {
 				.getPageController();
 		if (pageController != null) {
 			HashMap<String, Integer> usage = new HashMap<>();
-			GgbFile shared = new GgbFile();
+			GgbFile shared = new GgbFile("");
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				countShared(pageController.getSlide(i), usage, shared);
 			}
@@ -337,7 +337,7 @@ public class GgbAPIW extends GgbAPI {
 					pageController.getStructureJSON(), jso);
 			return jso;
 		}
-		GgbFile archiveContent = new GgbFile();
+		GgbFile archiveContent = new GgbFile("");
 		createArchiveContent(includeThumbnail, archiveContent);
 		return prepareToEntrySet(archiveContent, jso, "", null);
 	}
@@ -598,7 +598,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @return archive with macros + icons
 	 */
 	public GgbFile createMacrosArchive() {
-		GgbFile archiveContent = new GgbFile();
+		GgbFile archiveContent = new GgbFile("");
 		writeMacroImages(archiveContent);
 		String macroXml = getApplication().getMacroXMLorEmpty();
 		if (!"".equals(macroXml)) {
@@ -1435,6 +1435,13 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public JavaScriptObject getEmbeddedCalculators() {
 		return ((AppW) app).getEmbeddedCalculators();
+	}
+
+	/**
+	 * @return frame DOM element
+	 */
+	public Element getFrame() {
+		return ((AppW) app).getFrameElement();
 	}
 
 }

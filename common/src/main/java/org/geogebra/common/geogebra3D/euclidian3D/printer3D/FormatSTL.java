@@ -18,9 +18,11 @@ public class FormatSTL extends Format {
 	private Coords tmpCoords3 = new Coords(3);
 	private Coords n = new Coords(3);
 
-	protected double scale;
+	private double scale;
 
-	private boolean usesThickness;
+	private boolean wantsFilledSolids;
+	private boolean exportsPointsAndLines;
+	private boolean currentExportIsCurve;
 
 	private FormatPolygonsHandler polygonHandler;
 
@@ -28,7 +30,8 @@ public class FormatSTL extends Format {
 	 * constructor
 	 */
 	public FormatSTL() {
-		usesThickness = true;
+		wantsFilledSolids = false;
+		exportsPointsAndLines = true;
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getScriptEnd(StringBuilder sb) {
-		if (!usesThickness) {
+		if (wantsFilledSolids()) {
 			polygonHandler.setOrientedNormals();
 			polygonHandler.getTriangles(sb, this);
 		}
@@ -58,8 +61,10 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public void getPolyhedronStart(StringBuilder sb, boolean isFlat) {
-		if (!usesThickness) {
+	public void getPolyhedronStart(StringBuilder sb, boolean isFlat,
+			boolean isCurve) {
+		currentExportIsCurve = isCurve;
+		if (currentExportAsFilledSolids()) {
 			polygonHandler.startPolygon(isFlat);
 		}
 	}
@@ -76,7 +81,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		if (usesThickness) {
+		if (!currentExportAsFilledSolids()) {
 			verticesList.addValue(x * scale);
 			verticesList.addValue(y * scale);
 			verticesList.addValue(z * scale);
@@ -120,7 +125,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public boolean getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
-		if (!usesThickness) {
+		if (currentExportAsFilledSolids()) {
 			polygonHandler.addTriangle(v1, v2, v3);
 			return true;
 		}
@@ -271,7 +276,7 @@ public class FormatSTL extends Format {
 
 	@Override
 	public void getNormal(StringBuilder sb, double x, double y, double z, boolean withThickness) {
-		if (usesThickness) {
+		if (!currentExportAsFilledSolids()) {
 			normalsList.addValue(x);
 			normalsList.addValue(y);
 			normalsList.addValue(z);
@@ -301,8 +306,13 @@ public class FormatSTL extends Format {
 	}
 
 	@Override
-	public boolean needsClosedObjects() {
-		return usesThickness;
+	public boolean needsClosedObjectsForCurves() {
+		return true;
+	}
+
+	@Override
+	public boolean needsClosedObjectsForSurfaces() {
+		return !wantsFilledSolids();
 	}
 
 	@Override
@@ -342,19 +352,33 @@ public class FormatSTL extends Format {
 
 	@Override
 	public boolean needsBothSided() {
-		return usesThickness;
+		return !wantsFilledSolids();
 	}
 
 	@Override
-	public void setUsesThickness(boolean flag) {
-		usesThickness = flag;
-		if (!usesThickness) {
+	public void setWantsFilledSolids(boolean flag) {
+		wantsFilledSolids = flag;
+		if (wantsFilledSolids) {
 			polygonHandler = new FormatPolygonsHandler();
 		}
 	}
 
 	@Override
-	public boolean exportsOnlyPolygons() {
-		return !usesThickness;
+	public boolean wantsFilledSolids() {
+		return wantsFilledSolids;
+	}
+
+	private boolean currentExportAsFilledSolids() {
+		return wantsFilledSolids && !currentExportIsCurve;
+	}
+
+	@Override
+	public void setExportsPointsAndLines(boolean flag) {
+		exportsPointsAndLines = flag;
+	}
+
+	@Override
+	public boolean exportsPointsAndLines() {
+		return exportsPointsAndLines;
 	}
 }

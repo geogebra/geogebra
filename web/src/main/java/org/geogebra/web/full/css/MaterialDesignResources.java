@@ -7,7 +7,7 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
 @SuppressWarnings("javadoc")
-public interface MaterialDesignResources extends ClientBundle {
+public interface MaterialDesignResources extends ClientBundle, ResourceIconProvider {
 
 	MaterialDesignResources INSTANCE = GWT.create(MaterialDesignResources.class);
 	/* NEW MATERIAL DESIGN ICONS */
@@ -321,9 +321,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_white.svg")
 	SVGResource toolbar_algebra_graphing();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_geometry_white.svg")
-	SVGResource toolbar_algebra_geometry();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_white.svg")
 	SVGResource toolbar_tools();
 
@@ -499,4 +496,20 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
 	SVGResource move_canvas();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
+	SVGResource newFileMenu();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_search_black_24px.svg")
+	SVGResource openFileMenu();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_insert_drive_file_black_24px.svg")
+	SVGResource fileMenu();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
+	SVGResource downloadMenu();
 }

@@ -544,7 +544,7 @@ public class DrawLabel3D {
 			return;
 		}
 
-		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
+		if (view.isARDrawing()) {
 		    if (positionMatrix == null) {
                 positionMatrix = new CoordMatrix4x4();
             }
@@ -734,7 +734,7 @@ public class DrawLabel3D {
 		}
 
 		int old = textIndex;
-        if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
+        if (view.isARDrawing()) {
 			if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
 					|| !anchor) {
 				textIndex = drawRectangle(renderer, 0, 0, 0,
@@ -761,7 +761,7 @@ public class DrawLabel3D {
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
-		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
+		if (view.isARDrawing()) {
 			backgroundIndex = drawRectangle(renderer, 0, 0, 0,
 					width / getFontScale(),
 					height / getFontScale(), backgroundIndex);

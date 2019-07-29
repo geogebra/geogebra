@@ -609,10 +609,8 @@ public class ToolBar {
 
 		// polygons
 		sb.append(EuclidianConstants.MODE_POLYGON);
-		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
 		sb.append(" | ");
 
 		// conics
@@ -670,6 +668,10 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CONIFY);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTRUSION);
+		if (app.has(Feature.SURFACE_OF_REVOLUTION_TOOL)) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
+		}
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS);

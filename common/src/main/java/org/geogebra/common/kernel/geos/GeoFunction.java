@@ -445,8 +445,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			for (int i = 0; i < algorithm.getOutputLength(); i++) {
 				GeoElement geo = algorithm.getOutput(i);
 				if (geo instanceof SurfaceEvaluable) {
+
 					// the cast here is needed for FindBugs
-					surfaceEvaluables.remove((SurfaceEvaluable) geo);
+					// leave as separate statement so it's not automatically removed
+					SurfaceEvaluable surface = (SurfaceEvaluable) geo;
+
+					surfaceEvaluables.remove(surface);
 				}
 			}
 		}
@@ -455,10 +459,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * initializes function type; if boolean, uses default styl for inequalities
+	 * initializes function type; if boolean, uses default style for inequalities
 	 * 
-	 * @param simplifyInt
-	 *            whether integer subexperessions should be simplified
+	 * @param simplifyInt whether integer sub-expressions should be simplified
 	 */
 	public void initFunction(boolean simplifyInt) {
 		fun.initFunction(simplifyInt);
@@ -1057,14 +1060,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * Path interface
 	 */
 	private void pointChanged(Coords P, boolean closestPoly) {
-
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
 		} else {
 			P.setX(P.getX() / P.getZ());
-		}
-		if (!P.isDefined()) {
-			P.setX(0);
 		}
 		if (!isBooleanFunction()) {
 			if (interval) {
@@ -1177,6 +1176,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private void pointChanged(GeoPointND P, boolean closestPoly) {
 
 		Coords coords = P.getCoordsInD2();
+		if (!coords.isDefined() && P.isMoveable()) {
+			// TRAC-3494
+			coords.setX(0);
+		}
 		pointChanged(coords, closestPoly);
 
 		// set path parameter for compatibility with
@@ -3023,5 +3026,4 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public double getY() {
 		return -1;
 	}
-
 }

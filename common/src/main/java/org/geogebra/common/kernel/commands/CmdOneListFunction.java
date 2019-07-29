@@ -102,6 +102,9 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 				}
 
 			}
+			if (n == 2) {
+				throw argErr(c, arg[0].isGeoList() ? arg[1] : arg[0]);
+			}
 			throw argNumErr(c);
 		}
 	}
