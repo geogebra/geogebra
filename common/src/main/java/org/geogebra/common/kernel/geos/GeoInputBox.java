@@ -388,7 +388,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (canLinkedGeoBeSybolic() && linkedGeo.isGeoNumeric()) {
 			GeoNumeric evaluatedNumber = new GeoNumeric(kernel.getConstruction());
 			kernel.getAlgebraProcessor().evaluateToDouble(text, true, evaluatedNumber);
-			return getNonSymbolicNumberValue(linkedGeo)
+			String linkedNonSymbolic = getNonSymbolicNumberValue(linkedGeo);
+			return linkedNonSymbolic != null && linkedNonSymbolic
 					.equals(getNonSymbolicNumberValue(evaluatedNumber));
 		}
 
