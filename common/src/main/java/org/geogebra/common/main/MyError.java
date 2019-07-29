@@ -204,26 +204,6 @@ public class MyError extends Error {
 	 */
 	private String getError(String s) {
 		String ret = loc == null ? s : loc.getError(s);
-
-		// no loc, or running webSimple
-		if ("UndefinedVariable".equals(ret)) {
-			return "Undefined variable";
-		}
-		if ("ReplaceFailed".equals(ret)) {
-			return "Redefinition failed";
-		}
-		if ("InvalidInput".equals(ret)) {
-			return "Please check your input";
-		}
-		if ("InvalidFunction".equals(ret)) {
-			return "Invalid function:\n" + "Please enter an explicit function in x";
-		}
-		if ("UnbalancedBrackets".equals(ret)) {
-			return "Unbalanced brackets";
-		}
-//		if (ret != null && ret.startsWith("InvalidFunctionA")) {
-//			return ret.replace("InvalidFunctionA", "Please enter an explicit function in ");
-//		}
 		return ret;
 	}
 
