@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.util.*;
+
 
 import org.geogebra.common.main.Localization;
+
+import java.util.*;
 
 public class StepSetOperation extends StepLogical implements Iterable<StepLogical> {
 
@@ -106,14 +108,6 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 					return o1.hashCode() - o2.hashCode();
 				}
 			});
-
-			/*
-			operands.sort(new Comparator<StepLogical>() {
-				@Override
-				public int compare(StepLogical o1, StepLogical o2) {
-					return o1.hashCode() - o2.hashCode();
-				}
-			});*/
 		}
 
 		return this;

@@ -22,7 +22,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Processor for symbolic elements
- * 
+ *
  * @author Zbynek
  */
 public class SymbolicProcessor {
@@ -55,7 +55,7 @@ public class SymbolicProcessor {
 		private SymbolicProcessor processor;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-				ExpressionValue root) {
+									  ExpressionValue root) {
 			this.processor = symbolicProcessor;
 			this.root = root;
 		}
@@ -74,8 +74,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
+	 * @param kernel kernel
 	 */
 	public SymbolicProcessor(Kernel kernel) {
 		this.kernel = kernel;
@@ -83,8 +82,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param replaced
-	 *            symbolic expression
+	 * @param replaced symbolic expression
 	 * @return evaluated expression
 	 */
 	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced) {
@@ -99,7 +97,7 @@ public class SymbolicProcessor {
 					throw new MyError(kernel.getLocalization(), "UnknownCommand");
 				}
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.debug(e.getMessage());
 		}
 
@@ -130,8 +128,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve
-	 *            input expression
+	 * @param ve input expression
 	 * @return processed geo
 	 */
 	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve) {
@@ -146,7 +143,7 @@ public class SymbolicProcessor {
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
-							.wrap();
+					.wrap();
 			ve.wrap().setLabel(null);
 		}
 

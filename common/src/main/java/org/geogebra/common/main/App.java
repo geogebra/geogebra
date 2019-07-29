@@ -778,7 +778,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
-		boolean noCAS = !kernel.getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
 		// translation table for all command names in command.properties
 		getLocalization().initTranslateCommand();
 		// command dictionary for all public command names available in
@@ -794,8 +793,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// =====================================
 		// init sub command dictionaries
-		CommandNameFilter cf = CommandNameFilterFactory
-				.createNoCasCommandNameFilter();
+		CommandDispatcher cf = getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		createSubCommandDictIfNeeded();
 		clearSubCommandDict();
@@ -804,7 +802,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				.getTranslateCommandTable();
 
 		for (Commands comm : Commands.values()) {
-			if (noCAS && !cf.isCommandAllowed(comm)) {
+			if (!cf.isAllowedByNameFilter(comm)) {
 				continue;
 			}
 
