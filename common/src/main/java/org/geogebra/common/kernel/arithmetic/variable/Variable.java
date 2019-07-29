@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -122,7 +123,7 @@ public class Variable extends ValidExpression {
 		}
 
 		Localization localization = kernel.getApplication().getLocalization();
-		throw new MyParseError(localization, "UndefinedVariable", name);
+		throw new MyParseError(localization, Errors.UndefinedVariable, name);
 	}
 
 	private GeoElement newGeoDummyVariable() {

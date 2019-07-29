@@ -284,6 +284,10 @@ public class MyError extends Error {
 
 		PasteImageFailed("PasteImageFailed", "Sorry - couldn't paste bitmap from the clipboard"),
 
+		NumberExpected("NumberExpected", "Number expected"),
+
+		FunctionExpected("FunctionExpected", "Function expected"),
+
 		InvalidFunction("InvalidFunction",
 				"Invalid function:\nPlease enter an explicit function in x"),
 

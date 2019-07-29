@@ -93,6 +93,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SchedulerFactory;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Operation;
@@ -4214,8 +4215,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 							}
 						} else {
 							if (result != null && result.length > 0) {
-								eh.showError(app.getLocalization()
-										.getError("NumberExpected"));
+								eh.showError(Errors.NumberExpected.getError(app.getLocalization()));
 							}
 						}
 						if (callback != null) {

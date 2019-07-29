@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -185,7 +186,7 @@ public class FunctionParser {
 				return derivativeNode(kernel, geoExp, order,
 						geo.isGeoCurveCartesian(), myList.getListElement(0));
 			}
-			throw new MyParseError(kernel.getLocalization(), "FunctionExpected",
+			throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected,
 					funcName);
 
 		}
@@ -281,7 +282,7 @@ public class FunctionParser {
 					list.getListElement(1), list.getListElement(2));
 
 		}
-		throw new MyParseError(kernel.getLocalization(), "FunctionExpected",
+		throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected,
 				funcName);
 
 	}
