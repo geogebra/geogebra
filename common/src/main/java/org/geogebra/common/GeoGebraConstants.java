@@ -32,6 +32,8 @@ public interface GeoGebraConstants {
 
 		ANDROID_CAS("a", "cas"),
 
+		WEB_CAS("w", "cas"),
+
 		ANDROID_WEBVIEW("aw", "classic"),
 
 		ANDROID_WEBVIEW_EXAM("aw", "exam"),
