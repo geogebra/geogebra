@@ -2632,8 +2632,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 					+ " " + page + " " + type);
-			getApp().showError(e.getMessage());
-			e.printStackTrace();
+			getApp().showGenericError(e);
 		}
 	}
 

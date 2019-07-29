@@ -654,8 +654,7 @@ public class AlgebraProcessor {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
 					app.getErrorHandler(), false, null);
 		} catch (Exception e) {
-			e.printStackTrace();
-			app.showError(e.getMessage());
+			app.showGenericError(e);
 			return null;
 		}
 	}
@@ -673,8 +672,7 @@ public class AlgebraProcessor {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
 					app.getErrorHandler(), false, callback);
 		} catch (Exception e) {
-			e.printStackTrace();
-			app.showError(e.getMessage());
+			app.showGenericError(e);
 			return null;
 		}
 	}

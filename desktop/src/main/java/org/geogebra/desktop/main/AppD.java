@@ -2437,8 +2437,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			fontManager.setLanguage(loc.getLocale());
 		} catch (Exception e) {
-			e.printStackTrace();
-			showError(e.getMessage());
+			showGenericError(e);
 
 			// go back to previous locale
 			loc.setLocale(oldLocale);
