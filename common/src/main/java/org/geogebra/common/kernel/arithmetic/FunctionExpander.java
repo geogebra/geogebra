@@ -272,11 +272,11 @@ public class FunctionExpander implements Traversing {
 
 	/**
 	 * Resets and returns the collector
-	 * 
+	 *
 	 * @return function expander
 	 */
 	public static FunctionExpander getCollector() {
 		collector.variables = null;
 		return collector;
-			}
 	}
+}
