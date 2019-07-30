@@ -112,6 +112,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			return;
 		}
 
+		int nrOfBtn = 1;
 		createAlgebraButton();
 		createToolsButton();
 		createTableViewButton();
@@ -122,15 +123,24 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		center.add(btnAlgebra);
 
-		Element indicator = DOM.createDiv();
-		indicator.addClassName("indicator");
-		center.getElement().insertFirst(indicator);
-		center.add(btnTools);
+		boolean showToolPanel = app.getConfig().showToolsPanel();
+
+		if (showToolPanel) {
+			center.add(btnTools);
+			nrOfBtn++;
+		}
 		if (app.getConfig().hasTableView()) {
 			center.add(btnTableView);
-			center.addStyleName("threeTab");
+			nrOfBtn++;
+			if (showToolPanel) {
+				center.addStyleName("threeTab");
+			}
 		}
-
+		if (nrOfBtn > 1) {
+			Element indicator = DOM.createDiv();
+			indicator.addClassName("indicator");
+			center.getElement().insertFirst(indicator);
+		}
 		contents.add(center);
 	}
 
@@ -871,7 +881,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	public void onLandscapeAnimationEnd(double expandFrom, double expandTo) {
 		if (!isOpen()) {
-			expandWidth(expandFrom);
+			getElement().getStyle().clearWidth();
 			setHeight("100%");
 			toolbarPanel.updateUndoRedoPosition();
 		} else {
