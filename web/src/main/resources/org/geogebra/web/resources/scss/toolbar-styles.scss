@@ -105,14 +105,14 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		
 			.center.indicatorLeft {
 				.indicator {
-					transform: translateX(50%) translateX(-35px);
+					transform: translateX(50%) translateX(-36px);
 					position: absolute;
 				}	
 			}
 		
 			.center.indicatorRight {
 				.indicator {
-					transform: translateX(50%) translateX(13px);
+					transform: translateX(50%) translateX(12px);
 					position: absolute;
 				}	
 			}
@@ -215,10 +215,6 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					left: 50%;
 					transform: translateX(-50%);
 					top: calc(50% - 86px);
-				}
-
-				.tabButton {
-					margin-left: 10px !important;	
 				}
 
 				.indicator {
