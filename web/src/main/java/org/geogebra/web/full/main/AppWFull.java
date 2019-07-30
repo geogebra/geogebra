@@ -1998,7 +1998,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
-		Log.debug("appname " + appName);
+		
 		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",
