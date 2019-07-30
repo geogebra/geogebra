@@ -566,6 +566,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * Get view's textfield and attach to this
 	 */
 	public void attachTextField() {
+		if (geoInputBox.isSymbolicMode()) {
+			attachMathField();
+			return;
+		}
+
 		hideSymbolicField();
 		updateBoxPosition();
 		AutoCompleteTextField tf = getTextField();
@@ -596,6 +601,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			tf.prepareShowSymbolButton(true);
 		}
 
+	}
+
+	private void attachMathField() {
+		hideTextField();
+		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds(view.getGraphicsForPen()));
 	}
 
 	/**
