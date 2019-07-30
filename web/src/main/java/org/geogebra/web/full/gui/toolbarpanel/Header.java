@@ -125,18 +125,18 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		boolean showToolPanel = app.getConfig().showToolsPanel();
 
-		if(showToolPanel) {
+		if (showToolPanel) {
 			center.add(btnTools);
 			nrOfBtn++;
 		}
 		if (app.getConfig().hasTableView()) {
 			center.add(btnTableView);
 			nrOfBtn++;
-			if(showToolPanel) {
+			if (showToolPanel) {
 				center.addStyleName("threeTab");
 			}
 		}
-		if(nrOfBtn > 1){
+		if (nrOfBtn > 1) {
 			Element indicator = DOM.createDiv();
 			indicator.addClassName("indicator");
 			center.getElement().insertFirst(indicator);
