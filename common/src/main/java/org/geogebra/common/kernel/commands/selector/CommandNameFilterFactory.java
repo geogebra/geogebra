@@ -43,7 +43,6 @@ public final class CommandNameFilterFactory {
 		return commandNameFilter;
 	}
 
-
 	/**
 	 * @return name filter for apps with CAS
 	 */
@@ -144,21 +143,4 @@ public final class CommandNameFilterFactory {
 			);
 		return commandNameFilter;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
