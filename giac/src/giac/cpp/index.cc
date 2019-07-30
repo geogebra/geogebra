@@ -57,10 +57,10 @@ namespace giac {
     b=tmp;
   }
 
-  index_t index_gcd(const index_t & a,const index_t & b){
+  void index_gcd(const index_t & a,const index_t & b,index_t & res){
     index_t::const_iterator ita=a.begin(),itaend=a.end(),itb=b.begin();
     unsigned s=unsigned(itaend-ita);
-    index_t res(s);
+    res.resize(s);
     index_t::iterator itres=res.begin();  
 #ifdef DEBUG_SUPPORT
     if (s!=b.size())
@@ -68,6 +68,11 @@ namespace giac {
 #endif // DEBUG_SUPPORT
     for (;ita!=itaend;++itb,++itres,++ita)
       *itres=giacmin(*ita,*itb);
+  }
+
+  index_t index_gcd(const index_t & a,const index_t & b){
+    index_t res;
+    index_gcd(a,b,res);
     return res;
   }
 

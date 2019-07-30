@@ -3391,7 +3391,7 @@ namespace giac {
     // convert p_orig and q_orig to vector< T_unsigned<int,hashgcd_U> >
     // using pqdeg (instead of max(pdeg,qdeg) because of gcd(lcoeff(p),lcoeff(q)))
     // additional factor 2 since computing cofactors require more
-    ulonglong ans=1;
+    double ans=1;
     d.clear();
     d.reserve(dim);
     for (int i=0;i<dim;++i){
@@ -3406,7 +3406,7 @@ namespace giac {
       }
       d[i] = 1 << j;
       ans = ans*unsigned(d[i]);
-      if (ans/RAND_MAX>=1)
+      if (ans/RAND_MAX>=(sizeof(hashgcd_U)==4?1:RAND_MAX)) // 1 if hashgcd_U is unsigned int
 	return false;
     }
     vars=std::vector<hashgcd_U>(dim);

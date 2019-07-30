@@ -93,8 +93,8 @@ namespace giac {
   gen _debug_infolevel(const gen & g0,const context *);
   gen _background(const gen & g,const context *);
 
-  // #define hashgcd_U unsigned int
-  typedef unsigned int hashgcd_U; // replace with ulonglong for large index capacity on 32 bit CPU
+  typedef unsigned long long hashgcd_U; 
+  //typedef unsigned int hashgcd_U; // replace with ulonglong for large index capacity on 32 bit CPU
 
 #ifdef HAVE_GMPXX_H
 
@@ -819,6 +819,53 @@ namespace giac {
       v.push_back(*it2);
   }
 
+  // v:=v1+x*v2
+  template<class T,class U,class R>
+  void smalladdmult(const std::vector< T_unsigned<T,U> > & v1,const T & x,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const R & reduce){
+    if (x==0){
+      if (&v!=&v1) 
+	v=v1;
+      return;
+    }
+    if (&v1==&v || &v2==&v){
+      std::vector< T_unsigned<T,U> > tmp;
+      smalladdmult(v1,x,v2,tmp,reduce);
+      std::swap< std::vector< T_unsigned<T,U> > >(v,tmp);
+      return;
+    }
+    typename std::vector< T_unsigned<T,U> >::const_iterator it1=v1.begin(),it1end=v1.end(),it2=v2.begin(),it2end=v2.end();
+    T g;
+    v.clear();
+    v.reserve((it1end-it1)+(it2end-it2)); // worst case
+    for (;it1!=it1end && it2!=it2end;){
+      if (it1->u==it2->u){
+	g=it1->g;
+	type_operator_plus_times_reduce(x,it2->g,g,reduce);
+	if (!is_zero(g))
+	  v.push_back(T_unsigned<T,U>(g,it1->u));
+	++it1;
+	++it2;
+      }
+      else {
+	if (it1->u>it2->u){
+	  v.push_back(*it1);
+	  ++it1;
+	}
+	else {
+	  type_operator_reduce(x,it2->g,g,reduce);
+	  v.push_back(T_unsigned<T,U>(g,it2->u));
+	  ++it2;
+	}
+      }
+    }
+    for (;it1!=it1end;++it1)
+      v.push_back(*it1);
+    for (;it2!=it2end;++it2){
+      type_operator_reduce(x,it2->g,g,reduce);
+      v.push_back(T_unsigned<T,U>(g,it2->u));
+    }
+  }
+
   template<class T,class U>
   void smallsub(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v){
     if (&v1==&v || &v2==&v){
@@ -1246,6 +1293,7 @@ namespace giac {
     if (v2.empty()){ 
       v.clear(); return; 
     }
+    // if (&v2==&v && v2.size()==1 && v2.front().u==0 && is_one(v2.front().g)) return;
     if (&v1==&v || &v2==&v){
       std::vector< T_unsigned<T,U> > tmp;
       smallmult(v1,v2,tmp,reduce,possible_size);

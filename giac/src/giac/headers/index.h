@@ -99,6 +99,7 @@ namespace giac {
   inline bool operator >= (const index_t & a, const index_t & b){ return all_sup_equal(a,b); }
   bool all_inf_equal (const index_t & a, const index_t & b);
   inline bool operator <= (const index_t & a, const index_t & b){ return all_inf_equal(a,b); }
+  void index_gcd(const index_t & a,const index_t & b,index_t & res);
   index_t index_gcd(const index_t & a,const index_t & b);
   index_t index_lcm(const index_t & a,const index_t & b);
   inline index_t index_min(const index_t & a,const index_t & b){ return index_gcd(a,b); }
