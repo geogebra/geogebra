@@ -4272,7 +4272,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void closePopups(int x, int y) {
 		closePopups();
-		getActiveEuclidianView().closeDropDowns(x, y);
+		EuclidianView view = getActiveEuclidianView();
+		view.closeDropDowns(x, y);
+		view.hideSymbolicEditor();
 	}
 
 	/**

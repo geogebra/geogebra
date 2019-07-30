@@ -612,13 +612,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
 	}
 
-	// private boolean isLinkedGeoSimple() {
-	// if (!linkedGeo.isGeoNumeric()) {
-	// return false;
-	// }
-	// return ((GeoNumeric) linkedGeo).isSimple();
-	// }
-
 	/**
 	 *
 	 * @return text to edit.
