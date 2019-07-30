@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -41,13 +42,15 @@ public class SymbolicEditorW
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		String text = geoInputBox.getTextForEditor();
+		Log.debug("[SED] setting text as '" + text + "'");
 		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
 		style.setTop(bounds.getY(), Style.Unit.PX);
 		style.setWidth(bounds.getWidth() - PADDING_LEFT, Style.Unit.PX);
 		style.setHeight(bounds.getHeight() - PADDING_TOP, Style.Unit.PX);
 		main.removeStyleName("hidden");
-		mathField.setText(geoInputBox.getTextForEditor(), false);
+		mathField.setText(text, false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
 	}

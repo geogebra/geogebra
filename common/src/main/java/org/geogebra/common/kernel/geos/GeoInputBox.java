@@ -273,8 +273,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 		if (linkedGeo.isGeoNumeric()) {
 			try {
-				parsed = kernel.getParser()
-						.parseExpression(text);
+				parsed = kernel.getParser().parseExpression(text);
 
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
@@ -629,11 +628,17 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return getText();
 		}
 
-		if (linkedGeo.isGeoFunction()) {
-			return getLinkedGeoTextForEditor();
+		if (linkedGeo.isGeoNumeric()) {
+			return getLinkedSymbolicNumberForEditor();
 		}
 
-		return null;
+		return getLinkedGeoTextForEditor();
+	}
+
+	private String getLinkedSymbolicNumberForEditor() {
+		GeoNumeric number = (GeoNumeric) linkedGeo;
+		return symbolicMode ? number.toLaTeXString(true, StringTemplate.defaultTemplate)
+				: number.toValueStringMinimal();
 	}
 
 	private String getSymbolicNumberText() {
@@ -644,5 +649,4 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private String getLinkedGeoTextForEditor() {
 		return linkedGeo.getValueForInputBar();
 	}
-
 }
