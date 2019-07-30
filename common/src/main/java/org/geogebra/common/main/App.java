@@ -112,6 +112,7 @@ import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.profiler.FpsProfiler;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -5197,5 +5198,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public GColor getPrimaryColor() {
 		return GeoGebraColorConstants.GEOGEBRA_ACCENT;
+	}
+
+	/**
+	 * @return FpsProfiler instance.
+	 */
+	public FpsProfiler getFpsProfiler() {
+		return null;
 	}
 }
