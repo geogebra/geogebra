@@ -2728,7 +2728,10 @@ mpz_class smod(const mpz_class & a,int reduce){
 	  // have sum equal to degree of P or Q + lcoeff then pD is the gcd
 	  if (hashdivrem(q,pD,qquo,tmprem,vars,modulo,0,false,0)==1 && tmprem.empty()){
 	    // gcd_mutex_unlock();
-	    smallmult(pD,dcont,d,modulo,0);
+	    if (dcont.size()==1 && dcont.front().g==1 && dcont.front().u==0)
+	      d.swap(pD);
+	    else
+	      smallmult(pD,dcont,d,modulo,0);
 	    smallmult(invmod(d.front().g,modulo),d,d,modulo);
 	    if (compute_pcofactor){
 	      smallmult(pcofactor,pquo,pcofactor,modulo,0);
@@ -3072,7 +3075,10 @@ mpz_class smod(const mpz_class & a,int reduce){
 		pp_mod_last(trygcd,0,modulo,varxn,var2,tmpcont);
 		if (hashdivrem(p,trygcd,pquo,tmprem,vars,modulo,0,false)==1 && tmprem.empty()){
 		  if (hashdivrem(q,trygcd,qquo,tmprem,vars,modulo,0,false)==1 && tmprem.empty()){
-		    smallmult(trygcd,dcont,d,modulo,0);
+		    if (dcont.size()==1 && dcont.front().g==1 && dcont.front().u==0)
+		      d.swap(trygcd);
+		    else
+		      smallmult(trygcd,dcont,d,modulo,0);
 		    smallmult(invmod(d.front().g,modulo),d,d,modulo);
 		    if (compute_pcofactor){
 		      smallmult(pcofactor,pquo,pcofactor,modulo,0);

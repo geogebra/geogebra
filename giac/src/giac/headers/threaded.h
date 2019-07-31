@@ -3072,6 +3072,30 @@ namespace giac {
       lcoeffb.push_back(T_unsigned<T,U>(cit->g,u-rstop));
     }
     // copy a to remainder
+    std::vector< T_unsigned<T,U> > maincoeff,quo,tmp;
+#if 1
+    // memory estimations
+    size_t * produit_s=(size_t *) alloca((adeg+1)*sizeof(size_t));
+    for (int i=0;i<=adeg;++i)
+      produit_s[i]=0;
+    size_t curcoeffsize=0;
+    for (cit=a.begin(),citend=a.end();cit!=citend;++cit){ 
+      U u=cit->u; 
+      ++produit_s[unsigned(u >> mainvar)];
+    }
+    for (int i=0;i<=adeg;++i){
+      produit.reserve(int(produit_s[i]*1.1));
+      if (i>=bdeg && curcoeffsize<produit_s[i])
+	curcoeffsize=produit_s[i];
+    }
+    curcoeffsize = int(1.1*curcoeffsize);
+    maincoeff.reserve(curcoeffsize);
+    quo.reserve(curcoeffsize);
+    q.reserve(curcoeffsize*2);
+    tmp.reserve(curcoeffsize);
+#endif
+    std::vector<U> vars2(vars.begin()+1,vars.end());
+    // do it
     for (cit=a.begin(),citend=a.end();cit!=citend;++cit){ 
       U u=cit->u; 
       produit[unsigned(u >> mainvar)][u]=cit->g; 
@@ -3082,7 +3106,7 @@ namespace giac {
       if (produit[rdeg].empty())
 	continue;
       // find degree of remainder and main coeff
-      std::vector< T_unsigned<T,U> > maincoeff,quo,tmp;
+      maincoeff.clear(); quo.clear(); tmp.clear();
       U ushift=U(rdeg) << mainvar;
       for (prod_it=produit[rdeg].begin(),prod_itend=produit[rdeg].end();prod_it!=prod_itend;++prod_it){
 	if (!is_zero(prod_it->second))
@@ -3111,7 +3135,7 @@ namespace giac {
 	q.push_back(quo.back());
       }
       else {
-	int recdivres=hashdivrem(maincoeff,lcoeffb,quo,tmp,std::vector<U>(vars.begin()+1,vars.end()),reduce,qmax,allowrational);
+	int recdivres=hashdivrem(maincoeff,lcoeffb,quo,tmp,vars2,reduce,qmax,allowrational);
 	if (recdivres<1)
 	  return recdivres;
 	if (!tmp.empty())
@@ -3164,7 +3188,10 @@ namespace giac {
 	}
       }
       // end rem -= quo*b
-    }
+    } // end for (redg=...)
+#if 0
+    CERR << "dim " << vars.size() << ", curcoeffsize " << curcoeffsize << endl << "maincoeff " << maincoeff.size() << "," << maincoeff.capacity() << endl << "quo " << quo.size() << "," << quo.capacity() << endl << "q " << q.size() << "," << q.capacity() << endl;
+#endif
     // copy remainder to r and sort
     unsigned rsize=0;
     for (int i=0;i<bdeg;++i)
