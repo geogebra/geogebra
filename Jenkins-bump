@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    options { overrideIndexTriggers(false) }
     stages {
         stage('build') {
             steps {
@@ -9,7 +10,7 @@ pipeline {
                 sh 'git commit --author "Jenkins <jenkins@geogebra.org>" -m "Version bump `cat common/build/version.txt`"'
                 withCredentials([usernamePassword(credentialsId: "gitlab", 
                     usernameVariable: 'username', passwordVariable: 'password')]) {
-                    sh "git push https://${username}:${password}@git.geogebra.org/ggb/geogebra.git ${ggbtransBranch}"
+                    sh "git push https://${username}:${password}@git.geogebra.org/ggb/geogebra.git master"
                 }
             }
         }
