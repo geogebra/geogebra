@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -32,6 +31,7 @@ public class SymbolicEditorW
 	private int fontSize;
 	private static final int PADDING_TOP = 16;
 	private static final int PADDING_LEFT = 4;
+	private GeoInputBox geoIntputBox;
 
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
@@ -42,6 +42,7 @@ public class SymbolicEditorW
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		this.geoIntputBox = geoInputBox;
 		String text = geoInputBox.getTextForEditor();
 		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
@@ -58,7 +59,7 @@ public class SymbolicEditorW
 		main = new FlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, null,
+				canvas, this,
 				directFormulaConversion,
 				null);
 		main.addStyleName("evInputEditor");
@@ -72,7 +73,7 @@ public class SymbolicEditorW
 
 	@Override
 	public void onEnter() {
-		// TODO: implement this.
+		geoIntputBox.updateLinkedGeo(mathField.getText());
 	}
 
 	@Override
