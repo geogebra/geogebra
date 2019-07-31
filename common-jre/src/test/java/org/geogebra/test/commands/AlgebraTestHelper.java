@@ -131,6 +131,17 @@ public class AlgebraTestHelper {
 				null);
 	}
 
+	/**
+	 * Compares the actual result with the combinations of the one valid result.
+	 * For example, when the input is an equation to be solved, then the combinations of the
+	 * one valid result can be listing the solutions of the equation in different orders.
+	 * If the actual result matches with one of the combinations then the test passes.
+	 * @param input the input to be solved (not to be confused with the result of this input)
+	 * @param validResultCombinations the possible combinations of the result
+	 *                                   that can be accepted as valid
+	 * @param algebraProcessor algebra processor
+	 * @param template string template
+	 */
 	public static void testMultipleResults(
 			String input,
 			String[] validResultCombinations,
@@ -148,6 +159,16 @@ public class AlgebraTestHelper {
 		MatcherAssert.assertThat(actualResultString, validResultsMatcher);
 	}
 
+	/**
+	 * Compares every actual result with combinations of the respective valid result.
+	 * Why this method exists: an expression can have multiple valid results,
+	 * and every valid result can have multiple combinations of how to write this valid result down.
+	 * @param input the input to be solved (not to be confused with the result of this input)
+	 * @param validResults an array of valid results where every valid result is expressed
+	 *                        as an array of the combinations of this valid result
+	 * @param algebraProcessor algebra processor
+	 * @param template string template
+	 */
 	public static void testMultipleResults(String input,
 										   String[][] validResults,
 										   AlgebraProcessor algebraProcessor,
