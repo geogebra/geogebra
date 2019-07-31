@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages {
+        stage('build') {
+            steps {
+                sh 'git checkout master'
+                sh './gradlew :common:versionBump'
+                sh 'git add common/src'
+                sh 'git commit --author "Jenkins <jenkins@geogebra.org>" -m "Version bump `cat common/build/version.txt`"'
+                withCredentials([usernamePassword(credentialsId: maintUserId, 
+                    usernameVariable: 'username', passwordVariable: 'password')]) {
+                    sh "git push https://${username}:${password}@git.geogebra.org/ggb/geogebra.git ${ggbtransBranch}"
+                }
+            }
+        }
+    }
+}
