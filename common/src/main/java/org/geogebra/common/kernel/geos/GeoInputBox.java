@@ -400,7 +400,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (!geo.isGeoNumeric()) {
 			return null;
 		}
-		return ((GeoNumeric) geo).toValueStringMinimal();
+		return geo.getValueForInputBar();
 	}
 
 	private void showError() {
@@ -638,7 +638,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	private String getSymbolicNumberText() {
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return symbolicMode ? toLaTex(number) : number.toValueStringMinimal();
+		return symbolicMode ? toLaTex(number) : linkedGeo.getValueForInputBar();
 	}
 
 	private String getLinkedGeoTextForEditor() {
