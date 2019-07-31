@@ -19,6 +19,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * MathField-capable editor for EV, Web implementation.
+ *
  * @author Laszlo
  */
 public class SymbolicEditorW
@@ -32,27 +33,13 @@ public class SymbolicEditorW
 	private static final int PADDING_TOP = 16;
 	private static final int PADDING_LEFT = 4;
 	private GeoInputBox geoIntputBox;
+	private GRectangle bounds;
 
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
 		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 2;
 		createMathField();
-	}
-
-	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		this.geoIntputBox = geoInputBox;
-		String text = geoInputBox.getTextForEditor();
-		Style style = main.getElement().getStyle();
-		style.setLeft(bounds.getX(), Style.Unit.PX);
-		style.setTop(bounds.getY(), Style.Unit.PX);
-		style.setWidth(bounds.getWidth() - PADDING_LEFT, Style.Unit.PX);
-		style.setHeight(bounds.getHeight() - PADDING_TOP, Style.Unit.PX);
-		main.removeStyleName("hidden");
-		mathField.setText(text, false);
-		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
-		mathField.setFocus(true);
 	}
 
 	private void createMathField() {
@@ -67,6 +54,32 @@ public class SymbolicEditorW
 	}
 
 	@Override
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		this.geoIntputBox = geoInputBox;
+		this.bounds = bounds;
+		String text = geoInputBox.getTextForEditor();
+		main.removeStyleName("hidden");
+		updateBounds(bounds);
+		mathField.setText(text, false);
+		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		mathField.setFocus(true);
+	}
+
+	private void updateBounds(GRectangle bounds) {
+		this.bounds = bounds;
+		Style style = main.getElement().getStyle();
+		style.setLeft(bounds.getX(), Style.Unit.PX);
+		style.setTop(bounds.getY(), Style.Unit.PX);
+		style.setWidth(bounds.getWidth() - PADDING_LEFT, Style.Unit.PX);
+		setHeight(bounds.getHeight() - PADDING_TOP);
+	}
+
+	private void setHeight(double height)  {
+		main.getElement().getStyle().setHeight(height, Style.Unit.PX);
+
+	}
+
+	@Override
 	public void hide() {
 		main.addStyleName("hidden");
 	}
@@ -78,7 +91,9 @@ public class SymbolicEditorW
 
 	@Override
 	public void onKeyTyped() {
-		// TODO: implement this.
+		int height = mathField.getInputTextArea().getOffsetHeight();
+		setHeight(height - PADDING_TOP);
+		geoIntputBox.update();
 	}
 
 	@Override
@@ -88,7 +103,7 @@ public class SymbolicEditorW
 
 	@Override
 	public void onUpKeyPressed() {
-		// TODO: implement this.
+	 	// TODO: implement this.
 	}
 
 	@Override
@@ -108,7 +123,12 @@ public class SymbolicEditorW
 
 	@Override
 	public boolean onEscape() {
-		return false;
+		resetChanges();
+		return true;
+	}
+
+	private void resetChanges() {
+		attach(geoIntputBox, bounds);
 	}
 
 	@Override
