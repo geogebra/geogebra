@@ -43,7 +43,6 @@ public class SymbolicEditorW
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
 		String text = geoInputBox.getTextForEditor();
-		Log.debug("[SED] setting text as '" + text + "'");
 		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
 		style.setTop(bounds.getY(), Style.Unit.PX);
