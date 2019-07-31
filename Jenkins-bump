@@ -5,7 +5,7 @@ pipeline {
         stage('build') {
             steps {
                 sh 'git checkout master'
-                sh 'git reset --hard origin'
+                sh 'git reset --hard origin/master'
                 sh './gradlew :common:versionBump'
                 sh 'git add common/src'
                 sh 'git commit --author "Jenkins <jenkins@geogebra.org>" -m "Version bump `cat common/build/version.txt`"'
