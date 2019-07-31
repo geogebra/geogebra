@@ -181,7 +181,7 @@ __GGB__keysVar["nl"].command = {
     "Coefficients.SyntaxCAS": "[ <Veelterm> ]\n[ <Veelterm>, <Variabele> ]",
     "Column": "Kolom",
     "Column.Syntax": "[ <Cel> ]",
-    "ColumnName": "CelkolomNaam",
+    "ColumnName": "KolomNaam",
     "ColumnName.Syntax": "[ <Cel> ]",
     "Command": "Commando",
     "CommonDenominator": "GemeenschappelijkeNoemer",

@@ -3338,7 +3338,7 @@ __GGB__keysVar["id"].menu = {
     "share_message_text": "Masukan pesan personal singkat",
     "share_recipient": "Recipient",
     "share_to": "To",
-    "sort_author": "Author",
+    "sort_author": "Penulis",
     "sort_date_created": "Created",
     "sort_last_modified": "Dimodifikasi",
     "sort_title": "Judul",
