@@ -195,7 +195,7 @@ public abstract class CommandDispatcher {
 	 *            command
 	 * @return whether selector accepts it
 	 */
-	protected boolean isAllowedByNameFilter(Commands command) {
+	public boolean isAllowedByNameFilter(Commands command) {
 		boolean allowed = true;
 		for (CommandNameFilter filter : commandNameFilters) {
 			allowed = allowed && filter.isCommandAllowed(command);
