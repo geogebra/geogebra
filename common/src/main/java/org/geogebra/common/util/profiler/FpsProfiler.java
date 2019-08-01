@@ -14,7 +14,7 @@ public abstract class FpsProfiler {
 	private int frameCountForSecond;
 
 	private int minFps = Integer.MAX_VALUE;
-	private int maxFps;
+	private int maxFps = -1;
 	private boolean isEnabled;
 
 	/**
@@ -45,14 +45,20 @@ public abstract class FpsProfiler {
 		if (!isEnabled) {
 			return;
 		}
-		log();
+		logIfMeasurable();
 		reset();
 	}
 
-	private void log() {
-		long measureEndTime = now();
-		double seconds = (double) (measureEndTime - startTime) / SECOND;
-		Log.debug("\n\n" + getAverageFpsText(seconds) + getMinMaxFpsText(seconds) + "\n\n");
+	private void logIfMeasurable() {
+		long endTime = now();
+		if (endTime > startTime) {
+			log(endTime);
+		}
+	}
+
+	private void log(long endTime) {
+		double seconds = (double) (endTime - startTime) / SECOND;
+		Log.debug("\n\n" + getAverageFpsText(seconds) + getMinMaxFpsText() + "\n\n");
 	}
 
 	private String getAverageFpsText(double seconds) {
@@ -60,8 +66,8 @@ public abstract class FpsProfiler {
 		return "Average FPS: " + averageFps;
 	}
 
-	private String getMinMaxFpsText(double seconds) {
-		if (seconds >= 1) {
+	private String getMinMaxFpsText() {
+		if (maxFps >= 0) {
 			return "\nMin FPS: " + minFps
 					+ "\nMax FPS: " + maxFps;
 		} else {
@@ -72,6 +78,8 @@ public abstract class FpsProfiler {
 	private void reset() {
 		frameCount = 0;
 		frameCountForSecond = 0;
+		minFps = Integer.MAX_VALUE;
+		maxFps = -1;
 	}
 
 	/**
