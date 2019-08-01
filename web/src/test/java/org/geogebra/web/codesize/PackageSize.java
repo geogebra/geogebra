@@ -1,17 +1,9 @@
 package org.geogebra.web.codesize;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.util.Charsets;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.util.file.FileIO;
 import org.junit.Test;
 
 import com.google.gwt.dev.util.collect.HashMap;
@@ -34,7 +26,7 @@ public class PackageSize {
 
 	private void checkModule(String string) throws JSONException {
 		packages.clear();
-		String html = loadFileIntoString(
+		String html = FileIO.load(
 				"build/gwt/extra/" + string
 						+ "/soycReport/compile-report/initial-0-packageBreakdown.html");
 		if (html == null) {
@@ -63,7 +55,7 @@ public class PackageSize {
 		updateSelfSizes(packages.get(""));
 
 		if (addUnattributed) {
-			html = loadFileIntoString(
+			html = FileIO.load(
 					"build/gwt/extra/" + string
 							+ "/soycReport/compile-report/initial-0-codeTypeBreakdown.html");
 			String bytes = html.split("<p class=\"soyc-breakdown-strings\">")[2]
@@ -120,43 +112,5 @@ public class PackageSize {
 			packages.get(parent).put("children", new JSONArray());
 		}
 		packages.get(parent).getJSONArray("children").put(self);
-	}
-
-	public static String loadFileIntoString(String filename) {
-
-		InputStream ios = null;
-		try {
-			ios = new FileInputStream(new File(filename));
-			return loadIntoString(ios);
-		} catch (Exception e) {
-			Log.error("problem loading " + filename);
-		} finally {
-			try {
-				if (ios != null) {
-					ios.close();
-				}
-			} catch (IOException e) {
-				Log.error("problem loading " + filename);
-			}
-		}
-
-		return null;
-	}
-
-	public static String loadIntoString(InputStream is) throws IOException {
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, Charsets.getUtf8()));
-		StringBuilder sb = new StringBuilder();
-
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return sb.toString();
 	}
 }
