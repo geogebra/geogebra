@@ -1551,7 +1551,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Cast undo
-	 * 
+	 *
 	 * @param repaint
 	 *            true to repaint the views afterwards
 	 */
@@ -1579,7 +1579,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Cast redo
-	 * 
+	 *
 	 * @param repaint
 	 *            true to repaint the views afterwards
 	 */
@@ -1848,9 +1848,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * If you don't want that a standard exercise (using all the Macros in the
 	 * Construction and setting each fraction to 100) will be created, check if
 	 * this is a Exercise with {@link #isExercise()} first. <br>
-	 * 
+	 *
 	 * @return the overall fraction of the Exercise
-	 * 
+	 *
 	 */
 	@Override
 	public double getExerciseFraction() {
@@ -1861,7 +1861,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Check whether this applet is an Exercise
-	 * 
+	 *
 	 * @return true if the Exercise has assignments, this will happen when
 	 *         either {@link #getExerciseResult()} or
 	 *         {@link #getExerciseFraction()} are called with user defined Tools
@@ -1916,7 +1916,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * WRONG_AFTER_RANDOMIZE, if the assignment was correct in the first place
 	 * but wrong after randomization <br />
 	 * UNKNOWN, if the assignment could not be checked
-	 * 
+	 *
 	 * @return JavaScriptObject representation of the exercise result. For
 	 *         Example: "{"Tool1":{ "result":"CORRECT", "hint":"",
 	 *         "fraction":1}}", will be empty if now Macros or Assignments have
@@ -2196,4 +2196,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return builder.toString();
 	}
 
+    @Override
+    public void testDraw() {
+        app.testDraw();
+    }
+
+    @Override
+    public void startDrawRecording() {
+        app.startDrawRecording();
+    }
+
+    @Override
+    public void endDrawRecordingAndLogResults() {
+        app.endDrawRecordingAndLogResults();
+    }
 }

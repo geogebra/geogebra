@@ -95,6 +95,7 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.common.util.profiler.FpsProfiler;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -410,7 +411,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Changes version; should be called only once, right after the constructor
-	 * 
+	 *
 	 * @param version
 	 */
 	public void setVersion(Versions version) {
@@ -491,7 +492,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Gets max scale based on EV size; scale down if EV too big to avoid
 	 * clipboard errors
-	 * 
+	 *
 	 * @param ev
 	 *            view
 	 * @return maximum scale for clipboard images; default 2
@@ -2090,7 +2091,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Update the toolbar position flag and optionally rebuilds the UI
-	 * 
+	 *
 	 * @param position
 	 *            new position
 	 * @param update
@@ -2458,9 +2459,9 @@ public abstract class App implements UpdateSelection {
 		if (updatePropertiesView && propertiesView != null && showMenuBar) {
 			propertiesView.updateSelection();
 		}
-		
+
 		ScreenReader.updateSelection(this);
-		
+
 	}
 
 	/**
@@ -2589,7 +2590,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns font manager
-	 * 
+	 *
 	 * @return font manager
 	 */
 	protected abstract FontManager getFontManager();
@@ -2765,7 +2766,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * (De)activate undo and redo, update toolbar
-	 * 
+	 *
 	 * @param undoActive
 	 *            whether undo should be active
 	 */
@@ -3092,7 +3093,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @return url converted to a data URI if possible. If not, returns the URL
 	 *         unaltered
@@ -3240,7 +3241,7 @@ public abstract class App implements UpdateSelection {
 			getEventDispatcher().addEventListener(geoScriptRunner);
 		}
 	}
-	
+
 	/**
 	 * Compares 2, 3 or 4 objects by using the Relation Tool.
 	 *
@@ -3754,7 +3755,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Recompute coord systems in EV and spreadsheet Only needed in web,
-	 * 
+	 *
 	 */
 	public void updateViewSizes() {
 		// overwritten in AppW
@@ -3997,7 +3998,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case PEN_IS_LOCUS:
-			return prerelease;
+			return false;
 
 		case PEN_EVENTS:
 			return false;
@@ -4304,10 +4305,10 @@ public abstract class App implements UpdateSelection {
 		/** GGB-1983 */
 		case DYNAMIC_STYLEBAR_MULTISELECTION_BUGS:
 			return relaunch;
-	
+
 		case FLOATING_SETTINGS:
 			return relaunch;
-			
+
 		case GLOBAL_SETTINGS:
 			return relaunch;
 
@@ -4497,7 +4498,7 @@ public abstract class App implements UpdateSelection {
 	public void setNewExam() {
 		setExam(new ExamEnvironment());
 	}
-	
+
 	public void startNewExam() {
 		setNewExam();
 		getExam().setStart((new Date()).getTime());
@@ -4690,7 +4691,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if running in native "desktop" Java
 	 */
 	public boolean isDesktop() {
@@ -4698,7 +4699,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if running on native Android (not WebView)
 	 */
 	protected boolean isAndroid() {
@@ -4785,7 +4786,7 @@ public abstract class App implements UpdateSelection {
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
 	 * @param force TODO
-	 * 
+	 *
 	 * @return if screen became portrait or not.
 	 */
 	public boolean adjustViews(boolean reset, boolean force) {
@@ -4841,7 +4842,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Update view settings with size from XML
-	 * 
+	 *
 	 * @param evSet
 	 *            view settings
 	 */
@@ -4851,7 +4852,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 9999 (or 200 in web)
 	 */
 	public int getMaxSpreadsheetRowsVisible() {
@@ -4859,7 +4860,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 9999 (or 200 in web)
 	 */
 	public int getMaxSpreadsheetColumnsVisible() {
@@ -4887,7 +4888,7 @@ public abstract class App implements UpdateSelection {
 	abstract public void invokeLater(Runnable runnable);
 
 	/**
-	 * 
+	 *
 	 * @return GeoGebraToPstricks object
 	 */
 	public GeoGebraToPstricks newGeoGebraToPstricks() {
@@ -4896,7 +4897,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return GeoGebraToAsymptote object
 	 */
 	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
@@ -4905,7 +4906,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return GeoGebraToPgf object
 	 */
 	public GeoGebraToPgf newGeoGebraToPgf() {
@@ -4972,13 +4973,13 @@ public abstract class App implements UpdateSelection {
 	 * SMART and Android WebView apps use special native Giac Other web apps use
 	 * giac.js GGB6 WebView uses giac.js for now, see GGB-895 Everything else
 	 * uses native Giac
-	 * 
+	 *
 	 * @return true if using native Giac, false if using giac.js
 	 */
 	public boolean nativeCAS() {
 		return true;
 	}
-	
+
 	private long ceIDcounter = 1;
 	private int nextVariableID = 1;
 
@@ -5030,7 +5031,7 @@ public abstract class App implements UpdateSelection {
 		return new ToolCategorization(this, type, ToolsetLevel.ADVANCED,
 				isPhoneApp);
 	}
-	
+
 	/**
 	 * set flag so a Solid CAD export will be done on next 3D frame
 	 */
@@ -5045,4 +5046,31 @@ public abstract class App implements UpdateSelection {
 	public AppConfig getConfig() {
 		return new AppConfigDefault();
 	}
+
+    /**
+     * Autonomously draws from the coords.json file.
+     */
+    public void testDraw() {
+        // no-op
+    }
+
+    /**
+     * Records the drawing.
+     */
+    public void startDrawRecording() {
+        // no-op
+    }
+
+    /**
+     * Ends the recording of the drawing and logs the results.
+     *
+     * For autonomous drawing, the logged result has to be copied into the coords.json file.
+     */
+    public void endDrawRecordingAndLogResults() {
+        // no-op
+    }
+
+    public FpsProfiler getFpsProfiler() {
+        return null;
+    }
 }

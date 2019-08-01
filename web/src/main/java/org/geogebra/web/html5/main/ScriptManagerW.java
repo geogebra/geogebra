@@ -175,11 +175,11 @@ public class ScriptManagerW extends ScriptManager {
 			api.listeners[api.listeners.length]=obj;
 			return (api.listeners.length-1)+"";
 		}
-		
+
 		function makeStr(data){
 			return data ? data+"" : "";
 		}
-		
+
 		api.getXML = function(objName) {
 			if (objName) {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName);
@@ -616,19 +616,19 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(IZZZ)(arg1, arg2, arg3, !!arg4);
 			}
 		};
-		
+
 		api.setAxisUnits = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisUnits(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
 		};
-		
+
 		api.setAxisLabels = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisLabels(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
 		};
-		
+
 		api.setAxisSteps = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisSteps(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
 		};
-		
+
 		api.setPointCapture = function(view, capture) {
 			if(typeof capture == "undefined"){
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointCapture(II)(1, view);
@@ -924,7 +924,7 @@ public class ScriptManagerW extends ScriptManager {
 		api.exportPGF = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPGF()();
 		};
-		
+
 		api.exportSVG = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSVG()();
 		};
@@ -936,7 +936,7 @@ public class ScriptManagerW extends ScriptManager {
 		api.exportAsymptote = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote()();
 		};
-		
+
 		api.setRounding = function(digits) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits+"");
 		};
@@ -956,6 +956,18 @@ public class ScriptManagerW extends ScriptManager {
 		api.stepByStep = function(text) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stepByStep(Ljava/lang/String;)(text+"");
 		};
+
+        api.testDraw = function() {
+            ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::testDraw()();
+        };
+
+        api.startDrawRecording = function() {
+            ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::startDrawRecording()();
+        };
+
+        api.endDrawRecordingAndLogResults = function() {
+            ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::endDrawRecordingAndLogResults()();
+        };
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;

@@ -80,6 +80,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -89,6 +90,7 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
+import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
 import org.geogebra.web.html5.export.GeoGebraToPgfW;
 import org.geogebra.web.html5.export.GeoGebraToPstricksW;
@@ -203,6 +205,8 @@ public abstract class AppW extends App implements SetLabels {
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
 	private boolean headerVisible = !AppW.smallScreen();
+
+    private FpsProfiler fpsProfiler;
 
 	/**
 	 * @param ae
@@ -665,7 +669,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * This method checks if the command is stored in the command properties
 	 * file as a key or a value.
-	 * 
+	 *
 	 * @param command
 	 *            : a value that should be in the command properties files (part
 	 *            of Internationalization)
@@ -685,11 +689,11 @@ public abstract class AppW extends App implements SetLabels {
 	public void loadGgbFile(HashMap<String, String> archiveContent)
 	        throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
-		
+
 		algebraSettings.setModeChanged(false);
-		
+
 		loadFile(archiveContent);
-		
+
 		if (!algebraSettings.isModeChanged()) {
 			algebraSettings.setTreeMode(SortMode.TYPE);
 		}
@@ -1592,7 +1596,7 @@ public abstract class AppW extends App implements SetLabels {
 		GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName, width, height);
-	
+
 		getGuiManager().setImageCornersFromSelection(geoImage);
 		if (has(Feature.AV_PLUS) && getImageManager().isPreventAuxImage()) {
 			geoImage.setAuxiliaryObject(false);
@@ -1654,8 +1658,12 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}-*/;
 
-
-	protected GOptionPaneW getOptionPane() {
+	/**
+	 * Get a pane for showing messages
+	 * 
+	 * @return option pane
+	 */
+	public GOptionPaneW getOptionPane() {
 		return getGuiManager() != null ? getGuiManager().getOptionPane()
 				: new GOptionPaneW(getPanel(), this);
 	}
@@ -1680,6 +1688,11 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * Initializes the user authentication
+	 *
+	 * @param op
+	 *            login operation
+	 * @param mayLogIn
+	 *            whether login dialog may be opened
 	 */
 	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
 
@@ -1722,7 +1735,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Initializes the application, seeds factory prototypes, creates Kernel and
 	 * MyXMLIO
-	 * 
+	 *
 	 */
 	protected void initCommonObjects() {
 		initFactories();
@@ -1743,7 +1756,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
-	 * 
+	 *
 	 * @param undoActive
 	 *            whether undo manager should be initialized
 	 * @param this_app
@@ -1915,7 +1928,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * Called from GuiManager, implementation depends on subclass
-	 * 
+	 *
 	 * @return toolbar object
 	 */
 	public ToolBarInterface getToolbar() {
@@ -1924,7 +1937,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	// methods used just from AppWapplet (and AppWsimple)
 	/**
-	 * 
+	 *
 	 * @param w
 	 *            last selected view
 	 * @param el
@@ -1939,7 +1952,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param w
 	 *            selected view
 	 * @param el
@@ -2019,7 +2032,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param evPanel
 	 * @param ec
 	 * @param showEvAxes
@@ -2355,7 +2368,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML
 	 * text that is useful for tooltips.
-	 * 
+	 *
 	 * @param mode
 	 *            : tool ID
 	 */
@@ -2525,7 +2538,7 @@ public abstract class AppW extends App implements SetLabels {
 					&& getArticleElement().getDataParamEnableCAS(true)
 					&& getCASFactory().isEnabled();
 		}
-		
+
 		if (getLAF() != null
 				&& getLAF().examSupported(has(Feature.EXAM_TABLET))) {
 			if (viewID == App.VIEW_EUCLIDIAN) {
@@ -2653,7 +2666,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * each applet (e.g. input bar, Graphics view, etc), while only
 	 * giveFocusBack can give focus back to an applet removed by the loseFocus
 	 * method - to avoid hidden bugs.
-	 * 
+	 *
 	 * What if focus is received by some other method than ENTER (pair of ESC)?
 	 * I think let's allow it, but if ENTER comes next, then we should adjust
 	 * our knowledge about it (otherwise, it should have been watched in the
@@ -2704,7 +2717,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * Overwritten for applets, full app and for touch
-	 * 
+	 *
 	 * @return {@link MaterialsManagerI}
 	 */
 	public MaterialsManagerI getFileManager() {
@@ -2769,7 +2782,7 @@ public abstract class AppW extends App implements SetLabels {
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
 		        null);
 	}
-	
+
 	public void showMessage(final String message,
 			final String title, String buttonText,
 			AsyncOperation<String[]> handler) {
@@ -3012,7 +3025,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * @param ggwGraphicsViewWidth
-	 * 
+	 *
 	 *            Resets the width of the Canvas converning the Width of its
 	 *            wrapper (splitlayoutpanel center)
 	 */
@@ -3087,7 +3100,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * Overwritten for AppWapplet/AppWapplication
-	 * 
+	 *
 	 * @param bg
 	 */
 	public void showBrowser(HeaderPanel bg) {
@@ -3104,7 +3117,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
-	 * 
+	 *
 	 * @param textField
 	 *            keyboard listener
 	 * @param forceShow
@@ -3314,7 +3327,7 @@ public abstract class AppW extends App implements SetLabels {
 	public Panel getPanel() {
 		return RootPanel.get();
 	}
-	
+
 	private Timer altTextTimer = new Timer(){
 
 		@Override
@@ -3328,7 +3341,7 @@ public abstract class AppW extends App implements SetLabels {
 			}
 		}
 	};
-	
+
 	@Override
 	public void setAltText() {
 		altTextTimer.schedule(700);
@@ -3680,4 +3693,33 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean isPortrait() {
 		return getWidth() < getHeight();
 	}
+
+
+    @Override
+    public FpsProfiler getFpsProfiler() {
+        if (fpsProfiler == null) {
+            fpsProfiler = new FpsProfilerW();
+        }
+        return fpsProfiler;
+    }
+
+    @Override
+    public void testDraw() {
+        getEuclidianController().getMouseTouchGestureController().getDrawingEmulator().draw();
+    }
+
+    @Override
+    protected EuclidianControllerW getEuclidianController() {
+        return (EuclidianControllerW) super.getEuclidianController();
+    }
+
+    @Override
+    public void startDrawRecording() {
+        getEuclidianController().getMouseTouchGestureController().startDrawRecording();
+    }
+
+    @Override
+    public void endDrawRecordingAndLogResults() {
+        getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
+    }
 }

@@ -19,6 +19,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.profiler.FpsProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -462,5 +464,12 @@ public class EuclidianControllerW extends EuclidianController implements
 			pointerUpCallback.run();
 		}
 	}
+
+    /**
+     * @return MouseTouchGestureControllerW instance
+     */
+    public MouseTouchGestureControllerW getMouseTouchGestureController() {
+        return mtg;
+    }
 }
 

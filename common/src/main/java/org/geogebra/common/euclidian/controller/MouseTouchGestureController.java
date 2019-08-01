@@ -438,7 +438,7 @@ public class MouseTouchGestureController {
 
 	/**
 	 * Used in Android
-	 * 
+	 *
 	 * @param allowProperties
 	 *            whether properties are allowed
 	 */
@@ -448,11 +448,18 @@ public class MouseTouchGestureController {
 
 	/**
 	 * Used in Android
-	 * 
+	 *
 	 * @return whether properties are allowed
 	 */
 	protected boolean isAllowPropertiesView() {
 
 		return mAllowPropertiesView;
 	}
+
+    /**
+     * @return app
+     */
+    public App getApp() {
+        return app;
+    }
 }

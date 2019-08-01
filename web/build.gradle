@@ -18,8 +18,8 @@ apply plugin: 'java'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 sourceSets {
     nonfree
