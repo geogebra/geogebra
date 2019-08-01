@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -77,7 +78,9 @@ public class SymbolicEditorW
 		String fgColorString = GColor.getColorString(geoIntputBox.getObjectColor());
 		String bgColorString = GColor.getColorString(bgColor);
 		main.getElement().getStyle().setBackgroundColor(bgColorString);
+		mathField.setForegroundColor(fgColorString);
 		mathField.setBackgroundColor(bgColorString);
+		mathField.setBackgroundColorCss("#"+StringUtil.toHexString(bgColor));
 	}
 
 	private void updateBounds(GRectangle bounds) {

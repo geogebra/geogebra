@@ -120,7 +120,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	// instance
 	private static int counter = 0;
 	private String foregroundColor = "#000000";
-	private String backgroundColor = "#ffffff";
+	private ColorW backgroundColor = new ColorW(255,255, 255);
+	private String backgroundColorCss = "#ffffff";
 
 	/**
 	 * 
@@ -560,10 +561,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		ctx.setFillStyle(backgroundColor);
+		String cssBackground = backgroundColor.getCssColor().value();
+		ctx.setFillStyle(cssBackground);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundColor),
-				"#FFFFFF", null, ratio);
+				backgroundColorCss, null, ratio);
 	}
 
 	private static boolean mobileBrowser() {
@@ -1142,7 +1144,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		this.foregroundColor = foregroundColor;
 	}
 
-	public void setBackgroundColor(String bgColor) {
-		this.backgroundColor = bgColor;
+	public void setBackgroundColor(String bgColorString) {
+		backgroundColor.setColor(bgColorString);
+	}
+
+	public void setBackgroundColorCss(String backgroundColorCss) {
+		this.backgroundColorCss = backgroundColorCss;
 	}
 }
