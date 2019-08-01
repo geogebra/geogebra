@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -356,10 +357,10 @@ public class AlgebraStyleTest extends Assert {
 	@Test
 	public void singleVarEquationShouldHaveSuggestion() {
 		t("p: z=0");
-		assertEquals("z", String.join(",",
+		assertEquals("z", StringUtil.join(",",
 				((EquationValue) getGeo("p")).getEquationVariables()));
 		t("p: x^2+z^2=0");
-		assertEquals("x,z", String.join(",",
+		assertEquals("x,z", StringUtil.join(",",
 				((EquationValue) getGeo("p")).getEquationVariables()));
 	}
 

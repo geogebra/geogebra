@@ -66,8 +66,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -686,6 +684,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		Collection<String> commandDictContent = commandDict.values();
 
 		// write them to the commandDictCAS
+		CommandDispatcher cf = getKernel().getAlgebraProcessor().getCommandDispatcher();
+
 		for (String cmd : commandDictContent) {
 			commandDictCAS.addEntry(cmd);
 		}
@@ -693,7 +693,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
-
+			try {
+				if (!cf.isAllowedByNameFilter(Commands.valueOf(cmd))) {
+					continue;
+				}
+			} catch (Exception e) {
+				// nothing happens
+			}
 			try {
 				String local = getLocalization().getCommand(cmd);
 				putInTranslateCommandTable(Commands.valueOf(cmd), local);
@@ -780,7 +786,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (!getLocalization().isCommandChanged()) {
 			return;
 		}
-		boolean noCAS = !kernel.getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
 		// translation table for all command names in command.properties
 		getLocalization().initTranslateCommand();
 		// command dictionary for all public command names available in
@@ -796,8 +801,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		// =====================================
 		// init sub command dictionaries
-		CommandNameFilter cf = CommandNameFilterFactory
-				.createNoCasCommandNameFilter();
+		CommandDispatcher cf = getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		createSubCommandDictIfNeeded();
 		clearSubCommandDict();
@@ -806,7 +810,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				.getTranslateCommandTable();
 
 		for (Commands comm : Commands.values()) {
-			if (noCAS && !cf.isCommandAllowed(comm)) {
+			if (!cf.isAllowedByNameFilter(comm)) {
 				continue;
 			}
 

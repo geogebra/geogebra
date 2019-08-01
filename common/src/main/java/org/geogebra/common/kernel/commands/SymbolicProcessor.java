@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -17,10 +18,11 @@ import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.main.MyError;
 
 /**
  * Processor for symbolic elements
- * 
+ *
  * @author Zbynek
  */
 public class SymbolicProcessor {
@@ -53,7 +55,7 @@ public class SymbolicProcessor {
 		private SymbolicProcessor processor;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-				ExpressionValue root) {
+									  ExpressionValue root) {
 			this.processor = symbolicProcessor;
 			this.root = root;
 		}
@@ -72,8 +74,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
+	 * @param kernel kernel
 	 */
 	public SymbolicProcessor(Kernel kernel) {
 		this.kernel = kernel;
@@ -81,11 +82,25 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param replaced
-	 *            symbolic expression
+	 * @param replaced symbolic expression
 	 * @return evaluated expression
 	 */
 	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced) {
+		ExpressionValue expressionValue = replaced.unwrap();
+		Command cmd;
+		CommandDispatcher cmdDispatcher = kernel.getAlgebraProcessor().cmdDispatcher;
+
+		try {
+			if (expressionValue instanceof Command) {
+				cmd = (Command) replaced.unwrap();
+				if (!cmdDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd.getName()))) {
+					throw new MyError(kernel.getLocalization(), "UnknownCommand");
+				}
+			}
+		} catch (Exception e) {
+			Log.debug(e.getMessage());
+		}
+
 		HashSet<GeoElement> vars = replaced
 				.getVariables(SymbolicMode.SYMBOLIC_AV);
 		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
@@ -113,8 +128,7 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve
-	 *            input expression
+	 * @param ve input expression
 	 * @return processed geo
 	 */
 	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve) {
@@ -129,7 +143,7 @@ public class SymbolicProcessor {
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
-							.wrap();
+					.wrap();
 			ve.wrap().setLabel(null);
 		}
 
