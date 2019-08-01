@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.Kernel;
@@ -25,13 +26,15 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class SymbolicEditorW
 		implements SymbolicEditor, MathFieldListener, IsWidget {
 
+	public static final int ROUNDING = 8;
+	private static final int BORDER_WIDTH = 2;
 	private final Kernel kernel;
 	private final boolean directFormulaConversion;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private int fontSize;
 	private static final int PADDING_TOP = 16;
-	private static final int PADDING_LEFT = 4;
+	private static final int PADDING_LEFT = 2;
 	private GeoInputBox geoIntputBox;
 	private GRectangle bounds;
 
@@ -60,23 +63,35 @@ public class SymbolicEditorW
 		String text = geoInputBox.getTextForEditor();
 		main.removeStyleName("hidden");
 		updateBounds(bounds);
+		updateColors();
 		mathField.setText(text, false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
 	}
 
+	private void updateColors() {
+		GColor bgColor = geoIntputBox.getBackgroundColor();
+		if (bgColor == null) {
+			bgColor = GColor.WHITE;
+		}
+		String fgColorString = GColor.getColorString(geoIntputBox.getObjectColor());
+		String bgColorString = GColor.getColorString(bgColor);
+		main.getElement().getStyle().setBackgroundColor(bgColorString);
+		mathField.setBackgroundColor(bgColorString);
+	}
+
 	private void updateBounds(GRectangle bounds) {
 		this.bounds = bounds;
+		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
 		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
 		style.setTop(bounds.getY(), Style.Unit.PX);
-		style.setWidth(bounds.getWidth() - PADDING_LEFT, Style.Unit.PX);
-		setHeight(bounds.getHeight() - PADDING_TOP);
+		style.setWidth(fieldWidth, Style.Unit.PX);
+		setHeight(bounds.getHeight());
 	}
 
 	private void setHeight(double height)  {
-		main.getElement().getStyle().setHeight(height, Style.Unit.PX);
-
+		main.getElement().getStyle().setHeight(height - 2*BORDER_WIDTH, Style.Unit.PX);
 	}
 
 	@Override
