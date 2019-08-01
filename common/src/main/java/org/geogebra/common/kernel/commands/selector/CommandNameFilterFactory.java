@@ -130,16 +130,17 @@ public final class CommandNameFilterFactory {
 				// 3D Commands
 				Commands.Bottom, Commands.Cone, Commands.Cube,
 				Commands.Cylinder, Commands.Dodecahedron, Commands.Ends,
-				Commands.Icosahedron, Commands.Octahedron, Commands.Plane,
-				Commands.QuadricSide, Commands.Surface, Commands.Tetrahedron,
-				Commands.Top, Commands.Sphere, Commands.Prism,
-				Commands.Pyramid, Commands.PlaneBisector, Commands.OrthogonalPlane,
+				Commands.Height, Commands.Icosahedron,
 				Commands.InfiniteCone, Commands.InfiniteCylinder, Commands.IntersectConic,
-				Commands.Height, Commands.Net,
+				Commands.Net, Commands.Octahedron, Commands.PerpendicularPlane,
+				Commands.Plane, Commands.PlaneBisector, Commands.Prism,
+				Commands.Pyramid, Commands.Side, Commands.Sphere,
+				Commands.Surface, Commands.Tetrahedron, Commands.Top,
+				Commands.Volume, Commands.QuadricSide, Commands.OrthogonalPlane,
 				// SpreadSheet Commands
-				Commands.CellRange, Commands.Row, Commands.Column,
-				Commands.ColumnName, Commands.FillRow, Commands.FillColumn,
-				Commands.FillCells, Commands.Cell
+				Commands.Cell, Commands.CellRange, Commands.Column,
+				Commands.ColumnName, Commands.FillCells, Commands.FillColumn,
+				Commands.FillRow, Commands.Row
 			);
 		return commandNameFilter;
 	}
