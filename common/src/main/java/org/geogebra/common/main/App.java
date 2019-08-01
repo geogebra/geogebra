@@ -102,6 +102,7 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.common.util.profiler.FpsProfiler;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -5332,5 +5333,32 @@ public abstract class App implements UpdateSelection, AppInterface {
 			labelManager = new LabelManager();
 		}
 		return labelManager;
+	}
+
+	/**
+	 * Autonomously draws from the coords.json file.
+	 */
+	public void testDraw() {
+		// no-op
+	}
+
+	/**
+	 * Records the drawing.
+	 */
+	public void startDrawRecording() {
+		// no-op
+	}
+
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	public void endDrawRecordingAndLogResults() {
+		// no-op
+	}
+
+	public FpsProfiler getFpsProfiler() {
+		return null;
 	}
 }

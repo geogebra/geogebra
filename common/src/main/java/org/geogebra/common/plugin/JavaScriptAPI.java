@@ -877,7 +877,7 @@ public interface JavaScriptAPI {
 			double zTickDistance);
 
 	/**
-	 * 
+	 *
 	 * @return 3D model exported in obj format
 	 */
 	public String exportObj(double xmin, double xmax, double ymin, double ymax,
@@ -918,4 +918,21 @@ public interface JavaScriptAPI {
 	 * @return axis units
 	 */
 	String[] getAxisUnits(int view);
+
+    /**
+     * Autonomously draws from the coords.json file.
+     */
+    void testDraw();
+
+    /**
+     * Records the drawing.
+     */
+    void startDrawRecording();
+
+    /**
+     * Ends the recording of the drawing and logs the results.
+     *
+     * For autonomous drawing, the logged result has to be copied into the coords.json file.
+     */
+    void endDrawRecordingAndLogResults();
 }

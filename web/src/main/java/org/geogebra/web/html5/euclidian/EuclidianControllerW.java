@@ -20,6 +20,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.profiler.FpsProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -128,7 +130,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	/**
 	 * Creates a new controller
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -298,9 +300,10 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-
+		Log.debug("tf focus");
 		if (isComboboxFocused()) {
-			// Log.info("isComboboxFocused!");
+
+			Log.error("isComboboxFocused!");
 			this.draggingOccured = false;
 			getView().setHits(mouseLoc, type);
 			Hits hits = getView().getHits().getTopHits();
@@ -317,6 +320,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
+		Log.debug("tf click");
 		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
 		return getView().textfieldClicked(x, y, type);
 	}
@@ -392,7 +396,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	/**
 	 * set whether the actual tool should be kept after the element was
 	 * constructed or not
-	 * 
+	 *
 	 * @param sticky
 	 *            keep the tool iff true
 	 */
@@ -405,8 +409,8 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void onDrop(DropEvent event) {
 		app.setActiveView(App.VIEW_EUCLIDIAN);
 		app.setActiveView(App.VIEW_EUCLIDIAN2);
-			
-		EuclidianViewInterfaceCommon ev = 
+
+		EuclidianViewInterfaceCommon ev =
 				app.getActiveEuclidianView();
 
 		GeoElement geo = app.getAlgebraView().getDraggedGeo();
@@ -446,7 +450,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void closePopups(int x, int y, PointerEventType type) {
 		PointerEvent wrap = new PointerEvent(x, y, type, mtg);
-		((AppW) app).closePopups(wrap.getX(), wrap.getY());
+		app.closePopups(wrap.getX(), wrap.getY());
 	}
 
 	@Override
@@ -499,6 +503,13 @@ public class EuclidianControllerW extends EuclidianController implements
 			textController = new TextControllerW((AppW) app);
 		}
 		return textController;
+	}
+
+	/**
+	 * @return MouseTouchGestureControllerW instance
+	 */
+	public MouseTouchGestureControllerW getMouseTouchGestureController() {
+		return mtg;
 	}
 }
 

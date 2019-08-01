@@ -971,18 +971,18 @@ public class ScriptManagerW extends ScriptManager {
 		api.evalMathML = function(text) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalMathML(Ljava/lang/String;)(text + "");
 		};
-		
+
 		api.getScreenReaderOutput = function(text) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getScreenReaderOutput(Ljava/lang/String;)(text + "");
 		};
-		
+
 		api.exportCollada = function(xmin, xmax, ymin, ymax, zmin, zmax, 
 					xyScale, xzScale, xTickDistance, yTickDistance, zTickDistance) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportCollada(DDDDDDDDDDD)(
-			    xmin | -5, xmax | 5, ymin | -5, ymax | 5, zmin | -5, zmax | 5, xyScale | 1, 
+			    xmin | -5, xmax | 5, ymin | -5, ymax | 5, zmin | -5, zmax | 5, xyScale | 1,
 			    xzScale | 1, xTickDistance | -1, yTickDistance | -1, zTickDistance | -1);
 		};
-		
+
 		api.exportSimple3d = function(name, xmin, xmax, ymin, ymax, zmin, zmax, 
 					xyScale, xzScale, xTickDistance, yTickDistance, zTickDistance) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSimple3d(Ljava/lang/String;DDDDDDDDDDD)(
@@ -993,19 +993,19 @@ public class ScriptManagerW extends ScriptManager {
 		api.translate = function(arg1, callback) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::translate(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(arg1 + "", callback);
 		};
-		
+
 		api.exportConstruction = function(flags) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportConstruction(Lcom/google/gwt/core/client/JsArrayString;)(flags || ["color","name","definition","value"]);
 		};
-		
+
 		api.getConstructionSteps = function(breakpoints) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getConstructionSteps(Z)(!!breakpoints);
 		};
-		
+
 		api.setConstructionStep = function(n, breakpoints) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setConstructionStep(DZ)(n, !!breakpoints);
 		};
-		
+
 		api.previousConstructionStep = function() {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::previousConstructionStep()();
 		};
@@ -1013,6 +1013,18 @@ public class ScriptManagerW extends ScriptManager {
 		api.nextConstructionStep = function() {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::nextConstructionStep()();
 		};
+
+        api.testDraw = function() {
+            ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::testDraw()();
+        };
+
+        api.startDrawRecording = function() {
+            ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::startDrawRecording()();
+        };
+
+        api.endDrawRecordingAndLogResults = function() {
+            ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::endDrawRecordingAndLogResults()();
+        };
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
