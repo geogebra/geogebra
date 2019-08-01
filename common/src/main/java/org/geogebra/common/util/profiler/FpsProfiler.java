@@ -2,35 +2,24 @@ package org.geogebra.common.util.profiler;
 
 import org.geogebra.common.util.debug.Log;
 
-/**
- * Measures the frames painted per second (fps).
- */
-public class FpsProfiler {
+public abstract class FpsProfiler {
 
-	private static FpsProfiler INSTANCE;
+	private static final int NOT_MEASURED_TIME_AT_BEGINNING = 64;
+	private static final int SECOND = 1000;
 
-	private static final int NOT_MEASURED_TIME_AT_BEGINNING = 1000;
-
-	private long measureStartTime;
+	private long startTime;
 	private int frameCount;
+
+	private long startTimeForSecond;
+	private int frameCountForSecond;
+
+	private int minFps = Integer.MAX_VALUE;
+	private int maxFps;
 	private boolean isEnabled;
-	private boolean isMeasuringStarted;
-
-	private FpsProfiler() {}
-
-	/**
-	 * @return singleton instance
-	 */
-	public static FpsProfiler getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new FpsProfiler();
-		}
-		return INSTANCE;
-	}
 
 	/**
 	 * Enables or disables the FpsProfiler.
-	 * @param enabled
+	 * @param enabled Whether the fps measuring should be enabled or disabled.
 	 */
 	public void setEnabled(boolean enabled) {
 		isEnabled = enabled;
@@ -43,8 +32,11 @@ public class FpsProfiler {
 		if (!isEnabled) {
 			return;
 		}
-		measureStartTime = System.currentTimeMillis() + NOT_MEASURED_TIME_AT_BEGINNING;
+		startTime = now() + NOT_MEASURED_TIME_AT_BEGINNING;
+		startTimeForSecond = startTime;
 	}
+
+	protected abstract long now();
 
 	/**
 	 * Calculates and logs the fps value.
@@ -53,15 +45,33 @@ public class FpsProfiler {
 		if (!isEnabled) {
 			return;
 		}
-		long measureEndTime = System.currentTimeMillis();
-		int seconds = (int) ((measureEndTime - measureStartTime) / 1000);
-		Log.debug("FPS: " + frameCount / seconds);
+		log();
 		reset();
+	}
+
+	private void log() {
+		long measureEndTime = now();
+		double seconds = (double) (measureEndTime - startTime) / SECOND;
+		Log.debug("\n\n" + getAverageFpsText(seconds) + getMinMaxFpsText(seconds) + "\n\n");
+	}
+
+	private String getAverageFpsText(double seconds) {
+		int averageFps = (int) (frameCount / seconds);
+		return "Average FPS: " + averageFps;
+	}
+
+	private String getMinMaxFpsText(double seconds) {
+		if (seconds >= 1) {
+			return "\nMin FPS: " + minFps
+					+ "\nMax FPS: " + maxFps;
+		} else {
+			return "";
+		}
 	}
 
 	private void reset() {
 		frameCount = 0;
-		isMeasuringStarted = false;
+		frameCountForSecond = 0;
 	}
 
 	/**
@@ -71,13 +81,26 @@ public class FpsProfiler {
 		if (!isEnabled) {
 			return;
 		}
-		if (isMeasuringStarted) {
+		long now = now();
+		if (startTime <= now) {
 			frameCount++;
-			return;
+			measureFpsForSecond(now);
 		}
-		if (System.currentTimeMillis() >= measureStartTime) {
-			isMeasuringStarted = true;
-			frameCount++;
+	}
+
+	private void measureFpsForSecond(long now) {
+		frameCountForSecond++;
+		if (startTimeForSecond <= now - SECOND) {
+			double seconds = (double) (now - startTimeForSecond) / SECOND;
+			int fps = (int) (frameCountForSecond / seconds);
+			if (minFps > fps) {
+				minFps = fps;
+			}
+			if (maxFps < fps) {
+				maxFps = fps;
+			}
+			frameCountForSecond = 0;
+			startTimeForSecond = now;
 		}
 	}
 }

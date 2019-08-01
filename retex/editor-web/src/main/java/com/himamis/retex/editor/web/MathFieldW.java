@@ -119,6 +119,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
+	private String foregroundColor = "#000000";
+	private String backgroundColor = "#ffffff";
 
 	/**
 	 * 
@@ -558,10 +560,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		ctx.setFillStyle("rgb(255,255,255)");
+		ctx.setFillStyle(backgroundColor);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
-
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(0, 0, 0),
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundColor),
 				"#FFFFFF", null, ratio);
 	}
 
@@ -1137,4 +1138,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return inputTextArea;
 	}
 
+	public void setForegroundColor(String foregroundColor) {
+		this.foregroundColor = foregroundColor;
+	}
+
+	public void setBackgroundColor(String bgColor) {
+		this.backgroundColor = bgColor;
+	}
 }

@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.Kernel;
@@ -7,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -20,18 +20,23 @@ import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * MathField-capable editor for EV, Web implementation.
+ *
  * @author Laszlo
  */
 public class SymbolicEditorW
 		implements SymbolicEditor, MathFieldListener, IsWidget {
 
+	public static final int ROUNDING = 8;
+	private static final int BORDER_WIDTH = 2;
 	private final Kernel kernel;
 	private final boolean directFormulaConversion;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private int fontSize;
 	private static final int PADDING_TOP = 16;
-	private static final int PADDING_LEFT = 4;
+	private static final int PADDING_LEFT = 2;
+	private GeoInputBox geoIntputBox;
+	private GRectangle bounds;
 
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
@@ -40,30 +45,53 @@ public class SymbolicEditorW
 		createMathField();
 	}
 
+	private void createMathField() {
+		main = new FlowPanel();
+		Canvas canvas = Canvas.createIfSupported();
+		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
+				canvas, this,
+				directFormulaConversion,
+				null);
+		main.addStyleName("evInputEditor");
+		main.add(mathField);
+	}
+
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		this.geoIntputBox = geoInputBox;
+		this.bounds = bounds;
 		String text = geoInputBox.getTextForEditor();
-		Log.debug("[SED] setting text as '" + text + "'");
-		Style style = main.getElement().getStyle();
-		style.setLeft(bounds.getX(), Style.Unit.PX);
-		style.setTop(bounds.getY(), Style.Unit.PX);
-		style.setWidth(bounds.getWidth() - PADDING_LEFT, Style.Unit.PX);
-		style.setHeight(bounds.getHeight() - PADDING_TOP, Style.Unit.PX);
 		main.removeStyleName("hidden");
+		updateBounds(bounds);
+		updateColors();
 		mathField.setText(text, false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
 	}
 
-	private void createMathField() {
-		main = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
-		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, null,
-				directFormulaConversion,
-				null);
-		main.addStyleName("evInputEditor");
-		main.add(mathField);
+	private void updateColors() {
+		GColor bgColor = geoIntputBox.getBackgroundColor();
+		if (bgColor == null) {
+			bgColor = GColor.WHITE;
+		}
+		String fgColorString = GColor.getColorString(geoIntputBox.getObjectColor());
+		String bgColorString = GColor.getColorString(bgColor);
+		main.getElement().getStyle().setBackgroundColor(bgColorString);
+		mathField.setBackgroundColor(bgColorString);
+	}
+
+	private void updateBounds(GRectangle bounds) {
+		this.bounds = bounds;
+		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
+		Style style = main.getElement().getStyle();
+		style.setLeft(bounds.getX(), Style.Unit.PX);
+		style.setTop(bounds.getY(), Style.Unit.PX);
+		style.setWidth(fieldWidth, Style.Unit.PX);
+		setHeight(bounds.getHeight());
+	}
+
+	private void setHeight(double height)  {
+		main.getElement().getStyle().setHeight(height - 2*BORDER_WIDTH, Style.Unit.PX);
 	}
 
 	@Override
@@ -73,12 +101,14 @@ public class SymbolicEditorW
 
 	@Override
 	public void onEnter() {
-		// TODO: implement this.
+		geoIntputBox.updateLinkedGeo(mathField.getText());
 	}
 
 	@Override
 	public void onKeyTyped() {
-		// TODO: implement this.
+		int height = mathField.getInputTextArea().getOffsetHeight();
+		setHeight(height - PADDING_TOP);
+		geoIntputBox.update();
 	}
 
 	@Override
@@ -88,7 +118,7 @@ public class SymbolicEditorW
 
 	@Override
 	public void onUpKeyPressed() {
-		// TODO: implement this.
+	 	// TODO: implement this.
 	}
 
 	@Override
@@ -108,7 +138,12 @@ public class SymbolicEditorW
 
 	@Override
 	public boolean onEscape() {
-		return false;
+		resetChanges();
+		return true;
+	}
+
+	private void resetChanges() {
+		attach(geoIntputBox, bounds);
 	}
 
 	@Override

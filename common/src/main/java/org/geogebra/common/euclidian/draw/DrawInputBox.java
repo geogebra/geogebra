@@ -371,9 +371,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
 		if (geoInputBox.isSymbolicMode()) {
 			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
-			int marginTop = getSymbolicMargin(g2);
-			int inputHeigth = latexDimension.getHeight() + marginTop;
-			int top = TF_MARGIN + marginTop + yLabel - inputHeigth / 2;
+			int margin = getSymbolicMargin(g2);
+			int inputHeigth = latexDimension.getHeight() + 2 * margin;
+			int top = TF_MARGIN + margin + yLabel - inputHeigth / 2;
 			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
 					boxLeft, top,
 					Math.max(boxWidth, latexDimension.getWidth()),
@@ -479,7 +479,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
-		return geoInputBox.isSymbolicMode() ? inputFieldBounds.contains(x, y)
+		return geoInputBox.isSymbolicMode() ? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
 			: super.hitWidgetBounds(x, y);
 	}
 
