@@ -497,8 +497,14 @@ public class DoubleUtil {
         return Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
     }
 
-	public static int hashCode(Double val) {
-		// like Double.hashCode, but Android compatible
+	/**
+	 * Copy of Double.hashCode, used for Android 4.4 compatibility
+	 * 
+	 * @param val
+	 *            value
+	 * @return hash
+	 */
+	public static int hashCode(double val) {
 		long bits = Double.doubleToLongBits(val);
 		return (int) (bits ^ (bits >>> 32));
 	}
