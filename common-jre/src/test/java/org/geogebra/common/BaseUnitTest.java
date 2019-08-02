@@ -14,7 +14,8 @@ import org.junit.Before;
  */
 public class BaseUnitTest {
 
-    protected static final double DELTA = 1E-15;
+	/** allowed error for double comparison */
+	protected static final double DELTA = 1E-15;
 
     private Kernel kernel;
     private Construction construction;
@@ -75,9 +76,23 @@ public class BaseUnitTest {
         return elementFactory;
     }
 
-	protected GeoElement add(String string) {
+	/**
+	 * @param command
+	 *            algebra input to be processed
+	 * @return resulting element
+	 */
+	protected GeoElement add(String command) {
 		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(string, false);
-		return ret[0].toGeoElement();
+				.processAlgebraCommand(command, false);
+		return ret.length == 0 ? null : ret[0].toGeoElement();
+	}
+
+	/**
+	 * @param label
+	 *            label
+	 * @return object with given label
+	 */
+	protected GeoElement lookup(String label) {
+		return kernel.lookupLabel(label);
 	}
 }
