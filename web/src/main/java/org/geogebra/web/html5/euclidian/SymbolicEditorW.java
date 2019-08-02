@@ -1,9 +1,12 @@
 package org.geogebra.web.html5.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -31,6 +34,7 @@ public class SymbolicEditorW
 	private static final int BORDER_WIDTH = 2;
 	private final Kernel kernel;
 	private final boolean directFormulaConversion;
+	private final App app;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private int fontSize;
@@ -44,6 +48,7 @@ public class SymbolicEditorW
 
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
+		this.app = app;
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
 		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 2;
 		createMathField();
@@ -109,6 +114,10 @@ public class SymbolicEditorW
 
 	@Override
 	public void onEnter() {
+		applyChanges();
+	}
+
+	private void applyChanges() {
 		geoIntputBox.updateLinkedGeo(mathField.getText());
 	}
 
@@ -169,7 +178,16 @@ public class SymbolicEditorW
 
 	@Override
 	public void onTab(boolean shiftDown) {
-		// TODO: implement this.
+		applyChanges();
+		hide();
+		app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
+		ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
+		GeoElement next = selGeos.isEmpty() ? null : selGeos.get(0);
+		if (next instanceof GeoInputBox) {
+			app.getActiveEuclidianView().focusTextField((GeoInputBox) next);
+		} else {
+			app.getActiveEuclidianView().requestFocus();
+		}
 	}
 
 	@Override

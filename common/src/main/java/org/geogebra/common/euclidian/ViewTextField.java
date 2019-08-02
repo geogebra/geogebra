@@ -62,6 +62,11 @@ public abstract class ViewTextField {
 	 *            input box to focus
 	 */
 	public void focusTo(GeoInputBox inputBox) {
+		if (inputBox.isSymbolicMode()) {
+			focusToSymbolicEditor(inputBox);
+			return;
+		}
+
 		if (textField == null) {
 			Log.debug("[TF] textField is null");
 			return;
@@ -74,6 +79,14 @@ public abstract class ViewTextField {
 			return;
 		}
 		((DrawInputBox) d).attachTextField();
+	}
+
+	private void focusToSymbolicEditor(GeoInputBox inputBox) {
+		DrawableND d = this.euclidianView
+				.getDrawableFor(inputBox);
+		if (d != null) {
+			((DrawInputBox) d).attachMathField();
+		}
 	}
 
 	/**

@@ -603,7 +603,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
-	private void attachMathField() {
+	/**
+	 * Attach the symbolic editor
+	 */
+	public void attachMathField() {
 		hideTextField();
 		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds(view.getGraphicsForPen()));
 	}
