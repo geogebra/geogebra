@@ -38,6 +38,9 @@ public class SymbolicEditorW
 	private static final int PADDING_LEFT = 2;
 	private GeoInputBox geoIntputBox;
 	private GRectangle bounds;
+	private Style style;
+	private double top;
+	private int mainHeight;
 
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
@@ -55,6 +58,7 @@ public class SymbolicEditorW
 				null);
 		main.addStyleName("evInputEditor");
 		main.add(mathField);
+		style = main.getElement().getStyle();
 	}
 
 	@Override
@@ -86,15 +90,16 @@ public class SymbolicEditorW
 	private void updateBounds(GRectangle bounds) {
 		this.bounds = bounds;
 		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
-		Style style = main.getElement().getStyle();
 		style.setLeft(bounds.getX(), Style.Unit.PX);
-		style.setTop(bounds.getY(), Style.Unit.PX);
+		top = bounds.getY();
+		style.setTop(top, Style.Unit.PX);
 		style.setWidth(fieldWidth, Style.Unit.PX);
-		setHeight(bounds.getHeight());
+		setHeight(bounds.getHeight() - 2 * BORDER_WIDTH);
 	}
 
 	private void setHeight(double height)  {
-		main.getElement().getStyle().setHeight(height - 2*BORDER_WIDTH, Style.Unit.PX);
+		style.setHeight(height , Style.Unit.PX);
+		mainHeight = (int) bounds.getHeight();
 	}
 
 	@Override
@@ -109,24 +114,37 @@ public class SymbolicEditorW
 
 	@Override
 	public void onKeyTyped() {
+		adjustHeightAndPosition();
+		scrollToEnd();
+	}
+
+	private void adjustHeightAndPosition() {
 		int height = mathField.getInputTextArea().getOffsetHeight();
-		setHeight(height - PADDING_TOP);
+		double diff = mainHeight - main.getOffsetHeight();
+		setHeight(height - PADDING_TOP - 2 * BORDER_WIDTH);
+		top += (diff/2);
+		style.setTop(top, Style.Unit.PX);
 		geoIntputBox.update();
+		mainHeight = main.getOffsetHeight();
 	}
 
 	@Override
 	public void onCursorMove() {
-		// TODO: implement this.
+		scrollToEnd();
+	}
+
+	private void scrollToEnd()  {
+		MathFieldW.scrollParent(main, PADDING_LEFT);
 	}
 
 	@Override
 	public void onUpKeyPressed() {
-	 	// TODO: implement this.
+	 	// nothing to do.
 	}
 
 	@Override
 	public void onDownKeyPressed() {
-		// TODO: implement this.
+		// nothing to do.
 	}
 
 	@Override
@@ -136,7 +154,7 @@ public class SymbolicEditorW
 
 	@Override
 	public void onInsertString() {
-		// TODO: implement this.
+		// nothing to do.
 	}
 
 	@Override

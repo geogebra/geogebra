@@ -1009,7 +1009,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * @param margin
 	 *            minimal distance from cursor to left/right border
 	 */
-	public static void scrollParent(FlowPanel latexItem, int margin) {
+	public static void  scrollParent(FlowPanel latexItem, int margin) {
 		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
 				- margin < CursorBox.startX) {
 			latexItem.getElement().setScrollLeft((int) CursorBox.startX
