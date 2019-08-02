@@ -651,7 +651,7 @@ __GGB__keysVar["nl"].command = {
     "ParseToFunction.Syntax": "[ <Functie>, <String> ]",
     "ParseToNumber": "ParseToNumber",
     "ParseToNumber.Syntax": "[ <Getal>, <String> ]",
-    "PartialFractions": "Parti\xebelbreuken",
+    "PartialFractions": "Partieelbreuken",
     "PartialFractions.Syntax": "[ <Functie> ]",
     "PartialFractions.SyntaxCAS": "[ <Functie> ]\n[ <Functie>, <Variabele> ]",
     "Pascal": "Pascal",
