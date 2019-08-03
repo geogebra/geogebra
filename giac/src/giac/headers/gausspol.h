@@ -627,7 +627,7 @@ namespace giac {
 	else {
 	  arg[i]=tmp;
 	  int res=pthread_create(&tab[i],(pthread_attr_t *) NULL,do_convert_from<T,U>,(void *) &arg[i]);
-	  if (res)
+	  if (res) // thread not created
 	    convert_from<T,U>(tmp.it,tmp.itend,deg,tmp.jt,tmp.mode);
 	}
       }

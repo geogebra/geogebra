@@ -985,6 +985,17 @@ namespace giac {
     return true;
   }
 
+  void int32_modularize(polynome & res,const gen &m){
+    vector< monomial<gen> >::iterator it=res.coord.begin(),itend=res.coord.end();
+    for (;it!=itend;++it){
+      if (it->value.type==_INT_){
+	int r=it->value.val;
+	r += (unsigned(r)>>31)*m.val; // make positive
+	r -= (unsigned((m.val>>1)-r)>>31)*m.val;
+	it->value=makemodquoted(r,m);
+      }
+    }
+  }
 
   // Fast multiplication using hash maps, might also use an int for reduction
   // but there is no garantee that res is smod-ed modulo reduce
@@ -1082,16 +1093,7 @@ namespace giac {
 	unmodularize(th,thm);
 	unmodularize(other,otherm);
 	mulpoly(thm,otherm,res,m);
-	int mval=m.val;
-	vector< monomial<gen> >::iterator it=res.coord.begin(),itend=res.coord.end();
-	for (;it!=itend;++it){
-	  if (it->value.type==_INT_){
-	    int r=it->value.val;
-	    r += (unsigned(r)>>31)*m.val; // make positive
-	    r -= (unsigned((m.val>>1)-r)>>31)*m.val;
-	    it->value=makemodquoted(r,m);
-	  }
-	}
+	int32_modularize(res,m);
 	return;
       }
     }
@@ -1430,13 +1432,19 @@ namespace giac {
       if (ans/RAND_MAX<RAND_MAX){
 	if (reduce.type==_INT_ && reduce.val>0){ 
 	  // Modular multiplication, convert everything to integers
-	  vector< T_unsigned<int,longlong> > p1,p2,p;
+	  vector< T_unsigned<int,ulonglong> > p1,p2,p;
 	  if (convert(th,d,p1,reduce.val) && convert(other,d,p2,reduce.val)){
 	    if (reduce.val<46340 && 10*lagrtime<double(c1)*c2*std::log(double(giacmax(c1,c2))))
 	      smallmulpoly_interpolate(p1,p2,p,d,reduce.val);
-	    else
-	      smallmult(p1,p2,p,reduce.val,int(c1c2)); // 46340 bound not required?
+	    else {
+	      if (th.dim==1 || !threadmult(p1,p2,p,ans/d[0],reduce.val,size_t(c1c2)))
+		smallmult(p1,p2,p,reduce.val,size_t(c1c2)); // 46340 bound not required?
+	    }
+#if 1
 	    convert(p,d,res);
+#else
+	    convert_from(p,d,res,true/* threaded*/,false/*coeffapart*/); 
+#endif
 	    return ;
 	  }
 	}
@@ -1840,7 +1848,28 @@ namespace giac {
 	}
 	if (debug_infolevel>1)
 	  CERR << "divrem1 convert " << CLOCK() << std::endl;
-	{
+	if (a.coord.front().value.type==_MOD || b.coord.front().value.type==_MOD){
+	  gen reduce=a.coord.front().value.type==_MOD?*(a.coord.front().value._MODptr+1):*(b.coord.front().value._MODptr+1);
+	  if (reduce.type==_INT_){
+	    polynome thm,otherm;
+	    unmodularize(a,thm);
+	    unmodularize(b,otherm);
+	    vector< T_unsigned<int,unsigned> > p1,p2,p,quot32,remain32;
+	    if (convert(thm,d,p1,reduce.val) && convert(otherm,d,p2,reduce.val)){
+	      if (hashdivrem<int,unsigned>(p1,p2,quot32,remain32,vars,reduce.val,0,false,exactquo)>=1){
+		convert_from(quot32,d,quo,true);
+		if (exactquo==-1 && hashdivremres==2) 
+		  submulpoly(a,b,quo,r); 
+		else
+		  convert_from(remain32,d,r,true);
+		int32_modularize(quo,reduce);
+		int32_modularize(r,reduce);
+		return true;
+	      }
+	    }
+	  }
+	} 
+	else {
 	  std::vector< T_unsigned<longlong,unsigned> > p1,p2,quot,remain;
 	  longlong maxp1,maxp2;
 	  doit=convert_int(a,d,p1,maxp1) && convert_int(b,d,p2,maxp2) && maxp1/RAND_MAX < RAND_MAX;
@@ -1936,7 +1965,28 @@ namespace giac {
 	}
 	if (debug_infolevel>1)
 	  CERR << "divrem1 convert " << CLOCK() << std::endl;
-	{
+	if (a.coord.front().value.type==_MOD || b.coord.front().value.type==_MOD){
+	  gen reduce=a.coord.front().value.type==_MOD?*(a.coord.front().value._MODptr+1):*(b.coord.front().value._MODptr+1);
+	  if (reduce.type==_INT_){
+	    polynome thm,otherm;
+	    unmodularize(a,thm);
+	    unmodularize(b,otherm);
+	    vector< T_unsigned<int,ulonglong> > p1,p2,p,quot32,remain32;
+	    if (convert(thm,d,p1,reduce.val) && convert(otherm,d,p2,reduce.val)){
+	      if (hashdivrem<int,ulonglong>(p1,p2,quot32,remain32,vars,reduce.val,0,false,exactquo)>=1){
+		convert_from(quot32,d,quo,true);
+		if (exactquo==-1 && hashdivremres==2) 
+		  submulpoly(a,b,quo,r); 
+		else
+		  convert_from(remain32,d,r,true);
+		int32_modularize(quo,reduce);
+		int32_modularize(r,reduce);
+		return true;
+	      }
+	    }
+	  }
+	} 
+	else {
 	  std::vector< T_unsigned<longlong,ulonglong> > p1,p2,quot,remain;
 	  longlong maxp1,maxp2;
 	  doit=convert_int(a,d,p1,maxp1) && convert_int(b,d,p2,maxp2) && maxp1/RAND_MAX < RAND_MAX;

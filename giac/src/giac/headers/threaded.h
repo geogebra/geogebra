@@ -1922,10 +1922,8 @@ namespace giac {
 	    it=vptr->begin();
 	    itend=vptr->end();
 	    for (;it!=itend;++it){
-	      it1=it1beg+it->first;
 	      it2beg=(*v2ptrs)[it->third];
-	      it2=it2beg+it->second;
-	      type_operator_plus_times_reduce(it1->g,it2->g,g,reduce);
+	      type_operator_plus_times_reduce((it1beg+it->first)->g,(it2beg+it->second)->g,g,reduce);
 	      // increment 2nd poly index of the elements of the top chain
 	      ++it->second;
 	      // check if it is still with a compatible partial degree
@@ -1947,10 +1945,7 @@ namespace giac {
 	  itend=nouveau.end();
 	  U prevu=0; int previndex=-1;
 	  for (;it!=itend;++it){
-	    it1=it1beg+it->first;
-	    u1=it1->u;
-	    it2beg=(*v2ptrs)[it->third];
-	    u=u1+(it2beg+it->second)->u;
+	    u=(it1beg+it->first)->u+((*v2ptrs)[it->third]+it->second)->u;
 	    if (u==prevu && previndex>=0){
 	      vptr=&(*vsmallindexptr)[previndex];
 	      vptr->push_back(*it);
@@ -2013,10 +2008,8 @@ namespace giac {
 	    it=vptr->begin();
 	    itend=vptr->end();
 	    for (;it!=itend;++it){
-	      it1=it1beg+it->first;
 	      it2beg=(*v2ptrs)[it->third];
-	      it2=it2beg+it->second;
-	      type_operator_plus_times_reduce(it1->g,it2->g,g,reduce);
+	      type_operator_plus_times_reduce((it1beg+it->first)->g,(it2beg+it->second)->g,g,reduce);
 	      // increment 2nd poly index of the elements of the top chain
 	      ++it->second;
 	      // check if it is still with a compatible partial degree
@@ -2038,10 +2031,7 @@ namespace giac {
 	  itend=nouveau.end();
 	  U prevu=0; int previndex=-1;
 	  for (;it!=itend;++it){
-	    it1=it1beg+it->first;
-	    u1=it1->u;
-	    it2beg=(*v2ptrs)[it->third];
-	    u=u1+(it2beg+it->second)->u;
+	    u=(it1beg+it->first)->u+((*v2ptrs)[it->third]+it->second)->u;
 	    if (u==prevu && previndex>=0){
 	      vptr=&(*vindexptr)[previndex];
 	      vptr->push_back(*it);
@@ -2240,6 +2230,8 @@ namespace giac {
     int res=0;
     int i=deg1v;
     bool smallindex=(v1s<65535 && v2s<65535);
+    if (debug_infolevel>20)
+      CERR << CLOCK()*1e-6 << " product " << v1s << "*" << v2s << " smallindex " << smallindex << endl;
     if (
 	// true || 
 	nthreads==1){
