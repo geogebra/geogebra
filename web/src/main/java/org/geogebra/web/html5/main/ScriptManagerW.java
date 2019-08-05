@@ -1034,6 +1034,10 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::disableFpsMeasurement()();
 		};
 
+		api.testDraw = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::testDraw()();
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 

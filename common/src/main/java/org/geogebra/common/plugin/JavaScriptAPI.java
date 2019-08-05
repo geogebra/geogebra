@@ -1063,4 +1063,6 @@ public interface JavaScriptAPI {
 	 * Disables the fps measurement.
 	 */
 	void disableFpsMeasurement();
+
+	void testDraw();
 }

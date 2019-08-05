@@ -361,18 +361,23 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			event.preventDefault();
 		}
 		if (event.getTouches().length() == 0 && !ignoreEvent) {
-			// mouseLoc was already adjusted to the EVs coords, do not use
-			// offset again
-			ec.wrapMouseReleased(new PointerEvent(ec.mouseLoc.x,
-			        ec.mouseLoc.y,
-			        PointerEventType.TOUCH, ZeroOffset.INSTANCE));
+			onTouchEnd();
 		} else {
 			// multitouch-event
 			// ignore next touchMove and touchEnd events with one touch
 			ignoreEvent = true;
+			CancelEventTimer.touchEventOccured();
+			ec.resetModeAfterFreehand();
 		}
-		CancelEventTimer.touchEventOccured();
+	}
 
+	public void onTouchEnd() {
+		// mouseLoc was already adjusted to the EVs coords, do not use
+		// offset again
+		ec.wrapMouseReleased(new PointerEvent(ec.mouseLoc.x,
+				ec.mouseLoc.y,
+				PointerEventType.TOUCH, ZeroOffset.INSTANCE));
+		CancelEventTimer.touchEventOccured();
 		ec.resetModeAfterFreehand();
 	}
 
@@ -392,13 +397,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
-			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
-				longTouchManager.scheduleTimer((LongTouchHandler) ec, e.getX(),
-				        e.getY());
-			}
-			// inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
-			// e.getType());
-			onPointerEventStart(e);
+			onTouchStart(e);
 			if (isWholePageDrag()) {
 				return;
 			}
@@ -411,6 +410,15 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (!inputBoxFocused && !isWholePageDrag()) {
 			preventTouchIfNeeded(event);
 		}
+	}
+
+	public void onTouchStart(AbstractEvent event) {
+		if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
+			longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
+		}
+		// inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
+		// e.getType());
+		onPointerEventStart(event);
 	}
 
 	private boolean isWholePageDrag() {

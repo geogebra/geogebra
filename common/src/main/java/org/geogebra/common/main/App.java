@@ -5156,4 +5156,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public FpsProfiler getFpsProfiler() {
 		return null;
 	}
+
+	public void testDraw() {}
 }
