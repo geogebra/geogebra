@@ -7543,7 +7543,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
 
-				if (textField && !moveTextField((GeoInputBox)movedGeoElement)) {
+				if (textField && !isMoveTextFieldExpected((GeoInputBox)movedGeoElement)) {
 					return;
 				}
 
@@ -7616,7 +7616,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private boolean moveTextField(GeoInputBox geoInputBox) {
+	private boolean isMoveTextFieldExpected(GeoInputBox geoInputBox) {
 		if (geoInputBox.isEditing()) {
 			return false;
 		}
