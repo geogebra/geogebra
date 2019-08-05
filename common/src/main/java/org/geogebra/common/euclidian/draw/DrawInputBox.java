@@ -595,7 +595,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		} else {
 			tf.prepareShowSymbolButton(true);
 		}
-
 	}
 
 	/**
