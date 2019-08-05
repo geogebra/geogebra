@@ -7545,6 +7545,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
+				if (textField) {
+					view.hideSymbolicEditor();
+				}
 				moveAbsoluteLocatable(movedGeoButton, MOVE_BUTTON);
 			} else {
 				// need to trigger scripts

@@ -12,6 +12,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -45,6 +47,8 @@ public class SymbolicEditorW
 	private Style style;
 	private double top;
 	private int mainHeight;
+	private RetexKeyboardListener retexListener;
+	private Canvas canvas;
 
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
@@ -56,7 +60,7 @@ public class SymbolicEditorW
 
 	private void createMathField() {
 		main = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
 				canvas, this,
 				directFormulaConversion,
@@ -76,6 +80,7 @@ public class SymbolicEditorW
 		updateColors();
 		mathField.setText(text, false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		initAndShowKeyboard(true);
 		mathField.setFocus(true);
 	}
 
@@ -193,5 +198,15 @@ public class SymbolicEditorW
 	@Override
 	public Widget asWidget() {
 		return main;
+	}
+	/**
+	 * @param show
+	 *            whether to show keyboard
+	 */
+	public void initAndShowKeyboard(boolean show) {
+		retexListener = new RetexKeyboardListener(canvas, mathField);
+		if (show) {
+			((AppWFull)app).getAppletFrame().showKeyBoard(true, retexListener, false);
+		}
 	}
 }
