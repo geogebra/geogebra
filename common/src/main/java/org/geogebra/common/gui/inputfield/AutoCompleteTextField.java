@@ -95,4 +95,10 @@ public interface AutoCompleteTextField
 	void setAuralText(String text);
 
 	void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle inputFieldBounds);
+
+	/**
+	 * @param start from which character to highlight the text
+	 * @param end to which character to highlight the text
+	 */
+	void setSelection(int start, int end);
 }
