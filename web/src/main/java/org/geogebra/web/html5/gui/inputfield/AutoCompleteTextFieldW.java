@@ -1806,4 +1806,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public String getValue() {
 		return getText(true);
 	}
+
+	@Override
+	public void setSelection(int start, int end) {
+		textField.getValueBox().setSelectionRange(start, end - start);
+	}
 }

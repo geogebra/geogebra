@@ -311,9 +311,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
-			app.getSelectionManager().addSelectedGeo(geo);
+			app.getSelectionManager().selectNextGeo(null);
 			setTabOverGeos(true);
-			app.getActiveEuclidianView().requestFocus();
+			if (!geo.isGeoInputBox()) {
+				app.getActiveEuclidianView().requestFocus();
+			}
 		} else {
 			if (menuContainer != null) {
 				menuContainer.focusMenu();

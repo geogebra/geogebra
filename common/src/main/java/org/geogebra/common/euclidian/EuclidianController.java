@@ -9578,7 +9578,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			}
 		} else if (app.isHTML5Applet()) {
-			if (!isComboboxFocused()) {
+			if (!isComboboxFocused() && !textfieldHasFocus) {
 				view.requestFocus();
 			}
 		}

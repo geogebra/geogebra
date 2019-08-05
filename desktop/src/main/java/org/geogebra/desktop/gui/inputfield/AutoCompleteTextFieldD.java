@@ -1097,4 +1097,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void setAuralText(String text) {
 		// not needed
 	}
+
+	@Override
+	public void setSelection(int start, int end) {
+		select(start, end);
+	}
 }
