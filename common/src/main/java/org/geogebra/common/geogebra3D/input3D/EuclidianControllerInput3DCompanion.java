@@ -266,7 +266,7 @@ public class EuclidianControllerInput3DCompanion extends
 		@Override
 		public int hashCode() {
 			return DoubleUtil.hashCode(distanceOrtho)
-					^ DoubleUtil.hashCode (distanceOrigin) ^ sp.hashCode();
+					^ DoubleUtil.hashCode(distanceOrigin) ^ sp.hashCode();
 		}
 
 	}
