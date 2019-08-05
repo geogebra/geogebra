@@ -1,96 +1,86 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.main.AppCommon3D;
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
+import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigGraphing;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class SpecialPointsTest {
-
-	private static AppCommon app;
-
-	@BeforeClass
-	public static void setup() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
-		app.setConfig(new AppConfigGraphing());
-	}
+public class SpecialPointsTest extends BaseUnitTest {
 
 	@Before
-	public void clear() {
-		app.getKernel().clearConstruction(true);
+	public void setupConfig() {
+		getApp().setConfig(new AppConfigGraphing());
 	}
 
 	@Test
 	public void specialPointsForPolynomials() {
-		t("f(x)=x^3-x");
+		add("f(x)=x^3-x");
 		updateSpecialPoints("f");
-		Assert.assertEquals(6, numberOfSpecialPoints());
+		assertEquals(6, numberOfSpecialPoints());
 	}
 
 	@Test
 	public void specialPointsForSegment() {
-		t("s:Segment((-1,-1),(1,1))");
+		add("s:Segment((-1,-1),(1,1))");
 		updateSpecialPoints("s");
-		Assert.assertEquals(0, numberOfSpecialPoints());
+		assertEquals(0, numberOfSpecialPoints());
 	}
 
 	@Test
 	public void specialPointsForTrig() {
-		t("ZoomIn(-4pi-1,-2,4pi+1,2)");
-		t("f(x)=sin(x)");
+		add("ZoomIn(-4pi-1,-2,4pi+1,2)");
+		add("f(x)=sin(x)");
 		updateSpecialPoints("f");
-		Assert.assertEquals(18, numberOfSpecialPoints());
+		assertEquals(18, numberOfSpecialPoints());
 	}
 
 	@Test
 	public void specialPointForLines() {
-		t("f:x=2+y");
-		t("g:x=2-y");
-		t("c:xx+yy=10");
+		add("f:x=2+y");
+		add("g:x=2-y");
+		add("c:xx+yy=10");
 		updateSpecialPoints("f");
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		assertEquals(5, numberOfSpecialPoints());
 		updateSpecialPoints("g");
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		assertEquals(5, numberOfSpecialPoints());
 	}
 
 	@Test
 	public void specialPointForConics() {
-		t("f:y=x^2-6x+8");
+		add("f:y=x^2-6x+8");
 		updateSpecialPoints("f");
 		// 4 visible, 1 undefined
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		assertEquals(5, numberOfSpecialPoints());
 	}
 
 	@Test
 	public void specialPointsRedefine() {
-		t("f(x)=x^2");
+		add("f(x)=x^2");
 		updateSpecialPoints("f");
-		t("a=1");
-		t("f(x)=x^2+a");
+		add("a=1");
+		add("f(x)=x^2+a");
 		updateSpecialPoints("f");
-		Assert.assertEquals(3, numberOfSpecialPoints());
+		assertEquals(3, numberOfSpecialPoints());
 	}
 
-	private static int numberOfSpecialPoints() {
-		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
+	private int numberOfSpecialPoints() {
+		List<GeoElement> specialPoints = getApp().getSpecialPointsManager()
+				.getSelectedPreviewPoints();
+		if (specialPoints == null) {
 			return 0;
 		}
-		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
+		return specialPoints
+				.size();
 	}
 
-	private static void updateSpecialPoints(String string) {
-		app.getSpecialPointsManager()
-				.updateSpecialPoints(app.getKernel().lookupLabel(string));
+	private void updateSpecialPoints(String string) {
+		getApp().getSpecialPointsManager()
+				.updateSpecialPoints(lookup(string));
 	}
 
-	private static void t(String string) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				true);
-	}
 }
