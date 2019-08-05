@@ -355,6 +355,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * Draw outline and the text on the canvas.
 	 */
 	public void drawTextfieldOnCanvas() {
+		if (geoInputBox.isEditing()) {
+			return;
+		}
+
 		drawBoundsOnCanvas();
 		drawTextOnCanvas();
 	}
@@ -609,6 +613,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	public void attachMathField() {
 		hideTextField();
 		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds(view.getGraphicsForPen()));
+		geoInputBox.updateRepaint();
 	}
 
 	/**

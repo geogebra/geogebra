@@ -43,6 +43,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	private String text = null;
 	private boolean symbolicMode = false;
+	private boolean editing = false;
 
 	/**
 	 * Creates new text field
@@ -641,5 +642,24 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	private String getLinkedGeoTextForEditor() {
 		return linkedGeo.getValueForInputBar();
+	}
+
+	/**
+	 *
+	 * @return if the GeoInputBox is under editing.
+	 */
+	public boolean isEditing() {
+		return editing;
+	}
+
+	/**
+	 * Set this true if an editor is active for this input box
+	 * or false if it is not.
+	 *
+	 * @param editing
+	 * 			to set.
+	 */
+	public void setEditing(boolean editing) {
+		this.editing = editing;
 	}
 }
