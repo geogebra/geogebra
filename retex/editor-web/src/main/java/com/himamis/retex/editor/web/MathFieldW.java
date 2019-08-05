@@ -119,9 +119,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
-	private String foregroundColor = "#000000";
-	private ColorW backgroundColor = new ColorW(255,255, 255);
-	private String backgroundColorCss = "#ffffff";
+	private String foregroundCssColor = "#000000";
+	private String backgroundCssColor = "#ffffff";
 
 	/**
 	 * 
@@ -561,11 +560,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		String cssBackground = backgroundColor.getCssColor().value();
-		ctx.setFillStyle(cssBackground);
+		ctx.setFillStyle(backgroundCssColor);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundColor),
-				backgroundColorCss, null, ratio);
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
+				backgroundCssColor, null, ratio);
 	}
 
 	private static boolean mobileBrowser() {
@@ -1140,15 +1138,23 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return inputTextArea;
 	}
 
-	public void setForegroundColor(String foregroundColor) {
-		this.foregroundColor = foregroundColor;
+	/**
+	 * Sets foreground color in rgba(r, g, b, a) format.
+	 *
+	 * @param cssColor
+	 * 			to set.
+	 */
+	public void setForegroundCssColor(String cssColor) {
+		this.foregroundCssColor = cssColor;
 	}
 
-	public void setBackgroundColor(String bgColorString) {
-		backgroundColor.setColor(bgColorString);
-	}
-
-	public void setBackgroundColorCss(String backgroundColorCss) {
-		this.backgroundColorCss = backgroundColorCss;
+	/**
+	 * Sets background color in #rrggbb format.
+	 *
+	 * @param cssColor
+	 * 			to set.
+	 */
+	public void setBackgroundCssColor(String cssColor) {
+		this.backgroundCssColor = cssColor;
 	}
 }

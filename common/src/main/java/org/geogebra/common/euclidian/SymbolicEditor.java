@@ -4,13 +4,26 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 
 /**
- * MathField-capable editor for input boxes on Euclidian View.
+ * MathField-capable editor for input boxes on EuclidianView.
  *
  * @author Laszlo
  */
 public interface SymbolicEditor {
 
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds);
+	/**
+	 * Attach the symbolic editor to the specified input box
+	 * for editing it.
+	 *
+	 * @param geoInputBox
+	 * 			GeoInputBox to edit.
+	 *
+	 * @param bounds
+	 * 			place to attach the editor to.
+	 */
+	void attach(GeoInputBox geoInputBox, GRectangle bounds);
 
-	public void hide();
+	/**
+	 * Hide the editor if it was attached.
+	 */
+	void hide();
 }

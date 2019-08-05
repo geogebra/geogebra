@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -28,9 +27,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class SymbolicEditorW
-		implements SymbolicEditor, MathFieldListener, IsWidget {
-
+public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWidget {
 	public static final int ROUNDING = 8;
 	private static final int BORDER_WIDTH = 2;
 	private final Kernel kernel;
@@ -47,6 +44,12 @@ public class SymbolicEditorW
 	private double top;
 	private int mainHeight;
 
+	/**
+	 * Constructor
+	 *
+	 * @param app
+	 * 			The application.
+	 */
 	SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
 		this.app = app;
@@ -82,16 +85,17 @@ public class SymbolicEditorW
 	}
 
 	private void updateColors() {
+		GColor fgColor = geoIntputBox.getObjectColor();
 		GColor bgColor = geoIntputBox.getBackgroundColor();
-		if (bgColor == null) {
-			bgColor = GColor.WHITE;
-		}
-		String fgColorString = GColor.getColorString(geoIntputBox.getObjectColor());
-		String bgColorString = GColor.getColorString(bgColor);
-		main.getElement().getStyle().setBackgroundColor(bgColorString);
-		mathField.setForegroundColor(fgColorString);
-		mathField.setBackgroundColor(bgColorString);
-		mathField.setBackgroundColorCss("#"+StringUtil.toHexString(bgColor));
+
+		String bgCssColor = toCssColor( bgColor != null ? bgColor : GColor.WHITE);
+		main.getElement().getStyle().setBackgroundColor(bgCssColor);
+		mathField.setForegroundCssColor(toCssColor(fgColor));
+		mathField.setBackgroundCssColor(bgCssColor);
+	}
+
+	private static String toCssColor(GColor color) {
+		return "#" + StringUtil.toHexString(color);
 	}
 
 	private void updateBounds(GRectangle bounds) {
@@ -105,7 +109,7 @@ public class SymbolicEditorW
 	}
 
 	private void setHeight(double height)  {
-		style.setHeight(height , Style.Unit.PX);
+		style.setHeight(height, Style.Unit.PX);
 		mainHeight = (int) bounds.getHeight();
 	}
 
