@@ -54,6 +54,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	public static final double TF_WIDTH_FACTOR = 0.81;
 
 	private static final int TF_MARGIN = 10;
+	private static final double MARGIN = 0.4;
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
@@ -342,23 +343,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			calculateInputFieldBounds(g2);
 			drawOnCanvas(g2, getGeoInputBox().getText());
 		}
 	}
 
-	private void calculateInputFieldBounds(GGraphics2D g2) {
-		if (geoInputBox.isSymbolicMode()) {
-			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
-			int h2 = (latexDimension.getHeight() - labelSize.y) / 2;
-			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
-					boxLeft, boxTop - h2,
-					Math.max(boxWidth, latexDimension.getWidth()),
-					latexDimension.getHeight() + h2);
-		} else {
-			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
-					boxLeft, boxTop, boxWidth, boxHeight);
-		}
+	private int getSymbolicMargin(GGraphics2D g2)  {
+		return (int) Math.round(MARGIN * g2.getFont().getSize());
 	}
 
 	/**
@@ -375,7 +365,25 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				? geo.getBackgroundColor()
 				: view.getBackgroundCommon();
 
-			getTextField().drawBounds(g2, bgColor, inputFieldBounds);
+			getTextField().drawBounds(g2, bgColor, getInputFieldBounds(g2));
+	}
+
+	private GRectangle getInputFieldBounds(GGraphics2D g2) {
+		if (geoInputBox.isSymbolicMode()) {
+			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
+			int marginTop = getSymbolicMargin(g2);
+			int inputHeigth = latexDimension.getHeight() + marginTop;
+			int top = TF_MARGIN + marginTop + yLabel - inputHeigth / 2;
+			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
+					boxLeft, top,
+					Math.max(boxWidth, latexDimension.getWidth()),
+					inputHeigth);
+		} else {
+			measureLabel(g2, geoInputBox, labelDesc);
+			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
+					boxLeft, boxTop, boxWidth, boxHeight);
+		}
+		return inputFieldBounds;
 	}
 
 	private void drawTextOnCanvas() {
@@ -395,10 +403,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private void drawSymbolicValue(GGraphics2D g2, String text) {
 		int left = getTextLeft();
-		int bottom = boxTop
-				+ (boxHeight - latexDimension.getHeight()) / 2;
+		int top = (int) (inputFieldBounds.getY() + getSymbolicMargin(g2) / 2.0);
 
-		drawLatex(g2, geo, textFont, text, left, bottom);
+		drawLatex(g2, geo, textFont, text, left, top);
 	}
 
 	private int getTextLeft() {
@@ -559,11 +566,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * Get view's textfield and attach to this
 	 */
 	public void attachTextField() {
-		if (geoInputBox.isSymbolicMode()) {
-			attachSymbolicEditor();
-			return;
-		}
-
 		hideSymbolicField();
 		updateBoxPosition();
 		AutoCompleteTextField tf = getTextField();
@@ -594,11 +596,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			tf.prepareShowSymbolButton(true);
 		}
 
-	}
-
-	private void attachSymbolicEditor() {
-		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, inputFieldBounds);
 	}
 
 	/**

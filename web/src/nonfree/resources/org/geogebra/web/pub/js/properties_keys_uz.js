@@ -2266,6 +2266,7 @@ __GGB__keysVar["uz"].menu = {
     "NotAvailable": "Imkon yo'q",
     "NotIncluded": "kiritilmagan",
     "NotSharedLinkHelpTxt": "Shaxsiy, ulashilmagan",
+    "Notes": "Notes",
     "NullHypothesis": "Null gipoteza",
     "NullHypothesis.short": "Nul",
     "Number": "Son",

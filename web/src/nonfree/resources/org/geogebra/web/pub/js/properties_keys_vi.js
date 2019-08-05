@@ -2266,6 +2266,7 @@ __GGB__keysVar["vi"].menu = {
     "NotAvailable": "Ch\u01b0a s\u1eb5n s\xe0ng",
     "NotIncluded": "Kh\xf4ng bao g\u1ed3m",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "Gi\u1ea3 thuy\u1ebft kh\xf4ng",
     "NullHypothesis.short": "Ho",
     "Number": "S\u1ed1",

@@ -1053,4 +1053,14 @@ public interface JavaScriptAPI {
 	 * @return axis units
 	 */
 	String[] getAxisUnits(int view);
+
+	/**
+	 * Enables the fps measurement.
+	 */
+	void enableFpsMeasurement();
+
+	/**
+	 * Disables the fps measurement.
+	 */
+	void disableFpsMeasurement();
 }

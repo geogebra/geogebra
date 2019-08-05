@@ -2266,6 +2266,7 @@ __GGB__keysVar["sv"].menu = {
     "NotAvailable": "Inte tillg\xe4nglig",
     "NotIncluded": "inte medr\xe4knad",
     "NotSharedLinkHelpTxt": "Privat, delas INTE",
+    "Notes": "Notes",
     "NullHypothesis": "Nollhypotes",
     "NullHypothesis.short": "NollH",
     "Number": "Tal",

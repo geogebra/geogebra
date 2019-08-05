@@ -155,6 +155,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -1605,8 +1606,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// characters
 		} catch (Exception e) {
 			setDefaultCursor();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n"
-					+ file);
+			showError(Errors.LoadFileFailed, file.getName());
 			e.printStackTrace();
 			return false;
 
@@ -2437,8 +2437,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			fontManager.setLanguage(loc.getLocale());
 		} catch (Exception e) {
-			e.printStackTrace();
-			localizeAndShowError(e.getMessage());
+			showGenericError(e);
 
 			// go back to previous locale
 			loc.setLocale(oldLocale);
@@ -3302,8 +3301,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception ex) {
 			status = false;
 			ex.printStackTrace();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n"
-					+ file);
+			showError(Errors.LoadFileFailed, file.getName());
 		}
 
 		return status;
@@ -3378,8 +3376,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			setCurrentFile(null);
 			e.printStackTrace();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n"
-					+ file);
+			showError(Errors.LoadFileFailed, file.getName());
 			return false;
 		} finally {
 			initing = false;
@@ -3420,7 +3417,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			return success;
 		} catch (Exception e) {
-			showError("LoadFileFailed", e.getMessage());
+			showError(Errors.LoadFileFailed, e.getMessage());
 			setCurrentFile(null);
 			return false;
 		}
@@ -3491,7 +3488,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return true;
 		} catch (Exception e) {
 			setDefaultCursor();
-			localizeAndShowError("SaveFileFailed");
+			showError(Errors.SaveFileFailed);
 			e.printStackTrace();
 			return false;
 		}
@@ -3510,7 +3507,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return true;
 		} catch (Exception e) {
 			setDefaultCursor();
-			localizeAndShowError("SaveFileFailed");
+			showError(Errors.SaveFileFailed);
 			e.printStackTrace();
 			return false;
 		}
@@ -3536,7 +3533,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			localizeAndShowError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
 	}
 

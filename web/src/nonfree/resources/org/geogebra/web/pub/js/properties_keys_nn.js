@@ -2266,6 +2266,7 @@ __GGB__keysVar["nn"].menu = {
     "NotAvailable": "Ikkje tilgjengeleg",
     "NotIncluded": "ikkje inkludert",
     "NotSharedLinkHelpTxt": "Privat, ikke delt",
+    "Notes": "Notes",
     "NullHypothesis": "Nullhypotese",
     "NullHypothesis.short": "Null",
     "Number": "Tal",

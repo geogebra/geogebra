@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -110,7 +111,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private String toLaTex(GeoElementND geo) {
-		return geo.toLaTeXString(symbolicMode, StringTemplate.latexTemplate);
+		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
 	/**
@@ -387,7 +388,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (canLinkedGeoBeSybolic() && linkedGeo.isGeoNumeric()) {
 			GeoNumeric evaluatedNumber = new GeoNumeric(kernel.getConstruction());
 			kernel.getAlgebraProcessor().evaluateToDouble(text, true, evaluatedNumber);
-			return getNonSymbolicNumberValue(linkedGeo)
+			String linkedNonSymbolic = getNonSymbolicNumberValue(linkedGeo);
+			return linkedNonSymbolic != null && linkedNonSymbolic
 					.equals(getNonSymbolicNumberValue(evaluatedNumber));
 		}
 
@@ -402,9 +404,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private void showError() {
-		kernel.getApplication()
-				.showError(kernel.getApplication().getLocalization()
-						.getInvalidInputError());
+		kernel.getApplication().showError(Errors.InvalidInput);
 	}
 
 	/**
@@ -454,16 +454,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			textFieldToUpdate.setText(text);
 		}
 
-		if (linkedGeo != null) {
-			if (isSymbolicMode()) {
-				setText(getLinkedGeoText());
-			} else if (isLinkedNumberValueNotChanged(text)) {
-				setText(getNonSymbolicNumberValue(linkedGeo));
-			}
+		if (isSymbolicMode()) {
+			setText(getLinkedGeoText());
+		} else if (isLinkedNumberValueNotChanged(text)) {
+			setText(getNonSymbolicNumberValue(linkedGeo));
 		} else {
 			setText(textFieldToUpdate.getText());
 		}
-
 	}
 
 	/**
@@ -615,6 +612,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		}
 		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
 	}
+
+	// private boolean isLinkedGeoSimple() {
+	// if (!linkedGeo.isGeoNumeric()) {
+	// return false;
+	// }
+	// return ((GeoNumeric) linkedGeo).isSimple();
+	// }
 
 	/**
 	 *

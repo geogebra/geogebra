@@ -1382,8 +1382,7 @@ public class GuiManagerW extends GuiManager
 		} catch (final Exception e) {
 			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 			+ " " + page + " " + type);
-			getApp().showError(e.getMessage());
-			e.printStackTrace();
+			getApp().showGenericError(e);
 		}
 	}
 

@@ -51,6 +51,7 @@ import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -81,6 +82,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -90,6 +92,7 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
+import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
 import org.geogebra.web.html5.export.GeoGebraToPgfW;
 import org.geogebra.web.html5.export.GeoGebraToPstricksW;
@@ -242,6 +245,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
+	private FpsProfiler fpsProfiler;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -1089,7 +1093,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			localizeAndShowError("LoadFileFailed");
+			showError(Errors.LoadFileFailed);
 		}
 	}
 
@@ -2814,15 +2818,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// ================================================
 
 	@Override
+	@Deprecated
+	// use showError(Errors, String)
 	public void showError(String key, String error) {
 
 		String translatedError = getLocalization().getError(key);
-
-		// in case translations not available
-		// eg webSimple
-		if ("InvalidInput".equals(translatedError)) {
-			translatedError = "Please check your input";
-		}
 
 		showErrorDialog(translatedError + ":\n" + error);
 	}
@@ -4018,5 +4018,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GColor getPrimaryColor() {
 		return getVendorSettings().getPrimaryColor();
+	}
+
+	@Override
+	public FpsProfiler getFpsProfiler() {
+		if (fpsProfiler == null) {
+			fpsProfiler = new FpsProfilerW();
+		}
+		return fpsProfiler;
 	}
 }

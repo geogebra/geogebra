@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.kernel.Matrix.AnimatableValue;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -142,7 +143,7 @@ public class Target {
 		 */
 		public void setValue(double v) {
 			value = v;
-			isDefined = Double.isFinite(value);
+			isDefined = MyDouble.isFinite(value);
 		}
 
 	}

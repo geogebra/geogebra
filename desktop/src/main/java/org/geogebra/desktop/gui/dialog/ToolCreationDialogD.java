@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.NameDescriptionComparator;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.ToolNameIconPanelD;
@@ -203,8 +204,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 			tabbedPane.setSelectedIndex(1);
 
 			// show error message
-			app.showError(app.getLocalization().getError("Tool.CreationFailed")
-					+ "\n" + e.getMessage());
+			app.showError(Errors.ToolCreationFailed, e.getMessage());
 			e.printStackTrace();
 			newTool = null;
 			return false;

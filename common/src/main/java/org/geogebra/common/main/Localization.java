@@ -9,6 +9,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.util.StringUtil;
@@ -1541,7 +1542,7 @@ public abstract class Localization {
 	 * @return Translation of "Please check your Input"
 	 */
 	public String getInvalidInputError() {
-		return getErrorDefault("InvalidInput", "Please check your input");
+		return Errors.InvalidInput.getError(this);
 	}
 
 }

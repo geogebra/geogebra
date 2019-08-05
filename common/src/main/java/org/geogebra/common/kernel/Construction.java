@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -1849,7 +1850,7 @@ public class Construction {
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
 			// Application.debug("consXML=\n" + consXML);
 			throw new MyError(getApplication().getLocalization(),
-					"ReplaceFailed");
+					Errors.ReplaceFailed);
 		}
 
 		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +
@@ -3115,7 +3116,7 @@ public class Construction {
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
 			restoreAfterRedefine(oldXML);
 			throw new MyError(getApplication().getLocalization(),
-					"ReplaceFailed");
+					Errors.ReplaceFailed);
 		}
 	}
 

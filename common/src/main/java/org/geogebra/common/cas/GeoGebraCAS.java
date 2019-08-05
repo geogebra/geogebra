@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
@@ -174,8 +175,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
 			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
 			if (ret == null) {
-				throw new CASException(new Exception(app.getLocalization()
-						.getError("CAS.GeneralErrorMessage")));
+				throw new CASException(new Exception(
+						Errors.CASGeneralErrorMessage.getError(app.getLocalization())));
 			}
 			return ret;
 		} catch (Throwable t) {
@@ -1021,37 +1022,53 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return false;
 		}
 
-		boolean contains = true;
 		ExpressionValue variableContainer = listElement.unwrap();
 		if (variableContainer instanceof GeoSymbolic) {
 			variableContainer = ((GeoSymbolic) variableContainer).getValue();
 		}
-		// fix for GGB-134
-		HashSet<GeoElement> varsInEqu = variableContainer
-				.getVariables(SymbolicMode.SYMBOLIC);
-		if (varsInEqu != null) {
-			contains = false;
-			Iterator<GeoElement> it = varsInEqu.iterator();
 
-			// check if current equation contains other vars as
-			// parameters
-			while (it.hasNext()) {
-				GeoElement var = it.next();
-				for (int i = 0; i < listOfVars.size(); i++) {
-					if (listOfVars.getListElement(i)
-							.toString(StringTemplate.defaultTemplate)
-							.equals(var.toString(
-									StringTemplate.defaultTemplate))) {
-						contains = true;
-						break;
-					}
-				}
-				if (contains) {
-					break;
-				}
+		return containsExpressionVariablesOrFunctionVariablesFromList(
+				variableContainer, listOfVars)
+				|| variableContainer.isConstant();
+	}
+
+	private static boolean containsExpressionVariablesOrFunctionVariablesFromList(
+			ExpressionValue expression, MyList listOfVariables) {
+		ValidExpression validExpression =
+				expression instanceof ValidExpression ? (ValidExpression) expression : null;
+		HashSet<GeoElement> variablesInExpression =
+				expression.getVariables(SymbolicMode.SYMBOLIC);
+		for (int i = 0; i < listOfVariables.size(); i++) {
+			String labelOfVariableFromList = getLabel(listOfVariables.getListElement(i));
+			if (containsFunctionVariable(validExpression, labelOfVariableFromList)) {
+				return true;
+			}
+			if (containsVariable(variablesInExpression, labelOfVariableFromList)) {
+				return true;
 			}
 		}
-		return contains;
+		return false;
+	}
+
+	private static String getLabel(ExpressionValue expression) {
+		return expression.toString(StringTemplate.defaultTemplate);
+	}
+
+	private static boolean containsFunctionVariable(
+			ValidExpression validExpression, String labelOfVariable) {
+		return validExpression != null && validExpression.containsFunctionVariable(labelOfVariable);
+	}
+
+	private static boolean containsVariable(Set<GeoElement> variables, String labelOfVariable) {
+		if (variables == null) {
+			return false;
+		}
+		for (GeoElement var : variables) {
+			if (labelOfVariable.equals(getLabel(var))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

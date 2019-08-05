@@ -1194,7 +1194,7 @@ __GGB__keysVar["ko"].error = {
     "UndefinedVariable": "\uc815\uc758\ub418\uc9c0 \uc54a\ub294 \ubcc0\uc218",
     "UnknownCommand": "\uc54c \uc218 \uc5c6\ub294 \uba85\ub839",
     "VectorExpected": "\uc608\uc0c1\ub41c \uc810\uc774\ub098 \ubca1\ud130",
-    "VideoAccessError": "Something went wrong.",
+    "VideoAccessError": "\uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4.",
     "VideoAccessError.Mebis": "Something went wrong. Please check if you are online and logged in to Mebis.",
 };
 
@@ -2266,6 +2266,7 @@ __GGB__keysVar["ko"].menu = {
     "NotAvailable": "\uc0ac\uc6a9\ud560 \uc218 \uc5c6\uc74c",
     "NotIncluded": "\ud3ec\ud568\ub418\uc9c0 \uc54a\uc74c",
     "NotSharedLinkHelpTxt": "\ube44\uacf5\uac1c, \uacf5\uc720\ud558\uc9c0 \uc54a\uc74c",
+    "Notes": "Notes",
     "NullHypothesis": "\uadc0\ubb34\uac00\uc124",
     "NullHypothesis.short": "\uadc0\ubb34\uac00\uc124",
     "Number": "\uc218",
@@ -3046,7 +3047,7 @@ __GGB__keysVar["ko"].menu = {
     "UnpinFromScreen": "\ud654\uba74\uc5d0 \uace0\uc815\ud558\uc9c0 \uc54a\uc74c",
     "UnsavedChangesFound": "\uc9c0\uc624\uc9c0\ube0c\ub77c\uc5d0\uc11c \uc800\uc7a5\ub418\uc9c0 \uc54a\uc740 \ubcc0\uacbd\uc0ac\ud56d\uc774 \ubc1c\uacac\ub418\uc5c8\uc2b5\ub2c8\ub2e4. \ubcf5\uad6c\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? \uc544\ub2c8\uba74 \uc0ad\uc81c\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?",
     "UnsupportedBrowser": "This browser is not supported.",
-    "UnsupportedBrowser.Message": "Please try a different browser to use GeoGebra Notes.",
+    "UnsupportedBrowser.Message": "\uc9c0\uc624\uc9c0\ube0c\ub77c \ub178\ud2b8\ub97c \uc0ac\uc6a9\ud558\ub824\uba74 \ub2e4\ub978 \ube0c\ub77c\uc6b0\uc800\ub97c \uc0ac\uc6a9\ud574 \ubcf4\uc138\uc694.",
     "UnsupportedBrowser.Message.Mebis": "Please try a different browser to use mebis Tafel.",
     "Untitled": "\uc81c\ubaa9 \uc5c6\uc74c",
     "UntitledA": "\uc81c\ubaa9\uc5c6\uc74c%0",

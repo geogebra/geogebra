@@ -3,7 +3,16 @@ build/
 **/build
 web/war/*.*
 web/war/web*
-.project
-.settings
+/.gradle/
+
+# InteliJ specific
 .idea
 *.iml
+**/out
+
+# Eclipse specific
+.project
+.settings
+**/.classpath
+**/bin
+**/src/main/javacc/**/*.java

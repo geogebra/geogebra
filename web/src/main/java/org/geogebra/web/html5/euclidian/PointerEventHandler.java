@@ -125,8 +125,7 @@ public class PointerEventHandler {
 
 	@ExternalAccess
 	private void singleMove(double x, double y, int type, int modifiers) {
-		PointerEvent e = new PointerEvent(x, y, types[type], off,
-				false);
+		PointerEvent e = new PointerEvent(x, y, types[type], off, false);
 		adjust(e, modifiers);
 		this.tc.onPointerEventMove(e);
 	}

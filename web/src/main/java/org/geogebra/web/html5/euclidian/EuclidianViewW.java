@@ -307,6 +307,7 @@ public class EuclidianViewW extends EuclidianView implements
 		// repaint the preview line
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
+		app.getFpsProfiler().notifyRepaint();
 	}
 
 	/**

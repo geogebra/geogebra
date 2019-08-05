@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -1178,7 +1179,7 @@ public class TextInputDialogD extends InputDialogD
 				// app.addSelectedGeo(newText);
 				callback.callback(false);
 			} catch (Exception e) {
-				app.localizeAndShowError("ReplaceFailed");
+				app.showError(Errors.ReplaceFailed);
 				callback.callback(false);
 			} catch (MyError err) {
 				app.showError(err);

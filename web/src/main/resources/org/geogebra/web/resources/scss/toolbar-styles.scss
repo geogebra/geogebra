@@ -54,8 +54,9 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			.center {
 				position: absolute;
 				display: inline-flex;
-				left: calc(50% - 84px);
-				
+				left: 50%;
+				transform: translateX(-50%);
+
 				.gwt-Image {
 					width: 24px;
 					height: 24px;
@@ -78,38 +79,41 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			.center.threeTab {
-				left: calc(50% - 126px);
-				
-				.indicator {
+			     .indicator {
 					left: calc(50%);
 				}
 			}
 
 			.center.threeTab.indicatorLeft {
 				.indicator {
-					transform: translateX(50%) translateX(-66px);
+					transform: translateX(50%) translateX(-84px);
+					position: absolute;
 				}	
 			}
 			.center.threeTab.indicatorCenter {
 				.indicator {
-					transform: translateX(50%) translateX(-18px);
+					transform: translateX(50%) translateX(-36px);
+					position: absolute;
 				}	
 			}
 			.center.threeTab.indicatorRight {
 				.indicator {
-					transform: translateX(50%) translateX(30px);
-				}	
+					transform: translateX(50%) translateX(12px);
+					position: absolute;
+				}
 			}
 		
 			.center.indicatorLeft {
 				.indicator {
-					transform: translateX(50%) translateX(-18px);
+					transform: translateX(50%) translateX(-36px);
+					position: absolute;
 				}	
 			}
 		
 			.center.indicatorRight {
 				.indicator {
-					transform: translateX(50%) translateX(30px);
+					transform: translateX(50%) translateX(12px);
+					position: absolute;
 				}	
 			}
 		
@@ -203,18 +207,14 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			height: 100%;
 		
 			.center {
-				left: 0px;
 				display: table-cell;
 				top: calc(50% - 64px);
 				height: 84px !important;
 				
 				&.threeTab {
-					left: 0px;
+					left: 50%;
+					transform: translateX(-50%);
 					top: calc(50% - 86px);
-				}
-
-				.tabButton {
-					margin-left: 10px !important;	
 				}
 
 				.indicator {

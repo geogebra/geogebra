@@ -21,7 +21,8 @@ import com.himamis.retex.editor.web.MathFieldW;
  * MathField-capable editor for EV, Web implementation.
  * @author Laszlo
  */
-public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener, IsWidget {
+public class SymbolicEditorW
+		implements SymbolicEditor, MathFieldListener, IsWidget {
 
 	private final Kernel kernel;
 	private final boolean directFormulaConversion;
@@ -32,10 +33,10 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 	private static final int PADDING_LEFT = 4;
 
 	SymbolicEditorW(App app)  {
-		super();
 		this.kernel = app.getKernel();
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
 		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 2;
+		createMathField();
 	}
 
 	@Override
@@ -51,8 +52,7 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		mathField.setFocus(true);
 	}
 
-	@Override
-	protected void createMathField() {
+	private void createMathField() {
 		main = new FlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,

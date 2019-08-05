@@ -2266,6 +2266,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "NotAvailable": "Not Available",
     "NotIncluded": "not included",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "\u865b\u7121\u5047\u8a2d",
     "NullHypothesis.short": "Null",
     "Number": "\u6578\u503c",

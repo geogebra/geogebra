@@ -2266,6 +2266,7 @@ __GGB__keysVar["ug"].menu = {
     "NotAvailable": "\u0626\u0649\u0634\u0644\u06d5\u062a\u0643\u0649\u0644\u0649 \u0628\u0648\u0644\u0645\u0627\u064a\u062f\u06c7",
     "NotIncluded": "\u0626\u06c6\u0632 \u0626\u0649\u0686\u0649\u06af\u06d5 \u0626\u0627\u0644\u0645\u0627\u064a\u062f\u06c7",
     "NotSharedLinkHelpTxt": "Private, not shared",
+    "Notes": "Notes",
     "NullHypothesis": "\u0626\u0649\u0646\u0643\u0627\u0631 \u067e\u06d5\u0631\u06d5\u0632",
     "NullHypothesis.short": "\u0626\u0649\u0646\u0643\u0627\u0631 \u067e\u06d5\u0631\u06d5\u0632",
     "Number": "\u0633\u0627\u0646",

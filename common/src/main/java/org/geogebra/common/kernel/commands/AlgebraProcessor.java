@@ -277,7 +277,7 @@ public class AlgebraProcessor {
 			// set twin geo to undefined
 			casCell.computeOutput();
 			casCell.updateCascade();
-			app.localizeAndShowError("CircularDefinition");
+			app.showError(Errors.CircularDefinition);
 			return;
 		}
 
@@ -654,8 +654,7 @@ public class AlgebraProcessor {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
 					app.getErrorHandler(), false, null);
 		} catch (Exception e) {
-			e.printStackTrace();
-			app.showError(e.getMessage());
+			app.showGenericError(e);
 			return null;
 		}
 	}
@@ -673,8 +672,7 @@ public class AlgebraProcessor {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
 					app.getErrorHandler(), false, callback);
 		} catch (Exception e) {
-			e.printStackTrace();
-			app.showError(e.getMessage());
+			app.showGenericError(e);
 			return null;
 		}
 	}
@@ -1314,7 +1312,7 @@ public class AlgebraProcessor {
 		} catch (Throwable t) {
 			t.printStackTrace();
 			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 
 			if (forGeo != null) {
@@ -1469,20 +1467,20 @@ public class AlgebraProcessor {
 				GeoFunctionable f = (GeoFunctionable) temp[0];
 				func = f.getGeoFunction();
 			} else if (!suppressErrors) {
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			if (!suppressErrors) {
-				app.localizeAndShowError("CircularDefinition");
+				app.showError(Errors.CircularDefinition);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
 			t.printStackTrace();
 			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 		}
 
@@ -1594,20 +1592,20 @@ public class AlgebraProcessor {
 
 			}
 			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			if (!suppressErrors) {
-				app.localizeAndShowError("CircularDefinition");
+				app.showError(Errors.CircularDefinition);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
 			t.printStackTrace();
 			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 		}
 
@@ -1757,14 +1755,14 @@ public class AlgebraProcessor {
 		} catch (CircularDefinitionException e) {
 			if (showErrors) {
 				Log.debug("CircularDefinition");
-				app.localizeAndShowError("CircularDefinition");
+				app.showError(Errors.CircularDefinition);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
 			if (showErrors) {
 				t.printStackTrace();
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 		}
 
@@ -1793,13 +1791,13 @@ public class AlgebraProcessor {
 			geo = temp[0];
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
-			app.localizeAndShowError("CircularDefinition");
+			app.showError(Errors.CircularDefinition);
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
 			t.printStackTrace();
 			if (showErrors) {
-				app.showError("InvalidInput", str);
+				app.showError(Errors.InvalidInput, str);
 			}
 		}
 
@@ -1906,8 +1904,8 @@ public class AlgebraProcessor {
 				GeoElement geo = kernel.lookupLabel(labels[i]);
 				if (geo != null) {
 					if (geo.isProtected(EventType.UPDATE)) {
-						throw new MyError(loc, "IllegalAssignment",
-								loc.getError("AssignmentToFixed"), ":\n",
+						throw new MyError(loc, Errors.IllegalAssignment,
+								Errors.AssignmentToFixed.getError(loc), ":\n",
 								geo.getLongDescription());
 					}
 					// replace (overwrite or redefine) geo
@@ -1949,10 +1947,9 @@ public class AlgebraProcessor {
 					replaceable.updateRepaint();
 					ret[0] = replaceable;
 				} catch (Exception e) {
-					String errStr = loc.getError("IllegalAssignment") + "\n"
-							+ replaceable.getLongDescription() + "     =     "
-							+ ret[0].getLongDescription();
-					throw new MyError(loc, errStr);
+					throw new MyError(loc, Errors.IllegalAssignment,
+							replaceable.getLongDescription(), "     =     ",
+							ret[0].getLongDescription());
 				}
 			}
 			// redefine
@@ -2010,10 +2007,10 @@ public class AlgebraProcessor {
 					throw e;
 				} catch (Exception e) {
 					e.printStackTrace();
-					throw new MyError(loc, "ReplaceFailed");
+					throw new MyError(loc, Errors.ReplaceFailed);
 				} catch (MyError e) {
 					e.printStackTrace();
-					throw new MyError(loc, "ReplaceFailed");
+					throw new MyError(loc, Errors.ReplaceFailed);
 				}
 			}
 		}
@@ -2132,7 +2129,7 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
 		if (!enableStructures()) {
-			throw new MyError(loc, "InvalidInput");
+			throw new MyError(loc, Errors.InvalidInput);
 		}
 
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
@@ -2477,7 +2474,7 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processFunctionNVar(FunctionNVar fun, EvalInfo info) {
 		if (!enableStructures()) {
-			throw new MyError(loc, "InvalidInput");
+			throw new MyError(loc, Errors.InvalidInput);
 		}
 		if (!fun.initFunction(info.isSimplifyingIntegers())) {
 			return getParamProcessor().processParametricFunction(
@@ -2503,7 +2500,7 @@ public class AlgebraProcessor {
 		gf.setLabel(label);
 		if (!gf.validate()) {
 			gf.remove();
-			throw new MyError(loc, "InvalidInput");
+			throw new MyError(loc, Errors.InvalidInput);
 		}
 
 		return array(gf);
@@ -2539,7 +2536,7 @@ public class AlgebraProcessor {
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			EvalInfo info) throws MyError {
 		if (!enableStructures()) {
-			throw new MyError(loc, "InvalidInput");
+			throw new MyError(loc, Errors.InvalidInput);
 		}
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
 			return evalSymbolic(equ, info).asArray();
@@ -3438,16 +3435,6 @@ public class AlgebraProcessor {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode);
 		algo.getGeo().setLabel(label);
 		return algo.getGeo();
-	}
-
-	/**
-	 * Show error dialog
-	 *
-	 * @param key
-	 *            key for error.properties
-	 */
-	public void showErrorxxx(String key) {
-		app.showError(key);
 	}
 
 	/** @return "x(" */

@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1105,7 +1106,7 @@ public class ExpressionNode extends ValidExpression
 				expr = expr.replace(func.getFunctionVariables()[i], ev).wrap();
 			}
 		} else {
-			throw new MyError(loc, "IllegalArgumentNumber");
+			throw new MyError(loc, Errors.IllegalArgumentNumber);
 		}
 
 		if (equ.isFunctionDependent()) {

@@ -144,12 +144,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 																	.getInputHelpPanel();
 													helpPanel.focusCommand(app
 															.getLocalization()
-															.getCommand(
-																	command));
-													btnHelpToggle
-															.setToolTipText(
-																	loc.getError(
-																			"InvalidInput"));
+															.getCommand(command));
+													btnHelpToggle.setToolTipText(
+															loc.getInvalidInputError());
 												}
 											}
 

@@ -84,9 +84,32 @@ public class RedefineTest extends Assert {
 		app.getKernel().initUndoInfo();
 		app.storeUndoInfo();
 		checkError("A(x)=x", "Redefinition failed");
+		checkError("A(x)=(", "Unbalanced brackets \nA(x)=( ");
+		checkError("A(x)=1+", "Please check your input");
 		t("A", "(1, 1)");
 		t("poly1", "1");
 		t("a", "1");
+	}
+
+	@Test
+	public void testErrors() {
+		t("f(x)=x", "x");
+		checkError("f(x)=f(x)+x", "Circular definition");
+		checkError("f(x)=y", "Invalid function:\n" + "Please enter an explicit function in x");
+		checkError("f(t)=y", "Invalid function:\n" + "Please enter an explicit function in t");
+		checkError("f(t)=x", "Invalid function:\n" + "Please enter an explicit function in t");
+		checkError("f(x)=3/(x^2+y^2=1)", "Illegal division \n" + "3 /  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3*(x^2+y^2=1)",
+				"Illegal multiplication \n" + "3 *  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3+(x^2+y^2=1)", "Illegal addition \n" + "3 +  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3-(x^2+y^2=1)", "Illegal subtraction \n" + "3 -  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3^(x^2+y^2=1)", "Illegal exponent \n" + "3 ^  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=sin(x^2+y^2=1)", "Illegal argument \n" + "sin(  x\u00B2 + y\u00B2 = 1 ) ");
+		// error could be improved
+		checkError("f(x)=sin(1,2,3)", "Unknown command : sin");
+		checkError("{1,2,3}\\(1,2)", "Illegal list operation \n" + "{1, 2, 3} \\ (1, 2) ");
+		checkError("Rename(ff,\"fff\")",
+				"Please check your input :\n" + "Undefined variable \n" + "ff ");
 	}
 
 	@Test

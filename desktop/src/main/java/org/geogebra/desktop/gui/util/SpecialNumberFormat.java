@@ -187,7 +187,7 @@ public class SpecialNumberFormat implements ActionListener {
 				invoker.changedNumberFormat();
 
 			} catch (Exception ex) {
-				app.showError(e.toString());
+				app.showGenericError(ex);
 			}
 		}
 

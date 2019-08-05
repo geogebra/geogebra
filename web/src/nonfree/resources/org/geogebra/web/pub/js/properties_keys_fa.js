@@ -2266,6 +2266,7 @@ __GGB__keysVar["fa"].menu = {
     "NotAvailable": ".\u062f\u0631 \u062f\u0633\u062a\u0631\u0633 \u0646\u06cc\u0633\u062a",
     "NotIncluded": ".\u0634\u0627\u0645\u0644 \u0646\u0645\u06cc\u200c\u0634\u0648\u062f",
     "NotSharedLinkHelpTxt": "\u062e\u0635\u0648\u0635\u06cc\u060c \u0628\u0647 \u0627\u0634\u062a\u0631\u0627\u06a9 \u06af\u0630\u0627\u0634\u062a\u0647 \u0646\u0634\u062f\u0647",
+    "Notes": "Notes",
     "NullHypothesis": "\u0641\u0631\u0636 \u0635\u0641\u0631",
     "NullHypothesis.short": "\u0635\u0641\u0631",
     "Number": "\u0639\u062f\u062f",

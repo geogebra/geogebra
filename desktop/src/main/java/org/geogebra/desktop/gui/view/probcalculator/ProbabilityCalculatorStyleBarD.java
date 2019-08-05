@@ -12,7 +12,6 @@ import javax.swing.JToolBar;
 import javax.swing.MenuElement;
 import javax.swing.SwingConstants;
 
-import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -351,7 +350,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 						.updatePrintFormat(decimals, -1);
 
 			} catch (Exception ex) {
-				getApp().showError(e.toString());
+				getApp().showGenericError(ex);
 			}
 		}
 

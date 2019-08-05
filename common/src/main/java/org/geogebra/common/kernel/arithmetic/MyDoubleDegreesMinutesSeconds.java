@@ -255,7 +255,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
 	@Override
 	public int hashCode() {
-		return Double.hashCode(getDouble());
+		return DoubleUtil.hashCode(getDouble());
 	}
 
 }

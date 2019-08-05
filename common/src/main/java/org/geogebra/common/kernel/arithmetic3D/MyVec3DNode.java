@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -143,17 +144,17 @@ public class MyVec3DNode extends ValidExpression
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		ExpressionValue evx = x.evaluate(tpl);
 		if (!(evx instanceof NumberValue)) {
-			throw new MyParseError(kernel.getLocalization(), "NumberExpected",
+			throw new MyParseError(kernel.getLocalization(), Errors.NumberExpected,
 					evx.wrap().toString(tpl));
 		}
 		ExpressionValue evy = y.evaluate(tpl);
 		if (!(evy instanceof NumberValue)) {
-			throw new MyParseError(kernel.getLocalization(), "NumberExpected",
+			throw new MyParseError(kernel.getLocalization(), Errors.NumberExpected,
 					evy.wrap().toString(tpl));
 		}
 		ExpressionValue evz = z.evaluate(tpl);
 		if (!(evz instanceof NumberValue)) {
-			throw new MyParseError(kernel.getLocalization(), "NumberExpected",
+			throw new MyParseError(kernel.getLocalization(), Errors.NumberExpected,
 					evz.wrap().toString(tpl));
 		}
 

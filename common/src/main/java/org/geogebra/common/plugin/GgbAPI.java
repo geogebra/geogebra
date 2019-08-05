@@ -2371,4 +2371,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return getValue("correct");
 	}
 
+	@Override
+	public void enableFpsMeasurement() {
+		app.getFpsProfiler().setEnabled(true);
+	}
+
+	@Override
+	public void disableFpsMeasurement() {
+		app.getFpsProfiler().setEnabled(false);
+	}
 }
