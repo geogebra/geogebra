@@ -142,7 +142,7 @@ public class AlgebraTestHelper {
 	 * @param algebraProcessor algebra processor
 	 * @param template string template
 	 */
-	public static void testMultipleResults(
+	public static void testValidResultCombinations(
 			String input,
 			String[] validResultCombinations,
 			AlgebraProcessor algebraProcessor,
@@ -212,13 +212,13 @@ public class AlgebraTestHelper {
 	}
 
 	public static boolean mayHaveZeroArgs(String cmdName) {
-		return Arrays.asList(new String[] { "DataFunction", "AxisStepX",
+		return Arrays.asList("DataFunction", "AxisStepX",
 				"AxisStepY", "Button", "StartLogging", "StopLogging",
 				"StartRecord", "ConstructionStep", "StartAnimation", "ShowAxes",
 				"ShowGrid", "SetActiveView", "ZoomIn", "SetViewDirection",
 				"ExportImage", "Random", "Textfield", "GetTime",
 				"UpdateConstruction", "SelectObjects", "Turtle", "Function",
-				"Checkbox", "InputBox", "RandomBetween" }).contains(cmdName);
+				"Checkbox", "InputBox", "RandomBetween").contains(cmdName);
 	}
 
 	public static void enableCAS(App app, boolean enabled) {
