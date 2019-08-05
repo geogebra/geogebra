@@ -7542,13 +7542,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
+
+				if (textField && !moveTextField((GeoInputBox)movedGeoElement)) {
+					return;
+				}
+
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
-				if (textField) {
-					view.hideSymbolicEditor();
-				}
 				moveAbsoluteLocatable(movedGeoButton, MOVE_BUTTON);
+
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7611,6 +7614,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+	}
+
+	private boolean moveTextField(GeoInputBox geoInputBox) {
+		if (geoInputBox.isEditing()) {
+			return false;
+		}
+
+		if (geoInputBox.isSymbolicMode() && isDraggingBeyondThreshold()) {
+			view.hideSymbolicEditor();
+		}
+
+		return true;
 	}
 
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int absMoveMode) {
