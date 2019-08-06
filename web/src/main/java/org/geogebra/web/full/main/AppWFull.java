@@ -2017,6 +2017,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 				removeHeader();
 			} else if ("cas".equalsIgnoreCase(appName)) {
  				v = Versions.WEB_CAS;
+			} else if ("notes".equals(appName)) {
+				v = Versions.WEB_NOTES;
 			}
 
 			if (v != getVersion()) {

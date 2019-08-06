@@ -200,6 +200,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 		if ("cas".equalsIgnoreCase(appName)) {
 			return Versions.WEB_CAS;
 		}
+		if ("notes".equalsIgnoreCase(appName)) {
+			return Versions.WEB_NOTES;
+		}
 		return dim > 2 ? Versions.WEB_FOR_BROWSER_3D
 				: Versions.WEB_FOR_BROWSER_2D;
 	}

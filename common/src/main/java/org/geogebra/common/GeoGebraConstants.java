@@ -74,7 +74,9 @@ public interface GeoGebraConstants {
 
 		POWERPOINT("p", "classic"),
 
-		NO_CAS("nc", "classic");
+		NO_CAS("nc", "classic"),
+
+		WEB_NOTES("w", "notes");
 
 		private String platform;
 		private String appName;
