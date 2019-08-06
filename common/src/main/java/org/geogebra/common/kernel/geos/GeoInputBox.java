@@ -607,7 +607,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 * @return if linked object can be a symbolic one.
 	 */
 	public boolean canLinkedGeoBeSybolic() {
-		if (linkedGeo == null) {
+		if (linkedGeo == null || !linkedGeo.isDefined()) {
 			return false;
 		}
 		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
