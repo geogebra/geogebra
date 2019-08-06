@@ -22,7 +22,12 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.CmdIntersect;
-import org.geogebra.common.kernel.geos.*;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
@@ -132,12 +137,11 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		boolean suppressLabelsActive = cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
 		try {
-			if (geo instanceof GeoFunction) {
-				getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
-			} else if (geo instanceof EquationValue) {
-				getEquationSpecialPoints(geo, xAxis, yAxis, retList);
-			} else {
+			if (geo instanceof GeoSymbolic) {
+				doGetSpecialPoints(((GeoSymbolic) geo).getTwinGeo(), xAxis, yAxis, retList);
 				getCasSpecialPoints((GeoSymbolic) geo, xAxis, yAxis, retList);
+			} else {
+				doGetSpecialPoints(geo, xAxis, yAxis, retList);
 			}
 			// Can be of function or equation
 			if (hasIntersectsBetween(geo)) {
@@ -151,9 +155,17 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
+	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis, boolean yAxis, ArrayList<GeoElementND> retList ) {
+		if (geo instanceof GeoFunction) {
+			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
+		} else if (geo instanceof EquationValue) {
+			getEquationSpecialPoints(geo, xAxis, yAxis, retList);
+		}
+	}
+
 	private void getCasSpecialPoints(GeoSymbolic geo, boolean xAxis, boolean yAxis,
-									 ArrayList<GeoElementND> retList){
-		getFunctionSpecialPoints((GeoFunction)geo.getTwinGeo(), xAxis, yAxis, retList);
+									 ArrayList<GeoElementND> retList) {
+		getFunctionSpecialPoints((GeoFunction) geo.getTwinGeo(), xAxis, yAxis, retList);
 	}
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
@@ -273,7 +285,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
-		return (geo instanceof GeoFunction || geo instanceof EquationValue || geo instanceof GeoSymbolic)
+		return (geo instanceof GeoFunction || geo instanceof EquationValue
+				|| geo instanceof GeoSymbolic)
 				&& !(geo.isGeoSegment())
 				&& geo.isVisible() && geo.isDefined()
 				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
