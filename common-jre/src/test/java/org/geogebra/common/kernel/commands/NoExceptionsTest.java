@@ -2344,7 +2344,7 @@ public class NoExceptionsTest {
 
 	private void safeInvoke(Method m) {
 		try {
-			if (m.getParameterCount() == 0) {
+			if (m.getParameterTypes().length == 0) {
 				System.out.println(m.getName());
 				m.invoke(this);
 			}

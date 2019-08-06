@@ -2631,7 +2631,7 @@ __GGB__keysVar["ro"].menu = {
     "Scripting": "Scriptare",
     "Search": "Cauta",
     "SearchCommands": "Cautare Comenzi",
-    "SearchInA": "Search in %0",
+    "SearchInA": "Cauta in %0",
     "SecondAxisLengthOfA": "Lungime axa minor\u0103 pentru %0",
     "SecondAxisOfA": "Axa minor\u0103 pentru %0",
     "Sector": "Sector",

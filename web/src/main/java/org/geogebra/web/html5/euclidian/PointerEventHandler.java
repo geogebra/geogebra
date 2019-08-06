@@ -235,12 +235,12 @@ public class PointerEventHandler {
 								}
 
 							}else{
-								e.preventDefault();
 								zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
 							}
-							e.preventDefault();
+							if (e.target.tagName != "INPUT") {
+								e.preventDefault();
+							}
 							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::checkMoveLongTouch()();
-							
 						});
 
 		element

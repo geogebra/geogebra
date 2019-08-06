@@ -1177,9 +1177,7 @@ public class MyDouble extends ValidExpression
 
 	@Override
 	public int hashCode() {
-		// like Double.hashCode, but Android compatible
-		long bits = Double.doubleToLongBits(val);
-		return (int) (bits ^ (bits >>> 32));
+		return DoubleUtil.hashCode(val);
 	}
 
 	@Override
