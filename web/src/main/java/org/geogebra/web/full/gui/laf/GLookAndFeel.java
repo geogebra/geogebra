@@ -197,6 +197,12 @@ public class GLookAndFeel implements GLookAndFeelI {
 		if ("3d".equalsIgnoreCase(appName)) {
 			return Versions.WEB_3D_GRAPHING;
 		}
+		if ("cas".equalsIgnoreCase(appName)) {
+			return Versions.WEB_CAS;
+		}
+		if ("notes".equalsIgnoreCase(appName)) {
+			return Versions.WEB_NOTES;
+		}
 		return dim > 2 ? Versions.WEB_FOR_BROWSER_3D
 				: Versions.WEB_FOR_BROWSER_2D;
 	}

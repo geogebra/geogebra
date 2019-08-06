@@ -181,6 +181,9 @@ public class UploadRequest implements Request {
 			// settings
 			JSONObject settings = new JSONObject();
 
+			// appname
+			settings.put("-appname", client.getAppName());
+
 			if (parent != null) {
 				task.put("parent", parent.getId());
 				settings.put("-toolbar", parent.getShowToolbar());

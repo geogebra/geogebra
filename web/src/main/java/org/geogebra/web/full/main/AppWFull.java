@@ -2000,6 +2000,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
+		
 		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",
@@ -2014,7 +2015,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 			} else if ("classic".equals(appName) || StringUtil.empty(appName)) {
 				v = Versions.WEB_FOR_BROWSER_3D;
 				removeHeader();
+			} else if ("cas".equalsIgnoreCase(appName)) {
+ 				v = Versions.WEB_CAS;
+			} else if ("notes".equals(appName)) {
+				v = Versions.WEB_NOTES;
 			}
+
 			if (v != getVersion()) {
 				setVersion(v);
 				this.activity = null;
