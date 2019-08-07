@@ -947,7 +947,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				case EuclidianConstants.MODE_PDF:
 					getDialogManager().showPDFInputDialog();
 					break;
-					
+
+				case EuclidianConstants.MODE_GRASPABLE_MATH:
+					app.getEmbedManager().openGraspableMTool();
+					break;
+
 				case EuclidianConstants.MODE_EXTENSION:
 					getDialogManager().showEmbedDialog();
 					break;
@@ -957,23 +961,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}	
 			}
 
-			if (newMode == EuclidianConstants.MODE_GRAPHING) {
-				if (app.getEmbedManager() != null) {
-					GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
-					ge.initPosition(view);
-					ge.setEmbedId(app.getEmbedManager().nextID());
-					ge.setLabel(null);
-					app.storeUndoInfo();
-					app.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-									ModeSetter.DOCK_PANEL);
-						}
-					});
-				}
+			if (app.getEmbedManager() != null
+					&& (newMode == EuclidianConstants.MODE_GRAPHING
+					|| newMode == EuclidianConstants.MODE_CAS)) {
+					setUpEmbedManager(newMode);
 			}
+
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(TestGeo.GEOIMAGE, tempArrayList),
 						false);
@@ -1011,6 +1004,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		kernel.notifyRepaint();
+	}
+
+	private void setUpEmbedManager(int mode) {
+		GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+		if (mode == EuclidianConstants.MODE_CAS) {
+			ge.setAppName("cas");
+		}
+		ge.initPosition(view);
+		ge.setEmbedId(app.getEmbedManager().nextID());
+		ge.setLabel(null);
+		app.storeUndoInfo();
+		app.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+						ModeSetter.DOCK_PANEL);
+			}
+		});
 	}
 
 	/**

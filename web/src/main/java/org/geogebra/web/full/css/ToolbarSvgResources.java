@@ -401,6 +401,14 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_twovarstats_32();
 
+	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_graspablemath.svg")
+	@Override
+	SVGResource mode_graspablemath_32();
+
+	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_cas.svg")
+	@Override
+	SVGResource mode_cas_32();
+
 	// 3D
 
 	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_circleaxispoint.svg")

@@ -1,0 +1,29 @@
+<svg id="CAS_black" data-name="CAS black" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        clip-path: url(#clip-path);
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect class="cls-1" x="27" y="27" width="458" height="458" rx="44.76"/>
+    </clipPath>
+  </defs>
+  <title>cas_black</title>
+  <rect class="cls-2" width="512" height="512" rx="50"/>
+  <g class="cls-3">
+    <g>
+      <rect width="150" height="512"/>
+      <path d="M360.49,347.09H304.43l-39.3-62.55-36.58,62.55H175.92l62.55-93.65-56.4-81.35h55.71L272.3,223.7,302,172.09h52.3l-55,81.35Z"/>
+      <path d="M512,240H376.17V219.38H512ZM512,301H376.17V280.11H512Z"/>
+    </g>
+  </g>
+</svg>

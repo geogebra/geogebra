@@ -24,7 +24,8 @@ public class MediaSubMenu extends SubMenuPanel {
 	@Override
 	protected void createContentPanel() {
 		super.createContentPanel();
-		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app));
+		boolean isEnabled = app.getVendorSettings().isGraspableMathEnabled();
+		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app, isEnabled));
 	}
 
 	@Override
@@ -54,6 +55,8 @@ public class MediaSubMenu extends SubMenuPanel {
 				|| mode == EuclidianConstants.MODE_AUDIO
 				|| mode == EuclidianConstants.MODE_GRAPHING
 				|| mode == EuclidianConstants.MODE_PDF
-				|| mode == EuclidianConstants.MODE_EXTENSION;
+				|| mode == EuclidianConstants.MODE_EXTENSION
+				|| mode == EuclidianConstants.MODE_GRASPABLE_MATH
+				|| mode == EuclidianConstants.MODE_CAS;
 	}
 }
