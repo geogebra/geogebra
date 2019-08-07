@@ -7730,6 +7730,7 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
+	@Override
 	public GeoElementND unwrapSymbolic() {
 		return this;
 	}
