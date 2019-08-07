@@ -3047,7 +3047,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "UnpinFromScreen": "\u89e3\u9664\u9501\u5b9a",
     "UnsavedChangesFound": "GeoGebra \u53d1\u73b0\u672a\u4fdd\u5b58\u7684\u66f4\u6539. \u4f60\u60f3\u6062\u590d\u8fd8\u662f\u5220\u9664\u5b83\u4eec?",
     "UnsupportedBrowser": "\u4e0d\u652f\u6301\u6b64\u6d4f\u89c8\u5668.",
-    "UnsupportedBrowser.Message": "\u8bf7\u5c1d\u8bd5\u4e0d\u540c\u7684\u6d4f\u89c8\u5668\u4f7f\u7528 GeoGebra Notes.",
+    "UnsupportedBrowser.Message": "\u8bf7\u5c1d\u8bd5\u4e0d\u540c\u7684\u6d4f\u89c8\u5668\u4f7f\u7528 GeoGebra \u7b14\u8bb0.",
     "UnsupportedBrowser.Message.Mebis": "\u8bf7\u5c1d\u8bd5\u5176\u4ed6\u6d4f\u89c8\u5668\u4f7f\u7528 mebis Tafel.",
     "Untitled": "\u672a\u547d\u540d",
     "UntitledA": "\u672a\u547d\u540d %0",
