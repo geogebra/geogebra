@@ -112,7 +112,7 @@ public class Variable extends ValidExpression {
 							  SymbolicMode mode) {
 		switch (mode) {
 			case SYMBOLIC:
-				return newGeoDummyVariable();
+				return new GeoDummyVariable(kernel.getConstruction(), name);
 			case SYMBOLIC_AV:
 				return lookupLabel(allowAutoCreateGeoElement, mode);
 			case NONE:
@@ -120,14 +120,10 @@ public class Variable extends ValidExpression {
 				if (resolvedElement != null || !throwError) {
 					return resolvedElement;
 				}
+			default:
+				Localization localization = kernel.getApplication().getLocalization();
+				throw new MyParseError(localization, Errors.UndefinedVariable, name);
 		}
-
-		Localization localization = kernel.getApplication().getLocalization();
-		throw new MyParseError(localization, Errors.UndefinedVariable, name);
-	}
-
-	private GeoElement newGeoDummyVariable() {
-		return new GeoDummyVariable(kernel.getConstruction(), name);
 	}
 
 	private GeoElement lookupLabel(boolean allowAutoCreateGeoElement, SymbolicMode symbolicMode) {
@@ -153,7 +149,7 @@ public class Variable extends ValidExpression {
 				return new FunctionVariable(kernel, name);
 			}
 			ExpressionValue replacement = replacement(name);
-			if (isReplacementValid(replacement)) {
+			if (!(replacement instanceof Variable)) {
 				return replacement;
 			}
 			if (mode == SymbolicMode.SYMBOLIC_AV) {
@@ -185,10 +181,6 @@ public class Variable extends ValidExpression {
 
 		// standard case: no dollar sign
 		return geo;
-	}
-
-	private boolean isReplacementValid(ExpressionValue replacement) {
-		return !(replacement instanceof Variable);
 	}
 
 	/**
