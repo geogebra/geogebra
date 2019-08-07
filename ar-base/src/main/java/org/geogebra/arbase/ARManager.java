@@ -460,7 +460,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     private float getARScaleParameter() {
         return arGestureManager == null ? arScale :
-                arScale * arGestureManager.getScaleFactor() * ratioManager.getRatioChange();
+                arScale * arGestureManager.getScaleFactor() * (float) ratioManager.getARRatio()
+                        / ratioManager.getARRatioAtStart();
     }
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
@@ -522,8 +523,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
             // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than DESK_DISTANCE_MAX)
             double thicknessMin = getThicknessMin(mDistance);
-            arScale = (float) (thicknessMin / (arGestureManager.getScaleFactor()
-                            * ratioManager.getRatioChange()));
+            arScale = (float) (thicknessMin / (arGestureManager.getScaleFactor())
+                            / (ratioManager.getARRatio() / ratioManager.getARRatioAtStart()));
             arScaleFactor = arScaleAtStart / arScale;
             updateSettingsScale(previousARScale / arScale);
         }

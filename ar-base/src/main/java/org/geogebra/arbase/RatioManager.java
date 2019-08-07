@@ -7,14 +7,11 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class RatioManager {
     private double mARRatioAtStart;
-    private float ratioChange = 1;      // change of ratio when ratio is set from menu
+    private double mARRatio;
     private String units = "cm";        // current units used for Ratio snack bar and ratio settings
     private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
     private int ratioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
 
-    public float getRatioChange() {
-        return ratioChange;
-    }
 
     public String getUnits() {
         return units;
@@ -26,6 +23,11 @@ public class RatioManager {
 
     public void setARRatioAtStart(double arRatioAtStart) {
         mARRatioAtStart = arRatioAtStart;
+        mARRatio = arRatioAtStart;
+    }
+
+    public float getARRatioAtStart() {
+        return (float) mARRatioAtStart;
     }
 
     public int getARRatioMetricSystem() {
@@ -36,10 +38,9 @@ public class RatioManager {
         double ratio;
         if (arGestureManager != null) {
             ratio =
-                    mARRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
-                            * getUnitConversion(app);
+                    mARRatio * arGestureManager.getScaleFactor() * getUnitConversion(app);
         } else {
-            ratio = mARRatioAtStart;
+            ratio = mARRatio;
         }
         String text;
         if (app.has(Feature.G3D_AR_RATIO_SETTINGS) &&
@@ -91,10 +92,14 @@ public class RatioManager {
 
     public void setARRatio(double ratio) {
         if (ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
-            ratioChange = (float) ((ratio * EuclidianView3D.FROM_INCH_TO_CM) / mARRatioAtStart);
+            mARRatio = ((ratio * EuclidianView3D.FROM_INCH_TO_CM));
         } else {
-            ratioChange = (float) ((ratio) / mARRatioAtStart);
+            mARRatio = ratio;
         }
+    }
+
+    public double getARRatio() {
+        return mARRatio;
     }
 
 }
