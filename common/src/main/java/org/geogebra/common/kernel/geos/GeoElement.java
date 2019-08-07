@@ -7729,4 +7729,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		return false;
 	}
+
+	public GeoElementND unwrapSymbolic() {
+		return this;
+	}
 }

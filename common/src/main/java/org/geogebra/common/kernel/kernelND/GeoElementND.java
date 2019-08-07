@@ -1572,4 +1572,6 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return true if showable in EV
 	 */
 	boolean isEuclidianShowable();
+
+	GeoElementND unwrapSymbolic();
 }

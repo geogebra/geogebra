@@ -138,8 +138,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		kernel.setSilentMode(true);
 		try {
 			if (geo instanceof GeoSymbolic) {
-				doGetSpecialPoints(((GeoSymbolic) geo).getTwinGeo(), xAxis, yAxis, retList);
-				getCasSpecialPoints((GeoSymbolic) geo, xAxis, yAxis, retList);
+				doGetSpecialPoints(geo.unwrapSymbolic(), xAxis, yAxis, retList);
 			} else {
 				doGetSpecialPoints(geo, xAxis, yAxis, retList);
 			}
@@ -155,17 +154,13 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
-	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis, boolean yAxis, ArrayList<GeoElementND> retList ) {
+	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis,
+									boolean yAxis, ArrayList<GeoElementND> retList) {
 		if (geo instanceof GeoFunction) {
 			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 		} else if (geo instanceof EquationValue) {
 			getEquationSpecialPoints(geo, xAxis, yAxis, retList);
 		}
-	}
-
-	private void getCasSpecialPoints(GeoSymbolic geo, boolean xAxis, boolean yAxis,
-									 ArrayList<GeoElementND> retList) {
-		getFunctionSpecialPoints((GeoFunction) geo.getTwinGeo(), xAxis, yAxis, retList);
 	}
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
@@ -285,11 +280,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
-		return (geo instanceof GeoFunction || geo instanceof EquationValue
-				|| geo instanceof GeoSymbolic)
-				&& !(geo.isGeoSegment())
-				&& geo.isVisible() && geo.isDefined()
-				&& geo.isEuclidianVisible() && !geo.isGeoElement3D();
+		GeoElementND geoTwin = geo.unwrapSymbolic();
+		return (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
+				|| geoTwin instanceof GeoSymbolic)
+				&& !(geoTwin.isGeoSegment())
+				&& geoTwin.isVisible() && geoTwin.isDefined()
+				&& geoTwin.isEuclidianVisible() && !geoTwin.isGeoElement3D();
 	}
 
 	private static boolean hasIntersectsBetween(GeoElementND element) {
