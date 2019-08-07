@@ -202,7 +202,7 @@ __GGB__keysVar["es-UY"].command = {
     "ContingencyTable.Syntax": "[ <Lista de textos>, <Lista de textos> ]\n[ <Lista de textos>, <Lista de textos>, <Opciones> ]\n[ <Lista de valores (filas)>, <Lista de valores (columnas)>, <Tabla de frecuencias> ]\n[ <Lista de valores (filas)>, <Lista de valores (columnas)>, <Tabla de frecuencias>, <Opciones> ]",
     "ContinuedFraction": "Fracci\xf3nContinua",
     "ContinuedFraction.Syntax": "[ <N\xfamero> ]\n[ <N\xfamero>, <Nivel> ]\n[ <N\xfamero>, <Nivel>, <Abreviado o no (true/false)> ]",
-    "ConvexHull": "CierreConvexo",
+    "ConvexHull": "EnvolventeConvexa",
     "ConvexHull.Syntax": "[ <Lista de puntos> ]",
     "CopyFreeObject": "CopiaObjetoLibre",
     "CopyFreeObject.Syntax": "[ <Objeto> ]",
