@@ -198,4 +198,9 @@ public class AppConfigDefault implements AppConfig {
 		return true;
 	}
 
+	@Override
+	public String getStandardAppName() {
+		return "classic";
+	}
+
 }

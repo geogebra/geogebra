@@ -143,4 +143,10 @@ public interface AppConfig {
 	 * @return whether the app should show the tools panel or not
 	 */
 	boolean showToolsPanel();
+
+	/**
+	 * @return with the standard app name which is also used in the url, like graphing,cas,
+	 * classic etc..
+	 */
+	String getStandardAppName();
 }
