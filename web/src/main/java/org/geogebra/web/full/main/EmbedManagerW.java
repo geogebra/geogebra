@@ -10,9 +10,11 @@ import java.util.Set;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
@@ -408,6 +410,29 @@ public class EmbedManagerW implements EmbedManager {
 		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
 			entry.getValue().executeAction(action);
 		}
+	}
+
+	@Override
+	public void openGraspableMTool() {
+		openTool("https://graspablemath.com");
+		app.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+						ModeSetter.DOCK_PANEL);
+			}
+		});
+	}
+
+	private void openTool(String URL) {
+		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setUrl(URL);
+		ge.setAppName("extension");
+		ge.initPosition(app.getActiveEuclidianView());
+		ge.setEmbedId(app.getEmbedManager().nextID());
+		ge.setLabel(null);
+		app.storeUndoInfo();
 	}
 
 	/**
