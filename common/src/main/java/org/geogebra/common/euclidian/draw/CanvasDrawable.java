@@ -31,11 +31,6 @@ public abstract class CanvasDrawable extends Drawable {
 	int boxWidth;
 	int boxHeight;
 
-	@Override
-	public boolean isHighlighted() {
-		return super.isHighlighted();
-	}
-
 	/**
 	 * @param text
 	 *            text

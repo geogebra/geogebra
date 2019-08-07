@@ -684,7 +684,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		Collection<String> commandDictContent = commandDict.values();
 
 		// write them to the commandDictCAS
-		CommandDispatcher cf = getKernel().getAlgebraProcessor().getCommandDispatcher();
+		CommandDispatcher commandDispatcher = getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		for (String cmd : commandDictContent) {
 			commandDictCAS.addEntry(cmd);
@@ -694,7 +694,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
 			try {
-				if (!cf.isAllowedByNameFilter(Commands.valueOf(cmd))) {
+				if (!commandDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd))) {
 					continue;
 				}
 			} catch (Exception e) {

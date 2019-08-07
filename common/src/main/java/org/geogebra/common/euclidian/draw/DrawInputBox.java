@@ -639,11 +639,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		getTextField().hideDeferred(getBox());
 	}
 
-	@Override
-	public EuclidianView getView() {
-		return super.getView();
-	}
-
 	/**
 	 * @return textfield (can be null if no implementation ie iOS, Android)
 	 */
