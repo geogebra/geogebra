@@ -47,11 +47,11 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -156,6 +156,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class EuclidianController implements SpecialPointsListener {
 
@@ -9551,6 +9552,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (tf != null && tf.hasFocus()) {
 			view.requestFocusInWindow();
 		}
+
+		if (view.isSymbolicEditorAttached()) {
+			Log.debug("EDITOR IS ATTACHED");
+			return;
+		}
+
 		altCopy = true;
 
 		DrawDropDownList dl = getComboBoxHit();

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -16,6 +17,7 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
@@ -177,4 +179,12 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * Adds the main menu button to the global header.
 	 */
 	void menuToGlobalHeader();
+
+	/**
+	 * Creates and adds a symbolic editor to the panel.
+	 *
+	 * @param panel to add
+	 * @return the editor
+	 */
+	SymbolicEditor createSymbolicEditor(AbsolutePanel panel);
 }

@@ -1,8 +1,9 @@
-package org.geogebra.web.html5.euclidian;
+package org.geogebra.web.full.euclidian;
 
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.Kernel;
@@ -12,6 +13,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -43,6 +46,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	private Style style;
 	private double top;
 	private int mainHeight;
+	private RetexKeyboardListener retexListener;
+	private Canvas canvas;
 
 	/**
 	 * Constructor
@@ -50,7 +55,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	 * @param app
 	 * 			The application.
 	 */
-	SymbolicEditorW(App app)  {
+	public SymbolicEditorW(App app)  {
 		this.kernel = app.getKernel();
 		this.app = app;
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
@@ -60,7 +65,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 
 	private void createMathField() {
 		main = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
 				canvas, this,
 				directFormulaConversion,
@@ -79,6 +84,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		main.removeStyleName("hidden");
 		updateBounds(bounds);
 		updateColors();
+		initAndShowKeyboard(true);
 		mathField.setText(text, false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
@@ -108,9 +114,16 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		setHeight(bounds.getHeight() - 2 * BORDER_WIDTH);
 	}
 
+
+
 	private void setHeight(double height)  {
 		style.setHeight(height, Style.Unit.PX);
 		mainHeight = (int) bounds.getHeight();
+	}
+
+	@Override
+	public boolean isAttached(GPoint point) {
+		return geoIntputBox.isEditing() && bounds.contains(point.getX(), point.getY());
 	}
 
 	@Override
@@ -201,4 +214,17 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	public Widget asWidget() {
 		return main;
 	}
+
+	/**
+	 * @param show
+	 *            whether to show keyboard
+	 */
+	public void initAndShowKeyboard(boolean show) {
+		retexListener = new RetexKeyboardListener(canvas, mathField);
+		if (show) {
+			((AppWFull)app).getAppletFrame().showKeyBoard(true, retexListener, false);
+		}
+	}
+
+
 }
