@@ -15,6 +15,7 @@ import java.util.Collections;
 
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -27,6 +28,7 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -854,4 +856,15 @@ public class GeoSymbolicTest {
 		}
 	}
 
+	@Test
+	public void testCASSpecialPoints() {
+		t("f:x", "x");
+		GeoSymbolic line = (GeoSymbolic) app.kernel.lookupLabel("f");
+		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+		SuggestionRootExtremum.get(line).execute(line);
+		Assert.assertNull(SuggestionRootExtremum.get(line));
+		Object[] list =  app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
+		((GeoElement) list[list.length - 1]).remove();
+		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+	}
 }
