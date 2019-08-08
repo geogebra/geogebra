@@ -75,10 +75,8 @@ public class RatioManager {
         return String.format("1 : %s %s", arRatioText, units);
     }
 
-    public void setARRatioMetricSystem(int metricSystem, ARGestureManager arGestureManager,
-                                       App app) {
+    public void setARRatioMetricSystem(int metricSystem) {
         ratioMetricSystem = metricSystem;
-        getSnackBarText(arGestureManager, app);
     }
 
     private float getUnitConversion(App app) {
