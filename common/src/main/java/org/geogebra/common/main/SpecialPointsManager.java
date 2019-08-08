@@ -137,11 +137,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		boolean suppressLabelsActive = cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
 		try {
-			if (geo instanceof GeoSymbolic) {
-				doGetSpecialPoints(geo.unwrapSymbolic(), xAxis, yAxis, retList);
-			} else {
-				doGetSpecialPoints(geo, xAxis, yAxis, retList);
-			}
+			doGetSpecialPoints(geo.unwrapSymbolic(), xAxis, yAxis, retList);
 			// Can be of function or equation
 			if (hasIntersectsBetween(geo)) {
 				getIntersectsBetween(geo, retList);

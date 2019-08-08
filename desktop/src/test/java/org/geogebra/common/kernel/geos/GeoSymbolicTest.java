@@ -27,6 +27,7 @@ import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -849,4 +850,33 @@ public class GeoSymbolicTest {
 		}
 	}
 
+	@Test
+	public void handlePreviewPointsTest() {
+		t("f:x^2 - 2");
+		t("g:x^3 - 1");
+		t("h:x");
+		updateSpecialPoints("f");
+		Assert.assertEquals(7, numberOfSpecialPoints());
+		updateSpecialPoints("g");
+		Assert.assertEquals(5, numberOfSpecialPoints());
+		updateSpecialPoints("h");
+		Assert.assertEquals(5, numberOfSpecialPoints());
+	}
+
+	private static int numberOfSpecialPoints() {
+		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
+			return 0;
+		}
+		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
+	}
+
+	private static void updateSpecialPoints(String string) {
+		app.getSpecialPointsManager()
+				.updateSpecialPoints(app.getKernel().lookupLabel(string));
+	}
+
+	private static void t(String string) {
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
+				true);
+	}
 }

@@ -551,6 +551,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public GeoElementND unwrapSymbolic() {
-		return this.getTwinGeo();
+		return getTwinGeo();
 	}
 }
