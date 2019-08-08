@@ -53,6 +53,8 @@ public interface ARManagerInterface<T> {
 
     void setARScaleAtStart();
 
+    void setARRatioAtStart(double arRatioAtStart);
+
     CoordMatrix4x4 getUndoRotationMatrix();
 
     CoordMatrix4x4 getViewModelMatrix();

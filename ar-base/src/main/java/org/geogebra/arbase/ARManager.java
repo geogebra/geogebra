@@ -515,6 +515,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private void showSnackbar() {
         mArSnackBarManagerInterface.showRatio(ratioManager.getSnackBarText(arGestureManager,
                 mView.getApplication()));
+        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS)) {
+            mView.setARRatioAtStart(ratioManager.getARRatio() * arGestureManager.getScaleFactor());
+        }
     }
 
     public void fitThickness() {
@@ -560,6 +563,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         arGestureManager.resetScaleFactor();
         fitThickness();
         showSnackbar();
+        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS)) {
+            mView.setARRatioAtStart(ratio);
+        }
     }
 
     public String getUnits() {
@@ -572,5 +578,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void setARRatioMetricSystem(int metricSystem) {
         ratioManager.setARRatioMetricSystem(metricSystem, arGestureManager, mView.getApplication());
+    }
+
+    public void setARRatioAtStart(double arRatioAtStart) {
+        setARScaleAtStart();
+        setARRatio(arRatioAtStart);
     }
 }

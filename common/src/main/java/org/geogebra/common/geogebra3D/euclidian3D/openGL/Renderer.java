@@ -1692,6 +1692,13 @@ public abstract class Renderer {
 		}
 	}
 
+	public void setARRatioAtStart(double arRatioAtStart) {
+		ARManagerInterface<?> arManager = getARManager();
+		if (arManager != null) {
+			arManager.setARRatioAtStart(arRatioAtStart);
+		}
+	}
+
 	/**
 	 * set background color
 	 */
