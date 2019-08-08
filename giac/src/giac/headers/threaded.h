@@ -1848,6 +1848,39 @@ namespace giac {
       bool smallindex=vsmallindexptr;
       U_unsigned<U> * heap = argptr->heapptr ; // pointers to v2 monomials
       U_unsigned<U> * heap0, *heapbeg=heap,* heapend;
+#if 0
+      // initial fill of the heap
+      int count=0;
+      for (it1=it1beg,heap0=heap;it1!=it1end;++it1){
+	u1=it1->u;
+	d1=u1/degdiv;
+	if (d1>d) // first partial degree too large
+	  continue;
+	d2=v2deg-(d-d1);
+	if (d2<0) // first partial degree too small
+	  continue;
+	it2=(*v2ptrs)[d2]; // first monomial of second poly having a compatible partial degree
+	it2end=(*v2ptrs)[d2+1];
+	if (it2==it2end)
+	  continue;
+	u2=it2->u;
+	if (int(u2/degdiv+d1)!=d)
+	  continue;
+	if (smallindex){
+	  (*vsmallindexptr)[count].clear();
+	  (*vsmallindexptr)[count].push_back(triplet<unsigned short,unsigned short,int>(it1-it1beg,0,d2));
+	}
+	else {
+	  (*vindexptr)[count].clear();
+	  (*vindexptr)[count].push_back(triplet<unsigned,unsigned,int>(it1-it1beg,0,d2));
+	}
+	*heap0=U_unsigned<U>(u1+u2,count);
+	++heap0;
+	++count;
+      }
+      heapend=heap0;
+      std::make_heap(heapbeg,heapend);
+#else
       // initial fill of the heap
       int count=0;
       heap0=heap;
@@ -1860,7 +1893,8 @@ namespace giac {
 	u1=it1->u;
 	d1=u1/degdiv;
 	if (d1>d){ // first partial degree too large, should not happen
-	  ++v1ptrpos;
+	  while ((*argptr->v1ptrs)[v1ptrpos]<=it1)
+	    ++v1ptrpos;
 	  it1=(*argptr->v1ptrs)[v1ptrpos];	  
 	  continue;
 	}
@@ -1872,20 +1906,24 @@ namespace giac {
 	it2=(*v2ptrs)[d2]; // first monomial of second poly having a compatible partial degree
 	it2end=(*v2ptrs)[d2+1];
 	if (it2==it2end){
-	  ++v1ptrpos;
+	  while ((*argptr->v1ptrs)[v1ptrpos]<=it1)
+	    ++v1ptrpos;
 	  it1=(*argptr->v1ptrs)[v1ptrpos];	  
 	  continue;
 	}
 	u2=it2->u;
 	if (int(u2/degdiv+d1)!=d){
-	  ++v1ptrpos;
+	  while ((*argptr->v1ptrs)[v1ptrpos]<=it1)
+	    ++v1ptrpos;
 	  it1=(*argptr->v1ptrs)[v1ptrpos];	  
 	  continue;
 	}
 	for (;it1!=it1end;++it1){
 	  u1=it1->u;
-	  if (u1<d1*degdiv){
-	    ++v1ptrpos;
+	  if (u1<longlong(d1)*degdiv){
+	    while ((*argptr->v1ptrs)[v1ptrpos]<=it1)
+	      ++v1ptrpos;
+	    //CERR << it1->u << " | " << (*argptr->v1ptrs)[v1ptrpos]->u  << endl;
 	    break;
 	  }
 	  if (smallindex){
@@ -1903,6 +1941,7 @@ namespace giac {
       } // end for (it1=it1beg...)
       heapend=heap0;
       std::make_heap(heapbeg,heapend);
+#endif
       if (smallindex){
 	std::vector< triplet<unsigned short,unsigned short,int> > nouveau;
 	for (;heapbeg!=heapend;){
@@ -1927,7 +1966,7 @@ namespace giac {
 	      // increment 2nd poly index of the elements of the top chain
 	      ++it->second;
 	      // check if it is still with a compatible partial degree
-	      if (it->second+it2beg-(*v2ptrs)[it->third+1]<0)
+	      if (it->second<(*v2ptrs)[it->third+1]-it2beg)
 		nouveau.push_back(*it);
 	    }
 #ifdef USTL
@@ -2013,7 +2052,7 @@ namespace giac {
 	      // increment 2nd poly index of the elements of the top chain
 	      ++it->second;
 	      // check if it is still with a compatible partial degree
-	      if (it->second+it2beg-(*v2ptrs)[it->third+1]<0)
+	      if (it->second<(*v2ptrs)[it->third+1]-it2beg)
 		nouveau.push_back(*it);
 	    }
 #ifdef USTL
@@ -2231,7 +2270,7 @@ namespace giac {
     int i=deg1v;
     bool smallindex=(v1s<65535 && v2s<65535);
     if (debug_infolevel>20)
-      CERR << CLOCK()*1e-6 << " product " << v1s << "*" << v2s << " smallindex " << smallindex << endl;
+      CERR << CLOCK()*1e-6 << " product " << v1s << "*" << v2s << " smallindex " << smallindex << std::endl;
     if (
 	// true || 
 	nthreads==1){
@@ -2273,6 +2312,7 @@ namespace giac {
       if (vsmallindexptr) delete vsmallindexptr;
     } // end nthreads==1
     else {
+#if 1
       // FIXME find max possible size of heap and vindex/vsmallindex
       // instead of v1si
       unsigned d1=v1.begin()->u/degdiv;
@@ -2293,7 +2333,10 @@ namespace giac {
       }
       // end v1si_eff size determination
       if (debug_infolevel>20)
-	CERR << "effective heap size " << v1si_eff << ", v1si=" << v1si << endl;
+	CERR << "effective heap size " << v1si_eff << ", v1si=" << v1si << std::endl;
+#else
+      size_t v1si_eff=v1si;
+#endif
       std::vector<int> in_progress;
       // create initials threads
       for (int j=0;i>=0 && j<nthreads;--i,++j){
@@ -2382,20 +2425,20 @@ namespace giac {
 	  delete [] arg[i].heapptr;
 	  if (arg[i].vindexptr){
 	    if (debug_infolevel>21){
-	      CERR << "heap_mult vindex size/capacity for i=" << i << endl;
+	      CERR << "heap_mult vindex size/capacity for i=" << i << std::endl;
 	      std::vector< std::vector< triplet<unsigned,unsigned,int> > > & v=*arg[i].vindexptr;
 	      for (int j=0;j<v.size();++j)
-		CERR << v[j].size() << " " << v[j].capacity() << endl;
+		CERR << v[j].size() << " " << v[j].capacity() << std::endl;
 	    }
 	    delete arg[i].vindexptr;
 	    arg[i].vindexptr=0;
 	  }
 	  if (arg[i].vsmallindexptr){ 
 	    if (debug_infolevel>21){
-	      CERR << "heap_mult vsmallindex size/capacity for i=" << i << endl;	      
+	      CERR << "heap_mult vsmallindex size/capacity for i=" << i << std::endl;	      
 	      std::vector< std::vector< triplet<unsigned short,unsigned short,int> > > & v=*arg[i].vsmallindexptr;
 	      for (int j=0;j<v.size();++j)
-		CERR << v[j].size() << " " << v[j].capacity() << endl;
+		CERR << v[j].size() << " " << v[j].capacity() << std::endl;
 	    }
 	    delete arg[i].vsmallindexptr;
 	    arg[i].vsmallindexptr=0;

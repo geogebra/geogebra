@@ -410,17 +410,35 @@ namespace giac {
     T_unsigned<int,U> gu;
     U u;
     index_t::const_iterator itit,ditbeg=deg.begin(),ditend=deg.end(),dit;
-    gen tmp;
+    if (reduce==0){
+      for (;it!=itend;++it){
+	itit=it->index.begin();
+	u=U(*itit);
+	for (dit=ditbeg+1,++itit;dit!=ditend;++itit,++dit)
+	  u=u*U(*dit)+U(*itit);
+	gu.u=u;
+	if (it->value.type!=_INT_)
+	  return false;
+	gu.g=it->value.val;
+	v.push_back(gu);
+      }
+      return true;
+    }
     for (;it!=itend;++it){
-      u=0;
       itit=it->index.begin();
-      for (dit=ditbeg;dit!=ditend;++itit,++dit)
+      u=U(*itit);
+      for (dit=ditbeg+1,++itit;dit!=ditend;++itit,++dit)
 	u=u*U(*dit)+U(*itit);
       gu.u=u;
-      tmp=smod(it->value,reduce);
-      if (tmp.type!=_INT_)
-	return false;
-      gu.g=tmp.val;
+      int tmp=it->value.val;
+      if (it->value.type==_INT_ && 2*tmp<=reduce && -2*tmp<reduce)
+	gu.g=tmp;
+      else {
+	gen tmp(smod(it->value,reduce));
+	if (tmp.type!=_INT_)
+	  return false;
+	gu.g=tmp.val;
+      }
       v.push_back(gu);
     }
     return true;
