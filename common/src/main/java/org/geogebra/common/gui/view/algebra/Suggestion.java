@@ -3,6 +3,10 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
@@ -27,7 +31,7 @@ abstract public class Suggestion {
 			if (algo != null
 					&& algo.getOutputLength() > 0
 					&& algo.getOutput(0).isLabelSet()
-					&& sug.allAlgosExist(algo.getClassName(), algo.getInput(),
+					&& sug.allAlgosExist(extractClassName(algo), algo.getInput(),
 							algosMissing)) {
 				return true;
 			}
@@ -37,6 +41,20 @@ abstract public class Suggestion {
 			}
 		}
 		return false;
+	}
+
+	static private GetCommand extractClassName(AlgoElement algo) {
+		if (algo instanceof AlgoDependentSymbolic) {
+			ExpressionValue definition = algo.getOutput(0).getDefinition().unwrap();
+			if (definition instanceof Command) {
+				try {
+					return Commands.valueOf(((Command) definition).getName());
+				} catch (Exception e) {
+					return null;
+				}
+			}
+		}
+		return algo.getClassName();
 	}
 
 	/**

@@ -50,18 +50,18 @@ public final class CommandNameFilterFactory {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
-				Commands.Delete, Commands.Intersect, Commands.Invert,
-				Commands.Max, Commands.Min, Commands.NSolutions,
-				Commands.PerpendicularVector, Commands.OrthogonalVector, Commands.Poisson,
-				Commands.ReducedRowEchelonForm, Commands.Sequence, Commands.Substitute,
-				Commands.Sum, Commands.Transpose, Commands.UnitPerpendicularVector,
-				Commands.UnitOrthogonalVector, Commands.UnitVector,
+				Commands.Delete, Commands.Invert, Commands.Max,
+				Commands.Min, Commands.NSolutions, Commands.PerpendicularVector,
+				Commands.OrthogonalVector, Commands.Poisson, Commands.ReducedRowEchelonForm,
+				Commands.Sequence, Commands.Substitute, Commands.Sum,
+				Commands.Transpose, Commands.UnitPerpendicularVector, Commands.UnitOrthogonalVector,
+				Commands.UnitVector,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
-				Commands.Extremum, Commands.Function, Commands.ImplicitCurve,
-				Commands.IterationList, Commands.NSolveODE, Commands.OsculatingCircle,
-				Commands.ParametricDerivative, Commands.PathParameter, Commands.RootList,
-				Commands.Roots, Commands.Spline,
+				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
+				Commands.NSolveODE, Commands.OsculatingCircle, Commands.ParametricDerivative,
+				Commands.PathParameter, Commands.RootList, Commands.Roots,
+				Commands.Spline,
 				// Vector And Matrix Commands
 				Commands.ApplyMatrix, Commands.Identity, Commands.Vector,
 				//Geometry Commands
@@ -69,13 +69,13 @@ public final class CommandNameFilterFactory {
 				Commands.CircleArc, Commands.CircularSector, Commands.CircleSector,
 				Commands.CircumcircularArc, Commands.CircumcircleArc, Commands.CircumcircularSector,
 				Commands.CircumcircleSector, Commands.Cubic, Commands.Direction,
-				Commands.Distance, Commands.Envelope, Commands.Intersect,
-				Commands.IntersectPath, Commands.Locus, Commands.LocusEquation,
-				Commands.Midpoint, Commands.Point, Commands.Polygon,
-				Commands.Polyline, Commands.PolyLine, Commands.ProveDetails,
-				Commands.Ray, Commands.RigidPolygon, Commands.Sector,
-				Commands.Segment, Commands.Slope, Commands.Tangent,
-				Commands.TriangleCurve, Commands.Vertex,
+				Commands.Distance, Commands.Envelope, Commands.IntersectPath,
+				Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
+				Commands.Point, Commands.Polygon, Commands.Polyline,
+				Commands.PolyLine, Commands.ProveDetails, Commands.Ray,
+				Commands.RigidPolygon, Commands.Sector, Commands.Segment,
+				Commands.Slope, Commands.Tangent, Commands.TriangleCurve,
+				Commands.Vertex,
 				// Transformation Commands
 				Commands.Rotate, Commands.Shear, Commands.Translate,
 				// Statistics Commands
