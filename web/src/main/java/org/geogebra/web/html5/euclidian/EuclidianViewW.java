@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -13,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -22,6 +22,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -160,6 +161,7 @@ public class EuclidianViewW extends EuclidianView implements
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
+	private SymbolicEditorW symbolicEditor;
 
 	/**
 	 * @param euclidianViewPanel
@@ -1428,10 +1430,28 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected SymbolicEditor createSymbolicEditor() {
-		SymbolicEditorW editor = new SymbolicEditorW(app);
-		getAbsolutePanel().add(editor);
-		return editor;
+	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+		addSymbolicEditor();
+		symbolicEditor.attach(geoInputBox, bounds);
+	}
+
+	public void hideSymbolicEditor() {
+		if (symbolicEditor == null) {
+			return;
+		}
+		symbolicEditor.hide();
+	}
+
+
+	private void addSymbolicEditor() {
+		getAbsolutePanel().add(getSymbolicEditor());
+	}
+
+	private SymbolicEditorW getSymbolicEditor() {
+		if (symbolicEditor == null) {
+			symbolicEditor = new SymbolicEditorW(app);
+		}
+		return symbolicEditor;
 	}
 
 	@Override
