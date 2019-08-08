@@ -593,6 +593,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
+		if (linkedGeo == null) {
+			return;
+		}
+
 		this.symbolicMode = mode;
 		setText(getLinkedGeoText());
 	}
