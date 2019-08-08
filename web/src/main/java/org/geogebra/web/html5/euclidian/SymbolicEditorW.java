@@ -132,8 +132,16 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 
 	@Override
 	public void hide() {
-		applyChanges();
 		main.addStyleName("hidden");
+		onHide();
+	}
+
+	private void onHide() {
+		if (!geoInputBox.isEditing()) {
+			return;
+		}
+
+		applyChanges();
 		geoInputBox.setEditing(false);
 	}
 
