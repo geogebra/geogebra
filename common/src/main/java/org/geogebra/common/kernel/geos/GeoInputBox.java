@@ -638,7 +638,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return "?";
 		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return symbolicMode ? number.toLaTeXString(true, StringTemplate.defaultTemplate)
+		return isLatexNeededFor(number) ? number.toLaTeXString(true, StringTemplate.defaultTemplate)
 				: number.toValueStringMinimal();
 	}
 
@@ -647,7 +647,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return "?";
 		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return symbolicMode ? toLaTex(number) : number.toValueStringMinimal();
+		return isLatexNeededFor(number) ? toLaTex(number) : number.toValueStringMinimal();
+	}
+
+	private boolean isLatexNeededFor(GeoNumeric number) {
+		return symbolicMode && !number.isSimple();
 	}
 
 	private String getLinkedGeoTextForEditor() {
