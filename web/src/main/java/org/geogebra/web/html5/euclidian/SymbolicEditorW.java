@@ -38,7 +38,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	private int fontSize;
 	private static final int PADDING_TOP = 16;
 	private static final int PADDING_LEFT = 2;
-	private GeoInputBox geoIntputBox;
+	private GeoInputBox geoInputBox;
 	private GRectangle bounds;
 	private Style style;
 	private double top;
@@ -72,26 +72,43 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		this.geoIntputBox = geoInputBox;
-		this.geoIntputBox.setEditing(true);
-		this.bounds = bounds;
-		String text = geoInputBox.getTextForEditor();
+		this.geoInputBox = geoInputBox;
+		boolean wasEditing = geoInputBox.isEditing();
+		this.geoInputBox.setEditing(true);
 		main.removeStyleName("hidden");
+
 		updateBounds(bounds);
 		updateColors();
-		mathField.setText(text, false);
-		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
-		mathField.setFocus(true);
+
+		if (!wasEditing) {
+			updateText();
+			updateFont();
+			focus();
+		}
+
 	}
 
 	private void updateColors() {
-		GColor fgColor = geoIntputBox.getObjectColor();
-		GColor bgColor = geoIntputBox.getBackgroundColor();
+		GColor fgColor = geoInputBox.getObjectColor();
+		GColor bgColor = geoInputBox.getBackgroundColor();
 
 		String bgCssColor = toCssColor( bgColor != null ? bgColor : GColor.WHITE);
 		main.getElement().getStyle().setBackgroundColor(bgCssColor);
 		mathField.setForegroundCssColor(toCssColor(fgColor));
 		mathField.setBackgroundCssColor(bgCssColor);
+	}
+
+	private void updateText() {
+		String text = geoInputBox.getTextForEditor();
+		mathField.setText(text, false);
+	}
+
+	private void updateFont() {
+		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+	}
+
+	private void focus() {
+		mathField.setFocus(true);
 	}
 
 	private static String toCssColor(GColor color) {
@@ -117,7 +134,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	public void hide() {
 		applyChanges();
 		main.addStyleName("hidden");
-		geoIntputBox.setEditing(false);
+		geoInputBox.setEditing(false);
 	}
 
 	@Override
@@ -126,7 +143,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	}
 
 	private void applyChanges() {
-		geoIntputBox.updateLinkedGeo(mathField.getText());
+		geoInputBox.updateLinkedGeo(mathField.getText());
 	}
 
 	@Override
@@ -141,7 +158,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		setHeight(height - PADDING_TOP - 2 * BORDER_WIDTH);
 		top += (diff/2);
 		style.setTop(top, Style.Unit.PX);
-		geoIntputBox.update();
+		geoInputBox.update();
 		mainHeight = main.getOffsetHeight();
 	}
 
@@ -181,7 +198,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	}
 
 	private void resetChanges() {
-		attach(geoIntputBox, bounds);
+		attach(geoInputBox, bounds);
 	}
 
 	@Override
