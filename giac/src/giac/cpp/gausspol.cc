@@ -1168,8 +1168,10 @@ namespace giac {
 	    if (convert(th,d,p1,reduce.val) && convert(other,d,p2,reduce.val)){
 	      if (reduce.val<46340 && 10*lagrtime<double(c1)*c2*std::log(double(giacmax(c1,c2))))
 		smallmulpoly_interpolate(p1,p2,p,d,reduce.val);
-	      else
-		smallmult(p1,p2,p,reduce.val,int(c1c2)); // 46340 bound not required?
+	      else {
+		if (!threadmult<int,unsigned>(p1,p2,p,ans/d[0],reduce.val,int(c1c2)))
+		  smallmult(p1,p2,p,reduce.val,int(c1c2)); // 46340 bound not required?
+	      }
 	      convert(p,d,res);
 	      return ;
 	    }

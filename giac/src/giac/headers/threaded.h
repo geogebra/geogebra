@@ -3072,7 +3072,10 @@ namespace giac {
 	    CERR << CLOCK()*1e-6 << " compress monomials done" <<std::endl;
 	  if (!threadmult(bcopy,qcopy,bq,newvars.front(),reduce,a.size()))
 	    smallmult(bcopy,qcopy,bq,reduce,as);
-	  smallsub(acopy,bq,r);
+	  if (!is_zero(reduce))
+	    smallsub(acopy,bq,r,reduce);
+	  else
+	    smallsub(acopy,bq,r);
 	  if (debug_infolevel>1)
 	    CERR << CLOCK()*1e-6 << " uncompress monomials" <<std::endl;
 	  convert(r,newvars,vars);
