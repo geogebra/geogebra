@@ -108,7 +108,7 @@ public class GeoConicSection extends GeoConic3D
 
 		@Override
 		public int hashCode() {
-			return index + 43 * Double.hashCode(value);
+			return index + 43 * DoubleUtil.hashCode(value);
 		}
 
 	}

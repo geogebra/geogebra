@@ -131,7 +131,18 @@ public class AlgebraTestHelper {
 				null);
 	}
 
-	public static void testMultipleResults(
+	/**
+	 * Compares the actual result with the combinations of the one valid result.
+	 * For example, when the input is an equation to be solved, then the combinations of the
+	 * one valid result can be listing the solutions of the equation in different orders.
+	 * If the actual result matches with one of the combinations then the test passes.
+	 * @param input the input to be solved (not to be confused with the result of this input)
+	 * @param validResultCombinations the possible combinations of the result
+	 *                                   that can be accepted as valid
+	 * @param algebraProcessor algebra processor
+	 * @param template string template
+	 */
+	public static void testValidResultCombinations(
 			String input,
 			String[] validResultCombinations,
 			AlgebraProcessor algebraProcessor,
@@ -148,6 +159,16 @@ public class AlgebraTestHelper {
 		MatcherAssert.assertThat(actualResultString, validResultsMatcher);
 	}
 
+	/**
+	 * Compares every actual result with combinations of the respective valid result.
+	 * Why this method exists: an expression can have multiple valid results,
+	 * and every valid result can have multiple combinations of how to write this valid result down.
+	 * @param input the input to be solved (not to be confused with the result of this input)
+	 * @param validResults an array of valid results where every valid result is expressed
+	 *                        as an array of the combinations of this valid result
+	 * @param algebraProcessor algebra processor
+	 * @param template string template
+	 */
 	public static void testMultipleResults(String input,
 										   String[][] validResults,
 										   AlgebraProcessor algebraProcessor,
@@ -191,13 +212,13 @@ public class AlgebraTestHelper {
 	}
 
 	public static boolean mayHaveZeroArgs(String cmdName) {
-		return Arrays.asList(new String[] { "DataFunction", "AxisStepX",
+		return Arrays.asList("DataFunction", "AxisStepX",
 				"AxisStepY", "Button", "StartLogging", "StopLogging",
 				"StartRecord", "ConstructionStep", "StartAnimation", "ShowAxes",
 				"ShowGrid", "SetActiveView", "ZoomIn", "SetViewDirection",
 				"ExportImage", "Random", "Textfield", "GetTime",
 				"UpdateConstruction", "SelectObjects", "Turtle", "Function",
-				"Checkbox", "InputBox", "RandomBetween" }).contains(cmdName);
+				"Checkbox", "InputBox", "RandomBetween").contains(cmdName);
 	}
 
 	public static void enableCAS(App app, boolean enabled) {

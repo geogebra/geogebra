@@ -44,7 +44,7 @@ You can also run `./gradlew :desktop:tasks` to list other options.
 * Open IntelliJ. If you don't have IntelliJ on your computer yet 
 then you can download and install it from [here](https://www.jetbrains.com/idea/download)
 * In the menu select File / New / Project from Version Control / Subversion
-* In the new window add the following path: `https://dev.geogebra.org/svn/trunk/geogebra`
+* In the new window add the following path: `https://git.geogebra.org/ggb/geogebra.git`
 * Click on ‘Checkout’, select your preferred destination folder, select Java 1.8 as the SDK, 
 click on OK and wait…
 * After the project is checked out, select the root folder of the project, 

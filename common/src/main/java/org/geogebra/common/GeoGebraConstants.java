@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "23 July 2019";
+	public static final String BUILD_DATE = "08 August 2019";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.552.0";
+	public static final String VERSION_STRING = "5.0.555.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -31,6 +31,8 @@ public interface GeoGebraConstants {
 		ANDROID_NATIVE_SCIENTIFIC("a", "scientific"),
 
 		ANDROID_CAS("a", "cas"),
+
+		WEB_CAS("w", "cas"),
 
 		ANDROID_WEBVIEW("aw", "classic"),
 
@@ -72,7 +74,9 @@ public interface GeoGebraConstants {
 
 		POWERPOINT("p", "classic"),
 
-		NO_CAS("nc", "classic");
+		NO_CAS("nc", "classic"),
+
+		WEB_NOTES("w", "notes");
 
 		private String platform;
 		private String appName;

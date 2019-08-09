@@ -65,4 +65,9 @@ public interface VendorSettings {
 	 * @return the vendor specific style name
 	 */
 	String getStyleName(String styleName);
+
+	/**
+	*   @return the graspable mode if it's enabled or not
+	 */
+	boolean isGraspableMathEnabled();
 }

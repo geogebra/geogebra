@@ -203,7 +203,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 		@Override
 		public int hashCode() {
-			return Double.hashCode(distance) ^ point.hashCode();
+			return DoubleUtil.hashCode(distance) ^ point.hashCode();
 		}
 
 	}
@@ -265,8 +265,8 @@ public class EuclidianControllerInput3DCompanion extends
 
 		@Override
 		public int hashCode() {
-			return Double.hashCode(distanceOrtho)
-					^ Double.hashCode(distanceOrigin) ^ sp.hashCode();
+			return DoubleUtil.hashCode(distanceOrtho)
+					^ DoubleUtil.hashCode(distanceOrigin) ^ sp.hashCode();
 		}
 
 	}

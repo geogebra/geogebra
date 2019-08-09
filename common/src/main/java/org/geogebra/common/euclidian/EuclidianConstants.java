@@ -240,6 +240,12 @@ public final class EuclidianConstants {
 	/** */
 	public static final int MODE_SELECT_MOW = 78;
 
+	/** Graspable Math tool */
+	public static final int MODE_GRASPABLE_MATH = 79;
+
+	/** CAS media panel*/
+	public static final int MODE_CAS = 80;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -893,6 +899,10 @@ public final class EuclidianConstants {
 			return "Audio";
 		case EuclidianConstants.MODE_GRAPHING:
 			return "Graphing";
+		case EuclidianConstants.MODE_CAS:
+				return "CAS";
+        case EuclidianConstants.MODE_GRASPABLE_MATH:
+            return "Graspable Math";
 		case EuclidianConstants.MODE_PDF:
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:

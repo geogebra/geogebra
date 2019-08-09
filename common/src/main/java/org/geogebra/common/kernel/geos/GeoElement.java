@@ -1359,7 +1359,8 @@ public abstract class GeoElement extends ConstructionElement
 			// set whether it's an auxilliary object
 			setAuxiliaryObject(geo.isAuxiliaryObject());
 		}
-
+		setAnimationStep(geo.getAnimationStep());
+		setAnimationType(geo.getAnimationType());
 		// set fixed
 		setFixedFrom(geo);
 

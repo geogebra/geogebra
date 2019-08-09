@@ -68,4 +68,8 @@ public class MebisSettings implements VendorSettings {
 		return styleName + "Mebis";
 	}
 
+	@Override
+	public boolean isGraspableMathEnabled() {
+		return false;
+	}
 }

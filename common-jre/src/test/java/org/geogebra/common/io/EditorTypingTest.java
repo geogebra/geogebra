@@ -301,6 +301,14 @@ public class EditorTypingTest {
 				.type("+3)").checkAsciiMath("f(p)=(ln(p*2.72)+3)");
 	}
 
+	@Test
+	public void testBackspace() {
+		type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE).type(Unicode.DIVIDE + "2")
+				.checkAsciiMath("8/2");
+		type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
+				.checkAsciiMath("(8)/(2)");
+	}
+
 	private EditorChecker type(String input) {
 		return new EditorChecker().type(input);
 	}

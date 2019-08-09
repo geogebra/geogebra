@@ -1769,7 +1769,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			break;
 
 		default: // CARTESIAN
-			sbBuildValueString.append('(');
+			sbBuildValueString.append(tpl.leftBracket());
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
@@ -1784,7 +1784,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				sbBuildValueString.append(" ");
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
-			sbBuildValueString.append(')');
+			sbBuildValueString.append(tpl.rightBracket());
 		}
 
 	}
