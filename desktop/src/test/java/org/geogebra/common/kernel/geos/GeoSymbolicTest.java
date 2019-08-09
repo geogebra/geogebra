@@ -16,12 +16,13 @@ import java.util.Collections;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
@@ -34,7 +35,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GeoSymbolicTest {
-	private static App app;
+	private static AppCommon app;
 	private static AlgebraProcessor ap;
 
 	/**
@@ -48,6 +49,7 @@ public class GeoSymbolicTest {
 		ap = app.getKernel().getAlgebraProcessor();
 		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
 				StringTemplate.defaultTemplate, app.getKernel());
+		app.setConfig(new AppConfigCas());
 	}
 
 	public static void t(String input, String... expected) {
@@ -869,9 +871,9 @@ public class GeoSymbolicTest {
 	}
 	@Test
 	public void handlePreviewPointsTest() {
-		t("f:x^2 - 2");
-		t("g:x^3 - 1");
-		t("h:x");
+		add("f:x^2 - 2");
+		add("g:x^3 - 1");
+		add("h:x");
 		updateSpecialPoints("f");
 		Assert.assertEquals(7, numberOfSpecialPoints());
 		updateSpecialPoints("g");
@@ -892,7 +894,7 @@ public class GeoSymbolicTest {
 				.updateSpecialPoints(app.getKernel().lookupLabel(string));
 	}
 
-	private static void t(String string) {
+	private static void add(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
 	}

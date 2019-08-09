@@ -28,9 +28,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
@@ -184,11 +182,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public CASFactory getCASFactory() {
 		return new LoggingCASFactoryD();
-	}
-
-	@Override
-	public AppConfig getConfig() {
-		return new AppConfigCas();
 	}
 
 	@Override
