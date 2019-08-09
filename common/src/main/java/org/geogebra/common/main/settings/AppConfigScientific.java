@@ -75,7 +75,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "calculator";
 	}
 }

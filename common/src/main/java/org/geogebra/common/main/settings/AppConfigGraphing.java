@@ -200,7 +200,7 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "graphing";
 	}
 

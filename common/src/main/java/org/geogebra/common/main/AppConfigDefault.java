@@ -199,7 +199,7 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "classic";
 	}
 

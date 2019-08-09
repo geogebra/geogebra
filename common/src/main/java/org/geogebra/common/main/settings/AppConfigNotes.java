@@ -25,7 +25,7 @@ public class AppConfigNotes extends AppConfigDefault {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "notes";
 	}
 

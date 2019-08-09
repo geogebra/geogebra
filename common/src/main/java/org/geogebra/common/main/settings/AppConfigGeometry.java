@@ -204,7 +204,7 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "geometry";
 	}
 }

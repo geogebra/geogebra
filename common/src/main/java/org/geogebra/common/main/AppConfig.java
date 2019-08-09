@@ -145,8 +145,8 @@ public interface AppConfig {
 	boolean showToolsPanel();
 
 	/**
-	 * @return with the standard app name which is also used in the url, like graphing,cas,
+	 * @return with the app code which is also used in the url, like graphing,cas,
 	 * classic etc..
 	 */
-	String getStandardAppName();
+	String getAppCode();
 }

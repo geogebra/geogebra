@@ -110,7 +110,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "3d";
 	}
 }

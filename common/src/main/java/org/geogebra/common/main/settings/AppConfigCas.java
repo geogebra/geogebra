@@ -65,7 +65,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public String getStandardAppName() {
+	public String getAppCode() {
 		return "cas";
 	}
 }
