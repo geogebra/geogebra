@@ -407,15 +407,6 @@ public class MyError extends Error {
 		}
 
 		/**
-		 * @param loc
-		 *            localization
-		 * @return error message
-		 */
-		public String getError(Localization loc) {
-			return getError(loc, null);
-		}
-
-		/**
 		 * 
 		 * @return ggbtrans translation key eg "LoadFileFailed"
 		 */
