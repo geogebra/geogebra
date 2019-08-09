@@ -1160,9 +1160,48 @@ namespace giac {
       // ?encode reduce as -p^2, and check sign in do_threadmult in threaded.h
       // OR use int128
       if (ans<=RAND_MAX) {
-	if (reduce.type==_INT_ ){
+	if (reduce.type==_INT_){
 	  if (//reduce.val<46340 && 
-	      reduce.val>0){ 
+	      reduce.val>0
+	      ){ 
+#if 1
+	    longlong maxp1,maxp2;
+	    vector< T_unsigned<longlong,unsigned> > p1d,p2d,pd;
+	    if (convert_int(th,d,p1d,maxp1) && convert_int(other,d,p2d,maxp2) ){
+	      double maxp1p2=double(maxp1)*maxp2;
+	      unsigned minc1c2=giacmin(c1,c2);
+	      double un63=double(ulonglong (1) << 63);
+	      double res_size=double(minc1c2)*maxp1p2;
+	      // Check if mod may be done only at the end
+	      res_size /= un63;
+	      if (res_size<1){
+		if (th.dim==1 || !threadmult<longlong,unsigned>(p1d,p2d,pd,unsigned(ans/d[0]),0,size_t(c1c2)))
+		  smallmult(p1d,p2d,pd,0,size_t(c1c2));
+		smod(pd,pd,reduce.val);
+		convert_from<longlong,unsigned>(pd,d,res,false);
+	      }
+	      else {
+#ifdef INT128
+		if (res_size<un63){
+		  vector< T_unsigned<int128_t,unsigned> > p1D,p2D,pD;
+		  convert_int128(p1d,p1D);
+		  convert_int128(p2d,p2D);
+		  if (th.dim==1 || !threadmult<int128_t,unsigned>(p1D,p2D,pD,ans/d[0],0,c1c2))
+		    smallmult<int128_t,unsigned>(p1D,p2D,pD,0,c1c2);
+		  smod(pD,reduce.val);
+		  convert_from<int128_t,unsigned>(pD,d,res,false);
+		}
+		else
+#endif // INT128
+		  {
+		    if (th.dim==1 || !threadmult<longlong,unsigned>(p1d,p2d,pd,unsigned(ans/d[0]),reduce.val,size_t(c1c2)))
+		      smallmult(p1d,p2d,pd,reduce.val,size_t(c1c2));
+		    convert_from<longlong,unsigned>(pd,d,res,false);
+		  }
+	      }
+	      return;
+	    } // if convert_int ...
+#else
 	    // Modular multiplication, convert everything to integers
 	    vector< int_unsigned > p1,p2,p;
 	    if (convert(th,d,p1,reduce.val) && convert(other,d,p2,reduce.val)){
@@ -1175,8 +1214,9 @@ namespace giac {
 	      convert(p,d,res);
 	      return ;
 	    }
-	  } // end reduce.val<46xxx
-	}
+#endif
+	  } // end reduce.val>0
+	} // end reduce.val==_INT_
 	if ( //false 
 	     (t1==_INT_ || t1==_ZINT) && (t2==_INT_ || t2==_ZINT)
 	    ){
