@@ -68,7 +68,8 @@ public class SuggestionRootExtremum extends Suggestion {
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 								  boolean isSymbolicMode) {
 		if (isSymbolicMode) {
-			GeoElementND[] pointLists = algebraProcessor.processAlgebraCommand(cmd, false, new LabelHiderCallback());
+			GeoElementND[] pointLists = algebraProcessor.processAlgebraCommand(
+					cmd, false, new LabelHiderCallback());
 			setPointsColorToGray(pointLists);
 		} else {
 			algebraProcessor.processAlgebraCommand(cmd, false);

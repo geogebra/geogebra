@@ -665,7 +665,7 @@ public class GeoSymbolicTest {
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = getSymbolic("a");
-		ap.changeGeoElement(a, "p-q", true, false, TestErrorHandler.INSTANCE,
+		ap.changeGeoElement(a, "a = p-q", true, false, TestErrorHandler.INSTANCE,
 				null);
 		checkInput("a", "a = p - q");
 	}
@@ -869,6 +869,7 @@ public class GeoSymbolicTest {
 		((GeoElement) list[list.length - 1]).remove();
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 	}
+
 	@Test
 	public void handlePreviewPointsTest() {
 		add("f:x^2 - 2");
