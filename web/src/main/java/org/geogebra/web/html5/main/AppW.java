@@ -1722,7 +1722,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clientInfo.setHeight((int) getHeight());
 		clientInfo.setType(getClientType());
 		clientInfo.setId(getClientID());
-		clientInfo.setAppName(getVersion().getAppName());
+		clientInfo.setAppName(getConfig().getAppCode());
 		return clientInfo;
 	}
 
