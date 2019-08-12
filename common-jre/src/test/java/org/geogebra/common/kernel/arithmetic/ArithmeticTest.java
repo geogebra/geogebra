@@ -265,8 +265,6 @@ public class ArithmeticTest extends Assert {
 	public void absFunctionBugFix() {
 		app.getSettings().getCasSettings().setEnabled(true);
 		t("eq1:abs(x-3) = -2", "abs(x - 3) = -2");
-		GeoElement geo = app.getKernel().lookupLabel("eq1");
-		assertThat(geo, CoreMatchers.instanceOf(GeoImplicitCurve.class));
-		assertEquals(DescriptionMode.VALUE, geo.needToShowBothRowsInAV());
+		t("eq2:abs(x-3) = 2", "x^2 - 6x = -5");
 	}
 }
