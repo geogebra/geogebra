@@ -202,4 +202,9 @@ public class AppConfigGeometry implements AppConfig {
 	public boolean showToolsPanel() {
 		return true;
 	}
+
+	@Override
+	public String getAppCode() {
+		return "geometry";
+	}
 }

@@ -24,7 +24,12 @@
     <property name="fileNamePattern" value="org.geogebra.common.(kernel.(barycentric|prover|parser|stepbystep)|util.clipper|cas.(giac|singular)|gui.(dialog.options))|org.apache|org.mozilla|edu.uci.ics|com.google|com.github|com.himamis.retex.editor.share.io.latex" />
   </module>
 <module name="RegexpMultiline">
-  <property name="format"   value="\n\s*\n\s*\n"/>
+  <property name="format" value="\n\s*\n\s*\n"/>
+  <property name="message" value="More than one empty line"/>
+</module>
+<module name="RegexpMultiline">
+  <property name="format" value="addDomHandler.*Touch"/>
+  <property name="message" value="Used addDomHanlder instead of addBitlessDomHandler for touch events"/>
 </module>
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>	

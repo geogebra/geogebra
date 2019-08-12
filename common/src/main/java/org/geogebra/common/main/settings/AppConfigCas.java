@@ -63,4 +63,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public boolean showToolsPanel() {
 		return false;
 	}
+
+	@Override
+	public String getAppCode() {
+		return "cas";
+	}
 }

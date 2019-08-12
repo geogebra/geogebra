@@ -261,7 +261,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private boolean checkAbsValue(ExpressionNode leftHandSide,
 			ExpressionNode rightHandSide) {
-		if (rightHandSide.isConstant() && leftHandSide.isExpressionNode()
+		if (rightHandSide.isConstant() && rightHandSide.evaluateDouble() >= 0
+				&& leftHandSide.isExpressionNode()
 				&& leftHandSide.wrap().getOperation() == Operation.ABS) {
 
 			ArrayList<ExpressionNode> factors = new ArrayList<>(2);

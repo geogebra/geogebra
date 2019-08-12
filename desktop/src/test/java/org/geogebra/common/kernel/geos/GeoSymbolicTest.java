@@ -16,12 +16,13 @@ import java.util.Collections;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
@@ -34,7 +35,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GeoSymbolicTest {
-	private static App app;
+	private static AppCommon app;
 	private static AlgebraProcessor ap;
 
 	/**
@@ -48,6 +49,7 @@ public class GeoSymbolicTest {
 		ap = app.getKernel().getAlgebraProcessor();
 		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
 				StringTemplate.defaultTemplate, app.getKernel());
+		app.setConfig(new AppConfigCas());
 	}
 
 	public static void t(String input, String... expected) {
@@ -663,7 +665,7 @@ public class GeoSymbolicTest {
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = getSymbolic("a");
-		ap.changeGeoElement(a, "p-q", true, false, TestErrorHandler.INSTANCE,
+		ap.changeGeoElement(a, "a = p-q", true, false, TestErrorHandler.INSTANCE,
 				null);
 		checkInput("a", "a = p - q");
 	}
@@ -866,5 +868,35 @@ public class GeoSymbolicTest {
 		Object[] list =  app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+	}
+
+	@Test
+	public void handlePreviewPointsTest() {
+		add("f:x^2 - 2");
+		add("g:x^3 - 1");
+		add("h:x");
+		updateSpecialPoints("f");
+		Assert.assertEquals(7, numberOfSpecialPoints());
+		updateSpecialPoints("g");
+		Assert.assertEquals(5, numberOfSpecialPoints());
+		updateSpecialPoints("h");
+		Assert.assertEquals(5, numberOfSpecialPoints());
+	}
+
+	private static int numberOfSpecialPoints() {
+		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
+			return 0;
+		}
+		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
+	}
+
+	private static void updateSpecialPoints(String string) {
+		app.getSpecialPointsManager()
+				.updateSpecialPoints(app.getKernel().lookupLabel(string));
+	}
+
+	private static void add(String string) {
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
+				true);
 	}
 }
