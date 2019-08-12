@@ -1016,10 +1016,10 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 		}
 
-		absPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());

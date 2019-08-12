@@ -113,7 +113,7 @@ public class MyToggleButtonW extends GToggleButton
 		addStyleName("MyToggleButton");
 		addMouseDownHandler(this);
 		// fix for touch
-		addDomHandler(this, TouchEndEvent.getType());
+		addBitlessDomHandler(this, TouchEndEvent.getType());
 	}
 
 	/**

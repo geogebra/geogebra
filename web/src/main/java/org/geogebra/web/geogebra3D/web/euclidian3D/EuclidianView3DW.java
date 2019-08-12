@@ -233,10 +233,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
 			return;
 		}
-		absPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());

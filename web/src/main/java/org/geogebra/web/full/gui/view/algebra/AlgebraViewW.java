@@ -217,9 +217,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// add listener
 		addDomHandler(algCtrl, MouseDownEvent.getType());
 		addDomHandler(algCtrl, MouseMoveEvent.getType());
-		addDomHandler(algCtrl, TouchStartEvent.getType());
-		addDomHandler(algCtrl, TouchEndEvent.getType());
-		addDomHandler(algCtrl, TouchMoveEvent.getType());
+		addBitlessDomHandler(algCtrl, TouchStartEvent.getType());
+		addBitlessDomHandler(algCtrl, TouchEndEvent.getType());
+		addBitlessDomHandler(algCtrl, TouchMoveEvent.getType());
 
 		// initializes the tree model, important to set tree mode first to avoid
 		// inf. loop #3651

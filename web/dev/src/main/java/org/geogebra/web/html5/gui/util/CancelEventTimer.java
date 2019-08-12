@@ -191,14 +191,14 @@ public class CancelEventTimer {
 	 *            widget
 	 */
 	public static void killTouch(Widget panel) {
-		panel.addDomHandler(new TouchStartHandler() {
+		panel.addBitlessDomHandler(new TouchStartHandler() {
 
 			public void onTouchStart(TouchStartEvent event) {
 				event.preventDefault();
 
 			}
 		}, TouchStartEvent.getType());
-		panel.addDomHandler(new TouchMoveHandler() {
+		panel.addBitlessDomHandler(new TouchMoveHandler() {
 
 			public void onTouchMove(TouchMoveEvent event) {
 				event.preventDefault();
