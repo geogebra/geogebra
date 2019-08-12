@@ -869,6 +869,7 @@ public class GeoSymbolicTest {
 		((GeoElement) list[list.length - 1]).remove();
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 	}
+
 	@Test
 	public void handlePreviewPointsTest() {
 		add("f:x^2 - 2");
