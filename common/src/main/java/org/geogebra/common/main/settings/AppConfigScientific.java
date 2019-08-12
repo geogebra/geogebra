@@ -73,4 +73,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public CommandNameFilter getCommandNameFilter() {
 		return CommandNameFilterFactory.createSciCalcCommandNameFilter();
 	}
+
+	@Override
+	public String getAppCode() {
+		return "calculator";
+	}
 }
