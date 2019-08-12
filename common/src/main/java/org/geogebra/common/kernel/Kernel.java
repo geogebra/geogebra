@@ -4757,7 +4757,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sb.append("<kernel>\n");
 
 		// is 3D?
-		if (cons.has3DObjects()) {
+		if (cons.has3DObjects() || cons.hasInputBoxes()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
 			Log.error("************************************");

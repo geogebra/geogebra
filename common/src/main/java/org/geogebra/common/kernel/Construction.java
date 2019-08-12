@@ -2871,6 +2871,10 @@ public class Construction {
 		return kernelHas3DObjects;
 	}
 
+	public boolean hasInputBoxes() {
+		return usedGeos.contains(GeoClass.TEXTFIELD);
+	}
+
 	/**
 	 * @return Whether some objects were created in this cons
 	 */

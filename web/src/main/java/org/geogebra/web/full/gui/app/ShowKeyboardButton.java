@@ -122,11 +122,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link Widget} to receive the text input
 	 */
 	public void show(boolean show, MathKeyboardListener textField) {
-		if (show) {
-			setVisible(true);
-		} else {
-			setVisible(false);
-		}
+		setVisible(show);
 	}
 
 	/**
