@@ -5,11 +5,15 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.DescriptionMode;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -257,4 +261,10 @@ public class ArithmeticTest extends Assert {
 		t("f'(7)", "1");
 	}
 
+	@Test
+	public void absFunctionBugFix() {
+		app.getSettings().getCasSettings().setEnabled(true);
+		t("eq1:abs(x-3) = -2", "abs(x - 3) = -2");
+		t("eq2:abs(x-3) = 2", "x^2 - 6x = -5");
+	}
 }
