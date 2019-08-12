@@ -120,7 +120,7 @@ public class CASTableW extends Grid implements CASTable {
 	private void addOutputListener(CASTableCellW cellWidget) {
 		Widget outputWidget = cellWidget.getOutputWidget();
 		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
-		outputWidget.addDomHandler(ml, TouchEndEvent.getType());
+		outputWidget.addBitlessDomHandler(ml, TouchEndEvent.getType());
 		ClickStartHandler.initDefaults(outputWidget, true, true);
 	}
 

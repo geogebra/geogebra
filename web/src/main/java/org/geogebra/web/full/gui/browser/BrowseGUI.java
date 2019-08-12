@@ -94,7 +94,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		app.registerOpenFileListener(this);
 
-		this.addDomHandler(new TouchMoveHandler() {
+		this.addBitlessDomHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				// prevent zooming
