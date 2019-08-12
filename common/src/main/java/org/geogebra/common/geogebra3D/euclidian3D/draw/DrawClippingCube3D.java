@@ -184,15 +184,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
 
         if (view.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
-            if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) ) {
-                for (int i = 0; i < 2; i++) {
-                    mayEnlarge(currentBounds[i], minMaxObjects[i]);
-                }
-                mayEnlargeMax(currentBounds[Z], minMaxObjects[Z]);
-            } else {
-                for (int i = 0; i < 3; i++) {
-                    mayEnlarge(currentBounds[i], minMaxObjects[i]);
-                }
+            for (int i = 0; i < 3; i++) {
+                mayEnlarge(currentBounds[i], minMaxObjects[i]);
             }
         }
 
