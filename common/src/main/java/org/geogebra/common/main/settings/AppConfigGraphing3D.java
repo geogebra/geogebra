@@ -108,4 +108,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public boolean hasPreviewPoints() {
 		return false;
 	}
+
+	@Override
+	public String getAppCode() {
+		return "3d";
+	}
 }
