@@ -47,7 +47,8 @@ public class CmdCAStoOperation extends CommandProcessor {
 			if (c.getArgumentNumber() != 2) {
 				throw argNumErr(c);
 			}
-			en = new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, c.getArgument(1).unwrap());
+			en = new ExpressionNode(kernel, c.getArgument(0).unwrap(), op,
+					c.getArgument(1).unwrap());
 			break;
 		default:
 			throw new Error("Unhandled operation " + op);
