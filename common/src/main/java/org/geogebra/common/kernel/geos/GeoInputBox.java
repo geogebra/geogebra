@@ -385,7 +385,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private boolean isLinkedNumberValueNotChanged(String text) {
-		if (canLinkedGeoBeSybolic() && linkedGeo.isGeoNumeric()) {
+		if (canBeSymbolic() && linkedGeo.isGeoNumeric()) {
 			GeoNumeric evaluatedNumber = new GeoNumeric(kernel.getConstruction());
 			kernel.getAlgebraProcessor().evaluateToDouble(text, true, evaluatedNumber);
 			String linkedNonSymbolic = getNonSymbolicNumberValue(linkedGeo);
@@ -603,18 +603,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	@Override
 	public boolean isSymbolicMode() {
-		return canLinkedGeoBeSybolic() && symbolicMode;
+		return canBeSymbolic() && symbolicMode;
 	}
 
 	/**
 	 *
 	 * @return if linked object can be a symbolic one.
 	 */
-	public boolean canLinkedGeoBeSybolic() {
-		if (linkedGeo == null) {
-			return false;
-		}
-		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
+	public boolean canBeSymbolic() {
+		return linkedGeo != null && (linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction());
 	}
 
 	/**
