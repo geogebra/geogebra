@@ -597,7 +597,7 @@ __GGB__keysVar["nl-NL"].command = {
     "NSolve": "NOplossen",
     "NSolve.Syntax": "[ <Vergelijking> ]",
     "NSolve.SyntaxCAS": "[ <Vergelijking> ]\n[ <Vergelijking>, <Variabele> ]\n[ <Vergelijking>, <Variabele = starting value> ]\n[ <Stelsel vergelijkingen>, <Lijst met Variabelen)> ]",
-    "NSolveODE": "NSolveODE",
+    "NSolveODE": "NOplossenODE",
     "NSolveODE.Syntax": "[ <Lijst met afgeleiden>, <Start x-co\xf6rdinaat>, <Lijst met start y-co\xf6rdinateb>, <Eind x-co\xf6rdinaat> ]",
     "Name": "Naam",
     "Name.Syntax": "[ <Object> ]",

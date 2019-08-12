@@ -1,8 +1,7 @@
 .DS_Store
 build/
 **/build
-web/war/*.*
-web/war/web*
+web/war
 /.gradle/
 
 # InteliJ specific

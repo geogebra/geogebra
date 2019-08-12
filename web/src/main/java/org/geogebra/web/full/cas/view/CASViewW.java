@@ -56,9 +56,9 @@ public class CASViewW extends CASView implements PrintableW {
 		component.addDomHandler(ml, MouseDownEvent.getType());
 		component.addDomHandler(ml, MouseUpEvent.getType());
 		component.addDomHandler(ml, MouseMoveEvent.getType());
-		component.addDomHandler(ml, TouchStartEvent.getType());
-		component.addDomHandler(ml, TouchMoveEvent.getType());
-		component.addDomHandler(ml, TouchEndEvent.getType());
+		component.addBitlessDomHandler(ml, TouchStartEvent.getType());
+		component.addBitlessDomHandler(ml, TouchMoveEvent.getType());
+		component.addBitlessDomHandler(ml, TouchEndEvent.getType());
 
 		app.invokeLater(new Runnable() {
 

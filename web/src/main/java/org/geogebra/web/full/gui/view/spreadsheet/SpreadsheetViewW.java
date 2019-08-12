@@ -107,7 +107,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		settingsChanged(settings());
 
-		this.spreadsheet.addDomHandler(new TouchStartHandler() {
+		this.spreadsheet.addBitlessDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				if (event.getTouches().length() > 1) {
@@ -122,7 +122,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			}
 		}, TouchStartEvent.getType());
 
-		this.spreadsheet.addDomHandler(new TouchMoveHandler() {
+		this.spreadsheet.addBitlessDomHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				if (event.getTouches().length() > 1) {
