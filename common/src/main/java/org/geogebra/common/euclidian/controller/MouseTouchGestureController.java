@@ -427,4 +427,8 @@ public class MouseTouchGestureController {
 				&& Math.abs(oldEndX - newEndX) < capThreshold
 				&& Math.abs(oldEndY - newEndY) < capThreshold;
 	}
+
+	public App getApp() {
+		return app;
+	}
 }
