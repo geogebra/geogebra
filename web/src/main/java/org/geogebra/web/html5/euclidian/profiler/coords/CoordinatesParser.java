@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian.profiler.coords;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -13,6 +14,7 @@ public class CoordinatesParser {
 	private static final String TIME = "time";
 	private static final String X = "x";
 	private static final String Y = "y";
+	private static final String TOUCH_END = "touchEnd";
 
 	private static CoordinatesParser instance;
 
@@ -31,12 +33,27 @@ public class CoordinatesParser {
 		JSONObject rootJsonObject = new JSONObject(jsonString);
 		JSONArray coordsJsonArray = rootJsonObject.getJSONArray(COORDS);
 		List<Coordinate> coordinates = new ArrayList<>();
+		Coordinate prevCoordinate = null;
 		for (int i = 0; i < coordsJsonArray.length(); i++) {
 			Coordinate coordinate =
-					coordinatesParserInstance.parseCoordinate(coordsJsonArray.getJSONObject(i));
-			coordinates.add(coordinate);
+					coordinatesParserInstance
+							.parseCoordinateOrTouchEnd(coordsJsonArray.getJSONObject(i));
+			if (coordinate != null) {
+				coordinates.add(coordinate);
+				prevCoordinate = coordinate;
+			} else {
+				Objects.requireNonNull(prevCoordinate).setTouchEnd(true);
+			}
 		}
 		return coordinates;
+	}
+
+	private Coordinate parseCoordinateOrTouchEnd(JSONObject jsonObject) throws JSONException {
+		if (jsonObject.has(TOUCH_END)) {
+			return null;
+		} else {
+			return parseCoordinate(jsonObject);
+		}
 	}
 
 	private Coordinate parseCoordinate(JSONObject coordJsonObject) throws JSONException {
