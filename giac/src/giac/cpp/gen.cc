@@ -12414,7 +12414,11 @@ namespace giac {
 	s="{";
       else
 	// s="matrix[";
+#ifdef NUMWORKS
+	s="[";
+#else
 	s=abs_calc_mode(contextptr)==38?"[":"matrix[";
+#endif
       break;
     case _POLY1__VECT:
       s="poly1[";
@@ -15874,7 +15878,20 @@ namespace giac {
       S="GIAC_ERROR: "+S;
     else {
       S=g.print(&C);
-#ifndef GIAC_GGB
+#ifdef NUMWORKS // replace ],[ by ][
+      string S_;
+      S_ += S[0];
+      for (size_t i=1;i+1<S.size();++i){
+	if (S[i-1]==']' && S[i]==',' && S[i+1]=='[')
+	  ;
+	else
+	  S_ += S[i];
+      }
+      if (S.size()>1)
+	S_ +=S[S.size()-1];
+      S=S_;
+#else
+#if !defined GIAC_GGB 
       if (g.type==_FRAC || g.type==_ZINT){
 	S += "=";	  
 	S += evalf_double(g,1,&C).print(&C);
@@ -15886,7 +15903,8 @@ namespace giac {
 	  S += g.print(&C);
 	}
       }
-#endif
+#endif // !defined GIAC_GGB
+#endif // NUWMORKS
     }
     return S.c_str();
   }

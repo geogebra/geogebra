@@ -697,7 +697,8 @@ symbol	: T_SYMBOL { $$=$1; }
 	| T_SYMBOL T_DOUBLE_DEUX_POINTS T_TYPE_ID { 
 	       gen tmp($3); 
 	       // tmp.subtype=1; 
-	       $$=symb_check_type(makevecteur(tmp,$1),context0); 
+	       //$$=symb_check_type(makevecteur(tmp,$1),context0); 
+               $$=symbolic(at_deuxpoints,makesequence($1,$3));
           } 
 	| T_SYMBOL T_DOUBLE_DEUX_POINTS T_UNARY_OP { $$=symb_double_deux_points(makevecteur($1,$3)); } 
 	| T_SYMBOL T_DOUBLE_DEUX_POINTS T_SYMBOL { $$=symb_double_deux_points(makevecteur($1,$3)); } 
@@ -715,7 +716,8 @@ symbol	: T_SYMBOL { $$=$1; }
 	| T_TYPE_ID T_SYMBOL { 
 	  gen tmp($1); 
 	  // tmp.subtype=1; 
-	  $$=symb_check_type(makevecteur(tmp,$2),context0); 
+	  // $$=symb_check_type(makevecteur(tmp,$2),context0); 
+          $$=symbolic(at_deuxpoints,makesequence($2,$1));
 	  }
 	| TI_HASH exp {$$=symbolic(*$1._FUNCptr,$2); }
 	;

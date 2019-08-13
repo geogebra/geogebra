@@ -9102,7 +9102,7 @@ namespace giac {
     return RTC_GetTicks();
 #else
 #if defined __APPLE__ || defined EMCC || !defined HAVE_LIBRT
-    return clock();
+    return (int) clock();
 #else
     timespec t;
     clock_gettime(CLOCK_MONOTONIC,&t);

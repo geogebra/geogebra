@@ -353,10 +353,18 @@ namespace giac {
     }
 #endif
     bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
-#if defined EMCC || defined GIAC_GGB
+#if defined EMCC || defined GIAC_GGB || defined NUMWORKS
     bool need=need_parenthesis(arg) || arg.type==_SYMB;
     if (pui==plus_one_half){
+#ifdef NUMWORKS
+      need=true;
+      s += char(226);
+      s += char(136);
+      s += char(154);
+      s+= '(';
+#else
       s += (need?"√(":"√");
+#endif
       add_print(s,arg,contextptr);
       s += (need?")":"");
       return s;

@@ -351,6 +351,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "∞"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 "± ∞"            index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 "inf"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
+"oo"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 "unsigned_inf"		index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 "plus_inf"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 "minus_inf"		index_status(yyextra)=1; (*yylval) = minus_inf; return T_LITERAL;
@@ -992,6 +993,23 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
       }
 #endif // RTOS_THREADX
       string s(s_orig),lexer_string;
+      // change for Numworks built-in calculation app replacement
+      for (size_t i=0;i<s_orig.size();++i){
+	if (s[i]==18) 
+	  s[i]='(';
+	if (s[i]==19)
+	  s[i]=')';
+	if (i<s.size()-1){ 
+	  if ( ((unsigned char)s[i]==195) && ((unsigned char)s[i+1]==151) ){
+	    s[i]='*';
+	    s[i+1]=' ';
+	  }
+#ifdef NUMWORKS
+	  if (s[i]==']' && s[i+1]=='[')
+	    s.insert(s.begin()+i+1,',');
+#endif
+	}
+      }
 #if defined NSPIRE || defined FXCG
       for (unsigned i=0;i<s.size()-1;++i){
 	if (s[i]==']' && s[i+1]=='['){

@@ -3134,6 +3134,8 @@ namespace giac {
   }
 
   longlong cpp_convert_2(const gen & g,GIAC_CONTEXT){
+    if (g.type==_INT_)
+      return g.val;
     gen h=g;
     if (!is_integral(h)){
       gensizeerr(contextptr);
@@ -3165,6 +3167,7 @@ namespace giac {
   }
 
   double cpp_convert_1(const gen & g,GIAC_CONTEXT){
+    if (g.type==_DOUBLE_) return g._DOUBLE_val;
     gen h=evalf_double(g,1,context0);
     if (h.type!=_DOUBLE_){
       gensizeerr(contextptr);
@@ -3234,7 +3237,7 @@ namespace giac {
     return 3;
   }
 
-  int cpp_vartype(const gen & g){
+  int cpp_vartype(const gen & g,const vecteur & allnames,const vecteur & allchecks){
     switch (g.type){
     case _INT_: case _ZINT:
       return 2;
@@ -3248,17 +3251,28 @@ namespace giac {
       return _STRNG;
     }
     if (g.type==_SYMB){
+      if (g._SYMBptr->sommet==at_at)
+	return 0; // could be improved if we add support for vector of long/double
+      if (g._SYMBptr->sommet==at_of){
+	gen f=g._SYMBptr->feuille[0];
+	int pos=0;
+	if ( (pos=equalposcomp(allnames,f)) && pos<=allchecks.size()){
+	  gen g=allchecks[pos-1];
+	  if (g.is_symb_of_sommet(at_deuxpoints) && g._SYMBptr->feuille[0]==f)
+	    return g._SYMBptr->feuille[1].val;
+	}
+      }
       if (g._SYMBptr->sommet==at_floor || g._SYMBptr->sommet==at_irem || g._SYMBptr->sommet==at_iquo)
 	return 2;
       if (g._SYMBptr->sommet==at_size)
 	return 2;
-      if (g._SYMBptr->sommet==at_abs && cpp_vartype(g._SYMBptr->feuille)==3)
+      if (g._SYMBptr->sommet==at_abs && cpp_vartype(g._SYMBptr->feuille,allnames,allchecks)==3)
 	return 2;
       vecteur v=lvar(g._SYMBptr->feuille);
       const_iterateur it=v.begin(),itend=v.end();
       int cur=-1;
       for (;it!=itend;++it){
-	int i=cpp_vartype(*it);
+	int i=cpp_vartype(*it,allnames,allchecks);
 	if (i==0)
 	  return 0;
 	if (cur==2 && i==_DOUBLE_)
@@ -3293,7 +3307,7 @@ namespace giac {
     return 0;
   }
 
-  std::string cprintvars(const gen & f0,bool cst,bool ctx0,const string & sep,int * typeptr,GIAC_CONTEXT){
+  std::string cprintvars(const gen & f0,bool cst,bool ctx0,const string & sep,int * typeptr,const vecteur & allnames,const vecteur & allchecks,GIAC_CONTEXT){
     vecteur fv=gen2vecteur(f0);
     if (fv.size()==2 && fv[0].type==_VECT)
       fv=*fv[0]._VECTptr;
@@ -3307,7 +3321,7 @@ namespace giac {
       if (eqsto)
 	fvi=fvi[2];
       if (fvi.type!=_IDNT)
-	return "Invalid parameter "+fv[i].print(contextptr);
+	return "Invalid parameter "+fvi.print(contextptr);
       const char * ch=fvi._IDNTptr->id_name;
       int cl=int(strlen(ch));
       string vtype=cst?"const giac::gen & ":"giac::gen ";
@@ -3343,8 +3357,8 @@ namespace giac {
 	if (eq)
 	  g=(fv[i])[2];
 #if 1
-	int i=cpp_vartype(fvi);
-	int gt=cpp_vartype(g);
+	int i=cpp_vartype(fvi,allnames,allchecks);
+	int gt=cpp_vartype(g,allnames,allchecks);
 	if (!i || i==gt || (i==2 && gt==_DOUBLE_) || (i==_DOUBLE_ && gt==2))
 	  vtype = vtype + " = " +cprint(g,0,contextptr);
 	else 
@@ -3367,19 +3381,25 @@ namespace giac {
     }
   }
   
-  std::string cpp_stoprint(const gen & g,GIAC_CONTEXT){
+  std::string cpp_stoprint(const gen & g,const vecteur & allnames,const vecteur & allchecks,GIAC_CONTEXT){
     if (g.is_symb_of_sommet(at_at) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2){
       gen f=g._SYMBptr->feuille._VECTptr->front();
       gen i=g._SYMBptr->feuille._VECTptr->back();
-      int t=cpp_vartype(i);
+      int t=cpp_vartype(i,allnames,allchecks);
       if (t!=2)
 	return cprint(f,0,contextptr)+"[cpp_convert_2("+cprint(i,0,contextptr)+",contextptr)]";
+      else
+	return cprint(f,0,contextptr)+"["+cprint(i,0,contextptr)+"]";
     }
     return cprint(g,0,contextptr);
   }
 
-  // name is the program name if args==program(..) or 1 for vectors of instructions or 0 otherwise or -1 for vector to put in a makesequence
-  std::string cprint(const gen & args,const gen & name,GIAC_CONTEXT){
+  // name is the program name if args==program(..),
+  // name=1 for vectors of instructions or 0 otherwise or -1 for vector to put in a makesequence
+  // allnames is a list of all variables names that will be converted
+  // allchecks is the same list but maybe with type returned
+  std::string cprint(const gen & args,const gen & name_,const vecteur & allnames,const vecteur & allchecks,GIAC_CONTEXT){
+    gen name=name_.is_symb_of_sommet(at_deuxpoints)?name_._SYMBptr->feuille[0]:name_;
     if (args.type==_INT_ && args.subtype==_INT_BOOLEAN)
       return args.val?"true":"false";
     if (args.type==_IDNT){
@@ -3399,7 +3419,7 @@ namespace giac {
       if (it==itend)
 	return "gen(vecteur(0),"+print_INT_(args.subtype)+")";
       for(int i=0;;++i){
-	s += cprint(*it,(name.type==_VECT && i<name._VECTptr->size())?name[i]:zero,contextptr);
+	s += cprint(*it,(name.type==_VECT && i<name._VECTptr->size())?name[i]:zero,allnames,allchecks,contextptr);
 	++it;
 	if (it==itend){
 	  break;
@@ -3437,57 +3457,89 @@ namespace giac {
 	string res="{\n";
 	const vecteur & v=*f[1]._VECTptr;
 	int vs=v.size();
-	res += "giac::vecteur __tmp_=giac::makevecteur("+cprint(f[0],0,contextptr)+");\n";
+	res += "giac::vecteur __tmp_=giac::makevecteur("+cprint(f[0],0,allnames,allchecks,contextptr)+");\n";
 	for (int j=0;j<vs;++j){
 	  gen var=f[1][j];
-	  int i=cpp_vartype(var);
-	  res += cpp_stoprint(var,contextptr)+" = cpp_convert_"+print_INT_(i)+"("+"__tmp_["+print_INT_(j)+"],contextptr);";
+	  int i=cpp_vartype(var,allnames,allchecks);
+	  res += cpp_stoprint(var,allnames,allchecks,contextptr)+" = cpp_convert_"+print_INT_(i)+"("+"__tmp_["+print_INT_(j)+"],contextptr);";
 	}
 	return res+"\n}";
       }
-      int i=cpp_vartype(f[1]);
-      int f0t=cpp_vartype(f[0]);
+      int i=cpp_vartype(f[1],allnames,allchecks);
+      int f0t=cpp_vartype(f[0],allnames,allchecks);
       if (!i || i==f0t || (i==_DOUBLE_ && f0t==2) || (i==2 && f0t==_DOUBLE_))
-	return cpp_stoprint(f[1],contextptr)+'='+cprint(f[0],0,contextptr);;
-      string res= cpp_stoprint(f[1],contextptr)+" = cpp_convert_"+print_INT_(i)+"("+cprint(f[0],0,contextptr)+",contextptr)";
+	return cpp_stoprint(f[1],allnames,allchecks,contextptr)+'='+cprint(f[0],0,allnames,allchecks,contextptr);;
+      string res= cpp_stoprint(f[1],allnames,allchecks,contextptr)+" = cpp_convert_"+print_INT_(i)+"("+cprint(f[0],0,allnames,allchecks,contextptr)+",contextptr)";
       return res;
 #else
       int i=is_int_or_double(f[1]);
       if (!i || is_int_or_double(f[0]))
-	return f[1].print(contextptr)+'='+cprint(f[0],0,contextptr);;
-      string res= f[1].print(contextptr)+"=("+cprint(f[0],0,contextptr);
+	return f[1].print(contextptr)+'='+cprint(f[0],0,allnames,allchecks,contextptr);;
+      string res= f[1].print(contextptr)+"=("+cprint(f[0],0,allnames,allchecks,contextptr);
       res += (i==_DOUBLE_)?")._DOUBLE_val":").val";
       return res;
 #endif
     }
     if (u==at_equal && f.type==_VECT && f._VECTptr->size()==2){
 #if 1
-      int i=cpp_vartype(f[0]);
-      if (!i || i==cpp_vartype(f[1]))
-	return cpp_stoprint(f[0],contextptr)+'='+cprint(f[1],0,contextptr);
-      string res= cpp_stoprint(f[0],contextptr)+" = cpp_convert_"+print_INT_(i)+"("+cprint(f[1],0,contextptr)+",contextptr)";
+      int i=cpp_vartype(f[0],allnames,allchecks);
+      if (!i || i==cpp_vartype(f[1],allnames,allchecks))
+	return cpp_stoprint(f[0],allnames,allchecks,contextptr)+'='+cprint(f[1],0,allnames,allchecks,contextptr);
+      string res= cpp_stoprint(f[0],allnames,allchecks,contextptr)+" = cpp_convert_"+print_INT_(i)+"("+cprint(f[1],0,allnames,allchecks,contextptr)+",contextptr)";
       return res;
 #else
       int i=is_int_or_double(f[0]);
       if (!i || is_int_or_double(f[1]))
-	return f[0].print(contextptr)+'='+cprint(f[1],0,contextptr);;
-      string res= f[0].print(contextptr)+"=("+cprint(f[1],0,contextptr);
+	return f[0].print(contextptr)+'='+cprint(f[1],0,allnames,allchecks,contextptr);;
+      string res= f[0].print(contextptr)+"=("+cprint(f[1],0,allnames,allchecks,contextptr);
       res += (i==_DOUBLE_)?")._DOUBLE_val":").val";
       return res;
 #endif
     }
     if (u==at_size){
-      int i=cpp_vartype(f);
+      int i=cpp_vartype(f,allnames,allchecks);
       if (i==_VECT)
-	return cprint(f,0,contextptr)+".size()";
-      return "cpp_convert_7("+cprint(f,0,contextptr)+",contextptr).size()";
+	return cprint(f,0,allnames,allchecks,contextptr)+".size()";
+      return "cpp_convert_7("+cprint(f,0,allnames,allchecks,contextptr)+",contextptr).size()";
     }
-    if (u==at_at && f.type==_VECT && f._VECTptr->size()==2){
-      int i=cpp_vartype(f._VECTptr->front());
-      int j=cpp_vartype(f._VECTptr->back());
-      if (i==0 || j==2)
-	return f._VECTptr->front().print(contextptr)+"["+cprint(f._VECTptr->back(),0,contextptr)+"]";
-      return f._VECTptr->front().print(contextptr)+"[cpp_convert_2("+cprint(f._VECTptr->back(),0,contextptr)+",contextptr)]";
+    if (f.type==_VECT && f._VECTptr->size()==2){
+      if (u==at_at){
+	int i=cpp_vartype(f._VECTptr->front(),allnames,allchecks);
+	int j=cpp_vartype(f._VECTptr->back(),allnames,allchecks);
+	if (i==0 || j==2)
+	  return f._VECTptr->front().print(contextptr)+"["+cprint(f._VECTptr->back(),0,allnames,allchecks,contextptr)+"]";
+	return f._VECTptr->front().print(contextptr)+"[cpp_convert_2("+cprint(f._VECTptr->back(),0,allnames,allchecks,contextptr)+",contextptr)]";
+      }
+      if (u==at_of){
+	gen fnc=f._VECTptr->front();
+	if (equalposcomp(allnames,fnc)){
+	  gen evaled_fnc=eval(fnc,1,contextptr);
+	  if (evaled_fnc.is_symb_of_sommet(at_program)){
+	    gen F=evaled_fnc._SYMBptr->feuille;
+	    if (F.type==_VECT && F._VECTptr->size()==3){
+	      vector<int> argtype(gen2vecteur(F[0]).size());
+	      vecteur argF(gen2vecteur(f._VECTptr->back()));
+	      if (argtype.size()==argF.size()){
+		cprintvars(F[0],false,true,",",&argtype.front(),allnames,allchecks,contextptr);
+		string res(fnc.print(contextptr));
+		res += '(';
+		for (size_t pos=0;pos<argF.size();++pos){
+		  int i=argtype[pos];
+		  int j=cpp_vartype(argF[pos],allnames,allchecks);
+		  if (i==j || (i==0 || j==2))
+		    res += cprint(argF[pos],0,allnames,allchecks,contextptr);
+		  else
+		    res += "cpp_convert_"+print_INT_(i)+"("+cprint(argF[pos],0,allnames,allchecks,contextptr)+",contextptr)";
+		  if (pos!=argF.size()-1)
+		    res += ',';
+		}
+		res += ')';
+		return res;
+	      }
+	    }
+	  }
+	}
+      }
     }
     if (u==at_program && f.type==_VECT && f._VECTptr->size()==3){
       // header
@@ -3497,7 +3549,9 @@ namespace giac {
       if (head){
 	// IMPROVE if name=="main" make it argv,argc->int
 	string rtype="giac::gen ";
-	convert=cpp_vartype(name);
+	convert=cpp_vartype(name,allnames,allchecks);
+	if (name_.is_symb_of_sommet(at_deuxpoints))
+	  convert = name_._SYMBptr->feuille[1].val;
 	if (convert){
 	  switch (convert){
 	  case _DOUBLE_:
@@ -3519,9 +3573,14 @@ namespace giac {
       else
 	heads="giac::gen f(";
       vector<int> argtype(gen2vecteur(f[0]).size());
-      heads += cprintvars(f[0],false,true,",",&argtype.front(),contextptr)+",const giac::context * contextptr=0)";
+      heads += cprintvars(f[0],false,true,",",&argtype.front(),allnames,allchecks,contextptr)+",const giac::context * contextptr=0)";
       // core
-      string core=cprint(f[2],0,contextptr);
+      string core=cprint(f[2],0,allnames,allchecks,contextptr);
+      if (!core.empty()){
+	char ch=core[core.size()-1];
+	if (ch!='}' && ch!=';')
+	  core += ';';
+      }
       string res= heads+"{\n"+core+"\n}\n";
       heads="f";
       if (head)
@@ -3531,7 +3590,10 @@ namespace giac {
 	  core ="return "+heads+"(contextptr);";
 	else {
 #if 1
-	  core = "return "+heads+"(cpp_convert_"+print_INT_(cpp_vartype(f[0]._VECTptr->front()))+"(g,contextptr),contextptr);";
+	  if (0 && name_.is_symb_of_sommet(at_deuxpoints))
+	    core = "return cpp_convert_"+print_INT_(name_._SYMBptr->feuille[1].val)+"("+heads+"(cpp_convert_"+print_INT_(cpp_vartype(f[0]._VECTptr->front(),allnames,allchecks))+"(g,contextptr),contextptr));";
+	  else
+	    core = "return "+heads+"(cpp_convert_"+print_INT_(cpp_vartype(f[0]._VECTptr->front(),allnames,allchecks))+"(g,contextptr),contextptr);";
 #else
 	  switch (convert){
 	  case 0:
@@ -3599,68 +3661,96 @@ namespace giac {
       return res;
     }
     if (u==at_irem && f.type==_VECT && f._VECTptr->size()==2){
-      int f0t=cpp_vartype(f[0]);
-      int f1t=cpp_vartype(f[1]);
+      int f0t=cpp_vartype(f[0],allnames,allchecks);
+      int f1t=cpp_vartype(f[1],allnames,allchecks);
       if ( (f0t==2 || f0t==_DOUBLE_ ) && (f1t==2 || f1t==_DOUBLE_))
-	return "long("+cprint(f[0],0,contextptr)+") % long("+ cprint(f[1],0,contextptr)+")" ;
+	return "long("+cprint(f[0],0,allnames,allchecks,contextptr)+") % long("+ cprint(f[1],0,allnames,allchecks,contextptr)+")" ;
     }
     if (u==at_floor){
-      int ft=cpp_vartype(f);
+      int ft=cpp_vartype(f,allnames,allchecks);
       if (ft==2 || ft==_DOUBLE_)
-	return "long("+cprint(f,0,contextptr)+")";
+	return "long("+cprint(f,0,allnames,allchecks,contextptr)+")";
     }
     if (u==at_local){
       gen f0=f[0];
-      string s(cprintvars(f0,false,false,";\n",0,contextptr)+";\n");
-      return s+cprint(f[1],1,contextptr);
+      string s(cprintvars(f0,false,false,";\n",0,allnames,allchecks,contextptr)+";\n");
+      return s+cprint(f[1],1,allnames,allchecks,contextptr);
     }
     if ( (u==at_for || u==at_pour) && f.type==_VECT && f._VECTptr->size()==4){
       string res="for(";
-      res = res +cprint(f[0],0,contextptr);
+      res = res +cprint(f[0],0,allnames,allchecks,contextptr);
       res = res +';';
-      res = res +cprint(f[1],0,contextptr);
+      res = res +cprint(f[1],0,allnames,allchecks,contextptr);
       res = res +';';
-      res = res +cprint(f[2],0,contextptr);
+      res = res +cprint(f[2],0,allnames,allchecks,contextptr);
       res = res +"){\n";
-      res = res +cprint(f[3],0,contextptr);
+      res = res +cprint(f[3],0,allnames,allchecks,contextptr);
       res = res +";\n}\n"; 
       return res;
     }
     if (u==at_bloc)
-      return cprint(f,1,contextptr);
+      return cprint(f,1,allnames,allchecks,contextptr);
     if ( (u==at_ifte || u==at_si) && f.type==_VECT && f._VECTptr->size()==3){
       string res="if(";
-      res = res +cprint(f[0],0,contextptr);
+      res = res +cprint(f[0],0,allnames,allchecks,contextptr);
       res = res +"){\n";
-      res = res +cprint(f[1],0,contextptr);
+      res = res +cprint(f[1],0,allnames,allchecks,contextptr);
       res = res +";\n}";
       if (!is_zero(f[2])){
 	res = res + " else {\n";
-	res = res + cprint(f[2],0,contextptr) + ";\n}";
+	res = res + cprint(f[2],0,allnames,allchecks,contextptr) + ";\n}";
       }
       return res;
     }
     if (u==at_when){
       string res("giac::_when(giac::makesequence(");
-      res += cprint(f,0,contextptr);
+      res += cprint(f,0,allnames,allchecks,contextptr);
       res += "),contextptr)";
       return res;
     }
     if (u==at_try_catch && f.type==_VECT && f._VECTptr->size()>=3){
       string res="try {\n";
-      res = res +cprint(f[0],0,contextptr);
+      res = res +cprint(f[0],0,allnames,allchecks,contextptr);
       res = res +";\n} catch(";
-      res = res +cprint(f[1],0,contextptr);
+      res = res +cprint(f[1],0,allnames,allchecks,contextptr);
       res = res +"){\n";
-      res = res +cprint(f[2],0,contextptr);
+      res = res +cprint(f[2],0,allnames,allchecks,contextptr);
       res = res +";\n}";
       return res;
     }    
     if (u==at_return){
       if (f.type==_VECT)
-	return "return giac::makevecteur("+cprint(f,0,contextptr)+")";
+	return "return giac::makevecteur("+cprint(f,0,allnames,allchecks,contextptr)+")";
       else
-	return "return "+cprint(f,0,contextptr);
+	return "return "+cprint(f,0,allnames,allchecks,contextptr);
+    }
+    if (u==at_struct_dot){
+      if (f.type==_VECT && f._VECTptr->size()==2){
+	gen f0=f._VECTptr->front(),f1=f._VECTptr->back();
+	if (cpp_vartype(f0,allnames,allchecks)==_VECT){
+	  string f0s=f0.print(contextptr);
+	  gen f1f=f1._SYMBptr->feuille;
+	  if (f1.is_symb_of_sommet(at_append))
+	    return f0s+".push_back("+cprint(f1f,0,allnames,allchecks,contextptr)+")";
+	  if (f1.is_symb_of_sommet(at_prepend))
+	    return f0s+".insert("+f0s+".begin(),"+cprint(f1f,0,allnames,allchecks,contextptr)+")";
+	  if (f1.is_symb_of_sommet(at_suppress)){
+	    f0s=f0s+".erase("+f0s+".begin()+";
+	    if (cpp_vartype(f1f,allnames,allchecks)!=2)
+	      f0s += "cpp_convert_2("+cprint(f1f,0,allnames,allchecks,contextptr)+")";
+	    else
+	      f0s += cprint(f1f,0,allnames,allchecks,contextptr);
+	    return f0s+")";
+	  }
+	  if (f1f.type==_VECT && f1f._VECTptr->empty()){
+	    if (f1.is_symb_of_sommet(at_sort))
+	      return "sort("+f0s+".begin(),"+f0s+".end())";
+	    if (f1.is_symb_of_sommet(at_reverse) || f1.is_symb_of_sommet(at_revlist))
+	      return "reverse("+f0s+".begin(),"+f0s+".end())";
+	  }
+	}
+      }
+      return "// Unable to convert "+args.print(contextptr)+"\n";
     }
     if (u.ptr()->cprint)
       return u.ptr()->cprint(args._SYMBptr->feuille,u.ptr()->s,contextptr);
@@ -3668,7 +3758,7 @@ namespace giac {
     // otherwise or not an operator giac::opname(,contextptr)
     string res=u.ptr()->print(contextptr);
     int idf0=is_int_or_double(f);
-    bool idf= idf0 || cpp_vartype(f)==_CPLX;
+    bool idf= idf0 || cpp_vartype(f,allnames,allchecks)==_CPLX;
     if (u==at_sin || u==at_cos || u==at_tan || u==at_asin || u==at_acos || u==at_atan || u==at_exp || u==at_ln || u==at_abs){
       if (idf)
 	return "std::"+args.print(contextptr);
@@ -3685,7 +3775,7 @@ namespace giac {
 	for (int i=0;;){
 	  bool b=need_parenthesis(v[i]);
 	  if (b) sres += '(';
-	  sres += cprint(v[i],0,contextptr);
+	  sres += cprint(v[i],0,allnames,allchecks,contextptr);
 	  if (b) sres += ')';
 	  ++i;
 	  if (i>=v.size())
@@ -3722,30 +3812,49 @@ namespace giac {
     }
     if (u==at_increment || u==at_decrement){
       if (f.type!=_VECT &&  is_int_or_double(f)){
-	return cprint(f,0,contextptr)+(u==at_increment?"++":"--");
+	return cprint(f,0,allnames,allchecks,contextptr)+(u==at_increment?"++":"--");
       }
       if (f.type==_VECT && f._VECTptr->size()==2 && is_int_or_double(f._VECTptr->front()) && is_int_or_double(f._VECTptr->back()) ){
-	return cprint(f._VECTptr->front(),0,contextptr)+(u==at_increment?"+=":"-=")+cprint(f._VECTptr->back(),0,contextptr);
+	return cprint(f._VECTptr->front(),0,allnames,allchecks,contextptr)+(u==at_increment?"+=":"-=")+cprint(f._VECTptr->back(),0,allnames,allchecks,contextptr);
       }
     }
     if (u==at_same || u==at_different || u==at_and || u==at_ou ){
-      return cprint(args._SYMBptr->feuille[0],-1,contextptr)+" "+u.ptr()->s+" "+cprint(args._SYMBptr->feuille[1],-1,contextptr);
+      return cprint(args._SYMBptr->feuille[0],-1,allnames,allchecks,contextptr)+" "+u.ptr()->s+" "+cprint(args._SYMBptr->feuille[1],-1,allnames,allchecks,contextptr);
     }
     if (u==at_neg || u==at_not)
-      return u.ptr()->s+cprint(args._SYMBptr->feuille,-1,contextptr);
+      return u.ptr()->s+cprint(args._SYMBptr->feuille,-1,allnames,allchecks,contextptr);
     if (u==at_inferieur_egal)
-      return "giac::is_greater("+cprint(args._SYMBptr->feuille[1],-1,contextptr)+","+cprint(args._SYMBptr->feuille[0],0,contextptr)+",contextptr)";
+      return "giac::is_greater("+cprint(args._SYMBptr->feuille[1],-1,allnames,allchecks,contextptr)+","+cprint(args._SYMBptr->feuille[0],0,allnames,allchecks,contextptr)+",contextptr)";
     if (u==at_superieur_egal)
-      return "giac::is_greater("+cprint(args._SYMBptr->feuille[0],-1,contextptr)+","+cprint(args._SYMBptr->feuille[1],0,contextptr)+",contextptr)";
+      return "giac::is_greater("+cprint(args._SYMBptr->feuille[0],-1,allnames,allchecks,contextptr)+","+cprint(args._SYMBptr->feuille[1],0,allnames,allchecks,contextptr)+",contextptr)";
     if (u==at_inferieur_strict)
-      return "!giac::is_greater("+cprint(args._SYMBptr->feuille[0],-1,contextptr)+","+cprint(args._SYMBptr->feuille[1],0,contextptr)+",contextptr)";
+      return "!giac::is_greater("+cprint(args._SYMBptr->feuille[0],-1,allnames,allchecks,contextptr)+","+cprint(args._SYMBptr->feuille[1],0,allnames,allchecks,contextptr)+",contextptr)";
     if (u==at_superieur_strict)
-      return "!giac::is_greater("+cprint(args._SYMBptr->feuille[1],-1,contextptr)+","+cprint(args._SYMBptr->feuille[0],0,contextptr)+",contextptr)";
+      return "!giac::is_greater("+cprint(args._SYMBptr->feuille[1],-1,allnames,allchecks,contextptr)+","+cprint(args._SYMBptr->feuille[0],0,allnames,allchecks,contextptr)+",contextptr)";
     res = "giac::"+res + '(';
-    res = res + cprint(args._SYMBptr->feuille,-1,contextptr);
+    res = res + cprint(args._SYMBptr->feuille,-1,allnames,allchecks,contextptr);
     res = res +",contextptr)";
     return res;
     // ...
+  }
+
+  // name is the program name if args==program(..) or 1 for vectors of instructions or 0 otherwise or -1 for vector to put in a makesequence
+  std::string cprint(const gen & args,const gen & name,GIAC_CONTEXT){
+    vecteur v,w;
+    if (name.is_symb_of_sommet(at_deuxpoints)){
+      gen f=name._SYMBptr->feuille;
+      if (f.type==_IDNT){
+	v.push_back(f);
+	w.push_back(name);
+      }
+    }
+    else {
+      if (name.type==_IDNT){
+	v.push_back(name);
+	w.push_back(name);
+      }
+    }
+    return cprint(args,name,v,w,contextptr);
   }
 
   std::string cprint(const gen & args,GIAC_CONTEXT){
@@ -3771,9 +3880,9 @@ namespace giac {
   int cpp_write_compile(const string & filename,const string & funcname,const string &s,GIAC_CONTEXT){
     ofstream of(filename.c_str());
 #ifdef __APPLE__
-    of << "// -*- mode:c++; compile-command:\" c++ -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dynamiclib giac_" << funcname << ".cpp -o libgiac_" << funcname << ".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac \" -*-" << endl;
+    of << "// -*- mode:c++; compile-command:\" c++ -Wall -fno-strict-aliasing -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dynamiclib giac_" << funcname << ".cpp -o libgiac_" << funcname << ".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac \" -*-" << endl;
 #else
-    of << "// -*- mode:c++; compile-command:\" c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
+    of << "// -*- mode:c++; compile-command:\" c++ -Wall -fno-strict-aliasing -I.. -I. -fPIC -DPIC -g -O2 -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
 #endif
     of << "#include <giac/config.h>" << endl;
     of << "#include <giac/giac.h>" << endl;
@@ -3799,9 +3908,9 @@ namespace giac {
       *logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
 #endif
 #ifdef __APPLE__
-    cmd="g++ -dynamiclib -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dy giac_"+funcname+".cpp -o libgiac_"+funcname+".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac";
+    cmd="g++ -Wall -fno-strict-aliasing -dynamiclib -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dy giac_"+funcname+".cpp -o libgiac_"+funcname+".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac";
 #else
-    cmd="c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
+    cmd="c++ -Wall -fno-strict-aliasing -I.. -I. -fPIC -DPIC -g -O2 -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
 #endif
     *logptr(contextptr) << "Running\n" << cmd << endl;
     not_ok=system_no_deprecation(cmd.c_str());
@@ -3841,13 +3950,15 @@ namespace giac {
       language(2,contextptr);
       language(2,context0);
       python_compat(0,contextptr);
-      gen args_evaled=eval(args,1,contextptr);
+      gen argnock=args.is_symb_of_sommet(at_deuxpoints)?args._SYMBptr->feuille[0]:args;
+      gen args_evaled=eval(argnock,1,contextptr);
+      //gen args_evaled=eval(args,1,contextptr);
       string s=cprint(args_evaled,args,contextptr);
       python_compat(p,contextptr);
       language(l,contextptr);
       language(l0,context0);
       xcas_mode(x,contextptr);
-      string funcname=args.print(contextptr);
+      string funcname=argnock.print(contextptr);
       string filename="giac_"+funcname+".cpp";
       return cpp_write_compile(filename,funcname,s,contextptr);
     }
@@ -3857,19 +3968,35 @@ namespace giac {
     language(2,contextptr);
     language(2,context0);
     python_compat(0,contextptr);
-    gen arg=args._VECTptr->front();
-    gen args_evaled=eval(arg,1,contextptr);
-    string s=cprint(args_evaled,arg,contextptr);
-    for (int i=1;i<args._VECTptr->size();++i){
+    vecteur allnames(*args._VECTptr);
+    for (int i=0;i<allnames.size();++i){
+      if (allnames[i].is_symb_of_sommet(at_deuxpoints))
+	allnames[i]=allnames[i]._SYMBptr->feuille[0];
+    }
+    gen arg,args_evaled,argnock;
+    string s;
+    for (int i=0;i<args._VECTptr->size();++i){
       arg=(*args._VECTptr)[i];
-      args_evaled=eval(arg,1,contextptr);
-      s += cprint(args_evaled,arg,contextptr);
+      argnock=allnames[i];
+      args_evaled=eval(argnock,1,contextptr);
+      if (args_evaled.is_symb_of_sommet(at_program))
+	s += cprint(args_evaled,arg,allnames,*args._VECTptr,contextptr);
+      else {
+	if (args_evaled.type==_DOUBLE_)
+	  s += "const double "+arg.print(contextptr)+"="+args_evaled.print(contextptr)+";";
+	else {
+	  if (args_evaled.type==_INT_)
+	    s += "const int "+arg.print(contextptr)+"="+args_evaled.print(contextptr)+";";
+	  else
+	    s += "const gen "+arg.print(contextptr)+"(\""+args_evaled.print(contextptr)+"\",context0);";
+	}
+      }
     }
     python_compat(p,contextptr);
     language(l,contextptr);
     language(l0,context0);
     xcas_mode(x,contextptr);
-    string funcname=arg.print(contextptr);
+    string funcname=argnock.print(contextptr);
     string filename="giac_"+funcname+".cpp";
     return cpp_write_compile(filename,funcname,s,contextptr);
     return 1;
