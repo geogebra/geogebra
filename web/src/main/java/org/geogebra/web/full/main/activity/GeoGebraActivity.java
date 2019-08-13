@@ -120,4 +120,11 @@ public interface GeoGebraActivity {
 	 * @return vendor specific icon provider
 	 */
 	ResourceIconProvider getResourceIconProvider();
+
+	/**
+	 * Please try to avoid if(isWhiteboard), use polymorphism instead
+	 * 
+	 * @return whether this is whiteboard activity
+	 */
+	boolean isWhiteboard();
 }

@@ -67,4 +67,9 @@ public class NotesActivity extends BaseActivity {
 
 		return messagePanel;
 	}
+
+	@Override
+	public boolean isWhiteboard() {
+		return true;
+	}
 }

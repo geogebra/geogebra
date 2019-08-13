@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
@@ -124,13 +125,11 @@ public class EuclidianViewW extends EuclidianView implements
 
 	AppW appW = (AppW) super.app;
 
-	protected ImageElement resetImage;
-	protected ImageElement playImage;
-	protected ImageElement pauseImage;
-	protected ImageElement upArrowImage;
-	protected ImageElement downArrowImage;
-	protected ImageElement playImageHL;
-	protected ImageElement pauseImageHL;
+	private ImageElement resetImage;
+	private ImageElement playImage;
+	private ImageElement pauseImage;
+	private ImageElement playImageHL;
+	private ImageElement pauseImageHL;
 
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;
@@ -1812,5 +1811,10 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public boolean isAttached() {
 		return g2p != null && g2p.isAttached();
+	}
+
+	@Override
+	public PenPreviewLine newPenPreview() {
+		return new PenPreviewLineW();
 	}
 }

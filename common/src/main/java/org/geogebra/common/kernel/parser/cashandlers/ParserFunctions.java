@@ -1,10 +1,12 @@
 package org.geogebra.common.kernel.parser.cashandlers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.main.Localization;
@@ -20,8 +22,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class ParserFunctions {
 	private final List<Map<String, Operation>> stringToOp = new ArrayList<>();
-
-	private final TreeSet<String> RESERVED_FUNCTION_NAMES = new TreeSet<>();
+	private final Set<String> reservedFunctionNames = new HashSet<>();
 	private final TreeSet<String> syntaxes = new TreeSet<>();
 	private static final int MAX_ARGS = 4;
 	private boolean localeLoaded = false;
@@ -33,13 +34,13 @@ public class ParserFunctions {
 	 */
 	public ParserFunctions() {
 		for (int i = 0; i <= MAX_ARGS; i++) {
-			stringToOp.add(new TreeMap<String, Operation>());
+			stringToOp.add(new HashMap<String, Operation>());
 		}
 		reset();
 	}
 
 	private void reset() {
-		RESERVED_FUNCTION_NAMES.clear();
+		reservedFunctionNames.clear();
 		syntaxes.clear();
 		for (int i = 0; i <= MAX_ARGS; i++) {
 			stringToOp.get(i).clear();
@@ -309,14 +310,14 @@ public class ParserFunctions {
 
 		put(2, "nPr", Operation.NPR, "( <n>, <r> )");
 
-		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY + "");
-		RESERVED_FUNCTION_NAMES.add(Unicode.EULER_STRING);
-		RESERVED_FUNCTION_NAMES.add(Unicode.EULER_GAMMA_STRING);
+		reservedFunctionNames.add(Unicode.IMAGINARY + "");
+		reservedFunctionNames.add(Unicode.EULER_STRING);
+		reservedFunctionNames.add(Unicode.EULER_GAMMA_STRING);
 		// need to check for pi as GeoPolygon.setLabel() uses
 		// pointLabel.toLowercase()
-		RESERVED_FUNCTION_NAMES.add(Unicode.pi + "");
-		RESERVED_FUNCTION_NAMES.add("freehand");
-		RESERVED_FUNCTION_NAMES.add("deg");
+		reservedFunctionNames.add(Unicode.pi + "");
+		reservedFunctionNames.add("freehand");
+		reservedFunctionNames.add("deg");
 
 	}
 
@@ -382,7 +383,7 @@ public class ParserFunctions {
 	}
 
 	private void put(int size, String name, Operation op, String arg) {
-		RESERVED_FUNCTION_NAMES.add(name);
+		reservedFunctionNames.add(name);
 		if (arg != null) {
 			syntaxes.add(name + arg);
 		}
@@ -403,7 +404,7 @@ public class ParserFunctions {
 	 * @return true if label is reserved
 	 */
 	public boolean isReserved(String s) {
-		return RESERVED_FUNCTION_NAMES.contains(s);
+		return reservedFunctionNames.contains(s);
 	}
 
 	/**
