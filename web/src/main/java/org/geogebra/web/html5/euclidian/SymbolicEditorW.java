@@ -28,6 +28,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  * @author Laszlo
  */
 public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWidget {
+
 	public static final int ROUNDING = 8;
 	private static final int BORDER_WIDTH = 2;
 	private final Kernel kernel;
@@ -36,7 +37,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private int fontSize;
-	private static final int PADDING_TOP = 16;
 	private static final int PADDING_LEFT = 2;
 	private GeoInputBox geoInputBox;
 	private GRectangle bounds;
@@ -54,7 +54,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		this.kernel = app.getKernel();
 		this.app = app;
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
-		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 2;
+		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 3;
 		createMathField();
 	}
 
@@ -163,7 +163,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	private void adjustHeightAndPosition() {
 		int height = mathField.getInputTextArea().getOffsetHeight();
 		double diff = mainHeight - main.getOffsetHeight();
-		setHeight(height - PADDING_TOP - 2 * BORDER_WIDTH);
+		setHeight(height - 2 * BORDER_WIDTH);
 		top += (diff/2);
 		style.setTop(top, Style.Unit.PX);
 		geoInputBox.update();

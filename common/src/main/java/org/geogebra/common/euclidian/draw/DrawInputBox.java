@@ -39,8 +39,6 @@ import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-//import javax.swing.SwingUtilities;
-
 /**
  * Checkbox for free GeoBoolean object.
  * 
@@ -53,8 +51,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	/** ratio of length and screen width */
 	public static final double TF_WIDTH_FACTOR = 0.81;
 
-	private static final int TF_MARGIN = 10;
-	private static final double MARGIN = 0.4;
+	static final int TF_MARGIN = 10;
+
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
@@ -65,8 +63,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private int oldLength = 0;
 	private GFont textFont;
-	private GDimension latexDimension;
-	private GRectangle inputFieldBounds;
+	private TextRenderer textRenderer;
 
 	/**
 	 * @param view
@@ -218,6 +215,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private void update(boolean forView) {
 		isVisible = geo.isEuclidianVisible();
+		if (geoInputBox.isSymbolicMode()) {
+			textRenderer = new LaTeXTextRenderer(this);
+		} else {
+			textRenderer = new SimpleTextRenderer(this);
+		}
 		if (getTextField() == null) {
 			return;
 		}
@@ -347,10 +349,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
-	private int getSymbolicMargin(GGraphics2D g2)  {
-		return (int) Math.round(MARGIN * g2.getFont().getSize());
-	}
-
 	/**
 	 * Draw outline and the text on the canvas.
 	 */
@@ -373,21 +371,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
-		if (geoInputBox.isSymbolicMode()) {
-			latexDimension = measureLatex(g2, geo, textFont, geoInputBox.getText());
-			int margin = getSymbolicMargin(g2);
-			int inputHeigth = latexDimension.getHeight() + 2 * margin;
-			int top = TF_MARGIN + margin + yLabel - inputHeigth / 2;
-			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
-					boxLeft, top,
-					Math.max(boxWidth, latexDimension.getWidth()),
-					inputHeigth);
-		} else {
-			measureLabel(g2, geoInputBox, labelDesc);
-			inputFieldBounds = AwtFactory.getPrototype().newRectangle(
-					boxLeft, boxTop, boxWidth, boxHeight);
-		}
-		return inputFieldBounds;
+		return textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
 	}
 
 	private void drawTextOnCanvas() {
@@ -395,21 +379,17 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		String text = getGeoInputBox().getText();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 		g2.setPaint(geo.getObjectColor());
-		if (geoInputBox.isSymbolicMode()) {
-			drawSymbolicValue(g2, text);
-		} else {
-			int textBottom = boxTop + getTextBottom();
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					text.substring(0, getTruncIndex(text, g2)), getTextLeft(),
-					textBottom, false);
-		}
+
+		drawText(g2, text);
 	}
 
-	private void drawSymbolicValue(GGraphics2D g2, String text) {
-		int left = getTextLeft();
-		int top = (int) (getInputFieldBounds(g2).getY() + getSymbolicMargin(g2) / 2.0);
+	private void drawText(GGraphics2D g2, String text) {
+		int textTop = (int) Math.round(getInputFieldBounds(g2).getY());
+		int textLeft = getTextLeft();
+		int lineHeight = getTextBottom();
 
-		drawLatex(g2, geo, textFont, text, left, top);
+		textRenderer.drawText(view.getApplication(), geoInputBox, g2, textFont, text,
+				textLeft, textTop, boxWidth, lineHeight);
 	}
 
 	private int getTextLeft() {
@@ -460,19 +440,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			}
 
 			String text = getGeoInputBox().getText();
-
-			int textLeft = boxLeft + 2;
-			int textBottom = boxTop + getTextBottom();
 			g2.setFont(textFont.deriveFont(GFont.PLAIN));
 
-			if (geoInputBox.isSymbolicMode()) {
-				drawSymbolicValue(g2, text);
-			} else {
-				EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-						text.substring(0, getTruncIndex(text, g2)), textLeft,
-						textBottom, false);
-			}
-
+			drawText(g2, text);
 		}
 		
 		g2.setFont(font);
@@ -500,17 +470,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, yLabel + getTextBottom(), false, null, null);
 		}
-	}
-
-	private int getTruncIndex(String text, GGraphics2D g2) {
-		int idx = text.length();
-		int mt = measureTextWidth(text, g2.getFont(), g2);
-		while (mt > boxWidth && idx > 0) {
-			idx--;
-			mt = measureTextWidth(text.substring(0, idx), g2.getFont(), g2);
-
-		}
-		return idx;
 	}
 
 	/**
