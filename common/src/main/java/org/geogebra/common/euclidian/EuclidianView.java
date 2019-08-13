@@ -3794,6 +3794,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * Allows platform specific drawing of preview lines for performance
+	 * reasons.
+	 * 
+	 * @return new preview polyline drawing utility
+	 */
+	protected PenPreviewLine newPenPreview() {
+		return new PenPreviewLine();
+	}
+
+	/**
 	 * @param g2
 	 *            graphics for background
 	 */

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -24,7 +25,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -329,7 +332,15 @@ public class AlgoLocusStroke extends AlgoElement
 	 * @return list of points without the control points
 	 */
 	public ArrayList<MyPoint> getPointsWithoutControl() {
-		return poly.getPointsWithoutControl();
+		final ArrayList<MyPoint> pointsNoControl = new ArrayList<>();
+		poly.processPointsWithoutControl(new AsyncOperation<MyPoint>() {
+
+			@Override
+			public void callback(MyPoint obj) {
+				pointsNoControl.add(obj);
+			}
+		});
+		return pointsNoControl;
 	}
 
 	/**
@@ -371,27 +382,28 @@ public class AlgoLocusStroke extends AlgoElement
 			xmlPoints = new StringBuilder();
 			// add expression
 			xmlPoints.append(" exp=\"PolyLine[");
-			appendPoints(xmlPoints, tpl);
+			appendPoints(xmlPoints);
 			xmlPoints.append("]\" />\n");
 		}
 		poly.setXMLPointBuilder(xmlPoints);
 		sb.append(xmlPoints);
 	}
 
-	private void appendPoints(StringBuilder sb, StringTemplate tpl) {
-		ArrayList<MyPoint> pts = getPointsWithoutControl();
-		boolean first = true;
-		for (MyPoint m : pts) {
-			if (m.getSegmentType() == SegmentType.MOVE_TO && !first) {
-				// sb.append("(?,?),"); TODO
-			}
-			first = false;
-			sb.append("(");
-			sb.append(kernel.format(m.getX(), tpl));
-			sb.append(",");
-			sb.append(kernel.format(m.getY(), tpl));
-			sb.append("), ");
-		}
+	private void appendPoints(final StringBuilder sb) {
+		final ScientificFormatAdapter formatter = FormatFactory.getPrototype()
+				.getFastScientificFormat(5);
+		poly
+				.processPointsWithoutControl(new AsyncOperation<MyPoint>() {
+
+					@Override
+					public void callback(MyPoint m) {
+						sb.append("(");
+						sb.append(formatter.format(m.getX()));
+						sb.append(",");
+						sb.append(formatter.format(m.getY()));
+						sb.append("), ");
+					}
+				});
 		sb.append("true");
 	}
 
@@ -417,8 +429,9 @@ public class AlgoLocusStroke extends AlgoElement
 		sbAE.append(tpl.leftSquareBracket());
 		// input legth is 0 for ConstructionStep[]
 		
-		appendPoints(sbAE, tpl);
+		appendPoints(sbAE);
 		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
 	}
+
 }
