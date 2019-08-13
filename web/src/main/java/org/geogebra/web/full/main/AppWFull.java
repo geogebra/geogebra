@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -2007,7 +2006,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 					appName == null ? "" : appName);
 			String v = getConfig().getAppCode();
 
-			if (v != appName) {
+			if (!v.equals(appName)) {
 				this.activity = null;
 				initActivity();
 				getGuiManager().resetPanels();

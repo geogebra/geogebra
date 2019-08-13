@@ -250,7 +250,8 @@ public abstract class MyXMLio {
 	public String getFullXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getVersion(), app.getConfig().getAppCode());
+		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getVersion(),
+				app.getConfig().getAppCode());
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
 		// sb.append("
