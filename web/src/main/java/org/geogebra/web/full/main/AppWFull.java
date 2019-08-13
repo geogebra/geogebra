@@ -64,6 +64,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
@@ -2105,5 +2106,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public JavaScriptObject getEmbeddedCalculators() {
 		getEmbedManager();
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
+	}
+
+	/**
+	 * @return manager for showing/hiding keyboard
+	 */
+	public KeyboardManager getKeyboardManager() {
+		return new KeyboardManager(this);
 	}
 }

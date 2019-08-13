@@ -6653,4 +6653,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		return symbolicEditor.isAttached(euclidianController.getMouseLoc());
 	}
+
+	public SymbolicEditor getSymbolicEditor() {
+		return symbolicEditor;
+	}
 }

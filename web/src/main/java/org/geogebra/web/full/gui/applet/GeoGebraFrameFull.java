@@ -491,7 +491,8 @@ public class GeoGebraFrameFull
 			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
 			if (dockPanelKB != null) {
-				showKeyboardButton = new ShowKeyboardButton(this, dm, app);
+				showKeyboardButton = new ShowKeyboardButton(this, dm,
+						(AppWFull) app);
 			}
 		}
 
@@ -514,14 +515,13 @@ public class GeoGebraFrameFull
 				&& app.showView(App.VIEW_ALGEBRA)) {
 			return true;
 		}
-		if (!app.isWhiteboardActive()) {
-			return (app.showAlgebraInput()
-					&& app.getInputPosition() != InputPosition.algebraView)
-					|| app.showView(App.VIEW_CAS)
-					|| app.showView(App.VIEW_SPREADSHEET)
-					|| app.showView(App.VIEW_PROBABILITY_CALCULATOR);
-		}
-		return app.showView(App.VIEW_CAS);
+
+		return getGuiManager().getLayout().getDockManager()
+				.getPanelForKeyboard() != null;
+	}
+
+	private GuiManagerW getGuiManager() {
+		return (GuiManagerW) app.getGuiManager();
 	}
 
 	/**
@@ -628,14 +628,14 @@ public class GeoGebraFrameFull
 	 * Make sure keyboard is editing
 	 */
 	protected void ensureKeyboardEditing() {
-		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+		GuiManagerW guiManager = (GuiManagerW) app.getGuiManager();
+		DockManagerW dm = guiManager.getLayout()
 				.getDockManager();
-		MathKeyboardListener ml = app.getGuiManager()
+		MathKeyboardListener ml = guiManager
 				.getKeyboardListener(dm.getPanelForKeyboard());
 		dm.setFocusedPanel(dm.getPanelForKeyboard());
 
-		app.getGuiManager()
-					.setOnScreenKeyboardTextField(ml);
+		guiManager.setOnScreenKeyboardTextField(ml);
 
 		if (ml != null) {
 			ml.setFocus(true, true);

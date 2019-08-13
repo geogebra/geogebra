@@ -47,6 +47,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	private double top;
 	private int mainHeight;
 	private RetexKeyboardListener retexListener;
+
 	private Canvas canvas;
 
 	/**
@@ -226,5 +227,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		}
 	}
 
+	public RetexKeyboardListener getKeyboardListener() {
+		return retexListener;
+	}
 
 }
