@@ -426,7 +426,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private static Versions getVersion(ArticleElementInterface ae,
 			int dimension,
 			GLookAndFeelI laf2) {
-		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
+		return laf2 == null ? Versions.WEB
 				: laf2.getVersion(dimension, ae.getDataParamAppName());
 	}
 

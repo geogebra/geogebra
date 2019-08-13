@@ -15,13 +15,7 @@ import com.google.gwt.storage.client.Storage;
 public class BundleLookAndFeel extends GLookAndFeel {
 	@Override
 	public Versions getVersion(int dim, String appName) {
-		if ("graphing".equals(appName)) {
-			return Versions.WEB_GRAPHING_OFFLINE;
-		}
-		if ("geometry".equals(appName)) {
-			return Versions.WEB_GEOMETRY_OFFLINE;
-		}
-		return Versions.WEB_FOR_DESKTOP;
+		return Versions.OFFLINE;
 	}
 
 	@Override

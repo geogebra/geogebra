@@ -115,14 +115,14 @@ public abstract class MyXMLio {
 	 * @return construction XML for undo step
 	 */
 	public final static synchronized StringBuilder getUndoXML(Construction c,
-			boolean getListenersToo) {
+			boolean getListenersToo, String appCode) {
 
 		App consApp = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, false, consApp.getUniqueId(),
-				c.getApplication().getVersion());
+				c.getApplication().getVersion(), appCode);
 
 		// save euclidianView settings
 		consApp.getCompanion().getEuclidianViewXML(sb, false);
@@ -198,7 +198,7 @@ public abstract class MyXMLio {
 	 *            app version
 	 */
 	public final static void addGeoGebraHeader(StringBuilder sb,
-			boolean isMacro, String uniqueId, Versions v) {
+			boolean isMacro, String uniqueId, Versions v, String appCode) {
 
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)
@@ -211,7 +211,7 @@ public abstract class MyXMLio {
 		sb.append(GeoGebraConstants.VERSION_STRING);
 		sb.append("\" ");
 		sb.append("app=\"");
-		sb.append(v.getAppName());
+		sb.append(appCode);
 		sb.append("\" ");
 		sb.append("platform=\"");
 		sb.append(v.getPlatform());
@@ -250,7 +250,7 @@ public abstract class MyXMLio {
 	public String getFullXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getVersion());
+		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getVersion(), app.getConfig().getAppCode());
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
 		// sb.append("
@@ -280,7 +280,7 @@ public abstract class MyXMLio {
 	public String getFullMacroXML(ArrayList<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, true, null, app.getVersion());
+		addGeoGebraHeader(sb, true, null, app.getVersion(), app.getConfig().getAppCode());
 		// save construction
 		sb.append(kernel.getMacroXML(macros));
 
@@ -296,7 +296,7 @@ public abstract class MyXMLio {
 	public String getPreferencesXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, null, app.getVersion());
+		addGeoGebraHeader(sb, false, null, app.getVersion(), app.getConfig().getAppCode());
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT
 		// + "\">\n");

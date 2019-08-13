@@ -2005,24 +2005,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",
 					appName == null ? "" : appName);
-			Versions v = getVersion();
-			if ("graphing".equals(appName)) {
-				v = Versions.WEB_GRAPHING;
-			} else if ("geometry".equals(appName)) {
-				v = Versions.WEB_GEOMETRY;
-			} else if ("3d".equalsIgnoreCase(appName)) {
-				v = Versions.WEB_3D_GRAPHING;
-			} else if ("classic".equals(appName) || StringUtil.empty(appName)) {
-				v = Versions.WEB_FOR_BROWSER_3D;
-				removeHeader();
-			} else if ("cas".equalsIgnoreCase(appName)) {
- 				v = Versions.WEB_CAS;
-			} else if ("notes".equals(appName)) {
-				v = Versions.WEB_NOTES;
-			}
+			String v = getConfig().getAppCode();
 
-			if (v != getVersion()) {
-				setVersion(v);
+			if (v != appName) {
 				this.activity = null;
 				initActivity();
 				getGuiManager().resetPanels();

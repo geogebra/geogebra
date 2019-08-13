@@ -152,6 +152,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError;
@@ -458,7 +459,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING,
-				Versions.DESKTOP.getAppName());
+				new AppConfigDefault().getAppCode());
 
 		if (args != null) {
 			handleHelpVersionArgs(args);

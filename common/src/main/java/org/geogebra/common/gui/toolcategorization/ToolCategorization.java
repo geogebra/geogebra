@@ -63,11 +63,11 @@ public class ToolCategorization {
 	 */
 	public enum AppType {
 		/**
-		 * graphing calculator
+		 * geometry calculator
 		 */
 		GEOMETRY_CALC,
 		/**
-		 * geometry
+		 * graphing calculator
 		 */
 		GRAPHING_CALCULATOR,
 		/**

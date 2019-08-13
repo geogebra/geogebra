@@ -188,22 +188,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 
 	@Override
 	public Versions getVersion(int dim, String appName) {
-		if ("graphing".equals(appName)) {
-			return Versions.WEB_GRAPHING;
-		}
-		if ("geometry".equals(appName)) {
-			return Versions.WEB_GEOMETRY;
-		}
-		if ("3d".equalsIgnoreCase(appName)) {
-			return Versions.WEB_3D_GRAPHING;
-		}
-		if ("cas".equalsIgnoreCase(appName)) {
-			return Versions.WEB_CAS;
-		}
-		if ("notes".equalsIgnoreCase(appName)) {
-			return Versions.WEB_NOTES;
-		}
-		return dim > 2 ? Versions.WEB_FOR_BROWSER_3D
+		return dim > 2 ? Versions.WEB
 				: Versions.WEB_FOR_BROWSER_2D;
 	}
 

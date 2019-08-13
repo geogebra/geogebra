@@ -3061,7 +3061,7 @@ public class Construction {
 	 * @return StringBuilder with xml of this construction.
 	 */
 	public StringBuilder getCurrentUndoXML(boolean getListenersToo) {
-		return MyXMLio.getUndoXML(this, getListenersToo);
+		return MyXMLio.getUndoXML(this, getListenersToo, getApplication().getConfig().getAppCode());
 	}
 
 	/**

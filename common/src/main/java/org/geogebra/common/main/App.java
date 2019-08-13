@@ -3044,7 +3044,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public String getVersionString() {
 
 		if (version != null) {
-			return version.getVersionString(prerelease, canary);
+			return version.getVersionString(prerelease, canary, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3871,7 +3871,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return (prerelease && !whiteboard) || Versions.OFFLINE.equals(getVersion());
 
 		case TOOL_EDITOR:
 			return prerelease;
@@ -4798,37 +4798,22 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
 		AbstractToolCollectionFactory factory = null;
-		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_CAS:
-			case IOS_NATIVE:
-			case IOS_CAS:
-			case WEB_GRAPHING:
+		switch (getConfig().getToolbarType()) {
+			case GRAPHING_CALCULATOR:
 				factory = new GraphingToolCollectionFactory();
 				break;
-			case ANDROID_GEOMETRY:
-			case IOS_GEOMETRY:
-			case WEB_GEOMETRY:
-			case WEB_GEOMETRY_OFFLINE:
+			case GEOMETRY_CALC:
 				factory = new GeometryToolCollectionFactory();
 				break;
-			case ANDROID_NATIVE_3D:
-			case WEB_3D_GRAPHING:
-			case IOS_NATIVE_3D:
+			case GRAPHER_3D:
 				factory = new Graphing3DToolCollectionFactory();
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();
 		}
 		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_CAS:
-			case ANDROID_GEOMETRY:
-			case ANDROID_NATIVE_3D:
-			case IOS_GEOMETRY:
-			case IOS_NATIVE:
-			case IOS_NATIVE_3D:
-			case IOS_CAS:
+			case ANDROID:
+			case IOS:
 				factory.setPhoneApp(true);
 				break;
 			default:

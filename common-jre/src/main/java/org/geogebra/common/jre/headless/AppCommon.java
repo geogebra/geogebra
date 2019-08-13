@@ -75,7 +75,7 @@ public class AppCommon extends App {
 	 *            AWT factory
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
-		super(Versions.ANDROID_NATIVE_GRAPHING);
+		super(Versions.ANDROID);
 		AwtFactory.setPrototypeIfNull(awtFactory);
         initFactories();
 		initKernel();
