@@ -33,22 +33,22 @@ public class CmdCAStoOperation extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		ExpressionNode en = null;
-		GeoElement[] args = resArgs(c);
 		switch (op) {
 		case YCOORD:
 		case XCOORD:
-			if (args.length != 1) {
+			if (c.getArgumentNumber() != 1) {
 				throw argNumErr(c);
 			}
-			en = new ExpressionNode(kernel, args[0], op, null);
+			en = new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, null);
 			break;
 		case MULTIPLY:
 		case VECTORPRODUCT:
 		case NPR:
-			if (args.length != 2) {
+			if (c.getArgumentNumber() != 2) {
 				throw argNumErr(c);
 			}
-			en = new ExpressionNode(kernel, args[0], op, args[1]);
+			en = new ExpressionNode(kernel, c.getArgument(0).unwrap(), op,
+					c.getArgument(1).unwrap());
 			break;
 		default:
 			throw new Error("Unhandled operation " + op);

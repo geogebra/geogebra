@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
@@ -261,6 +262,15 @@ public class ArithmeticTest extends Assert {
 		t("f'(7)", "1");
 	}
 
+	@Test
+	public void crossProductMissingBracketsTest() {
+		t("A = (1,2)", "(1, 2)");
+		t("B = (2,3)", "(2, 3)");
+		t("C = (6,3)", "(6, 3)");
+		t("D = (0,4)", "(0, 4)");
+		t("E=Cross(A-B, C-D)", "7");
+		assertEquals(app.getKernel().lookupLabel("E").getDefinition(StringTemplate.defaultTemplate), "(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)");
+	}
 	@Test
 	public void absFunctionBugFix() {
 		app.getSettings().getCasSettings().setEnabled(true);
