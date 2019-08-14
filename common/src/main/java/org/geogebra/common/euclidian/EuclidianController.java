@@ -9738,9 +9738,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				oldMode = mode; // remember current mode
 				if (mayPaste()) { // #5246 make sure we don't switch to
 					// translation if we have geos to paste
-					if (app.has(Feature.G3D_AR_ROTATE_3D_VIEW_TOOL) && view.isAREnabled()) {
-						// don't rotate
-					} else {
+					if (!view.isAREnabled()) {
 						view.setMode(getModeForShallMoveView(event));
 					}
 				}
