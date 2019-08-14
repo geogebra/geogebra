@@ -69,9 +69,6 @@ public enum Feature {
 	/** APPS-634 */
 	BUTTON_HIGHLIGHTING,
 
-	/** G3D-249 */
-	G3D_AR_EXTRUSION_TOOL,
-
 	/** G3D-323 */
 	G3D_AR_LABELS_OFFSET,
 
