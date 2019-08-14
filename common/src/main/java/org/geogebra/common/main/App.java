@@ -3946,10 +3946,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_AR_LABELS_OFFSET:
 			return true;
 
-		/** G3D-340 */
-		case G3D_AR_SIMPLE_SCALE:
-			return true;
-
 		/** G3D-345 */
 		case G3D_AR_SHOW_RATIO:
 			return prerelease;
