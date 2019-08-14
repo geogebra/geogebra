@@ -1,11 +1,12 @@
 package org.geogebra.web.util.file;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
@@ -13,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Helper class for file operations.
  */
-public class FileIO {
+public final class FileIO {
 
 	private static FileIO instance;
 
@@ -36,7 +37,8 @@ public class FileIO {
 		FileIO fileIO = getInstance();
 		InputStream is = null;
 		try {
-			is = new FileInputStream(new File(filename));
+			Path filePath = Paths.get(filename);
+			is = Files.newInputStream(filePath);
 			return fileIO.load(is);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);

@@ -92,7 +92,6 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
-import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingEmulator;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
 import org.geogebra.web.html5.export.GeoGebraToPgfW;

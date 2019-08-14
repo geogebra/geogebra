@@ -8,7 +8,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 
-public class CoordinatesParser {
+public final class CoordinatesParser {
 
 	private static final String COORDS = "coords";
 	private static final String TIME = "time";

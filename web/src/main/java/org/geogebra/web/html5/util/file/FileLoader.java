@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util.file;
 
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 
 public class FileLoader {
@@ -20,7 +21,7 @@ public class FileLoader {
 
 			@Override
 			public void onError(String error) {
-				System.err.println("ERROR: " + error);
+				Log.error("ERROR: " + error);
 			}
 		});
 	}
