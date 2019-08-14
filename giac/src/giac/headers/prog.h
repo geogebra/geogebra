@@ -1010,6 +1010,7 @@ namespace giac {
   gen _struct_dot(const gen & g,GIAC_CONTEXT);
   // replace := by = in builtin commands (for Python compatible mode)
   gen denest_sto(const gen & g);
+  gen numworks_nary_workaround(const gen & g); // replace [[a,b,...]] by a,b,...
 
   extern const unary_function_ptr * const  at_index ;
   gen _index(const gen & args,GIAC_CONTEXT);

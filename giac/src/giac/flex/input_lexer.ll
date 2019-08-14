@@ -334,6 +334,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "θ"	index_status(yyextra)=1; (*yylval)=theta__IDNT_e; return T_SYMBOL;
 "i"			index_status(yyextra)=1; if (xcas_mode(yyextra) > 0 || !i_sqrt_minus1(yyextra)) { (*yylval)=i__IDNT_e; return T_SYMBOL; } else { (*yylval) = cst_i; return T_LITERAL;};
 "ί"                      index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
+"𝐢"                     index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 ""                      index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 \xa1                    index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
   /* \xef\xbd\x89            index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL; */

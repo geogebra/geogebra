@@ -7231,6 +7231,14 @@ namespace giac {
     return gensizeerr("Interval arithmetic support not compiled. Please install MPFI and recompile");
   }
 
+  gen numworks_nary_workaround(const gen & g){
+#ifdef NUMWORKS
+    if (g.type==_VECT && g._VECTptr->size()==1 && g._VECTptr->front().type==_VECT)
+      return change_subtype(g._VECTptr->front(),_SEQ__VECT);
+#endif
+    return g;
+  }
+
   gen denest_sto(const gen & g){
     if (g.type==_VECT){
       vecteur v(*g._VECTptr);

@@ -5055,14 +5055,14 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 207 "input_parser.yy"
-    { (yyval) =(yyvsp[(1) - (5)])*symbolic(*(yyvsp[(2) - (5)])._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(4) - (5)])):(yyvsp[(4) - (5)])); }
+    { (yyval) =(yyvsp[(1) - (5)])*symbolic(*(yyvsp[(2) - (5)])._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround((yyvsp[(4) - (5)]))):numworks_nary_workaround((yyvsp[(4) - (5)]))); }
     break;
 
   case 11:
 
 /* Line 1806 of yacc.c  */
 #line 208 "input_parser.yy"
-    { (yyval) =(yyvsp[(1) - (7)])*symb_pow(symbolic(*(yyvsp[(2) - (7)])._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(4) - (7)])):(yyvsp[(4) - (7)])),(yyvsp[(7) - (7)])); }
+    { (yyval) =(yyvsp[(1) - (7)])*symb_pow(symbolic(*(yyvsp[(2) - (7)])._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround((yyvsp[(4) - (7)]))):numworks_nary_workaround((yyvsp[(4) - (7)]))),(yyvsp[(7) - (7)])); }
     break;
 
   case 12:
@@ -5180,14 +5180,14 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 233 "input_parser.yy"
-    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):(yyvsp[(3) - (4)]),giac_yyget_extra(scanner));}
+    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround((yyvsp[(3) - (4)]))):numworks_nary_workaround((yyvsp[(3) - (4)])),giac_yyget_extra(scanner));}
     break;
 
   case 28:
 
 /* Line 1806 of yacc.c  */
 #line 234 "input_parser.yy"
-    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):(yyvsp[(3) - (4)]),giac_yyget_extra(scanner));}
+    {(yyval) = check_symb_of((yyvsp[(1) - (4)]),python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround((yyvsp[(3) - (4)]))):numworks_nary_workaround((yyvsp[(3) - (4)])),giac_yyget_extra(scanner));}
     break;
 
   case 29:
@@ -5463,7 +5463,7 @@ yyreduce:
 /* Line 1806 of yacc.c  */
 #line 296 "input_parser.yy"
     {
-	gen tmp=python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):(yyvsp[(3) - (4)]);
+	gen tmp=python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround((yyvsp[(3) - (4)]))):numworks_nary_workaround((yyvsp[(3) - (4)]));
 	// CERR << python_compat(giac_yyget_extra(scanner)) << tmp << endl;
 	(yyval) = symbolic(*(yyvsp[(1) - (4)])._FUNCptr,tmp);
         const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -5483,7 +5483,7 @@ yyreduce:
     {
 	if ((yyvsp[(3) - (4)]).type==_VECT && (yyvsp[(3) - (4)])._VECTptr->empty())
           giac_yyerror(scanner,"void argument");
-	(yyval) = symbolic(*(yyvsp[(1) - (4)])._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto((yyvsp[(3) - (4)])):(yyvsp[(3) - (4)]));	
+	(yyval) = symbolic(*(yyvsp[(1) - (4)])._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround((yyvsp[(3) - (4)]))):numworks_nary_workaround((yyvsp[(3) - (4)])));	
 	}
     break;
 

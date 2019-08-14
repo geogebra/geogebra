@@ -12778,6 +12778,9 @@ namespace giac {
   }
 
   const char * printi(GIAC_CONTEXT){
+#ifdef NUMWORKS
+    return "𝐢";
+#endif
     if (calc_mode(contextptr)==1)
       return "ί";
     if (abs_calc_mode(contextptr)==38)
@@ -15705,6 +15708,7 @@ namespace giac {
     caseval_param * ptr=(caseval_param *)ptr_;
     pthread_mutex_lock(&ptr->mutex);
     gen g(ptr->s,ptr->contextptr);
+    g=equaltosto(g,ptr->contextptr);
     ptr->ans=protecteval(g,1,ptr->contextptr);
     pthread_mutex_unlock(&ptr->mutex);
     return ptr;
@@ -15890,6 +15894,8 @@ namespace giac {
       if (S.size()>1)
 	S_ +=S[S.size()-1];
       S=S_;
+      if (S.size()>=3 && S[0]=='[' && S[1]!='[' && S[S.size()-1]==']')
+	S='['+S+']'; // vector/list not allowed in Numworks calc app
 #else
 #if !defined GIAC_GGB 
       if (g.type==_FRAC || g.type==_ZINT){

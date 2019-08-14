@@ -204,8 +204,8 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_NUMBER symbol_or_literal %prec T_IMPMULT	{if (is_one($1)) $$=$2; else $$=symbolic(at_prod,gen(makevecteur($1,$2),_SEQ__VECT));}
 	| T_NUMBER symbol_or_literal T_POW T_NUMBER %prec T_IMPMULT	{if (is_one($1)) $$=symb_pow($2,$4); else $$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$4)),_SEQ__VECT));}
 	| T_NUMBER symbol_or_literal T_SQ %prec T_IMPMULT	{$$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$3)) ,_SEQ__VECT));}
-	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR	{ $$ =$1*symbolic(*$2._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto($4):$4); }
-	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR T_POW T_NUMBER	{ $$ =$1*symb_pow(symbolic(*$2._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto($4):$4),$7); }
+	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR	{ $$ =$1*symbolic(*$2._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround($4)):numworks_nary_workaround($4)); }
+	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR T_POW T_NUMBER	{ $$ =$1*symb_pow(symbolic(*$2._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround($4)):numworks_nary_workaround($4)),$7); }
 	/* | T_LITERAL T_NUMBER	{$$=symbolic(at_prod,makevecteur($1,$2));} */
 	| T_STRING		{ $$=$1; }
 	| T_EXPRESSION		{ if ($1.type==_FUNC) $$=symbolic(*$1._FUNCptr,gen(vecteur(0),_SEQ__VECT)); else $$=$1; }
@@ -230,8 +230,8 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp TI_STO T_VIRGULE { $$=symbolic(at_time,$1);}
 	| exp TI_STO TI_STO { $$=symbolic(at_POLYFORM,gen(makevecteur($1,at_eval),_SEQ__VECT));}
 	| exp TI_STO T_UNIT exp { $$=symbolic(at_convert,gen(makevecteur($1,symb_unit(plus_one,$4,giac_yyget_extra(scanner))),_SEQ__VECT)); opened_quote(giac_yyget_extra(scanner)) &= 0x7ffffffd;}	
-	| symbol T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,python_compat(giac_yyget_extra(scanner))?denest_sto($3):$3,giac_yyget_extra(scanner));}
-	| exp T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,python_compat(giac_yyget_extra(scanner))?denest_sto($3):$3,giac_yyget_extra(scanner));}
+	| symbol T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround($3)):numworks_nary_workaround($3),giac_yyget_extra(scanner));}
+	| exp T_BEGIN_PAR suite T_END_PAR {$$ = check_symb_of($1,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround($3)):numworks_nary_workaround($3),giac_yyget_extra(scanner));}
 	| symbol 		{$$ = $1;}  
 	| T_LITERAL		{$$ = $1;}
 	| T_DIGITS		{$$ = $1;}
@@ -294,7 +294,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_ARGS T_INDEX_BEGIN exp T_VECT_END	{$$ = symb_args($3);}
 	| T_ARGS { $$=symb_args(vecteur(0)); }
 	| T_UNARY_OP T_BEGIN_PAR exp T_END_PAR	{
-	gen tmp=python_compat(giac_yyget_extra(scanner))?denest_sto($3):$3;
+	gen tmp=python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround($3)):numworks_nary_workaround($3);
 	// CERR << python_compat(giac_yyget_extra(scanner)) << tmp << endl;
 	$$ = symbolic(*$1._FUNCptr,tmp);
         const giac::context * contextptr = giac_yyget_extra(scanner);
@@ -308,7 +308,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_UNARY_OP_38 T_BEGIN_PAR exp T_END_PAR	{
 	if ($3.type==_VECT && $3._VECTptr->empty())
           giac_yyerror(scanner,"void argument");
-	$$ = symbolic(*$1._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto($3):$3);	
+	$$ = symbolic(*$1._FUNCptr,python_compat(giac_yyget_extra(scanner))?denest_sto(numworks_nary_workaround($3)):numworks_nary_workaround($3));	
 	}
 	| T_UNARY_OP T_INDEX_BEGIN exp T_VECT_END { 
           const giac::context * contextptr = giac_yyget_extra(scanner);
