@@ -11821,7 +11821,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.rememberOrigins();
 
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			return;
 		}
 
@@ -11947,7 +11947,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			return;
 		}
 

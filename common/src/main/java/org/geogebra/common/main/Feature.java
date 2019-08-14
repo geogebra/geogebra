@@ -57,9 +57,6 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-	/** G3D-42 */
-	G3D_AR_REGULAR_TOOLS,
-
 	/** G3D-95 */
 	G3D_AR_ROTATE_3D_VIEW_TOOL,
 

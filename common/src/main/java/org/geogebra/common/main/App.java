@@ -3922,10 +3922,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-42*/
-			case G3D_AR_REGULAR_TOOLS:
-			return true;
-
         /** G3D-95*/
 			case G3D_AR_ROTATE_3D_VIEW_TOOL:
 			return true;
