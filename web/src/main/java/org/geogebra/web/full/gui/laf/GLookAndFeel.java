@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.laf;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.lang.Language;
@@ -187,9 +187,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return dim > 2 ? Versions.WEB
-				: Versions.WEB_FOR_BROWSER_2D;
+	public Platform getVersion(int dim, String appName) {
+		return dim > 2 ? Platform.WEB
+				: Platform.WEB_FOR_BROWSER_2D;
 	}
 
 	@Override

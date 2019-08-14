@@ -2004,9 +2004,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",
 					appName == null ? "" : appName);
-			String v = getConfig().getAppCode();
+			String appCode = getConfig().getAppCode();
 
-			if (!v.equals(appName)) {
+			if ("classic".equals(appName) || StringUtil.empty(appName)) {
+				removeHeader();
+			}
+
+			if (!appCode.equals(appName)) {
 				this.activity = null;
 				initActivity();
 				getGuiManager().resetPanels();

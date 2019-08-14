@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -401,7 +401,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-	private Versions version;
+	private Platform version;
 	/**
 	 * static so that you can copy & paste between instances
 	 */
@@ -442,7 +442,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * constructor
 	 */
-	public App(Versions version) {
+	public App(Platform version) {
 		this();
 		this.version = version;
 	}
@@ -473,7 +473,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param version
 	 *            version
 	 */
-	public void setVersion(Versions version) {
+	public void setVersion(Platform version) {
 		this.version = version;
 	}
 
@@ -3871,7 +3871,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Versions.OFFLINE.equals(getVersion());
+			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getVersion());
 
 		case TOOL_EDITOR:
 			return prerelease;
@@ -4574,7 +4574,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return adjustViews.isPortait();
 	}
 
-	public Versions getVersion() {
+	public Platform getVersion() {
 		return version;
 	}
 

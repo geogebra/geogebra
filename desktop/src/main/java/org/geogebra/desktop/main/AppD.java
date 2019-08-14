@@ -113,7 +113,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -152,7 +152,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError;
@@ -417,7 +416,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			boolean undoActive,
 			LocalizationD loc) {
 
-		super(Versions.DESKTOP);
+		super(Platform.DESKTOP);
 
 		this.loc = loc;
 		loc.setApp(this);
@@ -459,7 +458,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING,
-				new AppConfigDefault().getAppCode());
+				getConfig().getAppCode());
 
 		if (args != null) {
 			handleHelpVersionArgs(args);

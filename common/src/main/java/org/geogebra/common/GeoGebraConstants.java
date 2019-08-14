@@ -17,7 +17,7 @@ public interface GeoGebraConstants {
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
-	public enum Versions {
+	public enum Platform {
 
 		DESKTOP("d"),
 
@@ -44,14 +44,14 @@ public interface GeoGebraConstants {
 
 		NO_CAS("nc");
 
-		private String platform;
+		private String name;
 
-		Versions(String platform) {
-			this.platform = platform;
+		Platform(String name) {
+			this.name = name;
 		}
 
-		public String getPlatform() {
-			return platform;
+		public String getName() {
+			return name;
 		}
 
 		/**
@@ -64,7 +64,7 @@ public interface GeoGebraConstants {
 		public String getVersionString(boolean prerelease, boolean canary, String appCode) {
 
 			StringBuilder suffix = new StringBuilder(10);
-			suffix.append(platform);
+			suffix.append(name);
 			if (!"classic".equals(appCode)) {
 				suffix.append(appCode);
 			}
@@ -101,7 +101,7 @@ public interface GeoGebraConstants {
 		 * @return true if this is a phone version.
 		 */
 		public boolean isPhone() {
-			return "i".equals(platform);
+			return "i".equals(name);
 		}
 
 	}

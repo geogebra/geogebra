@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.laf;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
@@ -14,8 +14,8 @@ import com.google.gwt.storage.client.Storage;
  */
 public class BundleLookAndFeel extends GLookAndFeel {
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return Versions.OFFLINE;
+	public Platform getVersion(int dim, String appName) {
+		return Platform.OFFLINE;
 	}
 
 	@Override

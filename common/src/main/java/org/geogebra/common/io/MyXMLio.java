@@ -15,7 +15,7 @@ package org.geogebra.common.io;
 import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -115,14 +115,14 @@ public abstract class MyXMLio {
 	 * @return construction XML for undo step
 	 */
 	public final static synchronized StringBuilder getUndoXML(Construction c,
-			boolean getListenersToo, String appCode) {
+			boolean getListenersToo) {
 
 		App consApp = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, false, consApp.getUniqueId(),
-				c.getApplication().getVersion(), appCode);
+				c.getApplication().getVersion(), c.getApplication().getConfig().getAppCode());
 
 		// save euclidianView settings
 		consApp.getCompanion().getEuclidianViewXML(sb, false);
@@ -198,7 +198,7 @@ public abstract class MyXMLio {
 	 *            app version
 	 */
 	public final static void addGeoGebraHeader(StringBuilder sb,
-			boolean isMacro, String uniqueId, Versions v, String appCode) {
+			boolean isMacro, String uniqueId, Platform v, String appCode) {
 
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)
@@ -214,7 +214,7 @@ public abstract class MyXMLio {
 		sb.append(appCode);
 		sb.append("\" ");
 		sb.append("platform=\"");
-		sb.append(v.getPlatform());
+		sb.append(v.getName());
 		sb.append("\" ");
 		if (uniqueId != null) {
 			sb.append("id=\"");
