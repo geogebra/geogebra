@@ -49,8 +49,7 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 		xZeroOld = view3D.getXZero();
 		yZeroOld = view3D.getYZero();
 		zZeroOld = view3D.getZZero();
-		if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)
-				&& view3D.isAREnabled()) {
+		if (view3D.isAREnabled()) {
 			view3D.getHittingDirection(hittingDirection);
 			view3D.getHittingOrigin(null, hittingOrigin);
             hittingOrigin.projectPlaneThruV(CoordMatrix4x4.IDENTITY, hittingDirection,
@@ -97,8 +96,7 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
             case EuclidianController.MOVE_VIEW:
                 boolean changed = false;
                 if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-                    if (view3D.getApplication().has(Feature.G3D_AR_TRANSLATE_3D_VIEW_TOOL)
-                            && view3D.isAREnabled()) {
+                    if (view3D.isAREnabled()) {
                         if (canUseStartTouchOnXOYPlane) {
                             view3D.getHittingOrigin(null, hittingOrigin);
                             view3D.getHittingDirection(hittingDirection);

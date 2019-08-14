@@ -57,9 +57,6 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-	/** G3D-97 */
-	G3D_AR_TRANSLATE_3D_VIEW_TOOL,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
