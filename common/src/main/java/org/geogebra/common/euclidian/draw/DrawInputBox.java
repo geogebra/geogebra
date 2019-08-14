@@ -49,9 +49,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	/** ratio of length and screen width */
-	public static final double TF_WIDTH_FACTOR = 0.81;
-
-	static final int TF_MARGIN = 10;
+	private static final double TF_WIDTH_FACTOR = 0.81;
+	private static final int TF_MARGIN = 10;
 
 
 	/** textfield */
@@ -198,7 +197,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * @return whether this drawable is connected to the active input for the
 	 *         view
 	 */
-	boolean isSelectedForInput() {
+	private boolean isSelectedForInput() {
 		return view.getTextField() != null
 				&& view.getTextField().getInputBox() == getGeoInputBox();
 	}
@@ -349,10 +348,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
-	/**
-	 * Draw outline and the text on the canvas.
-	 */
-	public void drawTextfieldOnCanvas() {
+	private void drawTextfieldOnCanvas() {
 		if (geoInputBox.isEditing()) {
 			return;
 		}
@@ -472,15 +468,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
-	/**
-	 * Removes button from view again
-	 */
 	@Override
 	final public void remove() {
-		if (!isSelectedForInput()) {
-			return;
-		}
-		// view.remove(getBox());
 	}
 
 	/**
