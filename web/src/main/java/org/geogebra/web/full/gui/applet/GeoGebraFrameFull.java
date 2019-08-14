@@ -9,7 +9,6 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -18,6 +17,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
+import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
@@ -364,6 +364,7 @@ public class GeoGebraFrameFull
 				}
 			}
 		};
+		((AppWFull) app).getKeyboardManager().updateStyle(keyBoard);
 		if (animated) {
 			keyBoard.afterShown(callback);
 		} else {
@@ -388,9 +389,12 @@ public class GeoGebraFrameFull
 	 *            keyboard
 	 */
 	protected void onKeyboardAdded(final VirtualKeyboardW keyBoard) {
-		keyboardHeight = keyBoard.getOffsetHeight();
-		if (keyboardHeight == 0) {
-			keyboardHeight = estimateKeyboardHeight();
+		KeyboardManager keyboardManager = ((AppWFull) app).getKeyboardManager();
+		if (keyboardManager.shouldDetach()) {
+			keyboardHeight = 0;
+		} else {
+			keyboardHeight = keyboardManager
+				.estimateKeyboardHeight(keyBoard);
 		}
 
 		app.updateSplitPanelHeight();
@@ -498,7 +502,11 @@ public class GeoGebraFrameFull
 
 		if (showKeyboardButton != null) {
 			this.setKeyboardButton();
-			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+			boolean attachedKeyboard = !((AppWFull) app).getKeyboardManager()
+					.shouldDetach();
+			boolean buttonNeeded = app.isKeyboardNeeded() && (attachedKeyboard
+					|| app.getEuclidianView1().isSymbolicEditorAttached());
+			showKeyboardButton.show(buttonNeeded, textField);
 			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
 	}
@@ -598,7 +606,7 @@ public class GeoGebraFrameFull
 			MathKeyboardListener textField) {
 		if (app.getGuiManager() != null) {
 			return ((GuiManagerW) app.getGuiManager())
-				.getOnScreenKeyboard(textField, this);
+					.getOnScreenKeyboard(textField, this);
 		}
 		return null;
 	}
@@ -657,29 +665,18 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void updateKeyboardHeight() {
-		if (isKeyboardShowing()) {
-			int newHeight = getOnScreenKeyboard(null)
-					.getOffsetHeight();
-			if (newHeight == 0) {
-				newHeight = estimateKeyboardHeight();
-			}
-			if (newHeight > 0) {
+		KeyboardManager keyboardManager = ((AppWFull) app).getKeyboardManager();
+		if (isKeyboardShowing() && !keyboardManager.shouldDetach()) {
+			int newHeight = keyboardManager
+					.estimateKeyboardHeight(getOnScreenKeyboard(null));
 
+			if (newHeight > 0) {
 				app.updateSplitPanelHeight();
 				keyboardHeight = newHeight;
 				app.updateCenterPanelAndViews();
 				add(getOnScreenKeyboard(null));
 			}
 		}
-	}
-
-	private int estimateKeyboardHeight() {
-		int newHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
-				: TabbedKeyboard.BIG_HEIGHT;
-		// add switcher height
-		newHeight += 40;
-
-		return newHeight;
 	}
 
 	@Override
