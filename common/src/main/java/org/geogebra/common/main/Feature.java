@@ -60,9 +60,6 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** G3D-160 */
-	G3D_AR_TARGET,
-
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
 

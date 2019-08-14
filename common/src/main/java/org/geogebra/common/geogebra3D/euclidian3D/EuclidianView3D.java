@@ -5028,8 +5028,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private boolean shouldDrawCursorAtEnd() {
-		return app.has(Feature.G3D_AR_TARGET)
-				&& euclidianController.isCreatingPointAR();
+		return euclidianController.isCreatingPointAR();
 	}
 
 	/**

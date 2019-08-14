@@ -169,54 +169,48 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         if (isDrawing()) {
             renderer.getView().setARDrawing(true);
             renderer.setView();
-            if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
-                if (((EuclidianController3D) renderer.getView().getEuclidianController())
-                        .isCurrentModeForCreatingPoint()) {
-                    if (arMotionEvent == null) {
-                        if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
-                            // create a "mouse move" event
-                            setHittingOriginAndDirectionFromScreenCenter();
-                            wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
-                        } else {
-                            // force a drag (device may have moved)
-                            arMotionEvent = getARMotionEventMove(mView.getWidth() / 2,
-                                    mView.getHeight() / 2);
-                            setHittingOriginAndDirectionFromScreenCenter();
-                        }
+            if (((EuclidianController3D) renderer.getView().getEuclidianController())
+                    .isCurrentModeForCreatingPoint()) {
+                if (arMotionEvent == null) {
+                    if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
+                        // create a "mouse move" event
+                        setHittingOriginAndDirectionFromScreenCenter();
+                        wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                     } else {
-                        // force event to be screen-centered
-                        arMotionEvent.setLocation(renderer.getWidthInPixels() / 2,
-                                renderer.getHeightInPixels() / 2);
+                        // force a drag (device may have moved)
+                        arMotionEvent = getARMotionEventMove(mView.getWidth() / 2,
+                                mView.getHeight() / 2);
                         setHittingOriginAndDirectionFromScreenCenter();
                     }
                 } else {
-                    // process motionEvent at touch location (if exists)
-                    if (arMotionEvent != null) {
-                        setHittingOriginAndDirection(arMotionEvent);
-                        lastARMotionEvent = arMotionEvent;
+                    // force event to be screen-centered
+                    arMotionEvent.setLocation(renderer.getWidthInPixels() / 2,
+                            renderer.getHeightInPixels() / 2);
+                    setHittingOriginAndDirectionFromScreenCenter();
+                }
+            } else {
+                // process motionEvent at touch location (if exists)
+                if (arMotionEvent != null) {
+                    setHittingOriginAndDirection(arMotionEvent);
+                    lastARMotionEvent = arMotionEvent;
+                } else {
+                    if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
+                        lastARMotionEvent = null;
                     } else {
-                        if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
-                            lastARMotionEvent = null;
-                        } else {
-                            // create a new motionEvent
-                            if (lastARMotionEvent != null) {
-                                if (lastARMotionEvent.getAction() ==
-                                        ARMotionEvent.FIRST_FINGER_DOWN) {
-                                    arMotionEvent = getARMotionEventMove(lastARMotionEvent.getX(),
-                                            lastARMotionEvent.getY());
-                                    setHittingOriginAndDirection(arMotionEvent);
-                                } else if (lastARMotionEvent.getAction() ==
-                                        ARMotionEvent.ON_MOVE) {
-                                    arMotionEvent = lastARMotionEvent;
-                                    setHittingOriginAndDirection(arMotionEvent);
-                                }
+                        // create a new motionEvent
+                        if (lastARMotionEvent != null) {
+                            if (lastARMotionEvent.getAction() ==
+                                    ARMotionEvent.FIRST_FINGER_DOWN) {
+                                arMotionEvent = getARMotionEventMove(lastARMotionEvent.getX(),
+                                        lastARMotionEvent.getY());
+                                setHittingOriginAndDirection(arMotionEvent);
+                            } else if (lastARMotionEvent.getAction() ==
+                                    ARMotionEvent.ON_MOVE) {
+                                arMotionEvent = lastARMotionEvent;
+                                setHittingOriginAndDirection(arMotionEvent);
                             }
                         }
                     }
-                }
-            } else {
-                if (arMotionEvent != null) {
-                    setHittingOriginAndDirection(arMotionEvent);
                 }
             }
             renderer.getView().setEuclidianPanelOnTouchListener();
