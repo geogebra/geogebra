@@ -241,9 +241,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
     private void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
         if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && view.isAREnabled()) {
-            double d = mm[Z][MAX] - mm[Z][MIN];
-            mm[Z][MIN] = view.getARMinZ();
-            mm[Z][MAX] = mm[Z][MIN] + d;
+			mm[Z][MIN] = view.getARMinZ();
         }
     }
 
@@ -271,10 +269,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		if (v[MIN] > enlarge[MIN]) {
 			v[MIN] = enlarge[MIN];
 		}
-		if (v[MAX] < enlarge[MAX]) {
-			v[MAX] = enlarge[MAX];
-		}
+		mayEnlargeMax(v, enlarge);
 	}
+
+    private static void mayEnlargeMax(double[] v, double[] enlarge) {
+        if (v[MAX] < enlarge[MAX]) {
+            v[MAX] = enlarge[MAX];
+        }
+    }
 
 	/**
 	 * enlarge min/max regarding object coords

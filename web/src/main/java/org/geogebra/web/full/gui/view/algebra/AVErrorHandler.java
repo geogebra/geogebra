@@ -36,17 +36,17 @@ public final class AVErrorHandler implements ErrorHandler {
 
 	@Override
 	public void showError(String msg) {
-		this.radioTreeItem.errorMessage = valid ? msg
-				: this.radioTreeItem.loc.getInvalidInputError();
+		radioTreeItem.errorMessage = valid ? msg
+				: radioTreeItem.loc.getInvalidInputError();
 
-		this.radioTreeItem.commandError = null;
-		this.radioTreeItem.showCurrentError();
-		this.radioTreeItem.saveError();
+		radioTreeItem.commandError = null;
+		radioTreeItem.showCurrentError();
+		radioTreeItem.saveError();
 	}
 
 	@Override
 	public void resetError() {
-		showError(null);
+		radioTreeItem.hideCurrentError();
 	}
 
 	@Override

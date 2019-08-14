@@ -276,6 +276,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			((EquationValue) newTwin).setToUser();
 		}
 
+		if (newTwin instanceof GeoList) {
+			newTwin.setEuclidianVisible(true);
+		}
+
 		if (twinGeo != null && newTwin != null) {
 			newTwin.setVisualStyle(this);
 			twinGeo = newTwin.toGeoElement();
@@ -547,5 +551,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public double evaluateDouble() {
 		return value != null ? value.evaluateDouble() : Double.NaN;
+	}
+
+	@Override
+	public GeoElementND unwrapSymbolic() {
+		return getTwinGeo();
 	}
 }

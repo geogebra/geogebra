@@ -853,6 +853,12 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
 			return resourceBundle.mode_twovarstats_32();
 
+		case EuclidianConstants.MODE_GRASPABLE_MATH:
+			return resourceBundle.mode_graspablemath_32();
+
+		case EuclidianConstants.MODE_CAS:
+			return resourceBundle.mode_cas_32();
+
 		case EuclidianConstants.MODE_VECTOR:
 			return resourceBundle.mode_vector_32();
 

@@ -25,6 +25,6 @@ public class CommandNameFilterSetTest extends BaseUnitTest {
     }
     @Test
     public void T3() {
-        Assert.assertFalse(factory.isCommandAllowed(Commands.Intersect));
+        Assert.assertFalse(factory.isCommandAllowed(Commands.Min));
     }
 }

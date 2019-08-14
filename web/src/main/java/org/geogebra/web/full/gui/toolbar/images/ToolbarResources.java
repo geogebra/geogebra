@@ -197,6 +197,10 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_zoomout_32();
 
+	ResourcePrototype mode_graspablemath_32();
+
+	ResourcePrototype mode_cas_32();
+
 	// 3D
 
 	ResourcePrototype mode_circleaxispoint_32();
@@ -286,4 +290,5 @@ public interface ToolbarResources {
 	ResourcePrototype mode_extension();
 
 	ResourcePrototype mode_pen();
+
 }

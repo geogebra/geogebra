@@ -1,16 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Class for polylines created using pen
@@ -74,23 +71,27 @@ public class GeoLocusStroke extends GeoLocus
 		return ret;
 	}
 
-	@Override
-	public ArrayList<MyPoint> getPointsWithoutControl() {
-		ArrayList<MyPoint> points = new ArrayList<>();
+	/**
+	 * Run a callback for points, skipping the control points.
+	 * 
+	 * @param handler
+	 *            handler to be called for each point
+	 */
+	public void processPointsWithoutControl(
+			AsyncOperation<MyPoint> handler) {
+		MyPoint last = null;
 		for (MyPoint pt : getPoints()) {
 			if (pt.getSegmentType() != SegmentType.CONTROL) {
 				// also ignore third point added to simple segment
 				// to able to calc control points
-				if (!(!points.isEmpty()
-						&& points.get(points.size() - 1).getSegmentType() == pt
-						.getSegmentType()
-						&& DoubleUtil.isZero(points.get(points.size() - 1)
-								.distance((Point) pt)))) {
-					points.add(pt);
+				if (!(last != null
+						&& last.getSegmentType() == pt.getSegmentType()
+						&& last.isEqual(pt))) {
+					handler.callback(pt);
+					last = pt;
 				}
 			}
 		}
-		return points;
 	}
 
 	@Override
@@ -171,9 +172,7 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * Reset list of points for XML
 	 */
-	@Override
 	public void resetPointsWithoutControl() {
-		super.resetPointsWithoutControl();
 		xmlPoints = null;
 	}
 

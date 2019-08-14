@@ -11,28 +11,31 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GeoSymbolicTest {
-	private static App app;
+	private static AppCommon app;
 	private static AlgebraProcessor ap;
 
 	/**
@@ -46,6 +49,7 @@ public class GeoSymbolicTest {
 		ap = app.getKernel().getAlgebraProcessor();
 		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
 				StringTemplate.defaultTemplate, app.getKernel());
+		app.setConfig(new AppConfigCas());
 	}
 
 	public static void t(String input, String... expected) {
@@ -53,14 +57,14 @@ public class GeoSymbolicTest {
 				StringTemplate.testTemplate);
 	}
 
-	public static void testMultipleValidResults(String input, String... validResults) {
-		AlgebraTestHelper.testMultipleResults(
+	private static void testValidResultCombinations(String input, String... validResults) {
+		AlgebraTestHelper.testValidResultCombinations(
 				input, validResults,
 				ap, StringTemplate.testTemplate);
 	}
 
 	public static void t(String input, Matcher<String> expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, Arrays.asList(expected), ap,
+		AlgebraTestHelper.testSyntaxSingle(input, Collections.singletonList(expected), ap,
 				StringTemplate.testTemplate);
 	}
 
@@ -207,19 +211,19 @@ public class GeoSymbolicTest {
 		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 		t("Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})",
 				"{{x = 3, y = 2, t = 0, s = -1}}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(p x^3 + q x,x)",
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(p x^3 + q x = 0,x)",
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(p x^3 + q x)",
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(p x^3 + q x = 0)",
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
@@ -241,11 +245,11 @@ public class GeoSymbolicTest {
 	public void testMultiStep() {
 		t("f(x) = (p x^3 + q x)", "p * x^(3) + q * x");
 		t("f'(0)", "q");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(f(x)=0)",
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(f=0)",
 				"{x = sqrt(-p * q) / p, x = (-sqrt(-p * q)) / p, x = 0}",
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
@@ -262,7 +266,7 @@ public class GeoSymbolicTest {
 		t("b=a/(7-0.6)",
 				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
 		t("Solve(h''(t)=0)", "{t = 50 / 23 * log(15)}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"h'(5.8871)",
 				"276 * " + EULER_STRING + "^((-1354033) / 500000) / (1125 * (" + EULER_STRING
 						+ "^((-1354033) / 500000))^(2) + 150 * " + EULER_STRING
@@ -317,7 +321,7 @@ public class GeoSymbolicTest {
 	public void testTutorial() {
 		t("a+a", "2 * a");
 		t("4x+3y-2x+y", "2 * x + 4 * y");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"(1/(x+y)-1/x)/y",
 				"(-1) / (x^(2) + x * y)", "(-1) / (x * y + x^(2))");
 		t("(x+y)(x-y)(x-y)", "(x + y) * (x - y)^(2)");
@@ -335,10 +339,10 @@ public class GeoSymbolicTest {
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
 		t("Solve(x (x-5)>x+7)", "{x < -1, x > 7}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(2x+3y=x^2/y,x)",
 				"{x = 3 * y, x = -y}", "{x = -y, x = 3 * y}");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"Solve(2x+3y=x^2/y,y)",
 				"{y = 1 / 3 * x, y = -x}", "{y = -x, y = 1 / 3 * x}");
 		t("Solve({x+2y+3z=60, 2x-3y+5z=68, -x+y-z=-13})",
@@ -541,7 +545,7 @@ public class GeoSymbolicTest {
 				"{(a + d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2, (a + d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2}");
 		t("EigenVectors({{a,b},{c,d}})",
 				"{{a - d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c), a - d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)}, {2 * c, 2 * c}}");
-		testMultipleValidResults("{{a,b},{c,d}} {{a,b},{c,d}}",
+		testValidResultCombinations("{{a,b},{c,d}} {{a,b},{c,d}}",
 				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}",
 				"{{b * c + a^(2), a * b + b * d}, {a * c + c * d, b * c + d^(2)}}");
 		t("{{aa,bb},{cc,dd}} {{ee,ff},{gg,hh}}",
@@ -661,7 +665,7 @@ public class GeoSymbolicTest {
 	public void redefinitionInOneCellsShouldWork() {
 		t("a=p+q", "p + q");
 		GeoElement a = getSymbolic("a");
-		ap.changeGeoElement(a, "p-q", true, false, TestErrorHandler.INSTANCE,
+		ap.changeGeoElement(a, "a = p-q", true, false, TestErrorHandler.INSTANCE,
 				null);
 		checkInput("a", "a = p - q");
 	}
@@ -745,6 +749,12 @@ public class GeoSymbolicTest {
 	}
 
 	@Test
+	public void testDerivative() {
+		t("f(x)=x", "x");
+		t("f'", "1");
+	}
+
+	@Test
 	public void testDerivativeShorthand() {
 		t("f(x)=exp(x)", EULER_STRING + "^(x)");
 		t("f'(x)=f'(x)", EULER_STRING + "^(x)");
@@ -824,15 +834,14 @@ public class GeoSymbolicTest {
 	@Test
 	public void testStringExpression() {
 		t("p = 7", "7");
-		testMultipleValidResults(
+		testValidResultCombinations(
 				"p + \" is a prime\"",
 				"p is a prime", "7 is a prime");
 		GeoElement lastGeoElement = app.getKernel().getConstruction().getLastGeoElement();
 		new LabelController().hideLabel(lastGeoElement);
 		assertEquals("p + \" is a prime\"",
 				lastGeoElement.getDefinitionForEditor());
-		GeoElement element = lastGeoElement;
-		assertThat(element, instanceOf(GeoText.class));
+		assertThat(lastGeoElement, instanceOf(GeoText.class));
 	}
 
 	private static void shouldFail(String string, String errorMsg) {
@@ -849,4 +858,45 @@ public class GeoSymbolicTest {
 		}
 	}
 
+	@Test
+	public void testCASSpecialPoints() {
+		t("f:x", "x");
+		GeoSymbolic line = (GeoSymbolic) app.kernel.lookupLabel("f");
+		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+		SuggestionRootExtremum.get(line).execute(line);
+		Assert.assertNull(SuggestionRootExtremum.get(line));
+		Object[] list =  app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
+		((GeoElement) list[list.length - 1]).remove();
+		Assert.assertNotNull(SuggestionRootExtremum.get(line));
+	}
+
+	@Test
+	public void handlePreviewPointsTest() {
+		add("f:x^2 - 2");
+		add("g:x^3 - 1");
+		add("h:x");
+		updateSpecialPoints("f");
+		Assert.assertEquals(7, numberOfSpecialPoints());
+		updateSpecialPoints("g");
+		Assert.assertEquals(5, numberOfSpecialPoints());
+		updateSpecialPoints("h");
+		Assert.assertEquals(5, numberOfSpecialPoints());
+	}
+
+	private static int numberOfSpecialPoints() {
+		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
+			return 0;
+		}
+		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
+	}
+
+	private static void updateSpecialPoints(String string) {
+		app.getSpecialPointsManager()
+				.updateSpecialPoints(app.getKernel().lookupLabel(string));
+	}
+
+	private static void add(String string) {
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
+				true);
+	}
 }

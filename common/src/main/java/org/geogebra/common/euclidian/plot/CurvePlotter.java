@@ -666,34 +666,17 @@ public class CurvePlotter {
 			MyPoint p = pointList.get(i);
 			// don't add infinite points
 			// otherwise hit-testing doesn't work
-			if (p.isFinite()) {
-				if (gp.copyCoords(p, coords, transformSys)) {
-					// handle curve_to like arc_to
-					if ((p.getSegmentType() == SegmentType.CURVE_TO
-							|| p.getSegmentType() == SegmentType.CONTROL)
-							&& !linetofirst) {
-						gp.drawTo(coords, p.getSegmentType());
-						lastMove = null;
-					} else if ((p.getSegmentType() == SegmentType.ARC_TO
-							|| p.getSegmentType() == SegmentType.AUXILIARY)
-							&& !linetofirst) {
-						gp.drawTo(coords, p.getSegmentType());
-						lastMove = null;
-					} 
-					else if (p.getLineTo() && !linetofirst) {
-						gp.lineTo(coords);
-						lastMove = null;
-					} else {
-						if (lastMove != null) {
-							gp.lineTo(lastMove);
-						}
-						gp.moveTo(coords);
-						lastMove = Cloner.clone(coords);
-					}
-					linetofirst = false;
+			if (p.isFinite() && gp.copyCoords(p, coords, transformSys)) {
+				if (isArcOrCurvePart(p) && !linetofirst) {
+					gp.drawTo(coords, p.getSegmentType());
+					lastMove = null;
+				} else if (p.getLineTo() && !linetofirst) {
+					gp.lineTo(coords);
+					lastMove = null;
 				} else {
-					linetofirst = true;
+					lastMove = moveTo(gp, coords, lastMove);
 				}
+				linetofirst = false;
 			} else {
 				linetofirst = true;
 			}
@@ -705,5 +688,26 @@ public class CurvePlotter {
 		gp.endPlot();
 
 		return coords;
+	}
+
+	private static double[] moveTo(PathPlotter gp, double[] coords,
+			double[] previousLastMove) {
+		double[] lastMove;
+		if (previousLastMove != null) {
+			gp.lineTo(previousLastMove);
+			lastMove = previousLastMove;
+		} else {
+			lastMove = new double[coords.length];
+		}
+		gp.moveTo(coords);
+		Cloner.cloneTo(coords, lastMove);
+		return lastMove;
+	}
+
+	private static boolean isArcOrCurvePart(MyPoint p) {
+		return p.getSegmentType() == SegmentType.CURVE_TO
+				|| p.getSegmentType() == SegmentType.CONTROL
+				|| p.getSegmentType() == SegmentType.ARC_TO
+				|| p.getSegmentType() == SegmentType.AUXILIARY;
 	}
 }

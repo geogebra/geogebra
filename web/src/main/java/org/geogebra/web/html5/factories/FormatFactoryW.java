@@ -7,6 +7,36 @@ import org.geogebra.web.html5.util.NumberFormatW;
 import org.geogebra.web.html5.util.ScientificFormat;
 
 public class FormatFactoryW extends FormatFactory {
+	private static final class FastFormatAdapter
+			implements ScientificFormatAdapter {
+		private int d;
+
+		protected FastFormatAdapter(int d) {
+			this.d = d;
+		}
+
+		@Override
+		public native String format(double x) /*-{
+			return x.toPrecision(this.d).replace("e", "E");
+		}-*/;
+
+		@Override
+		public int getSigDigits() {
+			return d;
+		}
+
+		@Override
+		public void setSigDigits(int sigDigits) {
+			d = sigDigits;
+		}
+
+		@Override
+		public void setMaxWidth(int mWidth) {
+			throw new UnsupportedOperationException();
+		}
+
+	}
+
 	@Override
 	public NumberFormatAdapter getNumberFormat(int digits) {
 		switch (digits) {
@@ -53,5 +83,10 @@ public class FormatFactoryW extends FormatFactory {
 	@Override
 	public ScientificFormatAdapter getScientificFormat(int a, int b, boolean c) {
 		return new ScientificFormat(a, b, c);
+	}
+
+	@Override
+	public ScientificFormatAdapter getFastScientificFormat(int digits) {
+		return new FastFormatAdapter(digits);
 	}
 }

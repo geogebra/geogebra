@@ -85,8 +85,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void recalculateEnvironments();
 
-	void updateStyleBarPositions(boolean menuOpen);
-
 	void exportGGB();
 
 	void listenToLogin();

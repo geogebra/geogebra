@@ -750,7 +750,13 @@ public class SelectionManager {
 		return tree.size() != 0 && tree.last() != geo;
 	}
 
-	private void addSelectedGeoForEV(GeoElement geo) {
+	/**
+	 * Select an element and focus it in graphics view
+	 * 
+	 * @param geo
+	 *            construction element
+	 */
+	public void addSelectedGeoForEV(GeoElement geo) {
 		addSelectedGeo(geo);
 		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
 				? geo.getViewSet().get(0)

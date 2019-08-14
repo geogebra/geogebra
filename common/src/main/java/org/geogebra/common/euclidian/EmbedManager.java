@@ -124,4 +124,9 @@ public interface EmbedManager {
 	 * Permanently remove cached embeds
 	 */
 	public void clearStoredEmbeds();
+
+	/**
+	 * opens the  Graspable math tool
+	 */
+	public void openGraspableMTool();
 }

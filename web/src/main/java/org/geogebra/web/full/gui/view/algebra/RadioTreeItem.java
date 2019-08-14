@@ -1013,6 +1013,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return false;
 	}
 
+	void hideCurrentError() {
+		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+	}
+
 	/**
 	 * @param show
 	 *            whether to show input help
@@ -1959,8 +1963,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			} else {
 				text = "";
 			}
-		} else if (AlgebraItem.needsPacking(geo)
-				|| !geo.isAlgebraLabelVisible()) {
+		} else if (AlgebraItem.needsPacking(geo)) {
 			text = geo.getLaTeXDescriptionRHS(false,
 					StringTemplate.editTemplate);
 		} else {

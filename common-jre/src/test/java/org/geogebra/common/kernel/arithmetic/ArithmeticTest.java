@@ -1,15 +1,20 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.DescriptionMode;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -257,4 +262,19 @@ public class ArithmeticTest extends Assert {
 		t("f'(7)", "1");
 	}
 
+	@Test
+	public void crossProductMissingBracketsTest() {
+		t("A = (1,2)", "(1, 2)");
+		t("B = (2,3)", "(2, 3)");
+		t("C = (6,3)", "(6, 3)");
+		t("D = (0,4)", "(0, 4)");
+		t("E=Cross(A-B, C-D)", "7");
+		assertEquals(app.getKernel().lookupLabel("E").getDefinition(StringTemplate.defaultTemplate), "(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)");
+	}
+	@Test
+	public void absFunctionBugFix() {
+		app.getSettings().getCasSettings().setEnabled(true);
+		t("eq1:abs(x-3) = -2", "abs(x - 3) = -2");
+		t("eq2:abs(x-3) = 2", "x^2 - 6x = -5");
+	}
 }

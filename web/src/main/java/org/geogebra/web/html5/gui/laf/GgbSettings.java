@@ -60,4 +60,9 @@ public class GgbSettings implements VendorSettings {
 	public String getStyleName(String styleName) {
 		return styleName;
 	}
+
+	@Override
+	public boolean isGraspableMathEnabled() {
+		return true;
+	}
 }
