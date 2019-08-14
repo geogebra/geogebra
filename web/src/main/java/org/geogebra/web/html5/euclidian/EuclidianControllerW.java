@@ -75,7 +75,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private MouseTouchGestureControllerW mtg;
 	private TextControllerW textController = null;
-	private FpsProfiler fpsProfiler;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -137,7 +136,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public EuclidianControllerW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
-		fpsProfiler = app.getFpsProfiler();
 	}
 
 	@Override
@@ -254,7 +252,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onPointerEventStart(AbstractEvent event) {
-		fpsProfiler.notifyTouchStart();
 		if (temporaryMode) {
 			mtg.setComboboxFocused(false);
 		}
@@ -476,7 +473,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onPointerEventEnd(PointerEvent event) {
-		fpsProfiler.notifyTouchEnd();
 		mtg.onPointerEventEnd(event);
 	}
 
