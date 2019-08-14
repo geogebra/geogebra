@@ -1038,6 +1038,14 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::testDraw()();
 		};
 
+		api.startDrawRecording = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::startDrawRecording()();
+		};
+
+		api.endDrawRecordingAndLogResults = function() {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::endDrawRecordingAndLogResults()();
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 

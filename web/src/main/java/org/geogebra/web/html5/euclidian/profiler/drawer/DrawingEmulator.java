@@ -11,9 +11,13 @@ import org.geogebra.web.html5.util.file.FileLoader;
 
 import com.google.gwt.user.client.Timer;
 
+/**
+ * Autonomously draws onto the canvas from a file. The name of the file is specified
+ * by the FILE_NAME field.
+ */
 public class DrawingEmulator {
 
-	private static final String FILE_URL = "coords.json";
+	private static final String FILE_NAME = "coords.json";
 
 	private MouseTouchGestureControllerW mouseTouchGestureController;
 	private List<Coordinate> coordinates;
@@ -23,6 +27,10 @@ public class DrawingEmulator {
 		this.mouseTouchGestureController = mouseTouchGestureController;
 	}
 
+	/**
+	 * Autonomously draws onto the canvas from a file. The name of the file is specified
+	 * by the FILE_NAME field.
+	 */
 	public void draw() {
 		if (coordinates == null) {
 			initCoordinatesAndDraw();
@@ -32,7 +40,7 @@ public class DrawingEmulator {
 	}
 
 	private void initCoordinatesAndDraw() {
-		FileLoader.loadFile(FILE_URL, getFileLoaderCallback());
+		FileLoader.loadFile(FILE_NAME, getFileLoaderCallback());
 	}
 
 	private FileLoader.Callback getFileLoaderCallback() {

@@ -5157,5 +5157,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
-	public void testDraw() {}
+	/**
+	 * Autonomously draws from the coords.json file.
+	 */
+	public void testDraw() {
+	}
+
+	/**
+	 * Records the drawing.
+	 */
+	public void startDrawRecording() {
+	}
+
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	public void endDrawRecordingAndLogResults() {
+	}
 }

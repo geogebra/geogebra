@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingEmulator;
+import org.geogebra.web.html5.euclidian.profiler.drawer.DrawingRecorder;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -76,6 +78,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private LinkedList<PointerEvent> touchPool = new LinkedList<>();
 	private boolean comboboxFocused;
 	private boolean euclidianOffsetsInited = false;
+
+	private DrawingEmulator drawingEmulator;
+	private DrawingRecorder drawingRecorder;
+	private boolean isRecording;
+
 	/**
 	 * ignore events after first touchEnd of a multi touch event
 	 */
@@ -635,6 +642,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 *            pointer up event
 	 */
 	public void onPointerEventEnd(AbstractEvent e) {
+		if (isRecording) {
+			drawingRecorder.recordTouchEnd();
+		}
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();
 		}
@@ -686,6 +696,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 *            pointer start
 	 */
 	public void onPointerEventStart(AbstractEvent event) {
+		if (isRecording) {
+			drawingRecorder
+					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
+		}
 		if (!ec.isTextfieldHasFocus()) {
 			dragModeMustBeSelected = true;
 			dragModeIsRightClick = event.isRightClick();
@@ -836,4 +850,34 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		app.closePopups();
 	}
 
+	/**
+	 * @return drawing emulator
+	 */
+	public DrawingEmulator getDrawingEmulator() {
+		if (drawingEmulator == null) {
+			drawingEmulator = new DrawingEmulator(this);
+		}
+		return drawingEmulator;
+	}
+
+	/**
+	 * Records the drawing.
+	 */
+	public void startDrawRecording() {
+		isRecording = true;
+		if (drawingRecorder == null) {
+			drawingRecorder = new DrawingRecorder();
+		}
+	}
+
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	public void endDrawRecordingAndLogResult() {
+		Log.debug(drawingRecorder);
+		drawingRecorder.reset();
+		isRecording = false;
+	}
 }

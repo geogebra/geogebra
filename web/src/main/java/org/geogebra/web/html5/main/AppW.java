@@ -247,7 +247,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
 	private FpsProfiler fpsProfiler;
-	private DrawingEmulator drawingEmulator;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -4033,15 +4032,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void testDraw() {
-		if (drawingEmulator == null) {
-			drawingEmulator =
-					new DrawingEmulator(getEuclidianController().getMouseTouchGestureController());
-		}
-		drawingEmulator.draw();
+		getEuclidianController().getMouseTouchGestureController().getDrawingEmulator().draw();
 	}
 
 	@Override
 	protected EuclidianControllerW getEuclidianController() {
 		return (EuclidianControllerW) super.getEuclidianController();
+	}
+
+	@Override
+	public void startDrawRecording() {
+		getEuclidianController().getMouseTouchGestureController().startDrawRecording();
+	}
+
+	@Override
+	public void endDrawRecordingAndLogResults() {
+		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
 	}
 }

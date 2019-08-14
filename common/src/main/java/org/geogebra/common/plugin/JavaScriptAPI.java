@@ -1064,5 +1064,20 @@ public interface JavaScriptAPI {
 	 */
 	void disableFpsMeasurement();
 
+	/**
+	 * Autonomously draws from the coords.json file.
+	 */
 	void testDraw();
+
+	/**
+	 * Records the drawing.
+	 */
+	void startDrawRecording();
+
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	void endDrawRecordingAndLogResults();
 }

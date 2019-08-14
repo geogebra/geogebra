@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.euclidian.profiler.coords;
 
+/**
+ * POJO to be used for autonomously drawing onto the canvas.
+ */
 public class Coordinate {
 
 	private long time;
