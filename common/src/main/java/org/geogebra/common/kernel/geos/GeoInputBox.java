@@ -431,7 +431,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
+
+				if (linkedGeo.isGeoFunction()) {
+					linkedText = linkedGeo.getRedefineString(true, true);
+				} else {
+					linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
+				}
 			}
 
 			if (linkedText == null) {
