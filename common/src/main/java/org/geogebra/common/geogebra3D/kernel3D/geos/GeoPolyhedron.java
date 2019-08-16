@@ -2371,12 +2371,12 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public boolean isRegion() {
-		return kernel.getApplication().has(Feature.G3D_POLYHEDRON_IS_REGION);
+		return true;
 	}
 
 	@Override
 	public boolean isRegion3D() {
-		return kernel.getApplication().has(Feature.G3D_POLYHEDRON_IS_REGION);
+		return true;
 	}
 
 	@Override

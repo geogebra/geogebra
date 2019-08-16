@@ -3970,10 +3970,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_FILLED_SOLID_CHECKBOX:
 			return true;
 
-		/** G3D-385 */
-		case G3D_POLYHEDRON_IS_REGION:
-			return prerelease;
-
 		/** G3D-372 */
 		case G3D_AR_RATIO_SETTINGS:
 			return false;
