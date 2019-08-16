@@ -240,7 +240,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
     private void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
-        if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && view.isAREnabled()) {
+        if (view.isAREnabled()) {
 			mm[Z][MIN] = view.getARMinZ();
         }
     }

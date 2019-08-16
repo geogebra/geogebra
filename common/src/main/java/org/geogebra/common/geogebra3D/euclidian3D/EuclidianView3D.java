@@ -4849,19 +4849,12 @@ public abstract class EuclidianView3D extends EuclidianView
 			if (isARDrawing) {
 				if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
 				    boolean boundsNeededUpdate = updateObjectsBounds(true,
-                            !app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z), true);
+                            false, true);
 				    if (boundsNeededUpdate) {
                         clippingCubeDrawable.enlargeFor(boundsMin);
                         clippingCubeDrawable.enlargeFor(boundsMax);
                     }
-                    if (!app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && getShowAxis(AXIS_Z)) {
-                        if (boundsNeededUpdate && boundsMin
-                                .getZ() < clippingCubeDrawable.getZminLarge()) {
-                            translationZzeroForAR = -boundsMin.getZ();
-                        } else {
-                            translationZzeroForAR = -clippingCubeDrawable.getZminLarge();
-                        }
-                    } else if (boundsNeededUpdate) {
+                    if (boundsNeededUpdate) {
                         translationZzeroForAR = -boundsMin.getZ();
                         // ensure showing plane if visible and not too far
 						if (translationZzeroForAR < 0
@@ -4908,10 +4901,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return shift used for AR floor
 	 */
     public double getARFloorShift() {
-	    if (app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z)) {
-            return arZZeroAtStart - getZZero();
-        }
-	    return 0;
+        return arZZeroAtStart - getZZero();
     }
 
     /**
