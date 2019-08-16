@@ -87,9 +87,6 @@ public enum Feature {
 	/** G3D-323 */
 	G3D_AR_LABELS_OFFSET,
 
-	/** G3D-340 */
-	G3D_AR_SIMPLE_SCALE,
-
 	/** G3D-345 */
 	G3D_AR_SHOW_RATIO,
 

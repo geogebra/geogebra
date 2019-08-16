@@ -386,74 +386,68 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void setARScaleAtStart() {
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
-        if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-            double thicknessMin;
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                thicknessMin = getThicknessMin(mDistance);
-                // don't expect distance less than desk distance at start
-                if (mDistance < DESK_DISTANCE_MAX) {
-                    mDistance = (float) DESK_DISTANCE_AVERAGE;
-                }
-            } else {
-                if (mDistance < DESK_DISTANCE_MAX) {
-                    mDistance = (float) DESK_DISTANCE_MAX;
-                }
-                thicknessMin = getThicknessMin(mDistance);
-            }
-            // 1 ggb unit ==  1 meter
-            double ggbToRw = 1.0 / mView.getXscale();
-            // ratio
-            double ratio;
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                double projectFactor = projectMatrix.get(1 ,1);
-                double precisionPoT = DoubleUtil.getPowerOfTen(projectFactor);
-                double precision = Math.round(projectFactor / precisionPoT) * precisionPoT
-                                * PROJECT_FACTOR_RELATIVE_PRECISION;
-                projectFactor = Math.round(projectFactor / precision) * precision;
-                float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
-                                * (mDistance / projectFactor)
-                                / mView.getRenderer().getWidth());
-                ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
-            } else {
-                ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-            }
-            double pot = DoubleUtil.getPowerOfTen(ratio);
-            ratio = ratio / pot;
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                if (ratio < 2f / MAX_FACTOR_TO_EMPHASIZE) {
-                    ratio = 1f;
-                } else if (ratio < 5f / MAX_FACTOR_TO_EMPHASIZE) {
-                    ratio = 2f;
-                } else if (ratio < 10f / MAX_FACTOR_TO_EMPHASIZE) {
-                    ratio = 5f;
-                } else {
-                    ratio = 10f;
-                }
-            } else {
-                if (ratio <= 2f) {
-                    ratio = 2f;
-                } else if (ratio <= 5f) {
-                    ratio = 5f;
-                } else {
-                    ratio = 10f;
-                }
-            }
-            ratio = ratio * pot;
-            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                int mToCm = 100;
-                arRatioAtStart = ratio * mToCm;
-            }
-            arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                arScale = (float) thicknessMin;
-                arScaleFactor = arScaleAtStart / arScale;
-                updateSettingsScale(arScaleFactor);
-            } else {
-                arScale = arScaleAtStart;
+        double thicknessMin;
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            thicknessMin = getThicknessMin(mDistance);
+            // don't expect distance less than desk distance at start
+            if (mDistance < DESK_DISTANCE_MAX) {
+                mDistance = (float) DESK_DISTANCE_AVERAGE;
             }
         } else {
-            float reductionFactor = 0.80f;
-            arScaleAtStart = (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
+            if (mDistance < DESK_DISTANCE_MAX) {
+                mDistance = (float) DESK_DISTANCE_MAX;
+            }
+            thicknessMin = getThicknessMin(mDistance);
+        }
+        // 1 ggb unit ==  1 meter
+        double ggbToRw = 1.0 / mView.getXscale();
+        // ratio
+        double ratio;
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            double projectFactor = projectMatrix.get(1, 1);
+            double precisionPoT = DoubleUtil.getPowerOfTen(projectFactor);
+            double precision = Math.round(projectFactor / precisionPoT) * precisionPoT
+                    * PROJECT_FACTOR_RELATIVE_PRECISION;
+            projectFactor = Math.round(projectFactor / precision) * precision;
+            float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
+                    * (mDistance / projectFactor)
+                    / mView.getRenderer().getWidth());
+            ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
+        } else {
+            ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
+        }
+        double pot = DoubleUtil.getPowerOfTen(ratio);
+        ratio = ratio / pot;
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            if (ratio < 2f / MAX_FACTOR_TO_EMPHASIZE) {
+                ratio = 1f;
+            } else if (ratio < 5f / MAX_FACTOR_TO_EMPHASIZE) {
+                ratio = 2f;
+            } else if (ratio < 10f / MAX_FACTOR_TO_EMPHASIZE) {
+                ratio = 5f;
+            } else {
+                ratio = 10f;
+            }
+        } else {
+            if (ratio <= 2f) {
+                ratio = 2f;
+            } else if (ratio <= 5f) {
+                ratio = 5f;
+            } else {
+                ratio = 10f;
+            }
+        }
+        ratio = ratio * pot;
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+            int mToCm = 100;
+            arRatioAtStart = ratio * mToCm;
+        }
+        arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
+        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
+            arScale = (float) thicknessMin;
+            arScaleFactor = arScaleAtStart / arScale;
+            updateSettingsScale(arScaleFactor);
+        } else {
             arScale = arScaleAtStart;
         }
 
