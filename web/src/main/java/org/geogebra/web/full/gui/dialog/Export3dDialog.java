@@ -341,26 +341,24 @@ public class Export3dDialog extends OptionDialog
 		thicknessPanel.setStyleName("panelRow");
 		lineThicknessValue = addTextField("STL.Thickness", "mm",
 				thicknessPanel);
-		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
-			filledSolid = new CheckBox();
-			filledSolid.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					if (filledSolid.getValue()) {
-						oldLineThicknessValue = lineThicknessValue.getText();
-						lineThicknessValue.setInputText("");
-					} else {
-						String current = lineThicknessValue.getText();
-						if (oldLineThicknessValue != null && current == null
-								|| current.trim().length() == 0) {
-							lineThicknessValue
-									.setInputText(oldLineThicknessValue);
-						}
+		filledSolid = new CheckBox();
+		filledSolid.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (filledSolid.getValue()) {
+					oldLineThicknessValue = lineThicknessValue.getText();
+					lineThicknessValue.setInputText("");
+				} else {
+					String current = lineThicknessValue.getText();
+					if (oldLineThicknessValue != null && current == null
+							|| current.trim().length() == 0) {
+						lineThicknessValue
+								.setInputText(oldLineThicknessValue);
 					}
 				}
-			});
-			thicknessPanel.add(filledSolid);
-		}
+			}
+		});
+		thicknessPanel.add(filledSolid);
 		root.add(thicknessPanel);
 	}
 
@@ -397,8 +395,7 @@ public class Export3dDialog extends OptionDialog
 
 		}
 		ok = checkOkAndSetFocus(ok,
-				lineThicknessValue.parse(true, app.has(Feature.G3D_STL_SOLID),
-						true),
+				lineThicknessValue.parse(true, true,true),
 				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
@@ -417,10 +414,8 @@ public class Export3dDialog extends OptionDialog
 			f.inputField.setLabels();
 		}
 		lineThicknessValue.setLabels();
-		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
-			filledSolid.setText(app.getLocalization()
-					.getMenuDefault("STL.FilledSolid", "Filled Solid"));
-		}
+		filledSolid.setText(app.getLocalization()
+				.getMenuDefault("STL.FilledSolid", "Filled Solid"));
 		updateButtonLabels("Download");
 	}
 
@@ -466,11 +461,8 @@ public class Export3dDialog extends OptionDialog
 
 	@Override
 	public boolean wantsFilledSolids() {
-		if (app.has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
-			return filledSolid.getValue()
-					|| DoubleUtil.isZero(getCurrentThickness());
-		}
-		return DoubleUtil.isZero(getCurrentThickness());
+		return filledSolid.getValue()
+				|| DoubleUtil.isZero(getCurrentThickness());
 	}
 
 }
