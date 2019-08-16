@@ -234,15 +234,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 							});
 					return null;
 				}
-				if (getApplication().has(Feature.G3D_FILLED_SOLID_CHECKBOX)) {
-					setThicknessAndScale(format, thickness, scale, true);
-				} else {
-					if (getApplication().has(Feature.G3D_STL_SOLID)) {
-						thickness = 0;
-					}
-					setThicknessAndScale(format, thickness, scale,
-							DoubleUtil.isZero(thickness));
-				}
+				setThicknessAndScale(format, thickness, scale, true);
 			} else {
 				format.setScale(10); // default value: 1unit = 10mm
 			}

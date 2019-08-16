@@ -3954,10 +3954,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_AR_FIT_THICKNESS_BUTTON:
 			return true;
 
-		/** G3D-302 */
-		case G3D_STL_SOLID:
-			return true;
-
 		/** G3D-360 */
         case G3D_AR_STANDS_ON_ZERO_Z:
             return true;
@@ -3965,10 +3961,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		/** G3D-343 */
 		case G3D_SELECT_META:
 			return false;
-
-		/** G3D-380 */
-		case G3D_FILLED_SOLID_CHECKBOX:
-			return true;
 
 		/** G3D-385 */
 		case G3D_POLYHEDRON_IS_REGION:

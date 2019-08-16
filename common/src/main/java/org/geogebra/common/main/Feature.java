@@ -93,9 +93,6 @@ public enum Feature {
 	/** G3D-310 */
 	G3D_AR_FIT_THICKNESS_BUTTON,
 
-	/** G3D-302 */
-	G3D_STL_SOLID,
-
 	/** G3D-343 */
 	G3D_SELECT_META,
 
@@ -113,9 +110,6 @@ public enum Feature {
 
 	/** APPS-1000 */
 	COMMAND_COMPLETION_FALLBACK,
-
-	/** G3D-380 */
-	G3D_FILLED_SOLID_CHECKBOX,
 
 	/** G3D-385 */
 	G3D_POLYHEDRON_IS_REGION,
