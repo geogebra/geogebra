@@ -3950,10 +3950,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case G3D_AR_SHOW_RATIO:
 			return prerelease;
 
-		/** G3D-310 */
-		case G3D_AR_FIT_THICKNESS_BUTTON:
-			return true;
-
 		/** G3D-302 */
 		case G3D_STL_SOLID:
 			return true;
