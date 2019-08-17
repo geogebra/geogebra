@@ -8,7 +8,6 @@ import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.validator.NumberValidator;
 import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsException;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -395,7 +394,7 @@ public class Export3dDialog extends OptionDialog
 
 		}
 		ok = checkOkAndSetFocus(ok,
-				lineThicknessValue.parse(true, true,true),
+				lineThicknessValue.parse(true, true, true),
 				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
