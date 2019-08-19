@@ -53,7 +53,6 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -2371,12 +2370,12 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public boolean isRegion() {
-		return kernel.getApplication().has(Feature.G3D_POLYHEDRON_IS_REGION);
+		return false;
 	}
 
 	@Override
 	public boolean isRegion3D() {
-		return kernel.getApplication().has(Feature.G3D_POLYHEDRON_IS_REGION);
+		return false;
 	}
 
 	@Override

@@ -87,9 +87,6 @@ public enum Feature {
 	/** G3D-323 */
 	G3D_AR_LABELS_OFFSET,
 
-	/** G3D-340 */
-	G3D_AR_SIMPLE_SCALE,
-
 	/** G3D-345 */
 	G3D_AR_SHOW_RATIO,
 
@@ -119,9 +116,6 @@ public enum Feature {
 
 	/** G3D-380 */
 	G3D_FILLED_SOLID_CHECKBOX,
-
-	/** G3D-385 */
-	G3D_POLYHEDRON_IS_REGION,
 
 	/** G3D-372 */
 	G3D_AR_RATIO_SETTINGS,
