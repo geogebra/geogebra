@@ -1679,7 +1679,7 @@ public abstract class Renderer {
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
-		return !(view3D.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view3D.isAREnabled());
+		return !view3D.isAREnabled();
 	}
 
 	/**
