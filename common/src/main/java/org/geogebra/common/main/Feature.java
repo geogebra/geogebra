@@ -87,9 +87,6 @@ public enum Feature {
 	/** MOW-763 */
 	VIDEO_PLAYER_OFFLINE,
 
-    /** G3D-302 */
-    G3D_AR_STANDS_ON_ZERO_Z,
-
 	/** STUD-17 */
 	SURFACE_OF_REVOLUTION_TOOL,
 
