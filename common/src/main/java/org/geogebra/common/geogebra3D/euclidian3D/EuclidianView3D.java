@@ -1,10 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -80,13 +75,13 @@ import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -117,7 +112,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -125,6 +119,11 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -857,17 +856,11 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	private void updateRotationMatrix() {
 		if (mIsARDrawing) {
-			CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
-					(-90) * EuclidianController3D.ANGLE_TO_DEGREES, tmpMatrix1);
-            if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-				CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS,
-						(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
-						tmpMatrix2);
-			} else {
-				CoordMatrix.setRotation3DMatrix(CoordMatrix.Y_AXIS,
-						(0) * EuclidianController3D.ANGLE_TO_DEGREES,
-						tmpMatrix2);
-			}
+            CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
+                    (-90) * EuclidianController3D.ANGLE_TO_DEGREES, tmpMatrix1);
+            CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS,
+                    (-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES,
+                    tmpMatrix2);
         } else {
             if (getYAxisVertical()) { // y axis taken for up-down direction
 				CoordMatrix.setRotation3DMatrix(CoordMatrix.X_AXIS,
@@ -903,27 +896,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void updateTranslationMatrices() {
 
-        double translationZzero;
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            translationZzero = getZZero() + translationZzeroForAR;
-        } else {
-            if (mIsARDrawing) {
-                if (getShowAxis(AXIS_Z)) {
-                    translationZzero = -getZmin();
-                } else if (updateObjectsBounds(true, true, true)) {
-                    translationZzero = -boundsMin.getZ();
-                    // ensure showing plane if visible and not too far
-					if ((getShowGrid() || getShowPlane())
-							&& translationZzero < 0 && getZmin() < 0) {
-                        translationZzero = 0;
-                    }
-                } else {
-                    translationZzero = 0;
-                }
-            } else {
-                translationZzero = getZZero();
-            }
-        }
+        double translationZzero = getZZero() + translationZzeroForAR;
 
 		// scene to screen translation matrices
 		translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
@@ -1036,7 +1009,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            returned direction
 	 */
 	final public void getHittingDirection(Coords ret) {
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && mIsAREnabled) {
+		if (mIsAREnabled) {
 			renderer.getHittingDirectionAR(ret);
 		} else {
 			getCompanion().getHittingDirection(ret);
@@ -1448,7 +1421,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            returned origin
 	 */
 	final public void getHittingOrigin(GPoint mouse, Coords ret) {
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled()) {
+		if (isAREnabled()) {
 			renderer.getHittingOriginAR(ret);
 		} else {
 			getCompanion().getHittingOrigin(mouse, ret);
@@ -3441,7 +3414,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
-			double[][] minMax = (app.has(Feature.G3D_AR_REGULAR_TOOLS) && isAREnabled())
+			double[][] minMax = isAREnabled()
 					? clippingCubeDrawable.updateMinMaxLarge()
 					: updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
@@ -4847,41 +4820,30 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (mIsARDrawing != isARDrawing) {
 			mIsARDrawing = isARDrawing;
 			if (isARDrawing) {
-				if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-				    boolean boundsNeededUpdate = updateObjectsBounds(true,
-                            !app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z), true);
-				    if (boundsNeededUpdate) {
-                        clippingCubeDrawable.enlargeFor(boundsMin);
-                        clippingCubeDrawable.enlargeFor(boundsMax);
-                    }
-                    if (!app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && getShowAxis(AXIS_Z)) {
-                        if (boundsNeededUpdate && boundsMin
-                                .getZ() < clippingCubeDrawable.getZminLarge()) {
-                            translationZzeroForAR = -boundsMin.getZ();
-                        } else {
-                            translationZzeroForAR = -clippingCubeDrawable.getZminLarge();
-                        }
-                    } else if (boundsNeededUpdate) {
-                        translationZzeroForAR = -boundsMin.getZ();
-                        // ensure showing plane if visible and not too far
-						if (translationZzeroForAR < 0
-                                && (((getShowGrid() || getShowPlane()) && getZmin() < 0)
-                                    || isAtLeastOneAxisVisible())) {
-                            translationZzeroForAR = 0;
-                        }
-                    } else {
+                boolean boundsNeededUpdate = updateObjectsBounds(true,
+                        false, true);
+                if (boundsNeededUpdate) {
+                    clippingCubeDrawable.enlargeFor(boundsMin);
+                    clippingCubeDrawable.enlargeFor(boundsMax);
+                }
+                if (boundsNeededUpdate) {
+                    translationZzeroForAR = -boundsMin.getZ();
+                    // ensure showing plane if visible and not too far
+                    if (translationZzeroForAR < 0
+                            && (((getShowGrid() || getShowPlane()) && getZmin() < 0)
+                                || isAtLeastOneAxisVisible())) {
                         translationZzeroForAR = 0;
                     }
-                    setARFloorZ(-translationZzeroForAR);
-                    translationZzeroForAR -= getZZero();
+                } else {
+                    translationZzeroForAR = 0;
                 }
+                setARFloorZ(-translationZzeroForAR);
+                translationZzeroForAR -= getZZero();
                 getRenderer().setARScaleAtStart();
                 updateMatrix();
                 reset(false);
 			} else {
-                if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-                    translationZzeroForAR = 0;
-                }
+                translationZzeroForAR = 0;
                 updateMatrix();
                 reset(true);
             }
@@ -4908,10 +4870,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return shift used for AR floor
 	 */
     public double getARFloorShift() {
-	    if (app.has(Feature.G3D_AR_STANDS_ON_ZERO_Z)) {
-            return arZZeroAtStart - getZZero();
-        }
-	    return 0;
+        return arZZeroAtStart - getZZero();
     }
 
     /**
@@ -5002,30 +4961,26 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param point
 	 *            point
 	 */
-	public void enlargeClippingForPoint(GeoPointND point) {
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            if (isAREnabled()) {
-                if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
-                    setViewChangedByZoom();
-                    setWaitForUpdate();
-                }
+    public void enlargeClippingForPoint(GeoPointND point) {
+        if (isAREnabled()) {
+            if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
+                setViewChangedByZoom();
+                setWaitForUpdate();
             }
         }
-	}
+    }
 
 	/**
 	 * enlarge clipping for AR
-	 */
-	public void enlargeClippingWhenAREnabled() {
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            if (isAREnabled()) {
-                if (updateObjectsBounds(true, true, true)) {
-                    boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
-                    boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
-                    if (needsUpdate1 || needsUpdate2) {
-                        setViewChangedByZoom();
-                        setWaitForUpdate();
-                    }
+     */
+    public void enlargeClippingWhenAREnabled() {
+        if (isAREnabled()) {
+            if (updateObjectsBounds(true, true, true)) {
+                boolean needsUpdate1 = clippingCubeDrawable.enlargeFor(boundsMin);
+                boolean needsUpdate2 = clippingCubeDrawable.enlargeFor(boundsMax);
+                if (needsUpdate1 || needsUpdate2) {
+                    setViewChangedByZoom();
+                    setWaitForUpdate();
                 }
             }
         }
@@ -5062,8 +5017,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	private boolean shouldDrawCursorAtEnd() {
-		return app.has(Feature.G3D_AR_TARGET)
-				&& euclidianController.isCreatingPointAR();
+		return euclidianController.isCreatingPointAR();
 	}
 
 	/**

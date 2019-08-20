@@ -1,8 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.himamis.retex.editor.share.util.Unicode;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -51,11 +49,11 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -92,7 +90,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SchedulerFactory;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -101,7 +98,9 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Controller for the 3D view
@@ -3522,23 +3521,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		if (handledGeo != null) {
 			setMouseLocation(event);
-			event.release();
-			if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-				if (updateTranslationVector(handledGeo
-						.getChangeableParent3D())) {
-					handledGeo.getChangeableParent3D().move(
-							translationVec3D, startPoint3D,
-							view3D.getViewDirection(), null, null, view3D);
-					kernel.notifyRepaint();
-				}
-			} else {
-				updateTranslationVector(null);
-				handledGeo.getChangeableParent3D().move(translationVec3D,
-						startPoint3D, view3D.getViewDirection(), null, null,
-						view3D);
-				kernel.notifyRepaint();
-			}
-			return;
+            event.release();
+            if (updateTranslationVector(handledGeo
+                    .getChangeableParent3D())) {
+                handledGeo.getChangeableParent3D().move(
+                        translationVec3D, startPoint3D,
+                        view3D.getViewDirection(), null, null, view3D);
+                kernel.notifyRepaint();
+            }
+            return;
 		}
 
 		setMouseMovedEvent(event);
@@ -3557,25 +3548,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            direction for the move
 	 * @return true if move is possible
 	 */
-	protected boolean updateTranslationVector(
-			ChangeableParent changeableParent) {
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
+    protected boolean updateTranslationVector(
+            ChangeableParent changeableParent) {
+        view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
+        view3D.getHittingDirection(tmpCoordsForDirection);
 
-			view3D.getHittingOrigin(mouseLoc, tmpCoordsForOrigin);
-			view3D.getHittingDirection(tmpCoordsForDirection);
-
-			changeableParent.getConverter().updateTranslation(startPoint3D,
-					changeableParent.getDirection(), tmpCoordsForOrigin,
-					tmpCoordsForDirection, translationVec3D);
-			return translationVec3D.isDefined();
-		} else {
-			view3D.getPickPoint(mouseLoc, tmpCoordsForOrigin);
-			view3D.toSceneCoords3D(tmpCoordsForOrigin);
-			tmpCoordsForOrigin.sub(startPoint3D, translationVec3D);
-		}
-
-		return true;
-	}
+        changeableParent.getConverter().updateTranslation(startPoint3D,
+                changeableParent.getDirection(), tmpCoordsForOrigin,
+                tmpCoordsForDirection, translationVec3D);
+        return translationVec3D.isDefined();
+    }
 
 	@Override
 	public void setStartPointLocation() {
@@ -3604,7 +3586,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return;
 		}
 
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL) && source != null) {
+		if (source != null) {
 			Drawable3D d = (Drawable3D) view3D.getDrawableND(source);
 			double distance = d.getPositionOnHitting();
 			view3D.getHittingOrigin(mouseLoc, startPoint3D);
@@ -3713,29 +3695,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 		setRwCoords(tmpCoordsForOrigin);
 	}
 
-	@Override
-	protected void moveDependent(boolean repaint) {
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-			if (isTranslateablePoint()) {
-				Coords end = moveDependentPoint();
-				doMoveDependent(end);
-			}
-			// TODO else
-			if (movedGeoElement.hasChangeableParent3D()) {
-				if (updateTranslationVector(movedGeoElement
-						.getChangeableParent3D())) {
-					doMoveDependent(startPoint3D);
-				}
-			}
-		} else {
-			updateTranslationVector(null);
-			Coords end = startPoint3D;
-			if (isTranslateablePoint()) {
-				end = moveDependentPoint();
-			}
-			doMoveDependent(end);
-		}
-	}
+    @Override
+    protected void moveDependent(boolean repaint) {
+        if (isTranslateablePoint()) {
+            Coords end = moveDependentPoint();
+            doMoveDependent(end);
+        }
+        // TODO else
+        if (movedGeoElement.hasChangeableParent3D()) {
+            if (updateTranslationVector(movedGeoElement
+                    .getChangeableParent3D())) {
+                doMoveDependent(startPoint3D);
+            }
+        }
+    }
 
 	private void doMoveDependent(Coords end) {
 		view3D.getHittingDirection(tmpCoordsForDirection);
@@ -3822,13 +3795,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		translateableGeos = null;
 		handleMovedElementDependentWithChangeableParent();
-		handleMovedElementDependentInitMode();
-		if (app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-			if (movedGeoElement.hasChangeableParent3D()) {
-				movedGeoElement.getChangeableParent3D().record(view3D, startPoint3D);
-			}
-		}
-	}
+        handleMovedElementDependentInitMode();
+        if (movedGeoElement.hasChangeableParent3D()) {
+            movedGeoElement.getChangeableParent3D().record(view3D, startPoint3D);
+        }
+    }
 
 	@Override
 	protected void movePointWithOffset(boolean repaint) {
