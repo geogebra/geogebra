@@ -73,6 +73,13 @@ public class AlgoCircleThreePoints extends AlgoElement
 	private int casenr;
 	private BotanaCircleThreePoints botanaParams;
 
+
+	public AlgoCircleThreePoints(Construction cons, String label, GeoPointND A, GeoPointND B,
+								 GeoPointND C) {
+		this(cons, A, B, C);
+		circle.setLabel(label);
+	}
+
 	/**
 	 * @param cons
 	 *            construction

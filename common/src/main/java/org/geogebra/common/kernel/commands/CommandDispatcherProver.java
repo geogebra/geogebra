@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.advanced.CmdAreCongruent;
 import org.geogebra.common.kernel.advanced.CmdAreEqual;
 import org.geogebra.common.kernel.advanced.CmdAreParallel;
 import org.geogebra.common.kernel.advanced.CmdArePerpendicular;
+import org.geogebra.common.kernel.advanced.CmdDiscover;
 import org.geogebra.common.kernel.advanced.CmdEnvelope;
 import org.geogebra.common.kernel.advanced.CmdIsTangent;
 import org.geogebra.common.kernel.advanced.CmdLocusEquation;
@@ -46,6 +47,8 @@ public class CommandDispatcherProver implements CommandDispatcherInterface {
             return new CmdLocusEquation(kernel);
         case Envelope:
             return new CmdEnvelope(kernel);
+        case Discover:
+                return new CmdDiscover(kernel);
         default:
             return null;
         }

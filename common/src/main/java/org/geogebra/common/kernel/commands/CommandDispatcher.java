@@ -525,6 +525,7 @@ public abstract class CommandDispatcher {
 			case IsTangent:
 			case LocusEquation:
 			case Envelope:
+			case Discover:
 				return getProverDispatcher().dispatch(command, kernel);
 
 			// basic
