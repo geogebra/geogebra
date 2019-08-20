@@ -2532,4 +2532,10 @@ public class GuiManagerW extends GuiManager
 		panel.add(editor);
 		return editor;
 	}
+
+	public boolean hasKeyboardListener() {
+		DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
+		MathKeyboardListener keyboardListener = getKeyboardListener(dockPanelForKeyboard);
+		return keyboardListener != null;
+	}
 }

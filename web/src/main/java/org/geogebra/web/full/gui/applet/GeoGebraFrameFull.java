@@ -501,20 +501,11 @@ public class GeoGebraFrameFull
 		}
 
 		if (showKeyboardButton != null) {
-			this.setKeyboardButton();
-			boolean attachedKeyboard = !getApp().getKeyboardManager()
-					.shouldDetach();
-			boolean buttonNeeded = app.isKeyboardNeeded() && (attachedKeyboard
-					|| app.getEuclidianController().isSymbolicEditorSelected());
-			showKeyboardButton.show(buttonNeeded, textField);
+			add(showKeyboardButton);
+			boolean isButtonNeeded = getGuiManager().hasKeyboardListener();
+			showKeyboardButton.show(isButtonNeeded, textField);
 			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
-	}
-
-	private void setKeyboardButton() {
-		//this.keyboardButton = button;
-		//kbButtonSpace.add(button);
-		this.add(showKeyboardButton);
 	}
 
 	private boolean appNeedsKeyboard() {
