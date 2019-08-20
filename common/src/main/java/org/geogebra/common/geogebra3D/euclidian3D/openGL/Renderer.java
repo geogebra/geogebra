@@ -689,7 +689,7 @@ public abstract class Renderer {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
-        if (view3D.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) && view3D.isARDrawing()) {
+        if (view3D.isARDrawing()) {
             view3D.updateAxesDecorationPosition();
         }
 		drawFaceToScreen();
