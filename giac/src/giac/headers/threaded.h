@@ -3204,7 +3204,7 @@ namespace giac {
     std::vector< T_unsigned<T,U> > maincoeff,quo,tmp;
 #if 1
     // memory estimations
-    size_t * produit_s=(size_t *) alloca((adeg+1)*sizeof(size_t));
+    size_t produit_s[adeg+1]; // size_t * produit_s=(size_t *) alloca((adeg+1)*sizeof(size_t));
     for (int i=0;i<=adeg;++i)
       produit_s[i]=0;
     size_t curcoeffsize=0;

@@ -66,7 +66,7 @@ namespace giac {
 // therefore I redefine YYINITDEPTH to 4000 (max size is YYMAXDEPTH)
 // instead of 200
 // Feel free to change if you need but then readjust YYMAXDEPTH
-#if defined RTOS_THREADX || defined NSPIRE
+#if defined RTOS_THREADX || defined NSPIRE || defined NUMWORKS
 #define YYINITDEPTH 100
 #define YYMAXDEPTH 101
 #else // RTOS_THREADX

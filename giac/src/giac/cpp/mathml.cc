@@ -39,7 +39,7 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG
+#if defined GIAC_HAS_STO_38 || defined NSPIRE || defined FXCG || defined(NUMWORKS)
   gen _mathml_error(const gen & g,GIAC_CONTEXT){
     return gensizeerr(gettext("No mathml support"));
   }

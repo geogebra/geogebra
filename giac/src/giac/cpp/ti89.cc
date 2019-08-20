@@ -3133,7 +3133,7 @@ namespace giac {
   static define_unary_function_eval_quoted (__fonction,&_for,_fonction_s);
   define_unary_function_ptr5( at_fonction ,alias_at_fonction,&__fonction,_QUOTE_ARGUMENTS,T_PROC);
 
-#if defined RTOS_THREADX || defined BESTA_OS || defined EMCC || defined __MINGW_H
+#if defined RTOS_THREADX || defined BESTA_OS || defined EMCC || defined __MINGW_H || defined NUMWORKS
 
   gen _unarchive_ti(const gen & g,GIAC_CONTEXT){
     return undef;

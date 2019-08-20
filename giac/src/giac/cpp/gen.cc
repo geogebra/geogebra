@@ -12421,7 +12421,11 @@ namespace giac {
 #endif
       break;
     case _POLY1__VECT:
+#ifdef NUMWORKS
+      s="[";
+#else
       s="poly1[";
+#endif
       break;
     case _ASSUME__VECT:
       s = "assume[";

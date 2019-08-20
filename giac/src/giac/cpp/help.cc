@@ -67,7 +67,7 @@ namespace giac {
   };
 
   const static_help_t static_help[]={
-#if !defined RTOS_THREADX && !defined BESTA_OS && !defined GIAC_HAS_STO_38 
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined GIAC_HAS_STO_38 && !defined(NUMWORKS)
 #include "static_help.h"
 #else
     { "", { "", "", "", "",""}, "", "", "" },
@@ -684,7 +684,7 @@ namespace giac {
     return result;
   }
 
-#if !defined(NSPIRE_NEWLIB) && !defined(RTOS_THREADX) && !defined(EMCC) &&!defined(NSPIRE) && !defined FXCG
+#if !defined(NSPIRE_NEWLIB) && !defined(RTOS_THREADX) && !defined(EMCC) &&!defined(NSPIRE) && !defined FXCG && !defined(NUMWORKS)
   multimap<string,string> html_mtt,html_mall;
   std::vector<std::string> html_vtt,html_vall;
 
@@ -918,7 +918,7 @@ namespace giac {
     return 0;
   }
 
-#if ! (defined VISUALC || defined BESTA_OS || defined FREERTOS || defined NSPIRE || defined FXCG || defined NSPIRE_NEWLIB)
+#if ! (defined VISUALC || defined BESTA_OS || defined FREERTOS || defined NSPIRE || defined FXCG || defined NSPIRE_NEWLIB || defined(NUMWORKS)) 
 #if defined WIN32 || !defined DT_DIR
   static int dir_select (const struct dirent *d){
     string s(d->d_name);

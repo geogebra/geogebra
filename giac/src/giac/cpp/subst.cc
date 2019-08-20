@@ -2512,6 +2512,7 @@ namespace giac {
     bool glinb=glin!=g;
     g=glin;
     g=_exp2pow(g,contextptr);
+    // if s2==0 and s1>1 and only tan, should return trigtan(exp2trig(g))?
     if (s1<=1 && s2<= 1){
       g=quotesubst(g,vabs2,vabs,contextptr);
       return ratnormal(g,contextptr);//glinb?g:ratnormal(g,contextptr);

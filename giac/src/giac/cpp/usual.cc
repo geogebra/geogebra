@@ -211,7 +211,7 @@ namespace giac {
   
   gen _rm_a_z(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS && !defined FXCG
+#if 0 // !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS && !defined FXCG 
     if (variables_are_files(contextptr)){
       char a_effacer[]="a.cas";
       for (;a_effacer[0]<='z';++a_effacer[0]){
