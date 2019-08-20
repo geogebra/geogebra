@@ -75,9 +75,6 @@ public enum Feature {
 	/** G3D-345 */
 	G3D_AR_SHOW_RATIO,
 
-	/** G3D-310 */
-	G3D_AR_FIT_THICKNESS_BUTTON,
-
 	/** G3D-302 */
 	G3D_STL_SOLID,
 

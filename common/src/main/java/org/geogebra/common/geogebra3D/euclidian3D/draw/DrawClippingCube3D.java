@@ -148,7 +148,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double bottom = renderer.getBottom();
 		double top = renderer.getTop();
 
-		if (view.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			ARManagerInterface<?> arManager = renderer.getARManager();
 			if (arManager != null) {
 				double arScaleFactor = renderer.getARManager().getArScaleFactor();
