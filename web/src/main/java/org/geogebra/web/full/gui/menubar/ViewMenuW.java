@@ -125,8 +125,6 @@ public class ViewMenuW extends Submenu {
 							@Override
 							public void run() {
 								// false, because we have just closed the menu
-								app.getGuiManager()
-										.updateStyleBarPositions(false);
 								app.updateCenterPanel();
 							}
 						};
@@ -202,15 +200,6 @@ public class ViewMenuW extends Submenu {
 				// reset activePerspective so that no perspective is
 				// highlighted in apps picker when view is customized
 				app.setActivePerspective(-1);
-
-				Timer timer = new Timer() {
-					@Override
-					public void run() {
-						// false, because we have just closed the menu
-						app.getGuiManager().updateStyleBarPositions(false);
-					}
-				};
-				timer.schedule(0);
 			}
 		});
 		newItem.setForceCheckbox(true);

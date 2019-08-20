@@ -580,9 +580,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	protected void resetUI() {
 		resetEVs();
 		// make sure file->new->probability does not clear the prob. calc
-		if (this.getGuiManager() != null
-				&& this.getGuiManager().hasProbabilityCalculator()) {
-			((ProbabilityCalculatorView) this.getGuiManager()
+		if (getGuiManager() != null
+				&& getGuiManager().hasProbabilityCalculator()) {
+			((ProbabilityCalculatorView) getGuiManager()
 					.getProbabilityCalculator()).updateAll();
 		}
 		// remove all Macros before loading preferences
@@ -1056,10 +1056,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 		if (getGuiManager().hasCasView()) {
-			DockPanel sp = getGuiManager().getLayout().getDockManager()
+			DockPanelW sp = getGuiManager().getLayout().getDockManager()
 					.getPanel(App.VIEW_CAS);
 			if (sp != null) {
-				((DockPanelW) sp).onResize();
+				sp.onResize();
 			}
 		}
 		getAppletFrame()
@@ -1205,6 +1205,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final boolean isWhiteboardActive() {
+		if (activity != null) {
+			return activity.isWhiteboard();
+		}
 		return "notes"
 						.equals(getArticleElement().getDataParamAppName());
 	}
@@ -1410,7 +1413,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		updateSplitPanelHeight();
 
-		this.getGuiManager().getAlgebraInput()
+		getGuiManager().getAlgebraInput()
 				.setInputFieldWidth(this.appletWidth);
 	}
 
@@ -1782,10 +1785,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 			if (needsUpdate) {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
 			}
-			this.getGuiManager().refreshDraggingViews();
+			getGuiManager().refreshDraggingViews();
 			oldSplitLayoutPanel.getElement().getStyle()
 					.setOverflow(Overflow.HIDDEN);
-			getGuiManager().updateStyleBarPositions(true);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (isFloatingMenu()) {
@@ -1876,9 +1878,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void hideMenu() {
 		if (!menuInited || !menuShowing) {
-			if (this.getGuiManager() != null) {
-				this.getGuiManager().updateStyleBarPositions(false);
-			}
 			return;
 		}
 
@@ -1897,14 +1896,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		this.menuShowing = false;
 
-		if (this.getGuiManager() != null
-				&& this.getGuiManager().getLayout() != null) {
-			this.getGuiManager().getLayout().getDockManager().resizePanels();
+		if (getGuiManager() != null && getGuiManager().getLayout() != null) {
+			getGuiManager().getLayout().getDockManager().resizePanels();
 		}
 
-		if (this.getGuiManager() != null) {
-			this.getGuiManager().setDraggingViews(false, true);
-			this.getGuiManager().updateStyleBarPositions(false);
+		if (getGuiManager() != null) {
+			getGuiManager().setDraggingViews(false, true);
 		}
 	}
 
@@ -1925,7 +1922,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void updateSplitPanelHeight() {
 		int newHeight = frame.computeHeight();
-		if (this.showAlgebraInput()
+		if (showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {
 			newHeight -= getGuiManager().getAlgebraInput()

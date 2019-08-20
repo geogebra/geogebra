@@ -299,6 +299,23 @@ public class LoadFilePresenter {
 		}
 
 		app.updateRounding();
+		preloadParser(app);
+	}
+
+	/**
+	 * Make sure the parser is initiated: it will be needed for the first object
+	 * creation and may cause a major delay (
+	 * 
+	 * @param app
+	 *            application
+	 */
+	private static void preloadParser(final AppW app) {
+		app.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				app.getParserFunctions();
+			}
+		});
 	}
 
 	private static boolean tryReloadDataInStorage(ViewW view) {

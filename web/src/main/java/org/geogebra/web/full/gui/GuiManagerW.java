@@ -2020,37 +2020,6 @@ public class GuiManagerW extends GuiManager
 		this.toolbarForUpdate = toolBar;
 	}
 
-	@Override
-	public void updateStyleBarPositions(boolean menuOpen) {
-		for (DockPanelW panel : this.layout.getDockManager().getPanels()) {
-			double panelLeftToAppRight = getApp().getWidth()
-					- (panel.getAbsoluteLeft() - getApp()
-							.getAbsLeft())
-					/ getApp().getArticleElement().getScaleX();
-			double panelRightToAppRight = panelLeftToAppRight
-					- panel.getOffsetWidth();
-			if (menuOpen && panel.isVisible()
-					&& panelRightToAppRight < GLookAndFeel.MENUBAR_WIDTH) {
-				if (panelLeftToAppRight > GLookAndFeel.MENUBAR_WIDTH) {
-					// -2 necessary because of style-settings for the StyleBar
-					// and the Menu
-					panel.showStyleBarPanel(true);
-					if (getApp().isWhiteboardActive()) {
-						panel.setStyleBarRightOffset(-(int) panelRightToAppRight);
-					} else {
-						panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH
-								- (int) panelRightToAppRight - 2);
-					}
-				} else {
-					panel.showStyleBarPanel(false);
-				}
-			} else {
-				panel.showStyleBarPanel(true);
-				panel.setStyleBarRightOffset(0);
-			}
-		}
-	}
-
 	/**
 	 * shows the downloadDialog
 	 */

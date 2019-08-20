@@ -6996,9 +6996,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return true;
 		}
 		if (movedGeoElement.hasChangeableParent3D()) {
-			if (!app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-				movedGeoElement.getChangeableParent3D().record(view, null);
-			}
 			translateableGeos = new ArrayList<>();
 			translateableGeos.add(movedGeoElement);
 			return true;
@@ -9738,9 +9735,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				oldMode = mode; // remember current mode
 				if (mayPaste()) { // #5246 make sure we don't switch to
 					// translation if we have geos to paste
-					if (app.has(Feature.G3D_AR_ROTATE_3D_VIEW_TOOL) && view.isAREnabled()) {
-						// don't rotate
-					} else {
+					if (!view.isAREnabled()) {
 						view.setMode(getModeForShallMoveView(event));
 					}
 				}
@@ -11821,7 +11816,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.rememberOrigins();
 
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			return;
 		}
 
@@ -11947,7 +11942,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			return;
 		}
 
