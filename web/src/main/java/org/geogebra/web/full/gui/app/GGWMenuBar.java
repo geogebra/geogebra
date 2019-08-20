@@ -36,8 +36,8 @@ public class GGWMenuBar extends Composite {
 	 */
 	public void init(AppWFull app) {
 		ToolbarSettings set = app.getSettings().getToolbarSettings();
-		Platform ver = app.getVersion();
-		set.setFrom(app.getConfig(), ver.isPhone());
+		Platform platform = app.getPlatform();
+		set.setFrom(app.getConfig(), platform.isPhone());
 		menubar = new MainMenu(app, app.getActivity().getMenuItemProvider(app));
 
 		ggbmenubarwrapper.add(menubar);

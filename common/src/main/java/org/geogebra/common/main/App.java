@@ -401,7 +401,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-	private Platform version;
+	private Platform platform;
 	/**
 	 * static so that you can copy & paste between instances
 	 */
@@ -433,18 +433,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Please call setVersion right after this
+	 * Please call setPlatform right after this
 	 */
 	public App() {
 		init();
 	}
 
 	/**
-	 * constructor
+	 * Create app with specific platform
+	 *
+	 * @param platform the platform
 	 */
-	public App(Platform version) {
+	public App(Platform platform) {
 		this();
-		this.version = version;
+		this.platform = platform;
 	}
 
 	protected void init() {
@@ -468,13 +470,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Changes version; should be called only once, right after the constructor
+	 * Sets the Platform; should be called only once, right after the constructor
 	 *
-	 * @param version
-	 *            version
+	 * @param platform
+	 *            platform
 	 */
-	public void setVersion(Platform version) {
-		this.version = version;
+	public void setPlatform(Platform platform) {
+		this.platform = platform;
 	}
 
 	/**
@@ -3043,8 +3045,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getVersionString() {
 
-		if (version != null) {
-			return version.getVersionString(prerelease, canary, getConfig().getAppCode());
+		if (platform != null) {
+			return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3871,7 +3873,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getVersion());
+			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
 
 		case TOOL_EDITOR:
 			return prerelease;
@@ -4574,8 +4576,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return adjustViews.isPortait();
 	}
 
-	public Platform getVersion() {
-		return version;
+	/**
+	 * Get the platform the app is running on.
+	 *
+	 * @return the platform
+	 */
+	public Platform getPlatform() {
+		return platform;
 	}
 
 	/**
@@ -4774,7 +4781,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
 		ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getVersion().isPhone());
+		set.setFrom(getConfig(), getPlatform().isPhone());
 		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 
@@ -4811,7 +4818,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			default:
 				factory = new GraphingToolCollectionFactory();
 		}
-		switch (getVersion()) {
+		switch (getPlatform()) {
 			case ANDROID:
 			case IOS:
 				factory.setPhoneApp(true);

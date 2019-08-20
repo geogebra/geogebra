@@ -14,7 +14,7 @@ import com.google.gwt.storage.client.Storage;
  */
 public class BundleLookAndFeel extends GLookAndFeel {
 	@Override
-	public Platform getVersion(int dim, String appName) {
+	public Platform getPlatform(int dim, String appName) {
 		return Platform.OFFLINE;
 	}
 

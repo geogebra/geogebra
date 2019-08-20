@@ -29,7 +29,7 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-	public Platform getVersion(int dim, String appName) {
+	public Platform getPlatform(int dim, String appName) {
 		return Platform.WINDOWS_STORE;
 	}
 

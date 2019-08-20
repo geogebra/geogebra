@@ -154,7 +154,7 @@ public class ViewMenuW extends Submenu {
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
-		if (app.getVersion() != null && app.getVersion() != Platform.OFFLINE
+		if (app.getPlatform() != null && app.getPlatform() != Platform.OFFLINE
 				&& !app.isExam()) {
 			dataCollection = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtmlEmptyIcon(

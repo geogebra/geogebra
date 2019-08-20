@@ -187,7 +187,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public Platform getVersion(int dim, String appName) {
+	public Platform getPlatform(int dim, String appName) {
 		return dim > 2 ? Platform.WEB
 				: Platform.WEB_FOR_BROWSER_2D;
 	}

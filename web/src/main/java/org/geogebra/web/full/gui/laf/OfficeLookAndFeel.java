@@ -32,7 +32,7 @@ public class OfficeLookAndFeel extends SmartLookAndFeel {
     }
 
 	@Override
-	public Platform getVersion(int dim, String appName) {
+	public Platform getPlatform(int dim, String appName) {
 		return Platform.POWERPOINT;
 	}
 }

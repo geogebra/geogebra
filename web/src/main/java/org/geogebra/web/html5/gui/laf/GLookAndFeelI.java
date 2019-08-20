@@ -44,7 +44,7 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
-	Platform getVersion(int dim, String appName);
+	Platform getPlatform(int dim, String appName);
 
 	void storeLanguage(String language, AppW app);
 

@@ -91,7 +91,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	private void resetVideo() {
 		Localization loc = app.getLocalization();
 		String message;
-		if (app.getVersion() == Platform.WEB) {
+		if (app.getPlatform() == Platform.WEB) {
 			message = "";
 		} else if (Browser.isFirefox()) {
 			message = loc.getMenu("Webcam.Firefox");
