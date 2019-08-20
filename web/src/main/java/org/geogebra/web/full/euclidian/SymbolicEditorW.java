@@ -85,7 +85,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		main.removeStyleName("hidden");
 		updateBounds(bounds);
 		updateColors();
-		initAndShowKeyboard(true);
+		initAndShowKeyboard();
 		mathField.setText(text, false);
 		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 		mathField.setFocus(true);
@@ -123,7 +123,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	}
 
 	@Override
-	public boolean isAttached(GPoint point) {
+	public boolean isClicked(GPoint point) {
 		return geoIntputBox.isEditing() && bounds.contains(point.getX(), point.getY());
 	}
 
@@ -216,15 +216,9 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		return main;
 	}
 
-	/**
-	 * @param show
-	 *            whether to show keyboard
-	 */
-	public void initAndShowKeyboard(boolean show) {
+	private void initAndShowKeyboard() {
 		retexListener = new RetexKeyboardListener(canvas, mathField);
-		if (show) {
-			((AppWFull)app).getAppletFrame().showKeyBoard(true, retexListener, false);
-		}
+		((AppWFull)app).getAppletFrame().showKeyBoard(true, retexListener, false);
 	}
 
 	public RetexKeyboardListener getKeyboardListener() {

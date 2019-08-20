@@ -9562,7 +9562,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.requestFocusInWindow();
 		}
 
-		if (view.isSymbolicEditorAttached()) {
+		if (isSymbolicEditorSelected()) {
 			Log.debug("EDITOR IS ATTACHED");
 			return;
 		}
@@ -9772,6 +9772,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	public boolean isSymbolicEditorSelected() {
+		return view.isSymbolicEditorClicked(mouseLoc);
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {

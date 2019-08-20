@@ -67,7 +67,7 @@ public class AppMocker {
 			}
 		});
 		fr.runAsyncAfterSplash();
-		AppWFull app = (AppWFull) fr.getApplication();
+		AppWFull app = fr.getApp();
 		app.setUndoRedoEnabled(true);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();

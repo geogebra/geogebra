@@ -567,7 +567,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * @return the application
 	 */
-	public AppW getApplication() {
+	public AppW getApp() {
 		return app;
 	}
 

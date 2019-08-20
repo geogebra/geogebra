@@ -179,6 +179,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private ShareControllerW shareController;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
+	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
 
@@ -1478,7 +1479,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
-		if (getEuclidianView1().isSymbolicEditorAttached()) {
+		if (euclidianController.isSymbolicEditorSelected()) {
 			return;
 		}
 
@@ -2115,6 +2116,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	 * @return manager for showing/hiding keyboard
 	 */
 	public KeyboardManager getKeyboardManager() {
-		return new KeyboardManager(this);
+		if (keyboardManager == null) {
+			keyboardManager = new KeyboardManager(this);
+		}
+		return keyboardManager;
 	}
 }

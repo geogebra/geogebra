@@ -30,7 +30,7 @@ public interface SymbolicEditor {
 
 	/**
 	 *
-	 * @return if editor is attached.
+	 * @return if editor is clicked.
 	 */
-	boolean isAttached(GPoint point);
+	boolean isClicked(GPoint point);
 }

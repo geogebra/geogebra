@@ -4027,4 +4027,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		return fpsProfiler;
 	}
+
+	@Override
+	public EuclidianController getEuclidianController() {
+		return super.getEuclidianController();
+	}
 }

@@ -134,10 +134,10 @@ public class EmbedManagerW implements EmbedManager {
 		addToGraphics(scaler);
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
-			fr.getApplication().registerOpenFileListener(
+			fr.getApp().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
-			fr.getApplication().getGgbApi().setFileJSON(
+			fr.getApp().getGgbApi().setFileJSON(
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
 		}
 		return element;

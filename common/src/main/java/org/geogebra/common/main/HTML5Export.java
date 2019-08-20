@@ -113,7 +113,7 @@ public class HTML5Export {
 		sb.append("var views = {");
 		sb.append("'is3D': ");
 		Construction construction = app.getKernel().getConstruction();
-		boolean useWeb3D = construction.has3DObjects() || construction.hasInputBoxes();
+		boolean useWeb3D = construction.requires3D();
 		sb.append(useWeb3D ? "1" : "0");
 		if (gui != null) {
 			sb.append(",'AV': ");

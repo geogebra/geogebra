@@ -2852,7 +2852,7 @@ public class Construction {
 	/**
 	 * @return whether there are some objects incompatible with the 2D version
 	 */
-	public boolean has3DObjects() {
+	private boolean has3DObjects() {
 
 		Iterator<GeoClass> it = usedGeos.iterator();
 
@@ -3648,4 +3648,7 @@ public class Construction {
 		return labelManager;
 	}
 
+	public boolean requires3D() {
+		return has3DObjects() || hasInputBoxes();
+	}
 }
