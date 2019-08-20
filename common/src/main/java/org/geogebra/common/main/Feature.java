@@ -57,20 +57,8 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-	/** G3D-42 */
-	G3D_AR_REGULAR_TOOLS,
-
-	/** G3D-95 */
-	G3D_AR_ROTATE_3D_VIEW_TOOL,
-
-	/** G3D-97 */
-	G3D_AR_TRANSLATE_3D_VIEW_TOOL,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
-
-	/** G3D-160 */
-	G3D_AR_TARGET,
 
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
@@ -80,9 +68,6 @@ public enum Feature {
 
 	/** APPS-634 */
 	BUTTON_HIGHLIGHTING,
-
-	/** G3D-249 */
-	G3D_AR_EXTRUSION_TOOL,
 
 	/** G3D-323 */
 	G3D_AR_LABELS_OFFSET,
