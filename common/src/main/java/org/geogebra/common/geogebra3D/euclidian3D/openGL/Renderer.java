@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /**
  *
