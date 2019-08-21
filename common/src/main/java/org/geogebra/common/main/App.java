@@ -4282,7 +4282,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		hideSymbolicEditors();
 	}
 
-	protected void hideSymbolicEditors() {
+	public void hideSymbolicEditors() {
 		// iterable view list would be nice for eg in GuiManager
 		hideSymbolicEditor(getActiveEuclidianView());
 		hideSymbolicEditor(getEuclidianView2(1));
