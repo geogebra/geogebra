@@ -4279,13 +4279,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		closePopups();
 		EuclidianView view = getActiveEuclidianView();
 		view.closeDropDowns(x, y);
-
-		// iterable view list would be nice for eg in GuiManager
-		hideSymbolicEditor(view);
-		hideSymbolicEditor(getEuclidianView2(1));
-		hideSymbolicEditor(getEuclidianView2(2));
+		hideSymbolicEditors();
 	}
 
+	protected void hideSymbolicEditors() {
+		// iterable view list would be nice for eg in GuiManager
+		hideSymbolicEditor(getActiveEuclidianView());
+		hideSymbolicEditor(getEuclidianView2(1));
+		hideSymbolicEditor(getEuclidianView2(2));
+
+	}
 	private void hideSymbolicEditor(EuclidianView view) {
 		if (view == null) {
 			return;
