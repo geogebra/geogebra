@@ -684,7 +684,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		Collection<String> commandDictContent = commandDict.values();
 
 		// write them to the commandDictCAS
-		CommandDispatcher cf = getKernel().getAlgebraProcessor().getCommandDispatcher();
+		CommandDispatcher commandDispatcher = getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		for (String cmd : commandDictContent) {
 			commandDictCAS.addEntry(cmd);
@@ -694,7 +694,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
 			try {
-				if (!cf.isAllowedByNameFilter(Commands.valueOf(cmd))) {
+				if (!commandDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd))) {
 					continue;
 				}
 			} catch (Exception e) {
@@ -4243,6 +4243,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		closePopups();
 		EuclidianView view = getActiveEuclidianView();
 		view.closeDropDowns(x, y);
+		hideSymbolicEditors();
+	}
+
+	public void hideSymbolicEditors() {
+		// iterable view list would be nice for eg in GuiManager
+		hideSymbolicEditor(getActiveEuclidianView());
+		hideSymbolicEditor(getEuclidianView2(1));
+		hideSymbolicEditor(getEuclidianView2(2));
+
+	}
+	private void hideSymbolicEditor(EuclidianView view) {
+		if (view == null) {
+			return;
+		}
+
 		view.hideSymbolicEditor();
 	}
 
