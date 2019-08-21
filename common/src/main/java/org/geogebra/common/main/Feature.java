@@ -69,14 +69,8 @@ public enum Feature {
 	/** APPS-634 */
 	BUTTON_HIGHLIGHTING,
 
-	/** G3D-323 */
-	G3D_AR_LABELS_OFFSET,
-
 	/** G3D-345 */
 	G3D_AR_SHOW_RATIO,
-
-	/** G3D-302 */
-	G3D_STL_SOLID,
 
 	/** G3D-343 */
 	G3D_SELECT_META,
@@ -92,9 +86,6 @@ public enum Feature {
 
 	/** APPS-1000 */
 	COMMAND_COMPLETION_FALLBACK,
-
-	/** G3D-380 */
-	G3D_FILLED_SOLID_CHECKBOX,
 
 	/** G3D-372 */
 	G3D_AR_RATIO_SETTINGS,

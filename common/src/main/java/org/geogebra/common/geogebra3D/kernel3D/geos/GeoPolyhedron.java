@@ -2370,12 +2370,12 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public boolean isRegion() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isRegion3D() {
-		return false;
+		return true;
 	}
 
 	@Override

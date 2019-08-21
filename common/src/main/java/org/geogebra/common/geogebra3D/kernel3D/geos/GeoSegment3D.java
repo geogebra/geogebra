@@ -629,4 +629,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
 
+    @Override
+    public boolean isDefined() {
+        return super.isDefined() || coordsys.hasZeroVx();
+    }
+
 }

@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
@@ -429,8 +428,7 @@ public class DrawLabel3D {
 		labelOrigin[1] *= view.getYscale();
 		labelOrigin[2] *= view.getZscale();
 
-		if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
-				|| !anchor) {
+		if (!view.isAREnabled() || !anchor) {
 			drawX = (int) (vScreen.getX() + xOffset);
 			if (anchor && xOffset < 0) {
 				drawX -= width / getFontScale();
@@ -735,8 +733,7 @@ public class DrawLabel3D {
 
 		int old = textIndex;
         if (view.isARDrawing()) {
-			if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
-					|| !anchor) {
+			if (!view.isAREnabled() || !anchor) {
 				textIndex = drawRectangle(renderer, 0, 0, 0,
 						width2 / getFontScale(), height2 / getFontScale(), textIndex);
 			} else {
