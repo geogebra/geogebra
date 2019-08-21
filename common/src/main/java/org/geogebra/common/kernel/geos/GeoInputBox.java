@@ -400,7 +400,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (!geo.isGeoNumeric()) {
 			return null;
 		}
-		return ((GeoNumeric) geo).toValueStringMinimal();
+		return getFormattedDouble((GeoNumeric) geo);
 	}
 
 	private void showError() {
@@ -635,8 +635,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return "?";
 		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return isLatexNeededFor(number) ? number.toLaTeXString(true, StringTemplate.defaultTemplate)
-				: number.toValueStringMinimal();
+		return isLatexNeededFor(number) ? number.toLaTeXString(true, tpl)
+				: getFormattedDouble(number);
+	}
+
+	private String getFormattedDouble(GeoNumeric number) {
+		return kernel.format(number.getValue(), tpl);
 	}
 
 	private String getSymbolicNumberText() {
@@ -644,7 +648,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return "?";
 		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return isLatexNeededFor(number) ? toLaTex(number) : number.toValueStringMinimal();
+		return isLatexNeededFor(number) ? toLaTex(number) : getFormattedDouble(number);
 	}
 
 	private boolean isLatexNeededFor(GeoNumeric number) {
