@@ -53,7 +53,7 @@ public class AlgoDiscover extends AlgoElement {
             this.output[i] = output_wip.get(i);
             boolean oldMacroMode = cons.isSuppressLabelsActive();
             this.output[i].setEuclidianVisible(true);
-            this.output[i].setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+            // this.output[i].setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
             this.output[i].setLabelVisible(true);
             this.output[i].updateVisualStyle(GProperty.COMBINED); // visibility and style
             cons.setSuppressLabelCreation(oldMacroMode);
@@ -145,15 +145,79 @@ public class AlgoDiscover extends AlgoElement {
                         }
                     }
                 }
+
+                // Parallelism check
+                /*
+                 * FIXME: Lots of extra pair of lines will be created unnecessarily
+                 * if the same lines are defined by several pairs of points.
+                 * This issue should be fixed by defining the set of parallel lines
+                 * and if one entry already exists then no new pair of parallel lines
+                 * should be added. This set should be maintained in a "discovery pool".
+                 */
+                GeoPoint[][] pp = {{p1, p2, p3}, {p2, p3, p1}, {p3, p1, p2}};
+                for (int j = 0; j < 3; j++) {
+                    boolean theorem = false;
+                    GeoPoint q1 = pp[j][0];
+                    GeoPoint q2 = pp[j][1];
+                    GeoPoint q3 = pp[j][2];
+                    AlgoJoinPoints ajp1 = new AlgoJoinPoints(cons, null, (GeoPoint) this.input, q1);
+                    AlgoJoinPoints ajp2 = new AlgoJoinPoints(cons, null, q2, q3);
+                    GeoLine l1 = ajp1.getLine();
+                    GeoLine l2 = ajp2.getLine();
+                    AlgoAreParallel aap = new AlgoAreParallel(cons, l1, l2);
+                    if (aap.getResult().getBoolean()) {
+                        // Conjecture: Parallel
+                        GeoElement root = new GeoBoolean(cons);
+                        root.setParentAlgorithm(aap);
+                        AlgoProveDetails ap = new AlgoProveDetails(cons, root);
+                        ap.compute();
+                        GeoElement[] o = ap.getOutput();
+                        GeoElement truth = ((GeoList) o[0]).get(0);
+                        if (((GeoBoolean) truth).getBoolean()) {
+                            if (true) {
+                                // Theorem: Parallelism
+                                addOutputLines(l1, l2);
+                                theorem = true;
+                            }
+                        }
+                    }
+                    if (!theorem) {
+                        l1.remove();
+                        l2.remove();
+                    }
+                }
             }
         }
+    }
+
+    GColor nextColor(GeoElement e) {
+        return e.getAutoColorScheme()
+                .getNext(true); // !cons.getKernel().isSilentMode()
+    }
+
+    void addOutputLines(GeoLine a, GeoLine b) {
+        GColor c = nextColor(a);
+        boolean oldMacroMode = cons.isSuppressLabelsActive();
+        a.setObjColor(c);
+        a.setEuclidianVisible(true);
+        a.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+        a.setLineThickness(1);
+        a.setLabelVisible(true);
+        b.setObjColor(c);
+        b.setEuclidianVisible(true);
+        b.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+        b.setLineThickness(1);
+        b.setLabelVisible(true);
+        cons.setSuppressLabelCreation(oldMacroMode);
+        output_wip.add(a);
+        output_wip.add(b);
     }
 
     void addOutputLine(GeoPoint A, GeoPoint B) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
         AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, A, B);
         GeoLine l = ajp.getLine();
-        l.setObjColor(GColor.PURPLE);
+        l.setObjColor(nextColor(l));
         l.setEuclidianVisible(true);
         l.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
         l.setLabelVisible(true);
@@ -162,11 +226,12 @@ public class AlgoDiscover extends AlgoElement {
         output_wip.add(l);
     }
 
+
     void addOutputCircle(GeoPoint A, GeoPoint B, GeoPoint C) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
         AlgoCircleThreePoints actp = new AlgoCircleThreePoints(cons, null, A, B, C);
         GeoConic circle = (GeoConic) actp.getCircle();
-        circle.setObjColor(GColor.PURPLE);
+        circle.setObjColor(nextColor(circle));
         circle.setEuclidianVisible(true);
         circle.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
         circle.setLabelVisible(true);
@@ -180,7 +245,8 @@ public class AlgoDiscover extends AlgoElement {
          * FIXME. This is incomplete (e.g. intersection of lines is missing)
          * and badly organized. Instead, there should be a set of lines
          * created: each element should contain a set of points that
-         * are lying on a given line.
+         * are lying on a given line. This should be maintained in a
+         * "discovery pool".
          */
         AlgoElement ae = C.getParentAlgorithm();
         if (ae instanceof AlgoMidpoint) {

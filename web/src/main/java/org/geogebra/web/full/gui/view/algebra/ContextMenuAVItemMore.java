@@ -11,6 +11,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
@@ -101,6 +102,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	}
 
 	private void addAction(final MenuAction<GeoElement> menuAction) {
+        LoggerW.debug("menuAction " + menuAction);
 		SVGResource img = mApp.isUnbundled() ? null : menuAction.getImage();
 		String html = MainMenu.getMenuBarHtml(img, menuAction.getTitle(loc));
 		AriaMenuItem mi = new AriaMenuItem(html, true, new Command() {
