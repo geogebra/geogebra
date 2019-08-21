@@ -7,9 +7,14 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
+import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import org.geogebra.common.kernel.algos.AlgoMidpoint;
+import org.geogebra.common.kernel.algos.AlgoMidpointSegment;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -18,12 +23,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoDiscover extends AlgoElement {
+    /* FIXME: When updating the underlying structure of the input,
+     * the whole computation should be completely redone.
+     * A similar problem can occur in some other commands of GeoGebra ART.
+     */
 
     private GeoElement input; // input
 
@@ -101,8 +111,12 @@ public class AlgoDiscover extends AlgoElement {
                     GeoElement[] o = ap.getOutput();
                     GeoElement truth = ((GeoList) o[0]).get(0);
                     if (((GeoBoolean) truth).getBoolean()) {
-                        // Theorem: Collinearity
-                        addOutputLine(p1, p2);
+                        if (!isTrivialCollinearity(p1,p2,(GeoPoint) this.input) &&
+                                !isTrivialCollinearity(p2,(GeoPoint) this.input,p1) &&
+                                !isTrivialCollinearity((GeoPoint) this.input,p1,p2)) {
+                            // Theorem: Collinearity
+                            addOutputLine(p1, p2);
+                        }
                     }
                 }
             }
@@ -125,8 +139,10 @@ public class AlgoDiscover extends AlgoElement {
                     GeoElement[] o = ap.getOutput();
                     GeoElement truth = ((GeoList) o[0]).get(0);
                     if (((GeoBoolean) truth).getBoolean()) {
-                        // Theorem: Parallelism
-                        addOutputCircle(p1, p2, p3);
+                        if (true) {
+                            // Theorem: Concyclicity
+                            addOutputCircle(p1, p2, p3);
+                        }
                     }
                 }
             }
@@ -157,5 +173,49 @@ public class AlgoDiscover extends AlgoElement {
         circle.updateVisualStyle(GProperty.COMBINED); // visibility and style
         cons.setSuppressLabelCreation(oldMacroMode);
         output_wip.add(circle);
+    }
+
+    boolean isTrivialCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
+        /*
+         * FIXME. This is incomplete (e.g. intersection of lines is missing)
+         * and badly organized. Instead, there should be a set of lines
+         * created: each element should contain a set of points that
+         * are lying on a given line.
+         */
+        AlgoElement ae = C.getParentAlgorithm();
+        if (ae instanceof AlgoMidpoint) {
+            GeoElement[] inps = ((AlgoMidpoint) ae).getInput();
+            if ((inps[0].equals(A) && inps[1].equals(B)) ||
+                    (inps[0].equals(B) && inps[1].equals(A))) {
+                // C is a midpoint of AB:
+                return true;
+            }
+        }
+        if (ae instanceof AlgoMidpointSegment) {
+            GeoSegment seg = (GeoSegment) ((AlgoMidpointSegment) ae).getInput(0);
+            GeoPoint p1 = seg.startPoint;
+            GeoPoint p2 = seg.endPoint;
+            if ((p1.equals(A) && p2.equals(B)) ||
+                    (p1.equals(B) && p2.equals(A))) {
+                // C is a midpoint of AB:
+                return true;
+            }
+        }
+
+        if (ae instanceof AlgoPointOnPath) {
+            Path p = ((AlgoPointOnPath) ae).getPath();
+            AlgoElement aep = p.getParentAlgorithm();
+            if (aep instanceof AlgoJoinPointsSegment) {
+                AlgoJoinPointsSegment ajps = (AlgoJoinPointsSegment) aep;
+                GeoElement[] ges = ajps.getInput();
+                if ((ges[0].equals(A) && ges[1].equals(B)) ||
+                        ges[0].equals(B) && ges[1].equals(A)) {
+                    // C is defined to be on segment AB
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
