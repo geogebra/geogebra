@@ -3198,7 +3198,7 @@ __GGB__keysVar["de"].menu = {
     "ar.restart": "AR neustarten",
     "back": "Zur\xfcck",
     "cartesian": "Cartesisch",
-    "cas_tutorials": "mxtyvd22",
+    "cas_tutorials": "eddhx9a3",
     "clockwise": "Im Uhrzeigersinn",
     "counterClockwise": "Gegen den Uhrzeigersinn",
     "dependent": "abh\xe4ngig",
