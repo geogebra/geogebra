@@ -218,7 +218,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 
 	private void initAndShowKeyboard() {
 		retexListener = new RetexKeyboardListener(canvas, mathField);
-		((AppWFull)app).getAppletFrame().showKeyBoard(true, retexListener, false);
+		((AppWFull) app).getAppletFrame().showKeyBoard(true, retexListener, false);
 	}
 
 	public RetexKeyboardListener getKeyboardListener() {

@@ -29,6 +29,7 @@ import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.main.HeaderResizer;
@@ -326,8 +327,14 @@ public class GeoGebraFrameFull
 	 *            whether to animate the keyboard in
 	 */
 	void addKeyboard(final MathKeyboardListener textField, boolean animated) {
-		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
+		final VirtualKeyboardW keyboard = getOnScreenKeyboard(textField);
+		if (keyboard == null) {
+			return;
+		}
+
 		this.setKeyboardShowing(true);
+
+		updateMoreButton(keyboard, textField);
 
 		ToolbarPanel toolbarPanel = getGuiManager()
 				.getUnbundledToolbar();
@@ -335,25 +342,25 @@ public class GeoGebraFrameFull
 			toolbarPanel.hideMoveFloatingButton();
 		}
 
-		keyBoard.prepareShow(animated);
+		keyboard.prepareShow(animated);
 		if (!app.isWhiteboardActive()) {
-			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());
+			app.addAsAutoHidePartnerForPopups(keyboard.asWidget().getElement());
 		}
 		CancelEventTimer.keyboardSetVisible();
 		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
-		this.add(keyBoard);
+		this.add(keyboard);
 		Runnable callback = new Runnable() {
 
 			@Override
 			public void run() {
 				// this is async, maybe we canceled the keyboard
 				if (!isKeyboardShowing()) {
-					remove(keyBoard);
+					remove(keyboard);
 					return;
 				}
 				final boolean showPerspectivesPopup = getApp()
 						.isPerspectivesPopupVisible();
-				onKeyboardAdded(keyBoard);
+				onKeyboardAdded(keyboard);
 				if (showPerspectivesPopup) {
 					getApp().showPerspectivesPopup();
 				}
@@ -364,12 +371,27 @@ public class GeoGebraFrameFull
 				}
 			}
 		};
-		getApp().getKeyboardManager().updateStyle(keyBoard);
+		getApp().getKeyboardManager().updateStyle(keyboard);
 		if (animated) {
-			keyBoard.afterShown(callback);
+			keyboard.afterShown(callback);
 		} else {
 			callback.run();
 		}
+	}
+
+	private void updateMoreButton(VirtualKeyboardW keyboard, MathKeyboardListener textField) {
+		if (shouldShowMoreButtonFor(textField)) {
+			keyboard.showMoreButton();
+		} else {
+			keyboard.hideMoreButton();
+		}
+	}
+
+	private boolean shouldShowMoreButtonFor(MathKeyboardListener textField) {
+		boolean acceptsCommandInserts =
+				textField instanceof RetexKeyboardListener
+						&& ((RetexKeyboardListener) textField).acceptsCommandInserts();
+		return textField == null || acceptsCommandInserts;
 	}
 
 	// @Override

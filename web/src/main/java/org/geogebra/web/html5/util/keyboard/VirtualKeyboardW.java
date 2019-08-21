@@ -19,4 +19,8 @@ public interface VirtualKeyboardW extends IsWidget {
 	void afterShown(Runnable runnable);
 
 	void prepareShow(boolean animated);
+
+	void showMoreButton();
+
+	void hideMoreButton();
 }

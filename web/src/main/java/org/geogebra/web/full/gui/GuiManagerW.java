@@ -2533,6 +2533,9 @@ public class GuiManagerW extends GuiManager
 		return editor;
 	}
 
+	/**
+	 * @return Whether there is an available keyboard listener.
+	 */
 	public boolean hasKeyboardListener() {
 		DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
 		MathKeyboardListener keyboardListener = getKeyboardListener(dockPanelForKeyboard);
