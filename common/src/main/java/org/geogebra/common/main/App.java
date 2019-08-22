@@ -4247,18 +4247,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void hideSymbolicEditors() {
-		// iterable view list would be nice for eg in GuiManager
-		hideSymbolicEditor(getActiveEuclidianView());
-		hideSymbolicEditor(getEuclidianView2(1));
-		hideSymbolicEditor(getEuclidianView2(2));
+		getActiveEuclidianView().hideSymbolicEditor();
+		hideSymbolicEditor(1);
+		hideSymbolicEditor(2);
 
 	}
-	private void hideSymbolicEditor(EuclidianView view) {
-		if (view == null) {
-			return;
+	private void hideSymbolicEditor(int euclidianViewId) {
+		if (hasEuclidianView2(euclidianViewId)) {
+			getEuclidianView2(euclidianViewId).hideSymbolicEditor();
 		}
-
-		view.hideSymbolicEditor();
 	}
 
 	/**
