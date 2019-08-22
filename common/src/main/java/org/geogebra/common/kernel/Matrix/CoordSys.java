@@ -1469,5 +1469,4 @@ public class CoordSys {
         return vxIsZero;
     }
 
-
 }
