@@ -123,7 +123,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		top = bounds.getY();
 		style.setTop(top, Style.Unit.PX);
 		style.setWidth(fieldWidth, Style.Unit.PX);
-		setHeight(bounds.getHeight() - 2 * BORDER_WIDTH);
+		setHeight(bounds.getHeight());
 	}
 
 	private void setHeight(double height)  {
