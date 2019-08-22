@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -83,9 +84,11 @@ public class AlgoDiscover extends AlgoElement {
 
     @Override
     public final void compute() {
-     }
+    }
 
     public final void initialCompute() {
+
+        Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
 
         if (this.input instanceof GeoPoint) {
             HashSet<GeoPoint> notChildren = new HashSet<GeoPoint>();
@@ -95,13 +98,15 @@ public class AlgoDiscover extends AlgoElement {
                 }
             }
 
+            GeoPoint p0 = (GeoPoint) this.input;
+
             Combinations lines = new Combinations(notChildren, 2);
             while (lines.hasNext()) {
                 Set<GeoPoint> line = lines.next();
                 Iterator<GeoPoint> i = line.iterator();
                 GeoPoint p1 = i.next();
                 GeoPoint p2 = i.next();
-                AlgoAreCollinear aac = new AlgoAreCollinear(cons, (GeoPoint) this.input, p1, p2);
+                AlgoAreCollinear aac = new AlgoAreCollinear(cons, p0, p1, p2);
                 if (aac.getResult().getBoolean()) {
                     // Conjecture: Collinearity
                     GeoElement root = new GeoBoolean(cons);
@@ -110,13 +115,12 @@ public class AlgoDiscover extends AlgoElement {
                     ap.compute();
                     GeoElement[] o = ap.getOutput();
                     GeoElement truth = ((GeoList) o[0]).get(0);
-                    if (((GeoBoolean) truth).getBoolean()) {
-                        if (!isTrivialCollinearity(p1,p2,(GeoPoint) this.input) &&
-                                !isTrivialCollinearity(p2,(GeoPoint) this.input,p1) &&
-                                !isTrivialCollinearity((GeoPoint) this.input,p1,p2)) {
-                            // Theorem: Collinearity
-                            addOutputLine(p1, p2);
-                        }
+                    checkCollinearity(p0, p1, p2);
+                    checkCollinearity(p1, p2, p0);
+                    checkCollinearity(p2, p0, p1);
+                    if (!trivialPool.areCollinear(p0, p1, p2) && ((GeoBoolean) truth).getBoolean()) {
+                        // Theorem: Collinearity
+                        addOutputLine(p1, p2);
                     }
                 }
             }
@@ -192,7 +196,7 @@ public class AlgoDiscover extends AlgoElement {
 
     GColor nextColor(GeoElement e) {
         return e.getAutoColorScheme()
-                .getNext(true); // !cons.getKernel().isSilentMode()
+                .getNext(!cons.getKernel().isSilentMode());
     }
 
     void addOutputLines(GeoLine a, GeoLine b) {
@@ -283,5 +287,48 @@ public class AlgoDiscover extends AlgoElement {
         }
 
         return false;
+    }
+
+    void checkCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
+        /*
+         * FIXME. This is incomplete (e.g. intersection of lines is missing).
+         */
+        Pool trivialPool = A.getKernel().getApplication().getTrivialPool();
+
+        AlgoElement ae = C.getParentAlgorithm();
+        if (ae instanceof AlgoMidpoint) {
+            GeoElement[] inps = ((AlgoMidpoint) ae).getInput();
+            if ((inps[0].equals(A) && inps[1].equals(B)) ||
+                    (inps[0].equals(B) && inps[1].equals(A))) {
+                // C is a midpoint of AB:
+                trivialPool.addCollinearity(A, B, C);
+            }
+        }
+        if (ae instanceof AlgoMidpointSegment) {
+            GeoSegment seg = (GeoSegment) ((AlgoMidpointSegment) ae).getInput(0);
+            GeoPoint p1 = seg.startPoint;
+            GeoPoint p2 = seg.endPoint;
+            if ((p1.equals(A) && p2.equals(B)) ||
+                    (p1.equals(B) && p2.equals(A))) {
+                // C is a midpoint of AB:
+                trivialPool.addCollinearity(A, B, C);
+            }
+        }
+
+        if (ae instanceof AlgoPointOnPath) {
+            Path p = ((AlgoPointOnPath) ae).getPath();
+            AlgoElement aep = p.getParentAlgorithm();
+            if (aep instanceof AlgoJoinPointsSegment) {
+                AlgoJoinPointsSegment ajps = (AlgoJoinPointsSegment) aep;
+                GeoElement[] ges = ajps.getInput();
+                if ((ges[0].equals(A) && ges[1].equals(B)) ||
+                        ges[0].equals(B) && ges[1].equals(A)) {
+                    // C is defined to be on segment AB
+                    trivialPool.addCollinearity(A, B, C);
+                }
+            }
+        }
+
+        return;
     }
 }

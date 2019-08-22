@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
@@ -225,6 +226,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected final boolean[] showAxes = { true, true };
 	/** whether axes should be logarithmic when EV is created */
 	protected final boolean[] logAxes = { false, false };
+
+    /**
+     * Discovery pool
+     */
+    private Pool discoveryPool = new Pool();
+    private Pool trivialPool = new Pool();
+
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
 	 * this to hide reset icon from EV)
@@ -414,6 +422,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
+    private int nextLineID = 1;
 	private boolean buttonShadows = false;
 	private double buttonRounding = 0.2;
 	private SpecialPointsManager specialPointsManager;
@@ -485,10 +494,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param string
 	 *            CAS version string
 	 */
-	public static final void setCASVersionString(String string) {
-		CASVersionString = string;
+    public static final void setCASVersionString(String string) {
+        CASVersionString = string;
 
-	}
+    }
+
+
+    /* Pools for the prover */
+    public Pool getDiscoveryPool() {
+        return discoveryPool;
+    }
+
+    public Pool getTrivialPool() {
+        return trivialPool;
+    }
+
 
 	/**
 	 * Initializes SingularWS
@@ -4659,9 +4679,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return next prover variable ID
 	 */
-	public int getNextVariableID() {
-		return nextVariableID++;
-	}
+    public int getNextVariableID() {
+        return nextVariableID++;
+    }
+
+    /**
+     * @return next prover/discovery line ID
+     */
+    public int getNextLineID() {
+        return nextLineID++;
+    }
+
+    /**
+     * @return last prover/discovery line ID
+     */
+    public int getLastLineID() {
+        return nextLineID;
+    }
 
 	/**
 	 * @return tool categorization for this app
