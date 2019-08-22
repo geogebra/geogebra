@@ -61,8 +61,13 @@ public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 
 	@Override
 	protected void semiCircle(Coords center, Coords v1) {
-		AlgoCircle3DAxisPoint.setCircle(conic, conic.getCoordSys(), center, v1,
-				orientation.getDirectionInD3());
-		setConicPart(0, Math.PI);
+		Coords d = orientation.getDirectionInD3();
+		if (d == null) {
+			conicPart.setUndefined();
+		} else {
+			conicPart.setDefined();
+			AlgoCircle3DAxisPoint.setCircle(conic, conic.getCoordSys(), center, v1, d);
+			setConicPart(0, Math.PI);
+		}
 	}
 }
