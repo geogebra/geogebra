@@ -5118,6 +5118,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// point in a region
 			if (mode != EuclidianConstants.MODE_POINT_ON_OBJECT) {
 				regionHits.removeHasFacesIfFacePresent();
+				hits.removeHasFacesIfFacePresent();
 			}
 			if (!regionHits.isEmpty()) {
 				if (inRegionPossible) {
