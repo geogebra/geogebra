@@ -43,6 +43,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	private Style style;
 	private double top;
 	private int mainHeight;
+	private String text;
 
 	/**
 	 * Constructor
@@ -99,7 +100,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	}
 
 	private void updateText() {
-		String text = geoInputBox.getTextForEditor();
+		text = geoInputBox.getTextForEditor().trim();
 		mathField.setText(text, false);
 	}
 
@@ -151,7 +152,11 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	}
 
 	private void applyChanges() {
-		geoInputBox.updateLinkedGeo(mathField.getText());
+		String editedText = mathField.getText();
+		if (editedText.trim().equals(text)) {
+			return;
+		}
+		geoInputBox.updateLinkedGeo(editedText);
 	}
 
 	@Override
