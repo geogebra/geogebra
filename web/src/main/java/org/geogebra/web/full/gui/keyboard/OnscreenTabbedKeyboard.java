@@ -101,16 +101,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
-	public void showMoreButton() {
-		getKeyboardSwitcher().showMoreButton();
-	}
-
-	@Override
-	public void hideMoreButton() {
-		getKeyboardSwitcher().hideMoreButton();
-	}
-
-	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
 		ToolTipManagerW.hideAllToolTips();
 		super.onClick(btn, type);

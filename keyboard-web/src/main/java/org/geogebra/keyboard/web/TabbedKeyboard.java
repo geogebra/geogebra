@@ -880,7 +880,15 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		}
 	}
 
-	protected KeyboardSwitcher getKeyboardSwitcher() {
-		return switcher;
+	public void showMoreButton() {
+		if (hasMoreButton) {
+			switcher.showMoreButton();
+		}
+	}
+
+	public void hideMoreButton() {
+		if (hasMoreButton) {
+			switcher.hideMoreButton();
+		}
 	}
 }
