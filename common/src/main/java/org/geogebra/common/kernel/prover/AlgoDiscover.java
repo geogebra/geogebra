@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -89,6 +90,9 @@ public class AlgoDiscover extends AlgoElement {
     public final void initialCompute() {
 
         Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
+        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+        trivialPool.lines.clear();
+        discoveryPool.lines.clear();
 
         if (this.input instanceof GeoPoint) {
             HashSet<GeoPoint> notChildren = new HashSet<GeoPoint>();
@@ -118,12 +122,42 @@ public class AlgoDiscover extends AlgoElement {
                     checkCollinearity(p0, p1, p2);
                     checkCollinearity(p1, p2, p0);
                     checkCollinearity(p2, p0, p1);
-                    if (!trivialPool.areCollinear(p0, p1, p2) && ((GeoBoolean) truth).getBoolean()) {
+                    // The symbolic computation should be done just later in the 3rd run.
+                    if (!trivialPool.areCollinear(p0, p1, p2) &&
+                            !discoveryPool.areCollinear(p0, p1, p2) &&
+                            ((GeoBoolean) truth).getBoolean()) {
                         // Theorem: Collinearity
-                        addOutputLine(p1, p2);
+                        discoveryPool.addCollinearity(p0, p1, p2);
+                        // Later it can be removed if it proves to be trivial.
                     }
                 }
             }
+            // Remove trivial lines from discovery pool (2nd run):
+            ArrayList<Line> discoveryPoolLines = (ArrayList<Line>) discoveryPool.lines.clone();
+            for (Line dl : discoveryPoolLines) {
+                HashSet<GeoPoint> ps = dl.getPoints();
+                Combinations twoPointss = new Combinations(ps, 2);
+                while (twoPointss.hasNext()) {
+                    Set<GeoPoint> twoPoints = twoPointss.next();
+                    Iterator<GeoPoint> it = twoPoints.iterator();
+                    GeoPoint p1 = it.next();
+                    GeoPoint p2 = it.next();
+                    Line tl = trivialPool.getLine(p1, p2);
+                    if (tl != null) {
+                        Line dl2 = discoveryPool.getLine(p1, p2);
+                        discoveryPool.lines.remove(dl2);
+                    }
+                }
+            }
+            // Draw remaining lines (that are not trivial, 3rd run):
+            for (Line dl : discoveryPool.lines) {
+                GeoPoint[] ps = dl.getPoints2();
+                addOutputLine(ps[0], ps[1]);
+            }
+
+            // Remove this to get circles+parallels demo.
+            if (1 + 2 == 3)
+                return;
 
             Combinations circles = new Combinations(notChildren, 3);
             while (circles.hasNext()) {
@@ -244,51 +278,6 @@ public class AlgoDiscover extends AlgoElement {
         output_wip.add(circle);
     }
 
-    boolean isTrivialCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
-        /*
-         * FIXME. This is incomplete (e.g. intersection of lines is missing)
-         * and badly organized. Instead, there should be a set of lines
-         * created: each element should contain a set of points that
-         * are lying on a given line. This should be maintained in a
-         * "discovery pool".
-         */
-        AlgoElement ae = C.getParentAlgorithm();
-        if (ae instanceof AlgoMidpoint) {
-            GeoElement[] inps = ((AlgoMidpoint) ae).getInput();
-            if ((inps[0].equals(A) && inps[1].equals(B)) ||
-                    (inps[0].equals(B) && inps[1].equals(A))) {
-                // C is a midpoint of AB:
-                return true;
-            }
-        }
-        if (ae instanceof AlgoMidpointSegment) {
-            GeoSegment seg = (GeoSegment) ((AlgoMidpointSegment) ae).getInput(0);
-            GeoPoint p1 = seg.startPoint;
-            GeoPoint p2 = seg.endPoint;
-            if ((p1.equals(A) && p2.equals(B)) ||
-                    (p1.equals(B) && p2.equals(A))) {
-                // C is a midpoint of AB:
-                return true;
-            }
-        }
-
-        if (ae instanceof AlgoPointOnPath) {
-            Path p = ((AlgoPointOnPath) ae).getPath();
-            AlgoElement aep = p.getParentAlgorithm();
-            if (aep instanceof AlgoJoinPointsSegment) {
-                AlgoJoinPointsSegment ajps = (AlgoJoinPointsSegment) aep;
-                GeoElement[] ges = ajps.getInput();
-                if ((ges[0].equals(A) && ges[1].equals(B)) ||
-                        ges[0].equals(B) && ges[1].equals(A)) {
-                    // C is defined to be on segment AB
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     void checkCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
         /*
          * FIXME. This is incomplete (e.g. intersection of lines is missing).
@@ -329,6 +318,5 @@ public class AlgoDiscover extends AlgoElement {
             }
         }
 
-        return;
     }
 }

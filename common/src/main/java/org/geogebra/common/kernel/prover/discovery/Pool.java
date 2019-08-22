@@ -6,7 +6,7 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Pool {
-    ArrayList<Line> lines = new ArrayList<>();
+    public ArrayList<Line> lines = new ArrayList<>();
 
     public Line getLine(GeoPoint p1, GeoPoint p2) {
         HashSet<GeoPoint> ps = new HashSet();
@@ -38,9 +38,49 @@ public class Pool {
         return l;
     }
 
+    private void setCollinear(Line l, GeoPoint p) {
+        /* Claim that p lies on l.
+         * Consider that 123 and 345 are already collinear
+         * and it is stated that 2 lies on 45 by the function call.
+         * Since 3 lies on 45 and 23 exists, all points 12345 must
+         * be collinear. So we do the following:
+         * For each point pl of l (45) we check if the line el joining pl and p
+         * (here 23) already exists. If yes, all points ep (1,2,3) of this line el will
+         * be claimed to be collinear to l. Finally we remove the line el (23).
+         *
+         * If there is no such problem, we simply add p to l.
+         */
+        for (GeoPoint pl : l.getPoints()) {
+            Line el = getLine(pl, p);
+            if (el != null && !el.equals(l)) {
+                for (GeoPoint ep : el.getPoints()) {
+                    l.collinear(ep);
+                }
+                lines.remove(el);
+            }
+        }
+        l.collinear(p);
+    }
+
     public Line addCollinearity(GeoPoint p1, GeoPoint p2, GeoPoint p3) {
-        Line l = addLine(p1, p2);
-        l.collinear(p3);
+        Line l;
+        if (lineExists(p1, p2)) {
+            l = getLine(p1, p2);
+            setCollinear(l, p3);
+            return l;
+        }
+        if (lineExists(p1, p3)) {
+            l = getLine(p1, p3);
+            setCollinear(l, p2);
+            return l;
+        }
+        if (lineExists(p2, p3)) {
+            l = getLine(p2, p3);
+            setCollinear(l, p1);
+            return l;
+        }
+        l = addLine(p1, p2);
+        setCollinear(l, p3);
         return l;
     }
 
