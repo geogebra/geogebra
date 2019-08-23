@@ -349,10 +349,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void drawTextfieldOnCanvas() {
-		if (geoInputBox.isEditing()) {
-			return;
-		}
-
 		drawBoundsOnCanvas();
 		drawTextOnCanvas();
 	}
