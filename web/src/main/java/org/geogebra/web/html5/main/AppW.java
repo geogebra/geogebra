@@ -2469,7 +2469,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getActiveEuclidianView().getEuclidianController()
 					.setObjectMenuActive(false);
 		}
-		//hideSymbolicEditors();
 	}
 
 	/**

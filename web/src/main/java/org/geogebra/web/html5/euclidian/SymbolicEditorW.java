@@ -15,6 +15,8 @@ import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,7 +29,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWidget {
+public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWidget, BlurHandler {
 
 	public static final int ROUNDING = 8;
 	private static final int BORDER_WIDTH = 2;
@@ -97,6 +99,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		main.getElement().getStyle().setBackgroundColor(bgCssColor);
 		mathField.setForegroundCssColor(toCssColor(fgColor));
 		mathField.setBackgroundCssColor(bgCssColor);
+		mathField.setOnBlur(this);
 	}
 
 	private void updateText() {
@@ -231,5 +234,10 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	@Override
 	public Widget asWidget() {
 		return main;
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		hide();
 	}
 }
