@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 
@@ -26,4 +27,10 @@ public interface SymbolicEditor {
 	 * Hide the editor if it was attached.
 	 */
 	void hide();
+
+	/**
+	 *
+	 * @return if editor is clicked.
+	 */
+	boolean isClicked(GPoint point);
 }

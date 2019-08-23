@@ -85,7 +85,7 @@ public class MaterialListPanel extends FlowPanel
 			}
 		}, ScrollEvent.getType());
 
-		this.addDomHandler(new TouchMoveHandler() {
+		this.addBitlessDomHandler(new TouchMoveHandler() {
 
 			@Override
 			public void onTouchMove(final TouchMoveEvent event) {

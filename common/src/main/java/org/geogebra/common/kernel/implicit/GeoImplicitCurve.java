@@ -13,11 +13,11 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -261,7 +261,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private boolean checkAbsValue(ExpressionNode leftHandSide,
 			ExpressionNode rightHandSide) {
-		if (rightHandSide.isConstant() && leftHandSide.isExpressionNode()
+		if (rightHandSide.isConstant() && rightHandSide.evaluateDouble() >= 0
+				&& leftHandSide.isExpressionNode()
 				&& leftHandSide.wrap().getOperation() == Operation.ABS) {
 
 			ArrayList<ExpressionNode> factors = new ArrayList<>(2);

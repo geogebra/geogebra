@@ -274,7 +274,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 		if (linkedGeo.isGeoNumeric()) {
 			try {
-				parsed = kernel.getParser().parseExpression(text);
+				parsed = kernel.getParser().parseExpression(inputText);
 
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block

@@ -1,6 +1,9 @@
 package org.geogebra.arbase;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
@@ -13,9 +16,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.DoubleUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 abstract public class ARManager<TouchEventType> implements ARManagerInterface<TouchEventType> {
 
@@ -164,70 +164,58 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
         viewModelMatrix.setMul(viewMatrix, mModelMatrix);
         ARMotionEvent arMotionEvent = null;
-        if (mView.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            arMotionEvent = mouseTouchGestureQueueHelper.poll();
-        }
+        arMotionEvent = mouseTouchGestureQueueHelper.poll();
         // to update hitting o&d
         if (isDrawing()) {
             renderer.getView().setARDrawing(true);
             renderer.setView();
-            if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
-                if (renderer.getView().getApplication().has(Feature.G3D_AR_TARGET)) {
-                    if (((EuclidianController3D) renderer.getView().getEuclidianController())
-                            .isCurrentModeForCreatingPoint()) {
-                        if (arMotionEvent == null) {
-                            if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
-                                // create a "mouse move" event
-                                setHittingOriginAndDirectionFromScreenCenter();
-                                wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
-                            } else {
-                                // force a drag (device may have moved)
-                                arMotionEvent = getARMotionEventMove(mView.getWidth() / 2,
-                                        mView.getHeight() / 2);
-                                setHittingOriginAndDirectionFromScreenCenter();
-                            }
-                        } else {
-                            // force event to be screen-centered
-                            arMotionEvent.setLocation(renderer.getWidthInPixels() / 2,
-                                    renderer.getHeightInPixels() / 2);
-                            setHittingOriginAndDirectionFromScreenCenter();
-                        }
+            if (((EuclidianController3D) renderer.getView().getEuclidianController())
+                    .isCurrentModeForCreatingPoint()) {
+                if (arMotionEvent == null) {
+                    if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
+                        // create a "mouse move" event
+                        setHittingOriginAndDirectionFromScreenCenter();
+                        wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                     } else {
-                        // process motionEvent at touch location (if exists)
-                        if (arMotionEvent != null) {
-                            setHittingOriginAndDirection(arMotionEvent);
-                            lastARMotionEvent = arMotionEvent;
-                        } else {
-                            if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
-                                lastARMotionEvent = null;
-                            } else {
-                                // create a new motionEvent
-                                if (lastARMotionEvent != null) {
-                                    if (lastARMotionEvent.getAction() ==
-                                            ARMotionEvent.FIRST_FINGER_DOWN) {
-                                        arMotionEvent = getARMotionEventMove(lastARMotionEvent.getX(),
-                                                lastARMotionEvent.getY());
-                                        setHittingOriginAndDirection(arMotionEvent);
-                                    } else if (lastARMotionEvent.getAction() ==
-                                            ARMotionEvent.ON_MOVE){
-                                        arMotionEvent = lastARMotionEvent;
-                                        setHittingOriginAndDirection(arMotionEvent);
-                                    }
-                                }
-                            }
-                        }
+                        // force a drag (device may have moved)
+                        arMotionEvent = getARMotionEventMove(mView.getWidth() / 2,
+                                mView.getHeight() / 2);
+                        setHittingOriginAndDirectionFromScreenCenter();
                     }
                 } else {
-                    if (arMotionEvent != null) {
-                        setHittingOriginAndDirection(arMotionEvent);
+                    // force event to be screen-centered
+                    arMotionEvent.setLocation(renderer.getWidthInPixels() / 2,
+                            renderer.getHeightInPixels() / 2);
+                    setHittingOriginAndDirectionFromScreenCenter();
+                }
+            } else {
+                // process motionEvent at touch location (if exists)
+                if (arMotionEvent != null) {
+                    setHittingOriginAndDirection(arMotionEvent);
+                    lastARMotionEvent = arMotionEvent;
+                } else {
+                    if (mouseTouchGestureQueueHelper.isCurrentlyUp()) {
+                        lastARMotionEvent = null;
+                    } else {
+                        // create a new motionEvent
+                        if (lastARMotionEvent != null) {
+                            if (lastARMotionEvent.getAction() ==
+                                    ARMotionEvent.FIRST_FINGER_DOWN) {
+                                arMotionEvent = getARMotionEventMove(lastARMotionEvent.getX(),
+                                        lastARMotionEvent.getY());
+                                setHittingOriginAndDirection(arMotionEvent);
+                            } else if (lastARMotionEvent.getAction() ==
+                                    ARMotionEvent.ON_MOVE) {
+                                arMotionEvent = lastARMotionEvent;
+                                setHittingOriginAndDirection(arMotionEvent);
+                            }
+                        }
                     }
                 }
-                renderer.getView().setEuclidianPanelOnTouchListener();
-                setMouseTouchGestureController();
             }
-            if (renderer.getView().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
-                proceedARMotionEvent(arMotionEvent);
-            }
+            renderer.getView().setEuclidianPanelOnTouchListener();
+            setMouseTouchGestureController();
+            proceedARMotionEvent(arMotionEvent);
             renderer.drawScene();
         } else {
             renderer.getView().setARDrawing(false);
@@ -262,9 +250,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected void updateModelMatrix(App app) {
         mModelMatrix.set(mAnchorMatrix);
-
-        updateModelMatrixForRotation(app);
-
         /* translating */
         Coords modelOrigin = mModelMatrix.getOrigin();
         Coords anchorOrigin = mAnchorMatrix.getOrigin();
@@ -273,17 +258,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         modelOrigin.setY(anchorOrigin.getY());
         modelOrigin.setZ(anchorOrigin.getZ() + translationOffset.getZ() +
                 previousTranslationOffset.getZ());
-    }
-
-    private void updateModelMatrixForRotation(App app) {
-        // TODO: remove this when G3D_AR_REGULAR_TOOLS released
-        if (!app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            // below not-so-nice (but temporary) code
-            CoordMatrix.setRotation3DMatrix(CoordMatrix.Y_AXIS,
-                    rotateAngel * Math.PI / 180.0, tmpMatrix1);
-            tmpMatrix2.set(mModelMatrix);
-            mModelMatrix.setMul(tmpMatrix2, tmpMatrix1);
-        }
     }
 
     protected Coords setRay() {
@@ -378,84 +352,49 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private double getThicknessMin(double distance) {
-        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-            return mView.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
-        }
-        return THICKNESS_MIN * distance / DESK_DISTANCE_MAX;
+        return mView.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
     }
 
     public void setARScaleAtStart() {
         float mDistance = (float) viewModelMatrix.getOrigin().calcNorm3();
-        if (mView.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-            double thicknessMin;
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                thicknessMin = getThicknessMin(mDistance);
-                // don't expect distance less than desk distance at start
-                if (mDistance < DESK_DISTANCE_MAX) {
-                    mDistance = (float) DESK_DISTANCE_AVERAGE;
-                }
-            } else {
-                if (mDistance < DESK_DISTANCE_MAX) {
-                    mDistance = (float) DESK_DISTANCE_MAX;
-                }
-                thicknessMin = getThicknessMin(mDistance);
-            }
-            // 1 ggb unit ==  1 meter
-            double ggbToRw = 1.0 / mView.getXscale();
-            // ratio
-            double ratio;
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                double projectFactor = projectMatrix.get(1 ,1);
-                double precisionPoT = DoubleUtil.getPowerOfTen(projectFactor);
-                double precision = Math.round(projectFactor / precisionPoT) * precisionPoT
-                                * PROJECT_FACTOR_RELATIVE_PRECISION;
-                projectFactor = Math.round(projectFactor / precision) * precision;
-                float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
-                                * (mDistance / projectFactor)
-                                / mView.getRenderer().getWidth());
-                ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
-            } else {
-                ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-            }
-            double pot = DoubleUtil.getPowerOfTen(ratio);
-            ratio = ratio / pot;
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                if (ratio < 2f / MAX_FACTOR_TO_EMPHASIZE) {
-                    ratio = 1f;
-                } else if (ratio < 5f / MAX_FACTOR_TO_EMPHASIZE) {
-                    ratio = 2f;
-                } else if (ratio < 10f / MAX_FACTOR_TO_EMPHASIZE) {
-                    ratio = 5f;
-                } else {
-                    ratio = 10f;
-                }
-            } else {
-                if (ratio <= 2f) {
-                    ratio = 2f;
-                } else if (ratio <= 5f) {
-                    ratio = 5f;
-                } else {
-                    ratio = 10f;
-                }
-            }
-            ratio = ratio * pot;
-            if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-                int mToCm = 100;
-                arRatioAtStart = ratio * mToCm;
-            }
-            arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
-            if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                arScale = (float) thicknessMin;
-                arScaleFactor = arScaleAtStart / arScale;
-                updateSettingsScale(arScaleFactor);
-            } else {
-                arScale = arScaleAtStart;
-            }
-        } else {
-            float reductionFactor = 0.80f;
-            arScaleAtStart = (mDistance / mView.getRenderer().getWidth()) * reductionFactor;
-            arScale = arScaleAtStart;
+        double thicknessMin = getThicknessMin(mDistance);
+        // don't expect distance less than desk distance at start
+        if (mDistance < DESK_DISTANCE_MAX) {
+            mDistance = (float) DESK_DISTANCE_AVERAGE;
         }
+        // 1 ggb unit ==  1 meter
+        double ggbToRw = 1.0 / mView.getXscale();
+        // ratio
+        double ratio;
+        double projectFactor = projectMatrix.get(1, 1);
+        double precisionPoT = DoubleUtil.getPowerOfTen(projectFactor);
+        double precision = Math.round(projectFactor / precisionPoT) * precisionPoT
+                * PROJECT_FACTOR_RELATIVE_PRECISION;
+        projectFactor = Math.round(projectFactor / precision) * precision;
+        float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
+                * (mDistance / projectFactor)
+                / mView.getRenderer().getWidth());
+        ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
+        double pot = DoubleUtil.getPowerOfTen(ratio);
+        ratio = ratio / pot;
+        if (ratio < 2f / MAX_FACTOR_TO_EMPHASIZE) {
+            ratio = 1f;
+        } else if (ratio < 5f / MAX_FACTOR_TO_EMPHASIZE) {
+            ratio = 2f;
+        } else if (ratio < 10f / MAX_FACTOR_TO_EMPHASIZE) {
+            ratio = 5f;
+        } else {
+            ratio = 10f;
+        }
+        ratio = ratio * pot;
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+            int mToCm = 100;
+            arRatioAtStart = ratio * mToCm;
+        }
+        arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
+        arScale = (float) thicknessMin;
+        arScaleFactor = arScaleAtStart / arScale;
+        updateSettingsScale(arScaleFactor);
 
         if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
             showSnackbar();
@@ -580,13 +519,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void resetScaleFromAR() {
-        if (mView.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-            EuclidianSettings3D s = mView.getSettings();
-            s.setXYZscaleValues(s.getXscale() / arScaleFactor,
-                    s.getYscale() / arScaleFactor,
-                    s.getZscale() / arScaleFactor);
-            arScaleFactor = 1f;
-        }
+        EuclidianSettings3D s = mView.getSettings();
+        s.setXYZscaleValues(s.getXscale() / arScaleFactor,
+                s.getYscale() / arScaleFactor,
+                s.getZscale() / arScaleFactor);
+        arScaleFactor = 1f;
     }
 
     public String getARRatioInString() {

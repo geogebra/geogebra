@@ -39,4 +39,15 @@ public abstract class FormatFactory {
 		return new DefaultTimeFormat();
 	}
 
+	/**
+	 * Gets scientific format that is optimized for speed, not pretty output.
+	 * 
+	 * @param digits
+	 *            precision
+	 * @return scientific format with E notation and given precision
+	 */
+	public ScientificFormatAdapter getFastScientificFormat(int digits) {
+		return getScientificFormat(digits, digits + 2, true);
+	}
+
 }

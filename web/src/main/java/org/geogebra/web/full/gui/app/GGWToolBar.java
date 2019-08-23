@@ -28,6 +28,7 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -52,7 +53,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.resources.SVGResource;
 
 /**
  * Toolbar for web, includes ToolbarW, undo panel and search / menu
@@ -852,6 +852,12 @@ public class GGWToolBar extends Composite
 
 		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
 			return resourceBundle.mode_twovarstats_32();
+
+		case EuclidianConstants.MODE_GRASPABLE_MATH:
+			return resourceBundle.mode_graspablemath_32();
+
+		case EuclidianConstants.MODE_CAS:
+			return resourceBundle.mode_cas_32();
 
 		case EuclidianConstants.MODE_VECTOR:
 			return resourceBundle.mode_vector_32();

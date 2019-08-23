@@ -36,7 +36,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -742,20 +741,6 @@ public class DockManagerW extends DockManager {
 		unmarkAlonePanels();
 		markAlonePanel();
 		panelsMoved = true;
-		// Manually dispatch a resize event as the size of the
-		// euclidian view isn't updated all the time.
-		// TODO What does the resize do which will update the component ?!
-		// app.repaintEuclidianViews(rootPane);
-		// rootPane.onResize();
-
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				// true, because this can only be executed, if menu is open
-				app.getGuiManager().updateStyleBarPositions(true);
-			}
-		};
-		timer.schedule(0);
 	}
 
 	private void setDividerLocation(DockSplitPaneW splitPane,
@@ -1804,20 +1789,19 @@ public class DockManagerW extends DockManager {
 	 * @return panel that should get keyboard
 	 */
 	public DockPanelW getPanelForKeyboard() {
-		DockPanelW panel = getFocusedPanel();
-		int[] keyboardViews = new int[] { App.VIEW_ALGEBRA, App.VIEW_CAS,
-				App.VIEW_SPREADSHEET, App.VIEW_PROBABILITY_CALCULATOR };
-		int firstVisible = 0;
+		DockPanelW focusedPanel = getFocusedPanel();
+		List<Integer> keyboardViews = ((AppWFull) app).getKeyboardManager()
+				.getKeyboardViews();
+		if (focusedPanel != null && keyboardViews.contains(focusedPanel.getViewId())) {
+			return focusedPanel;
+		}
 		for (int panelId : keyboardViews) {
-			if (panel != null && panelId == panel.getViewId()) {
+			DockPanelW panel = getPanel(panelId);
+			if (panel.isVisible()) {
 				return panel;
 			}
-			if (firstVisible == 0 && getPanel(panelId).isVisible()) {
-				firstVisible = panelId;
-			}
 		}
-
-		return getPanel(firstVisible);
+		return null;
 	}
 
 	@Override

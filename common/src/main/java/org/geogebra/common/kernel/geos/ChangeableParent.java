@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -12,9 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Parent (number+direction) for changing prism, cylinder, etc.
@@ -28,7 +25,6 @@ public class ChangeableParent {
 	private GeoElementND directorGeo = null;
 	private double startValue;
 	private Coords direction;
-	private Coords direction2;
 	private Coords centroid;
 	private boolean forPolyhedronNet = false;
 	private GeoPolyhedronInterface parent;
@@ -159,17 +155,12 @@ public class ChangeableParent {
 			if (view instanceof EuclidianView3D) {
 				if (centroid == null) {
 					centroid = new Coords(3);
-				}
-				parent.pseudoCentroid(centroid);
-				if (view.getApplication().has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-					direction.setSub3(startPoint, centroid);
-					converter.record(this, startPoint);
-					direction.normalize();
-				} else {
-					direction.setSub3(((EuclidianView3D) view).getCursor3D()
-							.getInhomCoordsInD3(), centroid);
-				}
-			} else {
+                }
+                parent.pseudoCentroid(centroid);
+                direction.setSub3(startPoint, centroid);
+                converter.record(this, startPoint);
+                direction.normalize();
+            } else {
 				direction.set(0, 0, 0);
 			}
 		} else {
@@ -230,46 +221,14 @@ public class ChangeableParent {
 
 		// else: comes from mouse
 
-		double val;
-		if (changeableNumber.getConstruction().getApplication()
-				.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-			val = converter.translationToValue(direction, rwTransVec,
-					getStartValue(), view);
-			if (needsSnap(view)) {
-				val = converter.snap(val, view);
-			}
-			if (!MyDouble.isFinite(val)) {
-				return false;
-			}
-		} else {
-			double shift;
-			if (direction2 == null) {
-				direction2 = new Coords(3);
-			}
-			direction2.setAdd3(direction, direction2.setMul(viewDirection,
-					-viewDirection.dotproduct3(direction)));
-			double ld = direction2.dotproduct3(direction2);
-
-			if (DoubleUtil.isZero(ld)) {
-				return false;
-			}
-
-			shift = direction2.dotproduct3(rwTransVec) / ld;
-			if (!MyDouble.isFinite(shift)) {
-				return false;
-			}
-			val = getStartValue() + shift;
-			if (!forPolyhedronNet && needsSnap(view)) {
-				double g = view.getGridDistances(0);
-				double valRound = Kernel.roundToScale(val, g);
-				if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-						|| (Math.abs(valRound - val) < g
-								* view.getEuclidianController()
-										.getPointCapturingPercentage())) {
-					val = valRound;
-				}
-			}
-		}
+        double val = converter.translationToValue(direction, rwTransVec,
+                getStartValue(), view);
+        if (needsSnap(view)) {
+            val = converter.snap(val, view);
+        }
+        if (!MyDouble.isFinite(val)) {
+            return false;
+        }
 
 		var.setValue(val);
 		GeoElement.addParentToUpdateList(var, updateGeos, tempMoveObjectList);

@@ -2,7 +2,9 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
@@ -11,6 +13,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -489,5 +492,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			getEuclidianPanel().oldWidth = 0;
 			getEuclidianPanel().oldHeight = 0;
 		}
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		EuclidianView ev = this.getEuclidianView();
+		SymbolicEditor symbolicEditor = ev.getSymbolicEditor();
+		if (symbolicEditor instanceof SymbolicEditorW) {
+			return ((SymbolicEditorW) symbolicEditor).getKeyboardListener();
+		}
+		return null;
 	}
 }

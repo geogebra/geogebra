@@ -14,6 +14,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 
 	private Canvas canvas;
 	private MathFieldW mf;
+	private boolean acceptsCommandInserts;
 
 	/**
 	 * @param canvas
@@ -78,4 +79,19 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
 	}
 
+	/**
+	 * @return Whether the commands can be inserted into this text field
+	 * from the keyboard's More button.
+	 */
+	public boolean acceptsCommandInserts() {
+		return acceptsCommandInserts;
+	}
+
+	/**
+	 * @param acceptsCommandInserts Whether the commands can be inserted into this text field
+	 *                              from the keyboard's More button.
+	 */
+	public void setAcceptsCommandInserts(boolean acceptsCommandInserts) {
+		this.acceptsCommandInserts = acceptsCommandInserts;
+	}
 }

@@ -120,4 +120,9 @@ public class BaseActivity implements GeoGebraActivity {
 	public ResourceIconProvider getResourceIconProvider() {
 		return MaterialDesignResources.INSTANCE;
 	}
+
+	@Override
+	public boolean isWhiteboard() {
+		return false;
+	}
 }

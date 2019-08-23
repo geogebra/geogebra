@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D constant planes.
@@ -148,7 +147,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double bottom = renderer.getBottom();
 		double top = renderer.getTop();
 
-		if (view.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			ARManagerInterface<?> arManager = renderer.getARManager();
 			if (arManager != null) {
 				double arScaleFactor = renderer.getARManager().getArScaleFactor();
@@ -183,7 +182,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double yr = (currentBounds[Y][MAX] - currentBounds[Y][MIN]);
         double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
 
-        if (view.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+        if (view.isAREnabled()) {
             for (int i = 0; i < 3; i++) {
                 mayEnlarge(currentBounds[i], minMaxObjects[i]);
             }
@@ -205,7 +204,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
         double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
         double w, h, d;
-        if (view.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+        if (view.isAREnabled()) {
             w = (currentBounds[X][MAX] - currentBounds[X][MIN]) * xscale;
             h = (currentBounds[Y][MAX] - currentBounds[Y][MIN]) * yscale;
             d = (currentBounds[Z][MAX] - currentBounds[Z][MIN]) * zscale;
@@ -240,10 +239,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
     private void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
-        if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && view.isAREnabled()) {
-            double d = mm[Z][MAX] - mm[Z][MIN];
-            mm[Z][MIN] = view.getARMinZ();
-            mm[Z][MAX] = mm[Z][MIN] + d;
+        if (view.isAREnabled()) {
+			mm[Z][MIN] = view.getARMinZ();
         }
     }
 
@@ -271,10 +268,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		if (v[MIN] > enlarge[MIN]) {
 			v[MIN] = enlarge[MIN];
 		}
-		if (v[MAX] < enlarge[MAX]) {
-			v[MAX] = enlarge[MAX];
-		}
+		mayEnlargeMax(v, enlarge);
 	}
+
+    private static void mayEnlargeMax(double[] v, double[] enlarge) {
+        if (v[MAX] < enlarge[MAX]) {
+            v[MAX] = enlarge[MAX];
+        }
+    }
 
 	/**
 	 * enlarge min/max regarding object coords

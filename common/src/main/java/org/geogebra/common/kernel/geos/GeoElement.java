@@ -48,8 +48,8 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -7729,5 +7729,10 @@ public abstract class GeoElement extends ConstructionElement
 					&& kernel.getApplication().isEuclidianView3Dinited();
 		}
 		return false;
+	}
+
+	@Override
+	public GeoElementND unwrapSymbolic() {
+		return this;
 	}
 }

@@ -241,6 +241,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public void initAndShowKeyboard(boolean show) {
 		retexListener = new RetexKeyboardListener(item.canvas, getMathField());
+		retexListener.setAcceptsCommandInserts(true);
 		if (show) {
 			app.getAppletFrame().showKeyBoard(true, retexListener, false);
 		}

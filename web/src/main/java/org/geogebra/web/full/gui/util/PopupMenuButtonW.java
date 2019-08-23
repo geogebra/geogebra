@@ -199,7 +199,7 @@ public class PopupMenuButtonW extends MyCJButton
 				}
 			}
 		});
-		addDomHandler(new TouchEndHandler() {
+		addBitlessDomHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
 				event.stopPropagation();

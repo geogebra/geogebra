@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -1572,4 +1572,9 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return true if showable in EV
 	 */
 	boolean isEuclidianShowable();
+
+	/**
+	 * @return the unwrapped geo
+	 */
+	GeoElementND unwrapSymbolic();
 }

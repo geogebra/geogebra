@@ -88,24 +88,6 @@ public class ScientificFormat extends Format
 	}
 
 	/**
-	 * Returns the maximum allowable width of formatted number excluding any
-	 * exponentials
-	 */
-	@Override
-	public int getMaxWidth() {
-		return maxWidth;
-	}
-
-	/**
-	 * Returns the formatting style: True means Pure scientific formatting,
-	 * False means standard.
-	 */
-	@Override
-	public boolean getScientificNotationStyle() {
-		return sciNote;
-	}
-
-	/**
 	 * Sets the number of significant digits for the formatted number
 	 */
 	@Override
@@ -137,9 +119,11 @@ public class ScientificFormat extends Format
 	 * have the number of digits specified by the significant digits (sigDig)
 	 * parameter but will not have a Base 10 Exponential(E) if the number of
 	 * digits in the mantissa <= maxWidth.
+	 * 
+	 * @param sciNote
+	 *            scientific notation flag
 	 */
-	@Override
-	public void setScientificNotationStyle(boolean sciNote) {
+	protected void setScientificNotationStyle(boolean sciNote) {
 		this.sciNote = sciNote;
 	}
 

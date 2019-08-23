@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -14,6 +13,8 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.PenPreviewLine;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -22,7 +23,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -32,6 +32,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -40,6 +41,7 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -125,13 +127,11 @@ public class EuclidianViewW extends EuclidianView implements
 
 	AppW appW = (AppW) super.app;
 
-	protected ImageElement resetImage;
-	protected ImageElement playImage;
-	protected ImageElement pauseImage;
-	protected ImageElement upArrowImage;
-	protected ImageElement downArrowImage;
-	protected ImageElement playImageHL;
-	protected ImageElement pauseImageHL;
+	private ImageElement resetImage;
+	private ImageElement playImage;
+	private ImageElement pauseImage;
+	private ImageElement playImageHL;
+	private ImageElement pauseImageHL;
 
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;
@@ -1018,10 +1018,10 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 		}
 
-		absPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
@@ -1430,30 +1430,42 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
-		addSymbolicEditor();
-		symbolicEditor.attach(geoInputBox, bounds);
-	}
-
-	public void hideSymbolicEditor() {
-		if (symbolicEditor == null) {
-			return;
+	protected SymbolicEditor createSymbolicEditor() {
+		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
+		if (gm == null) {
+			return null;
 		}
-		symbolicEditor.hide();
+
+		SymbolicEditor editor = gm.createSymbolicEditor(getAbsolutePanel());
+		return editor;
+
 	}
-
-
-	private void addSymbolicEditor() {
-		getAbsolutePanel().add(getSymbolicEditor());
-	}
-
-	private SymbolicEditorW getSymbolicEditor() {
-		if (symbolicEditor == null) {
-			symbolicEditor = new SymbolicEditorW(app);
-		}
-		return symbolicEditor;
-	}
-
+//
+//	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
+//		}
+//		addSymbolicEditor();
+//		symbolicEditor.attach(geoInputBox, bounds);
+//	}
+//
+//	public void hideSymbolicEditor() {
+//		if (symbolicEditor == null) {
+//			return;
+//		}
+//		symbolicEditor.hide();
+//	}
+//
+//
+//	private void addSymbolicEditor() {
+//		getAbsolutePanel().add(getSymbolicEditor());
+//	}
+//
+//	private SymbolicEditorW getSymbolicEditor() {
+//		if (symbolicEditor == null) {
+//			symbolicEditor = new SymbolicEditorW(app);
+//		}
+//		return symbolicEditor;
+//	}
+//
 	@Override
 	public void closeDropdowns() {
 		closeAllDropDowns();
@@ -1832,5 +1844,10 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public boolean isAttached() {
 		return g2p != null && g2p.isAttached();
+	}
+
+	@Override
+	public PenPreviewLine newPenPreview() {
+		return new PenPreviewLineW();
 	}
 }

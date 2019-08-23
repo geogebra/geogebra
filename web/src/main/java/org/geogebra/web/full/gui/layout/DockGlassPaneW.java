@@ -111,7 +111,7 @@ public class DockGlassPaneW extends AbsolutePanel
 		// dragPanel
 		Event.setCapture(this.getElement());
 		setVisible(true);
-		reg0 = addDomHandler(this, TouchMoveEvent.getType());
+		reg0 = addBitlessDomHandler(this, TouchMoveEvent.getType());
 		reg1 = addDomHandler(this, MouseMoveEvent.getType());
 		reg2 =
 		ClickEndHandler.init(this, new ClickEndHandler() {

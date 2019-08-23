@@ -346,8 +346,9 @@ public class GeneralPathClipped implements GShape {
 				double dy2 = (auxY - q.getY());
 				double angle = MyMath.angle(dx1, dy1, dx2, dy2);
 				double cv = btan(Math.PI - angle) * Math.tan(angle / 2);
-				gp.curveTo(p.getX() + dx1 * cv, p.getY() + dy1 * cv, q.getX()
-						+ dx2 * cv, q.getY() + dy2 * cv, q.getX(), q.getY());
+				gp.curveTo(p.getX() + dx1 * cv, p.getY() + dy1 * cv,
+						q.getX() + dx2 * cv, q.getY() + dy2 * cv, q.getX(),
+						q.getY());
 
 			} catch (Exception e) {
 				gp.moveTo(q.getX(), q.getY());
@@ -441,21 +442,23 @@ public class GeneralPathClipped implements GShape {
 		pathPoints.add(p);
 	}
 
-	private void updateBounds(MyPoint p) {
+	private void updateBounds(GPoint2D point) {
+		double x = point.getX();
+		double y = point.getY();
 		if (bounds == null) {
 			bounds = oldBounds != null ? oldBounds
 					: AwtFactory.getPrototype().newRectangle2D();
-			bounds.setRect(p.getX(), p.getY(), 0, 0);
+			bounds.setRect(x, y, 0, 0);
 		}
 
-		if (Math.abs(p.getX()) > largestCoord) {
-			largestCoord = Math.abs(p.getX());
+		if (Math.abs(x) > largestCoord) {
+			largestCoord = Math.abs(x);
 		}
-		if (Math.abs(p.getY()) > largestCoord) {
-			largestCoord = Math.abs(p.getY());
+		if (Math.abs(y) > largestCoord) {
+			largestCoord = Math.abs(y);
 		}
 
-		bounds.add(p.getX(), p.getY());
+		bounds.add(x, y);
 	}
 
 	/**

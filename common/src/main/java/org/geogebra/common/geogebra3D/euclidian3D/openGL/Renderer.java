@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 /**
  *
@@ -689,7 +688,7 @@ public abstract class Renderer {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
-        if (view3D.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) && view3D.isARDrawing()) {
+        if (view3D.isARDrawing()) {
             view3D.updateAxesDecorationPosition();
         }
 		drawFaceToScreen();
@@ -1679,7 +1678,7 @@ public abstract class Renderer {
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
-		return !(view3D.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view3D.isAREnabled());
+		return !view3D.isAREnabled();
 	}
 
 	/**

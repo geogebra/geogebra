@@ -3,7 +3,6 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.ActionsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
@@ -107,16 +106,10 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
     public String[] getValues() {
         if (euclidianView.isAREnabled()) {
             if (valuesAR == null) {
-                if (app.has(Feature.G3D_AR_FIT_THICKNESS_BUTTON)) {
-                    valuesAR = new String[]{
-                            "ar.restart",
-                            "ar.FitThickness"
-                    };
-                } else {
-                    valuesAR = new String[]{
-                            "ar.restart"
-                    };
-                }
+                valuesAR = new String[]{
+                        "ar.restart",
+                        "ar.FitThickness"
+                };
                 localizeValues(valuesAR);
             }
             return valuesAR;

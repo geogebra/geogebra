@@ -42,6 +42,7 @@ public class CoordSys {
 	private final CoordMatrix matrix;
 	private final int dimension;
 	private int madeCoordSys;
+    private boolean vxIsZero;
 	private CoordMatrix4x4 matrixOrthonormal;
 	private CoordMatrix4x4 drawingMatrix;
 	private CoordMatrix tempMatrix3x3;
@@ -101,13 +102,10 @@ public class CoordSys {
 		if (drawingMatrix == null) {
 			drawingMatrix = new CoordMatrix4x4();
 		}
-		drawingMatrix.set(cs.drawingMatrix);
-		// dimension=cs.dimension;
-		equationVector.set(cs.equationVector);
-		madeCoordSys = cs.madeCoordSys;
-		// origin.set(cs.origin);
-		// spaceDimension=cs.spaceDimension;
-		// vectors=cs.vectors;
+        drawingMatrix.set(cs.drawingMatrix);
+        equationVector.set(cs.equationVector);
+        madeCoordSys = cs.madeCoordSys;
+        vxIsZero = cs.vxIsZero;
 	}
 
 	public CoordMatrix getMatrix() {
@@ -412,6 +410,7 @@ public class CoordSys {
 	 */
 	public void resetCoordSys() {
 		setMadeCoordSys(-1);
+        vxIsZero = false;
 	}
 
 	/**
@@ -506,11 +505,14 @@ public class CoordSys {
 			// do nothing
 			break;
 		case 0: // add first vector
-			// check if v==0
-			if (!DoubleUtil.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
-				setVx(v);
-				setMadeCoordSys(1);
-			}
+            setVx(v);
+            // check if v==0
+            if (!DoubleUtil.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
+                setMadeCoordSys(1);
+                vxIsZero = false;
+            } else {
+                vxIsZero = true;
+            }
 			break;
 		case 1: // add second vector
 			// // calculate normal vector to check if v1 depends to vx
@@ -712,7 +714,9 @@ public class CoordSys {
 				if (getMadeCoordSys() == 0) {
 					matrixOrthonormal.setOrigin(getOrigin());
 				}
-				getVx().set(0);
+                if (!hasZeroVx()) {
+                    getVx().set(0);
+                }
 			}
 			return false;
 
@@ -1456,5 +1460,13 @@ public class CoordSys {
 		setMadeCoordSys(2);
 		makeOrthoMatrix(false, false);
 	}
+
+    /**
+     *
+     * @return true if Vx is zero vector
+     */
+    public boolean hasZeroVx() {
+        return vxIsZero;
+    }
 
 }
