@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class Pool {
     public ArrayList<Line> lines = new ArrayList<>();
 
+    private ArrayList<ParallelLines> directions = new ArrayList<>();
+
     public Line getLine(GeoPoint p1, GeoPoint p2) {
         HashSet<GeoPoint> ps = new HashSet();
         ps.add(p1);
@@ -90,6 +92,48 @@ public class Pool {
             return true;
         }
         return false;
+    }
+
+    public ParallelLines getDirection(Line l) {
+        for (ParallelLines pl : directions) {
+            if (pl.getLines().contains(l)) {
+                return pl;
+            }
+        }
+        return null;
+    }
+
+    public boolean directionExists(Line l) {
+        if (getDirection(l) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /* l1 != l2 */
+    public void addParallelism(Line l1, Line l2) {
+        if (l1.equals(l2)) {
+            return; // no action is needed
+        }
+        ParallelLines dir1 = getDirection(l1);
+        ParallelLines dir2 = getDirection(l2);
+        if (dir1 == null && dir2 == null) {
+            directions.add(new ParallelLines(l1, l2));
+            return;
+        }
+        if (dir1 != null && dir2 == null) {
+            dir1.parallel(l2);
+            return;
+        }
+        if (dir1 == null && dir2 != null) {
+            dir2.parallel(l1);
+            return;
+        }
+        // Unifying the two directions as one:
+        for (Line l : dir1.getLines()) {
+            dir2.parallel(l);
+        }
+        directions.remove(dir1);
     }
 
 }
