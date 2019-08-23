@@ -32,7 +32,6 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -161,7 +160,6 @@ public class EuclidianViewW extends EuclidianView implements
 	// needed to make sure outline doesn't get dashed
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
-	private SymbolicEditorW symbolicEditor;
 
 	/**
 	 * @param euclidianViewPanel
@@ -1440,32 +1438,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return editor;
 
 	}
-//
-//	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
-//		}
-//		addSymbolicEditor();
-//		symbolicEditor.attach(geoInputBox, bounds);
-//	}
-//
-//	public void hideSymbolicEditor() {
-//		if (symbolicEditor == null) {
-//			return;
-//		}
-//		symbolicEditor.hide();
-//	}
-//
-//
-//	private void addSymbolicEditor() {
-//		getAbsolutePanel().add(getSymbolicEditor());
-//	}
-//
-//	private SymbolicEditorW getSymbolicEditor() {
-//		if (symbolicEditor == null) {
-//			symbolicEditor = new SymbolicEditorW(app);
-//		}
-//		return symbolicEditor;
-//	}
-//
+
 	@Override
 	public void closeDropdowns() {
 		closeAllDropDowns();
