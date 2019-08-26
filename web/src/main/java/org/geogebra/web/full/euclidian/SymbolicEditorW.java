@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -17,6 +18,8 @@ import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -55,6 +58,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private RetexKeyboardListener retexListener;
 
 	private Canvas canvas;
+	private boolean preventBlur;
 
 	/**
 	 * Constructor
@@ -68,6 +72,31 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
 		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 3;
 		createMathField();
+
+		EventUtil.stopPointer(main.getElement());
+		ClickStartHandler.init(main,
+				new ClickStartHandler(false, true) {
+
+					@Override
+					public void onClickStart(int x, int y,
+							PointerEventType type) {
+						editorClicked();
+					}
+				});
+	}
+
+	/**
+	 * Handle click in the editor.
+	 */
+	protected void editorClicked() {
+		preventBlur = true;
+		mathField.requestViewFocus(new Runnable() {
+
+			@Override
+			public void run() {
+				preventBlur = false;
+			}
+		});
 	}
 
 	private void createMathField() {
@@ -173,6 +202,12 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 		applyChanges();
 		geoInputBox.setEditing(false);
+		setKeyboardVisible(false);
+	}
+
+	private void setKeyboardVisible(boolean visible) {
+		((AppWFull) app).getAppletFrame().showKeyBoard(visible, retexListener,
+				false);
 	}
 
 	@Override
@@ -260,7 +295,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	private void initAndShowKeyboard() {
 		retexListener = new RetexKeyboardListener(canvas, mathField);
-		((AppWFull) app).getAppletFrame().showKeyBoard(true, retexListener, false);
+		setKeyboardVisible(true);
 	}
 
 	public RetexKeyboardListener getKeyboardListener() {
@@ -269,6 +304,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		hide();
+		if (!preventBlur) {
+			hide();
+		}
 	}
 }
