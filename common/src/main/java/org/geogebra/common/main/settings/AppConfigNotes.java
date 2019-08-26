@@ -31,6 +31,11 @@ public class AppConfigNotes extends AppConfigDefault {
 	}
 
 	@Override
+	public String getTutorialKey() {
+		return "notes_tutorials";
+	}
+
+	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.NOTES;
 	}
