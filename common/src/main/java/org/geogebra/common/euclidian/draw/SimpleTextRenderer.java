@@ -31,8 +31,8 @@ public class SimpleTextRenderer implements TextRenderer {
 	}
 
 	@Override
-	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo,
-									GFont font, String labelDescription) {
+	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
+									String labelDescription) {
 		drawable.measureLabel(graphics, geo, labelDescription);
 		return AwtFactory.getPrototype().newRectangle(
 				drawable.boxLeft, drawable.boxTop, drawable.boxWidth, drawable.boxHeight);

@@ -18,7 +18,6 @@ public class LaTeXTextRenderer implements TextRenderer {
 	// This margin is to match how the editor places the equation
 	private static final double MARGIN = 3.0;
 
-
 	// This margin is to match the height of the editor
 	private static final double BOTTOM_MARGIN = 10;
 
@@ -37,11 +36,12 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	@Override
-	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font, String labelDescription) {
+	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
+									String labelDescription) {
 		GDimension latexDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getText());
 		double inputHeight = latexDimension.getHeight() + BOTTOM_MARGIN;
-		double top = drawInputBox.yLabel + MARGIN - inputHeight / 2 +
-				drawInputBox.getPreferredHeight() / 2.0;
+		double top = drawInputBox.yLabel + MARGIN - inputHeight / 2
+				+ drawInputBox.getPreferredHeight() / 2.0;
 		GRectangle rectangle = AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
 				(int) Math.round(top),

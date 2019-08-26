@@ -447,6 +447,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		return geoInputBox.isSymbolicMode()
 			? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
 			: super.hitWidgetBounds(x, y);
+
 	}
 
 	private boolean hasAlignedInputboxes() {
