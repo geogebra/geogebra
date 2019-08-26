@@ -531,7 +531,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
-	protected SymbolicEditor symbolicEditor = null;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -6640,14 +6639,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// implementation not needed here
 	}
 
-	boolean isSymbolicEditorClicked(GPoint mouseLoc) {
-		if (symbolicEditor == null) {
-			return false;
-		}
-		return symbolicEditor.isClicked(mouseLoc);
-	}
-
-	public SymbolicEditor getSymbolicEditor() {
-		return symbolicEditor;
+	/**
+	 * @param mouseLoc
+	 *            mouse coordinates
+	 * @return whether symbolic editor was clicked
+	 */
+	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
+		return false;
 	}
 }

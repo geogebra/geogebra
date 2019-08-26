@@ -2,9 +2,7 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
-import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
@@ -496,10 +494,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		EuclidianView ev = this.getEuclidianView();
-		SymbolicEditor symbolicEditor = ev.getSymbolicEditor();
-		if (symbolicEditor instanceof SymbolicEditorW) {
-			return ((SymbolicEditorW) symbolicEditor).getKeyboardListener();
+		EuclidianView ev = getEuclidianView();
+		if (ev instanceof EuclidianViewW) {
+			return ((EuclidianViewW) ev).getKeyboardListener();
 		}
 		return null;
 	}
