@@ -15,6 +15,12 @@ public class KeyboardManager {
 
 	private AppW app;
 
+	/**
+	 * Constructor
+	 *
+	 * @param appWFull
+	 * 			the application
+	 */
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 	}
@@ -43,6 +49,11 @@ public class KeyboardManager {
 		return keyboardViews;
 	}
 
+	/**
+	 * Update keyboard style.
+	 *
+	 * @param keyBoard to update.
+	 */
 	public void updateStyle(VirtualKeyboardW keyBoard) {
 		Dom.toggleClass(keyBoard.asWidget(), "detached", shouldDetach());
 	}
