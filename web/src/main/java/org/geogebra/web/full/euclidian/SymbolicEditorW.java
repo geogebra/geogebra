@@ -298,6 +298,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		setKeyboardVisible(true);
 	}
 
+	@Override
 	public RetexKeyboardListener getKeyboardListener() {
 		return retexListener;
 	}
