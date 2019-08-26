@@ -467,6 +467,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	final public void remove() {
+		// not used.
 	}
 
 	/**
