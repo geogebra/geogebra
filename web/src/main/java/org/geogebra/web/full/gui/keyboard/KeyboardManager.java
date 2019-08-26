@@ -19,6 +19,10 @@ public class KeyboardManager {
 		this.app = appWFull;
 	}
 
+	/**
+	 *
+	 * @return list of view ids which have keyboard.
+	 */
 	public List<Integer> getKeyboardViews() {
 		ArrayList<Integer> keyboardViews = getKeyboardViewsNoEV();
 		if (app.getKernel().getConstruction().hasInputBoxes()) {
@@ -43,6 +47,10 @@ public class KeyboardManager {
 		Dom.toggleClass(keyBoard.asWidget(), "detached", shouldDetach());
 	}
 
+	/**
+	 *
+	 * @return keyboard is detachable, no view uses it
+	 */
 	public boolean shouldDetach() {
 		for (Integer viewId : this.getKeyboardViewsNoEV()) {
 			if (app.showView(viewId)) {
