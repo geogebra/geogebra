@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D constant planes.
@@ -148,7 +147,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double bottom = renderer.getBottom();
 		double top = renderer.getTop();
 
-		if (view.getApplication().has(Feature.G3D_AR_FIT_THICKNESS_BUTTON) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			ARManagerInterface<?> arManager = renderer.getARManager();
 			if (arManager != null) {
 				double arScaleFactor = renderer.getARManager().getArScaleFactor();
@@ -240,7 +239,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
     private void standsOnFloorIfAR(double[][] mm) {
         EuclidianView3D view = getView3D();
-        if (view.getApplication().has(Feature.G3D_AR_STANDS_ON_ZERO_Z) && view.isAREnabled()) {
+        if (view.isAREnabled()) {
 			mm[Z][MIN] = view.getARMinZ();
         }
     }

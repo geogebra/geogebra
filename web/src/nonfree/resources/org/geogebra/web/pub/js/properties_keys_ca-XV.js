@@ -3317,7 +3317,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "pdf": "PDF",
     "pdfClickOrDrag": "Feu clic per a seleccionar el fitxer o arrossegueu i deixeu anar el fitxer PDF ac\xed",
     "pdfDialogTitle": "Inserci\xf3 de p\xe0gina des de PDF",
-    "permission.camera.denied": "Unable to access camera",
+    "permission.camera.denied": "No es pot accedir a la c\xe0mera",
     "permission.photos": "El GeoGebra necessita acc\xe9s a la vostra galeria per a guardar una imatge.",
     "permission.photos.denied": "No es pot accedir a fotos",
     "permission.photos.exam_screenshot": "El GeoGebra necessita acc\xe9s a la galeria de fotos per a guardar una captura de pantalla del registre al final de l'examen.",
