@@ -105,7 +105,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		GColor fgColor = geoInputBox.getObjectColor();
 		GColor bgColor = geoInputBox.getBackgroundColor();
 
-		String bgCssColor = toCssColor( bgColor != null ? bgColor : GColor.WHITE);
+		String bgCssColor = toCssColor(bgColor != null ? bgColor : GColor.WHITE);
 		main.getElement().getStyle().setBackgroundColor(bgCssColor);
 		mathField.setForegroundCssColor(toCssColor(fgColor));
 		mathField.setBackgroundCssColor(bgCssColor);
@@ -138,8 +138,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		style.setWidth(fieldWidth, Style.Unit.PX);
 		setHeight(bounds.getHeight());
 	}
-
-
 
 	private void setHeight(double height)  {
 		style.setHeight(height, Style.Unit.PX);
@@ -189,7 +187,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		int height = mathField.getInputTextArea().getOffsetHeight();
 		double diff = mainHeight - main.getOffsetHeight();
 		setHeight(height - 2 * BORDER_WIDTH);
-		top += (diff/2);
+		top += (diff / 2);
 		style.setTop(top, Style.Unit.PX);
 		geoInputBox.update();
 		mainHeight = main.getOffsetHeight();

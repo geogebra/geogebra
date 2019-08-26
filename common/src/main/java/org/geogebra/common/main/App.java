@@ -684,7 +684,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		Collection<String> commandDictContent = commandDict.values();
 
 		// write them to the commandDictCAS
-		CommandDispatcher commandDispatcher = getKernel().getAlgebraProcessor().getCommandDispatcher();
+		CommandDispatcher commandDispatcher =
+				getKernel().getAlgebraProcessor().getCommandDispatcher();
 
 		for (String cmd : commandDictContent) {
 			commandDictCAS.addEntry(cmd);

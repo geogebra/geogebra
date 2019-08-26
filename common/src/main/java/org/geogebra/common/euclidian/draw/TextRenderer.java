@@ -37,5 +37,6 @@ public interface TextRenderer {
 	 *
 	 * @return size of the drawn text
 	 */
-	GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font, String labelDescription);
+	GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
+							 String labelDescription);
 }

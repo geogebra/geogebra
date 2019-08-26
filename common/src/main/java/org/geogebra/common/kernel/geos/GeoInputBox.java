@@ -619,7 +619,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return false;
 		}
 
-		GeoNumeric number = (GeoNumeric)linkedGeo;
+		GeoNumeric number = (GeoNumeric) linkedGeo;
 		return !number.isAngle();
 	}
 

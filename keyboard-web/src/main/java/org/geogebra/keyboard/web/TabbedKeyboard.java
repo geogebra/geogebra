@@ -880,12 +880,18 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 		}
 	}
 
+	/**
+	 * show 3dot button on keyboard
+	 */
 	public void showMoreButton() {
 		if (hasMoreButton) {
 			switcher.showMoreButton();
 		}
 	}
 
+	/**
+	 * hide 3dot button on keyboard
+	 */
 	public void hideMoreButton() {
 		if (hasMoreButton) {
 			switcher.hideMoreButton();
