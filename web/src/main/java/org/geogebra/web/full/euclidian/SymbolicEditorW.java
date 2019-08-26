@@ -15,13 +15,15 @@ import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.InputBoxWidget;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -32,7 +34,8 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWidget, BlurHandler {
+public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
+		BlurHandler, HasKeyboardPopup, InputBoxWidget {
 
 	public static final int ROUNDING = 8;
 	private static final int BORDER_WIDTH = 2;
@@ -57,9 +60,9 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	 * Constructor
 	 *
 	 * @param app
-	 * 			The application.
+	 *            The application.
 	 */
-	public SymbolicEditorW(App app)  {
+	public SymbolicEditorW(App app) {
 		this.kernel = app.getKernel();
 		this.app = app;
 		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
@@ -80,13 +83,22 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds,
+			AbsolutePanel parent) {
 		this.geoInputBox = geoInputBox;
+		this.bounds = bounds;
+		resetChanges();
+		if (!main.isAttached()) {
+			parent.add(main);
+		}
+	}
+
+	private void resetChanges() {
 		boolean wasEditing = geoInputBox.isEditing();
 		this.geoInputBox.setEditing(true);
 		main.removeStyleName("hidden");
 
-		updateBounds(bounds);
+		updateBounds();
 		updateColors();
 
 		if (!wasEditing) {
@@ -129,8 +141,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 		return "#" + StringUtil.toHexString(color);
 	}
 
-	private void updateBounds(GRectangle bounds) {
-		this.bounds = bounds;
+	private void updateBounds() {
 		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
 		style.setLeft(bounds.getX(), Style.Unit.PX);
 		top = bounds.getY();
@@ -226,10 +237,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener, IsWid
 	public boolean onEscape() {
 		resetChanges();
 		return true;
-	}
-
-	private void resetChanges() {
-		attach(geoInputBox, bounds);
 	}
 
 	@Override

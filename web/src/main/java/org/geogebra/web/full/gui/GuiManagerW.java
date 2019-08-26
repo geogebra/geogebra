@@ -2527,10 +2527,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public SymbolicEditor createSymbolicEditor(AbsolutePanel panel) {
-		SymbolicEditorW editor = new SymbolicEditorW(app);
-		panel.add(editor);
-		return editor;
+	public SymbolicEditor createSymbolicEditor() {
+		return new SymbolicEditorW(app);
 	}
 
 	/**

@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -23,6 +24,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -1427,16 +1429,30 @@ public class EuclidianViewW extends EuclidianView implements
 		return screenReader;
 	}
 
-	@Override
+	public void attachSymbolicEditor(GeoInputBox geoInputBox,
+			GRectangle bounds) {
+		if (symbolicEditor == null) {
+			symbolicEditor = createSymbolicEditor();
+		}
+		if (symbolicEditor instanceof InputBoxWidget) {
+			((InputBoxWidget) symbolicEditor).attach(geoInputBox, bounds,
+					getAbsolutePanel());
+		}
+	}
+
+	/**
+	 * Creates the symbolic editor by platform
+	 *
+	 * @return the symbolic editor instance.
+	 */
 	protected SymbolicEditor createSymbolicEditor() {
 		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
 		if (gm == null) {
 			return null;
 		}
 
-		SymbolicEditor editor = gm.createSymbolicEditor(getAbsolutePanel());
+		SymbolicEditor editor = gm.createSymbolicEditor();
 		return editor;
-
 	}
 
 	@Override
