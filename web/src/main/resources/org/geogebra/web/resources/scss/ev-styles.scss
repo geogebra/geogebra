@@ -754,6 +754,16 @@
 			color: $teal-light;
 		}
 	}
+
+    .evInputEditor {
+            padding-top: 2px;
+            padding-left: 2px;
+            position: absolute;
+            border: 1px solid blue;
+            border-radius: 4px 4px;
+            overflow: hidden;
+         }
+
 }
 
 /* Outside of GeoGebraFrame */

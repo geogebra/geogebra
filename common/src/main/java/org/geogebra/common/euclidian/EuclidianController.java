@@ -47,11 +47,11 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -156,6 +156,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class EuclidianController implements SpecialPointsListener {
 
@@ -5117,6 +5118,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// point in a region
 			if (mode != EuclidianConstants.MODE_POINT_ON_OBJECT) {
 				regionHits.removeHasFacesIfFacePresent();
+				hits.removeHasFacesIfFacePresent();
 			}
 			if (!regionHits.isEmpty()) {
 				if (inRegionPossible) {
@@ -6996,9 +6998,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return true;
 		}
 		if (movedGeoElement.hasChangeableParent3D()) {
-			if (!app.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-				movedGeoElement.getChangeableParent3D().record(view, null);
-			}
 			translateableGeos = new ArrayList<>();
 			translateableGeos.add(movedGeoElement);
 			return true;
@@ -7554,10 +7553,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
+
+				if (textField && !isMoveTextFieldExpected((GeoInputBox) movedGeoElement)) {
+					return;
+				}
+
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
 				moveAbsoluteLocatable(movedGeoButton, MOVE_BUTTON);
+
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7620,6 +7625,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+	}
+
+	private boolean isMoveTextFieldExpected(GeoInputBox geoInputBox) {
+		if (geoInputBox.isEditing()) {
+			return false;
+		}
+
+		if (geoInputBox.isSymbolicMode() && isDraggingBeyondThreshold()) {
+			view.hideSymbolicEditor();
+		}
+
+		return true;
 	}
 
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int absMoveMode) {
@@ -9545,6 +9562,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (tf != null && tf.hasFocus()) {
 			view.requestFocusInWindow();
 		}
+
+		if (isSymbolicEditorSelected()) {
+			Log.debug("EDITOR IS ATTACHED");
+			return;
+		}
+
 		altCopy = true;
 
 		DrawDropDownList dl = getComboBoxHit();
@@ -9738,9 +9761,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				oldMode = mode; // remember current mode
 				if (mayPaste()) { // #5246 make sure we don't switch to
 					// translation if we have geos to paste
-					if (app.has(Feature.G3D_AR_ROTATE_3D_VIEW_TOOL) && view.isAREnabled()) {
-						// don't rotate
-					} else {
+					if (!view.isAREnabled()) {
 						view.setMode(getModeForShallMoveView(event));
 					}
 				}
@@ -9752,6 +9773,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	public boolean isSymbolicEditorSelected() {
+		return view.isSymbolicEditorClicked(mouseLoc);
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
@@ -11821,7 +11846,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.rememberOrigins();
 
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			return;
 		}
 
@@ -11947,7 +11972,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if (app.has(Feature.G3D_AR_REGULAR_TOOLS) && view.isAREnabled()) {
+		if (view.isAREnabled()) {
 			return;
 		}
 

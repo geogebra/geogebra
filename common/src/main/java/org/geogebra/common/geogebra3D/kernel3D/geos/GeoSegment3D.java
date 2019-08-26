@@ -3,12 +3,12 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ChangeableParent;
@@ -628,5 +628,10 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
+
+    @Override
+    public boolean isDefined() {
+        return super.isDefined() || coordsys.hasZeroVx();
+    }
 
 }

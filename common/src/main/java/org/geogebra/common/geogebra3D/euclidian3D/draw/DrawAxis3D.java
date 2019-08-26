@@ -12,7 +12,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 import org.geogebra.common.util.debug.Log;
 
@@ -168,8 +167,7 @@ public class DrawAxis3D extends DrawLine3D {
 		} else {
 			label.setAnchor(true);
 
-			if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET)
-					&& getView3D().isARDrawing()) {
+			if (getView3D().isARDrawing()) {
 				updateDrawPositionLabel();
 			} else {
 				label.update(text, getView3D().getAxisLabelFont(axisIndex),
@@ -272,8 +270,7 @@ public class DrawAxis3D extends DrawLine3D {
 	 */
 	public void updateDecorations() {
 
-		if (getView3D().getApplication().has(Feature.G3D_AR_LABELS_OFFSET) && getView3D()
-				.isARDrawing()) {
+		if (getView3D().isARDrawing()) {
 			// update decorations
 			GeoAxisND axis = (GeoAxisND) getGeoElement();
 			// getToScreenMatrixForGL = rotation + translation

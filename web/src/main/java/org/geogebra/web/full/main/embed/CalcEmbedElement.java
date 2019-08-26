@@ -32,7 +32,7 @@ public class CalcEmbedElement extends EmbedElement {
 	}
 
 	private void setupUndoRedo(int embedID, EmbedManagerW embedManager) {
-		AppW app = frame.getApplication();
+		AppW app = frame.getApp();
 		app.setUndoRedoPanelAllowed(false);
 		app.setUndoRedoEnabled(true);
 		Kernel kernel = app.getKernel();
@@ -52,23 +52,23 @@ public class CalcEmbedElement extends EmbedElement {
 
 	@Override
 	public void setSize(int contentWidth, int contentHeight) {
-		frame.getApplication().getGgbApi().setSize(contentWidth, contentHeight);
+		frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
 		frame.getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
 		frame.getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
-		frame.getApplication().checkScaleContainer();
+		frame.getApp().checkScaleContainer();
 	}
 
 	@Override
 	public String getContentSync() {
 		return JSON.stringify(
-				frame.getApplication().getGgbApi().getFileJSON(false));
+				frame.getApp().getGgbApi().getFileJSON(false));
 	}
 
 	/**
 	 * @return API
 	 */
 	public JavaScriptObject getApi() {
-		ScriptManagerW sm = (ScriptManagerW) frame.getApplication()
+		ScriptManagerW sm = (ScriptManagerW) frame.getApp()
 				.getScriptManager();
 		return sm.getApi();
 	}

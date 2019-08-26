@@ -40,6 +40,7 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -1428,9 +1429,14 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	protected SymbolicEditor createSymbolicEditor() {
-		SymbolicEditorW editor = new SymbolicEditorW(app);
-		getAbsolutePanel().add(editor);
+		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
+		if (gm == null) {
+			return null;
+		}
+
+		SymbolicEditor editor = gm.createSymbolicEditor(getAbsolutePanel());
 		return editor;
+
 	}
 
 	@Override

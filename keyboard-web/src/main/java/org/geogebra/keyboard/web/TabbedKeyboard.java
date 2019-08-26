@@ -76,24 +76,24 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	protected boolean keyboardWanted = false;
 	private boolean scientific;
 	private ButtonRepeater repeater;
-	private boolean showMoreButton;
+	private boolean hasMoreButton;
 
 	/**
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
 	 * @param scientific
 	 *            whether to use scientific layout
-	 * @param showMoreButton
+	 * @param hasMoreButton
 	 *            whether to show help button
 	 */
 	public TabbedKeyboard(HasKeyboard appKeyboard,
-			boolean scientific, boolean showMoreButton) {
+			boolean scientific, boolean hasMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 		this.switcher = new KeyboardSwitcher(this);
 		this.scientific = scientific;
-		this.showMoreButton = showMoreButton;
+		this.hasMoreButton = hasMoreButton;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				this);
 		tabs.add(keyboard);
 		// more button must be first because of float (Firefox)
-		if (showMoreButton) {
+		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
 		switcher.addSwitch(keyboard, "123");
@@ -877,6 +877,24 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 	public void buttonPressEnded() {
 		if (repeater != null) {
 			repeater.cancel();
+		}
+	}
+
+	/**
+	 * show 3dot button on keyboard
+	 */
+	public void showMoreButton() {
+		if (hasMoreButton) {
+			switcher.showMoreButton();
+		}
+	}
+
+	/**
+	 * hide 3dot button on keyboard
+	 */
+	public void hideMoreButton() {
+		if (hasMoreButton) {
+			switcher.hideMoreButton();
 		}
 	}
 }

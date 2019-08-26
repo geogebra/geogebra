@@ -163,7 +163,10 @@ public class LayoutW extends Layout {
 		// app.refreshSplitLayoutPanel();
 	}
 	
-	private static boolean mayHaveKeyboard(DockPanelData dp) {
+	private boolean mayHaveKeyboard(DockPanelData dp) {
+		if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
+			return app.getKernel().getConstruction().hasInputBoxes();
+		}
 		return (dp.getViewId() == App.VIEW_ALGEBRA
 				|| dp.getViewId() == App.VIEW_CAS
 				|| dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR

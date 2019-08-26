@@ -1,6 +1,5 @@
 package org.geogebra.web.test;
 
-import com.google.gwt.resources.client.ClientBundle;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -13,6 +12,7 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
+import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
@@ -67,7 +67,7 @@ public class AppMocker {
 			}
 		});
 		fr.runAsyncAfterSplash();
-		AppWFull app = (AppWFull) fr.getApplication();
+		AppWFull app = fr.getApp();
 		app.setUndoRedoEnabled(true);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();

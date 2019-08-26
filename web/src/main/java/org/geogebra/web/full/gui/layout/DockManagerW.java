@@ -1789,20 +1789,19 @@ public class DockManagerW extends DockManager {
 	 * @return panel that should get keyboard
 	 */
 	public DockPanelW getPanelForKeyboard() {
-		DockPanelW panel = getFocusedPanel();
-		int[] keyboardViews = new int[] { App.VIEW_ALGEBRA, App.VIEW_CAS,
-				App.VIEW_SPREADSHEET, App.VIEW_PROBABILITY_CALCULATOR };
-		int firstVisible = 0;
+		DockPanelW focusedPanel = getFocusedPanel();
+		List<Integer> keyboardViews = ((AppWFull) app).getKeyboardManager()
+				.getKeyboardViews();
+		if (focusedPanel != null && keyboardViews.contains(focusedPanel.getViewId())) {
+			return focusedPanel;
+		}
 		for (int panelId : keyboardViews) {
-			if (panel != null && panelId == panel.getViewId()) {
+			DockPanelW panel = getPanel(panelId);
+			if (panel.isVisible()) {
 				return panel;
 			}
-			if (firstVisible == 0 && getPanel(panelId).isVisible()) {
-				firstVisible = panelId;
-			}
 		}
-
-		return getPanel(firstVisible);
+		return null;
 	}
 
 	@Override

@@ -46,11 +46,11 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -6651,9 +6651,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Hides the symbolic editor of EV input fields
 	 */
 	public void hideSymbolicEditor() {
-    	if (symbolicEditor == null) {
-    		return;
+		// implementation not needed here
+	}
+
+	boolean isSymbolicEditorClicked(GPoint mouseLoc) {
+		if (symbolicEditor == null) {
+			return false;
 		}
-    	symbolicEditor.hide();
+		return symbolicEditor.isClicked(mouseLoc);
+	}
+
+	public SymbolicEditor getSymbolicEditor() {
+		return symbolicEditor;
 	}
 }

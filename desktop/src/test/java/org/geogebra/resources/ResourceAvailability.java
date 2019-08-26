@@ -3,7 +3,7 @@ package org.geogebra.resources;
 import java.net.URL;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;

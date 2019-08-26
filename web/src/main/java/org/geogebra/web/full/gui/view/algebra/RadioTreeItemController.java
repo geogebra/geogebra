@@ -168,6 +168,7 @@ public class RadioTreeItemController implements ClickHandler,
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.INSTANCE);
 		onPointerDown(wrappedEvent);
+
 		CancelEventTimer.avRestoreWidth();
 		if (CancelEventTimer.cancelMouseEvent() || isMarbleHit(event)
 				|| app.isRightClick(wrappedEvent)) {
