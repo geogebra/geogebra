@@ -2071,11 +2071,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d == null) {
 			return;
 		}
+		drawLayers[layer].remove(d);
 		if (d instanceof RemoveNeeded) {
-			drawLayers[layer].remove(d);
 			((RemoveNeeded) d).remove();
-		} else {
-			drawLayers[layer].remove(d);
 		}
 		allDrawableList.remove(d);
 
