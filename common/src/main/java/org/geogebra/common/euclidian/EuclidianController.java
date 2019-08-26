@@ -7554,7 +7554,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
 
-				if (textField && !isMoveTextFieldExpected((GeoInputBox)movedGeoElement)) {
+				if (textField && !isMoveTextFieldExpected((GeoInputBox) movedGeoElement)) {
 					return;
 				}
 

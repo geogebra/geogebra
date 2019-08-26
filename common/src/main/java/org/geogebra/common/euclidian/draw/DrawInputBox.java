@@ -52,7 +52,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private static final double TF_WIDTH_FACTOR = 0.81;
 	private static final int TF_MARGIN = 10;
 
-
 	/** textfield */
 	private final GeoInputBox geoInputBox;
 
@@ -445,7 +444,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
-		return geoInputBox.isSymbolicMode() ? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
+		return geoInputBox.isSymbolicMode()
+			? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
 			: super.hitWidgetBounds(x, y);
 	}
 

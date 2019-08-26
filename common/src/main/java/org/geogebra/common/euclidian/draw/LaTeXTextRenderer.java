@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.draw;
 
-import com.google.j2objc.annotations.Weak;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -8,6 +7,8 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+
+import com.google.j2objc.annotations.Weak;
 
 /**
  * Renders LaTeX as text for the editor.
@@ -39,7 +40,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font, String labelDescription) {
 		GDimension latexDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getText());
 		double inputHeight = latexDimension.getHeight() + BOTTOM_MARGIN;
-		double top = drawInputBox.yLabel + MARGIN - inputHeight / 2 + drawInputBox.getPreferredHeight() / 2.0;
+		double top = drawInputBox.yLabel + MARGIN - inputHeight / 2 +
+				drawInputBox.getPreferredHeight() / 2.0;
 		GRectangle rectangle = AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
 				(int) Math.round(top),
