@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.AppConfigDefault;
 
@@ -29,4 +30,8 @@ public class AppConfigNotes extends AppConfigDefault {
 		return "notes";
 	}
 
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.NOTES;
+	}
 }

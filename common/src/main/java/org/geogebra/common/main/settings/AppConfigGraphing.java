@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -11,6 +12,8 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 /**
  * Config for Graphing Calculator app
@@ -204,4 +207,13 @@ public class AppConfigGraphing implements AppConfig {
 		return "graphing";
 	}
 
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new GraphingSettingsUpdater();
+	}
+
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.GRAPHING;
+	}
 }

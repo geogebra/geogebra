@@ -17,6 +17,17 @@ public interface GeoGebraConstants {
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
+	/** App versions */
+	enum Version {
+		CAS,
+		GRAPHING,
+		GRAPHING_3D,
+		GEOMETRY,
+		SCIENTIFIC,
+		MIXED_REALITY,
+		NOTES,
+	}
+
 	public enum Platform {
 
 		DESKTOP("d"),

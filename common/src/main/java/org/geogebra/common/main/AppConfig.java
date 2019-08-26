@@ -1,9 +1,11 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 public interface AppConfig {
 
@@ -149,4 +151,16 @@ public interface AppConfig {
 	 * classic etc..
 	 */
 	String getAppCode();
+
+	/**
+	 * @return creates a settings updater
+	 */
+	SettingsUpdater createSettingsUpdater();
+
+	/**
+	 * Get the app version in enum.
+	 * @return app version
+	 */
+	GeoGebraConstants.Version getVersion();
 }
+

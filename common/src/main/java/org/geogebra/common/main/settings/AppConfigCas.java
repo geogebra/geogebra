@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
@@ -67,5 +68,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public String getAppCode() {
 		return "cas";
+	}
+
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.CAS;
 	}
 }
