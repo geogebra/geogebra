@@ -156,12 +156,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void moveIfWaiting() {
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
-			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onMouseMoveNow(waitingMouseMove, time, false);
 			return;
 		}
 		if (this.waitingTouchMove != null) {
-			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onTouchMoveNow(waitingTouchMove, time, false);
 		}
 	}
@@ -242,7 +240,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 *            touch move event
 	 */
 	public void onTouchMove(TouchMoveEvent event) {
-		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 
 		boolean killEvent = true;
@@ -262,7 +259,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				        || waitingMouseMove != null;
 				this.waitingTouchMove = e0;
 				this.waitingMouseMove = null;
-				GeoGebraProfiler.incrementMoveEventsIgnored();
 				if (wasWaiting) {
 					this.repaintTimer
 							.schedule(delayUntilMoveFinish);
@@ -331,13 +327,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {
-			ec.wrapMouseDragged(event, startCapture);
+			wrapMouseDraggedWithProfiling(event, startCapture);
 		}
 
 		this.waitingTouchMove = null;
 		this.waitingMouseMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
-		GeoGebraProfiler.incrementDragTime(dragTime);
 		if (dragTime > delayUntilMoveFinish) {
 			delayUntilMoveFinish = dragTime + 10;
 		}
@@ -536,7 +531,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		PointerEvent e = PointerEvent.wrapEvent(event, this);
 		event.preventDefault();
-		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 
 		if (time < this.lastMoveEvent
@@ -546,7 +540,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			        || waitingMouseMove != null;
 			this.waitingMouseMove = e;
 			this.setWaitingTouchMove(null);
-			GeoGebraProfiler.incrementMoveEventsIgnored();
 			if (wasWaiting) {
 				this.repaintTimer
 						.schedule(delayUntilMoveFinish);
@@ -581,18 +574,24 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			ec.wrapMouseMoved(event);
 		} else {
 			event.setIsRightClick(dragModeIsRightClick);
-			ec.wrapMouseDragged(event, startCapture);
+			wrapMouseDraggedWithProfiling(event, startCapture);
 		}
 		event.release();
 		this.waitingMouseMove = null;
 		this.waitingTouchMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
-		GeoGebraProfiler.incrementDragTime(dragTime);
 		if (dragTime > delayUntilMoveFinish) {
 			delayUntilMoveFinish = dragTime + 10;
 		}
 
 		moveCounter++;
+	}
+
+	private void wrapMouseDraggedWithProfiling(PointerEvent event, boolean startCapture) {
+		long dragStart = System.currentTimeMillis();
+		GeoGebraProfiler.incrementDrags();
+		ec.wrapMouseDragged(event, startCapture);
+		GeoGebraProfiler.incrementDragTime((int) (System.currentTimeMillis() - dragStart));
 	}
 
 	/**
