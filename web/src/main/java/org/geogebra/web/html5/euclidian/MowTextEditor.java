@@ -161,11 +161,11 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 	 * 
 	 * @return the bounding rectangle.
 	 */
-	public GRectangle getBounds() {
+	public GRectangle getBounds(EuclidianViewW viewW) {
 		if (bounds == null) {
 			bounds = AwtFactory.getPrototype().newRectangle();
 		}
-		bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop(), getOffsetWidth(),
+		bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop() - viewW.getAbsoluteTop() , getOffsetWidth(),
 				getOffsetHeight());
 		return bounds;
 	}
