@@ -354,27 +354,36 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 *            touch end event
 	 */
 	public void onTouchEnd(TouchEndEvent event) {
-		endTouch();
 		Event.releaseCapture(event.getRelativeElement());
+		dragModeMustBeSelected = false;
+		if (moveCounter < 2) {
+			ec.resetModeAfterFreehand();
+		}
+
+		this.moveIfWaiting();
+		resetDelay();
 		event.stopPropagation();
+		longTouchManager.cancelTimer();
 		if (!comboBoxHit()) {
 			event.preventDefault();
 		}
 		if (event.getTouches().length() == 0 && !ignoreEvent) {
-			releaseMouse();
+			// mouseLoc was already adjusted to the EVs coords, do not use
+			// offset again
+			ec.wrapMouseReleased(new PointerEvent(ec.mouseLoc.x,
+					ec.mouseLoc.y,
+					PointerEventType.TOUCH, ZeroOffset.INSTANCE));
 		} else {
 			// multitouch-event
 			// ignore next touchMove and touchEnd events with one touch
 			ignoreEvent = true;
 		}
+		CancelEventTimer.touchEventOccured();
+
+		ec.resetModeAfterFreehand();
 	}
 
 	public void onTouchEnd() {
-		endTouch();
-		releaseMouse();
-	}
-
-	private void endTouch() {
 		dragModeMustBeSelected = false;
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();
@@ -383,17 +392,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.moveIfWaiting();
 		resetDelay();
 		longTouchManager.cancelTimer();
-		comboBoxHit();
-		CancelEventTimer.touchEventOccured();
-		ec.resetModeAfterFreehand();
-	}
-
-	private void releaseMouse() {
-		// mouseLoc was already adjusted to the EVs coords, do not use
-		// offset again
 		ec.wrapMouseReleased(new PointerEvent(ec.mouseLoc.x,
 				ec.mouseLoc.y,
 				PointerEventType.TOUCH, ZeroOffset.INSTANCE));
+		CancelEventTimer.touchEventOccured();
+		ec.resetModeAfterFreehand();
 	}
 
 	/**

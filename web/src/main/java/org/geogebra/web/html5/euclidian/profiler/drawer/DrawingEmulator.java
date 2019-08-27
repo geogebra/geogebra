@@ -67,7 +67,7 @@ public class DrawingEmulator {
 		for (Coordinate coordinate : coordinates) {
 			Drawer drawer = new Drawer(mouseTouchGestureController, coordinate);
 			if (previousCoordinate == null || previousCoordinate.isTouchEnd()) {
-				drawer.setShouldStartTouch(true);
+				drawer.initiateDrawingWithTouchStart();
 			}
 			drawer.schedule(getSleepInterval(previousCoordinate, coordinate));
 			previousCoordinate = coordinate;

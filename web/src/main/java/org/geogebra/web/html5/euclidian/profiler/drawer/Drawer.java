@@ -8,6 +8,9 @@ import org.geogebra.web.html5.event.PointerEvent;
 
 import com.google.gwt.user.client.Timer;
 
+/**
+ * Schedules the drawing of a line.
+ */
 class Drawer extends Timer {
 
 	private MouseTouchGestureControllerW mouseTouchGestureController;
@@ -19,7 +22,7 @@ class Drawer extends Timer {
 	Drawer(MouseTouchGestureControllerW mouseTouchGestureController, Coordinate coordinate) {
 		this.mouseTouchGestureController = mouseTouchGestureController;
 		this.coordinate = coordinate;
-		fpsProfiler = this.mouseTouchGestureController.getApp().getFpsProfiler();
+		fpsProfiler = mouseTouchGestureController.getApp().getFpsProfiler();
 	}
 
 	@Override
@@ -57,7 +60,7 @@ class Drawer extends Timer {
 		fpsProfiler.notifyTouchEnd();
 	}
 
-	void setShouldStartTouch(boolean shouldStartTouch) {
-		this.shouldStartTouch = shouldStartTouch;
+	void initiateDrawingWithTouchStart() {
+		shouldStartTouch = true;
 	}
 }
