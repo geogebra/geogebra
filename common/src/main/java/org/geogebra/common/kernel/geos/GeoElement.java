@@ -28,12 +28,15 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
@@ -7551,7 +7554,14 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			sb.append(getCaption(StringTemplate.defaultTemplate));
+			String tmp = getCaption(StringTemplate.defaultTemplate);
+			if (CanvasDrawable.isLatexString(tmp)) {
+				Log.debug("output= it's latex string");
+				TeXFormula tf = new TeXFormula(caption);
+				sb.append(new TeXAtomSerializer(null).serialize(tf.root));
+			} else {
+				sb.append(tmp);
+			}
 			sb.endSentence();
 			return true;
 		}
