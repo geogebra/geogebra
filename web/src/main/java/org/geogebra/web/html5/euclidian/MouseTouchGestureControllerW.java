@@ -383,6 +383,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.resetModeAfterFreehand();
 	}
 
+	/**
+	 * Ends the touch without the TouchEndEvent object.
+	 */
 	public void onTouchEnd() {
 		dragModeMustBeSelected = false;
 		if (moveCounter < 2) {
@@ -430,6 +433,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 	}
 
+	/**
+	 * Starts the touch.
+	 * @param event abstract touch event
+	 */
 	public void onTouchStart(AbstractEvent event) {
 		if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
 			longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
