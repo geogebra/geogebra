@@ -196,7 +196,7 @@ public class TextControllerW
 		if (editor == null) {
 			return null;
 		}
-		return editor.getBounds(getView());
+		return editor.getBounds(getView().getAbsoluteTop());
 	}
 
 	@Override
