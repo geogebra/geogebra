@@ -21,7 +21,6 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
@@ -45,7 +44,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Michael
  */
 
-public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
+public class DrawInputBox extends CanvasDrawable {
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	/** ratio of length and screen width */
@@ -444,9 +443,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
-		return geoInputBox.isSymbolicMode() ?
-				getInputFieldBounds(view.getGraphicsForPen()).contains(x, y) :
-				super.hitWidgetBounds(x, y);
+		return geoInputBox.isSymbolicMode()
+			? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
+			: super.hitWidgetBounds(x, y);
+
 	}
 
 	private boolean hasAlignedInputboxes() {
@@ -462,10 +462,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 					xLabel, yLabel + getTextBottom(), false, null, null);
 		}
-	}
-
-	@Override
-	final public void remove() {
 	}
 
 	/**

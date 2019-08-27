@@ -17,7 +17,6 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
@@ -181,8 +180,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	/**
 	 * Creates and adds a symbolic editor to the panel.
 	 *
-	 * @param panel to add
 	 * @return the editor
 	 */
-	SymbolicEditor createSymbolicEditor(AbsolutePanel panel);
+	SymbolicEditor createSymbolicEditor();
 }

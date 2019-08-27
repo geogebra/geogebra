@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -300,9 +301,10 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-
+		Log.debug("tf focus");
 		if (isComboboxFocused()) {
-			// Log.info("isComboboxFocused!");
+
+			Log.error("isComboboxFocused!");
 			this.draggingOccured = false;
 			getView().setHits(mouseLoc, type);
 			Hits hits = getView().getHits().getTopHits();
@@ -319,6 +321,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
+		Log.debug("tf click");
 		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
 		return getView().textfieldClicked(x, y, type);
 	}

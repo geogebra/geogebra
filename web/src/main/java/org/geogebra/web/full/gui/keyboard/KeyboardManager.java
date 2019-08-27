@@ -15,10 +15,20 @@ public class KeyboardManager {
 
 	private AppW app;
 
+	/**
+	 * Constructor
+	 *
+	 * @param appWFull
+	 * 			the application
+	 */
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 	}
 
+	/**
+	 *
+	 * @return list of view ids which have keyboard.
+	 */
 	public List<Integer> getKeyboardViews() {
 		ArrayList<Integer> keyboardViews = getKeyboardViewsNoEV();
 		if (app.getKernel().getConstruction().hasInputBoxes()) {
@@ -39,10 +49,19 @@ public class KeyboardManager {
 		return keyboardViews;
 	}
 
+	/**
+	 * Update keyboard style.
+	 *
+	 * @param keyBoard to update.
+	 */
 	public void updateStyle(VirtualKeyboardW keyBoard) {
 		Dom.toggleClass(keyBoard.asWidget(), "detached", shouldDetach());
 	}
 
+	/**
+	 *
+	 * @return keyboard is detachable, no view uses it
+	 */
 	public boolean shouldDetach() {
 		for (Integer viewId : this.getKeyboardViewsNoEV()) {
 			if (app.showView(viewId)) {

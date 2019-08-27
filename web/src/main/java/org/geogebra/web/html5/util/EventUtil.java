@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 
@@ -75,4 +76,19 @@ public final class EventUtil {
 	public static int getTouchOrClickClientY(DomEvent<?> event) {
 		return getTouchOrClickClientY(event.getNativeEvent());
 	}
+
+	/**
+	 * @param element
+	 *            element
+	 */
+	public static native void stopPointer(Element element) /*-{
+		if ($wnd.PointerEvent) {
+			var evts = [ "PointerDown", "PointerUp" ];
+			for ( var k in evts) {
+				element.addEventListener(evts[k].toLowerCase(), function(e) {
+					e.stopPropagation()
+				});
+			}
+		}
+	}-*/;
 }

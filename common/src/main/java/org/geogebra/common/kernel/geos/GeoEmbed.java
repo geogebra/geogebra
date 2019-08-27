@@ -110,7 +110,7 @@ public class GeoEmbed extends GeoWidget
 		sb.append(appName);
 		if (!StringUtil.empty(url)) {
 			sb.append("\" url=\"");
-			sb.append(url);
+			sb.append(StringUtil.encodeXML(url));
 		}
 		sb.append("\"/>\n");
 		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));

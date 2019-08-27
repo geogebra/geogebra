@@ -46,11 +46,11 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -531,7 +531,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
-	private SymbolicEditor symbolicEditor = null;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -2072,11 +2071,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d == null) {
 			return;
 		}
+		drawLayers[layer].remove(d);
 		if (d instanceof RemoveNeeded) {
-			drawLayers[layer].remove(d);
 			((RemoveNeeded) d).remove();
-		} else {
-			drawLayers[layer].remove(d);
 		}
 		allDrawableList.remove(d);
 
@@ -6630,21 +6627,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 			where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
-		if (symbolicEditor == null) {
-			symbolicEditor = createSymbolicEditor();
-		}
-		if (symbolicEditor != null) {
-			symbolicEditor.attach(geoInputBox, bounds);
-		}
-	}
-
-	/**
-	 * Creates the symbolic editor by platform
-	 *
-	 * @return the symbolic editor instance.
-	 */
-	protected SymbolicEditor createSymbolicEditor() {
-		return null;
+		// overridden in Web
 	}
 
 	/**
@@ -6654,14 +6637,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// implementation not needed here
 	}
 
-	boolean isSymbolicEditorClicked(GPoint mouseLoc) {
-		if (symbolicEditor == null) {
-			return false;
-		}
-		return symbolicEditor.isClicked(mouseLoc);
-	}
-
-	public SymbolicEditor getSymbolicEditor() {
-		return symbolicEditor;
+	/**
+	 * @param mouseLoc
+	 *            mouse coordinates
+	 * @return whether symbolic editor was clicked
+	 */
+	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
+		return false;
 	}
 }
