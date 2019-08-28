@@ -122,13 +122,13 @@ public class AuralTextTest {
 	public void readLaTeXCaption() {
 		GeoElementND[] pointA = add("A = (1,2)");
 		pointA[0].setCaption("$ \\sqrt {x}$");
-		auralWhichCantainsTheOutput("A", "sqrt(x)");
+		auralWhichContainsTheOutput("A", "sqrt(x)");
 		GeoElementND[] pointB = add("B = (2,2)");
 		pointB[0].setCaption(" $ \\text{this is my nice caption}$");
-		auralWhichCantainsTheOutput("B", "this is my nice caption");
+		auralWhichContainsTheOutput("B", "this is my nice caption");
 	}
 
-	private static void auralWhichCantainsTheOutput(String in, String... out) {
+	private static void auralWhichContainsTheOutput(String in, String... out) {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
 		Log.debug("aural = " + aural);
