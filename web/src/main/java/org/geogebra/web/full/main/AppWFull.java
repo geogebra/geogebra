@@ -87,6 +87,7 @@ import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
+import org.geogebra.web.full.main.activity.EvaluatorActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.GeometryActivity;
 import org.geogebra.web.full.main.activity.Graphing3DActivity;
@@ -325,6 +326,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 				break;
 			case "notes":
 				activity = isMebis() ? new MebisNotesActivity() : new NotesActivity();
+				break;
+			case "evaluator":
+				activity = new EvaluatorActivity();
 				break;
 			default:
 				activity = new ClassicActivity(new AppConfigDefault());
