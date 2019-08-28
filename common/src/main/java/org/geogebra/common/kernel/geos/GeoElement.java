@@ -324,7 +324,7 @@ public abstract class GeoElement extends ConstructionElement
 	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
 
-	private TeXFormula tf;
+	private TeXFormula teXFormula;
 	private TeXAtomSerializer texAtomSerializer;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
@@ -7570,23 +7570,23 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	private void getLaTeXAuralCaption (ScreenReaderBuilder sb) {
-		tf = getTfLazy();
-		tf.setLaTeX(caption);
-		sb.append(getTexAtomSerializerLazy().serialize(tf.root));
+		teXFormula = getTexFormula();
+		teXFormula.setLaTeX(caption);
+		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
 	}
 
-	private TeXAtomSerializer getTexAtomSerializerLazy() {
+	private TeXAtomSerializer getTexAtomSerializer() {
 		if (texAtomSerializer == null) {
 			texAtomSerializer = new TeXAtomSerializer(null);
 		}
 		return texAtomSerializer;
 	}
 
-	private TeXFormula getTfLazy() {
-		if (tf == null) {
-			tf = new TeXFormula(caption);
+	private TeXFormula getTexFormula() {
+		if (teXFormula == null) {
+			teXFormula = new TeXFormula(caption);
 		}
-		return tf;
+		return teXFormula;
 	}
 
 	@Override
