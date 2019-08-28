@@ -113,7 +113,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	private String toLaTex(GeoElementND geo) {
 		if (geo.isGeoFunction()) {
-			return geo.getDefinition(StringTemplate.latexTemplate);
+			return geo.getRedefineString(true, true,
+					StringTemplate.latexTemplate.makeStrTemplateForEditing());
 		}
 		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
