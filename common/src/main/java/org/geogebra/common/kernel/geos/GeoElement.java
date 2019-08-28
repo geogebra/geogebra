@@ -28,12 +28,15 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
@@ -320,6 +323,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
+
+	private TeXFormula teXFormula;
+	private TeXAtomSerializer texAtomSerializer;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -7551,11 +7557,36 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			sb.append(getCaption(StringTemplate.defaultTemplate));
+			String myCaption = getCaption(StringTemplate.defaultTemplate);
+			if (CanvasDrawable.isLatexString(myCaption)) {
+				getLaTeXAuralCaption(sb);
+			} else {
+				sb.append(myCaption);
+			}
 			sb.endSentence();
 			return true;
 		}
 		return false;
+	}
+
+	private void getLaTeXAuralCaption (ScreenReaderBuilder sb) {
+		teXFormula = getTexFormula();
+		teXFormula.setLaTeX(caption);
+		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
+	}
+
+	private TeXAtomSerializer getTexAtomSerializer() {
+		if (texAtomSerializer == null) {
+			texAtomSerializer = new TeXAtomSerializer(null);
+		}
+		return texAtomSerializer;
+	}
+
+	private TeXFormula getTexFormula() {
+		if (teXFormula == null) {
+			teXFormula = new TeXFormula(caption);
+		}
+		return teXFormula;
 	}
 
 	@Override
