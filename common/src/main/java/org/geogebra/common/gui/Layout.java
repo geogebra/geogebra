@@ -81,7 +81,10 @@ public abstract class Layout implements SettingListener {
 		perspectives.add(cas);
 
 		boolean supports3D = app.supportsView(App.VIEW_EUCLIDIAN3D);
-		Perspective graphing3D = supports3D ? createGraphing3DPerspective(app, spData, defToolbar) : null;
+		Perspective graphing3D = supports3D
+				? createGraphing3DPerspective(app, spData, defToolbar)
+				: null;
+
 		perspectives.add(graphing3D);
 
 		Perspective probability = createProbabilityPerspective(avPercent, defToolbar);
@@ -101,7 +104,8 @@ public abstract class Layout implements SettingListener {
 		defaultPerspectives = perspectives.toArray(new Perspective[0]);
 	}
 
-	private static Perspective createGraphingPerspective(App app, DockSplitPaneData[] spData, String defToolbar) {
+	private static Perspective createGraphingPerspective(App app, DockSplitPaneData[] spData,
+														 String defToolbar) {
 		DockPanelData[] dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
 				false,
@@ -133,7 +137,8 @@ public abstract class Layout implements SettingListener {
 				true, true, true, true, true, InputPosition.algebraView);
 	}
 
-	private static Perspective createGeometryPerspective(App app, DockSplitPaneData[] spData, String defToolbar) {
+	private static Perspective createGeometryPerspective(App app, DockSplitPaneData[] spData,
+														 String defToolbar) {
 		DockPanelData[] dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
 				false,
@@ -240,7 +245,8 @@ public abstract class Layout implements SettingListener {
 				InputPosition.algebraView);
 	}
 
-	private static Perspective createGraphing3DPerspective(App app, DockSplitPaneData[] spData, String defToolbar) {
+	private static Perspective createGraphing3DPerspective(App app, DockSplitPaneData[] spData,
+														   String defToolbar) {
 		DockPanelData[] dpData = new DockPanelData[6];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false,
 				false, false,
