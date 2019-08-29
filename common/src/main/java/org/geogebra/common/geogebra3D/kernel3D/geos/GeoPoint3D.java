@@ -2283,8 +2283,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			}
 		}
 
-		setCoords(res, false);
-		pp.setT(param);
+		if (res != null) {
+			setCoords(res, false);
+			pp.setT(param);
+		}
 
 		setRegion(oldRegion);
 	}
