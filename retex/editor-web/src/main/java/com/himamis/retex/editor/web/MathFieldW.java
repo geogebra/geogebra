@@ -1002,20 +1002,37 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * @param latexItem
+	 * @param parentPanel
 	 *            panel to be scrolled
 	 * @param margin
 	 *            minimal distance from cursor to left/right border
 	 */
-	public static void  scrollParent(FlowPanel latexItem, int margin) {
-		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
+	public static void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
+		if (parentPanel.getOffsetWidth() + parentPanel.getElement().getScrollLeft()
 				- margin < CursorBox.startX) {
-			latexItem.getElement().setScrollLeft((int) CursorBox.startX
-					- latexItem.getOffsetWidth() + margin);
-		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft()
+			parentPanel.getElement().setScrollLeft((int) CursorBox.startX
+					- parentPanel.getOffsetWidth() + margin);
+		} else if (CursorBox.startX < parentPanel.getElement().getScrollLeft()
 				+ margin) {
-			latexItem.getElement()
+			parentPanel.getElement()
 					.setScrollLeft((int) CursorBox.startX - margin);
+		}
+	}
+	
+	/**
+	 * @param parentPanel
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to top/bottom border
+	 */
+	public static void scrollParentVertically(FlowPanel parentPanel, int margin) {
+		Element elem = parentPanel.getElement();
+		int height = parentPanel.getOffsetHeight();
+		int scrollTop = elem.getScrollTop();
+		int cursorY = (int) CursorBox.startY;
+		if (cursorY < scrollTop + margin
+				|| cursorY > scrollTop + height - margin) {
+			elem.setScrollTop((int) cursorY - margin);
 		}
 	}
 

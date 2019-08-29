@@ -245,7 +245,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void scrollToEnd()  {
-		MathFieldW.scrollParent(main, PADDING_LEFT);
+		MathFieldW.scrollParentHorizontally(main, PADDING_LEFT);
 	}
 
 	@Override

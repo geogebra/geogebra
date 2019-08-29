@@ -1,17 +1,12 @@
 package org.geogebra.web.full.evaluator;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.web.full.gui.components.MathFieldEditor;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Evaluator Web implementation.
@@ -20,10 +15,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  */
 public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
-	private final Kernel kernel;
-	private final boolean directFormulaConversion;
-	private FlowPanel main;
-	private static final int PADDING_LEFT = 2;
+	private MathFieldEditor mathFieldEditor;
 
 	/**
 	 * Constructor
@@ -32,21 +24,8 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 	 *            The application.
 	 */
 	public EvaluatorEditor(App app) {
-		this.kernel = app.getKernel();
-		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
-		createMathField();
-	}
-
-
-	private void createMathField() {
-		main = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
-		MathFieldW mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, this,
-				directFormulaConversion,
-				null);
-		main.addStyleName("evaluatorEditor");
-		main.add(mathField);
+		mathFieldEditor = new MathFieldEditor(app, this);
+		mathFieldEditor.addStyleName("evaluatorEditor");
 	}
 
 	@Override
@@ -56,20 +35,17 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
 	@Override
 	public void onKeyTyped() {
-		adjustHeightAndPosition();
-		scrollToEnd();
-	}
-
-	private void adjustHeightAndPosition() {
+		scrollContentIfNeeded();
 	}
 
 	@Override
 	public void onCursorMove() {
-		scrollToEnd();
+		scrollContentIfNeeded();
 	}
 
-	private void scrollToEnd() {
-		MathFieldW.scrollParent(main, PADDING_LEFT);
+	private void scrollContentIfNeeded() {
+		mathFieldEditor.scrollHorizontally();
+		mathFieldEditor.scrollVertically();
 	}
 
 	@Override
@@ -103,7 +79,6 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
 	@Override
 	public Widget asWidget() {
-		return main;
+		return mathFieldEditor.asWidget();
 	}
-
 }

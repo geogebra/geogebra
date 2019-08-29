@@ -1820,7 +1820,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		MathFieldW.scrollParent(latexItem, 20);
+		MathFieldW.scrollParentHorizontally(latexItem, 20);
 	}
 
 	/**
