@@ -18,7 +18,6 @@ import com.google.gwt.user.client.Timer;
 public class DrawingEmulator {
 
 	private static final String FILE_NAME = "coords.json";
-	private static final int DRAWING_SPEEDUP = 2;
 
 	private MouseTouchGestureControllerW mouseTouchGestureController;
 	private List<Coordinate> coordinates;
@@ -81,7 +80,6 @@ public class DrawingEmulator {
 			return 0;
 		} else {
 			int interval = (int) (actualCoordinate.getTime() - previousCoordinate.getTime());
-			interval /= DRAWING_SPEEDUP;
 			sleepIntervalSum += interval;
 			return sleepIntervalSum;
 		}
