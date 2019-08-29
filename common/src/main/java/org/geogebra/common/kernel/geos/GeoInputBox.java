@@ -439,12 +439,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 				} else {
 					linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
 				}
-			/*	Log.debug("output=" + linkedGeo.isGeoFunction() + " " + getLinkedGeoText());
-
-				Log.debug("output = " + linkedGeo.getRedefineString(true, true) + " | " +
-						linkedGeo.getFormulaString(tpl, substituteNos)
-						);
-*/
 			}
 			if (linkedText == null) {
 				linkedText = "";
