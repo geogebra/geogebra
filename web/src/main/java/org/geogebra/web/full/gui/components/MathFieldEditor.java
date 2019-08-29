@@ -90,7 +90,7 @@ public class MathFieldEditor implements IsWidget {
 	 * Scroll content vertically if needed.
 	 */
 	public void scrollVertically() {
-		MathFieldW.scrollParentVertically(main, PADDING_TOP);
+		mathField.scrollParentVertically(main, PADDING_TOP);
 	}
 
 	@Override

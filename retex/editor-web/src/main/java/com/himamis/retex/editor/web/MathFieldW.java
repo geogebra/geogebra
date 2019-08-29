@@ -1018,21 +1018,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					.setScrollLeft((int) CursorBox.startX - margin);
 		}
 	}
-	
-	/**
-	 * @param parentPanel
-	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to top/bottom border
-	 */
+
 	public static void scrollParentVertically(FlowPanel parentPanel, int margin) {
 		Element elem = parentPanel.getElement();
 		int height = parentPanel.getOffsetHeight();
-		int scrollTop = elem.getScrollTop();
+		int scrollTop = elem.getScrollTop() + margin;
 		int cursorY = (int) CursorBox.startY;
-		if (cursorY < scrollTop + margin
-				|| cursorY > scrollTop + height - margin) {
-			elem.setScrollTop((int) cursorY - margin);
+		if (cursorY < scrollTop
+				|| cursorY > scrollTop + height) {
+			elem.setScrollTop((int) cursorY);
 		}
 	}
 
