@@ -1,7 +1,8 @@
 package org.geogebra.web.full.main.activity;
 
-import com.google.gwt.user.client.ui.Label;
 import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.web.full.evaluator.EvaluatorEditor;
+import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -16,10 +17,8 @@ public class EvaluatorActivity extends BaseActivity {
 	@Override
 	public void start(AppW appW) {
 		super.start(appW);
-
-		// Set up the Editor and the Keyboard here
-		Label label = new Label();
-		label.setText("Hello World!");
-		appW.getAppletFrame().add(label);
+		EvaluatorEditor editor = new EvaluatorEditor(appW);
+		DockManagerW dockManager = (DockManagerW) appW.getGuiManager().getLayout().getDockManager();
+		dockManager.getRoot().add(editor);
 	}
 }

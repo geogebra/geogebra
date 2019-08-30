@@ -3,8 +3,6 @@ package org.geogebra.web.full.cas.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -24,6 +22,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -332,7 +332,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onCursorMove() {
-		MathFieldW.scrollParent(this, 20);
+		MathFieldW.scrollParentHorizontally(this, 20);
 	}
 
 	@Override

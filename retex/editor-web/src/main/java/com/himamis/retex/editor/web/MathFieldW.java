@@ -85,6 +85,7 @@ import com.himamis.retex.renderer.web.graphics.ColorW;
 
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
+	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
 
 	private MathFieldInternal mathFieldInternal;
@@ -1002,19 +1003,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * @param latexItem
+	 * Scrolls content horizontally,  based on the cursor position
+	 *
+	 * @param parentPanel
 	 *            panel to be scrolled
 	 * @param margin
 	 *            minimal distance from cursor to left/right border
 	 */
-	public static void  scrollParent(FlowPanel latexItem, int margin) {
-		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
+	public static void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
+		if (parentPanel.getOffsetWidth() + parentPanel.getElement().getScrollLeft()
 				- margin < CursorBox.startX) {
-			latexItem.getElement().setScrollLeft((int) CursorBox.startX
-					- latexItem.getOffsetWidth() + margin);
-		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft()
+			parentPanel.getElement().setScrollLeft((int) CursorBox.startX
+					- parentPanel.getOffsetWidth() + margin);
+		} else if (CursorBox.startX < parentPanel.getElement().getScrollLeft()
 				+ margin) {
-			latexItem.getElement()
+			parentPanel.getElement()
 					.setScrollLeft((int) CursorBox.startX - margin);
 		}
 	}
