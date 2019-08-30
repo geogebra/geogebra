@@ -28,8 +28,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -114,6 +112,8 @@ import org.geogebra.common.util.lang.Language;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * 
@@ -7569,7 +7569,7 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	private void getLaTeXAuralCaption (ScreenReaderBuilder sb) {
+	private void getLaTeXAuralCaption(ScreenReaderBuilder sb) {
 		teXFormula = getTexFormula();
 		teXFormula.setLaTeX(caption);
 		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
