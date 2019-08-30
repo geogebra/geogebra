@@ -65,7 +65,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
 	@Override
 	public void onInsertString() {
-		// nothing to do.
+		scrollContentIfNeeded();
 	}
 
 	@Override

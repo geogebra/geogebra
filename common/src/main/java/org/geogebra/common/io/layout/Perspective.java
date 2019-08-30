@@ -91,7 +91,7 @@ public class Perspective {
 			"Graphing", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"Perspective.3DGraphics", "Perspective.Probability",
-			"Notes", "Scientific" };
+			"Notes", "Scientific", "Evaluator" };
 	/** slugs for web app url / tutorials url */
 	final private static String[] perspectiveSlugs = new String[] { "graphing",
 			"geometry", "spreadsheet", "cas", "3d", "probability",

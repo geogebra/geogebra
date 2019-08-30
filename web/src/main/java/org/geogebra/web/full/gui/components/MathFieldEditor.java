@@ -5,6 +5,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.EventUtil;
 
@@ -21,15 +25,18 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class MathFieldEditor implements IsWidget {
+public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 
 	private static final int PADDING_LEFT = 2;
 	private static final int PADDING_TOP = 8;
 
 	private final Kernel kernel;
+	private final GeoGebraFrameFull frame;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private MathFieldScroller scroller;
+	private RetexKeyboardListener retexListener = null;
+	private Canvas canvas;
 
 	/**
 	 * Constructor
@@ -39,19 +46,19 @@ public class MathFieldEditor implements IsWidget {
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		kernel = app.getKernel();
+		frame = ((AppWFull) app).getAppletFrame();
 		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		initEventHandlers();
 	}
 
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
 				canvas, listener,
 				directFormulaConversion,
 				null);
 		scroller = new MathFieldScroller(main);
-
 		main.add(mathField);
 	}
 
@@ -81,6 +88,7 @@ public class MathFieldEditor implements IsWidget {
 	 */
 	public void setFocus() {
 		mathField.setFocus(true);
+		initAndShowKeyboard();
 	}
 
 	/**
@@ -117,5 +125,18 @@ public class MathFieldEditor implements IsWidget {
 	 */
 	public void addStyleName(String style) {
 		main.addStyleName(style);
+	}
+
+	private void initAndShowKeyboard() {
+		if (retexListener == null) {
+			retexListener = new RetexKeyboardListener(canvas, mathField);
+		}
+
+		setKeyboardVisible(true);
+	}
+
+	private void setKeyboardVisible(boolean visible) {
+		frame.showKeyBoard(visible, retexListener,
+				true);
 	}
 }
