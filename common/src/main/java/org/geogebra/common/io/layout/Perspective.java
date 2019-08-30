@@ -112,6 +112,8 @@ public class Perspective {
 	public static final int NOTES = 7;
 	/** Scientific calc */
 	public static final int SCIENTIFIC = 8;
+	/** Evaluator */
+	public static final int EVALUATOR = 9;
 
 	/**
 	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the
