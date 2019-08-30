@@ -85,6 +85,7 @@ import com.himamis.retex.renderer.web.graphics.ColorW;
 
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
+	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
 
 	private MathFieldInternal mathFieldInternal;
@@ -1018,25 +1019,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				+ margin) {
 			parentPanel.getElement()
 					.setScrollLeft((int) CursorBox.startX - margin);
-		}
-	}
-
-	/**
-	 * Scrolls content verically, based on the cursor position
-	 *
-	 * @param parentPanel
-	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
-	 */
-	public static void scrollParentVertically(FlowPanel parentPanel, int margin) {
-		Element elem = parentPanel.getElement();
-		int height = parentPanel.getOffsetHeight();
-		int scrollTop = elem.getScrollTop() + margin;
-		int cursorY = (int) CursorBox.startY;
-		if (cursorY < scrollTop
-				|| cursorY > scrollTop + height) {
-			elem.setScrollTop((int) cursorY);
 		}
 	}
 

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -28,6 +29,7 @@ public class MathFieldEditor implements IsWidget {
 	private final Kernel kernel;
 	private FlowPanel main;
 	private MathFieldW mathField;
+	private MathFieldScroller scroller;
 
 	/**
 	 * Constructor
@@ -48,6 +50,8 @@ public class MathFieldEditor implements IsWidget {
 				canvas, listener,
 				directFormulaConversion,
 				null);
+		scroller = new MathFieldScroller(main);
+
 		main.add(mathField);
 	}
 
@@ -83,14 +87,14 @@ public class MathFieldEditor implements IsWidget {
 	 * Scroll content horizontally if needed.
 	 */
 	public void scrollHorizontally() {
-		MathFieldW.scrollParentHorizontally(main, PADDING_LEFT);
+		scroller.scrollHorizontallyToCursor(PADDING_LEFT);
 	}
 
 	/**
 	 * Scroll content vertically if needed.
 	 */
 	public void scrollVertically() {
-		mathField.scrollParentVertically(main, PADDING_TOP);
+		scroller.scrollVerticallyToCursor(PADDING_TOP);
 	}
 
 	@Override
