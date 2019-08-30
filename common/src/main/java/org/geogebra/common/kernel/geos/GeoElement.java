@@ -324,6 +324,9 @@ public abstract class GeoElement extends ConstructionElement
 	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
 
+	private TeXFormula teXFormula;
+	private TeXAtomSerializer texAtomSerializer;
+
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
 		@Override
@@ -7554,18 +7557,36 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			String tmp = getCaption(StringTemplate.defaultTemplate);
-			if (CanvasDrawable.isLatexString(tmp)) {
-				Log.debug("output= it's latex string");
-				TeXFormula tf = new TeXFormula(caption);
-				sb.append(new TeXAtomSerializer(null).serialize(tf.root));
+			String myCaption = getCaption(StringTemplate.defaultTemplate);
+			if (CanvasDrawable.isLatexString(myCaption)) {
+				getLaTeXAuralCaption(sb);
 			} else {
-				sb.append(tmp);
+				sb.append(myCaption);
 			}
 			sb.endSentence();
 			return true;
 		}
 		return false;
+	}
+
+	private void getLaTeXAuralCaption (ScreenReaderBuilder sb) {
+		teXFormula = getTexFormula();
+		teXFormula.setLaTeX(caption);
+		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
+	}
+
+	private TeXAtomSerializer getTexAtomSerializer() {
+		if (texAtomSerializer == null) {
+			texAtomSerializer = new TeXAtomSerializer(null);
+		}
+		return texAtomSerializer;
+	}
+
+	private TeXFormula getTexFormula() {
+		if (teXFormula == null) {
+			teXFormula = new TeXFormula(caption);
+		}
+		return teXFormula;
 	}
 
 	@Override
