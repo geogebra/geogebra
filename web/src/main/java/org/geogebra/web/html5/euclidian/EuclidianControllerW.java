@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -446,7 +445,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void closePopups(int x, int y, PointerEventType type) {
 		PointerEvent wrap = new PointerEvent(x, y, type, mtg);
-		((AppW) app).closePopups(wrap.getX(), wrap.getY());
+		app.closePopups(wrap.getX(), wrap.getY());
 	}
 
 	@Override
