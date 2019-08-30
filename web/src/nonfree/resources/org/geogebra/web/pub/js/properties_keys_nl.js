@@ -606,7 +606,7 @@ __GGB__keysVar["nl"].command = {
     "NextPrime": "VolgendPriemgetal",
     "NextPrime.Syntax": "[ <Getal> ]",
     "Normal": "Normaal",
-    "Normal.Syntax": "[ <Gemiddelde>, <Standaardafwijking>, <Variabele> ]\n[ <Gemiddelde>, <Standaardafwijking>, <Variabele>, <Cumulatief> ]\n[ <Gemiddelde>, <Standaardafwijking>, x, <Cumulatief> ]",
+    "Normal.Syntax": "[ <Gemiddelde>, <Standaardafwijking>, <Waarde variabele> ]\n[ <Gemiddelde>, <Standaardafwijking>, <Waarde variabele>, <Cumulatief> ]\n[ <Gemiddelde>, <Standaardafwijking>, x, <Cumulatief> ]",
     "Normal.SyntaxCAS": "[ <Gemiddelde>, <Standaardafwijking>, <Variabele> ]",
     "NormalQuantilePlot": "Kwantielplot",
     "NormalQuantilePlot.Syntax": "[ <Lijst met waarnemingsgetallen> ]",

@@ -15,7 +15,6 @@ public abstract class GeoGebraProfiler {
 	private static volatile int repaintTime;
 	private static volatile int drags;
 	private static volatile int dragTime;
-	private static volatile int moveEventsIgnored;
 
 	private static volatile int algebra;
 	private static volatile int event;
@@ -99,12 +98,6 @@ public abstract class GeoGebraProfiler {
 			if (repaints % 100 == 0) {
 				Log.debug("Profile Repaint: " + repaints + " x "
 						+ (repaintTime / repaints) + " = " + repaintTime);
-				int realDrags = drags - moveEventsIgnored;
-				if (realDrags > 0) {
-					Log.debug("Profile Drag: " + realDrags + " x "
-							+ (dragTime / realDrags) + " = " + dragTime + ","
-							+ moveEventsIgnored + " ignored");
-				}
 				if (hits > 0) {
 					Log.debug("Profile Hits: " + hits + " x " + (hitTime / hits)
 							+ " = " + hitTime);
@@ -120,6 +113,14 @@ public abstract class GeoGebraProfiler {
 				if (event > 0) {
 					Log.debug("Profile EventDispatcher: " + event + " x "
 							+ (eventTime / event) + " = " + eventTime);
+				}
+				if (drags > 0) {
+					Log.debug("Profile Dragging: \nNumber of handled drag events: " + drags + "\n"
+							+ "Average duration of one drag event: "
+							+ ((float) dragTime / (float) drags) + " ms \n"
+							+ "Number of repaints: " + repaints + "\n"
+							+ "Average duration of one repaint: " + ((float) repaintTime / repaints) +
+							" ms");
 				}
 			}
 		}
@@ -172,24 +173,6 @@ public abstract class GeoGebraProfiler {
 	}
 
 	/**
-	 * Increase ignored event counter.
-	 */
-	public static void incrementMoveEventsIgnored() {
-		synchronized (lock) {
-			moveEventsIgnored++;
-		}
-	}
-
-	/**
-	 * Decrease ignored event counter.
-	 */
-	public static void decrementMoveEventsIgnored() {
-		synchronized (lock) {
-			moveEventsIgnored--;
-		}
-	}
-
-	/**
 	 * @param t
 	 *            drag duration
 	 */
@@ -208,4 +191,5 @@ public abstract class GeoGebraProfiler {
 			drags++;
 		}
 	}
+
 }

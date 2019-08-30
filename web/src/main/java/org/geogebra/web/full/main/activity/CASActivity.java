@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigCas;
@@ -39,9 +40,11 @@ public class CASActivity extends BaseActivity {
 
 	@Override
 	public void start(AppW app) {
-		app.getKernel().getGeoGebraCAS().initCurrentCAS();
-		app.getKernel().getAlgebraProcessor()
+		Kernel kernel = app.getKernel();
+		kernel.getGeoGebraCAS().initCurrentCAS();
+		kernel.getAlgebraProcessor()
 				.addCommandNameFilter(CommandNameFilterFactory.createCasCommandNameFilter());
+		kernel.getParser().setCasParsing(true);
 	}
 
 }

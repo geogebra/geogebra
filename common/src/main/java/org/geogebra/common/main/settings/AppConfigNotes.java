@@ -29,4 +29,8 @@ public class AppConfigNotes extends AppConfigDefault {
 		return "notes";
 	}
 
+	@Override
+	public String getTutorialKey() {
+		return "notes_tutorials";
+	}
 }

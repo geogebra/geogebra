@@ -26,7 +26,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "";
+		return "cas_tutorials";
 	}
 
 	@Override

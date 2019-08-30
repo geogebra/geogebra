@@ -74,8 +74,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 @SuppressWarnings("javadoc")
-public class Parser implements ParserInterface{
+public class Parser implements ParserInterface {
 
+    private boolean casParsing;
     private Kernel kernel;
     private App app;
     private Localization loc;
@@ -92,11 +93,22 @@ public class Parser implements ParserInterface{
         functionParser = new FunctionParser(kernel);
         app = kernel.getApplication();
         loc = app.getLocalization();
+        casParsing = false;
     }
 
     public Kernel getKernel()
     {
       return kernel;
+    }
+
+    /**
+     * Set the parser to parse for CAS.
+     * This will generally ensure higher precision.
+     *
+     * @param casParsing true to parse for CAS, false otherwise
+     */
+    public void setCasParsing(boolean casParsing) {
+        this.casParsing = casParsing;
     }
 
     // reset for new parsing
@@ -115,11 +127,26 @@ public class Parser implements ParserInterface{
     /**
      * Parses a String and returns a ValidExpression Object
      */
-    public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
+    public ValidExpression parseGeoGebra(String parseString) throws ParseException {
         myReInit( parseString.length() > 0 && parseString.charAt(0)=='=' ? parseString.substring(1):parseString );
         ValidExpression ret = buildValidExpression();
         processUndecided();
         return ret;
+    }
+
+    /**
+     * Parses a string and returns a ValidExpression object. The implementation
+     * takes into account whether it is parsing for CAS or not.
+     *
+     * @param parseString string to parse
+     * @return the parsed structure
+     */
+    public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
+        if (casParsing) {
+            return parseGeoGebraCAS(parseString, null);
+        } else {
+            return parseGeoGebra(parseString);
+        }
     }
 
      /**
