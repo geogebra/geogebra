@@ -30,7 +30,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
 	@Override
 	public void onEnter() {
-
+		// TODO: implement this
 	}
 
 	@Override
@@ -75,6 +75,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
 	@Override
 	public void onTab(boolean shiftDown) {
+		// TODO: implement this.
 	}
 
 	@Override

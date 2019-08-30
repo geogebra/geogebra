@@ -1002,6 +1002,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
+	 * Scrolls content horizontally,  based on the cursor position
+	 *
 	 * @param parentPanel
 	 *            panel to be scrolled
 	 * @param margin
@@ -1019,6 +1021,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}
 	}
 
+	/**
+	 * Scrolls content verically, based on the cursor position
+	 *
+	 * @param parentPanel
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to left/right border
+	 */
 	public static void scrollParentVertically(FlowPanel parentPanel, int margin) {
 		Element elem = parentPanel.getElement();
 		int height = parentPanel.getOffsetHeight();
