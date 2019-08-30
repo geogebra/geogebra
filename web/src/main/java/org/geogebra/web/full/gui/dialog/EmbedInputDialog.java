@@ -34,7 +34,7 @@ public class EmbedInputDialog extends MediaDialog
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public EmbedInputDialog(AppW app, URLChecker urlChecker) {
+	EmbedInputDialog(AppW app, URLChecker urlChecker) {
 		super(app.getPanel(), app);
 		this.urlChecker = urlChecker;
 		updateInfo();
@@ -71,7 +71,7 @@ public class EmbedInputDialog extends MediaDialog
 	 * @param input
 	 *            embed URL or code
 	 */
-	void addEmbed(String input) {
+	private void addEmbed(String input) {
 		resetError();
 		String url = extractURL(input);
 		if (!input.startsWith("<")) {
@@ -91,7 +91,8 @@ public class EmbedInputDialog extends MediaDialog
 
 						@Override
 						public void onError(Throwable exception) {
-							// TODO Auto-generated method stub
+							showEmptyEmbeddedElement();
+							hide();
 						}
 					});
 		} else {
@@ -99,7 +100,21 @@ public class EmbedInputDialog extends MediaDialog
 		}
 	}
 
-	protected void embedGeoGebraAndHide(String base64) {
+	private void showEmptyEmbeddedElement() {
+		showEmbeddedElement("");
+	}
+
+	private void showEmbeddedElement(String url) {
+		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setUrl(url);
+		ge.setAppName("extension");
+		ge.initPosition(app.getActiveEuclidianView());
+		ge.setEmbedId(app.getEmbedManager().nextID());
+		ge.setLabel(null);
+		app.storeUndoInfo();
+	}
+
+	private void embedGeoGebraAndHide(String base64) {
 		getApplication().getEmbedManager().embed(base64);
 		app.storeUndoInfo();
 		hide();
@@ -132,13 +147,7 @@ public class EmbedInputDialog extends MediaDialog
 	@Override
 	public void callback(URLStatus obj) {
 		if (obj.getErrorKey() == null) {
-			GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-			ge.setUrl(obj.getUrl());
-			ge.setAppName("extension");
-			ge.initPosition(app.getActiveEuclidianView());
-			ge.setEmbedId(app.getEmbedManager().nextID());
-			ge.setLabel(null);
-			app.storeUndoInfo();
+			showEmbeddedElement(obj.getUrl());
 			hide();
 		} else {
 			showError(obj.getErrorKey());
