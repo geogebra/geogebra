@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -87,7 +88,73 @@ public class AlgoDiscover extends AlgoElement {
     public final void compute() {
     }
 
+    /*
+     * Build the whole database of trivial collinearities,
+     * including all points in the construction list
+     * that precedes the input.
+     */
+    private void detectTrivialCollinearities(GeoPoint p) {
+        int pindex = p.getConstructionIndex();
+        for (int j = 0; j <= pindex; j++) {
+            GeoElementND[] ge = cons.getConstructionElement(j).getGeoElements();
+            for (int k = 0; k < ge.length; k++) {
+                if (ge[k] instanceof GeoPoint) {
+                    collectTrivialCollinearites((GeoPoint) ge[k]);
+                }
+            }
+        }
+    }
+
+    /*
+     * Extend the database of trivial collinearities by
+     * collecting all of them for a given input.
+     */
+    private void collectTrivialCollinearites(GeoPoint p0) {
+        Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
+        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+        int p0index = p0.getConstructionIndex();
+
+        HashSet<GeoPoint> prevPoints = new HashSet<GeoPoint>();
+        for (int j = 0; j < p0index; j++) {
+            GeoElementND[] ge = cons.getConstructionElement(j).getGeoElements();
+            for (int k = 0; k < ge.length; k++) {
+                if (ge[k] instanceof GeoPoint) {
+                    prevPoints.add((GeoPoint) ge[k]);
+                }
+            }
+        }
+
+        Combinations lines = new Combinations(prevPoints, 2);
+
+        while (lines.hasNext()) {
+            Set<GeoPoint> line = lines.next();
+            Iterator<GeoPoint> i = line.iterator();
+            GeoPoint p1 = i.next();
+            GeoPoint p2 = i.next();
+            if (!trivialPool.areCollinear(p0, p1, p2) &&
+                    !discoveryPool.areCollinear(p0, p1, p2)) {
+                // Add {p0,p1,p2} to the trivial pool if they are trivially collinear:
+                checkCollinearity(p0, p1, p2);
+                checkCollinearity(p1, p2, p0);
+                checkCollinearity(p2, p0, p1);
+            }
+            if (!trivialPool.areCollinear(p0, p1, p2)) {
+                trivialPool.addLine(p1, p2);
+                trivialPool.addLine(p0, p1);
+                trivialPool.addLine(p0, p2);
+            }
+        }
+        // TODO: Here a second round is needed to
+        // put non-trivial collinearities in the
+        // discovery pool.
+    }
+
     public final void initialCompute() {
+
+        detectTrivialCollinearities((GeoPoint) this.input);
+        // Remove this to get collinearity check demo:
+        if (1 + 2 == 3)
+            return;
 
         Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
         Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
