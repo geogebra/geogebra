@@ -52,7 +52,8 @@ public class Pool {
          *
          * If there is no such problem, we simply add p to l.
          */
-        for (GeoPoint pl : l.getPoints()) {
+        HashSet<GeoPoint> pointlist = (HashSet<GeoPoint>) l.getPoints().clone();
+        for (GeoPoint pl : pointlist) {
             Line el = getLine(pl, p);
             if (el != null && !el.equals(l)) {
                 for (GeoPoint ep : el.getPoints()) {

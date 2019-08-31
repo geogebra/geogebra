@@ -38,4 +38,12 @@ public class Line {
         points.add(p);
     }
 
+    public String toString() {
+        String ret = "";
+        for (GeoPoint p : points) {
+            ret += p.getLabelSimple();
+        }
+        return ret;
+    }
+
 }
