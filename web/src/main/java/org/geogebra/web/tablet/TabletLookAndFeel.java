@@ -1,6 +1,6 @@
 package org.geogebra.web.tablet;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
@@ -91,8 +91,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return Versions.ANDROID_WEBVIEW;
+	public Platform getPlatform(int dim, String appName) {
+		return Platform.ANDROID_WEBVIEW;
 	}
 
 	@Override

@@ -1,13 +1,10 @@
 
 .GeoGebraFrame {
    .evaluatorEditor {
-            padding-top: 2px;
-            padding-left: 2px;
-            border: 1px solid green;
-            width: 150px;
-            min-height: 48px;
-            max-height: 48px;
-            overflow: hidden !important;
+            margin: 4px;
+            width: calc(100% - 8px);
+            min-height: calc(100% - 8px);
+            max-height: calc(100% - 8px);
+            overflow: hidden;
          }
-
-}
+    }
