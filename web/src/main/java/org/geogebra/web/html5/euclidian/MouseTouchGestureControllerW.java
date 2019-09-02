@@ -22,6 +22,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.NativeEvent;
@@ -621,10 +622,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	private void wrapMouseDraggedWithProfiling(PointerEvent event, boolean startCapture) {
-		long dragStart = System.currentTimeMillis();
+		double dragStart = GeoGebraProfilerW.getMillisecondTimeNative();
 		GeoGebraProfiler.incrementDrags();
 		ec.wrapMouseDragged(event, startCapture);
-		GeoGebraProfiler.incrementDragTime((int) (System.currentTimeMillis() - dragStart));
+		GeoGebraProfiler.incrementDragTime((int) (GeoGebraProfilerW.getMillisecondTimeNative() - dragStart));
 	}
 
 	/**
