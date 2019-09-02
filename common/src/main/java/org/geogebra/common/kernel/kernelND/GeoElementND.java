@@ -1202,17 +1202,26 @@ public interface GeoElementND extends ExpressionValue {
 			throws CircularDefinitionException;
 
 	/**
+	 *
+	 * @param useChangeable if false, point on path is ignored
+	 * @param useOutputValueString if true, use outputValueString rather than valueString
+	 * @return Calls the 2 parametrized version of the function, with the third parameter: StringTemplate.editTemplate
+	 */
+	String getRedefineString(boolean useChangeable, boolean useOutputValueString);
+
+	/**
 	 * Returns definition or value string of this object. Automatically
 	 * increases decimals to at least 5, e.g. FractionText[4/3] -&gt;
 	 * FractionText[1.333333333333333]
-	 * 
+	 *
 	 * @param useChangeable
 	 *            if false, point on path is ignored
 	 * @param useOutputValueString
 	 *            if true, use outputValueString rather than valueString
 	 * @return definition or value string of this object
 	 */
-	String getRedefineString(boolean useChangeable, boolean useOutputValueString);
+	String getRedefineString(boolean useChangeable, boolean useOutputValueString,
+							 StringTemplate tpl);
 
 	/**
 	 * @return true for auxiliary objects

@@ -28,8 +28,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -114,6 +112,8 @@ import org.geogebra.common.util.lang.Language;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * 
@@ -691,9 +691,14 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getRedefineString(final boolean useChangeable,
-			final boolean useOutputValueString) {
+									final boolean useOutputValueString) {
+		return getRedefineString(useChangeable, useOutputValueString,
+				StringTemplate.editTemplate);
+	}
 
-		StringTemplate tpl = StringTemplate.editTemplate;
+	@Override
+	public String getRedefineString(final boolean useChangeable,
+			final boolean useOutputValueString, StringTemplate tpl) {
 		String ret = "";
 		final boolean isIndependent = !isPointOnPath() && useChangeable
 				? isChangeable() : isIndependent();

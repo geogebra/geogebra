@@ -108,10 +108,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		} else if (isSymbolicMode()) {
 			return toLaTex(linkedGeo);
 		}
-		return linkedGeo.getValueForInputBar();
+		return getLinkedGeoTextForEditor();
 	}
 
 	private String toLaTex(GeoElementND geo) {
+		if (geo.isGeoFunction()) {
+			return geo.getRedefineString(true, true,
+					StringTemplate.latexTemplate.makeStrTemplateForEditing());
+		}
 		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
@@ -414,11 +418,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 *            the Drawable's text field
 	 */
 	public void updateText(TextObject textFieldToUpdate) {
+		String linkedText = null;
 
 		if (linkedGeo != null) {
-
-			String linkedText;
-
 			if (linkedGeo.isGeoText()) {
 				linkedText = ((GeoText) linkedGeo).getTextString();
 			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath
@@ -431,9 +433,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
-			}
 
+				if (linkedGeo.isGeoFunction()) {
+					linkedText = linkedGeo.getRedefineString(true, true);
+				} else {
+					linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
+				}
+			}
 			if (linkedText == null) {
 				linkedText = "";
 			}
@@ -666,6 +672,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private String getLinkedGeoTextForEditor() {
+		if (linkedGeo.isGeoFunction()) {
+			return linkedGeo.getRedefineString(true, true);
+		}
 		return linkedGeo.getValueForInputBar();
 	}
 
