@@ -672,7 +672,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private String getLinkedGeoTextForEditor() {
-		if (linkedGeo.isGeoFunction()) {
+		if (isSymbolicMode()) {
 			return linkedGeo.getRedefineString(true, true);
 		}
 		return linkedGeo.getValueForInputBar();
