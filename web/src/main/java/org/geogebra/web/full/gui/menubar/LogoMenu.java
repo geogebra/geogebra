@@ -26,7 +26,7 @@ public class LogoMenu extends Submenu {
 
 	@Override
 	protected String getTitleTranslationKey() {
-		return getApp().getConfig().getAppName();
+		return getApp().getConfig().getAppCode();
 	}
 
 }

@@ -1,6 +1,6 @@
 package org.geogebra.common.jre.headless;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
@@ -75,7 +75,7 @@ public class AppCommon extends App {
 	 *            AWT factory
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
-		super(Versions.ANDROID_NATIVE_GRAPHING);
+		super(Platform.ANDROID);
 		AwtFactory.setPrototypeIfNull(awtFactory);
         initFactories();
 		initKernel();

@@ -3,7 +3,7 @@ package org.geogebra.web.full;
 import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
@@ -145,8 +145,8 @@ public class Web implements EntryPoint {
 		if (!((CASFactory) GWT.create(CASFactory.class)).isEnabled()) {
 			return new GLookAndFeel() {
 				@Override
-				public Versions getVersion(int dim, String appName) {
-					return Versions.NO_CAS;
+				public Platform getPlatform(int dim, String appName) {
+					return Platform.NO_CAS;
 				}
 			};
 		}
