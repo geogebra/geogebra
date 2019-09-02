@@ -48,7 +48,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -1000,26 +999,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void tab(boolean shiftDown) {
 		mathFieldInternal.onTab(shiftDown);
-	}
-
-	/**
-	 * Scrolls content horizontally,  based on the cursor position
-	 *
-	 * @param parentPanel
-	 *            panel to be scrolled
-	 * @param margin
-	 *            minimal distance from cursor to left/right border
-	 */
-	public static void scrollParentHorizontally(FlowPanel parentPanel, int margin) {
-		if (parentPanel.getOffsetWidth() + parentPanel.getElement().getScrollLeft()
-				- margin < CursorBox.startX) {
-			parentPanel.getElement().setScrollLeft((int) CursorBox.startX
-					- parentPanel.getOffsetWidth() + margin);
-		} else if (CursorBox.startX < parentPanel.getElement().getScrollLeft()
-				+ margin) {
-			parentPanel.getElement()
-					.setScrollLeft((int) CursorBox.startX - margin);
-		}
 	}
 
 	@Override

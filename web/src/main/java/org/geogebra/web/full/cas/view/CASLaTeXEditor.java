@@ -37,6 +37,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -56,6 +57,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	private Widget dummy;
 	private Canvas canvas;
 	private boolean editAsText;
+	private MathFieldScroller scroller;
 
 	/**
 	 * @param app
@@ -332,8 +334,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onCursorMove() {
-		MathFieldW.scrollParentHorizontally(this, 20);
+		if (scroller == null) {
+			scroller = new MathFieldScroller(this);
+		}
+
+		scroller.scrollHorizontallyToCursor(20);
 	}
+
 
 	@Override
 	public void onUpKeyPressed() {
