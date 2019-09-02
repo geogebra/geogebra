@@ -550,6 +550,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		template.hideLHS = true;
 	}
 
+	/**
+	 * Returns a string template with the property that the hideLHS = true
+	 * @return s new String template
+	 */
 	public StringTemplate makeStrTemplateForEditing() {
 		StringTemplate ret = this.copy();
 		ret.hideLHS = true;

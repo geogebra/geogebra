@@ -1203,8 +1203,8 @@ public interface GeoElementND extends ExpressionValue {
 
 	/**
 	 *
-	 * @param useChangeable
-	 * @param useOutputValueString
+	 * @param useChangeable if false, point on path is ignored
+	 * @param useOutputValueString if true, use outputValueString rather than valueString
 	 * @return Calls the 2 parametrized version of the function, with the third parameter: StringTemplate.editTemplate
 	 */
 	String getRedefineString(boolean useChangeable, boolean useOutputValueString);
@@ -1220,7 +1220,8 @@ public interface GeoElementND extends ExpressionValue {
 	 *            if true, use outputValueString rather than valueString
 	 * @return definition or value string of this object
 	 */
-	String getRedefineString(boolean useChangeable, boolean useOutputValueString, StringTemplate tpl);
+	String getRedefineString(boolean useChangeable, boolean useOutputValueString,
+							 StringTemplate tpl);
 
 	/**
 	 * @return true for auxiliary objects

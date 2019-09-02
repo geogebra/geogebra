@@ -418,7 +418,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 *            the Drawable's text field
 	 */
 	public void updateText(TextObject textFieldToUpdate) {
-		String linkedText =null;
+		String linkedText = null;
 
 		if (linkedGeo != null) {
 			if (linkedGeo.isGeoText()) {

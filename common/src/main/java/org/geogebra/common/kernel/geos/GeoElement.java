@@ -686,7 +686,8 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String getRedefineString(final boolean useChangeable,
 									final boolean useOutputValueString) {
-		return getRedefineString(useChangeable,useOutputValueString, StringTemplate.editTemplate);
+		return getRedefineString(useChangeable, useOutputValueString,
+				StringTemplate.editTemplate);
 	}
 
 	@Override
