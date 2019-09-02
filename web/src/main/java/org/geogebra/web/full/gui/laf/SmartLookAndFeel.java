@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.laf;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.euclidian.SmartTouchHandler;
@@ -113,8 +113,8 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return Versions.SMART;
+	public Platform getPlatform(int dim, String appName) {
+		return Platform.SMART;
 	}
 
 	@Override
