@@ -7569,7 +7569,7 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	private void getLaTeXAuralCaption (ScreenReaderBuilder sb) {
+	private void getLaTeXAuralCaption(ScreenReaderBuilder sb) {
 		teXFormula = getTexFormula();
 		teXFormula.setLaTeX(caption);
 		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
