@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.laf;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.web.shared.SignInController;
 
@@ -32,7 +32,7 @@ public class OfficeLookAndFeel extends SmartLookAndFeel {
     }
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return Versions.POWERPOINT;
+	public Platform getPlatform(int dim, String appName) {
+		return Platform.POWERPOINT;
 	}
 }

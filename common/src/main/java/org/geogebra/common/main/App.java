@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -401,7 +401,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-	private Versions version;
+	private Platform platform;
 	/**
 	 * static so that you can copy & paste between instances
 	 */
@@ -433,18 +433,20 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Please call setVersion right after this
+	 * Please call setPlatform right after this
 	 */
 	public App() {
 		init();
 	}
 
 	/**
-	 * constructor
+	 * Create app with specific platform
+	 *
+	 * @param platform the platform
 	 */
-	public App(Versions version) {
+	public App(Platform platform) {
 		this();
-		this.version = version;
+		this.platform = platform;
 	}
 
 	protected void init() {
@@ -468,13 +470,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Changes version; should be called only once, right after the constructor
+	 * Sets the Platform; should be called only once, right after the constructor
 	 *
-	 * @param version
-	 *            version
+	 * @param platform
+	 *            platform
 	 */
-	public void setVersion(Versions version) {
-		this.version = version;
+	public void setPlatform(Platform platform) {
+		this.platform = platform;
 	}
 
 	/**
@@ -3044,8 +3046,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getVersionString() {
 
-		if (version != null) {
-			return version.getVersionString(prerelease, canary);
+		if (platform != null) {
+			return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3872,7 +3874,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return prerelease;
 
 		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
 
 		case TOOL_EDITOR:
 			return prerelease;
@@ -4528,8 +4530,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return adjustViews.isPortait();
 	}
 
-	public Versions getVersion() {
-		return version;
+	/**
+	 * Get the platform the app is running on.
+	 *
+	 * @return the platform
+	 */
+	public Platform getPlatform() {
+		return platform;
 	}
 
 	/**
@@ -4728,7 +4735,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
 		ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getVersion().isPhone());
+		set.setFrom(getConfig(), getPlatform().isPhone());
 		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 
@@ -4752,37 +4759,22 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
 		AbstractToolCollectionFactory factory = null;
-		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_CAS:
-			case IOS_NATIVE:
-			case IOS_CAS:
-			case WEB_GRAPHING:
+		switch (getConfig().getToolbarType()) {
+			case GRAPHING_CALCULATOR:
 				factory = new GraphingToolCollectionFactory();
 				break;
-			case ANDROID_GEOMETRY:
-			case IOS_GEOMETRY:
-			case WEB_GEOMETRY:
-			case WEB_GEOMETRY_OFFLINE:
+			case GEOMETRY_CALC:
 				factory = new GeometryToolCollectionFactory();
 				break;
-			case ANDROID_NATIVE_3D:
-			case WEB_3D_GRAPHING:
-			case IOS_NATIVE_3D:
+			case GRAPHER_3D:
 				factory = new Graphing3DToolCollectionFactory();
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();
 		}
-		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_CAS:
-			case ANDROID_GEOMETRY:
-			case ANDROID_NATIVE_3D:
-			case IOS_GEOMETRY:
-			case IOS_NATIVE:
-			case IOS_NATIVE_3D:
-			case IOS_CAS:
+		switch (getPlatform()) {
+			case ANDROID:
+			case IOS:
 				factory.setPhoneApp(true);
 				break;
 			default:
