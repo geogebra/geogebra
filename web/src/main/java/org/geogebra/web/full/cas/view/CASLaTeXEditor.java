@@ -337,10 +337,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		if (scroller == null) {
 			scroller = new MathFieldScroller(this);
 		}
-
 		scroller.scrollHorizontallyToCursor(20);
 	}
-
 
 	@Override
 	public void onUpKeyPressed() {

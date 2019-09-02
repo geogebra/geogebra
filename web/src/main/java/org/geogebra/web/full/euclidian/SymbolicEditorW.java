@@ -57,11 +57,9 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private int mainHeight;
 	private String text;
 	private RetexKeyboardListener retexListener;
-
 	private Canvas canvas;
 	private boolean preventBlur;
 	private MathFieldScroller scroller;
-
 
 	/**
 	 * Constructor
