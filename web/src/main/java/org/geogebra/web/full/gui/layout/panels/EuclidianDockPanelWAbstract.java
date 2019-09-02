@@ -11,6 +11,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -489,5 +490,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			getEuclidianPanel().oldWidth = 0;
 			getEuclidianPanel().oldHeight = 0;
 		}
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		EuclidianView ev = getEuclidianView();
+		if (ev instanceof EuclidianViewW) {
+			return ((EuclidianViewW) ev).getKeyboardListener();
+		}
+		return null;
 	}
 }

@@ -531,7 +531,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
-	private SymbolicEditor symbolicEditor = null;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -2072,11 +2071,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d == null) {
 			return;
 		}
+		drawLayers[layer].remove(d);
 		if (d instanceof RemoveNeeded) {
-			drawLayers[layer].remove(d);
 			((RemoveNeeded) d).remove();
-		} else {
-			drawLayers[layer].remove(d);
 		}
 		allDrawableList.remove(d);
 
@@ -6630,30 +6627,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 			where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
-		if (symbolicEditor == null) {
-			symbolicEditor = createSymbolicEditor();
-		}
-		if (symbolicEditor != null) {
-			symbolicEditor.attach(geoInputBox, bounds);
-		}
-	}
-
-	/**
-	 * Creates the symbolic editor by platform
-	 *
-	 * @return the symbolic editor instance.
-	 */
-	protected SymbolicEditor createSymbolicEditor() {
-		return null;
+		// overridden in Web
 	}
 
 	/**
 	 * Hides the symbolic editor of EV input fields
 	 */
 	public void hideSymbolicEditor() {
-    	if (symbolicEditor == null) {
-    		return;
-		}
-    	symbolicEditor.hide();
+		// implementation not needed here
+	}
+
+	/**
+	 * @param mouseLoc
+	 *            mouse coordinates
+	 * @return whether symbolic editor was clicked
+	 */
+	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
+		return false;
 	}
 }

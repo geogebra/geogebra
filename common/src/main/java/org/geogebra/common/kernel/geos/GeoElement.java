@@ -34,6 +34,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
@@ -48,8 +49,8 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -111,6 +112,8 @@ import org.geogebra.common.util.lang.Language;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * 
@@ -320,6 +323,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
+
+	private TeXFormula teXFormula;
+	private TeXAtomSerializer texAtomSerializer;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -7551,11 +7557,36 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			sb.append(getCaption(StringTemplate.defaultTemplate));
+			String myCaption = getCaption(StringTemplate.defaultTemplate);
+			if (CanvasDrawable.isLatexString(myCaption)) {
+				getLaTeXAuralCaption(sb);
+			} else {
+				sb.append(myCaption);
+			}
 			sb.endSentence();
 			return true;
 		}
 		return false;
+	}
+
+	private void getLaTeXAuralCaption(ScreenReaderBuilder sb) {
+		teXFormula = getTexFormula();
+		teXFormula.setLaTeX(caption);
+		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
+	}
+
+	private TeXAtomSerializer getTexAtomSerializer() {
+		if (texAtomSerializer == null) {
+			texAtomSerializer = new TeXAtomSerializer(null);
+		}
+		return texAtomSerializer;
+	}
+
+	private TeXFormula getTexFormula() {
+		if (teXFormula == null) {
+			teXFormula = new TeXFormula(caption);
+		}
+		return teXFormula;
 	}
 
 	@Override

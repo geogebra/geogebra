@@ -20,6 +20,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
+	public static final double LABEL_FONT_MULTIPLIER = 1.2;
 
 	// private boolean drawingOnCanvas;
 	private GFont labelFont;
@@ -30,11 +31,6 @@ public abstract class CanvasDrawable extends Drawable {
 	int boxTop;
 	int boxWidth;
 	int boxHeight;
-
-	@Override
-	public boolean isHighlighted() {
-		return super.isHighlighted();
-	}
 
 	/**
 	 * @param text
@@ -204,14 +200,22 @@ public abstract class CanvasDrawable extends Drawable {
 			if (latex) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {
-				g2.fillRect(xLabel, yLabel + ((boxHeight - getH()) / 2),
-						labelSize.x, getH() + HIGHLIGHT_MARGIN);
+				g2.fillRect(xLabel, getLabelTop(),
+						labelSize.x, getLabelHeight());
 			}
 		}
 	}
 
-	private int getH() {
-		return (int) (getLabelFontSize() * 1.2 + HIGHLIGHT_MARGIN);
+	private int getLabelTop() {
+		return yLabel + ((boxHeight - getLabelTextHeight()) / 2);
+	}
+
+	private int getLabelHeight() {
+		return getLabelTextHeight() + HIGHLIGHT_MARGIN;
+	}
+
+	private int getLabelTextHeight() {
+		return (int) (getLabelFontSize() * LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
 	}
 
 	/**
@@ -283,8 +287,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @return if label rectangle was hit by (x, y) pointer.
 	 */
 	protected boolean hitLabelBounds(int x, int y) {
-		return x > xLabel && x < xLabel + labelSize.x && y > yLabel
-				&& y < yLabel + labelSize.y;
+		int top = getLabelTop();
+		return x > xLabel && x < xLabel + labelSize.x && y > top
+				&& y < top + getLabelHeight();
 	}
 
 	/**

@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
@@ -56,6 +57,7 @@ import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -2170,9 +2172,11 @@ public class GuiManagerW extends GuiManager
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
+			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
+					&& !getApp().getKeyboardManager().shouldDetach();
 			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
 					app.getConfig().hasScientificKeyboard(),
-					app.getConfig().showKeyboardHelpButton());
+					showMoreButton);
 		}
 
 		if (textField != null) {
@@ -2520,5 +2524,19 @@ public class GuiManagerW extends GuiManager
 			btn.setExternal(true);
 			btn.addToGlobalHeader();
 		}
+	}
+
+	@Override
+	public SymbolicEditor createSymbolicEditor() {
+		return new SymbolicEditorW(app);
+	}
+
+	/**
+	 * @return Whether there is an available keyboard listener.
+	 */
+	public boolean hasKeyboardListener() {
+		DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
+		MathKeyboardListener keyboardListener = getKeyboardListener(dockPanelForKeyboard);
+		return keyboardListener != null;
 	}
 }

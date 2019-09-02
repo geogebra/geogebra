@@ -63,6 +63,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
 import org.geogebra.web.full.gui.layout.DockManagerW;
@@ -177,6 +178,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private ShareControllerW shareController;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
+	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
 
@@ -808,7 +810,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		hideMenu();
 		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
-				&& query == null
+				&& StringUtil.emptyTrim(query)
 				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
 				((OpenFileView) getGuiManager().getBrowseView())
 						.updateMaterials();
@@ -1476,6 +1478,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
+		if (euclidianController.isSymbolicEditorSelected()) {
+			return;
+		}
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
@@ -2093,5 +2098,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public JavaScriptObject getEmbeddedCalculators() {
 		getEmbedManager();
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
+	}
+
+	/**
+	 * @return manager for showing/hiding keyboard
+	 */
+	public KeyboardManager getKeyboardManager() {
+		if (keyboardManager == null) {
+			keyboardManager = new KeyboardManager(this);
+		}
+		return keyboardManager;
 	}
 }

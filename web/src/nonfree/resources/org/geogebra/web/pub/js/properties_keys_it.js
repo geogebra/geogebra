@@ -2805,7 +2805,7 @@ __GGB__keysVar["it"].menu = {
     "Split.Help": "Seleziona le colonne da dividere",
     "Spreadsheet": "Foglio di calcolo",
     "SpreadsheetOptions": "Opzioni Foglio di Calcolo",
-    "Squared1": "Quadretti (1 mm)",
+    "Squared1": "Carta millimetrata",
     "Squared5": "Quadretti (5 mm)",
     "Stack": "Impila le colonne",
     "Stack.Help": "Seleziona le colonne da impilare",

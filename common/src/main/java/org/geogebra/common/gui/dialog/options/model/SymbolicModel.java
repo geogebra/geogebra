@@ -25,7 +25,7 @@ public class SymbolicModel extends BooleanOptionModel {
 			return false;
 		}
 
-		return geo.isGeoInputBox() && ((GeoInputBox)geo).canLinkedGeoBeSybolic();
+		return geo.isGeoInputBox() && ((GeoInputBox)geo).canBeSymbolic();
 	}
 
 	@Override

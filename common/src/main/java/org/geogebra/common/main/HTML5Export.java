@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -111,7 +112,9 @@ public class HTML5Export {
 
 		sb.append("var views = {");
 		sb.append("'is3D': ");
-		sb.append(app.getKernel().getConstruction().has3DObjects() ? "1" : "0");
+		Construction construction = app.getKernel().getConstruction();
+		boolean useWeb3D = construction.requires3D();
+		sb.append(useWeb3D ? "1" : "0");
 		if (gui != null) {
 			sb.append(",'AV': ");
 			sb.append(gui.hasAlgebraView() && gui.getAlgebraView().isShowing()

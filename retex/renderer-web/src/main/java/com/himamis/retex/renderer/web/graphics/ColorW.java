@@ -66,4 +66,8 @@ public class ColorW implements Color {
 		return cssColor;
 	}
 
+	public void setColor(String cssColorString) {
+		cssColor = CssColor.make(cssColorString);
+	}
+
 }

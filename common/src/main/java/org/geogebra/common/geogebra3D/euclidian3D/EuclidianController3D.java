@@ -1,6 +1,8 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -98,9 +100,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Controller for the 3D view

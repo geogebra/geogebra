@@ -119,6 +119,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
+	private String foregroundCssColor = "#000000";
+	private String backgroundCssColor = "#ffffff";
 
 	/**
 	 * 
@@ -558,11 +560,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		ctx.setFillStyle("rgb(255,255,255)");
+		ctx.setFillStyle(backgroundCssColor);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
-
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(0, 0, 0),
-				"#FFFFFF", null, ratio);
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
+				backgroundCssColor, null, ratio);
 	}
 
 	private static boolean mobileBrowser() {
@@ -1006,7 +1007,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * @param margin
 	 *            minimal distance from cursor to left/right border
 	 */
-	public static void scrollParent(FlowPanel latexItem, int margin) {
+	public static void  scrollParent(FlowPanel latexItem, int margin) {
 		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
 				- margin < CursorBox.startX) {
 			latexItem.getElement().setScrollLeft((int) CursorBox.startX
@@ -1137,4 +1138,23 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return inputTextArea;
 	}
 
+	/**
+	 * Sets foreground color in rgba(r, g, b, a) format.
+	 *
+	 * @param cssColor
+	 * 			to set.
+	 */
+	public void setForegroundCssColor(String cssColor) {
+		this.foregroundCssColor = cssColor;
+	}
+
+	/**
+	 * Sets background color in #rrggbb format.
+	 *
+	 * @param cssColor
+	 * 			to set.
+	 */
+	public void setBackgroundCssColor(String cssColor) {
+		this.backgroundCssColor = cssColor;
+	}
 }

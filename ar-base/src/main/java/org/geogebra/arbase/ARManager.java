@@ -1,6 +1,9 @@
 package org.geogebra.arbase;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
@@ -13,9 +16,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.DoubleUtil;
-
-import java.util.HashMap;
-import java.util.Map;
 
 abstract public class ARManager<TouchEventType> implements ARManagerInterface<TouchEventType> {
 

@@ -7552,10 +7552,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
+
+				if (textField && !isMoveTextFieldExpected((GeoInputBox) movedGeoElement)) {
+					return;
+				}
+
 				// ie Button Mode is really selected
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
 				moveAbsoluteLocatable(movedGeoButton, MOVE_BUTTON);
+
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7618,6 +7624,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+	}
+
+	private boolean isMoveTextFieldExpected(GeoInputBox geoInputBox) {
+		if (geoInputBox.isEditing()) {
+			return false;
+		}
+
+		if (geoInputBox.isSymbolicMode() && isDraggingBeyondThreshold()) {
+			view.hideSymbolicEditor();
+		}
+
+		return true;
 	}
 
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int absMoveMode) {
@@ -9543,6 +9561,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (tf != null && tf.hasFocus()) {
 			view.requestFocusInWindow();
 		}
+
+		if (isSymbolicEditorSelected()) {
+			resetSelectionFlags();
+			return;
+		}
+
 		altCopy = true;
 
 		DrawDropDownList dl = getComboBoxHit();
@@ -9697,14 +9721,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		transformCoords();
 
-		moveModeSelectionHandled = false;
-		draggingOccured = false;
-		draggingBeyondThreshold = false;
-		view.setSelectionRectangle(null);
-
-		if (mouseLoc != null) {
-			selectionStartPoint.setLocation(mouseLoc);
-		}
+		resetSelectionFlags();
 
 		if (hitResetIcon()
 				|| view.hitAnimationButton(event.getX(), event.getY())) {
@@ -9748,6 +9765,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	private void resetSelectionFlags() {
+		moveModeSelectionHandled = false;
+		draggingOccured = false;
+		draggingBeyondThreshold = false;
+		view.setSelectionRectangle(null);
+		if (mouseLoc != null) {
+			selectionStartPoint.setLocation(mouseLoc);
+		}
+	}
+
+	public boolean isSymbolicEditorSelected() {
+		return view.isSymbolicEditorClicked(mouseLoc);
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {

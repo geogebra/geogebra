@@ -1,16 +1,23 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.awt.GPoint;
 
 /**
- * MathField-capable editor for input boxes on Euclidian View.
+ * MathField-capable editor for input boxes on EuclidianView.
  *
  * @author Laszlo
  */
 public interface SymbolicEditor {
 
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds);
+	/**
+	 * Hide the editor if it was attached.
+	 */
+	void hide();
 
-	public void hide();
+	/**
+	 * @param point
+	 *            mouse coordinates
+	 * @return if editor is clicked.
+	 */
+	boolean isClicked(GPoint point);
 }

@@ -43,6 +43,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	private String text = null;
 	private boolean symbolicMode = false;
+	private boolean editing = false;
 
 	/**
 	 * Creates new text field
@@ -273,8 +274,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 		if (linkedGeo.isGeoNumeric()) {
 			try {
-				parsed = kernel.getParser()
-						.parseExpression(text);
+				parsed = kernel.getParser().parseExpression(inputText);
 
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
@@ -385,7 +385,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private boolean isLinkedNumberValueNotChanged(String text) {
-		if (canLinkedGeoBeSybolic() && linkedGeo.isGeoNumeric()) {
+		if (isSymbolicMode() && canBeSymbolicNumber()) {
 			GeoNumeric evaluatedNumber = new GeoNumeric(kernel.getConstruction());
 			kernel.getAlgebraProcessor().evaluateToDouble(text, true, evaluatedNumber);
 			String linkedNonSymbolic = getNonSymbolicNumberValue(linkedGeo);
@@ -400,7 +400,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		if (!geo.isGeoNumeric()) {
 			return null;
 		}
-		return ((GeoNumeric) geo).toValueStringMinimal();
+		return getFormattedDouble((GeoNumeric) geo);
 	}
 
 	private void showError() {
@@ -593,32 +593,35 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 
 	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
+		if (linkedGeo == null) {
+			return;
+		}
+
 		this.symbolicMode = mode;
 		setText(getLinkedGeoText());
 	}
 
 	@Override
 	public boolean isSymbolicMode() {
-		return canLinkedGeoBeSybolic() && symbolicMode;
+		return canBeSymbolic() && symbolicMode;
 	}
 
 	/**
 	 *
 	 * @return if linked object can be a symbolic one.
 	 */
-	public boolean canLinkedGeoBeSybolic() {
-		if (linkedGeo == null) {
-			return false;
-		}
-		return linkedGeo.isGeoNumeric() || linkedGeo.isGeoFunction();
+	public boolean canBeSymbolic() {
+		return linkedGeo != null && ((canBeSymbolicNumber()) || linkedGeo.isGeoFunction());
 	}
 
-	// private boolean isLinkedGeoSimple() {
-	// if (!linkedGeo.isGeoNumeric()) {
-	// return false;
-	// }
-	// return ((GeoNumeric) linkedGeo).isSimple();
-	// }
+	private boolean canBeSymbolicNumber() {
+		if (!linkedGeo.isGeoNumeric()) {
+			return false;
+		}
+
+		GeoNumeric number = (GeoNumeric) linkedGeo;
+		return !number.isAngle();
+	}
 
 	/**
 	 *
@@ -629,20 +632,58 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			return getText();
 		}
 
-		if (linkedGeo.isGeoFunction()) {
-			return getLinkedGeoTextForEditor();
+		if (linkedGeo.isGeoNumeric()) {
+			return getLinkedSymbolicNumberForEditor();
 		}
 
-		return null;
+		return getLinkedGeoTextForEditor();
+	}
+
+	private String getLinkedSymbolicNumberForEditor() {
+		if (!linkedGeo.isDefined()) {
+			return "?";
+		}
+		GeoNumeric number = (GeoNumeric) linkedGeo;
+		return isLatexNeededFor(number) ? number.toLaTeXString(true, tpl)
+				: getFormattedDouble(number);
+	}
+
+	private String getFormattedDouble(GeoNumeric number) {
+		return kernel.format(number.getValue(), tpl);
 	}
 
 	private String getSymbolicNumberText() {
+		if (!linkedGeo.isDefined()) {
+			return "?";
+		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
-		return symbolicMode ? toLaTex(number) : number.toValueStringMinimal();
+		return isLatexNeededFor(number) ? toLaTex(number) : getFormattedDouble(number);
+	}
+
+	private boolean isLatexNeededFor(GeoNumeric number) {
+		return symbolicMode && !number.isSimple();
 	}
 
 	private String getLinkedGeoTextForEditor() {
 		return linkedGeo.getValueForInputBar();
 	}
 
+	/**
+	 *
+	 * @return if the GeoInputBox is under editing.
+	 */
+	public boolean isEditing() {
+		return editing;
+	}
+
+	/**
+	 * Set this true if an editor is active for this input box
+	 * or false if it is not.
+	 *
+	 * @param editing
+	 * 			to set.
+	 */
+	public void setEditing(boolean editing) {
+		this.editing = editing;
+	}
 }

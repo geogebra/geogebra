@@ -164,4 +164,18 @@ public class KeyboardSwitcher extends FlowPanel {
     public FlowPanel getContent() {
         return contents;
     }
+
+	/**
+	 * Shows the More button
+	 */
+	public void showMoreButton() {
+		moreButton.setVisible(true);
+	}
+
+	/**
+	 * Hides the More button
+	 */
+    public void hideMoreButton() {
+		moreButton.setVisible(false);
+	}
 }

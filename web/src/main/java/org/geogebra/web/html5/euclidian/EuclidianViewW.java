@@ -6,6 +6,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -23,6 +25,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -40,9 +43,11 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -109,6 +114,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private String svgBackgroundUri = null;
 	private MyImageW svgBackground = null;
+	private SymbolicEditor symbolicEditor = null;
 
 	private AnimationCallback repaintCallback = new AnimationCallback() {
 		@Override
@@ -1427,9 +1433,32 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	protected SymbolicEditor createSymbolicEditor() {
-		SymbolicEditorW editor = new SymbolicEditorW(app);
-		getAbsolutePanel().add(editor);
+	public void attachSymbolicEditor(GeoInputBox geoInputBox,
+			GRectangle bounds) {
+		if (symbolicEditor == null) {
+			symbolicEditor = createSymbolicEditor();
+		}
+		if (symbolicEditor instanceof InputBoxWidget) {
+			((InputBoxWidget) symbolicEditor).attach(geoInputBox, bounds,
+					getAbsolutePanel());
+		}
+	}
+
+	@Override
+	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
+		if (symbolicEditor == null) {
+			return false;
+		}
+		return symbolicEditor.isClicked(mouseLoc);
+	}
+
+	private SymbolicEditor createSymbolicEditor() {
+		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
+		if (gm == null) {
+			return null;
+		}
+
+		SymbolicEditor editor = gm.createSymbolicEditor();
 		return editor;
 	}
 
@@ -1816,5 +1845,15 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public PenPreviewLine newPenPreview() {
 		return new PenPreviewLineW();
+	}
+
+	/**
+	 * @return keyboard listener for active symbolic editor
+	 */
+	public MathKeyboardListener getKeyboardListener() {
+		if (symbolicEditor instanceof InputBoxWidget) {
+			return ((InputBoxWidget) symbolicEditor).getKeyboardListener();
+		}
+		return null;
 	}
 }
