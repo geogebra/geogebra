@@ -462,7 +462,7 @@ public class ExamEnvironment {
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return localization.getMenu(app.getConfig().getAppName());
+		return localization.getMenu(app.getConfig().getAppCode());
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -91,7 +91,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	private void resetVideo() {
 		Localization loc = app.getLocalization();
 		String message;
-		if (app.getVersion() == Versions.WEB_FOR_DESKTOP) {
+		if (app.getPlatform() == Platform.WEB) {
 			message = "";
 		} else if (Browser.isFirefox()) {
 			message = loc.getMenu("Webcam.Firefox");
