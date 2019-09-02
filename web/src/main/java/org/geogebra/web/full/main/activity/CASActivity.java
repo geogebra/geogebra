@@ -44,7 +44,7 @@ public class CASActivity extends BaseActivity {
 		kernel.getGeoGebraCAS().initCurrentCAS();
 		kernel.getAlgebraProcessor()
 				.addCommandNameFilter(CommandNameFilterFactory.createCasCommandNameFilter());
-		kernel.getParser().setCasParsing(true);
+		kernel.getParser().setHighPrecisionParsing(true);
 	}
 
 }
