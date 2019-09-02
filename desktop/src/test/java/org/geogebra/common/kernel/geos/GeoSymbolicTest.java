@@ -43,6 +43,7 @@ public class GeoSymbolicTest {
 	public static void setup() {
 		app = AlgebraTest.createApp();
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+		app.getKernel().getParser().setHighPrecisionParsing(true);
 		app.setRounding("10");
 		ap = app.getKernel().getAlgebraProcessor();
 		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
@@ -879,6 +880,13 @@ public class GeoSymbolicTest {
 		Assert.assertEquals(5, numberOfSpecialPoints());
 		updateSpecialPoints("h");
 		Assert.assertEquals(5, numberOfSpecialPoints());
+	}
+
+	@Test
+	public void testLargeNumbersAreParsedCorrectly() {
+		add("a=11111111111111111^2");
+		String result = getSymbolic("a").toValueString(StringTemplate.giacTemplate);
+		Assert.assertEquals("123456790123456787654320987654321", result);
 	}
 
 	private static int numberOfSpecialPoints() {
