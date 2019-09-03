@@ -82,4 +82,8 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 	public Widget asWidget() {
 		return mathFieldEditor.asWidget();
 	}
+
+	public void requestFocus() {
+		mathFieldEditor.requestFocus();
+	}
 }

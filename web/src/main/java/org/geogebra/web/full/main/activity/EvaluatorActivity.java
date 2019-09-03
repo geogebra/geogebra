@@ -21,5 +21,6 @@ public class EvaluatorActivity extends BaseActivity {
 		GeoGebraFrameW frame = appW.getAppletFrame();
 		frame.clear();
 		frame.add(editor);
+		editor.requestFocus();
 	}
 }

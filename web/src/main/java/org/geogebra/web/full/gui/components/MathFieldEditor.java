@@ -32,6 +32,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 
 	private final Kernel kernel;
 	private final GeoGebraFrameFull frame;
+	private final AppWFull app;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private MathFieldScroller scroller;
@@ -45,8 +46,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 *            The application.
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
-		kernel = app.getKernel();
-		frame = ((AppWFull) app).getAppletFrame();
+		this.app = (AppWFull) app;
+		kernel = this.app.getKernel();
+		frame = this.app.getAppletFrame();
 		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		initEventHandlers();
 	}
@@ -80,14 +82,15 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 * Called when editor was clicked.
 	 */
 	protected void editorClicked() {
-		setFocus();
+		requestFocus();
 	}
 
 	/**
 	 * Focus the editor
 	 */
-	public void setFocus() {
+	public void requestFocus() {
 		main.getElement().focus();
+		app.getGlobalKeyDispatcher().setFocused(true);
 		mathField.setFocus(true);
 		initAndShowKeyboard();
 	}
