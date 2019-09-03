@@ -23,6 +23,7 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 		if (!app.getConfig().hasAutomaticLabels()) {
 			addLabelingActions();
 		}
+		addActions(new DiscoverAction());
 		addActions(new DuplicateAction(algebraView), new DeleteAction(), new SettingsAction());
 	}
 
