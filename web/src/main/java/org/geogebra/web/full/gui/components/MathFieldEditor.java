@@ -87,6 +87,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 * Focus the editor
 	 */
 	public void setFocus() {
+		main.getElement().focus();
 		mathField.setFocus(true);
 		initAndShowKeyboard();
 	}
