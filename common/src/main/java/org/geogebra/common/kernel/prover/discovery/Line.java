@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Line {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
+    public boolean shown, shownSilent;
     private final int id;
     private GeoLine line;
 

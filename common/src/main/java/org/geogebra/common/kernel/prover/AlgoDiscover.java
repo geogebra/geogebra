@@ -178,9 +178,27 @@ public class AlgoDiscover extends AlgoElement {
             // Third round: Draw lines from the discovery pool
             // (those that are not yet drawn):
             for (Line l : discoveryPool.lines) {
+                boolean silentmode = cons.getKernel().isSilentMode();
+                boolean showline = false;
                 if (!oldLines.contains(l)) {
+                    showline = true;
+                }
+                if (oldLines.contains(l)) {
+                    if (silentmode && !l.shownSilent) {
+                        showline = true;
+                    }
+                    if (!silentmode && !l.shown) {
+                        showline = true;
+                    }
+                }
+                if (showline) {
                     GeoPoint[] twopoints = l.getPoints2();
                     addOutputLine(twopoints[0], twopoints[1]);
+                    if (!silentmode) {
+                        l.shown = true;
+                    } else {
+                        l.shownSilent = true;
+                    }
                 }
             }
         }
@@ -188,9 +206,6 @@ public class AlgoDiscover extends AlgoElement {
 
     public final void initialCompute() {
 
-        if (cons.getKernel().isSilentMode()) {
-            return; // Not supported right now.
-        }
         detectTrivialCollinearities((GeoPoint) this.input);
         // Remove this to get collinearity check demo:
         if (1 + 2 == 3)
