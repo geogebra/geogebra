@@ -45,6 +45,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private boolean symbolicMode = false;
 	private boolean editing = false;
 
+	StringTemplate stringTemplateForLaTeX;
+
 	/**
 	 * Creates new text field
 	 *
@@ -114,9 +116,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private String toLaTex(GeoElementND geo) {
 		if (geo.isGeoFunction()) {
 			return geo.getRedefineString(true, true,
-					StringTemplate.latexTemplate.makeStrTemplateForEditing());
+					getStringtemplateForLaTeX());
 		}
 		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
+	}
+
+	private StringTemplate getStringtemplateForLaTeX(){
+		if (stringTemplateForLaTeX == null) {
+			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
+		}
+		return stringTemplateForLaTeX;
 	}
 
 	/**
