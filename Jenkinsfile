@@ -15,11 +15,11 @@ pipeline {
             steps {
                 junit '**/build/test-results/test/*.xml'
                 recordIssues tools: [
-                    cpd(pattern: '**/build/reports/cpd/cpdCheck.xml'),
+                    cpd(pattern: '**/build/reports/cpd/cpdCheck.xml')
                 ]
                 recordIssues qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]], tools: [
                     spotBugs(pattern: '**/build/reports/spotbugs/*.xml', useRankAsPriority: true), 
-                    pmdParser(pattern: '**/build/reports/pmd/main.xml')
+                    pmdParser(pattern: '**/build/reports/pmd/main.xml'),
                     checkStyle(pattern: '**/build/reports/checkstyle/*.xml')
                 ]
                 publishCoverage adapters: [jacocoAdapter('**/build/reports/jacoco/test/*.xml')],
