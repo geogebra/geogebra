@@ -843,4 +843,14 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getParamVendor() {
 		return getStringDataParam("vendor", "");
 	}
+
+	@Override
+	public int getParamFontSize(int def) {
+		return getIntegerAttribute("fontSize", def);
+	}
+
+	@Override
+	public String getParamKeyboardType(String def) {
+		return getStringDataParam("keyboardType", def);
+	}
 }
