@@ -89,10 +89,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 * Focus the editor
 	 */
 	public void requestFocus() {
-		main.getElement().focus();
 		app.getGlobalKeyDispatcher().setFocused(true);
 		mathField.setFocus(true);
-		initAndShowKeyboard();
 	}
 
 	/**
@@ -129,18 +127,5 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 */
 	public void addStyleName(String style) {
 		main.addStyleName(style);
-	}
-
-	private void initAndShowKeyboard() {
-		if (retexListener == null) {
-			retexListener = new RetexKeyboardListener(canvas, mathField);
-		}
-
-		setKeyboardVisible(true);
-	}
-
-	private void setKeyboardVisible(boolean visible) {
-		frame.showKeyBoard(visible, retexListener,
-				true);
 	}
 }
