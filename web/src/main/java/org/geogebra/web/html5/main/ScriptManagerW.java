@@ -1023,7 +1023,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getFrame = function(){
-			return ggbApi.@org.geogebra.web.html5.main.GgbAPIW::getFrame()();
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFrame()();
 		}
 
 		api.enableFpsMeasurement = function() {

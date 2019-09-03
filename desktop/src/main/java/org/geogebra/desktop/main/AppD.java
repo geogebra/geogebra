@@ -113,7 +113,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -416,7 +416,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			boolean undoActive,
 			LocalizationD loc) {
 
-		super(Versions.DESKTOP);
+		super(Platform.DESKTOP);
 
 		this.loc = loc;
 		loc.setApp(this);
@@ -458,7 +458,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING,
-				Versions.DESKTOP.getAppName());
+				getConfig().getAppCode());
 
 		if (args != null) {
 			handleHelpVersionArgs(args);

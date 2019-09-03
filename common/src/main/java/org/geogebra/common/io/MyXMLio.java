@@ -15,7 +15,7 @@ package org.geogebra.common.io;
 import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -122,7 +122,7 @@ public abstract class MyXMLio {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
 		addGeoGebraHeader(sb, false, consApp.getUniqueId(),
-				c.getApplication().getVersion());
+				c.getApplication().getPlatform(), c.getApplication().getConfig().getAppCode());
 
 		// save euclidianView settings
 		consApp.getCompanion().getEuclidianViewXML(sb, false);
@@ -194,11 +194,11 @@ public abstract class MyXMLio {
 	 *            true for ggt files
 	 * @param uniqueId
 	 *            construction ID
-	 * @param v
-	 *            app version
+	 * @param platform
+	 *            app platform
 	 */
 	public final static void addGeoGebraHeader(StringBuilder sb,
-			boolean isMacro, String uniqueId, Versions v) {
+			boolean isMacro, String uniqueId, Platform platform, String appCode) {
 
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)
@@ -211,10 +211,10 @@ public abstract class MyXMLio {
 		sb.append(GeoGebraConstants.VERSION_STRING);
 		sb.append("\" ");
 		sb.append("app=\"");
-		sb.append(v.getAppName());
+		sb.append(appCode);
 		sb.append("\" ");
 		sb.append("platform=\"");
-		sb.append(v.getPlatform());
+		sb.append(platform.getName());
 		sb.append("\" ");
 		if (uniqueId != null) {
 			sb.append("id=\"");
@@ -250,7 +250,8 @@ public abstract class MyXMLio {
 	public String getFullXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getVersion());
+		addGeoGebraHeader(sb, false, app.getUniqueId(), app.getPlatform(),
+				app.getConfig().getAppCode());
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
 		// sb.append("
@@ -280,7 +281,7 @@ public abstract class MyXMLio {
 	public String getFullMacroXML(ArrayList<Macro> macros) {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, true, null, app.getVersion());
+		addGeoGebraHeader(sb, true, null, app.getPlatform(), app.getConfig().getAppCode());
 		// save construction
 		sb.append(kernel.getMacroXML(macros));
 
@@ -296,7 +297,7 @@ public abstract class MyXMLio {
 	public String getPreferencesXML() {
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, null, app.getVersion());
+		addGeoGebraHeader(sb, false, null, app.getPlatform(), app.getConfig().getAppCode());
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT
 		// + "\">\n");
