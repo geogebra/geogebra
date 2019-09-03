@@ -878,7 +878,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			//* as it is deprecated, may cause CSS challenges later 
 			clipDiv.style.clip = "rect(1em 1em 1em 1em)";
 			//* top/left will be specified dynamically, depending on scrollbar
-			clipDiv.style.display = "inline";
 			clipDiv.style.width = "1px";
 			clipDiv.style.height = "1px";
 			clipDiv.style.position = "relative";
