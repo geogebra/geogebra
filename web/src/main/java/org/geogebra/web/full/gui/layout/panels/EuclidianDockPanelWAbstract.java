@@ -198,7 +198,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			add(absoluteEuclidianPanel = absPanel);
 			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
 			absoluteEuclidianPanel.getElement().getStyle()
-					.setOverflow(Overflow.VISIBLE);
+					.setOverflow(Overflow.HIDDEN);
 			checkFocus();
 			getElement().setAttribute("role", "application");
 		}
