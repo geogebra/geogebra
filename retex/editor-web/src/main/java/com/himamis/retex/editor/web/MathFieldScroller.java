@@ -45,7 +45,7 @@ public class MathFieldScroller {
 	 * Scrolls content verically, based on the cursor position
 	 *
 	 * @param margin
-	 *            minimal distance from cursor to left/right border
+	 *            minimal distance from cursor to top/bottom border
 	 */
 	public void scrollVerticallyToCursor(int margin) {
 		int height = parent.getOffsetHeight();
