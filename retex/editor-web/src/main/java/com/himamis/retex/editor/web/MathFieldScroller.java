@@ -58,7 +58,7 @@ public class MathFieldScroller {
 	}
 
 	private void scrollLeft(int position) {
-		parentElement.setScrollTop(position);
+		parentElement.setScrollLeft(position);
 	}
 
 	private void scrollTop(int position) {
