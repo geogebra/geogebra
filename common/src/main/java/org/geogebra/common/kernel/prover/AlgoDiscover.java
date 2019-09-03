@@ -99,7 +99,7 @@ public class AlgoDiscover extends AlgoElement {
             GeoElementND[] ge = cons.getConstructionElement(j).getGeoElements();
             for (int k = 0; k < ge.length; k++) {
                 if (ge[k] instanceof GeoPoint) {
-                    collectTrivialCollinearites((GeoPoint) ge[k]);
+                    collectTrivialCollinearites((GeoPoint) ge[k], j == pindex);
                 }
             }
         }
@@ -109,7 +109,7 @@ public class AlgoDiscover extends AlgoElement {
      * Extend the database of trivial collinearities by
      * collecting all of them for a given input.
      */
-    private void collectTrivialCollinearites(GeoPoint p0) {
+    private void collectTrivialCollinearites(GeoPoint p0, boolean discover) {
         Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
         Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
         int p0index = p0.getConstructionIndex();
@@ -144,13 +144,53 @@ public class AlgoDiscover extends AlgoElement {
                 trivialPool.addLine(p0, p2);
             }
         }
-        // TODO: Here a second round is needed to
-        // put non-trivial collinearities in the
-        // discovery pool.
+
+        if (discover) {
+            // Second round:
+            // put non-trivial collinearities in the
+            // discovery pool.
+            ArrayList<Line> oldLines = (ArrayList<Line>) discoveryPool.lines.clone();
+            lines = new Combinations(prevPoints, 2);
+            while (lines.hasNext()) {
+                Set<GeoPoint> line = lines.next();
+                Iterator<GeoPoint> i = line.iterator();
+                GeoPoint p1 = i.next();
+                GeoPoint p2 = i.next();
+                if (!trivialPool.areCollinear(p0, p1, p2) &&
+                        !discoveryPool.areCollinear(p0, p1, p2)) {
+                    AlgoAreCollinear aac = new AlgoAreCollinear(cons, p0, p1, p2);
+                    if (aac.getResult().getBoolean()) {
+                        // Conjecture: Collinearity
+                        GeoElement root = new GeoBoolean(cons);
+                        root.setParentAlgorithm(aac);
+                        AlgoProveDetails ap = new AlgoProveDetails(cons, root);
+                        ap.compute();
+                        GeoElement[] o = ap.getOutput();
+                        GeoElement truth = ((GeoList) o[0]).get(0);
+                        if (((GeoBoolean) truth).getBoolean()) {
+                            // Theorem: Collinearity
+                            discoveryPool.addCollinearity(p0, p1, p2);
+                        }
+                    }
+                }
+            }
+
+            // Third round: Draw lines from the discovery pool
+            // (those that are not yet drawn):
+            for (Line l : discoveryPool.lines) {
+                if (!oldLines.contains(l)) {
+                    GeoPoint[] twopoints = l.getPoints2();
+                    addOutputLine(twopoints[0], twopoints[1]);
+                }
+            }
+        }
     }
 
     public final void initialCompute() {
 
+        if (cons.getKernel().isSilentMode()) {
+            return; // Not supported right now.
+        }
         detectTrivialCollinearities((GeoPoint) this.input);
         // Remove this to get collinearity check demo:
         if (1 + 2 == 3)
