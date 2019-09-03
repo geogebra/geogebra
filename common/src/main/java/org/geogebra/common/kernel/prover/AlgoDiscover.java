@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoIntersectLines;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMidpoint;
@@ -386,7 +387,6 @@ public class AlgoDiscover extends AlgoElement {
         output_wip.add(l);
     }
 
-
     void addOutputCircle(GeoPoint A, GeoPoint B, GeoPoint C) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
         AlgoCircleThreePoints actp = new AlgoCircleThreePoints(cons, null, A, B, C);
@@ -402,11 +402,28 @@ public class AlgoDiscover extends AlgoElement {
 
     void checkCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
         /*
-         * FIXME. This is incomplete (e.g. intersection of lines is missing).
+         * TODO. This is certainly incomplete.
          */
         Pool trivialPool = A.getKernel().getApplication().getTrivialPool();
 
         AlgoElement ae = C.getParentAlgorithm();
+
+        if (ae instanceof AlgoIntersectLines) {
+            GeoElement[] inps = ((AlgoIntersectLines) ae).getInput();
+            GeoPoint i1 = ((GeoLine) inps[0]).getStartPoint();
+            GeoPoint i2 = ((GeoLine) inps[0]).getEndPoint();
+            GeoPoint j1 = ((GeoLine) inps[1]).getStartPoint();
+            GeoPoint j2 = ((GeoLine) inps[1]).getEndPoint();
+
+            if ((i1 != null && i2 != null && ((i1.equals(A) && i2.equals(B)) ||
+                    (i1.equals(B) && i2.equals(A)))) ||
+                    (j1 != null && j2 != null && ((j1.equals(A) && j2.equals(B)) ||
+                            (j1.equals(B) && j2.equals(A))))
+            ) {
+                // C is an intersection of AB and something:
+                trivialPool.addCollinearity(A, B, C);
+            }
+        }
         if (ae instanceof AlgoMidpoint) {
             GeoElement[] inps = ((AlgoMidpoint) ae).getInput();
             if ((inps[0].equals(A) && inps[1].equals(B)) ||
@@ -425,7 +442,6 @@ public class AlgoDiscover extends AlgoElement {
                 trivialPool.addCollinearity(A, B, C);
             }
         }
-
         if (ae instanceof AlgoPointOnPath) {
             Path p = ((AlgoPointOnPath) ae).getPath();
             AlgoElement aep = p.getParentAlgorithm();
@@ -439,6 +455,5 @@ public class AlgoDiscover extends AlgoElement {
                 }
             }
         }
-
     }
 }
