@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -31,6 +32,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 
 	private final Kernel kernel;
 	private final AppWFull app;
+	private final GeoGebraFrameFull frame;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private MathFieldScroller scroller;
@@ -46,6 +48,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this.app = (AppWFull) app;
 		kernel = this.app.getKernel();
+		this.frame = this.app.getAppletFrame();
 		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		initEventHandlers();
 	}
@@ -59,6 +62,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 				null);
 		scroller = new MathFieldScroller(main);
 		main.add(mathField);
+		createKeyboardListener();
 	}
 
 	private void initEventHandlers() {
@@ -79,7 +83,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 * Called when editor was clicked.
 	 */
 	private void editorClicked() {
-		initAndShowKeyboard();
 		requestFocus();
 	}
 
@@ -87,6 +90,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 * Focus the editor
 	 */
 	public void requestFocus() {
+		setKeyboardVisible(true);
 		app.getGlobalKeyDispatcher().setFocused(true);
 		mathField.setFocus(true);
 	}
@@ -127,14 +131,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 		main.addStyleName(style);
 	}
 
-	private void initAndShowKeyboard() {
+	private void createKeyboardListener() {
 		retexListener = new RetexKeyboardListener(canvas, mathField);
-		setKeyboardVisible(true);
 	}
 
 	private void setKeyboardVisible(boolean visible) {
-		((AppWFull) app).getAppletFrame().showKeyBoard(visible, retexListener,
-				false);
+		frame.showKeyBoard(visible, retexListener, false);
 	}
 
 }
