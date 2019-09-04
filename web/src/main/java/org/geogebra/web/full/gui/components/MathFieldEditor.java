@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -33,6 +34,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private MathFieldScroller scroller;
+	private RetexKeyboardListener retexListener;
+	private Canvas canvas;
 
 	/**
 	 * Constructor
@@ -49,7 +52,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new FlowPanel();
-		Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
 				canvas, listener,
 				directFormulaConversion,
@@ -76,6 +79,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	 * Called when editor was clicked.
 	 */
 	private void editorClicked() {
+		initAndShowKeyboard();
 		requestFocus();
 	}
 
@@ -122,4 +126,15 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	public void addStyleName(String style) {
 		main.addStyleName(style);
 	}
+
+	private void initAndShowKeyboard() {
+		retexListener = new RetexKeyboardListener(canvas, mathField);
+		setKeyboardVisible(true);
+	}
+
+	private void setKeyboardVisible(boolean visible) {
+		((AppWFull) app).getAppletFrame().showKeyBoard(visible, retexListener,
+				false);
+	}
+
 }
