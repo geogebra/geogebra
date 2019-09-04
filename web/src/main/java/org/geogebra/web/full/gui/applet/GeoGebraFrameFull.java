@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -492,7 +491,7 @@ public class GeoGebraFrameFull
 		}
 
 		if (app.getLAF().isTablet()
-				|| app.getConfig().getForcedPerspective().equals(Perspective.EVALUATOR + "")
+
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
