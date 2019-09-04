@@ -1,6 +1,6 @@
 package org.geogebra.web.tablet;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 
 /**
@@ -29,8 +29,8 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return Versions.WINDOWS_STORE;
+	public Platform getPlatform(int dim, String appName) {
+		return Platform.WINDOWS_STORE;
 	}
 
 	@Override

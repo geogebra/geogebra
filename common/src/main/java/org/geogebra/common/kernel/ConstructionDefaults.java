@@ -1193,15 +1193,16 @@ public class ConstructionDefaults {
 	 */
 	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
 
+		String appCode = cons.getApplication().getConfig().getAppCode();
 		MyXMLio.addXMLHeader(sb2d);
 		MyXMLio.addGeoGebraHeader(sb2d, true, null,
-				cons.getApplication().getVersion());
+				cons.getApplication().getPlatform(), appCode);
 		sb2d.append("<defaults>\n");
 
 		if (sb3d != null) {
 			MyXMLio.addXMLHeader(sb3d);
 			MyXMLio.addGeoGebraHeader(sb3d, true, null,
-					cons.getApplication().getVersion());
+					cons.getApplication().getPlatform(), appCode);
 			sb3d.append("<defaults>\n");
 		}
 
@@ -1229,8 +1230,9 @@ public class ConstructionDefaults {
 	 *            string for all geos
 	 */
 	public void getDefaultsXML(StringBuilder sb) {
+		App app = cons.getApplication();
 		MyXMLio.addXMLHeader(sb);
-		MyXMLio.addGeoGebraHeader(sb, true, null, cons.getApplication().getVersion());
+		MyXMLio.addGeoGebraHeader(sb, true, null, app.getPlatform(), app.getConfig().getAppCode());
 		sb.append("<defaults>\n");
 		for (GeoElement geo : defaultGeoElements.values()) {
 			geo.getXML(false, sb);

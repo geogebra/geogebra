@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -273,7 +273,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	protected AppW(ArticleElementInterface articleElement, int dimension,
 			GLookAndFeelI laf) {
-		super(getVersion(articleElement, dimension, laf));
+		super(getPlatform(articleElement, dimension, laf));
 		setPrerelease(articleElement.getDataParamPrerelease());
 
 		// laf = null in webSimple
@@ -423,11 +423,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO listener (?)
 	}
 
-	private static Versions getVersion(ArticleElementInterface ae,
-			int dimension,
-			GLookAndFeelI laf2) {
-		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
-				: laf2.getVersion(dimension, ae.getDataParamAppName());
+	private static Platform getPlatform(ArticleElementInterface ae,
+										int dimension,
+										GLookAndFeelI laf2) {
+		return laf2 == null ? Platform.WEB
+				: laf2.getPlatform(dimension, ae.getDataParamAppName());
 	}
 
 	/**
