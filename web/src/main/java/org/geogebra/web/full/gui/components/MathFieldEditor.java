@@ -5,8 +5,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -31,13 +29,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	private static final int PADDING_TOP = 8;
 
 	private final Kernel kernel;
-	private final GeoGebraFrameFull frame;
 	private final AppWFull app;
 	private FlowPanel main;
 	private MathFieldW mathField;
 	private MathFieldScroller scroller;
-	private RetexKeyboardListener retexListener = null;
-	private Canvas canvas;
 
 	/**
 	 * Constructor
@@ -48,14 +43,13 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this.app = (AppWFull) app;
 		kernel = this.app.getKernel();
-		frame = this.app.getAppletFrame();
 		createMathField(listener, app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		initEventHandlers();
 	}
 
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new FlowPanel();
-		canvas = Canvas.createIfSupported();
+		Canvas canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
 				canvas, listener,
 				directFormulaConversion,
@@ -81,7 +75,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 	/**
 	 * Called when editor was clicked.
 	 */
-	protected void editorClicked() {
+	private void editorClicked() {
 		requestFocus();
 	}
 
