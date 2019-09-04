@@ -8585,7 +8585,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if ((geo != null) && (!geo.isLocked() || isMoveButtonExpected(geo)
-				|| isMoveTextFieldExpected(geo))) {
+				|| isMoveTextFieldExpected(geo)) && geo.isSelectionAllowed(view)) {
 			moveModeSelectionHandled = true;
 		} else if (!wasBoundingBoxHit) {
 			// no geo clicked at
@@ -9571,7 +9571,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		DrawDropDownList dl = getComboBoxHit();
 
-		if (!event.isRightClick() && dl != null) {
+		if (!event.isRightClick() && dl != null && dl.geo.isSelectionAllowed(view)) {
 			clearSelections();
 			app.getSelectionManager().addSelectedGeo(dl.geo);
 			dl.onMouseDown(event.getX(), event.getY());
