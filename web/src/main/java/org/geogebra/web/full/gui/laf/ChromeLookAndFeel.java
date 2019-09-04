@@ -27,4 +27,9 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	public String getClientId() {
 		return GeoGebraConstants.CHROME_APP_CLIENT_ID;
 	}
+
+	@Override
+	public boolean supportsGoogleDrive() {
+		return false;
+	}
 }
