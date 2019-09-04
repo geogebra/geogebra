@@ -15,6 +15,7 @@ import org.geogebra.web.html5.util.EventUtil;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -24,7 +25,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
+public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListener {
 
 	private static final int PADDING_LEFT = 2;
 	private static final int PADDING_TOP = 8;
@@ -59,6 +60,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 				canvas, listener,
 				directFormulaConversion,
 				null);
+		mathField.setClickListener(this);
 		scroller = new MathFieldScroller(main);
 		main.add(mathField);
 		createKeyboardListener();
@@ -136,5 +138,30 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup {
 
 	private void setKeyboardVisible(boolean visible) {
 		frame.doShowKeyBoard(visible, retexListener);
+	}
+
+	@Override
+	public void onPointerDown(int x, int y) {
+		setKeyboardVisible(true);
+	}
+
+	@Override
+	public void onPointerUp(int x, int y) {
+		// not used
+	}
+
+	@Override
+	public void onPointerMove(int x, int y) {
+		// not used
+	}
+
+	@Override
+	public void onLongPress(int x, int y) {
+		// not used
+	}
+
+	@Override
+	public void onScroll(int dx, int dy) {
+		// not used
 	}
 }
