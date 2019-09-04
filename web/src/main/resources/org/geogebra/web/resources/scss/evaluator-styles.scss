@@ -1,0 +1,10 @@
+
+.GeoGebraFrame {
+   .evaluatorEditor {
+            margin: 4px;
+            width: calc(100% - 8px);
+            min-height: calc(100% - 8px);
+            max-height: calc(100% - 8px);
+            overflow: hidden;
+         }
+    }
