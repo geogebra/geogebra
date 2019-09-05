@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.main.FragmentPrefetcher;
+
 import com.google.gwt.core.client.impl.LoadingStrategyBase;
 import com.google.gwt.core.client.impl.ScriptTagLoadingStrategy.ScriptTagDownloadStrategy;
 import com.google.gwt.core.client.impl.XhrLoadingStrategy.XhrDownloadStrategy;
@@ -24,12 +27,37 @@ public class OfflineLoadingStrategy extends LoadingStrategyBase {
 		return Location.getProtocol().startsWith("http")
 				? new XhrDownloadStrategy() {
 					@Override
-					public void tryDownload(final RequestData request) {
-						setAsyncCallback(request.getFragment(), request);
-						super.tryDownload(request);
+					public void tryDownload(RequestData request) {
+						int fragment = request.getFragment();
+						setAsyncCallback(fragment, request);
+						if (!loadWithPrefetch(request)) {
+							super.tryDownload(request);
+						}
 					}
 				} : new ScriptTagDownloadStrategy();
 
+	}
+
+	/**
+	 * @param request
+	 *            request
+	 * @return whether there was a FragmentPrefatcher for handling this
+	 */
+	protected static boolean loadWithPrefetch(final RequestData request) {
+		int fragment = request.getFragment();
+		AsyncOperation<String> callback = new AsyncOperation<String>() {
+			@Override
+			public void callback(String code) {
+				request.tryInstall(code);
+			}
+		};
+		FragmentPrefetcher prefetch = FragmentPrefetcher
+				.forSplitPoint(fragment);
+		if (prefetch != null) {
+			prefetch.runAfterPrefetch(callback);
+			return true;
+		}
+		return false;
 	}
 
 	/**

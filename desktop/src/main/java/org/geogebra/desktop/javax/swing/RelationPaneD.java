@@ -22,8 +22,8 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
+import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
@@ -51,7 +51,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	/**
 	 * This stores the array of the actions to be fired when click on "More...".
 	 */
-	RelationMore[] callbacks;
+	Relation[] callbacks;
 	private boolean areCallbacks = false;
 	private int morewidth = 0;
 
@@ -104,7 +104,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			data = new Object[rels][1];
 		}
 
-		callbacks = new RelationMore[rels];
+		callbacks = new Relation[rels];
 		int height = 0;
 
 		for (int i = 0; i < rels; ++i) {
@@ -252,8 +252,14 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		return ret;
 	}
 
-	@Override
-	public synchronized void updateRow(int row, RelationRow relation) {
+	/**
+	 * Update UI after More button clicked
+	 * 
+	 * @param row
+	 *            row number
+	 */
+	protected synchronized void updateRow(int row) {
+		RelationRow relation = callbacks[row].getExpandedRow(row);
 		table.setValueAt(relation.getInfo(), row, 0);
 		callbacks[row] = relation.getCallback();
 		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.getInfo()))
@@ -338,9 +344,9 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		private String label;
 		private boolean clicked;
 		private int row, col;
-		private RelationPane pane;
+		private RelationPaneD pane;
 
-		public ClientsTableRenderer(RelationPane p, JCheckBox checkBox) {
+		public ClientsTableRenderer(RelationPaneD p, JCheckBox checkBox) {
 			super(checkBox);
 			pane = p;
 			button = new JButton();
@@ -371,7 +377,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		@Override
 		public Object getCellEditorValue() {
 			if (clicked) {
-				callbacks[row].action(pane, this.row);
+				pane.updateRow(row);
 			}
 			if ((col == 1) && callbacks[row] == null) {
 				label = "";

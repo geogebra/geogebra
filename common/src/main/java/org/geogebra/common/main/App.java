@@ -3180,7 +3180,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void showRelation(final GeoElement ra, final GeoElement rb,
 			final GeoElement rc, final GeoElement rd) {
-		Relation.showRelation(this, ra, rb, rc, rd);
+		new Relation(this, ra, rb, rc, rd).showDialog();
 	}
 
 	public GeoElement getGeoForCopyStyle() {

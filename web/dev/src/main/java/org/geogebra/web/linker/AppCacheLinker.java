@@ -15,18 +15,13 @@
  */
 package org.geogebra.web.linker;
 
-import java.io.InputStream;
-
 import org.geogebra.common.GeoGebraConstants;
 
 import com.google.gwt.core.ext.LinkerContext;
 import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.TreeLogger.Type;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.linker.AbstractLinker;
-import com.google.gwt.core.ext.linker.Artifact;
 import com.google.gwt.core.ext.linker.ArtifactSet;
-import com.google.gwt.core.ext.linker.EmittedArtifact;
 import com.google.gwt.core.ext.linker.LinkerOrder;
 import com.google.gwt.core.ext.linker.LinkerOrder.Order;
 import com.google.gwt.core.ext.linker.Shardable;
@@ -77,6 +72,7 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
 public class AppCacheLinker extends AbstractLinker {
 
 	private static final String SWORKER = "sworker.js";
+	private static final String SWORKER_LOCKED = "sworker-locked.js";
 	private static final String MANIFEST = "appcache.nocache.manifest";
 
 	@Override
@@ -90,7 +86,6 @@ public class AppCacheLinker extends AbstractLinker {
 			throws UnableToCompleteException {
 
 		ArtifactSet toReturn = new ArtifactSet(artifacts);
-
 		if (onePermutation) {
 			return toReturn;
 		}
@@ -107,7 +102,6 @@ public class AppCacheLinker extends AbstractLinker {
 		return toReturn;
 	}
 
-
 	/**
 	 * Creates the cache-manifest resource specific for the landing page.
 	 * 
@@ -122,100 +116,15 @@ public class AppCacheLinker extends AbstractLinker {
 	private void emitLandingPageCacheManifest(LinkerContext context,
 			TreeLogger logger, ArtifactSet artifacts, ArtifactSet toReturn)
 			throws UnableToCompleteException {
-		StringBuilder publicSourcesSb = new StringBuilder();
-		StringBuilder staticResoucesSb = new StringBuilder();
 
-		if (artifacts != null) {
-			// Iterate over all emitted artifacts, and collect all cacheable
-			// artifacts
-			for (@SuppressWarnings("rawtypes")
-			Artifact artifact : artifacts) {
-				if (artifact instanceof EmittedArtifact) {
-					EmittedArtifact ea = (EmittedArtifact) artifact;
-					String pathName = ea.getPartialPath();
-					if (pathName.endsWith("symbolMap")
-							|| pathName.endsWith(".xml.gz")
-							|| pathName.endsWith("rpc.log")
-							|| pathName.endsWith("gwt.rpc")
-							|| pathName.endsWith("manifest.txt")
-							|| pathName.startsWith("rpcPolicyManifest")
-							|| pathName.endsWith("cssmap")
-							|| pathName.endsWith("MANIFEST.MF")
-							|| pathName.endsWith(".txt")
-							|| pathName.endsWith(".php")
-							|| pathName.endsWith("README")
-							|| pathName.endsWith("COPYING")
-							|| pathName.endsWith("LICENSE")
-							|| pathName.endsWith("oauthWindow.html")
-							|| pathName.endsWith("windowslive.html")
-							|| pathName.endsWith("devmode.js")
-							|| pathName.startsWith("js/properties_")
-							|| pathName.endsWith("6.nocache.js")) {
-						// skip these resources
-					} else {
-						publicSourcesSb
-								.append("\"https://download.geogebra.org/web/5.0/latest/web3d/"
-										+ pathName.replace("\\", "/")
-										+ "\",\n");
-					}
-				}
-			}
+		ServiceWorkerBuilder serviceWorkerBuilder = new ServiceWorkerBuilder(
+				context, artifacts, logger);
+		String sworkerContent = serviceWorkerBuilder.getWorkerCode("latest");
+		toReturn.add(emitString(logger, sworkerContent, SWORKER));
 
-			String[] cacheExtraFiles = AppCacheLinkerSettings
-					.otherCachedFiles();
-			for (int i = 0; i < cacheExtraFiles.length; i++) {
-				staticResoucesSb.append("\"");
-				staticResoucesSb.append(cacheExtraFiles[i]);
-				staticResoucesSb.append("\"");
-				if (i < cacheExtraFiles.length - 1) {
-					staticResoucesSb.append(",\n");
-				}
-
-			}
-		}
-
-		// build manifest
-		String id = GeoGebraConstants.VERSION_STRING + ":"
-				+ System.currentTimeMillis();
-		// we have to generate this unique id because the resources can change
-		// but
-		// the hashed cache.html files can remain the same.
-		// build cache list
-		StringBuilder sb = new StringBuilder();
-
-		// logger.log(
-		// TreeLogger.INFO,
-		// "Make sure you have the following"
-		// + " attribute added to your landing page's <html> tag: <html
-		// manifest=\""
-		// + context.getModuleFunctionName() + "/" + MANIFEST
-		// + "\">");
-
-		// Create the manifest as a new artifact and return it:
-		try {
-			InputStream s = AppCacheLinker.class.getResourceAsStream(
-					"/org/geogebra/web/worker_template.js");
-			byte[] contents = new byte[1024];
-			int bytesRead = 0;
-			while ((bytesRead = s.read(contents)) != -1) {
-				sb.append(new String(contents, 0, bytesRead)
-						.replace("%URLS%",
-								publicSourcesSb.toString()
-										+ staticResoucesSb.toString())
-						.replace("%ID%", id));
-			}
-			// fbr.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.log(Type.ERROR, e.getMessage());
-		}
-		// toReturn.add(emitString(logger, sbM.toString(), MANIFEST));
-		toReturn.add(emitString(logger, sb.toString(), SWORKER));
-		toReturn.add(emitString(logger,
-				("{\n" + publicSourcesSb.toString()
-						+ staticResoucesSb.toString()).replaceAll("\\n", "\n  ")
-						+ "\n}",
-				"files.json"));
+		String sworkerContentLocked = serviceWorkerBuilder
+				.getWorkerCode(GeoGebraConstants.VERSION_STRING);
+		toReturn.add(emitString(logger, sworkerContentLocked, SWORKER_LOCKED));
 	}
 
 }
