@@ -1,6 +1,6 @@
 package org.geogebra.common.javax.swing;
 
-import org.geogebra.common.gui.util.RelationMore;
+import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
 
 /**
@@ -20,7 +20,7 @@ public interface RelationPane {
 	public class RelationRow {
 
 		private String info;
-		private RelationMore callback;
+		private Relation callback;
 
 		/**
 		 * @return The information shown in the left column.
@@ -40,7 +40,7 @@ public interface RelationPane {
 		/**
 		 * @return The action to be started when the user clicks on "More...".
 		 */
-		public RelationMore getCallback() {
+		public Relation getCallback() {
 			return callback;
 		}
 
@@ -49,7 +49,7 @@ public interface RelationPane {
 		 *            The action to be started when the user clicks on
 		 *            "More...".
 		 */
-		public void setCallback(RelationMore callback) {
+		public void setCallback(Relation callback) {
 			this.callback = callback;
 		}
 	}
@@ -66,15 +66,5 @@ public interface RelationPane {
 	 */
 	public abstract void showDialog(String title, RelationRow[] relations,
 			App app);
-
-	/**
-	 * Updates a row containing information and probably a button.
-	 * 
-	 * @param row
-	 *            The row to be updated
-	 * @param relation
-	 *            The new relation in the row
-	 */
-	public abstract void updateRow(int row, RelationRow relation);
 
 }

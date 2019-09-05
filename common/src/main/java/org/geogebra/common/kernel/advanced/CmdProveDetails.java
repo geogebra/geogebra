@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.MyError;
@@ -30,20 +31,27 @@ public class CmdProveDetails extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-			if (arg[0] instanceof BooleanValue) {
-
-				AlgoProveDetails algo = new AlgoProveDetails(cons, c.getLabel(),
-						arg[0]);
-
-				GeoElement[] ret = { algo.getGeoList() };
-				return ret;
+		case 2:
+			if (arg[1].isGeoBoolean()) {
+				return proveDetails(arg[0], ((GeoBoolean) arg[1]).getBoolean(), c);
 			}
-			throw argErr(c, arg[0]);
+		case 1:
+			return proveDetails(arg[0], false, c);
 
 		default:
 			throw argNumErr(c);
 
 		}
+	}
+
+	private GeoElement[] proveDetails(GeoElement geoElement, boolean html, Command c) {
+		if (geoElement instanceof BooleanValue) {
+
+			AlgoProveDetails algo = new AlgoProveDetails(cons, geoElement, html);
+			algo.getGeoList().setLabel(c.getLabel());
+			GeoElement[] ret = { algo.getGeoList() };
+			return ret;
+		}
+		throw argErr(c, geoElement);
 	}
 }

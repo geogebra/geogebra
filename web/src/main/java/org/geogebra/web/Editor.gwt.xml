@@ -10,6 +10,7 @@
   <resource path='resources'/>
   <resource path='pub/js'/>
   <resource path='exam'/>
+  <source path='simple'/>
   <super-source path='html5-super' />
   <entry-point class='org.geogebra.web.editor.Editor'/>
   <!-- #3511 -->
