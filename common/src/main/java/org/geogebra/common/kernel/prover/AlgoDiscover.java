@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
@@ -95,13 +96,10 @@ public class AlgoDiscover extends AlgoElement {
      * that precedes the input.
      */
     private void detectTrivialCollinearities(GeoPoint p) {
-        int pindex = p.getConstructionIndex();
-        for (int j = 0; j <= pindex; j++) {
-            GeoElementND[] ge = cons.getConstructionElement(j).getGeoElements();
-            for (int k = 0; k < ge.length; k++) {
-                if (ge[k] instanceof GeoPoint) {
-                    collectTrivialCollinearites((GeoPoint) ge[k], j == pindex);
-                }
+        TreeSet<GeoElement> ges = (TreeSet<GeoElement>) cons.getGeoSetLabelOrder().clone();
+        for (GeoElement ge : ges) {
+            if (ge instanceof GeoPoint) {
+                collectTrivialCollinearites((GeoPoint) ge, p.equals(ge));
             }
         }
     }
@@ -113,17 +111,13 @@ public class AlgoDiscover extends AlgoElement {
     private void collectTrivialCollinearites(GeoPoint p0, boolean discover) {
         Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
         Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
-        int p0index = p0.getConstructionIndex();
 
         HashSet<GeoPoint> prevPoints = new HashSet<GeoPoint>();
-        for (int j = 0; j < p0index; j++) {
-            GeoElementND[] ge = cons.getConstructionElement(j).getGeoElements();
-            for (int k = 0; k < ge.length; k++) {
-                if (ge[k] instanceof GeoPoint) {
-                    prevPoints.add((GeoPoint) ge[k]);
+        for (GeoElement ge : cons.getGeoSetLabelOrder()) {
+            if (ge instanceof GeoPoint && !ge.equals(p0)) {
+                prevPoints.add((GeoPoint) ge);
                 }
             }
-        }
 
         Combinations lines = new Combinations(prevPoints, 2);
 
