@@ -9,8 +9,8 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
 
@@ -64,7 +64,7 @@ public class Tablet implements EntryPoint {
 		loadAppletAsync();
 
 		// phoneGap.initializePhoneGap();
-		WebSimple.registerSuperdevExceptionHandler();
+		SuperDevUncaughtExceptionHandler.register();
 	}
 
 	/**

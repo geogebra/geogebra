@@ -31,7 +31,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -173,7 +172,7 @@ public class Solver {
 	}
 
 	private void compute(String text) {
-		Browser.changeUrl(getRelativeURLforEqn(text));
+		Browser.changeUrl(AppWsolver.getRelativeURLforEqn(text));
 		mathField.setText(text, false);
 		mathField.setFocus(false);
 
@@ -204,10 +203,6 @@ public class Solver {
 			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
 					+ "your input</h3>"));
 		}
-	}
-
-	public static String getRelativeURLforEqn(String text) {
-		return "?i=" + URL.encodePathSegment(text);
 	}
 
 	private void printAlternativeForms(StepTransformable input) {
