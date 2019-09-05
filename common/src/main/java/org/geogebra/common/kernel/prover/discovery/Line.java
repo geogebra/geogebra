@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.prover.discovery;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Line {
@@ -28,6 +27,13 @@ public class Line {
 
     public void collinear(GeoPoint p) {
         points.add(p);
+    }
+
+    public void deletePoint(GeoPoint p) {
+        if (!points.contains(p)) {
+            return; // do nothing
+        }
+        points.remove(p);
     }
 
     public String toString() {

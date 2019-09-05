@@ -137,5 +137,18 @@ public class Pool {
         directions.remove(dir1);
     }
 
+    public void removePoint(GeoPoint p) {
+        ArrayList<Line> oldLines = (ArrayList<Line>) lines.clone();
+        for (Line l : oldLines) {
+            if (l.getPoints().contains(p)) {
+                l.deletePoint(p);
+                if (l.getPoints().size() < 3) {
+                    lines.remove(l);
+                }
+            }
+        }
+    }
+
+
 }
 

@@ -1685,6 +1685,12 @@ public abstract class GeoElement extends ConstructionElement
 			setUndefined();
 			updateRepaint();
 		} else {
+            // update discovery pools
+            if (this instanceof GeoPoint) {
+                this.getKernel().getApplication().getDiscoveryPool().removePoint((GeoPoint) this);
+                this.getKernel().getApplication().getTrivialPool().removePoint((GeoPoint) this);
+            }
+
 			remove();
 			kernel.notifyRemoveGroup();
 		}
