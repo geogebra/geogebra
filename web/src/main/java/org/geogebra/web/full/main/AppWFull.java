@@ -1961,7 +1961,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public double getInnerWidth() {
-		return getWidth();
+		return getKeyboardManager().getKeyboarWidth();
 	}
 
 	@Override
