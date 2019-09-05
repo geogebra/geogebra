@@ -5,8 +5,9 @@
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.geogebra.web.full.Web'/>
-  
-  <replace-with class="org.geogebra.web.full.gui.applet.AppletFactory2D">
+  <source path='simple'/>
+  <source path='full2d'/>
+  <replace-with class="org.geogebra.web.full2d.AppletFactory2D">
     <when-type-is class="org.geogebra.web.full.gui.applet.AppletFactory" />    
   </replace-with>
   <!-- Compile only one permutation -->

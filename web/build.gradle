@@ -191,14 +191,14 @@ task copyHtml {
             return htmlContent.replace("<!--VENDOR-->", vendor)
             .replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
             .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
-            .replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://cdn.geogebra.org/apps/latest/")
+            .replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://www.geogebra.org/apps/latest/")
         }
         def classicHtml = {app, prerelease, offline=false ->
             
            def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
            return replaceVendor(html, "GeoGebra").replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
-            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { app, prerelease, offline=false ->
@@ -216,7 +216,7 @@ task copyHtml {
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(app.id+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
@@ -289,8 +289,8 @@ task mergeDeploy(){
       def currentVersion = getGeogebraVersion(parentRoot)
       deployText += file("./build/gwt/out/web3d/js/webfont.js").text
       file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
-      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://cdn.geogebra.org/apps/latest/')
-      file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://cdn.geogebra.org/apps/${currentVersion}/")
+      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
+      file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
    }
 }
 

@@ -773,3 +773,8 @@
 	left: 0px;
 	z-index: 9999;
 }
+
+.gbox {
+    will-change: transform;
+    z-index: 50;
+}

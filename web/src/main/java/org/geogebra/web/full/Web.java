@@ -16,9 +16,9 @@ import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -55,7 +55,7 @@ public class Web implements EntryPoint {
 
 		GeoGebraProfiler.getInstance().profile();
 
-		WebSimple.registerSuperdevExceptionHandler();
+		SuperDevUncaughtExceptionHandler.register();
 		exportGGBElementRenderer();
 
 		// setLocaleToQueryParam();

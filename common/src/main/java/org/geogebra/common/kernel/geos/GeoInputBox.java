@@ -45,6 +45,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private boolean symbolicMode = false;
 	private boolean editing = false;
 
+	StringTemplate stringTemplateForLaTeX;
+
 	/**
 	 * Creates new text field
 	 *
@@ -108,11 +110,22 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		} else if (isSymbolicMode()) {
 			return toLaTex(linkedGeo);
 		}
-		return linkedGeo.getValueForInputBar();
+		return getLinkedGeoTextForEditor();
 	}
 
 	private String toLaTex(GeoElementND geo) {
+		if (geo.isGeoFunction()) {
+			return geo.getRedefineString(true, true,
+					getStringtemplateForLaTeX());
+		}
 		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
+	}
+
+	private StringTemplate getStringtemplateForLaTeX() {
+		if (stringTemplateForLaTeX == null) {
+			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
+		}
+		return stringTemplateForLaTeX;
 	}
 
 	/**
@@ -414,11 +427,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 *            the Drawable's text field
 	 */
 	public void updateText(TextObject textFieldToUpdate) {
+		String linkedText = null;
 
 		if (linkedGeo != null) {
-
-			String linkedText;
-
 			if (linkedGeo.isGeoText()) {
 				linkedText = ((GeoText) linkedGeo).getTextString();
 			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath
@@ -431,9 +442,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
-			}
 
+				if (linkedGeo.isGeoFunction()) {
+					linkedText = linkedGeo.getRedefineString(true, true);
+				} else {
+					linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
+				}
+			}
 			if (linkedText == null) {
 				linkedText = "";
 			}
@@ -611,7 +626,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 * @return if linked object can be a symbolic one.
 	 */
 	public boolean canBeSymbolic() {
-		return linkedGeo != null && ((canBeSymbolicNumber()) || linkedGeo.isGeoFunction());
+		return linkedGeo != null && ((canBeSymbolicNumber()) || linkedGeo.isGeoFunction()
+				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector());
 	}
 
 	private boolean canBeSymbolicNumber() {
@@ -665,6 +681,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	}
 
 	private String getLinkedGeoTextForEditor() {
+		if (isSymbolicMode()) {
+			return linkedGeo.getRedefineString(true, true);
+		}
 		return linkedGeo.getValueForInputBar();
 	}
 
