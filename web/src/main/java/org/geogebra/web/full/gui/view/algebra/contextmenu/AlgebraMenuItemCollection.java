@@ -23,6 +23,8 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 		if (!app.getConfig().hasAutomaticLabels()) {
 			addLabelingActions();
 		}
+		// For some reason it is shown only once. That is, if Discover(P) already exists for a given P,
+		// the action is not shown. This may be not the expected behavior.
 		addActions(new DiscoverAction());
 		addActions(new DuplicateAction(algebraView), new DeleteAction(), new SettingsAction());
 	}

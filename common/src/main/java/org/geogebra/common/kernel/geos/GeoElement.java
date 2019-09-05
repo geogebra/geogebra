@@ -86,6 +86,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1686,9 +1687,10 @@ public abstract class GeoElement extends ConstructionElement
 			updateRepaint();
 		} else {
             // update discovery pools
-            if (this instanceof GeoPoint) {
+			if (this instanceof GeoPoint) {
                 this.getKernel().getApplication().getDiscoveryPool().removePoint((GeoPoint) this);
                 this.getKernel().getApplication().getTrivialPool().removePoint((GeoPoint) this);
+				// on update (not delete) the same should be done, TODO
             }
 
 			remove();
@@ -2015,6 +2017,23 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
+
+		// Maybe later we will implement redefinition as well, but not at the moment, if the
+		// point object has already been used in a discovery.
+		if (this instanceof GeoPoint) {
+			for (Line l : this.getKernel().getApplication().getDiscoveryPool().lines) {
+				if (l.getPoints().contains(this)) {
+					return false;
+				}
+			}
+			for (Line l : this.getKernel().getApplication().getTrivialPool().lines) {
+				if (l.getPoints().contains(this)) {
+					return false;
+				}
+			}
+		}
+		// This does not help, unfortunately, if the point will be redefined via a command. TODO
+
 		return !isProtected(EventType.UPDATE)
 				&& kernel.getApplication().letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()

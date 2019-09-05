@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMidpoint;
 import org.geogebra.common.kernel.algos.AlgoMidpointSegment;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -32,7 +33,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoDiscover extends AlgoElement {
+public class AlgoDiscover extends AlgoElement implements UsesCAS {
     /* FIXME: When updating the underlying structure of the input,
      * the whole computation should be completely redone.
      * A similar problem can occur in some other commands of GeoGebra ART.
@@ -56,7 +57,6 @@ public class AlgoDiscover extends AlgoElement {
             this.output[i] = output_wip.get(i);
             boolean oldMacroMode = cons.isSuppressLabelsActive();
             this.output[i].setEuclidianVisible(true);
-            // this.output[i].setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
             this.output[i].setLabelVisible(true);
             this.output[i].updateVisualStyle(GProperty.COMBINED); // visibility and style
             cons.setSuppressLabelCreation(oldMacroMode);
@@ -89,9 +89,8 @@ public class AlgoDiscover extends AlgoElement {
     }
 
     /*
-     * Build the whole database of trivial collinearities,
-     * including all points in the construction list
-     * that precedes the input.
+     * Build the whole database of collinearities,
+     * including all points in the construction list.
      */
     private void detectCollinearities(GeoPoint p) {
         HashSet<GeoElement> ges = new HashSet<>();
@@ -108,7 +107,7 @@ public class AlgoDiscover extends AlgoElement {
     }
 
     /*
-     * Extend the database of trivial collinearities by
+     * Extend the database of collinearities by
      * collecting all of them for a given input.
      */
     private void collectCollinearites(GeoPoint p0, boolean discover) {
