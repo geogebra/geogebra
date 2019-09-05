@@ -512,7 +512,7 @@ public class EuclidianPen implements GTimerListener {
 			return false;
 		}
 
-		if (isPinchZooming) {
+		if (isPinchZooming && penPoints.size() < 2) {
 			penPoints.clear();
 		}
 
