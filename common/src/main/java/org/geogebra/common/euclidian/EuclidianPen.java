@@ -506,7 +506,8 @@ public class EuclidianPen implements GTimerListener {
 	 * @return true if a GeoElement was created
 	 *
 	 */
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y, boolean isPinchZooming) {
+	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+												 boolean isPinchZooming) {
 		if (right && !isFreehand()) {
 			return false;
 		}

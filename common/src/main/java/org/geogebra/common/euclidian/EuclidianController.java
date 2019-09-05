@@ -415,7 +415,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
-	private boolean pinchOccured = false;
 	private int numOfTargets = 0;
 
 	private SnapController snapController = new SnapController();
@@ -10518,9 +10517,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.pointerUpCallback = null;
 		}
 
-		if (pinchOccured) {
-			decreaseTargets();
-		}
+		decreaseTargets();
 	}
 
 	/**
@@ -10681,7 +10678,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().startTimer();
 		}
 		if (penMode(mode)) {
-			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y, pinchOccured);
+			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y,
+					(numOfTargets > 0));
 			if (geoCreated) {
 				storeUndoInfo();
 			}
@@ -11723,7 +11721,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		zoomInOut(scaleFactor,
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x,
 				y);
-		pinchOccured = true;
 		numOfTargets = 2;
 	}
 
@@ -12887,15 +12884,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Resets the state after pinch zooming is finished and both fingers are released
 	 */
 	public void resetPinchZoomOccured() {
-		pinchOccured = false;
 		numOfTargets = 0;
 	}
 
 	/**
 	 * Decreasing the current number of touches when a finger is released after pinch
 	 */
-	public void decreaseTargets() {
+	private void decreaseTargets() {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
-		pinchOccured = numOfTargets > 0;
 	}
 }
