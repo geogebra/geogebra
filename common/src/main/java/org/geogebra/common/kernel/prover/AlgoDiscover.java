@@ -96,7 +96,11 @@ public class AlgoDiscover extends AlgoElement {
      * that precedes the input.
      */
     private void detectTrivialCollinearities(GeoPoint p) {
-        TreeSet<GeoElement> ges = (TreeSet<GeoElement>) cons.getGeoSetLabelOrder().clone();
+        HashSet<GeoElement> ges = new HashSet<>();
+        for (GeoElement ge : cons.getGeoSetLabelOrder()) {
+            ges.add(ge);
+        }
+        ;
         for (GeoElement ge : ges) {
             if (ge instanceof GeoPoint) {
                 collectTrivialCollinearites((GeoPoint) ge, p.equals(ge));
