@@ -4030,7 +4030,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public EuclidianController getEuclidianController() {
-		return super.getEuclidianController();
+	public void testDraw() {
+		getEuclidianController().getMouseTouchGestureController().getDrawingEmulator().draw();
+	}
+
+	@Override
+	protected EuclidianControllerW getEuclidianController() {
+		return (EuclidianControllerW) super.getEuclidianController();
+	}
+
+	@Override
+	public void startDrawRecording() {
+		getEuclidianController().getMouseTouchGestureController().startDrawRecording();
+	}
+
+	@Override
+	public void endDrawRecordingAndLogResults() {
+		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
 	}
 }
