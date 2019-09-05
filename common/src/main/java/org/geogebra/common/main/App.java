@@ -228,7 +228,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected final boolean[] logAxes = { false, false };
 
     /**
-     * Discovery pool
+     * Discovery and trivial pools, these should be reinitialized on opening a file! FIXME
      */
     private Pool discoveryPool = new Pool();
     private Pool trivialPool = new Pool();
@@ -4681,20 +4681,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
     public int getNextVariableID() {
         return nextVariableID++;
-    }
-
-    /**
-     * @return next prover/discovery line ID
-     */
-    public int getNextLineID() {
-        return nextLineID++;
-    }
-
-    /**
-     * @return last prover/discovery line ID
-     */
-    public int getLastLineID() {
-        return nextLineID;
     }
 
 	/**

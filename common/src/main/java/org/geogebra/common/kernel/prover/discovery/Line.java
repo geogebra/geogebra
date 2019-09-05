@@ -4,21 +4,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Line {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
     private GeoPoint discoverInput;
-    private final int id;
-    private GeoLine line;
-
-    public Line(Kernel kernel) {
-        id = kernel.getApplication().getNextLineID();
-    }
 
     public Line(GeoPoint p1, GeoPoint p2) {
-        this(p1.getKernel());
         points.add(p1);
         points.add(p2);
     }
