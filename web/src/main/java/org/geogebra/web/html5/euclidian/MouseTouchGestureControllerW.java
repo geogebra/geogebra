@@ -442,8 +442,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
 			longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
 		}
-		// inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
-		// e.getType());
 		onPointerEventStart(event);
 	}
 
@@ -609,6 +607,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		} else {
 			event.setIsRightClick(dragModeIsRightClick);
 			wrapMouseDraggedWithProfiling(event, startCapture);
+			if (isRecording) {
+				drawingRecorder
+						.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
+			}
 		}
 		event.release();
 		this.waitingMouseMove = null;
@@ -652,6 +654,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 *            pointer up event
 	 */
 	public void onPointerEventEnd(AbstractEvent e) {
+		app.getFpsProfiler().notifyTouchEnd();
 		if (isRecording) {
 			drawingRecorder.recordTouchEnd();
 		}
@@ -706,6 +709,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 *            pointer start
 	 */
 	public void onPointerEventStart(AbstractEvent event) {
+		app.getFpsProfiler().notifyTouchStart();
 		if (isRecording) {
 			drawingRecorder
 					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
