@@ -2200,7 +2200,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// then regions
 		for (GeoElement geo : hitFilling) {
-			hits.add(geo);
+			if (geo.isSelectionAllowed(this)) {
+				hits.add(geo);
+			}
 		}
 
 		// look for axis
