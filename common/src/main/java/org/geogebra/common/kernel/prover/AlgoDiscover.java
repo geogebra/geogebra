@@ -93,24 +93,25 @@ public class AlgoDiscover extends AlgoElement {
      * including all points in the construction list
      * that precedes the input.
      */
-    private void detectTrivialCollinearities(GeoPoint p) {
+    private void detectCollinearities(GeoPoint p) {
         HashSet<GeoElement> ges = new HashSet<>();
         for (GeoElement ge : cons.getGeoSetLabelOrder()) {
             ges.add(ge);
         }
         ;
         for (GeoElement ge : ges) {
-            if (ge instanceof GeoPoint) {
-                collectTrivialCollinearites((GeoPoint) ge, p.equals(ge));
+            if (ge instanceof GeoPoint && !p.equals(ge)) {
+                collectCollinearites((GeoPoint) ge, false);
             }
         }
+        collectCollinearites(p, true);
     }
 
     /*
      * Extend the database of trivial collinearities by
      * collecting all of them for a given input.
      */
-    private void collectTrivialCollinearites(GeoPoint p0, boolean discover) {
+    private void collectCollinearites(GeoPoint p0, boolean discover) {
         Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
         Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
 
@@ -186,7 +187,7 @@ public class AlgoDiscover extends AlgoElement {
 
     public final void initialCompute() {
 
-        detectTrivialCollinearities((GeoPoint) this.input);
+        detectCollinearities((GeoPoint) this.input);
         // Remove this to get collinearity check demo:
         if (1 + 2 == 3)
             return;
