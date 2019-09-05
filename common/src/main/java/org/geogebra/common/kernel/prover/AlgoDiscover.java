@@ -166,7 +166,7 @@ public class AlgoDiscover extends AlgoElement {
                         GeoElement truth = ((GeoList) o[0]).get(0);
                         if (((GeoBoolean) truth).getBoolean()) {
                             // Theorem: Collinearity
-                            discoveryPool.addCollinearity(p0, p1, p2).setDiscoverInput(p0);
+                            discoveryPool.addCollinearity(p0, p1, p2);
                         }
                     }
                 }
@@ -177,7 +177,7 @@ public class AlgoDiscover extends AlgoElement {
             for (Line l : discoveryPool.lines) {
                 if (!alreadyDrawn(l)) {
                     GeoPoint[] twopoints = l.getPoints2();
-                    if (l.getDiscoverInput().equals(p0)) {
+                    if (l.getPoints().contains(p0)) {
                         addOutputLine(twopoints[0], twopoints[1]);
                     }
                 }

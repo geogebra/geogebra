@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Line {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
-    private GeoPoint discoverInput;
 
     public Line(GeoPoint p1, GeoPoint p2) {
         points.add(p1);
@@ -29,14 +28,6 @@ public class Line {
 
     public void collinear(GeoPoint p) {
         points.add(p);
-    }
-
-    public void setDiscoverInput(GeoPoint p) {
-        discoverInput = p;
-    }
-
-    public GeoPoint getDiscoverInput() {
-        return discoverInput;
     }
 
     public String toString() {
