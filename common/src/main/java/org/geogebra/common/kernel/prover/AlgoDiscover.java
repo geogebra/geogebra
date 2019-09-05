@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
@@ -26,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -148,7 +146,6 @@ public class AlgoDiscover extends AlgoElement {
             // Second round:
             // put non-trivial collinearities in the
             // discovery pool.
-            ArrayList<Line> oldLines = (ArrayList<Line>) discoveryPool.lines.clone();
             lines = new Combinations(prevPoints, 2);
             while (lines.hasNext()) {
                 Set<GeoPoint> line = lines.next();
@@ -168,7 +165,7 @@ public class AlgoDiscover extends AlgoElement {
                         GeoElement truth = ((GeoList) o[0]).get(0);
                         if (((GeoBoolean) truth).getBoolean()) {
                             // Theorem: Collinearity
-                            discoveryPool.addCollinearity(p0, p1, p2);
+                            discoveryPool.addCollinearity(p0, p1, p2).setDiscoverInput(p0);
                         }
                     }
                 }
@@ -177,26 +174,10 @@ public class AlgoDiscover extends AlgoElement {
             // Third round: Draw lines from the discovery pool
             // (those that are not yet drawn):
             for (Line l : discoveryPool.lines) {
-                boolean silentmode = cons.getKernel().isSilentMode();
-                boolean showline = false;
-                if (!oldLines.contains(l)) {
-                    showline = true;
-                }
-                if (oldLines.contains(l)) {
-                    if (silentmode && !l.shownSilent) {
-                        showline = true;
-                    }
-                    if (!silentmode && !l.shown) {
-                        showline = true;
-                    }
-                }
-                if (showline) {
+                if (!alreadyDrawn(l)) {
                     GeoPoint[] twopoints = l.getPoints2();
-                    addOutputLine(twopoints[0], twopoints[1]);
-                    if (!silentmode) {
-                        l.shown = true;
-                    } else {
-                        l.shownSilent = true;
+                    if (l.getDiscoverInput().equals(p0)) {
+                        addOutputLine(twopoints[0], twopoints[1]);
                     }
                 }
             }
@@ -396,6 +377,20 @@ public class AlgoDiscover extends AlgoElement {
         circle.updateVisualStyle(GProperty.COMBINED); // visibility and style
         cons.setSuppressLabelCreation(oldMacroMode);
         output_wip.add(circle);
+    }
+
+    private boolean alreadyDrawn(Line l) {
+        for (GeoElement ge : cons.getGeoSetLabelOrder()) {
+            if (ge instanceof GeoLine) {
+                GeoPoint p1 = ((GeoLine) ge).startPoint;
+                GeoPoint p2 = ((GeoLine) ge).endPoint;
+                HashSet<GeoPoint> points = l.getPoints();
+                if (points.contains(p1) && points.contains(p2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     void checkCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {

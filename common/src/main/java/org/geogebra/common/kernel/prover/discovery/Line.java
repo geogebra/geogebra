@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Line {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
-    public boolean shown, shownSilent;
+    private GeoPoint discoverInput;
     private final int id;
     private GeoLine line;
 
@@ -37,6 +37,14 @@ public class Line {
 
     public void collinear(GeoPoint p) {
         points.add(p);
+    }
+
+    public void setDiscoverInput(GeoPoint p) {
+        discoverInput = p;
+    }
+
+    public GeoPoint getDiscoverInput() {
+        return discoverInput;
     }
 
     public String toString() {
