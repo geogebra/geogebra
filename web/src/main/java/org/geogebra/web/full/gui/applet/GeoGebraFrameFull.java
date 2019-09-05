@@ -498,9 +498,7 @@ public class GeoGebraFrameFull
 						.isOpen()) {
 			return false;
 		}
-
 		if (app.getLAF().isTablet()
-
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
