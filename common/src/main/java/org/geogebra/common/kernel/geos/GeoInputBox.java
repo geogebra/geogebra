@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.properties.AlignmentType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -32,7 +33,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Michael
  *
  */
-public class GeoInputBox extends GeoButton implements HasSymbolicMode {
+public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment {
 	private static int defaultLength = 20;
 	private int length;
 	private int printDecimals = -1;
@@ -45,7 +46,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private boolean symbolicMode = false;
 	private boolean editing = false;
 
-	StringTemplate stringTemplateForLaTeX;
+	private StringTemplate stringTemplateForLaTeX;
+
+	private AlignmentType alignmentType;
 
 	/**
 	 * Creates new text field
@@ -56,6 +59,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	public GeoInputBox(Construction c) {
 		super(c);
 		length = defaultLength;
+		alignmentType = AlignmentType.LEFT;
 	}
 
 	/**
@@ -70,6 +74,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 		this(cons);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;
+		alignmentType = AlignmentType.LEFT;
 	}
 
 	@Override
@@ -212,6 +217,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 				sb.append(printFigures);
 				sb.append("\"/>\n");
 			}
+			if (getAlignment() != AlignmentType.LEFT) {
+				sb.append("\t<textAlign val=\"");
+				sb.append(getTextAligment());
+				sb.append("\"/>\n");
+			}
 		}
 
 		if (isSymbolicMode()) {
@@ -225,6 +235,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			sb.append("/>\n");
 		}
 
+	}
+
+	private String getTextAligment() {
+		if (getAlignment() == AlignmentType.LEFT) {
+			return "left";
+		} else if (getAlignment() == AlignmentType.CENTER) {
+			return "center";
+		}
+		return "right";
 	}
 
 	@Override
@@ -704,5 +723,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;
+	}
+
+	@Override
+	public void setAlignment(AlignmentType alignment) {
+		alignmentType = alignment;
+	}
+
+	@Override
+	public AlignmentType getAlignment() {
+		return alignmentType;
 	}
 }
