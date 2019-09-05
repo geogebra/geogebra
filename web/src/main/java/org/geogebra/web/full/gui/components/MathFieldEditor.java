@@ -44,6 +44,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	 *
 	 * @param app
 	 *            The application.
+	 * @param listener
+	 * 			  listener for the MathField
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this.app = (AppWFull) app;
