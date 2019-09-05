@@ -13,6 +13,8 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -25,7 +27,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  *
  * @author Laszlo
  */
-public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListener {
+public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListener, BlurHandler {
 
 	private static final int PADDING_LEFT = 2;
 	private static final int PADDING_TOP = 8;
@@ -37,7 +39,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	private MathFieldW mathField;
 	private MathFieldScroller scroller;
 	private RetexKeyboardListener retexListener;
-	private Canvas canvas;
+	private boolean preventBlur;
 
 	/**
 	 * Constructor
@@ -57,15 +59,17 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new KeyboardFlowPanel();
-		canvas = Canvas.createIfSupported();
+		Canvas canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
 				canvas, listener,
 				directFormulaConversion,
 				null);
 		mathField.setClickListener(this);
+		mathField.setOnBlur(this);
 		scroller = new MathFieldScroller(main);
 		main.add(mathField);
-		createKeyboardListener();
+		retexListener = new RetexKeyboardListener(canvas, mathField);
+
 	}
 
 	private void initEventHandlers() {
@@ -86,6 +90,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	 * Called when editor was clicked.
 	 */
 	private void editorClicked() {
+		preventBlur = true;
 		requestFocus();
 	}
 
@@ -94,7 +99,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	 */
 	public void requestFocus() {
 		app.getGlobalKeyDispatcher().setFocused(true);
-		mathField.setFocus(true);
+		mathField.requestViewFocus(new Runnable() {
+			@Override
+			public void run() {
+				preventBlur = false;
+			}
+		});
 		setKeyboardVisible(true);
 	}
 
@@ -134,10 +144,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		main.addStyleName(style);
 	}
 
-	private void createKeyboardListener() {
-		retexListener = new RetexKeyboardListener(canvas, mathField);
-	}
-
 	private void setKeyboardVisible(boolean visible) {
 		frame.doShowKeyBoard(visible, retexListener);
 	}
@@ -165,5 +171,13 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	@Override
 	public void onScroll(int dx, int dy) {
 		// not used
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		if (preventBlur) {
+			return;
+		}
+		frame.doHideKeyboard(retexListener);
 	}
 }

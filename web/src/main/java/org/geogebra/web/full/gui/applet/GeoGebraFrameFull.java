@@ -275,11 +275,7 @@ public class GeoGebraFrameFull
 			}
 		} else {
 			showZoomPanel(true);
-			keyboardState = KeyboardState.ANIMATING_OUT;
-			app.persistWidthAndHeight();
-			showKeyboardButton(textField);
-			removeKeyboard(textField);
-			keyboardState = KeyboardState.HIDDEN;
+			doHideKeyboard(textField);
 		}
 
 		// this.mainPanel.add(this.dockPanel);
@@ -293,6 +289,19 @@ public class GeoGebraFrameFull
 			}
 		};
 		timer.schedule(0);
+	}
+
+	/**
+	 * Hides the keyboard
+	 *
+	 * @param textField the listener.
+	 */
+	public void doHideKeyboard(MathKeyboardListener textField) {
+		keyboardState = KeyboardState.ANIMATING_OUT;
+		app.persistWidthAndHeight();
+		showKeyboardButton(textField);
+		removeKeyboard(textField);
+		keyboardState = KeyboardState.HIDDEN;
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
