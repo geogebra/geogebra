@@ -5,17 +5,10 @@ public interface ScreenReaderAdapter {
 	/**
 	 * Read text if possible.
 	 * 
-	 * @param textString
+	 * @param text
 	 *            text
 	 */
-	void readText(String textString);
+	void readText(String text);
 
-	/**
-	 * Force read given text
-	 * 
-	 * @param textString
-	 *            text
-	 */
-	void readTextImmediate(String textString);
-
+    void readDelayed(String text);
 }
