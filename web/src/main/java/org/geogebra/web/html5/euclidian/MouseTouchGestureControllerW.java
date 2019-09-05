@@ -415,6 +415,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		CancelEventTimer.touchEventOccured();
 		moveCounter = 0;
 		ignoreEvent = false;
+		ec.resetPinchZoomOccured();
 		final boolean inputBoxFocused = false;
 		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 		if (targets.length() == 1) {
