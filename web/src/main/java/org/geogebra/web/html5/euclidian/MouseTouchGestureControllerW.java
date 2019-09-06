@@ -628,8 +628,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		double dragStart = GeoGebraProfilerW.getMillisecondTimeNative();
 		GeoGebraProfiler.incrementDrags();
 		ec.wrapMouseDragged(event, startCapture);
-		GeoGebraProfiler.incrementDragTime((int) (GeoGebraProfilerW.getMillisecondTimeNative()
-				- dragStart));
+		GeoGebraProfiler.incrementDragTime(
+				(int) (GeoGebraProfilerW.getMillisecondTimeNative() - dragStart));
 	}
 
 	/**
