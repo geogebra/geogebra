@@ -86,6 +86,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.prover.discovery.Circle;
 import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -2031,6 +2032,17 @@ public abstract class GeoElement extends ConstructionElement
 					return false;
 				}
 			}
+            for (Circle c : this.getKernel().getApplication().getDiscoveryPool().circles) {
+                if (c.getPoints().contains(this)) {
+                    return false;
+                }
+            }
+            for (Circle c : this.getKernel().getApplication().getTrivialPool().circles) {
+                if (c.getPoints().contains(this)) {
+                    return false;
+                }
+            }
+
 		}
 		// This does not help, unfortunately, if the point will be redefined via a command. TODO
 

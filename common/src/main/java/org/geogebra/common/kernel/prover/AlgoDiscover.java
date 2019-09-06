@@ -26,6 +26,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.discovery.Circle;
 import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -89,10 +91,10 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     /*
-     * Build the whole database of collinearities,
+     * Build the whole database of properties,
      * including all points in the construction list.
      */
-    private void detectCollinearities(GeoPoint p) {
+    private void detectProperties(GeoPoint p) {
         HashSet<GeoElement> ges = new HashSet<>();
         for (GeoElement ge : cons.getGeoSetLabelOrder()) {
             ges.add(ge);
@@ -101,9 +103,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         for (GeoElement ge : ges) {
             if (ge instanceof GeoPoint && !p.equals(ge)) {
                 collectCollinearites((GeoPoint) ge, false);
+                collectCollinearites((GeoPoint) ge, false);
             }
         }
         collectCollinearites(p, true);
+        collectConcyclicities(p, true);
     }
 
     /*
@@ -184,9 +188,88 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         }
     }
 
+    /*
+     * Extend the database of collinearities by
+     * collecting all of them for a given input.
+     */
+    private void collectConcyclicities(GeoPoint p0, boolean discover) {
+        Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
+        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+
+        HashSet<GeoPoint> prevPoints = new HashSet<GeoPoint>();
+        for (GeoElement ge : cons.getGeoSetLabelOrder()) {
+            if (ge instanceof GeoPoint && !ge.equals(p0)) {
+                prevPoints.add((GeoPoint) ge);
+            }
+        }
+
+        Combinations circles = new Combinations(prevPoints, 3);
+
+        while (circles.hasNext()) {
+            Set<GeoPoint> circle = circles.next();
+            Iterator<GeoPoint> i = circle.iterator();
+            GeoPoint p1 = i.next();
+            GeoPoint p2 = i.next();
+            GeoPoint p3 = i.next();
+            if (!trivialPool.areConcyclic(p0, p1, p2, p3) &&
+                    !discoveryPool.areConcyclic(p0, p1, p2, p3)) {
+                // Add {p0,p1,p2,p3} to the trivial pool if they are trivially concyclic:
+                checkConcyclicity(p0, p1, p2, p3);
+            }
+            if (!trivialPool.areConcyclic(p0, p1, p2, p3)) {
+                trivialPool.addCircle(p0, p1, p2);
+                trivialPool.addCircle(p0, p1, p3);
+                trivialPool.addCircle(p0, p2, p3);
+                trivialPool.addCircle(p1, p2, p3);
+            }
+        }
+
+        if (discover) {
+            // Second round:
+            // put non-trivial concyclicities in the
+            // discovery pool.
+            circles = new Combinations(prevPoints, 3);
+            while (circles.hasNext()) {
+                Set<GeoPoint> circle = circles.next();
+                Iterator<GeoPoint> i = circle.iterator();
+                GeoPoint p1 = i.next();
+                GeoPoint p2 = i.next();
+                GeoPoint p3 = i.next();
+                if (!trivialPool.areConcyclic(p0, p1, p2, p3) &&
+                        !discoveryPool.areConcyclic(p0, p1, p2, p3)) {
+                    AlgoAreConcyclic aac = new AlgoAreConcyclic(cons, p0, p1, p2, p3);
+                    if (aac.getResult().getBoolean()) {
+                        // Conjecture: Concyclicity
+                        GeoElement root = new GeoBoolean(cons);
+                        root.setParentAlgorithm(aac);
+                        AlgoProveDetails ap = new AlgoProveDetails(cons, root);
+                        ap.compute();
+                        GeoElement[] o = ap.getOutput();
+                        GeoElement truth = ((GeoList) o[0]).get(0);
+                        if (((GeoBoolean) truth).getBoolean()) {
+                            // Theorem: Concyclicity
+                            discoveryPool.addConcyclicity(p0, p1, p2, p3);
+                        }
+                    }
+                }
+            }
+
+            // Third round: Draw circles from the discovery pool
+            // (those that are not yet drawn):
+            for (Circle c : discoveryPool.circles) {
+                if (!alreadyDrawn(c)) {
+                    GeoPoint[] threepoints = c.getPoints3();
+                    if (c.getPoints().contains(p0)) {
+                        addOutputCircle(threepoints[0], threepoints[1], threepoints[2]);
+                    }
+                }
+            }
+        }
+    }
+
     public final void initialCompute() {
 
-        detectCollinearities((GeoPoint) this.input);
+        detectProperties((GeoPoint) this.input);
         // Remove this to get collinearity check demo:
         if (1 + 2 == 3)
             return;
@@ -391,6 +474,28 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             }
         }
         return false;
+    }
+
+    private boolean alreadyDrawn(Circle c) {
+        for (GeoElement ge : cons.getGeoSetLabelOrder()) {
+            if (ge instanceof GeoConic && ((GeoConic) ge).isCircle()) {
+                ArrayList<GeoPointND> cpoints = ((GeoConic) ge).getPointsOnConic();
+                if (cpoints.size() == 3) {
+                    GeoPoint p1 = (GeoPoint) cpoints.get(0);
+                    GeoPoint p2 = (GeoPoint) cpoints.get(1);
+                    GeoPoint p3 = (GeoPoint) cpoints.get(2);
+                    HashSet<GeoPoint> points = c.getPoints();
+                    if (points.contains(p1) && points.contains(p2) && points.contains(p3)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    void checkConcyclicity(GeoPoint A, GeoPoint B, GeoPoint C, GeoPoint D) {
+        // TODO. To be written.
     }
 
     void checkCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
