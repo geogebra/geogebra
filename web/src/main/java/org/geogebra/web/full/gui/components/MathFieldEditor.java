@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -40,6 +43,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	private MathFieldScroller scroller;
 	private RetexKeyboardListener retexListener;
 	private boolean preventBlur;
+	private List<BlurHandler> blurHandlers;
 
 	/**
 	 * Constructor
@@ -73,6 +77,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	}
 
 	private void initEventHandlers() {
+		blurHandlers = new ArrayList<>();
 		EventUtil.stopPointer(main.getElement());
 
 		ClickStartHandler.init(main,
@@ -84,6 +89,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 						editorClicked();
 					}
 				});
+	}
+
+	public void addBlurHandler(BlurHandler handler) {
+		blurHandlers.add(handler);
 	}
 
 	/**
@@ -178,6 +187,24 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		if (preventBlur) {
 			return;
 		}
+
+		for (BlurHandler handler: blurHandlers) {
+			handler.onBlur(event);
+		}
+	}
+
+	/**
+	 * Hides keyboard.
+	 */
+	public void hideKeyboard() {
 		frame.doHideKeyboard(retexListener);
+	}
+
+	/**
+	 * Stops editing and closes keyboard.
+	 */
+	public void reset() {
+		mathField.setFocus(false);
+		hideKeyboard();
 	}
 }

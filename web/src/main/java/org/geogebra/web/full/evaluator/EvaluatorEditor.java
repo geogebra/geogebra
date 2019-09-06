@@ -3,6 +3,8 @@ package org.geogebra.web.full.evaluator;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -13,7 +15,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
  *
  * @author Laszlo
  */
-public class EvaluatorEditor implements IsWidget, MathFieldListener {
+public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
 
 	private MathFieldEditor mathFieldEditor;
 
@@ -26,11 +28,12 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 	public EvaluatorEditor(App app) {
 		mathFieldEditor = new MathFieldEditor(app, this);
 		mathFieldEditor.addStyleName("evaluatorEditor");
+		mathFieldEditor.addBlurHandler(this);
 	}
 
 	@Override
 	public void onEnter() {
-		// TODO: implement this
+		mathFieldEditor.reset();
 	}
 
 	@Override
@@ -85,5 +88,10 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener {
 
 	public void requestFocus() {
 		mathFieldEditor.requestFocus();
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		mathFieldEditor.hideKeyboard();
 	}
 }
