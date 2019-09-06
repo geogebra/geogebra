@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -2117,7 +2118,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d
 							.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible()) {
+				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
 					if (geo instanceof GeoInputBox) {
 						focusTextField((GeoInputBox) geo);
 					}
@@ -2200,7 +2201,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// then regions
 		for (GeoElement geo : hitFilling) {
-			hits.add(geo);
+			if (geo.isSelectionAllowed(this)) {
+				hits.add(geo);
+			}
 		}
 
 		// look for axis
@@ -2255,24 +2258,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public MyButton getHitButton(GPoint p, PointerEventType type) {
-		DrawableIterator it = allDrawableList.getIterator();
-		Drawable d = null;
-
-		while (it.hasNext()) {
-			Drawable d2 = it.next();
-
-			if (d2 instanceof DrawButton
-					&& d2.hit(p.x, p.y, app.getCapturingThreshold(type))) {
-				if (d == null
-						|| d2.getGeoElement().getLayer() >= d.getGeoElement()
-								.getLayer()) {
-					d = d2;
-				}
+		for (GeoElement geoElement : hits) {
+			if (geoElement instanceof GeoButton) {
+				return ((DrawButton) getDrawableFor(geoElement)).myButton;
 			}
 		}
-		if (d != null) {
-			return ((DrawButton) d).myButton;
-		}
+
 		return null;
 	}
 
