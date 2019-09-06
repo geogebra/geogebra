@@ -3,10 +3,12 @@ package org.geogebra.common.kernel.prover.discovery;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Line {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
+    private GeoLine geoLine;
 
     public Line(GeoPoint p1, GeoPoint p2) {
         points.add(p1);
@@ -43,5 +45,14 @@ public class Line {
         }
         return ret;
     }
+
+    public GeoLine getGeoLine() {
+        return geoLine;
+    }
+
+    public void setGeoLine(GeoLine gl) {
+        geoLine = gl;
+    }
+
 
 }

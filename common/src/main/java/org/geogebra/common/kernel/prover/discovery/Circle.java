@@ -3,10 +3,13 @@ package org.geogebra.common.kernel.prover.discovery;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Circle {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
+
+    private GeoConic geoConic;
 
     public Circle(GeoPoint p1, GeoPoint p2, GeoPoint p3) {
         points.add(p1);
@@ -45,5 +48,14 @@ public class Circle {
         }
         return ret;
     }
+
+    public GeoConic getGeoConic() {
+        return geoConic;
+    }
+
+    public void setGeoConic(GeoConic gc) {
+        geoConic = gc;
+    }
+
 
 }

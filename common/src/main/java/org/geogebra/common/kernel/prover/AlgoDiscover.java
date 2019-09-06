@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMidpoint;
 import org.geogebra.common.kernel.algos.AlgoMidpointSegment;
+import org.geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
@@ -87,7 +88,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     @Override
-    public final void compute() {
+    public final void compute() { // do nothing for the moment
     }
 
     /*
@@ -181,7 +182,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 if (!alreadyDrawn(l)) {
                     GeoPoint[] twopoints = l.getPoints2();
                     if (l.getPoints().contains(p0)) {
-                        addOutputLine(twopoints[0], twopoints[1]);
+                        l.setGeoLine(addOutputLine(twopoints[0], twopoints[1]));
                     }
                 }
             }
@@ -266,7 +267,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 if (!alreadyDrawn(c)) {
                     GeoPoint[] threepoints = c.getPoints3();
                     if (c.getPoints().contains(p0)) {
-                        addOutputCircle(threepoints[0], threepoints[1], threepoints[2]);
+                        c.setGeoConic(addOutputCircle(threepoints[0], threepoints[1], threepoints[2]));
                     }
                 }
             }
@@ -281,8 +282,43 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         return false;
     }
 
+    private void detectOrthogonalCollinearities() {
+        Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
+        for (GeoElement ortholine : cons.getGeoSetLabelOrder()) {
+            if (ortholine instanceof GeoLine && ortholine.getParentAlgorithm() instanceof AlgoOrthoLinePointLine) {
+                GeoPoint startpoint = ((GeoLine) ortholine).getStartPoint();
+                HashSet<GeoPoint> ortholinepoints = new HashSet<>();
+                GeoPoint secondpoint = null;
+                // ortholinepoints.add(startpoint); // it is always there, no point to store it and waste memory
+                for (GeoElement point : cons.getGeoSetLabelOrder()) {
+                    if (point instanceof GeoPoint) {
+                        AlgoElement ae = point.getParentAlgorithm();
+                        if (ae instanceof AlgoIntersectLines) {
+                            GeoLine line1 = (GeoLine) ae.getInput(0);
+                            GeoLine line2 = (GeoLine) ae.getInput(1);
+                            if (line1.equals(ortholine) || line2.equals(ortholine)) {
+                                if (secondpoint == null) {
+                                    secondpoint = (GeoPoint) point;
+                                } else {
+                                    ortholinepoints.add((GeoPoint) point);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (ortholinepoints.size() > 0) {
+                    trivialPool.addLine(startpoint, secondpoint);
+                    for (GeoPoint p : ortholinepoints) {
+                        trivialPool.addCollinearity(startpoint, secondpoint, p);
+                    }
+                }
+            }
+        }
+    }
+
     public final void initialCompute() {
 
+        detectOrthogonalCollinearities();
         detectProperties((GeoPoint) this.input);
         // Remove this to get collinearity check demo:
         if (1 + 2 == 3)
@@ -450,7 +486,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         output_wip.add(b);
     }
 
-    void addOutputLine(GeoPoint A, GeoPoint B) {
+    GeoLine addOutputLine(GeoPoint A, GeoPoint B) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
         AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, A, B);
         GeoLine l = ajp.getLine();
@@ -461,9 +497,10 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         l.updateVisualStyle(GProperty.COMBINED); // visibility and style
         cons.setSuppressLabelCreation(oldMacroMode);
         output_wip.add(l);
+        return l;
     }
 
-    void addOutputCircle(GeoPoint A, GeoPoint B, GeoPoint C) {
+    GeoConic addOutputCircle(GeoPoint A, GeoPoint B, GeoPoint C) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
         AlgoCircleThreePoints actp = new AlgoCircleThreePoints(cons, null, A, B, C);
         GeoConic circle = (GeoConic) actp.getCircle();
@@ -474,6 +511,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         circle.updateVisualStyle(GProperty.COMBINED); // visibility and style
         cons.setSuppressLabelCreation(oldMacroMode);
         output_wip.add(circle);
+        return circle;
     }
 
     private boolean alreadyDrawn(Line l) {

@@ -243,6 +243,9 @@ public class Pool {
                 l.deletePoint(p);
                 if (l.getPoints().size() < 3) {
                     lines.remove(l);
+                    if (l.getGeoLine() != null) {
+                        l.getGeoLine().remove();
+                    }
                 }
             }
         }
@@ -253,6 +256,9 @@ public class Pool {
                 c.deletePoint(p);
                 if (c.getPoints().size() < 4) {
                     circles.remove(c);
+                    if (c.getGeoConic() != null) {
+                        c.getGeoConic().remove();
+                    }
                 }
             }
         }
