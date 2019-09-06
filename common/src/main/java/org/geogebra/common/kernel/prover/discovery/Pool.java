@@ -246,6 +246,16 @@ public class Pool {
                 }
             }
         }
+
+        ArrayList<Circle> oldCircles = (ArrayList<Circle>) circles.clone();
+        for (Circle c : oldCircles) {
+            if (c.getPoints().contains(p)) {
+                c.deletePoint(p);
+                if (c.getPoints().size() < 4) {
+                    circles.remove(c);
+                }
+            }
+        }
     }
 }
 
