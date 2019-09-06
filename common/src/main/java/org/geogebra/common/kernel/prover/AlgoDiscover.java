@@ -211,6 +211,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             GeoPoint p1 = i.next();
             GeoPoint p2 = i.next();
             GeoPoint p3 = i.next();
+            // In case 3 of the 4 are collinear, let's ignore this case:
+            if (are3Collinear(p0, p1, p2, p3)) {
+                continue;
+            }
+
             if (!trivialPool.areConcyclic(p0, p1, p2, p3) &&
                     !discoveryPool.areConcyclic(p0, p1, p2, p3)) {
                 // Add {p0,p1,p2,p3} to the trivial pool if they are trivially concyclic:
@@ -235,7 +240,8 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 GeoPoint p1 = i.next();
                 GeoPoint p2 = i.next();
                 GeoPoint p3 = i.next();
-                if (!trivialPool.areConcyclic(p0, p1, p2, p3) &&
+                if (!are3Collinear(p0, p1, p2, p3) &&
+                        !trivialPool.areConcyclic(p0, p1, p2, p3) &&
                         !discoveryPool.areConcyclic(p0, p1, p2, p3)) {
                     AlgoAreConcyclic aac = new AlgoAreConcyclic(cons, p0, p1, p2, p3);
                     if (aac.getResult().getBoolean()) {
@@ -265,6 +271,14 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 }
             }
         }
+    }
+
+    private boolean are3Collinear(GeoPoint A, GeoPoint B, GeoPoint C, GeoPoint D) {
+        if (GeoPoint.collinear(A, B, C) || GeoPoint.collinear(A, B, D) || GeoPoint.collinear(A, C, D)
+                || GeoPoint.collinear(B, C, D)) {
+            return true;
+        }
+        return false;
     }
 
     public final void initialCompute() {
