@@ -114,7 +114,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 				preventBlur = false;
 			}
 		});
-		setKeyboardVisible(true);
+
+		showKeyboard();
 	}
 
 	/**
@@ -153,13 +154,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		main.addStyleName(style);
 	}
 
-	private void setKeyboardVisible(boolean visible) {
-		frame.doShowKeyBoard(visible, retexListener);
-	}
-
 	@Override
 	public void onPointerDown(int x, int y) {
-		setKeyboardVisible(true);
+		showKeyboard();
 	}
 
 	@Override
@@ -188,15 +185,32 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 			return;
 		}
 
+		mathField.setFocus(false);
+
 		for (BlurHandler handler: blurHandlers) {
 			handler.onBlur(event);
 		}
 	}
 
 	/**
+	 * Shows keyboard.
+	 */
+	public void showKeyboard() {
+		if (frame.isKeyboardShowing()) {
+			return;
+		}
+
+		frame.doShowKeyBoard(true, retexListener);
+	}
+
+	/**
 	 * Hides keyboard.
 	 */
 	public void hideKeyboard() {
+		if (!frame.isKeyboardShowing()) {
+			return;
+		}
+
 		frame.doHideKeyboard(retexListener);
 	}
 
