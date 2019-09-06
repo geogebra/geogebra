@@ -3,7 +3,7 @@
   <inherits name='org.geogebra.web.Html5'/>
   <inherits name='fr.grenoble.ujf.Giac'/>
 
-  <entry-point class='org.geogebra.web.html5.WebSimple'/>
+  <entry-point class='org.geogebra.web.simple.WebSimple'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, gecko1_8, ie9, ie10" />
@@ -11,6 +11,7 @@
   <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
 
   <source path='plugin'/>
+  <source path='simple'/>
   <public path='pub' />
   <source path='cas/giac'/>
   

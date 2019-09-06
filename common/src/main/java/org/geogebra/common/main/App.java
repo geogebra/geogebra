@@ -3180,7 +3180,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void showRelation(final GeoElement ra, final GeoElement rb,
 			final GeoElement rc, final GeoElement rd) {
-		Relation.showRelation(this, ra, rb, rc, rd);
+		new Relation(this, ra, rb, rc, rd).showDialog();
 	}
 
 	public GeoElement getGeoForCopyStyle() {
@@ -5155,5 +5155,28 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public FpsProfiler getFpsProfiler() {
 		return null;
+	}
+
+	/**
+	 * Autonomously draws from the coords.json file.
+	 */
+	public void testDraw() {
+		// no-op
+	}
+
+	/**
+	 * Records the drawing.
+	 */
+	public void startDrawRecording() {
+		// no-op
+	}
+
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	public void endDrawRecordingAndLogResults() {
+		// no-op
 	}
 }

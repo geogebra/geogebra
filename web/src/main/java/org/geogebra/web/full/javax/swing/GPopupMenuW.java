@@ -657,7 +657,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 
 		private GCollapseMenuItem getCollapseMenuAt(int idx) {
-			if (idx < 0 && idx > getItems().size()) {
+			if (idx < 0 || idx >= getItems().size()) {
 				return null;
 			}
 			return expandItems.get(getItemAt(idx));

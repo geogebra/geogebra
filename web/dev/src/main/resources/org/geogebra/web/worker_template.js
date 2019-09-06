@@ -1,45 +1,42 @@
 /* global self, caches*/
  
 var silent = true, // disable output to console
-  urlsToCache = {
+  cacheConfig = {
     "unique_id": "#%ID%",
     "urls_to_cache": [
-      %URLS%,
-      "https://cdn.geogebra.org/files/lib/jquery/1.11.1/jquery.min.js",
-      "https://cdn.geogebra.org/files/lib/jqueryui/1.11.1/jquery-ui.min.js",
-      "/scripts/jlatexmath/jlatexmath.js?v=1472544409"
+      %URLS%
     ]
   };
  
+function loadIntoCache(cache) {
+  silent || console.info('[install] Caches opened, adding GeoGebraWeb js files to cache');
+  // check if cdn.geogebra.org version already exists!
+  cacheConfig.urls_to_cache.forEach(function (curUrl) {
+    caches.match(curUrl).then(function (response) {
+      if (response) {
+        silent || console.log('[install] Resource already cached: ' + curUrl);
+        return false;
+      }
+      silent || console.log('[install] Resource added to cache: ' + curUrl);
+      return cache.add(curUrl);
+    });
+  });
+}
+        
 self.addEventListener('install', function (event) {
   "use strict";
   silent || console.info('[install] Started');
   event.waitUntil(
     caches
-      .open(urlsToCache.unique_id)
-      .then(function (cache) {
-        silent || console.info('[install] Caches opened, adding GeoGebraWeb js files to cache');
-        // check if cdn.geogebra.org version already exists!
-        urlsToCache.urls_to_cache.forEach(function (curUrl) {
-          var modUrl = curUrl.replace(/download.geogebra.org\/web\/5.0/, 'cdn.geogebra.org/apps');
-          caches.match(modUrl).then(function (response) {
-            if (response) {
-              silent || console.log('[install] Resource with modified url already cached: ' + modUrl);
-              return false;
-            }
-            silent || console.log('[install] Resource added to cache: ' + curUrl);
-            return cache.add(curUrl);
-          });
-        });
-      })
+      .open(cacheConfig.unique_id)
+      .then(loadIntoCache)
   );
 });
  
 self.addEventListener('fetch', function (event) {
   "use strict";
   // Use the service worker only for uls from the urls_to_cache array
-  var modUrl = event.request.url.replace(/cdn.geogebra.org\/apps/, 'download.geogebra.org/web/5.0');
-  if (urlsToCache.urls_to_cache.indexOf(event.request.url) !== -1 || urlsToCache.urls_to_cache.indexOf(modUrl) !== -1) {
+  if (cacheConfig.urls_to_cache.indexOf(event.request.url) !== -1) {
     event.respondWith(
       caches
         .match(event.request)
@@ -49,20 +46,7 @@ self.addEventListener('fetch', function (event) {
             silent || console.log("[fetch] Load resource with original url from cache: " + event.request.url);
             return response;
           }
-          // second attempt: find file with different url in caches
-          if (urlsToCache.urls_to_cache.indexOf(modUrl) !== -1) {
-            return caches
-              .match(modUrl)
-              .then(function (response) {
-                if (response) {
-                  silent || console.log("[fetch] Url in list, load resource with overridden url from cache: " + modUrl);
-                  return response;
-                }
-                silent || console.log("[fetch] Overridden url in list, but no match in cached files: " + event.request.url);
-                return fetch(event.request);
-              });
-          }
-          // third attempt: fetch un-cached file from other place
+          // second attempt: fetch un-cached file from other place
           silent || console.log("[fetch] No match in cached files: " + event.request.url);
           return fetch(event.request);
         }).catch(function (reason) {
@@ -81,7 +65,7 @@ self.addEventListener('activate', function (event) {
       .then(function (cacheNames) {
         return Promise.all(
           cacheNames.map(function (cacheName) {
-            if (urlsToCache.unique_id !== cacheName) {
+            if (cacheConfig.unique_id !== cacheName) {
               silent || console.log("deleting from cache " + cacheName);
               return caches.delete(cacheName);
             }

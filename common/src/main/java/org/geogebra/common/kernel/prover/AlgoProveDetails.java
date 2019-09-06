@@ -77,22 +77,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * Proves the given statement and gives some details in a list.
-	 * 
-	 * @param cons
-	 *            The construction
-	 * @param label
-	 *            Label for the output
-	 * @param root
-	 *            Input statement
-	 */
-
-	public AlgoProveDetails(Construction cons, String label, GeoElement root) {
-		this(cons, root);
-		list.setLabel(label);
-	}
-
-	/**
 	 * Proves the given statement and gives some details in a list
 	 * 
 	 * @param cons

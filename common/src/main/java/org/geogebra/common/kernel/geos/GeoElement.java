@@ -691,9 +691,14 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getRedefineString(final boolean useChangeable,
-			final boolean useOutputValueString) {
+									final boolean useOutputValueString) {
+		return getRedefineString(useChangeable, useOutputValueString,
+				StringTemplate.editTemplate);
+	}
 
-		StringTemplate tpl = StringTemplate.editTemplate;
+	@Override
+	public String getRedefineString(final boolean useChangeable,
+			final boolean useOutputValueString, StringTemplate tpl) {
 		String ret = "";
 		final boolean isIndependent = !isPointOnPath() && useChangeable
 				? isChangeable() : isIndependent();

@@ -2629,7 +2629,7 @@ __GGB__keysVar["gl"].menu = {
     "ScientificCalculator.short": "Sci Calc",
     "Script": "Gui\xf3n (Script) GeoGebra",
     "Scripting": "Programa de Gui\xf3n - Scripting",
-    "Search": "Search",
+    "Search": "Procurar",
     "SearchCommands": "Buscar comandos",
     "SearchInA": "Buscar en %0",
     "SecondAxisLengthOfA": "Lonxitude do semi-eixe secundario de %0",

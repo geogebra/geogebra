@@ -130,7 +130,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	@Override
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y) {
+	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+												 boolean isPinchZooming) {
 		if (right && !isFreehand()) {
 			return false;
 		}
@@ -163,6 +164,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/** @return true if a shape was created, false otherwise */
 	private boolean mouseReleasedFreehand(int x, int y) {
 		int n = maxX - minX + 1;
+
+		if (n < 0) {
+			return false;
+		}
 		double[] freehand1 = new double[n];
 
 		GeoElement shape = checkShapes(x, y);
