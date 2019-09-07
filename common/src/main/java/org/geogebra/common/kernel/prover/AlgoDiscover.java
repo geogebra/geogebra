@@ -58,11 +58,6 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         this.output = new GeoElement[output_wip.size()];
         for (int i = 0; i < output_wip.size(); ++i) {
             this.output[i] = output_wip.get(i);
-            boolean oldMacroMode = cons.isSuppressLabelsActive();
-            this.output[i].setEuclidianVisible(true);
-            this.output[i].setLabelVisible(true);
-            this.output[i].updateVisualStyle(GProperty.COMBINED); // visibility and style
-            cons.setSuppressLabelCreation(oldMacroMode);
         }
 
         setInputOutput();
@@ -465,7 +460,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
     GColor nextColor(GeoElement e) {
         return e.getAutoColorScheme()
-                .getNext(!cons.getKernel().isSilentMode());
+                .getNext(true);
     }
 
     void addOutputLines(GeoLine a, GeoLine b) {
@@ -488,6 +483,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
     GeoLine addOutputLine(GeoPoint A, GeoPoint B) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
+        cons.setSuppressLabelCreation(false);
         AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, A, B);
         GeoLine l = ajp.getLine();
         l.setObjColor(nextColor(l));
@@ -502,6 +498,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
     GeoConic addOutputCircle(GeoPoint A, GeoPoint B, GeoPoint C) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
+        cons.setSuppressLabelCreation(false);
         AlgoCircleThreePoints actp = new AlgoCircleThreePoints(cons, null, A, B, C);
         GeoConic circle = (GeoConic) actp.getCircle();
         circle.setObjColor(nextColor(circle));
