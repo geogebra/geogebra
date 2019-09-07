@@ -167,7 +167,9 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                             // Theorem: Collinearity
                             discoveryPool.addCollinearity(p0, p1, p2);
                         }
+                        ap.remove();
                     }
+                    aac.remove();
                 }
             }
 
@@ -252,7 +254,9 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                             // Theorem: Concyclicity
                             discoveryPool.addConcyclicity(p0, p1, p2, p3);
                         }
+                        ap.remove();
                     }
+                    aac.remove();
                 }
             }
 
