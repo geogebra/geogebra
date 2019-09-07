@@ -50,7 +50,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     public AlgoDiscover(final Construction cons,
                         final GeoElement input) {
         super(cons);
-        cons.addCASAlgo(this);
+        setPrintedInXML(false);
         this.input = input;
         output_wip = new ArrayList<>();
 
@@ -487,10 +487,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
     GeoLine addOutputLine(GeoPoint A, GeoPoint B) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
-        cons.setSuppressLabelCreation(false);
         AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, A, B);
         GeoLine l = ajp.getLine();
-        l.setObjColor(nextColor(l));
+        if (!A.getKernel().isSilentMode()) {
+            l.setObjColor(nextColor(l));
+        }
         l.setEuclidianVisible(true);
         l.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
         l.setLabelVisible(true);
@@ -502,10 +503,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
     GeoConic addOutputCircle(GeoPoint A, GeoPoint B, GeoPoint C) {
         boolean oldMacroMode = cons.isSuppressLabelsActive();
-        cons.setSuppressLabelCreation(false);
         AlgoCircleThreePoints actp = new AlgoCircleThreePoints(cons, null, A, B, C);
         GeoConic circle = (GeoConic) actp.getCircle();
-        circle.setObjColor(nextColor(circle));
+        if (!A.getKernel().isSilentMode()) {
+            circle.setObjColor(nextColor(circle));
+        }
         circle.setEuclidianVisible(true);
         circle.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
         circle.setLabelVisible(true);
