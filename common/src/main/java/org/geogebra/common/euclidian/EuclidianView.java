@@ -56,8 +56,8 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -2260,7 +2260,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public MyButton getHitButton(GPoint p, PointerEventType type) {
 		for (GeoElement geoElement : hits) {
 			if (geoElement instanceof GeoButton) {
-				return ((DrawButton) getDrawableFor(geoElement)).myButton;
+				DrawableND drawable = getDrawableFor(geoElement);
+				if (drawable instanceof DrawButton) {
+					return ((DrawButton) drawable).myButton;
+				}
 			}
 		}
 
