@@ -1116,7 +1116,7 @@ public class ConsElementXMLHandler {
 
 		String align = attrs.get("val");
 
-		if (geo instanceof GeoInputBox) {
+		if (geo instanceof HasAlignment) {
 			if (align.equals("right")) {
 				((GeoInputBox) geo).setAlignment(AlignmentType.RIGHT);
 			} else if (align.equals("center")) {
