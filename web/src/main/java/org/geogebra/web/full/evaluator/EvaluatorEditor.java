@@ -92,6 +92,6 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		mathFieldEditor.hideKeyboard();
+		mathFieldEditor.setKeyboardVisibility(false);
 	}
 }
