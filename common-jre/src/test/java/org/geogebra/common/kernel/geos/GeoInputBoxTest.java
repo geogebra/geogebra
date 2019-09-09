@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.geos.properties.AlignmentType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,12 +33,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
         App app = getApp();
         add("A = (1,1)");
         GeoInputBox inputBox = (GeoInputBox) add("B = Inputbox(A)");
-        Assert.assertEquals(AlignmentType.LEFT, inputBox.getAlignment());
-        inputBox.setAlignment(AlignmentType.CENTER);
-        Assert.assertEquals(AlignmentType.CENTER, inputBox.getAlignment());
+        Assert.assertEquals(TextAlignment.LEFT, inputBox.getAlignment());
+        inputBox.setAlignment(TextAlignment.CENTER);
+        Assert.assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
         String appXML = app.getXML();
         app.setXML(appXML, true);
         inputBox = (GeoInputBox) lookup("B");
-        Assert.assertEquals(AlignmentType.CENTER, inputBox.getAlignment());
+        Assert.assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
     }
 }

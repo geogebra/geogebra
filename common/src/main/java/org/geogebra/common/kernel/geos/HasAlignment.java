@@ -1,17 +1,17 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.geos.properties.AlignmentType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 
 public interface HasAlignment {
 
     /**
      *  sets the text alignment
      */
-    public void setAlignment(AlignmentType alignment);
+    public void setAlignment(TextAlignment alignment);
 
     /**
      *
      * @return the text alignment
      */
-    public AlignmentType getAlignment();
+    public TextAlignment getAlignment();
 }

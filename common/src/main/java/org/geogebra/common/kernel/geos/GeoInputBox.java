@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.properties.AlignmentType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -48,7 +48,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private StringTemplate stringTemplateForLaTeX;
 
-	private AlignmentType alignmentType = AlignmentType.LEFT;
+	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	/**
 	 * Creates new text field
@@ -215,7 +215,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				sb.append(printFigures);
 				sb.append("\"/>\n");
 			}
-			if (getAlignment() != AlignmentType.LEFT) {
+			if (getAlignment() != TextAlignment.LEFT) {
 				sb.append("\t<textAlign val=\"");
 				sb.append(getAlignment().toString());
 				sb.append("\"/>\n");
@@ -715,12 +715,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	@Override
-	public void setAlignment(AlignmentType alignment) {
-		alignmentType = alignment;
+	public void setAlignment(TextAlignment alignment) {
+		textAlignment = alignment;
 	}
 
 	@Override
-	public AlignmentType getAlignment() {
-		return alignmentType;
+	public TextAlignment getAlignment() {
+		return textAlignment;
 	}
 }

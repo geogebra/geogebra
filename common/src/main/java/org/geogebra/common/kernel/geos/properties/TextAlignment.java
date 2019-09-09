@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos.properties;
 
-public enum AlignmentType {
+public enum TextAlignment {
     LEFT, RIGHT, CENTER;
 
     @Override

@@ -47,7 +47,7 @@ import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.kernel.geos.properties.AlignmentType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -1114,18 +1114,16 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
-
 		String align = attrs.get("val");
 
 		if (geo instanceof HasAlignment) {
 			if ("right".equals(align)) {
-				((HasAlignment) geo).setAlignment(AlignmentType.RIGHT);
+				((HasAlignment) geo).setAlignment(TextAlignment.RIGHT);
 			} else if ("center".equals(align)) {
-				((HasAlignment) geo).setAlignment(AlignmentType.CENTER);
+				((HasAlignment) geo).setAlignment(TextAlignment.CENTER);
 			} else {
-				((HasAlignment) geo).setAlignment(AlignmentType.LEFT);
+				((HasAlignment) geo).setAlignment(TextAlignment.LEFT);
 			}
-
 		} else {
 			Log.error("Text alignment not supported for " + geo.getGeoClassType());
 		}
