@@ -36,30 +36,21 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
+
+// This is actually not an algo. Consider putting this entirely in CmdDiscover.
 public class AlgoDiscover extends AlgoElement implements UsesCAS {
-    /* FIXME: When updating the underlying structure of the input,
-     * the whole computation should be completely redone.
-     * A similar problem can occur in some other commands of GeoGebra ART.
-     */
 
     private GeoElement input; // input
-
-    private GeoElement[] output; // output
-    private ArrayList<GeoElement> output_wip; // output, work-in-progress
+    private GeoElement output; // output, actually null
 
     public AlgoDiscover(final Construction cons,
                         final GeoElement input) {
         super(cons);
         setPrintedInXML(false);
         this.input = input;
-        output_wip = new ArrayList<>();
+        this.output = null;
 
         initialCompute();
-        this.output = new GeoElement[output_wip.size()];
-        for (int i = 0; i < output_wip.size(); ++i) {
-            this.output[i] = output_wip.get(i);
-        }
-
         setInputOutput();
     }
 
@@ -72,13 +63,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     protected void setInputOutput() {
         super.input = new GeoElement[1];
         super.input[0] = this.input;
-
-        super.setOutputLength(this.output.length);
-        super.setOutput(this.output);
+        super.setOutputLength(0);
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoElement[] getResult() {
+    public GeoElement getResult() {
         return this.output;
     }
 
@@ -316,153 +305,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     public final void initialCompute() {
-
         detectOrthogonalCollinearities();
         detectProperties((GeoPoint) this.input);
-        // Remove this to get collinearity check demo:
-        if (1 + 2 == 3)
-            return;
-
-        Pool trivialPool = this.input.getKernel().getApplication().getTrivialPool();
-        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
-        trivialPool.lines.clear();
-        discoveryPool.lines.clear();
-
-        if (this.input instanceof GeoPoint) {
-            HashSet<GeoPoint> notChildren = new HashSet<GeoPoint>();
-            for (GeoElement ge : cons.getGeoSetLabelOrder()) {
-                if (ge instanceof GeoPoint && !ge.equals((this.input)) && !ge.getAllPredecessors().contains(this.input)) {
-                    notChildren.add((GeoPoint) ge);
-                }
-            }
-
-            GeoPoint p0 = (GeoPoint) this.input;
-
-            Combinations lines = new Combinations(notChildren, 2);
-            while (lines.hasNext()) {
-                Set<GeoPoint> line = lines.next();
-                Iterator<GeoPoint> i = line.iterator();
-                GeoPoint p1 = i.next();
-                GeoPoint p2 = i.next();
-                AlgoAreCollinear aac = new AlgoAreCollinear(cons, p0, p1, p2);
-                if (aac.getResult().getBoolean()) {
-                    // Conjecture: Collinearity
-                    GeoElement root = new GeoBoolean(cons);
-                    root.setParentAlgorithm(aac);
-                    AlgoProveDetails ap = new AlgoProveDetails(cons, root);
-                    ap.compute();
-                    GeoElement[] o = ap.getOutput();
-                    GeoElement truth = ((GeoList) o[0]).get(0);
-                    checkCollinearity(p0, p1, p2);
-                    checkCollinearity(p1, p2, p0);
-                    checkCollinearity(p2, p0, p1);
-                    // The symbolic computation should be done just later in the 3rd run.
-                    if (!trivialPool.areCollinear(p0, p1, p2) &&
-                            !discoveryPool.areCollinear(p0, p1, p2) &&
-                            ((GeoBoolean) truth).getBoolean()) {
-                        // Theorem: Collinearity
-                        discoveryPool.addCollinearity(p0, p1, p2);
-                        // Later it can be removed if it proves to be trivial.
-                    }
-                }
-            }
-            // Remove trivial lines from discovery pool (2nd run):
-            ArrayList<Line> discoveryPoolLines = (ArrayList<Line>) discoveryPool.lines.clone();
-            for (Line dl : discoveryPoolLines) {
-                HashSet<GeoPoint> ps = dl.getPoints();
-                Combinations twoPointss = new Combinations(ps, 2);
-                while (twoPointss.hasNext()) {
-                    Set<GeoPoint> twoPoints = twoPointss.next();
-                    Iterator<GeoPoint> it = twoPoints.iterator();
-                    GeoPoint p1 = it.next();
-                    GeoPoint p2 = it.next();
-                    Line tl = trivialPool.getLine(p1, p2);
-                    if (tl != null) {
-                        Line dl2 = discoveryPool.getLine(p1, p2);
-                        discoveryPool.lines.remove(dl2);
-                    }
-                }
-            }
-            // Draw remaining lines (that are not trivial, 3rd run):
-            for (Line dl : discoveryPool.lines) {
-                GeoPoint[] ps = dl.getPoints2();
-                addOutputLine(ps[0], ps[1]);
-            }
-
-            // Remove this to get circles+parallels demo.
-            if (1 + 2 == 3)
-                return;
-
-            Combinations circles = new Combinations(notChildren, 3);
-            while (circles.hasNext()) {
-                Set<GeoPoint> circle = circles.next();
-                Iterator<GeoPoint> i = circle.iterator();
-                GeoPoint p1 = i.next();
-                GeoPoint p2 = i.next();
-                GeoPoint p3 = i.next();
-
-                AlgoAreConcyclic aac = new AlgoAreConcyclic(cons, (GeoPoint) this.input, p1, p2, p3);
-                if (aac.getResult().getBoolean()) {
-                    // Conjecture: Concyclic
-                    GeoElement root = new GeoBoolean(cons);
-                    root.setParentAlgorithm(aac);
-                    AlgoProveDetails ap = new AlgoProveDetails(cons, root);
-                    ap.compute();
-                    GeoElement[] o = ap.getOutput();
-                    GeoElement truth = ((GeoList) o[0]).get(0);
-                    if (((GeoBoolean) truth).getBoolean()) {
-                        if (true) {
-                            // Theorem: Concyclicity
-                            addOutputCircle(p1, p2, p3);
-                        }
-                    }
-                }
-
-                // Parallelism check
-                /*
-                 * FIXME: Lots of extra pair of lines will be created unnecessarily
-                 * if the same lines are defined by several pairs of points.
-                 * This issue should be fixed by defining the set of parallel lines
-                 * and if one entry already exists then no new pair of parallel lines
-                 * should be added. This set should be maintained in a "discovery pool".
-                 */
-                GeoPoint[][] pp = {{p1, p2, p3}, {p2, p3, p1}, {p3, p1, p2}};
-                for (int j = 0; j < 3; j++) {
-                    boolean theorem = false;
-                    GeoPoint q1 = pp[j][0];
-                    GeoPoint q2 = pp[j][1];
-                    GeoPoint q3 = pp[j][2];
-                    AlgoJoinPoints ajp1 = new AlgoJoinPoints(cons, null, (GeoPoint) this.input, q1);
-                    AlgoJoinPoints ajp2 = new AlgoJoinPoints(cons, null, q2, q3);
-                    GeoLine l1 = ajp1.getLine();
-                    GeoLine l2 = ajp2.getLine();
-                    AlgoAreParallel aap = new AlgoAreParallel(cons, l1, l2);
-                    if (aap.getResult().getBoolean()) {
-                        // Conjecture: Parallel
-                        GeoElement root = new GeoBoolean(cons);
-                        root.setParentAlgorithm(aap);
-                        AlgoProveDetails ap = new AlgoProveDetails(cons, root);
-                        ap.compute();
-                        GeoElement[] o = ap.getOutput();
-                        GeoElement truth = ((GeoList) o[0]).get(0);
-                        if (((GeoBoolean) truth).getBoolean()) {
-                            if (true) {
-                                // Theorem: Parallelism
-                                addOutputLines(l1, l2);
-                                theorem = true;
-                            }
-                        }
-                    }
-                    if (!theorem) {
-                        l1.remove();
-                        l2.remove();
-                    }
-                }
-            }
-        }
     }
 
-    GColor nextColor(GeoElement e) {
+    private GColor nextColor(GeoElement e) {
         return e.getAutoColorScheme()
                 .getNext(true);
     }
@@ -481,8 +328,6 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         b.setLineThickness(1);
         b.setLabelVisible(true);
         cons.setSuppressLabelCreation(oldMacroMode);
-        output_wip.add(a);
-        output_wip.add(b);
     }
 
     GeoLine addOutputLine(GeoPoint A, GeoPoint B) {
@@ -497,7 +342,6 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         l.setLabelVisible(true);
         l.updateVisualStyle(GProperty.COMBINED); // visibility and style
         cons.setSuppressLabelCreation(oldMacroMode);
-        output_wip.add(l);
         return l;
     }
 
@@ -513,7 +357,6 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         circle.setLabelVisible(true);
         circle.updateVisualStyle(GProperty.COMBINED); // visibility and style
         cons.setSuppressLabelCreation(oldMacroMode);
-        output_wip.add(circle);
         return circle;
     }
 
