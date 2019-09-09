@@ -73,6 +73,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/duplicate_black.svg")
 	SVGResource duplicate_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/discover_black.svg")
+	SVGResource discover_black();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_delete_black_24px.svg")
 	SVGResource delete_black();
 
