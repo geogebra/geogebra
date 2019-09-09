@@ -350,7 +350,9 @@ public class ShareDialogMow extends DialogBoxW
 			linkBox.setFocused(false);
 			app.copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
-			hide();
+			ToolTipManagerW.sharedInstance()
+			    .showBottomMessage(appW.getLocalization()
+			    .getMenu("linkCopyClipboard"), true, appW);
 		}
 	}
 
