@@ -153,6 +153,13 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		main.addStyleName(style);
 	}
 
+	/**
+	 * @return mathFieldW
+	 */
+	public MathFieldW getMathField() {
+		return mathField;
+	}
+
 	@Override
 	public void onPointerDown(int x, int y) {
 		setKeyboardVisibility(true);

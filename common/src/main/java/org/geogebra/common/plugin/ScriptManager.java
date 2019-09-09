@@ -157,8 +157,12 @@ public abstract class ScriptManager implements EventListener {
 		}
 
 		for (JsScript listener : listeners) {
-			callJavaScript(listener.getText(), args.toArray(new String[0]));
+			callJavaScript(listener.getText(), args.toArray(new String[0]), evt.jsonArgument);
 		}
+	}
+
+	public void callJavaScript(String jsFunction, String[] arguments, String jsonArgument) {
+		callJavaScript(jsFunction, arguments);
 	}
 
 	private void callListener(JsScript listener, Event evt) {
@@ -166,7 +170,7 @@ public abstract class ScriptManager implements EventListener {
 			String fn = listener.getText();
 			GeoElement geo = evt.target;
 			if (geo == null) {
-				callJavaScript(fn, null, null);
+				callJavaScript(fn, (String) null, null);
 				return;
 			}
 			String label = geo.getLabel(StringTemplate.defaultTemplate);

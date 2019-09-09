@@ -40,9 +40,11 @@ public class EditorTypingTest {
 
 	private class EditorChecker {
 		private MathFieldCommon mathField = new MathFieldCommon();
+		private EditorTyper typer;
 
+		// avoid synthetic access: can't be private
 		protected EditorChecker() {
-			// avoid synthetic access: can't be private
+			typer = new EditorTyper(mathField);
 		}
 
 		public void checkAsciiMath(String output) {
@@ -67,21 +69,6 @@ public class EditorTypingTest {
 
 		}
 
-		public EditorChecker type(String input) {
-			KeyboardInputAdapter.emulateInput(mathField.getInternal(), input);
-			return this;
-		}
-
-		public EditorChecker insert(String input) {
-			mathField.insertString(input);
-			return this;
-		}
-
-		public EditorChecker typeKey(int key) {
-			mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
-			return this;
-		}
-
 		public void checkRaw(String output) {
 			MathSequence rootComponent = getRootComponent();
 			Assert.assertEquals(output, rootComponent + "");
@@ -91,6 +78,21 @@ public class EditorTypingTest {
 			MathFieldInternal mathFieldInternal = mathField.getInternal();
 			EditorState editorState = mathFieldInternal.getEditorState();
 			return editorState.getRootComponent();
+		}
+
+		public EditorChecker type(String input) {
+			typer.type(input);
+			return this;
+		}
+
+		public EditorChecker typeKey(int key) {
+			typer.typeKey(key);
+			return this;
+		}
+
+		public EditorChecker insert(String input) {
+			typer.insert(input);
+			return this;
 		}
 	}
 

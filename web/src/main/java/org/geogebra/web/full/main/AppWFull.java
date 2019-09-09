@@ -43,6 +43,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -111,6 +112,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -2112,5 +2114,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 			keyboardManager = new KeyboardManager(this);
 		}
 		return keyboardManager;
+	}
+
+	@Override
+	public ScriptManager newScriptManager() {
+		return new ScriptManagerW(this, getActivity().getApiExporter());
 	}
 }
