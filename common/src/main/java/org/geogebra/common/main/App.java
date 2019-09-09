@@ -3900,10 +3900,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
-		/** APPS-284 */
-		case COMMAND_FILTERING:
-			return true;
-
 		/** APPS-634 */
 		case BUTTON_HIGHLIGHTING:
 			return true;

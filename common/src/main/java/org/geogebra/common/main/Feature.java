@@ -63,9 +63,6 @@ public enum Feature {
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
 
-	/** APPS-284 */
-	COMMAND_FILTERING,
-
 	/** APPS-634 */
 	BUTTON_HIGHLIGHTING,
 
