@@ -91,7 +91,7 @@ public class Perspective {
 			"Graphing", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"Perspective.3DGraphics", "Perspective.Probability",
-			"Notes", "Scientific" };
+			"Notes", "Scientific", "Evaluator" };
 	/** slugs for web app url / tutorials url */
 	final private static String[] perspectiveSlugs = new String[] { "graphing",
 			"geometry", "spreadsheet", "cas", "3d", "probability",
@@ -112,6 +112,8 @@ public class Perspective {
 	public static final int NOTES = 7;
 	/** Scientific calc */
 	public static final int SCIENTIFIC = 8;
+	/** Evaluator */
+	public static final int EVALUATOR = 9;
 
 	/**
 	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the

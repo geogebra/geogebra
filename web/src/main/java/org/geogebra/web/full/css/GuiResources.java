@@ -424,4 +424,8 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Override
 	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
 	SassResource dialogStylesScss();
+
+	@Source("org/geogebra/web/resources/scss/evaluator-styles.scss")
+	SassResource evaluatorScss();
+
 }
