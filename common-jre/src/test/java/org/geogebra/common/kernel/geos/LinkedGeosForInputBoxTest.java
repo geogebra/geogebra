@@ -12,13 +12,14 @@ public class LinkedGeosForInputBoxTest extends BaseUnitTest {
 
     @Test
     public void symbolicFunctionTest() {
-        add("f = x+1");
-        add("g = 2f(x+2)+1");
-        GeoElement inputBox1 = add("InputBox(f)");
-        GeoElement inputBox2 = add("InputBox(g)");
-        Assert.assertEquals("x + 1", ((GeoInputBox) inputBox1).getText());
-        Assert.assertEquals("2f(x + 2) + 1", ((GeoInputBox)inputBox2).getText());
-    }
+		add("f = x+1");
+		add("g = 2f(x+2)+1");
+		GeoInputBox inputBox1 = (GeoInputBox) add("InputBox(f)");
+		GeoInputBox inputBox2 = (GeoInputBox) add("InputBox(g)");
+		inputBox2.setSymbolicMode(true, false);
+		Assert.assertEquals("x + 1", inputBox1.getText());
+		Assert.assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
+	}
 
     @Test
     public void inputBoxTextAlignmentIsInXMLTest() {

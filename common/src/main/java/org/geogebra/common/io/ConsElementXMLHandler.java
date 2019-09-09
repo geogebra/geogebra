@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -1117,12 +1118,12 @@ public class ConsElementXMLHandler {
 		String align = attrs.get("val");
 
 		if (geo instanceof HasAlignment) {
-			if (align.equals("right")) {
-				((GeoInputBox) geo).setAlignment(AlignmentType.RIGHT);
-			} else if (align.equals("center")) {
-				((GeoInputBox) geo).setAlignment(AlignmentType.CENTER);
+			if ("right".equals(align)) {
+				((HasAlignment) geo).setAlignment(AlignmentType.RIGHT);
+			} else if ("center".equals(align)) {
+				((HasAlignment) geo).setAlignment(AlignmentType.CENTER);
 			} else {
-				((GeoInputBox) geo).setAlignment(AlignmentType.LEFT);
+				((HasAlignment) geo).setAlignment(AlignmentType.LEFT);
 			}
 
 		} else {
