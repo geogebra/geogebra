@@ -3912,10 +3912,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case AUTOLABEL_CAS_SETTINGS:
 			return prerelease;
 
-		/** APPS-1000 */
-		case COMMAND_COMPLETION_FALLBACK:
-			return true;
-
 		/** APPS-1035 */
 		case SYMBOLIC_INPUTFIELDS:
 			return prerelease;
