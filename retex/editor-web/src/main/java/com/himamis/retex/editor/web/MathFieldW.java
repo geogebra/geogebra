@@ -881,7 +881,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			clipDiv.style.width = "1px";
 			clipDiv.style.height = "1px";
 			clipDiv.style.position = "relative";
-			clipDiv.style.top = "-15px";
+			clipDiv.style.top = "-100%";
 			clipDiv.className = "textAreaClip";
 			hiddenTextArea.style.width = "1px";
 			hiddenTextArea.style.padding = 0;
