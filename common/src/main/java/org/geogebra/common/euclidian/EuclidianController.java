@@ -9701,7 +9701,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
+		this.pressedButton = view.getHitButton();
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);

@@ -662,13 +662,9 @@ public interface EuclidianViewInterfaceCommon
 	public Hits getHits();
 
 	/**
-	 * @param p
-	 *            mouse coords
-	 * @param type
-	 *            event type
 	 * @return hit button (or null)
 	 */
-	public MyButton getHitButton(GPoint p, PointerEventType type);
+	public MyButton getHitButton();
 
 	/**
 	 * Switch to hit cursor

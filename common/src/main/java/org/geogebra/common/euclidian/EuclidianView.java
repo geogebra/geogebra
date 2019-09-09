@@ -2257,7 +2257,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public MyButton getHitButton(GPoint p, PointerEventType type) {
+	public MyButton getHitButton() {
 		for (GeoElement geoElement : hits) {
 			if (geoElement instanceof GeoButton) {
 				DrawableND drawable = getDrawableFor(geoElement);
