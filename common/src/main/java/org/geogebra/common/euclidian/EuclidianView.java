@@ -2258,7 +2258,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public MyButton getHitButton() {
-		for (GeoElement geoElement : hits) {
+		int size = hits.size();
+		for (int i = size - 1; i >= 0; i--) {
+			GeoElement geoElement = hits.get(i);
 			if (geoElement instanceof GeoButton) {
 				DrawableND drawable = getDrawableFor(geoElement);
 				if (drawable instanceof DrawButton) {
