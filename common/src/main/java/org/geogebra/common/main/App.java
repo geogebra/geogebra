@@ -3918,7 +3918,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** APPS-1035 */
 		case SYMBOLIC_INPUTFIELDS:
-			return prerelease;
+			return true;
 		// **********************************************************************
        // G3D START
        //
