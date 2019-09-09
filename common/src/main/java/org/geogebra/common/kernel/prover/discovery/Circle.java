@@ -8,8 +8,24 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class Circle {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
-
     private GeoConic geoConic;
+
+    public Boolean getTrivial() {
+        return trivial;
+    }
+
+    public boolean isTheorem() {
+        if (trivial != null && !trivial) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setTrivial(Boolean trivial) {
+        this.trivial = trivial;
+    }
+
+    private Boolean trivial;
 
     public Circle(GeoPoint p1, GeoPoint p2, GeoPoint p3) {
         points.add(p1);

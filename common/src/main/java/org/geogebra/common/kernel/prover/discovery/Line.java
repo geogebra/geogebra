@@ -10,6 +10,23 @@ public class Line {
     private HashSet<GeoPoint> points = new HashSet<GeoPoint>();
     private GeoLine geoLine;
 
+    public Boolean getTrivial() {
+        return trivial;
+    }
+
+    public boolean isTheorem() {
+        if (trivial != null && !trivial) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setTrivial(Boolean trivial) {
+        this.trivial = trivial;
+    }
+
+    private Boolean trivial;
+
     public Line(GeoPoint p1, GeoPoint p2) {
         points.add(p1);
         points.add(p2);

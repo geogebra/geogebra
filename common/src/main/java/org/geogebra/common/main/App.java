@@ -231,7 +231,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
      * Discovery and trivial pools, these should be reinitialized on opening a file! FIXME
      */
     private Pool discoveryPool = new Pool();
-    private Pool trivialPool = new Pool();
 
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
@@ -504,11 +503,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
     public Pool getDiscoveryPool() {
         return discoveryPool;
     }
-
-    public Pool getTrivialPool() {
-        return trivialPool;
-    }
-
 
 	/**
 	 * Initializes SingularWS

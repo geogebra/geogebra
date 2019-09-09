@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.prover.Combinations;
 public class Pool {
     public ArrayList<Line> lines = new ArrayList<>();
     public ArrayList<Circle> circles = new ArrayList<>();
-
-    private ArrayList<ParallelLines> directions = new ArrayList<>();
+    public ArrayList<ParallelLines> directions = new ArrayList<>();
 
     public Line getLine(GeoPoint p1, GeoPoint p2) {
         HashSet<GeoPoint> ps = new HashSet();
@@ -73,6 +72,15 @@ public class Pool {
             return circle;
         }
         return c;
+    }
+
+    public ParallelLines addDirection(Line l) {
+        ParallelLines pl = getDirection(l);
+        if (pl == null) {
+            ParallelLines parallelLine = new ParallelLines(l);
+            directions.add(parallelLine);
+        }
+        return pl;
     }
 
     private void setCollinear(Line l, GeoPoint p) {
@@ -194,6 +202,15 @@ public class Pool {
         return false;
     }
 
+    public boolean areParallel(Line l1, Line l2) {
+        ParallelLines pl1 = getDirection(l1);
+        ParallelLines pl2 = getDirection(l2);
+        if (pl1 != null && pl2 != null && pl1.equals(pl2)) {
+            return true;
+        }
+        return false;
+    }
+
     public ParallelLines getDirection(Line l) {
         for (ParallelLines pl : directions) {
             if (pl.getLines().contains(l)) {
@@ -211,29 +228,30 @@ public class Pool {
     }
 
     /* l1 != l2 */
-    public void addParallelism(Line l1, Line l2) {
+    public ParallelLines addParallelism(Line l1, Line l2) {
         if (l1.equals(l2)) {
-            return; // no action is needed
+            return getDirection(l1); // no action is needed
         }
         ParallelLines dir1 = getDirection(l1);
         ParallelLines dir2 = getDirection(l2);
         if (dir1 == null && dir2 == null) {
             directions.add(new ParallelLines(l1, l2));
-            return;
+            return dir1;
         }
         if (dir1 != null && dir2 == null) {
             dir1.parallel(l2);
-            return;
+            return dir1;
         }
         if (dir1 == null && dir2 != null) {
             dir2.parallel(l1);
-            return;
+            return dir1;
         }
         // Unifying the two directions as one:
         for (Line l : dir1.getLines()) {
             dir2.parallel(l);
         }
         directions.remove(dir1);
+        return dir2;
     }
 
     public void removePoint(GeoPoint p) {

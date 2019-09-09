@@ -1690,7 +1690,6 @@ public abstract class GeoElement extends ConstructionElement
             // update discovery pools
 			if (this instanceof GeoPoint) {
                 this.getKernel().getApplication().getDiscoveryPool().removePoint((GeoPoint) this);
-                this.getKernel().getApplication().getTrivialPool().removePoint((GeoPoint) this);
 				// on update (not delete) the same should be done, TODO
             }
 
@@ -2027,17 +2026,7 @@ public abstract class GeoElement extends ConstructionElement
 					return false;
 				}
 			}
-			for (Line l : this.getKernel().getApplication().getTrivialPool().lines) {
-				if (l.getPoints().contains(this)) {
-					return false;
-				}
-			}
             for (Circle c : this.getKernel().getApplication().getDiscoveryPool().circles) {
-                if (c.getPoints().contains(this)) {
-                    return false;
-                }
-            }
-            for (Circle c : this.getKernel().getApplication().getTrivialPool().circles) {
                 if (c.getPoints().contains(this)) {
                     return false;
                 }
