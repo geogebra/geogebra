@@ -848,7 +848,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * Run blur callback.
 	 */
 	protected void runBlurCallback(BlurEvent event) {
-		event.preventDefault();
 		if (onTextfieldBlur != null) {
 			onTextfieldBlur.onBlur(event);
 		}
