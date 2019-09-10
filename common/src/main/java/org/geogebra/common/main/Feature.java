@@ -63,9 +63,6 @@ public enum Feature {
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
 
-	/** APPS-634 */
-	BUTTON_HIGHLIGHTING,
-
 	/** G3D-345 */
 	G3D_AR_SHOW_RATIO,
 
