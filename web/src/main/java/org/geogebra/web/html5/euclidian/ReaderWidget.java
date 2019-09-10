@@ -115,11 +115,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	@Override
 	public void readText(String text) {
 		if (!hasParentWindow() && !Browser.needsAccessibilityView()) {
-			JavaScriptObject scrollState = JavaScriptObject.createObject();
-			int scrolltop = getScrollTop(scrollState);
-			read(text);
-			anchor.focus();
-			setScrollTop(scrolltop, scrollState);
+			readTextImmediate(text);
 		}
 	}
 
@@ -128,9 +124,17 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		new Timer() {
 			@Override
 			public void run() {
-				readText(text);
+				readTextImmediate(text);
 			}
 		}.schedule(500);
+	}
+
+	private void readTextImmediate(String text) {
+		JavaScriptObject scrollState = JavaScriptObject.createObject();
+		int scrolltop = getScrollTop(scrollState);
+		read(text);
+		anchor.focus();
+		setScrollTop(scrolltop, scrollState);
 	}
 
 	private static native int getScrollTop(JavaScriptObject scrollState)/*-{
