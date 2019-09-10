@@ -3295,6 +3295,7 @@ __GGB__keysVar["et"].menu = {
     "html": "Veebileht",
     "insert_worksheet": "Lisa t\xf6\xf6leht",
     "jpg": "JPG-vorming",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

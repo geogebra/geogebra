@@ -3295,6 +3295,7 @@ __GGB__keysVar["ta"].menu = {
     "html": "\u0b87\u0ba3\u0bc8\u0baf\u0baa\u0bcd \u0baa\u0b95\u0bcd\u0b95\u0bae\u0bcd",
     "insert_worksheet": "Insert Activity",
     "jpg": "JPG \u0bb5\u0b9f\u0bbf\u0bb5\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

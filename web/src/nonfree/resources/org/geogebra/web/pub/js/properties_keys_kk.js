@@ -3295,6 +3295,7 @@ __GGB__keysVar["kk"].menu = {
     "html": "\u0423\u0435\u0431\u0431\u0435\u0442",
     "insert_worksheet": "Insert Activity",
     "jpg": "JPG \u0444\u043e\u0440\u043c\u0430\u0442\u044b",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

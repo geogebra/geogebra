@@ -3295,6 +3295,7 @@ __GGB__keysVar["eu"].menu = {
     "html": "Web-orrialdea",
     "insert_worksheet": "Txertatu Jarduera",
     "jpg": "JPG Formatua",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Esteka partekatzea desgaitua.",
     "linkShareOn": "Esteka partekatzea gaitua.",
     "list_created": "%0 zerrenda sortu da!",
