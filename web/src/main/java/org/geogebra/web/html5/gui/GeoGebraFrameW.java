@@ -197,7 +197,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splashHeight = height;
 		}
 		if ("evaluator".equals(this.articleElement.getDataParamAppName()) && width > 0) {
+			setWidth(width + "px"); // 2: border
 			setComputedWidth(width);
+			useDataParamBorder();
 		}
 		if (width > 0 && height > 0) {
 			setWidth(width + "px"); // 2: border
