@@ -827,7 +827,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					instances.remove(MathFieldW.this);
 					resetFlags();
 					event.stopPropagation();
-					runBlurCallback(event);
+					event.preventDefault();
 
 				}
 			});
@@ -848,6 +848,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * Run blur callback.
 	 */
 	protected void runBlurCallback(BlurEvent event) {
+		event.preventDefault();
 		if (onTextfieldBlur != null) {
 			onTextfieldBlur.onBlur(event);
 		}
