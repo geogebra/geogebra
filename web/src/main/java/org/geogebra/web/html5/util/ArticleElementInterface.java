@@ -497,4 +497,14 @@ public interface ArticleElementInterface {
 	 * @return value of data-param-vendor
 	 */
 	String getParamVendor();
+
+	/**
+	 * @return value of data-param-evaluatorFontSize, or def if not specified
+	 */
+	int getParamFontSize(int def);
+
+	/**
+	 * @return value of data-param-evaluatorKeyboard (e.g. scientific), or def if not specified
+	 */
+	String getParamKeyboardType(String def);
 }

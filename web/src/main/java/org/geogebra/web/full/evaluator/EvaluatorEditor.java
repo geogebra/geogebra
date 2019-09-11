@@ -1,6 +1,6 @@
 package org.geogebra.web.full.evaluator;
 
-import org.geogebra.common.main.App;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
@@ -21,7 +21,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
  */
 public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
 
-	private App app;
+	private AppW app;
 	private MathFieldEditor mathFieldEditor;
 	private EvaluatorAPI evaluatorAPI;
 
@@ -31,11 +31,12 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	 * @param app
 	 *            The application.
 	 */
-	public EvaluatorEditor(App app) {
+	public EvaluatorEditor(AppW app) {
 		this.app = app;
 		mathFieldEditor = new MathFieldEditor(app, this);
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
+		mathFieldEditor.setFontSize(app.getArticleElement().getParamFontSize(18));
 
 		MathFieldInternal mathFieldInternal = mathFieldEditor.getMathField().getInternal();
 		evaluatorAPI = new EvaluatorAPI(app.getKernel(), mathFieldInternal);
