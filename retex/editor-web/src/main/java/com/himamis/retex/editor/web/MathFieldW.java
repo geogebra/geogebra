@@ -827,7 +827,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					instances.remove(MathFieldW.this);
 					resetFlags();
 					event.stopPropagation();
-					event.preventDefault();
+					runBlurCallback(event);
 
 				}
 			});

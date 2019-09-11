@@ -70,6 +70,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 				null);
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
+		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
 		scroller = new MathFieldScroller(main);
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
