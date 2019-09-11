@@ -126,7 +126,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 			public void run() {
 				readTextImmediate(text);
 			}
-		}.schedule(500);
+		}.schedule(200);
 	}
 
 	private void readTextImmediate(String text) {
