@@ -51,7 +51,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 * @param widget
 	 *            widget to hide offscreen
 	 */
-	public static void offscreen(Widget widget) {
+	private static void offscreen(Widget widget) {
 		widget.getElement().getStyle().setTop(-1000.0, Unit.PX);
 		widget.getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
@@ -72,14 +72,14 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 * @param text
 	 *            to set.
 	 */
-	public void setText(String text) {
+	private void setText(String text) {
 		getElement().setInnerHTML(text);
 	}
 
 	/**
 	 * Resets the widget.
 	 */
-	public void reset() {
+	private void reset() {
 		setText("");
 	}
 
@@ -88,7 +88,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 * @param text
 	 *            to read.
 	 */
-	public void read(final String text) {
+	private void read(final String text) {
 		Log.debug("read text: " + text);
 		// make sure text isn't truncated by <return>
 		// https://help.geogebra.org/topic/alttext-reading-stops-at-hard-return
@@ -119,6 +119,24 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		}
 	}
 
+	@Override
+	public void readDelayed(final String text) {
+		new Timer() {
+			@Override
+			public void run() {
+				readTextImmediate(text);
+			}
+		}.schedule(200);
+	}
+
+	private void readTextImmediate(String text) {
+		JavaScriptObject scrollState = JavaScriptObject.createObject();
+		int scrolltop = getScrollTop(scrollState);
+		read(text);
+		anchor.focus();
+		setScrollTop(scrolltop, scrollState);
+	}
+
 	private static native int getScrollTop(JavaScriptObject scrollState)/*-{
 		scrollState.element = $doc.body;
 		if ($doc.documentElement.scrollTop && !$doc.body.scrollTop) {
@@ -128,21 +146,11 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	}-*/;
 
 	private static native boolean hasParentWindow()/*-{
-		return $wnd.parent != $wnd;
+		return $wnd.parent !== $wnd;
 	}-*/;
 
 	private static native void setScrollTop(int st,
 			JavaScriptObject scrollState)/*-{
 		scrollState.element.scrollTop = st;
 	}-*/;
-
-	@Override
-	public void readTextImmediate(String text) {
-		JavaScriptObject scrollState = JavaScriptObject.createObject();
-		int scrolltop = getScrollTop(scrollState);
-		read(text);
-		anchor.focus();
-		setScrollTop(scrolltop, scrollState);
-
-	}
 }

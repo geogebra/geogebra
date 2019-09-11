@@ -8,16 +8,15 @@ public class ScreenReaderAccumulator implements ScreenReaderAdapter {
 
 	@Override
 	public void readText(String text) {
-		this.reader.append(text);
+		reader.append(text);
+	}
+
+	@Override
+	public void readDelayed(String text) {
+		readText(text);
 	}
 
 	public boolean hasRead(String string) {
 		return reader.toString().contains(string);
 	}
-
-	@Override
-	public void readTextImmediate(String textString) {
-		readText(textString);
-	}
-
 }
