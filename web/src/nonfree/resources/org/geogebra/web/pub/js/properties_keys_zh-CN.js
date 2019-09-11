@@ -3295,7 +3295,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "html": "\u7f51\u9875",
     "insert_worksheet": "\u63d2\u5165\u6d3b\u52a8",
     "jpg": "JPG \u683c\u5f0f",
-    "linkCopyClipboard": "Link copied to clipboard",
+    "linkCopyClipboard": "\u94fe\u63a5\u5df2\u7ecf\u590d\u5236\u5230\u526a\u8d34\u677f",
     "linkShareOff": "\u5171\u4eab\u94fe\u63a5\u5173\u95ed.",
     "linkShareOn": "\u5171\u4eab\u94fe\u63a5\u6253\u5f00.",
     "list_created": "\u5217\u8868 %0 \u5df2\u521b\u5efa!",
