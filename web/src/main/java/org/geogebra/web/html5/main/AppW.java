@@ -982,6 +982,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		currentFile = file;
+        // Maybe this is not the best place for the re-init. FIXME
+        getKernel().getConstruction().initDiscoveryPool();
 	}
 
 	@Override

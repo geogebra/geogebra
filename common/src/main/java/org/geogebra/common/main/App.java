@@ -227,11 +227,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/** whether axes should be logarithmic when EV is created */
 	protected final boolean[] logAxes = { false, false };
 
-    /**
-     * Discovery and trivial pools, these should be reinitialized on opening a file! FIXME
-     */
-    private Pool discoveryPool = new Pool();
-
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
 	 * this to hide reset icon from EV)
@@ -496,12 +491,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
     public static final void setCASVersionString(String string) {
         CASVersionString = string;
 
-    }
-
-
-    /* Pools for the prover */
-    public Pool getDiscoveryPool() {
-        return discoveryPool;
     }
 
 	/**

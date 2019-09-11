@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
+import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -3626,6 +3627,20 @@ public class Construction {
 					kernel.getApplication().getConfig().isGreekAngleLabels());
 		}
 		return labelManager;
+	}
+
+
+	/**
+	 * Discovery pool for the prover.
+	 */
+	private Pool discoveryPool = new Pool();
+
+	public Pool getDiscoveryPool() {
+		return discoveryPool;
+	}
+
+	public void initDiscoveryPool() {
+		discoveryPool = new Pool();
 	}
 
 }

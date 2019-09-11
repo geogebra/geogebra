@@ -1689,7 +1689,7 @@ public abstract class GeoElement extends ConstructionElement
 		} else {
             // update discovery pools
 			if (this instanceof GeoPoint) {
-                this.getKernel().getApplication().getDiscoveryPool().removePoint((GeoPoint) this);
+                cons.getDiscoveryPool().removePoint((GeoPoint) this);
 				// on update (not delete) the same should be done, TODO
             }
 
@@ -2021,12 +2021,12 @@ public abstract class GeoElement extends ConstructionElement
 		// Maybe later we will implement redefinition as well, but not at the moment, if the
 		// point object has already been used in a discovery.
 		if (this instanceof GeoPoint) {
-			for (Line l : this.getKernel().getApplication().getDiscoveryPool().lines) {
+            for (Line l : cons.getDiscoveryPool().lines) {
 				if (l.getPoints().contains(this)) {
 					return false;
 				}
 			}
-            for (Circle c : this.getKernel().getApplication().getDiscoveryPool().circles) {
+            for (Circle c : cons.getDiscoveryPool().circles) {
                 if (c.getPoints().contains(this)) {
                     return false;
                 }

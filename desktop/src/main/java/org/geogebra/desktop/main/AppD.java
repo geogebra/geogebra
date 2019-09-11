@@ -1374,6 +1374,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			updateTitle();
 			getGuiManager().updateMenuWindow();
 		}
+
+        // Maybe this is not the best place for the re-init. FIXME
+        getKernel().getConstruction().initDiscoveryPool();
 	}
 
 	public static void addToFileList(File file) {

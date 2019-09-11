@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.ParallelLines;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -107,7 +108,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
      * collecting all of them for a given input.
      */
     private void collectCollinearites(GeoPoint p0, boolean discover) {
-        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+        Pool discoveryPool = cons.getDiscoveryPool();
 
         HashSet<GeoPoint> prevPoints = new HashSet<GeoPoint>();
         for (GeoElement ge : cons.getGeoSetLabelOrder()) {
@@ -184,7 +185,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
      * collecting all of them for a given input.
      */
     private void collectConcyclicities(GeoPoint p0, boolean discover) {
-        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+        Pool discoveryPool = cons.getDiscoveryPool();
 
         HashSet<GeoPoint> prevPoints = new HashSet<GeoPoint>();
         for (GeoElement ge : cons.getGeoSetLabelOrder()) {
@@ -268,7 +269,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
      * collecting all of them for a given input.
      */
     private void collectParallelisms(GeoPoint p0, boolean discover) {
-        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+        Pool discoveryPool = cons.getDiscoveryPool();
 
         HashSet<GeoPoint> prevPoints = new HashSet<GeoPoint>();
         for (GeoElement ge : cons.getGeoSetLabelOrder()) {
@@ -384,7 +385,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     private void detectOrthogonalCollinearities() {
-        Pool discoveryPool = this.input.getKernel().getApplication().getDiscoveryPool();
+        Pool discoveryPool = cons.getDiscoveryPool();
         for (GeoElement ortholine : cons.getGeoSetLabelOrder()) {
             if (ortholine instanceof GeoLine && ortholine.getParentAlgorithm() instanceof AlgoOrthoLinePointLine) {
                 GeoPoint startpoint = ((GeoLine) ortholine).getStartPoint();
@@ -418,6 +419,10 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     public final void initialCompute() {
+        Pool discoveryPool = cons.getDiscoveryPool();
+        Log.debug("The discovery pool contains " + discoveryPool.lines.size() + " lines, " +
+                discoveryPool.circles.size() + " circles and " +
+                discoveryPool.directions.size() + " directions.");
         detectOrthogonalCollinearities();
         detectProperties((GeoPoint) this.input);
     }
@@ -579,7 +584,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         /*
          * TODO. This is certainly incomplete.
          */
-        Pool discoveryPool = A.getKernel().getApplication().getDiscoveryPool();
+        Pool discoveryPool = cons.getDiscoveryPool();
 
         AlgoElement ae = C.getParentAlgorithm();
 
