@@ -27,7 +27,23 @@ public class SimpleTextRenderer implements TextRenderer {
 						 String text, double xPos, double yPos, double boxWidth, int lineHeight) {
 		double textBottom = yPos + lineHeight;
 		String truncated = text.substring(0, getTruncIndex(text, graphics, boxWidth));
+
+		xPos += getTextAlignment(truncated, geo, app, (int)boxWidth, graphics);
 		EuclidianStatic.drawIndexedString(app, graphics, truncated, xPos, textBottom, false);
+	}
+
+	private int getTextAlignment(String text, GeoInputBox geoInputBox, App app,
+								 int boxWidth, GGraphics2D graphics2D) {
+		switch (geoInputBox.getAlignment()) {
+			case CENTER:
+				return (boxWidth  - EuclidianStatic.drawIndexedString( app, graphics2D, text,
+						0, 0, false, false ,null, null).x - 5) / 2;
+			case RIGHT:
+				return boxWidth  - EuclidianStatic.drawIndexedString( app, graphics2D, text,
+						0, 0, false, false ,null, null).x - 10;
+			default:
+				return 0;
+		}
 	}
 
 	@Override

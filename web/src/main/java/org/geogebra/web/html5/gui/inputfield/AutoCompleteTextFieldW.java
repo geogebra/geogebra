@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -1810,5 +1812,23 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setSelection(int start, int end) {
 		textField.getValueBox().setSelectionRange(start, end - start);
+	}
+
+	@Override
+	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+		switch (alignment) {
+			case LEFT:
+				getElement().getFirstChildElement().getStyle().
+						setTextAlign(Style.TextAlign.LEFT);
+				break;
+			case CENTER:
+				getElement().getFirstChildElement().getStyle().
+						setTextAlign(Style.TextAlign.CENTER);
+				break;
+			case RIGHT:
+				getElement().getFirstChildElement().getStyle().
+						setTextAlign(Style.TextAlign.RIGHT);
+				break;
+		}
 	}
 }

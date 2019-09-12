@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1101,5 +1102,10 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void setSelection(int start, int end) {
 		select(start, end);
+	}
+
+	@Override
+	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+		// empty
 	}
 }

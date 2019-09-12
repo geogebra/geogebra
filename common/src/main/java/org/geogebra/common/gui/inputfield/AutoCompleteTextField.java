@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.TextObject;
@@ -101,4 +102,6 @@ public interface AutoCompleteTextField
 	 * @param end to which character to highlight the text
 	 */
 	void setSelection(int start, int end);
+
+	void setTextAlignmentsForInputBox(TextAlignment alignment);
 }
