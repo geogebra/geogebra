@@ -72,7 +72,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		mathField.setOnBlur(this);
 		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
 		scroller = new MathFieldScroller(main);
-		main.add(mathField);
+		mathField.setEnabled(false);
 		main.getElement().setAttribute("data-test", "mathFieldEditor");
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 	}
@@ -197,6 +197,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		for (BlurHandler handler: blurHandlers) {
 			handler.onBlur(event);
 		}
+
 	}
 
 	/**
