@@ -156,6 +156,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ProverSettings;
+import org.geogebra.common.main.RealGeomWSSettings;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -537,6 +538,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// for a better approach see [22746] --- but it would break file loading
 		// at the moment
 		initializeSingularWSD();
+        // initialize RealGeomWS
+        initializeRealGeomWSD();
 
 		boolean fileLoaded = handleFileArg(args);
 
@@ -4715,6 +4718,45 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 		}
 	}
+
+    // **************************************************************************
+    // REALGEOM
+    // **************************************************************************
+
+    private class initializeRealGeomWS_thread implements Runnable {
+        protected initializeRealGeomWS_thread() {
+        }
+
+        @Override
+        public void run() {
+            // Display info about this particular thread
+            Log.debug(Thread.currentThread() + " running");
+            initializeRealGeomWS();
+        }
+    }
+
+    public void initializeRealGeomWSD() {
+        Thread t = new Thread(new initializeRealGeomWS_thread(), "compute");
+        long startTime = System.currentTimeMillis();
+        t.start();
+        int i = 0;
+        while (t.isAlive()) {
+            Log.debug("Waiting for the initialization: " + i++);
+            try {
+                t.join(250);
+            } catch (InterruptedException e) {
+                return;
+            }
+            if (((System.currentTimeMillis() - startTime) > RealGeomWSSettings
+                    .getTimeout() * 1000L) && t.isAlive()) {
+                Log.debug("RealGeomWS startup timeout");
+                t.interrupt();
+                // t.join(); //
+                // http://docs.oracle.com/javase/tutorial/essential/concurrency/simple.html
+                return;
+            }
+        }
+    }
 
 	// **************************************************************************
 	// ConstructionProtocol

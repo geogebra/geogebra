@@ -15,6 +15,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.cas.realgeom.RealGeomWebService;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
@@ -215,6 +216,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/** Singular web service (CAS) */
 	private SingularWebService singularWS;
+    /**
+     * RealGeom web service (CAS)
+     */
+    private RealGeomWebService realGeomWS;
 
 	private static String CASVersionString = "";
 	private static boolean CASViewEnabled = true;
@@ -510,9 +515,29 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
-	public SingularWebService getSingularWS() {
-		return singularWS;
-	}
+    public SingularWebService getSingularWS() {
+        return singularWS;
+    }
+
+
+    /**
+     * Initializes RealGeomWS
+     */
+    public void initializeRealGeomWS() {
+        realGeomWS = new RealGeomWebService();
+        realGeomWS.enable();
+        if (realGeomWS.isAvailable()) {
+            Log.info("RealGeomWS is available at "
+                    + realGeomWS.getConnectionSite());
+        } else {
+            Log.info("No RealGeomWS is available at "
+                    + realGeomWS.getConnectionSite() + " (yet)");
+        }
+    }
+
+    public RealGeomWebService getRealGeomWS() {
+        return realGeomWS;
+    }
 
 	/* selection handling */
 
