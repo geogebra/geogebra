@@ -131,7 +131,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		wrappedPopup.addItem(mi);
 	}
 	
-	private void addImageItem() {
+	void addImageItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true,

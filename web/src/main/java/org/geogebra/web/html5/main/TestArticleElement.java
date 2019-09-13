@@ -118,7 +118,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamCustomToolBar() {
-		return "";
+		return attributes.getOrDefault("customToolbar", "");
 	}
 
 	@Override
