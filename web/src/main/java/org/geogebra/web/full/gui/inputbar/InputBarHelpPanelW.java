@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.inputbar;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.SetLabels;
@@ -79,16 +78,15 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	}
 
 	private void createGUI() {
-
 		// create syntax panel
 		syntaxPanel = new VerticalPanel();
 
 		// button panel
 		FlowPanel pnlButton = new FlowPanel();
-		// create help button if not in exam mode
+		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
 
-		btnOnlineHelp = new Button(app.getLocalization().getMenu(
-				"ShowOnlineHelp"));
+		// create help button
+		btnOnlineHelp = new Button(app.getLocalization().getMenu("ShowOnlineHelp"));
 			btnOnlineHelp.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
@@ -99,8 +97,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		app.getNetworkOperation().getView().add(this);
 		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
 		pnlButton.add(btnOnlineHelp);
-
-		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
 
 		// create close button
 		btnClose = new Button(app.getLocalization().getMenu("Close"));
@@ -141,11 +137,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 				onSelectionNative(item, fireEvents);
 			}
 
-			private native void onSelectionNative(TreeItem item, boolean fireEvents)/*-{
-		this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
-
-	}-*/;
+			private native void onSelectionNative(TreeItem item, boolean fireEvents) /*-{
+				this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
+			}-*/;
 		};
+
 		indexTree.addStyleName("inputHelp-tree");
 		indexTree.setAnimationEnabled(true);
 
@@ -156,7 +152,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			detailScroller.setStyleName("AVHelpDetailScroller");
 			add(detailScroller);
 		} else {
-
 			ScrollPanel treeScroller = new ScrollPanel(indexTree);
 			treeScroller.setSize("100%", "100%");
 
@@ -189,16 +184,15 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * Opens browser with online help
 	 */
 	protected void openOnlineHelp() {
-
 		if (getSelectedCommand() == null) {
-			((GuiManagerW) app.getGuiManager()).openHelp("InputBar");
+			app.getGuiManager().openHelp("InputBar");
 
 		} else if (getSelectedCommand().equals(
 		        app.getLocalization().getMenu("MathematicalFunctions"))) {
-			((GuiManagerW) app.getGuiManager()).openHelp(App.WIKI_OPERATORS);
+			app.getGuiManager().openHelp(App.WIKI_OPERATORS);
 
 		} else {
-			((GuiManagerW) app.getGuiManager())
+			app.getGuiManager()
 			        .openCommandHelp(getSelectedCommand());
 		}
 	}
@@ -224,12 +218,12 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	@Override
 	public void setLabels() {
-
 		setCommands();
 		// show Mathematical Functions tree item initially
 		indexTree.setSelectedItem(itmFunction);
 		updateDetailPanel();
 		btnOnlineHelp.setText(app.getLocalization().getMenu("ShowOnlineHelp"));
+		btnClose.setText(app.getLocalization().getMenu("Close"));
 	}
 
 	/**
@@ -241,7 +235,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 *            transform scale
 	 */
 	public void updateGUI(int maxOffsetHeight, double scale) {
-		showOnlineHelpButton(!app.isExam());
+		showOnlineHelpButton(!app.isExam() && app.showMenuBar());
 		int h = (int) (maxOffsetHeight * scale
 				- 60);
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
@@ -317,9 +311,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	}
 
 	private void addCmdNames(TreeItem item, TreeSet<String> names) {
-		Iterator<String> it = names.iterator();
-		while (it.hasNext()) {
-			String cmdName = it.next();
+		for (String cmdName : names) {
 			if (cmdName != null && cmdName.length() > 0) {
 				MyTreeItem cmd = new MyTreeItem();
 				cmd.setWidget(new TreeItemButton(cmdName, cmd, true));
