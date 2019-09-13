@@ -43,7 +43,6 @@ public class SettingsUpdater {
 	 * Resets the settings which should be reset after Clear All.
 	 */
 	public void resetSettingsAfterClearAll() {
-		fontSettingsUpdater.setAppFontSizeAndUpdateViews(defaultSettings.getAppFontSize());
 		setSortModeForCompactOutput();
 		setEuclidianSettings();
 	}
