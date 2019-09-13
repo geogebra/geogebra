@@ -3295,6 +3295,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "html": "\u0635\u0641\u062d\u0629 \u0648\u0627\u0628",
     "insert_worksheet": "\u0627\u062f\u0631\u0627\u062c \u0648\u0631\u0642\u0629 \u0639\u0645\u0644",
     "jpg": "JPG",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

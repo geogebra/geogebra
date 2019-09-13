@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;

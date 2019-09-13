@@ -3295,6 +3295,7 @@ __GGB__keysVar["cs"].menu = {
     "html": "Webovsk\xe1 str\xe1nka",
     "insert_worksheet": "Vlo\u017eit aktivitu",
     "jpg": "JPG form\xe1t",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Sd\xedlen\xed odkazem vypnuto.",
     "linkShareOn": "Sd\xedlen\xed odkazem zapnuto.",
     "list_created": "Seznam %0 byl vytvo\u0159en!",

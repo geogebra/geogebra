@@ -3295,6 +3295,7 @@ __GGB__keysVar["he"].menu = {
     "html": "\u05d3\u05e3 \u05e8\u05e9\u05ea",
     "insert_worksheet": "\u05d4\u05db\u05e0\u05d9\u05e1\u05d9 \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea",
     "jpg": "\u05e4\u05d5\u05e8\u05de\u05d8 JPG\u200f",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "\u05e9\u05d9\u05ea\u05d5\u05e3 \u05e7\u05d9\u05e9\u05d5\u05e8 \u05db\u05d1\u05d5\u05d9",
     "linkShareOn": "\u05e9\u05d9\u05ea\u05d5\u05e3 \u05e7\u05d9\u05e9\u05d5\u05e8 \u05e4\u05e2\u05d9\u05dc.",
     "list_created": "\u05e8\u05e9\u05d9\u05de\u05d4 %0 \u05e0\u05d5\u05e6\u05e8\u05d4!",

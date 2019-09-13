@@ -3295,6 +3295,7 @@ __GGB__keysVar["xh"].menu = {
     "html": "iWebpage",
     "insert_worksheet": "Fakela iWekhshiti",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

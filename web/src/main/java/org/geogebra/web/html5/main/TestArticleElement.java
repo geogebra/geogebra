@@ -461,4 +461,14 @@ public class TestArticleElement implements ArticleElementInterface {
 	public String getParamVendor() {
 		return attributes.get("vendor");
 	}
+
+	@Override
+	public int getParamFontSize(int def) {
+		return def;
+	}
+
+	@Override
+	public String getParamKeyboardType(String def) {
+		return def;
+	}
 }

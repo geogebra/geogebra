@@ -3295,6 +3295,7 @@ __GGB__keysVar["si"].menu = {
     "html": "\u0dc0\u0dd9\u0db6\u0dca \u0db4\u0dd2\u0da7\u0dd4\u0dc0",
     "insert_worksheet": "Insert Activity",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

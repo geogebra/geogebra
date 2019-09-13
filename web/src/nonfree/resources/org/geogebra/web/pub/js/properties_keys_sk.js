@@ -3295,6 +3295,7 @@ __GGB__keysVar["sk"].menu = {
     "html": "Webov\xe1 str\xe1nka",
     "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
     "jpg": "JPG form\xe1t",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

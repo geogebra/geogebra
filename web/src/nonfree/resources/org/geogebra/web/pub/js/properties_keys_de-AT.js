@@ -3295,6 +3295,7 @@ __GGB__keysVar["de-AT"].menu = {
     "html": "Webseite",
     "insert_worksheet": "Aktivit\xe4t einf\xfcgen",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link in Zwischenablage kopiert",
     "linkShareOff": "Linkfreigabe ist deaktiviert.",
     "linkShareOn": "Linkfreigabe ist aktiviert.",
     "list_created": "Liste %0 wurde erstellt!",

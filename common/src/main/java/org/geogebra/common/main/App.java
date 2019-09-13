@@ -3900,17 +3900,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case GEOMETRIC_DISCOVERY:
 			return prerelease;
 
-		/** APPS-634 */
-		case BUTTON_HIGHLIGHTING:
-			return true;
-
 		/** APPS-890 */
 		case AUTOLABEL_CAS_SETTINGS:
 			return true;
 
 		/** APPS-1035 */
 		case SYMBOLIC_INPUTFIELDS:
-			return prerelease;
+			return true;
 		// **********************************************************************
        // G3D START
        //

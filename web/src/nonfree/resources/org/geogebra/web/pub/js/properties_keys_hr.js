@@ -3295,6 +3295,7 @@ __GGB__keysVar["hr"].menu = {
     "html": "web-stranica",
     "insert_worksheet": "Umetni aktivnost",
     "jpg": "JPG format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Dijeljeno poveznicom isklju\u010deno",
     "linkShareOn": "Dijeljeno poveznicom uklju\u010deno",
     "list_created": "Lista %0 je izra\u0111ena!",

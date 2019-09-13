@@ -145,6 +145,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		mathField.setText(text, false);
 	}
 
+	public void setFontSize(double fontSize) {
+		mathField.setFontSize(fontSize);
+	}
+
 	/**
 	 * Add style to the editor.
 	 *

@@ -3295,6 +3295,7 @@ __GGB__keysVar["sl"].menu = {
     "html": "Spletna stran",
     "insert_worksheet": "Vstavi dejavnost",
     "jpg": "JPG format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Povezavaza deljenje je izklju\u010dena.",
     "linkShareOn": "Povezava za deljenje vklju\u010dena.",
     "list_created": "Izdelan seznam %0 !",

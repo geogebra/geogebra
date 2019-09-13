@@ -3295,6 +3295,7 @@ __GGB__keysVar["ro"].menu = {
     "html": "Pagin\u0103 web",
     "insert_worksheet": "Inserare foaie de lucru",
     "jpg": "Format JPG",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "Lista %0 a fost creat\u0103!",

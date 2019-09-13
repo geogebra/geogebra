@@ -8,13 +8,12 @@ public class ScreenReaderSilent implements ScreenReaderAdapter {
 	static ScreenReaderSilent INSTANCE = new ScreenReaderSilent();
 
 	@Override
-	public void readText(String textString) {
+	public void readText(String text) {
 		// silent
 	}
 
 	@Override
-	public void readTextImmediate(String textString) {
-		// still silent
+	public void readDelayed(String text) {
+		// silent
 	}
-
 }
