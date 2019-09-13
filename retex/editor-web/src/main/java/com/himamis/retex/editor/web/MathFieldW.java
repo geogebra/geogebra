@@ -552,11 +552,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (lastIcon == null) {
 			return;
 		}
-
-		if (!active(inputTextArea.getElement()) && isEditing()) {
+		if (!active(inputTextArea.getElement()) && this.enabled) {
 			inputTextArea.getElement().focus();
 		}
-
 		final double height = computeHeight(lastIcon);
 		final double width = roundUp(lastIcon.getIconWidth() + 30);
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
@@ -566,10 +564,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
 				backgroundCssColor, null, ratio);
-	}
-
-	private boolean isEditing() {
-		return instances.contains(this);
 	}
 
 	private static boolean mobileBrowser() {
@@ -822,7 +816,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				public void onFocus(FocusEvent event) {
 					startBlink();
 					event.stopPropagation();
-					event.preventDefault();
 
 				}
 			});
@@ -834,7 +827,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 					instances.remove(MathFieldW.this);
 					resetFlags();
 					event.stopPropagation();
-					event.preventDefault();
 					runBlurCallback(event);
 
 				}
