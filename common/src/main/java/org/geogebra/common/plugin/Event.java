@@ -1,6 +1,7 @@
 package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -17,7 +18,7 @@ public class Event {
 	/** generic argument, e.g. macro name */
 	public String argument;
 	/** argument formatted as a JSON string */
-	public String jsonArgument;
+	public HashMap<String, String> jsonArgument;
 
 	/** primary target */
 	public GeoElement target;
@@ -79,7 +80,7 @@ public class Event {
 	 *            JSON encoded additional properties
 	 * @return this
 	 */
-	public Event setJsonArgument(String jsonArgument) {
+	public Event setJsonArgument(HashMap<String, String> jsonArgument) {
 		this.jsonArgument = jsonArgument;
 		return this;
 	}

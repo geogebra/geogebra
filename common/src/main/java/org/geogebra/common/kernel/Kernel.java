@@ -4423,7 +4423,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
-					.dispatchEvent(new Event(EventType.REDO, null));
+					.dispatchEvent(new Event(EventType.REDO));
 			app.setUnAutoSaved();
 		}
 	}
@@ -4530,7 +4530,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				app.batchUpdateEnd();
 				storeStateForModeStarting();
 				app.getEventDispatcher()
-						.dispatchEvent(new Event(EventType.UNDO, null));
+						.dispatchEvent(new Event(EventType.UNDO));
 				app.setUnAutoSaved();
 			}
 		}

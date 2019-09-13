@@ -545,7 +545,7 @@ public class GuiManagerW extends GuiManager
 			} else {
 				hideViewWith(viewId, isPermanent);
 			}
-			getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+			getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		}
 
 		layout.getDockManager().updateVoiceover();

@@ -95,7 +95,6 @@ public class ScriptManagerW extends ScriptManager {
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android.callPlugin('GgbOnInit', [ 1 ]);
 		}
-
 	}-*/;
 
 	@Override
@@ -120,18 +119,32 @@ public class ScriptManagerW extends ScriptManager {
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, String[] args, String jsonArgument) {
+	public void callJavaScript(String jsFunction, String[] args, HashMap<String, String> jsonArgument) {
 		if (jsonArgument == null) {
 			callJavaScript(jsFunction, args);
 		} else {
 			try {
-				callListenerNativeJson(listeners.get(jsFunction), jsonArgument, args);
+				callListenerNativeJson(listeners.get(jsFunction),
+						convertToJSObject(jsonArgument), args);
 			} catch (Throwable t) {
 				Log.warn("Error in user script: " + jsFunction + " : "
 						+ t.getMessage());
 			}
 		}
 	}
+
+	public static JavaScriptObject convertToJSObject(HashMap<String, String> object) {
+		JavaScriptObject json = JavaScriptObject.createObject();
+		for (Entry<String, String> entry : object.entrySet()) {
+			set(json, entry.getKey(), entry.getValue());
+		}
+
+		return json;
+	}
+
+	private static native void set(JavaScriptObject json, String key, String value) /*-{
+		json[key] = value;
+	}-*/;
 
 	@Override
 	public void callJavaScript(String jsFunction, String arg0, String arg1) {
@@ -159,11 +172,9 @@ public class ScriptManagerW extends ScriptManager {
 	}-*/;
 
 	private native void callListenerNativeJson(JavaScriptObject listener,
-		   String jsonArgument, String... args) /*-{
-		var parsed = JSON.parse(jsonArgument);
-
-		for (key in parsed) {
-			if (parsed.hasOwnProperty(key)) {
+		   JavaScriptObject json, String... args) /*-{
+		for (key in json) {
+			if (json.hasOwnProperty(key)) {
 				args[key] = parsed[key];
 			}
 		}

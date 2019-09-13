@@ -114,6 +114,8 @@ public abstract class ScriptManager implements EventListener {
 		case TABLE_PANEL_SELECTED:
 		case SIDE_PANEL_OPENED:
 		case SIDE_PANEL_CLOSED:
+		case VIEW_CHANGED_2D:
+		case VIEW_CHANGED_3D:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR
@@ -161,7 +163,7 @@ public abstract class ScriptManager implements EventListener {
 		}
 	}
 
-	public void callJavaScript(String jsFunction, String[] arguments, String jsonArgument) {
+	public void callJavaScript(String jsFunction, String[] arguments, HashMap<String, String> jsonArgument) {
 		callJavaScript(jsFunction, arguments);
 	}
 

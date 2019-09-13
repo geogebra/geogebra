@@ -5,6 +5,7 @@ import org.geogebra.web.html5.main.ApiExporter;
 import org.geogebra.web.html5.main.GgbAPIW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import org.geogebra.web.html5.main.ScriptManagerW;
 
 /**
  * API exporter for evaluator app
@@ -27,8 +28,9 @@ public class EvaluatorApiExporter extends ApiExporter {
 	}
 
 	@ExternalAccess
-	private String getEditorState() {
-		return evaluatorActivity.getEditorAPI().getEvaluatorValue();
+	private JavaScriptObject getEditorState() {
+		return ScriptManagerW
+				.convertToJSObject(evaluatorActivity.getEditorAPI().getEvaluatorValue());
 	}
 
 	private native void addEditorState(JavaScriptObject api) /*-{

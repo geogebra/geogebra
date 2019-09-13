@@ -138,7 +138,12 @@ public enum EventType {
 	/** Side Panel opened */
 	SIDE_PANEL_OPENED("sidePanelOpened"),
 	/** Side Panel closed */
-	SIDE_PANEL_CLOSED("sidePanelClosed");
+	SIDE_PANEL_CLOSED("sidePanelClosed"),
+
+	/** 2D view changed (panned, zoomed, axis scale changed) */
+	VIEW_CHANGED_2D("viewChanged2D"),
+	/** 3D view changed (panned, zoomed, rotated, axis scale changed) */
+	VIEW_CHANGED_3D("viewChanged3D");
 
 	private String eventName;
 
