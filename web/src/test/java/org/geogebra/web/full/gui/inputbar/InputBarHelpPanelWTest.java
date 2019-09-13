@@ -26,7 +26,7 @@ public class InputBarHelpPanelWTest {
         InputBarHelpPanelW inputBarHelpPanelW
                 = Mockito.spy(new InputBarHelpPanelW(app));
 
-        inputBarHelpPanelW.updateGUI(300, 1.0);
+        inputBarHelpPanelW.updateGUI(300);
 
         Mockito.verify(inputBarHelpPanelW, Mockito.times(1))
                 .showOnlineHelpButton(true);
@@ -42,7 +42,7 @@ public class InputBarHelpPanelWTest {
         InputBarHelpPanelW inputBarHelpPanelW
                 = Mockito.spy(new InputBarHelpPanelW(app));
 
-        inputBarHelpPanelW.updateGUI(300, 1.0);
+        inputBarHelpPanelW.updateGUI(300);
 
         Mockito.verify(inputBarHelpPanelW, Mockito.times(1))
                 .showOnlineHelpButton(false);

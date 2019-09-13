@@ -231,23 +231,20 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * 
 	 * @param maxOffsetHeight
 	 *            max height
-	 * @param scale
-	 *            transform scale
 	 */
-	public void updateGUI(int maxOffsetHeight, double scale) {
+	public void updateGUI(int maxOffsetHeight) {
 		showOnlineHelpButton(!app.isExam() && app.showMenuBar());
-		int h = (int) (maxOffsetHeight * scale
-				- 60);
+		int height = maxOffsetHeight - 60;
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
-				.getOffsetWidth() * scale - 60;
+				.getOffsetWidth() - 60;
 
 		if (app.getArticleElement().hasDataParamEnableGraphing()
 				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
 			int w = (int) Math.min(400, width);
-			detailScroller.setPixelSize(w, h);
+			detailScroller.setPixelSize(w, height);
 		} else {
 			int w = (int) Math.min(700, width);
-			sp.setPixelSize(w, h);
+			sp.setPixelSize(w, height);
 		}
 	}
 	
