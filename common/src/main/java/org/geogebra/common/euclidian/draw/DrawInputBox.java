@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 
