@@ -1355,7 +1355,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					helpPopup.removeStyleName("helpPopupAV");
 					helpPopup.addStyleName("helpPopupAVBottom");
 				}
-				helpPanel.updateGUI(maxOffsetHeight, 1);
+				helpPanel.updateGUI(maxOffsetHeight);
 				helpPopup.show();
 			}
 		});

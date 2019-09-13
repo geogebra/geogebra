@@ -98,7 +98,11 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowMenuBar(boolean def) {
-		return false;
+		if (attributes.containsKey("showMenuBar")) {
+			return "true".equals(attributes.get("showMenuBar"));
+		}
+
+		return def;
 	}
 
 	@Override
