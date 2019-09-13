@@ -1,5 +1,6 @@
 package org.geogebra.web.test;
 
+import com.google.gwt.dom.client.Element;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -39,7 +40,13 @@ public class AppMocker {
 
 					@Override
 					public PopupImpl getFake(Class<?> type) {
-						return new PopupImpl();
+						return new PopupImpl() {
+
+							@Override
+							public Element getStyleElement(Element popup) {
+								return DomMocker.getElement();
+							}
+						};
 					}
 				});
 		GwtMockito.useProviderForType(ClientBundle.class, new CustomFakeClientBundleProvider());

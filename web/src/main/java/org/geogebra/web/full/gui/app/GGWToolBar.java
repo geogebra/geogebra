@@ -1188,8 +1188,11 @@ public class GGWToolBar extends Composite
 	public void setSubmenuDimensions(double width) {
 		if (toolBar.isMobileToolbar() && !toolBar.isVisible()) {
 			int maxButtons = getMaxButtons((int) width);
-			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel
-					.getWidget(0)).getButtonCount();
+			int submenuButtonCount = 0;
+			if (submenuPanel.getWidgetCount() != 0) {
+				submenuButtonCount = ((ToolbarSubmenuP) submenuPanel
+						.getWidget(0)).getButtonCount();
+			}
 			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
 			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
 		}

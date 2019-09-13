@@ -1640,7 +1640,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			latexItem = new FlowPanel();
 		}
 		latexItem.clear();
-		latexItem.add(canvas);
+		if (canvas != null) {
+			latexItem.add(canvas);
+		}
 		content.add(latexItem);
 	}
 
