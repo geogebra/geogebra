@@ -172,7 +172,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		btnOnlineHelp.setEnabled(online);
 	}
 
-	private void showOnlineHelpButton(boolean show) {
+	void showOnlineHelpButton(boolean show) {
 		btnOnlineHelp.setVisible(show);
 	}
 
