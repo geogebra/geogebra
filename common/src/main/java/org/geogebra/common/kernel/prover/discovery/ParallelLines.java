@@ -5,6 +5,8 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.geos.GeoLine;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class ParallelLines {
 
     private HashSet<Line> lines = new HashSet<Line>();
@@ -49,5 +51,16 @@ public class ParallelLines {
 
     public void setGeoLines(ArrayList<GeoLine> gls) {
         geoLines = gls;
+    }
+
+    public String toString() {
+        String ret = "";
+        for (Line l : lines) {
+            ret += l.toString() + Unicode.PARALLEL;
+        }
+        if (!"".equals(ret)) {
+            ret = ret.substring(0, ret.length() - 1);
+        }
+        return ret;
     }
 }

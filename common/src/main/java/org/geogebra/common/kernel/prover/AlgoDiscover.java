@@ -137,36 +137,37 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             }
         }
 
-        if (discover) {
-            // Second round:
-            // put non-trivial collinearities in the
-            // discovery pool.
-            lines = new Combinations(prevPoints, 2);
-            while (lines.hasNext()) {
-                Set<GeoPoint> line = lines.next();
-                Iterator<GeoPoint> i = line.iterator();
-                GeoPoint p1 = i.next();
-                GeoPoint p2 = i.next();
-                if (!discoveryPool.areCollinear(p0, p1, p2)) {
-                    AlgoAreCollinear aac = new AlgoAreCollinear(cons, p0, p1, p2);
-                    if (aac.getResult().getBoolean()) {
-                        // Conjecture: Collinearity
-                        GeoElement root = new GeoBoolean(cons);
-                        root.setParentAlgorithm(aac);
-                        AlgoProveDetails ap = new AlgoProveDetails(cons, root);
-                        ap.compute();
-                        GeoElement[] o = ap.getOutput();
-                        GeoElement truth = ((GeoList) o[0]).get(0);
-                        if (((GeoBoolean) truth).getBoolean()) {
-                            // Theorem: Collinearity
-                            discoveryPool.addCollinearity(p0, p1, p2).setTrivial(false);
-                        }
-                        ap.remove();
+        // Second round:
+        // put non-trivial collinearities in the
+        // discovery pool. It is needed to do this for all p0 (not for just the final
+        // one to discover) in order to have all parallel lines correctly.
+        lines = new Combinations(prevPoints, 2);
+        while (lines.hasNext()) {
+            Set<GeoPoint> line = lines.next();
+            Iterator<GeoPoint> i = line.iterator();
+            GeoPoint p1 = i.next();
+            GeoPoint p2 = i.next();
+            if (!discoveryPool.areCollinear(p0, p1, p2)) {
+                AlgoAreCollinear aac = new AlgoAreCollinear(cons, p0, p1, p2);
+                if (aac.getResult().getBoolean()) {
+                    // Conjecture: Collinearity
+                    GeoElement root = new GeoBoolean(cons);
+                    root.setParentAlgorithm(aac);
+                    AlgoProveDetails ap = new AlgoProveDetails(cons, root);
+                    ap.compute();
+                    GeoElement[] o = ap.getOutput();
+                    GeoElement truth = ((GeoList) o[0]).get(0);
+                    if (((GeoBoolean) truth).getBoolean()) {
+                        // Theorem: Collinearity
+                        discoveryPool.addCollinearity(p0, p1, p2).setTrivial(false);
                     }
-                    aac.remove();
+                    ap.remove();
                 }
+                aac.remove();
             }
+        }
 
+        if (discover) {
             // Third round: Draw lines from the discovery pool
             // (those that are not yet drawn):
             for (Line l : discoveryPool.lines) {
@@ -181,8 +182,8 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     /*
-     * Extend the database of collinearities by
-     * collecting all of them for a given input.
+     * Extend the database by
+     * collecting all conclicities for a given input.
      */
     private void collectConcyclicities(GeoPoint p0, boolean discover) {
         Pool discoveryPool = cons.getDiscoveryPool();
@@ -265,8 +266,8 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     /*
-     * Extend the database of collinearities by
-     * collecting all of them for a given input.
+     * Extend the database by
+     * collecting all parallelisms for a given input.
      */
     private void collectParallelisms(GeoPoint p0, boolean discover) {
         Pool discoveryPool = cons.getDiscoveryPool();
@@ -296,7 +297,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                     GeoLine gl2 = ajp2.getLine();
 
                     if (!discoveryPool.areParallel(l1, l2)) {
-                        // Add {p0,p1,p2} to the trivial pool if they are trivially collinear:
+                        // Add {p0,p1,p2} to the trivial pool if they are trivially parallel:
                         checkParallelism(gl1, gl2);
                     }
                     gl1.remove();

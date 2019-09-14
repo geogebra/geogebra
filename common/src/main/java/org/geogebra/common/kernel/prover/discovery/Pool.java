@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.Combinations;
+import org.geogebra.common.util.debug.Log;
 
 public class Pool {
     public ArrayList<Line> lines = new ArrayList<>();
@@ -14,6 +15,10 @@ public class Pool {
     public ArrayList<ParallelLines> directions = new ArrayList<>();
 
     public Line getLine(GeoPoint p1, GeoPoint p2) {
+        if (p1.equals(p2)) {
+            Log.error("getLine() called with p1=p2=" + p1.getLabelSimple());
+            return null;
+        }
         HashSet<GeoPoint> ps = new HashSet();
         ps.add(p1);
         ps.add(p2);
@@ -55,6 +60,9 @@ public class Pool {
     }
 
     public Line addLine(GeoPoint p1, GeoPoint p2) {
+        if (p1.equals(p2)) {
+            return null;
+        }
         Line l = getLine(p1, p2);
         if (l == null) {
             Line line = new Line(p1, p2);
@@ -95,17 +103,24 @@ public class Pool {
          *
          * If there is no such problem, we simply add p to l.
          */
+        if (l.getPoints().contains(p)) {
+            return; // nothing to do
+        }
         HashSet<GeoPoint> pointlist = (HashSet<GeoPoint>) l.getPoints().clone();
+        HashSet<GeoPoint> pointsToAdd = new HashSet<>();
+        pointsToAdd.add(p);
         for (GeoPoint pl : pointlist) {
             Line el = getLine(pl, p);
             if (el != null && !el.equals(l)) {
                 for (GeoPoint ep : el.getPoints()) {
-                    l.collinear(ep);
+                    pointsToAdd.add(ep);
                 }
                 lines.remove(el);
             }
         }
-        l.collinear(p);
+        for (GeoPoint pl : pointsToAdd) {
+            l.collinear(pl);
+        }
     }
 
     private void setConcylic(Circle c, GeoPoint p) {
@@ -120,7 +135,12 @@ public class Pool {
          *
          * If there is no such problem, we simply add p to c.
          */
+        if (c.getPoints().contains(p)) {
+            return; // nothing to do
+        }
         Combinations pairlist = new Combinations(c.getPoints(), 2);
+        HashSet<GeoPoint> pointsToAdd = new HashSet<>();
+        pointsToAdd.add(p);
         while (pairlist.hasNext()) {
             Set<GeoPoint> ppc = pairlist.next();
             Iterator<GeoPoint> i = ppc.iterator();
@@ -129,12 +149,14 @@ public class Pool {
             Circle ec = getCircle(p1, p2, p);
             if (ec != null && !ec.equals(c)) {
                 for (GeoPoint cp : ec.getPoints()) {
-                    c.concyclic(cp);
+                    pointsToAdd.add(cp);
                 }
                 circles.remove(ec);
             }
         }
-        c.concyclic(p);
+        for (GeoPoint pl : pointsToAdd) {
+            c.concyclic(pl);
+        }
     }
 
     public Line addCollinearity(GeoPoint p1, GeoPoint p2, GeoPoint p3) {
