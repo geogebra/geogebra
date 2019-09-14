@@ -10,7 +10,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import org.geogebra.common.kernel.algos.AlgoIntersectLines;
+import org.geogebra.common.kernel.algos.AlgoIntersectSingle;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMidpoint;
@@ -211,6 +213,9 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             if (!discoveryPool.areConcyclic(p0, p1, p2, p3)) {
                 // Add {p0,p1,p2,p3} to the trivial pool if they are trivially concyclic:
                 checkConcyclicity(p0, p1, p2, p3);
+                checkConcyclicity(p1, p2, p3, p0);
+                checkConcyclicity(p2, p3, p0, p1);
+                checkConcyclicity(p3, p0, p1, p2);
             }
             if (!discoveryPool.areConcyclic(p0, p1, p2, p3)) {
                 discoveryPool.addCircle(p0, p1, p2);
@@ -578,7 +583,38 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
     }
 
     void checkConcyclicity(GeoPoint A, GeoPoint B, GeoPoint C, GeoPoint D) {
-        // TODO. To be written.
+        /*
+         * TODO. This is certainly incomplete.
+         */
+        Pool discoveryPool = cons.getDiscoveryPool();
+
+        AlgoElement ae = D.getParentAlgorithm();
+
+        if (ae instanceof AlgoIntersectSingle) {
+            AlgoElement ae2 = ((AlgoIntersectSingle) ae).getAlgo();
+            if (ae2 instanceof AlgoIntersectLineConic) {
+                GeoConic c = ((AlgoIntersectLineConic) ae2).getConic();
+                AlgoElement ae3 = c.getParentAlgorithm();
+                if (c.isCircle() && ae3 instanceof AlgoCircleThreePoints) {
+                    GeoPoint j1 = ((AlgoCircleThreePoints) ae3).getA();
+                    GeoPoint j2 = ((AlgoCircleThreePoints) ae3).getB();
+                    GeoPoint j3 = ((AlgoCircleThreePoints) ae3).getC();
+                    if (j1 != null && j2 != null && j3 != null) {
+                        // TODO. This is ugly, consider writing more beautiful code here
+                        // (all permutations of A, B and C are required:
+                        if ((j1.equals(A) && j2.equals(B) && j3.equals(C)) ||
+                                (j1.equals(A) && j2.equals(C) && j3.equals(B)) ||
+                                (j1.equals(B) && j2.equals(A) && j3.equals(C)) ||
+                                (j1.equals(B) && j2.equals(C) && j3.equals(A)) ||
+                                (j1.equals(C) && j2.equals(B) && j3.equals(A)) ||
+                                (j1.equals(C) && j2.equals(A) && j3.equals(B))) {
+                            // D is an intersection of circle ABC and something:
+                            discoveryPool.addConcyclicity(A, B, C, D).setTrivial(true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void checkCollinearity(GeoPoint A, GeoPoint B, GeoPoint C) {
