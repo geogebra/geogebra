@@ -3851,7 +3851,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		 * doesn't work with Reflect(penstroke, Object)
 		 */
 		case MOW_PEN_IS_LOCUS:
-			return whiteboard;
+			return true;
 
 		/** MOW-763 */
 		case VIDEO_PLAYER_OFFLINE:

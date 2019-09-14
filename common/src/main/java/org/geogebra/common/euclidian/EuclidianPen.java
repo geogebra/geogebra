@@ -608,9 +608,7 @@ public class EuclidianPen implements GTimerListener {
 
 		}
 
-		Iterator<GPoint> it = penPoints2.iterator();
-		while (it.hasNext()) {
-			GPoint p = it.next();
+		for (GPoint p : penPoints2) {
 			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),
 			// view.toRealWorldCoordY(p.getY()), 1));
 
