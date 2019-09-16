@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -82,6 +83,8 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
@@ -1288,6 +1291,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		setCoordSystem(xZero, yZero, xscale, yscale, true);
 
+		Map<String, Object> coordinates = new HashMap<>();
+		coordinates.put("xZero", xZero);
+		coordinates.put("yZero", yZero);
+		coordinates.put("scale", xscale);
+		coordinates.put("yscale", yscale);
+		coordinates.put("viewNo", getEuclidianViewNo());
+
+		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D).setJsonArgument(coordinates));
 	}
 
 	/** Sets coord system from mouse move */

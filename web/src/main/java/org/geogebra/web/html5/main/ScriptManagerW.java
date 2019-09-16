@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.Kernel;
@@ -119,7 +120,7 @@ public class ScriptManagerW extends ScriptManager {
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, String[] args, HashMap<String, String> jsonArgument) {
+	public void callJavaScript(String jsFunction, String[] args, Map<String, Object> jsonArgument) {
 		if (jsonArgument == null) {
 			callJavaScript(jsFunction, args);
 		} else {
@@ -133,10 +134,10 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
-	public static JavaScriptObject convertToJSObject(HashMap<String, String> object) {
+	public static JavaScriptObject convertToJSObject(Map<String, Object> object) {
 		JavaScriptObject json = JavaScriptObject.createObject();
-		for (Entry<String, String> entry : object.entrySet()) {
-			set(json, entry.getKey(), entry.getValue());
+		for (Entry<String, Object> entry : object.entrySet()) {
+			set(json, entry.getKey(), entry.getValue().toString());
 		}
 
 		return json;
@@ -175,7 +176,7 @@ public class ScriptManagerW extends ScriptManager {
 		   JavaScriptObject json, String... args) /*-{
 		for (key in json) {
 			if (json.hasOwnProperty(key)) {
-				args[key] = parsed[key];
+				args[key] = json[key];
 			}
 		}
 

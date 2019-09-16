@@ -8,8 +8,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -61,14 +59,14 @@ public class EvaluatorAPI {
 	 *
 	 * @return JSON string that contains values from the editor
 	 */
-	public HashMap<String, String> getEvaluatorValue() {
+	public HashMap<String, Object> getEvaluatorValue() {
 		MathFormula formula = getMathFormula();
 
 		String flatString = getFlatString(formula);
 		String latexString = getLatexString(formula);
 		String evalString = getEvalString(flatString);
 
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 
 		map.put(LATEX_KEY, flatString);
 		map.put(ASCII_CONTENT_KEY, latexString);

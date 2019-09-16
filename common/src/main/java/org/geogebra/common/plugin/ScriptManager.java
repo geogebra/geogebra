@@ -3,6 +3,7 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -163,7 +164,7 @@ public abstract class ScriptManager implements EventListener {
 		}
 	}
 
-	public void callJavaScript(String jsFunction, String[] arguments, HashMap<String, String> jsonArgument) {
+	public void callJavaScript(String jsFunction, String[] arguments, Map<String, Object> jsonArgument) {
 		callJavaScript(jsFunction, arguments);
 	}
 
