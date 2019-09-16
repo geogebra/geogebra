@@ -76,7 +76,8 @@ public class ProverD extends Prover {
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.getLabelSimple().equals(label)) {
+            String l = geo.getLabelSimple();
+            if (l != null && l.equals(label)) {
 				return geo;
 			}
 		}
