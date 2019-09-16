@@ -552,7 +552,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (lastIcon == null) {
 			return;
 		}
-		if (!active(inputTextArea.getElement()) && this.enabled) {
+		if (!active(inputTextArea.getElement()) && isEdited()) {
 			inputTextArea.getElement().focus();
 		}
 		final double height = computeHeight(lastIcon);
@@ -564,6 +564,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
 				backgroundCssColor, null, ratio);
+	}
+
+	private boolean isEdited() {
+		return instances.contains(this);
 	}
 
 	private static boolean mobileBrowser() {
@@ -881,7 +885,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			clipDiv.style.width = "1px";
 			clipDiv.style.height = "1px";
 			clipDiv.style.position = "relative";
-			clipDiv.style.top = "-15px";
+			clipDiv.style.top = "-100%";
 			clipDiv.className = "textAreaClip";
 			hiddenTextArea.style.width = "1px";
 			hiddenTextArea.style.padding = 0;
