@@ -14,8 +14,10 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
@@ -150,6 +152,7 @@ import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -9534,9 +9537,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
 		if (view.hasDynamicStyleBar()
-				&& ((mode == EuclidianConstants.MODE_SELECT_MOW
-						&& !event.isRightClick())
-						|| mode != EuclidianConstants.MODE_SELECT_MOW)) {
+				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick())) {
 			this.hideDynamicStylebar();
 		}
 
@@ -9736,6 +9737,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		setViewHits(event.getType());
+
+		dispatchMouseDownEvent(event);
+
 		if (app.isWhiteboardActive()
 				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
 				&& !getView().getHits().isEmpty()) {
@@ -9766,6 +9770,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	private void dispatchMouseDownEvent(AbstractEvent event) {
+		String[] hits = new String[view.getHits().size()];
+		for (int i = 0; i < hits.length; i++) {
+			hits[i] = view.getHits().get(i).getLabelSimple();
+		}
+
+		Map<String, Object> jsonArgument = new HashMap<>();
+		jsonArgument.put("viewNo", view.getEuclidianViewNo());
+		jsonArgument.put("x", view.toRealWorldCoordX(event.getX()));
+		jsonArgument.put("y", view.toRealWorldCoordY(event.getY()));
+		jsonArgument.put("hits", hits);
+
+		app.dispatchEvent(new Event(EventType.MOUSE_DOWN).setJsonArgument(jsonArgument));
 	}
 
 	private void resetSelectionFlags() {

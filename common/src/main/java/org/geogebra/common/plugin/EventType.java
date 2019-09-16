@@ -143,7 +143,12 @@ public enum EventType {
 	/** 2D view changed (panned, zoomed, axis scale changed) */
 	VIEW_CHANGED_2D("viewChanged2D"),
 	/** 3D view changed (panned, zoomed, rotated, axis scale changed) */
-	VIEW_CHANGED_3D("viewChanged3D");
+	VIEW_CHANGED_3D("viewChanged3D"),
+
+	/** mouse down or touch start event */
+	MOUSE_DOWN("mouseDown"),
+	/** i.e. mouse up, touch end, finished dragging a point, or segment etc. */
+	DRAG_END("dragEnd");
 
 	private String eventName;
 
