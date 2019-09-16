@@ -9772,7 +9772,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switchModeForMousePressed(event);
 	}
 
-	private void dispatchMouseDownEvent(AbstractEvent event) {
+	protected Map<String, Object> createMouseDownEventArgument() {
 		String[] hits = new String[view.getHits().size()];
 		for (int i = 0; i < hits.length; i++) {
 			hits[i] = view.getHits().get(i).getLabelSimple();
@@ -9780,9 +9780,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		Map<String, Object> jsonArgument = new HashMap<>();
 		jsonArgument.put("viewNo", view.getEuclidianViewNo());
+		jsonArgument.put("hits", hits);
+
+		return jsonArgument;
+	}
+
+	protected void dispatchMouseDownEvent(AbstractEvent event) {
+		Map<String, Object> jsonArgument = createMouseDownEventArgument();
+
 		jsonArgument.put("x", view.toRealWorldCoordX(event.getX()));
 		jsonArgument.put("y", view.toRealWorldCoordY(event.getY()));
-		jsonArgument.put("hits", hits);
 
 		app.dispatchEvent(new Event(EventType.MOUSE_DOWN).setJsonArgument(jsonArgument));
 	}

@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -95,6 +96,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SchedulerFactory;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
@@ -1813,6 +1816,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.stopScreenTranslateAndScale();
 
 		super.wrapMousePressed(e);
+	}
+
+	protected void dispatchMouseDownEvent(AbstractEvent event) {
+		Map<String, Object> jsonArgument = createMouseDownEventArgument();
+
+		Coords ret = new Coords(4);
+		view3D.getHittingOrigin(event.getPoint(), ret);
+
+		jsonArgument.put("x", ret.getX());
+		jsonArgument.put("y", ret.getY());
+		jsonArgument.put("z", ret.getZ());
+
+		app.dispatchEvent(new Event(EventType.MOUSE_DOWN).setJsonArgument(jsonArgument));
 	}
 
 	@Override
