@@ -3710,11 +3710,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void resetViewChanged() {
 		if (viewChanged()) {
 			dispatch3DViewChangeEvent();
-		}
 
-		viewChangedByZoom = false;
-		viewChangedByTranslate = false;
-		viewChangedByRotate = false;
+			viewChangedByZoom = false;
+			viewChangedByTranslate = false;
+			viewChangedByRotate = false;
+		}
 	}
 
 	final public int getPointStyle() {
