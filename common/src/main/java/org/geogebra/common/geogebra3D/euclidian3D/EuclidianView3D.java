@@ -883,8 +883,6 @@ public abstract class EuclidianView3D extends EuclidianView
         }
 
 		rotationMatrix.setMul3x3(tmpMatrix1, tmpMatrix2);
-
-		dispatch3DViewChangeEvent();
 	}
 
 	// TODO specific scaling for each direction
@@ -894,8 +892,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		scaleMatrix.set(1, 1, getXscale());
 		scaleMatrix.set(2, 2, getYscale());
 		scaleMatrix.set(3, 3, getZscale());
-
-		dispatch3DViewChangeEvent();
 	}
 
 	/**
@@ -917,8 +913,6 @@ public abstract class EuclidianView3D extends EuclidianView
         undoTranslationMatrix.set(1, 4, -getXZero());
         undoTranslationMatrix.set(2, 4, -getYZero());
         undoTranslationMatrix.set(3, 4, -translationZzero);
-
-		dispatch3DViewChangeEvent();
     }
 
     @Override
@@ -3714,6 +3708,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Reset all viewChanged* flags
 	 */
 	public void resetViewChanged() {
+		if (viewChanged()) {
+			dispatch3DViewChangeEvent();
+		}
+
 		viewChangedByZoom = false;
 		viewChangedByTranslate = false;
 		viewChangedByRotate = false;
