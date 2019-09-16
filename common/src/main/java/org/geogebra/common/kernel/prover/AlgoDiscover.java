@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -35,6 +36,7 @@ import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.ParallelLines;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -46,6 +48,10 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
     private GeoElement input; // input
     private GeoElement output; // output, actually null
+
+    private HashSet<Line> drawnLines = new HashSet<>();
+    private HashSet<Circle> drawnCircles = new HashSet<>();
+    private HashSet<ParallelLines> drawnDirections = new HashSet<>();
 
     public AlgoDiscover(final Construction cons,
                         final GeoElement input) {
@@ -177,6 +183,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                     GeoPoint[] twopoints = l.getPoints2();
                     if (l.getPoints().contains(p0)) {
                         l.setGeoLine(addOutputLine(twopoints[0], twopoints[1]));
+                        drawnLines.add(l);
                     }
                 }
             }
@@ -264,6 +271,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                     GeoPoint[] threepoints = c.getPoints3();
                     if (c.getPoints().contains(p0)) {
                         c.setGeoConic(addOutputCircle(threepoints[0], threepoints[1], threepoints[2]));
+                        drawnCircles.add(c);
                     }
                 }
             }
@@ -375,6 +383,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                     }
                     if (showIt) {
                         pl.setGeoLines(addOutputLines(linesDrawn, linesToDraw));
+                        drawnDirections.add(pl);
                     }
                 }
             }
@@ -431,6 +440,101 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 discoveryPool.directions.size() + " directions.");
         detectOrthogonalCollinearities();
         detectProperties((GeoPoint) this.input);
+
+        if (cons.getKernel().isSilentMode()) {
+            return;
+        }
+        RelationPane tablePane = cons.getApplication().getFactory().newRelationPane();
+        String liStyle = "class=\"RelationTool\"";
+
+        int items = 0;
+        // Lines
+        StringBuilder lines = new StringBuilder("<html>Sets of collinear points: ");
+        if (!drawnLines.isEmpty()) {
+            for (Line l : drawnLines) {
+                GeoLine gl = l.getGeoLine();
+                if (gl != null) {
+                    String color = StringUtil.toHexString((gl.getLabelColor()));
+                    lines.append("<font color=\"" + color + "\">" + l.toString() + "</font>");
+                } else {
+                    lines.append(l.toString());
+                }
+                lines.append(", ");
+            }
+            lines.deleteCharAt(lines.length() - 1);
+            lines.deleteCharAt(lines.length() - 1);
+            lines.append("</html>");
+            Log.debug(lines);
+            items++;
+        }
+
+        // Circles
+        StringBuilder circles = new StringBuilder("<html>Sets of concyclic points: ");
+        if (!drawnCircles.isEmpty()) {
+            for (Circle c : drawnCircles) {
+                GeoConic gc = c.getGeoConic();
+                if (gc != null) {
+                    String color = StringUtil.toHexString((gc.getLabelColor()));
+                    circles.append("<font color=\"" + color + "\">" + c.toString() + "</font>");
+                } else {
+                    circles.append(c.toString());
+                }
+                circles.append(", ");
+            }
+            circles.deleteCharAt(circles.length() - 1);
+            circles.deleteCharAt(circles.length() - 1);
+            circles.append("</html>");
+            Log.debug(circles);
+            items++;
+        }
+
+        // Parallel lines
+        StringBuilder directions = new StringBuilder("<html>Sets of parallel lines: <ul>");
+        if (!drawnDirections.isEmpty()) {
+            for (ParallelLines pl : drawnDirections) {
+                HashSet<Line> pls = pl.getLines();
+                Iterator it = pls.iterator();
+                Line l = (Line) it.next();
+                GeoLine gl = l.getGeoLine();
+                directions.append("<li " + liStyle + ">");
+                if (gl != null) {
+                    String color = StringUtil.toHexString(gl.getLabelColor());
+                    directions.append("<font color=\"" + color + "\">" + pl.toString() + "</font>");
+                } else {
+                    directions.append(pl.toString());
+                }
+            }
+            directions.append("</ul></html>");
+            Log.debug(directions);
+            items++;
+        }
+
+        if (items == 0) {
+            return; // no window is shown
+        }
+
+        final RelationPane.RelationRow[] rr = new RelationPane.RelationRow[items];
+
+        int item = 0;
+        if (!drawnLines.isEmpty()) {
+            rr[item] = new RelationPane.RelationRow();
+            rr[item].setInfo(lines.toString());
+            item++;
+        }
+        if (!drawnCircles.isEmpty()) {
+            rr[item] = new RelationPane.RelationRow();
+            rr[item].setInfo(circles.toString());
+            item++;
+        }
+        if (!drawnDirections.isEmpty()) {
+            rr[item] = new RelationPane.RelationRow();
+            rr[item].setInfo(directions.toString());
+            item++;
+        }
+
+        tablePane.showDialog("Discovery", rr,
+                cons.getApplication());
+
     }
 
     private GColor nextColor(GeoElement e) {
