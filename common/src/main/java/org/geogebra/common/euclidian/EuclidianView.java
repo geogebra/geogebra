@@ -1291,6 +1291,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		setCoordSystem(xZero, yZero, xscale, yscale, true);
 
+		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
+				.setJsonArgument(getCoordinates()));
+	}
+
+	protected Map<String, Object> getCoordinates() {
 		Map<String, Object> coordinates = new HashMap<>();
 		coordinates.put("xZero", xZero);
 		coordinates.put("yZero", yZero);
@@ -1298,7 +1303,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		coordinates.put("yscale", yscale);
 		coordinates.put("viewNo", getEuclidianViewNo());
 
-		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D).setJsonArgument(coordinates));
+		return coordinates;
 	}
 
 	/** Sets coord system from mouse move */
