@@ -1,12 +1,22 @@
 package org.geogebra.main;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+
+import java.util.List;
+import java.util.Map;
 
 public class APITest {
 	private static AppDNoGui app;
@@ -15,8 +25,8 @@ public class APITest {
 	/**
 	 * Initialize app.
 	 */
-	@BeforeClass
-	public static void setupApp() {
+	@Before
+	public void setupApp() {
 		app = AlgebraTest.createApp();
 		api = app.getGgbApi();
 	}
@@ -103,5 +113,32 @@ public class APITest {
 		// evalfa(ggbsort(normal(zeros((ggbtmpvart)^(2)=(4)*(ggbtmpvart),x))))
 		String solveResult2 = api.evalGeoGebraCAS("Solutions[t^2 = 4t]");
 		Assert.assertEquals("{0, 4}", solveResult2);
+	}
+
+	@Test
+	public void viewChanged2DTest() {
+		ScriptManager scriptManager = Mockito.spy(new ScriptManagerD(app));
+		app.getEventDispatcher().addEventListener(scriptManager);
+		app.setScriptManager(scriptManager);
+
+		EuclidianView euclidianView = app.getActiveEuclidianView();
+		euclidianView.setCoordSystem(30, 40, 5, 6);
+
+		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+
+		Mockito.verify(scriptManager, Mockito.times(1))
+				.sendEvent(eventCaptor.capture());
+
+		List<Event> capturedEvents = eventCaptor.getAllValues();
+		Assert.assertEquals(1, capturedEvents.size());
+
+		Event event = capturedEvents.get(0);
+		Assert.assertEquals(EventType.VIEW_CHANGED_2D, event.type);
+
+		Map<String, Object> jsonArgument = event.jsonArgument;
+		Assert.assertEquals(jsonArgument.get("xZero"), 30d);
+		Assert.assertEquals(jsonArgument.get("yZero"), 40d);
+		Assert.assertEquals(jsonArgument.get("scale"), 5d);
+		Assert.assertEquals(jsonArgument.get("yscale"), 6d);
 	}
 }

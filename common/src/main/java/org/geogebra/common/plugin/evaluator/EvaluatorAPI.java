@@ -68,8 +68,8 @@ public class EvaluatorAPI {
 
 		HashMap<String, Object> map = new HashMap<>();
 
-		map.put(LATEX_KEY, flatString);
-		map.put(ASCII_CONTENT_KEY, latexString);
+		map.put(ASCII_CONTENT_KEY, flatString);
+		map.put(LATEX_KEY, latexString);
 		map.put(EVAL_KEY, evalString);
 
 		return map;
