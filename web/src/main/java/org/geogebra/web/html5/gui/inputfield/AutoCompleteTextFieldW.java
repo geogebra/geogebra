@@ -1816,19 +1816,18 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+		getInputElement().getStyle().setTextAlign(textAlignToCssAlign(alignment));
+	}
+
+	private Style.TextAlign textAlignToCssAlign(TextAlignment alignment) {
 		switch (alignment) {
 			case LEFT:
-				getElement().getFirstChildElement().getStyle()
-						.setTextAlign(Style.TextAlign.LEFT);
-				break;
+					return Style.TextAlign.LEFT;
 			case CENTER:
-				getElement().getFirstChildElement().getStyle()
-						.setTextAlign(Style.TextAlign.CENTER);
-				break;
+					return Style.TextAlign.CENTER;
 			case RIGHT:
-				getElement().getFirstChildElement().getStyle()
-						.setTextAlign(Style.TextAlign.RIGHT);
-				break;
+					return Style.TextAlign.RIGHT;
 		}
+		return null;
 	}
 }

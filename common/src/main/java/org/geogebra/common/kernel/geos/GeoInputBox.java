@@ -48,7 +48,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private StringTemplate stringTemplateForLaTeX;
 
-	private TextAlignment textAlignment = TextAlignment.LEFT;
+	private TextAlignment textAlignment = TextAlignment.RIGHT;
 
 	/**
 	 * Creates new text field
@@ -215,11 +215,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				sb.append(printFigures);
 				sb.append("\"/>\n");
 			}
-			if (getAlignment() != TextAlignment.LEFT) {
-				sb.append("\t<textAlign val=\"");
-				sb.append(getAlignment().toString());
-				sb.append("\"/>\n");
-			}
 		}
 
 		if (isSymbolicMode()) {
@@ -232,7 +227,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"");
 			sb.append("/>\n");
 		}
-
+		if (getAlignment() != TextAlignment.LEFT) {
+			sb.append("\t<textAlign val=\"");
+			sb.append(getAlignment().toString());
+			sb.append("\"/>\n");
+		}
 	}
 
 	@Override

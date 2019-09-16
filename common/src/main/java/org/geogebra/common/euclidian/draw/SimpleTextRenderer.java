@@ -35,14 +35,17 @@ public class SimpleTextRenderer implements TextRenderer {
 								 int boxWidth, GGraphics2D graphics2D) {
 		switch (geoInputBox.getAlignment()) {
 			case CENTER:
-				return (boxWidth  - EuclidianStatic.drawIndexedString(app, graphics2D, text,
-						0, 0, false, false ,null, null).x - 5) / 2;
+				return (getTextWidth(app, graphics2D, text, boxWidth) - 5) / 2;
 			case RIGHT:
-				return boxWidth  - EuclidianStatic.drawIndexedString(app, graphics2D, text,
-						0, 0, false, false, null, null).x - 10;
+				return getTextWidth(app, graphics2D, text, boxWidth) - 10;
 			default:
 				return 0;
 		}
+	}
+
+	private int getTextWidth(App app, GGraphics2D graphics2D, String text, int boxWidth) {
+		return boxWidth  - EuclidianStatic.drawIndexedString(app, graphics2D, text,
+				0, 0, false, false ,null, null).x;
 	}
 
 	@Override

@@ -103,5 +103,8 @@ public interface AutoCompleteTextField
 	 */
 	void setSelection(int start, int end);
 
+	/**
+	 * @param alignment the text alignment in the input box
+	 */
 	void setTextAlignmentsForInputBox(TextAlignment alignment);
 }
