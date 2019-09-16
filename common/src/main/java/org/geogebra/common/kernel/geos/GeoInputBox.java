@@ -286,7 +286,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		}
 
 		if ("".equals(defineText.trim())) {
-			return;
+			defineText = "?";
 		}
 
 		double num = Double.NaN;
@@ -476,12 +476,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			textFieldToUpdate.setText(text);
 		}
 
-		if (isSymbolicMode()) {
-			setText(getLinkedGeoText());
-		} else if (isLinkedNumberValueNotChanged(text)) {
-			setText(getNonSymbolicNumberValue(linkedGeo));
+		if (!linkedGeo.isDefined()) {
+			setText(getTextForUndefinedGeo());
 		} else {
-			setText(textFieldToUpdate.getText());
+			if (isSymbolicMode()) {
+				setText(getLinkedGeoText());
+			} else if (isLinkedNumberValueNotChanged(text)) {
+				setText(getNonSymbolicNumberValue(linkedGeo));
+			} else {
+				setText(textFieldToUpdate.getText());
+			}
 		}
 	}
 
@@ -664,7 +668,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private String getLinkedSymbolicNumberForEditor() {
 		if (!linkedGeo.isDefined()) {
-			return "?";
+			return getTextForUndefinedGeo();
 		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
 		return isLatexNeededFor(number) ? number.toLaTeXString(true, tpl)
@@ -677,7 +681,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private String getSymbolicNumberText() {
 		if (!linkedGeo.isDefined()) {
-			return "?";
+			return getTextForUndefinedGeo();
 		}
 		GeoNumeric number = (GeoNumeric) linkedGeo;
 		return isLatexNeededFor(number) ? toLaTex(number) : getFormattedDouble(number);
@@ -711,6 +715,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;
+	}
+
+	private String getTextForUndefinedGeo() {
+		if (getLinkedGeoTextForEditor().equals("?")) {
+			return "";
+		}
+
+		return getLinkedGeoTextForEditor();
 	}
 
 	@Override
