@@ -5,7 +5,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.AlgebraStyle;
-import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
@@ -18,7 +17,6 @@ import org.geogebra.common.main.settings.Settings;
 public class SettingsUpdater {
 
 	private EuclidianHost euclidianHost;
-	private DefaultSettings defaultSettings;
 	private Settings settings;
 	private AppConfig appConfig;
 	private Kernel kernel;
@@ -59,10 +57,6 @@ public class SettingsUpdater {
 
 	void setEuclidianHost(EuclidianHost euclidianHost) {
 		this.euclidianHost = euclidianHost;
-	}
-
-	void setDefaultSettings(DefaultSettings defaultSettings) {
-		this.defaultSettings = defaultSettings;
 	}
 
 	protected Settings getSettings() {
