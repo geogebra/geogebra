@@ -193,7 +193,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			if (!app.isUnbundledOrWhiteboard()) {
 				addLock();
-				addPin();
+				addPinForClassic();
 			}
 			if (!app.isWhiteboardActive()) {
 				wrappedPopup.addSeparator();
@@ -722,35 +722,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// overridden in subclass
 	}
 
-	private void addPin() {
+	private void addPinForClassic() {
 		if (getGeo().isPinnable()) {
-
-			String img;
 			final boolean pinned = getGeo().isPinned();
-
-			if (app.isUnbundledOrWhiteboard()) {
-				img = MaterialDesignResources.INSTANCE.pin_black()
-								.getSafeUri().asString();
-			} else {
-				img = AppResources.INSTANCE.pin().getSafeUri().asString();
-			}
-
+			String img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			GCheckBoxMenuItem cbItem;
-			
-			if (app.isUnbundledOrWhiteboard()) {
-				cbItem = new GCheckBoxMenuItem(
-						MainMenu.getMenuBarHtmlClassic(img, ""),
-						loc.getMenu("UnpinFromScreen"),
-						loc.getMenu("PinToScreen"),
-						new Command() {
-
-							@Override
-							public void execute() {
-								pinCmd(pinned);
-							}
-						}, true, app);
-			} else {
-				cbItem = new GCheckBoxMenuItem(
+			cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("PinToScreen")),
 						new Command() {
 
@@ -759,12 +736,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								pinCmd(pinned);
 							}
 						}, true, app);
-			}
+
 
 			cbItem.setSelected(pinned, wrappedPopup.getPopupMenu());
 
 			wrappedPopup.addItem(cbItem);
-
 		}
 	}
 
