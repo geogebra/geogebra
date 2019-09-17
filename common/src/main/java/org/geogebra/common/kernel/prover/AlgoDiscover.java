@@ -467,7 +467,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
         int items = 0;
         // Lines
-        StringBuilder lines = new StringBuilder("<html>Collinear points: ");
+        StringBuilder lines = new StringBuilder("Collinear points: ");
         if (!drawnLines.isEmpty()) {
             for (Line l : drawnLines) {
                 GeoLine gl = l.getGeoLine();
@@ -481,13 +481,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             }
             lines.deleteCharAt(lines.length() - 1);
             lines.deleteCharAt(lines.length() - 1);
-            lines.append("</html>");
-            Log.debug(lines);
             items++;
         }
 
         // Circles
-        StringBuilder circles = new StringBuilder("<html>Concyclic points: ");
+        StringBuilder circles = new StringBuilder("Concyclic points: ");
         if (!drawnCircles.isEmpty()) {
             for (Circle c : drawnCircles) {
                 GeoConic gc = c.getGeoConic();
@@ -501,13 +499,11 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             }
             circles.deleteCharAt(circles.length() - 1);
             circles.deleteCharAt(circles.length() - 1);
-            circles.append("</html>");
-            Log.debug(circles);
             items++;
         }
 
         // Parallel lines
-        StringBuilder directions = new StringBuilder("<html>Sets of parallel lines: <ul>");
+        StringBuilder directions = new StringBuilder("Sets of parallel lines: <ul>");
         if (!drawnDirections.isEmpty()) {
             for (ParallelLines pl : drawnDirections) {
                 HashSet<Line> pls = pl.getLines();
@@ -522,8 +518,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                     directions.append(pl.toString());
                 }
             }
-            directions.append("</ul></html>");
-            Log.debug(directions);
+            directions.append("</ul>");
             items++;
         }
 
@@ -531,30 +526,31 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             return; // no window is shown
         }
 
-        final RelationPane.RelationRow[] rr = new RelationPane.RelationRow[items];
+        final RelationPane.RelationRow[] rr = new RelationPane.RelationRow[1];
+        StringBuilder html = new StringBuilder("<html>");
 
-        int item = 0;
         if (!drawnLines.isEmpty()) {
-            rr[item] = new RelationPane.RelationRow();
-            rr[item].setInfo(lines.toString());
-            item++;
+            html.append(lines);
+            html.append("<p><p>");
         }
         if (!drawnCircles.isEmpty()) {
-            rr[item] = new RelationPane.RelationRow();
-            rr[item].setInfo(circles.toString());
-            item++;
+            html.append(circles);
+            html.append("<p><p>");
         }
         if (!drawnDirections.isEmpty()) {
-            rr[item] = new RelationPane.RelationRow();
-            rr[item].setInfo(directions.toString());
-            item++;
+            html.append(directions);
+            // html.append("<p>");
         }
+        html.append("</html>");
+
+        rr[0] = new RelationPane.RelationRow();
+        rr[0].setInfo(html.toString());
 
         // Unsure if this helps anything. Simply copied from Relation:
         cons.getApplication().dispatchEvent(
                 new Event(EventType.RELATION_TOOL, null, rr[0].getInfo()));
 
-        tablePane.showDialog("Discovered facts on point " + input.getLabelSimple(), rr,
+        tablePane.showDialog("Discovered theorems on point " + input.getLabelSimple(), rr,
                 cons.getApplication());
     }
 
