@@ -36,6 +36,8 @@ import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.kernel.prover.discovery.ParallelLines;
 import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -175,14 +177,20 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             }
         }
 
+        if (p0.getKernel().isSilentMode()) {
+            return;
+        }
+
         if (discover) {
             // Third round: Draw lines from the discovery pool
             // (those that are not yet drawn):
             for (Line l : discoveryPool.lines) {
-                if (l.isTheorem() && !alreadyDrawn(l)) {
-                    GeoPoint[] twopoints = l.getPoints2();
+                if (l.isTheorem()) {
                     if (l.getPoints().contains(p0)) {
-                        l.setGeoLine(addOutputLine(twopoints[0], twopoints[1]));
+                        if (!alreadyDrawn(l)) {
+                            GeoPoint[] twopoints = l.getPoints2();
+                            l.setGeoLine(addOutputLine(twopoints[0], twopoints[1]));
+                        }
                         drawnLines.add(l);
                     }
                 }
@@ -264,13 +272,19 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 }
             }
 
+            if (p0.getKernel().isSilentMode()) {
+                return;
+            }
+
             // Third round: Draw circles from the discovery pool
             // (those that are not yet drawn):
             for (Circle c : discoveryPool.circles) {
-                if (c.isTheorem() && !alreadyDrawn(c)) {
-                    GeoPoint[] threepoints = c.getPoints3();
+                if (c.isTheorem()) {
                     if (c.getPoints().contains(p0)) {
-                        c.setGeoConic(addOutputCircle(threepoints[0], threepoints[1], threepoints[2]));
+                        if (!alreadyDrawn(c)) {
+                            GeoPoint[] threepoints = c.getPoints3();
+                            c.setGeoConic(addOutputCircle(threepoints[0], threepoints[1], threepoints[2]));
+                        }
                         drawnCircles.add(c);
                     }
                 }
@@ -364,6 +378,10 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 }
             }
 
+            if (p0.getKernel().isSilentMode()) {
+                return;
+            }
+
             // Third round: Draw all lines from the discovery pool
             // (those that are not yet drawn):
             for (ParallelLines pl : discoveryPool.directions) {
@@ -449,7 +467,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
 
         int items = 0;
         // Lines
-        StringBuilder lines = new StringBuilder("<html>Sets of collinear points: ");
+        StringBuilder lines = new StringBuilder("<html>Collinear points: ");
         if (!drawnLines.isEmpty()) {
             for (Line l : drawnLines) {
                 GeoLine gl = l.getGeoLine();
@@ -469,7 +487,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         }
 
         // Circles
-        StringBuilder circles = new StringBuilder("<html>Sets of concyclic points: ");
+        StringBuilder circles = new StringBuilder("<html>Concyclic points: ");
         if (!drawnCircles.isEmpty()) {
             for (Circle c : drawnCircles) {
                 GeoConic gc = c.getGeoConic();
@@ -532,9 +550,12 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             item++;
         }
 
-        tablePane.showDialog("Discovery", rr,
-                cons.getApplication());
+        // Unsure if this helps anything. Simply copied from Relation:
+        cons.getApplication().dispatchEvent(
+                new Event(EventType.RELATION_TOOL, null, rr[0].getInfo()));
 
+        tablePane.showDialog("Discovered facts on point " + input.getLabelSimple(), rr,
+                cons.getApplication());
     }
 
     private GColor nextColor(GeoElement e) {
