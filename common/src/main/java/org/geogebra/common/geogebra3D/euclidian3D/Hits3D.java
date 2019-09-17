@@ -217,12 +217,10 @@ public class Hits3D extends Hits {
 	 * @return nearest zNear
 	 */
 	public double sort() {
-
 		hitSetSet.clear();
 
 		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++) {
 			hitSetSet.add(hitSet[i]);
-			// Log.debug(i+"--"+hitSet[i]);
 		}
 
 		// return nearest zNear
@@ -239,17 +237,12 @@ public class Hits3D extends Hits {
 			addToHits(iter1.next(), topHits);
 		}
 
-		// App.error(""+topHits);
-
 		// sets the hits to this
 		ArrayList<GeoElement> segmentList = new ArrayList<>();
 		drawables3D.clear();
 
-		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet
-				.iterator(); iterSet.hasNext();) {
-			TreeSetOfDrawable3D set = iterSet.next();
-			for (Iterator<Drawable3D> iter = set.iterator(); iter.hasNext();) {
-				Drawable3D d = iter.next();
+		for (TreeSetOfDrawable3D set : hitSetSet) {
+			for (Drawable3D d : set) {
 				drawables3D.add(d);
 				GeoElement geo = d.getGeoElement();
 				addToHits(d, this);
@@ -267,22 +260,6 @@ public class Hits3D extends Hits {
 				}
 			}
 		}
-
-		// add the parent of this if it's a segment from a GeoPolygon3D or
-		// GeoPolyhedron
-		/*
-		 * TODO ? for (Iterator<GeoElement> iter = segmentList.iterator();
-		 * iter.hasNext();) { GeoSegment3D seg = (GeoSegment3D) iter.next();
-		 * GeoElement parent = seg.getGeoParent(); if (parent!=null) if
-		 * (!this.contains(parent)) this.add(seg.getGeoParent()); }
-		 */
-
-		// debug
-		/*
-		 * if (getLabelHit()==null) Application.debug(toString()); else
-		 * Application .debug(toString()+"\n first label : "
-		 * +getLabelHit().getLabel());
-		 */
 
 		return zNear;
 	}

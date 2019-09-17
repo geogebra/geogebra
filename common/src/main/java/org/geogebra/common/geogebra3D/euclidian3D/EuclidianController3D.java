@@ -1821,18 +1821,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void dispatchMouseDownEvent(AbstractEvent event) {
 		Map<String, Object> jsonArgument = createMouseDownEventArgument();
 
-		Coords ret = new Coords(4);
-		view3D.getHittingOrigin(event.getPoint(), ret);
+		Coords origin = new Coords(4);
+		view3D.getHittingOrigin(event.getPoint(), origin);
+		Coords direction = new Coords(4);
+		view3D.getHittingDirection(direction);
+		double zNear = view3D.getCompanion().getZNearest();
 
-		jsonArgument.put("x", ret.getX());
-		jsonArgument.put("y", ret.getY());
-		jsonArgument.put("z", ret.getZ());
-
-		view3D.getHittingDirection(ret);
-
-		jsonArgument.put("xDir", ret.getX());
-		jsonArgument.put("yDir", ret.getY());
-		jsonArgument.put("zDir", ret.getZ());
+		jsonArgument.put("x", origin.getX() - zNear * direction.getX());
+		jsonArgument.put("y", origin.getY() - zNear * direction.getY());
+		jsonArgument.put("z", origin.getZ() - zNear * direction.getZ());
 
 		app.dispatchEvent(new Event(EventType.MOUSE_DOWN).setJsonArgument(jsonArgument));
 	}
