@@ -10733,6 +10733,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					.storeUndoInfoAfterPasteOrAdd();
 		}
 
+		if (draggingOccured && movedGeoElement != null) {
+			app.getEventDispatcher().dispatchEvent(
+					new Event(EventType.DRAG_END, movedGeoElement)
+			);
+		}
+
 		if (getMovedGeoPoint() != null) {
 			processReleaseForMovedGeoPoint(right);
 		}

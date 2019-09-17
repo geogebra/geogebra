@@ -1828,6 +1828,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		jsonArgument.put("y", ret.getY());
 		jsonArgument.put("z", ret.getZ());
 
+		view3D.getHittingDirection(ret);
+
+		jsonArgument.put("xDir", ret.getX());
+		jsonArgument.put("yDir", ret.getY());
+		jsonArgument.put("zDir", ret.getZ());
+
 		app.dispatchEvent(new Event(EventType.MOUSE_DOWN).setJsonArgument(jsonArgument));
 	}
 
