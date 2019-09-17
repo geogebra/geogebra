@@ -2,18 +2,17 @@ package org.geogebra.common.kernel.prover.discovery;
 
 import static java.util.Arrays.sort;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.awt.GColor;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParallelLines {
 
     private HashSet<Line> lines = new HashSet<Line>();
-    private ArrayList<GeoLine> geoLines;
     private Boolean trivial;
+    private GColor color;
 
     public Boolean getTrivial() {
         return trivial;
@@ -51,10 +50,6 @@ public class ParallelLines {
         return lines.contains(l);
     }
 
-    public void setGeoLines(ArrayList<GeoLine> gls) {
-        geoLines = gls;
-    }
-
     public String toString() {
         String[] labels = new String[lines.size()];
         int i = 0;
@@ -72,5 +67,13 @@ public class ParallelLines {
             ret = ret.substring(0, ret.length() - 3);
         }
         return ret;
+    }
+
+    public void setColor(GColor c) {
+        color = c;
+    }
+
+    public GColor getColor() {
+        return color;
     }
 }

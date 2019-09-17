@@ -400,7 +400,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                         }
                     }
                     if (showIt) {
-                        pl.setGeoLines(addOutputLines(linesDrawn, linesToDraw));
+                        pl.setColor(addOutputLines(linesDrawn, linesToDraw));
                         drawnDirections.add(pl);
                     }
                 }
@@ -506,13 +506,10 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         StringBuilder directions = new StringBuilder("Sets of parallel lines: <ul>");
         if (!drawnDirections.isEmpty()) {
             for (ParallelLines pl : drawnDirections) {
-                HashSet<Line> pls = pl.getLines();
-                Iterator it = pls.iterator();
-                Line l = (Line) it.next();
-                GeoLine gl = l.getGeoLine();
+                GColor c = pl.getColor();
                 directions.append("<li " + liStyle + ">");
-                if (gl != null) {
-                    String color = StringUtil.toHexString(gl.getLabelColor());
+                if (c != null) {
+                    String color = StringUtil.toHexString(c);
                     directions.append("<font color=\"" + color + "\">" + pl.toString() + "</font>");
                 } else {
                     directions.append(pl.toString());
@@ -529,17 +526,24 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
         final RelationPane.RelationRow[] rr = new RelationPane.RelationRow[1];
         StringBuilder html = new StringBuilder("<html>");
 
+        items = 0;
         if (!drawnLines.isEmpty()) {
             html.append(lines);
-            html.append("<p><p>");
+            items++;
         }
         if (!drawnCircles.isEmpty()) {
+            if (items > 0) {
+                html.append("<p><p>");
+            }
             html.append(circles);
-            html.append("<p><p>");
+            items++;
         }
         if (!drawnDirections.isEmpty()) {
+            if (items > 0) {
+                html.append("<p><p>");
+            }
             html.append(directions);
-            // html.append("<p>");
+            // items++;
         }
         html.append("</html>");
 
@@ -559,7 +563,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 .getNext(true);
     }
 
-    ArrayList<GeoLine> addOutputLines(HashSet<Line> drawn, HashSet<Line> toDraw) {
+    GColor addOutputLines(HashSet<Line> drawn, HashSet<Line> toDraw) {
         ArrayList<GeoLine> ret = new ArrayList<>();
         GColor color = null;
         if (!drawn.isEmpty()) {
@@ -601,7 +605,7 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             cons.setSuppressLabelCreation(oldMacroMode);
             ret.add(gl);
         }
-        return ret;
+        return color;
     }
 
     GeoLine addOutputLine(GeoPoint A, GeoPoint B) {
