@@ -110,7 +110,7 @@ public class LayoutD extends Layout implements SettingListener {
 			app.updateContentPane();
 		}
 
-		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		return changed;
 	}
 

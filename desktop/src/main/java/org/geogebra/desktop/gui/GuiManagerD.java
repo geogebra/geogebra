@@ -802,7 +802,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		toolbarPanel.validate();
 		toolbarPanel.updateHelpText();
-		getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+		getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 	}
 
 	@Override

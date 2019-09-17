@@ -8,6 +8,8 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 /**
  * Tests for the EvaluatorAPI
  */
@@ -26,35 +28,39 @@ public class EvaluatorAPITest extends BaseUnitTest {
 	@Test
 	public void testGetEvaluatorValue() {
 		typer.type("1/2");
-		String value = api.getEvaluatorValue();
-		assertEquals(
-				"{\"latex\":\"{\\\\frac{1}{2}}\",\"content\":\"(1)\\/(2)\",\"eval\":\"0.5\"}",
-				value);
+		Map<String, Object> value = api.getEvaluatorValue();
+
+		assertEquals("{\\frac{1}{2}}", value.get("latex").toString());
+		assertEquals("(1)/(2)", value.get("content").toString());
+		assertEquals("0.5", value.get("eval").toString());
 	}
 
 	@Test
 	public void testGetEvaluatorValueNonNumeric() {
 		typer.type("GeoGebra");
-		String value = api.getEvaluatorValue();
-		assertEquals(
-				"{\"latex\":\"GeoGebra\",\"content\":\"GeoGebra\",\"eval\":\"NaN\"}",
-				value);
+		Map<String, Object> value = api.getEvaluatorValue();
+
+		assertEquals("GeoGebra", value.get("latex").toString());
+		assertEquals("GeoGebra", value.get("content").toString());
+		assertEquals("NaN", value.get("eval").toString());
 	}
 
 	@Test
 	public void testEmptyInput() {
-		String value = api.getEvaluatorValue();
-		assertEquals(
-				"{\"latex\":\"\\\\nbsp \",\"content\":\"\",\"eval\":\"NaN\"}",
-				value);
+		Map<String, Object> value = api.getEvaluatorValue();
+
+		assertEquals("\\nbsp ", value.get("latex").toString());
+		assertEquals("", value.get("content").toString());
+		assertEquals("NaN", value.get("eval").toString());
 	}
 
 	@Test
 	public void testInvalidInput() {
 		typer.type("1/");
-		String value = api.getEvaluatorValue();
-		assertEquals(
-				"{\"latex\":\"{\\\\frac{1}{\\\\nbsp }}\",\"content\":\"(1)\\/()\",\"eval\":\"NaN\"}",
-				value);
+		Map<String, Object> value = api.getEvaluatorValue();
+
+		assertEquals("{\\frac{1}{\\nbsp }}", value.get("latex").toString());
+		assertEquals("(1)/()", value.get("content").toString());
+		assertEquals("NaN", value.get("eval").toString());
 	}
 }

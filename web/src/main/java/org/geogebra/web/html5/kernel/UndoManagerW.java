@@ -78,7 +78,7 @@ public class UndoManagerW extends UndoManager {
 			maybeStoreUndoCommand(command);
 			pruneStateList();
 			app.getEventDispatcher().dispatchEvent(
-			        new Event(EventType.STOREUNDO, null));
+			        new Event(EventType.STOREUNDO));
 
 		} catch (Exception e) {
 			Log.debug("storeUndoInfo: " + e.toString());

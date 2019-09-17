@@ -157,7 +157,7 @@ public class LayoutW extends Layout {
 			app.updateContentPane();
 		}
 
-		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		return changed;
 		// old behaviour: just updating center, instead of updateContentPane
 		// app.refreshSplitLayoutPanel();

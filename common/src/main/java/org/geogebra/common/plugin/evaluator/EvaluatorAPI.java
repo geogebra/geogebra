@@ -8,14 +8,14 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+
+import java.util.HashMap;
 
 /**
  * API class for the Evaluator object.
@@ -59,12 +59,20 @@ public class EvaluatorAPI {
 	 *
 	 * @return JSON string that contains values from the editor
 	 */
-	public String getEvaluatorValue() {
+	public HashMap<String, Object> getEvaluatorValue() {
 		MathFormula formula = getMathFormula();
+
 		String flatString = getFlatString(formula);
 		String latexString = getLatexString(formula);
 		String evalString = getEvalString(flatString);
-		return buildJSONString(flatString, latexString, evalString);
+
+		HashMap<String, Object> map = new HashMap<>();
+
+		map.put(ASCII_CONTENT_KEY, flatString);
+		map.put(LATEX_KEY, latexString);
+		map.put(EVAL_KEY, evalString);
+
+		return map;
 	}
 
 	private MathFormula getMathFormula() {
@@ -111,16 +119,5 @@ public class EvaluatorAPI {
 		}
 		GeoElementND element = elements[0];
 		return element.toValueString(StringTemplate.defaultTemplate);
-	}
-
-	private String buildJSONString(String flatString, String latexString, String evalString) {
-		JSONObject object = new JSONObject();
-		try {
-			object.put(LATEX_KEY, latexString).put(ASCII_CONTENT_KEY, flatString)
-					.put(EVAL_KEY, evalString);
-		} catch (JSONException exception) {
-			// Can throw exception for numbers, can be ignored for Strings
-		}
-		return object.toString();
 	}
 }

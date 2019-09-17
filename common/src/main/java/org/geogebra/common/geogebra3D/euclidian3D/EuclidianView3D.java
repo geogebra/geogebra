@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -121,6 +122,8 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
@@ -911,6 +914,22 @@ public abstract class EuclidianView3D extends EuclidianView
         undoTranslationMatrix.set(2, 4, -getYZero());
         undoTranslationMatrix.set(3, 4, -translationZzero);
     }
+
+    @Override
+	protected Map<String, Object> getCoordinates() {
+		Map<String, Object> coordinates = super.getCoordinates();
+		coordinates.put("zZero", getZZero());
+		coordinates.put("zscale", getZscale());
+		coordinates.put("xAngle", getAngleA());
+		coordinates.put("zAngle", getAngleB());
+
+		return coordinates;
+	}
+
+	private void dispatch3DViewChangeEvent() {
+		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_3D)
+				.setJsonArgument(getCoordinates()));
+	}
 
 	/**
 	 * Update scale and rotation matrices.
@@ -3689,9 +3708,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Reset all viewChanged* flags
 	 */
 	public void resetViewChanged() {
-		viewChangedByZoom = false;
-		viewChangedByTranslate = false;
-		viewChangedByRotate = false;
+		if (viewChanged()) {
+			dispatch3DViewChangeEvent();
+
+			viewChangedByZoom = false;
+			viewChangedByTranslate = false;
+			viewChangedByRotate = false;
+		}
 	}
 
 	final public int getPointStyle() {
