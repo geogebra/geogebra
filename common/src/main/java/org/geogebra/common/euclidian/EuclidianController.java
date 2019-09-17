@@ -8690,9 +8690,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		if (view.hasDynamicStyleBar()
-				&& ((mode == EuclidianConstants.MODE_SELECT_MOW
-						&& !event.isRightClick())
-						|| mode != EuclidianConstants.MODE_SELECT_MOW)) {
+				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick())) {
 			this.hideDynamicStylebar();
 		}
 
