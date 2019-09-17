@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.prover.discovery;
 
+import static java.util.Arrays.sort;
+
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -57,13 +59,22 @@ public class Circle {
         points.remove(p);
     }
 
+    // Literally the same as Line.toString()
     public String toString() {
-        String ret = "";
+        String[] labels = new String[points.size()];
+        int i = 0;
         for (GeoPoint p : points) {
-            ret += p.getLabelSimple();
+            labels[i] = p.getLabelSimple();
+            i++;
+        }
+        sort(labels);
+        String ret = "";
+        for (String l : labels) {
+            ret += l;
         }
         return ret;
     }
+
 
     public GeoConic getGeoConic() {
         return geoConic;

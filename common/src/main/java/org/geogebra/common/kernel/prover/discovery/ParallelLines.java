@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.prover.discovery;
 
+import static java.util.Arrays.sort;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -54,12 +56,20 @@ public class ParallelLines {
     }
 
     public String toString() {
-        String ret = "";
+        String[] labels = new String[lines.size()];
+        int i = 0;
         for (Line l : lines) {
-            ret += l.toString() + Unicode.PARALLEL;
+            labels[i] = l.toString();
+            i++;
+        }
+        sort(labels);
+
+        String ret = "";
+        for (String la : labels) {
+            ret += la + " " + Unicode.PARALLEL + " ";
         }
         if (!"".equals(ret)) {
-            ret = ret.substring(0, ret.length() - 1);
+            ret = ret.substring(0, ret.length() - 3);
         }
         return ret;
     }
