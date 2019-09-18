@@ -10,6 +10,7 @@
 
 ## UI test
 * web:
-    * To install cypress and run, follow https://git.geogebra.org/ggb/web-test-harness/blob/master/README.md
-    * [ContextMenuTesst] (https://git.geogebra.org/ggb/web-test-harness/blob/master/cypress/integration/algebraView/contextMenu.spec.js)
-    * Please check support/commands.js for the global custom command the test uses
+    * To install cypress and run, follow the [README.md](https://git.geogebra.org/ggb/web-test-harness/blob/master/README.md)
+    * AV ContextMenu: [ContextMenuTest](https://git.geogebra.org/ggb/web-test-harness/blob/master/cypress/integration/algebraView/contextMenu.spec.js)
+    * Please check [commands.js](https://git.geogebra.org/ggb/web-test-harness/blob/master/cypress/support/commandss.js) for the global custom commands the 
+test uses and also [selectors.js](https://git.geogebra.org/ggb/web-test-harness/blob/master/cypress/support/selectors.js)
