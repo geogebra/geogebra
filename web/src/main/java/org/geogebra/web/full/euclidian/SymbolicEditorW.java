@@ -6,32 +6,20 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
-import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.FormatConverterImpl;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
-import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
-import org.geogebra.web.html5.gui.HasKeyboardPopup;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.util.EventUtil;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.web.MathFieldScroller;
-import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -39,27 +27,18 @@ import com.himamis.retex.editor.web.MathFieldW;
  * @author Laszlo
  */
 public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
-		BlurHandler, HasKeyboardPopup, InputBoxWidget {
-
-	public static final int ROUNDING = 8;
-	private static final int BORDER_WIDTH = 2;
-	private final Kernel kernel;
-	private final boolean directFormulaConversion;
+						InputBoxWidget, BlurHandler {
+	public static final int PADDING_LEFT = 2;
+	public static final int BORDER_WIDTH = 1;
 	private final App app;
-	private FlowPanel main;
-	private MathFieldW mathField;
-	private int fontSize;
-	private static final int PADDING_LEFT = 2;
 	private GeoInputBox geoInputBox;
 	private GRectangle bounds;
 	private Style style;
 	private double top;
 	private int mainHeight;
 	private String text;
-	private RetexKeyboardListener retexListener;
-	private Canvas canvas;
-	private boolean preventBlur;
-	private MathFieldScroller scroller;
+	private int fontSize;
+	private MathFieldEditor mathFieldEditor;
 
 	/**
 	 * Constructor
@@ -68,49 +47,14 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	 *            The application.
 	 */
 	public SymbolicEditorW(App app) {
-		this.kernel = app.getKernel();
 		this.app = app;
-		directFormulaConversion = app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION);
-		fontSize = app.getSettings().getFontSettings().getAppFontSize() + 3;
-		createMathField();
-
-		EventUtil.stopPointer(main.getElement());
-		ClickStartHandler.init(main,
-				new ClickStartHandler(false, true) {
-
-					@Override
-					public void onClickStart(int x, int y,
-							PointerEventType type) {
-						editorClicked();
-					}
-				});
-	}
-
-	/**
-	 * Handle click in the editor.
-	 */
-	protected void editorClicked() {
-		preventBlur = true;
-		mathField.requestViewFocus(new Runnable() {
-
-			@Override
-			public void run() {
-				preventBlur = false;
-			}
-		});
-	}
-
-	private void createMathField() {
-		main = new FlowPanel();
-		canvas = Canvas.createIfSupported();
-		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, this,
-				directFormulaConversion,
-				null);
-		main.addStyleName("evInputEditor");
-		main.add(mathField);
-		scroller = new MathFieldScroller(main);
-		style = main.getElement().getStyle();
+		this.fontSize = app.getSettings().
+				getFontSettings().getAppFontSize() + 3;
+		mathFieldEditor = new MathFieldEditor(app, this);
+		mathFieldEditor.addStyleName("evInputEditor");
+		mathFieldEditor.setFontSize(fontSize);
+		mathFieldEditor.addBlurHandler(this);
+		style = mathFieldEditor.getStyle();
 	}
 
 	@Override
@@ -119,15 +63,20 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		this.geoInputBox = geoInputBox;
 		this.bounds = bounds;
 		resetChanges();
-		if (!main.isAttached()) {
-			parent.add(main);
+		if (!mathFieldEditor.asWidget().isAttached()) {
+			parent.add(mathFieldEditor.asWidget());
 		}
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		return null;
 	}
 
 	private void resetChanges() {
 		boolean wasEditing = geoInputBox.isEditing();
 		this.geoInputBox.setEditing(true);
-		main.removeStyleName("hidden");
+		mathFieldEditor.removeStyleName("hidden");
 
 		updateBounds();
 		updateColors();
@@ -138,38 +87,28 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 			focus();
 		}
 
-		initAndShowKeyboard();
-		mathField.setText(text, false);
-		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
-		mathField.setFocus(true);
+		mathFieldEditor.setText(text);
+		mathFieldEditor.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		mathFieldEditor.focus();
 	}
 
 	private void updateColors() {
-		GColor fgColor = geoInputBox.getObjectColor();
 		GColor bgColor = geoInputBox.getBackgroundColor();
-
-		String bgCssColor = toCssColor(bgColor != null ? bgColor : GColor.WHITE);
-		main.getElement().getStyle().setBackgroundColor(bgCssColor);
-		mathField.setForegroundCssColor(toCssColor(fgColor));
-		mathField.setBackgroundCssColor(bgCssColor);
-		mathField.setOnBlur(this);
+		mathFieldEditor.setBackgroundColor(bgColor != null ? bgColor : GColor.WHITE);
+		mathFieldEditor.setForegroundColor(geoInputBox.getObjectColor());
 	}
 
 	private void updateText() {
 		text = geoInputBox.getTextForEditor().trim();
-		mathField.setText(text, false);
+		mathFieldEditor.setText(text);
 	}
 
 	private void updateFont() {
-		mathField.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		mathFieldEditor.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 	}
 
 	private void focus() {
-		mathField.setFocus(true);
-	}
-
-	private static String toCssColor(GColor color) {
-		return "#" + StringUtil.toHexString(color);
+		mathFieldEditor.focus();
 	}
 
 	private void updateBounds() {
@@ -193,7 +132,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void hide() {
-		main.addStyleName("hidden");
+		mathFieldEditor.addStyleName("hidden");
 		onHide();
 	}
 
@@ -204,12 +143,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 		applyChanges();
 		geoInputBox.setEditing(false);
-		setKeyboardVisible(false);
-	}
-
-	private void setKeyboardVisible(boolean visible) {
-		((AppWFull) app).getAppletFrame().showKeyBoard(visible, retexListener,
-				false);
 	}
 
 	@Override
@@ -218,7 +151,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void applyChanges() {
-		String editedText = mathField.getText();
+		String editedText = mathFieldEditor.getText();
 		if (editedText.trim().equals(text)) {
 			return;
 		}
@@ -228,26 +161,23 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	@Override
 	public void onKeyTyped() {
 		adjustHeightAndPosition();
-		scrollToEnd();
-	}
-
-	private void adjustHeightAndPosition() {
-		int height = mathField.getInputTextArea().getOffsetHeight();
-		double diff = mainHeight - main.getOffsetHeight();
-		setHeight(height - 2 * BORDER_WIDTH);
-		top += (diff / 2);
-		style.setTop(top, Style.Unit.PX);
-		geoInputBox.update();
-		mainHeight = main.getOffsetHeight();
+		mathFieldEditor.scrollHorizontally();
 	}
 
 	@Override
 	public void onCursorMove() {
-		scrollToEnd();
+
 	}
 
-	private void scrollToEnd()  {
-		scroller.scrollHorizontallyToCursor(PADDING_LEFT);
+	private void adjustHeightAndPosition() {
+		int height = mathFieldEditor.getMathField().
+				getInputTextArea().getOffsetHeight();
+		double diff = mainHeight - asWidget().getOffsetHeight();
+		setHeight(height - 2 * BORDER_WIDTH);
+		top += (diff / 2);
+		style.setTop(top, Style.Unit.PX);
+		geoInputBox.update();
+		mainHeight = asWidget().getOffsetHeight();
 	}
 
 	@Override
@@ -292,23 +222,11 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public Widget asWidget() {
-		return main;
-	}
-
-	private void initAndShowKeyboard() {
-		retexListener = new RetexKeyboardListener(canvas, mathField);
-		setKeyboardVisible(true);
-	}
-
-	@Override
-	public RetexKeyboardListener getKeyboardListener() {
-		return retexListener;
+		return mathFieldEditor.asWidget();
 	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (!preventBlur) {
-			hide();
-		}
+		hide();
 	}
 }

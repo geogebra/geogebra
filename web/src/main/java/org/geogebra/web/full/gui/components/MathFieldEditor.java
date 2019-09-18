@@ -3,11 +3,13 @@ package org.geogebra.web.full.gui.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
@@ -16,6 +18,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -118,6 +121,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		setKeyboardVisibility(true);
 	}
 
+	public void focus() {
+		mathField.setFocus(true);
+	}
 	/**
 	 * Scroll content horizontally if needed.
 	 */
@@ -137,6 +143,15 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		return main;
 	}
 
+
+	/**
+	 *
+	 * @return the text of the editor.
+	 */
+	public String getText() {
+		return mathField.getText();
+	}
+
 	/**
 	 * Sets editor text.
 	 * @param text to set.
@@ -145,6 +160,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		mathField.setText(text, false);
 	}
 
+	/**
+	 * Sets editor font size.
+	 * @param fontSize to set.
+	 */
 	public void setFontSize(double fontSize) {
 		mathField.setFontSize(fontSize);
 	}
@@ -158,6 +177,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		main.addStyleName(style);
 	}
 
+
+	public void removeStyleName(String hidden) {main.removeStyleName(hidden);}
 	/**
 	 * @return mathFieldW
 	 */
@@ -222,5 +243,31 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	public void reset() {
 		mathField.setFocus(false);
 		setKeyboardVisibility(false);
+	}
+
+	/**
+	 * Sets background color for the editor.
+	 * @param backgroundColor  the color to set.
+	 */
+	public void setBackgroundColor(GColor backgroundColor) {
+		String cssColor = toCssColor(backgroundColor);
+		main.getElement().getStyle().setBackgroundColor(cssColor);
+		mathField.setBackgroundCssColor(cssColor);
+	}
+
+	private static String toCssColor(GColor color) {
+		return "#" + StringUtil.toHexString(color);
+	}
+
+	public void setForegroundColor(GColor foregroundColor) {
+		mathField.setForegroundCssColor(toCssColor(foregroundColor));
+	}
+
+	/**
+	 *
+	 * @return the Style object of the editor.
+	 */
+	public Style getStyle() {
+		return main.getElement().getStyle();
 	}
 }
