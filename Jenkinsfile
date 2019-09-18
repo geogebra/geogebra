@@ -28,7 +28,7 @@ pipeline {
         }
         stage('archive') {
             steps {
-                archiveArtifacts 'web/war/web3d/**, web/war/webSimple/**, web/war/*.html'
+                archiveArtifacts 'web/war/web3d/**, web/war/webSimple/**, web/war/*.html, web/war/*.json'
             }
         }
     }
