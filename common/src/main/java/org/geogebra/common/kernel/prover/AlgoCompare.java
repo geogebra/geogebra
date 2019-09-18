@@ -42,7 +42,7 @@ public class AlgoCompare extends AlgoElement {
      * Compares two objects
      *
      * @param cons          The construction the objects depend on
-     * @param label         the label for the AlgoAreEqual object
+     * @param label         the label for the AlgoAreCompare object
      * @param inputElement1 the first object
      * @param inputElement2 the second object
      */
@@ -71,7 +71,7 @@ public class AlgoCompare extends AlgoElement {
     /**
      * Gets the result of the test
      *
-     * @return true if the objects are equal and false otherwise
+     * @return the result of comparison
      */
 
     public GeoText getResult() {
@@ -80,14 +80,6 @@ public class AlgoCompare extends AlgoElement {
 
     @Override
     public final void compute() {
-        // Formerly we used this:
-        // outputBoolean.setValue(ExpressionNodeEvaluator.evalEquals(kernel,
-        // inputElement1, inputElement2).getBoolean());
-        // But this way is more useful eg for segments, polygons
-        // ie compares endpoints NOT just length
-
-        // #5331
-        // The formerly used computation is now implemented in AlgoAreCongruent.
         outputText.setTextString("not implemented");
     }
 
