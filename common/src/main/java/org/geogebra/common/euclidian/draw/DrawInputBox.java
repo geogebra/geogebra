@@ -346,9 +346,9 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 	}
 
-	private void drawTextfieldOnCanvas() {
+	private void drawTextfieldOnCanvas(GGraphics2D g2) {
 		drawBoundsOnCanvas();
-		drawTextOnCanvas();
+		drawTextOnCanvas(g2);
 	}
 
 	private void drawBoundsOnCanvas() {
@@ -364,12 +364,10 @@ public class DrawInputBox extends CanvasDrawable {
 		return textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
 	}
 
-	private void drawTextOnCanvas() {
-		GGraphics2D g2 = view.getGraphicsForPen();
+	private void drawTextOnCanvas(GGraphics2D g2) {
 		String text = getGeoInputBox().getText();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 		g2.setPaint(geo.getObjectColor());
-
 		drawText(g2, text);
 	}
 
@@ -410,7 +408,7 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		if (hasAlignedInputboxes()) {
-			drawTextfieldOnCanvas();
+			drawTextfieldOnCanvas(g2);
 			highlightLabel(g2, latexLabel);
 			if (geo.isLabelVisible()) {
 				drawLabel(g2, getGeoInputBox(), labelDesc);
@@ -450,7 +448,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private boolean hasAlignedInputboxes() {
-		return !view.getApplication().isDesktop();
+		return true; //!view.getApplication().isDesktop();
 	}
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {

@@ -48,12 +48,14 @@ public class EuclidianViewNoGui extends EuclidianView {
 		g2Dtemp = AwtFactory.getPrototype().newBufferedImage(5, 5, 1)
 				.createGraphics();
 		ec.getApplication().getKernel().attach(this);
+		viewTextField = new TextFieldCommonJre(this);
+
 	}
 
 	@Override
 	public void repaint() {
-		// TODO Auto-generated method stub
-
+		this.updateBackgroundIfNecessary();
+		paint(getGraphicsForPen(), getBackgroundGraphics());
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private StringTemplate stringTemplateForLaTeX;
 
-	private TextAlignment textAlignment = TextAlignment.RIGHT;
+	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	/**
 	 * Creates new text field
