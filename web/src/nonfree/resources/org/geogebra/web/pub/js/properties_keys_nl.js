@@ -2800,7 +2800,7 @@ __GGB__keysVar["nl"].menu = {
     "SpherePointRadius.Help": "Klik op middelpunt van bol en geef de straal",
     "SphereThroughAwithCenterB": "Bol door %0 met middelpunt %1",
     "SphereWithCenterAandRadiusB": "Bol met middelpunt %0 en straal %1",
-    "Spherical": "Sferische Co\xf6rdinaten",
+    "Spherical": "Bolco\xf6rdinaten",
     "Split": "Splits cel in kolommen",
     "Split.Help": "Selecteer celkolommen om te splitsen",
     "Spreadsheet": "Rekenblad",
