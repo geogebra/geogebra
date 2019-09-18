@@ -285,7 +285,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 					+ defineText;
 		}
 
-		if ("".equals(defineText.trim()) || "".equals(inputText.trim())) {
+		if ("?".equals(inputText.trim()) || "".equals(inputText.trim())) {
+			inputText = "";
 			defineText = "?";
 		}
 
