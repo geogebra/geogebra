@@ -35,8 +35,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
-		addStyleName(app.isWhiteboardActive() ? "mowDynStyleBar matDynStyleBar"
-				: app.isUnbundled() ? "matDynStyleBar" : "DynamicStyleBar");
+		addStyleName("matDynStyleBar");
+		if (app.isWhiteboardActive()) {
+			addStyleName("mowDynStyleBar");
+		}
 
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {
@@ -85,9 +87,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		int maxtop = app.getActiveEuclidianView().getHeight() - height - 5;
 		if (top > maxtop) {
-			if (functionOrLine) {
-				top = maxtop;
-			} else if (isPoint) {
+			if (isPoint) {
 				// if there is no enough place under the point
 				// put the dyn. stylebar above the point
 				top = gRectangle2D.getMinY() - height - 10;
@@ -101,11 +101,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
 		} else {
 			left = gRectangle2D.getMaxX();
-			if (isContextMenuNeeded()) {
-				left -= getContextMenuButton().getAbsoluteLeft() - getAbsoluteLeft();
-			} else {
-				left -= getOffsetWidth();
-			}
+			left -= getContextMenuButton().getAbsoluteLeft()
+					- getAbsoluteLeft();
+
 			// do not hide rotation handler
 			left = Math.max(left,
 					gRectangle2D.getMinX() + gRectangle2D.getWidth() / 2 + 12);
@@ -114,10 +112,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (left < 0) {
 			left = 0;
 		}
-		if (left + this.getOffsetWidth() > app.getActiveEuclidianView()
-				.getWidth()) {
-			left = app.getActiveEuclidianView().getWidth()
-					- this.getOffsetWidth();
+		int maxLeft = app.getActiveEuclidianView().getWidth()
+				- this.getOffsetWidth();
+		if (left > maxLeft) {
+			left = maxLeft;
 		}
 
 		return new GPoint((int) left, (int) top);

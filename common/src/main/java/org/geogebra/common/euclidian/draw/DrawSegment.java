@@ -619,6 +619,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 			boundingBox = createBoundingBox(false, true);
 			boundingBox.setNrHandlers(2);
 		}
+		boundingBox.updateFrom(geo);
 		return boundingBox;
 	}
 

@@ -138,6 +138,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 			boundingBox = createBoundingBox(false, false);
 			setMetrics();
 		}
+		boundingBox.updateFrom(geo);
 		return boundingBox;
 	}
 

@@ -2099,6 +2099,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (boundingBox == null) {
 			boundingBox = createBoundingBox(false, true);
 		}
+		boundingBox.updateFrom(geo);
 		return boundingBox;
 	}
 
@@ -2148,23 +2149,24 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
+		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
 		if (Double.isNaN(fixCornerX)) {
 			switch (hitHandler) {
 			case BOTTOM_LEFT:
 			case TOP_LEFT:
-				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				fixCornerX = boundingBoxRectangle.getMaxX();
 				break;
 			case LEFT:
-				fixCornerX = getBoundingBox().getRectangle().getMaxX();
-				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				fixCornerX = boundingBoxRectangle.getMaxX();
+				fixCornerY = boundingBoxRectangle.getMinY();
 				break;
 			case TOP_RIGHT:
 			case BOTTOM_RIGHT:
-				fixCornerX = getBoundingBox().getRectangle().getX();
+				fixCornerX = boundingBoxRectangle.getX();
 				break;
 			case RIGHT:
-				fixCornerX = getBoundingBox().getRectangle().getX();
-				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				fixCornerX = boundingBoxRectangle.getX();
+				fixCornerY = boundingBoxRectangle.getMinY();
 				break;
 			default:
 				break;
@@ -2174,33 +2176,33 @@ public class DrawConic extends SetDrawable implements Previewable {
 			switch (hitHandler) {
 			case TOP_LEFT:
 			case TOP_RIGHT:
-				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				fixCornerY = boundingBoxRectangle.getMaxY();
 				break;
 			case TOP:
-				fixCornerX = getBoundingBox().getRectangle().getMinX();
-				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				fixCornerX = boundingBoxRectangle.getMinX();
+				fixCornerY = boundingBoxRectangle.getMaxY();
 				break;
 			case BOTTOM_LEFT:
 			case BOTTOM_RIGHT:
-				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				fixCornerY = boundingBoxRectangle.getMinY();
 				break;
 			case BOTTOM:
-				fixCornerX = getBoundingBox().getRectangle().getMinX();
-				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				fixCornerX = boundingBoxRectangle.getMinX();
+				fixCornerY = boundingBoxRectangle.getMinY();
 				break;
 			default:
 				break;
 			}
 		}
 		if (Double.isNaN(proportion)) {
-			proportion = getBoundingBox().getRectangle().getWidth()
-					/ getBoundingBox().getRectangle().getHeight();
+			proportion = boundingBoxRectangle.getWidth()
+					/ boundingBoxRectangle.getHeight();
 		}
 		if (Double.isNaN(oldWidth)) {
-			oldWidth = getBoundingBox().getRectangle().getWidth();
+			oldWidth = boundingBoxRectangle.getWidth();
 		}
 		if (Double.isNaN(oldHeight)) {
-			oldHeight = getBoundingBox().getRectangle().getHeight();
+			oldHeight = boundingBoxRectangle.getHeight();
 		}
 	}
 
@@ -2309,28 +2311,29 @@ public class DrawConic extends SetDrawable implements Previewable {
 		int height = (int) (p.getY() - fixCornerY);
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 
+		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
 		if (hitHandler == EuclidianBoundingBoxHandler.LEFT
 				|| hitHandler == EuclidianBoundingBoxHandler.RIGHT) {
 			if (width >= 0) {
 				rect.setFrame(fixCornerX,
-						getBoundingBox().getRectangle().getMinY(), width,
-						getBoundingBox().getRectangle().getHeight());
+						boundingBoxRectangle.getMinY(), width,
+						boundingBoxRectangle.getHeight());
 			} else { // width < 0
 				rect.setFrame(fixCornerX + width,
-						getBoundingBox().getRectangle().getMinY(), -width,
-						getBoundingBox().getRectangle().getHeight());
+						boundingBoxRectangle.getMinY(), -width,
+						boundingBoxRectangle.getHeight());
 			}
 		}
 		if (hitHandler == EuclidianBoundingBoxHandler.TOP
 				|| hitHandler == EuclidianBoundingBoxHandler.BOTTOM) {
 			if (height >= 0) {
-				rect.setFrame(getBoundingBox().getRectangle().getMinX(),
-						fixCornerY, getBoundingBox().getRectangle().getWidth(),
+				rect.setFrame(boundingBoxRectangle.getMinX(),
+						fixCornerY, boundingBoxRectangle.getWidth(),
 						height);
 			} else { // height < 0
-				rect.setFrame(getBoundingBox().getRectangle().getMinX(),
+				rect.setFrame(boundingBoxRectangle.getMinX(),
 						fixCornerY + height,
-						getBoundingBox().getRectangle().getWidth(), -height);
+						boundingBoxRectangle.getWidth(), -height);
 			}
 		}
 		// with side handler dragging no circle anymore
@@ -2613,46 +2616,47 @@ public class DrawConic extends SetDrawable implements Previewable {
 		double startPointX = fixCornerX;
 		double startPointY = fixCornerY;
 
+		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
 		if (startPointX >= p.getX()) { // right
 			coord[0] = view.toRealWorldCoordX(
-					startPointX - getBoundingBox().getRectangle().getWidth());
+					startPointX - boundingBoxRectangle.getWidth());
 			if (startPointY >= p.getY()) {
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(
-						startPointY - getBoundingBox().getRectangle().getWidth());
+						startPointY - boundingBoxRectangle.getWidth());
 				} else {
 					coord[1] = view.toRealWorldCoordY(
-							getBoundingBox().getRectangle().getMinY());
+							boundingBoxRectangle.getMinY());
 				}
 			} else {
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(startPointY
-							+ getBoundingBox().getRectangle().getWidth());
+							+ boundingBoxRectangle.getWidth());
 				} else {
 					coord[1] = view.toRealWorldCoordY(
-							getBoundingBox().getRectangle().getMaxY());
+							boundingBoxRectangle.getMaxY());
 				}
 			}
 		} else { // left
 			coord[0] = view.toRealWorldCoordX(
-					startPointX + getBoundingBox().getRectangle().getWidth());
+					startPointX + boundingBoxRectangle.getWidth());
 			if (startPointY >= p.getY()) {
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(
 						startPointY
-								- getBoundingBox().getRectangle().getWidth());
+								- boundingBoxRectangle.getWidth());
 				} else {
 					coord[1] = view.toRealWorldCoordY(
-							getBoundingBox().getRectangle().getMinY());
+							boundingBoxRectangle.getMinY());
 				}
 			} else {
 				if (isCircle) {
 					coord[1] = view.toRealWorldCoordY(
 						startPointY
-								+ getBoundingBox().getRectangle().getWidth());
+								+ boundingBoxRectangle.getWidth());
 				} else {
 					coord[1] = view.toRealWorldCoordY(
-							getBoundingBox().getRectangle().getMaxY());
+							boundingBoxRectangle.getMaxY());
 				}
 			}
 		}

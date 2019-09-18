@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -660,7 +661,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addEditItems() {
-		if (app.isUnbundledOrWhiteboard()) {
+		if (app.isUnbundledOrWhiteboard() && !(getGeo() instanceof GeoEmbed)) {
 			SVGResource img = MaterialDesignResources.INSTANCE
 					.duplicate_black();
 			addAction(new Command() {
@@ -736,7 +737,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								pinCmd(pinned);
 							}
 						}, true, app);
-
 
 			cbItem.setSelected(pinned, wrappedPopup.getPopupMenu());
 
