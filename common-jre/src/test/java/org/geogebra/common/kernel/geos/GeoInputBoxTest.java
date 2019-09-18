@@ -3,10 +3,40 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.TextObject;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class GeoInputBoxTest extends BaseUnitTest {
+
+	private TextObject textObject = new TextObject() {
+		String content;
+
+		@Override
+		public String getText() {
+			return content;
+		}
+
+		@Override
+		public void setText(String s) {
+			content = s;
+		}
+
+		@Override
+		public void setColumns(int fieldWidth) {
+
+		}
+
+		@Override
+		public void setVisible(boolean b) {
+
+		}
+
+		@Override
+		public void setEditable(boolean b) {
+
+		}
+	};
 
 	@Test
 	public void symbolicInputBoxUseDefinitionForFunctions() {
@@ -50,10 +80,9 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		Assert.assertEquals("", inputBox.getText());
 		Assert.assertEquals("", inputBox.getTextForEditor());
 
-
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+
 	}
 
 	@Test
@@ -65,20 +94,44 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		Assert.assertEquals("?a", inputBox.getText());
 		Assert.assertEquals("?a", inputBox.getTextForEditor());
 
-
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("?a", inputBox.getText());
-		Assert.assertEquals("?a", inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void testForEmptyInput() {
+		add("a=1");
 
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
+		inputBox.setSymbolicMode(true, false);
+
+		textObject.setText("");
+		inputBox.textObjectUpdated(textObject);
+
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+
+		inputBox.setSymbolicMode(false, false);
+
+		Assert.assertEquals("", inputBox.getText());
 	}
 
 	@Test
 	public void testForUndefinedInputInput() {
+		add("a=1");
 
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
+		inputBox.setSymbolicMode(true, false);
+
+		textObject.setText("?");
+		inputBox.textObjectUpdated(textObject);
+
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+
+		inputBox.setSymbolicMode(false, false);
+
+		Assert.assertEquals("", inputBox.getText());
 	}
 
 	@Test
@@ -90,9 +143,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		Assert.assertEquals("\"?\"", inputBox.getText());
 		Assert.assertEquals("\"?\"", inputBox.getTextForEditor());
 
-
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("\"?\"", inputBox.getText());
-		Assert.assertEquals("\"?\"", inputBox.getTextForEditor());
 	}
 }
