@@ -8689,8 +8689,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (getTextController() != null && getTextController().isEditing()) {
 			return;
 		}
-		if (view.hasDynamicStyleBar()
-				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick())) {
+		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
 
@@ -9534,8 +9533,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
-		if (view.hasDynamicStyleBar()
-				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick())) {
+		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
 
@@ -9768,6 +9766,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	private boolean shouldHideDynamicStyleBar(AbstractEvent event) {
+		return view.hasDynamicStyleBar()
+				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick());
 	}
 
 	protected Map<String, Object> createMouseDownEventArgument() {
