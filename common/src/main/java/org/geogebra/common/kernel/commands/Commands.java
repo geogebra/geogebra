@@ -189,6 +189,8 @@ public enum Commands implements CommandsConstants,
 
 	Discover(TABLE_GEOMETRY),
 
+    Compare(TABLE_GEOMETRY),
+
 	Volume(TABLE_3D),
 
 	Difference(TABLE_GEOMETRY),
