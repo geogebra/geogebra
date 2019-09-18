@@ -151,4 +151,14 @@ public class RealGeomWebService {
         this.timeout = timeout;
     }
 
+    public String directCommand(String command, String parameters) {
+        try {
+            return rgwsCommandResult(command, parameters);
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+
+
 }

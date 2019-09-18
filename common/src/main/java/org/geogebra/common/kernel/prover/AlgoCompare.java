@@ -1,10 +1,20 @@
 package org.geogebra.common.kernel.prover;
 
+import static org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
+
+import org.geogebra.common.cas.realgeom.RealGeomWebService;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Compares two objects geometrically by using real quantifier elimination.
@@ -80,7 +90,102 @@ public class AlgoCompare extends AlgoElement {
 
     @Override
     public final void compute() {
-        outputText.setTextString("not implemented");
+        if (inputElement1.getKernel().isSilentMode()) {
+            return;
+        }
+
+        RealGeomWebService realgeomWS = cons.getApplication().getRealGeomWS();
+        if (realgeomWS == null || (!realgeomWS.isAvailable())) {
+            outputText.setTextString("RealGeomWS is not available");
+            return;
+        }
+
+        AlgoAreCongruent aae = new AlgoAreCongruent(cons, inputElement1, inputElement2);
+        GeoBoolean gb = new GeoBoolean(cons);
+        gb.setParentAlgorithm(aae);
+        Prover p = UtilFactory.getPrototype().newProver();
+        p.setProverEngine(Prover.ProverEngine.BOTANAS_PROVER);
+        AlgebraicStatement as = new AlgebraicStatement(gb, null, p);
+        as.removeThesis();
+
+        PVariable var1 = new PVariable(kernel);
+        PVariable var2 = new PVariable(kernel);
+        // Creating the describing polynomials:
+        PPolynomial poly1 = new PPolynomial();
+        PPolynomial poly2 = new PPolynomial();
+
+        try {
+            if (inputElement1 instanceof GeoSegment
+                    && inputElement2 instanceof GeoSegment) {
+                // Obtaining their lengths to two new variables:
+
+                PVariable[] v1 = new PVariable[4];
+                PVariable[] v2 = new PVariable[4];
+                PPolynomial p1 = new PPolynomial();
+                PPolynomial p2 = new PPolynomial();
+
+                v1 = ((GeoSegment) inputElement1).getBotanaVars(inputElement1); // AB
+                v2 = ((GeoSegment) inputElement2).getBotanaVars(inputElement2); // CD
+
+                PPolynomial a1 = new PPolynomial(v1[0]);
+                PPolynomial a2 = new PPolynomial(v1[1]);
+                PPolynomial b1 = new PPolynomial(v1[2]);
+                PPolynomial b2 = new PPolynomial(v1[3]);
+                PPolynomial c1 = new PPolynomial(v2[0]);
+                PPolynomial c2 = new PPolynomial(v2[1]);
+                PPolynomial d1 = new PPolynomial(v2[2]);
+                PPolynomial d2 = new PPolynomial(v2[3]);
+                p1 = ((PPolynomial.sqr(a1.subtract(b1))
+                        .add(PPolynomial.sqr(a2.subtract(b2)))).subtract(new PPolynomial(var1)
+                        .multiply(new PPolynomial(var1))));
+                p2 = ((PPolynomial.sqr(c1.subtract(d1))
+                        .add(PPolynomial.sqr(c2.subtract(d2)))).subtract(new PPolynomial(var2)
+                        .multiply(new PPolynomial(var2))));
+
+                poly1 = p1.substitute(as.substitutions);
+                poly2 = p2.substitute(as.substitutions);
+            }
+        } catch (NoSymbolicParametersException e) {
+            return;
+        }
+        as.addPolynomial(poly1);
+        as.addPolynomial(poly2);
+
+        Log.debug("poly1=" + poly1);
+        Log.debug("poly2=" + poly2);
+
+        String rgCommand = "euclideansolver";
+        StringBuilder rgParameters = new StringBuilder();
+        rgParameters.append("lhs=" + var1 + "&" + "rhs=" + var2 + "&")
+                .append("polys=");
+        as.computeStrings();
+        rgParameters.append(as.getPolys());
+        String freeVars = as.getFreeVars();
+        String elimVars = as.getElimVars();
+        Log.debug("freevars=" + freeVars);
+        Log.debug("elimvars=" + elimVars);
+
+        String vars = freeVars;
+        if (!"".equals(elimVars)) {
+            vars += "," + elimVars;
+        }
+
+        rgParameters.append("&vars=").append(vars);
+        rgParameters.append("&posvariables=").append(var1).append(",").append(var2);
+        rgParameters.append("&mode=explore");
+
+        Log.debug(rgParameters);
+
+        String result = realgeomWS.directCommand(rgCommand, rgParameters.toString());
+        // Note the order:
+        Log.debug("var2=" + var2.toString() + " inp2=" + inputElement2.getLabelSimple());
+        result = result.replace(var2.toString(), inputElement2.getLabelSimple());
+        result = result.replace(var1.toString(), inputElement1.getLabelSimple());
+        result = result.replace("&& m > 0", "");
+        result = result.replace("m > 0", "");
+
+        outputText.setTextString(result);
+
     }
 
 }
