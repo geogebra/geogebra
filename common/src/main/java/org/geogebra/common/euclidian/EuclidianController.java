@@ -158,6 +158,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 
 public abstract class EuclidianController implements SpecialPointsListener {
@@ -9774,14 +9775,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected Map<String, Object> createMouseDownEventArgument() {
-		String[] hits = new String[view.getHits().size()];
-		for (int i = 0; i < hits.length; i++) {
-			hits[i] = view.getHits().get(i).getLabelSimple();
+		Hits hits = view.getHits().getWithMetaHits(new GPredicate<GeoElement>() {
+			@Override
+			public boolean test(GeoElement object) {
+				return true;
+			}
+		});
+
+		String[] serializedHits = new String[hits.size()];
+		for (int i = 0; i < hits.size(); i++) {
+			serializedHits[i] = hits.get(i).getLabelSimple();
 		}
 
 		Map<String, Object> jsonArgument = new HashMap<>();
 		jsonArgument.put("viewNo", view.getEuclidianViewNo());
-		jsonArgument.put("hits", hits);
+		jsonArgument.put("hits", serializedHits);
 
 		return jsonArgument;
 	}
