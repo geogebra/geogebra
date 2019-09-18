@@ -285,8 +285,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 					+ defineText;
 		}
 
-		if ("?".equals(inputText.trim()) || "".equals(inputText.trim())) {
-			inputText = "";
+		if ("".equals(inputText.trim())) {
 			defineText = "?";
 		}
 
@@ -337,31 +336,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				final boolean imaginary = imaginaryAdded;
 				EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 						linkedGeo.isIndependent(), false).withSliders(false);
-
-				// TRAC-5294 make sure user input gives the correct type
-				// so that eg construction isn't killed by entering "y"
-				// in a box linked to a number
-
-				// kernel.setSilentMode(true);
-				// try {
-				// ValidExpression exp = kernel.getParser()
-				// .parseGeoGebraExpression(defineText);
-				// GeoElementND[] geos = kernel.getAlgebraProcessor()
-				// .processValidExpression(exp);
-				//
-				// if (!(geos[0].getGeoClassType()
-				// .equals(linkedGeo.getGeoClassType()))) {
-				// showError();
-				// return;
-				//
-				// }
-				//
-				// } catch (Throwable t) {
-				// showError();
-				// return;
-				// } finally {
-				// kernel.setSilentMode(false);
-				// }
 
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
