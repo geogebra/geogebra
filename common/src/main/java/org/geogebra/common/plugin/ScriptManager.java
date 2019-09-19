@@ -166,7 +166,8 @@ public abstract class ScriptManager implements EventListener {
 		}
 	}
 
-	public void callJavaScript(String jsFunction, String[] arguments, Map<String, Object> jsonArgument) {
+	public void callJavaScript(String jsFunction, String[] arguments,
+			Map<String, Object> jsonArgument) {
 		callJavaScript(jsFunction, arguments);
 	}
 

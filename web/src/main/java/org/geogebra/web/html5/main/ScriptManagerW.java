@@ -134,6 +134,11 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
+	/**
+	 * @param map (String, Object) map to be converted to JavaScript,
+	 *            Object can be Integer, Double, String or String[],
+	 * @return JavaScript object based on the map
+	 */
 	public static JavaScriptObject convertToJSObject(Map<String, Object> map) {
 		JavaScriptObject json = JavaScriptObject.createObject();
 		for (Entry<String, Object> entry : map.entrySet()) {
@@ -141,7 +146,7 @@ public class ScriptManagerW extends ScriptManager {
 
 			if (object instanceof Integer) {
 				set(json, entry.getKey(), (int) object);
-			} else if(object instanceof Double
+			} else if (object instanceof Double
 					|| object instanceof String[]) {
 				set(json, entry.getKey(), object);
 			} else {

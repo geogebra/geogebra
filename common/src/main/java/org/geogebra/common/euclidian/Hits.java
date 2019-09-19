@@ -1013,7 +1013,7 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
-	public Hits getWithMetaHits(GPredicate<GeoElement> filter) {
+	private Hits getWithMetaHits(GPredicate<GeoElement> filter) {
 		Hits result = new Hits();
 
 		for (GeoElement geo : this) {

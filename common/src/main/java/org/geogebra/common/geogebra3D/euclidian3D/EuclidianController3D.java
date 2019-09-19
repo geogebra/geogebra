@@ -1818,6 +1818,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		super.wrapMousePressed(e);
 	}
 
+	@Override
 	protected void dispatchMouseDownEvent(AbstractEvent event) {
 		Map<String, Object> jsonArgument = createMouseDownEventArgument();
 
