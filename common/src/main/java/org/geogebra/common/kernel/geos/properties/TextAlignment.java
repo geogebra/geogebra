@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.geos.properties;
 
 public enum TextAlignment {
-    LEFT, RIGHT, CENTER;
+    LEFT, CENTER, RIGHT;
 
     @Override
     public String toString() {

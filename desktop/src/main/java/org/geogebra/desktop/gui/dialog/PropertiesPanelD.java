@@ -109,6 +109,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectL
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
+import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TooltipModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
@@ -209,6 +210,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private AuxiliaryObjectPanel auxPanel;
 	private AnimationStepPanel animStepPanel;
 	private TextfieldSizePanel textFieldSizePanel;
+	private TextFieldAlignmentPanel textFieldAlignmentPanel;
 	private AnimationSpeedPanel animSpeedPanel;
 	private SliderPanelD sliderPanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
@@ -324,6 +326,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		animStepPanel = new AnimationStepPanel(app);
 		symbolicPanel = new SymbolicPanel();
 		textFieldSizePanel = new TextfieldSizePanel(app);
+		textFieldAlignmentPanel = new TextFieldAlignmentPanel(app);
 		animSpeedPanel = new AnimationSpeedPanel(app);
 		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
 		buttonSizePanel = new ButtonSizePanel(app, loc);
@@ -480,6 +483,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		styleTabList.add(fadingPanel);
 		styleTabList.add(checkBoxInterpolateImage);
 		styleTabList.add(textFieldSizePanel);
+		styleTabList.add(textFieldAlignmentPanel);
 		styleTabList.add(decoAnglePanel);
 		styleTabList.add(decoSegmentPanel);
 		styleTabList.add(lineStylePanelHidden);
@@ -3646,6 +3650,110 @@ class TextfieldSizePanel extends JPanel
 	public void setText(String text) {
 		tfTextfieldSize.setText(text);
 
+	}
+}
+
+/**
+ * Panel for setting text alignment.
+ */
+class TextFieldAlignmentPanel extends JPanel
+		implements ActionListener, UpdateablePropertiesPanel,
+		SetLabels, UpdateFonts, IComboListener {
+
+	private TextFieldAlignmentModel model;
+
+	private JLabel label;
+	private JComboBox<String> comboBox;
+
+	private AppD app;
+	private LocalizationD loc;
+
+	/**
+	 * Creates a new TextFieldAlignmentPanel instance.
+	 *
+	 * @param app app
+	 */
+	TextFieldAlignmentPanel(AppD app) {
+		this.app = app;
+		loc = app.getLocalization();
+
+		createModel();
+		createPanel();
+		setLabels();
+	}
+
+	private void createModel() {
+		model = new TextFieldAlignmentModel(app);
+		model.setListener(this);
+	}
+
+	private void createPanel() {
+		label = new JLabel();
+		comboBox = new JComboBox<>();
+		comboBox.addActionListener(this);
+
+		add(label);
+		add(comboBox);
+		setLayout(new FlowLayout(FlowLayout.LEFT));
+	}
+
+	@Override
+	public void setLabels() {
+		label.setText(loc.getMenu("stylebar.Align") + ":");
+
+		comboBox.removeActionListener(this);
+		model.fillModes(loc);
+		comboBox.addActionListener(this);
+	}
+
+	@Override
+	public JPanel updatePanel(Object[] geos) {
+		model.setGeos(geos);
+		if (!model.checkGeos()) {
+			return null;
+		}
+
+		comboBox.removeActionListener(this);
+
+		model.updateProperties();
+
+		comboBox.addActionListener(this);
+		return this;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		model.applyChanges(comboBox.getSelectedIndex());
+		updatePanel(model.getGeos());
+	}
+
+	@Override
+	public void updateFonts() {
+		Font font = app.getPlainFont();
+
+		setFont(font);
+		comboBox.setFont(font);
+		label.setFont(font);
+	}
+
+	@Override
+	public void setSelectedIndex(int index) {
+		comboBox.setSelectedIndex(index);
+	}
+
+	@Override
+	public void addItem(String plain) {
+		comboBox.addItem(plain);
+	}
+
+	@Override
+	public void clearItems() {
+		comboBox.removeAllItems();
+	}
+
+	@Override
+	public void updateVisualStyle(GeoElement geo) {
+		// ignore
 	}
 }
 
