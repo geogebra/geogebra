@@ -16,6 +16,8 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Compares two objects geometrically by using real quantifier elimination.
  *
@@ -177,10 +179,34 @@ public class AlgoCompare extends AlgoElement {
         Log.debug(rgParameters);
 
         String result = realgeomWS.directCommand(rgCommand, rgParameters.toString());
+        /*
         // Note the order:
         Log.debug("var2=" + var2.toString() + " inp2=" + inputElement2.getLabelSimple());
         result = result.replace(var2.toString(), inputElement2.getLabelSimple());
         result = result.replace(var1.toString(), inputElement1.getLabelSimple());
+         */
+
+        String inp1 = inputElement1.getLabelSimple();
+        String inp2 = inputElement2.getLabelSimple();
+        // Inequality[0, Less, m, LessEqual, 2]
+        result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
+                "$1 " + Unicode.CENTER_DOT + " " + inp2 +
+                        " $2 " + inp1 + " $3 $4 " + Unicode.CENTER_DOT + " " + inp2);
+        // Remove "0*inp2 Less" from the beginning (it's trivial)
+        result = result.replaceAll("(^0 " + Unicode.CENTER_DOT + " \\w+ Less )", "");
+        // m >= 1/2
+        result = result.replaceAll("m >= (.*)",
+                inp1 + " GreaterEqual $1 " + Unicode.CENTER_DOT + " " + inp2);
+        // m == 1
+        result = result.replaceAll("m == (.*)",
+                inp1 + " = $1 " + Unicode.CENTER_DOT + " " + inp2);
+        // Simplify 1*... to ...
+        result = result.replaceAll("(\\s)1 " + Unicode.CENTER_DOT + " ", "$1");
+        // Use math symbols instead of Mathematica notation
+        result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
+        result = result.replace("Less", "<");
+        result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
+        // result = result.replace("==", "=");
         result = result.replace("&& m > 0", "");
         result = result.replace("m > 0", "");
 
