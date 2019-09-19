@@ -9775,12 +9775,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected Map<String, Object> createMouseDownEventArgument() {
-		Hits hits = view.getHits().getWithMetaHits(new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement object) {
-				return true;
-			}
-		});
+		Hits hits = view.getHits().getTopHits();
 
 		String[] serializedHits = new String[hits.size()];
 		for (int i = 0; i < hits.size(); i++) {
