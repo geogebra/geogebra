@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.inputfield;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,7 +10,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -26,7 +29,6 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -273,15 +275,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	public int getCurrentWordStart() {
 		return curWordStart;
-	}
-
-	@Override
-	public void geoElementSelected(GeoElement geo, boolean add) {
-		if (geo != null) {
-			replaceSelection(
-					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
-			requestFocusInWindow();
-		}
 	}
 
 	/** returns if text must start with "=" to activate autocomplete */

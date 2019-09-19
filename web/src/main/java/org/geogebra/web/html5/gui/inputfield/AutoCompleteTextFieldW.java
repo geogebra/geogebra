@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -51,6 +50,7 @@ import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -393,11 +393,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		historyPopup.setDownPopup(isDownPopup);
-	}
-
-	@Override
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		//
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @return whether text starts and ends with $
 	 */
 	public static boolean isLatexString(String text) {
-		return text.length() > 1 && text.startsWith("$")
+		return text != null && text.length() > 1 && text.startsWith("$")
 				&& text.trim().endsWith("$");
 	}
 
@@ -168,6 +168,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the caption is latex
 	 */
 	protected void calculateBoxBounds(boolean latex) {
+		if (labelSize == null) {
+			return;
+		}
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredHeight()) / 2

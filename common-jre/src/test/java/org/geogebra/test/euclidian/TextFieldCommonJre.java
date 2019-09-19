@@ -1,4 +1,4 @@
-package org.geogebra.common.jre.headless;
+package org.geogebra.test.euclidian;
 
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -19,11 +19,11 @@ public class TextFieldCommonJre extends ViewTextField {
 
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length, App application, Drawable drawTextField) {
-		return new AutoCompleteTextFieldC(length, application, drawTextField, true);
+		return new AutoCompleteTextFieldC();
 	}
 
 	@Override
 	public GBox createHorizontalBox(EuclidianController style) {
-		return new GBoxC(style);
+		return new GBoxC();
 	}
 }

@@ -84,7 +84,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	private boolean isPreviewNeeded() {
-		return app.getVideoManager().isPreviewOnly();
+		return app.getVideoManager() != null && app.getVideoManager().isPreviewOnly();
 	}
 
 	@Override

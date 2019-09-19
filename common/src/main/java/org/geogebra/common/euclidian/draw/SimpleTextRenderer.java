@@ -18,6 +18,10 @@ public class SimpleTextRenderer implements TextRenderer {
 	@Weak
 	private CanvasDrawable drawable;
 
+	/**
+	 * @param drawable
+	 *            drawable
+	 */
 	SimpleTextRenderer(CanvasDrawable drawable) {
 		this.drawable = drawable;
 	}
@@ -27,24 +31,24 @@ public class SimpleTextRenderer implements TextRenderer {
 						 String text, double xPos, double yPos, double boxWidth, int lineHeight) {
 		double textBottom = yPos + lineHeight;
 		String truncated = text.substring(0, getTruncIndex(text, graphics, boxWidth));
-		double newXPos = xPos + getTextAlignment(truncated, geo, app, (int) boxWidth, graphics);
+		double newXPos = xPos + getTextOffset(truncated, geo, app, (int) boxWidth, graphics);
 		EuclidianStatic.drawIndexedString(app, graphics, truncated, newXPos, textBottom, false);
 	}
 
-	private int getTextAlignment(String text, GeoInputBox geoInputBox, App app,
+	private static int getTextOffset(String text, GeoInputBox geoInputBox, App app,
 								 int boxWidth, GGraphics2D graphics2D) {
 		switch (geoInputBox.getAlignment()) {
-			case CENTER:
-				return (getTextWidth(app, graphics2D, text, boxWidth) - 5) / 2;
-			case RIGHT:
-				return getTextWidth(app, graphics2D, text, boxWidth) - 10;
-			default:
-				return 0;
+		case CENTER:
+			return (boxWidth - getTextWidth(app, graphics2D, text)) / 2;
+		case RIGHT:
+			return boxWidth - getTextWidth(app, graphics2D, text);
+		default:
+			return 0;
 		}
 	}
 
-	private int getTextWidth(App app, GGraphics2D graphics2D, String text, int boxWidth) {
-		return boxWidth  - EuclidianStatic.drawIndexedString(app, graphics2D, text,
+	private static int getTextWidth(App app, GGraphics2D graphics2D, String text) {
+		return EuclidianStatic.drawIndexedString(app, graphics2D, text,
 				0, 0, false, false ,null, null).x;
 	}
 

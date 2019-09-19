@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
+import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.javax.swing.GBox;
@@ -48,8 +49,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		g2Dtemp = AwtFactory.getPrototype().newBufferedImage(5, 5, 1)
 				.createGraphics();
 		ec.getApplication().getKernel().attach(this);
-		viewTextField = new TextFieldCommonJre(this);
-
+		settingsChanged(settings);
 	}
 
 	@Override
@@ -255,6 +255,10 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewFor3DCompanion(this);
+	}
+
+	public void setViewTextField(ViewTextField textField) {
+		this.viewTextField = textField;
 	}
 
 }
