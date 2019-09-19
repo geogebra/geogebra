@@ -384,7 +384,12 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoNumberValue a, GeoNumberValue b) {
 		Boolean bool = DoubleUtil.isEqual(a.getDouble(), b.getDouble());
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
-		register(bool, RelationCommand.AreEqual, str);
+        if (bool || !app.getRealGeomWS().isAvailable()) {
+            register(true, RelationCommand.AreEqual, str);
+        } else {
+            register(true, RelationCommand.Compare, str);
+        }
+
 		return reports;
 	}
 

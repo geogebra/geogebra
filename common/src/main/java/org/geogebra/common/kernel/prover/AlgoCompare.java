@@ -2,13 +2,23 @@ package org.geogebra.common.kernel.prover;
 
 import static org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import org.geogebra.common.cas.realgeom.RealGeomWebService;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -90,11 +100,19 @@ public class AlgoCompare extends AlgoElement {
         return outputText;
     }
 
+    AlgebraicStatement as;
+    SortedMap<GeoSegment, PVariable> rewrites;
+
     @Override
     public final void compute() {
+
         if (inputElement1.getKernel().isSilentMode()) {
             return;
         }
+
+        String lhs_var = "";
+        String rhs_var = "";
+        rewrites = new TreeMap<>(Collections.reverseOrder());
 
         RealGeomWebService realgeomWS = cons.getApplication().getRealGeomWS();
         if (realgeomWS == null || (!realgeomWS.isAvailable())) {
@@ -107,61 +125,52 @@ public class AlgoCompare extends AlgoElement {
         gb.setParentAlgorithm(aae);
         Prover p = UtilFactory.getPrototype().newProver();
         p.setProverEngine(Prover.ProverEngine.BOTANAS_PROVER);
-        AlgebraicStatement as = new AlgebraicStatement(gb, null, p);
+        as = new AlgebraicStatement(gb, null, p);
         as.removeThesis();
+        ArrayList<String> extraPolys = new ArrayList<>();
+        ArrayList<String> extraVars = new ArrayList<>();
 
-        PVariable var1 = new PVariable(kernel);
-        PVariable var2 = new PVariable(kernel);
-        // Creating the describing polynomials:
-        PPolynomial poly1 = new PPolynomial();
-        PPolynomial poly2 = new PPolynomial();
+        String inp1 = "";
+        String inp2 = "";
 
-        try {
-            if (inputElement1 instanceof GeoSegment
-                    && inputElement2 instanceof GeoSegment) {
-                // Obtaining their lengths to two new variables:
-
-                PVariable[] v1 = new PVariable[4];
-                PVariable[] v2 = new PVariable[4];
-                PPolynomial p1 = new PPolynomial();
-                PPolynomial p2 = new PPolynomial();
-
-                v1 = ((GeoSegment) inputElement1).getBotanaVars(inputElement1); // AB
-                v2 = ((GeoSegment) inputElement2).getBotanaVars(inputElement2); // CD
-
-                PPolynomial a1 = new PPolynomial(v1[0]);
-                PPolynomial a2 = new PPolynomial(v1[1]);
-                PPolynomial b1 = new PPolynomial(v1[2]);
-                PPolynomial b2 = new PPolynomial(v1[3]);
-                PPolynomial c1 = new PPolynomial(v2[0]);
-                PPolynomial c2 = new PPolynomial(v2[1]);
-                PPolynomial d1 = new PPolynomial(v2[2]);
-                PPolynomial d2 = new PPolynomial(v2[3]);
-                p1 = ((PPolynomial.sqr(a1.subtract(b1))
-                        .add(PPolynomial.sqr(a2.subtract(b2)))).subtract(new PPolynomial(var1)
-                        .multiply(new PPolynomial(var1))));
-                p2 = ((PPolynomial.sqr(c1.subtract(d1))
-                        .add(PPolynomial.sqr(c2.subtract(d2)))).subtract(new PPolynomial(var2)
-                        .multiply(new PPolynomial(var2))));
-
-                poly1 = p1.substitute(as.substitutions);
-                poly2 = p2.substitute(as.substitutions);
-            }
-        } catch (NoSymbolicParametersException e) {
-            return;
+        if (inputElement1 instanceof GeoSegment) {
+            lhs_var = (processSegment((GeoSegment) inputElement1)).getName();
+            inp1 = inputElement1.getLabelSimple();
         }
-        as.addPolynomial(poly1);
-        as.addPolynomial(poly2);
 
-        Log.debug("poly1=" + poly1);
-        Log.debug("poly2=" + poly2);
+        if (inputElement2 instanceof GeoSegment) {
+            rhs_var = (processSegment((GeoSegment) inputElement2)).getName();
+            inp2 = inputElement2.getLabelSimple();
+        }
+
+        if (inputElement1 instanceof GeoNumeric) {
+            processExpr((GeoNumeric) inputElement1);
+            lhs_var = "w1";
+            inp1 = inputElement1.getDefinition(StringTemplate.algebraTemplate);
+            extraPolys.add("-w1+" + rewrite(inp1));
+            extraVars.add("w1");
+            inp1 = "(" + inp1 + ")";
+        }
+
+        if (inputElement2 instanceof GeoNumeric) {
+            processExpr((GeoNumeric) inputElement2);
+            rhs_var = "w2";
+            inp2 = inputElement2.getDefinition(StringTemplate.algebraTemplate);
+            extraPolys.add("-w2+" + rewrite(inp2));
+            extraVars.add("w2");
+            inp2 = "(" + inp2 + ")";
+        }
 
         String rgCommand = "euclideansolver";
         StringBuilder rgParameters = new StringBuilder();
-        rgParameters.append("lhs=" + var1 + "&" + "rhs=" + var2 + "&")
+        rgParameters.append("lhs=" + lhs_var + "&" + "rhs=" + rhs_var + "&")
                 .append("polys=");
         as.computeStrings();
         rgParameters.append(as.getPolys());
+        for (String po : extraPolys) {
+            rgParameters.append(",").append(po);
+        }
+
         String freeVars = as.getFreeVars();
         String elimVars = as.getElimVars();
         Log.debug("freevars=" + freeVars);
@@ -171,9 +180,19 @@ public class AlgoCompare extends AlgoElement {
         if (!"".equals(elimVars)) {
             vars += "," + elimVars;
         }
-
+        for (String v : extraVars) {
+            vars += "," + v;
+        }
         rgParameters.append("&vars=").append(vars);
-        rgParameters.append("&posvariables=").append(var1).append(",").append(var2);
+        rgParameters.append("&posvariables=");
+        Iterator it = rewrites.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry me = (Map.Entry) it.next();
+            GeoSegment s = (GeoSegment) me.getKey();
+            PVariable v = (PVariable) me.getValue();
+            rgParameters.append(v.getName()).append(",");
+        }
+        rgParameters.deleteCharAt(rgParameters.length() - 1);
         rgParameters.append("&mode=explore");
 
         Log.debug(rgParameters);
@@ -184,8 +203,6 @@ public class AlgoCompare extends AlgoElement {
             return;
         }
 
-        String inp1 = inputElement1.getLabelSimple();
-        String inp2 = inputElement2.getLabelSimple();
         result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
         // Inequality[0, Less, m, LessEqual, 2]
         result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
@@ -215,6 +232,69 @@ public class AlgoCompare extends AlgoElement {
 
         outputText.setTextString(result);
 
+        aae.remove();
+        gb.remove();
+    }
+
+    private PVariable processSegment(GeoSegment s) {
+
+        if (rewrites.containsKey(s)) {
+            return rewrites.get(s);
+        }
+
+        PVariable var = new PVariable(kernel);
+        // Creating the describing polynomial:
+        PPolynomial poly = new PPolynomial();
+        try {
+
+            PVariable[] v = new PVariable[4];
+            PPolynomial p = new PPolynomial();
+
+            v = (s.getBotanaVars(s)); // AB
+
+            PPolynomial a1 = new PPolynomial(v[0]);
+            PPolynomial a2 = new PPolynomial(v[1]);
+            PPolynomial b1 = new PPolynomial(v[2]);
+            PPolynomial b2 = new PPolynomial(v[3]);
+            p = ((PPolynomial.sqr(a1.subtract(b1))
+                    .add(PPolynomial.sqr(a2.subtract(b2)))).subtract(new PPolynomial(var)
+                    .multiply(new PPolynomial(var))));
+
+            poly = p.substitute(as.substitutions);
+            as.addPolynomial(poly);
+
+        } catch (NoSymbolicParametersException e) {
+            return null;
+        }
+        rewrites.put(s, var);
+        return var;
+    }
+
+    private void processExpr(GeoNumeric n) {
+        AlgoElement ae = n.getParentAlgorithm();
+        if (ae instanceof AlgoDependentNumber) {
+            for (GeoElement ge : ae.getInput()) {
+                if (!(ge instanceof GeoSegment)) {
+                    // this is an expression that contains a non-segment object, unimplemented
+                    outputText.setTextString("");
+                    return;
+                }
+                PVariable v = processSegment((GeoSegment) ge);
+            }
+        }
+    }
+
+    private String rewrite(String exp) {
+        // https://stackoverflow.com/questions/1326682/java-replacing-multiple-different-substring-in-a-string-at-once-or-in-the-most
+        Iterator it = rewrites.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry me = (Map.Entry) it.next();
+            GeoSegment s = (GeoSegment) me.getKey();
+            PVariable v = (PVariable) me.getValue();
+            exp = exp.replace(s.getLabel(StringTemplate.algebraTemplate), v.getName());
+        }
+        exp = exp.replace(" ", "");
+        return exp;
     }
 
 }

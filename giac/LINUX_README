@@ -29,6 +29,12 @@ settings.gradle in order to avoid installing the whole Android SDK.
 Also remove the tasks "androidCopyCrystaxSo" and "androidAar" from
 the file build.gradle.
 
+Alternatively, you can completely remove the file settings.gradle.
+Also, the file ../settings.gradle should be removed for Gradle 5.x.
+
+If you used git to check the source out, you need to put a symlink
+on ../gradle-scripts/.
+
 Debugging in an IDE
 -------------------
 

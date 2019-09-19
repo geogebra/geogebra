@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.prover.AlgoAreCollinear;
 import org.geogebra.common.kernel.prover.AlgoAreConcurrent;
@@ -284,7 +283,7 @@ public class Relation {
 				}
 				break;
 				case Compare:
-					ae = new AlgoCompare(cons, (GeoSegment) g1, (GeoSegment) g2);
+					ae = new AlgoCompare(cons, g1, g2);
 					break;
 
 			}

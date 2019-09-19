@@ -408,7 +408,13 @@ public class ProverBotanasMethod {
 		 * @param geo geometric object
 		 */
 		public void removeGeoPolys(GeoElement geo) {
+			if (geoPolys.isEmpty()) {
+				return; // do nothing
+			}
 			PPolynomial[] ps = geoPolys.get(geo);
+			if (ps == null) {
+				return;
+			}
 			for (PPolynomial p : ps) {
 				removePolynomial(p);
 			}
