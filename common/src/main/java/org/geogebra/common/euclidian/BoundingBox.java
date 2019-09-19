@@ -679,4 +679,12 @@ public class BoundingBox {
 	public void updateFrom(GeoElement geo) {
 		fixed = geo.isLocked();
 	}
+
+	/**
+	 * @param fixed
+	 *            whether the box is fixed
+	 */
+	public void setFixed(boolean fixed) {
+		this.fixed = fixed;
+	}
 }

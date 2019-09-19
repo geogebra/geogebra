@@ -12840,6 +12840,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
 		BoundingBox boundingBox = new BoundingBox(rect, false,
 				hasRotationHandler);
+		boundingBox.setFixed(fixed);
 		view.setBoundingBox(boundingBox);
 	}
 
