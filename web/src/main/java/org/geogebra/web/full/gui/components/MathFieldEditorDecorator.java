@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GRectangle;
 
 /**
  * Decorator for MathFieldEditor
@@ -9,6 +8,11 @@ import org.geogebra.common.awt.GRectangle;
  * @author laszlo
  */
 public interface MathFieldEditorDecorator {
+
+	/**
+	 * Sets basic styles of the editor
+	 */
+	void decorate();
 
 	/**
 	 * Sets background color for the editor.
@@ -33,14 +37,23 @@ public interface MathFieldEditorDecorator {
 	void setFontSize(double fontSize);
 
 	/**
-	 * Update bounds of the editor.
-	 *
-	 * @param bounds to set.
-	 */
-	void updateBounds(GRectangle bounds);
-
-	/**
 	 * Update editor size if needed.
 	 */
 	void updateSize();
+
+	/**
+	 * Show the editor
+	 */
+	void show();
+
+	/**
+	 * Hide the editor
+	 */
+	void hide();
+
+	/**
+	 *
+	 * @return the font size
+	 */
+	double getFontSize();
 }

@@ -21,6 +21,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -178,7 +179,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	}
 
 
-	public void removeStyleName(String hidden) {main.removeStyleName(hidden);}
+	public void removeStyleName(String style) {main.removeStyleName(style);}
 	/**
 	 * @return mathFieldW
 	 */
@@ -270,4 +271,17 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	public Style getStyle() {
 		return main.getElement().getStyle();
 	}
+
+
+	/**
+	 * Add editor to a container
+	 *
+	 * @param parent to add.
+	 */
+	public void attach(HasWidgets.ForIsWidget parent) {
+		if (!main.isAttached()) {
+			parent.add(main);
+		}
+	}
+
 }

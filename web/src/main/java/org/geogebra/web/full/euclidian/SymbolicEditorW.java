@@ -2,7 +2,6 @@ package org.geogebra.web.full.euclidian;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -10,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.full.gui.components.MathFieldEditorDecorator;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
@@ -34,9 +32,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private GeoInputBox geoInputBox;
 	private GRectangle bounds;
 	private String text;
-	private int fontSize;
-	private MathFieldEditor mathFieldEditor;
-	private final MathFieldEditorDecorator decorator;
+	private MathFieldEditor editor;
+	private final SymbolicEditorDecorator decorator;
 
 	/**
 	 * Constructor
@@ -46,13 +43,11 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	 */
 	public SymbolicEditorW(App app) {
 		this.app = app;
-		this.fontSize = app.getSettings().
-				getFontSettings().getAppFontSize() + 3;
-		mathFieldEditor = new MathFieldEditor(app, this);
-		mathFieldEditor.addStyleName("evInputEditor");
-		mathFieldEditor.setFontSize(fontSize);
-		mathFieldEditor.addBlurHandler(this);
-		decorator = new SymbolicEditorDecorator(mathFieldEditor);
+		editor = new MathFieldEditor(app, this);
+		editor.addBlurHandler(this);
+
+		decorator = new SymbolicEditorDecorator(app, editor);
+		decorator.decorate();
 	}
 
 	@Override
@@ -61,9 +56,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		this.geoInputBox = geoInputBox;
 		this.bounds = bounds;
 		resetChanges();
-		if (!mathFieldEditor.asWidget().isAttached()) {
-			parent.add(mathFieldEditor.asWidget());
-		}
+		editor.attach(parent);
 	}
 
 	@Override
@@ -74,39 +67,25 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private void resetChanges() {
 		boolean wasEditing = geoInputBox.isEditing();
 		this.geoInputBox.setEditing(true);
-		mathFieldEditor.removeStyleName("hidden");
-
-		decorator.updateBounds(bounds);
-		updateColors();
+		decorator.show();
+		decorator.update(bounds, geoInputBox);
 
 		if (!wasEditing) {
 			updateText();
-			updateFont();
 			focus();
 		}
 
-		mathFieldEditor.setText(text);
-		mathFieldEditor.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
-		mathFieldEditor.focus();
-	}
+		editor.setText(text);
 
-	private void updateColors() {
-		GColor bgColor = geoInputBox.getBackgroundColor();
-		mathFieldEditor.setBackgroundColor(bgColor != null ? bgColor : GColor.WHITE);
-		mathFieldEditor.setForegroundColor(geoInputBox.getObjectColor());
 	}
 
 	private void updateText() {
 		text = geoInputBox.getTextForEditor().trim();
-		mathFieldEditor.setText(text);
-	}
-
-	private void updateFont() {
-		mathFieldEditor.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		editor.setText(text);
 	}
 
 	private void focus() {
-		mathFieldEditor.focus();
+		editor.focus();
 	}
 
 	@Override
@@ -116,7 +95,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void hide() {
-		mathFieldEditor.addStyleName("hidden");
+		decorator.hide();
 		onHide();
 	}
 
@@ -135,7 +114,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void applyChanges() {
-		String editedText = mathFieldEditor.getText();
+		String editedText = editor.getText();
 		if (editedText.trim().equals(text)) {
 			return;
 		}
@@ -146,7 +125,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	public void onKeyTyped() {
 		decorator.updateSize();
 		geoInputBox.update();
-		mathFieldEditor.scrollHorizontally();
+		editor.scrollHorizontally();
 	}
 
 	@Override
@@ -197,7 +176,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public Widget asWidget() {
-		return mathFieldEditor.asWidget();
+		return editor.asWidget();
 	}
 
 	@Override

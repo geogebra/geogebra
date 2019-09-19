@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.dom.client.Style;
 import com.himamis.retex.editor.web.MathFieldW;
 
-public class MathFieldEditorDecoratorBase implements MathFieldEditorDecorator {
+public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDecorator {
 	public static final int PADDING_LEFT = 2;
 	protected final MathFieldEditor editor;
 	protected final MathFieldW mathField;
@@ -21,7 +20,8 @@ public class MathFieldEditorDecoratorBase implements MathFieldEditorDecorator {
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		String cssColor = toCssColor(backgroundColor);
+		GColor color = backgroundColor != null ? backgroundColor:  GColor.WHITE;
+		String cssColor = toCssColor(color);
 		style.setBackgroundColor(cssColor);
 		mathField.setBackgroundCssColor(cssColor);
 	}
@@ -36,22 +36,8 @@ public class MathFieldEditorDecoratorBase implements MathFieldEditorDecorator {
 	}
 
 	@Override
-	public void updateSize() {
-		// default is no update.
-	}
-
-	@Override
 	public void setFontSize(double fontSize) {
 		mathField.setFontSize(fontSize);
-	}
-
-	@Override
-	public void updateBounds(GRectangle bounds) {
-		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
-		setLeft(bounds.getX());
-		setTop(bounds.getY());
-		setWidth(fieldWidth);
-		setHeight(bounds.getHeight());
 	}
 
 	protected void setLeft(double value) {
