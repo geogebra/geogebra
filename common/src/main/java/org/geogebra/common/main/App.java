@@ -1002,7 +1002,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * tells the application that a view coord system has changed
 	 */
 	public void setCoordSystemOccured() {
-
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM) {
 			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURED;
 		}

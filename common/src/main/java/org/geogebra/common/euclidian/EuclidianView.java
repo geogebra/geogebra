@@ -877,6 +877,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (isLockedAxesRatio()) {
 				this.updateBoundObjects();
 			}
+
+			app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
+					.setJsonArgument(getCoordinates()));
 		}
 		// tell kernel
 		if (evNo != EVNO_GENERAL) {
@@ -1290,9 +1293,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
 		}
 		setCoordSystem(xZero, yZero, xscale, yscale, true);
-
-		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
-				.setJsonArgument(getCoordinates()));
 	}
 
 	protected Map<String, Object> getCoordinates() {
@@ -1403,6 +1403,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
+		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
+				.setJsonArgument(getCoordinates()));
 	}
 
     /**
