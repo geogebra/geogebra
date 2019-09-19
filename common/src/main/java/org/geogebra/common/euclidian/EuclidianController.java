@@ -10447,11 +10447,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				Drawable d = ((Drawable) view.getDrawableFor(geo));
 				d.update();
 				if (d.getBoundingBox().getRectangle() != null) {
+					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+							ModeSetter.DOCK_PANEL);
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
-					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-							ModeSetter.DOCK_PANEL);
 				}
 			}
 			if (!isDraggingOccuredBeyondThreshold()) {
