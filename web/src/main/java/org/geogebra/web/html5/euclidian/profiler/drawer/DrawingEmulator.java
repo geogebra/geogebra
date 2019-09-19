@@ -18,7 +18,7 @@ import com.google.gwt.user.client.Timer;
  */
 public class DrawingEmulator {
 
-	private static final String FILE_NAME = "coords.json";
+	private static final String FILE_NAME = "https://cdn.geogebra.org/apps/dev/coords.json";
 
 	private MouseTouchGestureControllerW mouseTouchGestureController;
 	private List<Coordinate> coordinates;
