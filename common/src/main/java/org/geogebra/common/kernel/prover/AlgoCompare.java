@@ -186,6 +186,7 @@ public class AlgoCompare extends AlgoElement {
 
         String inp1 = inputElement1.getLabelSimple();
         String inp2 = inputElement2.getLabelSimple();
+        result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
         // Inequality[0, Less, m, LessEqual, 2]
         result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
                 "$1 " + Unicode.CENTER_DOT + " " + inp2 +

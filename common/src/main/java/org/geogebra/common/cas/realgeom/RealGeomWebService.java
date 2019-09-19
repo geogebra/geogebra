@@ -38,6 +38,7 @@ public class RealGeomWebService {
         }
         HttpRequest httpr = UtilFactory.getPrototype().newHttpRequest();
         httpr.setTimeout(timeout);
+        System.err.println(url1 + "/" + command + "?" + encodedParameters);
 
         if (encodedParameters.length() + url1.length() + command.length()
                 + 6 <= GET_REQUEST_MAX_SIZE) {
@@ -55,6 +56,7 @@ public class RealGeomWebService {
         }
         return response;
     }
+
 
     /**
      * Reports if RealGeomWS is available. (It must be initialized by enable()
