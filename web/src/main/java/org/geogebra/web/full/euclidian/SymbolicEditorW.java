@@ -10,10 +10,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.full.gui.components.MathFieldEditorDecorator;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -28,17 +28,15 @@ import com.himamis.retex.editor.share.model.MathSequence;
  */
 public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 						InputBoxWidget, BlurHandler {
-	public static final int PADDING_LEFT = 2;
+
 	public static final int BORDER_WIDTH = 1;
 	private final App app;
 	private GeoInputBox geoInputBox;
 	private GRectangle bounds;
-	private Style style;
-	private double top;
-	private int mainHeight;
 	private String text;
 	private int fontSize;
 	private MathFieldEditor mathFieldEditor;
+	private final MathFieldEditorDecorator decorator;
 
 	/**
 	 * Constructor
@@ -54,7 +52,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		mathFieldEditor.addStyleName("evInputEditor");
 		mathFieldEditor.setFontSize(fontSize);
 		mathFieldEditor.addBlurHandler(this);
-		style = mathFieldEditor.getStyle();
+		decorator = new SymbolicEditorDecorator(mathFieldEditor);
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		this.geoInputBox.setEditing(true);
 		mathFieldEditor.removeStyleName("hidden");
 
-		updateBounds();
+		decorator.updateBounds(bounds);
 		updateColors();
 
 		if (!wasEditing) {
@@ -109,20 +107,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	private void focus() {
 		mathFieldEditor.focus();
-	}
-
-	private void updateBounds() {
-		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
-		style.setLeft(bounds.getX(), Style.Unit.PX);
-		top = bounds.getY();
-		style.setTop(top, Style.Unit.PX);
-		style.setWidth(fieldWidth, Style.Unit.PX);
-		setHeight(bounds.getHeight());
-	}
-
-	private void setHeight(double height)  {
-		style.setHeight(height, Style.Unit.PX);
-		mainHeight = (int) bounds.getHeight();
 	}
 
 	@Override
@@ -160,7 +144,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void onKeyTyped() {
-		adjustHeightAndPosition();
+		decorator.updateSize();
+		geoInputBox.update();
 		mathFieldEditor.scrollHorizontally();
 	}
 
@@ -169,16 +154,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	}
 
-	private void adjustHeightAndPosition() {
-		int height = mathFieldEditor.getMathField().
-				getInputTextArea().getOffsetHeight();
-		double diff = mainHeight - asWidget().getOffsetHeight();
-		setHeight(height - 2 * BORDER_WIDTH);
-		top += (diff / 2);
-		style.setTop(top, Style.Unit.PX);
-		geoInputBox.update();
-		mainHeight = asWidget().getOffsetHeight();
-	}
 
 	@Override
 	public void onUpKeyPressed() {
