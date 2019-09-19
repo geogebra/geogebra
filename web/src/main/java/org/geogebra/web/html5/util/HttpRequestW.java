@@ -65,10 +65,15 @@ public class HttpRequestW extends HttpRequest {
 	@Override
 	public void sendRequestPost(String url, String post, AjaxCallback callback) {
 		XHR2 request = (XHR2) XMLHttpRequest.create();
+		String method = "POST";
+		if ("GET".equals(post)) {
+		    method = "GET";
+		    post = null;
+		} 
 		if (callback == null) {
-			request.openSync("POST", url);
+			request.openSync(method, url);
 		} else {
-			request.open("POST", url);
+			request.open(method, url);
 		}
 		// needed for SMART, hopefully no problem for others
 		request.setRequestHeader("Content-type", "text/plain");
