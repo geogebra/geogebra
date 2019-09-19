@@ -119,6 +119,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		focusFirstElement();
 	}
 
+
 	private void nextFromZoomPanel(int viewID) {
 		if (app.has(Feature.SPEECH_RECOGNITION) && focusSpeechRec(viewID)) {
 			return;

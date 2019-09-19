@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.components;
 
-import org.geogebra.common.awt.GColor;
-
 /**
  * Decorator for MathFieldEditor
  *
@@ -10,36 +8,9 @@ import org.geogebra.common.awt.GColor;
 public interface MathFieldEditorDecorator {
 
 	/**
-	 * Sets basic styles of the editor
+	 * Update editor state.
 	 */
-	void decorate();
-
-	/**
-	 * Sets background color for the editor.
-	 *
-	 * @param backgroundColor  the color to set.
-	 */
-	void setBackgroundColor(GColor backgroundColor);
-
-	/**
-	 * Sets foreground color for the editor.
-	 *
-	 * @param foregroundColor  the color to set.
-	 */
-	void setForegroundColor(GColor foregroundColor);
-
-
-	/**
-	 * Sets editor font size.
-	 *
-	 * @param fontSize to set.
-	 */
-	void setFontSize(double fontSize);
-
-	/**
-	 * Update editor size if needed.
-	 */
-	void updateSize();
+	void update();
 
 	/**
 	 * Show the editor
@@ -50,10 +21,4 @@ public interface MathFieldEditorDecorator {
 	 * Hide the editor
 	 */
 	void hide();
-
-	/**
-	 *
-	 * @return the font size
-	 */
-	double getFontSize();
 }

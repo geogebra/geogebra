@@ -18,8 +18,7 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 		this.style = editor.getStyle();
 	}
 
-	@Override
-	public void setBackgroundColor(GColor backgroundColor) {
+	protected void setBackgroundColor(GColor backgroundColor) {
 		GColor color = backgroundColor != null ? backgroundColor:  GColor.WHITE;
 		String cssColor = toCssColor(color);
 		style.setBackgroundColor(cssColor);
@@ -30,13 +29,11 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 		return "#" + StringUtil.toHexString(color);
 	}
 
-	@Override
-	public void setForegroundColor(GColor foregroundColor) {
+	protected void setForegroundColor(GColor foregroundColor) {
 		mathField.setForegroundCssColor(toCssColor(foregroundColor));
 	}
 
-	@Override
-	public void setFontSize(double fontSize) {
+	 public void setFontSize(double fontSize) {
 		mathField.setFontSize(fontSize);
 	}
 

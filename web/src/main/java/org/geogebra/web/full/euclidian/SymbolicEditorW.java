@@ -1,23 +1,20 @@
-package org.geogebra.web.full.euclidian;
+ package org.geogebra.web.full.euclidian;
 
-import java.util.ArrayList;
+ import org.geogebra.common.awt.GPoint;
+ import org.geogebra.common.awt.GRectangle;
+ import org.geogebra.common.euclidian.SymbolicEditor;
+ import org.geogebra.common.kernel.geos.GeoInputBox;
+ import org.geogebra.common.main.App;
+ import org.geogebra.web.full.gui.components.MathFieldEditor;
+ import org.geogebra.web.html5.euclidian.InputBoxWidget;
+ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.SymbolicEditor;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.html5.euclidian.InputBoxWidget;
-import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
+ import com.google.gwt.event.dom.client.BlurEvent;
+ import com.google.gwt.event.dom.client.BlurHandler;
+ import com.google.gwt.user.client.ui.AbsolutePanel;
+ import com.google.gwt.user.client.ui.Widget;
+ import com.himamis.retex.editor.share.event.MathFieldListener;
+ import com.himamis.retex.editor.share.model.MathSequence;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -27,7 +24,6 @@ import com.himamis.retex.editor.share.model.MathSequence;
 public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 						InputBoxWidget, BlurHandler {
 
-	public static final int BORDER_WIDTH = 1;
 	private final App app;
 	private GeoInputBox geoInputBox;
 	private GRectangle bounds;
@@ -46,8 +42,10 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 
-		decorator = new SymbolicEditorDecorator(app, editor);
-		decorator.decorate();
+		int baseFontSize = app.getSettings().
+				getFontSettings().getAppFontSize() + 3;
+
+		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
 	}
 
 	@Override
@@ -69,6 +67,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		this.geoInputBox.setEditing(true);
 		decorator.show();
 		decorator.update(bounds, geoInputBox);
+		editor.setKeyboardVisibility(true);
 
 		if (!wasEditing) {
 			updateText();
@@ -123,7 +122,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void onKeyTyped() {
-		decorator.updateSize();
+		decorator.update();
 		geoInputBox.update();
 		editor.scrollHorizontally();
 	}
@@ -165,13 +164,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		applyChanges();
 		hide();
 		app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
-		ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
-		GeoElement next = selGeos.isEmpty() ? null : selGeos.get(0);
-		if (next instanceof GeoInputBox) {
-			app.getActiveEuclidianView().focusTextField((GeoInputBox) next);
-		} else {
-			app.getActiveEuclidianView().requestFocus();
-		}
+		app.getSelectionManager().nextFromInputBox();
 	}
 
 	@Override
