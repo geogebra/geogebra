@@ -223,9 +223,9 @@ public class AlgoCompare extends AlgoElement {
         result = result.replaceAll("(\\s)1 " + Unicode.CENTER_DOT + " ", "$1");
         // Use math symbols instead of Mathematica notation
         result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
-        result = result.replace("Less", "<");
+        result = result.replace("Less", "&lt;");
         result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
-        result = result.replace("Greater", ">");
+        result = result.replace("Greater", "&gt;");
         // result = result.replace("==", "=");
         result = result.replace("&& m > 0", "");
         result = result.replace("m > 0", "");
