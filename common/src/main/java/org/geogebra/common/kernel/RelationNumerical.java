@@ -104,7 +104,11 @@ public class RelationNumerical {
 			/** concurrent lines */
 			AreConcurrent,
 			/** line tangent to conic */
-			IsTangent
+			IsTangent,
+			/**
+			 * real geometry comparison
+			 */
+			Compare
 		}
 
 		/**
@@ -408,8 +412,13 @@ public class RelationNumerical {
 								true, loc));
 			}
 		} else {
-			register(false, null, congruentSegmentString((GeoElement) a,
-					(GeoElement) b, false, loc));
+			if (app.getRealGeomWS().isAvailable()) {
+				register(true, RelationCommand.Compare, congruentSegmentString((GeoElement) a,
+						(GeoElement) b, false, loc));
+			} else {
+				register(false, null, congruentSegmentString((GeoElement) a,
+						(GeoElement) b, false, loc));
+			}
 		}
 
 		// Checking parallelism:

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import static org.geogebra.common.kernel.RelationNumerical.Report.RelationCommand.Compare;
+
 import java.util.Iterator;
 import java.util.SortedSet;
 
@@ -16,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.prover.AlgoAreCollinear;
 import org.geogebra.common.kernel.prover.AlgoAreConcurrent;
@@ -24,6 +27,7 @@ import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
+import org.geogebra.common.kernel.prover.AlgoCompare;
 import org.geogebra.common.kernel.prover.AlgoIsOnPath;
 import org.geogebra.common.kernel.prover.AlgoIsTangent;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
@@ -167,6 +171,10 @@ public class Relation {
 								// ProveDetails=={true,{...},"c"}
 								rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
 										+ trueOnParts + "</b>");
+							} else if ("3".equals(ndgResult[0])) { // String output
+								rel.setInfo(rel.getInfo() + ndgResult[1] +
+										"<br>" + loc.getMenuDefault(
+										"AlwaysTrue", "(always true)"));
 							} else {
 								// e.g. ProveDetails=={true,{"AreEqual(A,B)"}}
 								StringBuilder conds = new StringBuilder("<ul>");
@@ -183,9 +191,9 @@ public class Relation {
 								conds.append("</ul>");
 								rel.setInfo(rel.getInfo()
 										+ loc.getPlain("GenerallyTrueAcondB",
-												"<ul><li " + liStyle + ">"
-														+ relInfo + "</ul>",
-												conds.toString()));
+										"<ul><li " + liStyle + ">"
+												+ relInfo + "</ul>",
+										conds.toString()));
 							}
 						}
 					}
@@ -275,6 +283,10 @@ public class Relation {
 					ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
 				}
 				break;
+				case Compare:
+					ae = new AlgoCompare(cons, (GeoSegment) g1, (GeoSegment) g2);
+					break;
+
 			}
 		} catch (RuntimeException ex) {
 			ret = new String[1];
@@ -286,11 +298,25 @@ public class Relation {
 			ret[0] = ""; // undefined (UNKNOWN)
 			return ret;
 		}
+		GeoElement[] o;
+		// RealGeom based comparison is a special case because it returns a String
+		if (command == Compare) {
+			o = ae.getOutput();
+			String out = ((GeoText) o[0]).getTextString();
+			if ("".equals(out)) {
+				ret = new String[1];
+				ret[0] = ""; // undefined (UNKNOWN)
+				return ret;
+			}
+			ret = new String[2];
+			ret[0] = "3";
+			ret[1] = out;
+			return ret;
+		}
 		root.setParentAlgorithm(ae);
 		AlgoProveDetails ap = new AlgoProveDetails(cons, root, true);
 		ap.compute();
-		GeoElement[] o = ap.getOutput();
-
+		o = ap.getOutput();
 		GeoList list = ((GeoList) o[0]);
 		// Turning the output of ProveDetails into an array:
 		if (list.size() >= 2 && list.get(1).isGeoList()) {

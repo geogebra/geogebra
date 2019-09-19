@@ -179,12 +179,10 @@ public class AlgoCompare extends AlgoElement {
         Log.debug(rgParameters);
 
         String result = realgeomWS.directCommand(rgCommand, rgParameters.toString());
-        /*
-        // Note the order:
-        Log.debug("var2=" + var2.toString() + " inp2=" + inputElement2.getLabelSimple());
-        result = result.replace(var2.toString(), inputElement2.getLabelSimple());
-        result = result.replace(var1.toString(), inputElement1.getLabelSimple());
-         */
+        if ("m > 0".equals(result)) {
+            outputText.setTextString(""); // no useful information gained
+            return;
+        }
 
         String inp1 = inputElement1.getLabelSimple();
         String inp2 = inputElement2.getLabelSimple();
@@ -197,6 +195,9 @@ public class AlgoCompare extends AlgoElement {
         // m >= 1/2
         result = result.replaceAll("m >= (.*)",
                 inp1 + " GreaterEqual $1 " + Unicode.CENTER_DOT + " " + inp2);
+        // m >= 1/2
+        result = result.replaceAll("m > (.*)",
+                inp1 + " Greater $1 " + Unicode.CENTER_DOT + " " + inp2);
         // m == 1
         result = result.replaceAll("m == (.*)",
                 inp1 + " = $1 " + Unicode.CENTER_DOT + " " + inp2);
@@ -206,6 +207,7 @@ public class AlgoCompare extends AlgoElement {
         result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
         result = result.replace("Less", "<");
         result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
+        result = result.replace("Greater", ">");
         // result = result.replace("==", "=");
         result = result.replace("&& m > 0", "");
         result = result.replace("m > 0", "");
