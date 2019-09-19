@@ -48,7 +48,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private HittedGeo hittedGeo = new HittedGeo();
 
 	private StationaryCoords stationaryCoords = new StationaryCoords();
-	private double zNearest = 4;
 
 	private Coords tmpCoords1 = new Coords(4);
 
@@ -343,14 +342,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			zNearest = -zNear;
 		}
 		updateStylusBeam();
-	}
-
-	/**
-	 * 
-	 * @return current z nearest hit
-	 */
-	public double getZNearest() {
-		return zNearest;
 	}
 
 	/**

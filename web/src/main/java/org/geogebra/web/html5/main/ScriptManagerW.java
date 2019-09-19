@@ -134,16 +134,34 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}
 
-	public static JavaScriptObject convertToJSObject(Map<String, Object> object) {
+	/**
+	 * @param map (String, Object) map to be converted to JavaScript,
+	 *            Object can be Integer, Double, String or String[],
+	 * @return JavaScript object based on the map
+	 */
+	public static JavaScriptObject convertToJSObject(Map<String, Object> map) {
 		JavaScriptObject json = JavaScriptObject.createObject();
-		for (Entry<String, Object> entry : object.entrySet()) {
-			set(json, entry.getKey(), entry.getValue().toString());
+		for (Entry<String, Object> entry : map.entrySet()) {
+			Object object = entry.getValue();
+
+			if (object instanceof Integer) {
+				set(json, entry.getKey(), (int) object);
+			} else if (object instanceof Double
+					|| object instanceof String[]) {
+				set(json, entry.getKey(), object);
+			} else {
+				set(json, entry.getKey(), object.toString());
+			}
 		}
 
 		return json;
 	}
 
-	private static native void set(JavaScriptObject json, String key, String value) /*-{
+	private static native void set(JavaScriptObject json, String key, int value) /*-{
+		json[key] = value;
+	}-*/;
+
+	private static native void set(JavaScriptObject json, String key, Object value) /*-{
 		json[key] = value;
 	}-*/;
 

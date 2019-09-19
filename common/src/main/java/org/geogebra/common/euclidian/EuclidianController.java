@@ -14,8 +14,10 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
@@ -150,11 +152,13 @@ import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 
 public abstract class EuclidianController implements SpecialPointsListener {
@@ -8686,10 +8690,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (getTextController() != null && getTextController().isEditing()) {
 			return;
 		}
-		if (view.hasDynamicStyleBar()
-				&& ((mode == EuclidianConstants.MODE_SELECT_MOW
-						&& !event.isRightClick())
-						|| mode != EuclidianConstants.MODE_SELECT_MOW)) {
+		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
 
@@ -9533,10 +9534,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
-		if (view.hasDynamicStyleBar()
-				&& ((mode == EuclidianConstants.MODE_SELECT_MOW
-						&& !event.isRightClick())
-						|| mode != EuclidianConstants.MODE_SELECT_MOW)) {
+		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
 
@@ -9736,6 +9734,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		setViewHits(event.getType());
+
+		dispatchMouseDownEvent(event);
+
 		if (app.isWhiteboardActive()
 				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
 				&& !getView().getHits().isEmpty()) {
@@ -9766,6 +9767,35 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	private boolean shouldHideDynamicStyleBar(AbstractEvent event) {
+		return view.hasDynamicStyleBar()
+				&& (mode != EuclidianConstants.MODE_SELECT_MOW || !event.isRightClick());
+	}
+
+	protected Map<String, Object> createMouseDownEventArgument() {
+		Hits hits = view.getHits().getTopHits();
+
+		String[] serializedHits = new String[hits.size()];
+		for (int i = 0; i < hits.size(); i++) {
+			serializedHits[i] = hits.get(i).getLabelSimple();
+		}
+
+		Map<String, Object> jsonArgument = new HashMap<>();
+		jsonArgument.put("viewNo", view.getEuclidianViewNo());
+		jsonArgument.put("hits", serializedHits);
+
+		return jsonArgument;
+	}
+
+	protected void dispatchMouseDownEvent(AbstractEvent event) {
+		Map<String, Object> jsonArgument = createMouseDownEventArgument();
+
+		jsonArgument.put("x", view.toRealWorldCoordX(event.getX()));
+		jsonArgument.put("y", view.toRealWorldCoordY(event.getY()));
+
+		app.dispatchEvent(new Event(EventType.MOUSE_DOWN).setJsonArgument(jsonArgument));
 	}
 
 	private void resetSelectionFlags() {
@@ -10705,6 +10735,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			changedKernel0 = true;
 			app.getKernel().getConstruction().getUndoManager()
 					.storeUndoInfoAfterPasteOrAdd();
+		}
+
+		if (draggingOccured && movedGeoElement != null) {
+			app.getEventDispatcher().dispatchEvent(
+					new Event(EventType.DRAG_END, movedGeoElement)
+			);
 		}
 
 		if (getMovedGeoPoint() != null) {

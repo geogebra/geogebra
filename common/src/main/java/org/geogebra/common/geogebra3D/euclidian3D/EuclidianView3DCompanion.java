@@ -23,8 +23,11 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
  * 
  */
 public class EuclidianView3DCompanion extends EuclidianViewCompanion {
+
 	private EuclidianView3D view3D;
 	private boolean isStereoBuffered = false;
+
+	protected double zNearest;
 
 	/**
 	 * @param view
@@ -141,11 +144,19 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	}
 
 	/**
-	 * @param zNear
+	 * @param zNearest
 	 *            near z-coord
 	 */
-	public void setZNearest(double zNear) {
-		// used for some input3D
+	public void setZNearest(double zNearest) {
+		this.zNearest = zNearest;
+	}
+
+	/**
+	 *
+	 * @return current z nearest hit
+	 */
+	public double getZNearest() {
+		return zNearest;
 	}
 
 	/**

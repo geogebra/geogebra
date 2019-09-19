@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasFaces;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
+import org.geogebra.common.util.GPredicate;
 
 /**
  * 
@@ -1012,35 +1013,37 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return hits that has finite volume
-	 */
-	public Hits getFiniteVolumeIncludingMetaHits() {
+	private Hits getWithMetaHits(GPredicate<GeoElement> filter) {
 		Hits result = new Hits();
 
 		for (GeoElement geo : this) {
-			// first check if is segment/polygon/quadric side from a geo that
-			// has finite volume
 			if (geo.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo).getMetas()) {
-					addFiniteVolume(result, meta);
-				// check if the geo has finite volume
+					if (filter.test(meta) && !result.contains(meta)) {
+						result.add(meta);
+					}
 				}
-			} else {
-				addFiniteVolume(result, geo);
+			}
+
+			if (filter.test(geo)) {
+				result.add(geo);
 			}
 		}
 
 		return result;
 	}
 
-	private static void addFiniteVolume(Hits result, GeoElement geo) {
-		if (geo instanceof HasVolume) {
-			if (((HasVolume) geo).hasFiniteVolume()) {
-				result.add(geo);
+	/**
+	 * 
+	 * @return hits that has finite volume
+	 */
+	public Hits getFiniteVolumeIncludingMetaHits() {
+		return getWithMetaHits(new GPredicate<GeoElement>() {
+			@Override
+			public boolean test(GeoElement geo) {
+				return geo instanceof HasVolume && ((HasVolume) geo).hasFiniteVolume();
 			}
-		}
+		});
 	}
 
 	/**
@@ -1048,26 +1051,12 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return hits that has finite volume
 	 */
 	public Hits getPolyhedronsIncludingMetaHits() {
-		Hits result = new Hits();
-
-		for (GeoElement geo : this) {
-			// first check if is segment/polygon/quadric side from a geo that
-			// has finite volume
-			if (geo.getMetasLength() > 0) {
-				for (GeoElement meta : ((FromMeta) geo).getMetas()) {
-					if (meta.isGeoPolyhedron()) {
-						result.add(meta);
-					}
-				}
-				// check if the geo has finite volume
-			} else {
-				if (geo.isGeoPolyhedron()) {
-					result.add(geo);
-				}
+		return getWithMetaHits(new GPredicate<GeoElement>() {
+			@Override
+			public boolean test(GeoElement geo) {
+				return geo.isGeoPolyhedron();
 			}
-		}
-
-		return result;
+		});
 	}
 
 	/**
