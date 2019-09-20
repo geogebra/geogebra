@@ -1297,10 +1297,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected Map<String, Object> getCoordinates() {
 		Map<String, Object> coordinates = new HashMap<>();
-		coordinates.put("xZero", xZero);
-		coordinates.put("yZero", yZero);
-		coordinates.put("scale", xscale);
-		coordinates.put("yscale", yscale);
+		coordinates.put("xZero", getXZero());
+		coordinates.put("yZero", getYZero());
+		coordinates.put("scale", getXscale());
+		coordinates.put("yscale", getYscale());
 		coordinates.put("viewNo", getEuclidianViewNo());
 
 		return coordinates;
