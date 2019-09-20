@@ -102,6 +102,8 @@ public class AlgoCompare extends AlgoElement {
 
     AlgebraicStatement as;
     SortedMap<GeoSegment, PVariable> rewrites;
+    StringTemplate portableFormat = StringTemplate.casCopyTemplate;
+    StringTemplate fancyFormat = StringTemplate.algebraTemplate;
 
     @Override
     public final void compute() {
@@ -135,30 +137,28 @@ public class AlgoCompare extends AlgoElement {
 
         if (inputElement1 instanceof GeoSegment) {
             lhs_var = (processSegment((GeoSegment) inputElement1)).getName();
-            inp1 = inputElement1.getLabelSimple();
+            inp1 = inputElement1.getLabelTextOrHTML();
         }
 
         if (inputElement2 instanceof GeoSegment) {
             rhs_var = (processSegment((GeoSegment) inputElement2)).getName();
-            inp2 = inputElement2.getLabelSimple();
+            inp2 = inputElement2.getLabelTextOrHTML();
         }
 
         if (inputElement1 instanceof GeoNumeric) {
             processExpr((GeoNumeric) inputElement1);
             lhs_var = "w1";
-            inp1 = inputElement1.getDefinition(StringTemplate.algebraTemplate);
-            extraPolys.add("-w1+" + rewrite(inp1));
+            extraPolys.add("-w1+" + rewrite(inputElement1.getDefinition(portableFormat)));
             extraVars.add("w1");
-            inp1 = "(" + inp1 + ")";
+            inp1 = "(" + inputElement1.getDefinition(fancyFormat) + ")";
         }
 
         if (inputElement2 instanceof GeoNumeric) {
             processExpr((GeoNumeric) inputElement2);
             rhs_var = "w2";
-            inp2 = inputElement2.getDefinition(StringTemplate.algebraTemplate);
-            extraPolys.add("-w2+" + rewrite(inp2));
+            extraPolys.add("-w2+" + rewrite(inputElement2.getDefinition(portableFormat)));
             extraVars.add("w2");
-            inp2 = "(" + inp2 + ")";
+            inp2 = "(" + inputElement2.getDefinition(fancyFormat) + ")";
         }
 
         String rgCommand = "euclideansolver";
@@ -291,7 +291,7 @@ public class AlgoCompare extends AlgoElement {
             Map.Entry me = (Map.Entry) it.next();
             GeoSegment s = (GeoSegment) me.getKey();
             PVariable v = (PVariable) me.getValue();
-            exp = exp.replace(s.getLabel(StringTemplate.algebraTemplate), v.getName());
+            exp = exp.replace(s.getLabel(portableFormat), v.getName());
         }
         exp = exp.replace(" ", "");
         return exp;
