@@ -185,7 +185,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			helpPopup.removeStyleName("helpPopupAV");
 			helpPopup.addStyleName("helpPopupAVBottom");
 		}
-		helpPanel.updateGUI(maxOffsetHeight, 1);
+		helpPanel.updateGUI(maxOffsetHeight);
 		helpPopup.show();
 	}
 

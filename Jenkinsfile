@@ -4,7 +4,7 @@ pipeline {
         stage('build') {
             steps {
                 sh label: 'clean', script: './gradlew clean'
-                sh label: 'build web', script: './gradlew :web:compileGwt :web:symlinkIntoWar :web:createDraftBundleZip :web:mergeDeploy'
+                sh label: 'build web', script: './gradlew :web:compileGwt :web:symlinkIntoWar :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
                 sh label: 'test', script: './gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test'
                 sh label: 'static analysis', script: './gradlew checkPmd :editor-base:spotbugsMain :web:spotbugsMain :desktop:spotbugsMain :ggbjdk:spotbugsMain :common-jre:spotbugsMain --max-workers=1'
                 sh label: 'spotbugs common', script: './gradlew :common:spotbugsMain'

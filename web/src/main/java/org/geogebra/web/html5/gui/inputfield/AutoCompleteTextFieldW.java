@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -508,8 +507,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private boolean isFallbackCompletitionAllowed() {
-		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
-				&& "zh".equals(app.getLocalization().getLanguage());
+		return "zh".equals(app.getLocalization().getLanguage());
 	}
 
 	public void cancelAutoCompletion() {

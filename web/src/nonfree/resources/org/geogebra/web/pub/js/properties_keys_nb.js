@@ -3295,6 +3295,7 @@ __GGB__keysVar["nb"].menu = {
     "html": "Nettside",
     "insert_worksheet": "Sett inn aktivitet",
     "jpg": "JPG-format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Linkdeling er av.",
     "linkShareOn": "Linkdeling er p\xe5.",
     "list_created": "Liste %0 er blitt laget!",

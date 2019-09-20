@@ -3295,6 +3295,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "html": "Webpagina",
     "insert_worksheet": "Invoegen werkblad",
     "jpg": "JPG formaat",
+    "linkCopyClipboard": "Link werd gekopieerd naar het klembord",
     "linkShareOff": "Delen via link uit.",
     "linkShareOn": "Delen via link aan.",
     "list_created": "Lijst %0 werd gecre\xeberd!",

@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -258,8 +259,7 @@ public class ShareDialogMow extends DialogBoxW
 		linkShareOnOffLbl
 				.setText(localization.getMenu(
 						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
-		linkShareHelpLbl.setText(localization.getMenu(isShareLinkOn()
-				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
+		linkShareHelpLbl.setText(localization.getMenu(getLinkShareHelpLabelTextKey()));
 		linkPanel.setVisible(isSwitchOn);
 		if (isSwitchOn) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -270,6 +270,14 @@ public class ShareDialogMow extends DialogBoxW
 				}
 			});
 		}
+	}
+
+	private String getLinkShareHelpLabelTextKey() {
+		if (isShareLinkOn()) {
+			VendorSettings settings = appW.getVendorSettings();
+			return settings.getMenuLocalizationKey("SharedLinkHelpTxt");
+		}
+		return "NotSharedLinkHelpTxt";
 	}
 
 	private void buildButtonPanel(FlowPanel dialogContent) {
@@ -306,8 +314,7 @@ public class ShareDialogMow extends DialogBoxW
 		linkShareOnOffLbl
 				.setText(localization.getMenu(
 						isShareLinkOn() ? "linkShareOn" : "linkShareOff"));
-		linkShareHelpLbl.setText(localization.getMenu(isShareLinkOn()
-				? "ShareLinkHelpTxtMebis" : "NotSharedLinkHelpTxt"));
+		linkShareHelpLbl.setText(localization.getMenu(getLinkShareHelpLabelTextKey()));
 		sharingAvailableInfo
 				.setText(localization.getMenu("SharingAvailableMow"));
 
@@ -350,7 +357,9 @@ public class ShareDialogMow extends DialogBoxW
 			linkBox.setFocused(false);
 			app.copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
-			hide();
+			ToolTipManagerW.sharedInstance()
+			    .showBottomMessage(appW.getLocalization()
+			    .getMenu("linkCopyClipboard"), true, appW);
 		}
 	}
 

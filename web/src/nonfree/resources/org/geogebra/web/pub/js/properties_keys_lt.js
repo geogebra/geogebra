@@ -3295,6 +3295,7 @@ __GGB__keysVar["lt"].menu = {
     "html": "Tinklalapis",
     "insert_worksheet": "\u012eterpti skai\u010diuokl\u0117s lak\u0161t\u0105",
     "jpg": "JPG formatas",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

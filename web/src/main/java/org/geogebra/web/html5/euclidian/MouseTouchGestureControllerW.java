@@ -415,6 +415,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		CancelEventTimer.touchEventOccured();
 		moveCounter = 0;
 		ignoreEvent = false;
+		ec.resetPinchZoomOccured();
 		final boolean inputBoxFocused = false;
 		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 		if (targets.length() == 1) {
@@ -627,7 +628,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		double dragStart = GeoGebraProfilerW.getMillisecondTimeNative();
 		GeoGebraProfiler.incrementDrags();
 		ec.wrapMouseDragged(event, startCapture);
-		GeoGebraProfiler.incrementDragTime((int) (GeoGebraProfilerW.getMillisecondTimeNative() - dragStart));
+		GeoGebraProfiler.incrementDragTime(
+				(int) (GeoGebraProfilerW.getMillisecondTimeNative() - dragStart));
 	}
 
 	/**

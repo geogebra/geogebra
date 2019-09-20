@@ -3295,6 +3295,7 @@ __GGB__keysVar["sv"].menu = {
     "html": "Webbsida",
     "insert_worksheet": "Infoga arbetsblad",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "L\xe4nkdelning \xe4r AV.",
     "linkShareOn": "L\xe4nkdelning \xe4r P\xc5.",
     "list_created": "Lista %0 har skapats!",

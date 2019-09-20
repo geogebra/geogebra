@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -56,9 +57,9 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private int mainHeight;
 	private String text;
 	private RetexKeyboardListener retexListener;
-
 	private Canvas canvas;
 	private boolean preventBlur;
+	private MathFieldScroller scroller;
 
 	/**
 	 * Constructor
@@ -108,6 +109,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 				null);
 		main.addStyleName("evInputEditor");
 		main.add(mathField);
+		scroller = new MathFieldScroller(main);
 		style = main.getElement().getStyle();
 	}
 
@@ -245,7 +247,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void scrollToEnd()  {
-		MathFieldW.scrollParent(main, PADDING_LEFT);
+		scroller.scrollHorizontallyToCursor(PADDING_LEFT);
 	}
 
 	@Override

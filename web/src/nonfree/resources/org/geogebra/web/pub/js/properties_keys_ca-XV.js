@@ -3295,6 +3295,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "html": "p\xe0gina web",
     "insert_worksheet": "Insereix el full de treball",
     "jpg": "Format JPG",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

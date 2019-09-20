@@ -3295,6 +3295,7 @@ __GGB__keysVar["fi"].menu = {
     "html": "Verkkosivu",
     "insert_worksheet": "Liit\xe4 ty\xf6kirja",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Linkin jakaminen pois.",
     "linkShareOn": "Linkin jakaminen on p\xe4\xe4ll\xe4.",
     "list_created": "Lista %0 luotiin!",

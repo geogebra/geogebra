@@ -63,12 +63,6 @@ public enum Feature {
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
 
-	/** APPS-284 */
-	COMMAND_FILTERING,
-
-	/** APPS-634 */
-	BUTTON_HIGHLIGHTING,
-
 	/** G3D-345 */
 	G3D_AR_SHOW_RATIO,
 
@@ -83,9 +77,6 @@ public enum Feature {
 
 	/** STUD-17 */
 	SURFACE_OF_REVOLUTION_TOOL,
-
-	/** APPS-1000 */
-	COMMAND_COMPLETION_FALLBACK,
 
 	/** G3D-372 */
 	G3D_AR_RATIO_SETTINGS,

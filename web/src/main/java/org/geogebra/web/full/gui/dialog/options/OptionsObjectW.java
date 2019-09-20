@@ -54,6 +54,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectL
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
+import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
@@ -1017,6 +1018,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel(app);
 		IneqStyleModel ineqStyle = new IneqStyleModel(app);
 		TextFieldSizeModel tfSize = new TextFieldSizeModel(app);
+		TextFieldAlignmentModel alignModel = new TextFieldAlignmentModel(app);
 		ButtonSizeModel buttonSize = new ButtonSizeModel(app);
 		FillingModel filling = new FillingModel(app);
 		LodModel lod = new LodModel(app, isDefaults);
@@ -1026,8 +1028,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod).addModel(lineStyle)
 				.addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
-				.addModel(tfSize).addModel(buttonSize).addModel(filling)
-				.addModel(interpol).addModel(decoAngle).addModel(decoSegment);
+				.addModel(tfSize).addModel(alignModel).addModel(buttonSize)
+				.addModel(filling).addModel(interpol).addModel(decoAngle)
+				.addModel(decoSegment);
 		return tab;
 	}
 
