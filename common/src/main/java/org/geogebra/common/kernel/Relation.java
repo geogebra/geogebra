@@ -302,6 +302,8 @@ public class Relation {
 		if (command == Compare) {
 			o = ae.getOutput();
 			String out = ((GeoText) o[0]).getTextString();
+            out = out.replace("<", "&lt;");
+            out = out.replace(">", "&gt;");
 			if ("".equals(out)) {
 				ret = new String[1];
 				ret[0] = ""; // undefined (UNKNOWN)
