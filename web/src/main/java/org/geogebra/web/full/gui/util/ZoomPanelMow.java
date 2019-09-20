@@ -15,6 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * @author csilla
@@ -82,6 +83,8 @@ public class ZoomPanelMow extends FlowPanel
 		dragPadBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.move_canvas(), null, 24, appW);
 		dragPadBtn.setStyleName("zoomPanelBtn");
+		TestHarness.setAttr(dragPadBtn, "panViewTool");
+
 		FastClickHandler handlerHome = new FastClickHandler() {
 
 			@Override
