@@ -8400,12 +8400,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// object selection mode
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			if (app.getCurrentSelectionListener() == null) {
-				return false;
-			}
-
-			return !app.isUsingFullGui() || app.getGuiManager() == null
-					|| !app.getGuiManager().isInputFieldSelectionListener();
+			return app.getCurrentSelectionListener() != null;
 
 		// transformations
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:

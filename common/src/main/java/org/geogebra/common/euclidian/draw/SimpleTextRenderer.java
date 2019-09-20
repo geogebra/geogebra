@@ -49,7 +49,7 @@ public class SimpleTextRenderer implements TextRenderer {
 
 	private static int getTextWidth(App app, GGraphics2D graphics2D, String text) {
 		return EuclidianStatic.drawIndexedString(app, graphics2D, text,
-				0, 0, false, false ,null, null).x;
+				0, 0, false, false, null, null).x;
 	}
 
 	@Override
