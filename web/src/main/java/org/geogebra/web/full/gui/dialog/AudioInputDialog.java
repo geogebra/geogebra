@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
@@ -54,9 +55,9 @@ public class AudioInputDialog extends MediaDialog {
 	 */
 	void addAudio() {
 		resetError();
-		new MediaFactory(appW).addAudio(inputField.getText());
+		GeoElement audio = new MediaFactory(appW).addAudio(inputField.getText());
 		hide();
-		appW.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		onMediaElementCreated(audio);
 	}
 
 	@Override

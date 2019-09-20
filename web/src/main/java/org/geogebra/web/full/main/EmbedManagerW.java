@@ -415,24 +415,24 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void openGraspableMTool() {
 		openTool("https://graspablemath.com");
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-						ModeSetter.DOCK_PANEL);
-			}
-		});
 	}
 
 	private void openTool(String URL) {
-		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setUrl(URL);
 		ge.setAppName("extension");
 		ge.initPosition(app.getActiveEuclidianView());
 		ge.setEmbedId(app.getEmbedManager().nextID());
 		ge.setLabel(null);
 		app.storeUndoInfo();
+		app.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				app.getActiveEuclidianView().getEuclidianController()
+						.selectAndShowBoundingBox(ge);
+			}
+		});
 	}
 
 	/**

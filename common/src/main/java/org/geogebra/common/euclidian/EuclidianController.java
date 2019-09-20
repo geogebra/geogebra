@@ -1011,7 +1011,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void setUpEmbedManager(int mode) {
-		GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
 		if (mode == EuclidianConstants.MODE_CAS) {
 			ge.setAppName("cas");
 		}
@@ -1023,8 +1023,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			@Override
 			public void run() {
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-						ModeSetter.DOCK_PANEL);
+				selectAndShowBoundingBox(ge);
 			}
 		});
 	}
@@ -12929,4 +12928,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void decreaseTargets() {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
 	}
+
+	/**
+	 * Select the geoElement and show bounding box and stylebar
+	 *
+	 * @param geoElement geoElement to select
+	 */
+	public void selectAndShowBoundingBox(GeoElement geoElement) {
+		clearSelections();
+		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
+		d.update();
+		if (d.getBoundingBox().getRectangle() != null) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+					ModeSetter.DOCK_PANEL);
+			view.setBoundingBox(d.getBoundingBox());
+			view.repaintView();
+			selection.addSelectedGeo(geoElement);
+		}
+
+		showDynamicStylebar();
+	}
+
 }
