@@ -1175,7 +1175,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	private static void setSingularWSOption(String option) {
+        option = option.replace("\\:", "_COLON_");
 		String[] str = option.split(":", 2);
+        for (int i = 0; i < str.length; ++i) {
+            str[i] = str[i].replace("_COLON_", ":");
+        }
 		if ("enable".equalsIgnoreCase(str[0])) {
 			SingularWSSettings.setUseSingularWebService(
 					Boolean.valueOf(str[1]).booleanValue());
@@ -1199,7 +1203,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 
 	private static void setRealGeomWSOption(String option) {
-		String[] str = option.split(":", 2);
+        option = option.replace("\\:", "_COLON_");
+        String[] str = option.split(";", 2);
+        for (int i = 0; i < str.length; ++i) {
+            str[i] = str[i].replace("_COLON_", ":");
+        }
 		if ("enable".equalsIgnoreCase(str[0])) {
 			RealGeomWSSettings.setUseRealGeomWebService(
 					Boolean.valueOf(str[1]).booleanValue());
