@@ -17,28 +17,7 @@ the Free Software Foundation.
  */
 package org.geogebra.desktop.main;
 
-import java.awt.AWTKeyStroke;
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -90,27 +69,7 @@ import java.util.logging.SimpleFormatter;
 
 import javax.imageio.ImageIO;
 import javax.naming.OperationNotSupportedException;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JApplet;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
@@ -825,6 +784,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 							+ "  Example: singularWS=timeout:3\n");
 			AppD.exit(0);
 		}
+		if (args.containsArg("realgeomWShelp")) {
+			// help message for RealGeomWS
+			System.out.println(
+					" --realgeomWS=OPTIONS\tset options for RealGeomWS\n"
+							+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
+							+ "      enable:BOOLEAN\tuse RealGeom WebService when possible ["
+							+ RealGeomWSSettings.isUseRealGeomWebService() + "]\n"
+							+ "      remoteURL:URL\tset the remote server URL ["
+							+ RealGeomWSSettings
+							.getRealGeomWebServiceRemoteURL()
+							+ "]\n" + "      timeout:SECS\tset the timeout ["
+							+ RealGeomWSSettings.getTimeout() + "]\n"
+							+ "  Example: realgeomWS=timeout:3\n");
+			AppD.exit(0);
+		}
 		if (args.containsArg("v")) {
 			AppD.exit(0);
 		}
@@ -1223,6 +1197,26 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		Log.warn("Prover option not recognized: ".concat(option));
 	}
 
+
+	private static void setRealGeomWSOption(String option) {
+		String[] str = option.split(":", 2);
+		if ("enable".equalsIgnoreCase(str[0])) {
+			RealGeomWSSettings.setUseRealGeomWebService(
+					Boolean.valueOf(str[1]).booleanValue());
+			return;
+		}
+		if ("remoteURL".equalsIgnoreCase(str[0])) {
+			RealGeomWSSettings
+					.setRealGeomWebServiceRemoteURL(str[1].toLowerCase());
+			return;
+		}
+		if ("timeout".equalsIgnoreCase(str[0])) {
+			RealGeomWSSettings.setTimeout(Integer.parseInt(str[1]));
+			return;
+		}
+		Log.warn("Prover option not recognized: ".concat(option));
+	}
+
 	/**
 	 * Reports if GeoGebra version check is allowed. The version_check_allowed
 	 * preference is read to decide this, which can be set by the command line
@@ -1288,6 +1282,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					.split(",");
 			for (int i = 0; i < singularWSOptions.length; i++) {
 				setSingularWSOption(singularWSOptions[i]);
+			}
+		}
+		if (args.containsArg("realgeomWS")) {
+			String[] realgeomWSOptions = args.getStringValue("realgeomWS")
+					.split(",");
+			for (int i = 0; i < realgeomWSOptions.length; i++) {
+				setRealGeomWSOption(realgeomWSOptions[i]);
 			}
 		}
 	}
