@@ -28,7 +28,7 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 				getInputTextArea().getOffsetHeight();
 		double diff = mainHeight - getHeight();
 		setHeight(height - 2 * BORDER_WIDTH);
-		top += (diff / 2);
+		top += diff / 2;
 		setTop(top);
 		mainHeight = getHeight();
 	}
