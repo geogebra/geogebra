@@ -1204,11 +1204,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private static void setRealGeomWSOption(String option) {
         option = option.replace("\\:", "_COLON_");
-        String[] str = option.split(";", 2);
+        String[] str = option.split(":", 2);
         for (int i = 0; i < str.length; ++i) {
             str[i] = str[i].replace("_COLON_", ":");
         }
-		if ("enable".equalsIgnoreCase(str[0])) {
+
+        if ("enable".equalsIgnoreCase(str[0])) {
 			RealGeomWSSettings.setUseRealGeomWebService(
 					Boolean.valueOf(str[1]).booleanValue());
 			return;
