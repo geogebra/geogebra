@@ -10443,15 +10443,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape()
 						&& view.getDrawableFor(geo) != null) {
-				Drawable d = ((Drawable) view.getDrawableFor(geo));
-				d.update();
-				if (d.getBoundingBox().getRectangle() != null) {
-					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-							ModeSetter.DOCK_PANEL);
-					view.setBoundingBox(d.getBoundingBox());
-					view.repaintView();
-					selection.addSelectedGeo(geo);
-				}
+				setBoundingBoxForGeo(geo);
 			}
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -12929,13 +12921,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
 	}
 
-	/**
-	 * Select the geoElement and show bounding box and stylebar
-	 *
-	 * @param geoElement geoElement to select
-	 */
-	public void selectAndShowBoundingBox(GeoElement geoElement) {
-		clearSelections();
+	private void setBoundingBoxForGeo(GeoElement geoElement) {
 		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
 		d.update();
 		if (d.getBoundingBox().getRectangle() != null) {
@@ -12945,7 +12931,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.repaintView();
 			selection.addSelectedGeo(geoElement);
 		}
+	}
 
+	/**
+	 * Select the geoElement and show bounding box and stylebar
+	 *
+	 * @param geoElement geoElement to select
+	 */
+	public void selectAndShowBoundingBox(GeoElement geoElement) {
+		clearSelections();
+		setBoundingBoxForGeo(geoElement);
 		showDynamicStylebar();
 	}
 
