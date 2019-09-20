@@ -3295,6 +3295,7 @@ __GGB__keysVar["hu"].menu = {
     "html": "Weblap",
     "insert_worksheet": "Munkalap besz\xfar\xe1sa",
     "jpg": "JPG form\xe1tum",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "Lista %0 elk\xe9sz\xedtve!",

@@ -20,6 +20,7 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.main.ApiExporter;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -124,5 +125,10 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public boolean isWhiteboard() {
 		return false;
+	}
+
+	@Override
+	public ApiExporter getApiExporter() {
+		return new ApiExporter();
 	}
 }

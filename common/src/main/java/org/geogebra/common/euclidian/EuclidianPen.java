@@ -330,12 +330,6 @@ public class EuclidianPen implements GTimerListener {
 
 			penPoints.clear();
 			addPointPenMode(e);
-			// we need single point only for pen tool
-			// prevent creating points with freehand tool
-			if (!isFreehand()) {
-				// will create the single point for pen tool
-				addPointsToPolyLine(penPoints);
-			}
 			view.cacheLayers(app.getMaxLayerUsed());
 		}
 	}
@@ -512,9 +506,14 @@ public class EuclidianPen implements GTimerListener {
 	 * @return true if a GeoElement was created
 	 *
 	 */
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y) {
+	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+												 boolean isPinchZooming) {
 		if (right && !isFreehand()) {
 			return false;
+		}
+
+		if (isPinchZooming && penPoints.size() < 2) {
+			penPoints.clear();
 		}
 
 		timer.start();

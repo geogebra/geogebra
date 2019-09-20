@@ -43,6 +43,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -86,6 +87,7 @@ import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
+import org.geogebra.web.full.main.activity.EvaluatorActivity;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.full.main.activity.GeometryActivity;
 import org.geogebra.web.full.main.activity.Graphing3DActivity;
@@ -110,6 +112,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -324,6 +327,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 				break;
 			case "notes":
 				activity = isMebis() ? new MebisNotesActivity() : new NotesActivity();
+				break;
+			case "evaluator":
+				activity = new EvaluatorActivity();
 				break;
 			default:
 				activity = new ClassicActivity(new AppConfigDefault());
@@ -1957,7 +1963,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public double getInnerWidth() {
-		return getWidth();
+		return getKeyboardManager().getKeyboarWidth();
 	}
 
 	@Override
@@ -2108,5 +2114,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 			keyboardManager = new KeyboardManager(this);
 		}
 		return keyboardManager;
+	}
+
+	@Override
+	public ScriptManager newScriptManager() {
+		return new ScriptManagerW(this, getActivity().getApiExporter());
 	}
 }

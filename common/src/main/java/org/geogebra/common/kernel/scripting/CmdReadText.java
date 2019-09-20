@@ -32,7 +32,7 @@ public class CmdReadText extends CmdScripting {
 
 			if (app.getActiveEuclidianView() != null) {
 				app.getActiveEuclidianView().getScreenReader()
-						.readTextImmediate(((GeoText) args[0]).getAuralText());
+						.readDelayed(((GeoText) args[0]).getAuralText());
 			}
 			return args;
 		}

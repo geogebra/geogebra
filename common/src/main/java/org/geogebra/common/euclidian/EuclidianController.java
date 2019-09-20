@@ -415,6 +415,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
+	private int numOfTargets = 0;
 
 	private SnapController snapController = new SnapController();
 
@@ -9700,7 +9701,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
+		this.pressedButton = view.getHitButton();
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);
@@ -10515,6 +10516,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			runPointerCallback(pointerUpCallback);
 			this.pointerUpCallback = null;
 		}
+
+		decreaseTargets();
 	}
 
 	/**
@@ -10675,7 +10678,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().startTimer();
 		}
 		if (penMode(mode)) {
-			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y);
+			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y,
+					(numOfTargets > 0));
 			if (geoCreated) {
 				storeUndoInfo();
 			}
@@ -11717,6 +11721,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		zoomInOut(scaleFactor,
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2, x,
 				y);
+		numOfTargets = 2;
 	}
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
@@ -12874,4 +12879,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
     public long getElapsedTimeFromLastMousePressed() {
         return System.currentTimeMillis() - lastMousePressedTime;
     }
+
+	/**
+	 * Resets the state after pinch zooming is finished and both fingers are released
+	 */
+	public void resetPinchZoomOccured() {
+		numOfTargets = 0;
+	}
+
+	/**
+	 * Decreasing the current number of touches when a finger is released after pinch
+	 */
+	private void decreaseTargets() {
+		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
+	}
 }

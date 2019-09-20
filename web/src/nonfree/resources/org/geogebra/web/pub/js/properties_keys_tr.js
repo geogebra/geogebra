@@ -3295,6 +3295,7 @@ __GGB__keysVar["tr"].menu = {
     "html": "Web sayfas\u0131",
     "insert_worksheet": "Etkinlik Ekle",
     "jpg": "JPG Bi\xe7imi",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Ba\u011flant\u0131 payla\u015f\u0131m\u0131 kapal\u0131.",
     "linkShareOn": "Ba\u011flant\u0131 payla\u015f\u0131m\u0131 a\xe7\u0131k.",
     "list_created": "List %0 has been created!",

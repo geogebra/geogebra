@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -129,7 +130,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 			app.getSelectionManager().clearSelectedGeos();
 		}
 		item.onKeyTyped();
-		this.dispatchEditEvent(EventType.EDITOR_KEY_TYPED);
+		Event event = new Event(EventType.EDITOR_KEY_TYPED);
+		app.dispatchEvent(event);
 	}
 
 	@Override

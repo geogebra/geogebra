@@ -3295,6 +3295,7 @@ __GGB__keysVar["vi"].menu = {
     "html": "Trang web",
     "insert_worksheet": "Insert Activity",
     "jpg": "\u0111u\xf4i .jpg",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

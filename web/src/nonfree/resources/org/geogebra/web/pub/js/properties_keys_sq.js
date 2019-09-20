@@ -3295,6 +3295,7 @@ __GGB__keysVar["sq"].menu = {
     "html": "Faqe internet",
     "insert_worksheet": "Insert Activity",
     "jpg": "Format Pikture JPG",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

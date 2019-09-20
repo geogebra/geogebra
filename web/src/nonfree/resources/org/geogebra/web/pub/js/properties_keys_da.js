@@ -3295,6 +3295,7 @@ __GGB__keysVar["da"].menu = {
     "html": "Hjemmeside",
     "insert_worksheet": "Inds\xe6t Arbejdsark",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Linkdeling slukket.",
     "linkShareOn": "Linkdeling aktiveret.",
     "list_created": "Liste %0 er blevet lavet!",

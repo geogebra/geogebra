@@ -3295,6 +3295,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "html": "\u7db2\u9801",
     "insert_worksheet": "\u63d2\u5165\u6a94\u6848",
     "jpg": "JPG",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

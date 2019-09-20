@@ -11,6 +11,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
+import com.google.gwt.user.client.Window;
+
 public class KeyboardManager {
 
 	private AppW app;
@@ -69,6 +71,17 @@ public class KeyboardManager {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 *
+	 * @return the preferred keyboard width
+	 */
+	public double getKeyboarWidth() {
+		return shouldDetach()
+				? Window.getClientWidth()
+				: app.getWidth();
+
 	}
 
 	/**

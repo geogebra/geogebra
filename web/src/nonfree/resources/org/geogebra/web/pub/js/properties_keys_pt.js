@@ -3295,6 +3295,7 @@ __GGB__keysVar["pt"].menu = {
     "html": "P\xe1gina WEB",
     "insert_worksheet": "Incluir Atividade",
     "jpg": "Formato JPG",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",

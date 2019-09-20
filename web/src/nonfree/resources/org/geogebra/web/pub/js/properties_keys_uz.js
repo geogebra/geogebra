@@ -3295,6 +3295,7 @@ __GGB__keysVar["uz"].menu = {
     "html": "Websahifa",
     "insert_worksheet": "Insert Activity",
     "jpg": "JPG Format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Havolani ulashish yoqilgan",
     "list_created": "%0 ro'yxat yaratildi!",

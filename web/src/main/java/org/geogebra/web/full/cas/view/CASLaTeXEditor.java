@@ -3,8 +3,6 @@ package org.geogebra.web.full.cas.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -24,6 +22,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -37,6 +37,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -56,6 +57,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	private Widget dummy;
 	private Canvas canvas;
 	private boolean editAsText;
+	private MathFieldScroller scroller;
 
 	/**
 	 * @param app
@@ -332,7 +334,10 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onCursorMove() {
-		MathFieldW.scrollParent(this, 20);
+		if (scroller == null) {
+			scroller = new MathFieldScroller(this);
+		}
+		scroller.scrollHorizontallyToCursor(20);
 	}
 
 	@Override

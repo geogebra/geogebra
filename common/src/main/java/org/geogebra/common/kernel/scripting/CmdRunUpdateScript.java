@@ -37,7 +37,7 @@ public class CmdRunUpdateScript extends CmdScripting {
 			}
 
 			kernel.getApplication()
-					.dispatchEvent(new Event(EventType.UPDATE, args[0], true));
+					.dispatchEvent(new Event(EventType.UPDATE, args[0]).setAlwaysDispatched(true));
 			return args;
 
 		default:

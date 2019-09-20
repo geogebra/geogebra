@@ -7,7 +7,6 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.debug.Log;
@@ -209,8 +208,7 @@ public class InputSuggestions implements HasSuggestions {
 	}
 
 	private boolean isFallbackCompletitionAllowed() {
-		return app.has(Feature.COMMAND_COMPLETION_FALLBACK)
-				&& "zh".equals(app.getLocalization().getLanguage());
+		return "zh".equals(app.getLocalization().getLanguage());
 	}
 
 	/**

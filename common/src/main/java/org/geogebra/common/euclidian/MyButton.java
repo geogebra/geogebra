@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
 //import java.awt.Color;
@@ -44,7 +43,7 @@ public class MyButton implements Observer {
 	private double textWidth;
 	private GBasicStroke borderStroke;
 	private boolean firstCall = true;
-	private ButtonHighlightArea halo;
+	private final ButtonHighlightArea halo;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -64,9 +63,7 @@ public class MyButton implements Observer {
 		this.y = 20;
 		this.borderStroke = EuclidianStatic.getDefaultStroke();
 		geoButton.setObserver(this);
-		if (view.getApplication().has(Feature.BUTTON_HIGHLIGHTING)) {
-			halo = new ButtonHighlightArea(this);
-		}
+		halo = new ButtonHighlightArea(this);
 	}
 
 	private String getCaption() {
@@ -228,34 +225,14 @@ public class MyButton implements Observer {
 					getHeight() - 1, arcSize, arcSize);
 		}
 
-		if (isSelected() && halo != null) {
+		if (isSelected()) {
 			halo.draw(g, widthCorrection, arcSize);
 		}
+
 		g.setPaint(paint);
 		g.setStroke(borderStroke);
 		g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
-
-		// change border on mouseover
-		if (isSelected() && halo == null) {
-			// default button design
-			if (bg.equals(GColor.WHITE)) {
-				// color for inner border
-				g.setColor(GColor.GRAY);
-				// inner border
-				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) widthCorrection - 3,
-						getHeight() - 3, arcSize, arcSize);
-				// user adjusted design
-			} else {
-				// color for inner border
-				g.setColor(bg.darker());
-				// inner border
-				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) widthCorrection - 3,
-						getHeight() - 3, arcSize, arcSize);
-
-			}
-			// border color
-		}
 
 		// color for outer border: default button design
 		if (bg.equals(GColor.WHITE)) {

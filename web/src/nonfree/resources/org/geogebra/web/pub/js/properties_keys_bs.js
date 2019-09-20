@@ -3295,6 +3295,7 @@ __GGB__keysVar["bs"].menu = {
     "html": "Web-stranica",
     "insert_worksheet": "Ubaci dinami\u010dki radni list",
     "jpg": "JPG format",
+    "linkCopyClipboard": "Link copied to clipboard",
     "linkShareOff": "Link sharing off.",
     "linkShareOn": "Link sharing on.",
     "list_created": "List %0 has been created!",
