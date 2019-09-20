@@ -42,8 +42,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 
-		int baseFontSize = app.getSettings().
-				getFontSettings().getAppFontSize() + 3;
+		int baseFontSize = app.getSettings()
+				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
 	}
@@ -65,7 +65,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private void resetChanges() {
 		boolean wasEditing = geoInputBox.isEditing();
 		this.geoInputBox.setEditing(true);
-		decorator.show();
+		editor.setVisible(true);
 		decorator.update(bounds, geoInputBox);
 		editor.setKeyboardVisibility(true);
 
@@ -94,7 +94,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void hide() {
-		decorator.hide();
+		editor.setVisible(false);
 		onHide();
 	}
 
@@ -129,9 +129,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void onCursorMove() {
-
+	 	// nothing to do.
 	}
-
 
 	@Override
 	public void onUpKeyPressed() {

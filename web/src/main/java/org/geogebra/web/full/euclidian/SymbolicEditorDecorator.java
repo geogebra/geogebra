@@ -11,6 +11,11 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 	private int top;
 	private double fontSize;
 
+	/**
+	 *
+	 * @param editor to decorate.
+	 * @param fontSize to use.
+	 */
 	SymbolicEditorDecorator(MathFieldEditor editor, int fontSize) {
 		super(editor);
 		this.fontSize = fontSize;
@@ -24,8 +29,8 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 	}
 
 	private void updateSize() {
-		int height = mathField.
-				getInputTextArea().getOffsetHeight();
+		int height = mathField
+				.getInputTextArea().getOffsetHeight();
 		double diff = mainHeight - getHeight();
 		setHeight(height - 2 * BORDER_WIDTH);
 		top += diff / 2;
@@ -33,16 +38,13 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 		mainHeight = getHeight();
 	}
 
-	@Override
-	public void show() {
-		editor.removeStyleName("hidden");
-	}
-
-	@Override
-	public void hide() {
-		editor.addStyleName("hidden");
-	}
-
+	/**
+	 * Updates editor bounds, colors amd font size
+	 * according to the geoInputBox
+	 *
+	 * @param bounds to set.
+	 * @param geoInputBox the currently edited geo.
+	 */
 	void update(GRectangle bounds, GeoInputBox geoInputBox) {
 		updateBounds(bounds);
 		setForegroundColor(geoInputBox.getObjectColor());

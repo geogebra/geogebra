@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -123,6 +124,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	public void focus() {
 		mathField.setFocus(true);
 	}
+
 	/**
 	 * Scroll content horizontally if needed.
 	 */
@@ -141,7 +143,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	public Widget asWidget() {
 		return main;
 	}
-
 
 	/**
 	 *
@@ -176,8 +177,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		main.addStyleName(style);
 	}
 
+	public void removeStyleName(String style) {
+		main.removeStyleName(style);
+	}
 
-	public void removeStyleName(String style) {main.removeStyleName(style);}
 	/**
 	 * @return mathFieldW
 	 */
@@ -263,4 +266,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		}
 	}
 
+	public void setVisible(boolean visible) {
+		Dom.toggleClass(main, "hidden", !visible);
+	}
 }

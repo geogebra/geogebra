@@ -768,7 +768,6 @@ public class SelectionManager {
 				view3d.showFocusOn(geo);
 			}
 		}
-
 	}
 
 	private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
@@ -798,10 +797,12 @@ public class SelectionManager {
 	 * move selection from input box
 	 */
 	public void nextFromInputBox() {
-		GeoElement next = selectedGeos.isEmpty()
-				? null :
-				selectedGeos.get(0);
-		checkInputBoxAndFocus(next);
+		if (selectedGeos.isEmpty()) {
+			kernel.getApplication()
+					.getActiveEuclidianView().requestFocus();
+		} else {
+			checkInputBoxAndFocus(selectedGeos.get(0));
+		}
 	}
 
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
