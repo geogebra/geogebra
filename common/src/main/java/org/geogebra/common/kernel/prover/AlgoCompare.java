@@ -231,7 +231,7 @@ public class AlgoCompare extends AlgoElement {
                 "$1 " + Unicode.CENTER_DOT + " " + inp2 +
                         " $2 " + inp1 + " $3 $4 " + Unicode.CENTER_DOT + " " + inp2);
         // Remove "0*inp2 Less" from the beginning (it's trivial)
-        result = result.replaceAll("(^0 " + Unicode.CENTER_DOT + " \\w+ Less )", "");
+        result = result.replaceAll("^0 " + Unicode.CENTER_DOT + " .*? Less ", "");
         // m >= 1/2
         result = result.replaceAll("m >= (.*)",
                 inp1 + " GreaterEqual $1 " + Unicode.CENTER_DOT + " " + inp2);
