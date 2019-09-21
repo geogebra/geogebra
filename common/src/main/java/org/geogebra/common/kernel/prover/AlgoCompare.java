@@ -140,7 +140,7 @@ public class AlgoCompare extends AlgoElement {
         if (inputElement1 instanceof GeoSegment) {
             lhs_var = (processSegment((GeoSegment) inputElement1)).getName();
             if (htmlMode) {
-                inp1 = inputElement1.getLabelTextOrHTML(false);
+                inp1 = inputElement1.getColoredLabel();
             } else {
                 inp1 = inputElement1.getLabelSimple();
             }
@@ -149,7 +149,7 @@ public class AlgoCompare extends AlgoElement {
         if (inputElement2 instanceof GeoSegment) {
             rhs_var = (processSegment((GeoSegment) inputElement2)).getName();
             if (htmlMode) {
-                inp2 = inputElement2.getLabelTextOrHTML(false);
+                inp2 = inputElement2.getColoredLabel();
             } else {
                 inp2 = inputElement2.getLabelSimple();
             }
@@ -162,7 +162,7 @@ public class AlgoCompare extends AlgoElement {
             extraVars.add("w1");
             inp1 = "(";
             if (htmlMode) {
-                inp1 += inputElement1.getDefinitionHTML(false);
+                inp1 += inputElement1.getColoredLabel();
             } else {
                 inp1 += inputElement1.getDefinition(fancyFormat);
             }
@@ -176,7 +176,7 @@ public class AlgoCompare extends AlgoElement {
             extraVars.add("w2");
             inp2 = "(";
             if (htmlMode) {
-                inp2 += inputElement2.getDefinitionHTML(false);
+                inp2 += inputElement2.getColoredLabel();
             } else {
                 inp2 += inputElement2.getDefinition(fancyFormat);
             }
