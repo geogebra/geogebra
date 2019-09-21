@@ -37,6 +37,7 @@ public class AlgoCompare extends AlgoElement {
 
     private GeoElement inputElement1; // input
     private GeoElement inputElement2; // input
+    private boolean htmlMode;
 
     private GeoText outputText; // output
 
@@ -48,10 +49,11 @@ public class AlgoCompare extends AlgoElement {
      * @param inputElement2 the second object
      */
     public AlgoCompare(Construction cons, GeoElement inputElement1,
-                       GeoElement inputElement2) {
+                       GeoElement inputElement2, boolean htmlMode) {
         super(cons);
         this.inputElement1 = inputElement1;
         this.inputElement2 = inputElement2;
+        this.htmlMode = htmlMode;
 
         outputText = new GeoText(cons);
 
@@ -69,8 +71,8 @@ public class AlgoCompare extends AlgoElement {
      * @param inputElement2 the second object
      */
     public AlgoCompare(Construction cons, String label,
-                       GeoElement inputElement1, GeoElement inputElement2) {
-        this(cons, inputElement1, inputElement2);
+                       GeoElement inputElement1, GeoElement inputElement2, boolean htmlMode) {
+        this(cons, inputElement1, inputElement2, htmlMode);
         outputText.setLabel(label);
     }
 
@@ -137,12 +139,20 @@ public class AlgoCompare extends AlgoElement {
 
         if (inputElement1 instanceof GeoSegment) {
             lhs_var = (processSegment((GeoSegment) inputElement1)).getName();
-            inp1 = inputElement1.getLabelTextOrHTML();
+            if (htmlMode) {
+                inp1 = inputElement1.getLabelTextOrHTML(false);
+            } else {
+                inp1 = inputElement1.getLabelSimple();
+            }
         }
 
         if (inputElement2 instanceof GeoSegment) {
             rhs_var = (processSegment((GeoSegment) inputElement2)).getName();
-            inp2 = inputElement2.getLabelTextOrHTML();
+            if (htmlMode) {
+                inp2 = inputElement2.getLabelTextOrHTML(false);
+            } else {
+                inp2 = inputElement2.getLabelSimple();
+            }
         }
 
         if (inputElement1 instanceof GeoNumeric) {
@@ -150,7 +160,13 @@ public class AlgoCompare extends AlgoElement {
             lhs_var = "w1";
             extraPolys.add("-w1+" + rewrite(inputElement1.getDefinition(portableFormat)));
             extraVars.add("w1");
-            inp1 = "(" + inputElement1.getDefinition(fancyFormat) + ")";
+            inp1 = "(";
+            if (htmlMode) {
+                inp1 += inputElement1.getDefinitionHTML(false);
+            } else {
+                inp1 += inputElement1.getDefinition(fancyFormat);
+            }
+            inp1 += ")";
         }
 
         if (inputElement2 instanceof GeoNumeric) {
@@ -158,7 +174,13 @@ public class AlgoCompare extends AlgoElement {
             rhs_var = "w2";
             extraPolys.add("-w2+" + rewrite(inputElement2.getDefinition(portableFormat)));
             extraVars.add("w2");
-            inp2 = "(" + inputElement2.getDefinition(fancyFormat) + ")";
+            inp2 = "(";
+            if (htmlMode) {
+                inp2 += inputElement2.getDefinitionHTML(false);
+            } else {
+                inp2 += inputElement2.getDefinition(fancyFormat);
+            }
+            inp2 += ")";
         }
 
         String rgCommand = "euclideansolver";
@@ -223,9 +245,17 @@ public class AlgoCompare extends AlgoElement {
         result = result.replaceAll("(\\s)1 " + Unicode.CENTER_DOT + " ", "$1");
         // Use math symbols instead of Mathematica notation
         result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
-        result = result.replace("Less", "<");
+        String repl = "<";
+        if (htmlMode) {
+            repl = "&lt;";
+        }
+        result = result.replace("Less", repl);
         result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
-        result = result.replace("Greater", ">");
+        repl = ">";
+        if (htmlMode) {
+            repl = "&gt;";
+        }
+        result = result.replace("Greater", repl);
         // result = result.replace("==", "=");
         result = result.replace("&& m > 0", "");
         result = result.replace("m > 0", "");

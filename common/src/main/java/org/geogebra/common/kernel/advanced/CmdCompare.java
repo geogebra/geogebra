@@ -27,7 +27,7 @@ public class CmdCompare extends CommandProcessor {
         if (n == 2) {
 
             AlgoCompare algo = new AlgoCompare(cons, c.getLabel(), arg[0],
-                    arg[1]);
+                    arg[1], false);
 
             GeoElement[] ret = {algo.getResult()};
             return ret;
