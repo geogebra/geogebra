@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.Panel;
  *
  * @author Zbynek
  */
-public abstract class MediaDialog extends OptionDialog implements MediaToolCallback, ErrorHandler {
+public abstract class MediaDialog extends OptionDialog implements ErrorHandler {
 	/** http prefix */
 	private static final String HTTP = "http://";
 	/** https prefix */
@@ -309,8 +309,7 @@ public abstract class MediaDialog extends OptionDialog implements MediaToolCallb
 		return false;
 	}
 
-	@Override
-	public void onMediaElementCreated(GeoElement geoElement) {
+	protected void onMediaElementCreated(GeoElement geoElement) {
 		getApplication().getActiveEuclidianView()
 				.getEuclidianController().selectAndShowBoundingBox(geoElement);
 	}
