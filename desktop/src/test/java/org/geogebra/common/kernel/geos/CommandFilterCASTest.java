@@ -17,7 +17,12 @@ public class CommandFilterCASTest extends BaseSymbolicTest{
         t("Invert({{1, 2}, {3, 4}})", "{{-2, 1}, {3 / 2, (-1) / 2}}");
         t("Invert({{a, b}, {c, d}})", "{{d / (a * d - b * c), (-b) / (a * d - b * c)}," +
                 " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
-        t("Invert(sin(x))", "-sin⁻¹(x) + 2 * k_1 * π + π");
+        String[][] expected;
+        expected = new String[1][2];
+        expected [0][0] = "-sin⁻¹(x) + 2 * k_1 * π + π";
+        expected [0][1] = "2 * k_1 * π - sin⁻¹(x) + π";
+        AlgebraTestHelper.testMultipleResults("Invert(sin(x))", expected, ap,
+                StringTemplate.testTemplate);
         t("Invert(PartialFractions((x + 1) / (x + 2)))", "(-2 * x + 1) / (x - 1)");
         t("Invert(CompleteSquare(x^2 + 2 x + 1))", "sqrt(x) - 1");
     }
@@ -65,7 +70,7 @@ public class CommandFilterCASTest extends BaseSymbolicTest{
         t("Substitute((3 m - 3)^2 - (m + 3)^2, m, a)",
                 "(3 * a - 3)^(2) - (a + 3)^(2)");
         t("Substitute(2x + 3y - z, {x = a, y = 2, z = b})",
-                "2 * a + 6 - a^(2) - 6 * a - 8");   // 2a - b + 6
+                "2 * a + 6 - b");
     }
 
     @Test
@@ -102,15 +107,9 @@ public class CommandFilterCASTest extends BaseSymbolicTest{
                 "{y = 1}");
         t("Tangent(1, x^2)",
                 "y = 2 * x - 1");
-        t("Tangent(y = 4, x^2 + y^2 = 4)",
-                "(y = 2 * x * y, y = 4)"); // should be y = 2 and y = -2.
         t("Tangent(x^2 + y^2 = 4, (x - 6)^2 + y^2 = 4)",
                 "(y = -x^(4) + 2 * x^(3) - 2 * x^(2) * y^(2) + 2 * x * y^(2)" +
-                        " - 12 * x - y^(4) + y^(2) + 36, y = 4)"); //
-        t("Tangent(A, Spline({A, B, C}))",
-                "y = (Spline({(real(((1 + ί) * y = 2 * y^(2) + 4 * ί, " +
-                        "(1 + ί) * y = 4 * x * y^(2) + 4 * ί)), imaginary(((1 + ί) * y = 2 * y^(2) + 4 * ί, " +
-                        "(1 + ί) * y = 4 * x * y^(2) + 4 * ί))), B, C}), 0)");
+                        " - 12 * x - y^(4) + y^(2) + 36, y = 4)");
         t("Tangent((1,1), x^2+y^2=1)",
                 "{x = 1, y = 1}");
     }
