@@ -1403,8 +1403,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
-		app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
-				.setJsonArgument(getCoordinates()));
 	}
 
     /**
