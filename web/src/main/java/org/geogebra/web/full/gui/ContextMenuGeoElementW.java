@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -648,10 +647,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 				@Override
 				public void execute() {
-					ArrayList<GeoElement> geoArray = new ArrayList<>();
-					geoArray.add(geo);
-					EuclidianStyleBarStatic.applyFixObject(geoArray,
-							!geo.isLocked(), app.getActiveEuclidianView());
+					fixObjectCmd();
 					cmItem.setChecked(geo.isLocked());
 				}
 			};
