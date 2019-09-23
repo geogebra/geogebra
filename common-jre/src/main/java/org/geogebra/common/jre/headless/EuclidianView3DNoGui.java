@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 public class EuclidianView3DNoGui extends EuclidianView3D {
@@ -136,18 +135,6 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 	protected CoordSystemAnimation newZoomer() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void add(GBox box) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void remove(GBox box) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

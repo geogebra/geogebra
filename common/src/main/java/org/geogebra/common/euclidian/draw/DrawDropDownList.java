@@ -1037,7 +1037,8 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			drawOnCanvas(g2, "");
+			setLabelFont("");
+			drawOnCanvas(g2);
 		}
 	}
 

@@ -50,12 +50,6 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return null;
 	}
 
-	@Override
-	public void onEnter(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * @return math input field
 	 */

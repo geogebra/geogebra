@@ -18,7 +18,6 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -140,8 +139,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private static RegExp syntaxArgPattern = RegExp
 			.compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
-	private int actualFontSize = 14;
-
 	private DummyCursor dummyCursor;
 
     private boolean rightAltDown;
@@ -177,6 +174,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            app
 	 * @param drawTextField
 	 *            associated input box
+	 * @param showSymbolButton
+	 *            whether to show alpha button
 	 */
 	public AutoCompleteTextFieldW(int columns, App app,
 			Drawable drawTextField, boolean showSymbolButton) {
@@ -196,6 +195,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            key handler
 	 * @param forCAS
 	 *            whether to use CAS autocompletion
+	 * @param showSymbolButton
+	 *            whether to show alpha button
 	 */
 	public AutoCompleteTextFieldW(int columns, final AppW app,
 			boolean handleEscapeKey, KeyEventsHandler keyHandler,
@@ -270,7 +271,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				Event.ONMOUSEMOVE | Event.ONMOUSEUP | Event.TOUCHEVENTS);
 		Browser.setAllowContextMenu(textField.getValueBox().getElement(), true);
 		if (columns > 0) {
-			setColumns(columns);
+			setWidthInEm(columns);
 		}
 
 		textField.addStyleName("TextField");
@@ -329,29 +330,36 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		showSymbolButton.setText(Unicode.alpha + "");
 		showSymbolButton.addStyleName("SymbolToggleButton");
 
-		ClickStartHandler.init(showSymbolButton, new ClickStartHandler(false, true) {
+		ClickStartHandler.init(showSymbolButton,
+				new ClickStartHandler(false, true) {
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// unfortunate repetition to make it work in all major browsers
-				app.getActiveEuclidianView().getBoxForTextField().setVisible(true);
-				setFocus(true);
-
-				if (tablePopup != null && tablePopup.isShowing()) {
-					hideTablePopup();
-				} else {
-					showTablePopup();
-				}
-
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 					@Override
-					public void execute() {
-						app.getActiveEuclidianView().getBoxForTextField().setVisible(true);
+					public void onClickStart(int x, int y,
+							PointerEventType type) {
+						// unfortunate repetition to make it work in all major
+						// browsers
+						app.getActiveEuclidianView().getViewTextField()
+								.setBoxVisible(true);
 						setFocus(true);
-					}
+
+						if (tablePopup != null && tablePopup.isShowing()) {
+							hideTablePopup();
+						} else {
+							showTablePopup();
+						}
+
+						Scheduler.get().scheduleDeferred(
+								new Scheduler.ScheduledCommand() {
+									@Override
+									public void execute() {
+										app.getActiveEuclidianView()
+												.getViewTextField()
+												.setBoxVisible(true);
+										setFocus(true);
+									}
+								});
+				}
 				});
-			}
-		});
 
 		add(showSymbolButton);
 	}
@@ -515,18 +523,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void enableColoring(boolean b) {
-		//
-	}
-
-	@Override
-	public void setOpaque(boolean b) {
-		//
-	}
-
-	@Override
 	public void setFont(GFont font) {
-		actualFontSize = font.getSize();
 		Dom.setImportant(textField.getElement().getStyle(), "font-size",
 				font.getSize() + "px");
 
@@ -551,11 +548,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void setFocusable(boolean b) {
-		//
-	}
-
-	@Override
 	public void setEditable(boolean b) {
 		textField.setEnabled(b);
 	}
@@ -566,72 +558,22 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		getTextBox().setHeight(height + "px");
 	}
 
-	@Override
-	public void setColumns(int columns) {
+	/**
+	 * Roughly the same as setColumns in Desktop. It's OK to use for inputs in
+	 * the UI (spreadsheet), but input boxes in Graphics View should use
+	 * {@link #setPrefSize(int, int)} instead.
+	 * 
+	 * @param emWidth
+	 *            width (in number of characters)
+	 */
+	public void setWidthInEm(int emWidth) {
 		if (showSymbolButton != null
-				&& (columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
-						|| columns == -1)) {
+				&& (emWidth > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
+						|| emWidth == -1)) {
 			prepareShowSymbolButton(true);
 		}
 
-		if (this.drawTextField != null) {
-			// only use the correct code for members of the EuclidianView
-
-			int columnWidth;
-			switch (actualFontSize) {
-			case 7:
-				columnWidth = 6;
-				break;
-			case 9:
-				columnWidth = 8;
-				break;
-			case 14:
-				columnWidth = 11;
-				break;
-			case 18:
-				columnWidth = 15;
-				break; // 18:15:educated guess
-			case 19:
-				columnWidth = 16;
-				break;
-			case 28:
-				columnWidth = 24;
-				break;
-			case 56:
-				columnWidth = 47;
-				break;
-			case 112:
-				columnWidth = 95;
-				break;
-			// more precise for FitLine+FitLineX, but unreal
-			// default: columnWidth = (int) Math.floor(0.83265 * actualFontSize
-			// + 0.4615); break;
-			// default: columnWidth = (int) Math.round(0.832 * actualFontSize);
-			// break;
-			// 20 length * 18 fontSize * 0.002 difference gives just less than 1
-			// pixel anyway
-			default:
-				columnWidth = (int) Math.round(0.83 * actualFontSize);
-				break;
-			}
-
-			// this is a way to emulate how Java does it in Desktop version,
-			// but columnWidth is not always exact (+-1)
-			getTextBox().setWidth((columns * columnWidth + 5) + "px");
-			// the number 5 comes from experimental testing for small textfields
-			// (e.g. columns=1)
-			// of course, this is not the most perfect, but at least works...
-			// due to Greek letters popup, length should be lessened somewhere
-			// else
-
-		} else {
-			// GeoGebra GUI (non-GGB GUI) can still use the old code,
-			// for compatibility reasons, e.g. Spreadsheet View
-
-			// as the following solution was wrong, since em means vertical
-			// height:
-			getTextBox().setWidth(columns + "em");
-		}
+		getTextBox().setWidth(emWidth + "em");
 	}
 
 	private String getCurrentWord() {
@@ -1545,11 +1487,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void setFocusTraversalKeysEnabled(boolean b) {
-		// Dummy method
-	}
-
-	@Override
 	public boolean hasFocus() {
 		return false;
 	}
@@ -1708,8 +1645,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
-		drawBounds(g2, bgColor, ((int) bounds.getX()), ((int) bounds.getY()),
-				((int) bounds.getWidth()), ((int) bounds.getHeight()));
+		drawBounds(g2, bgColor, (int) bounds.getX(), (int) bounds.getY(),
+				(int) bounds.getWidth(), (int) bounds.getHeight());
 	}
 
 	@Override
@@ -1724,21 +1661,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void hideDeferred(GBox box) {
-		// only needed in desktop
-	}
-
-	@Override
 	public void autocomplete(String s) {
 		getTextField().setText(s);
 		ArrayList<String> arr = new ArrayList<>();
 		arr.add(s);
 		validateAutoCompletion(0, arr);
-	}
-
-	@Override
-	public void onEnter(boolean b) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

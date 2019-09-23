@@ -235,35 +235,6 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
-	public void redefinitionInInputBoxShouldKeepType() {
-		t("v=(1, 3)", "(1, 3)");
-		t("ib=InputBox(v)", "(1, 3)");
-		t("Rename(v,\"V\")", new String[0]);
-		t("SetValue(ib,\"(1, 5)\")", new String[0]);
-		t("V", "(1, 5)");
-		hasType("V", GeoClass.VECTOR);
-
-		t("v3=(1, 3, 0)", "(1, 3, 0)");
-		t("ib3=InputBox(v3)", "(1, 3, 0)");
-		t("SetValue(ib3,\"(1, 5)\")", new String[0]);
-		t("v3", "(1, 5)");
-		hasType("v3", GeoClass.VECTOR);
-
-		t("p:x+y=z", "x + y - z = 0");
-		t("ibP=InputBox(p)", "x + y - z = 0");
-		t("SetValue(ibP,\"x = y\")", new String[0]);
-		t("p", "x - y = 0");
-		hasType("p", GeoClass.PLANE3D);
-
-		t("n:4", "4");
-		t("ibN=InputBox(n)", "4");
-		app.storeUndoInfo();
-		t("SetValue(ibP,\"y\")", new String[0]);
-		t("n", "4");
-		hasType("n", GeoClass.NUMERIC);
-	}
-
-	@Test
 	public void pointOnFnShouldNotStayUndefined() {
 		t("a=1", "1");
 		t("f=axx", "x^(2)");

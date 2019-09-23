@@ -53,7 +53,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 
-		item.onEnter(false);
+		onEnter(false, false);
 		if (item.isEmpty() && item.isInputTreeItem()) {
 			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());
@@ -69,12 +69,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return item.isInputTreeItem();
 	}
 
-	/**
-	 * @param keepFocus
-	 *            whether focus should stay
-	 * @param createSliders
-	 *            whether to create sliders
-	 */
+	@Override
 	public void onEnter(final boolean keepFocus, boolean createSliders) {
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);

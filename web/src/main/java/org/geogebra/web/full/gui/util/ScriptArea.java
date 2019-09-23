@@ -190,11 +190,6 @@ public class ScriptArea extends TextArea
 	}
 
 	@Override
-	public void onEnter(boolean b) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public boolean needsAutofocus() {
 		// TODO Auto-generated method stub
 		return false;
