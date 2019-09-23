@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -1050,12 +1051,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 			int width, int height) {
 
 		g2.setPaint(bgColor);
-		g2.fillRect(left - 1, top - 1, width - 1, height - 4);
+		g2.fillRect(left - 1, top - 1, width - 1, height - 2);
 
 		// TF Rectangle
 		g2.setPaint(GColor.LIGHT_GRAY);
 
-		g2.drawRect(left - 1, top - 1, width - 1, height - 4);
+		g2.drawRect(left - 1, top - 1, width - 1, height - 2);
 
 	}
 
@@ -1099,6 +1100,18 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
-		// empty
+		this.setHorizontalAlignment(toSwingAlignment(alignment));
+	}
+
+	private static int toSwingAlignment(TextAlignment alignment) {
+		switch (alignment) {
+		case LEFT:
+		default:
+			return SwingConstants.LEFT;
+		case CENTER:
+			return SwingConstants.CENTER;
+		case RIGHT:
+			return SwingConstants.RIGHT;
+		}
 	}
 }
