@@ -25,7 +25,6 @@ public class DrawEquationCommon extends DrawEquation {
 
 	public Image getCachedDimensions(String text, GeoElementND geo,
 			Color fgColor, GFont font, int style, int[] ret) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
