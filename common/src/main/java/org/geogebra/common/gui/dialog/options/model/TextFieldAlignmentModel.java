@@ -1,12 +1,12 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Model for setting text field alignment.
@@ -34,6 +34,7 @@ public class TextFieldAlignmentModel extends MultipleOptionsModel {
 		GeoInputBox inputBox = (GeoInputBox) getGeoAt(index);
 		TextAlignment alignment = TextAlignment.values()[value];
 		inputBox.setAlignment(alignment);
+		inputBox.updateRepaint();
 	}
 
 	@Override

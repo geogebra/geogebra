@@ -47,9 +47,9 @@ import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1117,13 +1117,7 @@ public class ConsElementXMLHandler {
 		String align = attrs.get("val");
 
 		if (geo instanceof HasAlignment) {
-			if ("right".equals(align)) {
-				((HasAlignment) geo).setAlignment(TextAlignment.RIGHT);
-			} else if ("center".equals(align)) {
-				((HasAlignment) geo).setAlignment(TextAlignment.CENTER);
-			} else {
-				((HasAlignment) geo).setAlignment(TextAlignment.LEFT);
-			}
+			((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
 		} else {
 			Log.error("Text alignment not supported for " + geo.getGeoClassType());
 		}
