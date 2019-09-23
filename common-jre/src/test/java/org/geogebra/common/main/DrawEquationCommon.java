@@ -20,7 +20,6 @@ public class DrawEquationCommon extends DrawEquation {
 			int x, int y, String text, GFont font, boolean serif,
 			GColor fgColor, GColor bgColor, boolean useCache,
 			boolean updateAgain, Runnable callback) {
-		// TODO Auto-generated method stub
 		return AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
