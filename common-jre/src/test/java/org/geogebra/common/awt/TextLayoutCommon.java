@@ -1,6 +1,7 @@
 package org.geogebra.common.awt;
 
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 
 public class TextLayoutCommon implements GTextLayout {
 
@@ -10,8 +11,7 @@ public class TextLayoutCommon implements GTextLayout {
 	}
 
 	public GRectangle2D getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Rectangle(0, 0, 1, 1);
 	}
 
 	public double getAscent() {

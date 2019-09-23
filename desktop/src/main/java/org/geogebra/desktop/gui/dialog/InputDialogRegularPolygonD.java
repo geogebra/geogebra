@@ -85,7 +85,7 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!wrappedDialog.isModal()) {
-			app.setCurrentSelectionListener(null);
+			app.resetCurrentSelectionListener();
 		}
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
