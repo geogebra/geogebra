@@ -37,13 +37,11 @@ public class DrawEquationCommon extends DrawEquation {
 	}
 
 	public Color convertColor(GColor color) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public GDimension measureEquation(App app, GeoElement geo0, String text,
 			GFont font, boolean serif) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
