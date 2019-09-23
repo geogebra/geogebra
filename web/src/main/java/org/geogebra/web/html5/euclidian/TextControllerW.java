@@ -40,7 +40,7 @@ public class TextControllerW
 	private AppW app;
 
 	/** GeoText to edit */
-	GeoText text;
+	private GeoText text;
 	private GeoText lastText;
 
 	/**
@@ -114,22 +114,15 @@ public class TextControllerW
 
 	@Override
 	public GeoText createText(GeoPointND loc) {
-		if (loc == null) {
-			return null;
-		}
 		GeoText t = app.getKernel().getAlgebraProcessor().text("");
-		app.getSelectionManager().addSelectedGeo(t);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);
 		// always use RW coords, ignore rw argument
 		Coords coords = loc.getInhomCoordsInD3();
 		t.setRealWorldLoc(getView().toRealWorldCoordX(coords.getX()),
 				getView().toRealWorldCoordY(coords.getY()));
-		t.setAbsoluteScreenLocActive(false);
 		t.setLabel(null);
 		edit(t, true);
-		app.getKernel().notifyRepaint();
-		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		return t;
 	}
 
@@ -172,11 +165,12 @@ public class TextControllerW
 	/**
 	 * Update bounding box and repaint.
 	 */
-	void doUpdateBoundingBox() {
+	private void doUpdateBoundingBox() {
 		DrawText d = getDrawText(text);
 		if (d != null) {
 			d.adjustBoundingBoxToText(getEditorBounds());
 			getView().setBoundingBox(d.getBoundingBox());
+			getView().getEuclidianController().selectAndShowBoundingBox(text);
 		}
 		getView().repaint();
 	}

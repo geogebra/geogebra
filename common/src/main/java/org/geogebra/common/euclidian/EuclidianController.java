@@ -3502,15 +3502,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// got location
-		if (app.has(Feature.MOW_TEXT_TOOL)) {
+		if (loc != null && app.has(Feature.MOW_TEXT_TOOL)) {
 			if (wasBoundingBoxHit) {
 				return false;
 			}
 
 			GeoText t = getTextController().createText(loc);
-			if (t != null) {
-				memorizeJustCreatedGeos(t.asArray());
-			}
+			memorizeJustCreatedGeos(t.asArray());
+
 			if (textRectangleShape != null) {
 				if (customSize) {
 					getTextController().resizeEditor(
@@ -12943,5 +12942,4 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setBoundingBoxForGeo(geoElement);
 		showDynamicStylebar();
 	}
-
 }
