@@ -404,10 +404,11 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		if (geo.getKernel().getApplication().isWhiteboardActive()) {
+		if (view.getApplication().isWhiteboardActive()) {
 			if (boundingBox == null) {
 				boundingBox = createBoundingBox(false, false);
 			}
+			boundingBox.updateFrom(geo);
 			return boundingBox;
 		}
 		return null;

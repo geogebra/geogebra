@@ -12,9 +12,11 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * bounding box construction for selected elements
@@ -30,6 +32,8 @@ public class BoundingBox {
 	private boolean isCropBox = false;
 	private boolean isImage = false;
 	private GColor color;
+	private boolean fixed;
+
 	private static final int ROTATION_HANDLER_DISTANCE = 25;
 	/**
 	 * size of handler
@@ -241,86 +245,48 @@ public class BoundingBox {
 			cropHandlers.get(3).lineTo(rectangle.getMaxX() - 10,
 					rectangle.getY());
 			// side handlers
-			cropHandlers.get(4).moveTo(
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2 - 5,
-					rectangle.getMinY());
-			cropHandlers.get(4).lineTo(
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
-					rectangle.getMinY());
-			cropHandlers.get(5).moveTo(rectangle.getMinX(),
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 - 5);
-			cropHandlers.get(5).lineTo(rectangle.getMinX(),
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
-			cropHandlers.get(6).moveTo(
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2 - 5,
-					rectangle.getMaxY());
-			cropHandlers.get(6).lineTo(
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
-					rectangle.getMaxY());
-			cropHandlers.get(7).moveTo(rectangle.getMaxX(),
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 - 5);
-			cropHandlers.get(7).lineTo(rectangle.getMaxX(),
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
+			double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
+			double centerY = (rectangle.getMinY() + rectangle.getMaxY()) / 2;
+			cropHandlers.get(4).moveTo(centerX - 5, rectangle.getMinY());
+			cropHandlers.get(4).lineTo(centerX + 5, rectangle.getMinY());
+			cropHandlers.get(5).moveTo(rectangle.getMinX(), centerY - 5);
+			cropHandlers.get(5).lineTo(rectangle.getMinX(), centerY + 5);
+			cropHandlers.get(6).moveTo(centerX - 5, rectangle.getMaxY());
+			cropHandlers.get(6).lineTo(centerX + 5, rectangle.getMaxY());
+			cropHandlers.get(7).moveTo(rectangle.getMaxX(), centerY - 5);
+			cropHandlers.get(7).lineTo(rectangle.getMaxX(), centerY + 5);
 		}
 	}
 
 	private void createBoundingBoxHandlers() {
 		if (nrHandlers == 8 || nrHandlers == 9) {
 			// corner handlers
-			handlers.get(0).setFrameFromCenter(rectangle.getX(),
-					rectangle.getY(),
-					rectangle.getX() + HANDLER_RADIUS,
-					rectangle.getY() + HANDLER_RADIUS);
-			handlers.get(1).setFrameFromCenter(rectangle.getX(),
-					rectangle.getMaxY(), rectangle.getX() + HANDLER_RADIUS,
-					rectangle.getMaxY() + HANDLER_RADIUS);
-			handlers.get(2).setFrameFromCenter(
-				rectangle.getMaxX(), rectangle.getMaxY(),
-					rectangle.getMaxX() + HANDLER_RADIUS,
-					rectangle.getMaxY() + HANDLER_RADIUS);
-			handlers.get(3).setFrameFromCenter(
-					rectangle.getMaxX(), rectangle.getY(),
-					rectangle.getMaxX() + HANDLER_RADIUS,
-					rectangle.getY() + HANDLER_RADIUS);
+			setHandlerFromCenter(0, rectangle.getX(), rectangle.getY());
+			setHandlerFromCenter(1, rectangle.getX(), rectangle.getMaxY());
+			setHandlerFromCenter(2, rectangle.getMaxX(), rectangle.getMaxY());
+			setHandlerFromCenter(3, rectangle.getMaxX(), rectangle.getY());
 
 			// side handlers
+			double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
+			double centerY = (rectangle.getMinY() + rectangle.getMaxY()) / 2;
 			// top
-			handlers.get(4).setFrameFromCenter(
-				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-				rectangle.getMinY(),
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2
-							+ HANDLER_RADIUS,
-					rectangle.getMinY() + HANDLER_RADIUS);
+			setHandlerFromCenter(4, centerX, rectangle.getMinY());
 			// left
-			handlers.get(5).setFrameFromCenter(rectangle.getMinX(),
-				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
-					rectangle.getMinX() + HANDLER_RADIUS,
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2
-							+ HANDLER_RADIUS);
+			setHandlerFromCenter(5, rectangle.getMinX(), centerY);
 			// bottom
-			handlers.get(6).setFrameFromCenter(
-				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-				rectangle.getMaxY(),
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2
-							+ HANDLER_RADIUS,
-					rectangle.getMaxY() + HANDLER_RADIUS);
+			setHandlerFromCenter(6, centerX, rectangle.getMaxY());
 			// right
-			handlers.get(7).setFrameFromCenter(rectangle.getMaxX(),
-				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
-					rectangle.getMaxX() + HANDLER_RADIUS,
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2
-							+ HANDLER_RADIUS);
+			setHandlerFromCenter(7, rectangle.getMaxX(), centerY);
 			if (nrHandlers == 9) {
 				// rotation handler
-				handlers.get(8).setFrameFromCenter(
-						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE,
-						(rectangle.getMinX() + rectangle.getMaxX()) / 2
-								+ HANDLER_RADIUS,
-						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE
-								- HANDLER_RADIUS);
+				setHandlerFromCenter(8, centerX,
+						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
 			}
 		}
+	}
+
+	private void setHandlerFromCenter(int i, double x, double y) {
+		handlers.get(i).setFrameFromCenter(x, y, x + HANDLER_RADIUS, y + HANDLER_RADIUS);
 	}
 
 	/**
@@ -351,7 +317,7 @@ public class BoundingBox {
 				g2.draw(line);
 			}
 
-			for (int i = 0; i < /* = */nrHandlers; i++) {
+			for (int i = 0; i < nrHandlers; i++) {
 				g2.setPaint(color);
 				g2.fill(handlers.get(i));
 				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
@@ -405,15 +371,13 @@ public class BoundingBox {
 	 */
 	public int hitHandlers(int x, int y, int hitThreshold) {
 		int index = -1;
+		if (fixed) {
+			return -1;
+		}
 		if (!handlers.isEmpty() && !isCropBox) {
 			for (int i = 0; i < handlers.size(); i++) {
 				GEllipse2DDouble point = handlers.get(i);
-				int r = getSelectionThreshold(hitThreshold);
-				double dx = point.getBounds().getX()
-						+ point.getBounds().getWidth() / 2 - x;
-				double dy = point.getBounds().getY()
-						+ point.getBounds().getHeight() / 2 - y;
-				if (dx < r && dx > -r && dx * dx + dy * dy <= r * r) {
+				if (hit(point, x, y, hitThreshold)) {
 					return i;
 				}
 			}
@@ -421,17 +385,20 @@ public class BoundingBox {
 		if (cropHandlers != null && !cropHandlers.isEmpty() && isCropBox) {
 			for (int i = 0; i < cropHandlers.size(); i++) {
 				GGeneralPath cropHandler = cropHandlers.get(i);
-				int r = getSelectionThreshold(hitThreshold);
-				double dx = cropHandler.getBounds().getX()
-						+ cropHandler.getBounds().getWidth() / 2 - x;
-				double dy = cropHandler.getBounds().getY()
-						+ cropHandler.getBounds().getHeight() / 2 - y;
-				if (dx < r && dx > -r && dx * dx + dy * dy <= r * r) {
+				if (hit(cropHandler, x, y, hitThreshold)) {
 					return i;
 				}
 			}
 		}
 		return index;
+	}
+
+	private static boolean hit(GShape shape, int x, int y, int hitThreshold) {
+		GRectangle bounds = shape.getBounds();
+		int r = getSelectionThreshold(hitThreshold);
+		double dx = bounds.getX() + bounds.getWidth() / 2 - x;
+		double dy = bounds.getY() + bounds.getHeight() / 2 - y;
+		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
 	}
 
 	/**
@@ -703,5 +670,21 @@ public class BoundingBox {
 				&& getRectangle().intersects(hitX - hitThreshold,
 				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
 				&& hitSideOfBoundingBox(hitX, hitY, hitThreshold);
+	}
+
+	/**
+	 * @param geo
+	 *            selected element
+	 */
+	public void updateFrom(GeoElement geo) {
+		fixed = geo.isLocked();
+	}
+
+	/**
+	 * @param fixed
+	 *            whether the box is fixed
+	 */
+	public void setFixed(boolean fixed) {
+		this.fixed = fixed;
 	}
 }

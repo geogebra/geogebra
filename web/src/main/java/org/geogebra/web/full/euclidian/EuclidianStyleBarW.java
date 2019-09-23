@@ -53,7 +53,6 @@ import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -571,27 +570,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 			}
 			addDeleteButton();
 		}
-
-		if (app.isUnbundledOrWhiteboard() && hasActiveGeos()
-				&& isContextMenuNeeded()) {
+		if (app.isUnbundledOrWhiteboard() && hasActiveGeos()) {
 			addContextMenuButton();
 		}
-	}
-
-	/**
-	 * @return true if geo needs a 3-dot button.
-	 */
-	protected boolean isContextMenuNeeded() {
-		if (!ev.getEuclidianController().getAppSelectedGeos().isEmpty()
-				&& (getFirstGeo().isGeoAudio() || getFirstGeo().isGeoVideo()
-						|| getFirstGeo() instanceof GeoEmbed)) {
-			this.addStyleName("noContextBtn");
-			if (Browser.isIPad()) {
-				btnDelete.addStyleName("delete");
-			}
-			return false;
-		}
-		return true;
 	}
 
 	private GeoElementND getFirstGeo() {

@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
@@ -457,6 +458,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (boundingBox == null) {
 			boundingBox = createBoundingBox(false, true);
 		}
+		boundingBox.updateFrom(geo);
 		return boundingBox;
 	}
 
@@ -584,17 +586,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
+		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
 		if (Double.isNaN(fixCornerX)) {
 			switch (hitHandler) {
 			case BOTTOM_LEFT:
 			case TOP_LEFT:
 			case LEFT:
-				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				fixCornerX = boundingBoxRectangle.getMaxX();
 				break;
 			case TOP_RIGHT:
 			case BOTTOM_RIGHT:
 			case RIGHT:
-				fixCornerX = getBoundingBox().getRectangle().getMinX();
+				fixCornerX = boundingBoxRectangle.getMinX();
 				break;
 			default:
 				break;
@@ -605,26 +608,26 @@ public class DrawPolygon extends Drawable implements Previewable {
 			case TOP_LEFT:
 			case TOP_RIGHT:
 			case TOP:
-				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				fixCornerY = boundingBoxRectangle.getMaxY();
 				break;
 			case BOTTOM_LEFT:
 			case BOTTOM_RIGHT:
 			case BOTTOM:
-				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				fixCornerY = boundingBoxRectangle.getMinY();
 				break;
 			default:
 				break;
 			}
 		}
 		if (Double.isNaN(proportion)) {
-			proportion = getBoundingBox().getRectangle().getWidth()
-					/ getBoundingBox().getRectangle().getHeight();
+			proportion = boundingBoxRectangle.getWidth()
+					/ boundingBoxRectangle.getHeight();
 		}
 		if (Double.isNaN(oldWidth)) {
-			oldWidth = getBoundingBox().getRectangle().getWidth();
+			oldWidth = boundingBoxRectangle.getWidth();
 		}
 		if (Double.isNaN(oldHeight)) {
-			oldHeight = getBoundingBox().getRectangle().getHeight();
+			oldHeight = boundingBoxRectangle.getHeight();
 		}
 	}
 

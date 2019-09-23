@@ -137,11 +137,14 @@ public class DrawVideo extends Drawable implements DrawWidget {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(false, false);
-			setMetrics();
+		if (video.isBackground()) {
+			if (boundingBox == null) {
+				boundingBox = createBoundingBox(false, false);
+				setMetrics();
+			}
+			boundingBox.updateFrom(geo);
 		}
-		return video.isBackground() ? boundingBox : null;
+		return null;
 	}
 
 	private void updateOriginalRatio() {

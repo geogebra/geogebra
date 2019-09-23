@@ -366,6 +366,7 @@ public final class DrawText extends Drawable {
 				boundingBox = createBoundingBox(false, false);
 				boundingBox.setRectangle(getBounds());
 			}
+			boundingBox.updateFrom(geo);
 			return boundingBox;
 		}
 		return null;
