@@ -49,7 +49,7 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 		updateBounds(bounds);
 		setForegroundColor(geoInputBox.getObjectColor());
 		setBackgroundColor(geoInputBox.getBackgroundColor());
-		editor.setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+		setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 
 	}
 
