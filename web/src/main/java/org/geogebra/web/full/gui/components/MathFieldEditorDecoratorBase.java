@@ -8,7 +8,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 
 public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDecorator {
 	protected static final int PADDING_LEFT = 2;
-	protected final MathFieldEditor editor;
+	private final MathFieldEditor editor;
 	protected final MathFieldW mathField;
 	private final Style style;
 
