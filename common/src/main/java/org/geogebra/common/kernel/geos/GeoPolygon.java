@@ -18,6 +18,8 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -25,8 +27,6 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAnglePolygon;
 import org.geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -123,6 +124,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private TreeSet<GeoElement> metas;
 	private boolean reverseNormalForDrawing = false;
 	private PolygonTriangulation pt;
+	private boolean isMask = false;
 
 	/**
 	 * common constructor for 2D.
@@ -2011,8 +2013,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		getScriptTags(sb);
+		getMaskXML(sb);
 	}
 
+	private void getMaskXML(final StringBuilder sb) {
+		if (!isMask) {
+			return;
+		}
+
+		sb.append("\t<isMask val=\"true\"/>\n");
+	}
 	/**
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)
@@ -2705,6 +2715,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return isShape;
 	}
 
+	@Override
+	public boolean isMask() {
+		return isMask;
+	}
+
 	/**
 	 * @param isShape
 	 *            - true, if geo was created with shape tool
@@ -2712,6 +2727,24 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
+	}
+
+	@Override
+	public void setIsMask(boolean isMask) {
+		this.isMask = true;
+		if (isMask) {
+			setMaskPreferences();
+		}
+	}
+
+	private void setMaskPreferences() {
+		this.isShape = true;
+		setLabelVisible(false);
+		setAlphaValue(1);
+		setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
+		setObjColor(GeoGebraColorConstants.MEBIS_MASK);
+		setLineThickness(1);
+		((AlgoPolygon) getParentAlgorithm()).getPoly().initLabels(null);
 	}
 
 	/**

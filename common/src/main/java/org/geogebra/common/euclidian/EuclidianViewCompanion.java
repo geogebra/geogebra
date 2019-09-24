@@ -8,10 +8,10 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -399,6 +399,8 @@ public class EuclidianViewCompanion {
 					view.getShapeRectangle());
 		}
 
+		view.drawMaskPreview(g2);
+
 		if (view.getShapeEllipse() != null) {
 			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
 					view.getShapeStroke(), view.getShapeEllipse());
@@ -431,6 +433,8 @@ public class EuclidianViewCompanion {
 		if (view.kernel.needToShowAnimationButton()) {
 			view.drawAnimationButtons(g2);
 		}
+
+		view.drawMasks(g2);
 	}
 
 	/**

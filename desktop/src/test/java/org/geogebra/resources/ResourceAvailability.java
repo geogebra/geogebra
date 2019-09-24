@@ -88,6 +88,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_GRASPABLE_MATH:
 			case EuclidianConstants.MODE_CAS:
 			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			case EuclidianConstants.MODE_MASK:
 				continue;
 			default:
 				ImageResourceD res = man.getToolImageResource(modeText);

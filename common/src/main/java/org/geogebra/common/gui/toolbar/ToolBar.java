@@ -386,6 +386,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MASK);
 
 		return sb.toString();
 	}

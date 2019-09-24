@@ -164,6 +164,9 @@ public class GeoGebraColorConstants {
 	/** Accent color for mebis */
 	public static final GColor MEBIS_ACCENT = GColor.newColor(0, 168, 213);
 
+	/** MASK color */
+	public static final GColor MEBIS_MASK = GColor.newColor(0, 0x63, 0x7b);
+
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color

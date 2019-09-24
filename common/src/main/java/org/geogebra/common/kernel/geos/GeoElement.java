@@ -5668,12 +5668,25 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
+	@Override
+	public boolean isMask() {
+		return false;
+	}
+
 	/**
 	 * @param isShape
 	 *            - true, if geo was created with shape tool
 	 */
 	public void setIsShape(boolean isShape) {
 		// overridden for conics & polygons
+	}
+
+	/**
+	 * @param isMask
+	 *            - true, if geo was created with mask tool
+	 */
+	public void setIsMask(boolean isMask) {
+		// overridden for polygons
 	}
 
 	@Override

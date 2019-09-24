@@ -66,6 +66,11 @@ public class ModeShape {
 	private ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
 
 	/**
+	 * Rectangle for mask tool
+	 */
+	private GRectangle mask;
+
+	/**
 	 * @param view
 	 *            - euclidianView
 	 */
@@ -135,50 +140,56 @@ public class ModeShape {
 		if (!ec.isDraggingBeyondThreshold()) {
 			return;
 		}
+
+		int mode = ec.getMode();
 		wasDragged = true;
-		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM) {
+		if (mode != EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			dragPointSet = false;
 		}
-		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
+		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
 			updateRectangle(event, false);
-			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
+			if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
 				view.setRounded(true);
 			} else {
 				view.setRounded(false);
 			}
 			view.setShapeRectangle(rectangle);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_SQUARE) {
 			updateRectangle(event, true);
 			view.setRounded(false);
 			view.setShapeRectangle(rectangle);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE
-				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_CIRCLE) {
-			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_ELLIPSE
+				|| mode == EuclidianConstants.MODE_SHAPE_CIRCLE) {
+			if (mode == EuclidianConstants.MODE_SHAPE_ELLIPSE) {
 				updateEllipse(event, false);
 			} else {
 				updateEllipse(event, true);
 			}
 			view.setShapeEllipse(ellipse);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_LINE) {
 			GPoint2D snap = snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(),
 					event.getY());
 			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(),
 					snap.getX(), snap.getY());
 			view.setShapeLine(line);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 			updateTriangle(event);
 			view.setShapePolygon(polygon);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_POLYGON) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_POLYGON) {
 			updateRegularPolygon(event);
 			view.setShapePolygon(polygon);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+		} else if (mode == EuclidianConstants.MODE_MASK) {
+			updateMask(event);
+			view.setMaskPreview(mask);
+			view.repaintView();
+		} else if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			updateFreeFormPolygon(event, wasDragged);
 		}
 	}
@@ -314,17 +325,17 @@ public class ModeShape {
 	 */
 	public GeoElement handleMouseReleasedForShapeMode(AbstractEvent event) {
 		view.setRounded(false);
+		int mode = ec.getMode();
 		// make sure we set new start point after ignoring simple click
-		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
+		if (mode != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
 			dragPointSet = false;
 			dragStartPoint = new GPoint();
 			return null;
 		}
-		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
+		if (mode == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
-				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
-			boolean square = ec
-					.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE;
+				|| mode == EuclidianConstants.MODE_SHAPE_SQUARE) {
+			boolean square = mode == EuclidianConstants.MODE_SHAPE_SQUARE;
 			algo = getPolyAlgo(getPointArray(event, square));
 
 			createPolygon(algo);
@@ -333,10 +344,19 @@ public class ModeShape {
 			view.repaintView();
 			wasDragged = false;
 			return algo.getOutput(0);
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE
-				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_CIRCLE) {
+		} else if (mode == EuclidianConstants.MODE_MASK) {
+			algo = getPolyAlgo(getPointArray(event, false));
+
+			createMask(algo);
+
+			view.setMaskPreview(null);
+			view.repaintView();
+			wasDragged = false;
+			return algo.getOutput(0);
+		} else if (mode == EuclidianConstants.MODE_SHAPE_ELLIPSE
+				|| mode == EuclidianConstants.MODE_SHAPE_CIRCLE) {
 			double[] conicEqu;
-			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE) {
+			if (mode == EuclidianConstants.MODE_SHAPE_ELLIPSE) {
 				conicEqu = getEquationOfConic(event, false);
 			} else {
 				conicEqu = getEquationOfConic(event, true);
@@ -350,7 +370,7 @@ public class ModeShape {
 			view.repaintView();
 			wasDragged = false;
 			return conic;
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_LINE) {
 			GeoPoint[] points = getRealPointsOfLine(event);
 			algo = new AlgoJoinPointsSegment(view.getKernel().getConstruction(),
 					null, points[0], points[1]);
@@ -362,10 +382,10 @@ public class ModeShape {
 			view.repaintView();
 			wasDragged = false;
 			return segment;
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE
-				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_POLYGON) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE
+				|| mode == EuclidianConstants.MODE_SHAPE_POLYGON) {
 			GeoPoint[] points = null;
-			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
+			if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 				points = getRealPointsOfTriangle(event);
 			} else {
 				points = getRealPointsOfPolygon(event);
@@ -381,7 +401,7 @@ public class ModeShape {
 			view.repaintView();
 			wasDragged = false;
 			return algo.getOutput(0);
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (wasDragged) {
 				if (pointListFreePoly.size() > 1
 						&& pointListFreePoly.get(0).distance(
@@ -433,6 +453,12 @@ public class ModeShape {
 		poly.setBackgroundColor(GColor.WHITE);
 		poly.setObjColor(GColor.BLACK);
 		((AlgoPolygon) algo).getPoly().initLabels(null);
+	}
+
+	private static void createMask(AlgoElement algo) {
+		GeoPolygon polygon = (GeoPolygon) algo.getOutput(0);
+		hideSegments(polygon);
+		polygon.setIsMask(true);
 	}
 
 	/**
@@ -672,6 +698,36 @@ public class ModeShape {
 						dragStartPoint.y + height);
 				rectangle.setSize(-width, -height);
 				}
+			}
+		}
+	}
+
+	private void updateMask(AbstractEvent event) {
+		if (mask == null) {
+			mask = AwtFactory.getPrototype().newRectangle();
+		}
+
+		int width = event.getX() - dragStartPoint.x;
+		int height = event.getY() - dragStartPoint.y;
+
+		if (height >= 0) {
+			if (width >= 0) {
+				mask.setLocation(dragStartPoint.x, dragStartPoint.y);
+				mask.setSize(width, height);
+			} else { // width < 0
+				mask.setLocation(dragStartPoint.x + width,
+						dragStartPoint.y);
+				mask.setSize(-width, height);
+			}
+		} else { // height < 0
+			if (width >= 0) {
+				mask.setLocation(dragStartPoint.x,
+						dragStartPoint.y + height);
+				mask.setSize(width, -height);
+			} else { // width < 0
+				mask.setLocation(dragStartPoint.x + width,
+						dragStartPoint.y + height);
+				mask.setSize(-width, -height);
 			}
 		}
 	}

@@ -47,11 +47,11 @@ import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -77,6 +77,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
@@ -188,6 +189,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * preview shape for rectangle
 	 */
 	protected GRectangle shapeRectangle;
+	/**
+	 * preview rectangle for mask tool
+	 */
+	private GRectangle maskPreview;
 	/**
 	 * preview shape for ellipse
 	 */
@@ -2971,6 +2976,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * @param maskPreview
+	 *            - preview of rectangle for mask tool
+	 */
+	public void setMaskPreview(GRectangle maskPreview) {
+		this.maskPreview = maskPreview;
+	}
+
+	/**
 	 * @param shapeEllipse
 	 *            - preview of ellipse for ShapeEllipse
 	 */
@@ -4341,6 +4354,27 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * Draw masks
+	 *
+	 * @param g2
+	 *            graphics
+	 */
+	public void drawMasks(GGraphics2D g2) {
+		DrawableIterator it = allDrawableList.getIterator();
+		it.reset();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			if (d.geo.isMask()) {
+				if (d.needsUpdate()) {
+					d.setNeedsUpdate(false);
+					d.update();
+				}
+
+				d.draw(g2);
+			}
+		}
+	}
+	/**
 	 * Switch antialiasing to true for given graphics
 	 * 
 	 * @param g2
@@ -4497,6 +4531,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public GRectangle getShapeRectangle() {
 		return shapeRectangle;
+	}
+
+	/**
+	 *
+	 * @return mask
+	 */
+	public GRectangle getMaskPreview() {
+		return maskPreview;
 	}
 
 	/**
@@ -6656,5 +6698,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
 		return false;
+	}
+
+	/**
+	 * Draw mask preview if any.
+	 * @param g2 Graphics to draw to.
+	 */
+	void drawMaskPreview(GGraphics2D g2) {
+		if (maskPreview == null) {
+			return;
+		}
+
+		drawShape(g2, GeoGebraColorConstants.MEBIS_MASK,
+				GeoGebraColorConstants.MEBIS_MASK,
+				null, maskPreview);
 	}
 }
