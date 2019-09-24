@@ -177,10 +177,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		main.addStyleName(style);
 	}
 
-	public void removeStyleName(String style) {
-		main.removeStyleName(style);
-	}
-
 	/**
 	 * @return mathFieldW
 	 */
