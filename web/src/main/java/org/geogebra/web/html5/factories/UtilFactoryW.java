@@ -8,11 +8,11 @@ import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.util.HttpRequestW;
 import org.geogebra.web.html5.util.ProverW;
 import org.geogebra.web.html5.util.URLEncoderW;
-import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 /**
@@ -44,7 +44,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
 	public double getMillisecondTime() {
-		return GeoGebraProfilerW.getMillisecondTimeNative();
+		return FpsProfilerW.getMillisecondTimeNative();
 	}
 
 	@Override

@@ -18,11 +18,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.HasLanguage;
-import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
@@ -246,12 +246,12 @@ public class Solver {
 
 		for (StepVariable variable : variableList) {
 			try {
-				double startTime = GeoGebraProfilerW.getMillisecondTimeNative();
+				double startTime = FpsProfilerW.getMillisecondTimeNative();
 				List<StepSolution> solutionList = solvable.solve(variable, sb);
-				double solveTime = GeoGebraProfilerW.getMillisecondTimeNative();
+				double solveTime = FpsProfilerW.getMillisecondTimeNative();
 				solutions.add(
 						new StepInformation(app, guiBuilder, solutionList, sb.getSteps()));
-				double endTime = GeoGebraProfilerW.getMillisecondTimeNative();
+				double endTime = FpsProfilerW.getMillisecondTimeNative();
 
 				Log.debug("Total execution time: " + (endTime - startTime) + " ms");
 				Log.debug("Solve time: " + (solveTime - startTime) + " ms");
