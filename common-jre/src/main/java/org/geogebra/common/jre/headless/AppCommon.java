@@ -545,7 +545,7 @@ public class AppCommon extends App {
     }
 
     @Override
-    public void callAppletJavaScript(String string, String... args) {
+    public void callAppletJavaScript(String string, String args) {
 		// TODO delegate to ScriptManager
     }
 
@@ -705,11 +705,6 @@ public class AppCommon extends App {
 
 			@Override
 			public void ggbOnInit() {
-				// no JS
-			}
-
-			@Override
-			public void callJavaScript(String jsFunction, String[] args) {
 				// no JS
 			}
 		};

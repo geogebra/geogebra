@@ -176,7 +176,7 @@ public interface AppInterface {
 	 */
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
-	public abstract void callAppletJavaScript(String string, String... args);
+	public abstract void callAppletJavaScript(String string, String args);
 
 	/**
 	 * Updates menubar
