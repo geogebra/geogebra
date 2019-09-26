@@ -6,7 +6,6 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -125,7 +124,6 @@ public class LoadFilePresenter {
 			if (!openEmptyApp(app, view)) {
 				app.updateToolBar();
 			}
-			GeoGebraProfiler.getInstance().profileEnd();
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
 

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.euclidian.profiler.coords.Coordinate;
 import org.geogebra.web.html5.euclidian.profiler.coords.CoordinatesParser;
@@ -90,6 +91,7 @@ public class DrawingEmulator {
 			@Override
 			public void run() {
 				sleepIntervalSum = 0;
+				GeoGebraProfiler.printDragMeasurementData();
 			}
 		}.schedule(sleepIntervalSum);
 	}

@@ -2,8 +2,6 @@ package org.geogebra.web.simple;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -22,12 +20,7 @@ public class WebSimple implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		Browser.checkFloat64();
-		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
-		// production
-		// GeoGebraProfiler.init(new GeoGebraProfilerW());
-		GeoGebraProfiler.init(new SilentProfiler());
 
-		GeoGebraProfiler.getInstance().profile();
 		exportGGBElementRenderer();
 
 		// instead, load it immediately

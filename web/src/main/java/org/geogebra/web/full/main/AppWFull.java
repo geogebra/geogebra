@@ -46,7 +46,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
@@ -1608,7 +1607,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
