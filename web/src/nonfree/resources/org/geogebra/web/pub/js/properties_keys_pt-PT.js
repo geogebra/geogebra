@@ -3137,7 +3137,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "ZEstimateDifferenceOfProportions": "Estimativa Z, Diferen\xe7a de Propor\xe7\xf5es",
     "ZMeanInterval": "Estimativa Z para M\xe9dia",
     "ZMeanTest": "Teste Z para a M\xe9dia",
-    "ZProportionInterval": "Estimativa Z de uma Porpor\xe7\xe3o",
+    "ZProportionInterval": "Estimativa Z de uma Propor\xe7\xe3o",
     "ZProportionTest": "Teste Z de uma Propor\xe7\xe3o",
     "ZSpace.DetectedMessage": "Parab\xe9ns, sua esta\xe7\xe3o zSpace pode ser usado com GeoGebra!",
     "ZStatistic": "Z",
