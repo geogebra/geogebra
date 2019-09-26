@@ -10,13 +10,13 @@ import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class CommandFilterCASTest extends BaseSymbolicTest{
+public class CommandFilterCASTest extends BaseSymbolicTest {
 
     @Test
     public void cmdInvert() {
         t("Invert({{1, 2}, {3, 4}})", "{{-2, 1}, {3 / 2, (-1) / 2}}");
-        t("Invert({{a, b}, {c, d}})", "{{d / (a * d - b * c), (-b) / (a * d - b * c)}," +
-                " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
+        t("Invert({{a, b}, {c, d}})", "{{d / (a * d - b * c), (-b) / (a * d - b * c)},"
+                + " {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
         String[][] expected;
         expected = new String[1][2];
         expected [0][0] = "-sin⁻¹(x) + 2 * k_1 * π + π";
@@ -103,13 +103,13 @@ public class CommandFilterCASTest extends BaseSymbolicTest{
                 "{y = x - 1}");
         t("Tangent((1, 0), x^2)",
                 "y = 2 * x - 1");
-        t("Tangent((0, 1), Curve(cos(t), sin(t), t, 0, π))",
+        t("Tangent((0, 1), Curve(cos(z), sin(z), z, 0, π))",
                 "{y = 1}");
         t("Tangent(1, x^2)",
                 "y = 2 * x - 1");
         t("Tangent(x^2 + y^2 = 4, (x - 6)^2 + y^2 = 4)",
-                "(y = -x^(4) + 2 * x^(3) - 2 * x^(2) * y^(2) + 2 * x * y^(2)" +
-                        " - 12 * x - y^(4) + y^(2) + 36, y = 4)");
+                "(y = -x^(4) + 2 * x^(3) - 2 * x^(2) * y^(2) + 2 * x * y^(2) "
+                        + "- 12 * x - y^(4) + y^(2) + 36, y = 4)");
         t("Tangent((1,1), x^2+y^2=1)",
                 "{x = 1, y = 1}");
     }
