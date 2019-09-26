@@ -381,8 +381,6 @@ public abstract class CommandDispatcher {
 			case Repeat:
 			case Slider:
 			case Checkbox:
-			case InputBox:
-			case Textfield:
 			case Button:
 			case Execute:
 			case GetTime:
@@ -672,6 +670,8 @@ public abstract class CommandDispatcher {
 
 			case FormulaText:
 			case LaTeX:
+			case InputBox:
+			case Textfield:
 			case Normalize:
 			case ExportImage:
 
