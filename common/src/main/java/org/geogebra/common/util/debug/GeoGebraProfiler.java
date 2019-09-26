@@ -22,6 +22,9 @@ public class GeoGebraProfiler {
 
 	private static final Object lock = new Object();
 
+	/**
+	 * Display performance data about drags and repaints
+	 */
 	public static void printDragMeasurementData() {
 		if (drags > 0) {
 			Log.debug("Profile Dragging: \nNumber of handled drag events: " + drags + "\n"
@@ -32,6 +35,9 @@ public class GeoGebraProfiler {
 		}
 	}
 
+	/**
+	 * Display performance data about algebra view updates
+	 */
 	public static void printAlgebraMeasurementData() {
 		if (algebra > 0) {
 			Log.debug("Profile Algebra: " + algebra + " x "
@@ -39,6 +45,9 @@ public class GeoGebraProfiler {
 		}
 	}
 
+	/**
+	 * Display performance data about event dispatches
+	 */
 	public static void printEventMeasurementData() {
 		if (event > 0) {
 			Log.debug("Profile EventDispatcher: " + event + " x "
@@ -46,6 +55,9 @@ public class GeoGebraProfiler {
 		}
 	}
 
+	/**
+	 * Display performance data about cascade update
+	 */
 	public static void printCascadeMeasurementData() {
 		if (cascades > 0) {
 			Log.debug("Profile Cascades: " + cascades + " x "
@@ -67,7 +79,7 @@ public class GeoGebraProfiler {
 	}
 
 	/**
-	 * @param l
+	 * @param time
 	 *            cascade duration
 	 */
 	public static void addUpdateCascade(long time) {
@@ -78,7 +90,7 @@ public class GeoGebraProfiler {
 	}
 
 	/**
-	 * @param l
+	 * @param time
 	 *            algebra update duration
 	 */
 	public static void addAlgebra(long time) {
@@ -89,7 +101,7 @@ public class GeoGebraProfiler {
 	}
 
 	/**
-	 * @param l
+	 * @param time
 	 *            event handling duration
 	 */
 	public static void addEvent(long time) {
@@ -100,7 +112,7 @@ public class GeoGebraProfiler {
 	}
 
 	/**
-	 * @param t
+	 * @param time
 	 *            drag duration
 	 */
 	public static void addDrag(long time) {
