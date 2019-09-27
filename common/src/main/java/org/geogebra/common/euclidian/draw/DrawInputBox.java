@@ -229,7 +229,7 @@ public class DrawInputBox extends CanvasDrawable {
 		int length = getGeoInputBox().getLength();
 		if (length != oldLength && isSelectedForInput()) {
 			if (!canSetWidgetPixelSize()) {
-				view.getTextField().setColumns(length);
+				view.getViewTextField().setColumns(length);
 			}
 			getTextField().prepareShowSymbolButton(
 					length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
@@ -345,8 +345,8 @@ public class DrawInputBox extends CanvasDrawable {
 		if (isVisible) {
             String txt = getGeoInputBox().getText();
             if (txt != null) {
-                setLabelFont(getGeoInputBox().getText());
-                drawOnCanvas(g2, txt);
+                setLabelFont(txt);
+                drawOnCanvas(g2);
             }
 		}
 	}
@@ -615,5 +615,4 @@ public class DrawInputBox extends CanvasDrawable {
 	GeoInputBox getGeoInputBox() {
 		return geoInputBox;
 	}
-
 }

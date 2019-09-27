@@ -85,5 +85,4 @@ public abstract class ViewTextField {
 	public void setColumns(int length) {
 		// only in desktop
 	}
-
 }
