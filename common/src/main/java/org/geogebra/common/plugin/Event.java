@@ -132,4 +132,8 @@ public class Event {
 	public String getArgument() {
 		return argument;
 	}
+
+	public Map<String, Object> getJsonArgument() {
+		return jsonArgument;
+	}
 }

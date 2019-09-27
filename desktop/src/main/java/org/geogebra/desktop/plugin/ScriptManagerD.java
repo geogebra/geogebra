@@ -1,39 +1,21 @@
 package org.geogebra.desktop.plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.mozilla.javascript.Scriptable;
 
-//import org.concord.framework.data.stream.DataListener;
-//import org.concord.framework.data.stream.DataStreamEvent;
-//import org.concord.sensor.SensorDataProducer;
-//import org.mozilla.javascript.Context;
-//import org.mozilla.javascript.Scriptable;
-
 public class ScriptManagerD extends ScriptManager {
-
-	// library of functions that is available to all JavaScript calls
-	// init() is called when GeoGebra starts up (eg to start listeners)
-	/*
-	 * private String libraryScriptxxx ="function ggbOnInit() {}"; private
-	 * String libraryScriptxx ="function ggbOnInit() {"+
-	 * "ggbApplet.evalCommand('A=(1,2)');" +
-	 * //"ggbApplet.registerAddListener('listener');" +
-	 * "ggbApplet.registerObjectUpdateListener('A','listener');" + "}" +
-	 * "function listener() {//java.lang.System.out.println('add listener called');\n"
-	 * + "var x = ggbApplet.getXcoord('A');" +
-	 * "var y = ggbApplet.getYcoord('A');" + "var len = Math.sqrt(x*x + y*y);" +
-	 * "if (len > 5) { x=x*5/len; y=y*5/len; }" + "" +
-	 * "ggbApplet.unregisterObjectUpdateListener('A');" +
-	 * "ggbApplet.setCoords('A',x,y);" +
-	 * "ggbApplet.registerObjectUpdateListener('A','listener');" + "}";
-	 */
 
 	protected HashMap<Construction, Scriptable> globalScopeMap;
 
@@ -41,13 +23,10 @@ public class ScriptManagerD extends ScriptManager {
 		super(app);
 
 		globalScopeMap = new HashMap<Construction, Scriptable>();
-
-		// evalScript("ggbOnInit();");
 	}
 
 	@Override
 	public void ggbOnInit() {
-
 		try {
 			// call only if libraryJavaScript is not the default (ie do nothing)
 			if (!((AppD) app).getKernel().getLibraryJavaScript()
@@ -57,16 +36,40 @@ public class ScriptManagerD extends ScriptManager {
 		} catch (Exception e) {
 			Log.debug("Error calling ggbOnInit(): " + e.getMessage());
 		}
-
 	}
 
 	@Override
-	public synchronized void initJavaScript() {
-		// not needed in desktop
+	protected void callClientListeners(List<JsScript> listeners, Event evt) {
+		if (listeners.isEmpty()) {
+			return;
+		}
+
+		ArrayList<String> args = new ArrayList<>();
+		args.add(evt.type.getName());
+		if (evt.targets != null) {
+			for (GeoElement geo : evt.targets) {
+				args.add(geo.getLabelSimple());
+			}
+		} else if (evt.target != null) {
+			args.add(evt.target.getLabelSimple());
+		} else {
+			args.add("");
+		}
+		if (evt.argument != null) {
+			args.add(evt.argument);
+		}
+
+		for (JsScript listener : listeners) {
+			callListener(listener.getText(), args.toArray(new String[0]));
+		}
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, String[] args) {
+	protected void callListener(String jsFunction, String arg0, String arg1) {
+		callListener(jsFunction, new String[] {arg0, arg1});
+	}
+
+	private void callListener(String jsFunction, String[] args) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(jsFunction);
 		sb.append("(");
@@ -92,10 +95,8 @@ public class ScriptManagerD extends ScriptManager {
 
 	@Override
 	public void setGlobalScript() {
-
 		Scriptable globalScope = CallJavaScript.evalGlobalScript(app);
 		globalScopeMap.put(app.getKernel().getConstruction(), globalScope);
-
 	}
 
 	public void evalJavaScript(App app, String script, String arg)
@@ -106,7 +107,5 @@ public class ScriptManagerD extends ScriptManager {
 		}
 
 		CallJavaScript.evalScript(app, script, arg);
-
 	}
-
 }

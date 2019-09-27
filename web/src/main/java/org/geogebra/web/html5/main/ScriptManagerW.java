@@ -1,12 +1,17 @@
 package org.geogebra.web.html5.main;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gwt.core.client.JsArrayString;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 
@@ -87,7 +92,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		if (((AppW) app).getAppletFrame() != null
 		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
-			JsEval.runCallback(
+			JsEval.callNativeJavaScript(
 					((AppW) app).getAppletFrame().getOnLoadCallback(), exportedApi);
 		}
 	}
@@ -99,62 +104,80 @@ public class ScriptManagerW extends ScriptManager {
 	}-*/;
 
 	@Override
-	public void callJavaScript(String jsFunction, String[] args) {
-		try {
-		if (jsFunction != null && jsFunction.length() > 0
-				&& jsFunction.charAt(0) <= '9') {
-				if (args != null && args.length > 1) {
-					callListenerNativeArray(listeners.get(jsFunction), args);
-					return;
-				}
-				String singleArg = args != null && args.length > 0 ? args[0]
-						: null;
-				callListenerNative(listeners.get(jsFunction), singleArg, null);
-				return;
-			}
-			app.callAppletJavaScript(jsFunction, args);
-		} catch (Throwable t) {
-			Log.warn("Error in user script: " + jsFunction + " : "
-					+ t.getMessage());
+	protected void callListener(String listener, String arg0, String arg1) {
+		if (listener.charAt(0) <= '9') {
+			JsEval.callNativeJavaScript(listeners.get(listener), arg0, arg1);
+		} else {
+			JsEval.callNativeJavaScript(listener, arg0, arg1);
 		}
 	}
 
 	@Override
-	public void callJavaScript(String jsFunction, String[] args, Map<String, Object> jsonArgument) {
-		if (jsonArgument == null) {
-			callJavaScript(jsFunction, args);
+	protected void callClientListeners(List<JsScript> listeners, Event evt) {
+		if (listeners.isEmpty()) {
+			return;
+		}
+
+		// The array elements are for compatibility purposes only,
+		// only the named parameters are documented. Maybe if
+		// you are reading this years in the future, you can remove them
+		JsArrayString args = JsArrayString.createArray().cast();
+
+		args.push(evt.type.getName());
+		set(args, "type", evt.type.getName());
+
+		if (evt.targets != null) {
+			JsArrayString targets = JsArrayString.createArray().cast();
+
+			for (GeoElement geo : evt.targets) {
+				args.push(geo.getLabelSimple());
+				targets.push(geo.getLabelSimple());
+			}
+
+			set(args, "targets", targets);
+		} else if (evt.target != null) {
+			args.push(evt.target.getLabelSimple());
+			set(args, "target", evt.target.getLabelSimple());
 		} else {
-			try {
-				callListenerNativeJson(listeners.get(jsFunction),
-						convertToJSObject(jsonArgument), args);
-			} catch (Throwable t) {
-				Log.warn("Error in user script: " + jsFunction + " : "
-						+ t.getMessage());
+			args.push("");
+		}
+
+		if (evt.argument != null) {
+			args.push(evt.argument);
+			set(args, "argument", evt.argument);
+		}
+
+		if (evt.jsonArgument != null) {
+			addToJsObject(args, evt.jsonArgument);
+		}
+
+		for (JsScript listener : listeners) {
+			if (listener.getText().charAt(0) <= '9') {
+				JsEval.callNativeJavaScript(this.listeners.get(listener.getText()), args);
+			} else {
+				JsEval.callNativeJavaScript(listener.getText(), args);
 			}
 		}
 	}
 
 	/**
+	 * @param jsObject jsObject to be filled with data from map
 	 * @param map (String, Object) map to be converted to JavaScript,
 	 *            Object can be Integer, Double, String or String[],
-	 * @return JavaScript object based on the map
 	 */
-	public static JavaScriptObject convertToJSObject(Map<String, Object> map) {
-		JavaScriptObject json = JavaScriptObject.createObject();
+	public static void addToJsObject(JavaScriptObject jsObject, Map<String, Object> map) {
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object object = entry.getValue();
 
 			if (object instanceof Integer) {
-				set(json, entry.getKey(), (int) object);
+				set(jsObject, entry.getKey(), (int) object);
 			} else if (object instanceof Double
 					|| object instanceof String[]) {
-				set(json, entry.getKey(), object);
+				set(jsObject, entry.getKey(), object);
 			} else {
-				set(json, entry.getKey(), object.toString());
+				set(jsObject, entry.getKey(), object.toString());
 			}
 		}
-
-		return json;
 	}
 
 	private static native void set(JavaScriptObject json, String key, int value) /*-{
@@ -163,42 +186,6 @@ public class ScriptManagerW extends ScriptManager {
 
 	private static native void set(JavaScriptObject json, String key, Object value) /*-{
 		json[key] = value;
-	}-*/;
-
-	@Override
-	public void callJavaScript(String jsFunction, String arg0, String arg1) {
-		try {
-			if (jsFunction != null && jsFunction.length() > 0
-					&& jsFunction.charAt(0) <= '9') {
-				callListenerNative(listeners.get(jsFunction), arg0, arg1);
-				return;
-			}
-			JsEval.callAppletJavaScript(jsFunction, arg0, arg1);
-		} catch (Throwable t) {
-			Log.warn("Error in user script: " + jsFunction + " : "
-					+ t.getMessage());
-		}
-	}
-
-	private native void callListenerNative(JavaScriptObject listener,
-			String arg0, String arg1) /*-{
-		listener(arg0, arg1);
-	}-*/;
-
-	private native void callListenerNativeArray(JavaScriptObject listener,
-			String... args) /*-{
-		listener(args);
-	}-*/;
-
-	private native void callListenerNativeJson(JavaScriptObject listener,
-		   JavaScriptObject json, String... args) /*-{
-		for (key in json) {
-			if (json.hasOwnProperty(key)) {
-				args[key] = json[key];
-			}
-		}
-
-		listener(args);
 	}-*/;
 
 	private JavaScriptObject initAppletFunctions(GgbAPIW ggbAPI,

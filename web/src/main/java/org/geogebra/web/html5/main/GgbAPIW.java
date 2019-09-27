@@ -1363,7 +1363,7 @@ public class GgbAPIW extends GgbAPI {
 			((AppW) app).afterLocalizationLoaded(new Runnable() {
 				@Override
 				public void run() {
-					JsEval.runCallback(callback, loc.getMenu(key));
+					JsEval.callNativeJavaScript(callback, loc.getMenu(key));
 				}
 			});
 		}
@@ -1376,7 +1376,7 @@ public class GgbAPIW extends GgbAPI {
 
 			@Override
 			public void callback(String obj) {
-				JsEval.runCallback(callback, obj);
+				JsEval.callNativeJavaScript(callback, obj);
 			}
 		};
 	}

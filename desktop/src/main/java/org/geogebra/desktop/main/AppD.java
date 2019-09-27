@@ -4305,7 +4305,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private OpenFromGGTOperation openFromGGTOperation;
 
 	@Override
-	public void callAppletJavaScript(String string, String... args) {
+	public void callAppletJavaScript(String string, String args) {
 		// not needed in desktop
 	}
 

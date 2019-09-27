@@ -29,8 +29,11 @@ public class EvaluatorApiExporter extends ApiExporter {
 
 	@ExternalAccess
 	private JavaScriptObject getEditorState() {
-		return ScriptManagerW
-				.convertToJSObject(evaluatorActivity.getEditorAPI().getEvaluatorValue());
+		JavaScriptObject jsObject = JavaScriptObject.createObject();
+		ScriptManagerW
+				.addToJsObject(jsObject, evaluatorActivity.getEditorAPI().getEvaluatorValue());
+
+		return jsObject;
 	}
 
 	private native void addEditorState(JavaScriptObject api) /*-{
