@@ -7713,8 +7713,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return false;
 		}
 		GeoInputBox textField = (GeoInputBox) geo;
-		return (textField.isTextField() && ((tempRightClick() || !textField.isLocked()
-				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)));
+		return tempRightClick() || !textField.isLocked()
+				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION;
 	}
 
 	protected void setStartPointLocation(double x, double y) {

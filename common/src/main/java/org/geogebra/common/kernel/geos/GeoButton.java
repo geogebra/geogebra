@@ -124,13 +124,6 @@ public class GeoButton extends GeoWidget
 	}
 
 	/**
-	 * @return true for textfields, false for buttons
-	 */
-	public boolean isTextField() {
-		return false;
-	}
-
-	/**
 	 * Returns whether the value (e.g. equation) should be shown as part of the
 	 * label description
 	 */

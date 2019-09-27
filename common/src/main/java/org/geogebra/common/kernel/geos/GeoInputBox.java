@@ -22,7 +22,8 @@ import org.geogebra.common.util.TextObject;
  *
  */
 public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment {
-	private static int defaultLength = 20;
+
+	private static final int defaultLength = 20;
 	private int length;
 	private int printDecimals = -1;
 	private int printFigures = -1;
@@ -73,11 +74,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.TEXTFIELD;
-	}
-
-	@Override
-	public boolean isTextField() {
-		return true;
 	}
 
 	/**
@@ -239,9 +235,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *            the Drawable's text field
 	 */
 	public void updateText(TextObject textFieldToUpdate) {
-		String linkedText = null;
-
 		if (linkedGeo != null) {
+			String linkedText;
+
 			if (linkedGeo.isGeoText()) {
 				linkedText = ((GeoText) linkedGeo).getTextString();
 			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath
@@ -264,17 +260,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				linkedText = "";
 			}
 
-			if (linkedGeo.isGeoText() && (linkedText.indexOf("\n") > -1)) {
-				// replace linefeed with \\n
-				while (linkedText.indexOf("\n") > -1) {
-					linkedText = linkedText.replaceAll("\n", "\\\\\\\\n");
-				}
+			if (linkedGeo.isGeoText()) {
+				linkedText = linkedText.replaceAll("\n", "\\\\\\\\n");
 			}
 			// avoid redraw error
 			if (!textFieldToUpdate.getText().equals(linkedText)) {
 				textFieldToUpdate.setText(linkedText);
 			}
-
 		} else {
 			textFieldToUpdate.setText(text);
 		}
@@ -309,7 +301,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	private void updateTemplate() {
-
 		if (useSignificantFigures() && printFigures > -1) {
 			tpl = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures,
 					false);
@@ -354,7 +345,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	@Override
 	public void setBackgroundColor(final GColor bgCol) {
-
 		if (bgCol == null) {
 			// transparent
 			bgColor = null;
