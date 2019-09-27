@@ -200,6 +200,10 @@ model {
             architecture 'x64'
             operatingSystem 'linux'
         }
+        rpi {
+            architecture 'arm'
+            operatingSystem 'linux'
+        }
         osx_amd64 {
             architecture 'amd64'
             operatingSystem 'osx'
@@ -240,6 +244,12 @@ model {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
             }
+        }
+        gcc(Gcc) {
+            target('rpi') {
+                cppCompiler.executable 'gcc'
+                linker.executable 'gcc'
+                }
         }
         clang(Clang) {
             target('osx_amd64') {
@@ -319,6 +329,7 @@ model {
             targetPlatform 'ios_arm64'
             targetPlatform 'ios_i386'
             targetPlatform 'ios_x86_64'
+            targetPlatform 'rpi'
 
             binaries.all {
                 giacCommonDefines(cppCompiler)
@@ -380,6 +391,7 @@ model {
             targetPlatform 'win64'
             targetPlatform 'linux32' // this will be fixed in Gradle 2.4 (-> linux32)
             targetPlatform 'linux64'
+            targetPlatform 'rpi'
             if (Os.isFamily(Os.FAMILY_MAC)) {
                 targetPlatform 'osx_amd64'
             }
@@ -419,6 +431,9 @@ model {
                     cppCompiler.define 'SIZEOF_LONG', '8'
                 } else {
                     cppCompiler.define 'SIZEOF_LONG', '4'
+                }
+                if (targetPlatform.architecture.name == 'arm-v7') {
+                    cppCompiler.define 'HAVE_GETTEXT'
                 }
 
                 // OS based settings:
@@ -878,7 +893,6 @@ task emMakeMpfr {
         }
     }
 }
-
 
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
