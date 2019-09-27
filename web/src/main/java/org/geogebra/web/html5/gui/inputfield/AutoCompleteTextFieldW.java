@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -48,6 +49,7 @@ import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -390,11 +392,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		historyPopup.setDownPopup(isDownPopup);
-	}
-
-	@Override
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		//
 	}
 
 	@Override
@@ -1808,5 +1805,22 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setSelection(int start, int end) {
 		textField.getValueBox().setSelectionRange(start, end - start);
+	}
+
+	@Override
+	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+		getInputElement().getStyle().setTextAlign(textAlignToCssAlign(alignment));
+	}
+
+	private Style.TextAlign textAlignToCssAlign(TextAlignment alignment) {
+		switch (alignment) {
+			case LEFT:
+					return Style.TextAlign.LEFT;
+			case CENTER:
+					return Style.TextAlign.CENTER;
+			case RIGHT:
+					return Style.TextAlign.RIGHT;
+		}
+		return null;
 	}
 }

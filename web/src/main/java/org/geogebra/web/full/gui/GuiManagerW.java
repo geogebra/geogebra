@@ -484,11 +484,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean isInputFieldSelectionListener() {
-		return false;
-	}
-
-	@Override
 	public void showDrawingPadPopup(final EuclidianViewInterfaceCommon view,
 			final GPoint mouseLoc) {
 		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getElement(),

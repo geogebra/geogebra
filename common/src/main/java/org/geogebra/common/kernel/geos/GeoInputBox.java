@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -32,7 +33,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Michael
  *
  */
-public class GeoInputBox extends GeoButton implements HasSymbolicMode {
+public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignment {
 	private static int defaultLength = 20;
 	private int length;
 	private int printDecimals = -1;
@@ -45,7 +46,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	private boolean symbolicMode = false;
 	private boolean editing = false;
 
-	StringTemplate stringTemplateForLaTeX;
+	private StringTemplate stringTemplateForLaTeX;
+
+	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	/**
 	 * Creates new text field
@@ -224,7 +227,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 			sb.append("\"");
 			sb.append("/>\n");
 		}
-
+		if (getAlignment() != TextAlignment.LEFT) {
+			sb.append("\t<textAlign val=\"");
+			sb.append(getAlignment().toString());
+			sb.append("\"/>\n");
+		}
 	}
 
 	@Override
@@ -704,5 +711,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode {
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;
+	}
+
+	@Override
+	public void setAlignment(TextAlignment alignment) {
+		textAlignment = alignment;
+	}
+
+	@Override
+	public TextAlignment getAlignment() {
+		return textAlignment;
 	}
 }

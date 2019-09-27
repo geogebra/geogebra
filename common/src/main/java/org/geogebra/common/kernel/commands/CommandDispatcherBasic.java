@@ -282,6 +282,9 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case FormulaText:
 		case LaTeX:
 			return new CmdLaTeX(kernel);
+		case InputBox:
+		case Textfield:
+			return new CmdTextfield(kernel);
 		default:
 			break;
 		}

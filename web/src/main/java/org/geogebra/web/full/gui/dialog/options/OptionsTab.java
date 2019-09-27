@@ -42,6 +42,7 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
+import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.kernel.Kernel;
@@ -344,6 +345,10 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof AnimationStepModel) {
 			return new AnimationStepPanelW((AnimationStepModel) m, app);
 		}
+		if (m instanceof TextFieldAlignmentModel) {
+			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
+		}
+
 		return null;
 	}
 
@@ -605,9 +610,18 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
+	private static class TextFieldAlignmentPanel extends ListBoxPanel {
+
+		TextFieldAlignmentPanel(TextFieldAlignmentModel model, AppW app) {
+			super(app.getLocalization(), "stylebar.Align");
+			model.setListener(this);
+			setModel(model);
+		}
+	}
+
 	private static class DecoAnglePanel extends DecoOptionPanel
 			implements IDecoAngleListener {
-		
+
 		DecoAngleModel model;
 
 		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
