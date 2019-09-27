@@ -50,11 +50,10 @@ public final class CommandNameFilterFactory {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
-				Commands.Delete, Commands.Invert, Commands.Max,
-				Commands.Min, Commands.NSolutions, Commands.PerpendicularVector,
-				Commands.OrthogonalVector, Commands.Poisson, Commands.ReducedRowEchelonForm,
-				Commands.Sequence, Commands.Substitute, Commands.Sum,
-				Commands.Transpose, Commands.UnitPerpendicularVector, Commands.UnitOrthogonalVector,
+				Commands.Delete, Commands.Max,
+				Commands.Min, Commands.PerpendicularVector,
+				Commands.OrthogonalVector, Commands.Poisson,
+				Commands.UnitPerpendicularVector, Commands.UnitOrthogonalVector,
 				Commands.UnitVector,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
@@ -74,8 +73,7 @@ public final class CommandNameFilterFactory {
 				Commands.Point, Commands.Polygon, Commands.Polyline,
 				Commands.PolyLine, Commands.ProveDetails, Commands.Ray,
 				Commands.RigidPolygon, Commands.Sector, Commands.Segment,
-				Commands.Slope, Commands.Tangent, Commands.TriangleCurve,
-				Commands.Vertex,
+				Commands.Slope, Commands.TriangleCurve, Commands.Vertex,
 				// Transformation Commands
 				Commands.Rotate, Commands.Shear, Commands.Translate,
 				// Statistics Commands
@@ -98,7 +96,7 @@ public final class CommandNameFilterFactory {
 				Commands.DynamicCoordinates, Commands.Object, Commands.SlowPlot,
 				Commands.ToolImage,
 				// List Commands
-				Commands.IndexOf, Commands.RemoveUndefined, Commands.Take,
+				Commands.IndexOf, Commands.Take,
 				Commands.Zip,
 				// Text Commands
 				Commands.ContinuedFraction, Commands.FormulaText, Commands.LaTeX,
