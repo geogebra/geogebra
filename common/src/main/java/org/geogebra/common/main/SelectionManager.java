@@ -758,24 +758,9 @@ public class SelectionManager {
 	 */
 	public void addSelectedGeoForEV(GeoElement geo) {
 		addSelectedGeo(geo);
-		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
-				? geo.getViewSet().get(0)
-				: -1;
-		EuclidianViewInterfaceCommon view = null;
-		App app1 = geo.getKernel().getApplication();
-		if (viewID == App.VIEW_EUCLIDIAN2) {
-			view = app1.getEuclidianView2(1);
-		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
-			view = app1.getEuclidianView3D();
-		} else {
-			view = app1.getEuclidianView1();
-		}
 
-		if (geo instanceof GeoInputBox) {
-			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
-		} else {
-			view.requestFocus();
-		}
+		checkInputBoxAndFocus(geo);
+		App app1 = geo.getKernel().getApplication();
 
 		if (app1.isEuclidianView3Dinited()) {
 			EuclidianView3DInterface view3d = app1.getEuclidianView3D();
@@ -783,7 +768,41 @@ public class SelectionManager {
 				view3d.showFocusOn(geo);
 			}
 		}
+	}
 
+	private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
+		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
+				? geo.getViewSet().get(0)
+				: -1;
+		App app1 = geo.getKernel().getApplication();
+		if (viewID == App.VIEW_EUCLIDIAN2) {
+			return app1.getEuclidianView2(1);
+		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
+			return app1.getEuclidianView3D();
+		}
+
+		return app1.getEuclidianView1();
+	}
+
+	private void checkInputBoxAndFocus(GeoElement geo) {
+		EuclidianViewInterfaceCommon view = getViewOf(geo);
+		if (geo instanceof GeoInputBox) {
+			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
+		} else {
+			view.requestFocus();
+		}
+	}
+
+	/**
+	 * move selection from input box
+	 */
+	public void nextFromInputBox() {
+		if (selectedGeos.isEmpty()) {
+			kernel.getApplication()
+					.getActiveEuclidianView().requestFocus();
+		} else {
+			checkInputBoxAndFocus(selectedGeos.get(0));
+		}
 	}
 
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
