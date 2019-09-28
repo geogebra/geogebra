@@ -434,6 +434,7 @@ model {
                 }
                 if (targetPlatform.architecture.name == 'arm-v7') {
                     cppCompiler.define 'HAVE_GETTEXT'
+                    linker.args '-lstdc++'
                 }
 
                 // OS based settings:
