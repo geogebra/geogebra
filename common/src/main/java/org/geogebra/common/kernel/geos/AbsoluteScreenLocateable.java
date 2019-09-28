@@ -93,4 +93,6 @@ public interface AbsoluteScreenLocateable extends GeoElementND {
 	 * @return width in given view, including label
 	 */
 	public int getTotalWidth(EuclidianViewInterfaceCommon view);
+
+	boolean isFurniture();
 }

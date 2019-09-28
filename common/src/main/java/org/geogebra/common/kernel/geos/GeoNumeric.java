@@ -2012,6 +2012,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
+	public boolean isFurniture() {
+		return false;
+	}
+
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 0;
 	}
