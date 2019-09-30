@@ -85,13 +85,6 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * @return the text field
-	 */
-	GeoElement getGeo() {
-		return geo;
-	}
-
-	/**
 	 * Listens to events in this textfield
 	 * 
 	 * @author Michael + Judit
@@ -166,8 +159,7 @@ public class DrawInputBox extends CanvasDrawable {
 				draw(getView().getGraphicsForPen());
 				getGeoInputBox().setText(tf.getText());
 			} else {
-				GeoElementND linkedGeo = ((GeoInputBox) getGeo())
-						.getLinkedGeo();
+				GeoElementND linkedGeo = geoInputBox.getLinkedGeo();
 
 				if (linkedGeo instanceof GeoAngle) {
 
