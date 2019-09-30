@@ -7,7 +7,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.InputSuggestions;
+import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -24,7 +24,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
-	private InputSuggestions sug;
+	private MathFieldInputSuggestions sug;
 	private RetexKeyboardListener retexListener;
 	private EvaluateInput evalInput;
 
@@ -251,9 +251,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 	/**
 	 * @return input suggestion model (lazy load)
 	 */
-	InputSuggestions getInputSuggestions() {
+	MathFieldInputSuggestions getInputSuggestions() {
 		if (sug == null) {
-			sug = new InputSuggestions(app, item);
+			sug = new MathFieldInputSuggestions(app, item, false);
 		}
 		return sug;
 	}

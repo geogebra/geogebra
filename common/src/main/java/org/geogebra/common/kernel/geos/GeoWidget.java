@@ -359,7 +359,7 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 	}
 
 	@Override
-	public boolean isFurniture(){
+	public boolean isFurniture() {
 		return false;
 	}
 }

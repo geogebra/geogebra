@@ -18,8 +18,6 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
-import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -93,15 +91,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private StringBuilder curWord;
 	private int curWordStart;
 
-	protected AutoCompleteDictionary dict;
-	private boolean isCASInput = false;
 	private boolean autoComplete;
 	private int historyIndex;
 	private ArrayList<String> history;
 
 	private boolean handleEscapeKey = false;
-
-	private List<String> completions;
 
 	private HistoryPopupW historyPopup;
 	protected ScrollableSuggestBox textField = null;
@@ -122,7 +116,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Flag to determine if Tab key should behave like usual or disabled.
 	 */
 	private boolean tabEnabled = true;
-	private boolean forCAS;
 	private InsertHandler insertHandler = null;
 	private OnBackSpaceHandler onBackSpaceHandler = null;
 	private boolean suggestionJustHappened = false;
@@ -143,6 +136,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
     private boolean rightAltDown;
 	private boolean leftAltDown;
+	private final InputSuggestions inputSuggestions;
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -201,7 +195,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public AutoCompleteTextFieldW(int columns, final AppW app,
 			boolean handleEscapeKey, KeyEventsHandler keyHandler,
 			boolean forCAS, boolean showSymbolButton) {
-		this.forCAS = forCAS;
 		this.app = app;
 		this.loc = app.getLocalization();
 		setAutoComplete(true);
@@ -211,8 +204,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		historyIndex = 0;
 		history = new ArrayList<>(50);
-
-		completions = null;
+		inputSuggestions = new InputSuggestions(app, forCAS);
 
 		addStyleName("AutoCompleteTextFieldW");
 
@@ -358,7 +350,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 										setFocus(true);
 									}
 								});
-				}
+					}
 				});
 
 		add(showSymbolButton);
@@ -423,103 +415,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public List<String> resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
-		completions = null;
 		if (equalSignRequired && !text.startsWith("=")) {
+			inputSuggestions.cancelAutoCompletion();
 			return null;
 		}
-
-		boolean korean = false; // AG
-								// app.getLocale().getLanguage().equals("ko");
-
-		// start autocompletion only for words with at least two characters
-		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
-			completions = null;
-			return null;
-		}
-
-		String cmdPrefix = curWord.toString();
-
-		if (korean) {
-			completions = getDictionary().getCompletionsKorean(cmdPrefix);
-		} else {
-			completions = getDictionary().getCompletions(cmdPrefix);
-		}
-
-		if (completions == null && isFallbackCompletitionAllowed()) {
-			completions = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
-		}
-
-		List<String> commandCompletions = getSyntaxes(completions);
-
-		// Start with the built-in function completions
-		completions = app.getParserFunctions().getCompletions(cmdPrefix);
-		// Then add the command completions
-		if (completions.isEmpty()) {
-			completions = commandCompletions;
-		} else if (commandCompletions != null) {
-			completions.addAll(commandCompletions);
-		}
-		return completions;
-	}
-
-	/*
-	 * Take a list of commands and return all possible syntaxes for these
-	 * commands
-	 */
-	private List<String> getSyntaxes(List<String> commands) {
-		if (commands == null) {
-			return null;
-		}
-		ArrayList<String> syntaxes = new ArrayList<>();
-		for (String cmd : commands) {
-
-			String cmdInt = app.getInternalCommand(cmd);
-
-			boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed();
-
-			if (englishOnly) {
-				cmdInt = app.englishToInternal(cmd);
-			}
-
-			String syntaxString;
-			if (isCASInput) {
-				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
-			} else {
-				AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-				syntaxString = englishOnly ? ap.getEnglishSyntax(cmdInt, app.getSettings())
-						: ap.getSyntax(cmdInt, app.getSettings());
-			}
-
-			if (syntaxString == null) {
-				continue;
-			}
-			if (syntaxString.endsWith(Localization.syntaxCAS)
-					|| syntaxString.endsWith(Localization.syntaxStr)) {
-
-				// command not found, check for macros
-				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
-				if (macro != null) {
-					syntaxes.add(macro.toString());
-				} else {
-					// syntaxes.add(cmdInt + "[]");
-					Log.debug("Can't find syntax for: " + cmd);
-				}
-
-				continue;
-			}
-			for (String syntax : syntaxString.split("\\n")) {
-				syntaxes.add(syntax);
-			}
-		}
-		return syntaxes;
-	}
-
-	private boolean isFallbackCompletitionAllowed() {
-		return "zh".equals(app.getLocalization().getLanguage());
-	}
-
-	public void cancelAutoCompletion() {
-		completions = null;
+		return inputSuggestions.resetCompletions(curWord);
 	}
 
 	@Override
@@ -582,11 +482,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public List<String> getCompletions() {
-		return completions;
-	}
-
-	public int getCurrentWordStart() {
-		return curWordStart;
+		return inputSuggestions.getCompletions();
 	}
 
 	@Override
@@ -658,17 +554,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setDictionary(boolean forCAS) {
-		this.forCAS = forCAS;
-		this.dict = null;
+		inputSuggestions.setDictionary(forCAS);
 	}
 
 	@Override
 	public AutoCompleteDictionary getDictionary() {
-		if (this.dict == null) {
-			this.dict = this.forCAS ? app.getCommandDictionaryCAS()
-					: app.getCommandDictionary();
-		}
-		return dict;
+		return inputSuggestions.getDictionary();
 	}
 
 	/**
@@ -760,24 +651,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return history.get(historyIndex);
 	}
 
-	private static void mergeKoreanDoubles() {
-		// avoid shift on Korean keyboards
-		/*
-		 * AG dont do that yet if (app.getLocale().getLanguage().equals("ko")) {
-		 * String text = getText(); int caretPos = getCaretPosition(); String
-		 * mergeText = Korean.mergeDoubleCharacters(text); int decrease =
-		 * text.length() - mergeText.length(); if (decrease > 0) {
-		 * setText(mergeText); setCaretPosition(caretPos - decrease); } }
-		 */
-		Log.debug("KoreanDoubles may be needed in AutocompleteTextField");
-	}
-
 	private boolean moveToNextArgument(boolean find, boolean updateUI) {
 		String text = getText();
 		int caretPos = getCaretPosition();
 
 		// make sure it works if caret is just after [
-		if (caretPos > 0 && text.length() < caretPos
+		if (caretPos > 0 && caretPos < text.length()
 				&& text.charAt(caretPos) != '(') {
 			caretPos--;
 		}
@@ -1151,8 +1030,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			// handle alt-p etc
 			// super.keyReleased(e);
 
-			mergeKoreanDoubles();
-
 			if (getAutoComplete()) {
 				updateCurrentWord(false);
 			}
@@ -1280,9 +1157,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void onSelection(SelectionEvent<Suggestion> event) {
 		suggestionJustHappened = true;
-		int index = completions
-				.indexOf(event.getSelectedItem().getReplacementString());
-		validateAutoCompletion(index, getCompletions());
+		List<String> completions = getCompletions();
+		if (completions != null) {
+			int index = completions
+					.indexOf(event.getSelectedItem().getReplacementString());
+			validateAutoCompletion(index, completions);
+		}
 	}
 
 	/**
@@ -1503,10 +1383,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.equalSignRequired = isEqualsRequired;
 	}
 
-	public void setCASInput(boolean b) {
-		this.isCASInput = b;
-	}
-
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
 		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
@@ -1675,11 +1551,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public boolean isForCAS() {
-		return false;
-	}
-
-	@Override
 	public boolean needsAutofocus() {
 		return false;
 	}
@@ -1695,7 +1566,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public App getApplication() {
+	public AppW getApplication() {
 		return app;
 	}
 
