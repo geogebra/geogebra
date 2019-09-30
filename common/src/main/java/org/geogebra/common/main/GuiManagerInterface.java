@@ -89,8 +89,6 @@ public interface GuiManagerInterface {
 
 	void getConsProtocolXML(StringBuilder sb);
 
-	boolean isInputFieldSelectionListener();
-
 	void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 							 GPoint mouseLoc);
 

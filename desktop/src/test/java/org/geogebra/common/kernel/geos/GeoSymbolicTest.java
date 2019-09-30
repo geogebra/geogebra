@@ -32,29 +32,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class GeoSymbolicTest {
-	private static AppCommon app;
-	private static AlgebraProcessor ap;
-
-	/**
-	 * Create the app
-	 */
-	@BeforeClass
-	public static void setup() {
-		app = AlgebraTest.createApp();
-		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-		app.getKernel().getParser().setHighPrecisionParsing(true);
-		app.setRounding("10");
-		ap = app.getKernel().getAlgebraProcessor();
-		app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
-				StringTemplate.defaultTemplate, app.getKernel());
-		app.setConfig(new AppConfigCas());
-	}
-
-	public static void t(String input, String... expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
-				StringTemplate.testTemplate);
-	}
+public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	private static void testValidResultCombinations(String input, String... validResults) {
 		AlgebraTestHelper.testValidResultCombinations(

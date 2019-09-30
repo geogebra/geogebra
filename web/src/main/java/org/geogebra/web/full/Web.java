@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.factories.CASFactory;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
@@ -48,12 +46,6 @@ public class Web implements EntryPoint {
 			return;
 		}
 		Browser.checkFloat64();
-		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
-		// production
-		// GeoGebraProfiler.init(new GeoGebraProfilerW());
-		GeoGebraProfiler.init(new SilentProfiler());
-
-		GeoGebraProfiler.getInstance().profile();
 
 		SuperDevUncaughtExceptionHandler.register();
 		exportGGBElementRenderer();

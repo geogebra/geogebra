@@ -2701,11 +2701,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @param sl
-	 *            selection listener
+	 * Reset selection listener
 	 */
-	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
-		currentSelectionListener = sl;
+	public void resetCurrentSelectionListener() {
+		currentSelectionListener = null;
 	}
 
 	/**

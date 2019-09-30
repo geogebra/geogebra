@@ -1355,7 +1355,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					helpPopup.removeStyleName("helpPopupAV");
 					helpPopup.addStyleName("helpPopupAVBottom");
 				}
-				helpPanel.updateGUI(maxOffsetHeight, 1);
+				helpPanel.updateGUI(maxOffsetHeight);
 				helpPopup.show();
 			}
 		});
@@ -1640,7 +1640,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			latexItem = new FlowPanel();
 		}
 		latexItem.clear();
-		latexItem.add(canvas);
+		if (canvas != null) {
+			latexItem.add(canvas);
+		}
 		content.add(latexItem);
 	}
 

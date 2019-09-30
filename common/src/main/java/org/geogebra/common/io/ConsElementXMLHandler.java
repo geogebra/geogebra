@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -48,6 +49,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1111,6 +1113,18 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
+	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
+		String align = attrs.get("val");
+
+		if (geo instanceof HasAlignment) {
+			((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
+		} else {
+			Log.error("Text alignment not supported for " + geo.getGeoClassType());
+		}
+
+		return true;
+	}
+
 	private boolean handleListType(LinkedHashMap<String, String> attrs) {
 
 		// name of geo type, eg "point"
@@ -2095,6 +2109,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "video":
 				handleVideo(attrs);
+				break;
+			case "textAlign":
+				handleTextAlign(attrs);
 				break;
 			default:
 				Log.error("unknown tag in <element>: " + eName);

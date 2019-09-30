@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.scripting.CmdStartAnimation;
 import org.geogebra.common.kernel.scripting.CmdStartLogging;
 import org.geogebra.common.kernel.scripting.CmdStartRecord;
 import org.geogebra.common.kernel.scripting.CmdStopLogging;
-import org.geogebra.common.kernel.scripting.CmdTextfield;
 import org.geogebra.common.kernel.scripting.CmdToolImage;
 import org.geogebra.common.kernel.scripting.CmdTurtle;
 import org.geogebra.common.kernel.scripting.CmdTurtleBack;
@@ -169,9 +168,6 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdSlider(kernel);
 		case Checkbox:
 			return new CmdCheckbox(kernel);
-		case InputBox:
-		case Textfield:
-			return new CmdTextfield(kernel);
 		case Button:
 			return new CmdButton(kernel);
 		case Execute:

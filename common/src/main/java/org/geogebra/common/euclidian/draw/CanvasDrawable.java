@@ -38,7 +38,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @return whether text starts and ends with $
 	 */
 	public static boolean isLatexString(String text) {
-		return text.length() > 1 && text.startsWith("$")
+		return text != null && text.length() > 1 && text.startsWith("$")
 				&& text.trim().endsWith("$");
 	}
 
@@ -168,6 +168,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the caption is latex
 	 */
 	protected void calculateBoxBounds(boolean latex) {
+		if (labelSize == null) {
+			return;
+		}
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredHeight()) / 2
@@ -194,9 +197,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
 		if (geo.isLabelVisible() && isHighlighted()) {
-			if (!view.getApplication().isDesktop()) {
-				g2.setPaint(GColor.LIGHT_GRAY);
-			}
+			g2.setPaint(GColor.LIGHT_GRAY);
 			if (latex) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {

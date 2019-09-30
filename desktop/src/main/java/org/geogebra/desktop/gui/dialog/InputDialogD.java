@@ -481,7 +481,7 @@ public class InputDialogD extends InputDialog
 				wrappedDialog.addWindowFocusListener(this);
 			} else {
 				wrappedDialog.removeWindowFocusListener(this);
-				app.setCurrentSelectionListener(null);
+				app.resetCurrentSelectionListener();
 			}
 		}
 		wrappedDialog.setVisible(flag);

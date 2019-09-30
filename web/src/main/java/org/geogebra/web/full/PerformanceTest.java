@@ -23,14 +23,12 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -53,8 +51,6 @@ public class PerformanceTest implements EntryPoint {
 	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
 			"object adds itself to construction" })
 	public void onModuleLoad() {
-		GeoGebraProfiler.init(new GeoGebraProfilerW());
-		GeoGebraProfiler.getInstance().profile();
 		NodeList<Element> nodes = Dom
 		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		Log.setLogger(new LoggerW());
@@ -202,7 +198,6 @@ public class PerformanceTest implements EntryPoint {
 		app.getEuclidianView1().getGraphicsForPen()
 		        .setCoordinateSpaceSize(800, 600);
 		app.afterLoadFileAppOrNot(false);
-		GeoGebraProfiler.getInstance().profileEnd();
 	}
 
 	/**

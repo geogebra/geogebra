@@ -26,7 +26,7 @@ import com.google.gwt.user.client.DOM;
  *
  */
 public class EmbedInputDialog extends MediaDialog
-		implements AsyncOperation<URLStatus> {
+		implements AsyncOperation<URLStatus>, MaterialCallbackI {
 
 	private URLChecker urlChecker;
 
@@ -78,23 +78,7 @@ public class EmbedInputDialog extends MediaDialog
 			inputField.getTextComponent().setText(url);
 		}
 		if (GeoGebraURLParser.isGeoGebraURL(url)) {
-			getGeoGebraTubeAPI().getItem(
-					GeoGebraURLParser.getIDfromURL(url),
-					new MaterialCallbackI() {
-
-						@Override
-						public void onLoaded(List<Material> result,
-								ArrayList<Chapter> meta) {
-							String base64 = result.get(0).getBase64();
-							embedGeoGebraAndHide(base64);
-						}
-
-						@Override
-						public void onError(Throwable exception) {
-							showEmptyEmbeddedElement();
-							hide();
-						}
-					});
+			getGeoGebraTubeAPI().getItem(GeoGebraURLParser.getIDfromURL(url), this);
 		} else {
 			urlChecker.check(url.replace("+", "%2B"), this);
 		}
@@ -154,4 +138,19 @@ public class EmbedInputDialog extends MediaDialog
 		}
 	}
 
+	@Override
+	public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+		if (result.size() < 1) {
+			onError(null);
+		} else {
+			String base64 = result.get(0).getBase64();
+			embedGeoGebraAndHide(base64);
+		}
+	}
+
+	@Override
+	public void onError(Throwable exception) {
+		showEmptyEmbeddedElement();
+		hide();
+	}
 }

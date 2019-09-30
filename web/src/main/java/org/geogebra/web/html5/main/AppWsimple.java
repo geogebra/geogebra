@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
@@ -129,7 +128,6 @@ public class AppWsimple extends AppW {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		GeoGebraProfiler.getInstance().profileEnd();
 		setAltText();
 	}
 
