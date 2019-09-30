@@ -46,20 +46,13 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	public void updateLinkedGeo(String inputText, StringTemplate tpl, boolean useRounding) {
 		String defineText = preprocess(inputText, tpl);
 
-		if ("".equals(defineText.trim())) {
-			return;
-		}
-
-		double num = Double.NaN;
 		ExpressionNode parsed = null;
 
 		if (linkedGeo.isGeoNumeric()) {
 			try {
 				parsed = kernel.getParser().parseExpression(inputText);
-
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				// e.printStackTrace();
+				// nothing to do
 			}
 		}
 
@@ -69,7 +62,8 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			try {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
-				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText, false, null);
+				double num = kernel.getAlgebraProcessor()
+						.evaluateToDouble(inputText, false, null);
 				defineText = kernel.format(num, tpl);
 
 			} catch (Exception e) {
@@ -112,7 +106,12 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 
 	private String preprocess(String inputText, StringTemplate tpl) {
 		String defineText = inputText;
-		if (linkedGeo.isGeoLine()) {
+
+		if (linkedGeo.isGeoText()) {
+			defineText = "\"" + defineText + "\"";
+		} else if ("?".equals(inputText.trim()) || "".equals(inputText.trim())) {
+			defineText = "?";
+		} else if (linkedGeo.isGeoLine()) {
 
 			// not y=
 			// and not Line[A,B]
@@ -128,8 +127,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			if (!defineText.startsWith(prefix)) {
 				defineText = prefix + defineText;
 			}
-		} else if (linkedGeo.isGeoText()) {
-			defineText = "\"" + defineText + "\"";
 		} else if (isComplexNumber()) {
 
 			// make sure user can enter regular "i"
@@ -172,5 +169,4 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	private void showError() {
 		kernel.getApplication().showError(Errors.InvalidInput);
 	}
-
 }
