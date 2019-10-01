@@ -28,6 +28,14 @@ public abstract class ViewTextField {
 		drawInputBox.attachTextField();
 	}
 
+
+	private void applyChanges() {
+		if (getTextField() == null) {
+			return;
+		}
+		getTextField().applyToInputBox();
+	}
+
 	/**
 	 * Revalidate the Swing component
 	 */
@@ -49,7 +57,7 @@ public abstract class ViewTextField {
 
 	/**
 	 * Paint all components to graphics
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -72,17 +80,4 @@ public abstract class ViewTextField {
 	 * @return textfield
 	 */
 	protected abstract AutoCompleteTextField getTextField(int length, DrawInputBox drawInputBox);
-
-	/**
-	 * Remove referenced objects.
-	 */
-	public abstract void remove();
-
-	/**
-	 * @param length
-	 *            number of characters
-	 */
-	public void setColumns(int length) {
-		// only in desktop
-	}
 }
