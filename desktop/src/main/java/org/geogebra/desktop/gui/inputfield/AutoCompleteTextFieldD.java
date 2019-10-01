@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.inputfield;
 
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,10 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -1101,6 +1097,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
 		this.setHorizontalAlignment(toSwingAlignment(alignment));
+	}
+
+	@Override
+	public void applyToInputBox() {
+		// implemented in web
 	}
 
 	private static int toSwingAlignment(TextAlignment alignment) {
