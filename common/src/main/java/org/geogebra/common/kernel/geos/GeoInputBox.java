@@ -51,7 +51,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public GeoInputBox(Construction cons) {
 		super(cons);
-		setLinkedGeo(new GeoText(cons, ""));
+		linkedGeo = new GeoText(cons, "");
+		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
 	/**
@@ -83,8 +84,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *            new linked geo
 	 */
 	public void setLinkedGeo(GeoElementND geo) {
-		linkedGeo = geo;
-		inputBoxProcessor = new InputBoxProcessor(this, geo);
+		if (geo == null) {
+			linkedGeo = new GeoText(cons, "");
+		} else {
+			linkedGeo = geo;
+		}
+
+		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
 	/**
@@ -187,16 +193,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		return getText();
-	}
-
-	/**
-	 * Set the text
-	 *
-	 * @param newText
-	 *            new text value
-	 */
-	public void setText(String newText) {
-		updateLinkedGeo(newText);
 	}
 
 	@Override
@@ -455,7 +451,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return if linked object can be a symbolic one.
 	 */
 	public boolean canBeSymbolic() {
-		return canBeSymbolicNumber() || linkedGeo.isGeoFunction() || linkedGeo.isGeoPoint() || linkedGeo.isGeoVector();
+		return canBeSymbolicNumber() || linkedGeo.isGeoFunction()
+				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector();
 	}
 
 	private boolean canBeSymbolicNumber() {

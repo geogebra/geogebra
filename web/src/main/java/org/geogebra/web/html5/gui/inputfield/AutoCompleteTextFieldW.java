@@ -839,7 +839,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			AutoCompleteTextField tf = app.getActiveEuclidianView()
 					.getTextField();
 			if (tf != null) {
-				geoUsedForInputBox.setText(tf.getText());
+				geoUsedForInputBox.updateLinkedGeo(tf.getText());
 				tf.setVisible(false);
 			}
 

@@ -415,7 +415,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				AutoCompleteTextField tf = app.getActiveEuclidianView()
 						.getTextField();
 				if (tf != null) {
-					geoUsedForInputBox.setText(tf.getText());
+					geoUsedForInputBox.updateLinkedGeo(tf.getText());
 				}
 				//
 				// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),

@@ -157,7 +157,7 @@ public class DrawInputBox extends CanvasDrawable {
 				getView().requestFocusInWindow();
 				tf.setVisible(false);
 				draw(getView().getGraphicsForPen());
-				getGeoInputBox().setText(tf.getText());
+				getGeoInputBox().updateLinkedGeo(tf.getText());
 			} else {
 				GeoElementND linkedGeo = geoInputBox.getLinkedGeo();
 
@@ -593,7 +593,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * Writes the real textfield's value to the GeoInputBox.
 	 */
 	public void apply() {
-		getGeoInputBox().setText(getTextField().getText());
+		getGeoInputBox().updateLinkedGeo(getTextField().getText());
 	}
 
 	@Override

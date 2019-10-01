@@ -14,13 +14,18 @@ import com.google.gwt.user.client.ui.SuggestOracle.Response;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.himamis.retex.editor.share.model.Korean;
 
+import javax.annotation.Nonnull;
+
 public class MathFieldInputSuggestions extends InputSuggestions
 		implements HasSuggestions {
+
+	private static final int MINIMUM_HEIGHT = 29;
+
 	private ScrollableSuggestionDisplay sug;
 	public static final int QUERY_LIMIT = 5000;
 	StringBuilder curWord;
 	protected CompletionsPopup popup;
-	private AutoCompleteW component;
+	private @Nonnull AutoCompleteW component;
 
 	/**
 	 * @param app
@@ -173,15 +178,12 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	@Override
 	public double getMaxSuggestionsHeight() {
 		AppW app = component.getApplication();
-		double ret = app.getHeight() / 2;
-		if (component != null) {
-			ret = Math.max(29,
-					Math.min(ret, app.getHeight() + app.getAbsTop()
-							- component.getAbsoluteTop()
-							- component.toWidget().getOffsetHeight()
-							- app.getAppletFrame().getKeyboardHeight()));
-		}
-		return ret;
-	}
 
+		double spaceBelow = app.getHeight() + app.getAbsTop()
+				- component.getAbsoluteTop()
+				- component.toWidget().getOffsetHeight()
+				- app.getAppletFrame().getKeyboardHeight();
+
+		return Math.max(MINIMUM_HEIGHT, Math.min(app.getHeight() / 2, spaceBelow));
+	}
 }
