@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.voiceInput;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.voiceInput.questResErr.QuestResErrConstants;
@@ -16,8 +17,10 @@ public class VoiceInputOutputController {
 
 	private AppW appW;
 	private VoiceInputDispatcher dispatcher;
-	private String gotResult = "false";
-	private int action = -1;
+    @ExternalAccess
+    private String gotResult = "false";
+    @ExternalAccess
+    private int action = -1;
 	private ArrayList<Double> results = new ArrayList<>();
 
 	/**
@@ -236,9 +239,10 @@ public class VoiceInputOutputController {
 		}
 	}
 
-	private void showMessage(String msg) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, appW);
-	}
+    @ExternalAccess
+    private void showMessage(String msg) {
+        ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, appW);
+    }
 
 	/**
 	 * collect necessary input from the user by processing the question list

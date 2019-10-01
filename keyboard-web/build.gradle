@@ -14,7 +14,7 @@ evaluationDependsOn(':renderer-web')
 
 buildscript {
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
     }
 }
 
@@ -49,11 +49,11 @@ gwt {
             draftCompile = true
         }
         if (project.hasProperty("gdetailed")){
-            style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+            style = org.wisepersist.gradle.plugins.gwt.Style.DETAILED;
         } else {
             disableClassMetadata = true;
         }
-        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
+        // style = org.wisepersist.gradle.plugins.gwt.Style.PRETTY;    
     }
 }
 

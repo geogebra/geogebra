@@ -57,21 +57,36 @@ public class NameValueModel extends ShowLabelModel {
 	 * 
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (isForceCaption() || (kernel.lookupLabel(name) != null
-				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())
-				|| !LabelManager.isValidLabel(name, kernel, null)) {
+        if (shouldNameChange(name)) {
+            nameModel.applyNameChange(name, handler);
+        } else {
 			nameModel.applyCaptionChange(name);
 			setForceCaption(!StringUtil.emptyTrim(name));
-		} else {
-			nameModel.applyNameChange(name, handler);
-		}
+        }
+    }
+
+    private boolean shouldNameChange(String name) {
+        return "".equals(name) || (!isForceCaption() && !isUsedForOtherGeo(name)
+                && LabelManager.isValidLabel(name, kernel, null));
+    }
+
+    private boolean isUsedForOtherGeo(String name) {
+        return kernel.lookupLabel(name) != null
+                && kernel.lookupLabel(name) != nameModel.getCurrentGeo();
+    }
+
+    /**
+     * @param label the new label
+     * @return if label should change to the new one.
+     */
+    public boolean noLabelUpdateNeeded(String label) {
+        return nameModel.noLabelUpdateNeeded(label);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return caption should be changed or not.
 	 */
-
 	public boolean isForceCaption() {
 		return forceCaption;
 	}
@@ -92,5 +107,4 @@ public class NameValueModel extends ShowLabelModel {
 	public boolean isLabelVisible() {
 		return getGeoAt(0).isLabelVisible();
 	}
-
 }

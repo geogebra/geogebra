@@ -2,6 +2,7 @@ package org.geogebra.desktop.plugin;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.debug.Log;
 import org.mozilla.javascript.Context;
@@ -124,7 +125,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		Context.getSourcePositionFromStack(linep); // line number of error
 		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0] + ""));
 		sb.append("\n");
-		sb.append(loc.getError("IllegalArgumentNumber"));
+        sb.append(Errors.IllegalArgumentNumber.getError(loc));
 		sb.append(": ");
 		sb.append(argNumber);
 		sb.append("\n\n");

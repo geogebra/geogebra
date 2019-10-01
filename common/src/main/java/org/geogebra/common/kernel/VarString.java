@@ -17,5 +17,8 @@ public interface VarString {
 	 */
 	public String getVarString(StringTemplate tpl);
 
-	public FunctionVariable[] getFunctionVariables();
+    /**
+     * @return function variables
+     */
+    public FunctionVariable[] getFunctionVariables();
 }

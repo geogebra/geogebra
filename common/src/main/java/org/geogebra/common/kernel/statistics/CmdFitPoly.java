@@ -77,7 +77,7 @@ public class CmdFitPoly extends CommandProcessor {
 			points--;
 		}
 		// try to create list of points
-		GeoList list = wrapInList(kernel, arg, points, GeoClass.POINT);
+        GeoList list = wrapInList(arg, points, GeoClass.POINT, c);
 		if (list != null) {
 			GeoElement[] ret = { fitPoly(list, degree) };
 			ret[0].setLabel(c.getLabel());

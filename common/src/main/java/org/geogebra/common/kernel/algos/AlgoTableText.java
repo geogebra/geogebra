@@ -351,7 +351,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		if (!geoList.isDefined() || columns == 0) {
 			text.setTextString("");
 			return;
-			// throw new MyError(app, app.getError("InvalidInput"));
+            // throw new MyError(app, app.getInvalidInputError());
 		}
 
 		parseArgs();
@@ -364,7 +364,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		if (columns == 0) {
 			text.setTextString("");
 			return;
-			// throw new MyError(app, app.getError("InvalidInput"));
+            // throw new MyError(app, app.getInvalidInputError());
 		}
 
 		if (geoLists == null || geoLists.length < columns) {
@@ -390,7 +390,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		if (rows == 0) {
 			text.setTextString("");
 			return;
-			// throw new MyError(app, app.getError("InvalidInput"));
+            // throw new MyError(app, app.getInvalidInputError());
 		}
 
 		sb.setLength(0);

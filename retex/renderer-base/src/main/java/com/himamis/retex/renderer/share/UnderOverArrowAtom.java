@@ -84,7 +84,7 @@ public class UnderOverArrowAtom extends Atom implements HasTrueBase {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base != null ? base.createBox(env) : new StrutBox(0, 0, 0, 0);
-		double sep = new SpaceAtom(TeXLength.Unit.POINT, 1f, 0, 0)
+        double sep = new SpaceAtom(Unit.POINT, 1f, 0, 0)
 				.createBox(env).getWidth();
 		Box arrow;
 

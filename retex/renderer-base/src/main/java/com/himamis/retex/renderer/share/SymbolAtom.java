@@ -92,7 +92,7 @@ public class SymbolAtom extends CharSymbol {
 	public SymbolAtom(String name, int type, char unicode) {
 		this.cf = Configuration.getFontMapping().get(name);
 		if (cf == null) {
-			FactoryProvider.getInstance().debug("missing " + name);
+            FactoryProvider.debugS("missing " + name);
 		}
 
 		this.type = type;

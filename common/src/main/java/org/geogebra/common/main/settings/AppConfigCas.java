@@ -1,7 +1,9 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 
 /**
  * Config for CAS Calculator app
@@ -25,7 +27,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "";
+        return "cas_tutorials";
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public CommandNameFilter getCommandNameFilter() {
-		return null;
+        return CommandNameFilterFactory.createCasCommandNameFilter();
 	}
 
 	@Override
@@ -57,4 +59,19 @@ public class AppConfigCas extends AppConfigGraphing {
 	public boolean hasAutomaticSliders() {
 		return false;
 	}
+
+    @Override
+    public boolean showToolsPanel() {
+        return false;
+    }
+
+    @Override
+    public String getAppCode() {
+        return "cas";
+    }
+
+    @Override
+    public GeoGebraConstants.Version getVersion() {
+        return GeoGebraConstants.Version.CAS;
+    }
 }

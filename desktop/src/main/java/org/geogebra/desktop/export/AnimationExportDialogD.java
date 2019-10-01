@@ -1,10 +1,6 @@
 package org.geogebra.desktop.export;
 
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -12,22 +8,13 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -286,7 +273,7 @@ public class AnimationExportDialogD extends JDialog {
 				throw new NumberFormatException();
 			}
 		} catch (NumberFormatException e) {
-			app.showError("InvalidInput", tfTimeBetweenFrames.getText());
+            app.showError(Errors.InvalidInput, tfTimeBetweenFrames.getText());
 			return;
 		}
 		exportButton.setEnabled(false);
@@ -383,7 +370,7 @@ public class AnimationExportDialogD extends JDialog {
 					n, val, min, max, step);
 
 		} catch (Exception ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			ex.printStackTrace();
 		} finally {
 			app.setDefaultCursor();

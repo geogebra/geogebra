@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.main.MyError.Errors;
 
-//TODO add import for GeoGebraCAS as soon as it is in common
 /**
  * Base class for all CAS exceptions. All exceptions the CAS throws should be of
  * this type (unless you want to use {@link GeoGebraCAS#evaluateRaw(String)}.
@@ -47,7 +47,7 @@ public class CASException extends RuntimeException {
 		if (key != null) {
 			return key;
 		}
-		return "CAS.GeneralErrorMessage";
+        return Errors.CASGeneralErrorMessage.getKey();
 	}
 
 	/**

@@ -237,7 +237,7 @@ public class FractionAtom extends Atom {
 		vBox.setHeight(shiftUp + num.getHeight());
 		vBox.setDepth(shiftDown + denom.getDepth());
 
-		final double f = TeXLength.getLength("nulldelimiterspace", env);
+        final double f = env.lengthSettings().getLength("nulldelimiterspace", env);
 
 		return new HorizontalBox(vBox, vBox.getWidth() + 2 * f,
 				TeXConstants.Align.CENTER);

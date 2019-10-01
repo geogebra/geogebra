@@ -6,7 +6,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
-import org.geogebra.common.kernel.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
@@ -34,7 +34,7 @@ public class Pstricks {
 
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+        app = AlgebraTest.createApp();
 		ec = app.getActiveEuclidianView().getEuclidianController();
 		inputs = new ArrayList<>();
 		createObjects();

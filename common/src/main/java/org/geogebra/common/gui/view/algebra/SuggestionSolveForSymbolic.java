@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -38,7 +39,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		labelGeosIfNeeded();
 		String command = getCommandText();
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				command, false);
+                command, false, new LabelHiderCallback());
 	}
 
 	private void labelGeosIfNeeded() {

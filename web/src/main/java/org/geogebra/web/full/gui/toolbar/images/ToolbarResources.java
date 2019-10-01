@@ -7,8 +7,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_select_32();
 
-	ResourcePrototype mode_select_teal();
-
 	ResourcePrototype mode_angle_32();
 
 	ResourcePrototype mode_anglefixed_32();
@@ -84,8 +82,6 @@ public interface ToolbarResources {
 	ResourcePrototype mode_image_32();
 
 	ResourcePrototype mode_image_mow_32();
-
-	ResourcePrototype mode_image_mow_teal();
 
 	ResourcePrototype mode_integral_32();
 
@@ -181,11 +177,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_text_32();
 
-	ResourcePrototype mode_text_32_teal();
-
 	ResourcePrototype mode_media_text();
-
-	ResourcePrototype mode_media_text_teal();
 
 	ResourcePrototype mode_textfieldaction_32();
 
@@ -204,6 +196,10 @@ public interface ToolbarResources {
 	ResourcePrototype mode_zoomin_32();
 
 	ResourcePrototype mode_zoomout_32();
+
+    ResourcePrototype mode_graspablemath_32();
+
+    ResourcePrototype mode_cas_32();
 
 	// 3D
 
@@ -257,76 +253,42 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_shape_line_32();
 
-	ResourcePrototype mode_shape_line_teal();
-
 	ResourcePrototype mode_shape_triangle_32();
-
-	ResourcePrototype mode_shape_triangle_teal();
 
 	ResourcePrototype mode_shape_square_32();
 
-	ResourcePrototype mode_shape_square_teal();
-
 	ResourcePrototype mode_shape_rectangle_32();
-
-	ResourcePrototype mode_shape_rectangle_teal();
 
 	ResourcePrototype mode_shape_rectangle_round_edges_32();
 
 	ResourcePrototype mode_shape_polygon_32();
 
-	ResourcePrototype mode_shape_polygon_teal();
-
 	ResourcePrototype mode_shape_freeform_32();
-
-	ResourcePrototype mode_shape_freeform_teal();
 
 	ResourcePrototype mode_shape_circle_32();
 
-	ResourcePrototype mode_shape_circle_teal();
-
 	ResourcePrototype mode_shape_ellipse_32();
-	
-	ResourcePrototype mode_shape_ellipse_teal();
 
 	ResourcePrototype mode_eraser_32();
-
-	ResourcePrototype mode_eraser_teal();
 
 	ResourcePrototype help_32();
 
 	ResourcePrototype mode_graphing_32();
 
-	ResourcePrototype mode_graphing_teal();
-
 	ResourcePrototype mode_photo_32();
 
 	ResourcePrototype mode_video_32();
 
-	ResourcePrototype mode_video_teal();
-
 	ResourcePrototype mode_audio_32();
-
-	ResourcePrototype mode_audio_teal();
 
 	ResourcePrototype mode_camera_32();
 
-	ResourcePrototype mode_camera_teal();
-
 	ResourcePrototype mode_highlighter_32();
-
-	ResourcePrototype mode_highlighter_teal();
 
 	ResourcePrototype mode_pdf_32();
 
-	ResourcePrototype mode_pdf_teal();
-
 	ResourcePrototype mode_extension();
 
-	ResourcePrototype mode_extension_teal();
-
 	ResourcePrototype mode_pen();
-
-	ResourcePrototype mode_pen_teal();
 
 }

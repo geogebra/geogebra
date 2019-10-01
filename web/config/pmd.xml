@@ -25,8 +25,6 @@
 		<exclude name="LooseCoupling"/>
 		<exclude name="ArrayIsStoredDirectly"/>
 		<exclude name="AvoidStringBufferField"/>
-		<exclude name="UnusedPrivateField"/>
-		<exclude name="UnusedPrivateMethod"/>
 		<exclude name="MethodReturnsInternalArray"/>
 		<exclude name="DefaultLabelNotLastInSwitchStmt"/>
 		<exclude name="AbstractClassWithoutAbstractMethod"/>
@@ -99,9 +97,14 @@
 		<exclude name="AbstractClassWithoutAnyMethod"/>
 		<exclude name="DoNotExtendJavaLangError"/>
 	</rule>
-	<rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
+        <properties>
+            <property name="ignoredAnnotations" value="org.geogebra.common.util.ExternalAccess"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateField">
 		<properties>
-        <property name="problemDepth" value="4"/>
+            <property name="ignoredAnnotations" value="org.geogebra.common.util.ExternalAccess"/>
     </properties>
 	</rule>
 	<rule ref="category/java/documentation.xml">

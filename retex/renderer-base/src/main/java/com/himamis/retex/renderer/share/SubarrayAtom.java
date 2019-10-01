@@ -50,7 +50,7 @@ package com.himamis.retex.renderer.share;
  */
 public class SubarrayAtom extends Atom {
 
-	private static final SpaceAtom vsep_in = new SpaceAtom(TeXLength.Unit.EX,
+    private static final SpaceAtom vsep_in = new SpaceAtom(Unit.EX,
 			0., 0.5, 0.);
 	private ArrayOfAtoms column;
 	private ArrayOptions options;

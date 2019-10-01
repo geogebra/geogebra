@@ -7,9 +7,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
-import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
-import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -23,6 +21,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
@@ -93,20 +92,27 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 		createRightSide();
 		createCenter();
-		if (app.isUndoRedoEnabled()) {
-			addUndoRedoButtons();
-		}
+        maybeAddUndoRedoPanel();
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 	}
 
+    private boolean maybeAddUndoRedoPanel() {
+        boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
+        if (isAllowed) {
+            addUndoRedoButtons();
+        }
+        return isAllowed;
+    }
+
 	private void createCenter() {
 		if (!app.showToolBar() || !app.enableGraphing()) {
 			return;
 		}
 
+        int nrOfBtn = 1;
 		createAlgebraButton();
 		createToolsButton();
 		createTableViewButton();
@@ -117,26 +123,31 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		center.add(btnAlgebra);
 
-		Element indicator = DOM.createDiv();
-		indicator.addClassName("indicator");
-		center.getElement().insertFirst(indicator);
-		center.add(btnTools);
+        boolean showToolPanel = app.getConfig().showToolsPanel();
+
+        if (showToolPanel) {
+            center.add(btnTools);
+            nrOfBtn++;
+        }
 		if (app.getConfig().hasTableView()) {
 			center.add(btnTableView);
-			center.addStyleName("threeTab");
-		}
-
+            nrOfBtn++;
+            if (showToolPanel) {
+                center.addStyleName("threeTab");
+            }
+        }
+        if (nrOfBtn > 1) {
+            Element indicator = DOM.createDiv();
+            indicator.addClassName("indicator");
+            center.getElement().insertFirst(indicator);
+        }
 		contents.add(center);
 	}
 
 	private void createAlgebraButton() {
-		SVGResource img;
-		if (!app.isUnbundledGeometry()) {
-			img = MaterialDesignResources.INSTANCE.toolbar_algebra_graphing();
-		} else {
-			img = MaterialDesignResources.INSTANCE.toolbar_algebra_geometry();
-		}
-		btnAlgebra = new MyToggleButton(new NoDragImage(img, 24, 24), app);
+        btnAlgebra = new MyToggleButton(new NoDragImage(
+                MaterialDesignResources.INSTANCE.toolbar_algebra_graphing(), 24, 24),
+                app);
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -328,6 +339,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private void setTitle(Widget btn, String avTitle) {
 		if (btn != null) {
 			btn.setTitle(app.getLocalization().getMenu(avTitle));
+            TestHarness.setAttr(btn, "btn_" + avTitle);
 		}
 	}
 
@@ -468,7 +480,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		updateMenuPosition();
 		markMenuAsExpanded(false);
-
 		btnMenu.addTabHandler(this);
 	}
 
@@ -574,9 +585,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
-			if (app.isUndoRedoEnabled()) {
-				addUndoRedoButtons();
-			} else {
+            boolean panelAdded = maybeAddUndoRedoPanel();
+            if (!panelAdded) {
 				return;
 			}
 		}
@@ -871,7 +881,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	public void onLandscapeAnimationEnd(double expandFrom, double expandTo) {
 		if (!isOpen()) {
-			expandWidth(expandFrom);
+            getElement().getStyle().clearWidth();
 			setHeight("100%");
 			toolbarPanel.updateUndoRedoPosition();
 		} else {

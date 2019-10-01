@@ -17,7 +17,9 @@ public enum EventType {
 	/** ADD */
 	ADD("add"),
 
-	/** STOREUNDO */
+    /**
+     * when an undo point is created
+     */
 	STOREUNDO("storeUndo"),
 
 	/** REMOVE */
@@ -80,10 +82,10 @@ public enum EventType {
 	/** DESELECT */
 	DESELECT("deselect"),
 
-	/** UNDO */
+    /** eg when the user presses the Undo button */
 	UNDO("undo"),
 
-	/** REDO */
+    /** eg when the user presses the redo button */
 	REDO("redo"),
 
 	/** EXPORT */
@@ -126,6 +128,10 @@ public enum EventType {
 	EDITOR_STOP("editorStop"),
 	/** Undoable event happened in external object */
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
+    /**
+     * Prune state list in external object
+     */
+    EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
 
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
@@ -136,7 +142,23 @@ public enum EventType {
 	/** Side Panel opened */
 	SIDE_PANEL_OPENED("sidePanelOpened"),
 	/** Side Panel closed */
-	SIDE_PANEL_CLOSED("sidePanelClosed");
+    SIDE_PANEL_CLOSED("sidePanelClosed"),
+
+    /**
+     * 2D view changed (panned, zoomed, axis scale changed)
+     */
+    VIEW_CHANGED_2D("viewChanged2D"),
+    /**
+     * 3D view changed (panned, zoomed, rotated, axis scale changed)
+     */
+    VIEW_CHANGED_3D("viewChanged3D"),
+
+    /**
+     * mouse down or touch start event
+     */
+    MOUSE_DOWN("mouseDown"),
+    /** i.e. mouse up, touch end, finished dragging a point, or segment etc. */
+	DRAG_END("dragEnd");
 
 	private String eventName;
 

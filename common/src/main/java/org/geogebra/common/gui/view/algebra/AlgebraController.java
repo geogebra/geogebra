@@ -204,7 +204,7 @@ public class AlgebraController {
 			}
 		} catch (Exception ee) {
 			errorHandler
-					.showError(app.getLocalization().getError("InvalidInput"));
+                    .showError(app.getLocalization().getInvalidInputError());
 			return false;
 		} catch (Error ee) {
 			errorHandler.showError(ee.getLocalizedMessage());

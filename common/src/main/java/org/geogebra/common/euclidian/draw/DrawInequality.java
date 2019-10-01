@@ -121,6 +121,13 @@ public class DrawInequality extends Drawable {
 					leftIneq.ignoreLines();
 				}
 			}
+            if (!(right.drawable instanceof DrawInequality1Var)) {
+                Log.error("right.drawable not instanceof DrawInequality1Var");
+                if (right.drawable != null) {
+                    Log.error("class = " + right.drawable.getClass());
+                }
+                return;
+            }
 			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
 			if (rightIneq.isMinBoundSet()) {
 				double minRight = rightIneq
@@ -612,7 +619,7 @@ public class DrawInequality extends Drawable {
 		}
 		if (!isForceNoFill()) {
 			if (gpAxis != null) {
-				if (geo.doHighlighting()) {
+                if (isHighlighted()) {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; gpAxis[i] != null; i++) {

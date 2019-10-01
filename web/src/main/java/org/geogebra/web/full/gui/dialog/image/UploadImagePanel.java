@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog.image;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
@@ -112,33 +113,35 @@ public class UploadImagePanel extends VerticalPanel {
 		}
 	}-*/;
 
-	private void setMoveMode() {
-		if (uploadImageWithoutDialog != null) {
-			uploadImageWithoutDialog.setSelectMode();
-		}
-	}
+    @ExternalAccess
+    private void setMoveMode() {
+        if (uploadImageWithoutDialog != null) {
+            uploadImageWithoutDialog.setSelectMode();
+        }
+    }
 
-	private void fileSelected(String fData, String fName) {
-		this.fileData = fData;
-		this.fileName = fName;
-		if (previewImg == null) {
-			try {
-				previewImg = new Image(fileData);
-				previewImg.setWidth(previewWidth + "px");
-				previewImg.setHeight(previewHeight + "px");
-				add(previewImg);
-			} catch (Throwable e) {
-				Log.debug("ImageProblem" + e.getMessage());
-			}
-		} else {
-			previewImg.setUrl(fileData);
-		}
-		if (dialog == null) {
-			uploadImageWithoutDialog.insertImage();
-		} else {
-			dialog.imageAvailable();
-		}
-	}
+    @ExternalAccess
+    private void fileSelected(String fData, String fName) {
+        this.fileData = fData;
+        this.fileName = fName;
+        if (previewImg == null) {
+            try {
+                previewImg = new Image(fileData);
+                previewImg.setWidth(previewWidth + "px");
+                previewImg.setHeight(previewHeight + "px");
+                add(previewImg);
+            } catch (Throwable e) {
+                Log.debug("ImageProblem" + e.getMessage());
+            }
+        } else {
+            previewImg.setUrl(fileData);
+        }
+        if (dialog == null) {
+            uploadImageWithoutDialog.insertImage();
+        } else {
+            dialog.imageAvailable();
+        }
+    }
 
 	/**
 	 * @return image data

@@ -26,6 +26,7 @@ public class Exponents {
 		exponentMap.put(Base.y, 0);
 		exponentMap.put(Base.z, 0);
 		exponentMap.put(Base.theta, 0);
+        exponentMap.put(Base.t, 0);
 		exponentMap.put(Base.pi, 0);
 	}
 

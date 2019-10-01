@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.main.MyError.Errors;
+
 /**
  * Exception caused by circular definition
  */
@@ -11,7 +13,7 @@ public class CircularDefinitionException extends Exception {
 	 * Creates new circular definition exception
 	 */
 	public CircularDefinitionException() {
-		super("CircularDefinition");
+        super(Errors.CircularDefinition.getKey());
 	}
 
 }

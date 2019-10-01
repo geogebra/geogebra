@@ -9,7 +9,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 
-import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
 
 /**
  * interface for EuclidianViewW / EuclidianView3DW
@@ -23,7 +23,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 * 
 	 * @return canvas
 	 */
-	Canvas getCanvas();
+    Element getCanvasElement();
 
 	Hits getHits();
 
@@ -103,4 +103,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	int getExportWidth();
 
 	int getExportHeight();
+
+    boolean isAttached();
 }

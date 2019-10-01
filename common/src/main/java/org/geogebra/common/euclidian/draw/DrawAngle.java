@@ -523,7 +523,7 @@ public class DrawAngle extends Drawable implements Previewable {
 									// appropriate
 			}
 
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(angle.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(shape);

@@ -18,6 +18,8 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordNearest;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
@@ -25,8 +27,6 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.TransformMirror;
-import org.geogebra.common.kernel.Matrix.CoordNearest;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircle;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartParameters;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
@@ -918,4 +919,10 @@ public class GeoConicPart extends GeoConic
 	public boolean isInverseFillable() {
 		return false;
 	}
+
+    @Override
+    public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
+        super.toGeoCurveCartesian(curve);
+        parameters.updateCurve(curve);
+    }
 }

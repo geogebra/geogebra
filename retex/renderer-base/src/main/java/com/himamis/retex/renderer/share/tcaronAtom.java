@@ -61,7 +61,7 @@ public class tcaronAtom extends Atom {
 				env.getTeXFont().getChar(APOS.getCf(), env.getStyle()));
 		CharBox t = new CharBox(env.getTeXFont().getChar('t', env.getStyle()));
 		HorizontalBox hb = new HorizontalBox(t);
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3, 0, 0).createBox(env));
+        hb.add(new SpaceAtom(Unit.EM, -0.3, 0, 0).createBox(env));
 		hb.add(A);
 		return hb;
 	}

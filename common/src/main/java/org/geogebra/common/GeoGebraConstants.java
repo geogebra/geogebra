@@ -10,84 +10,61 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-    public static final String BUILD_DATE = "6 September 2019";
+    public static final String BUILD_DATE = "30 September 2019";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.540.0";
+    public static final String VERSION_STRING = "5.0.560.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
-	public enum Versions {
+    /**
+     * App versions
+     */
+    enum Version {
+        CAS,
+        GRAPHING,
+        GRAPHING_3D,
+        GEOMETRY,
+        SCIENTIFIC,
+        MIXED_REALITY,
+        NOTES,
+    }
 
-		DESKTOP("d", "classic"),
+    public enum Platform {
+
+        DESKTOP("d"),
 
 		/** GeoGebra Graphing Calculator */
-		ANDROID_NATIVE_GRAPHING("a", "graphing"),
+        ANDROID("a"),
 
-		ANDROID_NATIVE_3D("a", "3D"),
+        WEB("w"),
 
-		ANDROID_GEOMETRY("a", "geo"),
+        ANDROID_WEBVIEW("aw"),
 
-		ANDROID_NATIVE_SCIENTIFIC("a", "scientific"),
+        IOS("i"),
 
-		ANDROID_CAS("a", "cas"),
+        IOS_WEBVIEW("iw"),
 
-		ANDROID_WEBVIEW("aw", "classic"),
+        WINDOWS_STORE("win"),
 
-		ANDROID_WEBVIEW_EXAM("aw", "exam"),
+        WEB_FOR_BROWSER_2D("w2d"),
 
-		IOS_NATIVE("i", "graphing"),
+        OFFLINE("offline"),
 
-		IOS_GEOMETRY("i", "geometry"),
+        SMART("smart"),
 
-        IOS_SCIENTIFIC("i", "scientific"),
+        POWERPOINT("p"),
 
-		IOS_CAS("i", "cas"),
+        NO_CAS("nc");
 
-		IOS_NATIVE_3D("i", "3D"),
+        private String name;
 
-		IOS_WEBVIEW("iw", "classic"),
+        Platform(String name) {
+            this.name = name;
+        }
 
-		WEB_FOR_DESKTOP("offline", "classic"),
-
-		WINDOWS_STORE("win", "classic"),
-
-		WEB_FOR_BROWSER_3D("w", "classic"),
-
-		WEB_FOR_BROWSER_2D("w2d", "classic"),
-
-		WEB_FOR_BROWSER_SIMPLE("w", "simple"),
-
-		WEB_GRAPHING("w", "graphing"),
-
-		WEB_GEOMETRY("w", "geometry"),
-
-		WEB_3D_GRAPHING("w", "3D"),
-
-		WEB_GRAPHING_OFFLINE("offline", "graphing"),
-
-		WEB_GEOMETRY_OFFLINE("offline", "geometry"),
-
-		SMART("smart", "classic"),
-
-		POWERPOINT("p", "classic"),
-
-		NO_CAS("nc", "classic");
-
-		private String platform;
-		private String appName;
-
-		Versions(String platform, String appName) {
-			this.platform = platform;
-			this.appName = appName;
-		}
-
-		public String getAppName() {
-			return appName;
-		}
-
-		public String getPlatform() {
-			return platform;
+        public String getName() {
+            return name;
 		}
 
 		/**
@@ -96,13 +73,13 @@ public interface GeoGebraConstants {
 		 * @param canary
 		 *            whether we run canary
 		 * @return eg X.Y.Zd-prerelease
-		 */
-		public String getVersionString(boolean prerelease, boolean canary) {
+         */
+        public String getVersionString(boolean prerelease, boolean canary, String appCode) {
 
 			StringBuilder suffix = new StringBuilder(10);
-			suffix.append(platform);
-			if (!"classic".equals(appName)) {
-				suffix.append(appName);
+            suffix.append(name);
+            if (!"classic".equals(appCode)) {
+                suffix.append(appCode);
 			}
 			if (canary) {
 				suffix.append("-canary");
@@ -127,7 +104,6 @@ public interface GeoGebraConstants {
 		public boolean isAndroidWebview() {
 			switch (this) {
 			case ANDROID_WEBVIEW:
-			case ANDROID_WEBVIEW_EXAM:
 				return true;
 			}
 			return false;
@@ -138,7 +114,7 @@ public interface GeoGebraConstants {
 		 * @return true if this is a phone version.
 		 */
 		public boolean isPhone() {
-			return "i".equals(platform);
+            return "i".equals(name);
 		}
 
 	}
@@ -249,6 +225,13 @@ public interface GeoGebraConstants {
 	 */
 	public static final String GOOGLE_CLIENT_ID = "656990710877-g0tjpnhriv39e59f5s5ubs81sv2686m6"
 			+ ".apps.googleusercontent.com";
+
+    /**
+     * The Graphing Chrome app's client ID from the Google APIs Console
+     * (http://code.google.com/apis/console).
+     */
+    public static final String CHROME_APP_CLIENT_ID =
+            "656990710877-3uu4empvnqi7co987usqk0talj3hnt2r.apps.googleusercontent.com";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.

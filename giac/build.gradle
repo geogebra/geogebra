@@ -4,8 +4,8 @@
 
 project.setDescription('Giac CAS for GeoGebra')
 
-apply from: 'gradle-scripts/repositories.gradle'
-apply from: 'gradle-scripts/versions.gradle'
+apply from: '../gradle-scripts/repositories.gradle'
+apply from: '../gradle-scripts/versions.gradle'
 
 apply plugin: 'cpp'
 apply plugin: 'visual-studio'
@@ -216,6 +216,14 @@ model {
             architecture 'x86'
             operatingSystem 'android'
         }
+        androidx86_64 {
+            architecture 'x86_64'
+            operatingSystem 'android'
+        }
+        androidarm64 {
+            architecture 'arm64'
+            operatingSystem 'android'
+        }
         ios_armv7 {
             architecture 'armv7'
             operatingSystem 'ios'
@@ -317,6 +325,14 @@ model {
                 cppCompiler.executable 'i686-linux-android-g++'
                 linker.executable 'i686-linux-android-g++'
             }
+            target('androidx86_64') {
+                cppCompiler.executable 'x86_64-linux-android-g++'
+                linker.executable 'x86_64-linux-android-g++'
+            }
+            target('androidarm64') {
+                cppCompiler.executable 'aarch64-linux-android-g++'
+                linker.executable 'aarch64-linux-android-g++'
+            }
         }
     }
 
@@ -397,6 +413,8 @@ model {
             }
             targetPlatform 'androideabi'
             targetPlatform 'androidx86'
+            targetPlatform 'androidx86_64'
+            targetPlatform 'androidarm64'
 
             sources.cpp {
                 source {
@@ -618,6 +636,21 @@ task androidCopyX86LibjavagiacSo (dependsOn: 'javagiacAndroidx86SharedLibrary', 
     into 'giac-android/src/main/jniLibs/x86'
     include ('libjavagiac.so')
 }
+
+task androidCopyX86_64LibjavagiacSo (dependsOn: 'javagiacAndroidx86_64SharedLibrary', type: Copy) {
+    description 'Copies libjavagiac.so files to the src/android folder.'
+    from 'build/libs/javagiac/shared/androidx86_64'
+    into 'giac-android/src/main/jniLibs/x86_64'
+    include ('libjavagiac.so')
+}
+
+task androidCopyArm64LibjavagiacSo (dependsOn: 'javagiacAndroidarm64SharedLibrary', type: Copy) {
+    description 'Copies libjavagiac.so files to the src/android folder.'
+    from 'build/libs/javagiac/shared/androidarm64'
+    into 'giac-android/src/main/jniLibs/arm64-v8a'
+    include ('libjavagiac.so')
+}
+
 
 task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description "Runs Giac's minigiac terminal"
@@ -898,6 +931,6 @@ task emMakeMpfr {
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo',
-        'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
+        'androidCopyX86LibjavagiacSo', 'androidCopyX86_64LibjavagiacSo', 'androidCopyArm64LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
 }

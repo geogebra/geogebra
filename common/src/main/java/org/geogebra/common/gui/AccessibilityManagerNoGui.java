@@ -91,11 +91,6 @@ public final class AccessibilityManagerNoGui
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public String getSpaceAction() {
-		return null;
-	}
-
 	/**
 	 * @param app
 	 *            app
@@ -107,12 +102,7 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public SliderInput getSliderAction() {
-		return null;
-	}
-
-	@Override
-	public void sliderChange(double step) {
+    public void sliderChange(double step, SliderInput input) {
 		// no slider
 	}
 
@@ -130,4 +120,9 @@ public final class AccessibilityManagerNoGui
 	public void onEmptyConstuction(boolean forward) {
 		// not used
 	}
+
+    @Override
+    public String getAction(GeoElement geo) {
+        return "";
+    }
 }

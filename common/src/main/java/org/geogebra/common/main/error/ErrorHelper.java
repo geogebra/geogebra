@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
@@ -46,16 +47,13 @@ public class ErrorHelper {
 		
 		app.initTranslatedCommands();
 		if (e instanceof CircularDefinitionException) {
-			handler.showError(loc.getErrorDefault("CircularDefinition",
-					"Circular Definition"));
+            handler.showError(Errors.CircularDefinition.getError(loc));
 		} else if (e.getCause() instanceof MyError) {
 			handleError((MyError) e.getCause(), null, loc, handler);
 		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
 			handleCommandError(loc, handler.getCurrentCommand(), handler);
 		} else {
-			handler.showError(
-					loc.getErrorDefault("InvalidInput",
-							"Please check your input"));
+            handler.showError(loc.getInvalidInputError());
 		}
 
 	}
@@ -71,8 +69,7 @@ public class ErrorHelper {
 	public static void handleCommandError(Localization loc, String localCommand,
 			ErrorHandler handler) {
 		String cmd = loc.getReverseCommand(localCommand);
-		handler.showCommandError(cmd,
-				loc.getErrorDefault("InvalidInput", "Please check your input")
+        handler.showCommandError(cmd, loc.getInvalidInputError()
 						+ ":\n"
 						+ localCommand + "\n\n"
 						+ loc.getMenu("Syntax") + ":\n"
@@ -120,12 +117,9 @@ public class ErrorHelper {
 	public static void handleInvalidInput(String str, Localization loc,
 			ErrorHandler handler) {
 		if (loc != null) {
-			handler.showError(
-					loc.getErrorDefault("InvalidInput",
-							"Please check your input") + ":\n"
-							+ str);
+            handler.showError(loc.getInvalidInputError() + ":\n" + str);
 		} else {
-			handler.showError("Invalid Input:\n" + str);
+            handler.showError("Please check your input:\n" + str);
 		}
 	}
 

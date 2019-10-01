@@ -11,9 +11,7 @@ the Free Software Foundation.
  */
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -21,13 +19,7 @@ import java.awt.event.WindowFocusListener;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -36,6 +28,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -207,7 +200,7 @@ public class CheckboxCreationDialog extends JDialog implements
 				geo.setShowObjectCondition(geoBoolean);
 			}
 		} catch (CircularDefinitionException e) {
-			app.localizeAndShowError("CircularDefinition");
+            app.showError(Errors.CircularDefinition);
 		}
 
 		// set caption text

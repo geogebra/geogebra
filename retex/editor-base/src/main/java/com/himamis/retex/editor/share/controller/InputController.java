@@ -73,7 +73,7 @@ public class InputController {
 
 	/**
 	 * Insert array.
-	 * 
+     *
 	 * @param editorState
 	 *            editor state
 	 * @param size
@@ -86,15 +86,18 @@ public class InputController {
 	 */
 	public MathArray newArray(EditorState editorState, int size,
 			char arrayOpenKey, boolean reverse) {
+        moveCursorOutOfFunctionName(editorState);
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		MetaArray meta = metaModel.getArray(arrayOpenKey);
 		MathArray array = new MathArray(meta, size);
+        int cutPosition = reverse ? findBackwardCutPosition(currentField,
+                currentOffset) : currentOffset;
 		ArrayList<MathComponent> removed = reverse
-				? cut(currentField, 0, currentOffset - 1, editorState, array,
-						true)
-				: cut(currentField, currentOffset, -1, editorState, array,
-						true);
+                ? cut(currentField, cutPosition, currentOffset - 1, editorState, array,
+                true)
+                : cut(currentField, cutPosition, -1, editorState, array,
+                true);
 
 		// add sequence
 		MathSequence field = new MathSequence();
@@ -108,13 +111,44 @@ public class InputController {
 		// set current
 		if (reverse) {
 			editorState.setCurrentField(currentField);
-			editorState.setCurrentOffset(1);
+            editorState.setCurrentOffset(cutPosition + 1);
 		} else {
 			editorState.setCurrentField(field);
 			editorState.setCurrentOffset(0);
 		}
 		return array;
 	}
+
+    private static int findBackwardCutPosition(MathSequence currentField, int currentPosition) {
+        int index = currentPosition;
+        while (index > 0) {
+            MathComponent component = currentField.getArgument(index - 1);
+            if (component instanceof MathCharacter) {
+                MathCharacter character = (MathCharacter) component;
+                if ("=".equals(character.getName())) {
+                    return index;
+                }
+            }
+            index -= 1;
+        }
+        return index;
+    }
+
+    private static void moveCursorOutOfFunctionName(EditorState editorState) {
+        MathSequence currentField = editorState.getCurrentField();
+        if (currentField.getParent() != null
+                && currentField.getParent().hasTag(Tag.APPLY)
+                && currentField.getParentIndex() == 0
+                && editorState.getCurrentOffset() == 0) {
+            MathContainer function = currentField.getParent();
+            if (function.getParent() != null
+                    && function.getParent() instanceof MathSequence) {
+                editorState
+                        .setCurrentField((MathSequence) function.getParent());
+                editorState.setCurrentOffset(function.getParentIndex());
+            }
+        }
+    }
 
 	/**
 	 * Insert matrix.
@@ -142,6 +176,11 @@ public class InputController {
 
 	/**
 	 * Insert braces (), [], {}, "".
+     *
+     * @param editorState
+     *            editor state
+     * @param ch
+     *            opening bracket character
 	 */
 	public void newBraces(EditorState editorState, char ch) {
 		if (editorState.hasSelection()) {
@@ -352,7 +391,7 @@ public class InputController {
 		if (currentField.size() == 0
 				&& currentField.getParent() instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) currentField.getParent())
-						.getName()
+                .getName()
 				&& Tag.SUPERSCRIPT == scriptTag) {
 			return;
 		}
@@ -509,7 +548,7 @@ public class InputController {
 					&& currentOffset == currentField.size()
 					&& parent.size() > currentField.getParentIndex() + 1
 					&& (currentField.getParentIndex() + 1)
-							% parent.columns() != 0) {
+                    % parent.columns() != 0) {
 
 				currentField = parent
 						.getArgument(currentField.getParentIndex() + 1);
@@ -530,7 +569,7 @@ public class InputController {
 			} else if (ch == parent.getRowKey()
 					&& currentOffset == currentField.size()
 					&& (currentField.getParentIndex() + 1)
-							% parent.columns() == 0) {
+                    % parent.columns() == 0) {
 
 				currentField = parent
 						.getArgument(currentField.getParentIndex() + 1);
@@ -574,7 +613,7 @@ public class InputController {
 			} else if (currentOffset == currentField.size()
 					&& parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
-							.charAt(0)
+                    .charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 
 				currentOffset = parent.getParentIndex() + 1;
@@ -584,7 +623,7 @@ public class InputController {
 				// after closing character
 			} else if (parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
-							.charAt(0)
+                    .charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset);
@@ -597,7 +636,7 @@ public class InputController {
 				// if '|' typed at the end of an abs function
 				// special case
 			} else if (parent instanceof  MathFunction
-					&& Tag.ABS.equals(((MathFunction) parent).getName())
+                    && parent.hasTag(Tag.ABS)
 					&& ch == '|'
 					&& parent.size() == currentField.getParentIndex() + 1) {
 				currentOffset = parent.getParentIndex() + 1;
@@ -764,9 +803,7 @@ public class InputController {
 				// not a fraction, and cursor is right after the sign
 			} else {
 				if (currentField.getParentIndex() == 1) {
-					int len = parent.getArgument(0).size();
-					delContainer(editorState, parent, parent.getArgument(0));
-					editorState.setCurrentOffset(len);
+                    removeParenthesesOfFunction(parent, editorState);
 				} else if (currentField.getParentIndex() > 1) {
 					MathSequence prev = parent
 							.getArgument(currentField.getParentIndex() - 1);
@@ -791,7 +828,7 @@ public class InputController {
 			// intermediate the field
 		} else if (currentField.getParent() instanceof MathArray
 				&& (((MathArray) currentField.getParent()).is1DArray()
-						|| ((MathArray) currentField.getParent()).isVector())
+                || ((MathArray) currentField.getParent()).isVector())
 				&& currentField.getParentIndex() > 0) {
 
 			int index = currentField.getParentIndex();
@@ -812,6 +849,19 @@ public class InputController {
 
 		// we stop here for now
 	}
+
+    private void removeParenthesesOfFunction(MathFunction function, EditorState editorState) {
+        MathSequence functionName = function.getArgument(0);
+        int offset = calculateOffsetForRemovingExpressionArguments(function, functionName);
+        delContainer(editorState, function, functionName);
+        editorState.setCurrentOffset(offset);
+    }
+
+    private static int calculateOffsetForRemovingExpressionArguments(
+            MathComponent expression,
+            MathSequence operand) {
+        return expression.getParentIndex() + operand.size();
+    }
 
 	/**
 	 * Delete container, move its content to the parent.
@@ -859,9 +909,9 @@ public class InputController {
 			// field
 		} else if (currentField.getParent() instanceof MathArray
 				&& (((MathArray) currentField.getParent()).is1DArray()
-						|| ((MathArray) currentField.getParent()).isVector())
+                || ((MathArray) currentField.getParent()).isVector())
 				&& currentField.getParentIndex() + 1 < currentField.getParent()
-						.size()) {
+                .size()) {
 
 			int index = currentField.getParentIndex();
 			MathArray parent = (MathArray) currentField.getParent();
@@ -954,11 +1004,12 @@ public class InputController {
 			MathSequence parent = (MathSequence) container.getParent();
 			int offset = container.getParentIndex();
 			// delete container
-			parent.delArgument(container.getParentIndex());
+            parent.delArgument(offset);
 			// add content of operand
 			while (operand.size() > 0) {
-				MathComponent element = operand.getArgument(operand.size() - 1);
-				operand.delArgument(operand.size() - 1);
+                int lastArgumentIndex = operand.size() - 1;
+                MathComponent element = operand.getArgument(lastArgumentIndex);
+                operand.delArgument(lastArgumentIndex);
 				parent.addArgument(offset, element);
 			}
 			editorState.setCurrentField(parent);
@@ -1281,7 +1332,7 @@ public class InputController {
 		for (int i = offset + 1; i < args.size(); i++) {
 			if (args.getArgument(i) instanceof MathCharacter
 					&& ((MathCharacter) args.getArgument(i))
-							.getUnicode() == '>') {
+                    .getUnicode() == '>') {
 				endchar = i;
 				if (i < args.size() - 1
 						&& args.getArgument(i + 1) instanceof MathCharacter

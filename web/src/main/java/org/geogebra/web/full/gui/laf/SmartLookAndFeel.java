@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.laf;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.euclidian.SmartTouchHandler;
@@ -85,10 +85,10 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	@Override
     public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
 		SmartTouchHandler sh = new SmartTouchHandler(euclidiancontroller);
-		evPanel.addDomHandler(sh, TouchStartEvent.getType());
-		evPanel.addDomHandler(sh, TouchEndEvent.getType());
-		evPanel.addDomHandler(sh, TouchMoveEvent.getType());
-		evPanel.addDomHandler(CancelEvents.INSTANCE, TouchCancelEvent.getType());
+        evPanel.addBitlessDomHandler(sh, TouchStartEvent.getType());
+        evPanel.addBitlessDomHandler(sh, TouchEndEvent.getType());
+        evPanel.addBitlessDomHandler(sh, TouchMoveEvent.getType());
+        evPanel.addBitlessDomHandler(CancelEvents.INSTANCE, TouchCancelEvent.getType());
 		return true;
 	}
 	
@@ -113,8 +113,8 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		return Versions.SMART;
+    public Platform getPlatform(int dim, String appName) {
+        return Platform.SMART;
 	}
 
 	@Override

@@ -20,8 +20,8 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -80,7 +80,7 @@ public abstract class GeoVec3D extends GeoElement
 	@Override
 	public void setUndefined() {
 		setUndefinedCoords();
-		update(); // TODO hide undefined elements in algebraView
+        updateGeo(false); // TODO hide undefined elements in algebraView
 	}
 
 	/**

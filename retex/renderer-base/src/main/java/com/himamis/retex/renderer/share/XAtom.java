@@ -74,13 +74,13 @@ public abstract class XAtom extends Atom implements HasTrueBase {
 				: StrutBox.getEmpty();
 		final Box U = under != null ? under.createBox(env.subStyle())
 				: StrutBox.getEmpty();
-		final Box oside = new SpaceAtom(TeXLength.Unit.MU, 5., 0., 0.)
+        final Box oside = new SpaceAtom(Unit.MU, 5., 0., 0.)
 				.createBox(env.supStyle());
-		final Box uside = new SpaceAtom(TeXLength.Unit.MU, 9., 0., 0.)
+        final Box uside = new SpaceAtom(Unit.MU, 9., 0., 0.)
 				.createBox(env.subStyle());
-		final Box osep = new SpaceAtom(TeXLength.Unit.MU, 0., 2., 0.)
+        final Box osep = new SpaceAtom(Unit.MU, 0., 2., 0.)
 				.createBox(env);
-		final Box usep = new SpaceAtom(TeXLength.Unit.MU, 0., 3.5, 0.)
+        final Box usep = new SpaceAtom(Unit.MU, 0., 3.5, 0.)
 				.createBox(env);
 		double width = Math.max(O.getWidth() + 2. * oside.getWidth(),
 				U.getWidth() + 2. * uside.getWidth());

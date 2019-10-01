@@ -337,7 +337,7 @@ public class ToolBar {
 	 *            the application.
 	 * @return definition for MOW media toolbar
 	 */
-	public static String getMOWMediaToolBarDefString(App app) {
+    public static String getMOWMediaToolBarDefString(App app, boolean includeGraspableMath) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
 				: EuclidianConstants.MODE_TEXT);
@@ -351,6 +351,12 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_GRAPHING);
+        sb.append(" ");
+        sb.append(EuclidianConstants.MODE_CAS);
+        if (includeGraspableMath) {
+            sb.append(" ");
+            sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
+        }
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
 		sb.append(" ");
@@ -609,10 +615,8 @@ public class ToolBar {
 
 		// polygons
 		sb.append(EuclidianConstants.MODE_POLYGON);
-		if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
-		}
+        sb.append(" ");
+        sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
 		sb.append(" | ");
 
 		// conics
@@ -670,6 +674,10 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CONIFY);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTRUSION);
+        if (app.has(Feature.SURFACE_OF_REVOLUTION_TOOL)) {
+            sb.append(" ");
+            sb.append(EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
+        }
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS);

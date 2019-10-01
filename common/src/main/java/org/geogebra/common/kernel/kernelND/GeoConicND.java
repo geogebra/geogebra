@@ -20,17 +20,16 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
@@ -42,7 +41,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.FromMeta;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -73,9 +71,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND
-		implements Path, Translateable, GeoConicNDConstants,
+        implements Translateable, GeoConicNDConstants,
 		MatrixTransformable, PointRotateable, Transformable, Mirrorable,
-		Dilateable, GeoCoordSys2D, FromMeta {
+        Dilateable, GeoCoordSys2D, FromMeta, Parametrizable {
 	/** avoid very large and small coefficients for numerical stability */
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
 	/** avoid very large and small coefficients for numerical stability */
@@ -1249,31 +1247,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public final ArrayList<GeoPointND> getPointsOnConic() {
 		return pointsOnConic;
-	}
-
-	/**
-	 * Return n points on conic
-	 * 
-	 * @param n
-	 *            number of points
-	 * @return Array list of points
-	 */
-	public ArrayList<GeoPoint> getPointsOnConic(int n) {
-		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
-		this.toGeoCurveCartesian(curve);
-
-		double startInterval = -Math.PI, endInterval = Math.PI;
-
-		if (this.type == CONIC_HYPERBOLA) {
-			startInterval = -Math.PI / 2;
-			endInterval = Math.PI / 2;
-		}
-		if (this.type == CONIC_PARABOLA) {
-			startInterval = -1;
-			endInterval = 1;
-		}
-
-		return curve.getPointsOnCurve(n, startInterval, endInterval);
 	}
 
 	/**
@@ -3910,12 +3883,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	/**
-	 * Sets curve to this conic
-	 * 
-	 * @param curve
-	 *            curve for storing this conic
-	 */
+    @Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		FunctionVariable fv = new FunctionVariable(kernel, "t");
 		ExpressionNode evX = null, evY = null;
@@ -3945,7 +3913,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				|| type == CONIC_CIRCLE && curve.getDimension() == 3) {
 			evX = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.COS, null),
-					Operation.MULTIPLY, new MyDouble(kernel, -halfAxes[0]));
+                    Operation.MULTIPLY, new MyDouble(kernel, halfAxes[0]));
 			evY = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, fv, Operation.SIN, null),
 					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[1]));

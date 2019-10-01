@@ -9,8 +9,8 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.StringUtil;
@@ -196,7 +196,7 @@ public class TextControllerW
 		if (editor == null) {
 			return null;
 		}
-		return editor.getBounds();
+        return editor.getBounds(getView().getAbsoluteTop());
 	}
 
 	@Override

@@ -78,4 +78,19 @@ public interface GeoVectorND
 	 */
 	public void setCoords(double x, double y, double z, double w);
 
+    /**
+     * @return x component
+     */
+    public double getX();
+
+    /**
+     * @return y component
+     */
+    public double getY();
+
+    /**
+     * @return z component
+     */
+    public double getZ();
+
 }

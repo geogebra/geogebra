@@ -1,0 +1,17 @@
+.DS_Store
+build/
+**/build
+web/war
+/.gradle/
+
+# InteliJ specific
+.idea
+*.iml
+**/out
+
+# Eclipse specific
+.project
+.settings
+**/.classpath
+**/bin
+**/src/main/javacc/**/*.java

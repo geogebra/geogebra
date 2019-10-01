@@ -33,7 +33,7 @@ public class GParser extends Parser {
 			}
 		}
 		return new ParseException(getKernel().getLocalization()
-				.getErrorDefault("InvalidInput", "Please check your input"));
+                .getInvalidInputError());
 
 	}
 

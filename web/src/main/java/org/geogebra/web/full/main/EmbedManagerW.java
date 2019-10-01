@@ -1,15 +1,20 @@
 package org.geogebra.web.full.main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
@@ -27,11 +32,13 @@ import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -49,8 +56,8 @@ public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
 	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
-	// cache for undo: index by label, drawables will change on reload
-	private HashMap<String, EmbedElement> cache = new HashMap<>();
+    // cache for undo: index by embed ID, drawables will change on reload
+    private HashMap<Integer, EmbedElement> cache = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
@@ -61,7 +68,7 @@ public class EmbedManagerW implements EmbedManager {
 	 * @param app
 	 *            application
 	 */
-	public EmbedManagerW(AppWFull app) {
+    EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
 		preview = new MyImageW(ImageManagerW.getInternalImage(
@@ -76,46 +83,65 @@ public class EmbedManagerW implements EmbedManager {
 				widgets.get(drawEmbed)
 						.setContent(content.get(drawEmbed.getEmbedID()));
 			}
-			return;
-		}
-		TestArticleElement parameters = new TestArticleElement("", "graphing");
-		GeoGebraFrameFull fr = new GeoGebraFrameFull(
-				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
-				app.getDevice(), parameters);
+        } else {
+            addCalcEmbed(drawEmbed);
+        }
+    }
 
-		parameters.attr("showToolBar", "true")
-				.attr("scaleContainerClass", "embedContainer")
-				.attr("allowUpscale", "true").attr("showAlgebraInput", "true")
-				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
-				.attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
-				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
-				.attr("allowStyleBar", "true");
-		String currentBase64 = base64.get(drawEmbed.getEmbedID());
-		if (currentBase64 != null) {
-			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
-		}
-		fr.setComputedWidth(parameters.getDataParamWidth()
-				- parameters.getBorderThickness());
-		fr.setComputedHeight(parameters.getDataParamHeight()
-				- parameters.getBorderThickness());
-		fr.runAsyncAfterSplash();
+    private void addCalcEmbed(DrawEmbed drawEmbed) {
+        CalcEmbedElement element = getCalcEmbed(drawEmbed);
+        widgets.put(drawEmbed, element);
+    }
 
-		FlowPanel scaler = new FlowPanel();
-		scaler.add(fr);
-		parameters.setParentElement(scaler.getElement());
+    private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
+        CalcEmbedElement element = null;
+        if (cache.containsKey(drawEmbed.getEmbedID())) {
+            element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
+            element.setVisible(true);
+        } else {
+            element = createCalcEmbed(drawEmbed);
+        }
+        return element;
+    }
 
-		addToGraphics(scaler);
-		CalcEmbedElement calcEmbedElement = new CalcEmbedElement(fr);
-		if (currentBase64 != null) {
-			fr.getApplication().registerOpenFileListener(
-					getListener(drawEmbed, parameters));
-		} else if (content.get(drawEmbed.getEmbedID()) != null) {
-			fr.getApplication().getGgbApi().setFileJSON(
-					JSON.parse(content.get(drawEmbed.getEmbedID())));
-		}
+    private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
+        TestArticleElement parameters = new TestArticleElement("", "graphing");
+        GeoGebraFrameFull fr = new GeoGebraFrameFull(
+                (AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
+                app.getDevice(), parameters);
 
-		widgets.put(drawEmbed, calcEmbedElement);
-	}
+        parameters.attr("showToolBar", "true")
+                .attr("scaleContainerClass", "embedContainer")
+                .attr("allowUpscale", "true").attr("showAlgebraInput", "true")
+                .attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
+                .attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
+                .attr("appName", drawEmbed.getGeoEmbed().getAppName())
+                .attr("allowStyleBar", "true");
+        String currentBase64 = base64.get(drawEmbed.getEmbedID());
+        if (currentBase64 != null) {
+            parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
+        }
+        fr.setComputedWidth(parameters.getDataParamWidth()
+                - parameters.getBorderThickness());
+        fr.setComputedHeight(parameters.getDataParamHeight()
+                - parameters.getBorderThickness());
+        fr.runAsyncAfterSplash();
+
+        FlowPanel scaler = new FlowPanel();
+        scaler.add(fr);
+        parameters.setParentElement(scaler.getElement());
+
+        addToGraphics(scaler);
+        CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
+        if (currentBase64 != null) {
+            fr.getApp().registerOpenFileListener(
+                    getListener(drawEmbed, parameters));
+        } else if (content.get(drawEmbed.getEmbedID()) != null) {
+            fr.getApp().getGgbApi().setFileJSON(
+                    JSON.parse(content.get(drawEmbed.getEmbedID())));
+        }
+        return element;
+    }
 
 	private void addToGraphics(FlowPanel scaler) {
 		FlowPanel container = new FlowPanel();
@@ -135,10 +161,21 @@ public class EmbedManagerW implements EmbedManager {
 		addToGraphics(scaler);
 
 		String url = drawEmbed.getGeoEmbed().getURL();
-		EmbedElement value = url.contains("graspablemath.com")
-				? new GraspableEmbedElement(parentPanel) : new EmbedElement(parentPanel);
-		widgets.put(drawEmbed, value);
-		value.addListeners(drawEmbed.getEmbedID(), this);
+        EmbedElement old = cache.get(drawEmbed.getEmbedID());
+        if (old == null) {
+            EmbedElement value = url.contains("graspablemath.com")
+                    ? new GraspableEmbedElement(parentPanel, this)
+                    : new EmbedElement(parentPanel);
+            widgets.put(drawEmbed, value);
+            value.addListeners(drawEmbed.getEmbedID());
+        } else {
+            old.setVisible(true);
+            widgets.put(drawEmbed, old);
+            cache.remove(drawEmbed.getEmbedID());
+            // the cached widget is in correct state
+            content.remove(drawEmbed.getEmbedID());
+        }
+
 	}
 
 	private static Widget createParentPanel(DrawEmbed embed) {
@@ -153,16 +190,6 @@ public class EmbedManagerW implements EmbedManager {
 		Frame frame = new Frame();
 		frame.setUrl(url);
 		return frame;
-	}
-
-	/**
-	 * @param embedID
-	 *            embed ID
-	 * @param embedContent
-	 *            JSON encoded content
-	 */
-	protected void storeContent(int embedID, String embedContent) {
-		this.content.put(embedID, embedContent);
 	}
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
@@ -206,7 +233,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void removeAll() {
 		for (EmbedElement frame : widgets.values()) {
-				removeFrame(frame);
+            removeFrame(frame);
 		}
 		widgets.clear();
 	}
@@ -214,7 +241,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void storeEmbeds() {
 		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
-			cache.put(entry.getKey().getGeoElement().getLabelSimple(),
+            cache.put(entry.getKey().getEmbedID(),
 					entry.getValue());
 		}
 		for (EmbedElement frame : widgets.values()) {
@@ -232,15 +259,33 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void restoreEmbeds() {
-		for (Entry<String, EmbedElement> entry : cache.entrySet()) {
-			GeoElement geoEmbed = app.getKernel().lookupLabel(entry.getKey());
+        List<Integer> entries = new ArrayList<>();
+        for (Entry<Integer, EmbedElement> entry : cache.entrySet()) {
+            GeoElement geoEmbed = findById(entry.getKey());
 			DrawEmbed drawEmbed = (DrawEmbed) app.getActiveEuclidianView()
 					.getDrawableFor(geoEmbed);
-			EmbedElement frame = entry.getValue();
-			widgets.put(drawEmbed, frame);
-			frame.setVisible(true);
-		}
-		cache.clear();
+            if (drawEmbed != null) {
+                EmbedElement frame = entry.getValue();
+                widgets.put(drawEmbed, frame);
+                frame.setVisible(true);
+                entries.add(entry.getKey());
+            }
+        }
+        for (Integer entry : entries) {
+            cache.remove(entry);
+        }
+    }
+
+    private GeoElement findById(Integer key) {
+        Set<GeoElement> set = app.getKernel().getConstruction()
+                .getGeoSetConstructionOrder();
+        for (GeoElement geo : set) {
+            if (geo instanceof GeoEmbed
+                    && ((GeoEmbed) geo).getEmbedID() == key) {
+                return geo;
+            }
+        }
+        return null;
 	}
 
 	private static void removeFrame(EmbedElement frame) {
@@ -250,8 +295,10 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void remove(DrawEmbed draw) {
-		removeFrame(widgets.get(draw));
+        EmbedElement frame = widgets.get(draw);
+        frame.setVisible(false);
 		widgets.remove(draw);
+        cache.put(draw.getEmbedID(), frame);
 	}
 
 	@Override
@@ -356,4 +403,68 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		}
 	}
+
+    @Override
+    public void executeAction(EventType action) {
+        restoreEmbeds();
+        for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+            entry.getValue().executeAction(action);
+        }
+    }
+
+    @Override
+    public void openGraspableMTool() {
+        openTool("https://graspablemath.com");
+        app.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+                        ModeSetter.DOCK_PANEL);
+            }
+        });
+    }
+
+    private void openTool(String URL) {
+        GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+        ge.setUrl(URL);
+        ge.setAppName("extension");
+        ge.initPosition(app.getActiveEuclidianView());
+        ge.setEmbedId(app.getEmbedManager().nextID());
+        ge.setLabel(null);
+        app.storeUndoInfo();
+    }
+
+    /**
+     * @return script manager of the top level app
+     */
+    public ScriptManagerW getScriptManager() {
+        return (ScriptManagerW) app.getScriptManager();
+    }
+
+    /**
+     * @return the APIs of the embedded calculators.
+     */
+    JavaScriptObject getEmbeddedCalculators() {
+        JavaScriptObject jso = JavaScriptObject.createObject();
+
+        for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+            EmbedElement embedElement = entry.getValue();
+            if (embedElement instanceof CalcEmbedElement) {
+                JavaScriptObject api = ((CalcEmbedElement) embedElement)
+                        .getApi();
+                pushApisIntoNativeEntry(
+                        entry.getKey().getGeoElement().getLabelSimple(), api,
+                        jso);
+            }
+        }
+        return jso;
+    }
+
+    private static native void pushApisIntoNativeEntry(
+            String embedName,
+            JavaScriptObject api,
+            JavaScriptObject jso) /*-{
+		jso[embedName] = api;
+	}-*/;
 }

@@ -49,7 +49,7 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 
 	@Override
     protected void addDragDropHandlers() {
-    	table.addDomHandler(new TouchStartHandler() {
+        table.addBitlessDomHandler(new TouchStartHandler() {
 			
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
@@ -59,8 +59,8 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 				xStart = event.getTouches().get(0).getClientX();
 			}
 		}, TouchStartEvent.getType());
-    	
-    	table.addDomHandler(new TouchMoveHandler() {
+
+        table.addBitlessDomHandler(new TouchMoveHandler() {
 			
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
@@ -111,8 +111,8 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 								+ LONG_PRESS_TIMEOUT;
 			}
 		}, TouchMoveEvent.getType());
-    	
-    	table.addDomHandler(new TouchEndHandler() {
+
+        table.addBitlessDomHandler(new TouchEndHandler() {
 			
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {

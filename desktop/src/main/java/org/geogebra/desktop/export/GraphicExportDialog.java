@@ -12,12 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.export;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,15 +26,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.freehep.graphics2d.VectorGraphics;
 import org.freehep.graphicsio.AbstractVectorGraphicsIO;
@@ -54,6 +41,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -772,11 +760,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			return true;
 		} catch (Exception ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		}
@@ -813,12 +801,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 
 			return false;
 		} catch (Error ex) {
 			ex.printStackTrace();
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 
 			return false;
 		}
@@ -846,7 +834,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 
 		try {
-			exportSVG(app, (EuclidianViewD) ev, file, textAsShapes, pixelWidth,
+            exportSVG(app, ev, file, textAsShapes, pixelWidth,
 					pixelHeight, cmWidth, cmHeight, exportScale, transparent);
 
 			if (exportToClipboard) {
@@ -858,11 +846,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} finally {
@@ -911,11 +899,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			return true;
 		} catch (Exception ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
 		}

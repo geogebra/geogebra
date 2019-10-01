@@ -31,6 +31,7 @@ package com.himamis.retex.editor.share.model;
 import java.io.Serializable;
 
 import com.google.j2objc.annotations.Weak;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.inspect.Inspectable;
 import com.himamis.retex.editor.share.model.traverse.Traversable;
 
@@ -101,5 +102,13 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 		seq.addArgument(this);
 		return seq;
 	}
+
+    /**
+     * @param tag container tag
+     * @return whether this is a container with given tag
+     */
+    public boolean hasTag(Tag tag) {
+        return false;
+    }
 
 }

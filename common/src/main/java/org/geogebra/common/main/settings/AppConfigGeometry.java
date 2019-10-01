@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -11,6 +12,8 @@ import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 /**
  * App-specific behaviors of Geometry app
@@ -35,7 +38,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public String getAVTitle() {
-		return "Steps";
+        return "Algebra";
 	}
 
 	@Override
@@ -197,4 +200,24 @@ public class AppConfigGeometry implements AppConfig {
 	public CommandNameFilter getCommandNameFilter() {
 		return CommandNameFilterFactory.createNoCasCommandNameFilter();
 	}
+
+    @Override
+    public boolean showToolsPanel() {
+        return true;
+    }
+
+    @Override
+    public String getAppCode() {
+        return "geometry";
+    }
+
+    @Override
+    public SettingsUpdater createSettingsUpdater() {
+        return new GeometrySettingsUpdater();
+    }
+
+    @Override
+    public GeoGebraConstants.Version getVersion() {
+        return GeoGebraConstants.Version.GEOMETRY;
+    }
 }

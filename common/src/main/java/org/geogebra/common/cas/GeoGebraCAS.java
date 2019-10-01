@@ -27,13 +27,18 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.*;
+import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
@@ -170,8 +175,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
 			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
 			if (ret == null) {
-				throw new CASException(new Exception(app.getLocalization()
-						.getError("CAS.GeneralErrorMessage")));
+                throw new CASException(new Exception(
+                        Errors.CASGeneralErrorMessage.getError(app.getLocalization())));
 			}
 			return ret;
 		} catch (Throwable t) {
@@ -401,12 +406,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				casParser.setNrOfVars(0);
 			}
 			for (String str : varsInEqus) {
-				if (!"x".equals(str) && !"y".equals(str) && !"z".equals(str)) {
-					// add current variable to the completion string
-					complOfVarsStr += ",ggbtmpvar" + str;
-				} else {
-					complOfVarsStr += ", " + str;
-				}
+                complOfVarsStr += "," + addCASPrefix(str);
+
 				// get equation of current variable
 				ValidExpression node = app.getKernel().getConstruction()
 						.geoCeListLookup(str);
@@ -809,6 +810,24 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
+    /**
+     * variables like i, e have a special meaning in Giac so all GeoGebra
+     * variables need "ggbtmpvar" as a prefix
+     *
+     * @param str variable name
+     * @return whether str should have "ggbtmpvar" on the front
+     */
+    public static boolean needsTmpPrefix(String str) {
+        return !("x".equals(str) || "y".contentEquals(str) || "y'".contentEquals(str)
+                || "y''".contentEquals(str) || "z".equals(str)
+                || str.startsWith(Kernel.TMP_VARIABLE_PREFIX));
+    }
+
+    // add ggbtmpvar as prefix if necessary
+    private static String addCASPrefix(String str) {
+        return needsTmpPrefix(str) ? Kernel.TMP_VARIABLE_PREFIX + str : str;
+    }
+
 	private static void updateArgsAndSbForPoint(ArrayList<ExpressionNode> args,
 			StringBuilder sbCASCommand) {
 		ExpressionValue node = args.get(0).unwrap();
@@ -1002,79 +1021,105 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			return false;
 		}
 
-		boolean contains = true;
 		ExpressionValue variableContainer = listElement.unwrap();
 		if (variableContainer instanceof GeoSymbolic) {
 			variableContainer = ((GeoSymbolic) variableContainer).getValue();
 		}
-		// fix for GGB-134
-		HashSet<GeoElement> varsInEqu = variableContainer
-				.getVariables(SymbolicMode.SYMBOLIC);
-		if (varsInEqu != null) {
-			contains = false;
-			Iterator<GeoElement> it = varsInEqu.iterator();
 
-			// check if current equation contains other vars as
-			// parameters
-			while (it.hasNext()) {
-				GeoElement var = it.next();
-				for (int i = 0; i < listOfVars.size(); i++) {
-					if (listOfVars.getListElement(i)
-							.toString(StringTemplate.defaultTemplate)
-							.equals(var.toString(
-									StringTemplate.defaultTemplate))) {
-						contains = true;
-						break;
-					}
-				}
-				if (contains) {
-					break;
-				}
-			}
-		}
-		return contains;
-	}
+        return containsExpressionVariablesOrFunctionVariablesFromList(
+                variableContainer, listOfVars)
+                || variableContainer.isConstant();
+    }
 
-	private static String switchVarsToSolutions(ArrayList<ExpressionNode> args,
-			StringBuilder sbCASCommand) {
-		Set<String> setOfDummyVars = new TreeSet<>();
-		args.get(0)
-				.traverse(DummyVariableCollector.getCollector(setOfDummyVars));
-		String newSbCASCommand = sbCASCommand.toString();
-		// equation dependents from one variable
-		if (setOfDummyVars.size() == 1) {
-			Iterator<String> ite = setOfDummyVars.iterator();
-			String var = ite.next();
-			// if not x then switch
-			if (!"x".equals(var)) {
-				newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
-						",ggbtmpvar" + var + ")");
-			}
-			return newSbCASCommand;
-		}
-		// equation dependents from more than one variable
-		StringBuilder listOfVars = new StringBuilder();
-		Iterator<String> ite = setOfDummyVars.iterator();
-		// create list of variables
-		while (ite.hasNext()) {
-			String currVar = ite.next();
-			if (!"x".equals(currVar) && !"y".equals(currVar)) {
-				listOfVars.append(",ggbtmpvar");
-			} else {
-				listOfVars.append(",");
-			}
-			listOfVars.append(currVar);
-		}
+    private static boolean containsExpressionVariablesOrFunctionVariablesFromList(
+            ExpressionValue expression, MyList listOfVariables) {
+        ValidExpression validExpression =
+                expression instanceof ValidExpression ? (ValidExpression) expression : null;
+        HashSet<GeoElement> variablesInExpression =
+                expression.getVariables(SymbolicMode.SYMBOLIC);
+        for (int i = 0; i < listOfVariables.size(); i++) {
+            String labelOfVariableFromList = getLabel(listOfVariables.getListElement(i));
+            if (containsFunctionVariable(validExpression, labelOfVariableFromList)) {
+                return true;
+            }
+            if (containsVariable(variablesInExpression, labelOfVariableFromList)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-		if (listOfVars.length() > 0) {
-			listOfVars = listOfVars.deleteCharAt(0);
-			newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
-					",{" + listOfVars.toString() + "})");
-		}
+    private static String getLabel(ExpressionValue expression) {
+        return expression.toString(StringTemplate.defaultTemplate);
+    }
 
-		return newSbCASCommand;
+    private static boolean containsFunctionVariable(
+            ValidExpression validExpression, String labelOfVariable) {
+        return validExpression != null && validExpression.containsFunctionVariable(labelOfVariable);
+    }
 
-	}
+    private static boolean containsVariable(Set<GeoElement> variables, String labelOfVariable) {
+        if (variables == null) {
+            return false;
+        }
+        for (GeoElement var : variables) {
+            if (labelOfVariable.equals(getLabel(var))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * change Solutions({x+y=1, x-y=3}) to Solutions({x+y=1, x-y=3},{x,y})
+     *
+     */
+    private static String switchVarsToSolutions(ArrayList<ExpressionNode> args,
+                                                StringBuilder sbCASCommand) {
+
+        // eg Solutions(x^2=a)
+        // not Solutions({x+y=1, x-y=3})
+        if (args.get(0).unwrap() instanceof Equation) {
+            return sbCASCommand.toString();
+        }
+
+        Set<String> setOfDummyVars = new TreeSet<>();
+        args.get(0)
+                .traverse(DummyVariableCollector.getCollector(setOfDummyVars));
+        String newSbCASCommand = sbCASCommand.toString();
+        // equation dependents from one variable
+        if (setOfDummyVars.size() == 1) {
+            Iterator<String> ite = setOfDummyVars.iterator();
+            String var = ite.next();
+            // if not x then switch
+            if (!"x".equals(var)) {
+                newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
+                        "," + Kernel.TMP_VARIABLE_PREFIX + var + ")");
+            }
+            return newSbCASCommand;
+        }
+        // equation dependents from more than one variable
+        StringBuilder listOfVars = new StringBuilder();
+        Iterator<String> ite = setOfDummyVars.iterator();
+        // create list of variables
+        while (ite.hasNext()) {
+            String currVar = ite.next();
+            listOfVars.append(",");
+            if (needsTmpPrefix(currVar)) {
+                listOfVars.append(Kernel.TMP_VARIABLE_PREFIX);
+            }
+            listOfVars.append(currVar);
+        }
+
+        if (listOfVars.length() > 0) {
+            listOfVars.deleteCharAt(0);
+            newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
+                    ",{" + listOfVars.toString() + "})");
+        }
+
+        return newSbCASCommand;
+
+    }
 
 	@Override
 	final public boolean isCommandAvailable(final Command cmd) {

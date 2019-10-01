@@ -528,7 +528,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	protected void getXMLtags(StringBuilder sb) {
 
 		// from ggb44 need to save before value in case it's unbounded
-		getXMLAngleStyleTag(sb);
+        XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
 
 		sb.append("\t<value val=\"");
 		sb.append(rawValue);
@@ -556,7 +556,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			appendObjectColorXML(sb);
 		}
 
-		getXMLEmphasizeRightAngleTag(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
 		getAuxiliaryXML(sb);
@@ -574,34 +573,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			sb.append(" ");
 			sb.append(regrFormat(arcSize));
 		}
-	}
-
-	private void getXMLAngleStyleTag(StringBuilder sb) {
-
-		/*
-		 * old ggb42 code if (angleStyle == ANGLE_ISANTICLOCKWISE) return;
-		 * 
-		 * sb.append("\t<allowReflexAngle val=\""); sb.append(angleStyle !=
-		 * ANGLE_ISNOTREFLEX); sb.append("\"/>\n"); if (angleStyle ==
-		 * ANGLE_ISREFLEX) { sb.append("\t<forceReflexAngle val=\"");
-		 * sb.append(true); sb.append("\"/>\n"); }
-		 * 
-		 */
-
-		sb.append("\t<angleStyle val=\"");
-		sb.append(angleStyle.getXmlVal());
-		sb.append("\"/>\n");
-	}
-
-	private void getXMLEmphasizeRightAngleTag(StringBuilder sb) {
-		if (emphasizeRightAngle) {
-			return;
-		}
-
-		// only store emphasizeRightAngle if "false"
-		sb.append("\t<emphasizeRightAngle val=\"");
-		sb.append(emphasizeRightAngle);
-		sb.append("\"/>\n");
 	}
 
 	@Override

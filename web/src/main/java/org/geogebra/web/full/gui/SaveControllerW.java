@@ -7,6 +7,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManager;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
@@ -260,8 +261,7 @@ public class SaveControllerW implements SaveController {
 
 					@Override
 					public void onError(final Throwable exception) {
-						// TODO show correct message
-						getAppW().showError("Error in sync handler");
+                        getAppW().showError(Errors.SaveFileFailed);
 					}
 				});
 	}

@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -112,11 +111,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// line intersection
 		GeoConic3D intersectionCurve = new GeoConic3D(cons);
 		intersectionCurve.setLocalVariableLabel("Intersection curve");
-		if (cons.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			intersectionCurve.setObjColor(colPolygonG);
-		} else {
-			intersectionCurve.setObjColor(colIntersectionCurve);
-		}
+        intersectionCurve.setObjColor(colPolygonG);
 		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		intersectionCurve.setDefaultGeoType(DEFAULT_INTERSECTION_CURVE);
 		defaultGeoElements.put(DEFAULT_INTERSECTION_CURVE, intersectionCurve);
@@ -193,13 +188,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);
 		quadric.setLocalVariableLabel("Quadric");
-		if (cons.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			quadric.setObjColor(colQuadricAndArchimedeanSolid);
-			quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA_NEW);
-		} else {
-			quadric.setObjColor(colQuadric);
-			quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
-		}
+        quadric.setObjColor(colQuadricAndArchimedeanSolid);
+        quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA_NEW);
 		quadric.setDefaultGeoType(DEFAULT_QUADRIC);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
 
@@ -269,38 +259,29 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return getDefaultType(geo, GeoClass.POLYGON);
 
 		case POLYHEDRON:
-			if (geo.getKernel().getApplication()
-					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-				switch (((GeoPolyhedron) geo).getPolyhedronType()) {
-				case GeoPolyhedron.TYPE_PYRAMID:
-				case GeoPolyhedron.TYPE_TETRAHEDRON:
-					return DEFAULT_PYRAMID_AND_CONE;
-				case GeoPolyhedron.TYPE_PRISM:
-				case GeoPolyhedron.TYPE_CUBE:
-					return DEFAULT_PRISM_AND_CYLINDER;
-				case GeoPolyhedron.TYPE_OCTAHEDRON:
-				case GeoPolyhedron.TYPE_DODECAHEDRON:
-				case GeoPolyhedron.TYPE_ICOSAHEDRON:
-					return DEFAULT_ARCHIMDEAN_SOLID;
-				default:
-					return DEFAULT_POLYHEDRON;
-				}
-			}
-			return DEFAULT_POLYHEDRON;
+            switch (((GeoPolyhedron) geo).getPolyhedronType()) {
+                case GeoPolyhedron.TYPE_PYRAMID:
+                case GeoPolyhedron.TYPE_TETRAHEDRON:
+                    return DEFAULT_PYRAMID_AND_CONE;
+                case GeoPolyhedron.TYPE_PRISM:
+                case GeoPolyhedron.TYPE_CUBE:
+                    return DEFAULT_PRISM_AND_CYLINDER;
+                case GeoPolyhedron.TYPE_OCTAHEDRON:
+                case GeoPolyhedron.TYPE_DODECAHEDRON:
+                case GeoPolyhedron.TYPE_ICOSAHEDRON:
+                    return DEFAULT_ARCHIMDEAN_SOLID;
+                default:
+                    return DEFAULT_POLYHEDRON;
+            }
 		case QUADRIC_LIMITED:
-			if (geo.getKernel().getApplication()
-					.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-				switch (((GeoQuadricND) geo).getType()) {
-				case GeoQuadricNDConstants.QUADRIC_CONE:
-					return DEFAULT_PYRAMID_AND_CONE;
-				case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-					return DEFAULT_PRISM_AND_CYLINDER;
-				default:
-					return DEFAULT_POLYHEDRON;
-				}
-			}
-			return DEFAULT_POLYHEDRON;
-
+            switch (((GeoQuadricND) geo).getType()) {
+                case GeoQuadricNDConstants.QUADRIC_CONE:
+                    return DEFAULT_PYRAMID_AND_CONE;
+                case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+                    return DEFAULT_PRISM_AND_CYLINDER;
+                default:
+                    return DEFAULT_POLYHEDRON;
+            }
 		case NET:
 			return DEFAULT_NET;
 

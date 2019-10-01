@@ -6,19 +6,20 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
+import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
@@ -30,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -56,6 +56,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private Coords normal = new Coords(3);
 	private CoordsDouble3 p1 = new CoordsDouble3();
 	private CoordsDouble3 p2 = new CoordsDouble3();
+    private ChangeableParent changeableParent;
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -750,11 +751,24 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	@Override
 	public AutoColor getAutoColorScheme() {
-		if (kernel.getApplication()
-				.has(Feature.G3D_NEW_SURFACE_FUNCTIONS_COLORS)) {
-			return AutoColor.SURFACES;
-		}
-		return super.getAutoColorScheme();
+        return AutoColor.SURFACES;
+    }
+
+    @Override
+    public boolean hasChangeableParent3D() {
+        return changeableParent != null;
+    }
+
+    @Override
+    public ChangeableParent getChangeableParent3D() {
+        return changeableParent;
+    }
+
+    /**
+     * @param cp changeable parent
+     */
+    final public void setChangeableParent(ChangeableParent cp) {
+        changeableParent = cp;
 	}
 
 }

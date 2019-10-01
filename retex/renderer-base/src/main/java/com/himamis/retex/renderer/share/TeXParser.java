@@ -1438,7 +1438,7 @@ public class TeXParser {
 			char c = parseString.charAt(pos);
 			if (c == stop) {
 				++pos;
-				return ColorUtil.BLACK;
+                return Colors.BLACK;
 			}
 			prevpos = pos;
 			if (c == '#') {
@@ -1585,7 +1585,7 @@ public class TeXParser {
 			final Color color = Colors.getFromName(name);
 			if (color == null) {
 				try {
-					final Color ret = ColorUtil.decode("#" + name);
+                    final Color ret = Colors.decode("#" + name);
 					cancelPrevPos();
 					return ret;
 				} catch (NumberFormatException e) {
@@ -1870,15 +1870,11 @@ public class TeXParser {
 		// We must begin with Commands because some commands overwrite
 		// a symbol (e.g. \int overwrites int symbol)
 		if (!Commands.exec(this, command) && !SymbolAtom.put(this, command)
-				&& !NewCommandMacro.exec(this, command)
-		/* XXX && !JLMPackage.exec(this, command) */) {
+                && !NewCommandMacro.exec(this, command)) {
 			if (command.length() == 1) {
-				// UnicodeMapping.get(command.charAt(0));
 				if (SymbolAtom.put(this, command)) {
 					return;
 				}
-			} else if (setLength(command)) {
-				return;
 			}
 
 			throw new ParseException(this, "Unknown command: " + command,
@@ -2243,29 +2239,11 @@ public class TeXParser {
 		return '\0';
 	}
 
-	public boolean setLength(final String com) {
-		if (TeXLength.isLengthName(com)) {
-			skipPureWhites();
-			if (pos < len) {
-				final char c = parseString.charAt(pos);
-				if (c == '=') {
-					++pos;
-					skipPureWhites();
-					final TeXLength l = getLength(TeXLength.Unit.NONE);
-					TeXLength.setLength(com, l);
-					cancelPrevPos();
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
 	public TeXLength getLength() {
-		return getLength(TeXLength.Unit.PT);
-	}
+        return getLength(Unit.PT);
+    }
 
-	public TeXLength getLength(final TeXLength.Unit def) {
+    public TeXLength getLength(final Unit def) {
 		// TODO: handle case where length is \foo (ie no number before)
 		final double x = getDecimal();
 		skipPureWhites();
@@ -2276,7 +2254,7 @@ public class TeXParser {
 			case '\\':
 				final int spos = pos;
 				final String name = getCommand();
-				final TeXLength l = TeXLength.getLength(name, x);
+                final TeXLength l = TeXLengthSettings.getDefaultLength(name, x);
 				if (l != null) {
 					return l;
 				}
@@ -2284,75 +2262,75 @@ public class TeXParser {
 				return new TeXLength(def, x);
 			case 'b':
 				if (cn == 'p') { // bp
-					return new TeXLength(TeXLength.Unit.POINT, x);
+                    return new TeXLength(Unit.POINT, x);
 				}
 				break;
 			case 'c':
 				if (cn == 'c') { // cc
-					return new TeXLength(TeXLength.Unit.CC, x);
+                    return new TeXLength(Unit.CC, x);
 				}
 				if (cn == 'm') { // cm
-					return new TeXLength(TeXLength.Unit.CM, x);
+                    return new TeXLength(Unit.CM, x);
 				}
 				break;
 			case 'd':
 				if (cn == 'd') { // dd
-					return new TeXLength(TeXLength.Unit.DD, x);
+                    return new TeXLength(Unit.DD, x);
 				}
 				break;
 			case 'e':
 				if (cn == 'm') { // em
-					return new TeXLength(TeXLength.Unit.EM, x);
+                    return new TeXLength(Unit.EM, x);
 				}
 				if (cn == 'x') { // ex
-					return new TeXLength(TeXLength.Unit.EX, x);
+                    return new TeXLength(Unit.EX, x);
 				}
 				break;
 			case 'i':
 				if (cn == 'n') { // in
-					return new TeXLength(TeXLength.Unit.IN, x);
+                    return new TeXLength(Unit.IN, x);
 				}
 				break;
 			case 'm':
 				if (cn == 'u') { // mu
-					return new TeXLength(TeXLength.Unit.MU, x);
+                    return new TeXLength(Unit.MU, x);
 				}
 				if (cn == 'm') { // mm
-					return new TeXLength(TeXLength.Unit.MM, x);
+                    return new TeXLength(Unit.MM, x);
 				}
 				break;
 			case 'p':
 				if (cn == 'c') { // pc
-					return new TeXLength(TeXLength.Unit.PICA, x);
+                    return new TeXLength(Unit.PICA, x);
 				}
 				if (cn == 't') { // pt
-					return new TeXLength(TeXLength.Unit.PT, x);
+                    return new TeXLength(Unit.PT, x);
 				}
 				if (cn == 'x') { // px
-					return new TeXLength(TeXLength.Unit.PIXEL, x);
+                    return new TeXLength(Unit.PIXEL, x);
 				}
 				if (cn == 'i') {
 					if (pos + 1 < len) {
 						cn = parseString.charAt(pos);
 						if (cn == 'c' && parseString.charAt(pos + 1) == 'a') { // pica
 							pos += 2;
-							return new TeXLength(TeXLength.Unit.PICA, x);
+                            return new TeXLength(Unit.PICA, x);
 						} else if (cn == 'x') { // pixel
 							if (pos + 2 < len
 									&& parseString.charAt(pos + 1) == 'e'
 									&& parseString.charAt(pos + 2) == 'l') {
 								pos += 3;
-								return new TeXLength(TeXLength.Unit.PIXEL, x);
+                                return new TeXLength(Unit.PIXEL, x);
 							}
 							++pos;
-							return new TeXLength(TeXLength.Unit.PIXEL, x);
+                            return new TeXLength(Unit.PIXEL, x);
 						}
 					}
 				}
 				break;
 			case 's':
 				if (cn == 'p') { // sp
-					return new TeXLength(TeXLength.Unit.SP, x);
+                    return new TeXLength(Unit.SP, x);
 				}
 				break;
 			}

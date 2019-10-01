@@ -116,9 +116,9 @@ public class DrawConicPart3D extends DrawConic3D {
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			if (exportSurface) {
-				exportToPrinter3D.exportSurface(this);
-			} else {
-				exportToPrinter3D.export(this, Type.CURVE);
+                exportToPrinter3D.exportSurface(this, true, true);
+            } else if (getGeoElement().getLineThickness() > 0) {
+                exportToPrinter3D.exportCurve(this, Type.CURVE);
 			}
 		}
 	}

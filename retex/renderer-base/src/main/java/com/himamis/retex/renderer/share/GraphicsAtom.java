@@ -120,9 +120,9 @@ public class GraphicsAtom extends Atom {
 			}
 			env.isColored = true;
 			final double width = bimage.getWidth()
-					* TeXLength.getFactor(TeXLength.Unit.PIXEL, env);
+                    * Unit.PIXEL.getFactor(env);
 			final double height = bimage.getHeight()
-					* TeXLength.getFactor(TeXLength.Unit.PIXEL, env);
+                    * Unit.PIXEL.getFactor(env);
 			return new GraphicsBox(bimage, width, height, env.getSize(),
 					interp);
 		}

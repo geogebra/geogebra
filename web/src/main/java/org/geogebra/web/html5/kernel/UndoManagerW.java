@@ -78,7 +78,7 @@ public class UndoManagerW extends UndoManager {
 			maybeStoreUndoCommand(command);
 			pruneStateList();
 			app.getEventDispatcher().dispatchEvent(
-			        new Event(EventType.STOREUNDO, null));
+                    new Event(EventType.STOREUNDO));
 
 		} catch (Exception e) {
 			Log.debug("storeUndoInfo: " + e.toString());
@@ -111,11 +111,8 @@ public class UndoManagerW extends UndoManager {
 			app.getScriptManager().disableListeners();
 			processXML(tempXML, false);
 			app.getScriptManager().enableListeners();
-			// If there are Exercises we also have to update the Exercises
-			if (app.getKernel().hasExercise()) {
-				app.getKernel().getExercise().notifyUpdate();
-			}
-			AppW appW = (AppW) app;
+
+            AppW appW = (AppW) app;
 			if (appW.getPageController() != null) {
 				appW.getPageController().updatePreviewImage();
 			}

@@ -243,7 +243,7 @@ public class DrawRay extends SetDrawable implements Previewable {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(line);

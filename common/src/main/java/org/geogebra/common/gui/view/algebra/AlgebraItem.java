@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -84,6 +85,12 @@ public class AlgebraItem {
 		if (!(geo instanceof HasSymbolicMode)) {
 			return false;
 		}
+        if (geo instanceof GeoSymbolic) {
+            GeoSymbolic symbolic = (GeoSymbolic) geo;
+            if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
+                return false;
+            }
+        }
 
 		if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 			return !allRHSareIntegers((GeoList) geo);

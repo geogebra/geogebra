@@ -3,9 +3,7 @@ package org.geogebra.desktop.gui.util;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
+import javax.swing.*;
 
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.kernel.StringTemplate;
@@ -187,7 +185,7 @@ public class SpecialNumberFormat implements ActionListener {
 				invoker.changedNumberFormat();
 
 			} catch (Exception ex) {
-				app.showError(e.toString());
+                app.showGenericError(ex);
 			}
 		}
 

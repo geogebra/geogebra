@@ -12,8 +12,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
@@ -114,6 +114,7 @@ public class EuclidianPen implements GTimerListener {
 
 	private int penLineStyle;
 	private GColor penColor = GColor.BLACK;
+    private PenPreviewLine penPreviewLine;
 
 	// being used for Freehand Shape tool (not done yet)
 	// private boolean recognizeShapes = false;
@@ -129,7 +130,7 @@ public class EuclidianPen implements GTimerListener {
 	public EuclidianPen(App app, EuclidianView view) {
 		this.view = view;
 		this.app = app;
-
+        this.penPreviewLine = view.newPenPreview();
 		timer = app.newTimer(this, 1500);
 
 		defaultPenLine = new GeoPolyLine(app.getKernel().getConstruction()) {
@@ -329,12 +330,6 @@ public class EuclidianPen implements GTimerListener {
 
 			penPoints.clear();
 			addPointPenMode(e);
-			// we need single point only for pen tool
-			// prevent creating points with freehand tool
-			if (!isFreehand()) {
-				// will create the single point for pen tool
-				addPointsToPolyLine(penPoints);
-			}
 			view.cacheLayers(app.getMaxLayerUsed());
 		}
 	}
@@ -349,16 +344,11 @@ public class EuclidianPen implements GTimerListener {
 		if (penPoints.size() < 2) {
 			return;
 		}
-		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
+
 		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
 				lineDrawingStyle, GBasicStroke.JOIN_ROUND));
 		g2D.setColor(lineDrawingColor);
-		gp.moveTo(penPoints.get(0).x, penPoints.get(0).y);
-		for (int i = 1; i < penPoints.size() - 1; i++) {
-			gp.lineTo(penPoints.get(i).x, penPoints.get(i).y);
-
-		}
-		g2D.draw(gp);
+        penPreviewLine.drawPolyline(penPoints, g2D);
 	}
 
 	/**
@@ -516,10 +506,15 @@ public class EuclidianPen implements GTimerListener {
 	 * @return true if a GeoElement was created
 	 *
 	 */
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y) {
+    public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+                                                 boolean isPinchZooming) {
 		if (right && !isFreehand()) {
 			return false;
 		}
+
+        if (isPinchZooming && penPoints.size() < 2) {
+            penPoints.clear();
+        }
 
 		timer.start();
 
@@ -727,4 +722,5 @@ public class EuclidianPen implements GTimerListener {
 	public boolean isFreehand() {
 		return false;
 	}
+
 }

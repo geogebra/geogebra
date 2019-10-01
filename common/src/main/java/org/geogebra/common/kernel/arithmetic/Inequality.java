@@ -240,8 +240,9 @@ public class Inequality {
 
 	private ExpressionNode replaceDummy(ExpressionNode expression, int i) {
 		zeroDummy[i] = new MyDouble(kernel, 0);
-		expression.replace(fv[i], zeroDummy[i]).wrap();
-		return expression;
+        ExpressionNode copy = expression.deepCopy(kernel);
+        copy.replace(fv[i], zeroDummy[i]).wrap();
+        return copy;
 	}
 
 	private void setAboveBorderFromConic() {

@@ -92,16 +92,19 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
 					return ret;
 				}
-			} else if (arg[0] instanceof VectorValue) {
-				// try to create list of points (eg FitExp[])
-				GeoList list = wrapInList(kernel, arg, arg.length,
-						GeoClass.POINT);
-				if (list != null) {
-					GeoElement[] ret = { doCommand(c.getLabel(), list) };
-					return ret;
-				}
+            } else if (arg[0] instanceof VectorValue) {
+                // try to create list of points (eg FitExp[])
+                GeoList list = wrapInList(kernel, arg, arg.length,
+                        GeoClass.POINT);
+                if (list != null) {
+                    GeoElement[] ret = { doCommand(c.getLabel(), list) };
+                    return ret;
+                }
 
-			}
+            }
+            if (n == 2) {
+                throw argErr(c, arg[0].isGeoList() ? arg[1] : arg[0]);
+            }
 			throw argNumErr(c);
 		}
 	}

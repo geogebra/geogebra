@@ -1,10 +1,10 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
@@ -101,7 +101,7 @@ public class InputDialogDilateD extends InputDialogD {
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!wrappedDialog.isModal()) {
-			app.setCurrentSelectionListener(null);
+            app.resetCurrentSelectionListener();
 		}
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}

@@ -6,12 +6,11 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.gui.util.ZoomPanel;
+import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
@@ -64,7 +63,7 @@ public class AppWsimple extends AppW {
 		initCoreObjects();
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
-		resetFonts();
+        getSettingsUpdater().getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
 		if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
@@ -129,7 +128,6 @@ public class AppWsimple extends AppW {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		GeoGebraProfiler.getInstance().profileEnd();
 		setAltText();
 	}
 

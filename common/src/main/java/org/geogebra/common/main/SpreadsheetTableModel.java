@@ -296,8 +296,10 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public final void updateVisualStyle(GeoElement geo, GProperty prop) {
 		if (prop == GProperty.FONT && geo instanceof TextProperties) {
 			GPoint pt = geo.getSpreadsheetCoords();
-			getCellFormat(null).setFormat(pt, CellFormat.FORMAT_FONTSTYLE,
-					((TextProperties) geo).getFontStyle());
+            if (pt != null) {
+                getCellFormat(null).setFormat(pt, CellFormat.FORMAT_FONTSTYLE,
+                        ((TextProperties) geo).getFontStyle());
+            }
 		}
 		updateWithoutTrace(geo);
 	}

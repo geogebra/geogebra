@@ -112,6 +112,7 @@ public abstract class Drawable extends DrawableND {
 	 * Whether current paint is the first one
 	 */
 	protected boolean firstCall = true;
+    private GeoElement geoForLabel;
 
 	// boolean createdByDrawList = false;
 
@@ -653,7 +654,6 @@ public abstract class Drawable extends DrawableND {
 						geo.getAlphaValue(), geo.getHatchingDistance(),
 						geo.getHatchingAngle(), geo.getFillType(),
 						geo.getFillSymbol(), geo.getKernel().getApplication());
-
 			}
 
 			g2.setPaint(gpaint);
@@ -670,7 +670,6 @@ public abstract class Drawable extends DrawableND {
 				AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
 						subImage2, geo.getKernel().getApplication());
 			}
-
 		} else if (geo.getFillType() == FillType.IMAGE) {
 			getHatchingHandler().setTexture(g2, geo, geo.getAlphaValue());
 			g2.fill(fillShape);
@@ -679,7 +678,6 @@ public abstract class Drawable extends DrawableND {
 			// magic for switching off dash emulation moved to GGraphics2DW
 			g2.fill(fillShape);
 		}
-
 	}
 
 	private HatchingHandler getHatchingHandler() {
@@ -834,6 +832,20 @@ public abstract class Drawable extends DrawableND {
 		return getBounds();
 	}
 
+    /**
+     * @return geo that determines labeling and highlighting
+     */
+    public GeoElement getTopLevelGeo() {
+        return geoForLabel == null ? getGeoElement() : geoForLabel;
+    }
+
+    /**
+     * @param geo that determines labeling and highlighting
+     */
+    public void setTopLevelGeo(GeoElement geo) {
+        geoForLabel = geo;
+    }
+
 	/**
 	 * @param x
 	 *            x-coord of top left
@@ -879,4 +891,30 @@ public abstract class Drawable extends DrawableND {
 	public DrawableND createDrawableND(GeoElement subGeo) {
 		return view.newDrawable(subGeo);
 	}
+
+	/**
+     * @return whether the drawable should be highlighted
+     */
+    public boolean isHighlighted() {
+        return getTopLevelGeo().doHighlighting();
+    }
+
+    /**
+     * Helper method for creating a BoundingBox object.
+     *
+     * @param isImage            is image
+     * @param hasRotationHandler has rotation handler
+     * @return bounding box
+     */
+    protected BoundingBox createBoundingBox(boolean isImage, boolean hasRotationHandler) {
+        BoundingBox boundingBox = new BoundingBox(isImage, hasRotationHandler);
+        boundingBox.setColor(getActiveColor());
+
+        return boundingBox;
+    }
+
+    private GColor getActiveColor() {
+        App app = geo.getKernel().getApplication();
+        return app.getPrimaryColor();
+    }
 }

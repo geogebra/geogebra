@@ -6,11 +6,10 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -559,70 +558,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// recall the old parameter
 		pp.setT(oldT);
-	}
-
-	// TODO merge with GeoPolygon
-	@Override
-	public void pointChanged(GeoPointND PI) {
-		// TODO remove that
-		if (!(PI instanceof GeoPoint3D)) {
-			return;
-		}
-
-		GeoPoint3D P = (GeoPoint3D) PI;
-
-		Coords coordsOld = P.getInhomCoords().copyVector();
-
-		// prevent from region bad coords calculations
-		Region region = P.getRegion();
-		P.setRegion(null);
-
-		double minDist = Double.POSITIVE_INFINITY;
-		Coords res = null;
-		double param = 0;
-
-		// use auxiliary segment if no or not enough segments
-		GeoSegment3D segment = null;
-		if (segments == null || segments.length < getPointsLength()) {
-			segment = new GeoSegment3D(cons);
-		}
-
-		// find closest point on each segment
-		PathParameter pp = P.getPathParameter();
-		for (int i = 0; i < getPointsLength(); i++) {
-
-			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
-
-			if (segment == null) {
-				segments[i].pointChanged(P);
-			} else {
-				segment.setCoordFromPoints(getPoint3D(i),
-						getPoint3D((i + 1) % getPointsLength()));
-				segment.pointChanged(P);
-			}
-
-			double dist; // = P.getInhomCoords().sub(coordsOld).squareNorm();
-			// double dist = 0;
-			if (P.hasWillingCoords() && P.hasWillingDirection()) {
-				dist = P.getInhomCoords().distLine(P.getWillingCoords(),
-						P.getWillingDirection());
-			} else {
-				dist = P.getInhomCoords().sub(coordsOld).squareNorm();
-			}
-
-			if (dist < minDist) {
-				minDist = dist;
-				// remember closest point
-				res = P.getInhomCoords().copyVector();
-				param = i + pp.getT();
-				// Application.debug(i);
-			}
-		}
-
-		P.setCoords(res, false);
-		pp.setT(param);
-
-		P.setRegion(region);
 	}
 
 	// /////////////////////////////////

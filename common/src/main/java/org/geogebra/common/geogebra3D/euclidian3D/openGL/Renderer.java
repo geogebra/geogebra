@@ -19,8 +19,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -146,12 +144,7 @@ public abstract class Renderer {
 	private Runnable export3DRunnable;
 
 	// AR
-	private CoordMatrix4x4 arCameraView;
-	private CoordMatrix4x4 arModelMatrix;
-	private CoordMatrix4x4 arCameraPerspective;
-	protected float arScaleFactor;
     private boolean arShouldStart = false;
-	protected float arScaleAtStart;
 
 	/** shift for getting alpha value */
 	private static final int ALPHA_SHIFT = 24;
@@ -220,8 +213,11 @@ public abstract class Renderer {
      * @param ret Hitting Direction from AR. Override in RendererWithImplA
 	 */
     public void getHittingDirectionAR(Coords ret) {
-        fromARCoreCoordsToGGBCoords(getARManager().getHittingDirection(), ret);
-        ret.normalize();
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.fromARCoordsToGGBCoords(arManager.getHittingDirection(), ret);
+            ret.normalize();
+        }
     }
 
 	/**
@@ -229,7 +225,10 @@ public abstract class Renderer {
      *            Hitting Origin from AR. Override in RendererWithImplA
 	 */
 	public void getHittingOriginAR(Coords ret) {
-		fromARCoreCoordsToGGBCoords(getARManager().getHittingOrigin(), ret);
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.fromARCoordsToGGBCoords(arManager.getHittingOrigin(), ret);
+        }
 	}
 
     /**
@@ -238,12 +237,17 @@ public abstract class Renderer {
      * @return true if there is an hitting on floor
      */
     public boolean getHittingFloorAR(Coords ret) {
-		Coords hittingFloor = getARManager().getHittingFloor();
-		if (hittingFloor == null) {
-			return false;
-		}
-		fromARCoreCoordsToGGBCoords(hittingFloor, ret);
-		return true;
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            Coords hittingFloor = arManager.getHittingFloor();
+            if (hittingFloor == null) {
+                return false;
+            }
+            arManager.fromARCoordsToGGBCoords(hittingFloor, ret);
+            return true;
+        }
+        return false;
+
     }
 
     /**
@@ -251,7 +255,11 @@ public abstract class Renderer {
      * @return current hitting distance (in AR)
      */
     public double getHittingDistanceAR() {
-		return getARManager().getHittingDistance() / arScaleFactor;
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getHittingDistance();
+        }
+        return 0;
     }
 
     /**
@@ -260,7 +268,11 @@ public abstract class Renderer {
      * @return hit z value (if already computed)
      */
     public double checkHittingFloorZ(double z) {
-		return getARManager().checkHittingFloorZ(z);
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.checkHittingFloorZ(z) + view3D.getARFloorShift();
+        }
+        return 0;
     }
 
 	/**
@@ -672,24 +684,11 @@ public abstract class Renderer {
 		}
 	}
 
-	/**
-	 * turn AR coords into ggb scene coords
-	 * 
-	 * @param coords
-	 *            AR coords
-	 * @param ret
-	 *            computed ggb coords
-	 */
-	public final void fromARCoreCoordsToGGBCoords(Coords coords, Coords ret) {
-		rendererImpl.fromARCoreCoordsToGGBCoords(coords, arModelMatrix,
-				getARScaleParameter(), ret);
-	}
-
 	private void drawLabels() {
 		if (enableClipPlanes) {
 			rendererImpl.enableClipPlanes();
 		}
-        if (view3D.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) && view3D.isARDrawing()) {
+        if (view3D.isARDrawing()) {
             view3D.updateAxesDecorationPosition();
         }
 		drawFaceToScreen();
@@ -1196,9 +1195,7 @@ public abstract class Renderer {
 	 */
 	public final void setProjectionMatrix() {
 		if (view3D.isARDrawing()) {
-			rendererImpl.setProjectionMatrixViewForAR(arCameraView,
-					arCameraPerspective, arModelMatrix,
-					getARScaleParameter());
+            rendererImpl.setProjectionMatrixViewForAR();
 		} else {
 			switch (view3D.getProjection()) {
 				default:
@@ -1681,56 +1678,16 @@ public abstract class Renderer {
 	 * @return true (default) if reduce "window" for clipping box
 	 */
 	public boolean reduceForClipping() {
-		return !(view3D.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS) && view3D.isAREnabled());
-	}
-
-	/**
-	 * @param cameraView
-	 *            camera view flattened matrix
-	 * @param cameraPerspective
-	 *            camera perspective flattened matrix
-	 * @param modelMatrix
-	 *            model flattened matrix
-	 * @param scaleFactor
-	 *            scale factor
-	 */
-	public void setARMatrix(CoordMatrix4x4 cameraView, CoordMatrix4x4 cameraPerspective,
-                            CoordMatrix4x4 modelMatrix, float scaleFactor) {
-		arCameraView = cameraView;
-		arCameraPerspective = cameraPerspective;
-		arModelMatrix = modelMatrix;
-		arScaleFactor = scaleFactor;
+        return !view3D.isAREnabled();
 	}
 
 	/**
 	 * Set scale for AR
 	 */
 	public void setARScaleAtStart() {
-		if (view3D.getApplication().has(Feature.G3D_AR_SIMPLE_SCALE)) {
-			double distance = getARManager().getDistance();
-			double deskDistance = 0.5; // desk max distance is 50 cm
-			// don't expect distance less than desk distance
-			if (distance < deskDistance) {
-                distance = deskDistance;
-            }
-            // 1 pixel thickness in ggb == 0.25 mm (for distance smaller than "desk distance")
-            double thicknessMin = 0.00025 * distance / deskDistance;
-            // 1 ggb unit ==  1 meter
-            double ggbToRw = 1.0 / view3D.getXscale();
-            double ratio = thicknessMin / ggbToRw; // thicknessMin = ggbToRw * ratio
-            double pot = DoubleUtil.getPowerOfTen(ratio);
-            ratio = ratio / pot;
-            if (ratio <= 2f) {
-                ratio = 2f;
-            } else if (ratio <= 5f) {
-                ratio = 5f;
-            } else {
-                ratio = 10f;
-            }
-            arScaleAtStart = (float) (ggbToRw * ratio * pot);
-		} else {
-			float reductionFactor = 0.80f;
-			arScaleAtStart = (getARManager().getDistance() / getWidth()) * reductionFactor;
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.setARScaleAtStart();
 		}
 	}
 
@@ -1773,7 +1730,10 @@ public abstract class Renderer {
      * @param z altitude
      */
     public void setARFloorZ(double z) {
-		getARManager().setFirstFloor(z);
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.setFirstFloor(z);
+        }
     }
 
 	/**
@@ -2078,10 +2038,11 @@ public abstract class Renderer {
 	 * set AR to end
 	 */
 	public void setARShouldEnd() {
+        resetScaleFromAR();
 		killARSession();
+        view3D.resetViewFromAR();
 		view3D.setARDrawing(false);
 		view3D.setAREnabled(false);
-		view3D.resetViewFromAR();
 	}
 
 	/**
@@ -2089,10 +2050,6 @@ public abstract class Renderer {
 	 */
 	protected void killARSession() {
 		// not used here
-	}
-
-	public float getARScaleAtStart() {
-		return arScaleAtStart;
 	}
 
 	/**
@@ -2188,16 +2145,104 @@ public abstract class Renderer {
      *
      * @return AR manager (can be null)
      */
-	protected ARManagerInterface<?> getARManager() {
-	    return null;
+    public ARManagerInterface<?> getARManager() {
+        return null;
     }
 
-    private float getARScaleParameter() {
+    /**
+     * @return ArViewMatrix.
+     */
+    public CoordMatrix4x4 getArViewModelMatrix() {
         ARManagerInterface<?> arManager = getARManager();
         if (arManager != null) {
-            return arScaleFactor * arManager.getGestureScaleFactor();
+            return arManager.getViewModelMatrix();
         }
-		return arScaleFactor;
-	}
+        return CoordMatrix4x4.IDENTITY;
+    }
 
+    /**
+     * @return undoRotationMatrixAR.
+     */
+    public CoordMatrix4x4 getUndoRotationMatrixAR() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getUndoRotationMatrix();
+        }
+        return CoordMatrix4x4.IDENTITY;
+    }
+
+    /**
+     * fit thickness to screen distance in AR.
+     */
+    public void fitThicknessInAR() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.fitThickness();
+        }
+    }
+
+    /**
+     * reset 3D view scale if AR has changed it
+     */
+    protected void resetScaleFromAR() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.resetScaleFromAR();
+        }
+    }
+
+    /**
+     * @return ar ratio (can be null)
+     */
+    public String getARRatio() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getARRatioInString();
+        }
+        return null;
+    }
+
+    /**
+     * set AR ratio
+     *
+     * @param ratio new ratio for AR
+     */
+    public void setARRatio(double ratio) {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.setARRatio(ratio);
+        }
+    }
+
+    /**
+     * @return ar ratio units (can be null)
+     */
+    public String getARRatioUnits() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getUnits();
+        }
+        return null;
+    }
+
+    /**
+     * @return ar ratio metric system (cm or inch)
+     */
+    public int getARRatioMetricSystem() {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            return arManager.getARRatioMetricSystem();
+        }
+        return 0;
+    }
+
+    /**
+     * @param metricSystem ar ratio metric system (cm or inch)
+     */
+    public void setARRatioMetricSystem(int metricSystem) {
+        ARManagerInterface<?> arManager = getARManager();
+        if (arManager != null) {
+            arManager.setARRatioMetricSystem(metricSystem);
+        }
+    }
 }

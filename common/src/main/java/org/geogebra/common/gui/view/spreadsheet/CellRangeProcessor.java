@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -997,9 +998,8 @@ public class CellRangeProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showError(loc.getPlain("CellAisNotDefined",
-								GeoElementSpreadsheet.getSpreadsheetCellName(i,
-										j)));
+                        app.showError(Errors.CellAisNotDefined.getError(loc,
+                                GeoElementSpreadsheet.getSpreadsheetCellName(i, j)));
 						return null;
 					}
 				}
@@ -1021,9 +1021,8 @@ public class CellRangeProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showError(loc.getPlain("CellAisNotDefined",
-								GeoElementSpreadsheet.getSpreadsheetCellName(i,
-										j)));
+                        app.showError(Errors.CellAisNotDefined.getError(loc,
+                                GeoElementSpreadsheet.getSpreadsheetCellName(i, j)));
 						return null;
 					}
 				}

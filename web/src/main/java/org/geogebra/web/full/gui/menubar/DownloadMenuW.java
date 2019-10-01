@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -25,8 +25,7 @@ public class DownloadMenuW extends Submenu implements MenuBarI {
 
 	@Override
 	public SVGResource getImage() {
-		return getApp().isWhiteboardActive() ? MaterialDesignResources.INSTANCE.download()
-				: MaterialDesignResources.INSTANCE.file_download_black();
+        return ((AppWFull) getApp()).getActivity().getResourceIconProvider().downloadMenu();
 	}
 
 	@Override

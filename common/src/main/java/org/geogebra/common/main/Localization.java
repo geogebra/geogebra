@@ -3,14 +3,15 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-//import java.util.Locale;
 import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
+import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
@@ -25,11 +26,13 @@ public abstract class Localization {
 	public final static String syntax3D = ".Syntax3D";
 	/** syntax suffix for keys in command bundle */
 	public final static String syntaxStr = ".Syntax";
+    private final LocalizedCommandSyntax commandSyntax = new LocalizedCommandSyntax(this);
 	/** used when a secondary language is being used for tooltips. */
 	private String[] fontSizeStrings = null;
 
-	protected Locale currentLocale = Locale.ENGLISH;
 	static final public String ROUNDING_MENU_SEPARATOR = "---";
+
+    protected Locale currentLocale = Locale.ENGLISH;
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int dimension = 2;
@@ -540,6 +543,7 @@ public abstract class Localization {
 		}
 
 		if (!found) {
+
 			/*
 			 * If no parameters were found in key, this key is missing for some
 			 * reason (maybe it is not added to the ggbtrans database yet). In
@@ -1016,7 +1020,7 @@ public abstract class Localization {
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	public String getCommandSyntax(String key) {
-		return getCommandSyntax(key, dimension);
+        return commandSyntax.getCommandSyntax(key, dimension);
 	}
 
 	/**
@@ -1027,24 +1031,8 @@ public abstract class Localization {
 	 * @return command syntax TODO check whether getSyntaxString works here
 	 */
 	public String getCommandSyntax(String key, int dim) {
-		String command = getCommand(key);
-		if (dim == 3) {
-			String key3D = key + Localization.syntax3D;
-			String cmdSyntax3D = getCommand(key3D);
-			if (!cmdSyntax3D.equals(key3D)) {
-				cmdSyntax3D = buildSyntax(cmdSyntax3D, command);
-				return cmdSyntax3D;
-			}
-		}
 
-		String syntax = getCommand(key + Localization.syntaxStr);
-		syntax = buildSyntax(syntax, command);
-
-		return syntax;
-	}
-
-	private String buildSyntax(String syntax, String command) {
-		return syntax.replace("[", command + '(').replace(']', ')');
+        return commandSyntax.getCommandSyntax(key, dim);
 	}
 
 	/**
@@ -1107,19 +1095,7 @@ public abstract class Localization {
 	 * @return CAS syntax
 	 */
 	public String getCommandSyntaxCAS(String key) {
-		String keyCAS = key + syntaxCAS;
-
-		String command = getCommand(key);
-		String syntax = getCommand(keyCAS);
-
-		// make sure "PointList.SyntaxCAS" not displayed in dialog
-		if (syntax.equals(keyCAS)) {
-			syntax = getCommand(key + syntaxStr);
-		}
-
-		syntax = buildSyntax(syntax, command);
-
-		return syntax;
+        return commandSyntax.getCommandSyntaxCAS(key);
 	}
 
 	/**
@@ -1423,8 +1399,7 @@ public abstract class Localization {
 			}
 		}
 
-		Log.debug("nothing found, English name must be " + internalName);
-
+        // nothing found, English name must be internalName
 		return internalName;
 	}
 
@@ -1561,4 +1536,12 @@ public abstract class Localization {
 		}
 		return ret;
 	}
+
+    /**
+     * @return Translation of "Please check your Input"
+     */
+    public String getInvalidInputError() {
+        return Errors.InvalidInput.getError(this);
+    }
+
 }

@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
-import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -598,19 +597,14 @@ public interface Manager3DInterface {
 	/**
 	 * surface of revolution, rotating function around x-axis, from 0 to angle
 	 * 
-	 * @param label
-	 *            name
 	 * @param function
 	 *            x-&gt;y function
 	 * @param angle
 	 *            angle
 	 * @return surface of revolution
 	 */
-	public GeoElement surfaceOfRevolution(String label,
-			ParametricCurve function, GeoNumberValue angle);
-
-	public GeoElement surfaceOfRevolution(String label, Path function,
-			GeoNumberValue angle, GeoLineND line);
+    public GeoElement surfaceOfRevolution(Path function,
+                                          GeoNumberValue angle, GeoLineND line);
 
 	// //////////////////////////////////////////////
 	// intersection algos
@@ -957,8 +951,8 @@ public interface Manager3DInterface {
 	 *            orientation
 	 * @return geo rotated
 	 */
-	public GeoElement[] rotate3D(String label, GeoElement geoRot,
-			GeoNumberValue phi, GeoPointND Q, GeoDirectionND orientation);
+    public GeoElement[] rotate3D(String label, GeoElementND geoRot,
+                                 GeoNumberValue phi, GeoPointND Q, GeoDirectionND orientation);
 
 	/**
 	 * rotate about line
@@ -973,8 +967,8 @@ public interface Manager3DInterface {
 	 *            line
 	 * @return geo rotated
 	 */
-	public GeoElement[] rotate3D(String label, GeoElement geoRot,
-			GeoNumberValue phi, GeoLineND line);
+    public GeoElement[] rotate3D(String label, GeoElementND geoRot,
+                                 GeoNumberValue phi, GeoLineND line);
 
 	/**
 	 * @return mirrored object

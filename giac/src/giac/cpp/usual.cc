@@ -1273,6 +1273,7 @@ namespace giac {
       rho=ratnormal(rho,contextptr);
       if (abs_calc_mode(contextptr)==38 && !lvarfracpow(rho).empty())
 	return pow(e,plus_one_half,contextptr);
+      if (lvar(rho).empty()) rho=eval(rho,1,contextptr);
       rho=sqrt(rho,contextptr);
       if (abs_calc_mode(contextptr)==38 && rho.type!=_FRAC && rho.type>=_IDNT){
 	rho=evalf(rho,1,contextptr);
@@ -4034,7 +4035,7 @@ namespace giac {
 	  return string2gen("[] index start 1",false);
 	}
       }
-      string errmsg=b.print(contextptr)+ gettext(" is a reserved word, sto not allowed:");
+      string errmsg=b.print(contextptr)+ gettext(" is a reserved word, sto not allowed: ")+a.print(contextptr);
       if (abs_calc_mode(contextptr)!=38)
 	*logptr(contextptr) << errmsg << endl;
       return makevecteur(string2gen(errmsg,false),a);
@@ -4134,28 +4135,28 @@ namespace giac {
 
   static gen in_increment3(const gen & prev,const gen & val,const gen & var,int mult,GIAC_CONTEXT){
     if (mult==0)
-      return sto(prev+val,var,contextptr);
+      return sto(prev+val,var,true,contextptr);
     if (mult==1)
-      return sto(prev*val,var,contextptr);
+      return sto(prev*val,var,true,contextptr);
     if (mult==2)
-      return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_iquo(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==3)
-      return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_irem(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==4)
-      return sto(_bitand(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_bitand(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==5)
-      return sto(_bitor(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_bitor(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==6){
       if (python_compat(contextptr))
-	return sto(_bitxor(makesequence(prev,val),contextptr),var,contextptr);
-      return sto(_pow(makesequence(prev,val),contextptr),var,contextptr);
+	return sto(_bitxor(makesequence(prev,val),contextptr),var,true,contextptr);
+      return sto(_pow(makesequence(prev,val),contextptr),var,true,contextptr);
     }
     if (mult==7)
-      return sto(_shift(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_shift(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==8)
-      return sto(_rotate(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_rotate(makesequence(prev,val),contextptr),var,true,contextptr);
     if (mult==9)
-      return sto(_pow(makesequence(prev,val),contextptr),var,contextptr);
+      return sto(_pow(makesequence(prev,val),contextptr),var,true,contextptr);
     return gensizeerr(gettext("Increment"));
   }
 
@@ -6208,9 +6209,13 @@ namespace giac {
       return v.front();
     gen vf(v.front()),vb(v.back());
     if (!is_integral(vf) || !is_integral(vb) ){
+#if 1
+      return vf-_floor(vf/vb,contextptr)*vb;
+#else      
       if (vf.type==_DOUBLE_ || vb.type==_DOUBLE_)
 	return gensizeerr(contextptr);
       return symbolic(at_irem,args);
+#endif
     }
     gen r=irem(vf,vb,q);
     if (is_integer(vb) && is_strictly_positive(-r,contextptr)){
@@ -6271,11 +6276,11 @@ namespace giac {
     }
     return false;
   }
-  gen Iquo(const gen & f0,const gen & b0){
+  gen Iquo(const gen & f0,const gen & b0,GIAC_CONTEXT){
     if (f0.type==_VECT)
-      return apply1st(f0,b0,Iquo);
+      return apply1st(f0,b0,contextptr,Iquo);
     gen f(f0),b(b0);
-    if (!is_integral(f) || !is_integral(b) )
+    if (python_compat(contextptr)==0 && (!is_integral(f) || !is_integral(b) ))
       return gensizeerr(gettext("Iquo")); // return symbolic(at_iquo,args);
     if (is_exactly_zero(b))
       return 0;
@@ -6288,7 +6293,7 @@ namespace giac {
     gen & b=args._VECTptr->back();
     if (ckmatrix(args))
       return apply(f,b,iquo);
-    return Iquo(f,b);
+    return Iquo(f,b,contextptr);
   }
   static const char _iquo_s []="iquo";
   static string printasiquo(const gen & g,const char * s,GIAC_CONTEXT){
@@ -6627,7 +6632,7 @@ namespace giac {
     if (args.type==_FRAC){
       gen n=args._FRACptr->num,d=args._FRACptr->den;
       if ( ((n.type==_INT_) || (n.type==_ZINT)) && ( (d.type==_INT_) || (d.type==_ZINT)) )
-	return Iquo(n,d)+1;
+	return Iquo(n,d,contextptr)+1;
     }
     vecteur l(lidnt(args));
     vecteur lnew=*evalf(l,1,contextptr)._VECTptr;
@@ -7977,6 +7982,8 @@ namespace giac {
     return gammatofactorial(x,contextptr);
 #else
     // if (x.is_symb_of_sommet(at_plus) && x._SYMBptr->feuille.type==_VECT && !x._SYMBptr->feuille._VECTptr->empty() && is_one(x._SYMBptr->feuille._VECTptr->back())) return gammatofactorial(x,contextptr);
+    if (is_assumed_integer(x,contextptr))
+      return gammatofactorial(x,contextptr);
     return symbolic(at_Gamma,x);
 #endif
   }

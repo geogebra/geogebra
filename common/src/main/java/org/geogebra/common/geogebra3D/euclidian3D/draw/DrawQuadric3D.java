@@ -13,8 +13,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
-import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -1553,7 +1553,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				break;
 			default:
 				if (exportSurface) {
-					exportToPrinter3D.exportSurface(this);
+                    exportToPrinter3D.exportSurface(this, false,
+                            this instanceof DrawQuadric3DPart);
 				}
 				break;
 			}

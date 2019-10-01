@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -53,6 +54,7 @@ import org.geogebra.common.kernel.prover.discovery.Pool;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -173,7 +175,7 @@ public class Construction {
 	private String yAxisLocalName;
 	private GeoPoint origin;
 
-	private GeoElement selfGeo;
+    private Stack<GeoElement> selfGeoStack = new Stack<>();
 	private boolean undoEnabled = true;
 
 	private boolean isGettingXMLForReplace;
@@ -266,7 +268,21 @@ public class Construction {
 	 *            new value of "self" variable
 	 */
 	public void setSelfGeo(GeoElement selfGeo) {
-		this.selfGeo = selfGeo;
+        this.selfGeoStack.add(selfGeo);
+    }
+
+    /**
+     * Sets self geo to the previous one
+     */
+    public void restoreSelfGeo() {
+        this.selfGeoStack.pop();
+    }
+
+    /**
+     * @return whether a click/update script is currently running
+     */
+    public boolean isScriptRunningForGeo() {
+        return !selfGeoStack.isEmpty();
 	}
 
 	/**
@@ -1835,7 +1851,7 @@ public class Construction {
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
 			// Application.debug("consXML=\n" + consXML);
 			throw new MyError(getApplication().getLocalization(),
-					"ReplaceFailed");
+                    Errors.ReplaceFailed);
 		}
 
 		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +
@@ -2237,7 +2253,7 @@ public class Construction {
 			}
 		}
 		if ("self".equals(label1)) {
-			return this.selfGeo;
+            return this.selfGeoStack.peek();
 		}
 		if ("undefined".equals(label1)) {
 			GeoNumeric n = new GeoNumeric(this);
@@ -2836,25 +2852,29 @@ public class Construction {
 
 	/**
 	 * @return whether there are some objects incompatible with the 2D version
-	 */
-	public boolean has3DObjects() {
+     */
+    private boolean has3DObjects() {
 
-		Iterator<GeoClass> it = usedGeos.iterator();
+        Iterator<GeoClass> it = usedGeos.iterator();
 
-		boolean kernelHas3DObjects = false;
+        boolean kernelHas3DObjects = false;
 
-		while (it.hasNext()) {
-			GeoClass geoType = it.next();
+        while (it.hasNext()) {
+            GeoClass geoType = it.next();
 
-			if (geoType.is3D) {
-				Log.debug("found 3D geo: " + geoType.xmlName);
-				kernelHas3DObjects = true;
-				break;
-			}
-		}
+            if (geoType.is3D) {
+                Log.debug("found 3D geo: " + geoType.xmlName);
+                kernelHas3DObjects = true;
+                break;
+            }
+        }
 
-		return kernelHas3DObjects;
-	}
+        return kernelHas3DObjects;
+    }
+
+    public boolean hasInputBoxes() {
+        return usedGeos.contains(GeoClass.TEXTFIELD);
+    }
 
 	/**
 	 * @return Whether some objects were created in this cons
@@ -3101,7 +3121,7 @@ public class Construction {
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
 			restoreAfterRedefine(oldXML);
 			throw new MyError(getApplication().getLocalization(),
-					"ReplaceFailed");
+                    Errors.ReplaceFailed);
 		}
 	}
 
@@ -3620,15 +3640,18 @@ public class Construction {
 	 * 
 	 * @return the LabelManager instance
 	 */
-	public LabelManager getLabelManager() {
-		if (labelManager == null) {
-			labelManager = new LabelManager(this);
-			labelManager.setAngleLabels(
-					kernel.getApplication().getConfig().isGreekAngleLabels());
-		}
-		return labelManager;
-	}
+    public LabelManager getLabelManager() {
+        if (labelManager == null) {
+            labelManager = new LabelManager(this);
+            labelManager.setAngleLabels(
+                    kernel.getApplication().getConfig().isGreekAngleLabels());
+        }
+        return labelManager;
+    }
 
+    public boolean requires3D() {
+        return has3DObjects() || hasInputBoxes();
+    }
 
 	/**
 	 * Discovery pool for the prover.

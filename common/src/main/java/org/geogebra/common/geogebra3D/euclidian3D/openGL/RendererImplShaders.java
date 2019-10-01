@@ -1,10 +1,9 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * implementation for renderer using shaders
@@ -56,14 +55,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected float[] tmpNormal3 = new float[3];
 
 	protected CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
-    protected CoordMatrix4x4 undoRotationMatrixAR = new CoordMatrix4x4();
 
 	protected CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
 	protected CoordMatrix4x4 tmpMatrix2 = new CoordMatrix4x4();
-	protected CoordMatrix4x4 tmpMatrix3 = new CoordMatrix4x4();
-	protected CoordMatrix4x4 tmpMatrix4 = new CoordMatrix4x4();
-
-	private Coords tmpCoords1 = new Coords(4);
 
 	protected float[] tmpFloat16 = new float[16];
 
@@ -92,7 +86,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	private int currentLayer;
 	private float[] eyeOrDirection = new float[4];
 	protected float[][] ambiantDiffuse;
-	private CoordMatrix4x4 arViewMatrix = new CoordMatrix4x4();
 
 	/**
 	 * dash values for shaders
@@ -493,63 +486,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	public CoordMatrix4x4 getArViewMatrix() {
-		return arViewMatrix;
-	}
-
-	@Override
-	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-											 CoordMatrix4x4 cameraPerspective,
-											 CoordMatrix4x4 modelMatrix,
-											 float scaleFactor) {
-		// scaleMatrix
-		CoordMatrix4x4.setZero(tmpMatrix1);
-		CoordMatrix4x4.setDilate(tmpMatrix1, scaleFactor);
-
-		// cameraView * modelMatrix and undo rotation matrix (keeping screen orientation)
-		tmpMatrix3.setMul(cameraView, modelMatrix);
-		arViewMatrix.set(tmpMatrix3);
-
-		// invert cameraView * modelMatrix to keep labels towards to screen
-		// calculate angle to keep labels upward
-		tmpMatrix2.set(tmpMatrix3);
-		tmpMatrix2.setOrigin(Coords.O);
-		tmpMatrix4.set(tmpMatrix2.inverse());
-		Coords vy = tmpMatrix4.getVy();
-		Coords vz = tmpMatrix4.getVz();
-		tmpCoords1.setSub3(Coords.VY,
-				tmpCoords1.setMul3(vz, Coords.VY.dotproduct(vz)));
-		tmpCoords1.setW(0);
-		tmpCoords1.normalize();
-		double c = tmpCoords1.dotproduct(vy);
-		double s = vz.dotCrossProduct(tmpCoords1, vy);
-		double rot = Math.atan2(s, c);
-		CoordMatrix.setRotation3DMatrix(CoordMatrix.Z_AXIS, -rot, tmpMatrix2);
-		undoRotationMatrixAR.setMul(tmpMatrix4, tmpMatrix2);
-
-		// (cameraView * modelMatrix) * scaleMatrix
-		tmpMatrix2.setMul(tmpMatrix3, tmpMatrix1);
-
-		// cameraPerspective * (cameraView * (modelMatrix * scaleMatrix))
-		projectionMatrix.setMul(cameraPerspective, tmpMatrix2);
-	}
-
-    @Override
-    public CoordMatrix4x4 getUndoRotationMatrixAR() {
-	    return undoRotationMatrixAR;
-    }
-
-	@Override
-    public void fromARCoreCoordsToGGBCoords(Coords coords, CoordMatrix4x4 modelMatrix,
-                                            float scaleFactor, Coords ret) {
-	    // undo model matrix
-        modelMatrix.solve(coords, ret);
-        // undo scale matrix
-        CoordMatrix4x4.setZero(tmpMatrix2);
-        CoordMatrix4x4.setDilate(tmpMatrix2, scaleFactor);
-        tmpMatrix2.solve(ret, tmpCoords1);
-        // undo screen coordinates
-		ret.setMul(view3D.getToSceneMatrix(), tmpCoords1);
+    public void setProjectionMatrixViewForAR() {
+        ARManagerInterface<?> arManager = renderer.getARManager();
+        if (arManager != null) {
+            arManager.setProjectionMatrixViewForAR(projectionMatrix);
+        }
 	}
 
 	@Override
@@ -905,11 +846,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-	private void disableOpaqueSurfaces() {
+    /**
+     * disables flag for opaque surfaces
+     */
+    protected void disableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 0);
-	}
+    }
 
-	private void enableOpaqueSurfaces() {
+    /**
+     * enables flag for opaque surfaces
+     */
+    protected void enableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 1);
 	}
 

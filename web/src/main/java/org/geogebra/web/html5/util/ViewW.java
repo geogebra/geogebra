@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -10,102 +11,106 @@ import org.geogebra.web.html5.main.GgbFile;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+/**
+ * Processes file input
+ */
 public class ViewW {
 
-	private GgbFile archiveContent;
-	private int zippedLength = 0;
+    private GgbFile archiveContent;
+    private int zippedLength = 0;
 
-	private AppW app;
+    private AppW app;
 
-	/**
-	 * @param app
-	 *            application
-	 */
-	public ViewW(AppW app) {
-		this.app = app;
-	}
+    /**
+     * @param app
+     *            application
+     */
+    public ViewW(AppW app) {
+        this.app = app;
+    }
 
-	private native void log(Object ex)/*-{
+    private native void log(Object ex)/*-{
 		if ($wnd.console) {
 			$wnd.console.log(ex);
 		}
 	}-*/;
 
-	private void maybeLoadFile() {
-		if (app == null || archiveContent == null) {
-			return;
-		}
+    private void maybeLoadFile() {
+        if (app == null || archiveContent == null) {
+            return;
+        }
 
-		try {
-			Log.debug("loadggb started" + System.currentTimeMillis());
-			app.loadGgbFile(archiveContent, false);
-			Log.debug("loadggb finished" + System.currentTimeMillis());
-		} catch (Throwable ex) {
-			ex.printStackTrace();
-			log(ex);
-			return;
-		}
-		archiveContent = null;
+        try {
+            Log.debug("loadggb started" + System.currentTimeMillis());
+            app.loadGgbFile(archiveContent, false);
+            Log.debug("loadggb finished" + System.currentTimeMillis());
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            log(ex);
+            return;
+        }
+        archiveContent = null;
 
-		// app.getScriptManager().ggbOnInit(); //this line is moved from here
-		// too,
-		// it should load after the images are loaded
+        // app.getScriptManager().ggbOnInit(); //this line is moved from here
+        // too,
+        // it should load after the images are loaded
 
-		Log.debug("file loaded");
+        Log.debug("file loaded");
 
-		// reiniting of navigation bar, to show the correct numbers on the label
-		if (app.getGuiManager() != null && app.getUseFullGui()) {
-			ConstructionProtocolNavigation cpNav = this.getApplication()
-			        .getGuiManager()
-			        .getCPNavigationIfExists();
-			if (cpNav != null) {
-				cpNav.update();
-			}
-		}
-		Log.debug("end unzipping" + System.currentTimeMillis());
-	}
+        // reiniting of navigation bar, to show the correct numbers on the label
+        if (app.getGuiManager() != null && app.getUseFullGui()) {
+            ConstructionProtocolNavigation cpNav = this.getApplication()
+                    .getGuiManager()
+                    .getCPNavigationIfExists();
+            if (cpNav != null) {
+                cpNav.update();
+            }
+        }
+        Log.debug("end unzipping" + System.currentTimeMillis());
+    }
 
-	/**
-	 * Load file if it's not null.
-	 * 
-	 * @param archiveCont
-	 *            file to load
-	 */
-	public void maybeLoadFile(GgbFile archiveCont) {
-		archiveContent = archiveCont;
-		maybeLoadFile();
-	}
+    /**
+     * Load file if it's not null.
+     *
+     * @param archiveCont
+     *            file to load
+     */
+    public void maybeLoadFile(GgbFile archiveCont) {
+        archiveContent = archiveCont;
+        maybeLoadFile();
+    }
 
-	/**
-	 * @return application
-	 */
-	protected AppW getApplication() {
-		return app;
-	}
+    /**
+     * @return application
+     */
+    protected AppW getApplication() {
+        return app;
+    }
 
-	/**
-	 * @param dataParamBase64String
-	 *            base64 encoded file
-	 */
-	public void processBase64String(String dataParamBase64String) {
-		populateArchiveContent(getBase64Reader(dataParamBase64String));
-	}
+    /**
+     * @param dataParamBase64String
+     *            base64 encoded file
+     */
+    public void processBase64String(String dataParamBase64String) {
+        populateArchiveContent(getBase64Reader(dataParamBase64String));
+    }
 
-	private void putIntoArchiveContent(String key, String value) {
-		archiveContent.put(key, value);
-		if (archiveContent.size() == zippedLength) {
-			maybeLoadFile();
-		}
-	}
+    @ExternalAccess
+    private void putIntoArchiveContent(String key, String value) {
+        archiveContent.put(key, value);
+        if (archiveContent.size() == zippedLength) {
+            maybeLoadFile();
+        }
+    }
 
-	private void populateArchiveContent(JavaScriptObject ggbReader) {
-		String workerUrls = prepareFileReading();
-		GgbAPIW.setWorkerURL(workerUrls, false);
-		populateArchiveContent(workerUrls, this, ggbReader);
-	}
+    private void populateArchiveContent(JavaScriptObject ggbReader) {
+        String workerUrls = prepareFileReading();
+        GgbAPIW.setWorkerURL(workerUrls, false);
+        populateArchiveContent(workerUrls, this, ggbReader);
+    }
 
-	private native void populateArchiveContent(String workerUrls, ViewW view,
-			JavaScriptObject ggbReader) /*-{
+    private native void populateArchiveContent(String workerUrls, ViewW view,
+                                               JavaScriptObject ggbReader) /*-{
       // Writer for ASCII strings
       function ASCIIWriter() {
 	      var that = this, data;
@@ -209,106 +214,106 @@ public class ViewW {
        
     }-*/;
 
-	/**
-	 * Handle file loading error
-	 * 
-	 * @param msg
-	 *            error message
-	 */
-	public void onError(String msg) {
-		Log.error(msg);
-		// eg 403
-		if ((msg + "").startsWith("Error 40")) {
-			this.app.getScriptManager().ggbOnInit();
-			ToolTipManagerW.sharedInstance().showBottomMessage(
-					app.getLocalization().getMenu("FileLoadingError"), false,
-					app);
-		}
-	}
+    /**
+     * Handle file loading error
+     *
+     * @param msg
+     *            error message
+     */
+    public void onError(String msg) {
+        Log.error(msg);
+        // eg 403
+        if ((msg + "").startsWith("Error 40")) {
+            this.app.getScriptManager().ggbOnInit();
+            ToolTipManagerW.sharedInstance().showBottomMessage(
+                    app.getLocalization().getMenu("FileLoadingError"), false,
+                    app);
+        }
+    }
 
-	/**
-	 * Open file as off / csv / ggb.
-	 * 
-	 * @param url
-	 *            file URL
-	 */
-	public void processFileName(String url) {
-		if (url.endsWith(".off")) {
+    /**
+     * Open file as off / csv / ggb.
+     *
+     * @param url
+     *            file URL
+     */
+    public void processFileName(String url) {
+        if (url.endsWith(".off")) {
 
-			HttpRequestW request = new HttpRequestW();
-			request.sendRequestPost("GET", url, null, new AjaxCallback() {
+            HttpRequestW request = new HttpRequestW();
+            request.sendRequestPost("GET", url, null, new AjaxCallback() {
 
-				@Override
-				public void onSuccess(String response) {
-					getApplication().openOFF(response);
-				}
+                @Override
+                public void onSuccess(String response) {
+                    getApplication().openOFF(response);
+                }
 
-				@Override
-				public void onError(String error) {
-					Log.error("Problem opening file:" + error);
-				}
-			});
-			return;
-		}
-		if (url.endsWith(".csv")) {
+                @Override
+                public void onError(String error) {
+                    Log.error("Problem opening file:" + error);
+                }
+            });
+            return;
+        }
+        if (url.endsWith(".csv")) {
 
-			HttpRequestW request = new HttpRequestW();
-			request.sendRequestPost("GET", url, null, new AjaxCallback() {
+            HttpRequestW request = new HttpRequestW();
+            request.sendRequestPost("GET", url, null, new AjaxCallback() {
 
-				@Override
-				public void onSuccess(String response) {
-					getApplication().openCSV(response);
-				}
+                @Override
+                public void onSuccess(String response) {
+                    getApplication().openCSV(response);
+                }
 
-				@Override
-				public void onError(String error) {
-					Log.error("Problem opening file:" + error);
-				}
-			});
-			return;
-		}
+                @Override
+                public void onError(String error) {
+                    Log.error("Problem opening file:" + error);
+                }
+            });
+            return;
+        }
 
-		populateArchiveContent(getHTTPReader(url));
-	}
+        populateArchiveContent(getHTTPReader(url));
+    }
 
-	private native JavaScriptObject getHTTPReader(String url)/*-{
+    private native JavaScriptObject getHTTPReader(String url)/*-{
 		return new $wnd.zip.HttpReader(url);
 	}-*/;
 
-	/**
-	 * @param binary
-	 *            string (zipped GGB)
-	 */
-	public void processBinaryString(JavaScriptObject binary) {
-		populateArchiveContent(getBinaryReader(binary));
+    /**
+     * @param binary
+     *            string (zipped GGB)
+     */
+    public void processBinaryString(JavaScriptObject binary) {
+        populateArchiveContent(getBinaryReader(binary));
+    }
 
-	}
-
-	private native JavaScriptObject getBinaryReader(Object blob) /*-{
+    private native JavaScriptObject getBinaryReader(Object blob) /*-{
 		return new $wnd.zip.BlobReader(blob);
 	}-*/;
 
-	private native JavaScriptObject getBase64Reader(String base64str)/*-{
+    private native JavaScriptObject getBase64Reader(String base64str)/*-{
 		return new $wnd.zip.Data64URIReader(base64str);
 	}-*/;
 
-	private String prepareFileReading() {
-		archiveContent = new GgbFile();
-		String workerUrls = GgbAPIW.zipJSworkerURL();
-		Log.debug("start unzipping" + System.currentTimeMillis());
-		return workerUrls;
-	}
+    private String prepareFileReading() {
+        archiveContent = new GgbFile();
+        String workerUrls = GgbAPIW.zipJSworkerURL();
+        Log.debug("start unzipping" + System.currentTimeMillis());
+        return workerUrls;
+    }
 
-	private void prepare(int t) {
-		archiveContent = new GgbFile();
-		this.zippedLength = t;
-	}
+    @ExternalAccess
+    private void prepare(int t) {
+        archiveContent = new GgbFile();
+        this.zippedLength = t;
+    }
 
-	/**
-	 * @param encoded
-	 *            JSON encoded ZIP file (zip.js format)
-	 */
-	public native void processJSON(String encoded) /*-{
+    /**
+     * @param encoded
+     *            JSON encoded ZIP file (zip.js format)
+     */
+    public native void processJSON(String encoded) /*-{
 		var content = JSON.parse(encoded).archive;
 		if (content) {
 			this.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
@@ -318,11 +323,11 @@ public class ViewW {
 		}
 	}-*/;
 
-	/**
-	 * @param zip
-	 *            JS object representing the ZIP file, see getFileJSON in GgbAPI
-	 */
-	public native void processJSON(JavaScriptObject zip) /*-{
+    /**
+     * @param zip
+     *            JS object representing the ZIP file, see getFileJSON in GgbAPI
+     */
+    public native void processJSON(JavaScriptObject zip) /*-{
 		var that = this;
 		$wnd
 				.setTimeout(

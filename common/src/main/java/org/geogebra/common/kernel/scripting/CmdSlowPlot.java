@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -87,7 +88,7 @@ public class CmdSlowPlot extends CmdScripting {
 					g.setLabel(label);
 				} else {
 					var.remove();
-					throw new MyError(loc, "InvalidFunction");
+                    throw new MyError(loc, Errors.InvalidFunction);
 				}
 
 				kernel.getAnimatonManager().startAnimation();

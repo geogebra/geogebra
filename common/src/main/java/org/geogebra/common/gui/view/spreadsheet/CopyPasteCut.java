@@ -205,8 +205,7 @@ public abstract class CopyPasteCut {
 			cons.processCollectedRedefineCalls();
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			app.showError(ex.getMessage());
+            app.showGenericError(ex);
 
 		} finally {
 			cons.stopCollectingRedefineCalls();

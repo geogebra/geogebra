@@ -64,10 +64,15 @@ using namespace std;
 #include <unistd.h>
 #endif
 
+#ifdef EMCC
+#include <emscripten.h>
+#endif
+
 
 #if 0 // def GIAC_HAS_STO_38
   TMillisecs PrimeGetNow();
 #endif
+
 
 #if defined(EMCC) && !defined(PNACL)
 extern "C" double emcctime();
@@ -354,6 +359,15 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
       return PrimeGetNow()/1000.;
 #endif
+#if 0 && defined(EMCC) && !defined(GIAC_GGB)
+      double res;
+      res=EM_ASM_DOUBLE_V({
+	  var hw=Date.now();
+	  return hw;
+      });
+      return res*1e-6;
+#endif // GIAC_GGB
+
 #if defined(EMCC) && !defined(PNACL)
       return emcctime()/1e6;
 #endif
@@ -374,6 +388,18 @@ namespace giac {
     }
     return 0.0;
 #endif
+#if 0 && defined(EMCC) && !defined(GIAC_GGB)
+    double T1=EM_ASM_DOUBLE_V({
+	var hw=Date.now();
+	return hw;
+      });
+    eval(a,level,contextptr);
+    double T2=EM_ASM_DOUBLE_V({
+	var hw=Date.now();
+	return hw;
+      });
+    return (T2-T1)*1e-6;
+#endif // GIAC_GGB
 #if defined(EMCC) && !defined(PNACL)
     // time_t t1,t2;
     // time(&t1);
@@ -3193,7 +3219,7 @@ namespace giac {
       return 0;
     }
     if (g.type==_SYMB){
-      if (g._SYMBptr->sommet==at_size)
+      if (g._SYMBptr->sommet==at_floor || g._SYMBptr->sommet==at_irem || g._SYMBptr->sommet==at_iquo || g._SYMBptr->sommet==at_size)
 	return 2;
       vecteur v=lvar(g._SYMBptr->feuille);
       return is_int_or_double(v); // this assumes that the function has the same type as the arguments
@@ -3222,6 +3248,8 @@ namespace giac {
       return _STRNG;
     }
     if (g.type==_SYMB){
+      if (g._SYMBptr->sommet==at_floor || g._SYMBptr->sommet==at_irem || g._SYMBptr->sommet==at_iquo)
+	return 2;
       if (g._SYMBptr->sommet==at_size)
 	return 2;
       if (g._SYMBptr->sommet==at_abs && cpp_vartype(g._SYMBptr->feuille)==3)
@@ -3265,8 +3293,10 @@ namespace giac {
     return 0;
   }
 
-  std::string cprintvars(const gen & f0,bool cst,const string & sep,int * typeptr,GIAC_CONTEXT){
+  std::string cprintvars(const gen & f0,bool cst,bool ctx0,const string & sep,int * typeptr,GIAC_CONTEXT){
     vecteur fv=gen2vecteur(f0);
+    if (fv.size()==2 && fv[0].type==_VECT)
+      fv=*fv[0]._VECTptr;
     string res;
     for (int i=0;;){
       gen fvi=fv[i];
@@ -3314,10 +3344,11 @@ namespace giac {
 	  g=(fv[i])[2];
 #if 1
 	int i=cpp_vartype(fvi);
-	if (!i || i==cpp_vartype(g))
+	int gt=cpp_vartype(g);
+	if (!i || i==gt || (i==2 && gt==_DOUBLE_) || (i==_DOUBLE_ && gt==2))
 	  vtype = vtype + " = " +cprint(g,0,contextptr);
 	else 
-	  vtype = vtype + " = cpp_convert_"+print_INT_(i)+"("+cprint(g,0,contextptr)+",contextptr)";
+	  vtype = vtype + " = cpp_convert_"+print_INT_(i)+"("+cprint(g,0,contextptr)+(ctx0?",giac::context0)":",contextptr)");
 #else
 	vtype = vtype+'=';
 	int i=is_int_or_double(fvi);
@@ -3349,6 +3380,12 @@ namespace giac {
 
   // name is the program name if args==program(..) or 1 for vectors of instructions or 0 otherwise or -1 for vector to put in a makesequence
   std::string cprint(const gen & args,const gen & name,GIAC_CONTEXT){
+    if (args.type==_INT_ && args.subtype==_INT_BOOLEAN)
+      return args.val?"true":"false";
+    if (args.type==_IDNT){
+      if (args==cst_pi)
+	return "cst_pi";
+    }
     if (args.type==_VECT){
       string sep=name==1?";\n":",";
       string s;
@@ -3360,7 +3397,7 @@ namespace giac {
 	s="giac::makesequence(";
       vecteur::const_iterator it=args._VECTptr->begin(), itend=args._VECTptr->end();
       if (it==itend)
-	return "gen(vecteur(0),"+print_INT_(args.subtype)+");";
+	return "gen(vecteur(0),"+print_INT_(args.subtype)+")";
       for(int i=0;;++i){
 	s += cprint(*it,(name.type==_VECT && i<name._VECTptr->size())?name[i]:zero,contextptr);
 	++it;
@@ -3396,8 +3433,21 @@ namespace giac {
     gen f=args._SYMBptr->feuille;
     if ( (u==at_sto || u==at_array_sto) && f.type==_VECT && f._VECTptr->size()==2){
 #if 1
+      if (f[1].type==_VECT){
+	string res="{\n";
+	const vecteur & v=*f[1]._VECTptr;
+	int vs=v.size();
+	res += "giac::vecteur __tmp_=giac::makevecteur("+cprint(f[0],0,contextptr)+");\n";
+	for (int j=0;j<vs;++j){
+	  gen var=f[1][j];
+	  int i=cpp_vartype(var);
+	  res += cpp_stoprint(var,contextptr)+" = cpp_convert_"+print_INT_(i)+"("+"__tmp_["+print_INT_(j)+"],contextptr);";
+	}
+	return res+"\n}";
+      }
       int i=cpp_vartype(f[1]);
-      if (!i || i==cpp_vartype(f[0]))
+      int f0t=cpp_vartype(f[0]);
+      if (!i || i==f0t || (i==_DOUBLE_ && f0t==2) || (i==2 && f0t==_DOUBLE_))
 	return cpp_stoprint(f[1],contextptr)+'='+cprint(f[0],0,contextptr);;
       string res= cpp_stoprint(f[1],contextptr)+" = cpp_convert_"+print_INT_(i)+"("+cprint(f[0],0,contextptr)+",contextptr)";
       return res;
@@ -3469,7 +3519,7 @@ namespace giac {
       else
 	heads="giac::gen f(";
       vector<int> argtype(gen2vecteur(f[0]).size());
-      heads += cprintvars(f[0],false,",",&argtype.front(),contextptr)+",const giac::context * contextptr=0)";
+      heads += cprintvars(f[0],false,true,",",&argtype.front(),contextptr)+",const giac::context * contextptr=0)";
       // core
       string core=cprint(f[2],0,contextptr);
       string res= heads+"{\n"+core+"\n}\n";
@@ -3548,8 +3598,22 @@ namespace giac {
       res += heads+"{\n"+core+"\n}\n";
       return res;
     }
-    if (u==at_local)
-      return cprintvars(f[0][0],false,";\n",0,contextptr)+";\n"+cprint(f[1],1,contextptr);
+    if (u==at_irem && f.type==_VECT && f._VECTptr->size()==2){
+      int f0t=cpp_vartype(f[0]);
+      int f1t=cpp_vartype(f[1]);
+      if ( (f0t==2 || f0t==_DOUBLE_ ) && (f1t==2 || f1t==_DOUBLE_))
+	return "long("+cprint(f[0],0,contextptr)+") % long("+ cprint(f[1],0,contextptr)+")" ;
+    }
+    if (u==at_floor){
+      int ft=cpp_vartype(f);
+      if (ft==2 || ft==_DOUBLE_)
+	return "long("+cprint(f,0,contextptr)+")";
+    }
+    if (u==at_local){
+      gen f0=f[0];
+      string s(cprintvars(f0,false,false,";\n",0,contextptr)+";\n");
+      return s+cprint(f[1],1,contextptr);
+    }
     if ( (u==at_for || u==at_pour) && f.type==_VECT && f._VECTptr->size()==4){
       string res="for(";
       res = res +cprint(f[0],0,contextptr);
@@ -3574,6 +3638,12 @@ namespace giac {
 	res = res + " else {\n";
 	res = res + cprint(f[2],0,contextptr) + ";\n}";
       }
+      return res;
+    }
+    if (u==at_when){
+      string res("giac::_when(giac::makesequence(");
+      res += cprint(f,0,contextptr);
+      res += "),contextptr)";
       return res;
     }
     if (u==at_try_catch && f.type==_VECT && f._VECTptr->size()>=3){
@@ -3659,7 +3729,7 @@ namespace giac {
       }
     }
     if (u==at_same || u==at_different || u==at_and || u==at_ou ){
-      return cprint(args._SYMBptr->feuille[0],-1,contextptr)+u.ptr()->s+cprint(args._SYMBptr->feuille[1],-1,contextptr);
+      return cprint(args._SYMBptr->feuille[0],-1,contextptr)+" "+u.ptr()->s+" "+cprint(args._SYMBptr->feuille[1],-1,contextptr);
     }
     if (u==at_neg || u==at_not)
       return u.ptr()->s+cprint(args._SYMBptr->feuille,-1,contextptr);
@@ -3698,92 +3768,110 @@ namespace giac {
   define_unary_function_ptr5( at_cprint ,alias_at_cprint,&__cprint,_QUOTE_ARGUMENTS,true);
 
 #if !defined GIAC_HAS_STO_38 && !defined NSPIRE && !defined FXCG
+  int cpp_write_compile(const string & filename,const string & funcname,const string &s,GIAC_CONTEXT){
+    ofstream of(filename.c_str());
+#ifdef __APPLE__
+    of << "// -*- mode:c++; compile-command:\" c++ -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dynamiclib giac_" << funcname << ".cpp -o libgiac_" << funcname << ".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac \" -*-" << endl;
+#else
+    of << "// -*- mode:c++; compile-command:\" c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
+#endif
+    of << "#include <giac/config.h>" << endl;
+    of << "#include <giac/giac.h>" << endl;
+    of << "using namespace std;" << endl;
+    of << "namespace giac {" << endl;
+    of << "inline gen _sqrt(const gen & a,GIAC_CONTEXT){return sqrt(a,contextptr);}" << endl;
+    of << "inline gen _arg(const gen & a,GIAC_CONTEXT){return arg(a,contextptr);}" << endl;
+    of << "inline gen _complex(const gen & a,GIAC_CONTEXT){return _build_complex(a,contextptr);}" << endl;
+    of << "inline gen operator *(const gen & a,double b){return b*a;}" << endl;
+    of << "inline bool operator <= (const gen & a,const gen &b){ return is_greater(b,a,giac::context0); }\ninline bool operator >= (const gen & a,const gen &b){ return is_greater(a,b,giac::context0); }" <<endl;
+    of << s << endl;
+    of << "const string _"+funcname+"_s(\""+funcname+"\");" << endl;
+    of << "unary_function_eval __"+funcname+"(0,&_"+funcname+",_"+funcname+"_s);" << endl;
+    of << "unary_function_ptr at_"+funcname+"(&__"+funcname+",0,true);" << endl;
+    of << "}" << endl;
+    of.close();
+    *logptr(contextptr) << "File " << filename << " created." << endl;
+    string cmd="indent -br -brf -l256 giac_"+funcname+".cpp"; int not_ok;
+#ifndef __APPLE__
+    *logptr(contextptr) << "Running " << cmd << endl;
+    not_ok=system_no_deprecation(cmd.c_str());
+    if (not_ok)
+      *logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
+#endif
+#ifdef __APPLE__
+    cmd="g++ -dynamiclib -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dy giac_"+funcname+".cpp -o libgiac_"+funcname+".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac";
+#else
+    cmd="c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
+#endif
+    *logptr(contextptr) << "Running\n" << cmd << endl;
+    not_ok=system_no_deprecation(cmd.c_str());
+    if (not_ok){
+      *logptr(contextptr) << "Unable to compile, please fix cpp file" << endl;
+      return -1;
+    }
+    //cmd="ln -sf giac_"+funcname+".lo giac_"+funcname+".o";
+    //*logptr(contextptr) << "Running " << cmd << endl;
+    //not_ok=system_no_deprecation(cmd.c_str());
+#ifndef __APPLE__
+    cmd="cc -shared giac_"+funcname+".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"+funcname+".so.0 -o libgiac_"+funcname+".so.0.0.0";
+    *logptr(contextptr) << cmd << endl;
+    not_ok=system_no_deprecation(cmd.c_str());
+    if (not_ok){
+      *logptr(contextptr) << "Unable to create shared library, perhaps missing libraries?" << endl;
+      return -2;
+    }
+    //cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so.0";
+    //system_no_deprecation(cmd.c_str());
+    cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so";
+    *logptr(contextptr) << cmd << endl;
+    not_ok=system_no_deprecation(cmd.c_str());
+#endif
+    *logptr(contextptr) << "You can now run insmod(\"" << funcname << "\")" << endl;
+    return 1;
+  }
+
   // make a cpp translation file
   gen _cpp(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen tmp=check_secure();
     if (is_undef(tmp)) return tmp;
+    int x=xcas_mode(contextptr),l=language(contextptr),l0=language(context0),p=python_compat(contextptr);
     if (args.type==_IDNT){
-      int x=xcas_mode(contextptr),l=language(contextptr);
       xcas_mode(0,contextptr);
       language(2,contextptr);
+      language(2,context0);
+      python_compat(0,contextptr);
       gen args_evaled=eval(args,1,contextptr);
       string s=cprint(args_evaled,args,contextptr);
+      python_compat(p,contextptr);
       language(l,contextptr);
+      language(l0,context0);
       xcas_mode(x,contextptr);
       string funcname=args.print(contextptr);
       string filename="giac_"+funcname+".cpp";
-      ofstream of(filename.c_str());
-#ifdef __APPLE__
-      of << "// -*- mode:c++; compile-command:\" c++ -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dynamiclib giac_" << funcname << ".cpp -o libgiac_" << funcname << ".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac \" -*-" << endl;
-#else
-      of << "// -*- mode:c++; compile-command:\" c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
-#endif
-      of << "#include <giac/config.h>" << endl;
-      of << "#include <giac/giac.h>" << endl;
-      of << "using namespace std;" << endl;
-      of << "namespace giac {" << endl;
-      of << "inline bool operator <= (const gen & a,const gen &b){ return is_greater(b,a,giac::context0); }\ninline bool operator >= (const gen & a,const gen &b){ return is_greater(a,b,giac::context0); }" <<endl;
-      of << s << endl;
-      of << "const string _"+funcname+"_s(\""+funcname+"\");" << endl;
-      of << "unary_function_eval __"+funcname+"(0,&_"+funcname+",_"+funcname+"_s);" << endl;
-      of << "unary_function_ptr at_"+funcname+"(&__"+funcname+",0,true);" << endl;
-      of << "}" << endl;
-      of.close();
-      *logptr(contextptr) << "File " << filename << " created." << endl;
-      string cmd="indent -br -brf -l256 giac_"+funcname+".cpp"; int not_ok;
-#ifndef __APPLE__
-      *logptr(contextptr) << "Running " << cmd << endl;
-      not_ok=system_no_deprecation(cmd.c_str());
-      if (not_ok)
-	*logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
-#endif
-#ifdef __APPLE__
-      cmd="g++ -dynamiclib -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dy giac_"+funcname+".cpp -o libgiac_"+funcname+".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac";
-#else
-      cmd="c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
-#endif
-      *logptr(contextptr) << "Running\n" << cmd << endl;
-      not_ok=system_no_deprecation(cmd.c_str());
-      if (not_ok){
-	*logptr(contextptr) << "Unable to compile, please fix cpp file" << endl;
-	return -1;
-      }
-      //cmd="ln -sf giac_"+funcname+".lo giac_"+funcname+".o";
-      //*logptr(contextptr) << "Running " << cmd << endl;
-      //not_ok=system_no_deprecation(cmd.c_str());
-#ifndef __APPLE__
-      cmd="cc -shared giac_"+funcname+".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"+funcname+".so.0 -o libgiac_"+funcname+".so.0.0.0";
-      *logptr(contextptr) << cmd << endl;
-      not_ok=system_no_deprecation(cmd.c_str());
-      if (not_ok){
-	*logptr(contextptr) << "Unable to create shared library, perhaps missing libraries?" << endl;
-	return -2;
-      }
-      //cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so.0";
-      //system_no_deprecation(cmd.c_str());
-      cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so";
-      *logptr(contextptr) << cmd << endl;
-      not_ok=system_no_deprecation(cmd.c_str());
-#endif
-      *logptr(contextptr) << "You can now run insmod(\"" << funcname << "\")" << endl;
-      return 1;
+      return cpp_write_compile(filename,funcname,s,contextptr);
     }
-    if (args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()!=2 || args._VECTptr->back().type!=_STRNG)
+    if (args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()<2)
       return gensizeerr(contextptr);
-    int x=xcas_mode(contextptr);
     xcas_mode(0,contextptr);
+    language(2,contextptr);
+    language(2,context0);
+    python_compat(0,contextptr);
     gen arg=args._VECTptr->front();
     gen args_evaled=eval(arg,1,contextptr);
     string s=cprint(args_evaled,arg,contextptr);
+    for (int i=1;i<args._VECTptr->size();++i){
+      arg=(*args._VECTptr)[i];
+      args_evaled=eval(arg,1,contextptr);
+      s += cprint(args_evaled,arg,contextptr);
+    }
+    python_compat(p,contextptr);
+    language(l,contextptr);
+    language(l0,context0);
     xcas_mode(x,contextptr);
-    string filename=*args._VECTptr->back()._STRNGptr;
-    ofstream of(filename.c_str());
-    of << "#include <giac/giac.h>" << endl;
-    of << s << endl;
-    of.close();
-    string cmd="indent -br -brf "+filename;
-    system_no_deprecation(cmd.c_str());
+    string funcname=arg.print(contextptr);
+    string filename="giac_"+funcname+".cpp";
+    return cpp_write_compile(filename,funcname,s,contextptr);
     return 1;
   }
   static const char _cpp_s []="cpp";

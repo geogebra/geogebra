@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.Geometry3DGetter;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 3D view in the background (no display)
@@ -175,8 +176,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		settingsChanged(getSettings());
 		useSpecificThickness = false;
 		updateScene();
-		if (format.needsClosedObjects()) {
-			if (updateObjectsBounds(true, true)) {
+        if (format.needsScale()) {
+            if (updateObjectsBounds(true, true, true)) {
 				useSpecificThickness = true;
 				double thickness = THICKNESS_FOR_PRINT_LINES;
 				GeoElement thicknessGeo = getKernel()
@@ -217,7 +218,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 								public void run() {
 									setThicknessAndScale(format,
 											dialog.getCurrentThickness() / 2,
-											dialog.getCurrentScale());
+                                            dialog.getCurrentScale(),
+                                            dialog.wantsFilledSolids());
 									ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(
 											EuclidianView3DForExport.this,
 											renderer.getGeometryManager());
@@ -231,8 +233,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 							});
 					return null;
 				}
-
-				setThicknessAndScale(format, thickness, scale);
+                setThicknessAndScale(format, thickness, scale, true);
 			} else {
 				format.setScale(10); // default value: 1unit = 10mm
 			}
@@ -251,9 +252,11 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 *            thickness
 	 * @param scale
 	 *            scale
+     * @param wantsFilledSolids
+     *            if user wants filled solid
 	 */
 	void setThicknessAndScale(Format format, double thickness,
-			double scale) {
+                              double scale, boolean wantsFilledSolids) {
 		specificThicknessForLines = (float) (thickness / scale * getXscale());
 		specificThicknessForSurfaces = (float) ((thickness
 				+ SHIFT_LINE_TO_SURFACE_THICKNESS) / scale * getXscale());
@@ -262,6 +265,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 		specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
 		format.setScale(scale);
+        format.setWantsFilledSolids(wantsFilledSolids);
+        format.setExportsPointsAndLines(!DoubleUtil.isZero(thickness));
 		reset();
 		updateScene();
 	}

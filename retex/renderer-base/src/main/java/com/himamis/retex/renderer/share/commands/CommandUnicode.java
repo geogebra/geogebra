@@ -50,6 +50,7 @@ import com.himamis.retex.renderer.share.HeightDepthAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.TeXParser;
+import com.himamis.retex.renderer.share.Unit;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.font.Font;
@@ -166,9 +167,9 @@ public class CommandUnicode extends Command {
 		tp.setParseString(s);
 		tp.skipPureWhites();
 		final TeXLength[] hd = new TeXLength[2];
-		hd[0] = tp.getLength(TeXLength.Unit.EM);
+        hd[0] = tp.getLength(Unit.EM);
 		tp.skipSeparators(",;");
-		hd[1] = tp.getLength(TeXLength.Unit.EM);
+        hd[1] = tp.getLength(Unit.EM);
 
 		return hd;
 	}

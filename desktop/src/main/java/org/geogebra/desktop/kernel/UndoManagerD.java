@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-import javax.swing.DefaultListSelectionModel;
+import javax.swing.*;
 
 import org.geogebra.common.jre.util.StreamUtil;
 import org.geogebra.common.kernel.AppState;
@@ -127,7 +127,7 @@ public class UndoManagerD extends UndoManager {
 					maybeStoreUndoCommand(command);
 					pruneStateList();
 					app.getEventDispatcher().dispatchEvent(
-							new Event(EventType.STOREUNDO, null));
+                            new Event(EventType.STOREUNDO));
 
 				} catch (Exception e) {
 					Log.debug("storeUndoInfo: " + e.toString());

@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
@@ -135,13 +136,15 @@ public class PropertiesStyleBarW extends
 				return app;
 			}
 		};
-		
-		toolbar.setStyleName("menuProperties");	
+
+        toolbar.setStyleName("menuProperties");
+        TestHarness.setAttr(toolbar, "menuProperties");
 		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
 		toolbar.setFocusOnHoverEnabled(false);
 		NoDragImage closeImage = new NoDragImage(
 				KeyboardResources.INSTANCE.keyboard_close_black(), 24, 24);
 		closeImage.addStyleName("closeButton");
+        TestHarness.setAttr(closeImage, "closeButton");
 		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),
 				true, new ScheduledCommand() {
 

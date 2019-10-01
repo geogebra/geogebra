@@ -393,9 +393,8 @@ public class DrawConicSection extends DrawConic {
 
 	@Override
 	protected void drawLines(GGraphics2D g2) {
-
 		fill(g2, fillShape);
-		if (geo.doHighlighting()) {
+        if (isHighlighted()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
 			g2.draw(fillShape);
@@ -592,7 +591,7 @@ public class DrawConicSection extends DrawConic {
 
 		fill(g2, fillShape);
 
-		if (geo.doHighlighting()) {
+        if (isHighlighted()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
 			g2.draw(fillShape);

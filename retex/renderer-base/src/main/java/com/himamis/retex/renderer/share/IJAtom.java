@@ -63,7 +63,7 @@ public class IJAtom extends Atom {
 		CharBox J = new CharBox(
 				env.getTeXFont().getChar(upper ? 'J' : 'j', env.getStyle()));
 		HorizontalBox hb = new HorizontalBox(I);
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.065f, 0, 0).createBox(env));
+        hb.add(new SpaceAtom(Unit.EM, -0.065f, 0, 0).createBox(env));
 		hb.add(J);
 		return hb;
 	}

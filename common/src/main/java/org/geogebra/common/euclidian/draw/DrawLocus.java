@@ -27,8 +27,8 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -234,7 +234,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				// draw locus
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
@@ -404,10 +404,11 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		if (geo.getKernel().getApplication().isWhiteboardActive()) {
+        if (view.getApplication().isWhiteboardActive()) {
 			if (boundingBox == null) {
-				boundingBox = new BoundingBox(false, false);
+                boundingBox = createBoundingBox(false, false);
 			}
+            boundingBox.updateFrom(geo);
 			return boundingBox;
 		}
 		return null;

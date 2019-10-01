@@ -23,8 +23,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Exercise;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
 public class ToolManagerDialogModel {
@@ -67,22 +66,10 @@ public class ToolManagerDialogModel {
 		// remove all macros from kernel and add them again in new order
 		Kernel kernel = app.getKernel();
 
-		// since all Macros are removed and added back, the Assignments have
-		// also be added again so:
-		// keeping "pointers" on the Assignments in the Exercise to put them
-		// in Place afterwards (the Exercise checks if they are still valid)
-		Exercise ex = app.getKernel().getExercise();
-		ArrayList<Assignment> assignments = new ArrayList<>(
-				ex.getParts());
-
 		kernel.removeAllMacros();
 
 		for (Object obj : macros) {
 			kernel.addMacro((Macro) obj);
-		}
-
-		for (Assignment assignment : assignments) {
-			ex.addAssignment(assignment);
 		}
 	}
 
@@ -139,8 +126,7 @@ public class ToolManagerDialogModel {
 		}
 
 		if (foundUsedMacro) {
-			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
-					+ " " + macroNames.toString());
+            app.showError(Errors.ToolDeleteUsed, macroNames.toString());
 		}
 
 		return changeToolBar;

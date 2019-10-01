@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -29,7 +30,6 @@ import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathOrPoint;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import org.geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
@@ -991,23 +991,8 @@ public class GeoList extends GeoElement
 		}
 
 		// AngleProperties
-		if (angleStyle != AngleStyle.ANTICLOCKWISE) {
-			sb.append("\t<allowReflexAngle val=\"");
-			sb.append(angleStyle != AngleStyle.NOTREFLEX);
-			sb.append("\"/>\n");
-		}
-		if (angleStyle == AngleStyle.ISREFLEX) {
-			sb.append("\t<forceReflexAngle val=\"");
-			sb.append(true);
-			sb.append("\"/>\n");
-		}
+        XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
 
-		if (!emphasizeRightAngle) {
-			// only store emphasizeRightAngle if "false"
-			sb.append("\t<emphasizeRightAngle val=\"");
-			sb.append(emphasizeRightAngle);
-			sb.append("\"/>\n");
-		}
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
@@ -1020,7 +1005,6 @@ public class GeoList extends GeoElement
 		}
 
 		sb.append("</element>\n");
-
 	}
 
 	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list

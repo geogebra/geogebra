@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -25,7 +26,6 @@ import org.geogebra.common.kernel.PathMoverLocus;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -52,7 +52,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	private ArrayList<GPoint2D> nonScaledPointList;
 	private double nonScaledWidth;
 	private double nonScaledHeight;
-	private ArrayList<T> poitsWithoutControl;
 	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
 	/**
@@ -347,29 +346,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 					.setY(kernel.getApplication().getActiveEuclidianView()
 							.toRealWorldCoordY(newPointScreenY));
 		}
-	}
-
-	/**
-	 * Reset list of points for XML
-	 */
-	public void resetPointsWithoutControl() {
-		poitsWithoutControl = null;
-	}
-
-	/**
-	 * @return points without control points
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<T> getPointsWithoutControl() {
-		if (poitsWithoutControl == null) {
-			poitsWithoutControl = new ArrayList<>();
-			for (MyPoint t : myPointList) {
-				if (t.getSegmentType() != SegmentType.CONTROL) {
-					poitsWithoutControl.add((T) t.copy());
-				}
-			}
-		}
-		return poitsWithoutControl;
 	}
 
 	@Override

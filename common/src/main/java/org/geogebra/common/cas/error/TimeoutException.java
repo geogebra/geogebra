@@ -1,6 +1,7 @@
 package org.geogebra.common.cas.error;
 
 import org.geogebra.common.kernel.CASException;
+import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Signals a Timeout exception from the CAS.
@@ -27,7 +28,7 @@ public class TimeoutException extends CASException {
 
 	@Override
 	public String getKey() {
-		return "CAS.TimeoutError";
+        return Errors.CASTimeoutError.getKey();
 	}
 
 }

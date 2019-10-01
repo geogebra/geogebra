@@ -2,13 +2,21 @@ package org.geogebra.common.awt;
 
 public class GDimensionCommon extends GDimension {
 
+    private int width;
+    private int height;
+
+    public GDimensionCommon(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
 	@Override
 	public int getWidth() {
-		return 800;
+        return width;
 	}
 
 	@Override
 	public int getHeight() {
-		return 600;
+        return height;
 	}
 }

@@ -202,18 +202,17 @@ public class CASparser implements CASParserInterface {
 	 * @return string representation of ev in given syntax
 	 */
 	public String toString(ExpressionValue ev, StringTemplate tpl) {
-		String GeoGebraString;
 		ExpressionNode expr;
 		if (!ev.isExpressionNode()) {
 			expr = ev.wrap();
 		} else {
 			expr = (ExpressionNode) ev;
 		}
-		GeoGebraString = expr.getCASstring(tpl, true);
-		if (GeoGebraString.startsWith("?")) {
+        String casString = expr.getCASstring(tpl, true);
+        if (casString.startsWith("?")) {
 			return "?";
 		}
-		return GeoGebraString;
+        return casString;
 	}
 
 	/**

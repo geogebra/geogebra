@@ -8,15 +8,16 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.TransformMirror;
 import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.advanced.AlgoCentroidPolygon;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -61,6 +62,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2593,9 +2595,16 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(f, c);
+
+        if (existingAlgo instanceof AlgoIntersectPolynomialConic) {
+            return (AlgoIntersectPolynomialConic) existingAlgo;
+        }
+
 		if (existingAlgo != null) {
-			return (AlgoIntersectPolynomialConic) existingAlgo;
-		}
+            Log.debug("unexpected class returned: " + existingAlgo.getClass()
+                    + " " + existingAlgo.getClassName() + " "
+                    + existingAlgo.toString(StringTemplate.defaultTemplate));
+        }
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialConic algo = new AlgoIntersectPolynomialConic(
@@ -3170,10 +3179,13 @@ public class AlgoDispatcher {
 
 			// clearSelections();
 			return newPoint;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return null;
-		}
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (MyError e1) {
+            e1.printStackTrace();
+            return null;
+        }
 	}
 
 	/**

@@ -162,15 +162,11 @@ public class HorizontalBox extends Box {
 	public final void add(Box b) {
 		recalculate(b);
 		children.add(b);
-		b.parent = this;
-		b.elderParent = elderParent;
 	}
 
 	public final void add(int pos, Box b) {
 		recalculate(b);
 		children.add(pos, b);
-		b.parent = this;
-		b.elderParent = elderParent;
 	}
 
 	private void recalculate(Box b) {

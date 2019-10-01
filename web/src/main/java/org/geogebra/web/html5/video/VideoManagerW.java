@@ -8,6 +8,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.media.VideoURL;
@@ -38,8 +39,8 @@ public class VideoManagerW implements VideoManager {
 	 */
 	private boolean previewOnly = false;
 
-	private Map<GeoVideo, VideoPlayer> players = new HashMap<>();
-	private ArrayList<VideoPlayer> cache = new ArrayList<>();
+    private Map<GeoVideo, AbstractVideoPlayer> players = new HashMap<>();
+    private ArrayList<AbstractVideoPlayer> cache = new ArrayList<>();
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -108,28 +109,45 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void addPlayer(final GeoVideo video) {
-		// use int instead of iterator to prevent concurrent access
-		for (int i = 0; i < cache.size(); i++) {
-			VideoPlayer other = cache.get(i);
-			if (other.matches(video)) {
-				players.put(video, other);
-				other.asWidget().setVisible(true);
-				cache.remove(other);
-				return;
-			}
-		}
-		AppW app = (AppW) video.getKernel().getApplication();
-		GeoGebraFrameW appFrame = app.getAppletFrame();
-		final VideoPlayer player = createPlayer(video, players.size());
-		if (player != null) {
-			players.put(video, player);
-			appFrame.add(player);
-		}
+    public void addPlayer(final GeoVideo video) {
+        // use int instead of iterator to prevent concurrent access
+        for (int i = 0; i < cache.size(); i++) {
+            AbstractVideoPlayer other = cache.get(i);
+            if (other.matches(video)) {
+                players.put(video, other);
+                other.asWidget().setVisible(true);
+                cache.remove(other);
+                return;
+            }
+        }
+        AppW app = (AppW) video.getKernel().getApplication();
+        boolean offline = app.has(Feature.VIDEO_PLAYER_OFFLINE)
+                && !video.isOnline();
 
-	}
+        final AbstractVideoPlayer player = offline
+                ? createPlayerOffline(video, players.size())
+                : createPlayer(video, players.size());
 
-	private static VideoPlayer createPlayer(GeoVideo video, int id) {
+        addPlayerToFrame(video, player);
+    }
+
+    private void addPlayerToFrame(GeoVideo video, AbstractVideoPlayer player) {
+        if (player == null) {
+            return;
+        }
+
+        AppW app = (AppW) video.getKernel().getApplication();
+        GeoGebraFrameW appFrame = app.getAppletFrame();
+        players.put(video, player);
+        appFrame.add(player);
+
+    }
+
+    private AbstractVideoPlayer createPlayerOffline(GeoVideo video, int id) {
+        return new VideoOffline(video, id);
+    }
+
+    private AbstractVideoPlayer createPlayer(GeoVideo video, int id) {
 		switch (video.getFormat()) {
 		case VIDEO_YOUTUBE:
 			return new YouTubePlayer(video, id);
@@ -157,7 +175,7 @@ public class VideoManagerW implements VideoManager {
 		return players.containsKey(video);
 	}
 
-	private VideoPlayer playerOf(GeoVideo video) {
+    private AbstractVideoPlayer playerOf(GeoVideo video) {
 		return players.get(video);
 	}
 
@@ -172,7 +190,7 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public void removePlayers() {
 		App app = null;
-		for (VideoPlayer player : players.values()) {
+        for (AbstractVideoPlayer player : players.values()) {
 			player.asWidget().removeFromParent();
 			if (app == null) {
 				app = player.getVideo().getKernel().getApplication();
@@ -187,7 +205,7 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void storeVideos() {
-		for (VideoPlayer player : players.values()) {
+        for (AbstractVideoPlayer player : players.values()) {
 			player.asWidget().setVisible(false);
 			cache.add(player);
 		}
@@ -205,7 +223,7 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 		App app = null;
-		for (VideoPlayer player : players.values()) {
+        for (AbstractVideoPlayer player : players.values()) {
 			background(player.getVideo());
 			if (app == null) {
 				app = player.getVideo().getKernel().getApplication();
@@ -234,10 +252,21 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void clearStoredVideos() {
-		for (VideoPlayer player : cache) {
+        for (AbstractVideoPlayer player : cache) {
 			player.asWidget().removeFromParent();
 		}
 		cache.clear();
 	}
 
+    @Override
+    public void onError(GeoVideo video) {
+        removePlayer(video);
+        AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size() + 1);
+        addPlayerToFrame(video, offlinePlayer);
+    }
+
+    @Override
+    public boolean isPlayerOffline(GeoVideo video) {
+        return playerOf(video).isOffline();
+    }
 }

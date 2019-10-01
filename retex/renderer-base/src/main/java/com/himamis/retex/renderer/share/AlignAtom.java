@@ -78,7 +78,7 @@ public class AlignAtom extends ArrayAtom {
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
 		final double w = aligned ? Double.POSITIVE_INFINITY
-				: TeXLength.getTextwidth(env);
+                : env.lengthSettings().getTextwidth(env);
 
 		// Align env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft
 		// \medskip el_rgt hsep ... hsep elem hsep

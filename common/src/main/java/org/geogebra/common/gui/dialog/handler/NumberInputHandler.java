@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -77,8 +78,8 @@ public class NumberInputHandler implements InputHandler {
 									callback.callback(num);
 								}
 							} else {
-								handler.showError(app.getLocalization()
-										.getError("NumberExpected"));
+                                handler.showError(
+                                        Errors.NumberExpected.getError(app.getLocalization()));
 							}
 							if (callback0 != null) {
 								callback0.callback(success);

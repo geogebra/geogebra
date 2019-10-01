@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
@@ -429,8 +428,7 @@ public class DrawLabel3D {
 		labelOrigin[1] *= view.getYscale();
 		labelOrigin[2] *= view.getZscale();
 
-		if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
-				|| !anchor) {
+        if (!view.isAREnabled() || !anchor) {
 			drawX = (int) (vScreen.getX() + xOffset);
 			if (anchor && xOffset < 0) {
 				drawX -= width / getFontScale();
@@ -450,9 +448,32 @@ public class DrawLabel3D {
 	}
 
 	/**
-	 * update axes draw position
+     *
+     * update position for axes labels (x/y/z)
+     *
+     * @param xOffset1
+     *            x offset
+     * @param yOffset1
+     *            y offset
+     * @param zOffset1
+     *            z offset
+     * @param tickSize
+     *            tick size
 	 */
-	public void updateDrawPositionAxes(int tickSize) {
+    public void updateDrawPositionAxes(float xOffset1, float yOffset1,
+                                       float zOffset1, int tickSize) {
+        this.xOffset = xOffset1;
+        this.yOffset = yOffset1;
+        this.zOffset = zOffset1;
+        updateDrawPositionAxes(tickSize);
+    }
+
+    /**
+     * update position for axes numbers
+     *
+     * @param tickSize tick sizes
+     */
+    private void updateDrawPositionAxes(int tickSize) {
 		drawX = (int) (vScreen.getX());
 		drawY = (int) (vScreen.getY());
 		drawZ = (int) (vScreen.getZ());
@@ -462,12 +483,13 @@ public class DrawLabel3D {
 		drawY += radius * yOffset;
 		drawZ += radius * zOffset;
 
-		drawX += tickSize * xOffset;
-		drawY += tickSize * yOffset;
-		drawZ += tickSize * zOffset;
-	}
+		double f = 1.5;
+        drawX += f * tickSize * xOffset;
+        drawY += f * tickSize * yOffset;
+        drawZ += f * tickSize * zOffset;
+    }
 
-	/**
+    /**
 	 * 
 	 * @param x
 	 *            mouse x position
@@ -519,11 +541,11 @@ public class DrawLabel3D {
 			return;
 		}
 
-		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
-		    if (positionMatrix == null) {
+		if (view.isARDrawing()) {
+            if (positionMatrix == null) {
                 positionMatrix = new CoordMatrix4x4();
             }
-            positionMatrix.set(renderer.getRendererImpl().getUndoRotationMatrixAR());
+            positionMatrix.set(renderer.getUndoRotationMatrixAR());
             Coords origin = positionMatrix.getOrigin();
             origin.setX(drawX);
             origin.setY(drawY);
@@ -709,10 +731,9 @@ public class DrawLabel3D {
 		}
 
 		int old = textIndex;
-        if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
-			if (!view.getApplication().has(Feature.G3D_AR_LABELS_OFFSET) || !view.isAREnabled()
-					|| !anchor) {
-				textIndex = drawRectangle(renderer, 0, 0, 0,
+        if (view.isARDrawing()) {
+            if (!view.isAREnabled() || !anchor) {
+                textIndex = drawRectangle(renderer, 0, 0, 0,
 						width2 / getFontScale(), height2 / getFontScale(), textIndex);
 			} else {
 				double w = width2 / getFontScale();
@@ -736,8 +757,8 @@ public class DrawLabel3D {
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
-		if (view.getApplication().has(Feature.G3D_AR_LABELS_POSITION) && view.isARDrawing()) {
-			backgroundIndex = drawRectangle(renderer, 0, 0, 0,
+		if (view.isARDrawing()) {
+            backgroundIndex = drawRectangle(renderer, 0, 0, 0,
 					width / getFontScale(),
 					height / getFontScale(), backgroundIndex);
 		} else {

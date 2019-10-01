@@ -51,33 +51,16 @@ package com.himamis.retex.renderer.share;
 public class ResizeAtom extends Atom {
 
 	private Atom base;
-	private TeXLength.Unit wunit;
-	private TeXLength.Unit hunit;
-	private double w, h;
+    private TeXLength width;
+    private TeXLength height;
 	private boolean keepaspectratio;
-
-	private ResizeAtom() {
-		//
-	}
 
 	public ResizeAtom(Atom base, TeXLength width, TeXLength height,
 			boolean keepaspectratio) {
 		this.base = base;
+        this.width = width;
+        this.height = height;
 		this.keepaspectratio = keepaspectratio;
-		if (width == null) {
-			this.wunit = TeXLength.Unit.NONE;
-			this.w = 0;
-		} else {
-			this.wunit = width.getUnit();
-			this.w = width.getL();
-		}
-		if (height == null) {
-			this.hunit = TeXLength.Unit.NONE;
-			this.h = 0;
-		} else {
-			this.hunit = height.getUnit();
-			this.h = height.getL();
-		}
 	}
 
 	public ResizeAtom(Atom base, TeXLength width, TeXLength height) {
@@ -87,24 +70,23 @@ public class ResizeAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
-		if (wunit == TeXLength.Unit.NONE && hunit == TeXLength.Unit.NONE) {
+        if (width == null && height == null) {
 			return bbox;
 		} else {
-			double xscl = 1.;
-			double yscl = 1.;
-			if (wunit != TeXLength.Unit.NONE && hunit != TeXLength.Unit.NONE) {
-				xscl = w * TeXLength.getFactor(wunit, env) / bbox.width;
-				yscl = h * TeXLength.getFactor(hunit, env) / bbox.height;
+            double xscl;
+            double yscl;
+            if (width != null && height != null) {
+                xscl = width.getValue(env) / bbox.width;
+                yscl = height.getValue(env) / bbox.height;
 				if (keepaspectratio) {
 					xscl = Math.min(xscl, yscl);
 					yscl = xscl;
 				}
-			} else if (wunit != TeXLength.Unit.NONE
-					&& hunit == TeXLength.Unit.NONE) {
-				xscl = w * TeXLength.getFactor(wunit, env) / bbox.width;
+            } else if (width != null) {
+                xscl = width.getValue(env) / bbox.width;
 				yscl = xscl;
 			} else {
-				yscl = h * TeXLength.getFactor(hunit, env) / bbox.height;
+                yscl = height.getValue(env) / bbox.height;
 				xscl = yscl;
 			}
 

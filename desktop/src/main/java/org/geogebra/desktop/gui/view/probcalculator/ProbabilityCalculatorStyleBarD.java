@@ -3,16 +3,8 @@ package org.geogebra.desktop.gui.view.probcalculator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JToolBar;
-import javax.swing.MenuElement;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
-import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -351,7 +343,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 						.updatePrintFormat(decimals, -1);
 
 			} catch (Exception ex) {
-				getApp().showError(e.toString());
+                getApp().showGenericError(ex);
 			}
 		}
 

@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -103,4 +104,19 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public CommandNameFilter getCommandNameFilter() {
 		return null;
 	}
+
+    @Override
+    public boolean hasPreviewPoints() {
+        return false;
+    }
+
+    @Override
+    public String getAppCode() {
+        return "3d";
+    }
+
+    @Override
+    public GeoGebraConstants.Version getVersion() {
+        return GeoGebraConstants.Version.GRAPHING_3D;
+    }
 }

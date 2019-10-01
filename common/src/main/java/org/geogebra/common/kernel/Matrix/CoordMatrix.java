@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.Matrix;
 import java.util.ArrayList;
 
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -565,6 +566,23 @@ public class CoordMatrix {
 
 		return s.toString();
 	}
+
+    /**
+     * @param digits    digits length
+     * @param precision decimal precision
+     * @return string representation with +/-XXXX for too large values
+     */
+    public String toString(int digits, int precision) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 1; i <= getRows(); i++) {
+            for (int j = 1; j <= getColumns(); j++) {
+                s.append("  ");
+                StringUtil.toString(get(i, j), digits, precision, s);
+            }
+            s.append('\n');
+        }
+        return s.toString();
+    }
 
 	/**
 	 * returns false if one value equals NaN

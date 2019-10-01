@@ -859,7 +859,7 @@ public abstract class GCustomButton extends ButtonBase {
 	 *            <code>true</code> to press the button, <code>false</code>
 	 *            otherwise
 	 */
-	protected void setDown(boolean down) {
+    public void setDown(boolean down) {
 		if (down != isDown()) {
 			toggleDown();
 		}

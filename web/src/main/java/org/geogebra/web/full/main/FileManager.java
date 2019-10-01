@@ -2,6 +2,7 @@ package org.geogebra.web.full.main;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MaterialsManager;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
@@ -179,7 +180,7 @@ public abstract class FileManager extends MaterialsManager {
 			}
 			app.getGgbApi().setBase64(base64);
 		} catch (final Throwable t) {
-			app.localizeAndShowError("LoadFileFailed");
+            app.showError(Errors.LoadFileFailed);
 			t.printStackTrace();
 		}
 	}

@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -280,7 +281,7 @@ public class EuclidianStyleBarStatic {
 					});
 
 		} catch (Exception e) {
-			app.localizeAndShowError("ReplaceFailed");
+            app.showError(Errors.ReplaceFailed);
 		} catch (MyError err) {
 			app.showError(err);
 		}

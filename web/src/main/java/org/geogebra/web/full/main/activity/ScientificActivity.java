@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
-import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -53,17 +52,9 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	private static void initHeaderButtons(AppW app) {
-		initMenuToggleButton(app);
+        app.getGuiManager().menuToGlobalHeader();
 		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
 		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
-	}
-
-	private static void initMenuToggleButton(AppW app) {
-		if (GlobalHeader.isInDOM()) {
-			MenuToggleButton btn = new MenuToggleButton(app);
-			btn.setExternal(true);
-			btn.addToGlobalHeader();
-		}
 	}
 
 	@Override

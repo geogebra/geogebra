@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.openGL;
 
+import java.nio.Buffer;
 import java.nio.ShortBuffer;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
@@ -40,19 +41,19 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 		if (impl == null || impl.capacity() < length) {
 			impl = ShortBuffer.allocate(length);
 		} else {
-			impl.rewind();
+            ((Buffer) impl).rewind();
 		}
 
-		impl.limit(length);
+        ((Buffer) impl).limit(length);
 
 	}
 
 	@Override
 	public void setLimit(int length) {
-		impl.limit(length);
+        ((Buffer) impl).limit(length);
 		currentLength = length;
 
-		impl.rewind();
+        ((Buffer) impl).rewind();
 		isEmpty = false;
 	}
 
@@ -73,7 +74,7 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 
 	@Override
 	public void rewind() {
-		impl.rewind();
+        ((Buffer) impl).rewind();
 	}
 
 	@Override

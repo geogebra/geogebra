@@ -3617,7 +3617,7 @@ namespace giac {
 	return res;
       } // end integer exponent
       if ( is_zero(im(expo,contextptr),contextptr) && is_zero(im(e,contextptr),contextptr) ){
-	gen sgn=sign(e,contextptr);
+	gen sgn=atan_tan_no_floor(contextptr)?1:sign(e,contextptr); // workaround for int(sqrt(x+sqrt(x)))
 	if (!is_integer(expo)){
 	  if (sgn==-1)
 	    return pow(-e,expo,contextptr)*cos(cst_pi*expo,contextptr);
@@ -3743,7 +3743,7 @@ namespace giac {
       if ( is_zero(im(expo,contextptr),contextptr) && is_zero(im(e,contextptr),contextptr) ){
 	// e must also be positive for non-integral power
 	if (!is_integer(expo)){
-	  gen sgn=sign(e,contextptr);
+	  gen sgn=atan_tan_no_floor(contextptr)?1:sign(e,contextptr); // workaround for int(sqrt(x+sqrt(x)))
 	  if (sgn==-1)
 	    return pow(-e,expo,contextptr)*sin(cst_pi*expo,contextptr);
 	  if (sgn!=1)
@@ -7245,6 +7245,11 @@ namespace giac {
     case _SYMB:
       if ((a==plus_inf) || (a==minus_inf))
 	return 0;
+      {
+	vecteur v=alg_lvar(a); // change for limit(1/(1+sqrt(2)*cos(x))*sin(x-3*pi/4),x=3*pi/4); maybe we should only do evalf test and return undef
+	if (v.size()==1 && v.front().type==_VECT && v.front()._VECTptr->empty() && is_zero(evalf(a,1,contextptr)) && is_exactly_zero(recursive_normal(a,contextptr)))
+	return unsigned_inf;
+      }
       if (a.is_symb_of_sommet(at_unit)){
 	if (equalposcomp(lidnt(a),cst_pi)!=0)
 	  return inv(evalf(a,1,contextptr),contextptr);

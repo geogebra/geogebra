@@ -1036,7 +1036,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void simplify_0() {
-		t("Simplify[3 * x + 4 * x + a * x]", "a * x + 7 * x", "x * a + 7 * x");
+        t("Simplify[3 * x + 4 * x + a * x]", "x * (a + 7)", "a * x + 7 * x", "x * a + 7 * x");
 	}
 
 	/* Solutions */
@@ -1066,55 +1066,11 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	/* Solve */
 
-	/* Constants only */
-
-	@Test
-	public void solve_ConstantsOnly_0() {
-		s("Solve[1 = 1]", "{x = x}");
-	}
-
-	@Test
-	public void solve_ConstantsOnly_2() {
-		s("Solve[1 = 1, x]", "{x = x}");
-	}
-
-	@Test
-	public void solve_ConstantsOnly_4() {
-		s("Solve[{1 = 1, 2 = 2}, {x, y}]", "{{x = x, y = y}}");
-	}
-
-	@Test
-	public void solve_ConstantsOnly_5() {
-		t("Solve[{1 = 2, 2 = 3}, {x, y}]", "{}");
-	}
-
 	/* One Variable */
-
-	@Test
-	public void solve_OneVariable_0() {
-		t("Solve[x^5 = -1]", "{x = -1}");
-	}
-
-	@Test
-	public void solve_OneVariable_1() {
-		t("Solve[x = 1, x]", "{x = 1}");
-	}
-
-	@Test
-	public void solve_OneVariable_2() {
-		t("Solve[2 x + 3 = 4 + 1 / 3, x]", "{x = 2 / 3}");
-	}
-
 	@Test
 	public void solve_OneVariable_3() {
-		t("Solve[3 - 5 / x = 7, x]", "{x = (-5) / 4}");
 		t("Solve[{sin(x)=1,x>0,x<pi}]",
 				"{x = 1 / 2 * " + Unicode.PI_STRING + "}");
-	}
-
-	@Test
-	public void solve_OneVariable_4() {
-		t("Solve[(x + 7) / 3 - (4 - x) / 4 - 3 = 3 x / 8, x]", "{x = 8}");
 	}
 
 	/* One Variable, variable Coefficients */

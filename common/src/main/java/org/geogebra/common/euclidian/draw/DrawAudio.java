@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -40,8 +41,6 @@ public class DrawAudio extends Drawable {
 	private static final GColor PLAY_COLOR = GColor.MOW_TEXT_PRIMARY;
 	private static final GColor TIME_COLOR = GColor.MOW_TEXT_PRIMARY;
 	private static final GColor SLIDER_STROKE_COLOR = GColor.MOW_TEXT_PRIMARY;
-	private static final GColor PLAY_HOVER_COLOR = GColor.MOW_MEBIS_TEAL;
-	private static final GColor BLOB_COLOR = GColor.MOW_MEBIS_TEAL;
 	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
 			EuclidianStyleConstants.LINE_TYPE_FULL);
 	private final GeoAudio geoAudio;
@@ -67,6 +66,9 @@ public class DrawAudio extends Drawable {
 	private int duration;
 	private boolean sliderHighlighted = false;
 
+    private GColor playHoverColor = GColor.MOW_MEBIS_TEAL;
+    private GColor blobColor = GColor.MOW_MEBIS_TEAL;
+
 	/**
 	 * @param view
 	 *            The euclidian view.
@@ -77,8 +79,15 @@ public class DrawAudio extends Drawable {
 		this.view = view;
 		this.geoAudio = geo;
 		this.geo = geo;
+        getColors();
 		update();
 	}
+
+    private void getColors() {
+        App app = geo.getKernel().getApplication();
+        playHoverColor = app.getPrimaryColor();
+        blobColor = app.getPrimaryColor();
+    }
 
 	private static int getPlaySize() {
 		return 24;
@@ -175,11 +184,11 @@ public class DrawAudio extends Drawable {
 			g2.setPaint(SLIDER_STROKE_COLOR);
 			g2.drawStraightLine(x, y, x + sliderWidth, y);
 
-			g2.setPaint(BLOB_COLOR);
+            g2.setPaint(blobColor);
 			g2.setStroke(SLIDER_STROKE);
 			g2.drawStraightLine(x, y, coords[0], y);
 
-			g2.setPaint(BLOB_COLOR);
+            g2.setPaint(blobColor);
 			g2.setStroke(SLIDER_STROKE);
 			if (sliderHighlighted) {
 				g2.fill(circleOuter);
@@ -201,7 +210,7 @@ public class DrawAudio extends Drawable {
 	}
 
 	private void drawPlay(GGraphics2D g2) {
-		g2.setColor(playHovered ? PLAY_HOVER_COLOR : PLAY_COLOR);
+        g2.setColor(playHovered ? playHoverColor : PLAY_COLOR);
 		int size = getPlaySize();
 		int margin = (height - size) / 2;
 		int x = left + margin;
@@ -217,7 +226,7 @@ public class DrawAudio extends Drawable {
 	}
 
 	private void drawPause(GGraphics2D g2) {
-		g2.setColor(playHovered ? PLAY_HOVER_COLOR : PLAY_COLOR);
+        g2.setColor(playHovered ? playHoverColor : PLAY_COLOR);
 		int size = getPlaySize();
 		int margin = (height - size) / 2;
 		int barWidth = size / 6;

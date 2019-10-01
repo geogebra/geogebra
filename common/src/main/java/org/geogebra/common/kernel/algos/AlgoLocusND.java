@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -869,46 +868,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	abstract protected boolean distanceSmall(GeoPointND Q,
 			boolean orInsteadOfAnd);
 
-	/**
-	 * @param i
-	 *            1 for EV1, 2 for EV2, 3 for 3D
-	 * @return whether the locus is visible
-	 */
-	boolean isVisibleInEV(int i) {
-		switch (i) {
-		case 1:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
-				return false;
-			}
-			if (!kernel.getApplication().getEuclidianView1().isShowing()) {
-				return false;
-			}
-			return true;
-
-		case 2:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
-				return false;
-			}
-			if (!kernel.getApplication().hasEuclidianView2(1)) {
-				return false;
-			}
-			return true;
-
-		case 3:
-			if (!locus.isVisibleInView3D()) {
-				return false;
-			}
-			if (kernel.getApplication().isEuclidianView3Dinited()) {
-				return kernel.getApplication().getEuclidianView3D().isShowing();
-			}
-		}
-		return false;
-
-	}
-
 	void updateScreenBordersIfNecessary() {
 		for (int i = 0; i < visibleEV.length; i++) {
-			if (isVisibleInEV(i + 1) != visibleEV[i]) {
+            if (locus.isVisibleInEV(i + 1) != visibleEV[i]) {
 				updateScreenBorders();
 				return;
 			}
@@ -948,13 +910,12 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		farXmax[i] = xmax[i] + widthRW / 2;
 		farYmin[i] = ymin[i] - heightRW / 2;
 		farYmax[i] = ymax[i] + heightRW / 2;
-
 	}
 
 	boolean updateScreenBorders() {
 
 		for (int i = 0; i < visibleEV.length; i++) {
-			visibleEV[i] = isVisibleInEV(i + 1);
+            visibleEV[i] = locus.isVisibleInEV(i + 1);
 		}
 
 		if (visibleEV[0] && visibleEV[1]) {
@@ -974,7 +935,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			}
 		}
 		return changed;
-
 	}
 
 	@Override

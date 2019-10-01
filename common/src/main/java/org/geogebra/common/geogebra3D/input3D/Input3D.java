@@ -5,14 +5,12 @@ import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Quaternion;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
@@ -61,8 +59,6 @@ abstract public class Input3D implements Input3DConstants {
 
 	private Coords vx;
 	private Coords vz;
-
-	private double angleOld;
 
 	private Coords rightDragElevation = new Coords(3);
 
@@ -634,15 +630,8 @@ abstract public class Input3D implements Input3DConstants {
 			getEuclidianController().setViewRotationOccured(true);
 		}
 
-		if (view3D.getApplication()
-				.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			getEuclidianController().getRotationSpeedHandler().setStart(0, PointerEventType.MOUSE);
-		} else {
-			getEuclidianController().setTimeOld(
-					UtilFactory.getPrototype().getMillisecondTime());
-			getEuclidianController().setAnimatedRotSpeed(0);
-			angleOld = 0;
-		}
+        getEuclidianController().getRotationSpeedHandler().setStart(0,
+                PointerEventType.MOUSE);
 
 		// start values
 		startMouse3DPosition.set(mouse3DPosition);
@@ -670,19 +659,8 @@ abstract public class Input3D implements Input3DConstants {
 		}
 
 		view3D.shiftRotAboutZ(angle);
-
-		if (view3D.getApplication()
-				.has(Feature.G3D_IMPROVE_AUTOMATIC_ROTATION)) {
-			getEuclidianController().getRotationSpeedHandler()
-					.rotationOccurred(angle);
-		} else {
-			double time = UtilFactory.getPrototype().getMillisecondTime();
-			getEuclidianController().setAnimatedRotSpeed((angleOld - angle)
-					/ (time - getEuclidianController().getTimeOld()));
-			((EuclidianController3D) view3D.getEuclidianController())
-					.setTimeOld(time);
-			angleOld = angle;
-		}
+        getEuclidianController().getRotationSpeedHandler()
+                .rotationOccurred(angle);
 	}
 
 	private void processRightDragQuaternions() {

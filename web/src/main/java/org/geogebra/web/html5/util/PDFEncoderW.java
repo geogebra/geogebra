@@ -18,8 +18,6 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class PDFEncoderW implements Encoder {
 
-	private String filename;
-
 	private EuclidianViewW ev;
 
 	private Context2d ctx;
@@ -31,13 +29,10 @@ public class PDFEncoderW implements Encoder {
 	/**
 	 * @param view
 	 *            EV to export
-	 * @param filename0
-	 *            filename
 	 */
-	public PDFEncoderW(EuclidianViewWInterface view, String filename0) {
+    public PDFEncoderW(EuclidianViewWInterface view) {
 
 		this.ev = (EuclidianViewW) view;
-		this.filename = filename0;
 
 		initialize();
 	}

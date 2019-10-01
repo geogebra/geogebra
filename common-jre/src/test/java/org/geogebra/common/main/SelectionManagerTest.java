@@ -22,10 +22,6 @@ public class SelectionManagerTest extends BaseUnitTest {
 		Assert.assertFalse(selectionManager.hasNext(lookup("lastVisible")));
 	}
 
-	private GeoElement lookup(String string) {
-		return getApp().getKernel().lookupLabel(string);
-	}
-
 	private void createSampleGeos() {
 		getApp().getGgbApi().setPerspective("G");
 		add("firstVisible:(1,1)");

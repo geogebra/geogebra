@@ -195,7 +195,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 		// take line g here, not geo this object may be used for conics too
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
-			labelVisible = geo.isLabelVisible();
+            labelVisible = getTopLevelGeo().isLabelVisible();
 			updateStrokes(g);
 
 			Coords equation = g.getCartesianEquationVector(matrix);
@@ -234,11 +234,10 @@ public class DrawLine extends SetDrawable implements Previewable {
 			}
 
 			if (labelVisible) {
-				labelDesc = geo.getLabelDescription();
+                labelDesc = getTopLevelGeo().getLabelDescription();
 				setLabelPosition();
 				addLabelOffsetEnsureOnScreen(view.getFontLine());
 			}
-
 		}
 	}
 
@@ -435,7 +434,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				// draw line
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
@@ -565,7 +564,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				Lineable2D linePreview = null;
 
 				if (functions.size() == 1) {
-					linePreview = (Lineable2D) functions.get(0);
+                    linePreview = functions.get(0);
 				} else if (lines.size() == 1) {
 					linePreview = (Lineable2D) lines.get(0);
 				} else {
@@ -580,7 +579,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				linePreview = null;
 
 				if (functions.size() == 1) {
-					linePreview = (Lineable2D) functions.get(0);
+                    linePreview = functions.get(0);
 				} else if (lines.size() == 1) {
 					linePreview = (Lineable2D) lines.get(0);
 				} else {

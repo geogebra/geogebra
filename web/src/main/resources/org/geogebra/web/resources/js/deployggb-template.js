@@ -1189,7 +1189,7 @@ var GGBApplet = function() {
         } else if(index === 0) {
             codebase = protocol + html5CodebaseVersion;
         } else {
-            codebase = "https://cdn.geogebra.org/apps/latest/";
+            codebase = "https://www.geogebra.org/apps/latest/";
         }
 
         for(var key in modules){

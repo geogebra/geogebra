@@ -34,6 +34,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
@@ -48,8 +49,8 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -85,7 +86,6 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.prover.discovery.Circle;
 import org.geogebra.common.kernel.prover.discovery.Line;
 import org.geogebra.common.main.App;
@@ -114,6 +114,8 @@ import org.geogebra.common.util.lang.Language;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * 
@@ -323,6 +325,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
+
+	private TeXFormula teXFormula;
+	private TeXAtomSerializer texAtomSerializer;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -688,9 +693,14 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getRedefineString(final boolean useChangeable,
-			final boolean useOutputValueString) {
+									final boolean useOutputValueString) {
+		return getRedefineString(useChangeable, useOutputValueString,
+				StringTemplate.editTemplate);
+	}
 
-		StringTemplate tpl = StringTemplate.editTemplate;
+	@Override
+	public String getRedefineString(final boolean useChangeable,
+									final boolean useOutputValueString, StringTemplate tpl) {
 		String ret = "";
 		final boolean isIndependent = !isPointOnPath() && useChangeable
 				? isChangeable() : isIndependent();
@@ -758,9 +768,11 @@ public abstract class GeoElement extends ConstructionElement
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a
-			inputBarStr = getAssignmentLHS(stringTemplate)
-					+ getLabelDelimiterWithSpace()
+			if (isAlgebraLabelVisible()) {
+				inputBarStr = getAssignmentLHS(stringTemplate)
+						+ getLabelDelimiterWithSpace()
 						+ inputBarStr;
+			}
 
 		} else {
 			inputBarStr = getAlgebraDescription(stringTemplate);
@@ -1360,7 +1372,8 @@ public abstract class GeoElement extends ConstructionElement
 			// set whether it's an auxilliary object
 			setAuxiliaryObject(geo.isAuxiliaryObject());
 		}
-
+		setAnimationStep(geo.getAnimationStep());
+		setAnimationType(geo.getAnimationType());
 		// set fixed
 		setFixedFrom(geo);
 
@@ -2659,115 +2672,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (caption.indexOf('%') < 0) {
 			return caption;
 		}
-		StringBuilder captionSB = new StringBuilder();
-
-		// replace %v with value and %n with name
-		for (int i = 0; i < caption.length(); i++) {
-			char ch = caption.charAt(i);
-			if ((ch == '%') && (i < (caption.length() - 1))) {
-				// get number after %
-				i++;
-				ch = caption.charAt(i);
-				switch (ch) {
-				case 'c':
-					// (text value) of next cell to the right
-					String cText = "";
-					if (label != null) {
-						GPoint p = GeoElementSpreadsheet
-								.spreadsheetIndices(label);
-						if (p.x > -1 && p.y > -1) {
-							String labelR1 = GeoElementSpreadsheet
-									.getSpreadsheetCellName(p.x + 1, p.y);
-							GeoElement geoR1 = kernel.lookupLabel(labelR1);
-							if (geoR1 != null) {
-								cText = geoR1.toValueString(tpl);
-							}
-						}
-					}
-					captionSB.append(cText);
-					break;
-				case 'f':
-					captionSB.append(getDefinition(tpl));
-					break;
-				case 'd':
-					captionSB.append(getDefinitionDescription(tpl));
-					break;
-				case 'v':
-					captionSB.append(toValueString(tpl));
-					break;
-				case 'n':
-					captionSB.append(getLabel(tpl));
-					break;
-				case 'x':
-					if (isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) this).getInhomCoords().getX(),
-								tpl));
-					} else if (isGeoVector()) {
-						captionSB.append(kernel.format(
-								((GeoVectorND) this).getInhomCoords()[0], tpl));
-					} else if (isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) this).getX(), tpl));
-					} else {
-						captionSB.append("%x");
-					}
-
-					break;
-				case 'y':
-					if (isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) this).getInhomCoords().getY(),
-								tpl));
-					} else if (isGeoVector()) {
-						captionSB.append(kernel.format(
-								((GeoVectorND) this).getInhomCoords()[1], tpl));
-					} else if (isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) this).getY(), tpl));
-					} else {
-						captionSB.append("%y");
-					}
-					break;
-				case 'z':
-					if (isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) this).getInhomCoords().getZ(),
-								tpl));
-					} else if (isGeoVector()) {
-						captionSB.append(
-								((GeoVectorND) this).getInhomCoords().length < 3
-										? "0"
-										: kernel.format(
-												((GeoVectorND) this)
-														.getInhomCoords()[2],
-												tpl));
-					} else if (isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) this).getZ(), tpl));
-					} else {
-						captionSB.append("%z");
-					}
-					break;
-
-				// Can't use %s as %style is used for something else
-				case 's':
-				default:
-					captionSB.append('%');
-					captionSB.append(ch);
-				}
-			} else {
-				captionSB.append(ch);
-			}
-		}
-
-		if (captionSB.length() == 0) {
-			// can't return empty string
-			// eg if %c used when not a spreadsheet cell
-			return getLabel(tpl);
-		}
-
-		return captionSB.toString();
+		return CaptionBuilder.getCaption(caption, this, tpl);
 	}
 
 	@Override
@@ -4488,6 +4393,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (!isAlgebraLabelVisible()) {
 			String desc = getLaTeXDescriptionRHS(false,
 					StringTemplate.defaultTemplate);
+			Log.debug("desc = " + desc);
 			if (LabelManager.isShowableLabel(desc)) {
 				builder.clear();
 				builder.append(desc);
@@ -4529,7 +4435,7 @@ public abstract class GeoElement extends ConstructionElement
 			IndexHTMLBuilder builder) {
 		String algDesc = getAlgebraDescriptionRHS();
 
-		// convertion to html is only needed if indices are found
+		// conversion to html is only needed if indices are found
 		builder.indicesToHTML(algDesc);
 		return algDesc;
 	}
@@ -4647,8 +4553,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private void setAlgebraDescriptionForDefined() {
 		if (!LabelManager.isShowableLabel(label)) {
-			strAlgebraDescription = toValueStringMinimal(
-					StringTemplate.algebraTemplate);
+			strAlgebraDescription = toValueString(StringTemplate.algebraTemplate);
 		} else {
 			strAlgebraDescription = toString(StringTemplate.algebraTemplate);
 		}
@@ -7683,11 +7588,36 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (!StringUtil.empty(getCaptionSimple())) {
-			sb.append(getCaption(StringTemplate.defaultTemplate));
+			String myCaption = getCaption(StringTemplate.defaultTemplate);
+			if (CanvasDrawable.isLatexString(myCaption)) {
+				getLaTeXAuralCaption(sb);
+			} else {
+				sb.append(myCaption);
+			}
 			sb.endSentence();
 			return true;
 		}
 		return false;
+	}
+
+	private void getLaTeXAuralCaption(ScreenReaderBuilder sb) {
+		teXFormula = getTexFormula();
+		teXFormula.setLaTeX(caption);
+		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
+	}
+
+	private TeXAtomSerializer getTexAtomSerializer() {
+		if (texAtomSerializer == null) {
+			texAtomSerializer = new TeXAtomSerializer(null);
+		}
+		return texAtomSerializer;
+	}
+
+	private TeXFormula getTexFormula() {
+		if (teXFormula == null) {
+			teXFormula = new TeXFormula(caption);
+		}
+		return teXFormula;
 	}
 
 	@Override
@@ -7738,7 +7668,7 @@ public abstract class GeoElement extends ConstructionElement
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		App app = kernel.getApplication();
 		if (getScript(EventType.CLICK) != null
-				&& getScript(EventType.CLICK).getText().length() > 0) {
+				&& getScript(EventType.CLICK).getText().length() > 0 && !sb.isMobile()) {
 			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
 		}
 
@@ -7750,7 +7680,7 @@ public abstract class GeoElement extends ConstructionElement
 				} else {
 					sb.append(loc.getMenuDefault("PressSlashToShow", "Press / to show object"));
 				}
-				}
+			}
 			sb.appendSpace();
 		}
 		if (app.showToolBar() && !isGeoInputBox()) {
@@ -7839,5 +7769,31 @@ public abstract class GeoElement extends ConstructionElement
 			return EquationType.EXPLICIT;
 		}
 		return EquationType.IMPLICIT;
+	}
+
+	/**
+	 * @param i 1 for EV1, 2 for EV2, 3 for 3D
+	 * @return whether the locus is visible
+	 */
+	public boolean isVisibleInEV(int i) {
+		switch (i) {
+			case 1:
+				return isVisibleInView(App.VIEW_EUCLIDIAN)
+						&& kernel.getApplication().showView(App.VIEW_EUCLIDIAN);
+
+			case 2:
+				return isVisibleInView(App.VIEW_EUCLIDIAN2)
+						&& kernel.getApplication().hasEuclidianView2(1);
+
+			case 3:
+				return isVisibleInView3D()
+						&& kernel.getApplication().isEuclidianView3Dinited();
+		}
+		return false;
+	}
+
+	@Override
+	public GeoElementND unwrapSymbolic() {
+		return this;
 	}
 }

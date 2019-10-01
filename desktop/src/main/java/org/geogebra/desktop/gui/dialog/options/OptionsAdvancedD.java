@@ -1,9 +1,6 @@
 package org.geogebra.desktop.gui.dialog.options;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -11,20 +8,7 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
-import javax.swing.ToolTipManager;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -33,6 +17,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Util;
@@ -725,7 +710,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 				int windowHeight = Integer.parseInt(tfKeyboardHeight.getText());
 				kbs.setKeyboardHeight(windowHeight);
 			} catch (NumberFormatException ex) {
-				app.showError("InvalidInput", tfKeyboardHeight.getText());
+                app.showError(Errors.InvalidInput, tfKeyboardHeight.getText());
 				tfKeyboardHeight
 						.setText(Integer.toString(kbs.getKeyboardHeight()));
 			}
@@ -734,7 +719,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 				int windowWidth = Integer.parseInt(tfKeyboardWidth.getText());
 				kbs.setKeyboardWidth(windowWidth);
 			} catch (NumberFormatException ex) {
-				app.showError("InvalidInput", tfKeyboardWidth.getText());
+                app.showError(Errors.InvalidInput, tfKeyboardWidth.getText());
 				tfKeyboardWidth
 						.setText(Integer.toString(kbs.getKeyboardWidth()));
 			}

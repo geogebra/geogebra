@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -259,7 +260,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 							3.0E-8); // debug("Gradient for "+xval+":
 										// "+gradient(rrfunc,xval,curleft,curright));
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
-						xlist.add(new Double(xval));
+                        xlist.add(DoubleUtil.checkMax(xval, rrfunc));
 					} // If not too large gradient
 				} else if ((!grad[i - 2]) && (grad[i - 1])) { // min
 					// if( ((y[i-2]-y[i-1])/deltax) < MAX_GRADIENT ) {
@@ -267,7 +268,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 							3.0E-8); // debug("Gradient for "+xval+":
 										// "+gradient(rrfunc,xval,curleft,curright));
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
-						xlist.add(new Double(xval));
+                        xlist.add(DoubleUtil.checkMin(xval, rrfunc));
 
 					} // if not too large gradient
 

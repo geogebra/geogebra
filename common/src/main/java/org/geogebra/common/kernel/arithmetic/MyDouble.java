@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.arithmetic;
 import java.math.BigDecimal;
 import java.util.HashSet;
 
+import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.LambertW;
@@ -717,6 +719,12 @@ public class MyDouble extends ValidExpression
 		if (!DoubleUtil.isInteger(digits)) {
 			set(Double.NaN);
 		}
+
+        if (!Kernel.angleUnitUsesDegrees(angleUnit)) {
+            set(Precision.round(val, (int) digits));
+            return this;
+        }
+
 		double pow = Math.pow(10, digits);
 		set(val * pow);
 		round(angleUnit);
@@ -940,7 +948,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	final public HashSet<GeoElement> getVariables(SymbolicMode mode) {
+    public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		return null;
 	}
 
@@ -1066,7 +1074,7 @@ public class MyDouble extends ValidExpression
 			return StringUtil.parseDouble(sb.toString());
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
-			throw new MyError(app, "InvalidInput", str);
+            throw new MyError(app, Errors.InvalidInput, str);
 		}
 		/*
 		 * "\u0030"-"\u0039", "\u0660"-"\u0669", "\u06f0"-"\u06f9",
@@ -1169,7 +1177,7 @@ public class MyDouble extends ValidExpression
 
 	@Override
 	public int hashCode() {
-		return Double.hashCode(val);
+        return DoubleUtil.hashCode(val);
 	}
 
 	@Override

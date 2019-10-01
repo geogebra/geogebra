@@ -318,7 +318,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				fill(g2, shape); // fill using default/hatching/image as
 									// appropriate
 
-				if (geo.doHighlighting()) {
+                if (isHighlighted()) {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					g2.draw(shape);

@@ -57,7 +57,7 @@ public class DrawBoxPlot extends Drawable {
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			try {
-				if (geo.doHighlighting()) {
+                if (isHighlighted()) {
 					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
 					g2.draw(gp);

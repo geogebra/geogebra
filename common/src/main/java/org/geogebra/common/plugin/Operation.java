@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.kernel.statistics.AlgoNpR;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
@@ -137,7 +138,7 @@ public enum Operation {
 
 				return bool;
 			}
-			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
+            throw ev.illegalBinary(lt, rt, Errors.IllegalBoolean,
 					ExpressionNodeConstants.strNOT);
 		}
 	},
@@ -159,7 +160,7 @@ public enum Operation {
 
 				return bool;
 			}
-			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
+            throw ev.illegalBinary(lt, rt, Errors.IllegalBoolean,
 					ExpressionNodeConstants.strOR);
 		}
 	},
@@ -181,7 +182,7 @@ public enum Operation {
 
 				return bool;
 			}
-			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
+            throw ev.illegalBinary(lt, rt, Errors.IllegalBoolean,
 					ExpressionNodeConstants.strOR);
 		}
 	},
@@ -203,7 +204,7 @@ public enum Operation {
 
 				return bool;
 			}
-			throw ev.illegalBinary(lt, rt, "IllegalBoolean",
+            throw ev.illegalBinary(lt, rt, Errors.IllegalBoolean,
 					ExpressionNodeConstants.strAND);
 		}
 	},

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -82,8 +83,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 			EuclidianStyleBar dynamicStylebar);
 
 	void recalculateEnvironments();
-
-	void updateStyleBarPositions(boolean menuOpen);
 
 	void exportGGB();
 
@@ -172,4 +171,16 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * Updates the unbundled toolbar.
 	 */
 	void updateUnbundledToolbar();
+
+    /**
+     * Adds the main menu button to the global header.
+     */
+    void menuToGlobalHeader();
+
+    /**
+     * Creates and adds a symbolic editor to the panel.
+     *
+     * @return the editor
+     */
+    SymbolicEditor createSymbolicEditor();
 }

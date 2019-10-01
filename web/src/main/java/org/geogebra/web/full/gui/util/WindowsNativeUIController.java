@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -17,11 +18,12 @@ public class WindowsNativeUIController {
 		this.app = app;
 	}
 
-	private void freezeBlurEvents() {
-		if (app.getExam() != null) {
-			app.getExam().setIgnoreBlurInterval(BLUR_DELAY);
-		}
-	}
+    @ExternalAccess
+    private void freezeBlurEvents() {
+        if (app.getExam() != null) {
+            app.getExam().setIgnoreBlurInterval(BLUR_DELAY);
+        }
+    }
 
 	/**
 	 * Hide the native onscreen keyboard

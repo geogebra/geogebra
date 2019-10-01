@@ -38,9 +38,9 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	private Button btPrint;
 	private Button btCancel;
 	/** view list */
-	ListBox cbView;
+    private ListBox cbView;
 	/** print panel */
-	FlowPanel printPanel;
+    private FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
 	private Localization loc;
 	/**

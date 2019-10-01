@@ -23,6 +23,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -211,14 +212,13 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 		String question = "";
 		String message = "";
 		if (macroNamesDel.length() == 0) {
-			appw.showError(appw.getLocalization().getError("Tool.DeleteUsed")
-					+ " " + macroNamesNoDel);
+            appw.showError(Errors.ToolDeleteUsed, macroNamesNoDel.toString());
 		} else {
 			question = loc.getMenu("Question");
 			message = loc.getMenu("Tool.DeleteQuestion") + macroNamesDel;
 
 			if (macroNamesNoDel.length() != 0) {
-				message += "\n" + loc.getError("Tool.DeleteUsed")
+                message += "\n" + Errors.ToolDeleteUsed.getError(loc)
 						+ macroNamesNoDel;
 			}
 			String[] options = { loc.getMenu("DeleteTool"),

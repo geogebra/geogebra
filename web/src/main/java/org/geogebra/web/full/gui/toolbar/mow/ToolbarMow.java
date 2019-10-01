@@ -48,7 +48,8 @@ public class ToolbarMow extends FlowPanel
 	private TabIds currentTab;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
-	private final static int FLOATING_BTNS_WIDTH = 80;
+    private final static int FLOATING_BTNS_WIDTH = 48;
+    private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
 
 	/**
 	 * Tab ids.
@@ -159,27 +160,51 @@ public class ToolbarMow extends FlowPanel
 	 * updates position of pageControlButton and zoomPanel
 	 */
 	public void updateFloatingButtonsPosition() {
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) (appW.getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-		if (!appW.isWhiteboardActive()) {
-			if (appW.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
-				dp.setZoomPanelBottom(true);
-			} else {
-				dp.setZoomPanelBottom(false);
-				dp.moveZoomPanelUpOrDown(isOpen);
-			}
+        if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
+            moveZoomPanelDown();
+            movePageControlButtonDown();
 		} else {
-			if (appW.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
-				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
-				dp.setZoomPanelBottom(true);
-			} else {
-				pageControlButton.getElement().getStyle().clearBottom();
-				dp.setZoomPanelBottom(false);
-				Dom.toggleClass(pageControlButton, "showMowSubmenu",
-						"hideMowSubmenu", isOpen);
-				dp.moveZoomPanelUpOrDown(isOpen);
-			}
-		}
+            moveZoomPanelAboveToolbar();
+            movePageControlButtonAboveToolbar();
+        }
+    }
+
+    private void movePageControlButtonDown() {
+        pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
+        pageControlButton.removeStyleName("narrowscreen");
+    }
+
+    private void movePageControlButtonAboveToolbar() {
+        pageControlButton.getElement().getStyle().clearBottom();
+        Dom.toggleClass(
+                pageControlButton,
+                "showMowSubmenu", "hideMowSubmenu",
+                isOpen);
+        pageControlButton.addStyleName("narrowscreen");
+    }
+
+    private void moveZoomPanelDown() {
+        getDockPanel().moveZoomPanelToBottom();
+    }
+
+    private void moveZoomPanelAboveToolbar() {
+        EuclidianDockPanelW dockPanel = getDockPanel();
+        dockPanel.moveZoomPanelAboveToolbar();
+        dockPanel.moveZoomPanelUpOrDown(isOpen);
+    }
+
+    private EuclidianDockPanelW getDockPanel() {
+        return (EuclidianDockPanelW) appW
+                .getGuiManager()
+                .getLayout()
+                .getDockManager()
+                .getPanel(App.VIEW_EUCLIDIAN);
+    }
+
+    private boolean isEnoughSpaceForFloatingButtonBesideToolbar() {
+        int spaceNeededForFloatingButton = (FLOATING_BTNS_WIDTH + FLOATING_BTNS_MARGIN_RIGHT) * 2;
+        int toolbarWithFloatingButtonWidth = MAX_TOOLBAR_WIDTH + spaceNeededForFloatingButton;
+        return appW.getWidth() > toolbarWithFloatingButtonWidth;
 	}
 
 	/**
@@ -259,7 +284,7 @@ public class ToolbarMow extends FlowPanel
 	private void createUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
 		undoRedoPanel.addStyleName("undoRedoPanel");
-		undoRedoPanel.addStyleName("undoRedoPositionMow");
+        undoRedoPanel.addStyleName(appW.getVendorSettings().getStyleName("undoRedoPosition"));
 		// create buttons
 		btnUndo = new StandardButton(
 				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);

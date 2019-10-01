@@ -35,9 +35,9 @@
   </replace-with>
    <replace-with class="org.geogebra.web.html5.factories.NoCASFactory">
     <when-type-is class="org.geogebra.common.factories.CASFactory" />    
-  </replace-with>  
-  
-  <replace-with class="org.geogebra.web.web.helper.ResourcesInjectorReTeX">
+  </replace-with>
+
+    <replace-with class="org.geogebra.web.web.helper.ResourcesInjectorFull">
     <when-type-is class="org.geogebra.web.html5.js.ResourcesInjector" />    
   </replace-with>
   

@@ -5,26 +5,43 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 
+/**
+ * Class to wrap load spinner
+ *
+ * @author laszlo
+ */
 public class LoadSpinner {
-	private final Element spinner;
+    private final Element spinner;
 
-	public LoadSpinner(String className) {
-		spinner = Dom.querySelector(className);
-	}
+    /**
+     * Constructor to wrap existsing spinner on the page.
+     *
+     * @param className The classname of the existsing spinner.
+     */
+    public LoadSpinner(String className) {
+        spinner = Dom.querySelector(className);
+    }
 
-	public void show() {
-		if (spinner == null) {
-			return;
-		}
+    /**
+     * Show spinner.
+     */
+    public void show() {
+        setSpinnerVisibility(true);
+    }
 
- 		spinner.getStyle().setDisplay(Style.Display.BLOCK);
-	}
+    /**
+     * Hide spinner.
+     */
+    public void hide() {
+        setSpinnerVisibility(false);
+    }
 
-	public void hide() {
-		if (spinner == null) {
-			return;
-		}
+    private void setSpinnerVisibility(boolean visible) {
+        if (spinner == null) {
+            return;
+        }
 
-		spinner.getStyle().setDisplay(Style.Display.NONE);
-	}
+        spinner.getStyle().setDisplay(visible ? Style.Display.BLOCK : Style.Display.NONE);
+
+    }
 }

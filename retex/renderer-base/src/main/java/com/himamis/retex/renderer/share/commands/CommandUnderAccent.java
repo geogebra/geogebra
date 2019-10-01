@@ -4,6 +4,7 @@ import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.UnderOverAtom;
+import com.himamis.retex.renderer.share.Unit;
 
 public class CommandUnderAccent extends Command2A {
 
@@ -14,7 +15,7 @@ public class CommandUnderAccent extends Command2A {
 		// TODO: verifier que le 0.3 ds undertilde est correct
 		// Ca marche pas ce truc parce que \\hat est une command a 1
 		// arg...
-		return new UnderOverAtom(b, a, new TeXLength(TeXLength.Unit.MU, 0.1),
+        return new UnderOverAtom(b, a, new TeXLength(Unit.MU, 0.1),
 				false, false);
 	}
 

@@ -10,8 +10,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Exercise;
-import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -178,8 +177,7 @@ public class ToolCreationDialogModel {
 			return true;
 		} catch (Exception e) {
 			// show error message
-			app.showError(app.getLocalization().getError("Tool.CreationFailed")
-					+ "\n" + e.getMessage());
+            app.showError(Errors.ToolCreationFailed, e.getMessage());
 			e.printStackTrace();
 			newTool = null;
 			return false;
@@ -262,9 +260,6 @@ public class ToolCreationDialogModel {
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
-			Exercise ex = app.getKernel().getExercise();
-			GeoAssignment assignment = ex.getAssignment(macro);
-			int assignmentIndex = ex.getParts().indexOf(assignment);
 			if (app.getMacro() != null) {
 				kernel.removeMacro(app.getMacro());
 			} else {
@@ -276,10 +271,6 @@ public class ToolCreationDialogModel {
 				if (app.getMacro() != null) {
 					app.setSaved();
 					// app.exit(); TODO! goto last window...
-				}
-				if (assignment != null) {
-					assignment.setMacro(newTool);
-					ex.addAssignment(assignmentIndex, assignment);
 				}
 			}
 			return true;

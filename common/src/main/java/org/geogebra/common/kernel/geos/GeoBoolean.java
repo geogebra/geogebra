@@ -171,9 +171,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 				kernel.notifyUpdate(geo);
 			}
 		}
-		if (kernel.hasExercise()) {
-			kernel.getExercise().notifyUpdate();
-		}
 		super.doRemove();
 	}
 
@@ -509,8 +506,19 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		sb.appendSpace();
 	}
 
+    @Override
+    public void addAuralStatus(Localization loc, ScreenReaderBuilder sb) {
+        if (sb.isMobile()) {
+            sb.append(getAuralCheckboxStatus());
+        }
+    }
+
 	@Override
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
+        if (sb.isMobile()) {
+            return;
+        }
+
 		if (getBoolean()) {
 			sb.append(
 					loc.getMenuDefault("PressSpaceCheckboxOff", "Press space to uncheck checkbox"));
@@ -522,18 +530,21 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public String getAuralTextForSpace() {
-		Localization loc = kernel.getLocalization();
-		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		addAuralName(loc, sb);
-		if (getBoolean()) {
-			sb.append(loc.getMenuDefault("Checked", "checked"));
-		} else {
-			sb.append(loc.getMenuDefault("Unchecked", "unchecked"));
+    public String getAuralTextForSpace() {
+        return getAuralCheckboxStatus();
+    }
 
-		}
-		sb.append(".");
-		return sb.toString();
-	}
+    private String getAuralCheckboxStatus() {
+        Localization loc = kernel.getLocalization();
+        ScreenReaderBuilder sb = new ScreenReaderBuilder();
+        addAuralName(loc, sb);
+        if (getBoolean()) {
+            sb.append(loc.getMenuDefault("Checked", "checked"));
+        } else {
+            sb.append(loc.getMenuDefault("Unchecked", "unchecked"));
 
+        }
+        sb.append(".");
+        return sb.toString();
+    }
 }

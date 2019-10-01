@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Creates user facing messages, when a command is invalid.
@@ -46,7 +47,7 @@ public class CommandErrorMessageBuilder {
 
 		if (argNumber > -1) {
 			builder.append(":\n");
-			builder.append(localization.getError("IllegalArgumentNumber"));
+            builder.append(Errors.IllegalArgumentNumber.getError(localization));
 			builder.append(": ");
 			builder.append(argNumber);
 		}
@@ -68,7 +69,7 @@ public class CommandErrorMessageBuilder {
 		buildPrefix(command);
 
 		builder.append(":\n");
-		builder.append(localization.getError("IllegalArgument"));
+        builder.append(Errors.IllegalArgument.getError(localization));
 		builder.append(": ");
 		if (arg instanceof GeoElement) {
 			builder.append(((GeoElement) arg).getNameDescription());

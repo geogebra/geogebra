@@ -26,7 +26,7 @@ public class GeneralPathD implements ShapeD {
 	public static java.awt.geom.GeneralPath getAwtGeneralPath(Shape gp) {
 		if (!(gp instanceof GeneralPathD)) {
 			if (gp != null) {
-				FactoryProvider.getInstance().debug("other type");
+                FactoryProvider.debugS("other type");
 			}
 			return null;
 		}

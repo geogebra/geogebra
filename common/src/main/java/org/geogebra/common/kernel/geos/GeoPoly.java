@@ -1,15 +1,15 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.Parametrizable;
 
 /**
  * Common interface for polygons and polylines
  * 
  * @author Zbynek & Michael
  */
-public interface GeoPoly extends Path {
+public interface GeoPoly extends Parametrizable {
 	/**
 	 * Returns true iff all vertices are labeled
 	 * 
@@ -39,14 +39,6 @@ public interface GeoPoly extends Path {
 	 * @return i-th vertex
 	 */
 	public GeoPoint getPoint(int i);
-
-	/**
-	 * Converts polyline to cartesian curve
-	 * 
-	 * @param outGeo
-	 *            curve to store result
-	 */
-	public void toGeoCurveCartesian(GeoCurveCartesianND outGeo);
 
 	/**
 	 * @return boundary as Path

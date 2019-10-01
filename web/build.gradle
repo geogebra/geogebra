@@ -148,6 +148,19 @@ task cleanWar(type: Delete) {
     }
 }
 
+def template = { fileName ->
+    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
+    return file(templateDir + fileName).text
+}
+
+def headerPartials = { header, appPartials ->
+    def partials = appPartials ?: ["share-button", "signin-button"]
+    partials.each({
+        header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));
+    })
+    return header
+}
+
 task copyHtml {
     description 'Generate app.html, app-release.html, graphing.html and others'
     group 'application'
@@ -165,8 +178,7 @@ task copyHtml {
             from file("src/main/resources/org/geogebra/web/resources/war")
             into warDirRel
         }
-        String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
-        def template = {fileName -> file(templateDir + fileName).text}
+
         String html = template("app-template.html")
         String splash = template("classic-splash.html")
 
@@ -179,35 +191,32 @@ task copyHtml {
             return htmlContent.replace("<!--VENDOR-->", vendor)
             .replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
             .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
-            .replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://cdn.geogebra.org/apps/latest/")
+            .replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://www.geogebra.org/apps/latest/")
         }
-        def classicHtml = { prerelease, offline ->
+        def classicHtml = {app, prerelease, offline=false ->
             
            def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
            return replaceVendor(html, "GeoGebra").replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
-            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
         }
         def appHtml = { app, prerelease, offline=false ->
             def vendor = app.vendor ?: "GeoGebra"
             def appID = app.id.split("-")[0]
             def appTransKey = app.transKey
-            def header = appID == "notes" ? "" : template("app-header-beta.html")
-            def partials = app.partials ?: ["share-button", "signin-button"]
-            partials.each({
-                header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));
-            })
+            def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
+            header = headerPartials(header, app.partials)
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
             def stylesheet = String.valueOf(prerelease).contains("canary") ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :""
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
             def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
                     "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
             return replaceVendor(html, vendor)
-            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(appID+"-splash.html") + "</div>")
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(app.id+"-splash.html") + "</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
@@ -216,52 +225,49 @@ task copyHtml {
         def english = {raw, appName ->
             return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
             .replace("<!--APP NAME FULL-->", "GeoGebra ${appName}")
-            .replace("<!--TRY APP-->", "Try App")
             .replace("<!--SIGN IN-->", "Sign in")
-            .replace("<!--CONTINUE-->", "Continue")
             .replace("<!--APP NAME-->", appName)
             .replace("<!--LANG-->", "en")
         }
-        
-        file("war/app-release.html").text = english(classicHtml(false, false), "Classic")
-        file("war/app.html").text = english(classicHtml(true, false), "Classic")
-        file("war/app-offline.html").text = english(classicHtml(false, true), "Classic")
-        file("war/classic-template.html").text = classicHtml(false, false)
+
         if(!file("war/debug.css").exists()){
             file("war/debug.css").text = "/** Put your temporary CSS here */"
         }
-        appSpecs.each({app-> if(app.id != "classic") {
+        appSpecs.each({app->
             def appID = app.id.split("-")[0]
+            def replaceHtml = app.id == "classic" ? classicHtml : appHtml
             // TODO notes features should go to stable, then we simplify this
-            file("war/${app.id}-template.html").text = appHtml(app, "notes".equals(appID))
-            file("war/${app.id}-template-beta.html").text = appHtml(app, true)
+            file("war/${app.id}-template.html").text = replaceHtml(app, "notes".equals(appID))
+            file("war/${app.id}-template-beta.html").text = replaceHtml(app, true)
             // TODO notes features should go to stable, then we simplify this
-            file("war/${app.id}-offline.html").text = english(appHtml(app, "notes".equals(appID), true), app.title)
-            file("war/${app.id}.html").text = english(appHtml(app, true), app.title)
-            file("war/${app.id}-canary.html").text = english(appHtml(app, "\"canary\""), app.title)
-        }});
+            file("war/${app.id}-offline.html").text = english(replaceHtml(app, "notes".equals(appID), true), app.title)
+            file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
+            file("war/${app.id}-canary.html").text = english(replaceHtml(app, "\"canary\""), app.title)
+        });
     }
 }
 
 task createSolverHtml {
-    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
-    String solver = file(templateDir + "solver-template.html").text
-            .replace("<!--HEADER-->", file(templateDir + "app-header-beta.html").text)
-            .replace("<!--TRY APP-->", "Try App")
-            .replace("<!--CONTINUE-->", "Continue")
-            .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-    // for server rendering
-    file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
-    file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
-    // for direct use autotest
-    file("war/solver.html").text = solver
+    doLast {
+        def header = headerPartials(template("app-header-beta.html"), null);
+        String solver = template("solver-template.html")
+            .replace("<!--HEADER-->", header)
+            .replace("<!--SPLASH STYLE-->", template("app-header.css"))
+        // for server rendering
+        file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
+        file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
+        // for direct use autotest
+        file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")
             .replace("<!--APP TYPE-->", "solver")
+            .replace("<!--SIGN IN-->", "Sign In")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
-    file("war/exercise.html").text = solver
+        file("war/exercise.html").text = solver
             .replace("<!--APP NAME-->", "Exercise app")
+            .replace("<!--SIGN IN-->", "Sign In")
             .replace("<!--APP TYPE-->", "practice")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
+    }
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml', 'createSolverHtml']) {
@@ -279,11 +285,12 @@ task mergeDeploy(){
       def templateJs = "src/main/resources/org/geogebra/web/resources/js/deployggb-template.js"
       def deployText = file(templateJs).text.replace('%WEB3D_PERMUTATION%', web3dPermutation)
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
-      def currentVersion = getGeogebraVersion(".")
+      def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
+      def currentVersion = getGeogebraVersion(parentRoot)
       deployText += file("./build/gwt/out/web3d/js/webfont.js").text
       file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
-      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://cdn.geogebra.org/apps/latest/')
-      file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://cdn.geogebra.org/apps/${currentVersion}/")
+      file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
+      file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
    }
 }
 

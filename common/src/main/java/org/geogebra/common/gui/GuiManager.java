@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.media.GeoGebraURLParser;
@@ -277,9 +278,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 
 		if (!success && !suppressErrorMsg) {
-			getApp().showError(
-					getApp().getLocalization().getError("LoadFileFailed") + "\n"
-							+ processedUrlString);
+            getApp().showError(Errors.LoadFileFailed, processedUrlString);
 		}
 
 		updateGUIafterLoadFile(success, isMacroFile);

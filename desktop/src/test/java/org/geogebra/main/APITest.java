@@ -1,12 +1,24 @@
 package org.geogebra.main;
 
+import java.util.List;
+import java.util.Map;
+
+import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.desktop.plugin.ScriptManagerD;
+import org.geogebra.test.TestEvent;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 public class APITest {
 	private static AppDNoGui app;
@@ -15,8 +27,8 @@ public class APITest {
 	/**
 	 * Initialize app.
 	 */
-	@BeforeClass
-	public static void setupApp() {
+    @Before
+    public void setupApp() {
 		app = AlgebraTest.createApp();
 		api = app.getGgbApi();
 	}
@@ -104,4 +116,98 @@ public class APITest {
 		String solveResult2 = api.evalGeoGebraCAS("Solutions[t^2 = 4t]");
 		Assert.assertEquals("{0, 4}", solveResult2);
 	}
+
+    @Test
+    public void viewChanged2DTest() {
+        ScriptManager scriptManager = Mockito.spy(new ScriptManagerD(app));
+        app.getEventDispatcher().addEventListener(scriptManager);
+        app.setScriptManager(scriptManager);
+
+        EuclidianView euclidianView = app.getActiveEuclidianView();
+        euclidianView.setCoordSystem(30, 40, 5, 6);
+
+        ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+
+        Mockito.verify(scriptManager, Mockito.times(1))
+                .sendEvent(eventCaptor.capture());
+
+        List<Event> capturedEvents = eventCaptor.getAllValues();
+        Assert.assertEquals(1, capturedEvents.size());
+
+        Event event = capturedEvents.get(0);
+        Assert.assertEquals(EventType.VIEW_CHANGED_2D, event.type);
+
+        Map<String, Object> jsonArgument = event.jsonArgument;
+        Assert.assertEquals(30d, jsonArgument.get("xZero"));
+        Assert.assertEquals(40d, jsonArgument.get("yZero"));
+        Assert.assertEquals(5d, jsonArgument.get("scale"));
+        Assert.assertEquals(6d, jsonArgument.get("yscale"));
+    }
+
+    @Test
+    public void viewClicked2DTest() {
+        app.getKernel().getAlgebraProcessor()
+                .processAlgebraCommand("Polygon((0, 0), (20, 0), (0, -20))", false);
+
+        ScriptManager scriptManager = Mockito.spy(new ScriptManagerD(app));
+        app.getEventDispatcher().addEventListener(scriptManager);
+        app.setScriptManager(scriptManager);
+
+        EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+        ec.wrapMousePressed(new TestEvent(300, 400));
+
+        ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+
+        Mockito.verify(scriptManager, Mockito.times(2))
+                .sendEvent(eventCaptor.capture());
+
+        List<Event> capturedEvents = eventCaptor.getAllValues();
+        Assert.assertEquals(2, capturedEvents.size());
+
+        Event event = capturedEvents.get(0);
+        Assert.assertEquals(EventType.MOUSE_DOWN, event.type);
+
+        Map<String, Object> jsonArgument = event.jsonArgument;
+        Assert.assertEquals(6d, jsonArgument.get("x"));
+        Assert.assertEquals(-8d, jsonArgument.get("y"));
+
+        String[] hits = (String[]) jsonArgument.get("hits");
+
+        Assert.assertEquals(1, hits.length);
+        Assert.assertEquals("t1", hits[0]);
+    }
+
+    @Test
+    public void dragEnd2DTest() {
+        app.getKernel().getAlgebraProcessor()
+                .processAlgebraCommand("Polygon((0, 0), (20, 0), (0, -20))", false);
+
+        ScriptManager scriptManager = Mockito.spy(new ScriptManagerD(app));
+        app.getEventDispatcher().addEventListener(scriptManager);
+        app.setScriptManager(scriptManager);
+
+        EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+
+        ec.setDraggingDelay(0);
+        ec.wrapMousePressed(new TestEvent(300, 400));
+        ec.wrapMouseDragged(new TestEvent(302, 402), true);
+        ec.wrapMouseReleased(new TestEvent(302, 402));
+
+        ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+
+        Mockito.verify(scriptManager, Mockito.atLeast(1))
+                .sendEvent(eventCaptor.capture());
+
+        List<Event> capturedEvents = eventCaptor.getAllValues();
+
+        int dragEndEvents = 0;
+        for (Event event : capturedEvents) {
+            if (event.type == EventType.DRAG_END) {
+                Assert.assertEquals("t1", event.argument);
+                dragEndEvents++;
+            }
+        }
+
+        Assert.assertEquals(1, dragEndEvents);
+    }
 }

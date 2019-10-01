@@ -37,13 +37,12 @@ public class CmdStartLogging extends CmdScripting {
 		boolean success = false;
 
 		SensorLogger logger = app.getSensorLogger();
-		if (logger != null) {
+        GeoElement argument = null;
+        GeoElement limit = null;
+        int offset = 0;
+        if (logger != null) {
 
-			logger.stopLogging();
-
-			GeoElement argument = null;
-			GeoElement limit = null;
-			int offset = 0;
+            logger.stopLogging();
 
 			if (arg[0] instanceof GeoNumberValue) {
 				logger.setLimit(((GeoNumberValue) arg[1]).getDouble());
@@ -51,49 +50,56 @@ public class CmdStartLogging extends CmdScripting {
 			} else {
 				logger.setLimit(SensorLogger.DEFAULT_LIMIT);
 			}
-			for (int i = offset; i <= n - 2; i += 2) {
-				argument = arg[i + 1];
-				if (!(arg[i] instanceof GeoText)) {
-					throw argErr(c, arg[i]);
-				}
-				String varName = ((GeoText) arg[i]).getTextString();
-				if (argument instanceof GeoNumeric
-						|| argument instanceof GeoText) {
+        }
+        for (int i = offset; i <= n - 2; i += 2) {
+            argument = arg[i + 1];
+            if (!(arg[i] instanceof GeoText)) {
+                throw argErr(c, arg[i]);
+            }
+            String varName = ((GeoText) arg[i]).getTextString();
+            if (argument instanceof GeoNumeric || argument instanceof GeoText) {
+                if (logger != null) {
 					logger.registerGeo(varName, argument);
-				} else if (argument instanceof GeoList) {
-					// it should be possible to add an optional third parameter
-					// to lists - size limit of logging
-					if ((i < n - 2)
-							&& (limit = arg[i + 2]) instanceof GeoNumeric) {
+                }
+            } else if (argument instanceof GeoList) {
+                // it should be possible to add an optional third parameter
+                // to lists - size limit of logging
+                if ((i < n - 2) && (limit = arg[i + 2]) instanceof GeoNumeric) {
+                    if (logger != null) {
 						logger.registerGeoList(varName, (GeoList) argument,
 								((GeoNumeric) limit).getValue());
-						i++;
-					} else {
+                    }
+                    i++;
+                } else {
+                    if (logger != null) {
 						logger.registerGeoList(varName, (GeoList) argument);
 					}
-				} else if (argument instanceof GeoFunction) {
-					// it should be possible to add an optional third parameter
-					// to lists - size limit of logging
-					if ((i < n - 2)
-							&& (limit = arg[i + 2]) instanceof GeoNumeric) {
+                }
+            } else if (argument instanceof GeoFunction) {
+                // it should be possible to add an optional third parameter
+                // to lists - size limit of logging
+                if ((i < n - 2) && (limit = arg[i + 2]) instanceof GeoNumeric) {
+                    if (logger != null) {
 						logger.registerGeoFunction(varName,
 								(GeoFunction) argument,
 								((GeoNumeric) limit).getValue());
-						i++;
-					} else {
+                    }
+                    i++;
+                } else {
+                    if (logger != null) {
 						logger.registerGeoFunction(varName,
 								(GeoFunction) argument);
 					}
-				} else {
-					throw argErr(c, argument);
-				}
-				if (!argument.isLabelSet()) {
-					argument.setLabel(varName);
-				}
-			}
+                }
+            } else {
+                throw argErr(c, argument);
+            }
+            if (!argument.isLabelSet()) {
+                argument.setLabel(varName);
+            }
+        }
 
-			success = logger.startLogging();
-		}
+        success = logger == null || logger.startLogging();
 
 		if (!success) {
 			throw new MyError(loc, loc.getError("NoLogging"));

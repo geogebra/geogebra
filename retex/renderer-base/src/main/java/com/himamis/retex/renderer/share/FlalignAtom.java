@@ -60,7 +60,7 @@ public class FlalignAtom extends AlignAtom {
 		final int row = matrix.row;
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
-		final double w = TeXLength.getTextwidth(env);
+        final double w = env.lengthSettings().getTextwidth(env);
 
 		// flalign env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft
 		// \medskip el_rgt hsep ... hsep elem hsep

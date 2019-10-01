@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -974,7 +975,7 @@ public class RelativeCopy {
 			// objects
 		} catch (CircularDefinitionException ce) {
 			// circular definition
-			kernel.getApplication().localizeAndShowError("CircularDefinition");
+            kernel.getApplication().showError(Errors.CircularDefinition);
 			return null;
 		} catch (Exception e) {
 			// create text if something went wrong
@@ -1040,7 +1041,7 @@ public class RelativeCopy {
 			@Override
 			public void showError(String msg) {
 				Log.debug(msg);
-				if (kernel.getLocalization().getError("CircularDefinition")
+                if (Errors.CircularDefinition.getError(kernel.getLocalization())
 						.equals(msg)) {
 					kernel.getApplication().getDefaultErrorHandler()
 							.showError(msg);

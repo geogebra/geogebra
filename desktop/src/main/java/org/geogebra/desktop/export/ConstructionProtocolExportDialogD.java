@@ -12,10 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.export;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -29,16 +26,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -197,7 +191,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
 							ex.printStackTrace();
-							app.localizeAndShowError("SaveFileFailed");
+                            app.showError(Errors.SaveFileFailed);
 							Log.debug(ex.toString());
 						}
 					}
@@ -309,7 +303,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 						((GuiManagerD) app.getGuiManager())
 								.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
-						app.localizeAndShowError("SaveFileFailed");
+                        app.showError(Errors.SaveFileFailed);
 						Log.debug(ex.toString());
 					}
 				}
@@ -317,7 +311,7 @@ public class ConstructionProtocolExportDialogD extends JDialog
 			runner.start();
 
 		} catch (IOException ex) {
-			app.showError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 		}
 

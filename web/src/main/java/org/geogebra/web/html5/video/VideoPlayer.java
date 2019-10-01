@@ -1,16 +1,9 @@
 package org.geogebra.web.html5.video;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.main.App;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * Represents a placeholder for videos.
@@ -18,16 +11,7 @@ import com.google.gwt.user.client.ui.IsWidget;
  * @author Laszlo Gal
  *
  */
-public abstract class VideoPlayer implements IsWidget {
-	private static boolean youTubeAPI;
-	/** The application */
-	protected App app;
-
-	/** Video geo to play */
-	protected GeoVideo video;
-	private JavaScriptObject ytPlayer;
-	private String playerId;
-	private static ArrayList<VideoPlayer> waiting = new ArrayList<>();
+public abstract class VideoPlayer extends AbstractVideoPlayer {
 
 	/**
 	 * Constructor. *
@@ -37,21 +21,15 @@ public abstract class VideoPlayer implements IsWidget {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	public VideoPlayer(GeoVideo video, int id) {
-		this.video = video;
-		app = video.getKernel().getApplication();
-		playerId = "video_player" + id;
+    VideoPlayer(GeoVideo video, int id) {
+        super(video, id);
+        createPlayer();
+    }
+
+    private void createPlayer() {
 		createGUI();
 		stylePlayer();
-	}
-
-	/**
-	 * Put your styling here.
-	 */
-	protected void stylePlayer() {
-		asWidget().addStyleName("mowVideo");
-		asWidget().addStyleName("mowWidget");
-		asWidget().getElement().setId(playerId);
+        initPlayerAPI();
 	}
 
 	/**
@@ -59,10 +37,16 @@ public abstract class VideoPlayer implements IsWidget {
 	 */
 	protected abstract void createGUI();
 
+    /**
+     * Init player specific stuff here.
+     */
+    protected abstract void initPlayerAPI();
+
 	/**
 	 * Updates the player based on video object.
-	 */
-	public void update() {
+     */
+    @Override
+    public void update() {
 		Style style = asWidget().getElement().getStyle();
 		style.setLeft(getVideo().getScreenLocX(app.getActiveEuclidianView()),
 				Unit.PX);
@@ -81,31 +65,13 @@ public abstract class VideoPlayer implements IsWidget {
 	}
 
 	/**
-	 *
-	 * @return the associated GeoVideo object.
-	 */
-	public GeoVideo getVideo() {
-		return video;
-	}
-
-	/**
 	 * Called after video specified by its id is loaded.
 	 *
-	 */
-	public void onReady() {
+     */
+    @Override
+    public void onReady() {
 		video.setBackground(true);
-		EuclidianView view = app.getActiveEuclidianView();
-		Drawable d = ((Drawable) view.getDrawableFor(video));
-		d.update();
-		if (d.getBoundingBox().getRectangle() != null) {
-			view.setBoundingBox(d.getBoundingBox());
-			view.repaintView();
-			app.getSelectionManager().addSelectedGeo(video);
-		}
-	}
-
-	private static void onPlayerStateChange() {
-		// implement later;
+        selectPlayer();
 	}
 
 	/**
@@ -116,35 +82,8 @@ public abstract class VideoPlayer implements IsWidget {
 		return this.contentWindow != null;
 	}-*/;
 
-	/**
-	 * @return if the player is valid.
-	 */
-	public abstract boolean isValid();
-
-	/**
-	 * Play the video.
-	 */
-	public abstract void play();
-
-	/**
-	 * Pause the video.
-	 */
-	public abstract void pause();
-
-	/**
-	 * Sends the player background.
-	 */
-	public void sendBackground() {
-		video.setBackground(true);
-		update();
+    @Override
+    boolean isOffline() {
+        return false;
 	}
-
-	/**
-	 * @param video2
-	 *            other video
-	 * @return whether the player is compatible with the oter video
-	 */
-	public abstract boolean matches(GeoVideo video2);
-
 }
-

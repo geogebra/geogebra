@@ -68,6 +68,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
@@ -78,12 +79,8 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.SensorLogger.Types;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.Exercise;
-import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
@@ -104,7 +101,6 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_INVALID = -1;
 	private static final int MODE_GEOGEBRA = 1;
 	private static final int MODE_MACRO = 50;
-	private static final int MODE_ASSIGNMENT = 60;
 	private static final int MODE_EUCLIDIAN_VIEW = 100;
 	/** currently parsing tags for Euclidian3D view */
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
@@ -148,8 +144,6 @@ public class MyXMLHandler implements DocHandler {
 	private GeoCasCell geoCasCell;
 	private Command cmd;
 	private Macro macro;
-	private Exercise exercise;
-	private Assignment assignment;
 	/** application */
 	protected final App app;
 	/** lacalization */
@@ -301,7 +295,7 @@ public class MyXMLHandler implements DocHandler {
 						.append('\n');
 			}
 			app.showError(
-					new MyError(loc, "LoadFileFailed", sb.toString()));
+                    new MyError(loc, Errors.LoadFileFailed, sb.toString()));
 		}
 		if (mode == MODE_INVALID) {
 			throw new SAXException(
@@ -371,10 +365,6 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_MACRO:
 			startMacroElement(eName, attrs);
-			break;
-
-		case MODE_ASSIGNMENT:
-			startResultElement(eName, attrs);
 			break;
 
 		case MODE_DEFAULTS:
@@ -599,10 +589,6 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 
-		case MODE_ASSIGNMENT:
-			endExerciseElement(eName);
-			break;
-
 		case MODE_GEOGEBRA:
 			if ("geogebra".equals(eName)) {
 				// start animation if necessary
@@ -682,10 +668,6 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_MACRO;
 			initMacro(attrs);
 			break;
-		case "assignment":
-			mode = MODE_ASSIGNMENT;
-			initExercise(attrs);
-			break;
 		case "construction":
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
@@ -735,25 +717,6 @@ public class MyXMLHandler implements DocHandler {
 		} else {
 			Log.error("unknown tag in <macro>: " + eName);
 		}
-	}
-
-	private void startResultElement(String eName,
-			LinkedHashMap<String, String> attrs) {
-		if ("result".equals(eName)) {
-			String name = attrs.get("name");
-			String hint = attrs.get("hint");
-			String fractionS = attrs.get("fraction");
-			if (hint != null && !hint.isEmpty()) {
-				assignment.setHintForResult(Result.valueOf(name), hint);
-			}
-			if (fractionS != null && !fractionS.isEmpty()) {
-				assignment.setFractionForResult(Result.valueOf(name),
-						Float.parseFloat(fractionS));
-			}
-		} else {
-			Log.error("unknown tag in <assignment>: " + eName);
-		}
-
 	}
 
 	// ====================================
@@ -2661,46 +2624,6 @@ public class MyXMLHandler implements DocHandler {
 		cons.updateConstruction(true);
 		// set kernel and construction back to the original values
 		initKernelVars();
-	}
-
-	private void initExercise(LinkedHashMap<String, String> attrs) {
-		if (exercise == null) {
-			exercise = kernel.getExercise();
-			exercise.reset();
-		}
-		String name = attrs.get("commandName");
-		if (name == null) {
-			name = attrs.get("toolName");
-		}
-		if (name == null) {
-			name = attrs.get("booleanName");
-			if (name != null) {
-				assignment = exercise.addAssignment(name);
-			}
-		} else {
-			Macro m = kernel.getMacro(name);
-			// this should not be needed but for files saved between 41946 and
-			// 42226
-			// fileloading won't work (only files created in beta, probably
-			// only Judith and me, but...)
-			if (m == null) {
-				m = kernel.getMacro(name.replace(" ", ""));
-			}
-			assignment = exercise.addAssignment(m);
-
-			String op = attrs.get("checkOperation");
-			if (op == null) {
-				((GeoAssignment) assignment).setCheckOperation("AreEqual");
-			} else {
-				((GeoAssignment) assignment).setCheckOperation(op);
-			}
-		}
-	}
-
-	private void endExerciseElement(String eName) {
-		if ("assignment".equals(eName)) {
-			mode = MODE_GEOGEBRA;
-		}
 	}
 
 	/*

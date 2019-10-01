@@ -2,15 +2,13 @@ package org.geogebra.web.tablet;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
 
@@ -52,19 +50,13 @@ public class Tablet implements EntryPoint {
 				}
 			});
 		}
-		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
-		// production
-		// GeoGebraProfiler.init(new GeoGebraProfilerW());
-		GeoGebraProfiler.init(new SilentProfiler());
-
-		GeoGebraProfiler.getInstance().profile();
 
 		exportGGBElementRenderer();
 
 		loadAppletAsync();
 
 		// phoneGap.initializePhoneGap();
-		WebSimple.registerSuperdevExceptionHandler();
+        SuperDevUncaughtExceptionHandler.register();
 	}
 
 	/**

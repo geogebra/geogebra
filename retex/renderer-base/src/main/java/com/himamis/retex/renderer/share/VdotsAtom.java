@@ -54,7 +54,7 @@ public class VdotsAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		Box dot = SymbolAtom.get("ldotp").createBox(env);
 		VerticalBox vb = new VerticalBox(dot, 0, TeXConstants.Align.BOTTOM);
-		Box b = new SpaceAtom(TeXLength.Unit.MU, 0, 4, 0).createBox(env);
+        Box b = new SpaceAtom(Unit.MU, 0, 4, 0).createBox(env);
 		vb.add(b);
 		vb.add(dot);
 		vb.add(b);

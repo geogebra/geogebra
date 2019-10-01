@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.util.ExternalAccess;
+
 public class PopupBlockAvoider {
 
-	private String showURLinBrowserPageUrl = null;
+    @ExternalAccess
+    private String showURLinBrowserPageUrl = null;
 
 	public PopupBlockAvoider() {
 		showURLinBrowserWaiterFixedDelay();

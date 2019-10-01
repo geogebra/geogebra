@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 public class DrawSegment3D extends DrawCoordSys1D {
 	private Coords boundsMin = new Coords(3);
 	private Coords boundsMax = new Coords(3);
+    private double radius = 0;
 
 	/**
 	 * Common constructor
@@ -85,23 +86,27 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	protected void setStartEndPoints(Coords p1, Coords p2) {
 		super.setStartEndPoints(p1, p2);
 
-		double radius = getLineThickness() * PlotterBrush.LINE3D_THICKNESS
+        radius = getLineThickness() * PlotterBrush.LINE3D_THICKNESS
 				/ getView3D().getScale();
 
 		for (int i = 1; i <= 3; i++) {
 			if (p1.get(i) < p2.get(i)) {
-				boundsMin.set(i, p1.get(i) - radius);
-				boundsMax.set(i, p2.get(i) + radius);
+                boundsMin.set(i, p1.get(i));
+                boundsMax.set(i, p2.get(i));
 			} else {
-				boundsMin.set(i, p2.get(i) - radius);
-				boundsMax.set(i, p1.get(i) + radius);
+                boundsMin.set(i, p2.get(i));
+                boundsMax.set(i, p1.get(i));
 			}
 		}
 	}
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
-		enlargeBounds(min, max, boundsMin, boundsMax);
-	}
+        if (dontExtend) {
+            enlargeBounds(min, max, boundsMin, boundsMax);
+        } else {
+            enlargeBounds(min, max, boundsMin, boundsMax, radius);
+        }
+    }
 
 }

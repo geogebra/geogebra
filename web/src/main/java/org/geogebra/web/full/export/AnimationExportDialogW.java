@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -212,7 +213,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 				throw new NumberFormatException();
 			}
 		} catch (NumberFormatException e) {
-			app.showError("InvalidInput", timeBetweenFramesInput.getText());
+            app.showError(Errors.InvalidInput, timeBetweenFramesInput.getText());
 			return;
 		}
 

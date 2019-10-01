@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -113,12 +114,7 @@ public class ContextMenuPopup extends MyCJButton
 		}
 		if (isActive) {
 			ImgResourceHelper
-					.setIcon(app.isWhiteboardActive()
-											? MaterialDesignResources.INSTANCE
-													.more_vert_mebis()
-							: MaterialDesignResources.INSTANCE
-									.more_vert_purple(),
-							this);
+                    .setIcon(getActiveMoreVert(), this);
 		} else {
 			ImgResourceHelper
 					.setIcon(MaterialDesignResources.INSTANCE.more_vert_black(),
@@ -133,12 +129,7 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		popup.update();
 		popup.show(location);
-		ImgResourceHelper.setIcon(app.isUnbundled()
-				? MaterialDesignResources.INSTANCE.more_vert_purple()
-				: app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE.more_vert_mebis()
-						: AppResources.INSTANCE.dots_active(),
-				this);
+        ImgResourceHelper.setIcon(getActiveMoreVert(), this);
 		this.addStyleName("noOpacity");
 		popup.setMenuShown(true);
 	}
@@ -187,15 +178,11 @@ public class ContextMenuPopup extends MyCJButton
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		ImgResourceHelper
-				.setIcon(
-						app.isUnbundled()
-				? MaterialDesignResources.INSTANCE.more_vert_purple()
-								: app.isWhiteboardActive()
-										? MaterialDesignResources.INSTANCE
-												.more_vert_mebis()
-										: AppResources.INSTANCE.dots_active(),
-						this);
-	}
+        ImgResourceHelper.setIcon(getActiveMoreVert(), this);
+    }
 
+    private SVGResource getActiveMoreVert() {
+        SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
+        return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
+    }
 }

@@ -27,8 +27,10 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Inverts a function only works if there is one "x" in the function
@@ -123,14 +125,10 @@ public class AlgoFunctionInvert extends AlgoElement {
 	}
 
 	/**
-	 * @param root0
-	 *            root element
-	 * @param oldFV
-	 *            x variable of invered function
-	 * @param x
-	 *            x variable of target
-	 * @param kernel
-	 *            kernel
+     * @param root0  root element
+     * @param oldFV  x variable of inverted function
+     * @param x      x variable of target
+     * @param kernel kernel
 	 * @return inverted expression
 	 */
 	public static ExpressionNode invert(ExpressionValue root0,
@@ -138,12 +136,28 @@ public class AlgoFunctionInvert extends AlgoElement {
 		boolean fvLeft;
 		ExpressionNode newRoot = x.wrap();
 		ExpressionValue root = root0.unwrap();
+
+        // f(x)=Simplify(0x+3)
+        if (root == null || root instanceof GeoNumeric) {
+            return null;
+        }
+
+        // f(x)=x
+        if (root instanceof FunctionVariable) {
+            return newRoot;
+        }
+
+        if (root.isLeaf() || !root.isExpressionNode()) {
+            Log.debug("Problem with Invert()");
+            return null;
+        }
+
 		while (root != null && !root.isLeaf() && root.isExpressionNode()) {
 			ExpressionValue left = ((ExpressionNode) root).getLeft().unwrap();
 			ExpressionValue right = ((ExpressionNode) root).getRight().unwrap();
 
-			Operation op;
-			switch (op = ((ExpressionNode) root).getOperation()) {
+            Operation op = ((ExpressionNode) root).getOperation();
+            switch (op) {
 			case SIN:
 			case COS:
 			case TAN:

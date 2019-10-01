@@ -61,7 +61,7 @@ public class VRowAtom extends Atom {
 
 	// atoms to be displayed horizontally next to eachother
 	protected List<Atom> elements;
-	private SpaceAtom raise = new SpaceAtom(TeXLength.Unit.EX, 0, 0, 0);
+    private SpaceAtom raise = new SpaceAtom(Unit.EX, 0, 0, 0);
 	protected boolean addInterline = false;
 	protected boolean vtop = false;
 	protected TeXConstants.Align halign = TeXConstants.Align.NONE;
@@ -130,7 +130,7 @@ public class VRowAtom extends Atom {
 		return vtop;
 	}
 
-	public void setRaise(TeXLength.Unit unit, double r) {
+    public void setRaise(Unit unit, double r) {
 		raise = new SpaceAtom(unit, r, 0, 0);
 	}
 
@@ -159,7 +159,7 @@ public class VRowAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		VerticalBox vb = new VerticalBox();
 		Box interline = new StrutBox(0.,
-				TeXLength.getLength("baselineskip", env), 0., 0.);
+                env.lengthSettings().getLength("baselineskip", env), 0., 0.);
 		if (halign != TeXConstants.Align.NONE) {
 			double maxWidth = -Double.POSITIVE_INFINITY;
 			ArrayList<Box> boxes = new ArrayList<>();

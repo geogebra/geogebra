@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
 import org.geogebra.common.properties.impl.graphics.BackgroundProperty;
@@ -93,10 +95,19 @@ public class GraphicsPropertiesList extends PropertiesList {
 				for (Property prop : mProperties) {
 					propertiesListARView.add(prop);
 				}
-				propertiesListARView.add(1,
-						new BackgroundProperty(mApp, mLocalization));
-				this.propertiesArrayARView = propertiesListARView
-						.toArray(new Property[0]);
+                if (mApp.has(Feature.G3D_AR_RATIO_SETTINGS)) {
+                    propertiesListARView.add(1,
+                            new ARRatioPropertyCollection(mApp, mLocalization));
+                    propertiesListARView.add(2,
+                            new BackgroundProperty(mApp, mLocalization));
+                    this.propertiesArrayARView = propertiesListARView
+                            .toArray(new Property[0]);
+                } else {
+                    propertiesListARView.add(1,
+                            new BackgroundProperty(mApp, mLocalization));
+                    this.propertiesArrayARView = propertiesListARView
+                            .toArray(new Property[0]);
+                }
 			}
 			return propertiesArrayARView;
         }

@@ -51,19 +51,14 @@ public class CmdANOVA extends CommandProcessor {
 			}
 
 		default:
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
+            GeoList list = wrapInList(arg, arg.length, GeoClass.LIST,
+                    c);
 			if (list != null) {
 				GeoElement[] ret = { anovaTest(c.getLabel(), list) };
 				return ret;
 			}
-			// null ret should mean that an arg is not a GeoList
-			// so find the bad one
-			for (int i = 0; i <= n; i++) {
-				if (!arg[i].isGeoList()) {
-					throw argErr(c, arg[i]);
-				}
-			}
-			// throw error for any other reason ...
+
+            // throw error for any other reason ...
 			throw argErr(c, arg[0]);
 		}
 	}

@@ -43,12 +43,22 @@ public class MediaFactory {
 	 *            video URL
 	 */
 	public void addVideo(VideoURL videoUrl) {
-		EuclidianView ev = app.getActiveEuclidianView();
-		GeoVideo video = app.getVideoManager().createVideo(app.getKernel().getConstruction(),
+        final EuclidianView ev = app.getActiveEuclidianView();
+        final GeoVideo video = app.getVideoManager().createVideo(
+                app.getKernel().getConstruction(),
 				videoUrl);
 		video.setBackground(true);
-		video.setAbsoluteScreenLoc((ev.getWidth() - video.getWidth()) / 2,
-				(ev.getHeight() - video.getHeight()) / 2);
+        video.afterSizeSet(new Runnable() {
+
+            @Override
+            public void run() {
+                video.setAbsoluteScreenLoc(
+                        (ev.getWidth() - video.getWidth()) / 2,
+                        (ev.getHeight() - video.getHeight()) / 2);
+
+            }
+        });
+
 		video.setLabel(null);
 		app.storeUndoInfo();
 	}

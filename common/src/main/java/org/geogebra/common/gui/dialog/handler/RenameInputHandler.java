@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -62,7 +63,7 @@ public class RenameInputHandler implements InputHandler {
 		String newLabel = inputValue;
 
 		if (!LabelManager.isValidLabel(newLabel, kernel, (GeoElement) geo1)) {
-			app.showError("InvalidInput", inputValue);
+            app.showError(Errors.InvalidInput, inputValue);
 			callback.callback(false);
 			return;
 		}

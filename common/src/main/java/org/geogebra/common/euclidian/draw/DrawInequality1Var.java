@@ -182,7 +182,7 @@ public class DrawInequality1Var extends SetDrawable {
 		}
 		int i = 0;
 		while (i < lines.length && lines[i] != null) {
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(lines[i]);
@@ -203,7 +203,7 @@ public class DrawInequality1Var extends SetDrawable {
 			return;
 		}
 		while (i < circle.length && circle[i] != null) {
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(circle[i]);

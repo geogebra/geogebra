@@ -11,6 +11,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
@@ -120,11 +121,12 @@ public class ContextMenuTV {
 								!tvPoints.arePointsVisible(column));
 					}
 				});
-		addItem(mi);
-	}
+        addItem(mi, "showhide");
+    }
 
-	private void addItem(AriaMenuItem mi) {
+    private void addItem(AriaMenuItem mi, String title) {
 		mi.addStyleName("no-image");
+        TestHarness.setAttr(mi, "menu_" + title);
 		wrappedPopup.addItem(mi);
 	}
 
@@ -147,7 +149,7 @@ public class ContextMenuTV {
 						}
 					}
 				});
-		addItem(mi);
+        addItem(mi, "delete");
 	}
 
 	private void addEdit(Command cmd) {
@@ -156,7 +158,7 @@ public class ContextMenuTV {
 						(SVGResource) null,
 						app.getLocalization().getMenu("Edit")),
 				true, cmd);
-		addItem(mi);
+        addItem(mi, "edit");
 	}
 
 	/**

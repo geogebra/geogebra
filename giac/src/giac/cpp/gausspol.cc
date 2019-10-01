@@ -1074,6 +1074,26 @@ namespace giac {
 	//CERR << "err" << th << endl << other << endl << pm-res << endl;
 	return;
       }
+    } // end EXT
+    if (1 && (t1==_MOD || t2==_MOD)){
+      gen m=t1==_MOD?*(T1._MODptr+1):*(T2._MODptr+1);
+      if (m.type==_INT_){
+	polynome thm,otherm;
+	unmodularize(th,thm);
+	unmodularize(other,otherm);
+	mulpoly(thm,otherm,res,m);
+	int mval=m.val;
+	vector< monomial<gen> >::iterator it=res.coord.begin(),itend=res.coord.end();
+	for (;it!=itend;++it){
+	  if (it->value.type==_INT_){
+	    int r=it->value.val;
+	    r += (unsigned(r)>>31)*m.val; // make positive
+	    r -= (unsigned((m.val>>1)-r)>>31)*m.val;
+	    it->value=makemodquoted(r,m);
+	  }
+	}
+	return;
+      }
     }
 #endif
 #ifdef NO_TEMPLATE_MULTGCD
@@ -1120,17 +1140,20 @@ namespace giac {
       // ?encode reduce as -p^2, and check sign in do_threadmult in threaded.h
       // OR use int128
       if (ans<=RAND_MAX) {
-	if (reduce.type==_INT_ && reduce.val<46340 && reduce.val>0){ 
-	  // Modular multiplication, convert everything to integers
-	  vector< int_unsigned > p1,p2,p;
-	  if (convert(th,d,p1,reduce.val) && convert(other,d,p2,reduce.val)){
-	    if (10*lagrtime<double(c1)*c2*std::log(double(giacmax(c1,c2))))
-	      smallmulpoly_interpolate(p1,p2,p,d,reduce.val);
-	    else
-	      smallmult(p1,p2,p,reduce.val,int(c1c2));
-	    convert(p,d,res);
-	    return ;
-	  }
+	if (reduce.type==_INT_ ){
+	  if (//reduce.val<46340 && 
+	      reduce.val>0){ 
+	    // Modular multiplication, convert everything to integers
+	    vector< int_unsigned > p1,p2,p;
+	    if (convert(th,d,p1,reduce.val) && convert(other,d,p2,reduce.val)){
+	      if (reduce.val<46340 && 10*lagrtime<double(c1)*c2*std::log(double(giacmax(c1,c2))))
+		smallmulpoly_interpolate(p1,p2,p,d,reduce.val);
+	      else
+		smallmult(p1,p2,p,reduce.val,int(c1c2)); // 46340 bound not required?
+	      convert(p,d,res);
+	      return ;
+	    }
+	  } // end reduce.val<46xxx
 	}
 	if ( //false 
 	     (t1==_INT_ || t1==_ZINT) && (t2==_INT_ || t2==_ZINT)
@@ -1284,6 +1307,7 @@ namespace giac {
 	    } // end nprimes<something
 	  } // end conversion to longlong possible
 	} // end t1==_INT_
+#if 0
 	if (t1==_MOD || t2==_MOD){
 	  gen modulo;
 	  if (t1==_MOD)
@@ -1336,6 +1360,7 @@ namespace giac {
 	    }
 	  } // end modulo.type==_INT_
 	} // end _MOD types
+#endif
 	if (t1==_DOUBLE_ && t2==_DOUBLE_){
 	  vector< T_unsigned<double,unsigned> > p1d,p2d,pd;
 	  if (convert_double(th,d,p1d) && convert_double(other,d,p2d) ){
@@ -1403,6 +1428,18 @@ namespace giac {
 	//  CERR << "*unsigned end " << CLOCK() << endl;
       }
       if (ans/RAND_MAX<RAND_MAX){
+	if (reduce.type==_INT_ && reduce.val>0){ 
+	  // Modular multiplication, convert everything to integers
+	  vector< T_unsigned<int,longlong> > p1,p2,p;
+	  if (convert(th,d,p1,reduce.val) && convert(other,d,p2,reduce.val)){
+	    if (reduce.val<46340 && 10*lagrtime<double(c1)*c2*std::log(double(giacmax(c1,c2))))
+	      smallmulpoly_interpolate(p1,p2,p,d,reduce.val);
+	    else
+	      smallmult(p1,p2,p,reduce.val,int(c1c2)); // 46340 bound not required?
+	    convert(p,d,res);
+	    return ;
+	  }
+	}
 	if ( (t1==_INT_ || t1==_ZINT) && (t2==_INT_ || t2==_ZINT)
 	    ){
 	  longlong maxp1,maxp2;

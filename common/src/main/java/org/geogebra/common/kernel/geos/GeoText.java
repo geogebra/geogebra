@@ -242,6 +242,7 @@ public class GeoText extends GeoElement
 		printDecimals = text.printDecimals;
 		printFigures = text.printFigures;
 		useSignificantFigures = text.useSignificantFigures;
+        isLaTeX = text.isLaTeX;
 		updateTemplate();
 	}
 

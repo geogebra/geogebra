@@ -47,13 +47,13 @@ public class MyParseError extends MyError {
 	 * @param strs
 	 *            parts of the error (space separated)
 	 */
-	public MyParseError(Localization loc, String message, String... strs) {
+    public MyParseError(Localization loc, Errors message, String... strs) {
 		super(loc, message, strs);
 	}
 
 	@Override
 	public String getLocalizedMessage() {
-		return getError("InvalidInput")
+        return Errors.InvalidInput.getError(loc)
 				+ " :\n"
 				+ super.getLocalizedMessage();
 	}

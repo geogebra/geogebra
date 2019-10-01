@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.StickyTable;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
@@ -67,6 +68,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			p.add(new Label("%s"));
 			MyToggleButtonW btn = new MyToggleButtonW(
 					new NoDragImage(MaterialDesignResources.INSTANCE.more_vert_black(), 24));
+            TestHarness.setAttr(btn, "btn_tvHeader3dot");
 			p.add(btn);
 			value = p.getElement().getInnerHTML();
 		}

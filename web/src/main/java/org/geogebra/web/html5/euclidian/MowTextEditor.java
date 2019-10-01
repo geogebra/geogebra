@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
@@ -160,11 +161,11 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 	 * 
 	 * @return the bounding rectangle.
 	 */
-	public GRectangle getBounds() {
+    public GRectangle getBounds(int topOffset) {
 		if (bounds == null) {
 			bounds = AwtFactory.getPrototype().newRectangle();
 		}
-		bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop(), getOffsetWidth(),
+        bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop() - topOffset, getOffsetWidth(),
 				getOffsetHeight());
 		return bounds;
 	}
@@ -239,7 +240,8 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		}
 	}-*/;
 
-	private native void select(JavaScriptObject node, int index) /*-{
+    @ExternalAccess
+    private native void select(JavaScriptObject node, int index) /*-{
 		var range = $doc.createRange();
 		var sel = $wnd.getSelection();
 		range.setStart(node, index);

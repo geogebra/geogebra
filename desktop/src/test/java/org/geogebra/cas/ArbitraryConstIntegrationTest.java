@@ -480,7 +480,7 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void constMulti() {
-		ta("Simplify[SolveODE[ y*ln(2)]]", "y = c_1 * 2^(x)");
+        ta("Simplify[SolveODE[ y*ln(2)]]", "y = 2^(x) * c_1");
 		Assert.assertEquals(1, app.getGgbApi().getValue("c_1"), 0.01);
 		ta("SolveODE[ x]", "y = c_2 + 1 / 2 * x^(2)");
 		Assert.assertEquals(0, app.getGgbApi().getValue("c_2"), 0.01);

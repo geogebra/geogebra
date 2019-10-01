@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.openGL;
 
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -38,19 +39,19 @@ public class GLBufferJre implements GLBuffer {
 		if (impl == null || impl.capacity() < length) {
 			impl = FloatBuffer.allocate(length);
 		} else {
-			impl.rewind();
+            ((Buffer) impl).rewind();
 		}
 
-		impl.limit(length);
+        ((Buffer) impl).limit(length);
 
 	}
 
 	@Override
 	public void setLimit(int length) {
-		impl.limit(length);
+        ((Buffer) impl).limit(length);
 		currentLength = length;
 
-		impl.rewind();
+        ((Buffer) impl).rewind();
 		isEmpty = false;
 	}
 
@@ -66,7 +67,7 @@ public class GLBufferJre implements GLBuffer {
 
 	@Override
 	public void rewind() {
-		impl.rewind();
+        ((Buffer) impl).rewind();
 	}
 
 	@Override
@@ -101,8 +102,7 @@ public class GLBufferJre implements GLBuffer {
 			int offset, int length) {
 		for (int i = 0; i < length; i++) {
 			impl.put(i + offset,
-					array.get(i).floatValue() * scale
-							+ translate[i % 3]);
+                    array.get(i).floatValue() * scale + translate[i % 3]);
 		}
 	}
 

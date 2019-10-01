@@ -28,6 +28,7 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -482,15 +483,10 @@ public class GGWToolBar extends Composite
 		for (ToolBarW toolbar : toolbars) {
 			if (toolbar != null) {
 				toolbar.buildGui();
-				// TODO
-				// toolbarPanel.add(toolbar,
-				// Integer.toString(getViewId(toolbar)));
 				toolBPanel.add(toolbar);
 			}
 		}
 
-		// TODO
-		// toolbarPanel.show(Integer.toString(activeToolbar));
 		onResize();
 		if (app.isExam() && !app.enableGraphing()) {
 			toolBPanel.setVisible(false);
@@ -857,6 +853,12 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
 			return resourceBundle.mode_twovarstats_32();
 
+            case EuclidianConstants.MODE_GRASPABLE_MATH:
+                return resourceBundle.mode_graspablemath_32();
+
+            case EuclidianConstants.MODE_CAS:
+                return resourceBundle.mode_cas_32();
+
 		case EuclidianConstants.MODE_VECTOR:
 			return resourceBundle.mode_vector_32();
 
@@ -1013,75 +1015,13 @@ public class GGWToolBar extends Composite
 	 * @return colored img for selected on tool
 	 */
 	public static ResourcePrototype getColoredImageForMode(
-			ToolbarResources resourceBundle, int mode, AppW app) {
-		switch (mode) {
-		case EuclidianConstants.MODE_PEN:
-			return resourceBundle.mode_pen_teal();
-			
-		case EuclidianConstants.MODE_SELECT_MOW:
-		case EuclidianConstants.MODE_SELECT:
-			return resourceBundle.mode_select_teal();
-		
-		case EuclidianConstants.MODE_ERASER:
-			return resourceBundle.mode_eraser_teal();
-
-		case EuclidianConstants.MODE_HIGHLIGHTER:
-			return resourceBundle.mode_highlighter_teal();
-
-		case EuclidianConstants.MODE_SHAPE_LINE:
-			return resourceBundle.mode_shape_line_teal();
-
-		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
-			return resourceBundle.mode_shape_triangle_teal();
-
-		case EuclidianConstants.MODE_SHAPE_SQUARE:
-			return resourceBundle.mode_shape_square_teal();
-			
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
-			return resourceBundle.mode_shape_rectangle_teal();
-
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
-			return resourceBundle.mode_shape_polygon_teal();
-
-		case EuclidianConstants.MODE_SHAPE_FREEFORM:
-			return resourceBundle.mode_shape_freeform_teal();
-
-		case EuclidianConstants.MODE_SHAPE_CIRCLE:
-			return resourceBundle.mode_shape_circle_teal();
-
-		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
-			return resourceBundle.mode_shape_ellipse_teal();
-
-		case EuclidianConstants.MODE_MEDIA_TEXT:
-			return resourceBundle.mode_media_text_teal();
-
-		case EuclidianConstants.MODE_TEXT:
-			return resourceBundle.mode_text_32_teal();
-
-		case EuclidianConstants.MODE_IMAGE:
-			return resourceBundle.mode_image_mow_teal();
-
-		case EuclidianConstants.MODE_VIDEO:
-			return resourceBundle.mode_video_teal();
-
-		case EuclidianConstants.MODE_CAMERA:
-			return resourceBundle.mode_camera_teal();
-
-		case EuclidianConstants.MODE_AUDIO:
-			return resourceBundle.mode_audio_teal();
-
-		case EuclidianConstants.MODE_PDF:
-			return resourceBundle.mode_pdf_teal();
-
-		case EuclidianConstants.MODE_EXTENSION:
-			return resourceBundle.mode_extension_teal();
-
-		case EuclidianConstants.MODE_GRAPHING:
-			return resourceBundle.mode_graphing_teal();
-
-		default:
-			return AppResources.INSTANCE.empty();
-		}
+            ToolbarResources resourceBundle, int mode, AppW app, String color) {
+        ResourcePrototype prototype = getImageURLNotMacro(resourceBundle, mode, app);
+        if (prototype instanceof SVGResource) {
+            SVGResource resource = (SVGResource) prototype;
+            prototype = resource.withFill(color);
+        }
+        return prototype;
 	}
 
 	/**
@@ -1101,16 +1041,6 @@ public class GGWToolBar extends Composite
 	@Override
 	public int setMode(int mode, ModeSetter ms) {
 		return toolbars.get(0).setMode(mode, ms);
-	}
-
-	/**
-	 * @param toolbar
-	 *            toolbar
-	 * @return The ID of the dock panel associated with the passed toolbar or -1
-	 */
-	private static int getViewId(ToolBarW toolbar) {
-		return (toolbar.getDockPanel() != null
-				? toolbar.getDockPanel().getViewId() : -1);
 	}
 
 	@Override
@@ -1258,8 +1188,11 @@ public class GGWToolBar extends Composite
 	public void setSubmenuDimensions(double width) {
 		if (toolBar.isMobileToolbar() && !toolBar.isVisible()) {
 			int maxButtons = getMaxButtons((int) width);
-			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel
-					.getWidget(0)).getButtonCount();
+            int submenuButtonCount = 0;
+            if (submenuPanel.getWidgetCount() != 0) {
+                submenuButtonCount = ((ToolbarSubmenuP) submenuPanel
+                        .getWidget(0)).getButtonCount();
+            }
 			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
 			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
 		}

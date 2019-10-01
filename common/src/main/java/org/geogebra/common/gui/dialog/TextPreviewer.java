@@ -198,7 +198,7 @@ public abstract class TextPreviewer {
 			String text = "";
 			if (showErrorMessage) {
 				text = ev.getApplication().getLocalization()
-						.getError("InvalidInput");
+                        .getInvalidInputError();
 			} else if (eval != null) {
 				MyStringBuffer eval2 = ((TextValue) eval).getText();
 				text = eval2.toValueString(tpl);

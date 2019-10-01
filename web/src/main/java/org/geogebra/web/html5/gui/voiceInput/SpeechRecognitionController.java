@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.voiceInput;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -15,13 +16,15 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class SpeechRecognitionController {
 	private final AppW appW;
-	private String lang = null;
+    @ExternalAccess
+    private String lang = null;
 	private String speechRecResultTxt = "";
 	private String action;
 	private double xCoord = 0;
 	private double yCoord = 0;
 	private double radius = 0;
-	private String gotResult = "false";
+    @ExternalAccess
+    private String gotResult = "false";
 
 	/**
 	 * @param app
@@ -348,7 +351,8 @@ public class SpeechRecognitionController {
 		}
 	}-*/;
 
-	private void showMessage(String msg) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, appW);
-	}
+    @ExternalAccess
+    private void showMessage(String msg) {
+        ToolTipManagerW.sharedInstance().showBottomMessage(msg, true, appW);
+    }
 }

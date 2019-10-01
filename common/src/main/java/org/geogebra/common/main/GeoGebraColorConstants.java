@@ -158,6 +158,16 @@ public class GeoGebraColorConstants {
 	public static final GColor GEOGEBRA_OBJECT_PINK = GColor.newColor(216, 27,
 			96);
 
+    /**
+     * Accent color for GeoGebra
+     */
+    public static final GColor GEOGEBRA_ACCENT = GColor.newColor(101, 87, 210);
+
+    /**
+     * Accent color for mebis
+     */
+    public static final GColor MEBIS_ACCENT = GColor.newColor(0, 168, 213);
+
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color

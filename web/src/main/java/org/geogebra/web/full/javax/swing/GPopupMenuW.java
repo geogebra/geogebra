@@ -15,7 +15,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -177,7 +176,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @param y
 	 *            coord to show popup
 	 */
-	public void show(Canvas c, int x, int y) {
+    public void showScaled(Element c, int x, int y) {
 		show(new GPoint((int) (c.getAbsoluteLeft() / getScaleX() + x),
 				(int) (c.getAbsoluteTop() / getScaleY() + y)));
 	}
@@ -658,7 +657,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 
 		private GCollapseMenuItem getCollapseMenuAt(int idx) {
-			if (idx < 0 && idx > getItems().size()) {
+            if (idx < 0 || idx >= getItems().size()) {
 				return null;
 			}
 			return expandItems.get(getItemAt(idx));

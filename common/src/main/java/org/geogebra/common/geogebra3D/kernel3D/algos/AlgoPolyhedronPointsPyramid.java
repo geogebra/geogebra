@@ -145,8 +145,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 				polyhedron.endCurrentFace();
 				GeoPolygon3D polygon = polyhedron.createPolygon(i);
 				outputPolygonsSide.addOutput(polygon, false);
-				outputSegmentsSide.addOutput(
-						(GeoSegment3D) polygon.getSegments()[2], false);
+                addToOutputIf3D(outputSegmentsSide, polygon.getSegments()[2]);
 			}
 
 			if (getPolyhedron().allLabelsAreSet()) {
@@ -278,8 +277,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 				step++;
 			} else { // sides
 				outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
-				outputSegmentsSide.addOutput(
-						(GeoSegment3D) polygon.getSegments()[2], false);
+                addToOutputIf3D(outputSegmentsSide, polygon.getSegments()[2]);
 				step++;
 				// Application.debug(outputSegmentsSide.size());
 			}

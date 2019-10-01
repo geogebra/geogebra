@@ -61,7 +61,7 @@ public class PodAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		final HorizontalBox hb = new HorizontalBox(lrpar ? 4 : 2);
 		final double l = env.getStyle() == TeXConstants.STYLE_DISPLAY ? 18. : x;
-		hb.add(new StrutBox(TeXLength.getFactor(TeXLength.Unit.MU, env) * l, 0.,
+        hb.add(new StrutBox(Unit.MU.getFactor(env) * l, 0.,
 				0., 0.));
 		if (lrpar) {
 			hb.add(Symbols.LBRACK.createBox(env));

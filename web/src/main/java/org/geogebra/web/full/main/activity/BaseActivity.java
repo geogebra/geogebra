@@ -5,6 +5,7 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.full.gui.layout.BaseHeaderResizer;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
@@ -19,6 +20,7 @@ import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.main.ApiExporter;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -114,4 +116,19 @@ public class BaseActivity implements GeoGebraActivity {
 		}
 		return headerResizer;
 	}
+
+    @Override
+    public ResourceIconProvider getResourceIconProvider() {
+        return MaterialDesignResources.INSTANCE;
+    }
+
+    @Override
+    public boolean isWhiteboard() {
+        return false;
+    }
+
+    @Override
+    public ApiExporter getApiExporter() {
+        return new ApiExporter();
+    }
 }

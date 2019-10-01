@@ -2099,6 +2099,7 @@ namespace giac {
       return;
     vecteur & v = *f._VECTptr;
     gen v0=v[0];
+    v0=evalf(v0,1,contextptr);
     bool est_hyperplan=v0.is_symb_of_sommet(at_hyperplan);
     string legende;
     vecteur style(get_style(v,legende));
@@ -4134,7 +4135,7 @@ void freeglutStrokeCharacter( int character )
     return 0;
   }
   
-  int giac_renderer(const char * ch){
+int giac_renderer(const char * ch){
     // COUT << "giac_renderer " << ch << endl;
     int i=0,s=strlen(ch),w=400,h=250,fs=1,no=-1;
     if (s==0) return -1;
@@ -4150,6 +4151,7 @@ void freeglutStrokeCharacter( int character )
     }
     if (!openglptr)
       openglptr = new Opengl3d (400,250);
+    //openglptr->contextptr=contextptr;
     if (s){
       no=atoi(ch)-1;
       // COUT << no << " " << v3d.size() << endl;
@@ -4256,6 +4258,7 @@ void freeglutStrokeCharacter( int character )
       int w=0,h=0,fs;
       if (!openglptr)
 	openglptr = new Opengl3d (400,250);
+      openglptr->contextptr=contextptr;
       fs=init_screen(w,h,-1);
       if (fs)
 	return fs;

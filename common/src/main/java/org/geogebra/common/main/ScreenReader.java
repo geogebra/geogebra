@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +33,8 @@ public class ScreenReader {
 		if (0 < app.getSelectionManager().getSelectedGeos().size()) {
 			GeoElement geo0 = app.getSelectionManager().getSelectedGeos().get(0);
 			// do not steal focus from input box
-			if (geo0.isGeoInputBox()) {
+            if (geo0.isGeoInputBox()
+                    || app.getMode() == EuclidianConstants.MODE_PEN) {
 				return;
 			}
 			readText(geo0);
@@ -44,7 +46,7 @@ public class ScreenReader {
 	 *            selected element
 	 */
 	public static void readText(GeoElement geo) {
-		readText(getAuralText(geo), geo.getKernel().getApplication());
+        readText(getAuralText(geo, new ScreenReaderBuilder()), geo.getKernel().getApplication());
 	}
 
 	private static void readText(String text, App app) {
@@ -419,19 +421,21 @@ public class ScreenReader {
 	 *            selected object
 	 * @return aural text + info about next/prev objects
 	 */
-	public static String getAuralText(GeoElement sel) {
-		ScreenReaderBuilder builder = new ScreenReaderBuilder();
+    public static String getAuralText(GeoElement sel, ScreenReaderBuilder builder) {
 		sel.getAuralText(builder);
-		builder.appendSpace();
-		Localization loc = sel.getKernel().getLocalization();
-		if (sel.getKernel().getApplication().getSelectionManager()
-				.hasNext(sel)) {
-			builder.append(loc.getMenuDefault("PressTabToSelectNext",
-					"Press tab to select next object"));
-		} else {
-			// e.g. zoom panel
-			builder.append(loc.getMenuDefault("PressTabToSelectControls",
-					"Press tab to select controls"));
+
+        if (!builder.isMobile()) {
+            builder.appendSpace();
+            Localization loc = sel.getKernel().getLocalization();
+            if (sel.getKernel().getApplication().getSelectionManager()
+                    .hasNext(sel)) {
+                builder.append(loc.getMenuDefault("PressTabToSelectNext",
+                        "Press tab to select next object"));
+            } else {
+                // e.g. zoom panel
+                builder.append(loc.getMenuDefault("PressTabToSelectControls",
+                        "Press tab to select controls"));
+            }
 		}
 		return builder.toString();
 	}

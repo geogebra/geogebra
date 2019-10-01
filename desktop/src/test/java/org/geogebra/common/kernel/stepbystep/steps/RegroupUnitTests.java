@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -15,7 +15,7 @@ public class RegroupUnitTests {
 
     @BeforeClass
     public static void setupApp() {
-        app = CommandsTest.createApp();
+        app = AlgebraTest.createApp();
     }
 
     @Test

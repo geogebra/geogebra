@@ -387,15 +387,13 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
-	 * checks root like 0.29999998880325357 1) Check if there's a whole at 0.3
-	 * -> return NaN 2) Check if 0.3 is a better root -> return 0.3 3) otherwise
-	 * return root
-	 * 
-	 * @param root
-	 *            potential root (of f) to check
-	 * @param f
-	 *            function with root
+	 *
+     * checks root like 0.29999998880325357 1) Check if there's a hole at 0.3 ->
+     * return NaN 2) Check if 0.3 is a better root -> return 0.3 3) otherwise return
+     * root
+	 *
+     * @param root potential root (of f) to check
+     * @param f    function with root
 	 * @return root / better root / NaN
 	 */
 	public static double checkRoot(double root, UnivariateFunction f) {
@@ -424,6 +422,54 @@ public class DoubleUtil {
 	}
 
     /**
+     * checks min value like 0.29999998880325357 Check if 0.3 is a better minimum ->
+     * return 0.3 otherwise return root
+     *
+     * @param root potential max (of f) to check
+     * @param f    function with root
+     * @return root / better min
+     */
+    public static double checkMin(double root, UnivariateFunction f) {
+
+        // change 12.34000000001 to 12.34
+        double betterVal = DoubleUtil.checkDecimalFraction(root, 10000000);
+
+        // check if betterVal is actually better
+        if (f.value(betterVal) <= f.value(root)) {
+            // use new one
+            return betterVal;
+        }
+
+        // original value is better
+        return root;
+
+    }
+
+    /**
+     * checks max value like 0.29999998880325357 Check if 0.3 is a better maximum ->
+     * return 0.3 otherwise return root
+     *
+     * @param root potential max (of f) to check
+     * @param f    function with root
+     * @return root / better min
+     */
+    public static double checkMax(double root, UnivariateFunction f) {
+
+        // change 12.34000000001 to 12.34
+        double betterVal = DoubleUtil.checkDecimalFraction(root, 10000000);
+
+        // check if betterVal is actually better
+        if (f.value(betterVal) >= f.value(root)) {
+            // use new one
+            return betterVal;
+        }
+
+        // original value is better
+        return root;
+
+    }
+
+    /**
      *
      * @param x number
      * @return x rounded to 1/2/5 * 10^digits
@@ -449,4 +495,14 @@ public class DoubleUtil {
         return Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
     }
 
+    /**
+     * Copy of Double.hashCode, used for Android 4.4 compatibility
+     *
+     * @param val value
+     * @return hash
+     */
+    public static int hashCode(double val) {
+        long bits = Double.doubleToLongBits(val);
+        return (int) (bits ^ (bits >>> 32));
+    }
 }

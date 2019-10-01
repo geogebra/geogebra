@@ -12,6 +12,7 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
+import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
@@ -41,6 +42,7 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
+import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.kernel.Kernel;
@@ -53,6 +55,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
+import org.geogebra.web.full.gui.properties.AnimationStepPanelW;
 import org.geogebra.web.full.gui.properties.ComboBoxPanel;
 import org.geogebra.web.full.gui.properties.IOptionPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
@@ -339,6 +342,13 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof AnimationSpeedModel) {
 			return new AnimationSpeedPanelW((AnimationSpeedModel) m, app);
 		}
+        if (m instanceof AnimationStepModel) {
+            return new AnimationStepPanelW((AnimationStepModel) m, app);
+        }
+        if (m instanceof TextFieldAlignmentModel) {
+            return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
+        }
+
 		return null;
 	}
 
@@ -600,10 +610,19 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
+    private static class TextFieldAlignmentPanel extends ListBoxPanel {
+
+        TextFieldAlignmentPanel(TextFieldAlignmentModel model, AppW app) {
+            super(app.getLocalization(), "stylebar.Align");
+            model.setListener(this);
+            setModel(model);
+        }
+    }
+
 	private static class DecoAnglePanel extends DecoOptionPanel
 			implements IDecoAngleListener {
-		
-		DecoAngleModel model;
+
+        DecoAngleModel model;
 
 		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
 			super(app);

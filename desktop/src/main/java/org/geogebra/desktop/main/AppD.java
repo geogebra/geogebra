@@ -72,7 +72,7 @@ import javax.naming.OperationNotSupportedException;
 import javax.swing.*;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -114,6 +114,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.RealGeomWSSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -375,7 +376,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			boolean undoActive,
 			LocalizationD loc) {
 
-		super(Versions.DESKTOP);
+        super(Platform.DESKTOP);
 
 		this.loc = loc;
 		loc.setApp(this);
@@ -417,7 +418,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING,
-				Versions.DESKTOP.getAppName());
+                getConfig().getAppCode());
 
 		if (args != null) {
 			handleHelpVersionArgs(args);
@@ -1621,8 +1622,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// characters
 		} catch (Exception e) {
 			setDefaultCursor();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n"
-					+ file);
+            showError(Errors.LoadFileFailed, file.getName());
 			e.printStackTrace();
 			return false;
 
@@ -2273,9 +2273,24 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// copy drawing pad to the system clipboard
 		Image img = GBufferedImageD.getAwtBufferedImage(
 				((EuclidianViewD) ev).getExportImage(scale));
-		ImageSelection imgSel = new ImageSelection(img);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
-				null);
+        copyImageToClipboard(img);
+    }
+
+    /**
+     * Copy image to system clipboard
+     *
+     * @param dataURI data URI of image to copy
+     */
+    @Override
+    public void copyImageToClipboard(String dataURI) {
+
+        String base64Image = dataURI;
+
+        if (base64Image.startsWith(StringUtil.pngMarker)) {
+            base64Image = base64Image.substring(StringUtil.pngMarker.length(),
+                    base64Image.length());
+        }
+        handleImageExport(base64Image);
 	}
 
 	private static Rectangle screenSize = null;
@@ -2438,8 +2453,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		try {
 			fontManager.setLanguage(loc.getLocale());
 		} catch (Exception e) {
-			e.printStackTrace();
-			localizeAndShowError(e.getMessage());
+            showGenericError(e);
 
 			// go back to previous locale
 			loc.setLocale(oldLocale);
@@ -2691,9 +2705,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// menubar manually to the north
 			if (showMenuBar() && (mainComp instanceof JPanel)) {
 				return getMenuBarPanel(this, applicationPanel);
-			}
+            }
 
-			resetFonts();
+            getSettingsUpdater().getFontSettingsUpdater().resetFonts();
 			// Standard case: return application panel
 			return applicationPanel;
 		}
@@ -3303,8 +3317,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception ex) {
 			status = false;
 			ex.printStackTrace();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n"
-					+ file);
+            showError(Errors.LoadFileFailed, file.getName());
 		}
 
 		return status;
@@ -3379,8 +3392,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			setCurrentFile(null);
 			e.printStackTrace();
-			showError(getLocalization().getError("LoadFileFailed") + ":\n"
-					+ file);
+            showError(Errors.LoadFileFailed, file.getName());
 			return false;
 		} finally {
 			initing = false;
@@ -3421,7 +3433,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			return success;
 		} catch (Exception e) {
-			showError("LoadFileFailed", e.getMessage());
+            showError(Errors.LoadFileFailed, e.getMessage());
 			setCurrentFile(null);
 			return false;
 		}
@@ -3492,7 +3504,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return true;
 		} catch (Exception e) {
 			setDefaultCursor();
-			localizeAndShowError("SaveFileFailed");
+            showError(Errors.SaveFileFailed);
 			e.printStackTrace();
 			return false;
 		}
@@ -3511,7 +3523,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return true;
 		} catch (Exception e) {
 			setDefaultCursor();
-			localizeAndShowError("SaveFileFailed");
+            showError(Errors.SaveFileFailed);
 			e.printStackTrace();
 			return false;
 		}
@@ -3537,7 +3549,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			localizeAndShowError("LoadFileFailed");
+            showError(Errors.LoadFileFailed);
 		}
 	}
 
@@ -4308,8 +4320,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private OpenFromGGTOperation openFromGGTOperation;
 
-	@Override
-	public void callAppletJavaScript(String string, String... args) {
+    @Override
+    public void callAppletJavaScript(String string, String args) {
 		// not needed in desktop
 	}
 
@@ -5307,11 +5319,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-	}
 
-	private static void copyImageToClipboard(BufferedImage img) {
+
+    }
+
+    private static void copyImageToClipboard(Image img) {
 		ImageSelection imgSel = new ImageSelection(img);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
 				null);

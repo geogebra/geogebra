@@ -35,4 +35,6 @@ public interface EuclidianPanelWAbstract {
 
 	void reset();
 
+    boolean isAttached();
+
 }

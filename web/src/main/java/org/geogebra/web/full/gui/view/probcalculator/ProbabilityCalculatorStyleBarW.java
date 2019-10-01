@@ -260,7 +260,7 @@ public class ProbabilityCalculatorStyleBarW extends
 								.updatePrintFormat(decimals, -1);
 	
 		 			} catch (Exception ex) {
-		 				getApp().showError(ex.toString());
+                        getApp().showGenericError(ex);
 		 			}
 		 		}
 	

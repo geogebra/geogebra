@@ -3,6 +3,7 @@ package org.geogebra.web.html5.video;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.PersistableFrame;
 import org.geogebra.web.resources.JavaScriptInjector;
@@ -32,15 +33,19 @@ public class YouTubePlayer extends VideoPlayer {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	public YouTubePlayer(GeoVideo video, int id) {
-		super(video, id);
-		initYouTubeApi();
-		if (youTubeAPI) {
-			createPlayerDeferred();
-		} else {
-			waiting.add(this);
-		}
-	}
+    YouTubePlayer(GeoVideo video, int id) {
+        super(video, id);
+    }
+
+    @Override
+    protected void initPlayerAPI() {
+        initYouTubeApi();
+        if (youTubeAPI) {
+            createPlayerDeferred();
+        } else {
+            waiting.add(this);
+        }
+    }
 
 	@Override
 	protected void createGUI() {
@@ -80,7 +85,7 @@ public class YouTubePlayer extends VideoPlayer {
 	/**
 	 * Initializes YouTube API.
 	 */
-	public static void initYouTubeApi() {
+    private static void initYouTubeApi() {
 		if (youTubeAPI) {
 			return;
 		}
@@ -88,13 +93,14 @@ public class YouTubePlayer extends VideoPlayer {
 		loadYouTubeApi();
 	}
 
-	private static void onAPIReady() {
-		youTubeAPI = true;
-		for (YouTubePlayer player : waiting) {
-			player.createPlayerDeferred();
-		}
-		waiting.clear();
-	}
+    @ExternalAccess
+    private static void onAPIReady() {
+        youTubeAPI = true;
+        for (YouTubePlayer player : waiting) {
+            player.createPlayerDeferred();
+        }
+        waiting.clear();
+    }
 
 	/**
 	 *
@@ -116,10 +122,6 @@ public class YouTubePlayer extends VideoPlayer {
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}-*/;
 
-	private static void onPlayerStateChange() {
-		// implement later;
-	}
-
 	/**
 	 * @param youtubeId
 	 *            Youtube ID
@@ -129,7 +131,7 @@ public class YouTubePlayer extends VideoPlayer {
 			String youtubeId) /*-{
 		var that = this;
 		var ytPlayer = new $wnd.YT.Player(
-				that.@org.geogebra.web.html5.video.VideoPlayer::playerId,
+				that.@org.geogebra.web.html5.video.AbstractVideoPlayer::playerId,
 				{
 					videoId : youtubeId,
 					events : {

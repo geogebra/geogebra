@@ -13,11 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Transform;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsRay;
@@ -427,5 +427,21 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 
 		return algo.getRay();
 	}
+
+    @Override
+    public void matrixTransform(double p, double q, double r, double s) {
+
+        super.matrixTransform(p, q, r, s);
+
+        startPoint.matrixTransform(p, q, r, s);
+    }
+
+    @Override
+    public void matrixTransform(double a00, double a01, double a02, double a10, double a11,
+                                double a12, double a20, double a21, double a22) {
+        super.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+
+        startPoint.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+    }
 
 }

@@ -1609,6 +1609,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					if (fn != null) {
 						FunctionVariable var = geo.getFunction().getFunctionVariable();
 						String oldVarStr = var.toString(tpl);
+
+                        // without eg "ggbtmpvar" added
+                        String oldVarStrRaw = var.getSetVarString();
+
 						var.setVarString(rightStr);
 						if (stringType.equals(StringType.LIBRE_OFFICE)) {
 							sb.append("func ");
@@ -1618,7 +1622,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 						// in the same variable; #3481
 						String rhString = oldVarStr.equals(rightStr) ? leftStr : geo.getLabel(tpl);
 						sb.append(rhString);
-						var.setVarString(oldVarStr);
+                        var.setVarString(oldVarStrRaw);
 					}
 				}
 			} else if (valueForm && left.isExpressionNode()) {

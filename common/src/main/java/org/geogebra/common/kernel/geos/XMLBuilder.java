@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -196,7 +197,7 @@ public class XMLBuilder {
 		}
 
 		if (!geo.isAlgebraLabelVisible()) {
-			sb.append("\t<algebra labelVisible=\"false\"/>");
+            sb.append("\t<algebra labelVisible=\"false\"/>\n");
 		}
 	}
 
@@ -364,4 +365,39 @@ public class XMLBuilder {
 			sb.append("\"/>\n");
 		}
 	}
+
+    /**
+     * Appends properties related to the symbolic mode.
+     *
+     * @param builder      string builder
+     * @param symbolicMode element with symbolic mode
+     * @param defaultMode  the default symbolic mode
+     */
+    public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode,
+                                          boolean defaultMode) {
+        boolean isSymbolicMode = symbolicMode.isSymbolicMode();
+        if (isSymbolicMode && !defaultMode) {
+            builder.append("\t<symbolic val=\"true\" />\n");
+        } else if (!isSymbolicMode && defaultMode) {
+            builder.append("\t<symbolic val=\"false\" />\n");
+        }
+    }
+
+    /**
+     * @param sb                  string builder
+     * @param angleStyle          angle style
+     * @param emphasizeRightAngle whether to show special symbol for right angle
+     */
+    public static void appendAngleStyle(StringBuilder sb,
+                                        AngleStyle angleStyle, boolean emphasizeRightAngle) {
+        sb.append("\t<angleStyle val=\"");
+        sb.append(angleStyle.getXmlVal());
+        sb.append("\"/>\n");
+        if (!emphasizeRightAngle) {
+            // only store emphasizeRightAngle if "false"
+            sb.append("\t<emphasizeRightAngle val=\"");
+            sb.append(emphasizeRightAngle);
+            sb.append("\"/>\n");
+        }
+    }
 }

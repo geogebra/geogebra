@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -109,10 +110,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            parent
 	 */
 	protected static void tackleLastDummy(Element parentElement) {
-		lastDummy = DOM.createSpan().cast();
-		lastDummy.addClassName("geogebraweb-dummy-invisible");
-		lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
-		parentElement.appendChild(lastDummy);
+        if (!Browser.needsAccessibilityView()) {
+            lastDummy = DOM.createSpan().cast();
+            lastDummy.addClassName("geogebraweb-dummy-invisible");
+            lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
+            parentElement.appendChild(lastDummy);
+        }
 	}
 
 	/**
@@ -193,7 +196,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splashWidth = width;
 			splashHeight = height;
 		}
-
+        if ("evaluator".equals(this.articleElement.getDataParamAppName())) {
+            if (width > 0) {
+                setWidth(width + "px");
+                setComputedWidth(width);
+            }
+            if (height > 0) {
+                setHeight(height + "px");
+                setComputedHeight(height);
+            }
+            useDataParamBorder();
+        }
 		if (width > 0 && height > 0) {
 			setWidth(width + "px"); // 2: border
 			setComputedWidth(width);
@@ -294,9 +307,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
 	}
 
-	protected int getSmallScreenHeaderHeight() {
-		return SMALL_SCREEN_HEADER_HEIGHT;
-	}
+    /**
+     * @return height of header for small screens
+     */
+    protected int getSmallScreenHeaderHeight() {
+        return SMALL_SCREEN_HEADER_HEIGHT;
+    }
 
 	private void setHeightWithTallHeader() {
 		int headerHeight = articleElement.getDataParamMarginTop();
@@ -307,18 +323,21 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Resize to fill browser
 	 */
-	public void fitSizeToScreen() {
-		if (articleElement.getDataParamFitToScreen()) {
-			updateHeaderSize();
-			app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
-			app.getAccessibilityManager().focusFirstElement();
-		}
-		app.checkScaleContainer();
-	}
+    public void fitSizeToScreen() {
+        if (articleElement.getDataParamFitToScreen()) {
+            updateHeaderSize();
+            app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
+            app.getAccessibilityManager().focusFirstElement();
+        }
+        app.checkScaleContainer();
+    }
 
-	public void updateHeaderSize() {
-		// overriden later
-	}
+    /**
+     * Update size of external header if applicable.
+     */
+    public void updateHeaderSize() {
+        // overriden later
+    }
 
 	private void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
@@ -521,7 +540,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		// public void onSuccess() {
 		ResourcesInjector
-				.injectResources();
+                .injectResources(articleElement);
 		ResourcesInjector.loadFont(articleElement.getDataParamFontsCssUrl());
 		// More testing is needed how can we use
 		// createApplicationSimple effectively
@@ -557,8 +576,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	/**
 	 * @return the application
-	 */
-	public AppW getApplication() {
+     */
+    public AppW getApp() {
 		return app;
 	}
 
@@ -761,5 +780,4 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splash.canNowHide();
 		}
 	}
-
 }

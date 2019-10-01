@@ -71,7 +71,7 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
 			return;
 		}
 
-		checkOrientation(vn, orientation, getAngle());
+        checkOrientation(vn, orientation, getAngle(), false);
 	}
 
 	@Override

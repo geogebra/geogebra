@@ -19,6 +19,7 @@ import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -53,6 +54,7 @@ public class ItemControls extends FlowPanel
 		this.radioTreeItem = radioTreeItem;
 		this.ctrl = radioTreeItem.getLatexController();
 		addStyleName("AlgebraViewObjectStylebar");
+        TestHarness.setAttr(this, "algebraViewObjectStylebar");
 		addStyleName("smallStylebar");
 		addStyleName("withContextMenu");
 		buildGUI();
@@ -120,6 +122,7 @@ public class ItemControls extends FlowPanel
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");
+            TestHarness.setAttr(btnMore, "avItemMoreButton");
 			ClickStartHandler.init(btnMore, new ClickStartHandler(true, true) {
 
 				@Override
@@ -161,24 +164,27 @@ public class ItemControls extends FlowPanel
 		ctrl.createGeoFromInput(createOpenMenuCallback());
 	}
 
-	AsyncOperation<GeoElementND[]> createOpenMenuCallback() {
-		return new AsyncOperation<GeoElementND[]>() {
+    /**
+     * @return callback for context menu after geo is created from preview
+     */
+    AsyncOperation<GeoElementND[]> createOpenMenuCallback() {
+        return new AsyncOperation<GeoElementND[]>() {
 
-			@Override
-			public void callback(GeoElementND[] obj) {
-				GeoElement geo = null;
-				if (obj != null && obj.length == 1)  {
-					geo = (GeoElement) obj[0];
-				}
+            @Override
+            public void callback(GeoElementND[] obj) {
+                GeoElement geo = null;
+                if (obj != null && obj.length == 1)  {
+                    geo = (GeoElement) obj[0];
+                }
 
-				if (geo == null) {
-					showDeleteItem();
-				} else {
-					openMenuFor(geo);
-				}
-			}
-		};
-	}
+                if (geo == null) {
+                    showDeleteItem();
+                } else {
+                    openMenuFor(geo);
+                }
+            }
+        };
+    }
 
 	/**
 	 * Adds the delete menu that clears input and show it.

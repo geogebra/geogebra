@@ -189,10 +189,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_pen();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_teal.svg")
-	@Override
-	SVGResource mode_pen_teal();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_point.svg")
 	@Override
 	SVGResource mode_point_32();
@@ -257,10 +253,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_select_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_select_teal.svg")
-	@Override
-	SVGResource mode_select_teal();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_semicircle.svg")
 	@Override
 	SVGResource mode_semicircle_32();
@@ -281,17 +273,9 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_text_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_text_teal.svg")
-	@Override
-	SVGResource mode_text_32_teal();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text.svg")
 	@Override
 	SVGResource mode_media_text();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text_teal.svg")
-	@Override
-	SVGResource mode_media_text_teal();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_textfieldaction.svg")
 	@Override
@@ -417,6 +401,14 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_twovarstats_32();
 
+    @Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_graspablemath.svg")
+    @Override
+    SVGResource mode_graspablemath_32();
+
+    @Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_cas.svg")
+    @Override
+    SVGResource mode_cas_32();
+
 	// 3D
 
 	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_circleaxispoint.svg")
@@ -518,32 +510,16 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_line_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_line_teal.svg")
-	SVGResource mode_shape_line_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_triangle_black.svg")
 	SVGResource mode_shape_triangle_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_triangle_teal.svg")
-	SVGResource mode_shape_triangle_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_square_black.svg")
 	SVGResource mode_shape_square_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_square_teal.svg")
-	SVGResource mode_shape_square_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rectangle_black.svg")
 	SVGResource mode_shape_rectangle_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rectangle_teal.svg")
-	SVGResource mode_shape_rectangle_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rounded_rectangle_black.svg")
@@ -554,40 +530,20 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_polygon_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_polygon_teal.svg")
-	SVGResource mode_shape_polygon_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_black.svg")
 	SVGResource mode_shape_freeform_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_teal.svg")
-	SVGResource mode_shape_freeform_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_circle_black.svg")
 	SVGResource mode_shape_circle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_circle_teal.svg")
-	SVGResource mode_shape_circle_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_ellipse_black.svg")
 	SVGResource mode_shape_ellipse_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_ellipse_teal.svg")
-	SVGResource mode_shape_ellipse_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_black.svg")
 	SVGResource mode_eraser_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_teal.svg")
-	SVGResource mode_eraser_teal();
 
 	/**
 	 * @return image collection for mow as we open the file chooser
@@ -595,10 +551,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image_mow.svg")
 	SVGResource mode_image_mow_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image_mow_teal.svg")
-	SVGResource mode_image_mow_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
@@ -613,55 +565,26 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_graphing_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_graphing_teal.svg")
-	SVGResource mode_graphing_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_black.svg")
 	SVGResource mode_video_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_teal.svg")
-	SVGResource mode_video_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera_black.svg")
 	SVGResource mode_camera_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera_teal.svg")
-	SVGResource mode_camera_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_black.svg")
 	SVGResource mode_audio_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_teal.svg")
-	SVGResource mode_audio_teal();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")
 	SVGResource mode_highlighter_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter_teal.svg")
-	SVGResource mode_highlighter_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf.svg")
 	SVGResource mode_pdf_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf_teal.svg")
-	SVGResource mode_pdf_teal();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
 	SVGResource mode_extension();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension_teal.svg")
-	SVGResource mode_extension_teal();
-
 }

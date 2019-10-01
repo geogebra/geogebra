@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -94,16 +95,14 @@ public class MaterialCardController {
 							}
 							app.setActiveMaterial(getMaterial());
 						} else {
-							app.showError(app.getLocalization()
-									.getError("LoadFileFailed"));
+                            app.showError(Errors.LoadFileFailed);
 						}
 						app.getGuiManager().getBrowseView().close();
 					}
 
 					@Override
 					public void onError(Throwable error) {
-						app.showError(app.getLocalization()
-								.getError("LoadFileFailed"));
+                        app.showError(Errors.LoadFileFailed);
 					}
 				});
 	}
@@ -140,8 +139,7 @@ public class MaterialCardController {
 									.delete(toDelete, false,
 											MaterialCardController.this.deleteCallback);
 							card.setVisible(true);
-							app.showError(app.getLocalization()
-									.getMenu("DeleteFailed"));
+                            app.showError(Errors.DeleteFailed);
 						}
 					});
 		} else {
@@ -191,8 +189,7 @@ public class MaterialCardController {
 										List<Material> parseResponse,
 										ArrayList<Chapter> meta) {
 									if (parseResponse.size() != 1) {
-										app.localizeAndShowError(
-												"RenameFailed");
+                                        app.showError(Errors.RenameFailed);
 										card.setMaterialTitle(oldTitle);
 									} else {
 										Log.debug("RENAME local");

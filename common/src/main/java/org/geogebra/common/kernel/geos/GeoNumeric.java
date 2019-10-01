@@ -699,7 +699,7 @@ public class GeoNumeric extends GeoElement
 				}
 			}
 			if (!sendValueToCas) {
-				return "(ggbtmpvar" + label + ")";
+                return "(" + Kernel.TMP_VARIABLE_PREFIX + label + ")";
 			}
 			// make sure random() works inside Sequence, see #3558 TRAC-1465
 			if (this.isRandomGeo() && !this.isLabelSet()
@@ -776,9 +776,7 @@ public class GeoNumeric extends GeoElement
 			sb.append(" random=\"true\"");
 		}
 		sb.append("/>\n");
-		if (symbolicMode) {
-			sb.append("\t<symbolic val=\"true\" />\n");
-		}
+        XMLBuilder.appendSymbolicMode(sb, this, false);
 		// colors
 		getXMLvisualTags(sb);
 
@@ -1016,6 +1014,10 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final double getIntervalMax() {
+        if (intervalMax == null) {
+            Log.error("intervalMax is null");
+            return Double.NaN;
+        }
 		return intervalMax.getDouble();
 	}
 
@@ -1026,6 +1028,10 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final double getIntervalMin() {
+        if (intervalMin == null) {
+            Log.error("intervalMin is null");
+            return Double.NaN;
+        }
 		return intervalMin.getDouble();
 	}
 

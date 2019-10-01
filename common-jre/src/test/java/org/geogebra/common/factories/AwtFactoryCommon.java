@@ -40,7 +40,7 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
 
     @Override
     public GDimension newDimension(int width, int height) {
-		return new GDimensionCommon();
+        return new GDimensionCommon(width, height);
     }
 
     @Override

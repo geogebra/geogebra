@@ -84,7 +84,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	private boolean isPreviewNeeded() {
-		return app.getVideoManager().isPreviewOnly();
+        return app.getVideoManager() != null && app.getVideoManager().isPreviewOnly();
 	}
 
 	@Override
@@ -137,11 +137,14 @@ public class DrawVideo extends Drawable implements DrawWidget {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = new BoundingBox(false, false);
-			setMetrics();
-		}
-		return video.isBackground() ? boundingBox : null;
+        if (video.isBackground()) {
+            if (boundingBox == null) {
+                boundingBox = createBoundingBox(false, false);
+                setMetrics();
+            }
+            boundingBox.updateFrom(geo);
+        }
+        return null;
 	}
 
 	private void updateOriginalRatio() {

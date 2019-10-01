@@ -59,11 +59,11 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class TeXEnvironment {
 
 	// colors
-	private Color background = null;
-	private Color color = null;
+    private Color background;
+    private Color color;
 
 	// current style
-	private int style = TeXConstants.STYLE_DISPLAY;
+    private int style;
 
 	// TeXFont used
 	private TeXFont tf;
@@ -72,36 +72,35 @@ public class TeXEnvironment {
 	private Font javaFont;
 
 	// last used font
-	private FontInfo lastFont = null;
+    private FontInfo lastFont;
 
-	private int textStyle = TextStyle.NONE;
+    private int textStyle;
+
 	private boolean smallCap;
 	private double scaleFactor = 1.;
 	public boolean isColored = false;
 
-	public TeXEnvironment(int style, TeXFont tf, int textStyle) {
-		this(style, tf, null, null, textStyle);
-	}
+    private TeXLengthSettings lengthSettings;
 
-	private TeXEnvironment(int style, TeXFont tf, Color bg, Color c,
-			int textStyle) {
+	public TeXEnvironment(int style, TeXFont tf, int textStyle) {
 		this.style = style;
 		this.tf = tf;
-		background = bg;
-		color = c;
 		this.textStyle = textStyle;
+        this.lengthSettings = new TeXLengthSettings();
 	}
 
 	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
-			Color c, int textStyle, boolean smallCap, Font javaFont) {
+                           Color c, int textStyle, boolean smallCap, Font javaFont,
+                           TeXLengthSettings lengthSettings) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
 		this.tf = tf;
+        this.background = bg;
+        this.color = c;
 		this.textStyle = textStyle;
 		this.smallCap = smallCap;
 		this.javaFont = javaFont;
-		this.background = bg;
-		this.color = c;
+        this.lengthSettings = lengthSettings;
 	}
 
 	public void setScaleFactor(double f) {
@@ -114,13 +113,12 @@ public class TeXEnvironment {
 
 	protected TeXEnvironment copy() {
 		return new TeXEnvironment(style, scaleFactor, tf, background, color,
-				textStyle, smallCap, javaFont);
+                textStyle, smallCap, javaFont, lengthSettings);
 	}
 
 	protected TeXEnvironment copy(TeXFont tf) {
-		TeXEnvironment te = new TeXEnvironment(style, scaleFactor, tf,
-				background, color, textStyle, smallCap, javaFont);
-		return te;
+        return new TeXEnvironment(style, scaleFactor, tf,
+                background, color, textStyle, smallCap, javaFont, lengthSettings);
 	}
 
 	/**
@@ -299,4 +297,8 @@ public class TeXEnvironment {
 		// font"
 		return lastFont == null ? TeXFont.MUFONT : lastFont;
 	}
+
+    public TeXLengthSettings lengthSettings() {
+        return lengthSettings;
+    }
 }

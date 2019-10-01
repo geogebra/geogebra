@@ -49,7 +49,7 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D {
 
 	@Override
 	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1) {
-		return new AlgoAnglePoints3DOrientation(cons1, orientation);
+        return new AlgoAnglePoints3DOrientation(cons1, orientation, false);
 	}
 
 	@Override

@@ -45,49 +45,10 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class TeXLength {
 
-	public static enum Unit {
-		EM, // 1 em = the width of the capital 'M' in the current font
-		EX, // 1 ex = the height of the character 'x' in the current font
-		PIXEL, //
-		POINT, // postscript point
-		PICA, // 1 pica = 12 point
-		MU, // 1 mu = 1/18 em (em taken from the "mufont")
-		CM, // 1 cm = 28.346456693 point
-		MM, // 1 mm = 2.8346456693 point
-		IN, // 1 in = 72 point
-		SP, // 1 sp = 65536 point
-		PT, // 1 pt = 1/72.27 in(or Standard Anglo-American point)
-		DD, //
-		CC, //
-		X8, // 1 x8 = 1 default rule thickness
-		NONE
-	}
-
-	private static final Map<String, TeXLength> map = new HashMap<String, TeXLength>() {
-		{
-			put("fboxsep", new TeXLength(Unit.PT, 3.));
-			put("fboxrule", new TeXLength(Unit.PT, 0.4));
-			put("scriptspace", new TeXLength(Unit.PT, 0.5));
-			put("nulldelimiterspace", new TeXLength(Unit.PT, 1.2));
-			put("delimitershortfall", new TeXLength(Unit.PT, 5.));
-			put("delimiterfactor", new TeXLength(Unit.NONE, 901.));
-			put("dashlength", new TeXLength(Unit.PT, 6.));
-			put("dashdash", new TeXLength(Unit.PT, 3.));
-			put("shadowsize", new TeXLength(Unit.PT, 4.));
-			put("cornersize", new TeXLength(Unit.NONE, 0.5));
-			put("baselineskip", new TeXLength(Unit.EX, 1.));
-			put("textwidth",
-					new TeXLength(Unit.NONE, Double.POSITIVE_INFINITY));
-		}
-	};
-
 	private static final TeXLength zero = new TeXLength();
-	private static final TeXLength none = new TeXLength(Unit.NONE, 0.);
+
 	private final Unit unit;
 	private final double l;
 
@@ -110,138 +71,20 @@ public class TeXLength {
 	}
 
 	public double getValue(TeXEnvironment env) {
-		return l * TeXLength.getFactor(unit, env);
+        return l * unit.getFactor(env);
 	}
 
 	public TeXLength scale(final double factor) {
 		return new TeXLength(unit, l * factor);
 	}
 
-	public boolean isNone() {
-		return unit == Unit.NONE;
-	}
-
 	public static TeXLength getZero() {
 		return zero;
 	}
 
-	public static TeXLength getNone() {
-		return none;
-	}
-
-	public static double getFactor(Unit unit, TeXEnvironment env) {
-		switch (unit) {
-		case EM:
-			return env.getTeXFont().getEM(env.getStyle());
-		case EX:
-			return env.getTeXFont().getXHeight(env.getStyle(),
-					env.getLastFont());
-		case PIXEL:
-			return 1. / env.getSize();
-		case POINT:
-			return TeXFormula.PIXELS_PER_POINT / env.getSize();
-		case PICA:
-			return (12. * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case MU:
-			final TeXFont tf = env.getTeXFont();
-			return tf.getQuad(env.getStyle(), TeXFont.MUFONT) / 18.;
-		case CM:
-			return (28.346456693 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case MM:
-			return (2.8346456693 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case IN:
-			return (72. * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case SP:
-			return (65536. * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case PT:
-			return (0.9962640099 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case DD:
-			return (1.0660349422 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
-		case CC:
-			return (12.7924193070 * TeXFormula.PIXELS_PER_POINT)
-					/ env.getSize();
-		case X8:
-			return env.getTeXFont().getDefaultRuleThickness(env.getStyle());
-		case NONE:
-			return 1.;
-		default:
-			return 0.;
-		}
-	}
-
-	public static double getLength(final String name,
-			final TeXEnvironment env) {
-		final TeXLength l = map.get(name);
-		if (l != null) {
-			return l.getL() * getFactor(l.getUnit(), env);
-		}
-		return 0.;
-	}
-
-	public static TeXLength getLength(final String name, final double factor) {
-		final TeXLength l = map.get(name);
-		if (l != null) {
-			return l.scale(factor);
-		}
-		return null;
-	}
-
-	public static void setLength(final String name, final TeXLength l) {
-		if (l != null) {
-			map.put(name, l);
-		}
-	}
-
-	public static boolean isLengthName(final String name) {
-		return map.containsKey(name);
-	}
-
-	public static Atom getLength(final String name) {
-		return map.get(name).toAtom();
-	}
-
-	public static double getTextwidth(TeXEnvironment env) {
-		return TeXLength.getLength("textwidth", env);
-	}
-
-	public String unitToString() {
-		switch (unit) {
-		case EM:
-			return "em";
-		case EX:
-			return "ex";
-		case PIXEL:
-			return "pixel";
-		case POINT:
-			return "bp";
-		case PICA:
-			return "pica";
-		case MU:
-			return "mu";
-		case CM:
-			return "cm";
-		case MM:
-			return "mm";
-		case IN:
-			return "in";
-		case SP:
-			return "sp";
-		case PT:
-			return "pt";
-		case DD:
-			return "dd";
-		case CC:
-			return "cc";
-		case X8:
-			return "x8";
-		default:
-			return "";
-		}
-	}
-
 	@Override
 	public String toString() {
-		return Double.toString(getL()) + unitToString();
+        return Double.toString(getL()) + unit.toString();
 	}
 
 	private static int getIntPart(double x) {
@@ -272,15 +115,10 @@ public class TeXLength {
 			ra.add(Symbols.NORMALDOT);
 			TeXParser.getAtomForNumber(frac, ra, true);
 		}
-		final String u = unitToString();
+        final String u = unit.toString();
 		if (!u.isEmpty()) {
 			ra.add(new RomanAtom(TeXParser.getAtomForLatinStr(u, false)));
 		}
 		return ra;
 	}
-
-	public static void put(String s, TeXLength len) {
-		map.put(s, len);
-	}
-
 }

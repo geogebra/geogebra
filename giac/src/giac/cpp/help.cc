@@ -940,7 +940,7 @@ namespace giac {
 #else
 // __APPLE_CC__ == 5666 on Mac OS X 10.6, 5658 on geogebra build system OS X 10.8
 // should check __APPLE__ OS X version instead!
-#if ( defined(__MAC_OS_X_VERSION_MAX_ALLOWED)&&  __MAC_OS_X_VERSION_MAX_ALLOWED<  1080 ) || ( defined(__IPHONE_OS_VERSION_MAX_ALLOWED)&&  __IPHONE_OS_VERSION_MAX_ALLOWED<  60100 ) || defined(__OpenBSD__) || ( defined(__FreeBSD_version)&&  __FreeBSD_version<800501)
+#if ( defined(__MAC_OS_X_VERSION_MAX_ALLOWED)&&  __MAC_OS_X_VERSION_MAX_ALLOWED<  1080 ) || ( defined(__IPHONE_OS_VERSION_MAX_ALLOWED)&&  __IPHONE_OS_VERSION_MAX_ALLOWED<  60100 ) || ( defined(__OpenBSD__)&& OpenBSD<201905) || ( defined(__FreeBSD_version)&&  __FreeBSD_version<800501)
   static int dir_select (struct dirent *d){
 #else
   static int dir_select (const struct dirent *d){

@@ -154,6 +154,11 @@ public class MathFunction extends MathContainer {
 		return "Fn" + meta.getName();
 	}
 
+    @Override
+    public boolean hasTag(Tag tag) {
+        return meta.getName() == tag;
+    }
+
 	/**
 	 * @param argument
 	 *            part of expression
@@ -163,8 +168,7 @@ public class MathFunction extends MathContainer {
 		if (!(argument instanceof MathFunction)) {
 			return false;
 		}
-		Tag functionName = ((MathFunction) argument).getName();
-		return Tag.SUPERSCRIPT.equals(functionName)
-				|| Tag.SUBSCRIPT.equals(functionName);
+        return argument.hasTag(Tag.SUPERSCRIPT)
+                || argument.hasTag(Tag.SUBSCRIPT);
 	}
 }

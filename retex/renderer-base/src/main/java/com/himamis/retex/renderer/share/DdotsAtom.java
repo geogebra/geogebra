@@ -68,7 +68,7 @@ public class DdotsAtom extends Atom {
 				TeXConstants.Align.CENTER);
 		final HorizontalBox hb3 = new HorizontalBox(dot, w,
 				TeXConstants.Align.RIGHT);
-		final Box pt4 = new SpaceAtom(TeXLength.Unit.MU, 0, 4, 0)
+        final Box pt4 = new SpaceAtom(Unit.MU, 0, 4, 0)
 				.createBox(env);
 		final VerticalBox vb = new VerticalBox();
 		vb.add(hb1);

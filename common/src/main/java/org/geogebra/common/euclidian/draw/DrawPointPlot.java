@@ -92,12 +92,11 @@ public class DrawPointPlot extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-
 		if (isVisible) {
 
 			for (int i = 0; i < drawPoints.size()
 					&& i < pointList.size(); i++) {
-				pointList.get(i).setHighlighted(geo.doHighlighting());
+                pointList.get(i).setHighlighted(isHighlighted());
 				drawPoints.get(i).draw(g2);
 			}
 

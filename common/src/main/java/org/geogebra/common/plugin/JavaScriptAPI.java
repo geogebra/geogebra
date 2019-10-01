@@ -943,8 +943,6 @@ public interface JavaScriptAPI {
 
 	public int getCASObjectNumber();
 
-	public double getExerciseFraction();
-
 	public String getVersion();
 
 	public void enableCAS(boolean enable);
@@ -979,11 +977,20 @@ public interface JavaScriptAPI {
 
 	public void newConstruction();
 
-	public boolean isExercise();
-
+    /**
+     * Cast undo
+     *
+     * @param repaint true to repaint the views afterwards
+     */
 	public void undo(boolean repaint);
 
-	public void redo(boolean repaint);
+	/**
+     * Cast redo
+     *
+     * @param repaint
+     *            true to repaint the views afterwards
+     */
+    public void redo(boolean repaint);
 
 	public String getViewProperties(int viewID);
 
@@ -1045,4 +1052,31 @@ public interface JavaScriptAPI {
 	 * @return axis units
 	 */
 	String[] getAxisUnits(int view);
+
+	/**
+     * Enables the fps measurement.
+     */
+    void enableFpsMeasurement();
+
+    /**
+     * Disables the fps measurement.
+     */
+    void disableFpsMeasurement();
+
+    /**
+     * Autonomously draws from the coords.json file.
+     */
+    void testDraw();
+
+    /**
+     * Records the drawing.
+     */
+    void startDrawRecording();
+
+    /**
+     * Ends the recording of the drawing and logs the results.
+     * <p>
+     * For autonomous drawing, the logged result has to be copied into the coords.json file.
+     */
+    void endDrawRecordingAndLogResults();
 }

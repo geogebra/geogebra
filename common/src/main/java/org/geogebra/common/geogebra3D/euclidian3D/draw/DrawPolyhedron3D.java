@@ -481,7 +481,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 				}
 			} else {
 				// edges
-				exportToPrinter3D.export(getGeometryIndex(), Type.CURVE,
+                exportToPrinter3D.exportCurve(getGeometryIndex(), Type.CURVE,
 						"SEGMENT", getGeoElement());
 			}
 		}

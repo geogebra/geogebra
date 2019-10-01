@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -127,7 +128,7 @@ public class AnimationExporter {
 					step,
 					scale, rotate, frameFormat);
 		} catch (Exception ex) {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.getMessage());
 			ex.printStackTrace();
 		} finally {
@@ -149,7 +150,7 @@ public class AnimationExporter {
 			return new WebMEncoderW(timeBetweenFrames, isLoop, filename);
 
 		case PDF_HTML5:
-			return new PDFEncoderW(ev, filename);
+            return new PDFEncoderW(ev);
 		}
 
 	}

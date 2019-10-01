@@ -7,6 +7,8 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 public interface BrowseViewI {
 
 	void setMaterialsDefaultStyle();
@@ -35,5 +37,10 @@ public interface BrowseViewI {
 	void removeMaterial(Material material);
 
 	void closeAndSave(AsyncOperation<Boolean> callback);
+
+    /**
+     * @param fileToHandle JS file object
+     */
+    void openFile(JavaScriptObject fileToHandle);
 
 }

@@ -14,9 +14,17 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.web.html5.awt.GFontW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class GGraphics2DE implements GGraphics2DWI {
+
+    private com.google.gwt.user.client.Element element;
+
+    public GGraphics2DE() {
+        element = DOM.createElement("canvas");
+    }
 
 	@Override
 	public void draw(GShape s) {
@@ -335,5 +343,15 @@ public class GGraphics2DE implements GGraphics2DWI {
 	public void fillWith(GColor backgroundCommon) {
 		// not needed
 	}
+
+    @Override
+    public Element getElement() {
+        return element;
+    }
+
+    @Override
+    public boolean isAttached() {
+        return false;
+    }
 
 }

@@ -17,12 +17,12 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -34,8 +34,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -72,8 +70,7 @@ public class OpenFileView extends MyHeaderPanel
 	private MaterialCallbackI sharedMaterialsCB;
 	// info panel
 	private FlowPanel infoPanel;
-	private Label caption;
-	private Label info;
+    private MessagePanel messagePanel;
 	private LoadSpinner spinner;
 
 	private boolean[] materialListEmpty = { true, true };
@@ -160,7 +157,7 @@ public class OpenFileView extends MyHeaderPanel
 		buttonPanel = new FlowPanel();
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.file_plus(),
-				localize("mow.newFile"), 18, app);
+                localize("New.Mebis"), 18, app);
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -253,39 +250,37 @@ public class OpenFileView extends MyHeaderPanel
 		close();
 	}
 
-	/**
-	 * @param fileToHandle
-	 *            JS file object
-	 * @param callback
-	 *            callback after file is open
-	 */
-	public void openFile(final JavaScriptObject fileToHandle,
-			final JavaScriptObject callback) {
+    @Override
+    public void openFile(final JavaScriptObject fileToHandle) {
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
-		app.openFile(fileToHandle, callback);
+        app.openFile(fileToHandle);
 		close();
 	}
 
 	private void showEmptyListNotification() {
-		contentPanel.clear();
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("emptyMaterialListInfo");
-		Image image = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_lightbulb(), 112, 112);
-		// init texts
-		caption = new Label(localize("emptyMaterialList.caption.mow"));
-		caption.setStyleName("caption");
-		info = new Label(localize("emptyMaterialList.info.mow"));
-		info.setStyleName("info");
-		// build panel
-		infoPanel.add(image);
-		infoPanel.add(caption);
-		infoPanel.add(info);
-		// add panel to content panel
+
+        messagePanel = createMessagePanel();
+        infoPanel.add(messagePanel);
+
+        contentPanel.clear();
 		contentPanel.add(infoPanel);
 	}
+
+    private MessagePanel createMessagePanel() {
+        MessagePanel messagePanel = new MessagePanel();
+        messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
+        setMessagePanelLabels(messagePanel);
+        return messagePanel;
+    }
+
+    private void setMessagePanelLabels(MessagePanel messagePanel) {
+        messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
+        messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
+    }
 
 	private void setExtendedButtonStyle() {
 		newFileBtn.setStyleName("extendedFAB");
@@ -388,7 +383,7 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void setLabels() {
 		headerView.setCaption(localize("mow.openFileViewTitle"));
-		newFileBtn.setText(localize("mow.newFile"));
+        newFileBtn.setText(localize("New.Mebis"));
 		openFileBtn
 				.setImageAndText(
 						MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
@@ -400,9 +395,8 @@ public class OpenFileView extends MyHeaderPanel
 				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
 			}
 		}
-		if (infoPanel != null) {
-			caption.setText(localize("emptyMaterialList.caption.mow"));
-			info.setText(localize("emptyMaterialList.info.mow"));
+        if (messagePanel != null) {
+            setMessagePanelLabels(messagePanel);
 		}
 	}
 

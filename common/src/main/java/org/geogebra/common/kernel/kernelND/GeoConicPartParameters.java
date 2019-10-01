@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.util.DoubleUtil;
@@ -426,4 +426,15 @@ public class GeoConicPartParameters {
 	public void setValueDefined(boolean valueDefined) {
 		this.valueDefined = valueDefined;
 	}
+
+    /**
+     * @param curve curve
+     */
+    public void updateCurve(GeoCurveCartesianND curve) {
+        if (paramStart < paramEnd) {
+            curve.setInterval(paramStart, paramEnd);
+        } else {
+            curve.setInterval(paramStart, paramEnd + Kernel.PI_2);
+        }
+    }
 }

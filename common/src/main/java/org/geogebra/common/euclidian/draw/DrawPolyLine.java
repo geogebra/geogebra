@@ -225,7 +225,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);

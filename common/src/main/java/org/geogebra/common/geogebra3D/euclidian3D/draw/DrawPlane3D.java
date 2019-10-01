@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -519,8 +518,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)
-				&& getView3D().isAREnabled()) {
+        if (getView3D().isAREnabled()) {
 			setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
 		} else if (getView3D().useClippingCube()
 				|| !getView3D().getSettings().hasSameScales()) {
@@ -700,9 +698,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			boolean exportSurface) {
 		if (isVisible()) {
 			if (exportSurface) {
-				exportToPrinter3D.exportSurface(this);
+                exportToPrinter3D.exportSurface(this, true, false);
 			} else {
-				exportToPrinter3D.export(this, Type.CURVE);
+                if (isGridVisible()) {
+                    exportToPrinter3D.exportCurve(this, Type.CURVE);
+                }
 			}
 		}
 	}

@@ -259,7 +259,7 @@ public class DrawTurtle extends Drawable {
 				path.draw(g2);
 			}
 
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(turtle.getSelColor());
 				g2.setStroke(selStroke);
 				for (PartialPath path : pathList) {

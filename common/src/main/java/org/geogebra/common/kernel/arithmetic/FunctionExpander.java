@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Expands f as f(x) or f(x,y) in CAS
@@ -180,16 +181,33 @@ public class FunctionExpander implements Traversing {
 					// or else replacing f(x,y) with f(y,x)
 					// will result in f(x, x)
 					for (int i = 0; i < fv.length; i++) {
-						if (en.getOperation() == Operation.FUNCTION_NVAR
-								|| surface) {
-							ithArg = ((MyList) argument).getListElement(i);
-						}
-						VariableReplacer.addVars(fv[i].getSetVarString(),
-								ithArg);
-							}
+                        if (en.getOperation() == Operation.FUNCTION_NVAR || surface) {
+                            if (argument instanceof MyList) {
+                                ithArg = ((MyList) argument).getListElement(i);
+                            } else {
+                                MyVecNDNode vec = (MyVecNDNode) argument;
+                                switch (i) {
+                                    default:
+                                        ithArg = null;
+                                        Log.debug("problem in FunctionExpander " + i);
+                                        break;
+                                    case 0:
+                                        ithArg = vec.getX();
+                                        break;
+                                    case 1:
+                                        ithArg = vec.getY();
+                                        break;
+                                    case 2:
+                                        ithArg = vec.getZ();
+                                        break;
+                                }
+                            }
+                        }
+                        VariableReplacer.addVars(fv[i].getSetVarString(), ithArg);
+                    }
 					en2 = en2.traverse(vr).wrap();
 					return en2;
-						}
+                }
 			} else if (en.getOperation() == Operation.DERIVATIVE) {
 				// should not get there
 
@@ -254,11 +272,11 @@ public class FunctionExpander implements Traversing {
 
 	/**
 	 * Resets and returns the collector
-	 * 
+     *
 	 * @return function expander
 	 */
 	public static FunctionExpander getCollector() {
 		collector.variables = null;
 		return collector;
-			}
-	}
+    }
+}

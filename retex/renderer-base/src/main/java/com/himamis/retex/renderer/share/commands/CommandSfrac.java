@@ -50,8 +50,8 @@ import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScaleAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.Symbols;
-import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.TeXParser;
+import com.himamis.retex.renderer.share.Unit;
 import com.himamis.retex.renderer.share.VRowAtom;
 
 public class CommandSfrac extends Command2A {
@@ -73,14 +73,14 @@ public class CommandSfrac extends Command2A {
 			shiftR = -0.24;
 			slash = new VRowAtom(
 					new ScaleAtom(Symbols.TEXTFRACTIONSOLIDUS, 1.25, 0.65));
-			((VRowAtom) slash).setRaise(TeXLength.Unit.EX, 0.4);
+            ((VRowAtom) slash).setRaise(Unit.EX, 0.4);
 		}
 
 		final VRowAtom snum = new VRowAtom(new ScaleAtom(a, scaleX, scaleY));
-		snum.setRaise(TeXLength.Unit.EX, raise1);
+        snum.setRaise(Unit.EX, raise1);
 		return new RowAtom(snum,
-				new SpaceAtom(TeXLength.Unit.EM, shiftL, 0., 0.), slash,
-				new SpaceAtom(TeXLength.Unit.EM, shiftR, 0., 0.),
+                new SpaceAtom(Unit.EM, shiftL, 0., 0.), slash,
+                new SpaceAtom(Unit.EM, shiftR, 0., 0.),
 				new ScaleAtom(b, scaleX, scaleY));
 	}
 }

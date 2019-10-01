@@ -50,10 +50,10 @@ public abstract class ScriptManager implements EventListener {
 
 	@Override
 	public void sendEvent(Event evt) {
-		// TODO get rid of javaToJavaScriptView
 		if (!listenersEnabled) {
 			return;
 		}
+
 		switch (evt.type) {
 		case CLICK:
 			callListeners(clickListeners, evt);
@@ -82,82 +82,14 @@ public abstract class ScriptManager implements EventListener {
 		case CLEAR:
 			callListeners(clearListeners, evt);
 			break;
-		case RELATION_TOOL:
-		case RENAME_COMPLETE:
-		case ADD_POLYGON:
-		case ADD_POLYGON_COMPLETE:
-		case MOVING_GEOS:
-		case MOVED_GEOS:
-		case PASTE_ELMS:
-		case PASTE_ELMS_COMPLETE:
-		case DELETE_GEOS:
-		case LOGIN:
-		case SET_MODE:
-		case UPDATE_STYLE:
-		case SHOW_NAVIGATION_BAR:
-		case SHOW_STYLE_BAR:
-		case PERSPECTIVE_CHANGE:
-		case SELECT:
-		case DESELECT:
-		case UNDO:
-		case REDO:
-		case OPEN_MENU:
-		case OPEN_DIALOG:
-		case EXPORT:
-		case ADD_MACRO:
-		case REMOVE_MACRO:
-		case EDITOR_KEY_TYPED:
-		case EDITOR_START:
-		case EDITOR_STOP:
-		case ALGEBRA_PANEL_SELECTED:
-		case TOOLS_PANEL_SELECTED:
-		case TABLE_PANEL_SELECTED:
-		case SIDE_PANEL_OPENED:
-		case SIDE_PANEL_CLOSED:
-			callClientListeners(clientListeners, evt);
-			break;
-		// TODO case CLEAR
 		default:
-			Log.debug("Unknown event type");
+            callClientListeners(clientListeners, evt);
 		}
 	}
 
 	private void callListeners(List<JsScript> listeners, Event evt) {
-		if (listeners.isEmpty()) {
-			return;
-		}
 		for (JsScript listener : listeners) {
 			callListener(listener, evt);
-		}
-	}
-
-	/**
-	 * This method is package-private for tests only.
-	 * @param listeners listeners
-	 * @param evt event
-	 */
-	void callClientListeners(List<JsScript> listeners, Event evt) {
-		if (listeners.isEmpty()) {
-			return;
-		}
-
-		ArrayList<String> args = new ArrayList<>();
-		args.add(evt.type.getName());
-		if (evt.targets != null) {
-			for (GeoElement geo : evt.targets) {
-				args.add(geo.getLabelSimple());
-			}
-		} else if (evt.target != null) {
-			args.add(evt.target.getLabelSimple());
-		} else {
-			args.add("");
-		}
-		if (evt.argument != null) {
-			args.add(evt.argument);
-		}
-
-		for (JsScript listener : listeners) {
-			callJavaScript(listener.getText(), args.toArray(new String[0]));
 		}
 	}
 
@@ -166,20 +98,27 @@ public abstract class ScriptManager implements EventListener {
 			String fn = listener.getText();
 			GeoElement geo = evt.target;
 			if (geo == null) {
-				callJavaScript(fn, null, null);
+                callListener(fn, null, null);
 				return;
 			}
 			String label = geo.getLabel(StringTemplate.defaultTemplate);
 			if (evt.type == EventType.RENAME) {
-				callJavaScript(fn, geo.getOldLabel(), label);
+                callListener(fn, geo.getOldLabel(), label);
 				return;
 			} else if (evt.argument == null) {
-				callJavaScript(fn, label, null);
+                callListener(fn, label, null);
 				return;
 			}
-			callJavaScript(fn, evt.argument, null);
+            callListener(fn, evt.argument, null);
+        }
+    }
 
-		}
+    protected void callListener(String fn, String arg0, String arg1) {
+        // implemented in web and desktop
+    }
+
+    protected void callClientListeners(List<JsScript> listeners, Event evt) {
+        // implemented in web and desktop
 	}
 
 	public void disableListeners() {
@@ -195,7 +134,6 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	@Override
 	public void reset() {
-
 		if (updateListenerMap != null) {
 			updateListenerMap = null;
 		}
@@ -251,13 +189,10 @@ public abstract class ScriptManager implements EventListener {
 			return;
 		}
 
-		initJavaScript();
-
 		// init list
 		if (listenerList != null) {
 			listenerList.add(JsScript.fromName(app, jSFunctionName));
 		}
-
 	}
 
 	/**
@@ -417,8 +352,8 @@ public abstract class ScriptManager implements EventListener {
 		if (geo == null) {
 			return map0;
 		}
-		initJavaScript();
-		HashMap<GeoElement, JsScript> map = map0;
+
+        HashMap<GeoElement, JsScript> map = map0;
 		if (map == null) {
 			map = new HashMap<>();
 		}
@@ -487,32 +422,6 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	public abstract void ggbOnInit();
-
-	public synchronized void initJavaScript() {
-		// overridden in platforms
-	}
-
-	abstract public void callJavaScript(String jsFunction, String[] args);
-
-	/**
-	 * @param jsFunction
-	 *            function name
-	 * @param arg0
-	 *            first argument
-	 * @param arg1
-	 *            second argument
-	 */
-	public void callJavaScript(String jsFunction, String arg0, String arg1) {
-		if (arg0 == null) {
-			callJavaScript(jsFunction, new String[0]);
-			return;
-		}
-		if (arg1 == null) {
-			callJavaScript(jsFunction, new String[] { arg0 });
-			return;
-		}
-		callJavaScript(jsFunction, new String[] { arg0, arg1 });
-	}
 
 	// ------ getters for listeners -------------
 

@@ -17,13 +17,13 @@ import java.util.TreeMap;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Matrix.Coords3;
+import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
-import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -1431,8 +1430,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public AutoColor getAutoColorScheme() {
-		if (kernel.getApplication()
-				.has(Feature.G3D_NEW_SURFACE_FUNCTIONS_COLORS) && isFun2Var()) {
+        if (isFun2Var()) {
 			return AutoColor.SURFACES;
 		}
 		return super.getAutoColorScheme();

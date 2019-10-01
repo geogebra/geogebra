@@ -7,8 +7,6 @@ public enum Feature {
 
 	TUBE_BETA,
 
-	EXERCISES,
-
 	TOOL_EDITOR,
 
 	IMPLICIT_SURFACES,
@@ -59,57 +57,44 @@ public enum Feature {
 	/** GGB-2542 */
 	SYMBOLIC_AV,
 
-	/** G3D-42 */
-	G3D_AR_REGULAR_TOOLS,
-
-	/** G3D-95 */
-	G3D_AR_ROTATE_3D_VIEW_TOOL,
-
-	/** G3D-97 */
-	G3D_AR_TRANSLATE_3D_VIEW_TOOL,
-
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
-
-	/** G3D-160 */
-	G3D_AR_TARGET,
-
-	/** G3D-170 */
-	G3D_IMPROVE_SOLID_TOOLS,
-
-	/** G3D-151 */
-	G3D_IOS_NATIVE_AR,
-
-	/** G3D-66 */
-	G3D_IMPROVE_AUTOMATIC_ROTATION,
-
-	/** G3D-266 */
-	G3D_ARMotionEvent,
-
-	/** G3D-272 */
-	G3D_NEW_SURFACE_FUNCTIONS_COLORS,
-
-	/** G3D-277 */
-	G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES,
 
 	/** MOW-679 */
 	MOW_PEN_IS_LOCUS,
 
-	/** APPS-284 */
-	COMMAND_FILTERING,
+    /**
+     * G3D-345
+     */
+    G3D_AR_SHOW_RATIO,
 
-	/** G3D-28 */
-	G3D_AR_LABELS_POSITION,
+    /**
+     * G3D-343
+     */
+    G3D_SELECT_META,
 
-	/** APPS-634 */
-	BUTTON_HIGHLIGHTING,
+    /**
+     * APPS-890
+     */
+    AUTOLABEL_CAS_SETTINGS,
 
-	/** G3D-249 */
-	G3D_AR_EXTRUSION_TOOL,
+    /**
+     * MOW-763
+     */
+    VIDEO_PLAYER_OFFLINE,
 
-	/** G3D-323 */
-	G3D_AR_LABELS_OFFSET,
+    /**
+     * STUD-17
+     */
+    SURFACE_OF_REVOLUTION_TOOL,
 
-	/** G3D-340 */
-	G3D_AR_SIMPLE_SCALE
+    /**
+     * G3D-372
+     */
+    G3D_AR_RATIO_SETTINGS,
+
+    /**
+     * APPS-1035
+     */
+    SYMBOLIC_INPUTFIELDS;
 }

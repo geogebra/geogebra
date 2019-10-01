@@ -21,6 +21,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -216,9 +217,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// add listener
 		addDomHandler(algCtrl, MouseDownEvent.getType());
 		addDomHandler(algCtrl, MouseMoveEvent.getType());
-		addDomHandler(algCtrl, TouchStartEvent.getType());
-		addDomHandler(algCtrl, TouchEndEvent.getType());
-		addDomHandler(algCtrl, TouchMoveEvent.getType());
+        addBitlessDomHandler(algCtrl, TouchStartEvent.getType());
+        addBitlessDomHandler(algCtrl, TouchEndEvent.getType());
+        addBitlessDomHandler(algCtrl, TouchMoveEvent.getType());
 
 		// initializes the tree model, important to set tree mode first to avoid
 		// inf. loop #3651
@@ -1864,7 +1865,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			if (!geo.isChangeable()) {
 				if (geo.isProtected(EventType.UPDATE)) {
-					app.showError(loc.getError("AssignmentToFixed"));
+                    app.showError(Errors.AssignmentToFixed);
 					return;
 				} else if (geo.isRedefineable() && !(geo
 						.getParentAlgorithm() instanceof AlgoCurveCartesian)) {

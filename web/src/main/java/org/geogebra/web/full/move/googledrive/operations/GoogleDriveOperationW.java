@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -117,7 +118,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}-*/;
 
-	private native void loadGoogleDrive() /*-{
+    @ExternalAccess
+    private native void loadGoogleDrive() /*-{
 		var _this = this;
 		if ($wnd.gapi) {
 			$wnd.gapi.load('auth', {
@@ -146,10 +148,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}-*/;
 
-	private void googleDriveLoaded() {
-		this.driveLoaded = true;
-		onEvent(new GoogleDriveLoadedEvent());
-	}
+    @ExternalAccess
+    private void googleDriveLoaded() {
+        this.driveLoaded = true;
+        onEvent(new GoogleDriveLoadedEvent());
+    }
 
 	/**
 	 * @return if google drive loaded or not
@@ -166,7 +169,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 */
 	public native void login(boolean immediate) /*-{
 		var _this = this, config = {
-			'client_id' : @org.geogebra.common.GeoGebraConstants::GOOGLE_CLIENT_ID,
+			'client_id' : _this.@org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW::getClientId()(),
 			'scope' : @org.geogebra.common.GeoGebraConstants::DRIVE_SCOPE
 					+ " "
 					+ @org.geogebra.common.GeoGebraConstants::USERINFO_EMAIL_SCOPE
@@ -189,24 +192,30 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 				);
 	}-*/;
 
-	private void authorizeCallback(String token, String error) {
-		if (error != null && error.length() > 0) {
-			Log.debug("GOOGLE LOGIN" + error);
-			this.loggedIn = false;
-			onEvent(new GoogleLoginEvent(false));
-		} else {
-			this.loggedIn = true;
-			this.authToken = token;
-			if (this.needsPicker) {
-				this.needsPicker = false;
-				createPicker(authToken);
-			} else if (this.waitingHandler != null) {
-				waitingHandler.run();
-			}
-			onEvent(new GoogleLoginEvent(true));
+    @ExternalAccess
+    private String getClientId() {
+        return app.getLAF().getClientId();
+    }
 
-		}
-	}
+    @ExternalAccess
+    private void authorizeCallback(String token, String error) {
+        if (error != null && error.length() > 0) {
+            Log.debug("GOOGLE LOGIN" + error);
+            this.loggedIn = false;
+            onEvent(new GoogleLoginEvent(false));
+        } else {
+            this.loggedIn = true;
+            this.authToken = token;
+            if (this.needsPicker) {
+                this.needsPicker = false;
+                createPicker(authToken);
+            } else if (this.waitingHandler != null) {
+                waitingHandler.run();
+            }
+            onEvent(new GoogleLoginEvent(true));
+
+        }
+    }
 
 	private native void createPicker(String token2) /*-{
 		var _this = this;
@@ -372,12 +381,13 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 				});
 	}-*/;
 
-	private void processGoogleDriveFileContentAsBase64(String base64,
-			String description, final String title, String id) {
-		// true = reload the whole doc
-		app.loadGgbFileAsBase64Again(base64, true);
-		postprocessFileLoading(description, title, id);
-	}
+    @ExternalAccess
+    private void processGoogleDriveFileContentAsBase64(String base64,
+                                                       String description, final String title, String id) {
+        // true = reload the whole doc
+        app.loadGgbFileAsBase64Again(base64, true);
+        postprocessFileLoading(description, title, id);
+    }
 
 	private void postprocessFileLoading(String description, String title,
 			String id) {
@@ -386,11 +396,12 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		app.setUnsaved();
 	}
 
-	private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary,
-	        String description, String title, String id) {
-		app.loadGgbFileAsBinaryAgain(binary);
-		postprocessFileLoading(description, title, id);
-	}
+    @ExternalAccess
+    private void processGoogleDriveFileContentAsBinary(JavaScriptObject binary,
+                                                       String description, String title, String id) {
+        app.loadGgbFileAsBinaryAgain(binary);
+        postprocessFileLoading(description, title, id);
+    }
 
 	@Override
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
@@ -433,31 +444,32 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		};
 	}-*/;
 
-	private void saveFileToGoogleDrive(final String fileName,
-			final String description, final String fileContent,
-			boolean isggb) {
-		JavaScriptObject metaData = JavaScriptObject.createObject();
-		JSON.put(metaData, "title", fileName);
-		JSON.put(metaData, "description", description);
-		if (!fileName.equals(getFileName())) {
-			setCurrentFileId(null);
-		}
-		if ((getFolderId() != null) && !"".equals(getFolderId())) {
-			JavaScriptObject folderId = JavaScriptObject.createObject();
-			JSON.put(folderId, "id", getFolderId());
-			JsArray<JavaScriptObject> parents = JavaScriptObject.createArray()
-					.cast();
-			parents.push(folderId);
-			JSON.put(metaData, "parents", parents);
-		}
-		JavaScriptObject thumbnail = JavaScriptObject.createObject();
-		JSON.put(thumbnail, "image", getThumbnail());
-		JSON.put(thumbnail, "mimeType", "image/png");
-		JSON.putObject(metaData, "thumbnail", thumbnail);
-		Log.debug(metaData);
-		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent,
-				isggb);
-	}
+    @ExternalAccess
+    private void saveFileToGoogleDrive(final String fileName,
+                                       final String description, final String fileContent,
+                                       boolean isggb) {
+        JavaScriptObject metaData = JavaScriptObject.createObject();
+        JSON.put(metaData, "title", fileName);
+        JSON.put(metaData, "description", description);
+        if (!fileName.equals(getFileName())) {
+            setCurrentFileId(null);
+        }
+        if ((getFolderId() != null) && !"".equals(getFolderId())) {
+            JavaScriptObject folderId = JavaScriptObject.createObject();
+            JSON.put(folderId, "id", getFolderId());
+            JsArray<JavaScriptObject> parents = JavaScriptObject.createArray()
+                    .cast();
+            parents.push(folderId);
+            JSON.put(metaData, "parents", parents);
+        }
+        JavaScriptObject thumbnail = JavaScriptObject.createObject();
+        JSON.put(thumbnail, "image", getThumbnail());
+        JSON.put(thumbnail, "mimeType", "image/png");
+        JSON.putObject(metaData, "thumbnail", thumbnail);
+        Log.debug(metaData);
+        handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent,
+                isggb);
+    }
 
 	private String getThumbnail() {
 		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
@@ -509,22 +521,24 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		updateFile(fId, metaData, base64);
 	}-*/;
 
-	private void showUploadError() {
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
-		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
-		        .getLocalization().getMenu("GoogleDriveSaveProblem"));
-	}
+    @ExternalAccess
+    private void showUploadError() {
+        ((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+        ((DialogManagerW) app.getDialogManager()).showAlertDialog(app
+                .getLocalization().getMenu("GoogleDriveSaveProblem"));
+    }
 
-	private void updateAfterGoogleDriveSave(String id, String fileName,
-			String description, boolean isggb) {
-		app.getSaveController().runAfterSaveCallback(true);
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
-		SaveCallback.onSaved(app, SaveState.OK, !isggb);
-		if (isggb) {
-			refreshCurrentFileDescriptors(fileName, description);
-			setCurrentFileId(id);
-		}
-	}
+    @ExternalAccess
+    private void updateAfterGoogleDriveSave(String id, String fileName,
+                                            String description, boolean isggb) {
+        app.getSaveController().runAfterSaveCallback(true);
+        ((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+        SaveCallback.onSaved(app, SaveState.OK, !isggb);
+        if (isggb) {
+            refreshCurrentFileDescriptors(fileName, description);
+            setCurrentFileId(id);
+        }
+    }
 
 	private void checkIfOpenedFromGoogleDrive() {
 		String state = Location.getParameter("state");

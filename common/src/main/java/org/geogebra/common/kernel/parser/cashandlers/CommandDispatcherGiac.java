@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.parser.cashandlers;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -84,6 +84,10 @@ public class CommandDispatcherGiac {
 		re(Operation.REAL),
 		/** surd(a,b)=bth root of a */
 		surd(Operation.NROOT),
+        /**
+         * eg alt(x) returns as ggbalt(x)
+         */
+        ggbalt(Operation.ALT),
 		/** sqrt */
 		sqrt(Operation.SQRT),
 		/** sign */
@@ -471,7 +475,8 @@ public class CommandDispatcherGiac {
 			case ycoordsymb:
 			case zcoordsymb:
 			case altsymb:
-			case sqrt:
+                case sqrt:
+			case ggbalt:
 			case sign:
 			case floor:
 			case ceiling:

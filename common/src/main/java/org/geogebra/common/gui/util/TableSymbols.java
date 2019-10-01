@@ -26,6 +26,8 @@ public class TableSymbols {
 
 			" sgn(x) ",
 
+            " alt(x, y, z))",
+
 			" arg(x) ",
 
 			" conjugate(x) ",
@@ -131,7 +133,7 @@ public class TableSymbols {
 
 			{ " sqrt(x) ", " cbrt(x) ", " nroot(x, n) " },
 
-			{ " abs(x) ", " sgn(x) " },
+            {" abs(x) ", " sgn(x) ", " alt((x, y, z)) "},
 
 			{ " arg(x) ", " conjugate(x) ", " real(x) ", " imaginary(x) " },
 

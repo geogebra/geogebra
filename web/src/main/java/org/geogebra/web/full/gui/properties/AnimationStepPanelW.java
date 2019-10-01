@@ -27,9 +27,18 @@ implements ITextFieldListener {
 	 * @param app
 	 *            application
 	 */
-	public AnimationStepPanelW(final AppW app) {
+    public AnimationStepPanelW(AppW app) {
+        this(new AnimationStepModel(app), app);
+    }
+
+    /**
+     * @param m   model
+     * @param app application
+     */
+    public AnimationStepPanelW(AnimationStepModel m, final AppW app) {
 		kernel = app.getKernel();
-		model = new AnimationStepModel(this, app);
+        model = m;
+        model.setListener(this);
 		setModel(model);
 		// text field for animation step
 		label = new Label();

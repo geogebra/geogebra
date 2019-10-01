@@ -113,4 +113,8 @@ public class JavaFontRenderingAtom extends Atom {
 		return "JavaFontRenderingAtom: " + str + ", font=" + font;
 	}
 
+    public String getString() {
+        return str;
+    }
+
 }

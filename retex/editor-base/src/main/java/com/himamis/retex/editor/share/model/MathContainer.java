@@ -69,7 +69,7 @@ abstract public class MathContainer extends MathComponent {
 	 */
 	protected boolean checkKorean(int i, MathComponent comp) {
 
-		if (i > 0 && arguments.size() > 0 && i - 1 < arguments.size()) {
+        if (comp != null && i > 0 && arguments.size() > 0 && i - 1 < arguments.size()) {
 
 			MathComponent compLast = arguments.get(i - 1);
 			if (!(compLast instanceof MathCharacter)) {
@@ -196,6 +196,11 @@ abstract public class MathContainer extends MathComponent {
 		if (arguments == null) {
 			arguments = new ArrayList<>(i + 1);
 		}
+
+        if (i >= arguments.size()) {
+            return;
+        }
+
 		if (arguments.get(i) != null) {
 			arguments.get(i).setParent(null);
 		}

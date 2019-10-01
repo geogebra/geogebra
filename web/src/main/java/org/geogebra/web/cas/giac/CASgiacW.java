@@ -3,7 +3,6 @@ package org.geogebra.web.cas.giac;
 import java.util.ArrayList;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.Evaluate;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -29,7 +28,6 @@ public class CASgiacW extends CASgiac {
 
 	/** kernel */
 	Kernel kernel;
-	private Evaluate giac;
 	private static boolean externalCAS = Browser.externalCAS();
 
 	/**
@@ -126,8 +124,14 @@ public class CASgiacW extends CASgiac {
 			}
 		}
 
-		evaluateRaw("timeout " + (timeoutMilliseconds / 1000), false,
-				externalCAS);
+        // timeout doesn't work for giac.js / webassembly so use 999
+        // @solve(((x^2*((-2*sqrt(10))-6))+(((x*(3*sqrt(10)+9))-6*sqrt(10)-18)*sqrt((x^2*(-2*sqrt(10)-6))+(x*(8*sqrt(10)+24))-(2*sqrt(10))-5))+(x*(8*sqrt(10)+24))-2*sqrt(10)-5)/((x^2*(-12*sqrt(10)-38))+(x*(48*sqrt(10)+152))-11*sqrt(10)-35))
+        String timeoutCommand = "timeout "
+                + (externalCAS ? "" + (timeoutMilliseconds / 1000)
+                : "999");
+
+        // Giac's default is 15s unless specified
+        evaluateRaw(timeoutCommand, false, externalCAS);
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);

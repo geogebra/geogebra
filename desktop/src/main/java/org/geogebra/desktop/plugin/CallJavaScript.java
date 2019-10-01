@@ -1,7 +1,10 @@
 package org.geogebra.desktop.plugin;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
+import org.mozilla.javascript.ClassShutter;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Context.ClassShutterSetter;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Scriptable;
 
@@ -21,14 +24,12 @@ public class CallJavaScript {
 		// create new scope
 		Context cx = Context.enter();
 
-		// No class loader for unsigned applets so don't try and optimize.
-		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
-		// if (!AppD.hasFullPermissions()) {
-		// cx.setOptimizationLevel(-1);
-		// Context.setCachingEnabled(false);
-		// }
+        Scriptable scope = cx.initStandardObjects();
 
-		Scriptable scope = cx.initSafeStandardObjects();
+        ClassShutterSetter setter = cx.getClassShutterSetter();
+        if (setter != null) {
+            setter.setClassShutter(sandboxClassShutter);
+        }
 
 		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
 		GeoGebraGlobal.initStandardObjects(app, scope, null, false);
@@ -62,14 +63,12 @@ public class CallJavaScript {
 
 		Context cx = Context.enter();
 
-		cx.initSafeStandardObjects();
+        cx.initStandardObjects();
 
-		// No class loader for unsigned applets so don't try and optimize.
-		// http://www.mail-archive.com/batik-dev@xmlgraphics.apache.org/msg00108.html
-		// if (!AppD.hasFullPermissions()) {
-		// cx.setOptimizationLevel(-1);
-		// Context.setCachingEnabled(false);
-		// }
+        ClassShutterSetter setter = cx.getClassShutterSetter();
+        if (setter != null) {
+            setter.setClassShutter(sandboxClassShutter);
+        }
 
 		// Create a new scope that shares the global scope
 		Scriptable newScope = cx.newObject(globalScope);
@@ -83,5 +82,34 @@ public class CallJavaScript {
 		Context.exit();
 
 	}
+
+    private static final SandboxClassShutter sandboxClassShutter = new SandboxClassShutter();
+
+
+    /**
+     * Allow access only to whitelist of allowed Java classes
+     */
+    public static class SandboxClassShutter implements ClassShutter {
+
+        @Override
+        public boolean visibleToScripts(String fullClassName) {
+
+
+            Log.debug("Rhino attempting to use class " + fullClassName);
+
+            return fullClassName.equals(org.geogebra.desktop.plugin.GgbAPID.class.getName())
+                    // needed for setTimeout() emulation
+                    // https://gist.github.com/murkle/f4d0c02aa595f404df143d0bd31b6b88
+                    || fullClassName.equals(java.util.Timer.class.getName())
+                    || fullClassName.equals(java.util.TimerTask.class.getName())
+                    // eg java.lang.String
+                    || fullClassName.startsWith("java.lang")
+                    // needed for TimerTask
+                    || fullClassName.equals("adapter1");
+
+
+        }
+
+    }
 
 }

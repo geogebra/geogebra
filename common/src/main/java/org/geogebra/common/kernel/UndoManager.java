@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.main.App;
@@ -338,6 +339,10 @@ public abstract class UndoManager {
 				iterator.next();
 			}
 		}
+        EmbedManager manager = app.getEmbedManager();
+        if (manager != null) {
+            manager.executeAction(EventType.EMBEDDED_PRUNE_STATE_LIST);
+        }
 		// debugStates();
 	}
 
@@ -437,7 +442,6 @@ public abstract class UndoManager {
 			} catch (RuntimeException e) {
 				Log.warn("No undo possible for embed " + id);
 			}
-			
 		}
 	}
 }

@@ -45,10 +45,12 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
+
 /**
  * An atom representing a math atom.
  */
-public class MathAtom extends Atom {
+public class MathAtom extends Atom implements HasTrueBase {
 
 	private int style = TeXConstants.STYLE_DISPLAY;
 	protected Atom base;
@@ -68,4 +70,9 @@ public class MathAtom extends Atom {
 		env.setStyle(sstyle);
 		return box;
 	}
+
+    @Override
+    public Atom getTrueBase() {
+        return base;
+    }
 }

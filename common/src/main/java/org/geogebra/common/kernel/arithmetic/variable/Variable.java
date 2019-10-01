@@ -32,6 +32,8 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -106,26 +108,26 @@ public class Variable extends ValidExpression {
 	 *            symbolic mode
 	 * @return GeoElement with same label
 	 */
-	public GeoElement resolve(boolean allowAutoCreateGeoElement,
-	                          boolean throwError, SymbolicMode mode) {
-		// keep bound CAS variables when resolving a CAS expression
-		if (mode != SymbolicMode.NONE) {
-			// resolve unknown variable as dummy geo to keep its name and
-			// avoid an "unknown variable" error message
-			return new GeoDummyVariable(kernel.getConstruction(), name);
-		}
+    public GeoElement resolve(boolean allowAutoCreateGeoElement, boolean throwError,
+                              SymbolicMode mode) {
+        switch (mode) {
+            case SYMBOLIC:
+                return new GeoDummyVariable(kernel.getConstruction(), name);
+            case SYMBOLIC_AV:
+                return lookupLabel(allowAutoCreateGeoElement, mode);
+            case NONE:
+                GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
+                if (resolvedElement != null || !throwError) {
+                    return resolvedElement;
+                }
+            default:
+                Localization localization = kernel.getApplication().getLocalization();
+                throw new MyParseError(localization, Errors.UndefinedVariable, name);
+        }
+    }
 
-		// lookup variable name, create missing variables automatically if
-		// allowed
-		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement,
-				mode);
-		if (geo != null || !throwError) {
-			return geo;
-		}
-
-		// if we get here we couldn't resolve this variable name as a GeoElement
-		throw new MyParseError(kernel.getApplication().getLocalization(),
-				"UndefinedVariable", name);
+    private GeoElement lookupLabel(boolean allowAutoCreateGeoElement, SymbolicMode symbolicMode) {
+        return kernel.lookupLabel(name, allowAutoCreateGeoElement, symbolicMode);
 	}
 
 	/**
@@ -146,8 +148,14 @@ public class Variable extends ValidExpression {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
 			}
-			ExpressionValue ret = replacement(name);
-			return ret instanceof Variable ? resolve(true, mode) : ret;
+            ExpressionValue replacement = replacement(name);
+            if (!(replacement instanceof Variable)) {
+                return replacement;
+            }
+            if (mode == SymbolicMode.SYMBOLIC_AV) {
+                return new GeoDummyVariable(kernel.getConstruction(), name);
+            }
+            return resolve(true, mode);
 		}
 
 		// spreadsheet dollar sign reference
@@ -157,7 +165,7 @@ public class Variable extends ValidExpression {
 			// row and/or column dollar sign present?
 			boolean colDollar = name.indexOf('$') == 0;
 			boolean rowDollar = name.length() > 2 && name.indexOf('$', 1) > -1;
-			Operation operation = Operation.NO_OPERATION;
+            Operation operation;
 			if (rowDollar && colDollar) {
 				operation = Operation.DOLLAR_VAR_ROW_COL;
 			} else if (rowDollar) {

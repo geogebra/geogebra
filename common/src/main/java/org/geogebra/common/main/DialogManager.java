@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -369,8 +370,7 @@ public abstract class DialogManager {
 
 						} else {
 							if (result != null && result.length > 0) {
-								eh.showError(app.getLocalization()
-										.getError("NumberExpected"));
+                                numberExpectedError(eh, app);
 							}
 						}
 						if (callback != null) {
@@ -437,8 +437,7 @@ public abstract class DialogManager {
 						&& result[0] instanceof GeoNumberValue;
 
 				if (!success) {
-					handler.showError(
-							app.getLocalization().getError("NumberExpected"));
+                    numberExpectedError(handler, app);
 					if (cb != null) {
 						cb.callback(false);
 					}
@@ -814,8 +813,7 @@ public abstract class DialogManager {
 						boolean success = result != null
 								&& result[0] instanceof GeoNumberValue;
 						if (!success) {
-							handler.showError(app.getLocalization()
-									.getError("NumberExpected"));
+                            numberExpectedError(handler, app);
 							if (callback != null) {
 								callback.callback(false);
 							}
@@ -887,8 +885,7 @@ public abstract class DialogManager {
 						boolean success = result != null
 								&& result[0] instanceof GeoNumberValue;
 						if (!success) {
-							handler.showError(kernel.getLocalization()
-									.getError("NumberExpected"));
+                            numberExpectedError(handler, kernel.getApplication());
 							if (callback != null) {
 								callback.callback(false);
 							}
@@ -960,8 +957,7 @@ public abstract class DialogManager {
 						boolean success = result != null
 								&& result[0] instanceof GeoNumberValue;
 						if (!success) {
-							handler.showError(app.getLocalization()
-									.getError("NumberExpected"));
+                            numberExpectedError(handler, app);
 							if (callback != null) {
 								callback.callback(false);
 							}
@@ -977,6 +973,10 @@ public abstract class DialogManager {
 					}
 				});
 	}
+
+    protected static void numberExpectedError(ErrorHandler handler, App app) {
+        handler.showError(Errors.NumberExpected.getError(app.getLocalization()));
+    }
 
 	/**
 	 * 

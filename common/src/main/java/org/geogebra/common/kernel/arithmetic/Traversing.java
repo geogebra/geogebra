@@ -915,26 +915,29 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 
 			if (ev instanceof Variable) {
-				Variable v = (Variable) ev;
-				String name = v.getName(StringTemplate.defaultTemplate);
-				if (v.getKernel().getApplication().getParserFunctions()
-						.isReserved(name)) {
+                Variable variable = (Variable) ev;
+                String variableName = variable.getName(StringTemplate.defaultTemplate);
+                if (variable.getKernel().getApplication().getParserFunctions()
+                        .isReserved(variableName)) {
 					return ev;
 				}
-				ExpressionValue ret;
-				ret = v.getKernel().lookupLabel(name);
-				if (ret == null) {
+                ExpressionValue expressionFromVariableName =
+                        variable.getKernel().lookupLabel(variableName);
+                if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgorithm =
-							new VariableReplacerAlgorithm(v.getKernel());
-					ret = variableReplacerAlgorithm.replace(name);
+                            new VariableReplacerAlgorithm(variable.getKernel());
+                    expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 
-				if (ret instanceof Variable && !v.getKernel().getConstruction()
-						.isRegistredFunctionVariable(name)) {
+                if (expressionFromVariableName instanceof Variable
+                        && !variable
+                        .getKernel()
+                        .getConstruction()
+                        .isRegistredFunctionVariable(variableName)) {
 					// Log.debug("found undefined variable: "
 					// + ((Variable) ret)
 					// .getName(StringTemplate.defaultTemplate));
-					tree.add(((Variable) ret)
+                    tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
 				}
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]

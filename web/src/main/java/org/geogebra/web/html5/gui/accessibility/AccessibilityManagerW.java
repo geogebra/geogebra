@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
@@ -310,9 +311,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
-			app.getSelectionManager().addSelectedGeo(geo);
+            app.getSelectionManager().addSelectedGeoForEV(geo);
 			setTabOverGeos(true);
-			app.getActiveEuclidianView().requestFocus();
+            if (!geo.isGeoInputBox()) {
+                app.getActiveEuclidianView().requestFocus();
+            }
 		} else {
 			if (menuContainer != null) {
 				menuContainer.focusMenu();
@@ -437,17 +440,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public String getSpaceAction() {
-		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			return app.getLocalization().getMenu("Animation");
-		}
-
-		GeoElement sel = getSelectedGeo();
+    public String getAction(GeoElement sel) {
 		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
 			return sel.getCaption(StringTemplate.screenReader);
 		}
 		if (sel != null && sel.getScript(EventType.CLICK) != null) {
-			return ScreenReader.getAuralText(sel);
+            return ScreenReader.getAuralText(sel, new ScreenReaderBuilder(Browser.isMobile()));
 		}
 
 		return null;
@@ -462,18 +460,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public SliderInput getSliderAction() {
-		return activeButton;
-	}
-
-	@Override
-	public void sliderChange(double step) {
-		if (activeButton == SliderInput.ROTATE_Z) {
+    public void sliderChange(double step, SliderInput input) {
+        if (input == SliderInput.ROTATE_Z) {
 			app.getEuclidianView3D().rememberOrigins();
 			app.getEuclidianView3D().shiftRotAboutZ(step);
 			app.getEuclidianView3D().repaintView();
 		}
-		if (activeButton == SliderInput.TILT) {
+        if (input == SliderInput.TILT) {
 			app.getEuclidianView3D().rememberOrigins();
 			app.getEuclidianView3D().shiftRotAboutY(step);
 			app.getEuclidianView3D().repaintView();
@@ -522,7 +515,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return handleTabExitGeos(false);
 	}
 
-	public void setMenuContainer(SideBarAccessibilityAdapter toolbarPanel) {
-		this.menuContainer = toolbarPanel;
-	}
+    /**
+     * @param toolbarPanel side bar adapter
+     */
+    public void setMenuContainer(SideBarAccessibilityAdapter toolbarPanel) {
+        this.menuContainer = toolbarPanel;
+    }
 }

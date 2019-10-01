@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -100,7 +101,7 @@ public class RedefineInputHandler implements InputHandler {
 
 			return;
 		} catch (Exception e) {
-			app.localizeAndShowError("ReplaceFailed");
+            app.showError(Errors.ReplaceFailed);
 		} catch (MyError err) {
 			app.showError(err);
 		}

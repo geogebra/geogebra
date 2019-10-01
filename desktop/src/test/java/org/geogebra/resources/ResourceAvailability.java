@@ -3,7 +3,7 @@ package org.geogebra.resources;
 import java.net.URL;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;
@@ -85,6 +85,9 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_EXTENSION:
 			case EuclidianConstants.MODE_CAMERA:
 			case EuclidianConstants.MODE_PDF:
+                case EuclidianConstants.MODE_GRASPABLE_MATH:
+                case EuclidianConstants.MODE_CAS:
+                case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
 				continue;
 			default:
 				ImageResourceD res = man.getToolImageResource(modeText);

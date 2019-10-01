@@ -153,14 +153,13 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				}
 			}
 		}
-
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
-			boolean doHighlight = geoList.doHighlighting();
+            boolean doHighlight = isHighlighted();
 
 			int size = drawables.size();
 			for (int i = 0; i < size; i++) {
@@ -249,7 +248,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		}
 
 		return result;
-
 	}
 
 	/**
@@ -260,14 +258,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	static boolean needsLatex(GeoElement geoItem) {
 		return geoItem instanceof FunctionalNVar
 				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
-	}
-
-	/**
-	 * 
-	 * @return if list when draw as combo, is selected.
-	 */
-	public boolean isSelected() {
-		return geo.doHighlighting();
 	}
 
 	@Override

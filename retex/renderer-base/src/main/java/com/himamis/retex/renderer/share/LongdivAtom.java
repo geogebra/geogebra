@@ -57,9 +57,9 @@ public class LongdivAtom extends VRowAtom {
 		setHalign(TeXConstants.Align.RIGHT);
 		setVtop(true);
 		String[] res = makeResults(divisor, dividend);
-		Atom rule = new RuleAtom(new TeXLength(TeXLength.Unit.EX, 0.),
-				new TeXLength(TeXLength.Unit.EX, 2.6),
-				new TeXLength(TeXLength.Unit.EX, 0.5));
+        Atom rule = new RuleAtom(new TeXLength(Unit.EX, 0.),
+                new TeXLength(Unit.EX, 2.6),
+                new TeXLength(Unit.EX, 0.5));
 		for (int i = 0; i < res.length; ++i) {
 			if (i % 2 == 0) {
 				final RowAtom ra = TeXParser.getAtomForLatinStr(res[i],
@@ -77,7 +77,7 @@ public class LongdivAtom extends VRowAtom {
 				Atom ph = new PhantomAtom(big, false, true, true);
 				RowAtom ra = new RowAtom(ph);
 				Atom raised = new RaiseAtom(big,
-						new TeXLength(TeXLength.Unit.X8, 3.5),
+                        new TeXLength(Unit.X8, 3.5),
 						TeXLength.getZero(), TeXLength.getZero());
 				ra.add(new SmashedAtom(raised));
 				ra.add(TeXParser.getAtomForLatinStr(res[i], tp.isMathMode()));

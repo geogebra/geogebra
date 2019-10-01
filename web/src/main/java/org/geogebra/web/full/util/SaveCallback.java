@@ -1,6 +1,7 @@
 package org.geogebra.web.full.util;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -117,7 +118,7 @@ public class SaveCallback {
 							+ "\n" + app.getLocalization()
 									.getMenu("SaveLocalCopyFailed"));
 		} else {
-			app.localizeAndShowError("SaveFileFailed");
+            app.showError(Errors.SaveFileFailed);
 		}
 
 	}

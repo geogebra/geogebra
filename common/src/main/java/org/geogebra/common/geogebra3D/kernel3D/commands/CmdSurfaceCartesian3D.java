@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.Parametrizable;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -44,25 +45,16 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoFunction
-					|| arg[0] instanceof GeoCurveCartesian))
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = new GeoElement[1];
-
-				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (ParametricCurve) arg[0],
-						(GeoNumberValue) arg[1]);
-
-				return ret;
-			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly
+                    || arg[0] instanceof GeoCurveCartesian
+                    || arg[0] instanceof GeoPoly
 					|| arg[0] instanceof GeoConicND))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
+                        (Path) arg[0], (GeoNumberValue) arg[1],
 						null);
-
+                ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
@@ -74,21 +66,20 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (ParametricCurve) arg[0],
+                        (ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
-
+                ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly
-					|| arg[0] instanceof GeoConicND))
+            if ((ok[0] = (arg[0] instanceof Parametrizable))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernel.getManager3D().surfaceOfRevolution(
-						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
+                        (Parametrizable) arg[0], (GeoNumberValue) arg[1],
 						(GeoLineND) arg[2]);
-
+                ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));

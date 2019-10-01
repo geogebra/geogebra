@@ -16,7 +16,6 @@
     <public path="pub"/>
     <source path='cas'/>
     <source path='shared'/>
-    <source path='solver'/>
 
     <replace-with class="org.geogebra.web.html5.gui.util.RichTextAreaImpl">
         <when-type-is class="com.google.gwt.user.client.ui.impl.RichTextAreaImplG"/>
@@ -27,7 +26,7 @@
         <when-type-is class="org.geogebra.common.factories.CASFactory"/>
     </replace-with>
 
-    <replace-with class="org.geogebra.web.full.helper.ResourcesInjectorReTeX">
+    <replace-with class="org.geogebra.web.full.helper.ResourcesInjectorFull">
         <when-type-is class="org.geogebra.web.html5.js.ResourcesInjector"/>
     </replace-with>
 

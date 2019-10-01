@@ -52,7 +52,7 @@ public class VideoInputDialog extends MediaDialog {
 	 * @param videoURL
 	 *            the validated URL of the video.
 	 */
-	void addVideo(VideoURL videoURL) {
+    private void addVideo(VideoURL videoURL) {
 		resetError();
 		new MediaFactory(appW).addVideo(videoURL);
 		hide();

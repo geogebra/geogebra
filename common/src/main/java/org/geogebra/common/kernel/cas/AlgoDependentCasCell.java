@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Algorithm to take care of GeoCasCells and possibly other GeoElements in the
@@ -138,7 +139,7 @@ public class AlgoDependentCasCell extends AlgoElement
 			casCell.computeOutput();
 		} else {
 			casCell.setUndefined();
-			casCell.setError(UNDEFINED_VARIABLE
+            casCell.setError(Errors.UndefinedVariable.getKey()
 					+ undefinedGeo.getLabel(StringTemplate.defaultTemplate));
 		}
 	}

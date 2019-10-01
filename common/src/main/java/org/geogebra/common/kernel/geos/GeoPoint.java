@@ -34,6 +34,9 @@ import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.LocateableList;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -44,10 +47,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -68,6 +67,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -466,9 +466,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			GeoPoint p = new GeoPoint(cons, endPosition.getX(),
 					endPosition.getY(), 1);
 
-			AlgoDependentPoint algo = (AlgoDependentPoint) this
-					.getParentAlgorithm();
-			ExpressionNode exp = algo.getExpression();
+            ExpressionNode exp = getDefinition();
 
 			GeoCurveCartesian curve = (GeoCurveCartesian) exp.getLeft();
 			GeoNumeric param = (GeoNumeric) exp.getRight();
@@ -640,14 +638,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *         Slider a
 	 */
 	private boolean isPointOnCurveWithSlider() {
-		
-		if (!(getParentAlgorithm() instanceof AlgoDependentPoint)) {
+        ExpressionNode exp = getDefinition();
+
+        if (exp == null) {
 			return false;
 		}
-	
-		AlgoDependentPoint algo = (AlgoDependentPoint) this
-				.getParentAlgorithm();
-		ExpressionNode exp = algo.getExpression();
 
 		ExpressionValue left = exp.getLeft();
 		ExpressionValue right = exp.getRight();
@@ -676,15 +671,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
 			changeableCoordNumbers = new ArrayList<>(2);
-			AlgoElement parentAlgo = getParentAlgorithm();
-
+            ExpressionNode en = getDefinition();
 			// dependent point of form P = (a, b)
-			if (parentAlgo instanceof AlgoDependentPoint) {
-				AlgoDependentPoint algo = (AlgoDependentPoint) parentAlgo;
-				ExpressionNode en = algo.getExpression();
-
+            if (!isIndependent() && en != null) {
 				// (xExpression, yExpression)
-				if (en.isLeaf() && en.getLeft() instanceof MyVecNode) {
+                if (en.unwrap() instanceof MyVecNode) {
 					// (xExpression, yExpression)
 					MyVecNode vn = (MyVecNode) en.getLeft();
 					hasPolarParentNumbers = vn.hasPolarCoords();
@@ -1778,7 +1769,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			break;
 
 		default: // CARTESIAN
-			sbBuildValueString.append('(');
+            sbBuildValueString.append(tpl.leftBracket());
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
@@ -1793,7 +1784,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				sbBuildValueString.append(" ");
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
-			sbBuildValueString.append(')');
+            sbBuildValueString.append(tpl.rightBracket());
 		}
 
 	}
@@ -3014,10 +3005,54 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @return description of new position
 	 */
 	public static String pointMovedAural(Localization loc,
-			GeoPointND geoPoint) {
-		return loc.getPlain("PointAMovedToB",
-				geoPoint.getCaption(StringTemplate.defaultTemplate),
-				geoPoint.getValueForInputBar());
+                                         GeoPointND geoPoint) {
+        return loc.getPlain("PointAMovedToB",
+                geoPoint.getCaption(StringTemplate.defaultTemplate),
+                geoPoint.getValueForInputBar());
 
-	}
+    }
+
+    @Override
+    public void setRegionChanged(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.z = 1;
+    }
+
+    @Override
+    public void pointChanged(GeoPolygon polygon) {
+        Coords coords = getCoordsInD2();
+        double qx = coords.getX() / coords.getZ();
+        double qy = coords.getY() / coords.getZ();
+
+        double minDist = Double.POSITIVE_INFINITY;
+        double resx = 0, resy = 0, resz = 0, param = 0;
+
+        // find closest point on each segment
+        PathParameter pp = getPathParameter();
+        GeoSegmentND[] segments = polygon.getSegments();
+        if (segments != null) {
+
+            for (int i = 0; i < segments.length; i++) {
+                setCoords2D(qx, qy, 1);
+                updateCoordsFrom2D(false);
+                segments[i].pointChanged(this);
+                coords = getCoordsInD2();
+                double x1 = coords.getX() / coords.getZ() - qx;
+                double y1 = coords.getY() / coords.getZ() - qy;
+                double dist = x1 * x1 + y1 * y1;
+                if (dist < minDist) {
+                    minDist = dist;
+                    // remember closest point
+                    resx = coords.getX();
+                    resy = coords.getY();
+                    resz = coords.getZ();
+                    param = i + pp.t;
+                }
+            }
+        }
+        setCoords2D(resx, resy, resz);
+        updateCoordsFrom2D(false);
+        pp.t = param;
+    }
 }

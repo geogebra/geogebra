@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 
 public class SliderModel extends OptionsModel {
@@ -263,8 +264,7 @@ public class SliderModel extends OptionsModel {
 			}
 
 			if (dependsOnListener || geoValue.isChildOrEqual(num)) {
-				app.showError(
-						app.getLocalization().getError("CircularDefinition"));
+                app.showError(Errors.CircularDefinition);
 			} else {
 				if (isMinimum) {
 					num.setIntervalMin(value);

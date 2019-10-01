@@ -67,7 +67,7 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
  */
 public class TeXIcon implements Icon {
 
-	private static final Color defaultColor = ColorUtil.BLACK;
+    private static final Color defaultColor = Colors.BLACK;
 
 	public static double defaultSize = -1;
 	public static double magFactor = 0;

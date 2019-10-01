@@ -98,9 +98,9 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	 */
 	public void onResize() {
 		getG2P().setCoordinateSpaceSize(this.getWidth(), this.getHeight());
-		getG2P().getCanvas().getElement().getParentElement().getStyle()
+        getG2P().getElement().getParentElement().getStyle()
 				.setWidth(getG2P().getCoordinateSpaceWidth(), Unit.PX);
-		getG2P().getCanvas().getElement().getParentElement().getStyle()
+        getG2P().getElement().getParentElement().getStyle()
 				.setHeight(getG2P().getCoordinateSpaceHeight(), Unit.PX);
 	}
 

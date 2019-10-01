@@ -16,13 +16,13 @@
 
 package org.geogebra.web.html5.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
+
+import org.geogebra.common.util.ExternalAccess;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -35,7 +35,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 public final class MyDictionary {
 
 	private static Map<String, MyDictionary> cache = new HashMap<>();
-	private JavaScriptObject dict;
+    @ExternalAccess
+    private JavaScriptObject dict;
 
 	private String label;
 
@@ -61,24 +62,25 @@ public final class MyDictionary {
 		return target;
 	}
 
-	private static void resourceErrorBadType(String name) {
-		throw new MissingResourceException(
-		        "'"
-		                + name
-		                + "' is not a JavaScript object and cannot be used as a Dictionary",
-		        null, name);
-	}
+    @ExternalAccess
+    private static void resourceErrorBadType(String name) {
+        throw new MissingResourceException(
+                "Dictionary '" + name + "' not found.", null, name);
+    }
 
-	private void resourceError(String key) {
-		String error = "Cannot find '" + key + "' in " + this;
-		throw new MissingResourceException(error, this.toString(), key);
-	}
+    @ExternalAccess
+    private void resourceError(String key) {
+        String error = "Cannot find '" + key + "' in " + this;
+        throw new MissingResourceException(error, this.toString(), key);
+    }
 
 	/**
 	 * Constructor for <code>Dictionary</code>.
-	 * 
-	 * @param name
-	 *            name of linked JavaScript Object
+	 *
+     * @param section
+     *            dictionary section
+     * @param language
+     *            dictionary language
 	 */
 	private MyDictionary(String section, String language)
 			throws MissingResourceException {
@@ -141,17 +143,6 @@ public final class MyDictionary {
 		return label;
 	}
 
-	/**
-	 * Collection of values associated with this dictionary.
-	 * 
-	 * @return the values
-	 */
-	public Collection<String> values() {
-		ArrayList<String> s = new ArrayList<>();
-		addValues(s);
-		return s;
-	}
-
 	private native void addKeys(HashSet<String> s) /*-{
 		var map = this.@org.geogebra.web.html5.util.MyDictionary::dict
 		for ( var key in map) {
@@ -161,26 +152,16 @@ public final class MyDictionary {
 		}
 	}-*/;
 
-	private native void addValues(ArrayList<String> s) /*-{
-		var map = this.@org.geogebra.web.html5.util.MyDictionary::dict
-		for ( var key in map) {
-			if (map.hasOwnProperty(key)) {
-				var value = this.@org.geogebra.web.html5.util.MyDictionary::get(Ljava/lang/String;)(key);
-				s.@java.util.ArrayList::add(Ljava/lang/Object;)(value);
-			}
-		}
-	}-*/;
-
 	private native void attach(String section, String language)/*-{
 		try {
 			if (typeof ($wnd["__GGB__keysVar"][language][section]) != "object") {
-				@org.geogebra.web.html5.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(name);
+				@org.geogebra.web.html5.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(section + language);
 			}
 			//this.@org.geogebra.web.html5.util.MyDictionary::dict = $wnd["__GGB__keysVar"][language][section];
 			this.@org.geogebra.web.html5.util.MyDictionary::dict = $wnd["__GGB__keysVar"][language][section];
 			//alert($wnd["__GGB__keysVar"][language]["command"]["Excentricity"]);
 		} catch (e) {
-			@org.geogebra.web.html5.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(name);
+			@org.geogebra.web.html5.util.MyDictionary::resourceErrorBadType(Ljava/lang/String;)(section + language);
 		}
 	}-*/;
 }

@@ -89,8 +89,7 @@ public class MathSequence extends MathContainer {
 			if (isOperator(i)) {
 				return true;
 			} else if (getArgument(i) instanceof MathFunction
-					&& (Tag.SUPERSCRIPT.equals(
-							((MathFunction) getArgument(i)).getName()))) {
+                    && getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
 				return true;
 			}
 		}

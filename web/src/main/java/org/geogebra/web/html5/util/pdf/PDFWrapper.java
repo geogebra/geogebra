@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util.pdf;
 
+import org.geogebra.common.util.ExternalAccess;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -59,13 +61,15 @@ public class PDFWrapper {
 		read(file);
 	}
 
-	private void finishLoading(boolean result) {
-		listener.finishLoading(result);
-	}
+    @ExternalAccess
+    private void finishLoading(boolean result) {
+        listener.finishLoading(result);
+    }
 
-	private void setProgressBarPercent(double percent) {
-		listener.setProgressBarPercent(percent);
-	}
+    @ExternalAccess
+    private void setProgressBarPercent(double percent) {
+        listener.setProgressBarPercent(percent);
+    }
 
 	private native void read(JavaScriptObject file) /*-{
 		var reader = new FileReader();
@@ -92,7 +96,8 @@ public class PDFWrapper {
 
 	}-*/;
 
-	private native void load(String src) /*-{
+    @ExternalAccess
+    private native void load(String src) /*-{
 		var loadingTask = $wnd.PDFJS.getDocument(src);
 		var that = this;
 
@@ -151,12 +156,13 @@ public class PDFWrapper {
 						});
 	}-*/;
 
-	private void onPageDisplay(String src) {
-		if (listener == null) {
-			return;
-		}
-		listener.onPageDisplay(src);
-	}
+    @ExternalAccess
+    private void onPageDisplay(String src) {
+        if (listener == null) {
+            return;
+        }
+        listener.onPageDisplay(src);
+    }
 
 	/**
 	 * 
@@ -237,8 +243,9 @@ public class PDFWrapper {
 	// convert something like
 	// xlink:href="blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f"
 	// to base64 PNG
-	private native void convertBlobs(JavaScriptObject svg,
-			JavaScriptObject callback) /*-{
+    @ExternalAccess
+    private native void convertBlobs(JavaScriptObject svg,
+                                     JavaScriptObject callback) /*-{
 
 		if (svg.indexOf('xlink:href="blob:') > 0) {
 
@@ -254,8 +261,9 @@ public class PDFWrapper {
 		}
 	}-*/;
 
-	private native void blobToBase64(String blobURI, JavaScriptObject svg,
-			JavaScriptObject callback) /*-{
+    @ExternalAccess
+    private native void blobToBase64(String blobURI, JavaScriptObject svg,
+                                     JavaScriptObject callback) /*-{
 
 		var img = $doc.createElement("img");
 		var canvas = $doc.createElement("canvas");

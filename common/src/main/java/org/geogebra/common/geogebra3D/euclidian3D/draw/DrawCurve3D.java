@@ -8,9 +8,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
@@ -21,13 +20,11 @@ import org.geogebra.common.kernel.kernelND.CurveEvaluable;
  *         Drawable for GeoCurveCartesian3D
  * 
  */
-public class DrawCurve3D extends Drawable3DCurves {
+public class DrawCurve3D extends Drawable3DCurves implements HasZPick {
 
 	/** handle to the curve */
 	private CurveEvaluable curve;
-	private GeoPoint3D hittingPoint;
-	private Coords project;
-	private double[] lineCoords;
+    private CurveHitting curveHitting;
 
 	private Coords boundsMin = new Coords(3);
 	private Coords boundsMax = new Coords(3);
@@ -109,8 +106,8 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
-		if (isVisible()) {
-			exportToPrinter3D.export(this, Type.CURVE);
+        if (isVisible() && getGeoElement().getLineThickness() > 0) {
+            exportToPrinter3D.exportCurve(this, Type.CURVE);
 		}
 	}
 
@@ -144,42 +141,12 @@ public class DrawCurve3D extends Drawable3DCurves {
 			return false;
 		}
 
-		if (hittingPoint == null) {
-			hittingPoint = new GeoPoint3D(getGeoElement().getConstruction());
-			project = new Coords(4);
-			lineCoords = new double[2];
-		}
+        if (curveHitting == null) {
+            curveHitting = new CurveHitting(this, getView3D());
+        }
 
-		hittingPoint.setWillingCoords(hitting.origin);
-		hittingPoint.setWillingDirection(hitting.direction);
-
-		((Path) curve).pointChanged(hittingPoint);
-
-		Coords closestPoint = hittingPoint.getInhomCoordsInD3();
-		closestPoint.projectLine(hitting.origin, hitting.direction, project,
-				lineCoords);
-
-		// Log.debug("\n" + hitting.origin + "\nclosest point:\n" +
-		// closestPoint
-		// + "\nclosest point on line:\n" + project);
-
-		// check if point on line is visible
-		if (!hitting.isInsideClipping(project)) {
-			return false;
-		}
-
-		double d = getView3D().getScaledDistance(project, closestPoint);
-		if (d <= getGeoElement().getLineThickness() + 2) {
-			double z = -lineCoords[0];
-			double dz = getGeoElement().getLineThickness()
-					/ getView3D().getScale();
-			setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
-					lineCoords[0]);
-			return true;
-		}
-
-		return false;
-
+        return curveHitting.hit(hitting, (Path) curve,
+                getGeoElement().getLineThickness() + 2);
 	}
 
 	@Override
@@ -210,5 +177,11 @@ public class DrawCurve3D extends Drawable3DCurves {
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
+
+    @Override
+    public void setZPickIfBetter(double zNear, double zFar,
+                                 boolean discardPositive, double positionOnHitting) {
+        this.setZPick(zNear, zFar, discardPositive, positionOnHitting);
+    }
 
 }

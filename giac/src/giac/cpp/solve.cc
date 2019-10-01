@@ -1535,6 +1535,25 @@ namespace giac {
 	return;
       vecteur v=*ef._VECTptr;
       int vs=int(v.size());
+#if 0
+      // find num and den, check if gcd is 1, otherwise simplify
+      gen num(1),den(1);
+      for (int i=0;i<vs;++i){
+	if (v[i].is_symb_of_sommet(at_inv))
+	  den = den*v[i]._SYMBptr->feuille;
+	else {
+	  if (v[i].is_symb_of_sommet(at_pow) && v[i]._SYMBptr->feuille[1].type==_INT_ && v[i]._SYMBptr->feuille[1].val<0)
+	    den=den*inv(v[i],contextptr);
+	  else
+	    num= num*v[i];
+	}
+      }
+      gen g=gcd(num,den,contextptr);
+      if (!is_constant_wrt(g,x,contextptr)){
+	v=makevecteur(num,inv(den,contextptr));
+	vs=2;
+      }
+#endif
       for (int i=0;i<vs;++i)
 	clean(v[i],x,contextptr);
       ef=gen(v,ef.subtype);
@@ -1904,6 +1923,18 @@ namespace giac {
     return res;
   }
 
+  // v are solutions in varx, solve for x
+  static vecteur solve_subst(const vecteur & v,const identificateur & x,const gen & varx,int isolate_mode,GIAC_CONTEXT){
+    if (x==varx)
+      return v;
+    vecteur res;
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      in_solve(varx-*it,x,res,isolate_mode,contextptr);
+    }
+    return res;
+  }
+
   static vecteur solve_cleaned(const gen & e,const gen & e_check,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     if (e.is_symb_of_sommet(at_exp))
       return vecteur(0);
@@ -2121,8 +2152,14 @@ namespace giac {
 		res.push_back(*it);
 	      continue;
 	    }
-	    if (is_undef(tmp))
+	    if (is_undef(tmp)){
+#ifdef EMCC // computation takes too long in emscripten, accept the solution without check
+	      tmp=0;
+	      *logptr(contextptr) << "Warning, " << *it << " not checked" << endl;
+#else
 	      tmp=limit(e_check,x,*it,0,contextptr);
+#endif
+	    }
 	    if (is_zero(tmp,contextptr))
 	      res.push_back(*it);
 	  }
@@ -2162,9 +2199,10 @@ namespace giac {
     if (setcplx)
       complex_mode(true,contextptr);
 #if 1
-    if (lvarx(expr,x).size()==1){
+    vecteur lvarxexpr(lvarx(expr,x));
+    if (lvarxexpr.size()==1){
       // quick check for expr=alpha*x^n+beta
-      vecteur ll(1,x);
+      vecteur ll(1,lvarxexpr.front());
       lvar(expr,ll);
       fraction f=sym2r(expr,ll,contextptr);
       if (f.num.type==_POLY){
@@ -2216,7 +2254,7 @@ namespace giac {
 		}
 		if (n0)
 		  res.push_back(0);
-		return res;
+		return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	      }
 	      vecteur res;
 	      if (n0)
@@ -2227,13 +2265,13 @@ namespace giac {
 		  res.push_back(-pow(g2g1,inv(n,contextptr),contextptr));
 		else
 		  res.push_back(pow(-g2g1,inv(n,contextptr),contextptr));
-		return res;
+		return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	      }
 	      if (is_positive(g2g1,contextptr))
-		return res;
+		return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	      gen g=pow(-g2g1,inv(n,contextptr),contextptr);
 	      res.push_back(-g); res.push_back(g);
-	      return res;
+	      return solve_subst(res,x,lvarxexpr.front(),isolate_mode,contextptr);
 	    }
 	  }
 	}
@@ -4321,7 +4359,7 @@ namespace giac {
     for (int j=1;j<5;j++,niter2 *=2, niter1 *=2){ 
       gen a;
       int b;
-      //on prend un dÃ©part au hasard (a=x0=un _DOUBLE_)
+      //on prend un départ au hasard (a=x0=un _DOUBLE_)
       // a=gen(2.0);
       if (guess_first)
 	a=j*4*(rand()/(RAND_MAX+1.0)-0.5);
@@ -6197,6 +6235,12 @@ namespace giac {
 	for (unsigned i=0;i<eq.size();++i){
 	  for (unsigned j=0;j<var.size();++j){
 	    if (is_linear_wrt(eq[i],var[j],a,b,contextptr)){
+	      if (j==0 && is_zero(a) && is_zero(b)){
+		// suppress eq[i]
+		eq.erase(eq.begin()+i);
+		--i;
+		break;
+	      }
 	      if (is_zero(derive(a,var,contextptr),contextptr) 
 		  && !is_zero(simplify(a,contextptr),contextptr)){
 		if (a!=1 && a!=-1){

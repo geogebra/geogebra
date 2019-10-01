@@ -1918,4 +1918,43 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		sbFormatSF.append(absStr);
 	}
 
+    /**
+     * Append string representation with format +/-ddd.pp (if 3 digits and precision is 2).
+     * Too large values are output +/-XXXXX
+     *
+     * @param val       value
+     * @param digits    digits length
+     * @param precision decimal precision
+     * @param sb        where to write result
+     */
+    public static void toString(double val, int digits, int precision, StringBuilder sb) {
+        if (val < 0) {
+            sb.append('-');
+        } else {
+            sb.append('+');
+        }
+        int v = (int) Math.round(Math.abs(val * Math.pow(10, precision)));
+        int[] decimalsList = new int[precision];
+        for (int j = precision - 1; j >= 0; j--) {
+            decimalsList[j] = v % 10;
+            v /= 10;
+        }
+        int[] digitsList = new int[digits];
+        for (int j = digits - 1; j >= 0; j--) {
+            digitsList[j] = v % 10;
+            v /= 10;
+        }
+        if (v > 0) { // overflow
+            sb.append(StringUtil.repeat('X', digits + 1 + precision));
+        } else {
+            for (int d : digitsList) {
+                sb.append(d);
+            }
+            sb.append(".");
+            for (int d : decimalsList) {
+                sb.append(d);
+            }
+        }
+    }
+
 }

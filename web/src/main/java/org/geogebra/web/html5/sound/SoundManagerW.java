@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -257,17 +258,19 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		// }
 	}
 
-	private void onUrlError() {
-		if (urlCallback != null) {
-			urlCallback.callback(Boolean.FALSE);
-		}
-	}
+    @ExternalAccess
+    private void onUrlError() {
+        if (urlCallback != null) {
+            urlCallback.callback(Boolean.FALSE);
+        }
+    }
 
-	private void onUrlOK() {
-		if (urlCallback != null) {
-			urlCallback.callback(Boolean.TRUE);
-		}
-	}
+    @ExternalAccess
+    private void onUrlOK() {
+        if (urlCallback != null) {
+            urlCallback.callback(Boolean.TRUE);
+        }
+    }
 
 	/**
 	 * Info handler

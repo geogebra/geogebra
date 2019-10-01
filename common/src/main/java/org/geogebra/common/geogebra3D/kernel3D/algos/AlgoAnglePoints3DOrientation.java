@@ -17,6 +17,7 @@ import org.geogebra.common.util.DoubleUtil;
 public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 
 	private GeoDirectionND orientation;
+    private boolean isReversed;
 
 	/**
 	 * @param cons
@@ -40,11 +41,14 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 	 *            construction
 	 * @param orientation
 	 *            orientation
+     * @param isReversed
+     *            if orientation is reversed
 	 */
 	public AlgoAnglePoints3DOrientation(Construction cons,
-			GeoDirectionND orientation) {
+                                        GeoDirectionND orientation, boolean isReversed) {
 		super(cons);
 		this.orientation = orientation;
+        this.isReversed = isReversed;
 	}
 
 	@Override
@@ -86,7 +90,7 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 			return;
 		}
 
-		checkOrientation(vn, orientation, getAngle());
+        checkOrientation(vn, orientation, getAngle(), isReversed);
 	}
 
 	@Override

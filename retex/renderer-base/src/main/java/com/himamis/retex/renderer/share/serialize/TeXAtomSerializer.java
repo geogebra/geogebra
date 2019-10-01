@@ -4,6 +4,7 @@ import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.ArrayAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
@@ -11,6 +12,7 @@ import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.HlineAtom;
+import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
@@ -46,7 +48,7 @@ public class TeXAtomSerializer {
 	 */
 	public String serialize(Atom root) {
 
-		// FactoryProvider.getInstance().debug("root = " + root.getClass());
+        // FactoryProvider.debugS("root = " + root.getClass());
 		if (root instanceof FractionAtom) {
 			FractionAtom frac = (FractionAtom) root;
 			return "(" + serialize(frac.getNumerator()) + ")/("
@@ -135,6 +137,10 @@ public class TeXAtomSerializer {
 			return sb.toString();
 		}
 
+        if (root instanceof JavaFontRenderingAtom) {
+            return ((JavaFontRenderingAtom) root).getString();
+        }
+
 		// serialise table to eg {{1,2,3},{3,4,5}}
 		if (root instanceof ArrayAtom) {
 			ArrayAtom atom = (ArrayAtom) root;
@@ -164,15 +170,20 @@ public class TeXAtomSerializer {
 			return sb.toString();
 		}
 
+        if (root instanceof BigOperatorAtom) {
+            BigOperatorAtom bigOp = (BigOperatorAtom) root;
+            return serialize(bigOp.getTrueBase()) + " from " + serialize(bigOp.getBottom()) + " to "
+                    + serialize(bigOp.getTop());
+        }
+		
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
 			return serialize(((HasTrueBase) root).getTrueBase());
 		}
 
-		FactoryProvider.getInstance().debug(
-				"Unhandled atom:"
-				+ (root == null ? "null" : root.getClass()));
+        FactoryProvider.debugS("Unhandled atom:"
+                + (root == null ? "null" : (root.getClass() + " " + root.toString())));
 		// FactoryProvider.getInstance().printStacktrace();
 
 		return "?";

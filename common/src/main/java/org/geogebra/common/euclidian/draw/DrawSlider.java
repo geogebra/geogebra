@@ -187,7 +187,7 @@ public class DrawSlider extends Drawable {
 				g2.setPaint(geo.getSelColor());
 			}
 
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);
 				g2.draw(circleHighlight);

@@ -119,7 +119,7 @@ public final class DrawBoolean extends Drawable {
 			int posY = geoBool.labelOffsetY;
 
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
-					geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5,
+                    isHighlighted(), g2, geoBool.labelOffsetX + 5,
 					geoBool.labelOffsetY + 5, view.getBooleanSize());
 
 			if (isLatexLabel()) {

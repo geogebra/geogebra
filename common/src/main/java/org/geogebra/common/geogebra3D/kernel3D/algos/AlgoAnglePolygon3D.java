@@ -79,7 +79,8 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 
 	@Override
 	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1) {
-		return new AlgoAnglePoints3DOrientation(cons1, getPolygon());
+        return new AlgoAnglePoints3DOrientation(cons1, getPolygon(),
+                getPolygon().hasReverseNormal());
 	}
 
 	@Override

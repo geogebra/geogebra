@@ -860,27 +860,13 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public CoordMatrix4x4 getArViewMatrix() {
+    public void setProjectionMatrixViewForAR() {
 		// used in AR only
-		return CoordMatrix4x4.IDENTITY;
-	}
-
-	@Override
-	public void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
-			float scaleFactor) {
-		// used only with AR
 	}
 
 	@Override
 	public void glViewPort() {
 		// used only with shaders
-	}
-
-	@Override
-	public void fromARCoreCoordsToGGBCoords(Coords coords,
-			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret) {
-		// used only with AR
 	}
 
 	@Override

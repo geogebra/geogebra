@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class RendererImpl {
@@ -445,12 +444,7 @@ public abstract class RendererImpl {
 
 	public abstract void setMatrixView(CoordMatrix4x4 matrix);
 
-	public abstract void setProjectionMatrixViewForAR(CoordMatrix4x4 cameraView,
-			CoordMatrix4x4 cameraPerspective, CoordMatrix4x4 modelMatrix,
-			float scaleFactor);
-
-	public abstract void fromARCoreCoordsToGGBCoords(Coords coords,
-			CoordMatrix4x4 modelMatrix, float scaleFactor, Coords ret);
+    public abstract void setProjectionMatrixViewForAR();
 
 	public abstract void unsetMatrixView();
 
@@ -468,12 +462,6 @@ public abstract class RendererImpl {
 	abstract public void createDummyTexture();
 
 	abstract public void attribPointers();
-
-    public CoordMatrix4x4 getUndoRotationMatrixAR() {
-        return CoordMatrix4x4.IDENTITY;
-    }
-
-    public abstract CoordMatrix4x4 getArViewMatrix();
 
 	/**
 	 * draw not hidden parts

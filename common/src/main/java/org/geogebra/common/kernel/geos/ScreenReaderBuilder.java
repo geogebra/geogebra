@@ -7,6 +7,23 @@ package org.geogebra.common.kernel.geos;
  */
 public class ScreenReaderBuilder {
 	private StringBuilder sb = new StringBuilder();
+    private boolean isMobile = false;
+
+    /**
+     * Default constructor
+     */
+    public ScreenReaderBuilder() {
+
+    }
+
+    /**
+     * Constructor
+     *
+     * @param isMobile whether the user is on a mobile device or desktop
+     */
+    public ScreenReaderBuilder(boolean isMobile) {
+        this.isMobile = isMobile;
+    }
 
 	/**
 	 * Append string, make sure . is followed by space.
@@ -46,7 +63,14 @@ public class ScreenReaderBuilder {
 	/**
 	 * @return wrapped string builder
 	 */
-	protected StringBuilder getStringBuilder() {
-		return sb;
-	}
+    protected StringBuilder getStringBuilder() {
+        return sb;
+    }
+
+    /**
+     * @return whether the user is on mobile or desktop
+     */
+    public boolean isMobile() {
+        return isMobile;
+    }
 }

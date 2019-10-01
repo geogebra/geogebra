@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Execute[&lt;list of commands>]
@@ -62,7 +63,7 @@ public class CmdExecute extends CmdScripting {
 				app.showError(e);
 				break;
 			} catch (Exception e) {
-				app.showError(app.getLocalization().getError("InvalidInput"));
+                app.showError(Errors.InvalidInput);
 				e.printStackTrace();
 				break;
 			}

@@ -3,10 +3,8 @@ package org.geogebra.web.full;
 import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.factories.CASFactory;
-import org.geogebra.common.util.debug.GeoGebraProfiler;
-import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
@@ -16,9 +14,9 @@ import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -48,14 +46,8 @@ public class Web implements EntryPoint {
 			return;
 		}
 		Browser.checkFloat64();
-		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
-		// production
-		// GeoGebraProfiler.init(new GeoGebraProfilerW());
-		GeoGebraProfiler.init(new SilentProfiler());
 
-		GeoGebraProfiler.getInstance().profile();
-
-		WebSimple.registerSuperdevExceptionHandler();
+        SuperDevUncaughtExceptionHandler.register();
 		exportGGBElementRenderer();
 
 		// setLocaleToQueryParam();
@@ -145,8 +137,8 @@ public class Web implements EntryPoint {
 		if (!((CASFactory) GWT.create(CASFactory.class)).isEnabled()) {
 			return new GLookAndFeel() {
 				@Override
-				public Versions getVersion(int dim, String appName) {
-					return Versions.NO_CAS;
+                public Platform getPlatform(int dim, String appName) {
+                    return Platform.NO_CAS;
 				}
 			};
 		}

@@ -240,6 +240,16 @@ public final class EuclidianConstants {
 	/** */
 	public static final int MODE_SELECT_MOW = 78;
 
+    /**
+     * Graspable Math tool
+     */
+    public static final int MODE_GRASPABLE_MATH = 79;
+
+    /**
+     * CAS media panel
+     */
+    public static final int MODE_CAS = 80;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -302,6 +312,11 @@ public final class EuclidianConstants {
 
 	/** creates a tetrahedron */
 	public static final int MODE_TETRAHEDRON = 537;
+
+    /**
+     * creates a surface by revolving a line around x-axis
+     */
+    public static final int MODE_SURFACE_OF_REVOLUTION = 538;
 
 	/** rotate the view */
 	public static final int MODE_ROTATEVIEW = 540;
@@ -504,7 +519,10 @@ public final class EuclidianConstants {
 			return "Prism";
 
 		case EuclidianConstants.MODE_EXTRUSION:
-			return "Extrusion";
+            return "Extrusion";
+
+            case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			return "SurfaceOfRevolution";
 
 		case EuclidianConstants.MODE_CONIFY:
 			return "Conify";
@@ -886,7 +904,11 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_AUDIO:
 			return "Audio";
 		case EuclidianConstants.MODE_GRAPHING:
-			return "Graphing";
+            return "Graphing";
+            case EuclidianConstants.MODE_CAS:
+                return "CAS";
+            case EuclidianConstants.MODE_GRASPABLE_MATH:
+            return "Graspable Math";
 		case EuclidianConstants.MODE_PDF:
 			return "PDF";
 		case EuclidianConstants.MODE_EXTENSION:

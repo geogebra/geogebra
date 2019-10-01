@@ -70,6 +70,9 @@ public class AltKeys {
 		lookupUpper.put(Unicode.e_ACUTE, "{"); // Italian keyboards
 		lookupLower.put(Unicode.e_ACUTE, "["); // Italian keyboards
 
+        // alt-/ for backslash (not on all keyboards eg Dutch)
+        lookupLower.put('/', "\\");
+
 		lookupUpper.put('=', Unicode.XOR + "");
 		lookupLower.put('=', Unicode.XOR + "");
 

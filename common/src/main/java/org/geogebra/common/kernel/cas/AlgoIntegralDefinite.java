@@ -283,8 +283,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// check if f(a) and f(b) are defined
 		double fa = f.value(lowerLimit);
 		double fb = f.value(upperLimit);
-		if (Double.isNaN(fa) || Double.isInfinite(fa) || Double.isNaN(fb)
-				|| Double.isInfinite(fb)) {
+        if (Double.isInfinite(lowerLimit) || Double.isInfinite(upperLimit) || Double.isNaN(fa)
+                || Double.isInfinite(fa) || Double.isNaN(fb) || Double.isInfinite(fb)) {
 			if (!this.evaluateNumerically && !evaluateOnly()
 					&& !f.includesFreehandOrData()) {
 				computeSpecial();

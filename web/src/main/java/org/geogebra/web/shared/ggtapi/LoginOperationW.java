@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -130,10 +131,11 @@ public class LoginOperationW extends LogInOperation {
 		return super.getLoginURL(languageCode);
 	}
 
-	private void processToken(String token) {
-		Log.debug("LTOKEN send via message");
-		performTokenLogin(token, false);
-	}
+    @ExternalAccess
+    private void processToken(String token) {
+        Log.debug("LTOKEN send via message");
+        performTokenLogin(token, false);
+    }
 
 	private void processCookie(boolean passive) {
 		Log.debug("COOKIE LOGIN");

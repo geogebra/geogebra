@@ -18,10 +18,13 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandle
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.OnBackSpaceHandler;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -36,17 +39,19 @@ public class Export3dDialog extends OptionDialog
 
 	private Runnable onExportButtonPressed;
 	private ParsableComponentInputField lineThicknessValue;
+    private String oldLineThicknessValue;
+    private CheckBox filledSolid;
 	private double lastUpdatedScale;
 	private double lastUpdatedThickness;
 
 	/**
 	 * number formating for dimensions
 	 */
-	static final NumberFormatAdapter dimensionNF;
+    private static final NumberFormatAdapter dimensionNF;
 	/**
 	 * number formating for scale
 	 */
-	static final NumberFormatAdapter scaleNF;
+    private static final NumberFormatAdapter scaleNF;
 
 	static {
 		dimensionNF = FormatFactory.getPrototype().getNumberFormat("#.#", 1);
@@ -84,11 +89,22 @@ public class Export3dDialog extends OptionDialog
 		 * 
 		 * @param showError
 		 *            if error should be shown
-		 * @return true if parsed ok
+         * @param canBeEqual
+         *            if value can be equel to min value
+         * @param canBeEmpty
+         *            if textfield can be empty (value is 0)
+         * @return true if parsed ok
 		 */
-		public boolean parse(boolean showError) {
+        public boolean parse(boolean showError, boolean canBeEqual,
+                             boolean canBeEmpty) {
+            if (canBeEmpty && getText().trim().length() == 0) {
+                parsedValue = 0;
+                return true;
+            }
 			try {
-				parsedValue = numberValidator.getDouble(getText(), 0d);
+                parsedValue = canBeEqual
+                        ? numberValidator.getDoubleGreaterOrEqual(getText(), 0d)
+                        : numberValidator.getDouble(getText(), 0d);
 				setErrorResolved();
 				return true;
 			} catch (NumberValueOutOfBoundsException e) {
@@ -219,7 +235,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		void parseAndUpdateOthers() {
-			if (inputField.parse(false)) {
+            if (inputField.parse(false, false, false)) {
 				updateOthers(calcCurrentRatio());
 			}
 		}
@@ -254,7 +270,7 @@ public class Export3dDialog extends OptionDialog
 		}
 
 		public boolean parse() {
-			return !isUsed || inputField.parse(true);
+            return !isUsed || inputField.parse(true, false, false);
 		}
 	}
 
@@ -320,7 +336,29 @@ public class Export3dDialog extends OptionDialog
 	}
 
 	private void buildLineThicknessPanel(FlowPanel root) {
-		lineThicknessValue = addTextField("STL.Thickness", "mm", root);
+        FlowPanel thicknessPanel = new FlowPanel();
+        thicknessPanel.setStyleName("panelRow");
+        lineThicknessValue = addTextField("STL.Thickness", "mm",
+                thicknessPanel);
+        filledSolid = new CheckBox();
+        filledSolid.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if (filledSolid.getValue()) {
+                    oldLineThicknessValue = lineThicknessValue.getText();
+                    lineThicknessValue.setInputText("");
+                } else {
+                    String current = lineThicknessValue.getText();
+                    if (oldLineThicknessValue != null && current == null
+                            || current.trim().length() == 0) {
+                        lineThicknessValue
+                                .setInputText(oldLineThicknessValue);
+                    }
+                }
+            }
+        });
+        thicknessPanel.add(filledSolid);
+        root.add(thicknessPanel);
 	}
 
 	private ParsableComponentInputField addTextField(String labelText,
@@ -355,7 +393,8 @@ public class Export3dDialog extends OptionDialog
 			ok = checkOkAndSetFocus(ok, f.parse(), f.inputField);
 
 		}
-		ok = checkOkAndSetFocus(ok, lineThicknessValue.parse(true),
+        ok = checkOkAndSetFocus(ok,
+                lineThicknessValue.parse(true, true, true),
 				lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
@@ -374,6 +413,8 @@ public class Export3dDialog extends OptionDialog
 			f.inputField.setLabels();
 		}
 		lineThicknessValue.setLabels();
+        filledSolid.setText(app.getLocalization()
+                .getMenuDefault("STL.FilledSolid", "Filled Solid"));
 		updateButtonLabels("Download");
 	}
 
@@ -416,5 +457,11 @@ public class Export3dDialog extends OptionDialog
 	public double getCurrentThickness() {
 		return lastUpdatedThickness;
 	}
+
+    @Override
+    public boolean wantsFilledSolids() {
+        return filledSolid.getValue()
+                || DoubleUtil.isZero(getCurrentThickness());
+    }
 
 }

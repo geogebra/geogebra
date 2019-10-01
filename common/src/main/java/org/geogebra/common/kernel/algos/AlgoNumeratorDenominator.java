@@ -14,9 +14,12 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Find Numerator
@@ -28,6 +31,8 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 	private GeoNumeric f; // input
 	private GeoNumeric g; // output
 	private Commands type;
+
+    private ExpressionValue[] fraction = new ExpressionValue[2];
 
 	/**
 	 * @param cons
@@ -75,6 +80,50 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
+
+        ExpressionNode def = f.getDefinition();
+
+        ExpressionValue top = null;
+        ExpressionValue bottom = null;
+
+        // check if it's possible to get as an exact fraction!
+        if (def != null) {
+            if (def.isSimpleFraction()) {
+
+                top = def.getLeft();
+                bottom = def.getRight();
+
+            } else {
+
+                def.getFraction(fraction, true);
+
+                if (fraction[0] != null && fraction[1] != null) {
+                    top = fraction[0];
+                    bottom = fraction[1];
+                }
+            }
+
+            if (top != null && bottom != null && DoubleUtil.isInteger(top.evaluateDouble())
+                    && DoubleUtil.isInteger(bottom.evaluateDouble())) {
+                // cancel down to lowest terms
+                long num = (long) top.evaluateDouble();
+                long den = (long) bottom.evaluateDouble();
+                long gcd = Kernel.gcd(num, den);
+
+                long val;
+                if (gcd == 0) {
+                    val = (type == Commands.Numerator) ? num : den;
+                } else {
+                    val = (type == Commands.Numerator) ? num / gcd : den / gcd;
+                }
+
+                g.setValue(val);
+                return;
+            }
+
+        }
+
+        // regular decimal -> find approximate fraction
 		double[] frac = AlgoFractionText.decimalToFraction(f.getDouble(),
 				Kernel.STANDARD_PRECISION);
 		if (frac.length < 2) {

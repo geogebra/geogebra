@@ -58,9 +58,10 @@ public class TheAtom extends Atom {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		if (TeXLength.isLengthName(name)) {
-			return TeXLength.getLength(name).createBox(env);
-		}
+        if (TeXLengthSettings.isLengthName(name)) {
+            return env.lengthSettings().getLength(name).createBox(env);
+        }
+
 		throw new ParseException("Invalid length name in \\the: " + name);
 	}
 

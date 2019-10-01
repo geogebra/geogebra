@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfigDefault;
 
 /**
@@ -27,4 +28,9 @@ public class AppConfigMixedReality extends AppConfigDefault {
 	public boolean isSimpleMaterialPicker() {
 		return true;
 	}
+
+    @Override
+    public GeoGebraConstants.Version getVersion() {
+        return GeoGebraConstants.Version.MIXED_REALITY;
+    }
 }

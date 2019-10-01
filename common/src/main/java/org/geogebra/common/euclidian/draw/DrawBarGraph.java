@@ -129,7 +129,7 @@ public class DrawBarGraph extends Drawable {
 		AlgoBarChart algop = (AlgoBarChart) geo.getParentAlgorithm();
 		if (isVisible) {
 			try {
-				if (geo.doHighlighting()) {
+                if (isHighlighted()) {
 					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; i < gp.length; i++) {

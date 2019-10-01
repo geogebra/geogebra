@@ -18,11 +18,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.HasLanguage;
-import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
@@ -31,7 +31,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -173,7 +172,7 @@ public class Solver {
 	}
 
 	private void compute(String text) {
-		Browser.changeUrl(getRelativeURLforEqn(text));
+        Browser.changeUrl(AppWsolver.getRelativeURLforEqn(text));
 		mathField.setText(text, false);
 		mathField.setFocus(false);
 
@@ -204,10 +203,6 @@ public class Solver {
 			stepsPanel.add(new HTML("<h3>Sorry, but I am unable to do anything with "
 					+ "your input</h3>"));
 		}
-	}
-
-	public static String getRelativeURLforEqn(String text) {
-		return "?i=" + URL.encodePathSegment(text);
 	}
 
 	private void printAlternativeForms(StepTransformable input) {
@@ -251,12 +246,12 @@ public class Solver {
 
 		for (StepVariable variable : variableList) {
 			try {
-				double startTime = GeoGebraProfilerW.getMillisecondTimeNative();
+                double startTime = FpsProfilerW.getMillisecondTimeNative();
 				List<StepSolution> solutionList = solvable.solve(variable, sb);
-				double solveTime = GeoGebraProfilerW.getMillisecondTimeNative();
+                double solveTime = FpsProfilerW.getMillisecondTimeNative();
 				solutions.add(
 						new StepInformation(app, guiBuilder, solutionList, sb.getSteps()));
-				double endTime = GeoGebraProfilerW.getMillisecondTimeNative();
+                double endTime = FpsProfilerW.getMillisecondTimeNative();
 
 				Log.debug("Total execution time: " + (endTime - startTime) + " ms");
 				Log.debug("Solve time: " + (solveTime - startTime) + " ms");

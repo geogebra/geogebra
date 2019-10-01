@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -85,6 +86,9 @@ public class InputDialogTableView extends OptionDialog
 		step = addTextField("Step", root);
 		// last input text field shouldn't have any bottom margin
 		step.addStyleName("noBottomMarg");
+        TestHarness.setAttr(startValue, "startValue");
+        TestHarness.setAttr(endValue, "endValue");
+        TestHarness.setAttr(step, "stepValue");
 	}
 
 	private ComponentInputField addTextField(String labelText, FlowPanel root) {

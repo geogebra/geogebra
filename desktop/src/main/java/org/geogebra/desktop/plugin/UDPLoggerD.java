@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.SensorLogger;
@@ -346,10 +347,7 @@ public class UDPLoggerD extends SensorLogger {
 						// stoplogging also drops exception here, so no need
 						// error message if
 						// stoplogging called
-							kernel.getApplication()
-									.showError(kernel.getApplication()
-											.getLocalization()
-											.getMenu("LoggingError"));
+                        kernel.getApplication().showError(Errors.LoggingError);
 
 
 					} catch (IOException e) {

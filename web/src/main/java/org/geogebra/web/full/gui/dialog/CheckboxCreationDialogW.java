@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -320,7 +321,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 				geo.setShowObjectCondition(geoBoolean);
 			}
 		} catch (CircularDefinitionException e) {
-			app.localizeAndShowError("CircularDefinition");
+            app.showError(Errors.CircularDefinition);
 		}
 
 		// set caption text

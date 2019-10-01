@@ -16,6 +16,7 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.browser.BrowseResources;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -66,6 +67,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
 	private MaterialVisibility defaultVisibility;
 	private Localization loc;
+    private BaseWidgetFactory widgetFactory;
 
 	/**
 	 * Creates a new GeoGebra save dialog.
@@ -73,9 +75,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public SaveDialogW(final AppW app) {
+    public SaveDialogW(final AppW app, BaseWidgetFactory factory) {
 		super(app.getPanel(), app);
-		this.defaultVisibility = app.isWhiteboardActive() ? MaterialVisibility.Private
+        this.widgetFactory = factory;
+        this.defaultVisibility = app.isMebis() ? MaterialVisibility.Private
 				: MaterialVisibility.Shared;
 		this.appW = app;
 		this.loc = appW.getLocalization();
@@ -106,7 +109,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 			}
 		}, ClickEvent.getType());
-		appW.getLoginOperation().getView().add(this);
+        if (appW.getLoginOperation() != null) {
+            appW.getLoginOperation().getView().add(this);
+        }
 		if (appW.getGoogleDriveOperation() != null) {
 			appW.getGoogleDriveOperation().initGoogleDriveApi();
 		}
@@ -200,8 +205,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerImages[0] = BrowseResources.INSTANCE.location_tube();
 		int providerCount = 1;
 		this.supportedProviders.add(Provider.TUBE);
-		GeoGebraTubeUser user = appW.getLoginOperation().getModel()
-		        .getLoggedInUser();
+        GeoGebraTubeUser user = null;
+        if (appW.getLoginOperation() != null) {
+            user = appW.getLoginOperation().getModel().getLoggedInUser();
+        }
 		if (user != null && user.hasGoogleDrive()
 				&& appW.getLAF().supportsGoogleDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
@@ -227,7 +234,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				appW.isUnbundledOrWhiteboard());
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
-		listBox = new ListBox();
+        listBox = widgetFactory.newListBox();
 		listBox.addStyleName("visibility");
 		listBox.addItem(loc.getMenu("Private"));
 		listBox.addItem(loc.getMenu("Shared"));
@@ -245,7 +252,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-		if (!appW.isWhiteboardActive()) {
+        if (!appW.isMebis()) {
 			buttonPanel.add(providerPopup);
 			buttonPanel.add(listBox);
 		}

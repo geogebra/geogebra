@@ -7,13 +7,8 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandResizeBox extends Command1A {
 
-	TeXLength width;
-	TeXLength height;
-
-	public CommandResizeBox(TeXLength width2, TeXLength height2) {
-		this.width = width2;
-		this.height = height2;
-	}
+    private TeXLength width;
+    private TeXLength height;
 
 	public CommandResizeBox() {
 		//

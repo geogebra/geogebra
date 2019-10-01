@@ -386,9 +386,7 @@ public class TextDispatcher {
 					arcLength, loc0);
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getMenu("Text") + conic.getLabelSimple()));
-			GeoElement[] ret = { text };
-			return ret;
-
+            return text.asArray();
 		}
 
 		// standard case: conic
@@ -408,8 +406,8 @@ public class TextDispatcher {
 			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text")
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
 		}
-		GeoElement[] ret = { text };
-		return ret;
+
+        return text.asArray();
 	}
 
 	/**
@@ -435,8 +433,7 @@ public class TextDispatcher {
 					loc.getMenu("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
-		GeoElement[] ret = { text };
-		return ret;
+        return text.asArray();
 	}
 
 	/**

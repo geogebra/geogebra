@@ -109,6 +109,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
+                if (model.noLabelUpdateNeeded(tfName.getText())) {
+                    return;
+                }
 				onEnter();
 			}
 		});
@@ -165,6 +168,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
+        if (model.noLabelUpdateNeeded(tfName.getText())) {
+            return;
+        }
+
 		model.applyNameChange(tfName.getText(), app.getErrorHandler());
 	}
 
@@ -239,7 +246,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void setNameText(String text) {
-		// not used here.
+        tfName.setValue(text);
 	}
 
 	@Override

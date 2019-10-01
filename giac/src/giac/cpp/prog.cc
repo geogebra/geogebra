@@ -1187,7 +1187,10 @@ namespace giac {
     }
     vecteur newcsto(lop(c,at_sto)),newc1,newc2;
     for (size_t i=0;i<newcsto.size();++i){
-      gen var=newcsto[i]._SYMBptr->feuille[1];
+      gen & val=newcsto[i]._SYMBptr->feuille._VECTptr->front();
+      if (val.type==_VECT && (is_numericv(*val._VECTptr) || is_integer_vecteur(*val._VECTptr))) // in-place modification
+	val=symbolic(at_copy,val);
+      gen var=newcsto[i]._SYMBptr->feuille._VECTptr->back();
       if (var.type==_FUNC && (python_compat(contextptr) || !archive_function_index(*var._FUNCptr))){
 	newc1.push_back(var);
 	newc2.push_back(identificateur(mkvalid(var._FUNCptr->ptr()->print(contextptr))+"_rep"));
@@ -1776,7 +1779,8 @@ namespace giac {
       res += printasinnerbloc(it->_SYMBptr->feuille,contextptr);
     else {
       res += it->print(contextptr);
-      if (res[res.size()-1]!=';') 
+      char reslast=res[res.size()-1];
+      if (reslast!=';' && reslast!='}') 
 	res += ";";
     }
     debug_ptr(contextptr)->indent_spaces -=2;
@@ -2129,7 +2133,7 @@ namespace giac {
       ++it;
       ++it;
       debug_ptr(contextptr)->indent_spaces += 2;
-      if ((maplemode>0) && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
+      if ((maplemode>0 || res.substr(res.size()-3,3)=="do ") && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_bloc))
 	res += printasinnerbloc(it->_SYMBptr->feuille,contextptr)+";";
       else
 	res += it->print(contextptr) +";";
@@ -4095,7 +4099,7 @@ namespace giac {
   define_unary_function_ptr5( at_random ,alias_at_random,&__random,0,true);
 
   gen _randint(const gen & args,GIAC_CONTEXT){
-    if (args.type==_INT_)
+    if (args.type==_INT_ || args.type==_ZINT)
       return (abs_calc_mode(contextptr)==38?0:1)+_rand(args,contextptr);
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
@@ -6722,6 +6726,7 @@ namespace giac {
   static const char _insmod_s []="insmod";
   static define_unary_function_eval (__insmod,&_insmod,_insmod_s);
   define_unary_function_ptr5( at_insmod ,alias_at_insmod,&__insmod,0,true);
+  // QUOTE_ARGUMENTS ??
 
   gen _rmmod(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;

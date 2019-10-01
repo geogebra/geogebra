@@ -70,19 +70,11 @@ public class BrowserDevice implements GDevice {
 		}
 
 		/**
-		 * @param bg
-		 *            browsing gui
-		 */
-		public void setBrowseGUI(BrowseGUI bg) {
-			addGgbChangeHandler(input, bg);
-		}
-
-		/**
 		 * @param of
 		 *            open file view
 		 */
-		public void setOpenFileView(OpenFileView of) {
-			addMOWChangeHandler(input, of);
+        public void setOpenFileView(BrowseViewI of) {
+            addGgbChangeHandler(input, of);
 		}
 
 		private native void addGgbChangeHandler(Element el,
@@ -92,23 +84,8 @@ public class BrowserDevice implements GDevice {
 			el.onchange = function(event) {
 				var files = this.files;
 				if (files.length) {
-					bg.@org.geogebra.web.full.gui.browser.BrowseGUI::showLoading()();
 					var fileToHandle = files[0];
-					bg.@org.geogebra.web.full.gui.browser.BrowseGUI::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
-				}
-				el.parentElement.reset();
-			};
-		}-*/;
-
-		private native void addMOWChangeHandler(Element el,
-				BrowseViewI bg) /*-{
-			var dialog = this;
-
-			el.onchange = function(event) {
-				var files = this.files;
-				if (files.length) {
-					var fileToHandle = files[0];
-					bg.@org.geogebra.web.full.gui.openfileview.OpenFileView::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+					bg.@org.geogebra.web.html5.gui.view.browser.BrowseViewI::openFile(Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
 				}
 				el.parentElement.reset();
 			};
@@ -177,7 +154,7 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		if (app.isWhiteboardActive()) {
+        if (app.isMebis()) {
 			FileOpenButton mb = new FileOpenButton("containedButton");
 			OpenFileView of = new OpenFileView(app, mb);
 			mb.setOpenFileView(of);
@@ -185,7 +162,7 @@ public class BrowserDevice implements GDevice {
 		}
 		FileOpenButton mb = new FileOpenButton();
 		BrowseGUI bg = new BrowseGUI(app, mb);
-		mb.setBrowseGUI(bg);
+        mb.setOpenFileView(bg);
 		return bg;
 	}
 

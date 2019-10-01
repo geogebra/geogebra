@@ -25,4 +25,9 @@ public class Undefined implements Serializable
     {
         return instance;
     }
+
+    @Override
+    public String toString() {
+        return "undefined";
+    }
 }

@@ -3544,6 +3544,13 @@ namespace giac {
 	for (int i=0;i<vs/2;++i){
 	  bool unable=true;
 	  gen cond=piecev[2*i];
+	  if (is_zero(cond))
+	    continue;
+	  if (is_one(cond)){
+	    gen tmp=quotesubst(v[0],piece,piecev[2*i+1],contextptr);
+	    res += _integrate(gen(makevecteur(tmp,x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
+	    return ck_int_numerically(v0orig,x,aorig,borig,(chsign?-res:res),contextptr);
+	  }
 	  if (is_equal(cond) || cond.is_symb_of_sommet(at_same)){
 	    *logptr(contextptr) << gettext("Assuming false condition ") << cond << endl;
 	    continue;
@@ -4954,7 +4961,9 @@ namespace giac {
     if (v.size()==1)
       v=gen2vecteur(eval(g,contextptr));
     if (v.size()<4){
-      gen v2=eval(v[2],1,contextptr);
+      gen v2;
+      if (v.size()==3)
+	v2=eval(v[2],1,contextptr);
       if (type==0 && v.size()==3 && v2.type==_VECT){
 	// for example seq(2^k,k,[1,2,5])
 	gen f=_unapply(makesequence(v[0],v[1]),contextptr);

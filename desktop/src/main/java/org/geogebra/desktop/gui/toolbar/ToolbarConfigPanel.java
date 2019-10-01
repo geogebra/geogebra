@@ -12,25 +12,14 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.toolbar;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.SystemColor;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -38,6 +27,7 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -346,7 +336,12 @@ public class ToolbarConfigPanel extends JPanel
 		}
 	}
 
-	private boolean containsTool(DefaultMutableTreeNode node, Integer mode) {
+    private boolean containsTool(TreeNode node0, Integer mode) {
+        if (!(node0 instanceof DefaultMutableTreeNode)) {
+            return false;
+        }
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) node0;
+
 		// compare modes
 		Object ob = node.getUserObject();
 		if (ob != null && mode.compareTo((Integer) ob) == 0) {
@@ -354,9 +349,9 @@ public class ToolbarConfigPanel extends JPanel
 		}
 
 		if (node.getChildCount() >= 0) {
-			for (Enumeration<DefaultMutableTreeNode> e = node.children(); e
+            for (Enumeration<TreeNode> e = node.children(); e
 					.hasMoreElements();) {
-				DefaultMutableTreeNode n = e.nextElement();
+                TreeNode n = e.nextElement();
 				if (containsTool(n, mode)) {
 					return true;
 				}

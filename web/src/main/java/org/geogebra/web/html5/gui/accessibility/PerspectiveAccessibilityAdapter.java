@@ -1,13 +1,35 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+/**
+ * Adapter for tabbing through multiple graphics views
+ *
+ * @author Zbynek
+ */
 public interface PerspectiveAccessibilityAdapter {
 
-	int nextID(int i);
+    /**
+     * @param viewId current view ID
+     * @return next graphics view ID
+     */
+    int nextID(int viewId);
 
-	int prevID(int i);
+    /**
+     * @param viewId current view ID
+     * @return previous graphics view ID
+     */
+    int prevID(int viewId);
 
-	EuclidianViewAccessibiliyAdapter getEuclidianPanel(int viewId);
+    /**
+     * @param viewId view ID
+     * @return graphics view panel
+     */
+    EuclidianViewAccessibiliyAdapter getEuclidianPanel(int viewId);
 
-	EuclidianViewAccessibiliyAdapter getEVPanelWitZoomButtons(int viewID);
+    /**
+     * @param viewId
+     *            view ID
+     * @return graphics view panel or null
+     */
+    EuclidianViewAccessibiliyAdapter getEVPanelWitZoomButtons(int viewId);
 
 }

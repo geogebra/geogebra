@@ -72,7 +72,11 @@ public class UndoCommand {
 		if (appState != null) {
 			undoManager.loadUndoInfo(appState, slideID);
 		} else {
-			undoManager.executeAction(action, null, args);
+            if (action == EventType.EMBEDDED_STORE_UNDO) {
+                undoManager.embeddedAction(EventType.REDO, args[0]);
+            } else {
+                undoManager.executeAction(action, null, args);
+            }
 		}
 	}
 

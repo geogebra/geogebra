@@ -42,8 +42,9 @@ public class MyTextArea extends TextArea {
 	 * @return handler registration
 	 */
 	public HandlerRegistration addCompositionUpdateHandler(
-			CompositionHandler handler) {
-		return addDomHandler(handler, CompositionEvent.getType());
+            EditorCompositionHandler handler) {
+        addDomHandler(handler, CompositionEndEvent.getType());
+        return addDomHandler(handler, CompositionUpdateEvent.getType());
 
 	}
 }

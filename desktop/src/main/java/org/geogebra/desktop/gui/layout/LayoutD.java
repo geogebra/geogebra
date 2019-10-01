@@ -1,13 +1,11 @@
 package org.geogebra.desktop.gui.layout;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import javax.swing.JComponent;
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.Layout;
@@ -110,7 +108,7 @@ public class LayoutD extends Layout implements SettingListener {
 			app.updateContentPane();
 		}
 
-		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+        app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		return changed;
 	}
 

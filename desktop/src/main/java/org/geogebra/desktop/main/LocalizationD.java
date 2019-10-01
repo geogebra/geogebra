@@ -13,15 +13,16 @@ import org.geogebra.common.util.lang.Language;
  */
 public class LocalizationD extends LocalizationJre {
 
+    private static final String PROPERTIES_DIR = "/org/geogebra/common/jre/properties/";
 	/** path to menu */
-	static final String RB_MENU = "/org/geogebra/desktop/properties/menu";
+    static final String RB_MENU = PROPERTIES_DIR + "menu";
 	/** path to commands */
-	static final String RB_COMMAND = "/org/geogebra/desktop/properties/command";
-	private static final String RB_ERROR = "/org/geogebra/desktop/properties/error";
-	private static final String RB_SYMBOL = "/org/geogebra/desktop/properties/symbols";
+    static final String RB_COMMAND = PROPERTIES_DIR + "command";
+    private static final String RB_ERROR = PROPERTIES_DIR + "error";
+    private static final String RB_SYMBOL = PROPERTIES_DIR + "symbols";
 	/** path to javaui properties (without extension) */
-	public static final String RB_JAVA_UI = "/org/geogebra/desktop/properties/javaui";
-	private static final String RB_COLORS = "/org/geogebra/desktop/properties/colors";
+    public static final String RB_JAVA_UI = PROPERTIES_DIR + "javaui";
+    private static final String RB_COLORS = PROPERTIES_DIR + "colors";
 
 	/**
 	 * @param dimension

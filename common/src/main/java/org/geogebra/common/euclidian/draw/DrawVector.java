@@ -281,7 +281,7 @@ public class DrawVector extends Drawable implements Previewable {
 				}
 			}
 
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(((GeoElement) v).getSelColor());
 				g2.setStroke(selStroke);
 				if (lineVisible) {

@@ -12,6 +12,8 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
@@ -32,15 +34,22 @@ public class AppMocker {
 		return mockApplet(new TestArticleElement("prerelease", appName));
 	}
 
-	public static AppWFull mockApplet(TestArticleElement ae) {
+    public static AppWFull mockApplet(ArticleElementInterface ae) {
 		GwtMockito.useProviderForType(PopupImpl.class,
 				new FakeProvider<PopupImpl>() {
 
 					@Override
 					public PopupImpl getFake(Class<?> type) {
-						return new PopupImpl();
+                        return new PopupImpl() {
+
+                            @Override
+                            public Element getStyleElement(Element popup) {
+                                return DomMocker.getElement();
+                            }
+                        };
 					}
 				});
+        GwtMockito.useProviderForType(ClientBundle.class, new CustomFakeClientBundleProvider());
 		Browser.mockWebGL();
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(new AppletFactory3D() {
@@ -65,7 +74,7 @@ public class AppMocker {
 			}
 		});
 		fr.runAsyncAfterSplash();
-		AppWFull app = (AppWFull) fr.getApplication();
+        AppWFull app = fr.getApp();
 		app.setUndoRedoEnabled(true);
 		app.setUndoActive(true);
 		app.getKernel().getConstruction().initUndoInfo();

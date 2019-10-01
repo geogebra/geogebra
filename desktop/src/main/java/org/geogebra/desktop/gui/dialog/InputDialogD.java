@@ -12,24 +12,14 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.gui.InputHandler;
@@ -481,7 +471,7 @@ public class InputDialogD extends InputDialog
 				wrappedDialog.addWindowFocusListener(this);
 			} else {
 				wrappedDialog.removeWindowFocusListener(this);
-				app.setCurrentSelectionListener(null);
+                app.resetCurrentSelectionListener();
 			}
 		}
 		wrappedDialog.setVisible(flag);

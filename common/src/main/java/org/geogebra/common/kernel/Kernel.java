@@ -89,7 +89,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.LRUMap;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
@@ -346,8 +345,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private final GeoFactory geoFactory;
 
 	private GeoVec2D imaginaryUnit;
-
-	private Exercise exercise;
 
 	private final Object concurrentModificationLock = new Object();
 
@@ -3532,7 +3529,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			SymbolicMode resMode) {
 		GeoElement geo = cons.lookupLabel(label, autoCreate);
 
-		if ((geo == null) && resMode != SymbolicMode.NONE) {
+        if ((geo == null) && resMode == SymbolicMode.SYMBOLIC) {
 			// lookup CAS variables too
 			geo = lookupCasCellLabel(label);
 
@@ -4426,7 +4423,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
 			app.getEventDispatcher()
-					.dispatchEvent(new Event(EventType.REDO, null));
+                    .dispatchEvent(new Event(EventType.REDO));
 			app.setUnAutoSaved();
 		}
 	}
@@ -4451,9 +4448,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		app.getSelectionManager().recallSelectedGeosNames(this);
 		if (getApplication().getVideoManager() != null) {
 			getApplication().getVideoManager().clearStoredVideos();
-		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().clearStoredEmbeds();
 		}
 	}
 
@@ -4536,7 +4530,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				app.batchUpdateEnd();
 				storeStateForModeStarting();
 				app.getEventDispatcher()
-						.dispatchEvent(new Event(EventType.UNDO, null));
+                        .dispatchEvent(new Event(EventType.UNDO));
 				app.setUnAutoSaved();
 			}
 		}
@@ -4763,7 +4757,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sb.append("<kernel>\n");
 
 		// is 3D?
-		if (cons.has3DObjects()) {
+        if (cons.requires3D()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
 			Log.error("************************************");
@@ -4877,13 +4871,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (macroManager != null) {
 			macroManager.removeMacro(macro);
 		}
-		// Also remove Assignments using this macro from Exercise
-		if (hasExercise()) {
-			Exercise ex = getExercise();
-			if (!ex.isEmpty() && ex.usesMacro(macro)) {
-				ex.removeAssignment(macro);
-			}
-		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null,
 				macro.getCommandName()));
@@ -4896,10 +4883,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (macroManager != null) {
 			getApplication().removeMacroCommands();
 			macroManager.removeAllMacros();
-		}
-		// Also remove all Assignments
-		if (hasExercise()) {
-			getExercise().removeAllAssignments();
 		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null, null));
@@ -5010,23 +4993,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public int getMacroID(Macro macro) {
 		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);
-	}
-
-	/**
-	 * @return exercise
-	 */
-	public Exercise getExercise() {
-		if (exercise == null) {
-			exercise = new Exercise(getApplication());
-		}
-		return exercise;
-	}
-
-	/**
-	 * @return whether exercise was initialized
-	 */
-	public boolean hasExercise() {
-		return exercise != null;
 	}
 
 	/**

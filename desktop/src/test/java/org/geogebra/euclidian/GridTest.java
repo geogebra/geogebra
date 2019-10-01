@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.export.GraphicExportDialog;
@@ -29,7 +29,7 @@ public class GridTest {
 	 */
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+        app = AlgebraTest.createApp();
 	}
 
 	/**

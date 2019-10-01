@@ -208,14 +208,14 @@
     position: relative;
     height: 182px;
     overflow: hidden;
-    background-color: #00a8d5;
+    background-color: #6557D2;
     border-radius: 2px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     box-shadow: 0px -4px 6px 0px rgba(0,0,0,0.28);
 }
 
-.GeoGebraFrame .showMowSubmenu {
+.startscreen .showMowSubmenu {
     bottom: 178px;
     transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 }

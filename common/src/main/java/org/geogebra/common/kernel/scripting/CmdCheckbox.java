@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Checkbox
@@ -79,7 +80,7 @@ public class CmdCheckbox extends CommandProcessor {
 
 		if (!geo.isGeoBoolean()) {
 			// invalid input
-			app.showError("InvalidInput",
+            app.showError(Errors.InvalidInput,
 					label + " = " + c.toString(StringTemplate.defaultTemplate));
 			return new GeoElement[] { null };
 		}
@@ -99,7 +100,7 @@ public class CmdCheckbox extends CommandProcessor {
 				}
 			}
 		} catch (CircularDefinitionException e) {
-			app.localizeAndShowError("CircularDefinition");
+            app.showError(Errors.CircularDefinition);
 		}
 		return new GeoElement[] { gb };
 	}

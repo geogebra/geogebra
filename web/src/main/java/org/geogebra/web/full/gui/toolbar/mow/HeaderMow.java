@@ -150,6 +150,7 @@ public class HeaderMow extends FlowPanel
 		toggleCloseButton();
 		toolbar.setOpen(!toolbar.isOpen());
 		toolbar.addStyleName("toolbarMow");
+        toolbar.updateFloatingButtonsPosition();
 	}
 
 	/**

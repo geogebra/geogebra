@@ -1707,19 +1707,52 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	final public void setZPick(double zNear, double zFar,
 			boolean discardPositive, double positionOnHitting) {
-		if (discardPositive && (zNear > 0 || zFar > 0)) {
-			zPickNear = Double.NEGATIVE_INFINITY;
-			zPickFar = Double.NEGATIVE_INFINITY;
-			relevantPickingValues = false;
+        if (needsDiscardZPick(discardPositive, zNear, zFar)) {
+            resetZPick();
 		} else {
-			zPickNear = zNear;
-			zPickFar = zFar;
-			relevantPickingValues = !Double.isInfinite(zPickNear)
-					&& !Double.isInfinite(zPickFar) && !Double.isNaN(zPickNear)
-					&& !Double.isNaN(zPickFar);
-		}
-		this.positionOnHitting = positionOnHitting;
-	}
+            setZPickValue(zNear, zFar);
+        }
+        this.positionOnHitting = positionOnHitting;
+    }
+
+    /**
+     * @param discardPositive whether to discard hits behind the eye position
+     * @param zNear           front hit
+     * @param zFar            back hit
+     * @return whether to discard
+     */
+    protected boolean needsDiscardZPick(boolean discardPositive,
+                                        double zNear, double zFar) {
+        return discardPositive && (zNear > 0 || zFar > 0);
+    }
+
+    /**
+     * @param zNear front hit position
+     * @param zFar  back hit position
+     */
+    protected void setZPickValue(double zNear, double zFar) {
+        zPickNear = zNear;
+        zPickFar = zFar;
+        relevantPickingValues = !Double.isInfinite(zPickNear)
+                && !Double.isInfinite(zPickFar) && !Double.isNaN(zPickNear)
+                && !Double.isNaN(zPickFar);
+    }
+
+    /**
+     * @param positionOnHitting position on hitting ray
+     */
+    protected void setPositionOnHitting(double positionOnHitting) {
+        this.positionOnHitting = positionOnHitting;
+    }
+
+    /**
+     * Reset z picking values
+     */
+    protected void resetZPick() {
+        zPickNear = Double.NEGATIVE_INFINITY;
+        zPickFar = Double.NEGATIVE_INFINITY;
+        relevantPickingValues = false;
+    }
 
 	/**
 	 * 
@@ -1853,16 +1886,37 @@ public abstract class Drawable3D extends DrawableND {
 	 *            (x,y,z) object bounds max
 	 */
 	static protected void enlargeBounds(Coords min, Coords max,
-			Coords boundsMin, Coords boundsMax) {
-		for (int i = 0; i < 3; i++) {
-			if (min.val[i] > boundsMin.val[i]) {
-				min.val[i] = boundsMin.val[i];
-			}
-			if (max.val[i] < boundsMax.val[i]) {
-				max.val[i] = boundsMax.val[i];
-			}
-		}
-	}
+                                        Coords boundsMin, Coords boundsMax) {
+        for (int i = 0; i < 3; i++) {
+            if (min.val[i] > boundsMin.val[i]) {
+                min.val[i] = boundsMin.val[i];
+            }
+            if (max.val[i] < boundsMax.val[i]) {
+                max.val[i] = boundsMax.val[i];
+            }
+        }
+    }
+
+    /**
+     * enlarge min and max to boundsMin and boundsMax
+     *
+     * @param min       (x,y,z) min
+     * @param max       (x,y,z) max
+     * @param boundsMin (x,y,z) object bounds min
+     * @param boundsMax (x,y,z) object bounds max
+     * @param radius    e.g. line radius
+     */
+    static protected void enlargeBounds(Coords min, Coords max,
+                                        Coords boundsMin, Coords boundsMax, double radius) {
+        for (int i = 0; i < 3; i++) {
+            if (min.val[i] > boundsMin.val[i] - radius) {
+                min.val[i] = boundsMin.val[i] - radius;
+            }
+            if (max.val[i] < boundsMax.val[i] + radius) {
+                max.val[i] = boundsMax.val[i] + radius;
+            }
+        }
+    }
 
 	/**
 	 * enlarge min and max to boundsMin and boundsMax

@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 
 /**
  * target type for visual feedback around cursor
@@ -296,6 +295,9 @@ public enum TargetType {
 					return onFail;
 				}
 			}
+            if (point.isPointOnPath()) {
+                return onSuccess;
+            }
 			return NOTHING;
 		default:
 			return NOT_USED;
@@ -306,38 +308,32 @@ public enum TargetType {
 			EuclidianView3D view3D, EuclidianController3D ec,
 			TargetType onSuccess, TargetType onFail, int vertexCount) {
 		Hits hits;
-		if (view3D.getApplication().has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-			// no point: can select a regular polygon
-			if (ec.selPoints() == 0) {
-				GeoPoint3D point = view3D.getCursor3D();
-				if (point.hasRegion()) {
-					GeoElement geo = (GeoElement) point.getRegion();
-                    if (!(geo instanceof GeoCoordSys2D)) {
-                        return onSuccess;
-                    }
-					if (!geo.isGeoPolygon()) {
-						return geo.isGeoPlane() ? onSuccess : NOTHING;
-					}
-					GeoPolygon polygon = (GeoPolygon) geo;
-					if (polygon.getPointsLength() == vertexCount
-							&& polygon.isRegular()) {
-						return onFail;
-					}
-					return NOTHING;
-				}
-				// must be a path
-				return onSuccess;
-			}
-			// one point, one region: can create a point
-			if (ec.selCS2D() == 1) {
-				return onSuccess;
-			}
-		} else {
-			// show cursor when direction has been selected
-			if (ec.selCS2D() == 1 || (ec.selPoints() != 0)) {
-				return onSuccess;
-			}
-		}
+        // no point: can select a regular polygon
+        if (ec.selPoints() == 0) {
+            GeoPoint3D point = view3D.getCursor3D();
+            if (point.hasRegion()) {
+                GeoElement geo = (GeoElement) point.getRegion();
+                if (!(geo instanceof GeoCoordSys2D)) {
+                    return onSuccess;
+                }
+                if (!geo.isGeoPolygon()) {
+                    return geo.isGeoPlane() ? onSuccess : NOTHING;
+                }
+                GeoPolygon polygon = (GeoPolygon) geo;
+                if (polygon.getPointsLength() == vertexCount
+                        && polygon.isRegular()) {
+                    return onFail;
+                }
+                return NOTHING;
+            }
+            // must be a path
+            return onSuccess;
+        }
+        // one point, one region: can create a point
+        if (ec.selCS2D() == 1) {
+            return onSuccess;
+        }
+
 		// no region: can create a point on edge or xOy plane
 		hits = view3D.getHits();
 		if (hits.isEmpty()) {

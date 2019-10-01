@@ -53,7 +53,7 @@ public class DefaultUndoManager extends UndoManager {
         UndoCommand command = new UndoCommand(appStateToAdd);
         maybeStoreUndoCommand(command);
         pruneStateList();
-        app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
+        app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
     }
 
     @Override

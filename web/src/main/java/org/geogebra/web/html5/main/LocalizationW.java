@@ -104,6 +104,23 @@ public final class LocalizationW extends Localization {
 		return ret;
 	}
 
+    @Override
+    public String getEnglishCommand(String key) {
+        if (key == null) {
+            return "";
+        }
+
+        String ret = getPropertyNative("en", key, "command");
+
+        if (ret == null || "".equals(ret)) {
+            Log.debug("command key not found: " + key);
+            return key;
+        }
+
+        return ret;
+
+    }
+
 	// TODO: implement getCommandLocale()
 	private String getCommandLocaleString() {
 		if (!lang.hasTranslatedKeyboard()) {

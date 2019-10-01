@@ -14,16 +14,17 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -897,4 +898,9 @@ final public class GeoSegment extends GeoLine
 	public char getLabelDelimiter() {
 		return '=';
 	}
+
+    @Override
+    public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
+        curve.setFromPolyLine(new GeoPointND[]{startPoint, endPoint}, false);
+    }
 }

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
@@ -185,7 +186,7 @@ public class FunctionParser {
 				return derivativeNode(kernel, geoExp, order,
 						geo.isGeoCurveCartesian(), myList.getListElement(0));
 			}
-			throw new MyParseError(kernel.getLocalization(), "FunctionExpected",
+            throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected,
 					funcName);
 
 		}
@@ -281,7 +282,7 @@ public class FunctionParser {
 					list.getListElement(1), list.getListElement(2));
 
 		}
-		throw new MyParseError(kernel.getLocalization(), "FunctionExpected",
+        throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected,
 				funcName);
 
 	}
@@ -319,7 +320,7 @@ public class FunctionParser {
 	}
 
 	/**
-	 * @param kernel2
+     * @param kernel
 	 *            kernel
 	 * @param geo
 	 *            function
@@ -327,15 +328,22 @@ public class FunctionParser {
 	 *            derivative order
 	 * @param curve
 	 *            whether geo is a curve
-	 * @param at
+     * @param functionArgument
 	 *            function argument
-	 * @return expression for geo'''(at)
+     * @return expression for geo'''(functionArgument)
 	 */
-	public static ExpressionNode derivativeNode(Kernel kernel2,
-			ExpressionValue geo, int order, boolean curve, ExpressionValue at) {
-		return new ExpressionNode(kernel2,
-				new ExpressionNode(kernel2, geo, Operation.DERIVATIVE,
-						new MyDouble(kernel2, order)),
-				curve ? Operation.VEC_FUNCTION : Operation.FUNCTION, at);
+    public static ExpressionNode derivativeNode(
+            Kernel kernel,
+            ExpressionValue geo,
+            int order,
+            boolean curve,
+            ExpressionValue functionArgument) {
+
+        ExpressionValue left =
+                new ExpressionNode(
+                        kernel,
+                        geo, Operation.DERIVATIVE, new MyDouble(kernel, order));
+        Operation operation = curve ? Operation.VEC_FUNCTION : Operation.FUNCTION;
+        return new ExpressionNode(kernel, left, operation, functionArgument);
 	}
 }

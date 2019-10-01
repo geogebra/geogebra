@@ -1,6 +1,6 @@
 package org.geogebra.common.jre.headless;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
@@ -27,21 +27,27 @@ import org.geogebra.common.kernel.DefaultUndoManager;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -58,6 +64,8 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
+    private AppConfig config = new AppConfigDefault();
+    private CASFactory casFactory = new CASFactoryDummy();
 
     /**
 	 * Construct an AppCommon.
@@ -68,7 +76,7 @@ public class AppCommon extends App {
 	 *            AWT factory
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
-		super(Versions.ANDROID_NATIVE_GRAPHING);
+        super(Platform.ANDROID);
 		AwtFactory.setPrototypeIfNull(awtFactory);
         initFactories();
 		initKernel();
@@ -143,12 +151,12 @@ public class AppCommon extends App {
 
     @Override
     protected int getWindowWidth() {
-        return 0;
+        return 800;
     }
 
     @Override
     protected int getWindowHeight() {
-        return 0;
+        return 600;
     }
 
     @Override
@@ -191,7 +199,38 @@ public class AppCommon extends App {
 
     @Override
     public GTimer newTimer(GTimerListener listener, int delay) {
-        return null;
+        return new GTimer() {
+
+            @Override
+            public void start() {
+                // stub
+
+            }
+
+            @Override
+            public void startRepeat() {
+                // stub
+
+            }
+
+            @Override
+            public void stop() {
+                // stub
+
+            }
+
+            @Override
+            public boolean isRunning() {
+                // stub
+                return false;
+            }
+
+            @Override
+            public void setDelay(int timerDelay) {
+                // stub
+
+            }
+        };
     }
 
     @Override
@@ -283,19 +322,19 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				// TODO Auto-generated method stub
+                // stub
 				return null;
 			}
 
 			@Override
 			public void setImageFileName(String fileName) {
-				// TODO Auto-generated method stub
+                // stub
 
 			}
 
 			@Override
 			public void convertToSaveableFormat() {
-				// TODO Auto-generated method stub
+                // stub
 
 			}
 		};
@@ -351,7 +390,7 @@ public class AppCommon extends App {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			showError("LoadFileFailed");
+            showError(Errors.LoadFileFailed);
 		}
     }
 
@@ -361,58 +400,138 @@ public class AppCommon extends App {
 
 			@Override
 			public byte[] getGGBfile() {
-				// TODO Auto-generated method stub
+                // stub
 				return null;
 			}
 
 			@Override
 			public void setErrorDialogsActive(boolean flag) {
-				// TODO Auto-generated method stub
+                // stub
 			}
 
 			@Override
 			public void refreshViews() {
-				// TODO Auto-generated method stub
+                // stub
 			}
 
 			@Override
 			public void openFile(String strURL) {
-				// TODO Auto-generated method stub
+                // stub
 			}
 
 			@Override
 			public boolean writePNGtoFile(String filename, double exportScale,
 					boolean transparent, double DPI, boolean greyscale) {
-				// TODO Auto-generated method stub
+                // stub
 				return false;
 			}
 
 			@Override
 			protected void exportPNGClipboard(boolean transparent, int DPI,
 					double exportScale, EuclidianView ev) {
-				// TODO Auto-generated method stub
+                // stub
 
 			}
 
 			@Override
 			protected void exportPNGClipboardDPIisNaN(boolean transparent,
 					double exportScale, EuclidianView ev) {
-				// TODO Auto-generated method stub
+                // stub
 
 			}
 
 			@Override
 			protected String base64encodePNG(boolean transparent, double DPI,
 					double exportScale, EuclidianView ev) {
-				// TODO Auto-generated method stub
-				return null;
+                // stub
+                return "";
 			}
 		};
     }
 
     @Override
     public SoundManager getSoundManager() {
-        return null;
+        return new SoundManager() {
+
+            @Override
+            public void pauseResumeSound(boolean b) {
+                // stub
+            }
+
+            @Override
+            public void playSequenceNote(int double1, double double2, int i,
+                                         int j) {
+                // stub
+            }
+
+            @Override
+            public void playSequenceFromString(String string, int double1) {
+                // stub
+            }
+
+            @Override
+            public void playFunction(GeoFunction geoFunction, double double1,
+                                     double double2) {
+                // stub
+            }
+
+            @Override
+            public void playFile(String string) {
+                // stub
+            }
+
+            @Override
+            public void playFunction(GeoFunction geoFunction, double double1,
+                                     double double2, int double3, int double4) {
+                // stub
+            }
+
+            @Override
+            public void loadGeoAudio(GeoAudio geo) {
+                // stub
+            }
+
+            @Override
+            public int getDuration(String url) {
+                // stub
+                return 0;
+            }
+
+            @Override
+            public int getCurrentTime(String url) {
+                // stub
+                return 0;
+            }
+
+            @Override
+            public void setCurrentTime(String url, int pos) {
+                // stub
+
+            }
+
+            @Override
+            public void checkURL(String url, AsyncOperation<Boolean> callback) {
+                // stub
+
+            }
+
+            @Override
+            public void play(GeoAudio geo) {
+                // stub
+
+            }
+
+            @Override
+            public void pause(GeoAudio geo) {
+                // stub
+
+            }
+
+            @Override
+            public boolean isPlaying(GeoAudio geo) {
+                return false;
+            }
+        };
     }
 
     @Override
@@ -426,7 +545,7 @@ public class AppCommon extends App {
     }
 
     @Override
-    public void callAppletJavaScript(String string, String... args) {
+    public void callAppletJavaScript(String string, String args) {
 		// TODO delegate to ScriptManager
     }
 
@@ -522,7 +641,7 @@ public class AppCommon extends App {
 
     @Override
     public CASFactory getCASFactory() {
-		return new CASFactoryDummy();
+        return casFactory;
     }
 
     @Override
@@ -532,7 +651,7 @@ public class AppCommon extends App {
 
     @Override
     public NormalizerMinimal getNormalizer() {
-        return null;
+        return new NormalizerMinimal();
     }
 
     @Override
@@ -562,7 +681,7 @@ public class AppCommon extends App {
 
     @Override
     public MyXMLio createXMLio(Construction cons) {
-		return new MyXMLioCommon(getKernel(), getKernel().getConstruction());
+        return new MyXMLioCommon(cons.getKernel(), cons);
     }
 
     @Override
@@ -588,11 +707,6 @@ public class AppCommon extends App {
 			public void ggbOnInit() {
 				// no JS
 			}
-
-			@Override
-			public void callJavaScript(String jsFunction, String[] args) {
-				// no JS
-			}
 		};
     }
 
@@ -605,4 +719,17 @@ public class AppCommon extends App {
 	public void initDialogManager(boolean clear, String... inputs) {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
+
+    @Override
+    public AppConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(AppConfig config) {
+        this.config = config;
+    }
+
+    public void setCASFactory(CASFactory casFactory) {
+        this.casFactory = casFactory;
+    }
 }

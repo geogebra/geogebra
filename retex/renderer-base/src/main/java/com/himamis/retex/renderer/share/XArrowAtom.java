@@ -115,7 +115,7 @@ public class XArrowAtom extends XAtom {
 			final Box left = new XLeftHarpoonUp(width);
 			final VerticalBox vb = new VerticalBox(left);
 			vb.add(new StrutBox(0.,
-					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
+                    new TeXLength(Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(right);
 			return vb;
@@ -129,7 +129,7 @@ public class XArrowAtom extends XAtom {
 			final Box left = new XLeftHarpoonDown(width);
 			final VerticalBox vb = new VerticalBox(right);
 			vb.add(new StrutBox(0.,
-					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
+                    new TeXLength(Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(left);
 			return vb;
@@ -139,7 +139,7 @@ public class XArrowAtom extends XAtom {
 			final Box left = SymbolAtom.get("leftharpoondown").createBox(env);
 			final VerticalBox vb = new VerticalBox(right);
 			vb.add(new StrutBox(0.,
-					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
+                    new TeXLength(Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(new HorizontalBox(left, right.getWidth(),
 					TeXConstants.Align.CENTER));
@@ -151,13 +151,13 @@ public class XArrowAtom extends XAtom {
 			final VerticalBox vb = new VerticalBox(new HorizontalBox(right,
 					left.getWidth(), TeXConstants.Align.CENTER));
 			vb.add(new StrutBox(0.,
-					new TeXLength(TeXLength.Unit.MU, -2.).getValue(env), 0.,
+                    new TeXLength(Unit.MU, -2.).getValue(env), 0.,
 					0.));
 			vb.add(left);
 			return vb;
 		}
 		default:
-			FactoryProvider.getInstance().debug(kind + " not implemented");
+            FactoryProvider.debugS(kind + " not implemented");
 			return StrutBox.getEmpty();
 		}
 	}

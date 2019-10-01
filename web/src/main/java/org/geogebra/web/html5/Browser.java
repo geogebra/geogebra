@@ -857,4 +857,14 @@ public class Browser {
 				? StringUtil.txtMarkerForSafari + encodeURIComponent(txt)
 				: StringUtil.txtMarker + txt;
 	}
+
+    /**
+     * Checks for screen readers that don't support keyboard event handling in
+     * canvas.
+     *
+     * @return whether emulator of tab handler is needed
+     */
+    public static boolean needsAccessibilityView() {
+        return isMobile();
+    }
 }

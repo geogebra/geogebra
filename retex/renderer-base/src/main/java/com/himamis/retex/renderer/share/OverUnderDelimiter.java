@@ -66,7 +66,7 @@ public class OverUnderDelimiter extends Atom {
 	private final boolean over;
 
 	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s,
-			TeXLength.Unit kernUnit, double kern, boolean over) {
+                              Unit kernUnit, double kern, boolean over) {
 		this.type = TeXConstants.TYPE_INNER;
 		this.base = base;
 		this.script = script;

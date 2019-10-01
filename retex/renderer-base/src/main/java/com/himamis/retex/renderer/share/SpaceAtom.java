@@ -48,8 +48,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.TeXLength.Unit;
-
 /**
  * An atom representing whitespace. The dimension values can be set using
  * different unit types.
@@ -68,7 +66,7 @@ public class SpaceAtom extends Atom {
 	private double depth;
 
 	// units for the dimensions
-	private TeXLength.Unit unit;
+    private Unit unit;
 
 	public SpaceAtom() {
 		blankSpace = true;
@@ -79,15 +77,15 @@ public class SpaceAtom extends Atom {
 		blankType = type;
 	}
 
-	public SpaceAtom(TeXLength.Unit unit, double width, double height,
-			double depth) {
+    public SpaceAtom(Unit unit, double width, double height,
+                     double depth) {
 		this.unit = unit;
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
 	}
 
-	public SpaceAtom(TeXLength.Unit unit, double width) {
+    public SpaceAtom(Unit unit, double width) {
 		this.unit = unit;
 		this.width = width;
 		this.height = 0.;
@@ -140,9 +138,9 @@ public class SpaceAtom extends Atom {
 		}
 	}
 
-	private final double conv(final double x, final TeXLength.Unit unit,
-			final TeXEnvironment env) {
-		return x == 0. ? 0. : x * TeXLength.getFactor(unit, env);
+    private final double conv(final double x, final Unit unit,
+                              final TeXEnvironment env) {
+        return x == 0. ? 0. : x * unit.getFactor(env);
 	}
 
 	public double getHeight() {

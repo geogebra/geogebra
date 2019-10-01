@@ -1156,7 +1156,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	@Override
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && geo.doHighlighting() && latex) {
+        if (geo.isLabelVisible() && isHighlighted() && latex) {
 			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
 					labelSize.x, labelSize.y);
 

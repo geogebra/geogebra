@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -194,7 +195,7 @@ public abstract class CommandDispatcher {
 	 *            command
 	 * @return whether selector accepts it
 	 */
-	protected boolean isAllowedByNameFilter(Commands command) {
+	public boolean isAllowedByNameFilter(Commands command) {
 		boolean allowed = true;
 		for (CommandNameFilter filter : commandNameFilters) {
 			allowed = allowed && filter.isCommandAllowed(command);
@@ -241,7 +242,7 @@ public abstract class CommandDispatcher {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			Log.debug(e);
 			throw MyError.forCommand(app.getLocalization(),
-					"CAS.GeneralErrorMessage",
+					Errors.CASGeneralErrorMessage.getKey(),
 					c.getName(), e);
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -250,7 +251,7 @@ public abstract class CommandDispatcher {
 
 	private CommandProcessor getProcessor(Command c) throws MyError {
 		if (!enabled) {
-			throw new MyError(kernel.getLocalization(), "InvalidInput");
+			throw new MyError(kernel.getLocalization(), Errors.InvalidInput);
 		}
 		if (cmdTable == null) {
 			initCmdTable();
@@ -380,8 +381,6 @@ public abstract class CommandDispatcher {
 			case Repeat:
 			case Slider:
 			case Checkbox:
-			case InputBox:
-			case Textfield:
 			case Button:
 			case Execute:
 			case GetTime:
@@ -673,6 +672,8 @@ public abstract class CommandDispatcher {
 
 			case FormulaText:
 			case LaTeX:
+				case InputBox:
+				case Textfield:
 			case Normalize:
 			case ExportImage:
 

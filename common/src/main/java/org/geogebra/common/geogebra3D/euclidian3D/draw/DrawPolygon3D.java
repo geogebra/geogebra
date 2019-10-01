@@ -641,7 +641,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 						geo.getAlphaValue());
 			} else {
 				if (!geo.wasInitLabelsCalled()) {
-					exportToPrinter3D.export(getGeometryIndex(), Type.CURVE,
+                    exportToPrinter3D.exportCurve(getGeometryIndex(), Type.CURVE,
 							geo.getGeoClassType().toString(), geo);
 				}
 			}

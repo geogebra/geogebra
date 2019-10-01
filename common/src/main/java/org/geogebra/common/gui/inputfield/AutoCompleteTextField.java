@@ -3,17 +3,18 @@ package org.geogebra.common.gui.inputfield;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.TextObject;
 
 public interface AutoCompleteTextField
-		extends GeoElementSelectionListener, TextObject {
+        extends TextObject {
 
 	void showPopupSymbolButton(boolean b);
 
@@ -92,4 +93,17 @@ public interface AutoCompleteTextField
 	 * @param text to read.
 	 */
 	void setAuralText(String text);
+
+    void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle inputFieldBounds);
+
+    /**
+     * @param start from which character to highlight the text
+     * @param end   to which character to highlight the text
+     */
+    void setSelection(int start, int end);
+
+    /**
+     * @param alignment the text alignment in the input box
+     */
+    void setTextAlignmentsForInputBox(TextAlignment alignment);
 }

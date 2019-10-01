@@ -2,7 +2,8 @@ package org.geogebra.web.full.gui.laf;
 
 import java.util.Date;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.lang.Language;
@@ -67,24 +68,28 @@ public class GLookAndFeel implements GLookAndFeelI {
 			return;
 		}
 		// popup when the user wants to exit accidentally
-        this.windowClosingHandler = Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            @Override
-			public void onWindowClosing(ClosingEvent event) {
-						event.setMessage(app.getLocalization()
-								.getMenu("CloseApplicationLoseUnsavedData"));
-            }
-        });
+        if (windowClosingHandler == null) {
+            this.windowClosingHandler = Window
+                    .addWindowClosingHandler(new Window.ClosingHandler() {
+                        @Override
+                        public void onWindowClosing(ClosingEvent event) {
+                            event.setMessage(app.getLocalization().getMenu(
+                                    "CloseApplicationLoseUnsavedData"));
+                        }
+                    });
+        }
 
         if (this.windowCloseHandler == null) {
-            //onClose is called, if user leaves the page correct
-            //not called if browser crashes
-            this.windowCloseHandler = Window.addCloseHandler(new CloseHandler<Window>() {
+            // onClose is called, if user leaves the page correct
+            // not called if browser crashes
+            this.windowCloseHandler = Window
+                    .addCloseHandler(new CloseHandler<Window>() {
 
-    			@Override
-    			public void onClose(CloseEvent<Window> event) {
-    				app.getFileManager().deleteAutoSavedFile();
-    			}
-    		});
+                        @Override
+                        public void onClose(CloseEvent<Window> event) {
+                            app.getFileManager().deleteAutoSavedFile();
+                        }
+                    });
         }
 	}
 
@@ -94,8 +99,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 	 */
 	@Override
 	public void removeWindowClosingHandler() {
-		if (this.windowClosingHandler != null) {
-			this.windowClosingHandler.removeHandler();
+        if (windowClosingHandler != null) {
+            windowClosingHandler.removeHandler();
+            windowClosingHandler = null;
 		}
 	}
 
@@ -140,6 +146,11 @@ public class GLookAndFeel implements GLookAndFeelI {
 		return new SignInController(app, 0, null);
     }
 
+    @Override
+    public String getClientId() {
+        return GeoGebraConstants.GOOGLE_CLIENT_ID;
+    }
+
 	@Override
     public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
 	    return false;
@@ -176,18 +187,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public Versions getVersion(int dim, String appName) {
-		if ("graphing".equals(appName)) {
-			return Versions.WEB_GRAPHING;
-		}
-		if ("geometry".equals(appName)) {
-			return Versions.WEB_GEOMETRY;
-		}
-		if ("3d".equalsIgnoreCase(appName)) {
-			return Versions.WEB_3D_GRAPHING;
-		}
-		return dim > 2 ? Versions.WEB_FOR_BROWSER_3D
-				: Versions.WEB_FOR_BROWSER_2D;
+    public Platform getPlatform(int dim, String appName) {
+        return dim > 2 ? Platform.WEB
+                : Platform.WEB_FOR_BROWSER_2D;
 	}
 
 	@Override

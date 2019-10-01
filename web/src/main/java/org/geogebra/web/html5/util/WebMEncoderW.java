@@ -18,11 +18,6 @@ import com.google.gwt.core.client.JsArrayString;
 public class WebMEncoderW implements Encoder {
 
 	/**
-	 * Reference to the gif object created internally.
-	 */
-	private JavaScriptObject internal;
-
-	/**
 	 * Milliseconds between frames.
 	 */
 	private int frameDelay;

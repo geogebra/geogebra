@@ -157,13 +157,16 @@ public class LayoutW extends Layout {
 			app.updateContentPane();
 		}
 
-		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+        app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		return changed;
 		// old behaviour: just updating center, instead of updateContentPane
 		// app.refreshSplitLayoutPanel();
 	}
-	
-	private static boolean mayHaveKeyboard(DockPanelData dp) {
+
+    private boolean mayHaveKeyboard(DockPanelData dp) {
+        if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
+            return app.getKernel().getConstruction().hasInputBoxes();
+        }
 		return (dp.getViewId() == App.VIEW_ALGEBRA
 				|| dp.getViewId() == App.VIEW_CAS
 				|| dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR

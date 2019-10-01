@@ -16,8 +16,10 @@ import com.google.gwt.core.client.RunAsyncCallback;
  *
  */
 public class ToolButton extends StandardButton {
+
 	private int mode;
 	private AppW appW;
+    private String selectedColor;
 
 	/**
 	 * @param mode
@@ -43,10 +45,10 @@ public class ToolButton extends StandardButton {
 				.getMenu(EuclidianConstants.getModeText(mode)), 24, app);
 		this.mode = mode;
 		this.appW = app;
+        this.selectedColor = app.getVendorSettings().getPrimaryColor().toString();
 		setStyleName("toolButton");
 		setAccessible();
 		setSelected(false); // update icon
-
 	}
 
 	private void setAccessible() {
@@ -76,7 +78,8 @@ public class ToolButton extends StandardButton {
 			public void onSuccess() {
 				setIcon(selected
 						? GGWToolBar.getColoredImageForMode(
-								ToolbarSvgResources.INSTANCE, iconMode, app)
+                        ToolbarSvgResources.INSTANCE, iconMode, app,
+                        selectedColor)
 						: GGWToolBar.getImageURLNotMacro(
 								ToolbarSvgResources.INSTANCE, iconMode, app));
 			}

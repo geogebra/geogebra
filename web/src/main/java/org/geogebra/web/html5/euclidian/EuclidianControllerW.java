@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -250,7 +251,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onPointerEventStart(AbstractEvent event) {
-
 		if (temporaryMode) {
 			mtg.setComboboxFocused(false);
 		}
@@ -297,9 +297,10 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-
+        Log.debug("tf focus");
 		if (isComboboxFocused()) {
-			// Log.info("isComboboxFocused!");
+
+            Log.error("isComboboxFocused!");
 			this.draggingOccured = false;
 			getView().setHits(mouseLoc, type);
 			Hits hits = getView().getHits().getTopHits();
@@ -316,6 +317,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
+        Log.debug("tf click");
 		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
 		return getView().textfieldClicked(x, y, type);
 	}
@@ -443,7 +445,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void closePopups(int x, int y, PointerEventType type) {
 		PointerEvent wrap = new PointerEvent(x, y, type, mtg);
-		((AppW) app).closePopups(wrap.getX(), wrap.getY());
+        app.closePopups(wrap.getX(), wrap.getY());
 	}
 
 	@Override
@@ -497,5 +499,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 		return textController;
 	}
+
+    /**
+     * @return MouseTouchGestureControllerW instance
+     */
+    public MouseTouchGestureControllerW getMouseTouchGestureController() {
+        return mtg;
+    }
 }
 

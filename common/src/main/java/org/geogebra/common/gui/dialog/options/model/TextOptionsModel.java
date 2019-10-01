@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -181,7 +182,7 @@ public class TextOptionsModel extends OptionsModel {
 				multiplier = 100;
 			}
 		} catch (NumberFormatException e2) {
-			app.localizeAndShowError("InvalidInput");
+            app.showError(Errors.InvalidInput);
 			return;
 		}
 		applyFontSize(multiplier);

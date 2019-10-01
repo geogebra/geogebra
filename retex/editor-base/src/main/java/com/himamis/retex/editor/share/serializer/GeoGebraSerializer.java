@@ -212,11 +212,8 @@ public class GeoGebraSerializer implements Serializer {
 					stringBuilder.append("*");
 				}
 			}
-			if (mathComponent instanceof MathFunction) {
-				MathFunction innerFunction = (MathFunction) mathComponent;
-				if (Tag.SUBSCRIPT == innerFunction.getName()) {
-					stringBuilder.append("*");
-				}
+            if (mathComponent != null && mathComponent.hasTag(Tag.SUBSCRIPT)) {
+                stringBuilder.append("*");
 			}
 		}
 	}

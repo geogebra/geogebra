@@ -1,5 +1,5 @@
 @import 'colors';
-	
+
 .GeoGebraFrame {
 	$always_on_top: 60;
 	
@@ -553,9 +553,9 @@
 			display: none;
 		}
 	}
-	.undoRedoPositionMow {
+
+	.undoRedoPosition {
 		top: 0px;
-		left: 40px;
 		.flatButton {
 			border-radius: 50%;	
 			transition: background-color 150ms ease 0ms;
@@ -567,6 +567,11 @@
 		  		background-color: $mow_card_background_hover;
 			}
 		}
+	}
+
+	.undoRedoPositionMebis {
+	    @extend .undoRedoPosition;
+	    left: 40px;
 	}
 
 	input[type="text"], input[type="number"], .gwt-TextBox,
@@ -749,6 +754,16 @@
 			color: $teal-light;
 		}
 	}
+
+    .evInputEditor {
+            padding-top: 2px;
+            padding-left: 2px;
+            position: absolute;
+            border: 1px solid blue;
+            border-radius: 4px 4px;
+            overflow: hidden;
+         }
+
 }
 
 /* Outside of GeoGebraFrame */
@@ -757,4 +772,9 @@
 	top: 0px;
 	left: 0px;
 	z-index: 9999;
+}
+
+.gbox {
+    will-change: transform;
+    z-index: 50;
 }

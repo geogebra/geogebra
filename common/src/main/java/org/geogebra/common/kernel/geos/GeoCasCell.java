@@ -59,6 +59,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
@@ -245,12 +246,11 @@ public class GeoCasCell extends GeoElement
 
 	private String localizedError(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			if (error.startsWith(AlgoDependentCasCell.UNDEFINED_VARIABLE)) {
-				return getLoc()
-						.getError(AlgoDependentCasCell.UNDEFINED_VARIABLE)
+            if (error.startsWith(Errors.UndefinedVariable.getKey())) {
+                return Errors.UndefinedVariable.getError(getLoc())
 						+ ": "
 						+ error.substring(
-								AlgoDependentCasCell.UNDEFINED_VARIABLE
+                        Errors.UndefinedVariable.getKey()
 										.length());
 			}
 			return getLoc().getError(error);

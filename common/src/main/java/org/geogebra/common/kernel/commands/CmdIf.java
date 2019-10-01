@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -316,7 +317,7 @@ public class CmdIf extends CommandProcessor {
 				gf.validate(label == null);
 				return gf;
 			}
-			throw new MyError(loc, "InvalidFunction");
+            throw new MyError(loc, Errors.InvalidFunction);
 		}
 		FunctionNVar fun = new FunctionNVar(expr, fv);
 		if (mayUseIndependent) {

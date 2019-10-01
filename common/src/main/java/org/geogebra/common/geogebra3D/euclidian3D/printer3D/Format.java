@@ -56,8 +56,13 @@ abstract public class Format {
 	 * 
 	 * @param sb
 	 *            output builder
+     * @param isFlat
+     *            all geometries are in the same plane
+     * @param isCurve
+     *            geometry is a curve
 	 */
-	abstract public void getPolyhedronStart(StringBuilder sb);
+    abstract public void getPolyhedronStart(StringBuilder sb, boolean isFlat,
+                                            boolean isCurve);
 
 	/**
 	 * end for polyhedron
@@ -220,13 +225,23 @@ abstract public class Format {
 	 * 
 	 * @return true if this format can export surfaces
 	 */
-	abstract public boolean handlesSurfaces();
+    abstract public boolean handlesSurfacesDirectly();
 
 	/**
 	 * 
 	 * @return true if needs closed objects (for stl export)
 	 */
-	abstract public boolean needsClosedObjects();
+    abstract public boolean needsClosedObjectsForCurves();
+
+    /**
+     * @return true if needs closed objects (for stl export)
+     */
+    abstract public boolean needsClosedObjectsForSurfaces();
+
+    /**
+     * @return true if needs scaling (for stl export)
+     */
+    abstract public boolean needsScale();
 
 	/**
 	 * 
@@ -267,4 +282,32 @@ abstract public class Format {
 		sb.append(newline);
 	}
 
+    /**
+     * @return true if it needs both-sided surfaces
+     */
+    abstract boolean needsBothSided();
+
+    /**
+     * set if it wants filled solids
+     *
+     * @param flag flag
+     */
+    abstract public void setWantsFilledSolids(boolean flag);
+
+    /**
+     * @return true if wants "filled solids"
+     */
+    abstract public boolean wantsFilledSolids();
+
+    /**
+     * set if it exports lines and points
+     *
+     * @param flag flag
+     */
+    abstract public void setExportsPointsAndLines(boolean flag);
+
+    /**
+     * @return true if exports lines and points
+     */
+    abstract public boolean exportsPointsAndLines();
 }

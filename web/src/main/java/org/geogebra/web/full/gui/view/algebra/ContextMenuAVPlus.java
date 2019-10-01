@@ -1,7 +1,12 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import java.util.Vector;
+
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
@@ -65,10 +70,32 @@ public class ContextMenuAVPlus implements SetLabels {
 		addExpressionItem();
 		if (!app.getSettings().getToolbarSettings().is3D()) {
 			addTextItem();
-			addImageItem();
+
+            if (app.showToolBar() && toolbarHasImageMode()) {
+                addImageItem();
+            }
 		}
 		addHelpItem();
 	}
+
+    private boolean toolbarHasImageMode() {
+        Vector<ToolbarItem> toolbarItems =
+                ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
+
+        for (ToolbarItem toolbarItem : toolbarItems) {
+            if (toolbarItem.getMode() == null) {
+                if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
+                    return true;
+                }
+            } else {
+                if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
 	private void addExpressionItem() {
 		ImageResource img = StyleBarResources.INSTANCE.description();
@@ -103,8 +130,8 @@ public class ContextMenuAVPlus implements SetLabels {
 				});
 		wrappedPopup.addItem(mi);
 	}
-	
-	private void addImageItem() {
+
+    void addImageItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true,

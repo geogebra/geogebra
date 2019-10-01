@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -35,6 +36,7 @@ public class TableValuesPanel extends FlowPanel
 		view.getTableValuesModel().registerListener(this);
 		emptyPanel = new TableValuesEmptyPanel(app);
 		table = new StickyValuesTable(app, view);
+        TestHarness.setAttr(table, "TV_table");
 		add(emptyPanel);
 		add(table);
 	}

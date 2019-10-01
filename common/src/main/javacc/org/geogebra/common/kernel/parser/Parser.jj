@@ -42,6 +42,11 @@ the Free Software Foundation; either version 2 of the License, or
  * @version 10.4.2004
  */
 
+ options {
+   static = false;
+   JAVA_TEMPLATE_TYPE="modern";
+} 
+
 PARSER_BEGIN(Parser)
 package org.geogebra.common.kernel.parser;
 
@@ -69,7 +74,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 @SuppressWarnings("javadoc")
-public class Parser implements ParserInterface{
+public class Parser implements ParserInterface {
 
     private Kernel kernel;
     private App app;
@@ -80,6 +85,7 @@ public class Parser implements ParserInterface{
     private boolean enableStructures = true;
     private FunctionParser functionParser;
     private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
+    private boolean highPrecisionParsing;
 
     public Parser(Kernel kernel) {
         this ( new StringProvider("") ); // dummy stream for parser initing
@@ -87,11 +93,22 @@ public class Parser implements ParserInterface{
         functionParser = new FunctionParser(kernel);
         app = kernel.getApplication();
         loc = app.getLocalization();
+        highPrecisionParsing = false;
     }
 
     public Kernel getKernel()
     {
       return kernel;
+    }
+
+    /**
+     * Set the parser to parse numbers with high precision.
+     * It keeps the original input for further processing.
+     *
+     * @param highPrecisionParsing true to parse high precision
+     */
+    public void setHighPrecisionParsing(boolean highPrecisionParsing) {
+        this.highPrecisionParsing = highPrecisionParsing;
     }
 
     // reset for new parsing
@@ -226,7 +243,7 @@ public class Parser implements ParserInterface{
         if (percent) {
             val = val * 0.01;
         }
-        if (ExternalCASParsing || GeoGebraCASParsing) {
+        if (ExternalCASParsing || GeoGebraCASParsing || highPrecisionParsing) {
             // preserve string from CAS: it may have higher
             // precision than double
             return new MySpecialDouble(kernel, val, percent ? image + "%" : image);

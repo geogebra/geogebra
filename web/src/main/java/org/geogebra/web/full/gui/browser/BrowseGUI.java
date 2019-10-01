@@ -94,7 +94,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		app.registerOpenFileListener(this);
 
-		this.addDomHandler(new TouchMoveHandler() {
+        this.addBitlessDomHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				// prevent zooming
@@ -285,14 +285,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	// super.setFrame(frame);
 	// }
 
-	/**
-	 * @param fileToHandle
-	 *            JS file object
-	 * @param callback
-	 *            callback after file is open
-	 */
-	public void openFile(final JavaScriptObject fileToHandle,
-	        final JavaScriptObject callback) {
+    @Override
+    public void openFile(final JavaScriptObject fileToHandle) {
+        showLoading();
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
@@ -300,7 +295,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
 			@Override
 			public void callback(Boolean obj) {
-				app.openFile(fileToHandle, callback);
+                app.openFile(fileToHandle);
 			}
 		});
 	}

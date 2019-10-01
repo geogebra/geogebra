@@ -102,7 +102,7 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 			// not interested
 			return;
 		}
-		FactoryProvider.getInstance().debug("Font " + name + " loaded");
+        FactoryProvider.debugS("Font " + name + " loaded");
 		opentype.removeListener(this);
 		for (FontLoadCallback fontLoadCallback : fontLoadCallbacks) {
 			fontLoadCallback.onFontLoaded(this);
@@ -117,8 +117,8 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 			// not interested
 			return;
 		}
-		FactoryProvider.getInstance().debug("Font " + name + " error");
-		FactoryProvider.getInstance().debug(error.toString());
+        FactoryProvider.debugS("Font " + name + " error");
+        FactoryProvider.debugS(error.toString());
 		opentype.removeListener(this);
 		for (FontLoadCallback fontLoadCallback : fontLoadCallbacks) {
 			fontLoadCallback.onFontError(this);

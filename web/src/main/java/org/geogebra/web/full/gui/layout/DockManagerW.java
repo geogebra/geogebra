@@ -24,18 +24,18 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.layout.panels.VoiceoverTabber;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -84,7 +84,7 @@ public class DockManagerW extends DockManager {
 	private boolean panelsMoved;
 
 	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
-	private VoiceoverTabber voiceoverTabber;
+    private AccessibilityView accessibilityView;
 
 	/**
 	 * @param layout
@@ -741,20 +741,6 @@ public class DockManagerW extends DockManager {
 		unmarkAlonePanels();
 		markAlonePanel();
 		panelsMoved = true;
-		// Manually dispatch a resize event as the size of the
-		// euclidian view isn't updated all the time.
-		// TODO What does the resize do which will update the component ?!
-		// app.repaintEuclidianViews(rootPane);
-		// rootPane.onResize();
-
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				// true, because this can only be executed, if menu is open
-				app.getGuiManager().updateStyleBarPositions(true);
-			}
-		};
-		timer.schedule(0);
 	}
 
 	private void setDividerLocation(DockSplitPaneW splitPane,
@@ -1803,20 +1789,19 @@ public class DockManagerW extends DockManager {
 	 * @return panel that should get keyboard
 	 */
 	public DockPanelW getPanelForKeyboard() {
-		DockPanelW panel = getFocusedPanel();
-		int[] keyboardViews = new int[] { App.VIEW_ALGEBRA, App.VIEW_CAS,
-				App.VIEW_SPREADSHEET, App.VIEW_PROBABILITY_CALCULATOR };
-		int firstVisible = 0;
+        DockPanelW focusedPanel = getFocusedPanel();
+        List<Integer> keyboardViews = ((AppWFull) app).getKeyboardManager()
+                .getKeyboardViews();
+        if (focusedPanel != null && keyboardViews.contains(focusedPanel.getViewId())) {
+            return focusedPanel;
+        }
 		for (int panelId : keyboardViews) {
-			if (panel != null && panelId == panel.getViewId()) {
+            DockPanelW panel = getPanel(panelId);
+            if (panel.isVisible()) {
 				return panel;
 			}
-			if (firstVisible == 0 && getPanel(panelId).isVisible()) {
-				firstVisible = panelId;
-			}
-		}
-
-		return getPanel(firstVisible);
+        }
+        return null;
 	}
 
 	@Override
@@ -2023,23 +2008,28 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
-	private VoiceoverTabber getVoiceoverTabber() {
-		if (this.voiceoverTabber == null) {
-			voiceoverTabber = new VoiceoverTabber(app);
-		}
-		return voiceoverTabber;
+    /**
+     * @return accessibility view
+     */
+    protected AccessibilityView getAccessibilityView() {
+        if (this.accessibilityView == null) {
+            accessibilityView = new AccessibilityView(app,
+                    new BaseWidgetFactory());
+        }
+        return accessibilityView;
 	}
 
 	/**
 	 * Connect voiceover with the right panel
 	 */
 	public void updateVoiceover() {
-		for (DockPanelW panel : dockPanels) {
-			boolean bottomRight = getRoot() == null
-					|| getRoot().isBottomRight(panel);
-			if (bottomRight && Browser.isiOS()) {
-				panel.addVoiceover(getVoiceoverTabber());
-			}
+        if (Browser.needsAccessibilityView()) {
+            app.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    getAccessibilityView().rebuild();
+                }
+            });
 		}
 	}
 }

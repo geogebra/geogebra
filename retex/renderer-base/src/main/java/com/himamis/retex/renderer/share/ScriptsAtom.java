@@ -169,7 +169,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 			base.setAddItalicCorrection(it);
 
 			Box scriptspace = new StrutBox(
-					TeXLength.getLength("scriptspace", env), 0., 0., 0.);
+                    env.lengthSettings().getLength("scriptspace", env), 0., 0., 0.);
 			TeXFont tf = env.getTeXFont();
 
 			HorizontalBox hor = new HorizontalBox(b);

@@ -199,7 +199,7 @@ public class PopupMenuButtonW extends MyCJButton
 				}
 			}
 		});
-		addDomHandler(new TouchEndHandler() {
+        addBitlessDomHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
 				event.stopPropagation();
@@ -296,7 +296,7 @@ public class PopupMenuButtonW extends MyCJButton
 	static void updateBorderColor(Element element, boolean isBorderTeal,
 			AppW app) {
 		element.getStyle().setBorderColor(isBorderTeal ? "#008475"
-				: app.isWhiteboardActive() ? "#00a8d5" : "#6557D2");
+                : app.getPrimaryColor().toString());
 	}
 
 	/**

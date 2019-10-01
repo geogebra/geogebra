@@ -20,6 +20,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public abstract class CanvasDrawable extends Drawable {
 	private static final int HIGHLIGHT_MARGIN = 2;
+    public static final double LABEL_FONT_MULTIPLIER = 1.2;
 
 	// private boolean drawingOnCanvas;
 	private GFont labelFont;
@@ -37,7 +38,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @return whether text starts and ends with $
 	 */
 	public static boolean isLatexString(String text) {
-		return text.length() > 1 && text.startsWith("$")
+        return text != null && text.length() > 1 && text.startsWith("$")
 				&& text.trim().endsWith("$");
 	}
 
@@ -167,6 +168,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the caption is latex
 	 */
 	protected void calculateBoxBounds(boolean latex) {
+        if (labelSize == null) {
+            return;
+        }
 		boxLeft = xLabel + labelSize.x + 2;
 		boxTop = latex
 				? yLabel + (labelSize.y - getPreferredHeight()) / 2
@@ -192,21 +196,27 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the label is latex
 	 */
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && geo.doHighlighting()) {
-			if (!view.getApplication().isDesktop()) {
-				g2.setPaint(GColor.LIGHT_GRAY);
-			}
+        if (geo.isLabelVisible() && isHighlighted()) {
+            g2.setPaint(GColor.LIGHT_GRAY);
 			if (latex) {
 				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
 			} else {
-				g2.fillRect(xLabel, yLabel + ((boxHeight - getH()) / 2),
-						labelSize.x, getH() + HIGHLIGHT_MARGIN);
-			}
-		}
-	}
+                g2.fillRect(xLabel, getLabelTop(),
+                        labelSize.x, getLabelHeight());
+            }
+        }
+    }
 
-	private int getH() {
-		return (int) (getLabelFontSize() * 1.2 + HIGHLIGHT_MARGIN);
+    private int getLabelTop() {
+        return yLabel + ((boxHeight - getLabelTextHeight()) / 2);
+    }
+
+    private int getLabelHeight() {
+        return getLabelTextHeight() + HIGHLIGHT_MARGIN;
+    }
+
+    private int getLabelTextHeight() {
+        return (int) (getLabelFontSize() * LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
 	}
 
 	/**
@@ -259,15 +269,27 @@ public abstract class CanvasDrawable extends Drawable {
 	 * coords)
 	 */
 	@Override
-	public boolean hit(int x, int y, int hitThreshold) {
-		int left = xLabel;
-		int top = boxTop;
-		int right = left + labelSize.x + boxWidth;
-		int bottom = top + boxHeight;
-		//
-		return (x > left && x < right && y > top && y < bottom)
-				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
-						&& y < yLabel + labelSize.y);
+    public boolean hit(int x, int y, int hitThreshold) {
+        return hitLabelBounds(x, y) || hitWidgetBounds(x, y);
+    }
+
+    protected boolean hitWidgetBounds(int x, int y) {
+        int left = xLabel;
+        int top = boxTop;
+        int right = left + labelSize.x + boxWidth;
+        int bottom = top + boxHeight;
+        return x > left && x < right && y > top && y < bottom;
+    }
+
+    /**
+     * @param x coordinate
+     * @param y coordinate
+     * @return if label rectangle was hit by (x, y) pointer.
+     */
+    protected boolean hitLabelBounds(int x, int y) {
+        int top = getLabelTop();
+        return x > xLabel && x < xLabel + labelSize.x && y > top
+                && y < top + getLabelHeight();
 	}
 
 	/**

@@ -732,41 +732,10 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		}
 	}
 
-	boolean isVisibleInEV(int i) {
-		switch (i) {
-		case 1:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
-				return false;
-			}
-			if (!kernel.getApplication().getEuclidianView1().isShowing()) {
-				return false;
-			}
-			return true;
-
-		case 2:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
-				return false;
-			}
-			if (!kernel.getApplication().hasEuclidianView2(1)) {
-				return false;
-			}
-			return true;
-
-		case 3:
-			if (!locus.isVisibleInView3D()) {
-				return false;
-			}
-			if (kernel.getApplication().isEuclidianView3Dinited()) {
-				return kernel.getApplication().getEuclidianView3D().isShowing();
-			}
-		}
-		return false;
-	}
-
 	void updateScreenBorders() {
 
 		for (int i = 0; i < visibleEV.length; i++) {
-			visibleEV[i] = isVisibleInEV(i + 1);
+            visibleEV[i] = locus.isVisibleInEV(i + 1);
 		}
 
 		if (visibleEV[0] && visibleEV[1]) {

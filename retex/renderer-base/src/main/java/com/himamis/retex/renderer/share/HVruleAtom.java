@@ -50,7 +50,7 @@ package com.himamis.retex.renderer.share;
  */
 public class HVruleAtom extends Atom {
 
-	private final static TeXLength def = new TeXLength(TeXLength.Unit.PT, 0.4);
+    private final static TeXLength def = new TeXLength(Unit.PT, 0.4);
 	private final TeXLength width;
 	private final TeXLength height;
 	private final TeXLength depth;

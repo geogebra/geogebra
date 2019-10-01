@@ -48,7 +48,8 @@ public class CmdJoin extends CommandProcessor {
 
 		default:
 			// try to create list of numbers
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
+            GeoList list = wrapInList(arg, arg.length, GeoClass.LIST,
+                    c);
 			if (list != null) {
 				GeoElement[] ret = { join(c.getLabel(), list) };
 				return ret;

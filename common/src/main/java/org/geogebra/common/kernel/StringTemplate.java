@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -549,6 +550,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 		template.hideLHS = true;
 	}
 
+    /**
+     * Returns a string template with the property that the hideLHS = true
+     *
+     * @return s new String template
+     */
+    public StringTemplate makeStrTemplateForEditing() {
+        StringTemplate ret = this.copy();
+        ret.hideLHS = true;
+        return ret;
+    }
+
 	/**
 	 * Returns string type of resulting text
 	 *
@@ -914,24 +926,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return label depending on given string type
 	 */
 	public String printVariableName(final String label) {
-		String variableName = printVariableName(getStringType(), label);
 
-		if ("l".equals(variableName) && hasType(StringType.LATEX)) {
-			variableName = "\\ell";
-		}
-
-		return variableName;
-	}
-
-	private String printVariableName(final StringType printForm,
-			final String label) {
-		switch (printForm) {
-		case GIAC:
-			// make sure we don't interfer with reserved names
+        switch (getStringType()) {
+            case GIAC:
+                // make sure we don't interfere with reserved names
 			// or command names in the underlying CAS
 			// see TRAC-793
 			return addTempVariablePrefix(label.replace("$", ""));
 
+            case LATEX:
+                if ("l".equals(label)) {
+                    return "\\ell";
+                }
+
+                // eg $1 in "Keep Input" mode
+                return label.replace("$", "\\$");
 		default:
 			// standard case
 			return label;
@@ -943,13 +952,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *
 	 * important eg i -> ggbtmpvari, e -> ggbtmpvare so that they aren't
 	 * confused with the constants
-	 */
-	private String addTempVariablePrefix(final String label) {
+     */
+    private static String addTempVariablePrefix(final String label) {
 
 		// keep x, y, z so that x^2+y^2=1 works in Giac
-		if (getStringType().isGiac()
-				&& ("x".equals(label) || "y".equals(label) || "y'".equals(label)
-						|| "y''".equals(label) || "z".equals(label))) {
+        if (!GeoGebraCAS.needsTmpPrefix(label)) {
 			return label;
 		}
 
@@ -2743,8 +2750,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			boolean finished = false;
 
-			// support for sin^2(x) for LaTeX, eg FormulaText[]
-			if (stringType.equals(StringType.LATEX)
+            // support for sin^2(x)
+            if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
 					&& left.isExpressionNode()) {
 				switch (((ExpressionNode) left).getOperation()) {
 				// #1592
@@ -2759,7 +2766,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 				case TANH:
 				case SECH:
 				case CSCH:
-				case COTH:
+                    case COTH:
+
+                        boolean latex = stringType.equals(StringType.LATEX);
 
 					double indexD = right.evaluateDouble();
 					int index = (int) Math.round(indexD);
@@ -2767,23 +2776,23 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// only positive integers
 					// sin^-1(x) is arcsin
 					// sin^-2(x) not standard notation
-					if (!(Double.isInfinite(indexD) || Double.isNaN(indexD))
-							&& (index > 0)) {
+                        if (index > 0 && DoubleUtil.isInteger(indexD)) {
 
 						String leftStrTrimmed = leftStr.trim();
 
-						int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
+                            int spaceIndex = leftStrTrimmed.trim().indexOf(latex ? ' ' : '(');
 						sb.append(leftStrTrimmed.substring(0, spaceIndex));
 
+                            if (latex) {
 						sb.append(" ^{");
 						sb.append(rightStr);
-						sb.append("}");
-
+                                sb.append("}");
+						} else {
 						// alternative using Unicode
-						// sb.append(Unicode.numberToIndex(index));
-
-						// everything except the "\\sin "
-						sb.append(leftStrTrimmed.substring(spaceIndex + 1));
+                                sb.append(StringUtil.numberToIndex(index));
+                            }
+                            // everything except the "\\sin " or "sin"
+                            sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
 
 						finished = true;
 
@@ -2842,9 +2851,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// Log.debug(left.evaluatesToList());
 					// Log.debug(left instanceof ListValue);
 					// Log.debug(((ListValue)left).getListElement(0).evaluatesToList());
-
+					
 					// if list && !matrix
-					if (left.evaluatesToList() && left.getListDepth() != 2) {
+                    if (left.evaluatesToList()
+                            && left.getListDepth() != 2) {
 						// make sure {1,2,3}^2 gives {1,4,9} rather than 14
 						sb.append(").^(");
 					} else {

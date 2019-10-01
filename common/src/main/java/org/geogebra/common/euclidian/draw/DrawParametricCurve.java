@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -95,7 +96,7 @@ public class DrawParametricCurve extends Drawable {
 			((GeoFunction) curve).getFunctionExpression()
 					.inspect(checkPointwise());
 		}
-		labelVisible = geo.isLabelVisible();
+        labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(geo);
 		if (dataExpression != null) {
 			updatePointwise();
@@ -147,10 +148,13 @@ public class DrawParametricCurve extends Drawable {
 				StringTemplate tpl = StringTemplate.latexTemplate;
 				labelSB.setLength(0);
 				labelSB.append('$');
-				labelSB.append(geo.getLabel(tpl));
-				labelSB.append('(');
-				labelSB.append(((VarString) geo).getVarString(tpl));
-				labelSB.append(")\\;=\\;");
+                String label = getTopLevelGeo().getLabel(tpl);
+                if (LabelManager.isShowableLabel(label)) {
+                    labelSB.append(label);
+                    labelSB.append('(');
+                    labelSB.append(((VarString) geo).getVarString(tpl));
+                    labelSB.append(")\\;=\\;");
+                }
 				labelSB.append(geo.getLaTeXdescription());
 				labelSB.append('$');
 
@@ -168,7 +172,7 @@ public class DrawParametricCurve extends Drawable {
 
 			case GeoElementND.LABEL_CAPTION:
 			default: // case LABEL_NAME:
-				labelDesc = geo.getLabelDescription();
+                labelDesc = getTopLevelGeo().getLabelDescription();
 			}
 			addLabelOffsetEnsureOnScreen(view.getFontConic());
 		}
@@ -288,7 +292,7 @@ public class DrawParametricCurve extends Drawable {
 		if (isVisible) {
 			if (dataExpression != null) {
 				g2.setPaint(getObjectColor());
-				if (geo.doHighlighting()) {
+                if (isHighlighted()) {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					drawPoints(g2);
@@ -297,7 +301,7 @@ public class DrawParametricCurve extends Drawable {
 				drawPoints(g2);
 				return;
 			}
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(gp);

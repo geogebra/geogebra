@@ -26,7 +26,7 @@ import com.google.gwt.user.client.DOM;
  *
  */
 public class EmbedInputDialog extends MediaDialog
-		implements AsyncOperation<URLStatus> {
+        implements AsyncOperation<URLStatus>, MaterialCallbackI {
 
 	private URLChecker urlChecker;
 
@@ -34,7 +34,7 @@ public class EmbedInputDialog extends MediaDialog
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public EmbedInputDialog(AppW app, URLChecker urlChecker) {
+    EmbedInputDialog(AppW app, URLChecker urlChecker) {
 		super(app.getPanel(), app);
 		this.urlChecker = urlChecker;
 		updateInfo();
@@ -71,35 +71,34 @@ public class EmbedInputDialog extends MediaDialog
 	 * @param input
 	 *            embed URL or code
 	 */
-	void addEmbed(String input) {
+    private void addEmbed(String input) {
 		resetError();
 		String url = extractURL(input);
 		if (!input.startsWith("<")) {
 			inputField.getTextComponent().setText(url);
 		}
 		if (GeoGebraURLParser.isGeoGebraURL(url)) {
-			getGeoGebraTubeAPI().getItem(
-					GeoGebraURLParser.getIDfromURL(url),
-					new MaterialCallbackI() {
-
-						@Override
-						public void onLoaded(List<Material> result,
-								ArrayList<Chapter> meta) {
-							String base64 = result.get(0).getBase64();
-							embedGeoGebraAndHide(base64);
-						}
-
-						@Override
-						public void onError(Throwable exception) {
-							// TODO Auto-generated method stub
-						}
-					});
+            getGeoGebraTubeAPI().getItem(GeoGebraURLParser.getIDfromURL(url), this);
 		} else {
 			urlChecker.check(url.replace("+", "%2B"), this);
 		}
 	}
 
-	protected void embedGeoGebraAndHide(String base64) {
+    private void showEmptyEmbeddedElement() {
+        showEmbeddedElement("");
+    }
+
+    private void showEmbeddedElement(String url) {
+        GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+        ge.setUrl(url);
+        ge.setAppName("extension");
+        ge.initPosition(app.getActiveEuclidianView());
+        ge.setEmbedId(app.getEmbedManager().nextID());
+        ge.setLabel(null);
+        app.storeUndoInfo();
+    }
+
+    private void embedGeoGebraAndHide(String base64) {
 		getApplication().getEmbedManager().embed(base64);
 		app.storeUndoInfo();
 		hide();
@@ -132,17 +131,26 @@ public class EmbedInputDialog extends MediaDialog
 	@Override
 	public void callback(URLStatus obj) {
 		if (obj.getErrorKey() == null) {
-			GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-			ge.setUrl(obj.getUrl());
-			ge.setAppName("extension");
-			ge.initPosition(app.getActiveEuclidianView());
-			ge.setEmbedId(app.getEmbedManager().nextID());
-			ge.setLabel(null);
-			app.storeUndoInfo();
+            showEmbeddedElement(obj.getUrl());
 			hide();
 		} else {
 			showError(obj.getErrorKey());
 		}
 	}
 
+    @Override
+    public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+        if (result.size() < 1) {
+            onError(null);
+        } else {
+            String base64 = result.get(0).getBase64();
+            embedGeoGebraAndHide(base64);
+        }
+    }
+
+    @Override
+    public void onError(Throwable exception) {
+        showEmptyEmbeddedElement();
+        hide();
+    }
 }

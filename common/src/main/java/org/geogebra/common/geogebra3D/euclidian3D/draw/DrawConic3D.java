@@ -10,8 +10,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
-import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -106,7 +106,7 @@ public class DrawConic3D extends Drawable3DCurves
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			if (exportSurface) {
-				exportToPrinter3D.exportSurface(this);
+                exportToPrinter3D.exportSurface(this, true, true);
 			} else {
 				if (getGeoElement().getLineThickness() > 0) {
 					Type exportType;
@@ -124,7 +124,7 @@ public class DrawConic3D extends Drawable3DCurves
 						exportType = Type.CURVE;
 						break;
 					}
-					exportToPrinter3D.export(this, exportType);
+                    exportToPrinter3D.exportCurve(this, exportType);
 				}
 			}
 		}

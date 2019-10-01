@@ -1,6 +1,6 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Point;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -9,10 +9,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -577,7 +574,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 			rbJavaUI = MyResourceBundle.createBundle(LocalizationD.RB_JAVA_UI,
 					currentLocale);
 		}
-
+        if (rbJavaUI == null) {
+            return;
+        }
 		Enumeration<String> keys = rbJavaUI.getKeys();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();

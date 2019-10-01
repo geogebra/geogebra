@@ -43,7 +43,7 @@
  */
 package com.himamis.retex.renderer.desktop.font;
 
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -60,7 +60,7 @@ public class FontLoaderD implements FontLoader {
 	@Override
 	public Font loadFont(String name) throws ResourceParseException {
 
-		FactoryProvider.getInstance().debug("loadFont():" + name);
+        FactoryProvider.debugS("loadFont():" + name);
 		InputStream fontIn = FactoryProviderDesktop.class.getResourceAsStream(
 				"/com/himamis/retex/renderer/desktop/" + name);
 		try {

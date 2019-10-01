@@ -246,7 +246,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		if (!geoList.isDefined() || size == 0) {
 			text.setTextString("");
 			return;
-			// throw new MyError(app, app.getError("InvalidInput"));
+            // throw new MyError(app, app.getInvalidInputError());
 		}
 
 		// extract data from the list, exit if non-numeric is in list

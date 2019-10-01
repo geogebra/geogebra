@@ -11,6 +11,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -113,6 +114,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 			}
 
 		});
+        TestHarness.setAttr(mi, "menu_" + menuAction.getTitle());
 		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);
 	}

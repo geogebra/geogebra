@@ -62,25 +62,25 @@ public class LaTeXAtom extends Atom {
 
 		HorizontalBox hb = new HorizontalBox(
 				new CharAtom('L', TextStyle.NONE, true).createBox(env));
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.35 * sc, 0, 0)
+        hb.add(new SpaceAtom(Unit.EM, -0.35 * sc, 0, 0)
 				.createBox(env));
-		double f = new SpaceAtom(TeXLength.Unit.EX, 0.45 * sc, 0, 0)
+        double f = new SpaceAtom(Unit.EX, 0.45 * sc, 0, 0)
 				.createBox(env).getWidth();
-		double f1 = new SpaceAtom(TeXLength.Unit.EX, 0.5 * sc, 0, 0)
+        double f1 = new SpaceAtom(Unit.EX, 0.5 * sc, 0, 0)
 				.createBox(env).getWidth();
 		CharBox A = new CharBox(env.getTeXFont().getChar('A',
 				TextStyle.MATHNORMAL, env.supStyle().getStyle()));
 		A.setShift(-f);
 		hb.add(A);
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15 * sc, 0, 0)
+        hb.add(new SpaceAtom(Unit.EM, -0.15 * sc, 0, 0)
 				.createBox(env));
 		hb.add(new CharAtom('T', TextStyle.NONE, true).createBox(env));
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15 * sc, 0, 0)
+        hb.add(new SpaceAtom(Unit.EM, -0.15 * sc, 0, 0)
 				.createBox(env));
 		Box E = new CharAtom('E', TextStyle.NONE, true).createBox(env);
 		E.setShift(f1);
 		hb.add(E);
-		hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.15 * sc, 0, 0)
+        hb.add(new SpaceAtom(Unit.EM, -0.15 * sc, 0, 0)
 				.createBox(env));
 		hb.add(new CharAtom('X', TextStyle.NONE, true).createBox(env));
 		return hb;

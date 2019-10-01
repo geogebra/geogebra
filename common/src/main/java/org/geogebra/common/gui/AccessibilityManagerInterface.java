@@ -137,24 +137,14 @@ public interface AccessibilityManagerInterface {
 	public void setPlaySelectedIfVisible(boolean b, int viewID);
 
 	/**
-	 * For animation button, scriptable buttons etc.
-	 * 
-	 * @return action description when space can be pressed
-	 */
-	public String getSpaceAction();
-
-	/**
-	 * @return action for slider
-	 */
-	public SliderInput getSliderAction();
-
-	/**
 	 * Handle slider change
 	 * 
 	 * @param step
 	 *            slider increment (may be negative)
+     * @param input
+     *            type of slider action
 	 */
-	public void sliderChange(double step);
+    public void sliderChange(double step, SliderInput input);
 
 	/**
 	 * Called when first geo is selected from tabbing set.
@@ -183,4 +173,10 @@ public interface AccessibilityManagerInterface {
 	 *            if geo is selected by tab or shift+tab.
 	 */
 	public void onEmptyConstuction(boolean forward);
+
+    /**
+     * @param geo element associated with the action
+     * @return action description (eg Run script)
+     */
+    public String getAction(GeoElement geo);
 }

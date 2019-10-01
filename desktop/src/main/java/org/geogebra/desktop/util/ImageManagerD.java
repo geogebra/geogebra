@@ -12,19 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.util;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.Transparency;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
@@ -34,10 +22,11 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
@@ -473,15 +462,13 @@ public class ImageManagerD extends ImageManager {
 		} catch (Exception e) {
 			app.setDefaultCursor();
 			e.printStackTrace();
-			app.localizeAndShowError("LoadFileFailed");
+            app.showError(Errors.LoadFileFailed);
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
 			Log.debug("Out of memory");
 			System.gc();
 			app.setDefaultCursor();
-			// t.printStackTrace();
-			// TODO change to OutOfMemoryError
-			app.localizeAndShowError("LoadFileFailed");
+            app.showError(Errors.LoadFileFailed);
 			return null;
 		}
 	}

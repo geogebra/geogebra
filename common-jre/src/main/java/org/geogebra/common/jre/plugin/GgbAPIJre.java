@@ -2,17 +2,13 @@ package org.geogebra.common.jre.plugin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Exercise;
 
 /**
  * Api for desktop and Android
@@ -109,28 +105,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	@Override
-	public JSONObject getExerciseResult() {
-		Exercise ex = kernel.getExercise();
-		ex.checkExercise();
-		JSONObject result = new JSONObject();
-		ArrayList<Assignment> parts = ex.getParts();
-		try {
-			for (Assignment part : parts) {
-				JSONObject partresult = new JSONObject();
-				result.put(part.getDisplayName(), partresult);
-				partresult.put("result", part.getResult().name());
-				String hint = part.getHint();
-				hint = hint == null ? "" : hint;
-				partresult.put("hint", hint);
-				partresult.put("fraction", part.getFraction());
-			}
-		} catch (Exception e) {
-			// how?
-		}
-		return result;
 	}
 
 	/**

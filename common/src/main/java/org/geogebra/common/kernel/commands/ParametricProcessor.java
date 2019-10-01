@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -233,7 +234,7 @@ public class ParametricProcessor {
 			if (((VectorValue) ev).getToStringMode() == Kernel.COORD_COMPLEX) {
 				if (!kernel.getApplication().has(Feature.SURFACE_2D)) {
 					throw new MyError(kernel.getApplication().getLocalization(),
-							"InvalidFunction");
+                            Errors.InvalidFunction);
 				}
 				return complexSurface(exp, fv[0], label);
 			}
@@ -368,7 +369,7 @@ public class ParametricProcessor {
 				+ exp.toString(StringTemplate.defaultTemplate) + ","
 				+ ev.getClass() + "," + fv.length);
 		throw new MyError(kernel.getApplication().getLocalization(),
-				"InvalidFunction");
+                Errors.InvalidFunction);
 
 	}
 
@@ -478,7 +479,7 @@ public class ParametricProcessor {
 	protected void checkNumber(ExpressionNode cx) {
 		if (!cx.evaluate(StringTemplate.maxPrecision).isNumberValue()) {
 			throw new MyError(kernel.getApplication().getLocalization(),
-					"InvalidFunction");
+                    Errors.InvalidFunction);
 		}
 
 	}

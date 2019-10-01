@@ -55,6 +55,7 @@ import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.move.googledrive.events.GoogleLoginEvent;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -81,6 +82,7 @@ public class DialogManagerW extends DialogManager
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
 	private InputDialogTableView tableViewDialog = null;
+    private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
 
 	/**
 	 * @param app
@@ -451,9 +453,9 @@ public class DialogManagerW extends DialogManager
 	 */
 	public SaveDialogI getSaveDialog() {
 		if (saveDialog == null) {
-			saveDialog = app.isWhiteboardActive()
+            saveDialog = app.isMebis()
 					? new SaveDialogMow((AppW) app)
-					: new SaveDialogW((AppW) app);
+                    : new SaveDialogW((AppW) app, widgetFactory);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -693,4 +695,8 @@ public class DialogManagerW extends DialogManager
 	public Export3dDialogInterface getExport3dDialog(View view) {
 		return new Export3dDialog((AppW) app, view);
 	}
+
+    public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
+        this.widgetFactory = widgetFactory;
+    }
 }

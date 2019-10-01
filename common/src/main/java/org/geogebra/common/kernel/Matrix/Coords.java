@@ -819,6 +819,13 @@ public class Coords implements AnimatableValue<Coords> {
 		return norm;
 	}
 
+    /**
+     * @return norm about x,y,z only
+     */
+    public double calcNorm3() {
+        return Math.sqrt(this.dotproduct3(this));
+    }
+
 	/**
 	 * calc the square norm
 	 * 
@@ -1700,8 +1707,8 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * calculates projection of this as far as possible to the 3D-line
-	 * represented by the matrix {V O} regarding V2 direction.
+	 * calculates projection of this as close as possible to the 3D-line
+     * represented by the matrix {V O} regarding V2 direction.
 	 * 
 	 * @param o
 	 *            origin of the line
@@ -2874,24 +2881,38 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            decimal precision
 	 * @return string representation with decimal precision
 	 */
-	public String toString(int precision) {
-		ScientificFormatAdapter nf = FormatFactory.getPrototype()
-				.getScientificFormat(2, 10, false);
-		StringBuilder s = new StringBuilder("(");
-		for (int i = 0; i < val.length; i++) {
-			if (val[i] > 0) {
-				s.append('+');
-			}
-			if (val[i] == 0) {
-				s.append("+0.").append(StringUtil.repeat('0', precision));
-			} else {
-				StringUtil.appendFormat(s, val[i], nf);
-			}
-			s.append(i == val.length - 1 ? ")" : "  ");
-		}
+    public String toString(int precision) {
+        ScientificFormatAdapter nf = FormatFactory.getPrototype()
+                .getScientificFormat(2, 10, false);
+        StringBuilder s = new StringBuilder("(");
+        for (int i = 0; i < val.length; i++) {
+            if (val[i] > 0) {
+                s.append('+');
+            }
+            if (val[i] == 0) {
+                s.append("+0.").append(StringUtil.repeat('0', precision));
+            } else {
+                StringUtil.appendFormat(s, val[i], nf);
+            }
+            s.append(i == val.length - 1 ? ")" : "  ");
+        }
 
-		return s.toString();
-	}
+        return s.toString();
+    }
+
+    /**
+     * @param digits    digits length
+     * @param precision decimal precision
+     * @return string representation with +/-XXXX for too large values
+     */
+    public String toString(int digits, int precision) {
+        StringBuilder s = new StringBuilder("(");
+        for (int i = 0; i < val.length; i++) {
+            StringUtil.toString(val[i], digits, precision, s);
+            s.append(i == val.length - 1 ? ")" : "  ");
+        }
+        return s.toString();
+    }
 
 	/**
 	 * set this = m*v

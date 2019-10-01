@@ -176,27 +176,26 @@ public class VariableReplacerAlgorithm {
 
 		if (charAtIndex == Unicode.pi) {
 			exponents.increase(Base.pi);
-		}
-		else if (charAtIndex == Unicode.theta) {
+        } else if (charAtIndex == Unicode.theta) {
 			exponents.increase(Base.theta);
-		}
-		else if (charAtIndex == 'x') {
+        } else if (charAtIndex == 'x') {
 			exponents.increase(Base.x);
-		}
-		else if (charAtIndex == 'y') {
+        } else if (charAtIndex == 'y') {
 			exponents.increase(Base.y);
-		}
-		else if (charAtIndex == 'z') {
-			exponents.increase(Base.z);
-		}
+        } else if (charAtIndex == 'z') {
+            exponents.increase(Base.z);
+        } else if (charAtIndex == 't') {
+            exponents.increase(Base.t);
+        }
 	}
 
 	private boolean isCharVariableOrConstantName() {
 		char charAtIndex = expressionString.charAt(charIndex);
 		boolean isPi = charAtIndex == Unicode.pi;
 		boolean isTheta = charAtIndex == Unicode.theta;
+        boolean isT = charAtIndex == 't';
 		boolean isXYZ = charAtIndex >= 'x' && charAtIndex <= 'z';
-		return isPi || isTheta || isXYZ;
+        return isPi || isTheta || isXYZ || isT;
 	}
 
 	private ExpressionNode getLogExpression() {

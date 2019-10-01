@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
@@ -56,6 +57,7 @@ import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.full.euclidian.SymbolicEditorW;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -85,6 +87,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
+import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
@@ -124,7 +127,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Visibility;
+import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -137,7 +142,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-//@SuppressWarnings("javadoc")
 public class GuiManagerW extends GuiManager
 		implements GuiManagerInterfaceW, EventRenderable, SetLabels {
 
@@ -240,12 +244,12 @@ public class GuiManagerW extends GuiManager
 	public void showPopupMenu(final ArrayList<GeoElement> selectedGeos,
 			final EuclidianViewInterfaceCommon view, final GPoint mouseLoc) {
 		showPopupMenu(selectedGeos,
-				((EuclidianViewW) view).getG2P().getCanvas(),
+                ((EuclidianViewWInterface) view).getG2P().getElement(),
 				mouseLoc);
 	}
 
 	private void showPopupMenu(final ArrayList<GeoElement> geos,
-			final Canvas invoker, final GPoint p) {
+                               final Element invoker, final GPoint p) {
 		if (geos == null || !getApp().letShowPopupMenu()) {
 			return;
 		}
@@ -254,7 +258,7 @@ public class GuiManagerW extends GuiManager
 		} else {
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
-			getPopupMenu(geos).show(invoker, p.x, p.y);
+            getPopupMenu(geos).showScaled(invoker, p.x, p.y);
 		}
 	}
 
@@ -322,12 +326,13 @@ public class GuiManagerW extends GuiManager
 			showDrawingPadPopup(view, p);
 		} else {
 
-			final Canvas invoker = ((EuclidianViewWInterface) view).getCanvas();
+            final Element invoker = ((EuclidianViewWInterface) view)
+                    .getCanvasElement();
 			// clear highlighting and selections in views
 			getApp().getActiveEuclidianView().resetMode();
 			ContextMenuGeoElementW menu = getPopupMenu(view, selectedGeos,
 					geos, p);
-			menu.show(invoker, p.x, p.y);
+            menu.showScaled(invoker, p.x, p.y);
 		}
 	}
 
@@ -442,8 +447,12 @@ public class GuiManagerW extends GuiManager
 		if (getApp().getToolbar() != null) {
 			getApp().getToolbar().closeAllSubmenu();
 		}
-		((DialogManagerW) app.getDialogManager())
-		.showWebcamInputDialog(this.device);
+        DialogManagerW dialogManager = (DialogManagerW) app.getDialogManager();
+        if (Browser.isiOS()) {
+            dialogManager.showImageInputDialog(null, device);
+        } else {
+            dialogManager.showWebcamInputDialog(device);
+        }
 	}
 
 	/**
@@ -475,14 +484,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public boolean isInputFieldSelectionListener() {
-		return false;
-	}
-
-	@Override
 	public void showDrawingPadPopup(final EuclidianViewInterfaceCommon view,
 			final GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getCanvas(),
+        showDrawingPadPopup(((EuclidianViewW) view).getG2P().getElement(),
 				mouseLoc);
 	}
 
@@ -492,10 +496,10 @@ public class GuiManagerW extends GuiManager
 		// 3D stuff
 	}
 
-	private void showDrawingPadPopup(final Canvas invoker, final GPoint p) {
+    private void showDrawingPadPopup(final Element invoker, final GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getDrawingPadpopupMenu(p.x, p.y).show(invoker, p.x, p.y);
+        getDrawingPadpopupMenu(p.x, p.y).showScaled(invoker, p.x, p.y);
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,
@@ -536,7 +540,7 @@ public class GuiManagerW extends GuiManager
 			} else {
 				hideViewWith(viewId, isPermanent);
 			}
-			getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+            getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		}
 
 		layout.getDockManager().updateVoiceover();
@@ -688,7 +692,7 @@ public class GuiManagerW extends GuiManager
 
 			@Override
 			public void execute() {
-				getApp().centerAndResizePopups();
+                getApp().centerAndResizeViews();
 				resizeKeyboard();
 			}
 
@@ -1376,8 +1380,7 @@ public class GuiManagerW extends GuiManager
 		} catch (final Exception e) {
 			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 			+ " " + page + " " + type);
-			getApp().showError(e.getMessage());
-			e.printStackTrace();
+            getApp().showGenericError(e);
 		}
 	}
 
@@ -2015,37 +2018,6 @@ public class GuiManagerW extends GuiManager
 		this.toolbarForUpdate = toolBar;
 	}
 
-	@Override
-	public void updateStyleBarPositions(boolean menuOpen) {
-		for (DockPanelW panel : this.layout.getDockManager().getPanels()) {
-			double panelLeftToAppRight = getApp().getWidth()
-					- (panel.getAbsoluteLeft() - getApp()
-							.getAbsLeft())
-					/ getApp().getArticleElement().getScaleX();
-			double panelRightToAppRight = panelLeftToAppRight
-					- panel.getOffsetWidth();
-			if (menuOpen && panel.isVisible()
-					&& panelRightToAppRight < GLookAndFeel.MENUBAR_WIDTH) {
-				if (panelLeftToAppRight > GLookAndFeel.MENUBAR_WIDTH) {
-					// -2 necessary because of style-settings for the StyleBar
-					// and the Menu
-					panel.showStyleBarPanel(true);
-					if (getApp().isWhiteboardActive()) {
-						panel.setStyleBarRightOffset(-(int) panelRightToAppRight);
-					} else {
-						panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH
-								- (int) panelRightToAppRight - 2);
-					}
-				} else {
-					panel.showStyleBarPanel(false);
-				}
-			} else {
-				panel.showStyleBarPanel(true);
-				panel.setStyleBarRightOffset(0);
-			}
-		}
-	}
-
 	/**
 	 * shows the downloadDialog
 	 */
@@ -2196,9 +2168,10 @@ public class GuiManagerW extends GuiManager
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
+            boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
+                    && !getApp().getKeyboardManager().shouldDetach();
 			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
-					app.getConfig().hasScientificKeyboard(),
-					app.getConfig().showKeyboardHelpButton());
+                    keyboardIsScientific(), showMoreButton);
 		}
 
 		if (textField != null) {
@@ -2208,6 +2181,16 @@ public class GuiManagerW extends GuiManager
 		onScreenKeyboard.setListener(listener);
 		return onScreenKeyboard;
 	}
+
+    private boolean keyboardIsScientific() {
+        ArticleElementInterface articleElement = ((AppW) app).getArticleElement();
+
+        if ("evaluator".equals(articleElement.getDataParamAppName())) {
+            return "scientific".equals(articleElement.getParamKeyboardType("normal"));
+        }
+
+        return app.getConfig().hasScientificKeyboard();
+    }
 
 	@Override
 	public void updateKeyboardLanguage() {
@@ -2538,4 +2521,27 @@ public class GuiManagerW extends GuiManager
 			getUnbundledToolbar().updateTabs();
 		}
 	}
+
+    @Override
+    public void menuToGlobalHeader() {
+        if (GlobalHeader.isInDOM()) {
+            MenuToggleButton btn = new MenuToggleButton((AppW) app);
+            btn.setExternal(true);
+            btn.addToGlobalHeader();
+        }
+    }
+
+    @Override
+    public SymbolicEditor createSymbolicEditor() {
+        return new SymbolicEditorW(app);
+    }
+
+    /**
+     * @return Whether there is an available keyboard listener.
+     */
+    public boolean hasKeyboardListener() {
+        DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
+        MathKeyboardListener keyboardListener = getKeyboardListener(dockPanelForKeyboard);
+        return keyboardListener != null;
+    }
 }

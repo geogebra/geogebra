@@ -13,6 +13,7 @@ import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
+import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import org.geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
@@ -36,8 +37,6 @@ import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
@@ -55,6 +54,7 @@ import org.geogebra.common.gui.dialog.options.model.ShowObjectModel.IShowObjectL
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
+import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TraceModel;
@@ -340,309 +340,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public boolean onUndefinedVariables(String string,
 				AsyncOperation<String[]> callback) {
 			return app.getGuiManager().checkAutoCreateSliders(string, callback);
-		}
-	}
-
-	private class NamePanel extends OptionPanel
-			implements IObjectNameListener, ErrorHandler {
-		ObjectNameModel model;
-		AutoCompleteTextFieldW tfName;
-		AutoCompleteTextFieldW tfDefinition;
-		AutoCompleteTextFieldW tfCaption;
-
-		private FormLabel nameLabel;
-		private FormLabel defLabel;
-		private FormLabel captionLabel;
-		private InputPanelW inputPanelName;
-		private InputPanelW inputPanelDef;
-		private InputPanelW inputPanelCap;
-
-		private FlowPanel mainWidget;
-		private FlowPanel nameStrPanel;
-		private FlowPanel defPanel;
-		private FlowPanel errorPanel;
-		private FlowPanel captionPanel;
-		/**
-		 * current geo on which focus lost should apply (may be different to
-		 * current geo, due to threads)
-		 */
-		GeoElementND currentGeoForFocusLost = null;
-
-		String redefinitionForFocusLost = "";
-
-		public NamePanel() {
-			model = new ObjectNameModel(app, this);
-
-			setModel(model);
-			// NAME PANEL
-
-			// non auto complete input panel
-			inputPanelName = new InputPanelW(null, app, 1, -1, true);
-			tfName = inputPanelName.getTextComponent();
-			tfName.setAutoComplete(false);
-			tfName.addFocusListener(new FocusListenerW(this) {
-				@Override
-				protected void wrapFocusLost() {
-					model.applyNameChange(tfName.getText(),
-							app.getErrorHandler());
-				}
-			});
-			tfName.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						model.applyNameChange(tfName.getText(),
-								app.getErrorHandler());
-					}
-				}
-			});
-
-			// definition field: non auto complete input panel
-			inputPanelDef = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfDefinition = inputPanelDef.getTextComponent();
-			tfDefinition.setAutoComplete(false);
-
-			tfDefinition.addFocusListener(new FocusListenerW(this) {
-				@Override
-				public void wrapFocusGained() {
-					// started to type something : store current geo if focus
-					// lost
-					currentGeoForFocusLost = model.getCurrentGeo();
-				}
-
-				@Override
-				protected void wrapFocusLost() {
-					// model.redefineCurrentGeo(currentGeoForFocusLost,
-					// tfDefinition.getText(), redefinitionForFocusLost,
-					// NamePanel.this);
-					if (model.getCurrentGeo() == currentGeoForFocusLost) {
-						model.applyDefinitionChange(tfDefinition.getText(),
-								app.getErrorHandler());
-					} else {
-						model.redefineCurrentGeo(currentGeoForFocusLost,
-								tfDefinition.getText(),
-								redefinitionForFocusLost,
-								app.getErrorHandler());
-					}
-				}
-			});
-
-			tfDefinition.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						model.applyDefinitionChange(tfDefinition.getText(),
-								NamePanel.this);
-					}
-
-				}
-			});
-
-			// caption field: non auto complete input panel
-			inputPanelCap = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfCaption = inputPanelCap.getTextComponent();
-			tfCaption.setAutoComplete(false);
-
-			tfCaption.addFocusListener(new FocusListenerW(this) {
-				@Override
-				protected void wrapFocusLost() {
-					doCaptionChanged();
-				}
-			});
-			tfCaption.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						doCaptionChanged();
-					}
-				}
-			});
-
-			mainWidget = new FlowPanel();
-
-			// name panel
-			nameStrPanel = new FlowPanel();
-			nameLabel = new FormLabel("").setFor(inputPanelName);
-			// inputPanelName.insert(nameLabel, 0);
-
-			nameStrPanel.add(nameLabel);
-			nameStrPanel.add(inputPanelName);
-			mainWidget.add(nameStrPanel);
-
-			// definition panel
-			defPanel = new FlowPanel();
-			defLabel = new FormLabel("").setFor(inputPanelDef);
-			defPanel.add(defLabel);
-			defPanel.add(inputPanelDef);
-			mainWidget.add(defPanel);
-			errorPanel = new FlowPanel();
-			errorPanel.addStyleName("Dialog-errorPanel");
-			mainWidget.add(errorPanel);
-
-			// caption panel
-			captionPanel = new FlowPanel();
-			captionLabel = new FormLabel("").setFor(inputPanelCap);
-			captionPanel.add(captionLabel);
-			captionPanel.add(inputPanelCap);
-			mainWidget.add(captionPanel);
-
-			nameStrPanel.setStyleName("optionsInput");
-			defPanel.setStyleName("optionsInput");
-			captionPanel.setStyleName("optionsInput");
-			setWidget(mainWidget);
-			updateGUI(true, true);
-		}
-
-		@Override
-		public void resetError() {
-			showError(null);
-		}
-
-		void doCaptionChanged() {
-			if (!"".equals(tfCaption.getText())) {
-				labelPanel.autoShowCaption();
-			}
-			model.applyCaptionChange(tfCaption.getText());
-		}
-
-		@Override
-		public boolean onUndefinedVariables(String string,
-				AsyncOperation<String[]> callback) {
-			return app.getGuiManager().checkAutoCreateSliders(string, callback);
-		}
-
-		@Override
-		public void setLabels() {
-			nameLabel.setText(app.isUnbundledOrWhiteboard()
-					? loc.getMenu("Name")
-					: loc.getMenu("Name") + ":");
-			defLabel.setText(app.isUnbundledOrWhiteboard()
-					? loc.getMenu("Definition")
-					: loc.getMenu("Definition") + ":");
-			captionLabel
-					.setText(app.isUnbundledOrWhiteboard()
-							? loc.getMenu("Button.Caption")
-							: loc.getMenu("Button.Caption") + ":");
-		}
-
-		@Override
-		public OptionPanel updatePanel(Object[] geos) {
-			OptionPanel result = super.updatePanel(geos);
-			return result;
-		}
-
-		@Override
-		public void updateGUI(boolean showDefinition, boolean showCaption) {
-			mainWidget.clear();
-			// if (loc.isRightToLeftReadingOrder()) {
-			// mainWidget.add(inputPanelName);
-			// mainWidget.add(nameLabel);
-			// } else {
-			// mainWidget.add(nameLabel);
-			// mainWidget.add(inputPanelName);
-			// }
-			mainWidget.add(nameStrPanel);
-
-			if (showDefinition) {
-				// if (loc.isRightToLeftReadingOrder()) {
-				// mainWidget.add(inputPanelDef);
-				// mainWidget.add(defLabel);
-				// } else {
-				// mainWidget.add(defLabel);
-				// mainWidget.add(inputPanelDef);
-				// }
-				mainWidget.add(defPanel);
-				mainWidget.add(errorPanel);
-			}
-
-			if (showCaption) {
-				// if (loc.isRightToLeftReadingOrder()) {
-				// mainWidget.add(inputPanelCap);
-				// mainWidget.add(captionLabel);
-				// } else {
-				// mainWidget.add(captionLabel);
-				// mainWidget.add(inputPanelCap);
-				// }
-				mainWidget.add(captionPanel);
-			}
-			// app.setComponentOrientation(this);
-		}
-
-		public void updateDef(GeoElementND geo) {
-
-			// do nothing if called by doActionPerformed
-			// if (actionPerforming)
-			// return;
-
-			errorPanel.clear();
-			model.getDefInputHandler().setGeoElement(geo);
-			tfDefinition.setText(ObjectNameModel.getDefText(geo));
-		}
-
-		@Override
-		public void setNameText(final String text) {
-			tfName.setText(text);
-			tfName.requestFocus();
-		}
-
-		@Override
-		public void setDefinitionText(final String text) {
-			tfDefinition.setText(text);
-		}
-
-		@Override
-		public void setCaptionText(final String text) {
-			tfCaption.setText(text);
-			tfCaption.requestFocus();
-		}
-
-		@Override
-		public void updateCaption(String text) {
-			tfCaption.setText(text);
-		}
-
-		@Override
-		public void updateDefLabel() {
-			updateDef(model.getCurrentGeo());
-
-			if (model.getCurrentGeo().isIndependent()) {
-				defLabel.setText(localize("Value") + ":");
-			} else {
-				defLabel.setText(localize("Definition") + ":");
-			}
-		}
-
-		@Override
-		public void updateName(String text) {
-			tfName.setText(text);
-			// if a focus lost is called in between, we keep the current
-			// definition text
-			redefinitionForFocusLost = tfDefinition.getText();
-		}
-
-		@Override
-		public void showError(String msg) {
-			if (msg == null) {
-				return;
-			}
-			errorPanel.clear();
-			String[] lines = msg.split("\n");
-			for (String item : lines) {
-				errorPanel.add(new Label(item));
-			}
-		}
-
-		@Override
-		public void showCommandError(String command, String message) {
-			app.getDefaultErrorHandler().showCommandError(command, message);
-		}
-
-		@Override
-		public String getCurrentCommand() {
-			return tfDefinition.getCommand();
 		}
 	}
 
@@ -1220,7 +917,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		CheckboxPanel animatingPanel = null;
 		CheckboxPanel bgImagePanel = null;
 		ReflexAnglePanel reflexAnglePanel = null;
-		NamePanel namePanel = new NamePanel();
+        labelPanel = new LabelPanel();
+        NamePanel namePanel = new NamePanel(getAppW(), labelPanel.model);
 		if (!isDefaults) {
 			basicTab.add(namePanel);
 		}
@@ -1231,7 +929,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		CheckboxPanel showObjectPanel = new ShowObjectPanel();
 		checkboxPanel.add(showObjectPanel.getWidget());
 
-		labelPanel = new LabelPanel();
 		if (!isDefaults) {
 			checkboxPanel.add(labelPanel.getWidget());
 		}
@@ -1321,6 +1018,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel(app);
 		IneqStyleModel ineqStyle = new IneqStyleModel(app);
 		TextFieldSizeModel tfSize = new TextFieldSizeModel(app);
+        TextFieldAlignmentModel alignModel = new TextFieldAlignmentModel(app);
 		ButtonSizeModel buttonSize = new ButtonSizeModel(app);
 		FillingModel filling = new FillingModel(app);
 		LodModel lod = new LodModel(app, isDefaults);
@@ -1330,8 +1028,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod).addModel(lineStyle)
 				.addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
-				.addModel(tfSize).addModel(buttonSize).addModel(filling)
-				.addModel(interpol).addModel(decoAngle).addModel(decoSegment);
+                .addModel(tfSize).addModel(alignModel).addModel(buttonSize)
+                .addModel(filling).addModel(interpol).addModel(decoAngle)
+                .addModel(decoSegment);
 		return tab;
 	}
 
@@ -1380,6 +1079,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab.addModel(new SymbolicModel(app));
 		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
+        tab.addModel(new AnimationStepModel(getAppW()));
 		return tab;
 	}
 

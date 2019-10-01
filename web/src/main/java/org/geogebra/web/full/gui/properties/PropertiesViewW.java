@@ -564,7 +564,7 @@ public class PropertiesViewW extends PropertiesView
 		}
 		final Style style = ((AppW) app).getFrameElement().getStyle();
 		style.setOverflow(Overflow.HIDDEN);
-		((AppWFull) app).centerAndResizePopups();
+        ((AppWFull) app).centerAndResizeViews();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
 		CSSAnimation.runOnAnimation(new Runnable() {

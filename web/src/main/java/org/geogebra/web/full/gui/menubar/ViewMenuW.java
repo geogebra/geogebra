@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
@@ -125,8 +125,6 @@ public class ViewMenuW extends Submenu {
 							@Override
 							public void run() {
 								// false, because we have just closed the menu
-								app.getGuiManager()
-										.updateStyleBarPositions(false);
 								app.updateCenterPanel();
 							}
 						};
@@ -154,7 +152,7 @@ public class ViewMenuW extends Submenu {
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
-		if (app.getVersion() != null && app.getVersion() != Versions.WEB_FOR_DESKTOP 
+        if (app.getPlatform() != null && app.getPlatform() != Platform.OFFLINE
 				&& !app.isExam()) {
 			dataCollection = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtmlEmptyIcon(
@@ -202,15 +200,6 @@ public class ViewMenuW extends Submenu {
 				// reset activePerspective so that no perspective is
 				// highlighted in apps picker when view is customized
 				app.setActivePerspective(-1);
-
-				Timer timer = new Timer() {
-					@Override
-					public void run() {
-						// false, because we have just closed the menu
-						app.getGuiManager().updateStyleBarPositions(false);
-					}
-				};
-				timer.schedule(0);
 			}
 		});
 		newItem.setForceCheckbox(true);

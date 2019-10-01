@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.geos.LimitedPath;
  * @author ggb3D
  *
  */
-public interface GeoSegmentND
-		extends GeoLineND, LimitedPath, GeoNumberValue, FromMeta {
+public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
+        FromMeta, Parametrizable {
 
 	/**
 	 * Sets start point and end point with inhom coords

@@ -1,8 +1,7 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
-import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.CommandsTest;
+import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
@@ -14,7 +13,7 @@ public class CellFormatText {
 
 	@BeforeClass
 	public static void setup() {
-		app = CommandsTest.createApp();
+        app = AlgebraTest.createApp();
 	}
 
 	@Test

@@ -11,8 +11,9 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.realgeom.RealGeomWebService;
@@ -66,8 +67,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -76,7 +75,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
-import org.geogebra.common.kernel.prover.discovery.Pool;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
@@ -112,6 +111,7 @@ import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.profiler.FpsProfiler;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -182,6 +182,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public static final int VIEW_TABLE_MODEL = 9000;
 	/** data collection view (web only) */
 	public static final int VIEW_DATA_COLLECTION = 43;
+    /**
+     * accessibility view in Web
+     */
+    public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
 	public static final int VIEW_TABLE = 8192;
 	/** id for tools view */
@@ -378,6 +382,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	// command dictionary
 	private LowerCaseDictionary commandDict;
+    private LowerCaseDictionary englishCommandDict;
 	private LowerCaseDictionary commandDictCAS;
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
@@ -404,7 +409,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-	private Versions version;
+    private Platform platform;
 	/**
 	 * static so that you can copy & paste between instances
 	 */
@@ -434,21 +439,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
-	}
+    }
 
-	/**
-	 * Please call setVersion right after this
+    /**
+     * Please call setPlatform right after this
 	 */
 	public App() {
 		init();
-	}
+    }
 
-	/**
-	 * constructor
-	 */
-	public App(Versions version) {
-		this();
-		this.version = version;
+    /**
+     * Create app with specific platform
+     *
+     * @param platform the platform
+     */
+    public App(Platform platform) {
+        this();
+        this.platform = platform;
 	}
 
 	protected void init() {
@@ -469,16 +476,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			fontCreator = new FontCreator(getFontManager(), getSettings().getFontSettings());
 		}
 		return fontCreator;
-	}
+    }
 
-	/**
-	 * Changes version; should be called only once, right after the constructor
-	 *
-	 * @param version
-	 *            version
-	 */
-	public void setVersion(Versions version) {
-		this.version = version;
+    /**
+     * Sets the Platform; should be called only once, right after the constructor
+     *
+     * @param platform
+     *            platform
+     */
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
 	}
 
 	/**
@@ -708,6 +715,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		Collection<String> commandDictContent = commandDict.values();
 
 		// write them to the commandDictCAS
+        CommandDispatcher commandDispatcher =
+                getKernel().getAlgebraProcessor().getCommandDispatcher();
+
 		for (String cmd : commandDictContent) {
 			commandDictCAS.addEntry(cmd);
 		}
@@ -715,7 +725,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
-
+            try {
+                if (!commandDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd))) {
+                    continue;
+                }
+            } catch (Exception e) {
+                // nothing happens
+			}
 			try {
 				String local = getLocalization().getCommand(cmd);
 				putInTranslateCommandTable(Commands.valueOf(cmd), local);
@@ -779,92 +795,112 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return command dictionary
 	 */
-	public final LowerCaseDictionary getCommandDictionary() {
-		synchronized (commandDictLock) {
-			fillCommandDict();
-		}
-		return commandDict;
-	}
+    public final LowerCaseDictionary getCommandDictionary() {
+        synchronized (commandDictLock) {
+            fillCommandDict();
+        }
+        return commandDict;
+    }
+
+    /**
+     * @return command dictionary
+     */
+    public final LowerCaseDictionary getEnglishCommandDictionary() {
+        return englishCommandDict;
+    }
 
 	/**
 	 * Fill command dictionary and translation table. Must be called before we
 	 * start using Input Bar.
 	 */
-	protected void fillCommandDict() {
-		getLocalization().initCommand();
-		if (!getLocalization().isCommandChanged()) {
-			return;
-		}
-		boolean noCAS = !kernel.getAlgebraProcessor().getCommandDispatcher().isCASAllowed();
-		// translation table for all command names in command.properties
-		getLocalization().initTranslateCommand();
-		// command dictionary for all public command names available in
-		// GeoGebra's input field
-		// removed check for null: commandDict.clear() removes keys, but they
-		// are still available with commandDict.getIterator()
-		// so change English -> French -> English doesn't work in the input bar
-		// see AutoCompleteTextfield.lookup()
-		// if (commandDict == null)
-		commandDict = newLowerCaseDictionary();
-		// else commandDict.clear();
+    protected void fillCommandDict() {
+        getLocalization().initCommand();
+        if (!getLocalization().isCommandChanged()) {
+            return;
+        }
+        // translation table for all command names in command.properties
+        getLocalization().initTranslateCommand();
+        // command dictionary for all public command names available in
+        // GeoGebra's input field
+        // removed check for null: commandDict.clear() removes keys, but they
+        // are still available with commandDict.getIterator()
+        // so change English -> French -> English doesn't work in the input bar
+        // see AutoCompleteTextfield.lookup()
+        // if (commandDict == null)
+        commandDict = newLowerCaseDictionary();
+        englishCommandDict = newLowerCaseDictionary();
+        // else commandDict.clear();
 
-		// =====================================
-		// init sub command dictionaries
-		CommandNameFilter cf = CommandNameFilterFactory
-				.createNoCasCommandNameFilter();
+        // =====================================
+        // init sub command dictionaries
+        CommandDispatcher cf = getKernel().getAlgebraProcessor().getCommandDispatcher();
 
-		if (subCommandDict == null) {
-			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
-			for (int i = 0; i < subCommandDict.length; i++) {
-				subCommandDict[i] = newLowerCaseDictionary();
-			}
-		}
-		for (int i = 0; i < subCommandDict.length; i++) {
-			subCommandDict[i].clear();
-			// =====================================
-		}
-		HashMap<String, String> translateCommandTable = getLocalization()
-				.getTranslateCommandTable();
-		for (Commands comm : Commands.values()) {
-			if (noCAS && !cf.isCommandAllowed(comm)) {
-				continue;
-			}
+        createSubCommandDictIfNeeded();
+        clearSubCommandDict();
 
-			String internal = comm.name();
-			if (!companion.tableVisible(comm.getTable())
-					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
-				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-					putInTranslateCommandTable(comm, null);
-				}
-				continue;
-			}
+        HashMap<String, String> translateCommandTable = getLocalization()
+                .getTranslateCommandTable();
 
-			// Log.debug(internal);
-			String local = getLocalization().getCommand(internal);
-			putInTranslateCommandTable(comm, local);
+        for (Commands comm : Commands.values()) {
+            if (!cf.isAllowedByNameFilter(comm)) {
+                continue;
+            }
 
-			if (local != null) {
-				local = local.trim();
-				// case is ignored in translating local command names to
-				// internal names!0
-				translateCommandTable.put(StringUtil.toLowerCaseUS(local),
-						internal);
+            if (!companion.tableVisible(comm.getTable())
+                    || !kernel.getAlgebraProcessor().isCommandsEnabled()) {
+                if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
+                    putInTranslateCommandTable(comm, null);
+                }
 
-				commandDict.addEntry(local);
-				// add public commands to the sub-command dictionaries
-				subCommandDict[comm.getTable()].addEntry(local);
+                continue;
+            }
+            String internal = comm.name();
+            String local = getLocalization().getCommand(internal);
+            englishCommandDict.addEntry(getLocalization().getEnglishCommand(internal));
+            addCommandEntry(comm, local, translateCommandTable);
+        }
 
-			}
+        getParserFunctions().updateLocale(getLocalization());
+        // get CAS Commands
+        if (kernel.isGeoGebraCASready()) {
+            fillCasCommandDict();
+        }
+        addMacroCommands();
+        getLocalization().setCommandChanged(false);
+    }
 
-		}
-		getParserFunctions().updateLocale(getLocalization());
-		// get CAS Commands
-		if (kernel.isGeoGebraCASready()) {
-			fillCasCommandDict();
-		}
-		addMacroCommands();
-		getLocalization().setCommandChanged(false);
-	}
+    private void createSubCommandDictIfNeeded() {
+        if (subCommandDict != null) {
+            return;
+        }
+
+        subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
+        for (int i = 0; i < subCommandDict.length; i++) {
+            subCommandDict[i] = newLowerCaseDictionary();
+        }
+    }
+
+    private void clearSubCommandDict() {
+        for (LowerCaseDictionary lowerCaseDictionary : subCommandDict) {
+            lowerCaseDictionary.clear();
+        }
+    }
+
+    private void addCommandEntry(Commands comm, String translated,
+                                 HashMap<String, String> translateCommandTable) {
+        putInTranslateCommandTable(comm, translated);
+        if (translated != null) {
+            String local = translated.trim();
+            // case is ignored in translating local command names to
+            // internal names!0
+            translateCommandTable.put(StringUtil.toLowerCaseUS(translated),
+                    comm.name());
+            commandDict.addEntry(local);
+            // add public commands to the sub-command dictionaries
+            subCommandDict[comm.getTable()].addEntry(local);
+        }
+
+    }
 
 	private void putInTranslateCommandTable(Commands comm, String local) {
 		String internal = comm.name();
@@ -995,7 +1031,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * tells the application that a view coord system has changed
 	 */
 	public void setCoordSystemOccured() {
-
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM) {
 			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURED;
 		}
@@ -1058,28 +1093,51 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            localized command name
 	 * @return internal command name
 	 */
-	public String getInternalCommand(String cmd) {
-		initTranslatedCommands();
-		String s;
-		String cmdLower = StringUtil.toLowerCaseUS(cmd);
-		String renamed = Commands.getRenamed(cmdLower, getLocalization());
-		if (renamed != null) {
-			return renamed;
-		}
+    public String getInternalCommand(String cmd) {
+        initTranslatedCommands();
+        String s;
+        String cmdLower = StringUtil.toLowerCaseUS(cmd);
+        String renamed = Commands.getRenamed(cmdLower, getLocalization());
+        if (renamed != null) {
+            return renamed;
+        }
 
-		Commands[] values = Commands.values();
-		for (Commands c : values) {
-			s = Commands.englishToInternal(c).name();
+        Commands[] values = Commands.values();
+        for (Commands c : values) {
+            s = Commands.englishToInternal(c).name();
 
-			// make sure that when si[] is typed in script, it's changed to
-			// Si[] etc
-			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
-					.equals(cmdLower)) {
-				return s;
-			}
-		}
-		return null;
-	}
+            // make sure that when si[] is typed in script, it's changed to
+            // Si[] etc
+            if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
+                    .equals(cmdLower)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Converts english command name to internal command key.
+     *
+     * @param englishName the english command name.
+     * @return the internal key of the command
+     */
+    public String englishToInternal(String englishName) {
+        initTranslatedCommands();
+        String s;
+        String cmdLower = StringUtil.toLowerCaseUS(englishName);
+        for (Commands c : Commands.values()) {
+            s = Commands.englishToInternal(c).name();
+
+            // make sure that when si[] is typed in script, it's changed to
+            // Si[] etc
+            if (StringUtil.toLowerCaseUS(getLocalization().getEnglishCommand(s))
+                    .equals(cmdLower)) {
+                return s;
+            }
+        }
+        return null;
+    }
 
 	/**
 	 * Translate key and then show error dialog
@@ -1635,14 +1693,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public String getMacroXML() {
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		return getXMLio().getFullMacroXML(macros);
-	}
+    }
 
-	/**
-	 * @return XML for or macros and/or Exercise or empty string if there are
+    /**
+     * @return XML for or macros or empty string if there are
 	 *         none
 	 */
 	public String getMacroXMLorEmpty() {
-		if (!kernel.hasMacros() && kernel.getExercise().isEmpty()) {
+        if (!kernel.hasMacros()) {
 			return "";
 		}
 		ArrayList<Macro> macros = kernel.getAllMacros();
@@ -1665,31 +1723,48 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param e
 	 *            error
 	 */
-	public final void showError(MyError e) {
-		if (isWhiteboardActive()) {
-			return;
-		}
-		String command = e.getcommandName();
-		Log.debug("command: " + command);
-		String message = e.getLocalizedMessage();
-		if (command == null) {
-			showErrorDialog(message);
-			return;
-		}
-		getErrorHandler().showCommandError(command, message);
-	}
+    public final void showError(MyError e) {
+        if (isWhiteboardActive()) {
+            return;
+        }
+        String command = e.getcommandName();
+        Log.debug("command: " + command);
+        String message = e.getLocalizedMessage();
+        if (command == null) {
+            showErrorDialog(message);
+            return;
+        }
+        getErrorHandler().showCommandError(command, message);
+    }
+
+    /**
+     * Show localized message for an error.
+     *
+     * @param key   main error
+     * @param error extra information
+     */
+    public void showError(Errors key, String error) {
+        showError(key.getError(getLocalization()), error);
+    }
+
+    /**
+     * Show localized message for an error.
+     *
+     * @param key main error
+     */
+    public void showError(Errors key) {
+        showError(key.getError(getLocalization()));
+    }
 
 	/**
 	 * Unexpected exception: can't work out anything better, just show "Invalid
 	 * Input"
 	 *
-	 * @param e
-	 *            exception
+	 * @param e exception
 	 */
 	public final void showGenericError(Exception e) {
-		e.printStackTrace();
-		showError(getLocalization().getErrorDefault("InvalidInput",
-				"Please check your input"));
+        e.printStackTrace();
+        showError(getLocalization().getInvalidInputError());
 	}
 
 	/**
@@ -2648,15 +2723,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return selection listener
 	 */
 	public GeoElementSelectionListener getCurrentSelectionListener() {
-		return currentSelectionListener;
-	}
+        return currentSelectionListener;
+    }
 
-	/**
-	 * @param sl
-	 *            selection listener
-	 */
-	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
-		currentSelectionListener = sl;
+    /**
+     * Reset selection listener
+     */
+    public void resetCurrentSelectionListener() {
+		currentSelectionListener = null;
 	}
 
 	/**
@@ -2993,11 +3067,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Full version eg X.Y.Zd-prerelease
 	 *
 	 * @return version string
-	 */
-	public String getVersionString() {
+     */
+    public String getVersionString() {
 
-		if (version != null) {
-			return version.getVersionString(prerelease, canary);
+        if (platform != null) {
+            return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3129,8 +3203,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @author Zoltan Kovacs
 	 */
 	public void showRelation(final GeoElement ra, final GeoElement rb,
-			final GeoElement rc, final GeoElement rd) {
-		Relation.showRelation(this, ra, rb, rc, rd);
+                             final GeoElement rc, final GeoElement rd) {
+        new Relation(this, ra, rb, rc, rd).showDialog();
 	}
 
 	public GeoElement getGeoForCopyStyle() {
@@ -3690,9 +3764,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			showError(err);
 			ok = false;
 		} catch (Exception e) {
-			e.printStackTrace();
-			ok = false;
-			localizeAndShowError("LoadFileFailed");
+            e.printStackTrace();
+            ok = false;
+			showError(Errors.LoadFileFailed);
 		}
 		return ok;
 	}
@@ -3795,8 +3869,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		 *
 		 * doesn't work with Reflect(penstroke, Object)
 		 */
-		case MOW_PEN_IS_LOCUS:
-			return whiteboard;
+            case MOW_PEN_IS_LOCUS:
+                return whiteboard;
+
+            /** MOW-763 */
+            case VIDEO_PLAYER_OFFLINE:
+			return prerelease && whiteboard;
 
 		// **********************************************************************
 		// MOW END
@@ -3814,16 +3892,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case SOLVE_QUARTIC:
 			return prerelease;
 
-		case EXERCISES:
-			return prerelease;
-
 		// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
 		// in Command.Java
 		case IMPLICIT_SURFACES:
-			return prerelease;
+            return prerelease;
 
-		case LOCALSTORAGE_FILES:
-			return (prerelease && !whiteboard) || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+            case LOCALSTORAGE_FILES:
+                return (prerelease && !whiteboard) || Platform.OFFLINE.equals(getPlatform());
 
 		case TOOL_EDITOR:
 			return prerelease;
@@ -3846,15 +3921,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return true;
 
 		/** GGB-2255 */
-		case GEOMETRIC_DISCOVERY:
-			return prerelease;
+            case GEOMETRIC_DISCOVERY:
+                return prerelease;
 
-		/** APPS-284 */
-		case COMMAND_FILTERING:
-			return true;
+		/** APPS-890 */
+            case AUTOLABEL_CAS_SETTINGS:
+                return true;
 
-		/** APPS-634 */
-		case BUTTON_HIGHLIGHTING:
+		/** APPS-1035 */
+		case SYMBOLIC_INPUTFIELDS:
 			return true;
 		// **********************************************************************
        // G3D START
@@ -3862,63 +3937,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-42*/
-			case G3D_AR_REGULAR_TOOLS:
-				return prerelease;
-
-        /** G3D-95*/
-			case G3D_AR_ROTATE_3D_VIEW_TOOL:
+		/** G3D-345 */
+            case G3D_AR_SHOW_RATIO:
                 return prerelease;
 
-        /** G3D-97*/
-			case G3D_AR_TRANSLATE_3D_VIEW_TOOL:
-				return prerelease;
+		/** G3D-343 */
+            case G3D_SELECT_META:
+                return false;
 
-		/** G3D-160 */
-		case G3D_AR_TARGET:
-			return prerelease;
+		/** G3D-372 */
+            case G3D_AR_RATIO_SETTINGS:
+                return false;
 
-		/** G3D-170 */
-		case G3D_IMPROVE_SOLID_TOOLS:
-			return true;
-
-		/** G3D-151 */
-		case G3D_IOS_NATIVE_AR:
-			return true;
-
-		/** G3D-66 */
-		case G3D_IMPROVE_AUTOMATIC_ROTATION:
-			return true;
-
-		/** G3D-265 */
-		case G3D_ARMotionEvent:
-			return false;
-
-		/** G3D-272 */
-		case G3D_NEW_SURFACE_FUNCTIONS_COLORS:
-			return true;
-
-		/** G3D-277 */
-		case G3D_AV_UPDATES_RELEVANT_GEOS_AND_PROPERTIES:
-			return true;
-
-		/** G3D-28 */
-        case G3D_AR_LABELS_POSITION:
-			return true;
-
-		/** G3D-249 */
-		case G3D_AR_EXTRUSION_TOOL:
-			return prerelease;
-
-		/** G3D-323 */
-		case G3D_AR_LABELS_OFFSET:
-			return prerelease;
-
-		/** G3D-340 */
-		case G3D_AR_SIMPLE_SCALE:
-			return false;
-
-        // **********************************************************************
+            // **********************************************************************
         // G3D END
         //
         // *********************************************************
@@ -3926,9 +3957,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/**
 		 * Csilla Master (do not dare to change this :)
-		 */
-		case SPEECH_RECOGNITION:
-			return false;
+         */
+            case SPEECH_RECOGNITION:
+                return false;
+
+            case SURFACE_OF_REVOLUTION_TOOL:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -3949,9 +3983,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return false;
 	}
 
-	public boolean isWhiteboardActive() {
-		return false;
-	}
+    public boolean isWhiteboardActive() {
+        return false;
+    }
+
+    /**
+     * Is running mebis app.
+     *
+     * @return true if mebis is running.
+     */
+    public boolean isMebis() {
+        return false;
+    }
 
 	public boolean isUnbundledOrWhiteboard() {
 		return isUnbundled() || isWhiteboardActive();
@@ -4200,8 +4243,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            mouse y-coord
 	 */
 	public void closePopups(int x, int y) {
-		closePopups();
-		getActiveEuclidianView().closeDropDowns(x, y);
+        closePopups();
+        EuclidianView view = getActiveEuclidianView();
+		view.closeDropDowns(x, y);
 	}
 
 	/**
@@ -4495,11 +4539,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		adjustViews.apply(force);
 		adjustScreen(reset);
 
-		return adjustViews.isPortait();
-	}
+        return adjustViews.isPortait();
+    }
 
-	public Versions getVersion() {
-		return version;
+    /**
+     * Get the platform the app is running on.
+     *
+     * @return the platform
+     */
+    public Platform getPlatform() {
+		return platform;
 	}
 
 	/**
@@ -4697,8 +4746,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public ToolCategorization createToolCategorization() {
 		// Needed temporary, until the toolset levels are not implemented on iOS
 		// too
-		ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getVersion().isPhone());
+        ToolbarSettings set = getSettings().getToolbarSettings();
+		set.setFrom(getConfig(), getPlatform().isPhone());
 		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 
@@ -4721,38 +4770,23 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
-		AbstractToolCollectionFactory factory = null;
-		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_CAS:
-			case IOS_NATIVE:
-			case IOS_CAS:
-			case WEB_GRAPHING:
-				factory = new GraphingToolCollectionFactory();
+        AbstractToolCollectionFactory factory = null;
+        switch (getConfig().getToolbarType()) {
+			case GRAPHING_CALCULATOR:
+                factory = new GraphingToolCollectionFactory();
 				break;
-			case ANDROID_GEOMETRY:
-			case IOS_GEOMETRY:
-			case WEB_GEOMETRY:
-			case WEB_GEOMETRY_OFFLINE:
-				factory = new GeometryToolCollectionFactory();
-				break;
-			case ANDROID_NATIVE_3D:
-			case WEB_3D_GRAPHING:
-			case IOS_NATIVE_3D:
-				factory = new Graphing3DToolCollectionFactory(this);
+			case GEOMETRY_CALC:
+                factory = new GeometryToolCollectionFactory();
+                break;
+            case GRAPHER_3D:
+				factory = new Graphing3DToolCollectionFactory();
 				break;
 			default:
-				factory = new GraphingToolCollectionFactory();
+                factory = new GraphingToolCollectionFactory();
 		}
-		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case ANDROID_CAS:
-			case ANDROID_GEOMETRY:
-			case ANDROID_NATIVE_3D:
-			case IOS_GEOMETRY:
-			case IOS_NATIVE:
-			case IOS_NATIVE_3D:
-			case IOS_CAS:
+		switch (getPlatform()) {
+			case ANDROID:
+			case IOS:
 				factory.setPhoneApp(true);
 				break;
 			default:
@@ -5106,7 +5140,55 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return settingsUpdater;
 	}
 
-	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder(this);
-	}
+    protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
+        return new SettingsUpdaterBuilder(this);
+    }
+
+    /**
+     * Copy image to system clipboard
+     *
+     * @param dataURI data URI of image to copy
+     */
+    public void copyImageToClipboard(String dataURI) {
+        // implemented in AppD, AppW
+    }
+
+    /**
+     * Returns the primary color of the app.
+     *
+     * @return primary color
+     */
+    public GColor getPrimaryColor() {
+        return GeoGebraColorConstants.GEOGEBRA_ACCENT;
+    }
+
+    /**
+     * @return FpsProfiler instance.
+     */
+    public FpsProfiler getFpsProfiler() {
+        return null;
+    }
+
+    /**
+     * Autonomously draws from the coords.json file.
+     */
+    public void testDraw() {
+        // no-op
+    }
+
+    /**
+     * Records the drawing.
+     */
+    public void startDrawRecording() {
+        // no-op
+    }
+
+    /**
+     * Ends the recording of the drawing and logs the results.
+     *
+     * For autonomous drawing, the logged result has to be copied into the coords.json file.
+     */
+    public void endDrawRecordingAndLogResults() {
+        // no-op
+    }
 }

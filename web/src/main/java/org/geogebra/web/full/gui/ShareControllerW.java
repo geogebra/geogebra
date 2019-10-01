@@ -122,17 +122,17 @@ public class ShareControllerW implements ShareController {
 						.getActiveMaterial().getSharingKey() != null) {
 					sharingKey = getAppW().getActiveMaterial().getSharingKey();
 				}
-				if (!getAppW().isWhiteboardActive()) {
+                if (getAppW().isMebis()) {
+                    shareDialogMow = new ShareDialogMow(getAppW(),
+                            getAppW().getCurrentURL(sharingKey, true),
+                            null);
+                    shareDialogMow.show();
+                } else {
 					shareDialog = new ShareLinkDialog(getAppW(),
 							getAppW().getCurrentURL(sharingKey, true),
 							getAnchor());
 					shareDialog.setVisible(true);
 					shareDialog.center();
-				} else {
-					shareDialogMow = new ShareDialogMow(getAppW(),
-								getAppW().getCurrentURL(sharingKey, true),
-								null);
-						shareDialogMow.show();
 				}
 			}
 		};

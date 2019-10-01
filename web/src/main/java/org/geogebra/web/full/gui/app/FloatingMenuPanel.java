@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.app;
 
+import org.geogebra.web.html5.util.TestHarness;
+
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -14,6 +16,7 @@ public class FloatingMenuPanel extends FlowPanel {
 	 */
 	public FloatingMenuPanel(GGWMenuBar menu) {
 		addStyleName("floatingMenu");
+        TestHarness.setAttr(this, "floatingMenu");
 		this.menu = menu;
 		add(menu);
 	}

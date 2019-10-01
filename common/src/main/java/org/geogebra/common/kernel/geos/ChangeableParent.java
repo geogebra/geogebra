@@ -4,16 +4,14 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Parent (number+direction) for changing prism, cylinder, etc.
@@ -24,14 +22,13 @@ import org.geogebra.common.util.DoubleUtil;
 public class ChangeableParent {
 
 	private GeoNumeric changeableNumber = null;
-	private GeoElement directorGeo = null;
+    private GeoElementND directorGeo = null;
 	private double startValue;
 	private Coords direction;
-	private Coords direction2;
 	private Coords centroid;
 	private boolean forPolyhedronNet = false;
 	private GeoPolyhedronInterface parent;
-	private double lengthDirection;
+    private final CoordConverter converter;
 
 	/**
 	 * 
@@ -88,11 +85,14 @@ public class ChangeableParent {
 	 *            number
 	 * @param director
 	 *            director
+     * @param converter
+     *            converts mouse movement to parameter value
 	 */
-	public ChangeableParent(GeoNumeric number, GeoElement director) {
+    public ChangeableParent(GeoNumeric number, GeoElementND director, CoordConverter converter) {
 		changeableNumber = number;
 		directorGeo = director;
 		forPolyhedronNet = false;
+        this.converter = converter;
 	}
 
 	/**
@@ -110,6 +110,7 @@ public class ChangeableParent {
 		changeableNumber = number;
 		directorGeo = child;
 		forPolyhedronNet = true;
+        this.converter = new PolyhedronNetConverter();
 		this.parent = parent;
 	}
 
@@ -133,7 +134,7 @@ public class ChangeableParent {
 	 * 
 	 * @return director
 	 */
-	final public GeoElement getDirector() {
+    final public GeoElementND getDirector() {
 		return directorGeo;
 	}
 
@@ -142,6 +143,8 @@ public class ChangeableParent {
 	 * 
 	 * @param view
 	 *            view calling
+     * @param startPoint
+     *            start point
 	 */
 	final public void record(EuclidianView view, Coords startPoint) {
 		startValue = getValue();
@@ -152,21 +155,19 @@ public class ChangeableParent {
 			if (view instanceof EuclidianView3D) {
 				if (centroid == null) {
 					centroid = new Coords(3);
-				}
-				parent.pseudoCentroid(centroid);
-				if (view.getApplication().has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-					direction.setSub3(startPoint, centroid);
-					lengthDirection = direction.calcNorm();
-					direction.normalize();
-				} else {
-					direction.setSub3(((EuclidianView3D) view).getCursor3D()
-							.getInhomCoordsInD3(), centroid);
-				}
-			} else {
+                }
+                parent.pseudoCentroid(centroid);
+                direction.setSub3(startPoint, centroid);
+                converter.record(this, startPoint);
+                direction.normalize();
+            } else {
 				direction.set(0, 0, 0);
 			}
 		} else {
-			direction.set3(directorGeo.getMainDirection());
+            direction.set3(
+
+                    directorGeo.getMainDirection());
+            converter.record(this, startPoint);
 		}
 	}
 
@@ -219,70 +220,48 @@ public class ChangeableParent {
 		}
 
 		// else: comes from mouse
-		double shift;
-		if (changeableNumber.getConstruction().getApplication()
-				.has(Feature.G3D_AR_EXTRUSION_TOOL)) {
-			shift = direction.dotproduct3(rwTransVec);
-			if (forPolyhedronNet) {
-				shift = shift / lengthDirection;
-			}
-		} else {
-			if (direction2 == null) {
-				direction2 = new Coords(3);
-			}
-			direction2.setAdd3(direction, direction2.setMul(viewDirection,
-					-viewDirection.dotproduct3(direction)));
-			double ld = direction2.dotproduct3(direction2);
 
-			if (DoubleUtil.isZero(ld)) {
-				return false;
-			}
+        double val = converter.translationToValue(direction, rwTransVec,
+                getStartValue(), view);
+        if (needsSnap(view)) {
+            val = converter.snap(val, view);
+        }
+        if (!MyDouble.isFinite(val)) {
+            return false;
+        }
 
-			shift = direction2.dotproduct3(rwTransVec) / ld;
-		}
+        var.setValue(val);
+        GeoElement.addParentToUpdateList(var, updateGeos, tempMoveObjectList);
 
-		if (!MyDouble.isFinite(shift)) {
-			return false;
-		}
-		double val = getStartValue() + shift;
+        return true;
+    }
 
-		if (!forPolyhedronNet) {
-			switch (view.getPointCapturingMode()) {
-			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-				// TODO
-				break;
-			default:
-			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-				if (!view.isGridOrAxesShown()) {
-					break;
-				}
-			case EuclidianStyleConstants.POINT_CAPTURING_ON:
-			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-				double g = view.getGridDistances(0);
-				double valRound = Kernel.roundToScale(val, g);
-				if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-						|| (Math.abs(valRound - val) < g
-								* view.getEuclidianController()
-										.getPointCapturingPercentage())) {
-					val = valRound;
-				}
-				break;
-			}
-		}
-
-		var.setValue(val);
-		GeoElement.addParentToUpdateList(var, updateGeos, tempMoveObjectList);
-
-		return true;
-
+    private static boolean needsSnap(EuclidianView view) {
+        switch (view.getPointCapturingMode()) {
+            case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+                // TODO
+                return false;
+            default:
+            case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+                return view.isGridOrAxesShown();
+            case EuclidianStyleConstants.POINT_CAPTURING_ON:
+            case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+                return true;
+        }
 	}
 
 	/**
-	 * 
 	 * @return current move direction
 	 */
 	public Coords getDirection() {
 		return direction;
 	}
+
+    /**
+     * @return converter for mouse movement to value
+     */
+    public CoordConverter getConverter() {
+        return converter;
+    }
 
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.shared;
 
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -62,8 +63,8 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private void initGui() {
-		addStyleName(
-				app.isWhiteboardActive() ? "shareLinkMow" : "shareLinkGgb");
+        VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+        addStyleName(vendorSettings.getStyleName("shareLink"));
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
 		addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -97,7 +98,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		// share help text
 		shareHelp = new Label();
 		shareHelp.addStyleName("shareHelpTxt");
-		if (app.isWhiteboardActive()) {
+        if (app.isMebis()) {
 			mainPanel.add(shareHelp);
 		}
 		// build button panel (print prev, export img)
@@ -115,7 +116,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		exportImgBtn.addFastClickHandler(this);
 		cancelBtn = new StandardButton(localize("Cancel"), app);
 		cancelBtn.addFastClickHandler(this);
-		if (app.isWhiteboardActive()) {
+        if (app.isMebis()) {
 			buttonPanel.setStyleName("DialogButtonPanel");
 			buttonPanel.add(cancelBtn);
 		} else {
@@ -193,14 +194,15 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	public void setLabels() {
 		// dialog title
 		getCaption().setText(
-				localize(app.isWhiteboardActive() ? "shareByLink" : "Share"));
+                localize(app.isMebis() ? "shareByLink" : "Share"));
 		linkLabel.setText(localize("Link"));
 		copyBtn.setText(localize("Copy"));
 		printBtn.setText(localize("Print"));
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
-		shareHelp.setText(localize(app.isWhiteboardActive()
-				? "ShareLinkHelpTxtMebis" : "SharedLinkHelpTxt"));
+
+        VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+        shareHelp.setText(localize(vendorSettings.getMenuLocalizationKey("SharedLinkHelpTxt")));
 	}
 
 	private String localize(String id) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -186,6 +187,11 @@ public class InputSuggestions implements HasSuggestions {
 		} else {
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
+
+        if (completions == null && isFallbackCompletitionAllowed()) {
+            completions = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
+        }
+
 		Log.debug(cmdPrefix + ":"
 				+ (completions == null ? "-1" : completions.size()));
 		List<String> commandCompletions = getSyntaxes(completions);
@@ -200,6 +206,10 @@ public class InputSuggestions implements HasSuggestions {
 		}
 		return completions;
 	}
+
+    private boolean isFallbackCompletitionAllowed() {
+        return "zh".equals(app.getLocalization().getLanguage());
+    }
 
 	/**
 	 * Take a list of commands and return all possible syntaxes for these
@@ -216,13 +226,19 @@ public class InputSuggestions implements HasSuggestions {
 		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
 			String cmdInt = app.getInternalCommand(cmd);
+            boolean englishOnly = cmdInt == null && isFallbackCompletitionAllowed();
+
+            if (englishOnly) {
+                cmdInt = app.englishToInternal(cmd);
+            }
 			String syntaxString;
 			if (component.isForCAS()) {
 				syntaxString = app.getLocalization()
 						.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = app.getKernel().getAlgebraProcessor()
-						.getSyntax(cmdInt, app.getSettings());
+                AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+                syntaxString = englishOnly ? ap.getEnglishSyntax(cmdInt, app.getSettings())
+                        : ap.getSyntax(cmdInt, app.getSettings());
 			}
 
 			if (syntaxString == null) {

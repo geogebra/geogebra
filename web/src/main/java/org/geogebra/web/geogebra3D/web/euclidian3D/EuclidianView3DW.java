@@ -111,8 +111,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		super(ec, settings);
 		initBaseComponents(evPanel, ec);
 
-		// initView(true);
-
 		getRenderer().init();
 		if (g2p.getCanvas() != null) {
 			ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
@@ -179,7 +177,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void initAriaDefaults() {
-		Element elem = g2p.getCanvas().getElement();
+        Element elem = g2p.getElement();
 		elem.setAttribute("role", "figure");
 		elem.setAttribute("aria-label", "3D View");
 	}
@@ -235,10 +233,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
 			return;
 		}
-		absPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+        absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
+        absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
+        absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+        absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 		absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
@@ -251,8 +249,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
-			if (getCanvas() != null) {
-				((AppW) this.app).focusLost(this, getCanvas().getElement());
+            if (getCanvasElement() != null) {
+                ((AppW) this.app).focusLost(this, getCanvasElement());
 			}
 		}
 	}
@@ -263,8 +261,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public void focusGained() {
 		if (!isInFocus) {
 			this.isInFocus = true;
-			if (getCanvas() != null) {
-				((AppW) this.app).focusGained(this, getCanvas().getElement());
+            if (getCanvasElement() != null) {
+                ((AppW) this.app).focusGained(this, getCanvasElement());
 			}
 		}
 	}
@@ -435,7 +433,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		g2p.getCanvas().getCanvasElement().focus();
+        g2p.getElement().focus();
 		focusGained();
 		return true;
 	}
@@ -513,8 +511,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public Canvas getCanvas() {
-		return g2p == null ? null : g2p.getCanvas();
+    public Element getCanvasElement() {
+        return g2p == null ? null : g2p.getElement();
 	}
 
 	/**
@@ -682,9 +680,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		g2p.setCoordinateSpaceSizeNoTransformNoColor(width, height);
 		try {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
-			g2p.getCanvas().getElement().getParentElement().getStyle()
+            g2p.getElement().getParentElement().getStyle()
 					.setWidth(width, Style.Unit.PX);
-			g2p.getCanvas().getElement().getParentElement().getStyle()
+            g2p.getElement().getParentElement().getStyle()
 					.setHeight(height, Style.Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
@@ -767,7 +765,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void addScreenReader() {
-		screenReader = new ReaderWidget(evNo, g2p.getCanvas());
+        screenReader = new ReaderWidget(evNo, g2p.getElement());
 		EuclidianViewW.attachReaderWidget(screenReader, app);
 	}
+
+    @Override
+    public boolean isAttached() {
+        return g2p != null && g2p.isAttached();
+    }
 }

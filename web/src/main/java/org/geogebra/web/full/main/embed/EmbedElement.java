@@ -1,7 +1,6 @@
 package org.geogebra.web.full.main.embed;
 
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.full.main.EmbedManagerW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
@@ -65,10 +64,8 @@ public class EmbedElement {
 	/**
 	 * @param embedID
 	 *            embed ID
-	 * @param embedManagerW
-	 *            manager
 	 */
-	public void addListeners(int embedID, EmbedManagerW embedManagerW) {
+    public void addListeners(int embedID) {
 		// overridden for GM
 	}
 

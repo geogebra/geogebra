@@ -32,8 +32,6 @@ import org.geogebra.common.util.StringUtil;
 public class GeoTurtle extends GeoPoint {
 
 	// private GeoPointND[] points;
-	private boolean defined = true;
-
 	// List to store sequential turtle drawing commands.
 	// TODO: use a better data structure?
 	private ArrayList<TurtleCommand> cmdList;
@@ -435,25 +433,6 @@ public class GeoTurtle extends GeoPoint {
 	@Override
 	public boolean isGeoTurtle() {
 		return true;
-	}
-
-	/*
-	 * @Override public void set(GeoElement geo) { // TODO Auto-generated method
-	 * stub
-	 * 
-	 * }
-	 */
-
-	@Override
-	public boolean isDefined() {
-		return defined;
-	}
-
-	@Override
-	public void setUndefined() {
-		// TODO Auto-generated method stub
-		defined = false;
-
 	}
 
 	/*

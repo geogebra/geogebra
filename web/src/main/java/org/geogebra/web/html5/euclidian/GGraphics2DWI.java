@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.web.html5.awt.GFontW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public interface GGraphics2DWI extends GGraphics2D {
@@ -48,5 +49,15 @@ public interface GGraphics2DWI extends GGraphics2D {
 	void clearAll();
 
 	void fillWith(GColor backgroundCommon);
+
+    /**
+     * @return canvas element
+     */
+    Element getElement();
+
+    /**
+     * @return whether the graphics is attached to DOM
+     */
+    boolean isAttached();
 
 }

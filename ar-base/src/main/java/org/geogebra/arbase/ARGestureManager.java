@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 abstract public class ARGestureManager{
 
@@ -22,9 +21,7 @@ abstract public class ARGestureManager{
     }
 
     public void onRotationStart() {
-        if (mView.getApplication().has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            mView.rememberOrigins();
-        }
+        mView.rememberOrigins();
     }
 
     protected void onRotation(double angle) {
@@ -33,6 +30,10 @@ abstract public class ARGestureManager{
 
     synchronized public float getScaleFactor() {
         return mScaleFactor;
+    }
+
+    synchronized public void resetScaleFactor() {
+        mScaleFactor = 1;
     }
 
     synchronized public void copyXYPosition(Coords ret) {
@@ -66,11 +67,7 @@ abstract public class ARGestureManager{
 
     synchronized protected void firstFingerDown(ARMotionEvent event, App app){
         mUpdateOriginIsWanted = true;
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            isTouched = false;
-        } else {
-            isTouched = true;
-        }
+        isTouched = false;
         updatePos(event);
     }
 
@@ -81,12 +78,7 @@ abstract public class ARGestureManager{
     }
 
     synchronized protected void onMove(ARMotionEvent event, App app){
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            isTouched = event.getPointerCount() > 1;
-        } else {
-            isTouched = true;
-        }
-
+        isTouched = event.getPointerCount() > 1;
         if (actionPointerLeftPreviously) {
             mUpdateOriginIsWanted = true;
             actionPointerLeftPreviously = false;
@@ -96,17 +88,10 @@ abstract public class ARGestureManager{
 
     synchronized protected void firstFingerUp(App app){
         isTouched = false;
-        if (!app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            mView.getEuclidianController().clearSelections();
-        }
     }
 
     synchronized protected void secondFingerUp(App app){
-        if (app.has(Feature.G3D_AR_REGULAR_TOOLS)) {
-            isTouched = false;
-        } else {
-            isTouched = true;
-        }
+        isTouched = false;
         mUpdateOriginIsWanted = true;
         actionPointerLeftPreviously = true;
     }

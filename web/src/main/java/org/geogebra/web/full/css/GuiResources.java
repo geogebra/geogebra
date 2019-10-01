@@ -11,7 +11,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
 @SuppressWarnings("javadoc")
-public interface GuiResources extends ClientBundle {
+public interface GuiResources extends ClientBundle, StylesProvider {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
@@ -325,11 +325,13 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/exam/css/exam.less")
 	LessReference examStyle();
 
-	@Source("org/geogebra/web/resources/scss/mow.scss")
-	SassResource mowStyle();
+    @Override
+    @Source("org/geogebra/web/resources/scss/mow.scss")
+    SassResource mowStyle();
 
-	@Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
-	SassResource mowToolbarStyle();
+    @Override
+    @Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
+    SassResource mowToolbarStyle();
 
 	@Source("org/geogebra/web/resources/scss/texttool.scss")
 	SassResource texttoolStyle();
@@ -340,8 +342,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
 
-	@Source("org/geogebra/web/resources/scss/open-screen.scss")
-	SassResource openScreenStyle();
+    @Override
+    @Source("org/geogebra/web/resources/scss/open-screen.scss")
+    SassResource openScreenStyle();
 
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
 	SassResource avStyleScss();
@@ -417,4 +420,12 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/header.scss")
 	SassResource headerScss();
+
+    @Override
+    @Source("org/geogebra/web/resources/scss/dialog-styles.scss")
+    SassResource dialogStylesScss();
+
+    @Source("org/geogebra/web/resources/scss/evaluator-styles.scss")
+    SassResource evaluatorScss();
+
 }

@@ -42,8 +42,7 @@ public class OptionsMenuController {
 
 				app.setUnsaved();
 			} catch (Exception e) {
-				e.printStackTrace();
-				app.showError(e.toString());
+                app.showGenericError(e);
 			}
 		}
 

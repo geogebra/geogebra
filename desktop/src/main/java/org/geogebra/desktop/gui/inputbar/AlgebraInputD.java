@@ -12,10 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.inputbar;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.SystemColor;
+import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,11 +23,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -144,12 +137,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 																	.getInputHelpPanel();
 													helpPanel.focusCommand(app
 															.getLocalization()
-															.getCommand(
-																	command));
-													btnHelpToggle
-															.setToolTipText(
-																	loc.getError(
-																			"InvalidInput"));
+                                                            .getCommand(command));
+                                                    btnHelpToggle.setToolTipText(
+                                                            loc.getInvalidInputError());
 												}
 											}
 

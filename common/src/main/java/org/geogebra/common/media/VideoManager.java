@@ -163,4 +163,18 @@ public interface VideoManager {
 	 * Remove unused videos from cache.
 	 */
 	void clearStoredVideos();
+
+    /**
+     * Called when an error occurred playing the video
+     * but is it online
+     *
+     * @param video the video.
+     */
+    void onError(GeoVideo video);
+
+    /**
+     * @param video to check
+     * @return if the player of the video is offline
+     */
+    boolean isPlayerOffline(GeoVideo video);
 }

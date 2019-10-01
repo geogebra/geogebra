@@ -141,10 +141,9 @@ public class PageListPanel
 	 * opens the page control panel
 	 */
 	public void open() {
-		if (app.isWhiteboardActive()) {
-			dockPanel.hideZoomPanel();
-			toolbarMow.showPageControlButton(false);
-		}
+        dockPanel.hideZoomPanel();
+        toolbarMow.showPageControlButton(false);
+
 		setVisible(true);
 		setLabels();
 		removeStyleName("animateOut");

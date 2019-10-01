@@ -19,9 +19,9 @@ import org.geogebra.common.geogebra3D.input3D.Input3D.OutOfField;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -48,7 +48,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private HittedGeo hittedGeo = new HittedGeo();
 
 	private StationaryCoords stationaryCoords = new StationaryCoords();
-	private double zNearest = 4;
 
 	private Coords tmpCoords1 = new Coords(4);
 
@@ -343,14 +342,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			zNearest = -zNear;
 		}
 		updateStylusBeam();
-	}
-
-	/**
-	 * 
-	 * @return current z nearest hit
-	 */
-	public double getZNearest() {
-		return zNearest;
 	}
 
 	/**

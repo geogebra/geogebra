@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
@@ -228,20 +229,21 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 
-	private void addMaterials(String jsString) {
-		JSONTokener tok = new JSONTokener(jsString);
-		try {
-			JSONObject jv = new JSONObject(tok);
-			for (String key : jv.keySet()) {
-				Material mat = JSONParserGGT.prototype
-						.toMaterial((JSONObject) jv.get(key));
-				mat.setLocalID(MaterialsManager.getIDFromKey(key));
-				this.addMaterial(mat);
-			}
-		} catch (Exception e) {
-			// invalid JSON: ignore
-		}
-	}
+    @ExternalAccess
+    private void addMaterials(String jsString) {
+        JSONTokener tok = new JSONTokener(jsString);
+        try {
+            JSONObject jv = new JSONObject(tok);
+            for (String key : jv.keySet()) {
+                Material mat = JSONParserGGT.prototype
+                        .toMaterial((JSONObject) jv.get(key));
+                mat.setLocalID(MaterialsManager.getIDFromKey(key));
+                this.addMaterial(mat);
+            }
+        } catch (Exception e) {
+            // invalid JSON: ignore
+        }
+    }
 
 	@Override
 	protected native void getFiles(MaterialFilter materialFilter) /*-{

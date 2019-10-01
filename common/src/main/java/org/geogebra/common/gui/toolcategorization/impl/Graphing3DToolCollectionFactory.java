@@ -1,24 +1,16 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 
 /**
  * ToolCollectionFactory for the 3D Grapher app.
  */
 public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFactory {
-
-    private App app;
-
-    public Graphing3DToolCollectionFactory(App app) {
-        this.app = app;
-    }
 
     @Override
     public ToolCollection createToolCollection() {
@@ -62,32 +54,18 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_POINT_ON_OBJECT,
                 EuclidianConstants.MODE_ATTACH_DETACH);
 
-        if (app.has(Feature.G3D_IMPROVE_SOLID_TOOLS)) {
-            impl.addCategory(CATEGORY_LINES_AND_POLYGONS,
-                    EuclidianConstants.MODE_SEGMENT,
-                    EuclidianConstants.MODE_SEGMENT_FIXED,
-                    EuclidianConstants.MODE_JOIN,
-                    EuclidianConstants.MODE_RAY,
-                    EuclidianConstants.MODE_VECTOR,
-                    EuclidianConstants.MODE_POLYGON,
-                    EuclidianConstants.MODE_REGULAR_POLYGON,
-                    EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
-                    EuclidianConstants.MODE_PARALLEL,
-                    EuclidianConstants.MODE_ANGULAR_BISECTOR,
-                    EuclidianConstants.MODE_TANGENTS);
-        } else {
-            impl.addCategory(CATEGORY_LINES_AND_POLYGONS,
-                    EuclidianConstants.MODE_SEGMENT,
-                    EuclidianConstants.MODE_SEGMENT_FIXED,
-                    EuclidianConstants.MODE_JOIN,
-                    EuclidianConstants.MODE_RAY,
-                    EuclidianConstants.MODE_VECTOR,
-                    EuclidianConstants.MODE_POLYGON,
-                    EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
-                    EuclidianConstants.MODE_PARALLEL,
-                    EuclidianConstants.MODE_ANGULAR_BISECTOR,
-                    EuclidianConstants.MODE_TANGENTS);
-        }
+        impl.addCategory(CATEGORY_LINES_AND_POLYGONS,
+                EuclidianConstants.MODE_SEGMENT,
+                EuclidianConstants.MODE_SEGMENT_FIXED,
+                EuclidianConstants.MODE_JOIN,
+                EuclidianConstants.MODE_RAY,
+                EuclidianConstants.MODE_VECTOR,
+                EuclidianConstants.MODE_POLYGON,
+                EuclidianConstants.MODE_REGULAR_POLYGON,
+                EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
+                EuclidianConstants.MODE_PARALLEL,
+                EuclidianConstants.MODE_ANGULAR_BISECTOR,
+                EuclidianConstants.MODE_TANGENTS);
 
         impl.addCategory(CATEGORY_SOLIDS,
                 EuclidianConstants.MODE_PYRAMID,

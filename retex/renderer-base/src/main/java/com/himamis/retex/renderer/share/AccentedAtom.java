@@ -104,7 +104,7 @@ public class AccentedAtom extends Atom {
 		}
 
 		if (!Double.isNaN(skew)) {
-			s = skew * TeXLength.getFactor(TeXLength.Unit.MU, env) - s;
+            s = skew * Unit.MU.getFactor(env) - s;
 		}
 
 		// TODO: maybe we've a bug here

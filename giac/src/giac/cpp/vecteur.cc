@@ -9422,7 +9422,7 @@ namespace giac {
 	// invert pivot 
 	temp=invmod(pivot,modulo);
 	if (fullreduction || rref_or_det_or_lu<2){
-	  iterateur it=M[pivotline].begin(),itend=M[pivotline].end();
+	  iterateur it=M[l].begin(),itend=M[l].end();
 	  for (;it!=itend;++it)
 	    *it=smod(temp * *it,modulo);
 	}

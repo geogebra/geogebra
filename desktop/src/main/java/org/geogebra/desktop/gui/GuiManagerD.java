@@ -1,13 +1,6 @@
 package org.geogebra.desktop.gui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -29,18 +22,7 @@ import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JApplet;
-import javax.swing.JColorChooser;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.JTextComponent;
 
@@ -72,6 +54,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
@@ -312,11 +295,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	protected Euclidian2DockPanel newEuclidian2DockPanel(int idx) {
 		return new Euclidian2DockPanel(getApp(), null, idx);
-	}
-
-	@Override
-	public boolean isInputFieldSelectionListener() {
-		return getApp().getCurrentSelectionListener() == algebraInput.getTextField();
 	}
 
 	public void clearPreferences() {
@@ -801,7 +779,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		toolbarPanel.validate();
 		toolbarPanel.updateHelpText();
-		getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
+        getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 	}
 
 	@Override
@@ -1352,7 +1330,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			} catch (Exception e) {
 				getApp().setDefaultCursor();
 				e.printStackTrace();
-				getApp().localizeAndShowError("PasteImageFailed");
+                getApp().showError(Errors.PasteImageFailed);
 				return null;
 			}
 		}
@@ -1617,7 +1595,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
-			getApp().localizeAndShowError("LoadFileFailed");
+            getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
 
@@ -1712,7 +1690,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
-			getApp().localizeAndShowError("LoadFileFailed");
+            getApp().showError(Errors.LoadFileFailed);
 			return null;
 		}
 
@@ -2631,8 +2609,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 					+ " " + page + " " + type);
-			getApp().localizeAndShowError(e.getMessage());
-			e.printStackTrace();
+            getApp().showGenericError(e);
 		}
 	}
 

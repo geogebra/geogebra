@@ -27,50 +27,86 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	 * @param app
 	 *            application
 	 */
-	public HelpMenuW(final AppW app) {
-		super("help", app);
-		addExpandableStyleWithColor(false);
-		Localization loc = app.getLocalization();
-		final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
-		// Tutorials
-		if (!StringUtil.empty(tutorialURL)) {
-			tutorials = addItem(
-					MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.tutorial_black(),
-							loc.getMenu("Tutorials")),
-					true, new MenuCommand(app) {
+    public HelpMenuW(final AppW app) {
+        super("help", app);
+        addExpandableStyleWithColor(false);
+        Localization loc = app.getLocalization();
 
-						@Override
-						public void doExecute() {
-							app.getFileManager().open(tutorialURL);
-						}
-					});
-		}
-		// Help
-		manual = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.manual_black(),
-						loc.getMenu("Manual")),
-				true, new MenuCommand(app) {
+        if (app.isWhiteboardActive()) {
+            buildMenuNotes(app, loc);
+        } else {
+            buildMenuBase(app, loc);
+        }
 
-					@Override
-					public void doExecute() {
-						app.getGuiManager().openHelp(App.WIKI_MANUAL);
+        if (!app.getNetworkOperation().isOnline()) {
+            render(false);
+        }
+        app.getNetworkOperation().getView().add(this);
+    }
 
-					}
-				});
-		forum = addItem(
-				MainMenu.getMenuBarHtml(
-						MaterialDesignResources.INSTANCE.forum_black(),
-						loc.getMenu("GeoGebraForum")),
-				true, new MenuCommand(app) {
+    private void buildMenuBase(final AppW app, Localization loc) {
+        addTutorialItem(app, loc);
+        addManualItem(app, loc);
+        addForumItem(app, loc);
+        addSeparator();
+        addReportBugItem(app, loc);
+        addSeparator();
+        addAboutItem(app);
+    }
 
-					@Override
-					public void doExecute() {
-						app.getFileManager().open(GeoGebraConstants.FORUM_URL);
-					}
-				});
-		addSeparator();
-		// Report Bug
+    private void buildMenuNotes(final AppW app, Localization loc) {
+        addTutorialItem(app, loc);
+        addForumItem(app, loc);
+        addReportBugItem(app, loc);
+        addAboutItem(app);
+    }
+
+    private void addTutorialItem(final AppW app, Localization loc) {
+        final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
+        if (!StringUtil.empty(tutorialURL)) {
+            tutorials = addItem(
+                    MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.tutorial_black(),
+                            loc.getMenu("Tutorials")),
+                    true, new MenuCommand(app) {
+
+                        @Override
+                        public void doExecute() {
+                            app.getFileManager().open(tutorialURL);
+                        }
+                    });
+        }
+    }
+
+    private void addManualItem(final AppW app, Localization loc) {
+        manual = addItem(
+                MainMenu.getMenuBarHtml(
+                        MaterialDesignResources.INSTANCE.manual_black(),
+                        loc.getMenu("Manual")),
+                true, new MenuCommand(app) {
+
+                    @Override
+                    public void doExecute() {
+                        app.getGuiManager().openHelp(App.WIKI_MANUAL);
+
+                    }
+                });
+    }
+
+    private void addForumItem(final AppW app, Localization loc) {
+        forum = addItem(
+                MainMenu.getMenuBarHtml(
+                        MaterialDesignResources.INSTANCE.forum_black(),
+                        loc.getMenu("GeoGebraForum")),
+                true, new MenuCommand(app) {
+
+                    @Override
+                    public void doExecute() {
+                        app.getFileManager().open(GeoGebraConstants.FORUM_URL);
+                    }
+                });
+    }
+
+    private void addReportBugItem(final AppW app, Localization loc) {
 		bug = addItem(
 				MainMenu.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.bug_report_black(),
@@ -85,12 +121,10 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 										+ app.getLocalization().getLanguage());
 					}
 				});
-		addSeparator();
+    }
+
+    private void addAboutItem(final AppW app) {
 		about = addItem(new LicenseAction(app));
-		if (!app.getNetworkOperation().isOnline()) {
-			render(false);
-		}
-		app.getNetworkOperation().getView().add(this);
 	}
 
 	@Override

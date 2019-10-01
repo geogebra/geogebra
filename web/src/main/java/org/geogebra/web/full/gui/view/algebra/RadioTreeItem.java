@@ -66,6 +66,7 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -85,6 +86,7 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
@@ -173,6 +175,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private String ariaPreview;
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
+    private MathFieldScroller scroller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -1012,6 +1015,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return false;
 	}
 
+    void hideCurrentError() {
+        ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
+    }
+
 	/**
 	 * @param show
 	 *            whether to show input help
@@ -1348,7 +1355,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					helpPopup.removeStyleName("helpPopupAV");
 					helpPopup.addStyleName("helpPopupAVBottom");
 				}
-				helpPanel.updateGUI(maxOffsetHeight, 1);
+                helpPanel.updateGUI(maxOffsetHeight);
 				helpPopup.show();
 			}
 		});
@@ -1633,7 +1640,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			latexItem = new FlowPanel();
 		}
 		latexItem.clear();
-		latexItem.add(canvas);
+        if (canvas != null) {
+            latexItem.add(canvas);
+        }
 		content.add(latexItem);
 	}
 
@@ -1664,6 +1673,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
+        TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
@@ -1753,10 +1763,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getLatexController().onEnter(keepFocus, false);
 	}
 
-	private void onEnterWithSliders() {
-		getLatexController().onEnter(true, true);
-	}
-
 	@Override
 	public void setText(String text0) {
 		if (!"".equals(text0)) {
@@ -1818,7 +1824,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		MathFieldW.scrollParent(latexItem, 20);
+        if (scroller == null) {
+            scroller = new MathFieldScroller(latexItem);
+        }
+        scroller.scrollHorizontallyToCursor(20);
 	}
 
 	/**
@@ -1961,8 +1970,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			} else {
 				text = "";
 			}
-		} else if (AlgebraItem.needsPacking(geo)
-				|| !geo.isAlgebraLabelVisible()) {
+        } else if (AlgebraItem.needsPacking(geo)) {
 			text = geo.getLaTeXDescriptionRHS(false,
 					StringTemplate.editTemplate);
 		} else {

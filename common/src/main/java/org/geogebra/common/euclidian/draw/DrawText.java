@@ -250,7 +250,7 @@ public final class DrawText extends Drawable {
 			}
 
 			// draw label rectangle
-			if (geo.doHighlighting()) {
+            if (isHighlighted()) {
 				g2.setStroke(rectangleStroke);
 				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
@@ -363,9 +363,10 @@ public final class DrawText extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
-				boundingBox = new BoundingBox(false, false);
+                boundingBox = createBoundingBox(false, false);
 				boundingBox.setRectangle(getBounds());
 			}
+            boundingBox.updateFrom(geo);
 			return boundingBox;
 		}
 		return null;

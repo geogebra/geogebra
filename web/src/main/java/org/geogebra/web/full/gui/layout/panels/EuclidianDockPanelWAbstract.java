@@ -11,13 +11,14 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
-import org.geogebra.web.html5.gui.util.ZoomPanel;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
+import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -33,7 +34,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId, EuclidianViewAccessibiliyAdapter {
+
 	private ConstructionProtocolNavigationW consProtNav;
+
 	private boolean hasEuclidianFocus;
 	private boolean mayHaveZoomButtons = false;
 	/**
@@ -195,7 +198,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			add(absoluteEuclidianPanel = absPanel);
 			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
 			absoluteEuclidianPanel.getElement().getStyle()
-					.setOverflow(Overflow.VISIBLE);
+                    .setOverflow(Overflow.HIDDEN);
 			checkFocus();
 			getElement().setAttribute("role", "application");
 		}
@@ -305,11 +308,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void onResize() {
-		super.onResize();
-	}
-
-	@Override
 	public void tryBuildZoomPanel() {
 		if (zoomPanel != null) {
 			zoomPanel.removeFromParent();
@@ -407,30 +405,25 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	public void moveZoomPanelUpOrDown(boolean up) {
 		if (zoomPanel != null) {
-			if (up) {
-				zoomPanel.removeStyleName("hideMowSubmenu");
-				zoomPanel.addStyleName("showMowSubmenu");
-			} else {
-				zoomPanel.removeStyleName("showMowSubmenu");
-				zoomPanel.addStyleName("hideMowSubmenu");
-			}
+            Dom.toggleClass(zoomPanel, "showMowSubmenu", "hideMowSubmenu", up);
+        }
+    }
+
+    /**
+     * Move zoom panel to bottom
+     */
+    public void moveZoomPanelToBottom() {
+        if (zoomPanel != null) {
+            zoomPanel.removeStyleName("narrowscreen");
 		}
 	}
 
-	/**
-	 * Sets the bottom attribute of zoomPanel
-	 *
-	 * @param add
-	 *            true if needs to be set, false if needs to be removed
-	 */
-	public void setZoomPanelBottom(boolean add) {
-		if (zoomPanel == null) {
-			return;
-		}
-		if (add) {
-			zoomPanel.getElement().getStyle().setBottom(0, Unit.PX);
-		} else {
-			zoomPanel.getElement().getStyle().clearBottom();
+    /**
+     * Move zoom panel to avoid conflicts with toolbar
+     */
+    public void moveZoomPanelAboveToolbar() {
+        if (zoomPanel != null) {
+            zoomPanel.addStyleName("narrowscreen");
 		}
 	}
 
@@ -500,7 +493,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void addVoiceover(VoiceoverTabber tabber) {
-		tabber.add(getEuclidianPanel(), getCanvas());
+    public MathKeyboardListener getKeyboardListener() {
+        EuclidianView ev = getEuclidianView();
+        if (ev instanceof EuclidianViewW) {
+            return ((EuclidianViewW) ev).getKeyboardListener();
+        }
+        return null;
 	}
 }

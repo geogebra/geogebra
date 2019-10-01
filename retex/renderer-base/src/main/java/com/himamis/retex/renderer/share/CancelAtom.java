@@ -79,7 +79,7 @@ public class CancelAtom extends Atom {
 		final Box b = base.createBox(env);
 		final double drt = env.getTeXFont()
 				.getDefaultRuleThickness(env.getStyle());
-		final double extra = new TeXLength(TeXLength.Unit.EX, 0.5)
+        final double extra = new TeXLength(Unit.EX, 0.5)
 				.getValue(env);
 		return new CancelBox(b, ctype, drt, extra, color);
 	}

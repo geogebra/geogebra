@@ -29,7 +29,8 @@ public class NotesUndoTest {
 	@Test
 	public void undoSingle() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("canary", "notes"));
+                .mockApplet(new TestArticleElement("canary", "notes")
+                        .attr("vendor", "mebis"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);

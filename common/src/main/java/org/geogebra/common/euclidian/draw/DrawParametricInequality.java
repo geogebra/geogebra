@@ -54,7 +54,7 @@ class DrawParametricInequality extends SetDrawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (geo.doHighlighting()) {
+        if (isHighlighted()) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
 			g2.draw(gp);

@@ -14,11 +14,12 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.geos.ChangeableParent;
+import org.geogebra.common.kernel.geos.CoordConverter;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -165,7 +166,8 @@ public abstract class GeoQuadricND extends GeoElement
 		GeoQuadricND quadric = (GeoQuadricND) geo;
 		if (quadric.hasChangeableParent3D()) {
 			setChangeableParent(quadric.changeableParent.getNumber(),
-					quadric.changeableParent.getDirector());
+                    quadric.changeableParent.getDirector().toGeoElement(),
+                    quadric.changeableParent.getConverter());
 		}
 		reuseDefinition(geo);
 	}
@@ -606,8 +608,8 @@ public abstract class GeoQuadricND extends GeoElement
 	 * 
 	 */
 	final public void setChangeableParent(GeoNumeric number,
-			GeoElement direction) {
-		changeableParent = new ChangeableParent(number, direction);
+                                          GeoElement direction, CoordConverter converter) {
+        changeableParent = new ChangeableParent(number, direction, converter);
 	}
 
 	@Override

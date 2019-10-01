@@ -119,8 +119,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 								figures ? index + 1 : index, figures);
 						app.setUnsaved();
 					} catch (Exception e) {
-						e.printStackTrace();
-						app.showError(e.toString());
+                        app.showGenericError(e);
 					}
 				}
 			});
@@ -167,7 +166,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 								true);
 						app.setUnsaved();
 					} catch (Exception e) {
-						app.showError(e.toString());
+                        app.showGenericError(e);
 					}
 				}
 			});

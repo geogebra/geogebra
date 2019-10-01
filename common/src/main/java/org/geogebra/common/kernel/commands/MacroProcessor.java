@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Processes the use of macros from the command line.
@@ -65,7 +66,7 @@ public class MacroProcessor extends CommandProcessor {
 				sb.append(" ");
 				sb.append(macro.getCommandName());
 				sb.append(":\n");
-				sb.append(loc.getError("IllegalArgumentNumber"));
+                sb.append(Errors.IllegalArgumentNumber.getError(loc));
 				sb.append(": ");
 				sb.append(arg.length);
 				sb.append("\n\nSyntax:\n");
@@ -82,7 +83,7 @@ public class MacroProcessor extends CommandProcessor {
 				sb.append(" ");
 				sb.append(macro.getCommandName());
 				sb.append(":\n");
-				sb.append(loc.getError("IllegalArgument"));
+                sb.append(Errors.IllegalArgument.getError(loc));
 				sb.append(": ");
 				sb.append(arg[i].getNameDescription());
 				sb.append("\n\nSyntax:\n");

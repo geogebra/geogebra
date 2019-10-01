@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
@@ -19,9 +20,8 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
+
 	private AppW app1;
-	private FlowPanel mainPanel;
-	private FlowPanel buttonPanel;
 	private Button dismissBtn;
 	private Label text;
 	private DialogType dialogType;
@@ -57,7 +57,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 
 	private void initGUI() {
 		text = new Label();
-		mainPanel = new FlowPanel();
+        FlowPanel mainPanel = new FlowPanel();
 		mainPanel.add(text);
 		add(mainPanel);
 		addStyleName("GeoGebraPopup");
@@ -66,7 +66,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		if (dialogType != DialogType.PERMISSION_REQUEST) {
 			dismissBtn = new Button("");
 			dismissBtn.addClickHandler(this);
-			buttonPanel = new FlowPanel();
+            FlowPanel buttonPanel = new FlowPanel();
 			buttonPanel.setStyleName("DialogButtonPanel");
 			buttonPanel.add(dismissBtn);
 			mainPanel.add(buttonPanel);
@@ -80,6 +80,9 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public void setLabels() {
 		Localization loc = app1.getLocalization();
+        VendorSettings settings = app1.getVendorSettings();
+        String messageKey;
+        String captionKey;
 		String message = "";
 		String caption = "";
 		if (dialogType != DialogType.PERMISSION_REQUEST) {
@@ -87,22 +90,20 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		}
 		switch (dialogType) {
 		case PERMISSION_REQUEST:
-			caption = loc.getMenu(app1.isWhiteboardActive()
-					? "Webcam.Request.Mebis" : "Webcam.Request");
-			message = loc.getMenu(
-					app1.isWhiteboardActive() ? "Webcam.Request.Message.Mebis"
-							: "Webcam.Request.Message");
+            captionKey = settings.getMenuLocalizationKey("Webcam.Request");
+            messageKey = settings.getMenuLocalizationKey("Webcam.Request.Message");
+            caption = loc.getMenu(captionKey);
+            message = loc.getMenu(messageKey);
 			break;
 		case PERMISSION_DENIED:
+            messageKey = settings.getMenuLocalizationKey("Webcam.Denied.Message");
 			caption = loc.getMenu("Webcam.Denied.Caption");
-			message = loc.getMenu(app1.isWhiteboardActive()
-					? "Webcam.Denied.Message.Mebis" : "Webcam.Denied.Message");
+            message = loc.getMenu(messageKey);
 			break;
 		case ERROR:
+            messageKey = settings.getMenuLocalizationKey("Webcam.Problem.Message");
 			caption = loc.getMenu("Webcam.Problem");
-			message = loc.getMenu(
-					app1.isWhiteboardActive() ? "Webcam.Problem.Message.Mebis"
-							: "Webcam.Problem.Message");
+            message = loc.getMenu(messageKey);
 			break;
 		case NOT_SUPPORTED:
 			caption = loc.getMenu("Webcam.Notsupported.Caption");

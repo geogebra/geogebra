@@ -65,9 +65,9 @@ public class LCaronAtom extends Atom {
 				env.getTeXFont().getChar(upper ? 'L' : 'l', env.getStyle()));
 		HorizontalBox hb = new HorizontalBox(L);
 		if (upper)
-			hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3, 0, 0).createBox(env));
+            hb.add(new SpaceAtom(Unit.EM, -0.3, 0, 0).createBox(env));
 		else
-			hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.13, 0, 0)
+            hb.add(new SpaceAtom(Unit.EM, -0.13, 0, 0)
 					.createBox(env));
 		hb.add(A);
 		return hb;

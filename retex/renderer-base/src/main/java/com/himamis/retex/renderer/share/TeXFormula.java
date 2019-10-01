@@ -425,9 +425,9 @@ public class TeXFormula {
 
 			Box box = createBox(te);
 			TeXIcon ti;
-			final double textwidth = TeXLength.getLength("textwidth", te);
+            final double textwidth = te.lengthSettings().getLength("textwidth", te);
 			if (!Double.isInfinite(textwidth) && !Double.isNaN(textwidth)) {
-				final double baselineskip = TeXLength.getLength("baselineskip",
+                final double baselineskip = te.lengthSettings().getLength("baselineskip",
 						te);
 				box = BreakFormula.split(box, textwidth, baselineskip, align);
 			}
@@ -557,7 +557,7 @@ public class TeXFormula {
 			g2.fillRect(0, 0, w, h);
 		}
 
-		icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
+        icon.setForeground(fg == null ? Colors.BLACK : fg);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
 
@@ -589,7 +589,7 @@ public class TeXFormula {
 			g2.fillRect(0, 0, w, h);
 		}
 
-		icon.setForeground(fg == null ? ColorUtil.BLACK : fg);
+        icon.setForeground(fg == null ? Colors.BLACK : fg);
 		icon.paintIcon(null, g2, 0, 0);
 		g2.dispose();
 

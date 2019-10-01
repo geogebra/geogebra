@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
-import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -40,6 +39,8 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -279,7 +280,7 @@ public abstract class CommandProcessor {
 		if (geos != null) {
 			return geos;
 		}
-		throw new MyError(loc, "IllegalArgument",
+		throw new MyError(loc, Errors.IllegalArgument,
 				arg.toString(StringTemplate.defaultTemplate));
 	}
 
@@ -749,6 +750,11 @@ public abstract class CommandProcessor {
 		return arg[arg.length - 1];
 	}
 
+	public GeoList wrapInList(Kernel kernel, GeoElement[] args,
+							  int length, GeoClass type) {
+		return wrapInList(args, length, type, null);
+	}
+
 	/**
 	 * Creates a dependent list with all GeoElement objects from the given
 	 * array.
@@ -760,20 +766,19 @@ public abstract class CommandProcessor {
 	 *            etc. for specific types
 	 * @return null if GeoElement objects did not have the correct type
 	 * @author Markus Hohenwarter
-	 * @param kernel
-	 *            kernel
 	 * @param length
 	 *            number of arguments
 	 */
-	public static GeoList wrapInList(Kernel kernel, GeoElement[] args,
-			int length, GeoClass type) {
-		Construction cons = kernel.getConstruction();
+	public GeoList wrapInList(GeoElement[] args,
+							  int length, GeoClass type, Command cmd) {
 		boolean correctType = true;
 		ArrayList<GeoElement> geoElementList = new ArrayList<>();
 		for (int i = 0; i < length; i++) {
 			if (type.equals(GeoClass.DEFAULT)
 					|| args[i].getGeoClassType() == type) {
 				geoElementList.add(args[i]);
+			} else if (cmd != null) {
+				throw argErr(cmd, args[i]);
 			} else {
 				correctType = false;
 				break;

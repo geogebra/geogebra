@@ -47,13 +47,20 @@ public class CmdConic extends CommandProcessor {
 		default:
 			if (n > 0 && arg[0] instanceof GeoNumberValue) {
 				// try to create list of numbers
-				GeoList list = wrapInList(kernel, arg, arg.length,
-						GeoClass.NUMERIC);
+                GeoList list = wrapInList(arg, arg.length,
+                        GeoClass.NUMERIC, c);
 				if (list != null) {
 					ret = conic(c.getLabel(), list);
 					return ret;
 				}
 			}
+            if (n == 6) {
+                for (GeoElement input : arg) {
+                    if (!input.isNumberValue()) {
+                        throw argErr(c, input);
+                    }
+                }
+            }
 			throw argNumErr(c);
 		}
 	}

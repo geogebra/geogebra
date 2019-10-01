@@ -30,6 +30,8 @@ import org.geogebra.common.util.debug.HasDebugString;
 
 public class Polynomial implements HasDebugString {
 
+    private static final int MAX_ALLOWED_DEGREE = 1000;
+
 	private ArrayList<Term> terms = new ArrayList<>();
 	private Kernel kernel;
 
@@ -667,7 +669,8 @@ public class Polynomial implements HasDebugString {
 			} else if (this.degree() == 0) {
 				terms.get(0).coefficient = terms.get(0).coefficient.wrap()
 						.power(rt);
-			} else if (!DoubleUtil.isInteger(power) || DoubleUtil.isGreater(0, power)) {
+            } else if (!DoubleUtil.isInteger(power) || DoubleUtil.isGreater(0, power)
+                    || DoubleUtil.isGreater(power, MAX_ALLOWED_DEGREE)) {
 				equ.setIsPolynomial(false);
 			} else {
 				this.power((int) power, equ, keepFraction);

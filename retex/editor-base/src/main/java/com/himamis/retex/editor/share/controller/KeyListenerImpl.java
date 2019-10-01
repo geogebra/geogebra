@@ -36,7 +36,9 @@ public class KeyListenerImpl {
 		boolean ctrlPressed = ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
 				&& ((keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) == 0);
-		
+
+        boolean shiftPressed = (keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0;
+
 		switch (keyEvent.getKeyCode()) {
 		case JavaKeyCodes.VK_A:
 			if (ctrlPressed) {
@@ -68,14 +70,22 @@ public class KeyListenerImpl {
 			// inputController.escSymbol(editorState);
 			return true;
 		case JavaKeyCodes.VK_HOME:
-			CursorController.firstField(editorState);
+            if (shiftPressed) {
+                editorState.selectToStart();
+            } else {
+                CursorController.firstField(editorState);
+            }
 			return true;
 		case JavaKeyCodes.VK_END:
-			CursorController.lastField(editorState);
+            if (shiftPressed) {
+                editorState.selectToEnd();
+            } else {
+                CursorController.lastField(editorState);
+            }
 			return true;
 		case JavaKeyCodes.VK_LEFT:
 			cursorController.prevCharacter(editorState);
-			if ((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0) {
+            if (shiftPressed) {
 				editorState.extendSelection(true);
 			} else {
 				editorState.resetSelection();
@@ -86,7 +96,7 @@ public class KeyListenerImpl {
 				return true;
 			}
 			CursorController.nextCharacter(editorState);
-			if ((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0) {
+            if (shiftPressed) {
 				editorState.extendSelection(false);
 			} else {
 				editorState.resetSelection();
@@ -115,8 +125,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_TAB:
 			if (!InputController.trySelectNext(editorState)) {
 				if (!InputController.trySelectFirst(editorState)) {
-					onTab((keyEvent.getKeyModifiers()
-							& KeyEvent.SHIFT_MASK) > 0);
+                    onTab(shiftPressed);
 				}
 			}
 			return true;

@@ -203,7 +203,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		try {
 			context.setFont(this.font.getCssFontString());
 		} catch (Exception e) {
-			FactoryProvider.getInstance().debug("Problem setting font");
+            FactoryProvider.debugS("Problem setting font");
 		}
 	}
 

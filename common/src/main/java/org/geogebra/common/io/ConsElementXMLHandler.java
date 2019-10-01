@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -48,6 +49,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1097,19 +1099,31 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleLength(LinkedHashMap<String, String> attrs) {
+    private boolean handleLength(LinkedHashMap<String, String> attrs) {
 
-		// name of linked geo
-		String val = attrs.get("val");
+        // name of linked geo
+        String val = attrs.get("val");
 
-		if (geo instanceof GeoInputBox) {
-			((GeoInputBox) geo).setLength(Integer.parseInt(val));
-		} else {
-			Log.error("Length not supported for " + geo.getGeoClassType());
-		}
+        if (geo instanceof GeoInputBox) {
+            ((GeoInputBox) geo).setLength(Integer.parseInt(val));
+        } else {
+            Log.error("Length not supported for " + geo.getGeoClassType());
+        }
 
-		return true;
-	}
+        return true;
+    }
+
+    private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
+        String align = attrs.get("val");
+
+        if (geo instanceof HasAlignment) {
+            ((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
+        } else {
+            Log.error("Text alignment not supported for " + geo.getGeoClassType());
+        }
+
+        return true;
+    }
 
 	private boolean handleListType(LinkedHashMap<String, String> attrs) {
 
@@ -1141,7 +1155,7 @@ public class ConsElementXMLHandler {
 		String exp = attrs.get("exp");
 
 		if (exp != null) {
-			// store (geo, epxression, number) values
+            // store (geo, expression, number) values
 			// they will be processed in processLinkedGeos() later
 			linkedGeoList.add(new GeoExpPair(geo, exp));
 		} else {
@@ -1187,12 +1201,14 @@ public class ConsElementXMLHandler {
 		String style = attrs.get("style");
 		String parameter = attrs.get("parameter");
 		if (geo instanceof EquationValue) {
+            // GeoConic handled here
 			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else if (geo instanceof GeoLineND && "parametric".equals(style)) {
 			((GeoLineND) geo).setToParametric(parameter);
 		} else if (geo instanceof GeoConicND) {
+            // GeoConic3D handled here
 			if ("parametric".equals(style)) {
 				((GeoConicND) geo).setToParametric(parameter);
 			}
@@ -2093,6 +2109,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "video":
 				handleVideo(attrs);
+                break;
+                case "textAlign":
+                    handleTextAlign(attrs);
 				break;
 			default:
 				Log.error("unknown tag in <element>: " + eName);

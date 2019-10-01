@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -64,7 +65,7 @@ public class CmdZoomIn extends CmdScripting {
 			return zoomIn2(arg, c, arg[0].evaluateDouble(), this);
 		case 4:
 			arg = resArgs(c);
-			for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 4; i++) {
 				if (!(arg[i] instanceof NumberValue)) {
 					throw argErr(c, arg[i]);
 				}
@@ -88,6 +89,59 @@ public class CmdZoomIn extends CmdScripting {
 			// don't return the args: don't need to delete them in case they are
 			// dynamic
 			return new GeoElement[0];
+
+            case 6:
+                if (!app.isEuclidianView3Dinited()) {
+                    return new GeoElement[0];
+                }
+
+                arg = resArgs(c);
+                for (int i = 0; i < 6; i++) {
+                    if (!(arg[i] instanceof NumberValue)
+                            || !MyDouble.isFinite(arg[i].evaluateDouble())) {
+                        throw argErr(c, arg[i]);
+                    }
+                }
+
+                /*
+                 * Dynamic zoom not supported for 3D View
+                 *
+                 * EuclidianView3DInterface view3D = app.getEuclidianView3D(); EuclidianSettings
+                 * evs3D = view3D.getSettings();
+                 *
+                 *
+                 * // eg ZoomIn(a, a, a, 4, 4, 4) evs3D.setXminObject((GeoNumeric) arg[0],
+                 * false); evs3D.setYminObject((GeoNumeric) arg[1], false);
+                 * evs3D.setZminObject((GeoNumeric) arg[2], false);
+                 * evs3D.setXmaxObject((GeoNumeric) arg[3], false);
+                 * evs3D.setYmaxObject((GeoNumeric) arg[4], true);
+                 * evs3D.setZmaxObject((GeoNumeric) arg[5], true);
+                 */
+
+                double xMin = arg[0].evaluateDouble();
+                double yMin = arg[1].evaluateDouble();
+                double zMin = arg[2].evaluateDouble();
+                double xMax = arg[3].evaluateDouble();
+                double yMax = arg[4].evaluateDouble();
+                double zMax = arg[5].evaluateDouble();
+
+                if (xMin >= xMax) {
+                    throw argErr(c, arg[0]);
+                }
+                if (yMin >= yMax) {
+                    throw argErr(c, arg[1]);
+                }
+                if (zMin >= zMax) {
+                    throw argErr(c, arg[2]);
+                }
+
+                // eg ZoomIn(-5, 5, -5, 5, 5, 5)
+                kernel.getApplication().getGgbApi().setCoordSystem(xMin, xMax, yMin, yMax, zMin, zMax,
+                        false);
+
+                // don't return the args: don't need to delete them in case they are
+                // dynamic
+                return new GeoElement[0];
 
 		default:
 			throw argNumErr(c);

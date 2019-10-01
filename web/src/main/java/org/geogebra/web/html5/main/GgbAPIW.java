@@ -22,10 +22,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.plugin.GgbAPI;
-import org.geogebra.common.util.Assignment;
-import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -45,9 +42,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.json.client.JSONNumber;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
 
 /**
  * HTML5 version of API. The methods are exported in ScriptManagerW
@@ -214,7 +208,13 @@ public class GgbAPIW extends GgbAPI {
 								exportScale, transparent, greyscale));
 			}
 		}
-		return pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
+        String ret = pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
+
+        if (copyToClipboard) {
+            app.copyImageToClipboard(StringUtil.pngMarker + ret);
+        }
+
+        return ret;
 	}
 
 	private static String pngBase64(String pngURL) {
@@ -323,7 +323,7 @@ public class GgbAPIW extends GgbAPI {
 				.getPageController();
 		if (pageController != null) {
 			HashMap<String, Integer> usage = new HashMap<>();
-			GgbFile shared = new GgbFile();
+            GgbFile shared = new GgbFile("");
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				countShared(pageController.getSlide(i), usage, shared);
 			}
@@ -337,7 +337,7 @@ public class GgbAPIW extends GgbAPI {
 					pageController.getStructureJSON(), jso);
 			return jso;
 		}
-		GgbFile archiveContent = new GgbFile();
+        GgbFile archiveContent = new GgbFile("");
 		createArchiveContent(includeThumbnail, archiveContent);
 		return prepareToEntrySet(archiveContent, jso, "", null);
 	}
@@ -598,7 +598,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @return archive with macros + icons
 	 */
 	public GgbFile createMacrosArchive() {
-		GgbFile archiveContent = new GgbFile();
+        GgbFile archiveContent = new GgbFile("");
 		writeMacroImages(archiveContent);
 		String macroXml = getApplication().getMacroXMLorEmpty();
 		if (!"".equals(macroXml)) {
@@ -1090,52 +1090,6 @@ public class GgbAPIW extends GgbAPI {
 				(AppW) app);
 	}
 
-	/**
-	 * If there are Macros or an Exercise present in the current file this can
-	 * be used to check if parts of the construction are equivalent to the
-	 * Macros in the file. <br />
-	 * If you don't want that a Standard Exercise (using all the Macros in the
-	 * Construction and setting each fraction to 100) will be created, check if
-	 * this is a Exercise with {@link #isExercise()} first. <br>
-	 * Hint will be empty unless specified otherwise with the ExerciseBuilder.
-	 * <br />
-	 * Fraction will be 0 or 1 unless specified otherwise with the
-	 * ExerciseBuilder. <br />
-	 * Result will be in {@link Result},i.e: <br />
-	 * CORRECT, The assignment is CORRECT <br />
-	 * WRONG, if the assignment is WRONG and we can't tell why <br />
-	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check
-	 * <br />
-	 * WRONG_INPUT_TYPES, if there are enough input geos, but one or more are of
-	 * the wrong type <br />
-	 * WRONG_OUTPUT_TYPE, if there is no output geo matching our macro <br />
-	 * WRONG_AFTER_RANDOMIZE, if the assignment was correct in the first place
-	 * but wrong after randomization <br />
-	 * UNKNOWN, if the assignment could not be checked
-	 * 
-	 * @return JavaScriptObject representation of the exercise result. For
-	 *         Example: "{"Tool1":{ "result":"CORRECT", "hint":"",
-	 *         "fraction":1}}", will be empty if now Macros or Assignments have
-	 *         been found.
-	 */
-	@Override
-	public JavaScriptObject getExerciseResult() {
-		Exercise ex = kernel.getExercise();
-		ex.checkExercise();
-		JSONObject result = new JSONObject();
-		ArrayList<Assignment> parts = ex.getParts();
-		for (Assignment part : parts) {
-			JSONObject partresult = new JSONObject();
-			result.put(part.getDisplayName(), partresult);
-			partresult.put("result", new JSONString(part.getResult().name()));
-			String hint = part.getHint();
-			hint = hint == null ? "" : hint;
-			partresult.put("hint", new JSONString(hint));
-			partresult.put("fraction", new JSONNumber(part.getFraction()));
-		}
-		return result.getJavaScriptObject();
-	}
-
 	public void asyncEvalCommand(String command, JavaScriptObject onSuccess,
 			JavaScriptObject onFailure) {
 		((AppW) app).getAsyncManager().asyncEvalCommand(command, onSuccess, onFailure);
@@ -1174,31 +1128,6 @@ public class GgbAPIW extends GgbAPI {
 					+ "Please try asyncEvalCommandGetLabels(cmdString, callback)");
 			throw e;
 		}
-	}
-
-	/**
-	 * If you want to make use of the values of random geo a BoolAssignment
-	 * depends on, this is an easy way to retrieve these values and stop
-	 * randomizing them in order to store the same assignment that was presented
-	 * to the student.
-	 * 
-	 * @return JavaScriptObject containing all variables and values of which a
-	 *         BoolAssignment is depending and stops randomizing all these
-	 *         values. Example:
-	 *         "Object {level: 1, randNum: 5, a: 1, b: 1, answer: NaN}"
-	 */
-	public JavaScriptObject startExercise() {
-		ArrayList<GeoNumeric> randomizedVars = app.getKernel().getExercise()
-				.stopRandomizeAndGetValuesForBoolAssignments();
-		JSONObject vars = new JSONObject();
-
-		for (GeoNumeric geo : randomizedVars) {
-			JSONNumber var = new JSONNumber(geo.getDouble());
-			vars.put(geo.getLabelSimple(), var);
-			geo.setRandom(false);
-		}
-
-		return vars.getJavaScriptObject();
 	}
 
 	/**
@@ -1434,7 +1363,7 @@ public class GgbAPIW extends GgbAPI {
 			((AppW) app).afterLocalizationLoaded(new Runnable() {
 				@Override
 				public void run() {
-					JsEval.runCallback(callback, loc.getMenu(key));
+                    JsEval.callNativeJavaScript(callback, loc.getMenu(key));
 				}
 			});
 		}
@@ -1447,7 +1376,7 @@ public class GgbAPIW extends GgbAPI {
 
 			@Override
 			public void callback(String obj) {
-				JsEval.runCallback(callback, obj);
+                JsEval.callNativeJavaScript(callback, obj);
 			}
 		};
 	}
@@ -1499,5 +1428,19 @@ public class GgbAPIW extends GgbAPI {
 	public String getEditorState() {
 		return editor == null ? "" : editor.getState();
 	}
+
+    /**
+     * @return then embedded calculator apis.
+     */
+    public JavaScriptObject getEmbeddedCalculators() {
+        return ((AppW) app).getEmbeddedCalculators();
+    }
+
+    /**
+     * @return frame DOM element
+     */
+    public Element getFrame() {
+        return ((AppW) app).getFrameElement();
+    }
 
 }

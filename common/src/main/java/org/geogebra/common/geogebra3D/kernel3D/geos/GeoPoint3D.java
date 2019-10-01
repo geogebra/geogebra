@@ -31,6 +31,9 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LocateableList;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -41,9 +44,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates3D;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -54,11 +54,11 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.ChangeableParent;
-import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
@@ -70,6 +70,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.main.Localization;
@@ -2224,5 +2225,70 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public boolean showPointProperties() {
 		return true;
 	}
+
+    @Override
+    public void setRegionChanged(double x, double y) {
+        setCoords2D(x, y, 1);
+        updateCoordsFrom2D(false, null);
+    }
+
+    @Override
+    public void pointChanged(GeoPolygon polygon) {
+        Coords coordsOld = getInhomCoords().copyVector();
+
+        // prevent from region bad coords calculations
+        Region oldRegion = getRegion();
+        setRegion(null);
+
+        double minDist = Double.POSITIVE_INFINITY;
+        Coords res = null;
+        double param = 0;
+
+        // use auxiliary segment if no or not enough segments
+        GeoSegment3D segment = null;
+        GeoSegmentND[] segments = polygon.getSegments();
+        if (segments == null || segments.length < polygon.getPointsLength()) {
+            segment = new GeoSegment3D(cons);
+        }
+
+        // find closest point on each segment
+        for (int i = 0; i < polygon.getPointsLength(); i++) {
+
+            setCoords(coordsOld, false); // prevent circular path.pointChanged
+
+            if (segment == null) {
+                segments[i].pointChanged(this);
+            } else {
+                segment.setCoordFromPoints(polygon.getPoint3D(i),
+                        polygon.getPoint3D(
+                                (i + 1) % polygon.getPointsLength()));
+                segment.pointChanged(this);
+            }
+
+            double dist; // = P.getInhomCoords().sub(coordsOld).squareNorm();
+            // double dist = 0;
+            if (hasWillingCoords() && hasWillingDirection()) {
+                dist = getInhomCoords().distLine(getWillingCoords(),
+                        getWillingDirection());
+            } else {
+                dist = getInhomCoords().sub(coordsOld).squareNorm();
+            }
+
+            if (dist < minDist) {
+                minDist = dist;
+                // remember closest point
+                res = getInhomCoords().copyVector();
+                param = i + pp.getT();
+                // Application.debug(i);
+            }
+        }
+
+        if (res != null) {
+            setCoords(res, false);
+            pp.setT(param);
+        }
+
+        setRegion(oldRegion);
+    }
 
 }

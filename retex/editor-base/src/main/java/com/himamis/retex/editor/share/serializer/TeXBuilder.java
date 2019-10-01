@@ -2,7 +2,6 @@ package com.himamis.retex.editor.share.serializer;
 
 import java.util.HashMap;
 
-import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -10,7 +9,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.ColorAtom;
+import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
@@ -55,13 +54,8 @@ public class TeXBuilder {
 				addCursor(ra);
 			}
 
-			if (mathFormula.getArgument(i + 1) instanceof MathFunction) {
-				Tag name = ((MathFunction) mathFormula.getArgument(i + 1))
-						.getName();
-				if (Tag.SUPERSCRIPT == name || Tag.SUBSCRIPT == name) {
-					i++;
-					continue;
-				}
+            if (mathFormula.isScript(i + 1)) {
+                continue;
 			}
 
 			if (mathFormula.getArgument(i) == selectionStart) {
@@ -69,7 +63,7 @@ public class TeXBuilder {
 				SelectionAtom sa = new SelectionAtom(
 						buildSequence(mathFormula, i,
 								selectionEnd.getParentIndex()),
-						ColorAtom.getColor("#CCCCFF"), null);
+                        Colors.SELECTION, null);
 				ra.add(sa);
 				i = selectionEnd.getParentIndex();
 			} else {
