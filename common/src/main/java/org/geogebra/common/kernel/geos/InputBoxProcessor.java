@@ -44,6 +44,10 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	 *            whether to use rounding
 	 */
 	public void updateLinkedGeo(String inputText, StringTemplate tpl, boolean useRounding) {
+		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
+			((GeoText)linkedGeo).setTextString(inputText);
+			return;
+		}
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;

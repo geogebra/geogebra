@@ -1,7 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
@@ -12,10 +15,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
-
-import javax.annotation.Nonnull;
 
 /**
  * Input box for user input
@@ -221,13 +221,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-
-		sb.append("\t<linkedGeo exp=\"");
-		StringUtil.encodeXML(sb,
-				linkedGeo.getLabel(StringTemplate.xmlTemplate));
-		sb.append("\"");
-		sb.append("/>\n");
-
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
 			sb.append("\t<decimals val=\"");
@@ -491,5 +484,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	public TextAlignment getAlignment() {
 		return textAlignment;
+	}
+
+	/**
+	 * @return whether the alpha button should be shown
+	 */
+	public boolean needsSymbolButton() {
+		return getLength() >= EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
+				&& !(linkedGeo instanceof GeoText && linkedGeo.isLabelSet());
 	}
 }

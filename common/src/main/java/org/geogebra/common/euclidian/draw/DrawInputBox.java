@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 
@@ -540,13 +539,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 		tf.showPopupSymbolButton(false);
 
-		if (getGeoInputBox()
-				.getLength() < EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
-				|| getGeoInputBox().getLinkedGeo() instanceof GeoText) {
-			tf.prepareShowSymbolButton(false);
-		} else {
-			tf.prepareShowSymbolButton(true);
-		}
+		tf.prepareShowSymbolButton(geoInputBox.needsSymbolButton());
 	}
 
 	/**
