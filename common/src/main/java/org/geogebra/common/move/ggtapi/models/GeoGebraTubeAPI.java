@@ -78,6 +78,10 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 *
 	 * @param requestString
 	 *            JSON request String for the GeoGebraTubeAPI
+	 * @param login
+	 *            whether to use login endpoint
+	 * @param callback
+	 *            callback
 	 */
 	protected final void performRequest(String requestString, boolean login,
 			AjaxCallback callback) {
@@ -116,6 +120,10 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	@Override
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
+		if ("".equals(user.getLoginToken())) {
+			op.stayLoggedOut();
+			return;
+		}
 		performRequest(
 				buildTokenLoginRequest(user.getLoginToken(), user.getCookie()),
 				true, new AjaxCallback() {
@@ -201,6 +209,9 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		return this.available;
 	}
 
+	/**
+	 * @return JSON encoded inormation about client
+	 */
 	protected String getClientInfo() {
 		return "";
 	}
@@ -534,6 +545,9 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				});
 	}
 
+	/**
+	 * @return login token
+	 */
 	protected String getToken() {
 		return client.getModel().getLoginToken();
 	}
