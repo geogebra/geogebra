@@ -1296,6 +1296,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
+	public boolean isFurniture() {
+		return false;
+	}
+
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return pixelHeight;
 	}

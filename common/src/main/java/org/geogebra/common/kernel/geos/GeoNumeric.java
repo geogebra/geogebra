@@ -133,7 +133,6 @@ public class GeoNumeric extends GeoElement
 
 	// is a constant depending on a function
 	private boolean isDependentConst = false;
-	private StringBuilder sbToString;
 	private ArrayList<GeoNumeric> minMaxListeners;
 	private boolean randomSlider = false;
 
@@ -646,38 +645,18 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(50);
-		}
-
 		// #4186
 		if (tpl.hasCASType()) {
 			return toValueString(tpl);
 		}
 
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(toValueString(tpl));
-		return sbToString.toString();
+		return label + " = " + toValueString(tpl);
 	}
 
 	/**
 	 * @return string representation for regression output
 	 */
 	final public String toStringMinimal() {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(50);
-		}
-		sbToString.setLength(0);
-		sbToString.append(toValueStringMinimal());
-		return sbToString.toString();
-	}
-
-	/**
-	 * @return string representation of value for regression output
-	 */
-	public String toValueStringMinimal() {
 		return regrFormat(value);
 	}
 
@@ -2009,6 +1988,11 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return 0;
+	}
+
+	@Override
+	public boolean isFurniture() {
+		return false;
 	}
 
 	@Override

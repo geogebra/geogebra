@@ -3,6 +3,7 @@ package org.geogebra.web.geogebra3D.web.euclidian3D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -13,7 +14,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App.ExportType;
@@ -36,7 +36,6 @@ import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -465,17 +464,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void add(GBox box) {
+	public void add(Widget box, GPoint position) {
 		if (evPanel != null) {
-			evPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
-			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
-		}
-	}
-
-	@Override
-	public void remove(GBox box) {
-		if (evPanel != null) {
-			evPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+			evPanel.getAbsolutePanel().add(box,
+					position.getX(), position.getY());
 		}
 	}
 

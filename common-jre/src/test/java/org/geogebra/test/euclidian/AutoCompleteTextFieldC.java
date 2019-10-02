@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -33,17 +32,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void enableColoring(boolean b) {
-		// for test, not needed
-	}
-
-	@Override
 	public void setFocus(boolean b) {
-		// for test, not needed
-	}
-
-	@Override
-	public void setOpaque(boolean b) {
 		// for test, not needed
 	}
 
@@ -59,11 +48,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void setBackground(GColor color) {
-		// for test, not needed
-	}
-
-	@Override
-	public void setFocusable(boolean b) {
 		// for test, not needed
 	}
 
@@ -103,11 +87,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void setFocusTraversalKeysEnabled(boolean b) {
-		// for test, not needed
-	}
-
-	@Override
 	public void setUsedForInputBox(GeoInputBox geoTextField) {
 		// for test, not needed
 	}
@@ -144,11 +123,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void prepareShowSymbolButton(boolean b) {
-		// for test, not needed
-	}
-
-	@Override
-	public void hideDeferred(GBox box) {
 		// for test, not needed
 	}
 
@@ -200,11 +174,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	@Override
 	public void setText(String s) {
 		textField = s;
-	}
-
-	@Override
-	public void setColumns(int fieldWidth) {
-		// for test, not needed
 	}
 
 	@Override

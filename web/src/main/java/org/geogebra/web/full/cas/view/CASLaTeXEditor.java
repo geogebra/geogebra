@@ -10,7 +10,7 @@ import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.InputSuggestions;
+import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -47,7 +47,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
-	InputSuggestions sug;
+	MathFieldInputSuggestions sug;
 	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
@@ -299,18 +299,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public boolean isForCAS() {
-		return true;
-	}
-
-	@Override
 	public String getCommand() {
 		return mf == null ? "" : mf.getCurrentWord();
 	}
 
-	private InputSuggestions getInputSuggestions() {
+	private MathFieldInputSuggestions getInputSuggestions() {
 		if (sug == null) {
-			sug = new InputSuggestions(app, this);
+			sug = new MathFieldInputSuggestions(app, this, true);
 		}
 		return sug;
 	}
@@ -376,7 +371,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public App getApplication() {
+	public AppW getApplication() {
 		return app;
 	}
 
@@ -410,7 +405,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	 * Updates the font size.
 	 */
 	public void updateFontSize() {
-		int targetFontSize = app.getFontSizeWeb();
+		int targetFontSize = app.getSettings().getFontSettings()
+				.getAppFontSize();
 
 		mf.setFontSize(targetFontSize);
 		setDummyFontSize(targetFontSize);
