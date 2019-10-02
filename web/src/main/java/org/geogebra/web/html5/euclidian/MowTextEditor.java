@@ -7,13 +7,11 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -154,7 +152,6 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 
 		getWidget().getElement().getStyle().setProperty("color",
 				GColor.getColorString(color));
-
 	}
 
 	/**
@@ -197,22 +194,7 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		event.stopPropagation();
 	}
 
-	/**
-	 * 
-	 * @param x
-	 *            x-coord
-	 * @param y
-	 *            y-coord
-	 */
-	public void moveCursor(int x, int y) {
-		try {
-			moveCursorNative(getElement(), x, y);
-		} catch (Exception e) {
-			Log.warn("Invalid cursor position");
-		}
-	}
-
-	private native void moveCursorNative(Element elTop, int x, int y)/*-{
+	public native void moveCursor(int x, int y) /*-{
 		var targetContainer = $doc.elementFromPoint(x, y);
 		var chars = targetContainer.innerText.split("");
 		var styled = [];
@@ -225,19 +207,10 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		var charIndex = parseInt(targetNode.getAttribute("data-char"));
 		targetContainer.innerHTML = oldHTML;
 
-		if (charIndex) {
-			this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
-					targetContainer.childNodes[0], charIndex);
-		} else {
-			var targetChildren;
-			// find the last node recursively
-			do {
-				targetChildren = targetElement.childNodes;
-				targetElement = targetChildren[targetChildren.length - 1];
-			} while (targetNode.nodeType == Element.ELEMENT_NODE);
-			this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
-				targetNode, targetNode.length);
-		}
+		charIndex = charIndex || targetContainer.childNodes[0].length;
+
+		this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
+				targetContainer.childNodes[0], charIndex);
 	}-*/;
 
 	@ExternalAccess
@@ -248,7 +221,5 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		range.collapse(true);
 		sel.removeAllRanges();
 		sel.addRange(range);
-		targetContainer.focus();
 	}-*/;
-
 }
