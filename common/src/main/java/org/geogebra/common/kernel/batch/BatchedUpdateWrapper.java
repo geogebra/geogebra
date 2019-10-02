@@ -160,6 +160,8 @@ public class BatchedUpdateWrapper
 		EventOptimizedList copiedEvents = pendingEvents.copy();
 		pendingEvents.clear();
 
+		wrappedView.startBatchUpdate();
+
 		Iterator<Event> iterator = copiedEvents.iterator();
 		while (iterator.hasNext()) {
 			Event event = iterator.next();
@@ -172,6 +174,7 @@ public class BatchedUpdateWrapper
 			}
 			iterator.remove();
 		}
+		wrappedView.endBatchUpdate();
 	}
 
 	@Override
