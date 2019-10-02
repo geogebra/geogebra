@@ -1632,8 +1632,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			return;
 		}
 
-		Log.debug("applying changes to inputbox");
-
 		geoUsedForInputBox.textObjectUpdated(this);
 		geoUsedForInputBox.textSubmitted();
 		geoUsedForInputBox.updateRepaint();

@@ -23,9 +23,22 @@ public abstract class ViewTextField {
 			Log.debug("[TF] textField is null");
 			return;
 		}
+
 		GeoInputBox geoInputBox = (GeoInputBox) drawInputBox.getGeoElement();
+		if (geoInputBox != getTextField().getInputBox()) {
+			applyChanges();
+		}
+
 		getTextField().setAuralText(geoInputBox.getAuralText());
 		drawInputBox.attachTextField();
+	}
+
+	private void applyChanges() {
+		AutoCompleteTextField textField = getTextField();
+		if (textField == null) {
+			return;
+		}
+		textField.applyToInputBox();
 	}
 
 	/**
