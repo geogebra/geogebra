@@ -153,7 +153,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(4, app);
-		fldConfLevel.setColumns(4);
+		fldConfLevel.setWidthInEm(4);
 		fldConfLevel.addKeyHandler(new KeyHandler() {
 
 			@Override

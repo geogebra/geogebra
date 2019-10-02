@@ -715,4 +715,14 @@ public class RadioTreeItemController implements ClickHandler,
 		return inputAsText || (item.geo != null && item.geo.isGeoText()
 				&& !((GeoText) item.geo).isTextCommand());
 	}
+
+	/**
+	 * @param keepFocus
+	 *            whether focus should stay
+	 * @param createSliders
+	 *            whether to create sliders
+	 */
+	public void onEnter(boolean keepFocus, boolean createSliders) {
+		// overridden in subclass
+	}
 }

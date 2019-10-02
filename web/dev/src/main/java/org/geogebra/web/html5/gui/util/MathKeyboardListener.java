@@ -11,8 +11,6 @@ public interface MathKeyboardListener {
 
 	public String getText();
 
-	public void onEnter(boolean b);
-
 	public boolean needsAutofocus();
 
 }

@@ -1,5 +1,8 @@
 package org.geogebra.main;
 
+import java.util.List;
+import java.util.Map;
+
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.commands.AlgebraTest;
@@ -16,9 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-
-import java.util.List;
-import java.util.Map;
 
 public class APITest {
 	private static AppDNoGui app;
@@ -168,8 +168,8 @@ public class APITest {
 		Assert.assertEquals(EventType.MOUSE_DOWN, event.type);
 
 		Map<String, Object> jsonArgument = event.jsonArgument;
-		Assert.assertEquals(6d, jsonArgument.get("x"));
-		Assert.assertEquals(-8d, jsonArgument.get("y"));
+		Assert.assertEquals(1.7d, jsonArgument.get("x"));
+		Assert.assertEquals(-1.7d, jsonArgument.get("y"));
 
 		String[] hits = (String[]) jsonArgument.get("hits");
 

@@ -24,7 +24,6 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -190,8 +189,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void showPopupSymbolButton(boolean showPopupSymbolButton) {
-		((MyTextFieldD) this).setShowSymbolTableIcon(
-				showPopupSymbolButton && !popupSymbolDisabled);
+		setShowSymbolTableIcon(showPopupSymbolButton && !popupSymbolDisabled);
 	}
 
 	@Override
@@ -413,7 +411,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				AutoCompleteTextField tf = app.getActiveEuclidianView()
 						.getTextField();
 				if (tf != null) {
-					geoUsedForInputBox.setText(tf.getText());
+					geoUsedForInputBox.updateLinkedGeo(tf.getText());
 				}
 				//
 				// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),
@@ -1038,8 +1036,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
-		drawBounds(g2, bgColor, ((int)bounds.getX()), ((int)bounds.getY()),
-				((int)bounds.getWidth()), ((int)bounds.getHeight()));
+		drawBounds(g2, bgColor, (int) bounds.getX(), (int) bounds.getY(),
+				(int) bounds.getWidth(), (int) bounds.getHeight());
 	}
 
 	@Override
@@ -1054,12 +1052,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		g2.drawRect(left - 1, top - 1, width - 1, height - 2);
 
-	}
-
-	@Override
-	public void hideDeferred(final GBox box) {
-		setVisible(false);
-		box.setVisible(false);
 	}
 
 	/**

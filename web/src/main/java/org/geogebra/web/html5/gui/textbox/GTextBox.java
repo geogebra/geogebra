@@ -99,19 +99,8 @@ public class GTextBox extends TextBox
 	}
 
 	@Override
-	public void onEnter(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean needsAutofocus() {
 		return false;
-	}
-
-	@Override
-	public void setColumns(int fieldWidth) {
-		// not needed
 	}
 
 	@Override

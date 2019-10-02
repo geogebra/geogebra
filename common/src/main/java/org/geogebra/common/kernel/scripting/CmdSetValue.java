@@ -202,11 +202,7 @@ public class CmdSetValue extends CmdScripting {
 		} else if (arg0.isGeoInputBox() && arg1.isGeoText()) {
 			String textString = ((GeoText) arg1).getTextString();
 			GeoInputBox geoInputBox = (GeoInputBox) arg0;
-			if (geoInputBox.getLinkedGeo() != null) {
-				geoInputBox.updateLinkedGeo(textString);
-			} else {
-				geoInputBox.setText(textString);
-			}
+			geoInputBox.updateLinkedGeo(textString);
 		}
 	}
 }

@@ -496,6 +496,11 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
+	public boolean isFurniture() {
+		return false;
+	}
+
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 32;
 	}

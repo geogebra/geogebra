@@ -13,7 +13,6 @@ import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /** no GUI implementation of EV */
@@ -212,16 +211,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 				return true;
 			}
 		};
-	}
-
-	@Override
-	public void add(GBox box) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void remove(GBox box) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -84,7 +84,6 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -258,7 +257,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoFunction movedGeoFunction;
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
-	protected Furniture movedGeoButton;
+	protected AbsoluteScreenLocateable movedGeoButton;
 	protected GeoWidget movedGeoMedia;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
@@ -753,11 +752,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								view.toRealWorldCoordY(((GeoBoolean) geo)
 										.getAbsoluteScreenLocY() + 20));
 						firstMoveable = false;
-					} else if (geo instanceof Furniture) {
+					} else if (geo instanceof AbsoluteScreenLocateable
+							&& ((AbsoluteScreenLocateable) geo).isFurniture()) {
 						setStartPointLocation(
-								view.toRealWorldCoordX(((Furniture) geo)
+								view.toRealWorldCoordX(((AbsoluteScreenLocateable) geo)
 										.getAbsoluteScreenLocX() - 5),
-								view.toRealWorldCoordY(((Furniture) geo)
+								view.toRealWorldCoordY(((AbsoluteScreenLocateable) geo)
 										.getAbsoluteScreenLocY() + 30));
 						firstMoveable = false;
 					} else if (geo instanceof GeoConic) {
@@ -7541,8 +7541,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setDragCursor();
 		}
 		// button
-		else if (movedGeoElement instanceof Furniture
-				&& ((Furniture) movedGeoElement).isFurniture()
+		else if (movedGeoElement instanceof AbsoluteScreenLocateable
+				&& ((AbsoluteScreenLocateable) movedGeoElement).isFurniture()
 				&& !(movedGeoElement instanceof GeoEmbed)) {
 			// for applets:
 			// allow buttons to be dragged only if the button tool is selected
@@ -7562,7 +7562,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 
 				// ie Button Mode is really selected
-				movedGeoButton = (Furniture) movedGeoElement;
+				movedGeoButton = (AbsoluteScreenLocateable) movedGeoElement;
 				// move button
 				moveAbsoluteLocatable(movedGeoButton, MOVE_BUTTON);
 
@@ -7713,8 +7713,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return false;
 		}
 		GeoInputBox textField = (GeoInputBox) geo;
-		return (textField.isTextField() && ((tempRightClick() || !textField.isLocked()
-				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)));
+		return tempRightClick() || !textField.isLocked()
+				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION;
 	}
 
 	protected void setStartPointLocation(double x, double y) {

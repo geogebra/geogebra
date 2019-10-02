@@ -65,19 +65,6 @@ public class EuclidianViewJPanelD extends JPanel
 		super.paintChildren(g);
 	}
 
-	public int temporaryWidth = -1;
-	public int temporaryHeight = -1;
-
-	@Override
-	public int getWidth() {
-		return (temporaryWidth > 0) ? temporaryWidth : super.getWidth();
-	}
-
-	@Override
-	public int getHeight() {
-		return (temporaryHeight > 0) ? temporaryHeight : super.getHeight();
-	}
-
 	@Override
 	public Rectangle getBounds() {
 		return GRectangleD.getAWTRectangle(view.getBounds());

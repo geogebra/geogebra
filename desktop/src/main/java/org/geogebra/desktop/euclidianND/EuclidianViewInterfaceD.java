@@ -3,6 +3,7 @@ package org.geogebra.desktop.euclidianND;
 import java.awt.Cursor;
 import java.io.File;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -105,5 +106,11 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @return export height in pixels
 	 */
 	public int getExportHeight();
+
+	/**
+	 * @param box
+	 *            box to be added
+	 */
+	public void add(Box box);
 
 }
