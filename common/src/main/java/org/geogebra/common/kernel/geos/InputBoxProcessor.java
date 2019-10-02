@@ -45,7 +45,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	 */
 	public void updateLinkedGeo(String inputText, StringTemplate tpl, boolean useRounding) {
 		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
-			((GeoText)linkedGeo).setTextString(inputText);
+			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
 		String defineText = preprocess(inputText, tpl);
