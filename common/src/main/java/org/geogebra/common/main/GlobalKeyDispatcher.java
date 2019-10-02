@@ -1,10 +1,6 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
-
+import com.himamis.retex.editor.share.util.KeyCodes;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
@@ -17,10 +13,10 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.geos.Furniture;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -36,7 +32,10 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.KeyCodes;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Handles keyboard events. This class only dispatches
@@ -936,10 +935,9 @@ public abstract class GlobalKeyDispatcher {
 				while (it.hasNext()) {
 					GeoElement geo = it.next();
 
-					if (geo instanceof Furniture
+					if ((geo instanceof AbsoluteScreenLocateable
+							&& ((AbsoluteScreenLocateable) geo).isFurniture())
 							|| (geo.isGeoNumeric() && geo.isIndependent())
-							|| (geo.isGeoList()
-									&& ((GeoList) geo).drawAsComboBox())
 							|| geo.isGeoBoolean()
 							|| (geo.isGeoPoint() && !geo.isLocked())) {
 

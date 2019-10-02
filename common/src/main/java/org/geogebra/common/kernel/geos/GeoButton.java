@@ -33,7 +33,7 @@ import org.geogebra.common.util.StringUtil;
  * @author Michael
  */
 public class GeoButton extends GeoWidget
-		implements TextProperties, Furniture {
+		implements TextProperties {
 
 	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
@@ -121,13 +121,6 @@ public class GeoButton extends GeoWidget
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return label;
-	}
-
-	/**
-	 * @return true for textfields, false for buttons
-	 */
-	public boolean isTextField() {
-		return false;
 	}
 
 	/**

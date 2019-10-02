@@ -357,4 +357,9 @@ public abstract class GeoWidget extends GeoElement implements Locateable, Absolu
 			XMLBuilder.getCornerPointXML(sb, i, corner);
 		}
 	}
+
+	@Override
+	public boolean isFurniture() {
+		return false;
+	}
 }

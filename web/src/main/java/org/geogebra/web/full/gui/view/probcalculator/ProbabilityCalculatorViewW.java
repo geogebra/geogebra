@@ -375,7 +375,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    for (int i = 0; i < maxParameterCount; i++) {
 	    	lblParameterArray[i] = new Label();
 	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
-	    	fldParameterArray[i].setColumns(4);
+	    	fldParameterArray[i].setWidthInEm(4);
 	    	fldParameterArray[i].addKeyUpHandler(this);
 	    	fldParameterArray[i].addBlurHandler(this);
 			addInsertHandler(fldParameterArray[i]);
@@ -392,14 +392,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    lblEndProbOf = new Label();
 	    
 	    fldLow = new AutoCompleteTextFieldW(app);
-	    fldLow.setColumns(4);
+	    fldLow.setWidthInEm(4);
 	    fldLow.addKeyUpHandler(this);
 	    fldLow.addBlurHandler(this);
 		addInsertHandler(fldLow);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
 
 	    fldHigh = new AutoCompleteTextFieldW(app);
-	    fldHigh.setColumns(4);
+	    fldHigh.setWidthInEm(4);
 	    fldHigh.addKeyUpHandler(this);
 	    fldHigh.addBlurHandler(this);
 		addInsertHandler(fldHigh);
@@ -407,7 +407,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	    fldResult = new AutoCompleteTextFieldW(app);
 		fldResult.setForeground(GColor.BLACK);
-	    fldResult.setColumns(6);
+	    fldResult.setWidthInEm(6);
 	    fldResult.addKeyUpHandler(this);
 	    fldResult.addBlurHandler(this);
 		addInsertHandler(fldResult);
@@ -545,14 +545,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (probMode != PROB_INTERVAL) {
 			fldResult.setBackground(GColor.WHITE);
 			fldResult.setEditable(true);
-			fldResult.setFocusable(true);
-
 		} else {
-
 			fldResult.setBackground(GColor.newColor(240, 240, 240));
 			fldResult.setEditable(false);
-			fldResult.setFocusable(false);
-
 		}
 
 		if (isDiscrete) {

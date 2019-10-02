@@ -542,7 +542,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	private TextObject buildTextField() {
 		AutoCompleteTextFieldW textField = new AutoCompleteTextFieldW(app);
-		textField.setColumns(fieldWidth);
+		textField.setWidthInEm(fieldWidth);
 		textField.addKeyUpHandler(this);
 		textField.addBlurHandler(this);
 		addInsertHandler(textField);

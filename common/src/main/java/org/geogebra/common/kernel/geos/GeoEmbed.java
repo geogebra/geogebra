@@ -13,7 +13,7 @@ import org.geogebra.common.util.StringUtil;
  * Geo for embedded apps
  */
 public class GeoEmbed extends GeoWidget
-		implements GeoFrame, Furniture, Translateable {
+		implements GeoFrame, Translateable {
 
 	private boolean defined = true;
 	private int embedID;
