@@ -444,8 +444,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return if linked object can be a symbolic one.
 	 */
 	public boolean canBeSymbolic() {
-		return linkedGeo != null && (canBeSymbolicNumber() || canBeSymbolicFunction()
-				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector());
+		return canBeSymbolicNumber() || canBeSymbolicFunction()
+				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector();
 	}
 
 	private boolean canBeSymbolicFunction() {
