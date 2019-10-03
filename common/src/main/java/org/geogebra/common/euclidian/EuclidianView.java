@@ -4257,6 +4257,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 	}
+
 	/**
 	 * Switch antialiasing to true for given graphics
 	 * 

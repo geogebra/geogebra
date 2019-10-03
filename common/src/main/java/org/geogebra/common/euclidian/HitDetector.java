@@ -25,7 +25,7 @@ public class HitDetector {
 	/**
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
-	 * 
+	 *
 	 * @param p
 	 *            clicked point
 	 * @param hitThreshold
@@ -133,6 +133,9 @@ public class HitDetector {
 		}
 	}
 
+	/**
+	 * @return button from hits, closest to the user
+	 */
 	public MyButton getHitButton() {
 		int size = hits.size();
 		for (int i = size - 1; i >= 0; i--) {
