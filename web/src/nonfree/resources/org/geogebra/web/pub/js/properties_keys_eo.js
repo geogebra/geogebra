@@ -1838,7 +1838,7 @@ __GGB__keysVar["eo"].menu = {
     "FrakturLetters": "Fraktur Letters",
     "FreeObjects": "Sendependaj objektoj",
     "FreehandFunction": "Freehand Function",
-    "FreehandFunction.Help": "Sketch a freehand function",
+    "FreehandFunction.Help": "Sketch a function",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",
     "FreehandShape": "Skizo",
     "FreehandShape.Help": "Skizi funkcion a\u016d geometrian objekton",

@@ -1838,7 +1838,7 @@ __GGB__keysVar["mr"].menu = {
     "FrakturLetters": "Fraktur Letters",
     "FreeObjects": "\u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930 \u0935\u0938\u094d\u0924\u0942",
     "FreehandFunction": "Freehand Function",
-    "FreehandFunction.Help": "Sketch a freehand function",
+    "FreehandFunction.Help": "Sketch a function",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",
     "FreehandShape": "Freehand Shape",
     "FreehandShape.Help": "Sketch a function or geometric object",
