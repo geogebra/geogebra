@@ -20,6 +20,8 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	private String textField = "";
 	private TextAlignment alignment;
+	private boolean focus=false;
+	private GeoInputBox geoInputBox=null;
 
 	@Override
 	public void showPopupSymbolButton(boolean b) {
@@ -33,7 +35,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void setFocus(boolean b) {
-		// for test, not needed
+		this.focus = b;
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void requestFocus() {
-		// for test, not needed
+		focus = true;
 	}
 
 	@Override
@@ -87,23 +89,23 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void setUsedForInputBox(GeoInputBox geoTextField) {
-		// for test, not needed
+	public void setUsedForInputBox(GeoInputBox geoInputBox) {
+		this.geoInputBox = geoInputBox;
 	}
 
 	@Override
 	public boolean hasFocus() {
-		return false;
+		return focus;
 	}
 
 	@Override
 	public boolean usedForInputBox() {
-		return false;
+		return geoInputBox != null;
 	}
 
 	@Override
 	public GeoInputBox getInputBox() {
-		return null;
+		return geoInputBox;
 	}
 
 	@Override
@@ -164,6 +166,11 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	@Override
 	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
 		this.alignment = alignment;
+	}
+
+	@Override
+	public void applyToInputBox() {
+
 	}
 
 	@Override
