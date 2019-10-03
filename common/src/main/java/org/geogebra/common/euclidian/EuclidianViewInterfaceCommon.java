@@ -662,11 +662,6 @@ public interface EuclidianViewInterfaceCommon
 	public Hits getHits();
 
 	/**
-	 * @return hit button (or null)
-	 */
-	public MyButton getHitButton();
-
-	/**
 	 * Switch to hit cursor
 	 * 
 	 * @param cursor

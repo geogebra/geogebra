@@ -105,11 +105,6 @@ public class Hits3D extends Hits {
 	}
 
 	@Override
-	protected Hits newHits() {
-		return new Hits3D();
-	}
-
-	@Override
 	public boolean add(GeoElement geo) {
 
 		if (geo == null) {

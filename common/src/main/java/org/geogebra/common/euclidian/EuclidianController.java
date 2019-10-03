@@ -9694,7 +9694,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		this.pressedButton = view.getHitButton();
+		this.pressedButton = view.getHitDetector().getHitButton();
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);
@@ -10037,7 +10037,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			clearSelections();
 		}
 
-		view.setHits(oldRectangle);
+		view.getHitDetector().setHits(oldRectangle);
 		Hits hits = view.getHits();
 
 		boolean changedKernel = false;
