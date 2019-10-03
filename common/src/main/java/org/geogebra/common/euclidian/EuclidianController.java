@@ -10415,6 +10415,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// resize, single selection
 		if (getResizedShape() != null) {
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			getResizedShape().updateGeo(AwtFactory.getPrototype()
 					.newPoint2D(event.getX(), event.getY()));
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
@@ -10423,7 +10424,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			storeUndoInfo();
 			setResizedShape(null);
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 		// resize, multi-selection
 		else if (isMultiResize) {
