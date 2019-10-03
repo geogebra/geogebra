@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
- * @author csilla
+ * Mouse handlers for shape tools
  * 
- *         mouse handlers for shape tools
+ * @author csilla
  */
 public class ModeShape {
 
@@ -39,30 +39,29 @@ public class ModeShape {
 	/**
 	 * start point of dragging movement
 	 */
-	protected GPoint dragStartPoint = new GPoint();
+	private GPoint dragStartPoint = new GPoint();
 	private boolean dragPointSet = false;
 	private boolean moveEnded = false;
 	private boolean wasDragged = false;
 	/**
 	 * preview for ShapeRectangle/ShapeRectangleRoundEdges/ShapeSquare
 	 */
-	protected GRectangle rectangle = AwtFactory.getPrototype().newRectangle(0,
+	private final GRectangle rectangle = AwtFactory.getPrototype().newRectangle(0,
 			0);
 	/**
 	 * preview for ShapeEllipse/ShapeCircle
 	 */
-	protected GEllipse2DDouble ellipse = AwtFactory.getPrototype()
+	private final GEllipse2DDouble ellipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble(0, 0, 0, 0);
 	/**
 	 * preview for ShapeLine
 	 */
-	protected GLine2D line = AwtFactory.getPrototype().newLine2D();
+	private final GLine2D line = AwtFactory.getPrototype().newLine2D();
 	/**
 	 * preview for ShapeTriangle
 	 */
-	protected GGeneralPath polygon = AwtFactory.getPrototype()
+	private final GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
-	private AlgoElement algo = null;
 	private ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
 
 	/**
@@ -296,6 +295,7 @@ public class ModeShape {
 	public GeoElement handleMouseReleasedForShapeMode(AbstractEvent event) {
 		view.setRounded(false);
 		int mode = ec.getMode();
+		AlgoElement algo = null;
 		// make sure we set new start point after ignoring simple click
 		if (mode != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
 			dragPointSet = false;
@@ -619,10 +619,6 @@ public class ModeShape {
 	 *            - true if we want square instead of rectangle
 	 */
 	protected void updateRectangle(AbstractEvent event, boolean isSquare) {
-		if (rectangle == null) {
-			rectangle = AwtFactory.getPrototype().newRectangle();
-		}
-
 		int dx = event.getX() - dragStartPoint.x;
 		int width = Math.abs(dx);
 		int dy = event.getY() - dragStartPoint.y;
@@ -660,10 +656,6 @@ public class ModeShape {
 		int[] pointsX = new int[3];
 		int[] pointsY = new int[3];
 
-		if (polygon == null) {
-			polygon = AwtFactory.getPrototype().newGeneralPath();
-		}
-
 		polygon.reset();
 		int height = event.getY() - dragStartPoint.y;
 
@@ -699,10 +691,6 @@ public class ModeShape {
 	protected void updateRegularPolygon(AbstractEvent event) {
 		int[] pointsX;
 		int[] pointsY;
-
-		if (polygon == null) {
-			polygon = AwtFactory.getPrototype().newGeneralPath();
-		}
 
 		polygon.reset();
 		int height = event.getY() - dragStartPoint.y;

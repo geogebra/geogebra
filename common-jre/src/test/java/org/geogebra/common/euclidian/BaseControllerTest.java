@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -10,7 +13,6 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestEvent;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -125,22 +127,35 @@ public class BaseControllerTest {
 	 * @param desc
 	 *            expected definitions of all objects in construction
 	 */
-	protected void checkContent(String... desc) {
+	protected final void checkContent(String... desc) {
+		checkContentWithVisibility(true, desc);
+	}
+
+	/**
+	 * @param visible
+	 *            expected visibility
+	 * @param desc
+	 *            expected definitions of all objects in construction
+	 */
+	protected void checkContentWithVisibility(boolean visible, String... desc) {
 		int i = 0;
 		for (String label : app.getGgbApi().getAllObjectNames()) {
 			GeoElement geo = app.getKernel().lookupLabel(label);
+			if (geo.isEuclidianVisible() == visible) {
+				assertTrue(
+						"Extra element: "
+								+ geo.toString(StringTemplate.editTemplate),
+						i < desc.length);
 
-			if (i >= desc.length) {
-				Assert.assertEquals("",
+				if (desc[i].contains("/") && geo instanceof GeoConic) {
+					((GeoConic) geo).setToSpecific();
+				}
+				assertEquals(desc[i],
 						geo.toString(StringTemplate.editTemplate));
+				i++;
 			}
-			if (desc[i].contains("/") && geo instanceof GeoConic) {
-				((GeoConic) geo).setToSpecific();
-			}
-			Assert.assertEquals(desc[i],
-					geo.toString(StringTemplate.editTemplate));
-			i++;
 		}
-		Assert.assertEquals(desc.length, app.getGgbApi().getObjectNumber());
+		assertEquals(desc.length, i);
 	}
+
 }
