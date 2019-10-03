@@ -6374,9 +6374,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
 				null, view);
 		kernel.movedGeoSet(translateableGeos);
-		if (repaint) {
+		// if (repaint) {
 			kernel.notifyRepaint();
-		}
+		// }
 	}
 
 	protected final void moveAttached(boolean repaint) {

@@ -1896,11 +1896,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						|| this.updateBackgroundOnNextRepaint;
 				return;
 			}
-			// Keep update of input boxes synchronous #4416
-			if ((!geo.isGeoText() || !((GeoText) geo)
-					.isNeedsUpdatedBoundingBox())
-					&& !geo.isGeoInputBox()
-					&& (!geo.getTrace() || d.isTracing())) {
+			if (!needsSynchUpdate(geo, d.isTracing())) {
 				d.setNeedsUpdate(true);
 				return;
 			}
@@ -1914,6 +1910,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				repaint();
 			}
 		}
+	}
+
+	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
+		// Keep update of input boxes synchronous #4416
+		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
+				|| geo.isGeoInputBox() || (geo.getTrace() && !tracing) || geo.isMask();
 	}
 
 	/**

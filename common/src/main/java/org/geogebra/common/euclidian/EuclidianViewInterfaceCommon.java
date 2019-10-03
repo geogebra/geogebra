@@ -128,6 +128,8 @@ public interface EuclidianViewInterfaceCommon
 	 *            points
 	 * @param selectedLines
 	 *            lines
+	 * @param selectedFunctions
+	 *            functions
 	 * @return preview parallel line
 	 */
 	public Previewable createPreviewParallelLine(
@@ -140,6 +142,8 @@ public interface EuclidianViewInterfaceCommon
 	 *            points
 	 * @param selectedLines
 	 *            lines
+	 * @param selectedFunctions
+	 *            functions
 	 * @return preview perpendicular line
 	 */
 	public Previewable createPreviewPerpendicularLine(
@@ -733,14 +737,6 @@ public interface EuclidianViewInterfaceCommon
 	public void setAnimatedRealWorldCoordSystem(double realWorldCoordX,
 			double realWorldCoordX2, double realWorldCoordY,
 			double realWorldCoordY2, int steps, boolean storeUndo);
-
-	/**
-	 * Sets hits using given rectangle
-	 * 
-	 * @param rect
-	 *            rectangle
-	 */
-	public void setHits(GRectangle rect);
 
 	/**
 	 * update the cursor as if mouse has moved over this point
