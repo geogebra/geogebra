@@ -170,7 +170,17 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void applyToInputBox() {
+		if (geoInputBox == null) {
+			return;
+		}
 
+		if (textField.equals(geoInputBox.getText())) {
+			return;
+		}
+
+		geoInputBox.textObjectUpdated(this);
+		geoInputBox.textSubmitted();
+		geoInputBox.updateRepaint();
 	}
 
 	@Override
