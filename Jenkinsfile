@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                withCredentials([string(credentialsId: 'materials.tojen', variable: 'TOKEN')]){
+                withCredentials([string(credentialsId: 'materials.token', variable: 'TOKEN')]){
                 sh label: 'build web', script: './gradlew :web:compileGwt :web:symlinkIntoWar :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
                 sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test -Pmaterials.token=${TOKEN}"
                 sh label: 'static analysis', script: './gradlew checkPmd :editor-base:spotbugsMain :web:spotbugsMain :desktop:spotbugsMain :ggbjdk:spotbugsMain :common-jre:spotbugsMain --max-workers=1'
