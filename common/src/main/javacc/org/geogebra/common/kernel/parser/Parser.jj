@@ -762,59 +762,9 @@ ExpressionNode functionExpressionnode():
       // closing ) and assignment with expressionnode
           ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
         {
-            // allow f(y) in CAS but not in GeoGebra
-            //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image))
-            //      throw new MyError(app, "InvalidInput");
-        if (cond != null) {
-            rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
+            String funLabel = funName.image.substring(0, funName.image.length() - 1);
+            return functionParser.assignment(rhs, funLabel, localVars, cond);
         }
-        String funLabel = funName.image.substring(0,funName.image.length()-1);
-
-        // command without variables: return expressionnode
-        // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
-        if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable(null)) {
-            rhs.setLabel(funLabel);
-            return rhs;
-        }
-
-        // function: wrap function in ExpressionNode
-      // number of vars
-      int n = localVars.size();
-      Operation op = app.getParserFunctions().get(funLabel,n);
-      if (op != null) {
-        if (n == 1) {
-          return new Equation(kernel,new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs).wrap();
-        }
-        MyList vars = new MyList(kernel, n);
-        for (int i = 0; i<n; i++) {
-          FunctionVariable funVar = new FunctionVariable(kernel,localVars.get(i));
-          vars.addListElement(funVar);
-        }
-        return new Equation(kernel, functionParser.buildOpNode(op, vars), rhs).wrap();
-      }
-
-      FunctionVariable[] funVar = new FunctionVariable[n];
-        for (int i=0; i < n; i++) {
-          funVar[i] = new FunctionVariable(kernel, localVars.get(i));
-        }
-
-          switch (n) {
-            case 1: // single variable function
-        Function fun = new Function(rhs, funVar[0]);
-        fun.setLabel(funLabel);
-        rhs = new ExpressionNode(kernel, fun);
-        break;
-
-             default: // multi variable function
-             FunctionNVar funn = new FunctionNVar(rhs, funVar);
-        funn.setLabel(funLabel);
-        rhs = new ExpressionNode(kernel, funn);
-             break;
-          }
-
-           rhs.setLabel(funLabel);
-           return rhs;
-      }
 )
 }
 

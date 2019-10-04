@@ -3,22 +3,25 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Processor for symbolic elements
@@ -53,17 +56,19 @@ public class SymbolicProcessor {
 	private static final class SubExpressionEvaluator implements Traversing {
 		private ExpressionValue root;
 		private SymbolicProcessor processor;
+		private EvalInfo evalInfo;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-									  ExpressionValue root) {
+				ExpressionValue root, EvalInfo info) {
 			this.processor = symbolicProcessor;
 			this.root = root;
+			this.evalInfo = info;
 		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command && ev != root.unwrap()) {
-				return processor.evalSymbolicNoLabel(ev);
+				return processor.evalSymbolicNoLabel(ev, evalInfo);
 			}
 			if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
 					.getElementWithSameName() != null) {
@@ -128,10 +133,17 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve input expression
+	 * @param ve0
+	 *            input expression
+	 * @param info
+	 *            evaluation flags
 	 * @return processed geo
 	 */
-	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve) {
+	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve0, EvalInfo info) {
+		ExpressionValue ve = ve0;
+		if (ve0.unwrap() instanceof Equation) {
+			ve = extractAssignment((Equation) ve.unwrap(), info);
+		}
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command
@@ -139,7 +151,7 @@ public class SymbolicProcessor {
 			return doEvalSymbolicNoLabel(ve.wrap());
 		}
 		ExpressionNode replaced = ve
-				.traverse(new SubExpressionEvaluator(this, ve)).wrap();
+				.traverse(new SubExpressionEvaluator(this, ve, info)).wrap();
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
@@ -148,6 +160,21 @@ public class SymbolicProcessor {
 		}
 
 		return doEvalSymbolicNoLabel(replaced);
+	}
+
+	private static ValidExpression extractAssignment(Equation equ, EvalInfo info) {
+		ExpressionNode lhs = equ.getLHS();
+		if (lhs.getOperation() == Operation.FUNCTION && lhs.getLeft() instanceof GeoSymbolic
+				&& lhs.getRight() instanceof FunctionVariable) {
+			String lhsName = ((GeoSymbolic) lhs.getLeft()).getLabelSimple();
+			if (info.isLabelRedefinitionAllowedFor(lhsName)) {
+				ExpressionNode rhs = equ.getRHS();
+				rhs.setLabel(lhsName);
+				return rhs;
+			}
+		}
+		return equ;
+
 	}
 
 }

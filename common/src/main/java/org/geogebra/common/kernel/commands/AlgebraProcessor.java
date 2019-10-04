@@ -1010,7 +1010,7 @@ public class AlgebraProcessor {
 		if (symbolicProcessor == null) {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
+		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve, info);
 		if (ve.getLabel() != null
 				&& kernel.lookupLabel(ve.getLabel()) != null
 				&& !info.isLabelRedefinitionAllowedFor(ve.getLabel())) {
