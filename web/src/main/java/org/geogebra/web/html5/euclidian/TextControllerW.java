@@ -153,7 +153,7 @@ public class TextControllerW
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(d.getTextFont(), x, y, width, height);
 			if (create) {
-				updateBoundingBox();
+				updateAndShowStylebar();
 			}
 		}
 		editor.show();
@@ -161,25 +161,31 @@ public class TextControllerW
 		getView().repaint();
 	}
 
-	/**
-	 * Update bounding box and repaint.
-	 */
-	private void doUpdateBoundingBox() {
-		DrawText d = getDrawText(text);
-		if (d != null) {
-			d.adjustBoundingBoxToText(getEditorBounds());
-			getView().setBoundingBox(d.getBoundingBox());
-			getView().getEuclidianController().selectAndShowBoundingBox(text);
-		}
-		getView().repaint();
-	}
-
 	private void updateBoundingBox() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
 			@Override
 			public void execute() {
-				doUpdateBoundingBox();
+				DrawText d = getDrawText(text);
+				if (d != null) {
+					d.adjustBoundingBoxToText(getEditorBounds());
+					getView().setBoundingBox(d.getBoundingBox());
+				}
+				getView().repaint();
+			}
+		});
+	}
+
+	private void updateAndShowStylebar() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				DrawText d = getDrawText(text);
+				if (d != null) {
+					d.adjustBoundingBoxToText(getEditorBounds());
+					getView().getEuclidianController().selectAndShowBoundingBox(text);
+					edit(text, false);
+				}
+				getView().repaint();
 			}
 		});
 	}
