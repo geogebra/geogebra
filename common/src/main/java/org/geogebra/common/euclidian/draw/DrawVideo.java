@@ -143,6 +143,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 				setMetrics();
 			}
 			boundingBox.updateFrom(geo);
+			return boundingBox;
 		}
 		return null;
 	}
