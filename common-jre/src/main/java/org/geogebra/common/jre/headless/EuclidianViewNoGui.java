@@ -246,6 +246,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		return new EuclidianViewFor3DCompanion(this);
 	}
 
+	@Override
 	public void setViewTextField(ViewTextField textField) {
 		this.viewTextField = textField;
 	}

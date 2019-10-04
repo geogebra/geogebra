@@ -27,6 +27,7 @@ public abstract class ViewTextField {
 		GeoInputBox geoInputBox = (GeoInputBox) drawInputBox.getGeoElement();
 		if (geoInputBox != getTextField().getInputBox()) {
 			applyChanges();
+
 		}
 
 		getTextField().setAuralText(geoInputBox.getAuralText());
@@ -97,5 +98,9 @@ public abstract class ViewTextField {
 	 */
 	public void setColumns(int length) {
 		// only in desktop
+	}
+
+	public void reset() {
+		getTextField().setUsedForInputBox(null);
 	}
 }
