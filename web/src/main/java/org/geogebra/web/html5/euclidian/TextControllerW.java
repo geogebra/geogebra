@@ -183,7 +183,8 @@ public class TextControllerW
 				if (d != null) {
 					d.adjustBoundingBoxToText(getEditorBounds());
 					getView().getEuclidianController().selectAndShowBoundingBox(text);
-					edit(text, false);
+					editor.show();
+					editor.requestFocus();
 				}
 				getView().repaint();
 			}
