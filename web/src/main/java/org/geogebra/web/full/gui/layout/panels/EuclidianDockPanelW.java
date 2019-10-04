@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -86,6 +87,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
+			TestHarness.setAttr(eview1, "euclidianView");
 			if (doubleCanvas) {
 				eviewBg = Canvas.createIfSupported();
 				if (eviewBg != null) {

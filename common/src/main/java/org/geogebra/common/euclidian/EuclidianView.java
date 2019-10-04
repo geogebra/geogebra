@@ -3584,6 +3584,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			previewDrawable.drawPreview(g2);
 		}
 		adjustObjects();
+		drawMasks(g2);
 	}
 
 	/**
