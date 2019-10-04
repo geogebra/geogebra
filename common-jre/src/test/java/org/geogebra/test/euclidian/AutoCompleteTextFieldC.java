@@ -1,9 +1,13 @@
 package org.geogebra.test.euclidian;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.FocusListenerCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -22,6 +26,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	private TextAlignment alignment;
 	private boolean focus=false;
 	private GeoInputBox geoInputBox=null;
+	private List<FocusListener> focusListeners = new ArrayList<>();
 
 	@Override
 	public void showPopupSymbolButton(boolean b) {
@@ -60,7 +65,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void addFocusListener(FocusListener focusListener) {
-		// for test, not needed
+		this.focusListeners.add(focusListener);
 	}
 
 	@Override
@@ -208,6 +213,15 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	 */
 	public TextAlignment getAlignment() {
 		return alignment;
+	}
+
+	/**
+	 * Notify all listeners
+	 */
+	public void blur() {
+		for (FocusListener l : focusListeners) {
+			((FocusListenerCommon) l).focusLost();
+		}
 	}
 
 }

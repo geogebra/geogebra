@@ -28,15 +28,14 @@ public class ViewTextFieldMock extends ViewTextField {
 		if (textField == null) {
 			textField = new AutoCompleteTextFieldC();
 			textField.setAutoComplete(false);
-		} else {
-			textField.setDrawTextField(drawInputBox);
 		}
+		textField.setDrawTextField(drawInputBox);
 
 		return textField;
 	}
 
 	@Override
 	public void remove() {
-
+		textField = null;
 	}
 }
