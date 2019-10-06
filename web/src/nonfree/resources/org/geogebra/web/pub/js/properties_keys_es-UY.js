@@ -1838,7 +1838,7 @@ __GGB__keysVar["es-UY"].menu = {
     "FrakturLetters": "Letras Fraktur",
     "FreeObjects": "Objetos libres",
     "FreehandFunction": "Funci\xf3n a mano alzada",
-    "FreehandFunction.Help": "Esboza la gr\xe1fica de la funci\xf3n",
+    "FreehandFunction.Help": "Bosqueja una funci\xf3n",
     "FreehandFunctionOnIntervalAB": "Funci\xf3n a mano alzada en el intervalo [%0, %1]",
     "FreehandShape": "Figura a mano alzada",
     "FreehandShape.Help": "Esboza una funci\xf3n o un objeto geom\xe9trico",
