@@ -1621,20 +1621,4 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		return null;
 	}
-
-	@Override
-	public void applyToInputBox() {
-		if (geoUsedForInputBox == null) {
-			return;
-		}
-
-		if (textField.getText().equals(geoUsedForInputBox.getText())) {
-			return;
-		}
-
-		geoUsedForInputBox.textObjectUpdated(this);
-		geoUsedForInputBox.textSubmitted();
-		geoUsedForInputBox.updateRepaint();
-
-	}
 }

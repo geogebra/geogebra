@@ -93,6 +93,4 @@ public interface AutoCompleteTextField
 	 * @param alignment the text alignment in the input box
 	 */
 	void setTextAlignmentsForInputBox(TextAlignment alignment);
-
-	void applyToInputBox();
 }

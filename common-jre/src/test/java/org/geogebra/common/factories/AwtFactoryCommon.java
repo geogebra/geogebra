@@ -61,7 +61,7 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
 
     @Override
 	public FocusListener newFocusListener(Object listener) {
-		return new FocusListenerCommon(listener);
+        return new FocusListenerCommon(listener);
     }
 
     @Override

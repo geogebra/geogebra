@@ -34,12 +34,27 @@ public abstract class ViewTextField {
 		drawInputBox.attachTextField();
 	}
 
-	private void applyChanges() {
+	/**
+	 * Apply the edited text to the corresponding GeoInputBox
+	 */
+	protected void applyChanges() {
 		AutoCompleteTextField textField = getTextField();
 		if (textField == null) {
 			return;
 		}
-		textField.applyToInputBox();
+		GeoInputBox geoInputBox = textField.getInputBox();
+
+		if (geoInputBox == null) {
+			return;
+		}
+
+		if (textField.getText().equals(geoInputBox.getText())) {
+			return;
+		}
+
+		geoInputBox.textObjectUpdated(textField);
+		geoInputBox.textSubmitted();
+		geoInputBox.updateRepaint();
 	}
 
 	/**

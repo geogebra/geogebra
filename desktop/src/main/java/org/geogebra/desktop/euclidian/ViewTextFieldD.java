@@ -115,4 +115,8 @@ public class ViewTextFieldD extends ViewTextField {
 		}
 	}
 
+	@Override
+	protected void applyChanges() {
+		// Clear implementation, not needed.
+	}
 }

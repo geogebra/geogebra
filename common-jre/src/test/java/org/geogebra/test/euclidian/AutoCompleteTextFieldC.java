@@ -174,21 +174,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void applyToInputBox() {
-		if (geoInputBox == null) {
-			return;
-		}
-
-		if (textField.equals(geoInputBox.getText())) {
-			return;
-		}
-
-		geoInputBox.textObjectUpdated(this);
-		geoInputBox.textSubmitted();
-		geoInputBox.updateRepaint();
-	}
-
-	@Override
 	public String getText() {
 		return textField;
 	}
@@ -219,8 +204,8 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	 * Notify all listeners
 	 */
 	public void blur() {
-		for (FocusListener l : focusListeners) {
-			((FocusListenerCommon) l).focusLost();
+		for (FocusListener listener : focusListeners) {
+			((FocusListenerCommon) listener).focusLost();
 		}
 	}
 }
