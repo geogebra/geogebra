@@ -100,6 +100,9 @@ public abstract class ViewTextField {
 		// only in desktop
 	}
 
+	/**
+	 * Resets textfield
+	 */
 	public void reset() {
 		if (getTextField() != null) {
 			getTextField().setUsedForInputBox(null);
