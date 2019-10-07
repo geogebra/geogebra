@@ -126,6 +126,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private PolygonTriangulation pt;
 	private boolean isMask = false;
 
+	private boolean showLineProperties = true;
+	private boolean fillable = true;
+	private boolean traceable = true;
+
 	/**
 	 * common constructor for 2D.
 	 * 
@@ -856,7 +860,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isFillable() {
-		return true;
+		return fillable;
+	}
+
+	/**
+	 * Set whether this object is fillable.
+	 *
+	 * @param fillable true to set object to fillable, false otherwise.
+	 */
+	public void setFillable(boolean fillable) {
+		this.fillable = fillable;
 	}
 
 	@Override
@@ -2023,6 +2036,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		sb.append("\t<isMask val=\"true\"/>\n");
 	}
+	
 	/**
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)
@@ -2034,7 +2048,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isTraceable() {
-		return true;
+		return traceable;
+	}
+
+	/**
+	 * Set whether this object is traceable.
+	 *
+	 * @param traceable true to set object to traceable, false otherwise.
+	 */
+	public void setTraceable(boolean traceable) {
+		this.traceable = traceable;
 	}
 
 	@Override
@@ -2744,6 +2767,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
 		setObjColor(GeoGebraColorConstants.MEBIS_MASK);
 		setLineThickness(1);
+		setShowLineProperties(false);
+		setFillable(false);
+		setTraceable(false);
 		((AlgoPolygon) getParentAlgorithm()).getPoly().initLabels(null);
 	}
 
@@ -2825,4 +2851,19 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 		return true;
 	}
+
+	@Override
+	public boolean showLineProperties() {
+		return showLineProperties && super.showLineProperties();
+	}
+
+	/**
+	 * Set whether this object should show line properties.
+	 *
+	 * @param showLineProperties true if it should show line properties
+	 */
+	public void setShowLineProperties(boolean showLineProperties) {
+		this.showLineProperties = showLineProperties;
+	}
+
 }
