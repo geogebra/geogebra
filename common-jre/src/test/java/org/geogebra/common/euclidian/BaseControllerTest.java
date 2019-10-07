@@ -7,7 +7,6 @@ import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -102,6 +101,9 @@ public class BaseControllerTest {
 		ec.setLastMouseUpLoc(null);
 	}
 
+	/**
+	 * @return application
+	 */
 	protected AppCommon getApp() {
 		return app;
 	}
@@ -125,17 +127,28 @@ public class BaseControllerTest {
 
 	/**
 	 * @param desc
-	 *            expected definitions of all objects in construction
+	 *            expected definitions of all visible objects in construction
+	 *            order
 	 */
 	protected final void checkContent(String... desc) {
 		checkContentWithVisibility(true, desc);
 	}
 
 	/**
-	 * @param visible
-	 *            expected visibility
 	 * @param desc
-	 *            expected definitions of all objects in construction
+	 *            expected definitions of all hidden objects in construction
+	 *            order
+	 */
+	protected final void checkHiddenContent(String... desc) {
+		checkContentWithVisibility(false, desc);
+	}
+
+	/**
+	 * @param visible
+	 *            visibility filter
+	 * @param desc
+	 *            expected definitions of all hidden objects in construction
+	 *            order
 	 */
 	protected void checkContentWithVisibility(boolean visible, String... desc) {
 		int i = 0;
@@ -147,9 +160,6 @@ public class BaseControllerTest {
 								+ geo.toString(StringTemplate.editTemplate),
 						i < desc.length);
 
-				if (desc[i].contains("/") && geo instanceof GeoConic) {
-					((GeoConic) geo).setToSpecific();
-				}
 				assertEquals(desc[i],
 						geo.toString(StringTemplate.editTemplate));
 				i++;

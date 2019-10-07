@@ -18,8 +18,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -27,6 +25,8 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAnglePolygon;
 import org.geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -2745,7 +2745,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
 		setObjColor(GeoGebraColorConstants.MEBIS_MASK);
 		setLineThickness(1);
-		((AlgoPolygon) getParentAlgorithm()).getPoly().initLabels(null);
 	}
 
 	/**

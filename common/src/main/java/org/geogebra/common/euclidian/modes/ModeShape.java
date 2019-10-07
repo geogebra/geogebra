@@ -14,7 +14,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -223,49 +222,31 @@ public class ModeShape {
 	private GeoPointND[] getPointArray(AbstractEvent event, boolean isSquare) {
 		GeoPointND[] points = new GeoPointND[4];
 
-		double startPointX = view.toRealWorldCoordX(dragStartPoint.x);
-		double startPointY = view.toRealWorldCoordY(dragStartPoint.y);
+		double startPointX = dragStartPoint.x;
+		double startPointY = dragStartPoint.y;
 		double endPointX, endPointY;
 
 		// for width of square take the width of rectangle
 		if (isSquare) {
-			double[] coords = getEndPointRealCoords(event, true);
+			double[] coords = getEndPointScreenCoords(event, true);
 			endPointX = coords[0];
 			endPointY = coords[1];
 		} else {
-			endPointX = view.toRealWorldCoordX(event.getX());
-			endPointY = view.toRealWorldCoordY(event.getY());
+			endPointX = event.getX();
+			endPointY = event.getY();
 		}
 
-		GeoPoint startPoint = new GeoPoint(view.getKernel().getConstruction(),
-				null, startPointX, startPointY, 1);
-		startPoint.setEuclidianVisible(false);
-		startPoint.updateRepaint();
-		points[0] = startPoint;
+		points[0] = invisibleScreenPoint(startPointX, startPointY);
+		points[1] = invisibleScreenPoint(endPointX, startPointY);
+		points[2] = invisibleScreenPoint(endPointX, endPointY);
+		points[3] = invisibleScreenPoint(startPointX, endPointY);
 
-		GeoPoint leftPoint = new GeoPoint(view.getKernel().getConstruction(),
-				null, endPointX, startPointY, 1);
-		leftPoint.setEuclidianVisible(false);
-		leftPoint.updateRepaint();
-		points[1] = leftPoint;
-
-		GeoPoint endPoint = new GeoPoint(view.getKernel().getConstruction(),
-				null, endPointX, endPointY, 1);
-		endPoint.setEuclidianVisible(false);
-		endPoint.updateRepaint();
-		points[2] = endPoint;
-
-		GeoPoint rightPoint = new GeoPoint(view.getKernel().getConstruction(),
-				null, startPointX, endPointY, 1);
-		rightPoint.setEuclidianVisible(false);
-		rightPoint.updateRepaint();
-		points[3] = rightPoint;
 
 		view.repaintView();
 		return points;
 	}
 
-	private double[] getEndPointRealCoords(AbstractEvent event,
+	private double[] getEndPointScreenCoords(AbstractEvent event,
 			boolean isSquare) {
 		double[] coords = new double[2];
 		double width = isSquare ? rectangle.getWidth()
@@ -295,7 +276,6 @@ public class ModeShape {
 	public GeoElement handleMouseReleasedForShapeMode(AbstractEvent event) {
 		view.setRounded(false);
 		int mode = ec.getMode();
-		AlgoElement algo = null;
 		// make sure we set new start point after ignoring simple click
 		if (mode != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
 			dragPointSet = false;
@@ -306,7 +286,7 @@ public class ModeShape {
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
 				|| mode == EuclidianConstants.MODE_SHAPE_SQUARE) {
 			boolean square = mode == EuclidianConstants.MODE_SHAPE_SQUARE;
-			algo = getPolyAlgo(getPointArray(event, square));
+			AlgoPolygon algo = getPolyAlgo(getPointArray(event, square));
 
 			createPolygon(algo);
 
@@ -315,7 +295,7 @@ public class ModeShape {
 			wasDragged = false;
 			return algo.getOutput(0);
 		} else if (mode == EuclidianConstants.MODE_MASK) {
-			algo = getPolyAlgo(getPointArray(event, false));
+			AlgoPolygon algo = getPolyAlgo(getPointArray(event, false));
 
 			createMask(algo);
 
@@ -342,11 +322,12 @@ public class ModeShape {
 			return conic;
 		} else if (mode == EuclidianConstants.MODE_SHAPE_LINE) {
 			GeoPoint[] points = getRealPointsOfLine(event);
-			algo = new AlgoJoinPointsSegment(view.getKernel().getConstruction(),
+			AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(
+					view.getKernel().getConstruction(),
 					null, points[0], points[1]);
-			GeoElement segment = algo.getOutput(0);
+			GeoSegment segment = algo.getSegment();
 			segment.setLabelVisible(false);
-			((GeoSegment) segment).setIsShape(true);
+			segment.setIsShape(true);
 			segment.updateRepaint();
 			view.setShapeLine(null);
 			view.repaintView();
@@ -360,12 +341,7 @@ public class ModeShape {
 			} else {
 				points = getRealPointsOfPolygon(event);
 			}
-			algo = getPolyAlgo(points);
-			// do not show edge points
-			for (GeoPoint geoPoint : points) {
-				geoPoint.setEuclidianVisible(false);
-				geoPoint.updateRepaint();
-			}
+			AlgoPolygon algo = getPolyAlgo(points);
 			createPolygon(algo);
 			view.setShapePolygon(null);
 			view.repaintView();
@@ -392,8 +368,7 @@ public class ModeShape {
 									pointListFreePoly.get(
 											pointListFreePoly.size()
 													- 2)) == 0) {
-				// polygon.closePath();
-				algo = getPolyAlgo(getRealPointsOfFreeFormPolygon());
+				AlgoPolygon algo = getPolyAlgo(getRealPointsOfFreeFormPolygon());
 				createPolygon(algo);
 				pointListFreePoly.clear();
 				dragPointSet = false;
@@ -408,13 +383,13 @@ public class ModeShape {
 		return null;
 	}
 
-	private AlgoElement getPolyAlgo(GeoPointND[] pointArray) {
+	private AlgoPolygon getPolyAlgo(GeoPointND[] pointArray) {
 		return new AlgoPolygon(view.getKernel().getConstruction(), pointArray,
 				null, null, false, null, null);
 	}
 
-	private static void createPolygon(AlgoElement algo) {
-		GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
+	private static void createPolygon(AlgoPolygon algo) {
+		GeoPolygon poly = algo.getPoly();
 		// do not show segment labels
 		hideSegments(poly);
 		poly.setIsShape(true);
@@ -422,13 +397,14 @@ public class ModeShape {
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
 		poly.setObjColor(GColor.BLACK);
-		((AlgoPolygon) algo).getPoly().initLabels(null);
+		poly.initLabels(null);
 	}
 
-	private static void createMask(AlgoElement algo) {
-		GeoPolygon polygon = (GeoPolygon) algo.getOutput(0);
+	private static void createMask(AlgoPolygon algo) {
+		GeoPolygon polygon = algo.getPoly();
 		hideSegments(polygon);
 		polygon.setIsMask(true);
+		polygon.initLabels(null);
 	}
 
 	/**
@@ -465,10 +441,9 @@ public class ModeShape {
 
 	private static void hideSegments(GeoPolygon poly) {
 		for (GeoSegmentND geoSeg : poly.getSegments()) {
-			((GeoSegment) geoSeg).setLabelVisible(false);
-			((GeoSegment) geoSeg).setSelectionAllowed(false);
+			geoSeg.setLabelVisible(false);
+			geoSeg.setSelectionAllowed(false);
 		}
-
 	}
 
 	private GeoPoint[] getRealPointsOfFreeFormPolygon() {
@@ -476,14 +451,18 @@ public class ModeShape {
 		GeoPoint[] realPoints = new GeoPoint[pointListFreePoly.size()];
 		int i = 0;
 		for (GPoint gPoint : pointListFreePoly) {
-			realPoints[i] = new GeoPoint(view.getKernel().getConstruction(),
-					null, view.toRealWorldCoordX(gPoint.getX()),
-					view.toRealWorldCoordY(gPoint.getY()), 1);
-			realPoints[i].setEuclidianVisible(false);
-			realPoints[i].updateRepaint();
+			realPoints[i] = invisibleScreenPoint(gPoint.getX(), gPoint.getY());
 			i++;
 		}
 		return realPoints;
+	}
+
+	private GeoPoint invisibleScreenPoint(double startX, double startY) {
+		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(), null,
+				view.toRealWorldCoordX(startX), view.toRealWorldCoordY(startY), 1);
+		pt.setEuclidianVisible(false);
+		pt.updateRepaint();
+		return pt;
 	}
 
 	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
@@ -491,29 +470,13 @@ public class ModeShape {
 		int[] pointsX;
 		int[] pointsY;
 
-		int height = event.getY() - dragStartPoint.y;
-		int radius = event.getY() - (dragStartPoint.y + event.getY()) / 2;
+		int radius = Math.abs(event.getY() - (dragStartPoint.y + event.getY()) / 2);
 
-		if (height >= 0) {
-			pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
-					radius, 5, -Math.PI / 2);
-			pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
-					radius, 5, -Math.PI / 2);
-			for (int i = 0; i < pointsX.length; i++) {
-				points[i] = new GeoPoint(view.getKernel().getConstruction(),
-						null, view.toRealWorldCoordX(pointsX[i]),
-						view.toRealWorldCoordY(pointsY[i]), 1);
-			}
-		} else {
-			pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
-					radius, 5, Math.PI / 2);
-			pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
-					radius, 5, Math.PI / 2);
-			for (int i = 0; i < pointsX.length; i++) {
-				points[i] = new GeoPoint(view.getKernel().getConstruction(),
-						null, view.toRealWorldCoordX(pointsX[i]),
-						view.toRealWorldCoordY(pointsY[i]), 1);
-			}
+		pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2, radius, 5, -Math.PI / 2);
+		pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2, radius, 5, -Math.PI / 2);
+
+		for (int i = 0; i < pointsX.length; i++) {
+			points[i] = invisibleScreenPoint(pointsX[i], pointsY[i]);
 		}
 
 		return points;
@@ -525,27 +488,14 @@ public class ModeShape {
 		int height = event.getY() - dragStartPoint.y;
 
 		if (height >= 0) {
-			points[0] = new GeoPoint(view.getKernel().getConstruction(), null,
-					view.toRealWorldCoordX(dragStartPoint.x),
-					view.toRealWorldCoordY(event.getY()), 1);
-			points[1] = new GeoPoint(view.getKernel().getConstruction(), null,
-					view.toRealWorldCoordX(event.getX()),
-					view.toRealWorldCoordY(event.getY()), 1);
-			points[2] = new GeoPoint(view.getKernel().getConstruction(), null,
-					view.toRealWorldCoordX(
-							(dragStartPoint.x + event.getX()) / 2.0),
-					view.toRealWorldCoordY(dragStartPoint.y), 1);
+			points[0] = invisibleScreenPoint(dragStartPoint.x, event.getY());
+			points[1] = invisibleScreenPoint(event.getX(), event.getY());
+			points[2] = invisibleScreenPoint((dragStartPoint.x + event.getX()) / 2.0,
+					dragStartPoint.y);
 		} else {
-			points[0] = new GeoPoint(view.getKernel().getConstruction(), null,
-					view.toRealWorldCoordX(
-							(dragStartPoint.x + event.getX()) / 2.0),
-					view.toRealWorldCoordY(event.getY()), 1);
-			points[1] = new GeoPoint(view.getKernel().getConstruction(), null,
-					view.toRealWorldCoordX(dragStartPoint.x),
-					view.toRealWorldCoordY(dragStartPoint.y), 1);
-			points[2] = new GeoPoint(view.getKernel().getConstruction(), null,
-					view.toRealWorldCoordX(event.getX()),
-					view.toRealWorldCoordY(dragStartPoint.y), 1);
+			points[0] = invisibleScreenPoint((dragStartPoint.x + event.getX()) / 2.0, event.getY());
+			points[1] = invisibleScreenPoint(dragStartPoint.x, dragStartPoint.y);
+			points[2] = invisibleScreenPoint(event.getX(), dragStartPoint.y);
 		}
 
 		return points;
@@ -554,22 +504,14 @@ public class ModeShape {
 	private GeoPoint[] getRealPointsOfLine(AbstractEvent event) {
 		GeoPoint[] points = new GeoPoint[2];
 
-		double startX = view.toRealWorldCoordX(dragStartPoint.getX());
-		double startY = view.toRealWorldCoordY(dragStartPoint.getY());
-		GeoPoint startPoint = new GeoPoint(view.getKernel().getConstruction(),
-				null,
-				startX, startY, 1);
-		startPoint.setEuclidianVisible(false);
-		startPoint.updateRepaint();
+		double startX = dragStartPoint.getX();
+		double startY = dragStartPoint.getY();
+		GeoPoint startPoint = invisibleScreenPoint(startX, startY);
 		GPoint2D snap = snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(),
 				event.getY());
-		double endX = view.toRealWorldCoordX(snap.getX());
-		double endY = view.toRealWorldCoordY(snap.getY());
-		GeoPoint endPoint = new GeoPoint(view.getKernel().getConstruction(),
-				null,
-				endX, endY, 1);
-		endPoint.setEuclidianVisible(false);
-		endPoint.updateRepaint();
+		double endX = snap.getX();
+		double endY = snap.getY();
+		GeoPoint endPoint = invisibleScreenPoint(endX, endY);
 
 		points[0] = startPoint;
 		points[1] = endPoint;
@@ -583,9 +525,9 @@ public class ModeShape {
 
 		double endX, endY;
 		if (isCircle) {
-			double[] coords = getEndPointRealCoords(event, false);
-			endX = coords[0];
-			endY = coords[1];
+			double[] coords = getEndPointScreenCoords(event, false);
+			endX = view.toRealWorldCoordX(coords[0]);
+			endY = view.toRealWorldCoordY(coords[1]);
 		} else {
 			endX = view.toRealWorldCoordX(event.getX());
 			endY = view.toRealWorldCoordY(event.getY());
@@ -693,20 +635,10 @@ public class ModeShape {
 		int[] pointsY;
 
 		polygon.reset();
-		int height = event.getY() - dragStartPoint.y;
-		int radius = event.getY() - (dragStartPoint.y + event.getY()) / 2;
+		int radius = Math.abs(event.getY() - (dragStartPoint.y + event.getY()) / 2);
 
-		if (height >= 0) {
-				pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
-						radius, 5, -Math.PI / 2);
-				pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
-						radius, 5, -Math.PI / 2);
-		} else {
-				pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
-						radius, 5, Math.PI / 2);
-				pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
-						radius, 5, Math.PI / 2);
-		}
+		pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2, radius, 5, -Math.PI / 2);
+		pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2, radius, 5, -Math.PI / 2);
 
 		polygon.moveTo(pointsX[0], pointsY[0]);
 		for (int index = 1; index < pointsX.length; index++) {
@@ -743,8 +675,7 @@ public class ModeShape {
 		view.repaintView();
 	}
 
-	private static int[] getXCoordinates(int centerX, int radius, int vertexNr,
-			double startAngle) {
+	private static int[] getXCoordinates(int centerX, int radius, int vertexNr, double startAngle) {
 		int[] res = new int[vertexNr];
 		double addAngle = 2 * Math.PI / vertexNr;
 		double angle = startAngle;
