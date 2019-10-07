@@ -29,8 +29,7 @@ public class SymbolicProcessorTest {
 	@Test
 	public void symbolicExpressionTest() {
 		Variable a = new Variable(kernel, "a");
-		GeoElement aPlusA = processor.evalSymbolicNoLabel(a.wrap().plus(a),
-				new EvalInfo(true));
+		GeoElement aPlusA = processor.evalSymbolicNoLabel(a.wrap().plus(a));
 		assertEquals("2 * a",
 				aPlusA.toValueString(StringTemplate.testTemplate));
 	}
@@ -40,8 +39,7 @@ public class SymbolicProcessorTest {
 		Variable a = new Variable(kernel, "a");
 		Command integral = new Command(kernel, "Integral", false);
 		integral.addArgument(a.wrap().multiply(a));
-		GeoElement integralASquared = processor.evalSymbolicNoLabel(integral,
-				new EvalInfo(true));
+		GeoElement integralASquared = processor.evalSymbolicNoLabel(integral);
 		// the arbitrary constant index may change, use regexp
 		assertThat(
 				integralASquared.toValueString(StringTemplate.testTemplate),

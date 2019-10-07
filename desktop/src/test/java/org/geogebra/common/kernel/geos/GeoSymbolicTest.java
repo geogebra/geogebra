@@ -6,7 +6,9 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,22 +16,18 @@ import java.util.Collections;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
-import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.AlgebraTest;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
+import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class GeoSymbolicTest extends BaseSymbolicTest {
@@ -396,7 +394,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f(x)=x^2", "x^(2)");
 		t("l1={1,2,3}", "{1, 2, 3}");
 		t("f(l1)", "{1, 4, 9}");
+	}
 
+	@Test
+	public void testMoreLists() {
 		t("f(x)=(3x^3+6x^2-10x+1)", "3 * x^(3) + 6 * x^(2) - 10 * x + 1");
 		t("list2=Solutions(f'(x)=0)", "{(-sqrt(14) - 2) / 3, (sqrt(14) - 2) / 3}");
 		t("f(list2)", "{1 / 9 * (28 * sqrt(14) + 85), 1 / 9 * (-28 * sqrt(14) + 85)}");
@@ -765,11 +766,21 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	 * APPS-1013
 	 */
 	@Test
-	public void updateShouldChangeTheTwin() {
+	public void updateInSameRowShouldChangeTheTwin() {
 		t("f(x)=x^2", "x^(2)");
-		t("f(x)=x^3", "x^(3)");
-		GeoElementND twin = getSymbolic("f").getTwinGeo();
-		assertEquals("x^(3)", twin.toValueString(StringTemplate.testTemplate));
+		t("f(x)=x^3", infoWithRedefine("f"), "x^(3)");
+		checkInput("f", TestStringUtil.unicode("f(x) = x^3"));
+	}
+
+	@Test
+	public void functionAssignmentInSecondRowShouldBeEquation() {
+		t("f(x)=x^2", "x^(2)");
+		t("f(x)=x^3", infoWithRedefine(null), "x^(2) = x^(3)");
+	}
+
+	private EvalInfo infoWithRedefine(String object) {
+		return new EvalInfo(true).withLabelRedefinitionAllowedFor(object)
+				.withSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 	}
 
 	@Test

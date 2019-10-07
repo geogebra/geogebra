@@ -32,6 +32,10 @@ public class SymbolicProcessor {
 	private Kernel kernel;
 	private Construction cons;
 
+	/**
+	 * Detect assignments of the type a=f(a) so that we can treat them as
+	 * equations
+	 */
 	private static final class RecursiveEquationFinder implements Inspecting {
 		private final ExpressionValue ve;
 
@@ -56,19 +60,17 @@ public class SymbolicProcessor {
 	private static final class SubExpressionEvaluator implements Traversing {
 		private ExpressionValue root;
 		private SymbolicProcessor processor;
-		private EvalInfo evalInfo;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-				ExpressionValue root, EvalInfo info) {
+				ExpressionValue root) {
 			this.processor = symbolicProcessor;
 			this.root = root;
-			this.evalInfo = info;
 		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command && ev != root.unwrap()) {
-				return processor.evalSymbolicNoLabel(ev, evalInfo);
+				return processor.evalSymbolicNoLabel(ev);
 			}
 			if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
 					.getElementWithSameName() != null) {
@@ -133,17 +135,11 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve0
+	 * @param ve
 	 *            input expression
-	 * @param info
-	 *            evaluation flags
 	 * @return processed geo
 	 */
-	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve0, EvalInfo info) {
-		ExpressionValue ve = ve0;
-		if (ve0.unwrap() instanceof Equation) {
-			ve = extractAssignment((Equation) ve.unwrap(), info);
-		}
+	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command
@@ -151,7 +147,7 @@ public class SymbolicProcessor {
 			return doEvalSymbolicNoLabel(ve.wrap());
 		}
 		ExpressionNode replaced = ve
-				.traverse(new SubExpressionEvaluator(this, ve, info)).wrap();
+				.traverse(new SubExpressionEvaluator(this, ve)).wrap();
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
@@ -162,19 +158,41 @@ public class SymbolicProcessor {
 		return doEvalSymbolicNoLabel(replaced);
 	}
 
-	private static ValidExpression extractAssignment(Equation equ, EvalInfo info) {
+	/**
+	 * @param equ
+	 *            equation
+	 * @param info
+	 *            evaluation flags
+	 * @return equation or assignment
+	 */
+	static ValidExpression extractAssignment(Equation equ, EvalInfo info) {
+		String lhsName = extractLabel(equ, info);
+		if (lhsName !=null) {
+			ExpressionNode rhs = equ.getRHS();
+			rhs.setLabel(lhsName);
+			return rhs;
+			
+		}
+		return equ;
+	}
+
+	private static String extractLabel(Equation equ, EvalInfo info) {
 		ExpressionNode lhs = equ.getLHS();
 		if (lhs.getOperation() == Operation.FUNCTION && lhs.getLeft() instanceof GeoSymbolic
 				&& lhs.getRight() instanceof FunctionVariable) {
 			String lhsName = ((GeoSymbolic) lhs.getLeft()).getLabelSimple();
-			if (info.isLabelRedefinitionAllowedFor(lhsName)) {
-				ExpressionNode rhs = equ.getRHS();
-				rhs.setLabel(lhsName);
-				return rhs;
+			return info.isLabelRedefinitionAllowedFor(lhsName) ? lhsName : null;
+		}
+		return null;
+	}
+
+	public void updateLabel(ValidExpression newValue, EvalInfo info) {
+		if (newValue.unwrap() instanceof Equation) {
+			String lhsName = extractLabel((Equation) newValue.unwrap(), info);
+			if (lhsName != null) {
+				newValue.setLabel(lhsName);
 			}
 		}
-		return equ;
-
 	}
 
 }
