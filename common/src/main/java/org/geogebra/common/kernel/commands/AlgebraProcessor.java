@@ -1017,7 +1017,7 @@ public class AlgebraProcessor {
 		ValidExpression extracted = ve;
 		if (ve.unwrap() instanceof Equation && info != null) {
 			Equation equation = (Equation) ve.unwrap();
-			extracted = SymbolicProcessor.extractAssignment(equation, info);
+			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
 		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted);

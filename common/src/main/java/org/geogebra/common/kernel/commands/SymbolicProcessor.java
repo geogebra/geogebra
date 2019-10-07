@@ -165,7 +165,7 @@ public class SymbolicProcessor {
 	 *            evaluation flags
 	 * @return equation or assignment
 	 */
-	static ValidExpression extractAssignment(Equation equ, EvalInfo info) {
+	protected ValidExpression extractAssignment(Equation equ, EvalInfo info) {
 		String lhsName = extractLabel(equ, info);
 		if (lhsName !=null) {
 			ExpressionNode rhs = equ.getRHS();
@@ -176,21 +176,28 @@ public class SymbolicProcessor {
 		return equ;
 	}
 
-	private static String extractLabel(Equation equ, EvalInfo info) {
+	private String extractLabel(Equation equ, EvalInfo info) {
 		ExpressionNode lhs = equ.getLHS();
 		if (lhs.getOperation() == Operation.FUNCTION && lhs.getLeft() instanceof GeoSymbolic
-				&& lhs.getRight() instanceof FunctionVariable) {
+				&& lhs.getRight() instanceof FunctionVariable
+				&& !kernel.getConstruction().isFileLoading()) {
 			String lhsName = ((GeoSymbolic) lhs.getLeft()).getLabelSimple();
 			return info.isLabelRedefinitionAllowedFor(lhsName) ? lhsName : null;
 		}
 		return null;
 	}
 
-	public void updateLabel(ValidExpression newValue, EvalInfo info) {
-		if (newValue.unwrap() instanceof Equation) {
-			String lhsName = extractLabel((Equation) newValue.unwrap(), info);
+	/**
+	 * @param expression
+	 *            expression
+	 * @param info
+	 *            evaluation flags
+	 */
+	public void updateLabel(ValidExpression expression, EvalInfo info) {
+		if (expression.unwrap() instanceof Equation) {
+			String lhsName = extractLabel((Equation) expression.unwrap(), info);
 			if (lhsName != null) {
-				newValue.setLabel(lhsName);
+				expression.setLabel(lhsName);
 			}
 		}
 	}

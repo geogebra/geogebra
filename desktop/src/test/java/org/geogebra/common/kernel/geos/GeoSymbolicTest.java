@@ -30,6 +30,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	private static void testValidResultCombinations(String input, String... validResults) {
@@ -776,6 +778,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void functionAssignmentInSecondRowShouldBeEquation() {
 		t("f(x)=x^2", "x^(2)");
 		t("f(x)=x^3", infoWithRedefine(null), "x^(2) = x^(3)");
+		reload();
+		t("f", "x^(2)");
+		t("eq1", "x^(2) = x^(3)");
+	}
+
+	@Test
+	public void equationWithFunction() {
+		t("f(x,a,b)=-a log(b*x)", "-a * log(b * x)");
+		t("eq1:a/(-1)=1", "-a = 1");
+		t("f(1, a,b)=1", "-a * log(b) = 1"); // autolabeling here
+		t("Solve({eq1,eq2},{a,b})",
+				"{{a = -1, b = " + Unicode.EULER_STRING + "}}");
 	}
 
 	private EvalInfo infoWithRedefine(String object) {
@@ -893,5 +907,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	private static void add(String string) {
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
+	}
+
+	/**
+	 * Emulate file reload
+	 */
+	private static void reload() {
+		app.setXML(app.getXML(), true);
 	}
 }
