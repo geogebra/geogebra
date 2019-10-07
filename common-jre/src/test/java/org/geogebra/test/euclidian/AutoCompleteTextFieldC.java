@@ -223,5 +223,4 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 			((FocusListenerCommon) l).focusLost();
 		}
 	}
-
 }

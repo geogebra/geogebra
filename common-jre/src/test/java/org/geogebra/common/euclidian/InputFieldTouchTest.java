@@ -16,21 +16,22 @@ public class InputFieldTouchTest {
 
 	private static AppCommon3D app;
 	private static EuclidianView ev;
-	private static EuclidianController ec;
 
 	private GeoInputBox input1;
 	private GeoInputBox input2;
 	private ViewTextField viewTextField = new TextFieldCommonJre(null);
+	private AutoCompleteTextFieldC textField;
+
 	@Before
 	public void setUp() {
 		app = new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
 		ev = app.getActiveEuclidianView();
 		ev.setViewTextField(viewTextField);
-		ec = ev.getEuclidianController();
 
 		input1 = addInputBox("inputbox1");
 		input2 = addInputBox("inputbox2");
+		textField = (AutoCompleteTextFieldC) viewTextField.getTextField();
 	}
 
 	@Test
@@ -38,9 +39,9 @@ public class InputFieldTouchTest {
 		DrawInputBox drawInputBox1 = (DrawInputBox) ev.getDrawableFor(input1);
 		DrawInputBox drawInputBox2 = (DrawInputBox) ev.getDrawableFor(input2);
 		viewTextField.focusTo(drawInputBox1);
-		viewTextField.getTextField().setText("ABC");
+		textField.setText("ABC");
 		viewTextField.focusTo(drawInputBox2);
-		viewTextField.getTextField().setText("DEF");
+		textField.setText("DEF");
 		viewTextField.focusTo(drawInputBox1);
 		Assert.assertEquals("ABC", input1.getText());
 		Assert.assertEquals("DEF", input2.getText());
@@ -50,8 +51,8 @@ public class InputFieldTouchTest {
 	public void applyOnClickOutOfInputBoxTest() {
 		DrawInputBox drawInputBox1 = (DrawInputBox) ev.getDrawableFor(input1);
 		viewTextField.focusTo(drawInputBox1);
-		viewTextField.getTextField().setText("ABC");
-		((AutoCompleteTextFieldC) viewTextField.getTextField()).blur();
+		textField.setText("ABC");
+		textField.blur();
 		Assert.assertEquals("ABC", input1.getText());
 	}
 
@@ -62,5 +63,4 @@ public class InputFieldTouchTest {
 
 		return (GeoInputBox)results[0];
 	}
-
 }
