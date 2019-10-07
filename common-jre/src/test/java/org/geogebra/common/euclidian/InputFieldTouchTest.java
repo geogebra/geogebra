@@ -6,6 +6,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +44,15 @@ public class InputFieldTouchTest {
 		viewTextField.focusTo(drawInputBox1);
 		Assert.assertEquals("ABC", input1.getText());
 		Assert.assertEquals("DEF", input2.getText());
+	}
+
+	@Test
+	public void applyOnClickOutOfInputBoxTest() {
+		DrawInputBox drawInputBox1 = (DrawInputBox) ev.getDrawableFor(input1);
+		viewTextField.focusTo(drawInputBox1);
+		viewTextField.getTextField().setText("ABC");
+		((AutoCompleteTextFieldC) viewTextField.getTextField()).blur();
+		Assert.assertEquals("ABC", input1.getText());
 	}
 
 	private GeoInputBox addInputBox(String name) {

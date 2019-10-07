@@ -101,6 +101,8 @@ public abstract class ViewTextField {
 	}
 
 	public void reset() {
-		getTextField().setUsedForInputBox(null);
+		if (getTextField() != null) {
+			getTextField().setUsedForInputBox(null);
+		}
 	}
 }
