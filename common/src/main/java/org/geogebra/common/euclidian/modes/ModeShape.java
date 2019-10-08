@@ -251,15 +251,15 @@ public class ModeShape {
 		double width = isSquare ? rectangle.getWidth()
 				: ellipse.getBounds().getWidth();
 		if (dragStartPoint.x >= event.getX()) {
-			coords[0] = view.toRealWorldCoordX(dragStartPoint.x - width);
+			coords[0] = dragStartPoint.x - width;
 		} else {
-			coords[0] = view.toRealWorldCoordX(dragStartPoint.x + width);
+			coords[0] = dragStartPoint.x + width;
 		}
 
 		if (dragStartPoint.y >= event.getY()) {
-			coords[1] = view.toRealWorldCoordY(dragStartPoint.y - width);
+			coords[1] = dragStartPoint.y - width;
 		} else {
-			coords[1] = view.toRealWorldCoordY(dragStartPoint.y + width);
+			coords[1] = dragStartPoint.y + width;
 		}
 
 		return coords;
