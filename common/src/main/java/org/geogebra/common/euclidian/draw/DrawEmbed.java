@@ -112,8 +112,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
-		return getBoundingBox() != null
-				&& getBoundingBox() == view.getBoundingBox()
+		return getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()
 				&& getBoundingBox().hit(hitX, hitY, hitThreshold);
 	}
 

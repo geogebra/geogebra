@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
 import org.geogebra.common.euclidian.draw.DrawButton;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -22,16 +23,7 @@ public class HitDetector {
 		this.view = view;
 	}
 
-	/**
-	 * sets the hits of GeoElements whose visual representation is at screen
-	 * coords (x,y). order: points, vectors, lines, conics
-	 *
-	 * @param p
-	 *            clicked point
-	 * @param hitThreshold
-	 *            threshold
-	 */
-	public void setHits(GPoint p, int hitThreshold) {
+	private void setHits(GPoint p, int hitThreshold) {
 		hits.init();
 		if (hitPointOrBoundary == null) {
 			hitPointOrBoundary = new ArrayList<>();
@@ -206,5 +198,32 @@ public class HitDetector {
 
 	public void reset() {
 		hits = new Hits();
+	}
+
+	private void setOnlyHit(Drawable resizedShape) {
+		hits.init();
+		if(resizedShape!= null){
+			hits.add(resizedShape.getGeoElement());
+		}
+	}
+
+	/**
+	 * Update hits based on cursor position and event type
+	 * 
+	 * @param p
+	 *            postion
+	 * @param type
+	 *            event type
+	 */
+	public void setHits(GPoint p, PointerEventType type) {
+		if (view.getBoundingBoxHandlerHit(p, type) != null) {
+			setOnlyHit(view.getEuclidianController().getResizedShape());
+		} else {
+			int capturingThreshold = view.getApplication().getCapturingThreshold(type);
+			setHits(p, capturingThreshold);
+			if (type == PointerEventType.TOUCH && getHits().size() == 0) {
+				setHits(p, capturingThreshold * 3);
+			}
+		}
 	}
 }

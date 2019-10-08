@@ -2170,10 +2170,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void setHits(GPoint p, PointerEventType type) {
-		hitDetector.setHits(p, app.getCapturingThreshold(type));
-		if (type == PointerEventType.TOUCH && getHits().size() == 0) {
-			hitDetector.setHits(p, app.getCapturingThreshold(type) * 3);
-		}
+		hitDetector.setHits(p, type);
 	}
 
 	/**
