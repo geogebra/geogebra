@@ -241,7 +241,6 @@ public class ModeShape {
 		points[2] = invisibleScreenPoint(endPointX, endPointY);
 		points[3] = invisibleScreenPoint(startPointX, endPointY);
 
-
 		view.repaintView();
 		return points;
 	}
