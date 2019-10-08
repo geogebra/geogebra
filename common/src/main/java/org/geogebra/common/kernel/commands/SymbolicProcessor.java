@@ -167,11 +167,10 @@ public class SymbolicProcessor {
 	 */
 	protected ValidExpression extractAssignment(Equation equ, EvalInfo info) {
 		String lhsName = extractLabel(equ, info);
-		if (lhsName !=null) {
+		if (lhsName != null) {
 			ExpressionNode rhs = equ.getRHS();
 			rhs.setLabel(lhsName);
 			return rhs;
-			
 		}
 		return equ;
 	}
