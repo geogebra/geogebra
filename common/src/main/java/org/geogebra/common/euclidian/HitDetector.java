@@ -202,7 +202,7 @@ public class HitDetector {
 
 	private void setOnlyHit(Drawable resizedShape) {
 		hits.init();
-		if(resizedShape!= null){
+		if (resizedShape != null) {
 			hits.add(resizedShape.getGeoElement());
 		}
 	}
