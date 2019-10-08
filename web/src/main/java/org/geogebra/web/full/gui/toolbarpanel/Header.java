@@ -869,7 +869,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	/** Sets focus to Burger menu */
 	public void focusMenu() {
 		if (btnMenu != null) {
-			btnMenu.getElement().focus();
+			Element btnMenuElement = btnMenu.getElement();
+			app.getAppletFrame().getSelectionRegistry().register(btnMenuElement);
+			btnMenuElement.focus();
 		}
 	}
 

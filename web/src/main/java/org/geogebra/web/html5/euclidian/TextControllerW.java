@@ -165,8 +165,13 @@ public class TextControllerW
 			}
 		}
 		editor.show();
-		editor.requestFocus();
+		focusEditor();
 		getView().repaint();
+	}
+
+	private void focusEditor() {
+		app.getAppletFrame().getSelectionRegistry().register(editor.getElement());
+		editor.requestFocus();
 	}
 
 	/**

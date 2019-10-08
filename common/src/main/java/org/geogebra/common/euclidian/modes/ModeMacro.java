@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.selection.SelectionManager;
 import org.geogebra.common.util.AsyncOperation;
 
 import com.himamis.retex.editor.share.util.Unicode;

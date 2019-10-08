@@ -15,7 +15,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.selection.SelectionManager;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

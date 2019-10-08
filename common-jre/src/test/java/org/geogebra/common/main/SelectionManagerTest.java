@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.selection.SelectionManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

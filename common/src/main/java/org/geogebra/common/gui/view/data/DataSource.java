@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.selection.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 
 /**

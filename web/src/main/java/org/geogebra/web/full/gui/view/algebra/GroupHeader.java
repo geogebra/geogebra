@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.selection.SelectionManager;
 
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.FlowPanel;

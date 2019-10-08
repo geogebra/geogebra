@@ -55,6 +55,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.selection.SelectionRegistry;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -4035,5 +4036,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void endDrawRecordingAndLogResults() {
 		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
+	}
+
+	@Override
+	protected SelectionRegistry getSelectionRegistry() {
+		return getAppletFrame().getSelectionRegistry();
 	}
 }

@@ -1,4 +1,4 @@
-package org.geogebra.common.main;
+package org.geogebra.common.main.selection;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,6 +37,9 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.UpdateSelection;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -49,7 +52,7 @@ public class SelectionManager {
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
 	private final Kernel kernel;
-
+	private final SelectionRegistry selectionRegistry;
 	private final ArrayList<UpdateSelection> listeners;
 
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
@@ -89,11 +92,15 @@ public class SelectionManager {
 	/**
 	 * @param kernel
 	 *            kernel
+	 * @param selectionRegistry
+	 * 			  selection registry
 	 * @param listener
 	 *            listener to be notified on selection updates
 	 */
-	public SelectionManager(Kernel kernel, UpdateSelection listener) {
+	public SelectionManager(
+			Kernel kernel, SelectionRegistry selectionRegistry, UpdateSelection listener) {
 		this.kernel = kernel;
+		this.selectionRegistry = selectionRegistry;
 		this.listeners = new ArrayList<>(2);
 		this.listeners.add(listener);
 
@@ -748,6 +755,28 @@ public class SelectionManager {
 	public boolean hasNext(GeoElement geo) {
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 		return tree.size() != 0 && tree.last() != geo;
+	}
+
+	/**
+	 * Selects the selectable element.
+	 * @param selectable The element to be selected.
+	 */
+	public void select(Selectable selectable) {
+		if (selectable.canSelectSelf()) {
+			selectionRegistry.register(selectable);
+			selectable.selectSelf();
+		} else {
+			select(selectable.getGeoElement());
+		}
+	}
+
+	/**
+	 * Selects the element.
+	 * @param element The element to be selected.
+	 */
+	public void select(GeoElement element) {
+		selectionRegistry.register(element);
+		addSelectedGeoForEV(element);
 	}
 
 	/**

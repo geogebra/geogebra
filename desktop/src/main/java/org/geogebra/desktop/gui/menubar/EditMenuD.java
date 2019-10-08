@@ -12,7 +12,7 @@ import javax.swing.event.MenuEvent;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.selection.SelectionManager;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
