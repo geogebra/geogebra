@@ -2782,6 +2782,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	/**
+	 * Enable the full user interface.
+	 */
+	public void enableUseFullGui() {
+		useFullGui = true;
+	}
+
 	public boolean getUseFullGui() {
 		return useFullGui;
 	}
