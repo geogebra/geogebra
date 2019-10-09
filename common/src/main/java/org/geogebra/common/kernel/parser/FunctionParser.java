@@ -1,14 +1,19 @@
 package org.geogebra.common.kernel.parser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -80,12 +85,9 @@ public class FunctionParser {
 		if (!forceCommand) {
 
 			// f(t)=t(t+1)
-			if (kernel.getConstruction()
-					.isRegistredFunctionVariable(funcName)) {
-				ExpressionNode expr = new ExpressionNode(kernel,
-						new Variable(kernel, funcName),
-						Operation.MULTIPLY_OR_FUNCTION,
-						myList.getListElement(0));
+			if (kernel.getConstruction().isRegistredFunctionVariable(funcName)) {
+				ExpressionNode expr = new ExpressionNode(kernel, new Variable(kernel, funcName),
+						Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
 				undecided.add(expr);
 				return expr;
 			}
@@ -124,16 +126,14 @@ public class FunctionParser {
 		}
 
 		if (forceCommand || (geo == null && cell == null)) {
-			Operation op = app.getParserFunctions().get(funcName,
-					myList.size());
+			Operation op = app.getParserFunctions().get(funcName, myList.size());
 			if (op != null) {
 				return buildOpNode(op, myList);
 			}
 
 			// pi(1.3)
 			if (Unicode.PI_STRING.equals(funcName) || "pi".equals(funcName)) {
-				MyDouble pi = new MySpecialDouble(kernel, Math.PI,
-						Unicode.PI_STRING);
+				MyDouble pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
 				return multiplication(pi, undecided, myList, funcName);
 			}
 			// function name does not exist: return command
@@ -147,8 +147,7 @@ public class FunctionParser {
 		// make sure we don't send 0th derivative to CAS
 		if (cell != null && order > 0) {
 
-			return derivativeNode(kernel, cell, order, false,
-					myList.getItem(0));
+			return derivativeNode(kernel, cell, order, false, myList.getItem(0));
 
 		}
 		boolean list = geo != null && geo.isGeoList();
@@ -163,15 +162,13 @@ public class FunctionParser {
 						list ? myList : myList.getListElement(0));
 			}
 			return new ExpressionNode(kernel, cell,
-					list ? Operation.ELEMENT_OF : Operation.FUNCTION_NVAR,
-					myList);
+					list ? Operation.ELEMENT_OF : Operation.FUNCTION_NVAR, myList);
 
 		}
 		// create variable object for label to make sure
 		// to handle lables like $A$1 correctly and keep the expression
 		Variable geoVar = new Variable(kernel, label);
-		ExpressionValue geoExp = geoVar
-				.resolveAsExpressionValue(SymbolicMode.NONE);
+		ExpressionValue geoExp = geoVar.resolveAsExpressionValue(SymbolicMode.NONE);
 		// numer of arguments
 
 		if (order > 0) { // derivative
@@ -179,32 +176,26 @@ public class FunctionParser {
 			if (hasDerivative(geo)) {// function
 
 				kernel.getConstruction()
-						.registerFunctionVariable(((VarString) geo)
-								.getFunctionVariables()[0].toString(
-										StringTemplate.defaultTemplate));
+						.registerFunctionVariable(((VarString) geo).getFunctionVariables()[0]
+								.toString(StringTemplate.defaultTemplate));
 
-				return derivativeNode(kernel, geoExp, order,
-						geo.isGeoCurveCartesian(), myList.getListElement(0));
+				return derivativeNode(kernel, geoExp, order, geo.isGeoCurveCartesian(),
+						myList.getListElement(0));
 			}
-			throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected,
-					funcName);
+			throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected, funcName);
 
 		}
 		if (geo instanceof GeoFunctionNVar || geo instanceof GeoSymbolic) {
-			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR,
-					myList);
+			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
 		} else if (geo instanceof Evaluatable) {// function
 			if (geo instanceof ParametricCurve
 					&& ((ParametricCurve) geo).getFunctionVariables() != null) {
 				kernel.getConstruction()
-						.registerFunctionVariable(((ParametricCurve) geo)
-								.getFunctionVariables()[0].toString(
-										StringTemplate.defaultTemplate));
+						.registerFunctionVariable(((ParametricCurve) geo).getFunctionVariables()[0]
+								.toString(StringTemplate.defaultTemplate));
 			}
-			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION,
-					myList.getListElement(0));
-		} else if (geo.isGeoCurveCartesian()
-				|| (geo.isGeoLine() && geo.isGeoElement3D())) {
+			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION, myList.getListElement(0));
+		} else if (geo.isGeoCurveCartesian() || (geo.isGeoLine() && geo.isGeoElement3D())) {
 			// vector function
 			// at this point we have eg myList={{1,2}}, so we need first element
 			// of myList
@@ -212,17 +203,14 @@ public class FunctionParser {
 					myList.getListElement(0));
 		} else if (geo.isGeoSurfaceCartesian()) {
 			ExpressionValue vecArg = myList;
-			if (myList.size() == 1
-					&& !(myList.getItem(0) instanceof ListValue)) {
+			if (myList.size() == 1 && !(myList.getItem(0) instanceof ListValue)) {
 				vecArg = myList.getItem(0);
 			}
-			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION,
-					vecArg);
+			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION, vecArg);
 		}
 		// list1(1) to get first element of list1 #1115
 		else if (list) {
-			return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF,
-					myList);
+			return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList);
 			// String [] str = { "FunctionExpected", funcName };
 			// throw new MyParseError(loc, str);
 		}
@@ -233,15 +221,12 @@ public class FunctionParser {
 	}
 
 	private static boolean hasDerivative(GeoElement geo) {
-		return geo.isGeoFunction() || geo.isGeoCurveCartesian()
-				|| (geo instanceof GeoSymbolic);
+		return geo.isGeoFunction() || geo.isGeoCurveCartesian() || (geo instanceof GeoSymbolic);
 	}
 
 	private ExpressionNode multiplication(ExpressionValue geoExp,
-			ArrayList<ExpressionNode> undecided, MyList myList,
-			String funcName) {
-		ExpressionNode expr = new ExpressionNode(kernel, geoExp,
-				Operation.MULTIPLY_OR_FUNCTION,
+			ArrayList<ExpressionNode> undecided, MyList myList, String funcName) {
+		ExpressionNode expr = new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION,
 				toFunctionArgument(myList, funcName));
 		undecided.add(expr);
 		return expr;
@@ -275,15 +260,13 @@ public class FunctionParser {
 		case 1:
 			return list.getListElement(0);
 		case 2:
-			return new MyVecNode(kernel, list.getListElement(0),
-					list.getListElement(1));
+			return new MyVecNode(kernel, list.getListElement(0), list.getListElement(1));
 		case 3:
-			return new MyVec3DNode(kernel, list.getListElement(0),
-					list.getListElement(1), list.getListElement(2));
+			return new MyVec3DNode(kernel, list.getListElement(0), list.getListElement(1),
+					list.getListElement(2));
 
 		}
-		throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected,
-				funcName);
+		throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected, funcName);
 
 	}
 
@@ -299,21 +282,17 @@ public class FunctionParser {
 		case 1:
 			return new ExpressionNode(kernel, list.getListElement(0), op, null);
 		case 2:
-			return new ExpressionNode(kernel, list.getListElement(0), op,
-					list.getListElement(1));
+			return new ExpressionNode(kernel, list.getListElement(0), op, list.getListElement(1));
 		// for beta regularized
 		case 3:
 			return new ExpressionNode(kernel,
-					new MyNumberPair(kernel, list.getListElement(0),
-							list.getListElement(1)),
-					op, list.getListElement(2));
+					new MyNumberPair(kernel, list.getListElement(0), list.getListElement(1)), op,
+					list.getListElement(2));
 		// for sum (from CAS)
 		case 4:
 			return new ExpressionNode(kernel,
-					new MyNumberPair(kernel, list.getListElement(0),
-							list.getListElement(1)),
-					op, new MyNumberPair(kernel, list.getListElement(2),
-							list.getListElement(3)));
+					new MyNumberPair(kernel, list.getListElement(0), list.getListElement(1)), op,
+					new MyNumberPair(kernel, list.getListElement(2), list.getListElement(3)));
 		default:
 			return null;
 		}
@@ -332,18 +311,77 @@ public class FunctionParser {
 	 *            function argument
 	 * @return expression for geo'''(functionArgument)
 	 */
-	public static ExpressionNode derivativeNode(
-			Kernel kernel,
-			ExpressionValue geo,
-			int order,
-			boolean curve,
-			ExpressionValue functionArgument) {
+	public static ExpressionNode derivativeNode(Kernel kernel, ExpressionValue geo, int order,
+			boolean curve, ExpressionValue functionArgument) {
 
-		ExpressionValue left =
-				new ExpressionNode(
-						kernel,
-						geo, Operation.DERIVATIVE, new MyDouble(kernel, order));
+		ExpressionValue left = new ExpressionNode(kernel, geo, Operation.DERIVATIVE,
+				new MyDouble(kernel, order));
 		Operation operation = curve ? Operation.VEC_FUNCTION : Operation.FUNCTION;
 		return new ExpressionNode(kernel, left, operation, functionArgument);
+	}
+
+	public ExpressionNode assignment(ExpressionNode rhs0, String funLabel, List<String> localVars,
+			ExpressionValue cond) {
+		ExpressionNode rhs = rhs0;
+		// allow f(y) in CAS but not in GeoGebra
+		// if (!ExternalCASParsing && !GeoGebraCASParsing &&
+		// "y".equals(varName.image))
+		// throw new MyError(app, "InvalidInput");
+		if (cond != null) {
+			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
+		}
+
+		// command without variables: return expressionnode
+		// only check for function variables outside of command, eg
+		// Derivative[f(x)]+x #4533
+		if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable(null)) {
+			rhs.setLabel(funLabel);
+			return rhs;
+		}
+
+		// function: wrap function in ExpressionNode
+		// number of vars
+		int n = localVars.size();
+		Operation op = app.getParserFunctions().get(funLabel, n);
+		if (op != null) {
+			if (n == 1) {
+				return new Equation(kernel,
+						new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs)
+								.wrap();
+			}
+			MyList vars = new MyList(kernel, n);
+			for (int i = 0; i < n; i++) {
+				FunctionVariable funVar = new FunctionVariable(kernel, localVars.get(i));
+				vars.addListElement(funVar);
+			}
+			return new Equation(kernel, buildOpNode(op, vars), rhs).wrap();
+		}
+		GeoElement existing = kernel.lookupLabel(funLabel);
+		if (existing instanceof GeoSymbolic) {
+			ExpressionNode lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION,
+					new FunctionVariable(kernel, localVars.get(0)));
+			return new Equation(kernel, lhs, rhs).wrap();
+		}
+		FunctionVariable[] funVar = new FunctionVariable[n];
+		for (int i = 0; i < n; i++) {
+			funVar[i] = new FunctionVariable(kernel, localVars.get(i));
+		}
+
+		switch (n) {
+		case 1: // single variable function
+			Function fun = new Function(rhs, funVar[0]);
+			fun.setLabel(funLabel);
+			rhs = new ExpressionNode(kernel, fun);
+			break;
+
+		default: // multi variable function
+			FunctionNVar funn = new FunctionNVar(rhs, funVar);
+			funn.setLabel(funLabel);
+			rhs = new ExpressionNode(kernel, funn);
+			break;
+		}
+
+		rhs.setLabel(funLabel);
+		return rhs;
 	}
 }

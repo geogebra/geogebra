@@ -148,11 +148,19 @@ public class AlgebraTestHelper {
 			AlgebraProcessor algebraProcessor,
 			StringTemplate template) {
 		GeoElementND[] actualResults = getResult(input, algebraProcessor);
-		assertThat(actualResults[0], validResultCombinations, template);
+		assertOneOf(actualResults[0], validResultCombinations, template);
 	}
 
-	private static void assertThat(GeoElementND actualResult, String[] validResultCombinations,
-								   StringTemplate template) {
+	/**
+	 * @param actualResult
+	 *            computation result
+	 * @param validResultCombinations
+	 *            valid results
+	 * @param template
+	 *            serialization template
+	 */
+	public static void assertOneOf(GeoElementND actualResult,
+			String[] validResultCombinations, StringTemplate template) {
 		String actualResultString = actualResult.toValueString(template);
 		MultipleResultsMatcher validResultsMatcher =
 				new MultipleResultsMatcher(validResultCombinations);
@@ -176,7 +184,7 @@ public class AlgebraTestHelper {
 		GeoElementND[] actualResults = getResult(input, algebraProcessor);
 		Assert.assertEquals(
 				"The number of results doesn't match the number of the expected results:",
-				validResults.length, validResults.length);
+				validResults.length, actualResults.length);
 		assertThat(actualResults, validResults, template);
 	}
 
@@ -184,12 +192,12 @@ public class AlgebraTestHelper {
 								   StringTemplate template) {
 		for (int i = 0; i < validResults.length; i++) {
 			String[] validResultCombinations = validResults[i];
-			assertThat(actualResults[i], validResultCombinations, template);
+			assertOneOf(actualResults[i], validResultCombinations, template);
 		}
 	}
 
 	/**
-	 * @param s
+	 * @param input
 	 *            input
 	 * @param expected
 	 *            expected output
@@ -198,9 +206,9 @@ public class AlgebraTestHelper {
 	 * @param tpl
 	 *            template
 	 */
-	public static void testSyntaxSingle(String s, String[] expected,
+	public static void testSyntaxSingle(String input, String[] expected,
 			AlgebraProcessor proc, StringTemplate tpl) {
-		testSyntaxSingle(s, getMatchers(expected), proc, tpl);
+		testSyntaxSingle(input, getMatchers(expected), proc, tpl);
 	}
 
 	public static List<Matcher<String>> getMatchers(String... expected) {
