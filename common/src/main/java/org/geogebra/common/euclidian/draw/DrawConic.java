@@ -1815,9 +1815,9 @@ public class DrawConic extends SetDrawable implements Previewable {
 				return false;
 			}
 		}
-		return (strokedShape.intersects(hitX - hitThreshold,
-				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold))
-		;
+
+		return strokedShape.intersects(hitX - hitThreshold,
+				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override
