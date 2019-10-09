@@ -98,7 +98,7 @@ public abstract class ScriptManager implements EventListener {
 			String fn = listener.getText();
 			GeoElement geo = evt.target;
 			if (geo == null) {
-				callListener(fn, null, null);
+				callListener(fn);
 				return;
 			}
 			String label = geo.getLabel(StringTemplate.defaultTemplate);
@@ -106,14 +106,14 @@ public abstract class ScriptManager implements EventListener {
 				callListener(fn, geo.getOldLabel(), label);
 				return;
 			} else if (evt.argument == null) {
-				callListener(fn, label, null);
+				callListener(fn, label);
 				return;
 			}
-			callListener(fn, evt.argument, null);
+			callListener(fn, evt.argument);
 		}
 	}
 
-	protected void callListener(String fn, String arg0, String arg1) {
+	protected void callListener(String fn, String... args) {
 		// implemented in web and desktop
 	}
 
