@@ -3,12 +3,13 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh label: 'clean', script: './gradlew clean'
+                withCredentials([string(credentialsId: 'materials.token', variable: 'TOKEN')]){
                 sh label: 'build web', script: './gradlew :web:compileGwt :web:symlinkIntoWar :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
-                sh label: 'test', script: './gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test'
+                sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test -Pmaterials.token=${TOKEN}"
                 sh label: 'static analysis', script: './gradlew checkPmd :editor-base:spotbugsMain :web:spotbugsMain :desktop:spotbugsMain :ggbjdk:spotbugsMain :common-jre:spotbugsMain --max-workers=1'
                 sh label: 'spotbugs common', script: './gradlew :common:spotbugsMain'
                 sh label: 'code style', script: './gradlew :web:cpdCheck checkAllStyles'
+                }
             }
         }
         stage('reports') {

@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -165,7 +166,10 @@ public class MaterialRequest implements Request {
 			this.taskJSON.put("filters", this.filtersJSON);
 			this.taskJSON.put("order", this.orderJSON);
 			this.taskJSON.put("limit", this.limitJSON);
-			if (this.model != null && model.isLoggedIn()) {
+			// user may be logged in (e.g. Mebis), but have no token for
+			// Materials
+			if (this.model != null && model.isLoggedIn()
+					&& !StringUtil.empty(model.getLoginToken())) {
 				JSONObject login = new JSONObject();
 				login.put("-token", model.getLoginToken());
 				this.apiJSON.put("login", login);
