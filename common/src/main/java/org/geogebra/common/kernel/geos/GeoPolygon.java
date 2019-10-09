@@ -18,8 +18,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -27,6 +25,8 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAnglePolygon;
 import org.geogebra.common.kernel.algos.AlgoAnglePolygonND;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -2036,7 +2036,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		sb.append("\t<isMask val=\"true\"/>\n");
 	}
-	
+
 	/**
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)
@@ -2770,7 +2770,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setShowLineProperties(false);
 		setFillable(false);
 		setTraceable(false);
-		((AlgoPolygon) getParentAlgorithm()).getPoly().initLabels(null);
 	}
 
 	/**
@@ -2865,5 +2864,4 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setShowLineProperties(boolean showLineProperties) {
 		this.showLineProperties = showLineProperties;
 	}
-
 }

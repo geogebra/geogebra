@@ -297,7 +297,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-		Log.debug("tf focus");
 		if (isComboboxFocused()) {
 
 			Log.error("isComboboxFocused!");
@@ -317,8 +316,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
-		Log.debug("tf click");
-		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
 		return getView().textfieldClicked(x, y, type);
 	}
 
