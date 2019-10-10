@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
  * @author csilla
@@ -459,6 +460,9 @@ public class ModeShape {
 		GeoPolygon polygon = (GeoPolygon) algo.getOutput(0);
 		hideSegments(polygon);
 		polygon.setIsMask(true);
+		polygon.setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
+		polygon.setObjColor(GeoGebraColorConstants.MEBIS_MASK);
+
 	}
 
 	/**

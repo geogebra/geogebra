@@ -880,7 +880,8 @@ public final class EuclidianConstants {
 			return "Circle";
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 			return "Ellipse";
-
+		case EuclidianConstants.MODE_MASK:
+				return "MaskTool";
 		case EuclidianConstants.MODE_ERASER:
 			return "Eraser";
 		case EuclidianConstants.MODE_HIGHLIGHTER:
@@ -912,8 +913,6 @@ public final class EuclidianConstants {
 			return "Select";
 		case EuclidianConstants.MODE_SELECT_MOW:
 			return "Select";
-		case EuclidianConstants.MODE_MASK:
-			return "Mask";
 
 		default:
 			Log.error("Unknown mode " + mode);
