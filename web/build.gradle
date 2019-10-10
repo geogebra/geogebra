@@ -96,7 +96,7 @@ gwt {
         modules = project.getProperty("gmodule").split(",")
     } else {
         modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
-          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin', 'org.geogebra.web.Solver']
+          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
     }
     
     devModules devModule
