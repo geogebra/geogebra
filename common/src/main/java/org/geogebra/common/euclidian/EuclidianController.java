@@ -12871,6 +12871,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		BoundingBox boundingBox = new BoundingBox(rect, false,
 				hasRotationHandler);
 		boundingBox.setFixed(fixed);
+		boundingBox.setColor(app.getPrimaryColor());
 		view.setBoundingBox(boundingBox);
 	}
 
