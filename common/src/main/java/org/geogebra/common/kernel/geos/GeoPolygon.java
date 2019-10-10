@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -2764,8 +2763,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		this.isShape = true;
 		setLabelVisible(false);
 		setAlphaValue(1);
-		setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
-		setObjColor(GeoGebraColorConstants.MEBIS_MASK);
 		setLineThickness(1);
 		setShowLineProperties(false);
 		setFillable(false);

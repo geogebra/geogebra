@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 
 /**
  * Mouse handlers for shape tools
@@ -403,6 +404,8 @@ public class ModeShape {
 		GeoPolygon polygon = algo.getPoly();
 		hideSegments(polygon);
 		polygon.setIsMask(true);
+		polygon.setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
+		polygon.setObjColor(GeoGebraColorConstants.MEBIS_MASK);
 		polygon.initLabels(null);
 	}
 
