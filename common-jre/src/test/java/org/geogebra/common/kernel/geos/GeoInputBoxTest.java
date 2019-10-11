@@ -142,4 +142,18 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("?", inputBox.getText());
 	}
+
+	@Test
+	public void testCanBeSymbolicForNVarFunction() {
+		add("f(x, y) = x + y");
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
+
+	@Test
+	public void testCanBeSymbolicForBooleanFunction() {
+		add("f(x, y) = x == y");
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
 }

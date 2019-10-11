@@ -114,10 +114,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			} else {
 				linkedGeoText = numeric.toValueString(tpl);
 			}
-		} else if (isSymbolicMode()) {
-			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		} else {
-			linkedGeoText = linkedGeo.getValueForInputBar();
+			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
 		if ("?".equals(linkedGeoText)) {
@@ -148,7 +146,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		} else if (isSymbolicMode()) {
 			linkedGeoText = toLaTex(linkedGeo);
 		} else {
-			linkedGeoText = linkedGeo.getValueForInputBar();
+			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
 		if ("?".equals(linkedGeoText)) {
@@ -444,8 +442,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return if linked object can be a symbolic one.
 	 */
 	public boolean canBeSymbolic() {
-		return canBeSymbolicNumber() || linkedGeo.isGeoFunction()
+		return canBeSymbolicNumber() || canBeSymbolicFunction()
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector();
+	}
+
+	private boolean canBeSymbolicFunction() {
+		if (linkedGeo instanceof GeoFunction) {
+			GeoFunction function = (GeoFunction) linkedGeo;
+			return function.isGeoFunction() || function.isBooleanFunction();
+		}
+		return linkedGeo instanceof GeoFunctionNVar;
 	}
 
 	private boolean canBeSymbolicNumber() {
