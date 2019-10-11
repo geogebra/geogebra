@@ -2158,6 +2158,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Manual": "\u4f7f\u7528\u624b\u518a",
     "MarginOfError": "\u8aa4\u5dee\u754c\u9650",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "\u6578\u5b78\u51fd\u6578",
     "Matrices": "\u77e9\u9663",
     "Matrix": "\u77e9\u9663",

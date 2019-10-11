@@ -2158,6 +2158,7 @@ __GGB__keysVar["am"].menu = {
     "Manual": "\u1218\u121d\u122a\u12eb \u1218\u133d\u1210\u134d",
     "MarginOfError": "\u1285\u12f3\u130d \u1235\u1215\u1270\u1275",
     "MarginOfError.short": "\u12e8\u1270\u1233\u1233\u1270 \u12a0\u1235\u1270\u12eb\u12e8\u1275",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "\u12e8\u1212\u1233\u1265 \u1270\u130d\u1263\u122e\u127d",
     "Matrices": "\u121b\u1275\u122a\u12ad\u1236\u127d",
     "Matrix": "\u121b\u1275\u122a\u12ad\u1235",

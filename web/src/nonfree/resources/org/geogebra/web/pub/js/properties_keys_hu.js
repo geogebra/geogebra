@@ -2158,6 +2158,7 @@ __GGB__keysVar["hu"].menu = {
     "Manual": "Haszn\xe1lati \xfatmutat\xf3",
     "MarginOfError": "Hibakorl\xe1t",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematikai f\xfcggv\xe9nyek",
     "Matrices": "M\xe1trixok",
     "Matrix": "M\xe1trix",

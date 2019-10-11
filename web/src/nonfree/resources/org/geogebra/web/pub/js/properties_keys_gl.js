@@ -2158,6 +2158,7 @@ __GGB__keysVar["gl"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Marxe de erro",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Funci\xf3ns matem\xe1ticas",
     "Matrices": "Matrices",
     "Matrix": "Matriz",

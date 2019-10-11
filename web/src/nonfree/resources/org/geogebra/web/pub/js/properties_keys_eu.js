@@ -2158,6 +2158,7 @@ __GGB__keysVar["eu"].menu = {
     "Manual": "Gidaliburua",
     "MarginOfError": "Errore-Marjina",
     "MarginOfError.short": "EM",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Funtzio Matematikoak",
     "Matrices": "Matrizeak",
     "Matrix": "Matrizea",

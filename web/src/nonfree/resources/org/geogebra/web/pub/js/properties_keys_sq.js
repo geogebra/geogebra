@@ -2158,6 +2158,7 @@ __GGB__keysVar["sq"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Kufij Gabimi",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Funksione Matematikore",
     "Matrices": "Matrica",
     "Matrix": "Matrice",

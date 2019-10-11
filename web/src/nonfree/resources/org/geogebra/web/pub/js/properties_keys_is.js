@@ -2158,6 +2158,7 @@ __GGB__keysVar["is"].menu = {
     "Manual": "Handb\xf3k",
     "MarginOfError": "Villum\xf6rk",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "St\xe6r\xf0fr\xe6\xf0ileg f\xf6ll",
     "Matrices": "Fylki",
     "Matrix": "Fylki",

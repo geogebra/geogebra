@@ -2158,6 +2158,7 @@ __GGB__keysVar["sk"].menu = {
     "Manual": "Manu\xe1l",
     "MarginOfError": "Tolerancia ch\xfdb",
     "MarginOfError.short": "TCh",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematick\xe9 funkcie",
     "Matrices": "Matice",
     "Matrix": "Matica",

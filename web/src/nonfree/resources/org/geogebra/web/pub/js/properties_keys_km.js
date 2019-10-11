@@ -2158,6 +2158,7 @@ __GGB__keysVar["km"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Margin of Error",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Mathematical Functions",
     "Matrices": "Matrices",
     "Matrix": "Matrix",

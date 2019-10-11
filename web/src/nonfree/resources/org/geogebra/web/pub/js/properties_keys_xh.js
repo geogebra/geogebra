@@ -2158,6 +2158,7 @@ __GGB__keysVar["xh"].menu = {
     "Manual": "iManyuwali",
     "MarginOfError": "Amathuba eMpazamo",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "IiFankshini zeziBalo",
     "Matrices": "iiMeytriksi",
     "Matrix": "iMeytriksi",

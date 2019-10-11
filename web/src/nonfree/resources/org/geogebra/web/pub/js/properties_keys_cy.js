@@ -2158,6 +2158,7 @@ __GGB__keysVar["cy"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Cyfwng Cyfeiliornad",
     "MarginOfError.short": "CC",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Ffwythiannau Mathemategol",
     "Matrices": "Matrycsau",
     "Matrix": "Matrics",

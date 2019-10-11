@@ -2158,6 +2158,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Margem de Erro (ME)",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Fun\xe7\xf5es Predefinidas",
     "Matrices": "Matrizes",
     "Matrix": "Matriz",

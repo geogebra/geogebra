@@ -2158,6 +2158,7 @@ __GGB__keysVar["tr"].menu = {
     "Manual": "El Kitab\u0131",
     "MarginOfError": "Hata Pay\u0131",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematiksel Fonksiyonlar",
     "Matrices": "Matrisler",
     "Matrix": "Matris",

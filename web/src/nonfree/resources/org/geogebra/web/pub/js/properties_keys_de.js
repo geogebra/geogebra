@@ -2158,6 +2158,7 @@ __GGB__keysVar["de"].menu = {
     "Manual": "Handbuch",
     "MarginOfError": "Fehlerabweichung",
     "MarginOfError.short": "Fehlerabweichung",
+    "MaskTool": "Abdecken",
     "MathematicalFunctions": "Mathematische Funktionen",
     "Matrices": "Matrizen",
     "Matrix": "Matrix",

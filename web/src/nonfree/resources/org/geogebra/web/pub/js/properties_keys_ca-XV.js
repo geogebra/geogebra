@@ -2158,6 +2158,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Marge d\u2019error",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Funcions matem\xe0tiques",
     "Matrices": "Matrius",
     "Matrix": "Matriu",

@@ -2158,6 +2158,7 @@ __GGB__keysVar["fi"].menu = {
     "Manual": "K\xe4ytt\xf6ohje",
     "MarginOfError": "Virhemarginaali",
     "MarginOfError.short": "VM",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matemaattiset funktiot",
     "Matrices": "Matriisit",
     "Matrix": "Matriisi",

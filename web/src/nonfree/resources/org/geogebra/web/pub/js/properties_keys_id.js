@@ -2158,6 +2158,7 @@ __GGB__keysVar["id"].menu = {
     "Manual": "Petujuk",
     "MarginOfError": "Margin Kesalahan",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Fungsi Matematik",
     "Matrices": "Matriks",
     "Matrix": "Matriks",

@@ -2158,6 +2158,7 @@ __GGB__keysVar["lt"].menu = {
     "Manual": "Vartotojo vadovas",
     "MarginOfError": "Klaid\u0173 para\u0161t\u0117",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematin\u0117s funkcijos",
     "Matrices": "Matricos",
     "Matrix": "Matrica",

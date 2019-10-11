@@ -2158,6 +2158,7 @@ __GGB__keysVar["nn"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Feilmargin",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematiske funksjonar",
     "Matrices": "Matriser",
     "Matrix": "Matrise",

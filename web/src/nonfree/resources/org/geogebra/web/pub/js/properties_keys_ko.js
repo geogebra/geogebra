@@ -2158,6 +2158,7 @@ __GGB__keysVar["ko"].menu = {
     "Manual": "\ub9e4\ub274\uc5bc",
     "MarginOfError": "\uc624\ucc28\uc758 \ud55c\uacc4",
     "MarginOfError.short": "\uc624\ucc28\uc758 \ud55c\uacc4",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "\uc218\ud559 \ud568\uc218",
     "Matrices": "\ud589\ub82c",
     "Matrix": "\ud589\ub82c",

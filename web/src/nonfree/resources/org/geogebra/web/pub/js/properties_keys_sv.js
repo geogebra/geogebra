@@ -2158,6 +2158,7 @@ __GGB__keysVar["sv"].menu = {
     "Manual": "Anv\xe4ndarhandbok",
     "MarginOfError": "Felmarginal",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematiska funktioner",
     "Matrices": "Matriser",
     "Matrix": "Matris",

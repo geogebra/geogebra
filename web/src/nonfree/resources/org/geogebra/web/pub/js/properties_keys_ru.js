@@ -2158,6 +2158,7 @@ __GGB__keysVar["ru"].menu = {
     "Manual": "\u0412\u0440\u0443\u0447\u043d\u0443\u044e",
     "MarginOfError": "\u041f\u0440\u0435\u0434\u0435\u043b \u043e\u0448\u0438\u0431\u043a\u0438",
     "MarginOfError.short": "\u041f\u041f",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "\u041c\u0430\u0442\u0435\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u0438",
     "Matrices": "\u041c\u0430\u0442\u0440\u0438\u0446\u044b",
     "Matrix": "\u041c\u0430\u0442\u0440\u0438\u0446\u0430",

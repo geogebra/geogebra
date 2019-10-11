@@ -2158,6 +2158,7 @@ __GGB__keysVar["ta"].menu = {
     "Manual": "Manual",
     "MarginOfError": "Margin of Error",
     "MarginOfError.short": "\u0bb5\u0bb4\u0bc1\u0b95\u0bcd\u0b95\u0bbe\u0b9f\u0bcd\u0b9f\u0bc8",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "\u0b95\u0ba3\u0b95\u0bcd\u0b95\u0bc1 \u0b9a\u0bc6\u0baf\u0bb2\u0bcd\u0baa\u0bbe\u0b9f\u0bc1\u0b95\u0bb3\u0bcd",
     "Matrices": "\u0b85\u0ba3\u0bbf\u0b95\u0bb3\u0bcd",
     "Matrix": "\u0b85\u0ba3\u0bbf",

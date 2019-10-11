@@ -2158,6 +2158,7 @@ __GGB__keysVar["uz"].menu = {
     "Manual": "Qo'llanma",
     "MarginOfError": "Margin of Error",
     "MarginOfError.short": "ME",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matematik funksiyalar",
     "Matrices": "Matritsalar",
     "Matrix": "Matritsa",

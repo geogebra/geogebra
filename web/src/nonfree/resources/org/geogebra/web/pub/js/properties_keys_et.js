@@ -2158,6 +2158,7 @@ __GGB__keysVar["et"].menu = {
     "Manual": "Manuaal",
     "MarginOfError": "Vea \xfclemm\xe4\xe4r",
     "MarginOfError.short": "V\xdc",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matemaatilised funktsioonid",
     "Matrices": "Maatriksid",
     "Matrix": "Maatriks",

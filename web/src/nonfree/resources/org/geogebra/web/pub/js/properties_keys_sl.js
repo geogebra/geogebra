@@ -2158,6 +2158,7 @@ __GGB__keysVar["sl"].menu = {
     "Manual": "Priro\u010dnik",
     "MarginOfError": "Meja napake",
     "MarginOfError.short": "Mn",
+    "MaskTool": "Mask",
     "MathematicalFunctions": "Matemati\u010dne funkcije",
     "Matrices": "Matrike",
     "Matrix": "Matrika",
