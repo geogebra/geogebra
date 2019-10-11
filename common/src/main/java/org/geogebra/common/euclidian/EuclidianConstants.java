@@ -881,7 +881,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 			return "Ellipse";
 		case EuclidianConstants.MODE_MASK:
-				return "MaskTool";
+			return "MaskTool";
 		case EuclidianConstants.MODE_ERASER:
 			return "Eraser";
 		case EuclidianConstants.MODE_HIGHLIGHTER:
