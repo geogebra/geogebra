@@ -48,7 +48,7 @@ import org.geogebra.web.full.gui.inputbar.HasHelpButton;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
-import org.geogebra.web.full.gui.inputfield.InputSuggestions;
+import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
@@ -1462,11 +1462,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public boolean isForCAS() {
-		return false;
-	}
-
-	@Override
 	public boolean needsAutofocus() {
 		return true;
 	}
@@ -1699,7 +1694,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean sv) {
+	public void setFocus(boolean focus, boolean scheduled) {
 		if (focus) {
 			if (app.isUnbundled() && app.isMenuShowing()) {
 				app.toggleMenu();
@@ -1756,11 +1751,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return "";
 		}
 		return mf.getText();
-	}
-
-	@Override
-	public void onEnter(final boolean keepFocus) {
-		getLatexController().onEnter(keepFocus, false);
 	}
 
 	@Override
@@ -1845,7 +1835,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	/**
 	 * @return suggestions model
 	 */
-	InputSuggestions getInputSuggestions() {
+	MathFieldInputSuggestions getInputSuggestions() {
 		return getLatexController().getInputSuggestions();
 	}
 

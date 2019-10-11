@@ -781,12 +781,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getValueForInputBar() {
-		StringTemplate tpl = StringTemplate.editTemplate;
-
-		// copy into text field
-		final String ret = toOutputValueString(tpl);
-
-		return ret;
+		return toOutputValueString(StringTemplate.editTemplate);
 	}
 
 	/**

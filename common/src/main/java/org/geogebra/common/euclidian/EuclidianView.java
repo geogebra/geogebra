@@ -44,13 +44,12 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -5604,18 +5603,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param box
-	 *            box to be added
-	 */
-	public abstract void add(GBox box);
-
-	/**
-	 * @param box
-	 *            box to be removed
-	 */
-	public abstract void remove(GBox box);
-
-	/**
 	 * Initializes basic properties of this view
 	 * 
 	 * @param repaint
@@ -6276,8 +6263,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            input box
 	 */
 	public void focusTextField(GeoInputBox inputBox) {
-		if (viewTextField != null) {
-			viewTextField.focusTo(inputBox);
+		DrawableND d = getDrawableFor(inputBox);
+		if (d != null) {
+			DrawInputBox drawInputBox = (DrawInputBox) d;
+			if (inputBox.isSymbolicMode()) {
+				drawInputBox.attachMathField();
+			} else if (viewTextField != null) {
+				viewTextField.focusTo(drawInputBox);
+			}
 		}
 	}
 
@@ -6304,8 +6297,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		getTextField().setSelection(0, getTextField().getText().length());
 	}
 
-	public GBox getBoxForTextField() {
-		return viewTextField == null ? null : viewTextField.getBox();
+	public ViewTextField getViewTextField() {
+		return viewTextField;
+	}
+
+	public void setViewTextField(ViewTextField viewTextField) {
+		this.viewTextField = viewTextField;
 	}
 
 	/**
@@ -6328,6 +6325,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public NumberFormatAdapter getAxisNumberFormat(int i) {
 		return axesNumberFormat[i];
+	}
+
+	protected void resetTextField() {
+		if (viewTextField == null) {
+			return;
+		}
+
+		viewTextField.reset();
 	}
 
 	/**

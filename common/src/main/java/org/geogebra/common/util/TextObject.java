@@ -1,13 +1,29 @@
 package org.geogebra.common.util;
 
+/**
+ * Component that supports text editing
+ */
 public interface TextObject {
+	/**
+	 * @return editable content
+	 */
 	String getText();
 
-	void setText(String s);
+	/**
+	 * @param text
+	 *            editable content
+	 */
+	void setText(String text);
 
-	void setColumns(int fieldWidth);
+	/**
+	 * @param visible
+	 *            whether this should be visible
+	 */
+	void setVisible(boolean visible);
 
-	void setVisible(boolean b);
-
-	void setEditable(boolean b);
+	/**
+	 * @param editable
+	 *            whether this can be edited
+	 */
+	void setEditable(boolean editable);
 }

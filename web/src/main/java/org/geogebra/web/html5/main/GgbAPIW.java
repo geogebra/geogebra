@@ -1401,10 +1401,11 @@ public class GgbAPIW extends GgbAPI {
 	 *            whether to show UI when token is invalid
 	 */
 	public void login(String token, boolean showUI) {
-		if (showUI && (StringUtil.empty(token) || StringUtil.isNaN(token))) {
+		String normalizedToken = StringUtil.isNaN(token) ? "" : token;
+		if (showUI && StringUtil.empty(normalizedToken)) {
 			app.getLoginOperation().showLoginDialog();
 		} else {
-			login(token);
+			login(normalizedToken);
 		}
 	}
 

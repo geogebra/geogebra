@@ -1,19 +1,17 @@
 package org.geogebra.common.main.exam;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.jre.headless.AppCommon;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ExamEventsTest {
+public class ExamEventsTest extends BaseUnitTest {
 
 	private ExamEnvironment exam;
 	
 	@Before
-	public void setup() {
-		AppCommon app = BaseUnitTest.createAppCommon();
-		exam = new ExamEnvironment(app);
+	public void setupExam() {
+		exam = new ExamEnvironment(getApp());
 	}
 
 	@Test

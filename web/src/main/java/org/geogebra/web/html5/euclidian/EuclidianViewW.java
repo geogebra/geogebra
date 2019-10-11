@@ -22,7 +22,6 @@ import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -48,7 +47,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -1141,6 +1139,7 @@ public class EuclidianViewW extends EuclidianView implements
 			this.inFocus = true;
 			if (getCanvasElement() != null) {
 				this.appW.focusGained(this, getCanvasElement());
+				resetTextField();
 			}
 		}
 	}
@@ -1318,17 +1317,10 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void add(GBox box) {
+	public void add(Widget box, GPoint position) {
 		if (evPanel != null) {
-			evPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
-			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
-		}
-	}
-
-	@Override
-	public void remove(GBox box) {
-		if (evPanel != null) {
-			evPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+			evPanel.getAbsolutePanel().add(box,
+					position.getX(), position.getY());
 		}
 	}
 

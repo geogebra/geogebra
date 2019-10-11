@@ -23,11 +23,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		}
 
 		@Override
-		public void setColumns(int fieldWidth) {
-
-		}
-
-		@Override
 		public void setVisible(boolean b) {
 
 		}
@@ -89,9 +84,10 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testForComplexUndefinedGeo() {
 		add("a=1");
 		add("b=?a");
+
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("?a", inputBox.getText());
+		Assert.assertEquals("? \\; a", inputBox.getText());
 		Assert.assertEquals("?a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
@@ -140,10 +136,24 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(text)");
 
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("\"?\"", inputBox.getText());
-		Assert.assertEquals("\"?\"", inputBox.getTextForEditor());
+		Assert.assertEquals("?", inputBox.getText());
+		Assert.assertEquals("?", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("\"?\"", inputBox.getText());
+		Assert.assertEquals("?", inputBox.getText());
+	}
+
+	@Test
+	public void testCanBeSymbolicForNVarFunction() {
+		add("f(x, y) = x + y");
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
+
+	@Test
+	public void testCanBeSymbolicForBooleanFunction() {
+		add("f(x, y) = x == y");
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
 }

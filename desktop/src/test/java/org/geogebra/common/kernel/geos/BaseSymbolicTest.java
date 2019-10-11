@@ -5,7 +5,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.BeforeClass;
 
@@ -32,4 +35,11 @@ public class BaseSymbolicTest {
         AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
                 StringTemplate.testTemplate);
     }
+
+	public static void t(String input, EvalInfo info, String... expected) {
+		GeoElementND result = ap.processAlgebraCommandNoExceptionHandling(input,
+				false, TestErrorHandler.INSTANCE, info, null)[0];
+		AlgebraTestHelper.assertOneOf(result, expected,
+				StringTemplate.testTemplate);
+	}
 }

@@ -222,16 +222,8 @@ public abstract class CanvasDrawable extends Drawable {
 	/**
 	 * @param g2
 	 *            graphics
-	 * @param text
-	 *            text
 	 */
-	protected void drawOnCanvas(GGraphics2D g2, String text) {
-		App app = view.getApplication();
-
-		GFont vFont = view.getFont();
-		setLabelFont(app.getFontCanDisplay(text, false, vFont.getStyle(),
-				getLabelFontSize()));
-
+	protected void drawOnCanvas(GGraphics2D g2) {
 		g2.setFont(getLabelFont());
 		g2.setStroke(EuclidianStatic.getDefaultStroke());
 
@@ -296,13 +288,19 @@ public abstract class CanvasDrawable extends Drawable {
 	/**
 	 * @return font for label
 	 */
-	public GFont getLabelFont() {
+	protected GFont getLabelFont() {
 		// deriveFont() as quick fix for GGB-2094
 		return labelFont.deriveFont(GFont.PLAIN);
 	}
 
-	private void setLabelFont(GFont labelFont) {
-		this.labelFont = labelFont;
+	/**
+	 * @param text
+	 *            label text
+	 */
+	protected void setLabelFont(String text) {
+		GFont vFont = view.getFont();
+		this.labelFont = view.getApplication().getFontCanDisplay(text, false, vFont.getStyle(),
+				getLabelFontSize());
 	}
 
 	private void setLabelSize(GPoint labelSize) {

@@ -13,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -392,16 +391,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	@Override
 	protected CoordSystemAnimation newZoomer() {
 		return null;
-	}
-
-	@Override
-	public void add(GBox box) {
-		// no need
-	}
-
-	@Override
-	public void remove(GBox box) {
-		// no need
 	}
 
 	@Override
