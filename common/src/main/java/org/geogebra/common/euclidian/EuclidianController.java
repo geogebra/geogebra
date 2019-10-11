@@ -10427,17 +10427,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// resize, multi-selection
 		else if (isMultiResize) {
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			for (GeoElement geo : selection.getSelectedGeos()) {
 				((Drawable) view.getDrawableFor(geo)).updateGeo(AwtFactory
 						.getPrototype().newPoint2D(event.getX(), event.getY()));
 			}
-		}
-		// undo/redo for multi-selection
-		if (isMultiResize) {
 			storeUndoInfo();
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {
