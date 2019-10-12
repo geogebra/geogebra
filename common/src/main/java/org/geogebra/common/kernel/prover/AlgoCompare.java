@@ -219,48 +219,62 @@ public class AlgoCompare extends AlgoElement {
 
         Log.debug(rgParameters);
 
-        String result = realgeomWS.directCommand(rgCommand, rgParameters.toString());
-        if ("m > 0".equals(result)) {
-            outputText.setTextString(""); // no useful information gained
-            return;
+        String rgResult = realgeomWS.directCommand(rgCommand, rgParameters.toString());
+
+        String[] cases = rgResult.split("\\|\\|");
+
+        String retval = "";
+
+        for (String result : cases) {
+
+            if ("m > 0".equals(result)) {
+                continue;
+            }
+
+            if (!"".equals(retval)) {
+                retval += " or ";
+            }
+
+            result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
+            // Inequality[0, Less, m, LessEqual, 2]
+            result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
+                    "$1 " + Unicode.CENTER_DOT + " " + inp2 +
+                            " $2 " + inp1 + " $3 $4 " + Unicode.CENTER_DOT + " " + inp2);
+            // Remove "0*inp2 Less" from the beginning (it's trivial)
+            result = result.replaceAll("^0 " + Unicode.CENTER_DOT + " .*? Less ", "");
+            // m >= 1/2
+            result = result.replaceAll("m >= (.*)",
+                    inp1 + " GreaterEqual $1 " + Unicode.CENTER_DOT + " " + inp2);
+            // m >= 1/2
+            result = result.replaceAll("m > (.*)",
+                    inp1 + " Greater $1 " + Unicode.CENTER_DOT + " " + inp2);
+            // m == 1
+            result = result.replaceAll("m == (.*)",
+                    inp1 + " = $1 " + Unicode.CENTER_DOT + " " + inp2);
+            // Simplify 1*... to ...
+            result = result.replaceAll("(\\s)1 " + Unicode.CENTER_DOT + " ", "$1");
+            // Use math symbols instead of Mathematica notation
+            result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
+            String repl = "<";
+            if (htmlMode) {
+                repl = "&lt;";
+            }
+            result = result.replace("Less", repl);
+            result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
+            repl = ">";
+            if (htmlMode) {
+                repl = "&gt;";
+            }
+            result = result.replace("Greater", repl);
+            // result = result.replace("==", "=");
+            result = result.replace("&& m > 0", "");
+            result = result.replace("m > 0", "");
+            result = result.replace("*", "" + Unicode.CENTER_DOT);
+
+            retval += result;
         }
 
-        result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
-        // Inequality[0, Less, m, LessEqual, 2]
-        result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
-                "$1 " + Unicode.CENTER_DOT + " " + inp2 +
-                        " $2 " + inp1 + " $3 $4 " + Unicode.CENTER_DOT + " " + inp2);
-        // Remove "0*inp2 Less" from the beginning (it's trivial)
-        result = result.replaceAll("^0 " + Unicode.CENTER_DOT + " .*? Less ", "");
-        // m >= 1/2
-        result = result.replaceAll("m >= (.*)",
-                inp1 + " GreaterEqual $1 " + Unicode.CENTER_DOT + " " + inp2);
-        // m >= 1/2
-        result = result.replaceAll("m > (.*)",
-                inp1 + " Greater $1 " + Unicode.CENTER_DOT + " " + inp2);
-        // m == 1
-        result = result.replaceAll("m == (.*)",
-                inp1 + " = $1 " + Unicode.CENTER_DOT + " " + inp2);
-        // Simplify 1*... to ...
-        result = result.replaceAll("(\\s)1 " + Unicode.CENTER_DOT + " ", "$1");
-        // Use math symbols instead of Mathematica notation
-        result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
-        String repl = "<";
-        if (htmlMode) {
-            repl = "&lt;";
-        }
-        result = result.replace("Less", repl);
-        result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
-        repl = ">";
-        if (htmlMode) {
-            repl = "&gt;";
-        }
-        result = result.replace("Greater", repl);
-        // result = result.replace("==", "=");
-        result = result.replace("&& m > 0", "");
-        result = result.replace("m > 0", "");
-
-        outputText.setTextString(result);
+        outputText.setTextString(retval);
 
         aae.remove();
         gb.remove();
