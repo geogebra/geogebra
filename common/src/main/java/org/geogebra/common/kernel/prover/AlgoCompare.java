@@ -238,21 +238,26 @@ public class AlgoCompare extends AlgoElement {
             result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
             // Inequality[0, Less, m, LessEqual, 2]
             result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
-                    "$1 " + Unicode.CENTER_DOT + " " + inp2 +
-                            " $2 " + inp1 + " $3 $4 " + Unicode.CENTER_DOT + " " + inp2);
+                    "($1) " + Unicode.CENTER_DOT + " " + inp2 +
+                            " $2 " + inp1 + " $3 ($4) " + Unicode.CENTER_DOT + " " + inp2);
             // Remove "0*inp2 Less" from the beginning (it's trivial)
             result = result.replaceAll("^0 " + Unicode.CENTER_DOT + " .*? Less ", "");
             // m >= 1/2
             result = result.replaceAll("m >= (.*)",
-                    inp1 + " GreaterEqual $1 " + Unicode.CENTER_DOT + " " + inp2);
+                    inp1 + " GreaterEqual ($1) " + Unicode.CENTER_DOT + " " + inp2);
             // m >= 1/2
             result = result.replaceAll("m > (.*)",
-                    inp1 + " Greater $1 " + Unicode.CENTER_DOT + " " + inp2);
+                    inp1 + " Greater ($1) " + Unicode.CENTER_DOT + " " + inp2);
             // m == 1
             result = result.replaceAll("m == (.*)",
-                    inp1 + " = $1 " + Unicode.CENTER_DOT + " " + inp2);
+                    inp1 + " = ($1) " + Unicode.CENTER_DOT + " " + inp2);
+
+            // remove spaces at parentheses
+            result = result.replaceAll("\\(\\s", "(");
+            result = result.replaceAll("\\s\\)", ")");
+
             // Simplify 1*... to ...
-            result = result.replaceAll("(\\s)1 " + Unicode.CENTER_DOT + " ", "$1");
+            result = result.replaceAll("(\\s)\\(1\\)\\s" + Unicode.CENTER_DOT + "\\s", "$1");
             // Use math symbols instead of Mathematica notation
             result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
             String repl = "<";
@@ -270,6 +275,10 @@ public class AlgoCompare extends AlgoElement {
             result = result.replace("&& m > 0", "");
             result = result.replace("m > 0", "");
             result = result.replace("*", "" + Unicode.CENTER_DOT);
+
+            // Root[1 - #1 - 2*#1^2 + #1^3 & , 2, 0]
+            result = result.replaceAll("Root\\[(.*?) \\& , (.*?), 0\\]", "$2. root of $1");
+            result = result.replaceAll("[^\\&]#1", "x");
 
             retval += result;
         }
