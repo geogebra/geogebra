@@ -3,9 +3,9 @@ package org.geogebra.web.full.main.activity;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.main.ApiExporter;
 import org.geogebra.web.html5.main.GgbAPIW;
+import org.geogebra.web.html5.main.ScriptManagerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import org.geogebra.web.html5.main.ScriptManagerW;
 
 /**
  * API exporter for evaluator app
@@ -36,10 +36,21 @@ public class EvaluatorApiExporter extends ApiExporter {
 		return jsObject;
 	}
 
+	@ExternalAccess
+	private void setEditorState(String state) {
+		evaluatorActivity.getEditorAPI().setEditorState(state);
+	}
+
 	private native void addEditorState(JavaScriptObject api) /*-{
 		var that = this;
 		api.getEditorState = function() {
 			return that.@org.geogebra.web.full.main.activity.EvaluatorApiExporter::getEditorState()();
+		};
+
+		api.setEditorState = function(state, label) {
+			var stateString = typeof state == "string" ? state : JSON
+					.stringify(state);
+			that.@org.geogebra.web.full.main.activity.EvaluatorApiExporter::setEditorState(Ljava/lang/String;)(stateString);
 		};
 	}-*/;
 
