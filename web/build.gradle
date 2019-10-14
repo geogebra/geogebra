@@ -96,7 +96,7 @@ gwt {
         modules = project.getProperty("gmodule").split(",")
     } else {
         modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
-          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin', 'org.geogebra.web.Solver']
+          'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
     }
     
     devModules devModule
@@ -267,6 +267,20 @@ task createSolverHtml {
             .replace("<!--SIGN IN-->", "Sign In")
             .replace("<!--APP TYPE-->", "practice")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
+    }
+}
+
+task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
+    doLast {
+        ["web3d", "webSimple"].each {module ->
+            def dir = file("build/gwt/out/$module");
+            fileTree(dir).each { f->
+                println "$f -> $f"
+                def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
+                file(outFile.parent).mkdirs();
+                ant.gzip(src: f, zipfile: outFile)
+            }
+        }
     }
 }
 

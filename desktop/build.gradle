@@ -108,13 +108,9 @@ run {
 
 }
 test {
-    Properties properties = new Properties()
-    if (project.hasProperty("authProperties")) {
-        File propertiesFile = new File(project.getProperty("authProperties"))
-        propertiesFile.withInputStream {
-            properties.load(it)
-        }
-        properties.each { prop, val->
+    // forward command line properties to the test JVM
+    project.properties.each { prop, val ->
+        if(val instanceof String) {
             systemProperty prop.trim(), val;
         }
     }

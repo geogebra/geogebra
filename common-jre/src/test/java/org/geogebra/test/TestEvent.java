@@ -10,6 +10,7 @@ public class TestEvent extends AbstractEvent {
 	private int y;
 	private String command;
 	private String[] inputs;
+	private PointerEventType type;
 
 	/**
 	 * @param x
@@ -18,8 +19,21 @@ public class TestEvent extends AbstractEvent {
 	 *            screen y-coord
 	 */
 	public TestEvent(int x, int y) {
+		this(x, y, null);
+	}
+
+	/**
+	 * @param x
+	 *            screen x-coord
+	 * @param y
+	 *            screen y-coord
+	 * @param type
+	 * 			  event type
+	 */
+	public TestEvent(int x, int y, PointerEventType type) {
 		this.x = x;
 		this.y = y;
+		this.type = type;
 	}
 
 	@Override
@@ -84,7 +98,7 @@ public class TestEvent extends AbstractEvent {
 
 	@Override
 	public PointerEventType getType() {
-		return null;
+		return type;
 	}
 
 	/**

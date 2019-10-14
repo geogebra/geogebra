@@ -1139,6 +1139,7 @@ public class EuclidianViewW extends EuclidianView implements
 			this.inFocus = true;
 			if (getCanvasElement() != null) {
 				this.appW.focusGained(this, getCanvasElement());
+				resetTextField();
 			}
 		}
 	}

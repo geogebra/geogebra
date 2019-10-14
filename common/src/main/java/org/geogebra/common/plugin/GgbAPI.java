@@ -1739,6 +1739,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            perspective
 	 */
 	private void setPerspectiveWithViews(String code) {
+		app.enableUseFullGui();
 		if (code.startsWith("+") || code.startsWith("-")) {
 			PerspectiveDecoder.decodeSimple(app, code);
 			return;

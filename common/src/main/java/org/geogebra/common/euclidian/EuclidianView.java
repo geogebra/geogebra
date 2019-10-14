@@ -46,11 +46,11 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -6421,6 +6421,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return viewTextField;
 	}
 
+	public void setViewTextField(ViewTextField viewTextField) {
+		this.viewTextField = viewTextField;
+	}
+
 	/**
 	 * Remove textfield.
 	 */
@@ -6441,6 +6445,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public NumberFormatAdapter getAxisNumberFormat(int i) {
 		return axesNumberFormat[i];
+	}
+
+	protected void resetTextField() {
+		if (viewTextField == null) {
+			return;
+		}
+
+		viewTextField.reset();
 	}
 
 	/**

@@ -533,6 +533,10 @@ public class AlgebraProcessor {
 		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
 		 * .getVarString(StringTemplate.defaultTemplate)); }
 		 */
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
+			symbolicProcessor.updateLabel(newValue, info);
+		}
+
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
 			geo.setAlgebraLabelVisible(newLabel != null);
@@ -555,7 +559,7 @@ public class AlgebraProcessor {
 			}
 		}
 		if (geo instanceof GeoPlaneND && newValue.unwrap() instanceof Equation) {
-			((Equation) newValue).setForcePlane();
+			((Equation) newValue.unwrap()).setForcePlane();
 		}
 		if (sameLabel(newLabel, oldLabel)) {
 			// try to overwrite
@@ -1010,14 +1014,20 @@ public class AlgebraProcessor {
 		if (symbolicProcessor == null) {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
-		if (ve.getLabel() != null
-				&& kernel.lookupLabel(ve.getLabel()) != null
-				&& !info.isLabelRedefinitionAllowedFor(ve.getLabel())) {
+		ValidExpression extracted = ve;
+		if (ve.unwrap() instanceof Equation && info != null) {
+			Equation equation = (Equation) ve.unwrap();
+			extracted = symbolicProcessor.extractAssignment(equation, info);
+			ve.setLabel(extracted.getLabel());
+		}
+		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted);
+		String label = extracted.getLabel();
+		if (label != null && kernel.lookupLabel(label) != null
+				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		sym.setLabel(ve.getLabel());
-		sym.getDefinition().setLabel(ve.getLabel());
+		sym.setLabel(label);
+		sym.getDefinition().setLabel(label);
 		return sym;
 	}
 
@@ -1350,7 +1360,7 @@ public class AlgebraProcessor {
 				Equation eq = (Equation) ve.unwrap();
 				ve = new ExpressionNode(kernel, eq.getLHS(),
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
-			} else if (ve.unwrap() instanceof Variable) {
+			} else if (ve.unwrap() instanceof Variable && !isBoolean((Variable) ve.unwrap())) {
 				// GGB-1043
 				ve = new ExpressionNode(kernel, ve.unwrap(),
 						Operation.NOT_EQUAL, new MyDouble(kernel, 0d));
@@ -1377,6 +1387,10 @@ public class AlgebraProcessor {
 		}
 
 		return bool;
+	}
+
+	private boolean isBoolean(Variable variable) {
+		return kernel.lookupLabel(variable.getName()) instanceof GeoBoolean;
 	}
 
 	/**

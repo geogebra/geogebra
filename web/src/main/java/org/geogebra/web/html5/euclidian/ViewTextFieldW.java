@@ -75,5 +75,4 @@ public class ViewTextFieldW extends ViewTextField {
 		positioner = null;
 		box = null;
 	}
-
 }

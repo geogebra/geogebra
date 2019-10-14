@@ -3,22 +3,25 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Processor for symbolic elements
@@ -29,6 +32,10 @@ public class SymbolicProcessor {
 	private Kernel kernel;
 	private Construction cons;
 
+	/**
+	 * Detect assignments of the type a=f(a) so that we can treat them as
+	 * equations
+	 */
 	private static final class RecursiveEquationFinder implements Inspecting {
 		private final ExpressionValue ve;
 
@@ -55,7 +62,7 @@ public class SymbolicProcessor {
 		private SymbolicProcessor processor;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-									  ExpressionValue root) {
+				ExpressionValue root) {
 			this.processor = symbolicProcessor;
 			this.root = root;
 		}
@@ -128,10 +135,11 @@ public class SymbolicProcessor {
 	}
 
 	/**
-	 * @param ve input expression
+	 * @param ve
+	 *            input expression
 	 * @return processed geo
 	 */
-	protected GeoElement evalSymbolicNoLabel(final ExpressionValue ve) {
+	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command
@@ -148,6 +156,49 @@ public class SymbolicProcessor {
 		}
 
 		return doEvalSymbolicNoLabel(replaced);
+	}
+
+	/**
+	 * @param equ
+	 *            equation
+	 * @param info
+	 *            evaluation flags
+	 * @return equation or assignment
+	 */
+	protected ValidExpression extractAssignment(Equation equ, EvalInfo info) {
+		String lhsName = extractLabel(equ, info);
+		if (lhsName != null) {
+			ExpressionNode rhs = equ.getRHS();
+			rhs.setLabel(lhsName);
+			return rhs;
+		}
+		return equ;
+	}
+
+	private String extractLabel(Equation equ, EvalInfo info) {
+		ExpressionNode lhs = equ.getLHS();
+		if (lhs.getOperation() == Operation.FUNCTION && lhs.getLeft() instanceof GeoSymbolic
+				&& lhs.getRight() instanceof FunctionVariable
+				&& !kernel.getConstruction().isFileLoading()) {
+			String lhsName = ((GeoSymbolic) lhs.getLeft()).getLabelSimple();
+			return info.isLabelRedefinitionAllowedFor(lhsName) ? lhsName : null;
+		}
+		return null;
+	}
+
+	/**
+	 * @param expression
+	 *            expression
+	 * @param info
+	 *            evaluation flags
+	 */
+	public void updateLabel(ValidExpression expression, EvalInfo info) {
+		if (expression.unwrap() instanceof Equation) {
+			String lhsName = extractLabel((Equation) expression.unwrap(), info);
+			if (lhsName != null) {
+				expression.setLabel(lhsName);
+			}
+		}
 	}
 
 }

@@ -27,6 +27,7 @@ import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.UtilD;
 import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -34,6 +35,12 @@ public class TubeAPITest extends Assert {
 	public static final String circleBase64 = Base64.encodeToString(
 			UtilD.loadFileIntoByteArray("src/test/resources/circles.ggb"),
 			false);
+	private AppDNoGui app;
+
+	@Before
+	public void setup() {
+		app = new AppDNoGui(new LocalizationD(3), false);
+	}
 
 	@BeforeClass()
 	public static void startLogging() {
@@ -43,8 +50,7 @@ public class TubeAPITest extends Assert {
 	@Test
 	public void testSearch() {
 
-		GeoGebraTubeAPID api = new GeoGebraTubeAPID(
-				new AppDNoGui(new LocalizationD(3), false)
+		GeoGebraTubeAPID api = new GeoGebraTubeAPID(app
 						.has(Feature.TUBE_BETA),
 				getClient());
 		final ArrayList<String> titles = new ArrayList<>();
@@ -72,7 +78,7 @@ public class TubeAPITest extends Assert {
 				e.printStackTrace();
 			}
 		}
-		assertEquals("Wrong number of search results", 30, titles.size());
+		awaitValidTitles("search", titles, 30);
 	}
 
 	@Test
@@ -86,16 +92,7 @@ public class TubeAPITest extends Assert {
 
 		uploadMaterial(api, titles, 0, null);
 
-		for (int i = 0; i < 20 && titles.size() < 1; i++) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		checkNoFail(titles, 1);
+		awaitValidTitles("upload", titles, 1);
 	}
 
 	@Test
@@ -112,16 +109,7 @@ public class TubeAPITest extends Assert {
 			}
 		});
 
-		for (int i = 0; i < 20 && titles.size() < 2; i++) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		checkNoFail(titles, 2);
+		awaitValidTitles("upload", titles, 2);
 	}
 
 	private void uploadMaterial(GeoGebraTubeAPID api,
@@ -182,22 +170,50 @@ public class TubeAPITest extends Assert {
 		};
 		api.copy(new Material(144, MaterialType.ggb), "Copy of Mobile Example",
 				copyCallback);
-		for (int i = 0; i < 20 && titles.size() == 0; i++) {
+		awaitValidTitles("upload", titles, 1);
+	}
+
+	@Test
+	public void getSingleMaterialShouldWorkWithEmptyToken() {
+		final GeoGebraTubeAPID api = getAuthAPI("");
+		final ArrayList<String> titles = new ArrayList<>();
+		final MaterialCallbackI getCallback = new MaterialCallbackI() {
+
+			@Override
+			public void onLoaded(List<Material> result,
+					ArrayList<Chapter> meta) {
+				if (result.size() == 1) {
+					titles.add(result.get(0).getTitle());
+				} else {
+					titles.add("FAIL " + result.size());
+				}
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				titles.add("FAIL " + exception.getMessage());
+
+			}
+		};
+		api.getItem("144", getCallback);
+		awaitValidTitles("fetch", titles, 1);
+	}
+
+	private static void awaitValidTitles(String description,
+			ArrayList<String> titles, int len) {
+		for (int i = 0; i < 20 && titles.size() < len; i++) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		checkNoFail(titles, 1);
-	}
-
-	private static void checkNoFail(ArrayList<String> titles, int len) {
 		for (String title : titles) {
-			assertFalse("Wrong upload result: " + title,
+			assertFalse("Wrong " + description + " result: " + title,
 					title.contains("FAIL"));
 		}
-		assertEquals("Wrong number of upload results", len, titles.size());
+		assertEquals("Wrong number of " + description + " results", len,
+				titles.size());
 	}
 
 	/**
@@ -260,15 +276,10 @@ public class TubeAPITest extends Assert {
 				titles.get(0).contains("FAIL"));
 	}
 
-	private GeoGebraTubeAPID getAuthAPI() {
-		return new GeoGebraTubeAPID(new AppDNoGui(new LocalizationD(3), false)
-				.has(Feature.TUBE_BETA), getAuthClient(null));
-	}
-
 	@Test
 	public void testSync() {
-		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
-		final ClientInfo client = getAuthClient(app.getLoginOperation());
+		final ClientInfo client = getAuthClient(app.getLoginOperation(),
+				getToken());
 		app.getLoginOperation().getGeoGebraTubeAPI().setClient(client);
 		final TestMaterialsManager man = new TestMaterialsManager(app);
 		Material mat = new Material(0, MaterialType.ggb);
@@ -295,6 +306,20 @@ public class TubeAPITest extends Assert {
 		}
 	}
 
+	private GeoGebraTubeAPID getAuthAPI() {
+		return getAuthAPI(getToken());
+	}
+
+	private static String getToken() {
+		Assume.assumeNotNull(System.getProperty("materials.token"));
+		return System.getProperty("materials.token").trim();
+	}
+
+	private GeoGebraTubeAPID getAuthAPI(String token) {
+		return new GeoGebraTubeAPID(app
+				.has(Feature.TUBE_BETA), getAuthClient(null, token));
+	}
+
 	protected static ClientInfo getClient() {
 		ClientInfo client = new ClientInfo();
 		// client.setModel((AuthenticationModel) this.model);
@@ -306,14 +331,12 @@ public class TubeAPITest extends Assert {
 		return client;
 	}
 
-	private static ClientInfo getAuthClient(LogInOperation op) {
+	private static ClientInfo getAuthClient(LogInOperation op,
+			String token) {
 		ClientInfo client = getClient();
 		AuthenticationModel auth = op != null ? op.getModel()
 				: new AuthenticationModelD();
-
-		Assume.assumeNotNull(System.getProperty("materials.token"));
-		GeoGebraTubeUser user = new GeoGebraTubeUser(
-				System.getProperty("materials.token").trim());
+		GeoGebraTubeUser user = new GeoGebraTubeUser(token);
 
 		user.setUserId(4951854);
 		auth.onEvent(new LoginEvent(user, true, true, "{}"));

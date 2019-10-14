@@ -23,9 +23,38 @@ public abstract class ViewTextField {
 			Log.debug("[TF] textField is null");
 			return;
 		}
+
 		GeoInputBox geoInputBox = (GeoInputBox) drawInputBox.getGeoElement();
+		if (geoInputBox != getTextField().getInputBox()) {
+			applyChanges();
+
+		}
+
 		getTextField().setAuralText(geoInputBox.getAuralText());
 		drawInputBox.attachTextField();
+	}
+
+	/**
+	 * Apply the edited text to the corresponding GeoInputBox
+	 */
+	protected void applyChanges() {
+		AutoCompleteTextField textField = getTextField();
+		if (textField == null) {
+			return;
+		}
+		GeoInputBox geoInputBox = textField.getInputBox();
+
+		if (geoInputBox == null) {
+			return;
+		}
+
+		if (textField.getText().equals(geoInputBox.getText())) {
+			return;
+		}
+
+		geoInputBox.textObjectUpdated(textField);
+		geoInputBox.textSubmitted();
+		geoInputBox.updateRepaint();
 	}
 
 	/**
@@ -84,5 +113,14 @@ public abstract class ViewTextField {
 	 */
 	public void setColumns(int length) {
 		// only in desktop
+	}
+
+	/**
+	 * Resets textfield
+	 */
+	public void reset() {
+		if (getTextField() != null) {
+			getTextField().setUsedForInputBox(null);
+		}
 	}
 }

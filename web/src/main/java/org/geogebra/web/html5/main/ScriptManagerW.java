@@ -104,11 +104,11 @@ public class ScriptManagerW extends ScriptManager {
 	}-*/;
 
 	@Override
-	protected void callListener(String listener, String arg0, String arg1) {
+	protected void callListener(String listener, String... args) {
 		if (listener.charAt(0) <= '9') {
-			JsEval.callNativeJavaScript(listeners.get(listener), arg0, arg1);
+			JsEval.callNativeJavaScript(listeners.get(listener), args);
 		} else {
-			JsEval.callNativeJavaScript(listener, arg0, arg1);
+			JsEval.callNativeJavaScript(listener, args);
 		}
 	}
 

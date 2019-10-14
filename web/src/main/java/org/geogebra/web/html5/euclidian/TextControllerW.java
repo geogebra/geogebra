@@ -323,7 +323,7 @@ public class TextControllerW
 				lastText.processEditMode();
 				if (lastText.isEditMode()) {
 					edit(lastText);
-					editor.moveCursor(x, y);
+					editor.moveCursor(x, y + getView().getAbsoluteTop());
 				}
 			}
 			lastText = null;
