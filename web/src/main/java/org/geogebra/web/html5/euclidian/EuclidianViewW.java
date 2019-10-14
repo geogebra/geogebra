@@ -1119,7 +1119,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		g2p.getElement().focus();
+		Element evElement = g2p.getElement();
+		getApplication().getAppletFrame().getSelectionRegistry().register(evElement);
+		evElement.focus();
 		focusGained();
 		return true;
 	}
@@ -1847,5 +1849,10 @@ public class EuclidianViewW extends EuclidianView implements
 			return ((InputBoxWidget) symbolicEditor).getKeyboardListener();
 		}
 		return null;
+	}
+
+	@Override
+	public AppW getApplication() {
+		return (AppW) super.getApplication();
 	}
 }

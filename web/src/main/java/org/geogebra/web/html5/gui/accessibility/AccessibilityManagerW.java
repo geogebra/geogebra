@@ -17,6 +17,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -338,7 +339,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (anchor == null) {
 			return;
 		}
-		anchor.getElement().focus();
+		Element anchorElement = anchor.getElement();
+		app.getAppletFrame().getSelectionRegistry().register(anchorElement);
+		anchorElement.focus();
 		cancelAnchor();
 	}
 
