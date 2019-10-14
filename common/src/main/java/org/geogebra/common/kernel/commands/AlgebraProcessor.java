@@ -1360,7 +1360,7 @@ public class AlgebraProcessor {
 				Equation eq = (Equation) ve.unwrap();
 				ve = new ExpressionNode(kernel, eq.getLHS(),
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
-			} else if (ve.unwrap() instanceof Variable) {
+			} else if (ve.unwrap() instanceof Variable && !isBoolean((Variable) ve.unwrap())) {
 				// GGB-1043
 				ve = new ExpressionNode(kernel, ve.unwrap(),
 						Operation.NOT_EQUAL, new MyDouble(kernel, 0d));
@@ -1387,6 +1387,10 @@ public class AlgebraProcessor {
 		}
 
 		return bool;
+	}
+
+	private boolean isBoolean(Variable variable) {
+		return kernel.lookupLabel(variable.getName()) instanceof GeoBoolean;
 	}
 
 	/**
