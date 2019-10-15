@@ -58,6 +58,10 @@ public class Tools extends FlowPanel implements SetLabels {
 	public Tools(AppW app, ToolsTab parentTab) {
 		this.app = app;
 		this.parentTab = parentTab;
+
+		ToolCollectionFactory toolCollectionFactory = app.createToolCollectionFactory();
+		toolCollection = toolCollectionFactory.createToolCollection();
+
 		this.addStyleName("toolsPanel");
 		buildGui();
 	}
@@ -148,8 +152,8 @@ public class Tools extends FlowPanel implements SetLabels {
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
-			ToolCollectionFactory toolCollectionFactory = app.createToolCollectionFactory();
-			toolCollection = toolCollectionFactory.createToolCollection();
+			toolCollection.setLevel(app.getSettings().getToolbarSettings()
+					.getToolsetLevel().getIndex());
 
 			for (ToolCategory category : toolCollection.getCategories()) {
 				CategoryPanel catPanel = new CategoryPanel(category);

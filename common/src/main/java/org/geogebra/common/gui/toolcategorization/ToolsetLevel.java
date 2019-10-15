@@ -9,22 +9,24 @@ package org.geogebra.common.gui.toolcategorization;
 public enum ToolsetLevel {
 
     /**
-     * full list of tools
+     * for empty construction
      */
-    ADVANCED("Advanced"),
+    EMPTY_CONSTRUCTION("Empty", 0),
     /**
      * non-empty construction
      */
-    STANDARD("Standard"),
+    STANDARD("Standard", 1),
     /**
-     * for empty construction
+     * full list of tools
      */
-    EMPTY_CONSTRUCTION("Empty");
+    ADVANCED("Advanced", 2);
 
     private final String level;
+    private final int index;
 
-    ToolsetLevel(String level) {
+    ToolsetLevel(String level, int index) {
         this.level = level;
+        this.index = index;
     }
 
     /**
@@ -32,5 +34,9 @@ public enum ToolsetLevel {
      */
     public String getLevel() {
         return "ToolsetLevel." + level;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
