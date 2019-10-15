@@ -280,7 +280,7 @@ public class ToolCategorization {
                    // addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
                 }
                 storeIfNotEmpty(category, tools);
-			buildGraphingCalculatorCommonTools();
+				buildGraphingCalculatorCommonTools();
                 break;
 
             case GRAPHER_3D:
@@ -301,75 +301,6 @@ public class ToolCategorization {
     }
 
 	private void buildGraphingCalculatorCommonTools() {
-		if (level.equals(ToolsetLevel.ADVANCED)) {
-			buildGraphingAdvancedCommonTools();
-		} else {
-			buildGraphingStandardCommonTools();
-		}
-	}
-
-	private void buildGraphingStandardCommonTools() {
-		Category category;
-		ArrayList<Integer> tools;
-
-		category = Category.EDIT;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_SELECT);
-		addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
-		addToList(tools, EuclidianConstants.MODE_DELETE);
-		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
-		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
-		storeIfNotEmpty(category, tools);
-
-		if (!isPhoneApp) {
-			category = Category.MEDIA;
-			tools = new ArrayList<>();
-			addToList(tools, EuclidianConstants.MODE_IMAGE);
-			addToList(tools, EuclidianConstants.MODE_TEXT);
-			storeIfNotEmpty(category, tools);
-		}
-
-		category = Category.MEASURE;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_ANGLE);
-		addToList(tools, EuclidianConstants.MODE_DISTANCE);
-		addToList(tools, EuclidianConstants.MODE_AREA);
-		storeIfNotEmpty(category, tools);
-
-		category = Category.TRANSFORM;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
-		addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
-		addToList(tools, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
-		storeIfNotEmpty(category, tools);
-
-		category = Category.CONSTRUCT;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_MIDPOINT);
-		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
-		addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
-		addToList(tools, EuclidianConstants.MODE_PARALLEL);
-		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
-		addToList(tools, EuclidianConstants.MODE_TANGENTS);
-		storeIfNotEmpty(category, tools);
-
-		category = Category.LINES;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_SEGMENT);
-		addToList(tools, EuclidianConstants.MODE_JOIN);
-		addToList(tools, EuclidianConstants.MODE_RAY);
-		addToList(tools, EuclidianConstants.MODE_VECTOR);
-		storeIfNotEmpty(category, tools);
-
-		category = Category.CIRCLES;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-		addToList(tools, EuclidianConstants.MODE_COMPASSES);
-		addToList(tools, EuclidianConstants.MODE_SEMICIRCLE);
-		storeIfNotEmpty(category, tools);
-	}
-
-	private void buildGraphingAdvancedCommonTools() {
         Category category;
         ArrayList<Integer> tools;
 
@@ -386,19 +317,9 @@ public class ToolCategorization {
 		if (!isPhoneApp) {
 			category = Category.MEDIA;
 			tools = new ArrayList<>();
-			addToList(tools, EuclidianConstants.MODE_IMAGE);
 			addToList(tools, EuclidianConstants.MODE_TEXT);
 			storeIfNotEmpty(category, tools);
 		}
-
-		category = Category.MEASURE;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_ANGLE);
-		addToList(tools, EuclidianConstants.MODE_DISTANCE);
-		addToList(tools, EuclidianConstants.MODE_AREA);
-		addToList(tools, EuclidianConstants.MODE_ANGLE_FIXED);
-		addToList(tools, EuclidianConstants.MODE_SLOPE);
-		storeIfNotEmpty(category, tools);
 
 		category = Category.POINTS;
 		tools = new ArrayList<>();
@@ -412,73 +333,18 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_CREATE_LIST);
 		storeIfNotEmpty(category, tools);
 
-		category = Category.CONSTRUCT;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_MIDPOINT);
-		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
-		addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
-		addToList(tools, EuclidianConstants.MODE_PARALLEL);
-		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
-		addToList(tools, EuclidianConstants.MODE_TANGENTS);
-		addToList(tools, EuclidianConstants.MODE_LOCUS);
-		storeIfNotEmpty(category, tools);
-
         category = Category.LINES;
 		tools = new ArrayList<>();
-        addToList(tools, EuclidianConstants.MODE_SEGMENT);
         addToList(tools, EuclidianConstants.MODE_JOIN);
         addToList(tools, EuclidianConstants.MODE_RAY);
         addToList(tools, EuclidianConstants.MODE_VECTOR);
-		addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
 		addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
-		addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
-		addToList(tools, EuclidianConstants.MODE_POLYLINE);
-        storeIfNotEmpty(category, tools);
-
-		category = Category.POLYGONS;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_POLYGON);
-		addToList(tools, EuclidianConstants.MODE_REGULAR_POLYGON);
-		addToList(tools, EuclidianConstants.MODE_VECTOR_POLYGON);
-		addToList(tools, EuclidianConstants.MODE_RIGID_POLYGON);
-		storeIfNotEmpty(category, tools);
-
-        category = Category.CIRCLES;
-		tools = new ArrayList<>();
-        addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-		addToList(tools, EuclidianConstants.MODE_COMPASSES);
-		addToList(tools, EuclidianConstants.MODE_SEMICIRCLE);
-        addToList(tools, EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
-        addToList(tools, EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
-        addToList(tools, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
-        addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
-        addToList(tools, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
-        addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-        storeIfNotEmpty(category, tools);
-
-		category = Category.CONICS;
-		tools = new ArrayList<>();
-		addToList(tools, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
-		addToList(tools, EuclidianConstants.MODE_CONIC_FIVE_POINTS);
-		addToList(tools, EuclidianConstants.MODE_PARABOLA);
-		addToList(tools, EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
-		storeIfNotEmpty(category, tools);
-
-		category = Category.TRANSFORM;
-		tools = new ArrayList<>();
-        addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
-        addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
-        addToList(tools, EuclidianConstants.MODE_ROTATE_BY_ANGLE);
-        addToList(tools, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
-        addToList(tools, EuclidianConstants.MODE_DILATE_FROM_POINT);
-        addToList(tools, EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
         storeIfNotEmpty(category, tools);
 
         category = Category.OTHERS;
 		tools = new ArrayList<>();
 		addToList(tools, EuclidianConstants.MODE_PEN);
         addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
-        addToList(tools, EuclidianConstants.MODE_RELATION);
         if (!isPhoneApp) {
 			// addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
             addToList(tools, EuclidianConstants.MODE_BUTTON_ACTION);
