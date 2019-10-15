@@ -768,9 +768,8 @@ public class MathFieldInternal
 	 */
 	public void parse(String text) {
 		Parser parser = new Parser(mathField.getMetaModel());
-		MathFormula formula;
 		try {
-			formula = parser.parse(text);
+			MathFormula formula = parser.parse(text);
 			setFormula(formula);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Problem parsing: " + text);

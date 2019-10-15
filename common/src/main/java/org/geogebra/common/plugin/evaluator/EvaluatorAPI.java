@@ -123,12 +123,14 @@ public class EvaluatorAPI {
 	}
 
 	/**
-	 * @param state
+	 * @param stateStr
 	 *            JSON encoded state {content: text, caret: [int, int, int]}
 	 */
-	public void setEditorState(String state) {
-		EditorStateDescription stateJ = EditorStateDescription.fromJSON(state);
-		mathFieldInternal.parse(stateJ.getContent());
-		this.mathFieldInternal.setCaretPath(stateJ.getCaretPath());
+	public void setEditorState(String stateStr) {
+		EditorStateDescription state = EditorStateDescription.fromJSON(stateStr);
+		if (state != null) {
+			mathFieldInternal.parse(state.getContent());
+			mathFieldInternal.setCaretPath(state.getCaretPath());
+		}
 	}
 }
