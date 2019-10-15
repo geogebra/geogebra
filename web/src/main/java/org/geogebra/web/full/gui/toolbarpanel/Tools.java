@@ -11,8 +11,6 @@ import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
-import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -39,19 +37,16 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * application
 	 */
-	AppW app;
+	private AppW app;
 	/**
 	 * see {@link ToolsTab}
 	 */
-	ToolsTab parentTab;
+	private ToolsTab parentTab;
 	/**
 	 * move button
 	 */
 	private StandardButton moveButton;
-	/**
-	 * categories list
-	 */
-	private List<ToolCategory> categories;
+
 	private ArrayList<CategoryPanel> categoryPanelList;
 
 	/**
@@ -119,14 +114,14 @@ public class Tools extends FlowPanel implements SetLabels {
 	 * @param moveButton
 	 *            floating action move btn
 	 */
-	public void setMoveButton(StandardButton moveButton) {
+	private void setMoveButton(StandardButton moveButton) {
 		this.moveButton = moveButton;
 	}
 
 	/**
 	 * Clears visual selection of all tools.
 	 */
-	public void clearSelectionStyle() {
+	private void clearSelectionStyle() {
 		for (int i = 0; i < getWidgetCount(); i++) {
 			Widget w = getWidget(i);
 			if (w instanceof CategoryPanel) {
@@ -156,13 +151,8 @@ public class Tools extends FlowPanel implements SetLabels {
 			ToolCollectionFactory toolCollectionFactory = app.createToolCollectionFactory();
 			toolCollection = toolCollectionFactory.createToolCollection();
 
-			if (app.isUnbundled3D()) {
-				def = app.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
-			}
-			categories = toolCollection.getCategories();
-			for (int i = 0; i < categories.size(); i++) {
-				CategoryPanel catPanel = new CategoryPanel(categories.get(i));
+			for (ToolCategory category : toolCollection.getCategories()) {
+				CategoryPanel catPanel = new CategoryPanel(category);
 				categoryPanelList.add(catPanel);
 				add(catPanel);
 			}
@@ -183,7 +173,7 @@ public class Tools extends FlowPanel implements SetLabels {
 	 *            string definition of toolbar
 	 * @return the vector of groups of tools
 	 */
-	protected Vector<ToolbarItem> getToolbarVec(String toolbarString) {
+	private Vector<ToolbarItem> getToolbarVec(String toolbarString) {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			toolbarVec = ToolBar.parseToolbarString(toolbarString);
@@ -208,13 +198,13 @@ public class Tools extends FlowPanel implements SetLabels {
 		private Label categoryLabel;
 		private ArrayList<ToolButton> toolButtonList;
 
-		public CategoryPanel(ToolCategory cat) {
+		CategoryPanel(ToolCategory cat) {
 			super();
 			category = cat;
 			initGui();
 		}
 
-		public CategoryPanel(ToolbarItem toolbarItem) {
+		CategoryPanel(ToolbarItem toolbarItem) {
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
 			toolButtonList = new ArrayList<>();
@@ -249,8 +239,8 @@ public class Tools extends FlowPanel implements SetLabels {
 			toolButtonList = new ArrayList<>();
 			ToolBar.parseToolbarString(
 					app.getGuiManager().getToolbarDefinition());
-			for (int i = 0; i < tools.size(); i++) {
-				addToolButton(tools.get(i));
+			for (Integer tool : tools) {
+				addToolButton(tool);
 			}
 			add(toolsPanel);
 		}
@@ -294,16 +284,15 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param modeMove
+	 * @param mode
 	 *            mode number
 	 */
-	public void showTooltip(int modeMove) {
+	public void showTooltip(int mode) {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolTooltipHTML(modeMove),
-							((GuiManagerW) app.getGuiManager()).getTooltipURL(
-									modeMove),
+					.showBottomInfoToolTip(app.getToolTooltipHTML(mode),
+							app.getGuiManager().getTooltipURL(mode),
 							ToolTipLinkType.Help, app,
 							app.getAppletFrame().isKeyboardShowing());
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
