@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.layout.panels;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ToolbarSettings;
@@ -45,10 +45,10 @@ public class ToolbarDockPanelW extends DockPanelW
 
 		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
-			toolbarSettings.setType(ToolCategorization.AppType.GRAPHER_3D);
+			toolbarSettings.setType(AppType.GRAPHER_3D);
 		}
 		if (activePerspective == Perspective.GEOMETRY - 1) {
-		 	toolbarSettings.setType(ToolCategorization.AppType.GEOMETRY_CALC);
+		 	toolbarSettings.setType(AppType.GEOMETRY_CALC);
 			toolbarSettings.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 		}
 		toolbar = new ToolbarPanel(app);

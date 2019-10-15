@@ -2,8 +2,8 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.AppConfig;
 
 /**

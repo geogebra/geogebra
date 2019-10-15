@@ -39,7 +39,6 @@ import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
@@ -4719,17 +4718,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public int getNextVariableID() {
 		return nextVariableID++;
-	}
-
-	/**
-	 * @return tool categorization for this app
-	 */
-	public ToolCategorization createToolCategorization() {
-		// Needed temporary, until the toolset levels are not implemented on iOS
-		// too
-		ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getPlatform().isPhone());
-		return new ToolCategorization(this, getSettings().getToolbarSettings());
 	}
 
 	/**

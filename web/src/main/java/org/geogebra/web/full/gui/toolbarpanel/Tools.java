@@ -8,7 +8,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
@@ -49,7 +49,7 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * categories list
 	 */
-	private ArrayList<ToolCategorization.Category> categories;
+	private ArrayList<ToolCategory> categories;
 	private ArrayList<CategoryPanel> categoryPanelList;
 
 	/**
@@ -207,12 +207,12 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
-		private Category category;
+		private ToolCategory category;
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
 		private ArrayList<ToolButton> toolButtonList;
 
-		public CategoryPanel(ToolCategorization.Category cat) {
+		public CategoryPanel(ToolCategory cat) {
 			super();
 			category = cat;
 			initGui();

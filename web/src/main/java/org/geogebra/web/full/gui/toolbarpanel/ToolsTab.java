@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.html5.gui.FastClickHandler;

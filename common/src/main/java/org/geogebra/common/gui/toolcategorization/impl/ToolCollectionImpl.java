@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 
 /**
  * Generic implementation of a ToolCollection.
@@ -21,28 +23,29 @@ class ToolCollectionImpl implements ToolCollection {
         private List<List<Integer>> tools = new ArrayList<>();
     }
 
-    void addLevel(String levelName) {
-        levels.add(levelName);
+    void addLevel(ToolsetLevel toolsetLevel) {
+        levels.add(toolsetLevel.getLevel());
         collections.add(new ToolsCollection());
         level += 1;
     }
 
-    void addCategory(String category, List<Integer> tools) {
+    void addCategory(ToolCategory category, List<Integer> tools) {
         ToolsCollection collection = collections.get(level);
-        collection.categories.add(category);
+        collection.categories.add(category.getHeader());
         collection.tools.add(tools);
     }
 
-    void addCategory(String category, Integer... tools) {
+    void addCategory(ToolCategory category, Integer... tools) {
         addCategory(category, Arrays.asList(tools));
     }
 
-    void extendCategory(String category, List<Integer> tools) {
+    void extendCategory(ToolCategory category, List<Integer> tools) {
         if (level == 0) {
             addCategory(category, tools);
         } else {
             int previousLevel = level - 1;
-            int categoryIndex = collections.get(previousLevel).categories.indexOf(category);
+            int categoryIndex = collections.get(previousLevel)
+                    .categories.indexOf(category.getHeader());
             if (categoryIndex < 0) {
                 addCategory(category, tools);
             } else {
@@ -55,7 +58,7 @@ class ToolCollectionImpl implements ToolCollection {
         }
     }
 
-    void extendCategory(String category, Integer... tools) {
+    void extendCategory(ToolCategory category, Integer... tools) {
         extendCategory(category, Arrays.asList(tools));
     }
 
@@ -93,9 +96,9 @@ class ToolCollectionImpl implements ToolCollection {
             for (int i = collection.tools.size() - 1; i >= 0; i--) {
                 List<Integer> tools = collection.tools.get(i);
                 List<Integer> filteredTools = new ArrayList<>();
-                for (int j = 0; j < tools.size(); j++) {
-                    if (filter.filter(tools.get(j))) {
-                        filteredTools.add(tools.get(j));
+                for (Integer tool : tools) {
+                    if (filter.filter(tool)) {
+                        filteredTools.add(tool);
                     }
                 }
                 if (filteredTools.size() == 0) {

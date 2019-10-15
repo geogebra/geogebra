@@ -1,7 +1,9 @@
 package org.geogebra.common.gui.toolcategorization.impl;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,9 +23,9 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
     }
 
     private void createTools(ToolCollectionImpl impl) {
-        impl.addLevel(LEVEL_STANDARD);
+        impl.addLevel(ToolsetLevel.STANDARD);
 
-        impl.extendCategory(CATEGORY_BASIC,
+        impl.extendCategory(ToolCategory.BASIC,
                 EuclidianConstants.MODE_MOVE,
                 EuclidianConstants.MODE_POINT,
                 EuclidianConstants.MODE_SLIDER,
@@ -32,7 +34,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_ROOTS,
                 EuclidianConstants.MODE_FITLINE);
 
-        impl.extendCategory(CATEGORY_EDIT,
+        impl.extendCategory(ToolCategory.EDIT,
                 EuclidianConstants.MODE_SELECT,
                 EuclidianConstants.MODE_TRANSLATEVIEW,
                 EuclidianConstants.MODE_DELETE,
@@ -41,11 +43,11 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 
         if (!isPhoneApp) {
-            impl.extendCategory(CATEGORY_MEDIA,
+            impl.extendCategory(ToolCategory.MEDIA,
                     EuclidianConstants.MODE_TEXT);
         }
 
-        impl.extendCategory(CATEGORY_POINTS,
+        impl.extendCategory(ToolCategory.POINTS,
                 EuclidianConstants.MODE_POINT,
                 EuclidianConstants.MODE_INTERSECT,
                 EuclidianConstants.MODE_POINT_ON_OBJECT,
@@ -55,7 +57,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_COMPLEX_NUMBER,
                 EuclidianConstants.MODE_CREATE_LIST);
 
-        impl.extendCategory(CATEGORY_LINES,
+        impl.extendCategory(ToolCategory.LINES,
                 EuclidianConstants.MODE_JOIN,
                 EuclidianConstants.MODE_RAY,
                 EuclidianConstants.MODE_VECTOR,
@@ -74,6 +76,6 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
                     // EuclidianConstants.MODE_CREATE_LIST
             ));
         }
-        impl.extendCategory(CATEGORY_OTHERS, others);
+        impl.extendCategory(ToolCategory.OTHERS, others);
     }
 }
