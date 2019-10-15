@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.toolcategorization;
 
-import javax.annotation.Nonnull;
+import org.geogebra.common.main.Localization;
 
 /**
  * @author csilla
@@ -89,8 +89,8 @@ public enum ToolCategory {
     NO_CATEGORY("") {
 
         @Override
-        public String getHeader() {
-            return null;
+        public String getLocalizedHeader(Localization loc) {
+            return "";
         }
     };
 
@@ -100,10 +100,7 @@ public enum ToolCategory {
         this.header = header;
     }
 
-    /**
-     * @return header of category
-     */
-    public String getHeader() {
-        return "ToolCategory." + header;
+    public String getLocalizedHeader(Localization loc) {
+        return loc.getMenu("ToolCategory." + header);
     }
 }

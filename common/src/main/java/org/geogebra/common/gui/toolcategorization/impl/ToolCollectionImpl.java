@@ -19,7 +19,7 @@ class ToolCollectionImpl implements ToolCollection {
 	private List<String> levels = new ArrayList<>();
 
     private static class ToolsCollection {
-        private List<String> categories = new ArrayList<>();
+        private List<ToolCategory> categories = new ArrayList<>();
         private List<List<Integer>> tools = new ArrayList<>();
     }
 
@@ -31,7 +31,7 @@ class ToolCollectionImpl implements ToolCollection {
 
     void addCategory(ToolCategory category, List<Integer> tools) {
         ToolsCollection collection = collections.get(level);
-        collection.categories.add(category.getHeader());
+        collection.categories.add(category);
         collection.tools.add(tools);
     }
 
@@ -45,7 +45,7 @@ class ToolCollectionImpl implements ToolCollection {
         } else {
             int previousLevel = level - 1;
             int categoryIndex = collections.get(previousLevel)
-                    .categories.indexOf(category.getHeader());
+                    .categories.indexOf(category);
             if (categoryIndex < 0) {
                 addCategory(category, tools);
             } else {
@@ -63,7 +63,7 @@ class ToolCollectionImpl implements ToolCollection {
     }
 
     @Override
-    public List<String> getCategories() {
+    public List<ToolCategory> getCategories() {
         return collections.get(level).categories;
     }
 

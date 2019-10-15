@@ -14,7 +14,7 @@ public interface ToolCollection {
      *
      * @return the list of category names
      */
-    List<String> getCategories();
+    List<ToolCategory> getCategories();
 
     /**
      * The list of tools for specified category.
@@ -46,7 +46,7 @@ public interface ToolCollection {
     void setLevel(int level);
 
     /**
-     * Filter this ToolCollection with the speicified filter.
+     * Filter this ToolCollection with the specified filter.
      *
      * @param filter filter
      */
