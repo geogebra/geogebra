@@ -20,7 +20,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
         createStandardLevel(impl);
         createAdvancedLevel(impl);
 
-        impl.setLevel(0);
+        impl.setLevel(ToolsetLevel.STANDARD);
         return impl;
     }
 

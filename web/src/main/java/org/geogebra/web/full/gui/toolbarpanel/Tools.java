@@ -153,7 +153,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
 			toolCollection.setLevel(app.getSettings().getToolbarSettings()
-					.getToolsetLevel().getIndex());
+					.getToolsetLevel());
 
 			for (ToolCategory category : toolCollection.getCategories()) {
 				CategoryPanel catPanel = new CategoryPanel(category);
@@ -194,6 +194,10 @@ public class Tools extends FlowPanel implements SetLabels {
 				categoryPanel.setLabels();
 			}
 		}
+	}
+
+	public ToolCollection getToolCollection() {
+		return toolCollection;
 	}
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {

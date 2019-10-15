@@ -21,7 +21,7 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
         createStandardLevel(impl);
         createAdvancedLevel(impl);
 
-        impl.setLevel(0);
+        impl.setLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
         return impl;
     }
 

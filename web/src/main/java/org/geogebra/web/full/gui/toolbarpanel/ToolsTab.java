@@ -13,6 +13,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.Collection;
+
 /**
  * tab of tools
  */
@@ -99,35 +101,30 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	}
 
 	/** More button handler */
-	protected void onMorePressed() {
-		ToolsetLevel level = app.getSettings().getToolbarSettings()
-				.getToolsetLevel();
+	private void onMorePressed() {
+		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
+		ToolsetLevel level = toolbarSettings.getToolsetLevel();
+
 		if (level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) {
-			app.getSettings().getToolbarSettings()
-					.setToolsetLevel(ToolsetLevel.STANDARD);
+			toolbarSettings.setToolsetLevel(ToolsetLevel.STANDARD);
 		} else if (level.equals(ToolsetLevel.STANDARD)) {
-			app.getSettings().getToolbarSettings()
-					.setToolsetLevel(ToolsetLevel.ADVANCED);
+			toolbarSettings.setToolsetLevel(ToolsetLevel.ADVANCED);
 		}
+
 		updateContent();
 	}
 
 	/** Less button handler */
-	protected void onLessPressed() {
+	private void onLessPressed() {
 		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
-		ToolsetLevel level = toolbarSettings
-				.getToolsetLevel();
+		ToolsetLevel level = toolbarSettings.getToolsetLevel();
+
 		if (level.equals(ToolsetLevel.ADVANCED)) {
-			toolbarSettings
-					.setToolsetLevel(ToolsetLevel.STANDARD);
-		} else if (level.equals(ToolsetLevel.STANDARD)
-				&& toolbarSettings.hasEmptyConstruction()) {
-			toolbarSettings
-					.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-		} else {
-			toolbarSettings
-					.setToolsetLevel(ToolsetLevel.STANDARD);
+			toolbarSettings.setToolsetLevel(ToolsetLevel.STANDARD);
+		} else if (level.equals(ToolsetLevel.STANDARD)) {
+			toolbarSettings.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 		}
+
 		updateContent();
 	}
 
@@ -135,20 +132,22 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	 * add more or less button to tool panel
 	 */
 	public void addMoreLessButtons() {
-		boolean hasEmptyConstruction = app.getSettings().getToolbarSettings()
-				.hasEmptyConstruction();
 		ToolsetLevel level = app.getSettings().getToolbarSettings()
 				.getToolsetLevel();
+
+		Collection<ToolsetLevel> levels = toolsPanel.getToolCollection().getLevels();
 
 		switch (level) {
 		case EMPTY_CONSTRUCTION:
 			toolsPanel.add(moreBtn);
 			break;
 		case STANDARD:
-			if (hasEmptyConstruction) {
+			if (levels.contains(ToolsetLevel.EMPTY_CONSTRUCTION)) {
 				toolsPanel.add(lessBtn);
 			}
-			toolsPanel.add(moreBtn);
+			if (levels.contains(ToolsetLevel.ADVANCED)) {
+				toolsPanel.add(moreBtn);
+			}
 			break;
 
 		case ADVANCED:
@@ -157,7 +156,6 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		default:
 			break;
 		}
-
 	}
 
 	private void createContents() {

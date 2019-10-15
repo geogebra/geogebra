@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.toolcategorization;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -29,21 +30,21 @@ public interface ToolCollection {
      *
      * @return the list of levels
      */
-    List<String> getLevels();
+    Collection<ToolsetLevel> getLevels();
 
     /**
      * The current level of the toolset.
      *
      * @return the level of the toolset
      */
-    int getLevel();
+    ToolsetLevel getLevel();
 
     /**
      * Set the current level of the toolset.
      *
      * @param level the toolset level
      */
-    void setLevel(int level);
+    void setLevel(ToolsetLevel level);
 
     /**
      * Filter this ToolCollection with the specified filter.
