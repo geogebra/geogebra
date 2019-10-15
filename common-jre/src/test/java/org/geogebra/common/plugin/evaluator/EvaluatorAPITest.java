@@ -73,4 +73,18 @@ public class EvaluatorAPITest extends BaseUnitTest {
 		assertEquals("1+(1)/(5)", value.get("content").toString());
 		assertEquals("1.2", value.get("eval").toString());
 	}
+
+	@Test
+	public void testSetEditorStateInvalidCaret() {
+		api.setEditorState("{content:\"1+1/5\", caret: \"/\"}");
+		Map<String, Object> value = api.getEvaluatorValue();
+		assertEquals("1+(1)/(5)", value.get("content").toString());
+	}
+
+	@Test
+	public void testSetEditorStateInvalidContent() {
+		api.setEditorState("{caret: [1,2,3]}");
+		Map<String, Object> value = api.getEvaluatorValue();
+		assertEquals("", value.get("content").toString());
+	}
 }
