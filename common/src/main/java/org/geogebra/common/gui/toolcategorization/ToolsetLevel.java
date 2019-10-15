@@ -11,22 +11,20 @@ public enum ToolsetLevel {
     /**
      * for empty construction
      */
-    EMPTY_CONSTRUCTION("Empty", 0),
+    EMPTY_CONSTRUCTION("Empty"),
     /**
      * non-empty construction
      */
-    STANDARD("Standard", 1),
+    STANDARD("Standard"),
     /**
      * full list of tools
      */
-    ADVANCED("Advanced", 2);
+    ADVANCED("Advanced");
 
     private final String level;
-    private final int index;
 
-    ToolsetLevel(String level, int index) {
+    ToolsetLevel(String level) {
         this.level = level;
-        this.index = index;
     }
 
     /**
@@ -36,7 +34,19 @@ public enum ToolsetLevel {
         return "ToolsetLevel." + level;
     }
 
-    public int getIndex() {
-        return index;
+    public ToolsetLevel getPrevious() {
+        if (ordinal() > 1) {
+            return ToolsetLevel.values()[ordinal() - 1];
+        }
+
+        return null;
+    }
+
+    public ToolsetLevel getNext() {
+        if (ordinal() < values().length - 1) {
+            return ToolsetLevel.values()[ordinal() + 1];
+        }
+
+        return null;
     }
 }

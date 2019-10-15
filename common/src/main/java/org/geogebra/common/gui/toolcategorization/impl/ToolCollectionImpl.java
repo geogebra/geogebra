@@ -43,9 +43,7 @@ class ToolCollectionImpl implements ToolCollection {
     void extendCategory(ToolCategory category, List<Integer> tools) {
         int categoryIndex = -1;
 
-        ToolsetLevel previousLevel = level == ToolsetLevel.ADVANCED
-                ? ToolsetLevel.STANDARD
-                : ToolsetLevel.EMPTY_CONSTRUCTION;
+        ToolsetLevel previousLevel = level.getPrevious();
         if (levels.get(previousLevel) != null) {
             categoryIndex = levels.get(previousLevel).categories.indexOf(category);
         }
