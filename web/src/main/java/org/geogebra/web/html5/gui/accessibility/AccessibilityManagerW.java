@@ -311,7 +311,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
-			app.getSelectionManager().select(geo);
+			app.getSelectionManager().addSelectedGeoForEV(geo);
 			setTabOverGeos(true);
 			if (!geo.isGeoInputBox()) {
 				app.getActiveEuclidianView().requestFocus();
@@ -339,7 +339,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return;
 		}
 		Element anchorElement = anchor.getElement();
-		app.getAppletFrame().getSelectionRegistry().register(anchorElement);
 		anchorElement.focus();
 		cancelAnchor();
 	}

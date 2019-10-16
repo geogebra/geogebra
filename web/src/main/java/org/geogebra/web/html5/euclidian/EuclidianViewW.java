@@ -1120,7 +1120,6 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public boolean requestFocusInWindow() {
 		Element evElement = g2p.getElement();
-		getApplication().getAppletFrame().getSelectionRegistry().register(evElement);
 		evElement.focus();
 		focusGained();
 		return true;

@@ -1739,7 +1739,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		if (focus) {
 			Element inputElement = mf.getInputTextArea().getElement();
-			app.getAppletFrame().getSelectionRegistry().register(inputElement);
 		}
 		mf.setFocus(focus);
 

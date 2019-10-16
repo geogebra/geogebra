@@ -52,7 +52,6 @@ public class SelectionManager {
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
 	private final Kernel kernel;
-	private final SelectionRegistry selectionRegistry;
 	private final ArrayList<UpdateSelection> listeners;
 
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
@@ -92,15 +91,12 @@ public class SelectionManager {
 	/**
 	 * @param kernel
 	 *            kernel
-	 * @param selectionRegistry
-	 * 			  selection registry
 	 * @param listener
 	 *            listener to be notified on selection updates
 	 */
 	public SelectionManager(
-			Kernel kernel, SelectionRegistry selectionRegistry, UpdateSelection listener) {
+			Kernel kernel, UpdateSelection listener) {
 		this.kernel = kernel;
-		this.selectionRegistry = selectionRegistry;
 		this.listeners = new ArrayList<>(2);
 		this.listeners.add(listener);
 
@@ -758,28 +754,6 @@ public class SelectionManager {
 	}
 
 	/**
-	 * Selects the selectable element.
-	 * @param selectable The element to be selected.
-	 */
-	public void select(Selectable selectable) {
-		if (selectable.canSelectSelf()) {
-			selectionRegistry.register(selectable);
-			selectable.selectSelf();
-		} else {
-			select(selectable.getGeoElement());
-		}
-	}
-
-	/**
-	 * Selects the element.
-	 * @param element The element to be selected.
-	 */
-	public void select(GeoElement element) {
-		selectionRegistry.register(element);
-		addSelectedGeoForEV(element);
-	}
-
-	/**
 	 * Select an element and focus it in graphics view
 	 * 
 	 * @param geo
@@ -1261,5 +1235,6 @@ public class SelectionManager {
 	private AccessibilityManagerInterface getAccessibilityManager() {
 		return kernel.getApplication().getAccessibilityManager();
 	}
+
 }
 

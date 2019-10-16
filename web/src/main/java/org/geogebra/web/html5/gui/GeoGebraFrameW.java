@@ -7,7 +7,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.gui.selection.SelectionRegistryW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
@@ -73,7 +72,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private final GLookAndFeelI laf;
 	private Visibility forcedHeaderVisibility = Visibility.NOT_SET;
 	private boolean isHeaderVisible;
-	private SelectionRegistryW selectionRegistry;
 
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
@@ -83,7 +81,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
 		super(mainTag ? "main" : DivElement.TAG);
 		this.laf = laf;
-		initSelectionRegistry();
 		instances.add(this);
 		addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
@@ -104,11 +101,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public GeoGebraFrameW(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
 		this.articleElement = articleElement;
-	}
-
-	private void initSelectionRegistry() {
-		selectionRegistry = new SelectionRegistryW();
-		selectionRegistry.register(getElement());
 	}
 
 	/**
@@ -333,9 +325,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void fitSizeToScreen() {
 		if (articleElement.getDataParamFitToScreen()) {
+			Element focusBefore = Dom.getActiveElement();
 			updateHeaderSize();
 			app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
-			app.getSelectionManager().select(selectionRegistry.getLastSelectedElement());
+			if (focusBefore != null) {
+				focusBefore.focus();
+			}
 		}
 		app.checkScaleContainer();
 	}
@@ -787,12 +782,5 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (splash != null) {
 			splash.canNowHide();
 		}
-	}
-
-	/**
-	 * @return The SelectionRegistry instance.
-	 */
-	public SelectionRegistryW getSelectionRegistry() {
-		return selectionRegistry;
 	}
 }

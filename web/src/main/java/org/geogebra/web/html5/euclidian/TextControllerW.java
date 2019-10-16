@@ -170,7 +170,6 @@ public class TextControllerW
 	}
 
 	private void focusEditor() {
-		app.getAppletFrame().getSelectionRegistry().register(editor.getElement());
 		editor.requestFocus();
 	}
 

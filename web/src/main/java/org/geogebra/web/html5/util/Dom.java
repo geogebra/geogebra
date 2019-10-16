@@ -122,4 +122,11 @@ public final class Dom {
 		}
 	}
 
+	/**
+	 * @return active element
+	 */
+	public static native Element getActiveElement() /*-{
+		return $doc.activeElement;
+	}-*/;
+
 }

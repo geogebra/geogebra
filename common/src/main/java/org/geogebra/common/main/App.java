@@ -79,7 +79,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.selection.SelectionManager;
-import org.geogebra.common.main.selection.SelectionRegistry;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -3271,17 +3270,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public SelectionManager getSelectionManager() {
 		if (selection == null) {
-			selection =
-					new SelectionManager(getKernel(), getSelectionRegistry(), this);
+			selection = new SelectionManager(getKernel(), this);
 		}
 		return selection;
-	}
-
-	/**
-	 * @return The SelectionRegistry instance.
-	 */
-	protected SelectionRegistry getSelectionRegistry() {
-		return null;
 	}
 
 	/**
