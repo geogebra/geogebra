@@ -86,7 +86,7 @@ class ToolCollectionImpl implements ToolCollection {
     @Override
     public void setLevel(ToolsetLevel level) {
         if (!levels.containsKey(level)) {
-            throw new UnsupportedOperationException("Level size not in range");
+            throw new UnsupportedOperationException("Toolset level not supported");
         }
         this.level = level;
     }

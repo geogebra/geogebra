@@ -84,7 +84,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -4726,16 +4725,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return a ToolCollectionFactory
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
-		ToolCollectionFactory factory = null;
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
 		if (toolbarDefinition == null
-				|| ToolBar.isDefaultToolbar(toolbarDefinition)
-				|| ToolBar.isDefaultToolbar3D(toolbarDefinition)) {
-			factory = createDefaultToolCollectionFactory();
+				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
+			return createDefaultToolCollectionFactory();
 		} else {
-			factory = new CustomToolCollectionFactory(this, toolbarDefinition);
+			return new CustomToolCollectionFactory(this, toolbarDefinition);
 		}
-		return factory;
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {

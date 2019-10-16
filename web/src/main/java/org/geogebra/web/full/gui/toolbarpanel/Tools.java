@@ -31,10 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class Tools extends FlowPanel implements SetLabels {
 
 	/**
-	 * Tool categories
-	 */
-	private ToolCollection toolCollection;
-	/**
 	 * application
 	 */
 	private AppW app;
@@ -58,9 +54,6 @@ public class Tools extends FlowPanel implements SetLabels {
 	public Tools(AppW app, ToolsTab parentTab) {
 		this.app = app;
 		this.parentTab = parentTab;
-
-		ToolCollectionFactory toolCollectionFactory = app.createToolCollectionFactory();
-		toolCollection = toolCollectionFactory.createToolCollection();
 
 		this.addStyleName("toolsPanel");
 		buildGui();
@@ -147,15 +140,12 @@ public class Tools extends FlowPanel implements SetLabels {
 		categoryPanelList = new ArrayList<>();
 		// decide if custom toolbar or not
 		String def = app.getGuiManager().getCustomToolbarDefinition();
-		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def)
-				&& !ToolBar.isDefaultToolbar3D(def);
+		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def);
+
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
 		if (!isCustomToolbar) {
-			toolCollection.setLevel(app.getSettings().getToolbarSettings()
-					.getToolsetLevel());
-
-			for (ToolCategory category : toolCollection.getCategories()) {
+			for (ToolCategory category : parentTab.toolCollection.getCategories()) {
 				CategoryPanel catPanel = new CategoryPanel(category);
 				categoryPanelList.add(catPanel);
 				add(catPanel);
@@ -194,10 +184,6 @@ public class Tools extends FlowPanel implements SetLabels {
 				categoryPanel.setLabels();
 			}
 		}
-	}
-
-	public ToolCollection getToolCollection() {
-		return toolCollection;
 	}
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
@@ -242,8 +228,8 @@ public class Tools extends FlowPanel implements SetLabels {
 
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
-			List<Integer> tools = toolCollection.getTools(
-					toolCollection.getCategories().indexOf(category));
+			List<Integer> tools = parentTab.toolCollection.getTools(
+					parentTab.toolCollection.getCategories().indexOf(category));
 			toolButtonList = new ArrayList<>();
 			ToolBar.parseToolbarString(
 					app.getGuiManager().getToolbarDefinition());
