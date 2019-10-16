@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -54,6 +55,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -3340,17 +3342,12 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCmdOutput(LinkedHashMap<String, String> attrs) {
 		try {
 			// set labels for command processing
-			String label;
 			int countLabels = 0;
-			/*
-			 * TODO Doesn't work with GWT. why? Collection<String> values =
-			 * attrs.values(); Iterator<String> it = values.iterator(); while
-			 * (it.hasNext()) { label = it.next();
-			 */
 
-			ArrayList<String> attrKeys = new ArrayList<>(attrs.keySet());
-			for (String key : attrKeys) {
-				label = attrs.get(key);
+			String randomVal = attrs.remove("randomResult");
+
+			for (String value : attrs.values()) {
+				String label = value;
 				if ("".equals(label)) {
 					label = null;
 				} else {
@@ -3375,6 +3372,18 @@ public class MyXMLHandler implements DocHandler {
 			// process the command
 			cmdOutput = getAlgProcessor().processCommand(cmd,
 					new EvalInfo(true, casMap));
+
+			if (randomVal != null
+					&& cmdOutput[0].getParentAlgorithm() instanceof SetRandomValue) {
+				SetRandomValue randomizableAlgo =
+						(SetRandomValue) cmdOutput[0].getParentAlgorithm();
+
+				GeoElementND randomResult = getAlgProcessor()
+						.evaluateToGeoElement(randomVal, false);
+
+				randomizableAlgo.setRandomValue(randomResult);
+			}
+
 			cons.registerFunctionVariable(null);
 			String cmdName = cmd.getName();
 			if (cmdOutput == null) {
@@ -3395,30 +3404,20 @@ public class MyXMLHandler implements DocHandler {
 			// enforce setting of labels
 			// (important for invisible objects like intersection points)
 
-			// it = values.iterator();
 			int i = 0;
-			/*
-			 * while (it.hasNext()) { label = it.next();
-			 */
-			for (String key : attrKeys) {
-				label = attrs.get(key);
-				if ("".equals(label)) {
-					label = null;
-				}
-
-				if (label != null && cmdOutput[i] != null) {
+			for (String label : attrs.values()) {
+				if (!StringUtil.empty(label) && cmdOutput[i] != null) {
 					cmdOutput[i].setLoadedLabel(label);
 				}
 				i++;
 			}
+
 			return true;
-		} catch (MyError e) {
+		} catch (CommandNotLoadedError e) {
+			throw e;
+		} catch (Throwable t) {
 			errors.add("processing of command: " + cmd);
-			e.printStackTrace();
-			return false;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			errors.add("processing of command: " + cmd);
+			t.printStackTrace();
 			return false;
 		}
 	}

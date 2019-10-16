@@ -140,8 +140,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		if (linkedGeo.isGeoNumeric()) {
 			if (symbolicMode && !((GeoNumeric) linkedGeo).isSimple()) {
 				linkedGeoText = toLaTex(linkedGeo);
+			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
+				linkedGeoText = linkedGeo.toValueString(tpl);
 			} else {
-				linkedGeoText = getStringForNumeric((GeoNumeric) linkedGeo);
+				linkedGeoText = linkedGeo.getRedefineString(true, true);
 			}
 		} else if (isSymbolicMode()) {
 			linkedGeoText = toLaTex(linkedGeo);
@@ -154,14 +156,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		}
 
 		return linkedGeoText;
-	}
-
-	private String getStringForNumeric(GeoNumeric numeric) {
-		if (linkedGeo.isDefined()) {
-			return numeric.toValueString(tpl);
-		} else {
-			return numeric.getRedefineString(true, true);
-		}
 	}
 
 	private String toLaTex(GeoElementND geo) {
