@@ -11,9 +11,9 @@ import java.util.List;
 public interface ToolCollection {
 
     /**
-     * The list of categories in this toolset. The list can contain null.
+     * The list of categories in this toolset.
      *
-     * @return the list of category names
+     * @return the list of categories
      */
     List<ToolCategory> getCategories();
 

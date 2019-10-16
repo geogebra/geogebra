@@ -2,15 +2,11 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
-import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -144,37 +140,20 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
-		if (!isCustomToolbar) {
-			for (ToolCategory category : parentTab.toolCollection.getCategories()) {
-				CategoryPanel catPanel = new CategoryPanel(category);
-				categoryPanelList.add(catPanel);
-				add(catPanel);
-			}
-		} else {
+		if (isCustomToolbar) {
 			this.addStyleName("customToolbar");
-			Vector<ToolbarItem> toolbarItems = getToolbarVec(def);
-			for (ToolbarItem toolbarItem : toolbarItems) {
-				CategoryPanel catPanel = new CategoryPanel(toolbarItem);
-				categoryPanelList.add(catPanel);
-				add(catPanel);
-			}
 		}
-		setMoveMode();
-	}
 
-	/**
-	 * @param toolbarString
-	 *            string definition of toolbar
-	 * @return the vector of groups of tools
-	 */
-	private Vector<ToolbarItem> getToolbarVec(String toolbarString) {
-		Vector<ToolbarItem> toolbarVec;
-		try {
-			toolbarVec = ToolBar.parseToolbarString(toolbarString);
-		} catch (Exception e) {
-			toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
+		List<ToolCategory> categories = parentTab.toolCollection.getCategories();
+
+		for (int i = 0; i < categories.size(); i++) {
+			CategoryPanel catPanel = new CategoryPanel(categories.get(i),
+					parentTab.toolCollection.getTools(i));
+			categoryPanelList.add(catPanel);
+			add(catPanel);
 		}
-		return toolbarVec;
+
+		setMoveMode();
 	}
 
 	@Override
@@ -187,28 +166,19 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
+
 		private ToolCategory category;
+		private List<Integer> tools;
+
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
 		private ArrayList<ToolButton> toolButtonList;
 
-		CategoryPanel(ToolCategory cat) {
+		CategoryPanel(ToolCategory category, List<Integer> tools) {
 			super();
-			category = cat;
+			this.category = category;
+			this.tools = tools;
 			initGui();
-		}
-
-		CategoryPanel(ToolbarItem toolbarItem) {
-			toolsPanel = new FlowPanel();
-			toolsPanel.addStyleName("categoryPanel");
-			toolButtonList = new ArrayList<>();
-			Vector<Integer> tools = toolbarItem.getMenu();
-			for (Integer mode : tools) {
-				if (app.isModeValid(mode)) {
-					addToolButton(mode);
-				}
-			}
-			add(toolsPanel);
 		}
 
 		private void addToolButton(Integer mode) {
@@ -228,8 +198,6 @@ public class Tools extends FlowPanel implements SetLabels {
 
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
-			List<Integer> tools = parentTab.toolCollection.getTools(
-					parentTab.toolCollection.getCategories().indexOf(category));
 			toolButtonList = new ArrayList<>();
 			ToolBar.parseToolbarString(
 					app.getGuiManager().getToolbarDefinition());

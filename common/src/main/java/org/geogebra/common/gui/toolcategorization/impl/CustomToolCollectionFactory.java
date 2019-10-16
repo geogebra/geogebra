@@ -52,7 +52,7 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
         impl.addLevel(ToolsetLevel.STANDARD);
 
         List<ToolbarItem> items = getToolbarItems();
-        for (ToolbarItem item: items) {
+        for (ToolbarItem item : items) {
             impl.addCategory(ToolCategory.NO_CATEGORY, item.getMenu());
         }
         return impl;
