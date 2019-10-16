@@ -79,7 +79,6 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 
 	@Override
 	public final void compute() {
-
 		size = inputList.size();
 		if (!inputList.isDefined() || size == 0) {
 			outputList.setUndefined();
@@ -92,7 +91,6 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 		outputList.setDefined(true);
 		outputList.clear();
 		fill(list);
-
 	}
 
 	private ArrayList<GeoElement> copyInput() {
@@ -113,7 +111,6 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 			outputList.add(list.get(pos));
 			list.remove(pos);
 		}
-
 	}
 
 	@Override
@@ -142,5 +139,4 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 		}
 		return false;
 	}
-
 }

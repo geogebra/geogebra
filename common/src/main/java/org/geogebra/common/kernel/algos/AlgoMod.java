@@ -53,37 +53,24 @@ public class AlgoMod extends AlgoTwoNumFunction {
 	}
 
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
+	public final double computeValue(double aValRaw, double bVal) {
+		double aVal = DoubleUtil.checkInteger(aValRaw);
+		double bAbs = DoubleUtil.checkInteger(Math.abs(bVal));
 
-			// removed as causes problems with old files
-			// double mod = Math.round(a.getDouble());
-			// double bInt = Math.abs(Math.round(b.getDouble()));
-
-			double aVal = DoubleUtil.checkInteger(a.getDouble());
-			double bAbs = DoubleUtil.checkInteger(Math.abs(b.getDouble()));
-
-			if (Math.abs(aVal) > MyDouble.LARGEST_INTEGER
-					|| bAbs > MyDouble.LARGEST_INTEGER) {
-				num.setUndefined();
-				return;
-			}
-
-			double mod = aVal % bAbs;
-
-			// https://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3
-			// It follows from this rule that the result of the remainder
-			// operation can be negative only if the dividend is negative, and
-			// can be positive only if the dividend is positive.
-			if (mod < 0) {
-				mod += bAbs;
-			}
-
-			num.setValue(mod);
-
-		} else {
-			num.setUndefined();
+		if (Math.abs(aVal) > MyDouble.LARGEST_INTEGER || bAbs > MyDouble.LARGEST_INTEGER) {
+			return Double.NaN;
 		}
-	}
 
+		double mod = aVal % bAbs;
+
+		// https://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3
+		// It follows from this rule that the result of the remainder
+		// operation can be negative only if the dividend is negative, and
+		// can be positive only if the dividend is positive.
+		if (mod < 0) {
+			mod += bAbs;
+		}
+
+		return mod;
+	}
 }

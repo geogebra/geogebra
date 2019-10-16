@@ -33,12 +33,30 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 	protected GeoNumberValue b; // input
 	protected GeoNumeric num; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param a
+	 *            first argument
+	 * @param b
+	 *            second argument
+	 */
 	protected AlgoTwoNumFunction(Construction cons, String label,
 			GeoNumberValue a, GeoNumberValue b) {
 		this(cons, a, b);
 		num.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            first argument
+	 * @param b
+	 *            second argument
+	 */
 	protected AlgoTwoNumFunction(Construction cons, GeoNumberValue a,
 			GeoNumberValue b) {
 		super(cons);
@@ -47,11 +65,9 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 		num = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 
-		// compute angle
 		compute();
 	}
 
-	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
@@ -63,7 +79,28 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoNumeric getResult() {
 		return num;
 	}
+
+	@Override
+	public final void compute() {
+		if (input[0].isDefined() && input[1].isDefined()) {
+			num.setValue(computeValue(a.getDouble(), b.getDouble()));
+		} else {
+			num.setUndefined();
+		}
+	}
+
+	/**
+	 * @param double1
+	 *            value of first numeric input
+	 * @param double2
+	 *            value of second numeric input
+	 * @return function result
+	 */
+	protected abstract double computeValue(double double1, double double2);
 }
