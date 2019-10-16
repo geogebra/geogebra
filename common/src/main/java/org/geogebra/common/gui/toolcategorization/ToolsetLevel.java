@@ -35,7 +35,7 @@ public enum ToolsetLevel {
     }
 
     public ToolsetLevel getPrevious() {
-        if (ordinal() > 1) {
+        if (ordinal() > 0) {
             return ToolsetLevel.values()[ordinal() - 1];
         }
 
