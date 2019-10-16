@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
-import org.geogebra.common.main.selection.SelectionManager;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;

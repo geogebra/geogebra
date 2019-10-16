@@ -1119,8 +1119,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		Element evElement = g2p.getElement();
-		evElement.focus();
+		getCanvasElement().focus();
 		focusGained();
 		return true;
 	}

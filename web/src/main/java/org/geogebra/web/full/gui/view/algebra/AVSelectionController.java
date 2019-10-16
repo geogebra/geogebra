@@ -8,7 +8,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.selection.SelectionManager;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 /**

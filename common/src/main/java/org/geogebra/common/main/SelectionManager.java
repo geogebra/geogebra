@@ -1,4 +1,4 @@
-package org.geogebra.common.main.selection;
+package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,9 +37,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.main.UpdateSelection;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 

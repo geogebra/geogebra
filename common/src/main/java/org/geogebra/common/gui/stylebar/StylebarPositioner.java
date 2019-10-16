@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.selection.SelectionManager;
+import org.geogebra.common.main.SelectionManager;
 
 /**
  * dynamic stylebar positioner logic, also used for preview point popup

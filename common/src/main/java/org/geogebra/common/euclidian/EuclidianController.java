@@ -145,7 +145,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.selection.SelectionManager;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.error.ErrorHelper;

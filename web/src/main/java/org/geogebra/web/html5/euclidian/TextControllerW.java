@@ -165,12 +165,8 @@ public class TextControllerW
 			}
 		}
 		editor.show();
-		focusEditor();
-		getView().repaint();
-	}
-
-	private void focusEditor() {
 		editor.requestFocus();
+		getView().repaint();
 	}
 
 	/**
