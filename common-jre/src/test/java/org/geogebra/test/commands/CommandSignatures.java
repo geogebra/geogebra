@@ -24,7 +24,7 @@ public class CommandSignatures {
 	 */
 	public static List<Integer> getSigneture(String cmdName) {
 		if ("ExportImage".equals(cmdName)) {
-			return Arrays.asList(2, 4, 6);
+			return Arrays.asList(0, 2, 4, 6);
 		}
 		String syntax = loc.getCommand(cmdName + Localization.syntaxStr);
 		if (!syntax.contains(Localization.syntaxStr)) {
@@ -35,6 +35,12 @@ public class CommandSignatures {
 				} else {
 					signature.add(line.replace("x, y", "xy").split(",").length);
 				}
+			}
+			if ("Function".equals(cmdName) || "Random".equals(cmdName)
+					|| "DataFunction".equals(cmdName)
+					|| "ZoomIn".equals(cmdName)
+					|| "StartLogging".equals(cmdName)) {
+				signature.add(0);
 			}
 			return signature;
 		}

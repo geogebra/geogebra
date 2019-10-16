@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -74,7 +73,7 @@ public class AlgebraTestHelper {
 				shouldFail(withArgs.toString(), "arg", "IllegalArgument:", app);
 			}
 		}
-		if (!mayHaveZeroArgs(cmdName)) {
+		if (!signature.contains(0)) {
 			shouldFail(cmdName + "()", "Illegal number of arguments: 0",
 					"IllegalArgumentNumber", app);
 		}
@@ -217,16 +216,6 @@ public class AlgebraTestHelper {
 			matchers.add(IsEqual.equalTo(exp));
 		}
 		return matchers;
-	}
-
-	public static boolean mayHaveZeroArgs(String cmdName) {
-		return Arrays.asList("DataFunction", "AxisStepX",
-				"AxisStepY", "Button", "StartLogging", "StopLogging",
-				"StartRecord", "ConstructionStep", "StartAnimation", "ShowAxes",
-				"ShowGrid", "SetActiveView", "ZoomIn", "SetViewDirection",
-				"ExportImage", "Random", "Textfield", "GetTime",
-				"UpdateConstruction", "SelectObjects", "Turtle", "Function",
-				"Checkbox", "InputBox", "RandomBetween").contains(cmdName);
 	}
 
 	public static void enableCAS(App app, boolean enabled) {
