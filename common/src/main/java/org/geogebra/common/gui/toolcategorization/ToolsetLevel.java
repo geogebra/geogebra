@@ -34,6 +34,10 @@ public enum ToolsetLevel {
         return "ToolsetLevel." + level;
     }
 
+    /**
+     * @return the previous ToolsetLevel, as defined by the enum ordinal,
+     * null, if it is the first one
+     */
     public ToolsetLevel getPrevious() {
         if (ordinal() > 0) {
             return ToolsetLevel.values()[ordinal() - 1];
@@ -42,6 +46,10 @@ public enum ToolsetLevel {
         return null;
     }
 
+    /**
+     * @return the next ToolsetLevel, as defined by the enum ordinal,
+     * null, if it is the last one
+     */
     public ToolsetLevel getNext() {
         if (ordinal() < values().length - 1) {
             return ToolsetLevel.values()[ordinal() + 1];
