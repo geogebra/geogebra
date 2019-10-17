@@ -49,6 +49,7 @@ public class SelectionManager {
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
 	private final Kernel kernel;
+
 	private final ArrayList<UpdateSelection> listeners;
 
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
@@ -91,8 +92,7 @@ public class SelectionManager {
 	 * @param listener
 	 *            listener to be notified on selection updates
 	 */
-	public SelectionManager(
-			Kernel kernel, UpdateSelection listener) {
+	public SelectionManager(Kernel kernel, UpdateSelection listener) {
 		this.kernel = kernel;
 		this.listeners = new ArrayList<>(2);
 		this.listeners.add(listener);
@@ -1232,6 +1232,5 @@ public class SelectionManager {
 	private AccessibilityManagerInterface getAccessibilityManager() {
 		return kernel.getApplication().getAccessibilityManager();
 	}
-
 }
 

@@ -4036,5 +4036,4 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void endDrawRecordingAndLogResults() {
 		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
 	}
-
 }

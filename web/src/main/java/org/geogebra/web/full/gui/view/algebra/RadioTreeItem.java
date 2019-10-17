@@ -1736,7 +1736,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				addDummyLabel();
 			}
 		}
-
 		mf.setFocus(focus);
 
 		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
