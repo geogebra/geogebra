@@ -158,12 +158,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/** @return true if a shape was created, false otherwise */
 	private boolean mouseReleasedFreehand(int x, int y) {
-		int n = maxX - minX + 1;
-
-		if (n < 0) {
-			return false;
-		}
-
 		GeoElement shape = checkShapes(x, y);
 
 		if (shape != null) {
@@ -175,16 +169,18 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	private boolean createFunction() {
 		int n = maxX - minX + 1;
-		double[] freehand1 = new double[n];
+
+		if (n < 0) {
+			return false;
+		}
 
 		// now check if it can be a function (increasing or decreasing x)
-
 		double monotonicTest = 0;
 
 		for (int i = 0; i < penPoints.size() - 1; i++) {
 			GPoint p1 = penPoints.get(i);
 			GPoint p2 = penPoints.get(i + 1);
-			if (Math.signum(p2.x - p1.x) != 1) {
+			if (p2.x >= p1.x) {
 				monotonicTest++;
 			}
 		}
@@ -199,20 +195,22 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		if (!monotonic) {
 			penPoints.clear();
+			app.refreshViews();
 			return false;
 		}
 
+		double[] freehand1 = new double[n];
 		for (int i = 0; i < n; i++) {
 			freehand1[i] = Double.NaN;
 		}
 
 		for (GPoint p : penPoints) {
 			int index = p.x - minX;
-			if (index >= 0 && index < freehand1.length
-					&& Double.isNaN(freehand1[index])) {
+			if (Double.isNaN(freehand1[index])) {
 				freehand1[index] = view.toRealWorldCoordY(p.y);
 			}
 		}
+		penPoints.clear();
 
 		// fill in any gaps (eg from fast mouse movement)
 		double val = freehand1[0];
