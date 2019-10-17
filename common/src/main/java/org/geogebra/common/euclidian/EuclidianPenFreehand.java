@@ -14,10 +14,6 @@ import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -31,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -69,8 +64,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	private Inertia d = null;
 	private int[] brk;
 	private int recognizer_queue_length = 0;
-	private double score = 0;
-	private static final int MAX_POLYGON_SIDES = 4;
+    private static final int MAX_POLYGON_SIDES = 4;
 	private static final double SLANT_TOLERANCE = 5 * Math.PI / 180;
 	private int minX = Integer.MAX_VALUE;
 	private int maxX = Integer.MIN_VALUE;
@@ -330,47 +324,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * creates a circle if possible
 	 */
 	private boolean createCircle() {
-		ArrayList<GeoElement> geoCirclePlusPoint;
-		if (tryCircleThroughExistingPoints() != null) {
-			return true;
-		} else if ((geoCirclePlusPoint = getCircleThreePoints()) != null) {
-
-			boolean recreate = false;
-
-			GeoElement geoCircle = geoCirclePlusPoint.get(0);
-
-			ArrayList<GeoPointND> points = ((GeoConicND) geoCirclePlusPoint
-					.get(0)).getPointsOnConic();
-
-			if (points == null || points.size() < 3) {
-				resetInitialPoint();
-				return false;
-			}
-
-			ArrayList<GeoPointND> list = new ArrayList<>();
-			for (GeoPointND geo : points) {
-				if (!geo.isLabelSet()) {
-					recreate = true;
-					geo.setLabel(null);
-				}
-				list.add(geo);
-			}
-
-			// the circle needs to be recreated to prevent errors in the XML
-			if (recreate) {
-				geoCircle.remove();
-				AlgoCircleThreePoints algo = new AlgoCircleThreePoints(
-						app.getKernel().getConstruction(), list.get(0),
-						list.get(1), list.get(2));
-				geoCircle = algo.getCircle();
-				geoCircle.setLabel(null);
-				geoCircle.updateRepaint();
-			}
-
-			return true;
-		}
-		resetInitialPoint();
-		return false;
+		return tryCircleThroughExistingPoints() != null || tryCircle() != null;
 	}
 
 	/**
@@ -585,7 +539,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * @return {@link GeoElement} if polygon or line could be created,
 	 *         {@code null} otherwise
 	 */
-	protected GeoElement tryPolygonOrLine() {
+	private GeoElement tryPolygonOrLine() {
 		int n = getPolygonal();
 
 		if (n <= 0) {
@@ -1197,104 +1151,48 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		return line;
 	}
 
-	private GeoElement tryCircle() {
-		ArrayList<GeoElement> circlePlusPoint = getCircleThreePoints();
-		if (circlePlusPoint != null) {
-			GeoConicND circle = (GeoConicND) circlePlusPoint.get(0);
-			circle.setIsShape(app.isWhiteboardActive());
-			if (app.isWhiteboardActive()) {
-				return circle;
-			}
-			// midpoint
-			GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null,
-					circle.getMidpoint().getX(), circle.getMidpoint().getY(),
-					1.0);
-			m.setEuclidianVisible(false);
-
-			// point on the circle
-			GeoPoint p = (GeoPoint) circlePlusPoint.get(1);
-			p.setLabel(null);
-			p.setEuclidianVisible(false);
-
-			// delete the circle that was created in makeACircle
-			circle.remove();
-
-			// create a new circle with midpoint and point
-			return app.getKernel().getAlgoDispatcher().circle(null, m, p);
-		}
-		return null;
-	}
-
-	/**
-	 * @return circle through three points
-	 */
-	protected ArrayList<GeoElement> getCircleThreePoints() {
+	private GeoConic tryCircle() {
 		Inertia s = new Inertia();
-		this.calc_inertia(0, penPoints.size() - 1, s);
+		calc_inertia(0, penPoints.size() - 1, s);
+		resetInitialPoint();
+
 		if (i_det(s) > CIRCLE_MIN_DET) {
-			score = this.score_circle(0, penPoints.size() - 1, s);
+            double score = score_circle(0, penPoints.size() - 1, s);
 			if (score < CIRCLE_MAX_SCORE) {
-				return this.makeACircle(center_x(s), center_y(s), i_rad(s));
+				double centerX = view.toRealWorldCoordX(center_x(s));
+				double centerY = view.toRealWorldCoordY(center_y(s));
+				double radius = Math.sqrt(i_xx(s) * view.getInvXscale() * view.getInvXscale()
+						+ i_yy(s) * view.getInvYscale() * view.getInvYscale());
+
+				Construction cons = app.getKernel().getConstruction();
+
+				GeoPoint p1 = new GeoPoint(cons, centerX + radius, centerY, 1.0);
+				GeoPoint p2 = new GeoPoint(cons,
+						centerX + Math.cos(2 * Math.PI / 3) * radius,
+						centerY + Math.sin(2 * Math.PI / 3) * radius,
+						1.0
+				);
+				GeoPoint p3 = new GeoPoint(cons,
+						centerX + Math.cos(4 * Math.PI / 3) * radius,
+						centerY + Math.sin(4 * Math.PI / 3) * radius,
+						1.0
+				);
+
+				p1.setLabel(null);
+				p2.setLabel(null);
+				p3.setLabel(null);
+
+				AlgoCircleThreePoints algoCircle = new AlgoCircleThreePoints(
+						app.getKernel().getConstruction(), p1, p2, p3
+				);
+
+				algoCircle.getCircle().setLabel(null);
+
+				return (GeoConic) algoCircle.getCircle();
 			}
 		}
+
 		return null;
-	}
-
-	private ArrayList<GeoElement> makeACircle(double x, double y, double r) {
-		ArrayList<GPoint> temp = new ArrayList<>();
-		int npts, i = 0;
-		npts = (int) (2 * r);
-		if (npts < 12) {
-			npts = 12;
-		}
-		GPoint p;
-		for (i = 0; i <= npts; i++) {
-			p = new GPoint();
-			p.x = (int) (x + r * Math.cos((2 * i * Math.PI) / npts));
-			p.y = (int) (y + r * Math.sin((2 * i * Math.PI) / npts));
-			temp.add(p);
-		}
-		int size = temp.size();
-		double x1 = view.toRealWorldCoordX(temp.get(0).x);
-		double y1 = view.toRealWorldCoordY(temp.get(0).y);
-		double x2 = view.toRealWorldCoordX(temp.get(size / 3).x);
-		double y2 = view.toRealWorldCoordY(temp.get(size / 3).y);
-		double x3 = view.toRealWorldCoordX(temp.get(2 * size / 3).x);
-		double y3 = view.toRealWorldCoordY(temp.get(2 * size / 3).y);
-		if (x2 == x1) {
-			x1 = view.toRealWorldCoordX(temp.get(size / 4).x);
-			y1 = view.toRealWorldCoordY(temp.get(size / 4).y);
-		}
-		if (x2 == x3) {
-			x3 = view.toRealWorldCoordX(temp.get(11 * size / 12).x);
-			y3 = view.toRealWorldCoordY(temp.get(11 * size / 12).y);
-		}
-		GeoPoint p1 = new GeoPoint(app.getKernel().getConstruction(), x1, y1,
-				1.0);
-		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x2, y2,
-				1.0);
-		GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3,
-				1.0);
-		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(
-				app.getKernel().getConstruction(), p1, q, z);
-
-		GeoConicND circle = algo.getCircle();
-		Equation equ = getEquationOfConic(circle.getFlatMatrix());
-		equ.initEquation();
-		GeoElement[] geos = view.getKernel().getAlgebraProcessor()
-				.processConic(equ, equ.wrap(), new EvalInfo(true));
-		geos[0].setEuclidianVisible(true);
-		circle.remove();
-		algo.remove();
-		circle = (GeoConicND) geos[0];
-		circle.updateRepaint();
-
-		ArrayList<GeoElement> ret = new ArrayList<>();
-
-		ret.add(circle);
-		ret.add(p1);
-
-		return ret;
 	}
 
 	private void calc_inertia(int start, int end, Inertia s) {
@@ -1407,8 +1305,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double pt1_y = penPoints.get(start).y;
 		double pt2_x = penPoints.get(start + 1).x;
 		double pt2_y = penPoints.get(start + 1).y;
-		double dm = 0;
-		dm = coeff * Math.hypot(pt2_x - pt1_x, pt2_y - pt1_y);
+		double dm = coeff * Math.hypot(pt2_x - pt1_x, pt2_y - pt1_y);
+
 		s.mass = s.mass + dm;
 		s.sx = s.sx + (dm * pt1_x);
 		s.sy = s.sy + (dm * pt1_y);
@@ -1417,49 +1315,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		s.sxy = s.sxy + (dm * pt1_x * pt1_y);
 	}
 
-	private Equation getEquationOfConic(double[] coeffs) {
-		FunctionVariable xx = new FunctionVariable(view.getKernel(), "x");
-		FunctionVariable yy = new FunctionVariable(view.getKernel(), "y");
-		// x^2
-		ExpressionNode xSqr = new ExpressionNode(view.getKernel(), xx,
-				Operation.MULTIPLY, xx);
-		// x*x
-		ExpressionNode xy = new ExpressionNode(view.getKernel(), xx,
-				Operation.MULTIPLY, yy);
-		// y^2
-		ExpressionNode ySqr = new ExpressionNode(view.getKernel(), yy,
-				Operation.MULTIPLY, yy);
-		ExpressionNode term1 = new ExpressionNode(view.getKernel(),
-				new ExpressionNode(view.getKernel(), coeffs[0]),
-				Operation.MULTIPLY, xSqr);
-		ExpressionNode term2 = new ExpressionNode(view.getKernel(),
-				new ExpressionNode(view.getKernel(), coeffs[3] * 2),
-				Operation.MULTIPLY, xy);
-		ExpressionNode term3 = new ExpressionNode(view.getKernel(),
-				new ExpressionNode(view.getKernel(), coeffs[1]),
-				Operation.MULTIPLY, ySqr);
-		ExpressionNode term4 = new ExpressionNode(view.getKernel(),
-				new ExpressionNode(view.getKernel(), coeffs[4] * 2),
-				Operation.MULTIPLY, xx);
-		ExpressionNode term5 = new ExpressionNode(view.getKernel(),
-				new ExpressionNode(view.getKernel(), coeffs[5] * 2),
-				Operation.MULTIPLY, yy);
-
-		ExpressionNode term12 = new ExpressionNode(view.getKernel(), term1,
-				Operation.PLUS, term2);
-		ExpressionNode term34 = new ExpressionNode(view.getKernel(), term3,
-				Operation.PLUS, term4);
-		ExpressionNode term1234 = new ExpressionNode(view.getKernel(), term12,
-				Operation.PLUS, term34);
-		ExpressionNode lhs = new ExpressionNode(view.getKernel(), term1234,
-				Operation.PLUS, term5);
-		ExpressionNode rhs = new ExpressionNode(view.getKernel(), -coeffs[2]);
-		Equation equ = new Equation(view.getKernel(), lhs, rhs);
-		return equ;
-	}
-
 	private static double getCost(Inertia temp1, Inertia temp2) {
 		return (i_det(temp1) * i_det(temp1)) + (i_det(temp2) * i_det(temp2));
 	}
-
 }
