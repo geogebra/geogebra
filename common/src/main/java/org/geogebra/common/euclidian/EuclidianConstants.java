@@ -228,6 +228,9 @@ public final class EuclidianConstants {
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
 
+	/** Freehand function */
+	public static final int MODE_FREEHAND_FUNCTION = 74;
+
 	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
 

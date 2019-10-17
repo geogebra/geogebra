@@ -114,9 +114,6 @@ public class EuclidianPen implements GTimerListener {
 	private GColor penColor = GColor.BLACK;
 	private PenPreviewLine penPreviewLine;
 
-	// being used for Freehand Shape tool (not done yet)
-	// private boolean recognizeShapes = false;
-
 	/************************************************
 	 * Construct EuclidianPen
 	 *
@@ -395,8 +392,6 @@ public class EuclidianPen implements GTimerListener {
 
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 
-		// if (g2D == null) g2D = penImage.createGraphics();
-
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 
 		addPointPenMode(newPoint);
@@ -518,15 +513,6 @@ public class EuclidianPen implements GTimerListener {
 
 		app.setDefaultCursor();
 
-		// if (!erasing && recognizeShapes) {
-		// checkShapes(e);
-		// }
-
-		// if (lastPenImage != null) penImage = lastPenImage.getImage();
-		// //app.getExternalImage(lastPenImage);
-
-		// Application.debug(penPoints.size()+"");
-
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
@@ -614,10 +600,6 @@ public class EuclidianPen implements GTimerListener {
 		if (lastAlgo != null) {
 			try {
 				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
-				// String label = lastPolyLine.getPoly().getLabelSimple();
-				// lastPolyLine.getPoly().remove();
-				// lastPolyLine.remove();
-				// newPolyLine.getPoly().setLabel(label);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
