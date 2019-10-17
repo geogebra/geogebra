@@ -492,8 +492,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public boolean penMode(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			return true;
 		}
@@ -1050,7 +1050,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			return false;
 		}
@@ -1083,8 +1084,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			getPen().resetPenOffsets();
 
 			view.setSelectionRectangle(null);
@@ -5649,7 +5650,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			// MOW-75
 			view.setCursor(EuclidianCursor.PEN);
 			break;
@@ -11286,6 +11288,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switch (mode1) {
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+        case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			if (pen == null || !pen.isFreehand()) {
 				pen = new EuclidianPenFreehand(app, view);
 			}

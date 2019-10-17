@@ -163,15 +163,19 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (n < 0) {
 			return false;
 		}
-		double[] freehand1 = new double[n];
 
 		GeoElement shape = checkShapes(x, y);
 
-		if (shape != null && shape.isGeoLine()) {
-			// lines take priority over functions
-			penPoints.clear();
+		if (shape != null) {
 			return true;
 		}
+
+		return createFunction();
+	}
+
+	private boolean createFunction() {
+		int n = maxX - minX + 1;
+		double[] freehand1 = new double[n];
 
 		// now check if it can be a function (increasing or decreasing x)
 
@@ -194,19 +198,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		boolean monotonic = monotonicTest > 0.9 || monotonicTest < 0.1;
 
 		if (!monotonic) {
-			// may or may not have recognized a shape eg circle in checkShapes()
-			// earlier
 			penPoints.clear();
-			return shape != null;
-		}
-
-		// now definitely a function
-
-		if (shape != null) {
-			for (GeoElement geo : shape.getParentAlgorithm().getInput()) {
-				geo.remove();
-			}
-			shape.remove();
+			return false;
 		}
 
 		for (int i = 0; i < n; i++) {
@@ -315,6 +308,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return createPolygon();
 		case circleThreePoints:
 			return createCircle();
+		case function:
+			return createFunction();
 		}
 
 		return false;
