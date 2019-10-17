@@ -1154,7 +1154,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	private GeoConic tryCircle() {
 		Inertia s = new Inertia();
 		calc_inertia(0, penPoints.size() - 1, s);
-		resetInitialPoint();
 
 		if (i_det(s) > CIRCLE_MIN_DET) {
             double score = score_circle(0, penPoints.size() - 1, s);
@@ -1164,23 +1163,28 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				double radius = Math.sqrt(i_xx(s) * view.getInvXscale() * view.getInvXscale()
 						+ i_yy(s) * view.getInvYscale() * view.getInvYscale());
 
+				GeoPoint p1;
+				double phi0 = 0;
+
 				Construction cons = app.getKernel().getConstruction();
+				if (initialPoint != null) {
+					phi0 = Math.atan2(initialPoint.getY() - centerY,
+							initialPoint.getX() - centerX);
+					p1 = initialPoint;
+				} else {
+					p1 = new GeoPoint(cons, null, centerX + radius, centerY, 1.0);
+				}
 
-				GeoPoint p1 = new GeoPoint(cons, centerX + radius, centerY, 1.0);
-				GeoPoint p2 = new GeoPoint(cons,
-						centerX + Math.cos(2 * Math.PI / 3) * radius,
-						centerY + Math.sin(2 * Math.PI / 3) * radius,
+				GeoPoint p2 = new GeoPoint(cons, null,
+						centerX + Math.cos(phi0 + 2 * Math.PI / 3) * radius,
+						centerY + Math.sin(phi0 + 2 * Math.PI / 3) * radius,
 						1.0
 				);
-				GeoPoint p3 = new GeoPoint(cons,
-						centerX + Math.cos(4 * Math.PI / 3) * radius,
-						centerY + Math.sin(4 * Math.PI / 3) * radius,
+				GeoPoint p3 = new GeoPoint(cons, null,
+						centerX + Math.cos(phi0 + 4 * Math.PI / 3) * radius,
+						centerY + Math.sin(phi0 + 4 * Math.PI / 3) * radius,
 						1.0
 				);
-
-				p1.setLabel(null);
-				p2.setLabel(null);
-				p3.setLabel(null);
 
 				AlgoCircleThreePoints algoCircle = new AlgoCircleThreePoints(
 						app.getKernel().getConstruction(), p1, p2, p3
