@@ -52,7 +52,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		/** polygon with two moveable points */
 		rigidPolygon,
 		/** polygon that can be moved by first point */
-		vectorPolygon;
+		vectorPolygon,
+		/** freehand function */
+		function,
 	}
 
 	private ShapeType expected = null;
@@ -218,8 +220,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			freehand1[i] = Double.NaN;
 		}
 
-		for (int i = 0; i < penPoints.size(); i++) {
-			GPoint p = penPoints.get(i);
+		for (GPoint p : penPoints) {
 			int index = p.x - minX;
 			if (index >= 0 && index < freehand1.length
 					&& Double.isNaN(freehand1[index])) {
@@ -230,7 +231,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		// fill in any gaps (eg from fast mouse movement)
 		double val = freehand1[0];
 		int valIndex = 0;
-		double nextVal = Double.NaN;
 		int nextValIndex = -1;
 		for (int i = 0; i < n; i++) {
 			if (Double.isNaN(freehand1[i])) {
@@ -244,7 +244,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				if (nextValIndex >= n) {
 					freehand1[i] = val;
 				} else {
-					nextVal = freehand1[nextValIndex];
+					double nextVal = freehand1[nextValIndex];
 					freehand1[i] = (val * (nextValIndex - i)
 							+ nextVal * (i - valIndex))
 							/ (nextValIndex - valIndex);
@@ -515,7 +515,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 						double val = AlgoFitImplicit.power(px, xpower)
 								* AlgoFitImplicit.power(py, ypower);
-						// Log.debug(val + "x^"+xpower+" * y^"+ypower);
 
 						M.setEntry(j, c1++, val);
 					}
@@ -529,18 +528,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
 			for (int i = 0; i < 6; i++) {
 				coeffs[5 - i] = coeffsRV.getEntry(i);
-				// Log.debug("coeff of " + i + " = "+ coeffs[i]);
 			}
-
-			// double eccentricity = conic.eccentricity;
-
-			// GeoVec2D midpoint = conic.b;
-
-			// Log.debug("size of M = "+M.getColumnDimension()+"
-			// "+M.getRowDimension());
-			// Log.debug("size of V = "+V.getColumnDimension()+"
-			// "+V.getRowDimension());
-
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return null;
@@ -1065,8 +1053,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		c = new Inertia();
 		d = new Inertia();
 
-		// AbstractApplication.debug(penPoints);
-
 		return this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0,
 				0);
 	}
@@ -1082,8 +1068,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		int k, i1 = 0, i2 = 0, n1 = 0, n2;
 		double det1, det2;
 		int nsides = n;
-		// AbstractApplication.debug(start);
-		// AbstractApplication.debug(end);
+
 		if (end == start) {
 			return 0; // no way
 		}
@@ -1096,9 +1081,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		// look for a linear piece that's big enough
 		for (k = 0; k < nsides; ++k) {
 			i1 = start + (k * (end - start)) / nsides;
-			// AbstractApplication.debug(i1);
 			i2 = start + ((k + 1) * (end - start)) / nsides;
-			// AbstractApplication.debug(i2);
+
 			calc_inertia(i1, i2, s);
 			if (i_det(s) < LINE_MAX_DET) {
 				break;
@@ -1307,9 +1291,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		circle.remove();
 		algo.remove();
 		circle = (GeoConicND) geos[0];
-		// circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		// circle.setLineType(penLineStyle);
-		// circle.setObjColor(penColor);
 		circle.updateRepaint();
 
 		ArrayList<GeoElement> ret = new ArrayList<>();
@@ -1328,25 +1309,13 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		s.sy = 0.;
 		s.syy = 0.;
 		int[] temp1 = new int[4];
-		temp1[0] = penPoints.get(start).x;
-		temp1[1] = penPoints.get(start).y;
-		temp1[2] = penPoints.get(start + 1).x;
-		temp1[3] = penPoints.get(start + 1).y;
-		int coeff = 1;
-		double dm = coeff
-				* Math.hypot(temp1[2] - temp1[0], temp1[3] - temp1[1]);
-		s.mass = s.mass + dm;
-		s.sx = s.sx + (dm * temp1[0]);
-		s.sxx = s.sxx + (dm * temp1[0] * temp1[0]);
-		s.sxy = s.sxy + (dm * temp1[0] * temp1[1]);
-		s.sy = s.sy + (dm * temp1[1]);
-		s.syy = s.syy + (dm * temp1[1] * temp1[1]);
-		for (int i = start + 1; i < end; ++i) {
+
+		for (int i = start; i < end; ++i) {
 			temp1[0] = penPoints.get(i).x;
 			temp1[1] = penPoints.get(i).y;
 			temp1[2] = penPoints.get(i + 1).x;
 			temp1[3] = penPoints.get(i + 1).y;
-			dm = coeff * Math.hypot(temp1[2] - temp1[0], temp1[3] - temp1[1]);
+			double dm = Math.hypot(temp1[2] - temp1[0], temp1[3] - temp1[1]);
 			s.mass = s.mass + dm;
 			s.sx = s.sx + (dm * temp1[0]);
 			s.sxx = s.sxx + (dm * temp1[0] * temp1[0]);

@@ -12273,6 +12273,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
 			break;
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.function);
 		default:
 			return;
 		}
