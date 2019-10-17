@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -273,7 +272,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		GeoElement fun = algo.getOutput(0);
 
-		// fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		fun.setLineType(getPenLineStyle());
 		fun.setObjColor(getPenColor());
 
@@ -290,10 +288,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *            y-coord of new point
 	 * @return geo that fits current points + new point
 	 */
-	protected GeoElement checkShapes(int x, int y) {
+	private GeoElement checkShapes(int x, int y) {
 		initShapeRecognition(x, y);
-		// AbstractApplication.debug(penPoints);
-		// if recognize_shape option is checked
 
 		GeoElement geo;
 		if ((geo = tryPolygonOrLine()) != null || (geo = tryCircle()) != null) {
@@ -465,7 +461,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * @return the conic that fits best to the given points; null in case that
 	 *         there are too few points or the thresholds cannot be fulfilled
 	 */
-	protected GeoConicND makeAConic() {
+	private GeoConicND makeAConic() {
 		// disable ellipse for whiteboard
 		if (app.isWhiteboardActive()) {
 			return null;
@@ -513,8 +509,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 						int ypower = i - xpower;
 
-						double val = AlgoFitImplicit.power(px, xpower)
-								* AlgoFitImplicit.power(py, ypower);
+						double val = Math.pow(px, xpower)
+								* Math.pow(py, ypower);
 
 						M.setEntry(j, c1++, val);
 					}
