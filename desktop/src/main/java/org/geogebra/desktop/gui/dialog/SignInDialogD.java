@@ -3,18 +3,19 @@
  */
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.w3c.dom.events.Event;
 
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.web.WebEngine;
+
+// import javafx.embed.swing.JFXPanel;
 
 /**
  * A dialog for login in GeoGebraTube This dialog will show a web view that
@@ -40,9 +41,9 @@ public class SignInDialogD extends WebViewDialog {
 		setResizable(true);
 		getContentPane().setPreferredSize(new Dimension(500, 270));
 
-		JFXPanel fxPanel1 = createWebView(app.getLoginOperation()
-				.getLoginURL(app.getLocale().getLanguage()));
-		add(fxPanel1);
+        // JFXPanel fxPanel1 = createWebView(app.getLoginOperation()
+        // 		.getLoginURL(app.getLocale().getLanguage()));
+        // add(fxPanel1);
 
 		pack();
 		setLocationRelativeTo(app.getFrame());

@@ -1,11 +1,10 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import javax.swing.JDialog;
+import javax.swing.*;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -17,15 +16,10 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+
+// import javafx.embed.swing.JFXPanel;
 
 /**
  * Provides basic functionality for creating a JavaFX WebView within a dialog.
@@ -39,7 +33,7 @@ public abstract class WebViewDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private static final String EVENT_TYPE_CLICK = "click";
 
-	protected JFXPanel fxPanel;
+    // protected JFXPanel fxPanel;
 
 	/** Reference to the application */
 	protected AppD app;
@@ -74,6 +68,7 @@ public abstract class WebViewDialog extends JDialog {
 	 *            The initial URL that will be loaded in the webview
 	 * @return The JFXPanel that is the parent of the WebView.
 	 */
+	/*
 	protected JFXPanel createWebView(final String startURL) {
 
 		// Create the JavaFX Panel for the WebView
@@ -91,6 +86,7 @@ public abstract class WebViewDialog extends JDialog {
 		app.setComponentOrientation(this);
 		return fxPanel;
 	}
+	*/
 
 	/**
 	 * Creates a web view and opens the login page of GeoGebraTube
@@ -100,6 +96,7 @@ public abstract class WebViewDialog extends JDialog {
 	 * @param startURL
 	 *            The Start URL that is loaded in the WebView
 	 */
+	/*
 	void initWebView(final JFXPanel fxPanel, String startURL) {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root);
@@ -129,6 +126,7 @@ public abstract class WebViewDialog extends JDialog {
 
 		root.setCenter(webView);
 	}
+	 */
 
 	/**
 	 * Returns the javaFX webEngine instance that is associated with this web

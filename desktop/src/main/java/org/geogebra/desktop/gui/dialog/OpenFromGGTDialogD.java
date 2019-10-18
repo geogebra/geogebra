@@ -1,18 +1,19 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.w3c.dom.events.Event;
 
-import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.scene.web.WebEvent;
+
+// import javafx.embed.swing.JFXPanel;
 
 /**
  * A dialog for searching and opening materials from GeoGebraTube This dialog
@@ -43,8 +44,8 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 		String url = app.getOpenFromGGTOperation()
 				.generateOpenFromGGTURL(OpenFromGGTOperation.APP_TYPE.DESKTOP);
 
-		JFXPanel fxPanel1 = createWebView(url);
-		add(fxPanel1);
+        // JFXPanel fxPanel1 = createWebView(url);
+        // add(fxPanel1);
 
 		pack();
 		setLocationRelativeTo(app.getFrame());
