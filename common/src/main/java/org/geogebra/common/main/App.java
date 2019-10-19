@@ -3845,14 +3845,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case MOW_TEXT_TOOL:
 			return prerelease && whiteboard;
 
-		/**
-		 * MOW-679
-		 *
-		 * doesn't work with Reflect(penstroke, Object)
-		 */
-		case MOW_PEN_IS_LOCUS:
-			return true;
-
 		/** MOW-763 */
 		case VIDEO_PLAYER_OFFLINE:
 			return prerelease && whiteboard;
