@@ -707,6 +707,7 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdFunction() {
+		t("Function[ ]"); // empty function for logging
 		t("Function[ f1, n2, n3 ]");
 		t("Function[ list1 ]");
 	}
@@ -1227,6 +1228,8 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdRandom() {
+		t("RandomBetween[ ]"); // since RandomBetween is alias for Random and
+								// both Random() and random() should do the same
 		t("RandomBetween[ n1, n4 ]");
 		t("RandomBetween[ n1, n4, true ]");
 	}
@@ -1844,6 +1847,7 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdZoomIn() {
+		t("ZoomIn[ ]"); // undocummented shortcut for set standard view
 		t("ZoomIn[ n1 ]");
 		t("ZoomIn[ n1, Pt1 ]");
 		t("ZoomIn[ -1, -1, 1, 1 ]");
@@ -2185,6 +2189,7 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdStartLogging() {
+		t("StartLogging[ ]"); // technically correct
 		t("StartLogging[\"Ax\",alog]");
 	}
 

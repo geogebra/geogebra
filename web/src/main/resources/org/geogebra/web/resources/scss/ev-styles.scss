@@ -764,6 +764,14 @@
             overflow: hidden;
          }
 
+         .accessibilityView {
+            opacity: 0.01;
+            position: fixed;
+            width: 1px;
+            height: 1px;
+            overflow: scroll;
+         }
+
 }
 
 /* Outside of GeoGebraFrame */
