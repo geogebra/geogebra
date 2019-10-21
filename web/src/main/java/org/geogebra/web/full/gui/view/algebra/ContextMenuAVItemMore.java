@@ -112,7 +112,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 			}
 
 		});
-		TestHarness.setAttr(mi, "menu_" + menuAction.getTitle());
+		TestHarness.setAttr(mi, "menu" + menuAction.getTitle());
 		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);
 	}

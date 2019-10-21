@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -40,7 +39,7 @@ public class TextControllerW
 	private AppW app;
 
 	/** GeoText to edit */
-	GeoText text;
+	private GeoText text;
 	private GeoText lastText;
 
 	/**
@@ -114,22 +113,15 @@ public class TextControllerW
 
 	@Override
 	public GeoText createText(GeoPointND loc) {
-		if (loc == null) {
-			return null;
-		}
 		GeoText t = app.getKernel().getAlgebraProcessor().text("");
-		app.getSelectionManager().addSelectedGeo(t);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);
 		// always use RW coords, ignore rw argument
 		Coords coords = loc.getInhomCoordsInD3();
 		t.setRealWorldLoc(getView().toRealWorldCoordX(coords.getX()),
 				getView().toRealWorldCoordY(coords.getY()));
-		t.setAbsoluteScreenLocActive(false);
 		t.setLabel(null);
 		edit(t, true);
-		app.getKernel().notifyRepaint();
-		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		return t;
 	}
 
@@ -161,7 +153,7 @@ public class TextControllerW
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(d.getTextFont(), x, y, width, height);
 			if (create) {
-				updateBoundingBox();
+				updateAndShowStylebar();
 			}
 		}
 		editor.show();
@@ -169,24 +161,32 @@ public class TextControllerW
 		getView().repaint();
 	}
 
-	/**
-	 * Update bounding box and repaint.
-	 */
-	void doUpdateBoundingBox() {
-		DrawText d = getDrawText(text);
-		if (d != null) {
-			d.adjustBoundingBoxToText(getEditorBounds());
-			getView().setBoundingBox(d.getBoundingBox());
-		}
-		getView().repaint();
-	}
-
 	private void updateBoundingBox() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
 			@Override
 			public void execute() {
-				doUpdateBoundingBox();
+				DrawText d = getDrawText(text);
+				if (d != null) {
+					d.adjustBoundingBoxToText(getEditorBounds());
+					getView().setBoundingBox(d.getBoundingBox());
+				}
+				getView().repaint();
+			}
+		});
+	}
+
+	private void updateAndShowStylebar() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				DrawText d = getDrawText(text);
+				if (d != null) {
+					d.adjustBoundingBoxToText(getEditorBounds());
+					getView().getEuclidianController().selectAndShowBoundingBox(text);
+					editor.show();
+					editor.requestFocus();
+				}
+				getView().repaint();
 			}
 		});
 	}

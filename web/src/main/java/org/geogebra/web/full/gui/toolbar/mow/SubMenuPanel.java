@@ -14,6 +14,7 @@ import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Base class of submenus of MOWToorbar

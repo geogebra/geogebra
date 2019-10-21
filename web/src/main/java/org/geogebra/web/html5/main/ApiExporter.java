@@ -756,8 +756,9 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getEditorState()();
 		};
 
-		api.setEditorState = function(text, label) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setEditorState(Ljava/lang/String;Ljava/lang/String;)(text + "", label || "");
+		api.setEditorState = function(state, label) {
+			var stateString = typeof state == "string" ? state : JSON.stringify(state); 
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setEditorState(Ljava/lang/String;Ljava/lang/String;)(stateString, label || "");
 		};
 
 		api.exportCollada = function(xmin, xmax, ymin, ymax, zmin, zmax, 

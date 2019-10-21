@@ -18,6 +18,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.dom.client.Style.Unit;
+import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Dynamically positioned stylebar
@@ -39,6 +40,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (app.isWhiteboardActive()) {
 			addStyleName("mowDynStyleBar");
 		}
+		TestHarness.setAttr(this, "dynamicStyleBar");
 
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {

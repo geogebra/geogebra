@@ -150,6 +150,21 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
+	public void undoShouldNotRandomizeBinomial() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("a=RandomBinomial(100, 0.6)", "61");
+
+		app.storeUndoInfo();
+		t("1", "1");
+		app.storeUndoInfo();
+		app.getKernel().undo();
+
+		t("a", "61");
+	}
+
+	@Test
 	public void randomizeUpdateConstruction() {
 		app.setRandomSeed(42);
 		app.setUndoRedoEnabled(true);
@@ -183,11 +198,56 @@ public class RedefineTest extends Assert {
 	}
 
 	@Test
+	public void undoShouldNotRandomizeShufle() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
+
+		app.storeUndoInfo();
+		t("1", "1");
+		app.storeUndoInfo();
+		app.getKernel().undo();
+
+		t("L_1", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");
+	}
+
+	@Test
 	public void setValueShouldChangeRandomElement() {
 		app.setRandomSeed(42);
 		t("P=RandomElement((1..10,1..10))", "(8, 8)");
 		t("SetValue(P, (7, 7))", new String[0]);
 		t("P", "(7, 7)");
+	}
+
+	@Test
+	public void undoShouldNotRandomizeRandomElement() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("P=RandomElement((1..10,1..10))", "(8, 8)");
+
+		app.storeUndoInfo();
+		t("1", "1");
+		app.storeUndoInfo();
+		app.getKernel().undo();
+
+		t("P", "(8, 8)");
+	}
+
+	@Test
+	public void undoShouldNotRandomizeRandomElementWithListOfLists() {
+		app.setRandomSeed(42);
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		t("P=RandomElement(Identity(10))", "{0, 0, 0, 0, 0, 0, 0, 1, 0, 0}");
+
+		app.storeUndoInfo();
+		t("1", "1");
+		app.storeUndoInfo();
+		app.getKernel().undo();
+
+		t("P", "{0, 0, 0, 0, 0, 0, 0, 1, 0, 0}");
 	}
 
 	@Test

@@ -1198,6 +1198,8 @@ public enum Commands implements CommandsConstants,
 
 	nPr(TABLE_ENGLISH),
 
+	CASLoaded(TABLE_GEOGEBRA),
+
 	ShowSteps(TABLE_ALGEBRA);
 
 	private static final Commands[] RENAMED = {
