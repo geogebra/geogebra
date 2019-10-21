@@ -10,6 +10,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.TestHarness;
 
 public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		implements EuclidianPanelWAbstract {
@@ -86,6 +87,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
+			TestHarness.setAttr(eview1, "euclidianView");
 			if (doubleCanvas) {
 				eviewBg = Canvas.createIfSupported();
 				if (eviewBg != null) {

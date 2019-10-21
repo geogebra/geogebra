@@ -1,8 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
 import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.geogebra.test.commands.CommandSignatures;
 import org.junit.Test;
 
 public class CommandFilterTest extends AlgebraTest {
@@ -25,7 +28,9 @@ public class CommandFilterTest extends AlgebraTest {
 				continue;
 			}
 			if (cf.isCommandAllowed(cmd)) {
-				if (!AlgebraTestHelper.mayHaveZeroArgs(cmd.name())) {
+				List<Integer> signature = CommandSignatures
+						.getSigneture(cmd.name());
+				if (signature != null && !signature.contains(0)) {
 
 					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg",
 							"only",

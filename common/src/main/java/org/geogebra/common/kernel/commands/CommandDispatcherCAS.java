@@ -80,7 +80,8 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case NSolutions:
 		case Solutions:
 			return new CmdSolve(kernel, c);
-
+		case CASLoaded:
+			return new CmdCASLoaded(kernel);
 		default:
 			break;
 		}

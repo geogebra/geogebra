@@ -1184,11 +1184,6 @@ public class Construction {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		updateConstructionRunning = true;
 		try {
-			// G.Sturr 2010-5-28: turned this off so that random numbers can be
-			// traced
-			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
-
 			// update all independent GeoElements
 			int size = ceList.size();
 			for (int i = 0; i < size; ++i) {
@@ -1245,10 +1240,6 @@ public class Construction {
 					algo.update();
 				}
 			}
-
-			// G.Sturr 2010-5-28:
-			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-			// kernel.app.getGuiManager().stopCollectingSpreadsheetTraces();
 		} finally {
 			updateConstructionRunning = false;
 		}

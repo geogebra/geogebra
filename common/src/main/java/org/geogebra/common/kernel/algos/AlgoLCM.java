@@ -37,44 +37,31 @@ public class AlgoLCM extends AlgoTwoNumFunction {
 	}
 
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
-
-			if (a.getDouble() > Long.MAX_VALUE || b.getDouble() > Long.MAX_VALUE
-					|| a.getDouble() < -Long.MAX_VALUE
-					|| b.getDouble() < -Long.MAX_VALUE) {
-				num.setUndefined();
-				return;
-			}
-			// this is the only case whwn gcd == zero
-			if (DoubleUtil.isZero(a.getDouble()) && DoubleUtil.isZero(b.getDouble())) {
-				num.setValue(0);
-				return;
-			}
-			if (a.getDouble() == Math.floor(a.getDouble())
-					&& b.getDouble() == Math.floor(b.getDouble())) {
-				BigInteger i1 = BigInteger.valueOf((long) a.getDouble());
-				BigInteger i2 = BigInteger.valueOf((long) b.getDouble());
-
-				BigInteger gcd = i1.gcd(i2);
-
-				i1 = i1.divide(gcd);
-
-				double result = Math.abs(i1.multiply(i2).doubleValue());
-
-				// can't store integers greater than this in a double accurately
-				if (result > 1e15) {
-					num.setUndefined();
-					return;
-				}
-
-				num.setValue(result);
-			} else {
-				num.setUndefined();
-			}
-		} else {
-			num.setUndefined();
+	public final double computeValue(double aVal, double bVal) {
+		if (aVal > Long.MAX_VALUE || bVal > Long.MAX_VALUE || aVal < -Long.MAX_VALUE
+				|| bVal < -Long.MAX_VALUE) {
+			return Double.NaN;
 		}
-	}
 
+		if (DoubleUtil.isZero(aVal) || DoubleUtil.isZero(bVal)) {
+			return 0;
+		}
+
+		if (DoubleUtil.isInteger(aVal) && DoubleUtil.isInteger(bVal)) {
+			BigInteger i1 = BigInteger.valueOf(Math.round(aVal));
+			BigInteger i2 = BigInteger.valueOf(Math.round(bVal));
+
+			BigInteger gcd = i1.gcd(i2);
+
+			i1 = i1.divide(gcd);
+
+			double result = Math.abs(i1.multiply(i2).doubleValue());
+
+			// can't store integers greater than this in a double accurately
+			if (result < 1e15) {
+				return result;
+			}
+		}
+		return Double.NaN;
+	}
 }

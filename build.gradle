@@ -83,8 +83,6 @@ project(':web') {
 	}
 }
 
-ext.joglVersion = '2.2.0'
-
 // https://gist.github.com/mashimom/891a55878eda510d316e
 if (JavaVersion.current().isJava8Compatible()) {
   allprojects {

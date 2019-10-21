@@ -47,15 +47,8 @@ public class AlgoMin extends AlgoTwoNumFunction {
 		return Commands.Min;
 	}
 
-	// calc minimum of a,b
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
-			double min = Math.min(a.getDouble(), b.getDouble());
-			num.setValue(min);
-		} else {
-			num.setUndefined();
-		}
+	public final double computeValue(double aVal, double bVal) {
+		return Math.min(aVal, bVal);
 	}
-
 }

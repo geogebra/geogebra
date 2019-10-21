@@ -3246,7 +3246,7 @@ __GGB__keysVar["de-AT"].menu = {
     "exam_log_pin": "App anheften aktiviert",
     "exam_log_screen_off": "Bildschirm ausgeschaltet",
     "exam_log_screen_on": "Bildschirm eingeschaltet",
-    "exam_log_show_screen_to_teacher": "Zeige diesen Bildschirm deiner Lehrerkraft",
+    "exam_log_show_screen_to_teacher": "Zeige diesen Bildschirm deiner Lehrkraft",
     "exam_log_unpin": "App anheften deaktiviert",
     "exam_log_wifi_disabled": "WiFi deaktiviert",
     "exam_log_wifi_enabled": "WiFi aktiviert",

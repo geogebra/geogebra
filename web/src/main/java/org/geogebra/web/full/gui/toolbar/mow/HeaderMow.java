@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Element;
@@ -71,10 +72,12 @@ public class HeaderMow extends FlowPanel
 		toolsPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.toolbar_tools(), "Tools");
 		toolsPanelBtn.addStyleName("flatButton");
+		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");
 		mediaPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.mow_media_panel(),
 				"ToolCategory.Media");
 		mediaPanelBtn.addStyleName("flatButton");
+		TestHarness.setAttr(mediaPanelBtn, "mediaPanelButton");
 		center.add(penPanelBtn);
 		center.add(toolsPanelBtn);
 		center.add(mediaPanelBtn);

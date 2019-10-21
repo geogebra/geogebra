@@ -49,13 +49,7 @@ public class AlgoMax extends AlgoTwoNumFunction {
 	}
 
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
-			double max = Math.max(a.getDouble(), b.getDouble());
-			num.setValue(max);
-		} else {
-			num.setUndefined();
-		}
+	public final double computeValue(double aVal, double bVal) {
+		return Math.max(aVal, bVal);
 	}
-
 }
