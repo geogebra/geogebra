@@ -1011,7 +1011,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void setUpEmbedManager(int mode) {
-		GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
 		if (mode == EuclidianConstants.MODE_CAS) {
 			ge.setAppName("cas");
 		}
@@ -1023,8 +1023,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			@Override
 			public void run() {
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-						ModeSetter.DOCK_PANEL);
+				selectAndShowBoundingBox(ge);
 			}
 		});
 	}
@@ -3503,15 +3502,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// got location
-		if (app.has(Feature.MOW_TEXT_TOOL)) {
+		if (loc != null && app.has(Feature.MOW_TEXT_TOOL)) {
 			if (wasBoundingBoxHit) {
 				return false;
 			}
 
 			GeoText t = getTextController().createText(loc);
-			if (t != null) {
-				memorizeJustCreatedGeos(t.asArray());
-			}
+			memorizeJustCreatedGeos(t.asArray());
+
 			if (textRectangleShape != null) {
 				if (customSize) {
 					getTextController().resizeEditor(
@@ -10444,15 +10442,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape()
 						&& view.getDrawableFor(geo) != null) {
-				Drawable d = ((Drawable) view.getDrawableFor(geo));
-				d.update();
-				if (d.getBoundingBox().getRectangle() != null) {
-					view.setBoundingBox(d.getBoundingBox());
-					view.repaintView();
-					selection.addSelectedGeo(geo);
-					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-							ModeSetter.DOCK_PANEL);
-				}
+				setBoundingBoxForGeo(geo);
 			}
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -12929,5 +12919,28 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	private void decreaseTargets() {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
+	}
+
+	private void setBoundingBoxForGeo(GeoElement geoElement) {
+		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
+		d.update();
+		if (d.getBoundingBox().getRectangle() != null) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+					ModeSetter.DOCK_PANEL);
+			view.setBoundingBox(d.getBoundingBox());
+			view.repaintView();
+			selection.addSelectedGeo(geoElement);
+		}
+	}
+
+	/**
+	 * Select the geoElement and show bounding box and stylebar
+	 *
+	 * @param geoElement geoElement to select
+	 */
+	public void selectAndShowBoundingBox(GeoElement geoElement) {
+		clearSelections();
+		setBoundingBoxForGeo(geoElement);
+		showDynamicStylebar();
 	}
 }

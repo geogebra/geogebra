@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -31,8 +32,7 @@ import com.google.gwt.user.client.ui.Panel;
  *
  * @author Zbynek
  */
-public abstract class MediaDialog extends OptionDialog
-		implements ErrorHandler {
+public abstract class MediaDialog extends OptionDialog implements ErrorHandler {
 	/** http prefix */
 	private static final String HTTP = "http://";
 	/** https prefix */
@@ -307,5 +307,10 @@ public abstract class MediaDialog extends OptionDialog
 	public final boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return false;
+	}
+
+	protected void onMediaElementCreated(GeoElement geoElement) {
+		getApplication().getActiveEuclidianView()
+				.getEuclidianController().selectAndShowBoundingBox(geoElement);
 	}
 }
