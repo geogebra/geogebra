@@ -42,6 +42,8 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -52,6 +54,7 @@ import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -754,6 +757,23 @@ public class MathFieldInternal
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.size() == 1 && currentField.isOperator(0)) {
 			editorState.setCurrentOffset(0);
+		}
+	}
+
+	/**
+	 * Parse text to a formula and update content
+	 * 
+	 * @param text
+	 *            ASCII math input
+	 */
+	public void parse(String text) {
+		Parser parser = new Parser(mathField.getMetaModel());
+		try {
+			MathFormula formula = parser.parse(text);
+			setFormula(formula);
+		} catch (ParseException e) {
+			FactoryProvider.debugS("Problem parsing: " + text);
+			e.printStackTrace();
 		}
 	}
 }

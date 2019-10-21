@@ -1,5 +1,8 @@
 package org.geogebra.common.plugin.evaluator;
 
+import java.util.HashMap;
+
+import org.geogebra.common.io.EditorStateDescription;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -14,8 +17,6 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
-
-import java.util.HashMap;
 
 /**
  * API class for the Evaluator object.
@@ -119,5 +120,17 @@ public class EvaluatorAPI {
 		}
 		GeoElementND element = elements[0];
 		return element.toValueString(StringTemplate.defaultTemplate);
+	}
+
+	/**
+	 * @param stateStr
+	 *            JSON encoded state {content: text, caret: [int, int, int]}
+	 */
+	public void setEditorState(String stateStr) {
+		EditorStateDescription state = EditorStateDescription.fromJSON(stateStr);
+		if (state != null) {
+			mathFieldInternal.parse(state.getContent());
+			mathFieldInternal.setCaretPath(state.getCaretPath());
+		}
 	}
 }
