@@ -150,6 +150,16 @@ public class TextControllerW
 		this.text = geo;
 		text.update();
 
+		updatePosition(geo);
+		if (create) {
+			updateBoundingBox();
+		}
+		editor.show();
+		editor.requestFocus();
+		getView().repaint();
+	}
+
+	private void updatePosition(GeoText geo) {
 		DrawText d = getDrawText(geo);
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
@@ -160,13 +170,7 @@ public class TextControllerW
 			int height = (int) d.getBounds().getHeight()
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(d.getTextFont(), x, y, width, height);
-			if (create) {
-				updateBoundingBox();
-			}
 		}
-		editor.show();
-		editor.requestFocus();
-		getView().repaint();
 	}
 
 	/**
@@ -355,5 +359,15 @@ public class TextControllerW
 		stopEditing();
 		editor.removeFromParent();
 		editor = null;
+	}
+
+	/**
+	 * Update position of editor and bounding box.
+	 */
+	public void updateEditorPosition() {
+		if (text != null && text.isEditMode()) {
+			updatePosition(text);
+			doUpdateBoundingBox();
+		}
 	}
 }

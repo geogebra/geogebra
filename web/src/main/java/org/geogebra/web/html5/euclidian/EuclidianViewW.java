@@ -639,6 +639,7 @@ public class EuclidianViewW extends EuclidianView implements
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
 		}
+		getEuclidianController().updateEditorPosition();
 	}
 
 	/**

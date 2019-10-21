@@ -13,7 +13,6 @@
 package org.geogebra.web.geogebra3D.web.euclidianFor3D;
 
 import org.geogebra.common.euclidian.EuclidianControllerCompanion;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -36,11 +35,4 @@ public class EuclidianControllerFor3DW extends EuclidianControllerW {
 		return new EuclidianControllerFor3DCompanion(this);
 	}
 
-	@Override
-	public TextController getTextController() {
-		if (!app.isWhiteboardActive()) {
-			return null;
-		}
-		return super.getTextController();
-	}
 }
