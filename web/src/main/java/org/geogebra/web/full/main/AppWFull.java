@@ -1821,8 +1821,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void persistWidthAndHeight() {
 		if (this.oldSplitLayoutPanel != null) {
-			spWidth = this.oldSplitLayoutPanel.getEstimateWidth();
-			setSpHeight(this.oldSplitLayoutPanel.getEstimateHeight());
+			spWidth = oldSplitLayoutPanel.getEstimateWidth();
+			spHeight = oldSplitLayoutPanel.getEstimateHeight();
 		}
 	}
 
