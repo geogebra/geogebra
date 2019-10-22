@@ -288,7 +288,7 @@ public class Graphics2DA implements Graphics2DInterface {
 	}
 
 	public void saveTransformation() {
-		mCanvas.save(Canvas.MATRIX_SAVE_FLAG);
+		mCanvas.save();
 		mScaleStack.pushScaleValues();
 	}
 
