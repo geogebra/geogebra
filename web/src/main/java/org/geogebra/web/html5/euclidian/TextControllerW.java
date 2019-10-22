@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
@@ -19,28 +18,17 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-/**
- * Handling text editor in Euclidian getView().
- *
- * @author laszlo
- *
- */
 public class TextControllerW
-		implements TextController, FocusHandler, BlurHandler, KeyDownHandler {
+		implements TextController, KeyDownHandler {
 	private MowTextEditor editor;
 	private AppW app;
 
 	/** GeoText to edit */
 	private GeoText text;
-	private GeoText lastText;
 
 	/**
 	 * Constructor.
@@ -61,18 +49,11 @@ public class TextControllerW
 		AbsolutePanel evPanel = getView().getAbsolutePanel();
 		evPanel.add(editor);
 		editor.addKeyDownHandler(this);
-		editor.addFocusHandler(this);
-		editor.addBlurHandler(this);
 	}
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		updateBoundingBox();
-	}
-
-	@Override
-	public void onBlur(BlurEvent event) {
-		stopEditing();
 	}
 
 	@Override
@@ -121,35 +102,50 @@ public class TextControllerW
 		t.setRealWorldLoc(getView().toRealWorldCoordX(coords.getX()),
 				getView().toRealWorldCoordY(coords.getY()));
 		t.setLabel(null);
-		edit(t, true);
+		edit(t);
 		return t;
 	}
 
 	@Override
 	public void edit(GeoText geo) {
-		edit(geo, false);
+		if (geo.isLaTeX() || !geo.isIndependent()) {
+			return;
+		}
+
+		this.text = geo;
+		text.update();
+		text.setEditMode();
+
+		updatePosition(geo);
+		editor.show();
+		editor.requestFocus();
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				DrawText d = getDrawText(text);
+				d.adjustBoundingBoxToText(getEditorBounds());
+
+				getView().getEuclidianController().selectAndShowBoundingBox(geo);
+
+				getView().repaint();
+				editor.requestFocus();
+			}
+		});
+	}
+
+	public void moveCursor(final int x, final int y) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				editor.requestFocus();
+				editor.moveCursor(x, y + getView().getAbsoluteTop());
+			}
+		});
 	}
 
 	private DrawText getDrawText(GeoText geo) {
 		return (DrawText) getView().getDrawableFor(geo);
-	}
-
-	private void edit(GeoText geo, boolean create) {
-		if (geo.isLaTeX() || !geo.isIndependent()) {
-			return;
-		}
-		geo.setEditMode();
-		this.text = geo;
-		text.update();
-
-		updatePosition(geo);
-		updateBoundingBox();
-		if (create) {
-			updateAndShowStylebar();
-		}
-		editor.show();
-		editor.requestFocus();
-		getView().repaint();
 	}
 
 	private void updatePosition(GeoText geo) {
@@ -178,29 +174,13 @@ public class TextControllerW
 	/**
 	 * Update bounding box immediately
 	 */
-	void doUpdateBoundingBox() {
+	private void doUpdateBoundingBox() {
 		DrawText d = getDrawText(text);
 		if (d != null) {
 			d.adjustBoundingBoxToText(getEditorBounds());
 			getView().setBoundingBox(d.getBoundingBox());
 		}
 		getView().repaint();
-	}
-
-	private void updateAndShowStylebar() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				DrawText d = getDrawText(text);
-				if (d != null) {
-					d.adjustBoundingBoxToText(getEditorBounds());
-					getView().getEuclidianController().selectAndShowBoundingBox(text);
-					editor.show();
-					editor.requestFocus();
-				}
-				getView().repaint();
-			}
-		});
 	}
 
 	@Override
@@ -299,53 +279,6 @@ public class TextControllerW
 	}
 
 	@Override
-	public void onFocus(FocusEvent event) {
-		//do nothing
-	}
-
-	@Override
-	public void handleTextPressed() {
-		if (!isTextHandlingMode()) {
-			return;
-		}
-		lastText = getHit();
-	}
-
-	@Override
-	public boolean handleTextReleased(boolean drag, int x, int y) {
-		if (!isTextHandlingMode()) {
-			return false;
-		}
-
-		if (lastText != null) {
-			if (drag) {
-				lastText.setReadyToEdit();
-				return true;
-			}
-
-			if (app.getMode() == EuclidianConstants.MODE_MEDIA_TEXT) {
-				lastText.setEditMode();
-				edit(lastText, true);
-			} else {
-				lastText.processEditMode();
-				if (lastText.isEditMode()) {
-					edit(lastText);
-					editor.moveCursor(x, y + getView().getAbsoluteTop());
-				}
-			}
-			lastText = null;
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isTextHandlingMode() {
-		int mode = app.getMode();
-		return (mode == EuclidianConstants.MODE_MEDIA_TEXT || mode == EuclidianConstants.MODE_SELECT
-				|| mode == EuclidianConstants.MODE_SELECT_MOW);
-	}
-
-	@Override
 	public GeoText getHit() {
 		Hits ret = new Hits();
 		if (getView().getHits().containsGeoText(ret)) {
@@ -356,7 +289,7 @@ public class TextControllerW
 
 	@Override
 	public boolean isEditing() {
-		return lastText != null && lastText.isEditMode();
+		return text != null && text.isEditMode();
 	}
 
 	@Override

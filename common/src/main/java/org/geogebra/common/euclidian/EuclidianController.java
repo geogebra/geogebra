@@ -6864,7 +6864,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void wrapMouseclicked(boolean control, int clickCount,
+	private void wrapMouseclicked(boolean control, int clickCount,
 			PointerEventType type) {
 		if (!app.showMenuBar() || control || penMode(this.mode)
 				|| isDragTool()) {
@@ -6882,7 +6882,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoElement geo0 = hits.get(0);
 
 				if (app.has(Feature.MOW_TEXT_TOOL) && geo0.isGeoText()) {
-
 					getTextController().edit((GeoText) geo0);
 				} else if (geo0.isGeoNumeric()
 						&& ((GeoNumeric) geo0).isSlider()) {
@@ -9525,10 +9524,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
-		if (shouldHideDynamicStyleBar(event)) {
-			this.hideDynamicStylebar();
-		}
-
 		app.getAccessibilityManager().setTabOverGeos(true);
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
@@ -9544,6 +9539,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
+
+		GeoElement topHit = view.getHits().getFirstHit(TestGeo.GEOTEXT);
+		if (selection.getSelectedGeos().contains(topHit)) {
+			getTextController().edit((GeoText) topHit);
+			getTextController().moveCursor(event.getX(), event.getY());
+			return;
+		} else {
+			getTextController().stopEditing();
+		}
+
+		if (shouldHideDynamicStyleBar(event)) {
+			this.hideDynamicStylebar();
+		}
 
 		setMoveModeForFurnitures();
 
@@ -9579,9 +9587,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		handleVideoPressed(event);
-		if (getTextController() != null) {
-			getTextController().handleTextPressed();
-		}
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -9629,15 +9634,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		Drawable d = view.getBoundingBoxHandlerHit(
 				new GPoint(event.getX(), event.getY()), event.getType());
-		if (EuclidianConstants.isMoveOrSelectionMode(mode)
-				|| mode == EuclidianConstants.MODE_MEDIA_TEXT && app.has(Feature.MOW_TEXT_TOOL)) {
-			// for now allow only corner handlers
-			if (d != null && view
-					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-				setBoundingBoxCursor(d);
-				setResizedShape(d);
-			}
-		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			// no hit or no bounding box, so we have to create
@@ -10339,8 +10335,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
-		if (getTextController() != null
-				&& getTextController().isEditing())  {
+		if (getTextController() != null && getTextController().isEditing()) {
 			return;
 		}
 		// will be reset in wrapMouseReleased
@@ -10350,21 +10345,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// handle video/audio/embeded/text release (mow)
 		if (handleVideoReleased()) {
-			return;
-		}
-		if (getTextController() != null
-				&& getTextController().handleTextReleased(draggingOccured,
-						event.getX(), event.getY())
-				&& !draggingOccured) {
-			ArrayList<GeoElement> elements = selection.getSelectedGeos();
-			if (elements.size() == 1) {
-				GeoElement selected = elements.get(0);
-				if (selected.hasPreviewPopup()) {
-					showSpecialPointPopup(elements);
-				} else {
-					showDynamicStylebar();
-				}
-			}
 			return;
 		}
 
@@ -12911,7 +12891,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
 	}
 
-	private void setBoundingBoxForGeo(GeoElement geoElement) {
+	public void setBoundingBoxForGeo(GeoElement geoElement) {
 		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
 		d.update();
 		if (d.getBoundingBox().getRectangle() != null) {

@@ -63,18 +63,6 @@ public abstract class ClickStartHandler {
 				CancelEventTimer.touchEventOccured();
 			}
 		}, TouchStartEvent.getType());
-		
-		/*
-		 * w.addDomHandler(new TouchMoveHandler() { public void
-		 * onTouchMove(TouchMoveEvent event) { if (handler.preventDefault) {
-		 * event.preventDefault(); } if (handler.stopPropagation) {
-		 * event.stopPropagation(); }
-		 * handler.onClickStart(event.getTouches().get(0).getClientX(),
-		 * event.getTouches().get(0).getClientY(), PointerEventType.TOUCH);
-		 * CancelEventTimer.touchEventOccured(); }
-		 * 
-		 * }, TouchMoveEvent.getType());
-		 */
 	}
 
 	/**

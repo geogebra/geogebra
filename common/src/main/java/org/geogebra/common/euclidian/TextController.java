@@ -30,26 +30,13 @@ public interface TextController {
 	 */
 	void edit(GeoText geo);
 
+	void moveCursor(int x, int y);
+
 	/**
 	 * 
 	 * @return the bounding rectangle of the current editor.
 	 */
 	public GRectangle getEditorBounds();
-
-	/**
-	 * Handles pointer press on text object.
-	 */
-	void handleTextPressed();
-
-	/**
-	 * Handles pointer release on text object.
-	 * 
-	 * @param drag
-	 *            true if release is happened after drag.
-	 * 
-	 * @return true if release is handled.
-	 */
-	boolean handleTextReleased(boolean drag, int x, int y);
 
 	/**
 	 *
