@@ -13,7 +13,7 @@ public interface ToolCollection {
     /**
      * The list of categories in this toolset.
      *
-     * @return the list of categories
+     * @return the list of categories, may contain null
      */
     List<ToolCategory> getCategories();
 

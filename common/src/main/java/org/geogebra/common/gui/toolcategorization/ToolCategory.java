@@ -84,15 +84,7 @@ public enum ToolCategory {
     /**
      * select and format
      */
-    SELECT_AND_FORMAT("SelectAndFormat"),
-
-    NO_CATEGORY("") {
-
-        @Override
-        public String getLocalizedHeader(Localization loc) {
-            return "";
-        }
-    };
+    SELECT_AND_FORMAT("SelectAndFormat");
 
     private final String header;
 

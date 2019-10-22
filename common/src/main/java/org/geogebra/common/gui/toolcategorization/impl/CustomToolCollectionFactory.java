@@ -53,7 +53,7 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
 
         List<ToolbarItem> items = getToolbarItems();
         for (ToolbarItem item : items) {
-            impl.addCategory(ToolCategory.NO_CATEGORY, item.getMenu());
+            impl.addCategory(null, item.getMenu());
         }
         return impl;
     }

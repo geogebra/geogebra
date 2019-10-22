@@ -191,10 +191,12 @@ public class Tools extends FlowPanel implements SetLabels {
 		}
 
 		private void initGui() {
-			categoryLabel = new Label(category.getLocalizedHeader(app.getLocalization()));
-			categoryLabel.setStyleName("catLabel");
-			add(categoryLabel);
-			AriaHelper.hide(categoryLabel);
+			if (category != null) {
+				categoryLabel = new Label(category.getLocalizedHeader(app.getLocalization()));
+				categoryLabel.setStyleName("catLabel");
+				add(categoryLabel);
+				AriaHelper.hide(categoryLabel);
+			}
 
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
