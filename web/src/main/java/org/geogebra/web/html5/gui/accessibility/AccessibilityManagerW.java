@@ -1,10 +1,11 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+import java.util.TreeSet;
+
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.SliderInput;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -17,6 +18,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -116,7 +118,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromInput() {
-		focusFirstElement();
+		if (!focusMenu()) {
+			focusFirstGeo();
+		}
 	}
 
 	private void nextFromZoomPanel(int viewID) {
@@ -169,8 +173,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusFirstElement() {
-		if (!focusFirstWidget()) {
-			focusFirstGeo();
+		if (!focusInput(false)) {
+			nextFromInput();
 		}
 	}
 
@@ -182,12 +186,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private boolean focusFirstWidget() {
+	private boolean focusMenu() {
 		if (menuContainer != null) {
-			if (menuContainer.focusInput(false)) {
-				return true;
-			}
-
 			menuContainer.focusMenu();
 			return true;
 		}
@@ -257,22 +257,22 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private boolean focusFirstGeo() {
-		Construction cons = app.getKernel().getConstruction();
-		if (cons.isEmpty()) {
+		TreeSet<GeoElement> visibleGeos = app.getSelectionManager()
+				.getEVFilteredTabbingSet();
+		if (visibleGeos.isEmpty()) {
 			return false;
 		}
-
-		focusGeo(app.getSelectionManager().getEVFilteredTabbingSet().first());
+		focusGeo(visibleGeos.first());
 		return true;
 	}
 
 	private boolean focusLastGeo() {
-		Construction cons = app.getKernel().getConstruction();
-		if (cons.isEmpty()) {
+		TreeSet<GeoElement> visibleGeos = app.getSelectionManager()
+				.getEVFilteredTabbingSet();
+		if (visibleGeos.isEmpty()) {
 			return false;
 		}
-
-		GeoElement last = app.getSelectionManager().getEVFilteredTabbingSet().last();
+		GeoElement last = visibleGeos.last();
 		focusGeo(last);
 		return true;
 	}
@@ -338,7 +338,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (anchor == null) {
 			return;
 		}
-		anchor.getElement().focus();
+		Element anchorElement = anchor.getElement();
+		anchorElement.focus();
 		cancelAnchor();
 	}
 

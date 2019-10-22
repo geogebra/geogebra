@@ -639,6 +639,7 @@ public class EuclidianViewW extends EuclidianView implements
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
 		}
+		getEuclidianController().updateEditorPosition();
 	}
 
 	/**
@@ -1119,7 +1120,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean requestFocusInWindow() {
-		g2p.getElement().focus();
+		getCanvasElement().focus();
 		focusGained();
 		return true;
 	}
@@ -1847,5 +1848,10 @@ public class EuclidianViewW extends EuclidianView implements
 			return ((InputBoxWidget) symbolicEditor).getKeyboardListener();
 		}
 		return null;
+	}
+
+	@Override
+	public AppW getApplication() {
+		return (AppW) super.getApplication();
 	}
 }

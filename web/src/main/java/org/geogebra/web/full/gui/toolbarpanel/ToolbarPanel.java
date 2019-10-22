@@ -1069,7 +1069,8 @@ public class ToolbarPanel extends FlowPanel
 		if (force) {
 			openAlgebra(true);
 		}
-		return isAlgebraViewActive() && tabAlgebra.focusInput();
+		return header.isOpen() && isAlgebraViewActive()
+				&& tabAlgebra.focusInput();
 	}
 
 	/**
