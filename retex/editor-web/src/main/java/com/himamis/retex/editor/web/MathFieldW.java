@@ -605,7 +605,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void hideCopyPasteButtons() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -617,19 +616,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void showCopyPasteButtons() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void scroll(int dx, int dy) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1037,8 +1033,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	protected void setLeftAltDown(boolean leftAltDown) {
 		this.leftAltDown = leftAltDown;
 	}
-
-
 
 	/**
 	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
