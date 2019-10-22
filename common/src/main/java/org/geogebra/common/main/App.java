@@ -39,7 +39,6 @@ import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
@@ -85,7 +84,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -4722,32 +4720,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return tool categorization for this app
-	 */
-	public ToolCategorization createToolCategorization() {
-		// Needed temporary, until the toolset levels are not implemented on iOS
-		// too
-		ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getPlatform().isPhone());
-		return new ToolCategorization(this, getSettings().getToolbarSettings());
-	}
-
-	/**
 	 * Create a tool collection factory for this app.
 	 *
 	 * @return a ToolCollectionFactory
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
-		ToolCollectionFactory factory = null;
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
 		if (toolbarDefinition == null
-				|| ToolBar.isDefaultToolbar(toolbarDefinition)
-				|| ToolBar.isDefaultToolbar3D(toolbarDefinition)) {
-			factory = createDefaultToolCollectionFactory();
+				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
+			return createDefaultToolCollectionFactory();
 		} else {
-			factory = new CustomToolCollectionFactory(this, toolbarDefinition);
+			return new CustomToolCollectionFactory(this, toolbarDefinition);
 		}
-		return factory;
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
