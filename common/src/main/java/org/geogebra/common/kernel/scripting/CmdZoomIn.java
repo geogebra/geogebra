@@ -91,16 +91,16 @@ public class CmdZoomIn extends CmdScripting {
 			return new GeoElement[0];
 
 		case 6:
-			if (!app.isEuclidianView3Dinited()) {
-				return new GeoElement[0];
-			}
-
 			arg = resArgs(c);
 			for (int i = 0; i < 6; i++) {
 				if (!(arg[i] instanceof NumberValue)
 						|| !MyDouble.isFinite(arg[i].evaluateDouble())) {
 					throw argErr(c, arg[i]);
 				}
+			}
+
+			if (!app.isEuclidianView3Dinited()) {
+				return new GeoElement[0];
 			}
 
 			/*

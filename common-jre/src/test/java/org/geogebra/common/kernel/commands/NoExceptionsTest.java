@@ -1847,10 +1847,11 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdZoomIn() {
-		t("ZoomIn[ ]"); // undocummented shortcut for set standard view
+		t("ZoomIn[ ]");
 		t("ZoomIn[ n1 ]");
 		t("ZoomIn[ n1, Pt1 ]");
 		t("ZoomIn[ -1, -1, 1, 1 ]");
+		t("ZoomIn[ -1, -1, -1, 1, 1, 1 ]");
 	}
 
 	@Test
