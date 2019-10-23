@@ -44,6 +44,19 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		Assert.assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
 	}
 
+	@Test
+	public void symbolicInputBoxUseDefinitionForFunctionsNVar() {
+		add("f = x*y+1");
+		add("g = 2f(x+2, y)+1");
+		GeoInputBox inputBox1 = (GeoInputBox) add("InputBox(f)");
+		GeoInputBox inputBox2 = (GeoInputBox) add("InputBox(g)");
+		inputBox2.setSymbolicMode(true, false);
+		Assert.assertEquals("x y + 1", inputBox1.getText());
+		Assert.assertEquals("2f(x + 2, y) + 1", inputBox2.getTextForEditor());
+		Assert.assertEquals("2 \\; f\\left(x + 2, y \\right) + 1",
+				inputBox2.getText());
+	}
+
     @Test
     public void symbolicInputBoxTextShouldBeInLaTeX() {
         add("f = x + 12");
