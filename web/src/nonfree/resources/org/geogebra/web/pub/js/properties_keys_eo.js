@@ -1118,7 +1118,7 @@ __GGB__keysVar["eo"].command = {
     "Zipf.Syntax": "[ <Nombro de Elementoj>, <Koeficiento> ]\n[ <Nombro de Elementoj>, <Koeficiento>, <Bulea Akumuli> ]\n[ <Nombro de Elementoj>, <Koeficiento>, <Variabla Valoro>, <Bulea Akumuli> ]",
     "Zipf.SyntaxCAS": "[ <Nombro de Elementoj>, <Koeficiento>, <Variabla Valoro>, <Bulea Akumuli> ]",
     "ZoomIn": "Zomi",
-    "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]\n[ <Min x>, <Min y>, <Min z>, <Max x>, <Max y>, <Max z> ]",
+    "ZoomIn.Syntax": "[ ]\n[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]\n[ <Min x>, <Min y>, <Min z>, <Max x>, <Max y>, <Max z> ]",
     "ZoomOut": "Malzomi",
     "ZoomOut.Syntax": "[ <Skalfaktoro> ]\n[ <Skalfaktoro>, <Centra Punkto> ]",
     "mad": "mad",
