@@ -1,20 +1,22 @@
  package org.geogebra.web.full.euclidian;
 
  import org.geogebra.common.awt.GPoint;
- import org.geogebra.common.awt.GRectangle;
- import org.geogebra.common.euclidian.SymbolicEditor;
- import org.geogebra.common.kernel.geos.GeoInputBox;
- import org.geogebra.common.main.App;
- import org.geogebra.web.full.gui.components.MathFieldEditor;
- import org.geogebra.web.html5.euclidian.InputBoxWidget;
- import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.html5.euclidian.InputBoxWidget;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
- import com.google.gwt.event.dom.client.BlurEvent;
- import com.google.gwt.event.dom.client.BlurHandler;
- import com.google.gwt.user.client.ui.AbsolutePanel;
- import com.google.gwt.user.client.ui.Widget;
- import com.himamis.retex.editor.share.event.MathFieldListener;
- import com.himamis.retex.editor.share.model.MathSequence;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -22,7 +24,7 @@
  * @author Laszlo
  */
 public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
-						InputBoxWidget, BlurHandler {
+		InputBoxWidget, BlurHandler, ChangeHandler {
 
 	private final App app;
 	private GeoInputBox geoInputBox;
@@ -41,7 +43,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		this.app = app;
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
-
+		editor.getMathField().setChangeListener(this);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
@@ -174,5 +176,10 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	@Override
 	public void onBlur(BlurEvent event) {
 		hide();
+	}
+
+	@Override
+	public void onChange(ChangeEvent event) {
+		decorator.update();
 	}
 }
