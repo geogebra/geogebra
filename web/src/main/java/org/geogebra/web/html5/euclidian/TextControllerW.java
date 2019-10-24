@@ -107,7 +107,7 @@ public class TextControllerW
 	}
 
 	@Override
-	public void edit(GeoText geo) {
+	public void edit(final GeoText geo) {
 		if (geo.isLaTeX() || !geo.isIndependent()) {
 			return;
 		}
