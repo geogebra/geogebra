@@ -1,13 +1,5 @@
 package org.geogebra.web.html5.euclidian;
 
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchCancelHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
@@ -16,17 +8,15 @@ import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 
 /**
  * Class for editing in-place text on whiteboard.
@@ -35,7 +25,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
  *
  */
 public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
-		MouseUpHandler, MouseDownHandler, MouseMoveHandler {
+		MouseMoveHandler {
 	private GRectangle bounds;
 
 	/**
@@ -46,34 +36,10 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		setAttribute("contenteditable", "true");
 		getWidget().addStyleName("mowTextEditor");
 		setWidth(80);
-		addMouseDownHandler(this);
-		addMouseUpHandler(this);
-		addMouseMoveHandler(this);
 
-		focusPanel.addTouchStartHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				event.preventDefault();
-			}
-		});
-		focusPanel.addTouchEndHandler(new TouchEndHandler() {
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				event.preventDefault();
-			}
-		});
-		focusPanel.addTouchCancelHandler(new TouchCancelHandler() {
-			@Override
-			public void onTouchCancel(TouchCancelEvent event) {
-				event.preventDefault();
-			}
-		});
-		focusPanel.addTouchMoveHandler(new TouchMoveHandler() {
-			@Override
-			public void onTouchMove(TouchMoveEvent event) {
-				event.preventDefault();
-			}
-		});
+		ClickStartHandler.initDefaults(this, false, true);
+		ClickEndHandler.initDefaults(this, false, true);
+		addMouseMoveHandler(this);
 
 		EventUtil.stopPointer(getElement());
 	}
@@ -204,16 +170,6 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		event.stopPropagation();
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
-		event.stopPropagation();
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
 		event.stopPropagation();
 	}
 
