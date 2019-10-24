@@ -30,6 +30,11 @@ public interface TextController {
 	 */
 	void edit(GeoText geo);
 
+	/**
+	 * Move the editors cursor to the specified position
+	 * @param x screen coordinate x  of the event
+	 * @param y screen coordinate y of the event
+	 */
 	void moveCursor(int x, int y);
 
 	/**

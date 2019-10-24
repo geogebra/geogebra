@@ -134,6 +134,7 @@ public class TextControllerW
 		});
 	}
 
+	@Override
 	public void moveCursor(final int x, final int y) {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
