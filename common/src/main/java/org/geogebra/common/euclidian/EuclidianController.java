@@ -9540,13 +9540,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
 
-		GeoElement topHit = view.getHits().getFirstHit(TestGeo.GEOTEXT);
-		if (selection.getSelectedGeos().contains(topHit)) {
-			getTextController().edit((GeoText) topHit);
-			getTextController().moveCursor(event.getX(), event.getY());
-			return;
-		} else {
-			getTextController().stopEditing();
+		if (getTextController() != null) {
+			GeoElement topHit = view.getHits().getFirstHit(TestGeo.GEOTEXT);
+			if (selection.getSelectedGeos().contains(topHit)) {
+				getTextController().edit((GeoText) topHit);
+				getTextController().moveCursor(event.getX(), event.getY());
+				return;
+			} else {
+				getTextController().stopEditing();
+			}
 		}
 
 		if (shouldHideDynamicStyleBar(event)) {
