@@ -12887,7 +12887,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
 	}
 
-	public void setBoundingBoxForGeo(GeoElement geoElement) {
+	private void setBoundingBoxForGeo(GeoElement geoElement) {
 		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
 		d.update();
 		if (d.getBoundingBox().getRectangle() != null) {
