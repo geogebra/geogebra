@@ -40,39 +40,6 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	protected EuclidianView view;
 
-	/**
-	 * minimum determinant for circles decrease to allow less "round" circles
-	 */
-	public double CIRCLE_MIN_DET = 0.95;
-
-	/**
-	 * increase to allow uglier circles
-	 */
-	public double CIRCLE_MAX_SCORE = 0.10;
-
-	/**
-	 * maximum deviation between the segment lengths increase to allow less
-	 * beautiful rectangles
-	 */
-	public double RECTANGLE_LINEAR_TOLERANCE = 0.20;
-
-	/**
-	 * maximum deviation between the segment lengths increase to allow less
-	 * beautiful polygons
-	 */
-	public double POLYGON_LINEAR_TOLERANCE = 0.20;
-
-	/**
-	 * maximum deviation between the angles of a rectangle increase to allow
-	 * less beautiful rectangles
-	 */
-	public double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
-
-	/**
-	 * maximum determinant for lines (e.g. sides of a polygon) decrease to allow
-	 * lines that are not so straight
-	 */
-	public double LINE_MAX_DET = 0.015;
 	/** Polyline that conects stylebar to pen settings */
 	public final GeoPolyLine defaultPenLine;
 

@@ -36,6 +36,40 @@ import org.geogebra.common.util.debug.Log;
 public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
+	 * minimum determinant for circles decrease to allow less "round" circles
+	 */
+	private double CIRCLE_MIN_DET = 0.95;
+
+	/**
+	 * increase to allow uglier circles
+	 */
+	private double CIRCLE_MAX_SCORE = 0.10;
+
+	/**
+	 * maximum deviation between the segment lengths increase to allow less
+	 * beautiful rectangles
+	 */
+	private double RECTANGLE_LINEAR_TOLERANCE = 0.20;
+
+	/**
+	 * maximum deviation between the segment lengths increase to allow less
+	 * beautiful polygons
+	 */
+	private double POLYGON_LINEAR_TOLERANCE = 0.20;
+
+	/**
+	 * maximum deviation between the angles of a rectangle increase to allow
+	 * less beautiful rectangles
+	 */
+	private double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
+
+	/**
+	 * maximum determinant for lines (e.g. sides of a polygon) decrease to allow
+	 * lines that are not so straight
+	 */
+	private double LINE_MAX_DET = 0.015;
+
+	/**
 	 * type that is expected to be created
 	 */
 	public enum ShapeType {
@@ -184,9 +218,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				monotonicTest++;
 			}
 		}
-
-		Log.debug("mono" + monotonicTest + " "
-				+ monotonicTest / penPoints.size());
 
 		monotonicTest = monotonicTest / penPoints.size();
 
