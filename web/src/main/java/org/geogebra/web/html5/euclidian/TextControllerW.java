@@ -301,11 +301,6 @@ public class TextControllerW
 	}
 
 	@Override
-	public boolean isEditing() {
-		return text != null && text.isEditMode();
-	}
-
-	@Override
 	public void reset() {
 		if (editor == null) {
 			return;

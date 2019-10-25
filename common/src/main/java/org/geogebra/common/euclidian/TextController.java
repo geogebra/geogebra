@@ -64,11 +64,6 @@ public interface TextController {
 	String wrapText(String editText, DrawText d);
 
 	/**
-	 * @return if text editor is active.
-	 */
-	boolean isEditing();
-
-	/**
 	 * Stops the current editor.
 	 */
 	void stopEditing();

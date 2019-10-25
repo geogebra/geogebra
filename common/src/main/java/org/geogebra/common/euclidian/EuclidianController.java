@@ -8678,9 +8678,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		if (getTextController() != null && getTextController().isEditing()) {
-			return;
-		}
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
