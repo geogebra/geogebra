@@ -9524,6 +9524,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMousePressed(AbstractEvent event) {
+		if (shouldHideDynamicStyleBar(event)) {
+			this.hideDynamicStylebar();
+		}
+
 		app.getAccessibilityManager().setTabOverGeos(true);
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
@@ -9539,21 +9543,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
-
-		if (getTextController() != null) {
-			GeoElement topHit = view.getHits().getFirstHit(TestGeo.GEOTEXT);
-			if (selection.getSelectedGeos().contains(topHit)) {
-				getTextController().edit((GeoText) topHit);
-				getTextController().moveCursor(event.getX(), event.getY());
-				return;
-			} else {
-				getTextController().stopEditing();
-			}
-		}
-
-		if (shouldHideDynamicStyleBar(event)) {
-			this.hideDynamicStylebar();
-		}
 
 		setMoveModeForFurnitures();
 
@@ -10337,9 +10326,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
-		if (getTextController() != null && getTextController().isEditing()) {
-			return;
+		if (getTextController() != null) {
+			GeoElement topText = view.getHits().getFirstHit(TestGeo.GEOTEXT);
+			if (getTextController().shouldStartEditing((GeoText) topText,
+					event.getX(), event.getY(), draggingOccured)) {
+				return;
+			}
 		}
+
 		// will be reset in wrapMouseReleased
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {

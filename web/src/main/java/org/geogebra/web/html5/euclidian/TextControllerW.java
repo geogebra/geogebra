@@ -135,7 +135,19 @@ public class TextControllerW
 	}
 
 	@Override
-	public void moveCursor(final int x, final int y) {
+	public boolean shouldStartEditing(GeoText text, int x, int y, boolean dragged) {
+		if (text != null && this.text == text && !dragged) {
+			edit(text);
+			moveCursor(x, y);
+			return true;
+		} else {
+			stopEditing();
+			this.text = text;
+			return false;
+		}
+	}
+
+	private void moveCursor(final int x, final int y) {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
