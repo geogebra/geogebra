@@ -186,10 +186,12 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		var charIndex = parseInt(targetNode.getAttribute("data-char"));
 		targetContainer.innerHTML = oldHTML;
 
-		charIndex = charIndex || targetContainer.childNodes[0].length;
+		if (targetContainer.childNodes[0] !== undefined) {
+			charIndex = charIndex || targetContainer.childNodes[0].length;
 
-		this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
-				targetContainer.childNodes[0], charIndex);
+			this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
+					targetContainer.childNodes[0], charIndex);
+		}
 	}-*/;
 
 	@ExternalAccess
