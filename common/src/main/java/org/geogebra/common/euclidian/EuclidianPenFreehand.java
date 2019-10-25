@@ -9,6 +9,7 @@ import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
@@ -1187,39 +1188,47 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				double radius = Math.sqrt(i_xx(s) * view.getInvXscale() * view.getInvXscale()
 						+ i_yy(s) * view.getInvYscale() * view.getInvYscale());
 
-				GeoPoint p1;
-				double phi0 = 0;
-
-				Construction cons = app.getKernel().getConstruction();
+                Construction cons = app.getKernel().getConstruction();
 				if (initialPoint != null) {
-					phi0 = Math.atan2(initialPoint.getY() - centerY,
-							initialPoint.getX() - centerX);
-					p1 = initialPoint;
+                    double phi0 = Math.atan2(initialPoint.getY() - centerY,
+                            initialPoint.getX() - centerX);
+
+					GeoPoint p2 = new GeoPoint(cons, null,
+                            centerX + Math.cos(phi0 + 2 * Math.PI / 3) * radius,
+                            centerY + Math.sin(phi0 + 2 * Math.PI / 3) * radius,
+                            1.0
+                    );
+                    GeoPoint p3 = new GeoPoint(cons, null,
+                            centerX + Math.cos(phi0 + 4 * Math.PI / 3) * radius,
+                            centerY + Math.sin(phi0 + 4 * Math.PI / 3) * radius,
+                            1.0
+                    );
+
+                    AlgoCircleThreePoints algoCircle = new AlgoCircleThreePoints(
+                            app.getKernel().getConstruction(), initialPoint, p2, p3
+                    );
+
+                    algoCircle.getCircle().setLabel(null);
+
+                    return (GeoConic) algoCircle.getCircle();
 				} else {
-					p1 = new GeoPoint(cons, null, centerX + radius, centerY, 1.0);
+                    GeoPoint center = new GeoPoint(cons, null, centerX, centerY, 1.0);
+                    center.setEuclidianVisible(false);
+
+                    GeoNumeric radiusVal = new GeoNumeric(cons, radius);
+
+                    AlgoCirclePointRadius algoCircle = new AlgoCirclePointRadius(
+                            app.getKernel().getConstruction(), center, radiusVal
+                    );
+
+                    algoCircle.getCircle().setLabel(null);
+
+                    return algoCircle.getCircle();
 				}
-
-				GeoPoint p2 = new GeoPoint(cons, null,
-						centerX + Math.cos(phi0 + 2 * Math.PI / 3) * radius,
-						centerY + Math.sin(phi0 + 2 * Math.PI / 3) * radius,
-						1.0
-				);
-				GeoPoint p3 = new GeoPoint(cons, null,
-						centerX + Math.cos(phi0 + 4 * Math.PI / 3) * radius,
-						centerY + Math.sin(phi0 + 4 * Math.PI / 3) * radius,
-						1.0
-				);
-
-				AlgoCircleThreePoints algoCircle = new AlgoCircleThreePoints(
-						app.getKernel().getConstruction(), p1, p2, p3
-				);
-
-				algoCircle.getCircle().setLabel(null);
-
-				return (GeoConic) algoCircle.getCircle();
 			}
 		}
 
+		resetInitialPoint();
 		return null;
 	}
 
