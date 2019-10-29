@@ -194,7 +194,7 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public CommandFilter getCommandFilter() {
-		return CommandFilterFactory.createNoCasCommandFilter();
+		return CommandFilterFactory.createGraphingCommandFilter();
 	}
 
 	@Override
