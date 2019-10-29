@@ -8,13 +8,13 @@ import org.geogebra.common.kernel.commands.Commands;
  * @author laszlo
  *
  */
-public final class CommandNameFilterFactory {
+public final class CommandFilterFactory {
 	/**
 	 *
-	 * @return Returns the CommandNameFilter that allows only the Scientific
+	 * @return Returns the CommandFilter that allows only the Scientific
 	 *         Calculator commands
 	 */
-	public static CommandNameFilter createSciCalcCommandNameFilter() {
+	public static CommandFilter createSciCalcCommandFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(
 				false);
 		commandNameFilter.addCommands(Commands.Mean, Commands.mean, Commands.SD,
@@ -27,7 +27,7 @@ public final class CommandNameFilterFactory {
 	/**
 	 * @return name filter for apps with no CAS
 	 */
-	public static CommandNameFilter createNoCasCommandNameFilter() {
+	public static CommandFilter createNoCasCommandFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(Commands.LocusEquation, Commands.Envelope,
 				Commands.Expand, Commands.Factor, Commands.Factors,
@@ -46,7 +46,7 @@ public final class CommandNameFilterFactory {
 	/**
 	 * @return name filter for apps with CAS
 	 */
-	public static CommandNameFilter createCasCommandNameFilter() {
+	public static CommandFilter createCasCommandFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command

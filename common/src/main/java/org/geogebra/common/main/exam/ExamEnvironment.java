@@ -8,8 +8,8 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -43,8 +43,8 @@ public class ExamEnvironment {
 	private TimeFormatAdapter timeFormatter;
 	private CommandArgumentFilter nonExamCommandFilter;
 	private static OutputFilter outputFilter = new OutputFilter();
-	private static final CommandNameFilter noCASFilter = CommandNameFilterFactory
-			.createNoCasCommandNameFilter();
+	private static final CommandFilter noCASFilter = CommandFilterFactory
+			.createNoCasCommandFilter();
 
 	/**
 	 * application
@@ -660,12 +660,12 @@ public class ExamEnvironment {
 
 	private void enableCAS() {
 		getCasSettings().setEnabled(true);
-		commandDispatcher.removeCommandNameFilter(noCASFilter);
+		commandDispatcher.removeCommandFilter(noCASFilter);
 	}
 
 	private void disableCAS() {
 		getCasSettings().setEnabled(false);
-		commandDispatcher.addCommandNameFilter(noCASFilter);
+		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
 	private CASSettings getCasSettings() {

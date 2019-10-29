@@ -8,23 +8,23 @@ import org.junit.Test;
 
 public class CommandNameFilterSetTest extends BaseUnitTest {
 
-    private CommandNameFilter factory = null;
+    private CommandFilter filter = null;
 
     @Before
     public void setupTest() {
-        factory = CommandNameFilterFactory.createCasCommandNameFilter();
+        filter = CommandFilterFactory.createCasCommandFilter();
     }
 
     @Test
     public void T1() {
-        Assert.assertFalse(factory.isCommandAllowed(Commands.Delete));
+        Assert.assertFalse(filter.isCommandAllowed(Commands.Delete));
     }
     @Test
     public void T2() {
-        Assert.assertTrue(factory.isCommandAllowed(Commands.First));
+        Assert.assertTrue(filter.isCommandAllowed(Commands.First));
     }
     @Test
     public void T3() {
-        Assert.assertFalse(factory.isCommandAllowed(Commands.Min));
+        Assert.assertFalse(filter.isCommandAllowed(Commands.Min));
     }
 }
