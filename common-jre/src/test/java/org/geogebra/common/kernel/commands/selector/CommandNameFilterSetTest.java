@@ -1,12 +1,11 @@
 package org.geogebra.common.kernel.commands.selector;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.Commands;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CommandNameFilterSetTest extends BaseUnitTest {
+public class CommandNameFilterSetTest {
 
     private CommandFilter filter = null;
 
