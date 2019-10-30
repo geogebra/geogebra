@@ -986,7 +986,7 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * remove commandNameFilter
+	 * remove command filter
 	 * 
 	 * @param filter
 	 *            to remove.

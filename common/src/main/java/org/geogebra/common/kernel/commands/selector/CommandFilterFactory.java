@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.commands.selector;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * Creates CommandNameFilters for various apps.
+ * Creates CommandFilters for various apps.
  * 
  * @author laszlo
  *
