@@ -2,7 +2,6 @@ package org.geogebra.web.full.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -318,9 +317,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void writeEmbeds(Construction cons, ZipFile archiveContent) {
 		persist();
-		Iterator<GeoElement> it = cons.getGeoSetConstructionOrder().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : cons.getGeoSetConstructionOrder()) {
 			if (geo instanceof GeoEmbed) {
 				int id = ((GeoEmbed) geo).getEmbedID();
 				String encoded = content.get(id);
