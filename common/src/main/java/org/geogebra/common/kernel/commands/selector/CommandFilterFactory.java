@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands.selector;
 
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.CommandsConstants;
 
 /**
  * Creates CommandFilters for various apps.
@@ -22,6 +23,53 @@ public final class CommandFilterFactory {
 				Commands.nPr, Commands.nCr, Commands.Binomial, Commands.MAD,
 				Commands.mad);
 		return commandNameFilter;
+	}
+
+	/**
+	 * Creates a CommandFilter for the Graphing app.
+	 *
+	 * @return command filter
+	 */
+	public static CommandFilter createGraphingCommandFilter() {
+		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
+		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
+				CommandsConstants.TABLE_TRANSFORMATION);
+		CommandFilter nameFilter = createGraphingNameFilter();
+		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
+				tableFilter, nameFilter);
+		return new EnglishCommandFilter(composite);
+	}
+
+	private static CommandFilter createGraphingNameFilter() {
+		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		nameFilter.addCommands(Commands.PerpendicularVector, Commands.OrthogonalVector,
+				Commands.UnitOrthogonalVector, Commands.UnitVector, Commands.Cross, Commands.Dot,
+				Commands.Reflect, Commands.Mirror, Commands.AngleBisector,
+				Commands.AngularBisector, Commands.Angle, Commands.ConjugateDiameter,
+				Commands.Diameter, Commands.LinearEccentricity, Commands.Excentricity,
+				Commands.MajorAxis, Commands.FirstAxis, Commands.MinorAxis, Commands.SecondAxis,
+				Commands.SemiMajorAxisLength, Commands.FirstAxisLength,
+				Commands.SemiMinorAxisLength, Commands.SecondAxisLength, Commands.Length,
+				Commands.Relation, Commands.AffineRatio, Commands.Arc, Commands.AreCollinear,
+				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
+				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular, Commands.Area,
+				Commands.Barycenter, Commands.Centroid, Commands.CircularArc, Commands.CircleArc,
+				Commands.CircularSector, Commands.CircleSector, Commands.CircumcircularArc,
+				Commands.CircumcircleArc, Commands.CircumcircularSector,
+				Commands.CircumcircleSector, Commands.Circumference, Commands.ClosestPoint,
+				Commands.ClosestPointRegion, Commands.CrossRatio, Commands.Cubic,
+				Commands.Direction, Commands.Distance, Commands.Envelope, Commands.IntersectPath,
+				Commands.Locus, Commands.LocusEquation, Commands.Midpoint, Commands.Perimeter,
+				Commands.PerpendicularBisector, Commands.LineBisector, Commands.PerpendicularLine,
+				Commands.OrthogonalLine, Commands.Polygon, Commands.PolyLine, Commands.Polyline,
+				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
+				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
+				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
+				Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial,
+				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
+				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
+				Commands.Division);
+		return nameFilter;
 	}
 
 	/**
