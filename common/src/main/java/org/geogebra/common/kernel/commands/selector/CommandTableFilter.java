@@ -11,7 +11,6 @@ import java.util.Set;
  */
 public class CommandTableFilter implements CommandFilter {
 
-
 	private Set<Integer> filteredTables;
 
 	/**
