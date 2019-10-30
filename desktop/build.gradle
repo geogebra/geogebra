@@ -1,5 +1,6 @@
 plugins {
     id 'com.github.spotbugs' version '1.6.9'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')
@@ -145,3 +146,9 @@ checkstyle {
     configDir = file("config/checkstyle/")
     toolVersion = "8.8"
 }
+
+javafx {
+    version = "11"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web' ]
+}
+
