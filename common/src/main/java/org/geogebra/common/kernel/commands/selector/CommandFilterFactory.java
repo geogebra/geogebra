@@ -4,7 +4,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 
 /**
- * Creates CommandNameFilters for various apps.
+ * Creates CommandFilters for various apps.
  * 
  * @author laszlo
  *
