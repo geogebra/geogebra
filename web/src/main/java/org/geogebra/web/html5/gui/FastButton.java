@@ -300,7 +300,6 @@ public abstract class FastButton extends GCustomButton
 	 * Notify all handlers
 	 */
 	protected void fireFastClickEvent() {
-
 		for (FastClickHandler h : this.handlers) {
 			h.onClick(this);
 		}
