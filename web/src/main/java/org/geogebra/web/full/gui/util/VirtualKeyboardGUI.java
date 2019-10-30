@@ -7,8 +7,6 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
 public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
-	void updateSize();
-
 	void setStyleName();
 
 	void endEditing();

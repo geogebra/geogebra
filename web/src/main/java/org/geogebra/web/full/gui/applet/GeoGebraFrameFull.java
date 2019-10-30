@@ -347,8 +347,7 @@ public class GeoGebraFrameFull
 			app.addAsAutoHidePartnerForPopups(keyboard.asWidget().getElement());
 		}
 		CancelEventTimer.keyboardSetVisible();
-		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
-		this.add(keyboard);
+		getApp().getKeyboardManager().addKeyboard(this, keyboard);
 		Runnable callback = new Runnable() {
 
 			@Override
@@ -371,7 +370,6 @@ public class GeoGebraFrameFull
 				}
 			}
 		};
-		getApp().getKeyboardManager().updateStyle(keyboard);
 		if (animated) {
 			keyboard.afterShown(callback);
 		} else {
@@ -423,7 +421,7 @@ public class GeoGebraFrameFull
 
 		// TODO maybe too expensive?
 		app.updateCenterPanelAndViews();
-		add(keyBoard);
+		keyboardManager.addKeyboard(this, keyBoard);
 		keyBoard.setVisible(true);
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();

@@ -704,7 +704,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	protected void resizeKeyboard() {
 		if (onScreenKeyboard != null) {
-			onScreenKeyboard.updateSize();
+			onScreenKeyboard.onResize();
 			onScreenKeyboard.setStyleName();
 		}
 	}

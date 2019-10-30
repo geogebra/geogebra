@@ -11,11 +11,19 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 
-public class KeyboardManager {
+public class KeyboardManager implements ResizeHandler {
 
 	private AppW app;
+	private RootPanel keyboardRoot;
+	private VirtualKeyboardW keyboard;
 
 	/**
 	 * Constructor
@@ -53,11 +61,9 @@ public class KeyboardManager {
 
 	/**
 	 * Update keyboard style.
-	 *
-	 * @param keyBoard to update.
 	 */
-	public void updateStyle(VirtualKeyboardW keyBoard) {
-		Dom.toggleClass(keyBoard.asWidget(), "detached", shouldDetach());
+	private void updateStyle() {
+		Dom.toggleClass(keyboard.asWidget(), "detached", shouldDetach());
 	}
 
 	/**
@@ -100,6 +106,38 @@ public class KeyboardManager {
 		newHeight += 40;
 
 		return newHeight;
+	}
+
+	public void addKeyboard(Panel appFrame, VirtualKeyboardW keyboard) {
+		this.keyboard = keyboard;
+		if (!shouldDetach()) {
+			appFrame.add(keyboard);
+		} else {
+			if (keyboardRoot == null) {
+				keyboardRoot = createKeyboardRoot();
+			}
+			keyboardRoot.add(keyboard);
+		}
+		updateStyle();
+	}
+
+	private RootPanel createKeyboardRoot() {
+		Element detachedKeyboardParent = DOM.createDiv();
+		detachedKeyboardParent.setClassName("GeoGebraFrame");
+		app.getArticleElement().getParentElement().getParentElement()
+				.appendChild(detachedKeyboardParent);
+		detachedKeyboardParent.setId(app.getAppletId() + "keyboard");
+		Window.addResizeHandler(this);
+		return RootPanel.get(app.getAppletId() + "keyboard");
+
+	}
+
+	@Override
+	public void onResize(ResizeEvent event) {
+		if (keyboard != null) {
+			keyboard.onResize();
+		}
+
 	}
 
 }
