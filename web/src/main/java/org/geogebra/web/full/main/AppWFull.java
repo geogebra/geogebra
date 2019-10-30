@@ -3,6 +3,8 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -380,7 +382,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void updateKeyBoardField(MathKeyboardListener field) {
-		getGuiManager().setOnScreenKeyboardTextField(field);
+		getKeyboardManager().setOnScreenKeyboardTextField(field);
 	}
 
 	@Override
@@ -2107,7 +2109,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * @return manager for showing/hiding keyboard
 	 */
-	public KeyboardManager getKeyboardManager() {
+	public @Nonnull KeyboardManager getKeyboardManager() {
 		if (keyboardManager == null) {
 			keyboardManager = new KeyboardManager(this);
 		}

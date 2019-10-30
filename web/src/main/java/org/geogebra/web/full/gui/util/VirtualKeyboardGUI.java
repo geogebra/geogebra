@@ -1,9 +1,12 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+
+import com.google.gwt.dom.client.Element;
 
 public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
@@ -20,4 +23,8 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 	void checkLanguage();
 
 	void addAutoHidePartner(GPopupPanel popup);
+
+	void selectTab(KeyboardType numbers);
+
+	Element getElement();
 }

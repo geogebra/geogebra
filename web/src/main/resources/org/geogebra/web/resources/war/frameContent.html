@@ -24,8 +24,7 @@
             var filename = getURLparam("filename") || "https://cdn.geogebra.org/resource/jYTNR7uJ/zuJ2pQo7dBVOFYld/material-jYTNR7uJ.ggb";
             document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-filename", filename);
             if (getURLparam("disableAutoscale")) {
-                document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-disableAutoscale", true);
-                document.getElementById("parent").style.paddingBottom="220px";
+                document.getElementsByClassName("geogebraweb")[0].setAttribute("data-param-scaleContainerClass", "container");
             }
             webScript = document.createElement("script");
             webScript.src="web3d/web3d.nocache.js";
@@ -34,7 +33,7 @@
         </script>
     </head>
     <body onload=loadggb()>
-        <div id="parent">
+        <div id="parent" class="container">
             <div class="scaleme" style="height:100%">
                 <div>
                     <article class="geogebraweb" data-param-showLogging="true"

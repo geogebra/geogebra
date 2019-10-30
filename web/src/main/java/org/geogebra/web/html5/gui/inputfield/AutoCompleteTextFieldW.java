@@ -230,8 +230,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
 						&& !app.isWhiteboardActive()
-						&& app.getGuiManager() != null) {
-					app.getGuiManager().setOnScreenKeyboardTextField(
+						&& app.getKeyboardManager() != null) {
+					app.getKeyboardManager().setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
 				}
 
@@ -1261,8 +1261,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private void showTablePopup() {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-			if (app.getGuiManager() != null) {
-				app.getGuiManager().addKeyboardAutoHidePartner(tablePopup);
+			if (app.getKeyboardManager() != null) {
+				app.getKeyboardManager().addKeyboardAutoHidePartner(tablePopup);
 			}
 		}
 		if (this.tablePopup != null) {

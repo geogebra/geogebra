@@ -221,7 +221,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * Connect keyboard listener to keyboard
 	 */
 	public void setOnScreenKeyboardTextField() {
-		app.getGuiManager().setOnScreenKeyboardTextField(getRetexListener());
+		app.getKeyboardManager()
+				.setOnScreenKeyboardTextField(getRetexListener());
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();

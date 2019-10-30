@@ -1701,9 +1701,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				// w.getElement().setAttribute("display", "none");
 
 				if (view.isKeyboardEnabled()) {
-					if (app.getGuiManager() != null) {
+					if (app.getKeyboardManager() != null) {
 						app.showKeyboard(w,
-							app.getGuiManager().getKeyboardShouldBeShownFlag());
+								app.getKeyboardManager()
+										.getKeyboardShouldBeShownFlag());
 					} else {
 						app.showKeyboard(w, true);
 					}

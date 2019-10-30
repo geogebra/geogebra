@@ -71,7 +71,7 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 				return;
 			}
 			if (app.hasPopup()) {
-				app.getGuiManager().setOnScreenKeyboardTextField(null);
+				app.getKeyboardManager().setOnScreenKeyboardTextField(null);
 				return;
 			}
 			app.hideKeyboard();

@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.keyboard.web.UpdateKeyBoardListener;
+import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -19,11 +27,15 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class KeyboardManager implements ResizeHandler {
+/**
+ * Handles creating, showing and updating the keyboard
+ */
+public class KeyboardManager
+		implements ResizeHandler, KeyboardManagerInterface {
 
 	private AppW app;
 	private RootPanel keyboardRoot;
-	private VirtualKeyboardW keyboard;
+	private VirtualKeyboardGUI keyboard;
 
 	/**
 	 * Constructor
@@ -87,15 +99,13 @@ public class KeyboardManager implements ResizeHandler {
 		return shouldDetach()
 				? Window.getClientWidth()
 				: app.getWidth();
-
 	}
 
 	/**
-	 * @param keyboard
-	 *            keyboard
 	 * @return height inside of the geogebra window
 	 */
-	public int estimateKeyboardHeight(VirtualKeyboardW keyboard) {
+	public int estimateKeyboardHeight() {
+		ensureKeyboardExists();
 		int realHeight = keyboard.getOffsetHeight();
 		if (realHeight > 0) {
 			return realHeight;
@@ -108,8 +118,12 @@ public class KeyboardManager implements ResizeHandler {
 		return newHeight;
 	}
 
-	public void addKeyboard(Panel appFrame, VirtualKeyboardW keyboard) {
-		this.keyboard = keyboard;
+	/**
+	 * @param appFrame
+	 *            frame of the applet
+	 */
+	public void addKeyboard(Panel appFrame) {
+		ensureKeyboardExists();
 		if (!shouldDetach()) {
 			appFrame.add(keyboard);
 		} else {
@@ -123,13 +137,17 @@ public class KeyboardManager implements ResizeHandler {
 
 	private RootPanel createKeyboardRoot() {
 		Element detachedKeyboardParent = DOM.createDiv();
-		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		app.getArticleElement().getParentElement().getParentElement()
-				.appendChild(detachedKeyboardParent);
-		detachedKeyboardParent.setId(app.getAppletId() + "keyboard");
-		Window.addResizeHandler(this);
-		return RootPanel.get(app.getAppletId() + "keyboard");
 
+		detachedKeyboardParent.setClassName("GeoGebraFrame");
+		Element container = app.getArticleElement().getParentElement()
+				.getParentElement();
+		container.appendChild(detachedKeyboardParent);
+		container.getStyle().setProperty("paddingBottom",
+				estimateKeyboardHeight() + "px");
+		String keyboardParentId = app.getAppletId() + "keyboard";
+		detachedKeyboardParent.setId(keyboardParentId);
+		Window.addResizeHandler(this);
+		return RootPanel.get(keyboardParentId);
 	}
 
 	@Override
@@ -137,7 +155,103 @@ public class KeyboardManager implements ResizeHandler {
 		if (keyboard != null) {
 			keyboard.onResize();
 		}
+	}
 
+	/**
+	 * Return a keyboard and connected to given textfield.
+	 *
+	 * @param textField
+	 *            textfield adapter
+	 * @param listener
+	 *            open/close listener
+	 * @return keyboard
+	 */
+	public VirtualKeyboardGUI getOnScreenKeyboard(
+			MathKeyboardListener textField, UpdateKeyBoardListener listener) {
+		ensureKeyboardExists();
+
+		if (textField != null) {
+			setOnScreenKeyboardTextField(textField);
+		}
+
+		keyboard.setListener(listener);
+		return keyboard;
+	}
+
+	private void ensureKeyboardExists() {
+		if (keyboard == null) {
+			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
+					&& !shouldDetach();
+			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
+					keyboardIsScientific(),
+					showMoreButton);
+		}
+	}
+
+	private boolean keyboardIsScientific() {
+		ArticleElementInterface articleElement = app
+				.getArticleElement();
+
+		if ("evaluator".equals(articleElement.getDataParamAppName())) {
+			return "scientific"
+					.equals(articleElement.getParamKeyboardType("normal"));
+		}
+
+		return app.getConfig().hasScientificKeyboard();
+	}
+
+	@Override
+	public boolean getKeyboardShouldBeShownFlag() {
+		return keyboard != null && keyboard.shouldBeShown();
+	}
+
+	@Override
+	public void updateKeyboardLanguage() {
+		if (keyboard != null) {
+			keyboard.checkLanguage();
+		}
+	}
+
+	@Override
+	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
+		if (keyboard != null) {
+			keyboard.setProcessing(
+					GuiManagerW.makeKeyboardListener(
+							textField, AlgebraItem.getLastItemProvider(app)));
+		}
+	}
+
+	/**
+	 * Notify keyboard about finished editing
+	 */
+	public void onScreenEditingEnded() {
+		if (keyboard != null) {
+			keyboard.endEditing();
+		}
+	}
+
+	/**
+	 * Update keyboard size.
+	 */
+	public void resizeKeyboard() {
+		if (keyboard != null) {
+			keyboard.onResize();
+			keyboard.setStyleName();
+		}
+	}
+
+	/**
+	 * @return whether keyboard was closed by clicking the X button
+	 */
+	public boolean isKeyboardClosedByUser() {
+		return this.keyboard != null && !this.keyboard.shouldBeShown();
+	}
+
+	@Override
+	public void addKeyboardAutoHidePartner(GPopupPanel popup) {
+		if (keyboard != null) {
+			keyboard.addAutoHidePartner(popup);
+		}
 	}
 
 }

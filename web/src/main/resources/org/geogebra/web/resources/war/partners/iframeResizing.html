@@ -1,7 +1,7 @@
 <html>
     <body>
         <script>
-        function autoResize(){
+        function autoResize() {
             const OFFSET = 5
             const $win = document.getElementById("ifr").contentWindow;
             const $doc = $win.document;
@@ -21,7 +21,7 @@
             document.getElementById("ifr").style.height = height + "px";
         }
 
-        function updateAutoscale(){
+        function updateAutoscale() {
             var frame = document.getElementById('ifr');
             frame.src = frame.src.replace(/&.*/,"") + "&disableAutoscale=" + document.getElementById("disableAutoscale").checked;
         }

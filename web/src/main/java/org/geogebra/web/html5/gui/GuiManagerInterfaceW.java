@@ -88,8 +88,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void listenToLogin();
 
-	void setOnScreenKeyboardTextField(MathKeyboardListener textField);
-
 	boolean focusScheduled(boolean setNotGet,
 			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
 
@@ -111,19 +109,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	@Override
 	SpreadsheetViewInterface getSpreadsheetView();
 
-	void onScreenEditingEnded();
-
 	void setActivePanelAndToolbar(int viewID);
 
-	void updateKeyboardLanguage();
-
-	boolean getKeyboardShouldBeShownFlag();
-
-	void addKeyboardAutoHidePartner(GPopupPanel popup);
-
 	void switchToolsToAV();
-
-	boolean isKeyboardClosedByUser();
 
 	MathKeyboardListener getKeyboardListener(DockPanel panel);
 
