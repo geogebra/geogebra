@@ -3569,7 +3569,7 @@ public class AlgebraProcessor {
 	/**
 	 * Sets the CommandFilter to the CommandDispatcher
 	 * 
-	 * @param CommandFilter
+	 * @param commandFilter
 	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
