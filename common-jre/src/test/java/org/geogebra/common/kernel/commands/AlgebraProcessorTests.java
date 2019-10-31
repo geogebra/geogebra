@@ -1,11 +1,14 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +44,6 @@ public class AlgebraProcessorTests extends BaseUnitTest {
         Assert.assertNotEquals(a, b);
         AlgoElement parentAlgo = b.getParentAlgorithm();
         Assert.assertNotNull(parentAlgo);
-        Assert.assertThat(parentAlgo, CoreMatchers.is(CoreMatchers.<AlgoElement>instanceOf(AlgoDependentGeoCopy.class)));
+		assertThat(parentAlgo, is(instanceOf(AlgoDependentGeoCopy.class)));
     }
 }

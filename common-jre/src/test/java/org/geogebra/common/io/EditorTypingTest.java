@@ -20,6 +20,9 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorTypingTest extends BaseUnitTest {
 
+	/**
+	 * Reset LaTeX factory
+	 */
 	@BeforeClass
 	public static void prepare() {
 		if (FactoryProvider.getInstance() == null) {

@@ -65,6 +65,9 @@ public class GeoElementFactory {
         return new GeoFunction(unitTest.getConstruction(), function);
     }
 
+	/**
+	 * @return line with a hidden label
+	 */
 	public GeoElement createLineNoLabel() {
 		GeoElement line = createGeoLine();
 		LabelController labelController = new LabelController();

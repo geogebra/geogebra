@@ -26,17 +26,17 @@ public class AppCommon3D extends AppCommon {
 	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DJre(cmdKernel);
 	}
-	
+
 	@Override
-	public boolean is3D(){
+	public boolean is3D() {
 		return true;
 	}
 
+	@Override
 	public DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			drawEquation = new DrawEquationCommon();
 		}
 		return drawEquation;
-
 	}
 }

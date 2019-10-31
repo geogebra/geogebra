@@ -180,7 +180,6 @@ public class NoExceptionsTest {
 		}
 	}
 
-
 	/**
 	 * @param a
 	 *            command

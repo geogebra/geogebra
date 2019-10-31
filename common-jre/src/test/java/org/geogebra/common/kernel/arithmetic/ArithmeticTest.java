@@ -12,18 +12,17 @@ import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ArithmeticTest extends Assert {
 
-	static AlgebraProcessor ap;
-	static AppCommon3D app;
+	private AlgebraProcessor ap;
+	private AppCommon3D app;
 
-	@BeforeClass
-	public static void setup() {
+	@Before
+	public void setup() {
 		app = new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
 		ap = app.getKernel().getAlgebraProcessor();
@@ -35,12 +34,12 @@ public class ArithmeticTest extends Assert {
 		app.getKernel().clearConstruction(true);
 	}
 
-	private static void t(String input, String expected) {
+	private void t(String input, String expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
-	private static void t(String input, String expected, StringTemplate tpl) {
+	private void t(String input, String expected, StringTemplate tpl) {
 		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				tpl);
 	}
@@ -211,14 +210,18 @@ public class ArithmeticTest extends Assert {
 				"{x + y = 1, x + y = 2, x + y = 3, x + y = 4, x + y = 5}");
 		t("x^2+y^2=1..5",
 				TestStringUtil.unicode(
-						"{x^2 + y^2 = 1, x^2 + y^2 = 2, x^2 + y^2 = 3, x^2 + y^2 = 4, x^2 + y^2 = 5}"),
+						"{x^2 + y^2 = 1," + " x^2 + y^2 = 2, x^2 + y^2 = 3,"
+								+ " x^2 + y^2 = 4, x^2 + y^2 = 5}"),
 				StringTemplate.editTemplate);
 		t("f(r)=(r,sin(r)*(1..5))",
-				"{(r, sin(r)), (r, (sin(r) * 2)), (r, (sin(r) * 3)), (r, (sin(r) * 4)), (r, (sin(r) * 5))}");
+				"{(r, sin(r)), (r, (sin(r) * 2)), (r, (sin(r) * 3)),"
+						+ " (r, (sin(r) * 4)), (r, (sin(r) * 5))}");
 		t("f(r)=(r+(1..5),sin(r)*(1..5))",
-				"{(r + 1, sin(r)), (r + 2, (sin(r) * 2)), (r + 3, (sin(r) * 3)), (r + 4, (sin(r) * 4)), (r + 5, (sin(r) * 5))}");
+				"{(r + 1, sin(r)), (r + 2, (sin(r) * 2)), (r + 3, (sin(r) * 3)),"
+						+ " (r + 4, (sin(r) * 4)), (r + 5, (sin(r) * 5))}");
 		t("f(r)=((1..5)*r,sin(r)+1)",
-				"{(r, sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1), ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
+				"{(r, sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1),"
+						+ " ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
 	}
 
 	@Test
@@ -227,7 +230,8 @@ public class ArithmeticTest extends Assert {
 		t("x+y+(1..3)", "{x + y + 1, x + y + 2, x + y + 3}");
 		t("list1=(-2..2)", "{-2, -1, 0, 1, 2}");
 		t("(list1*t,(1-t)*(1-list1))",
-				"{((-2 * t), ((1 - t) * 3)), ((-t), ((1 - t) * 2)), ((0 * t), (1 - t)), (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
+				"{((-2 * t), ((1 - t) * 3)), ((-t), ((1 - t) * 2)), ((0 * t), (1 - t)),"
+						+ " (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
 	}
 
 	@Test
@@ -254,7 +258,7 @@ public class ArithmeticTest extends Assert {
 	@Test
 	public void derivativeShouldBeHiddenWithNoCas() {
 		app.getSettings().getCasSettings().setEnabled(false);
-		t("f(x)=x","x");
+		t("f(x)=x", "x");
 		t("f'", "NDerivative[f]");
 		t("f'(7)", "1");
 	}
@@ -266,8 +270,12 @@ public class ArithmeticTest extends Assert {
 		t("C = (6,3)", "(6, 3)");
 		t("D = (0,4)", "(0, 4)");
 		t("E=Cross(A-B, C-D)", "7");
-		assertEquals(app.getKernel().lookupLabel("E").getDefinition(StringTemplate.defaultTemplate), "(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)");
+		assertEquals(
+				app.getKernel().lookupLabel("E")
+						.getDefinition(StringTemplate.defaultTemplate),
+				"(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)");
 	}
+
 	@Test
 	public void absFunctionBugFix() {
 		app.getSettings().getCasSettings().setEnabled(true);

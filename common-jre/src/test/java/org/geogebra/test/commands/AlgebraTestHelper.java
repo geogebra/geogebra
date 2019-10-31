@@ -25,6 +25,16 @@ public class AlgebraTestHelper {
 		shouldFail(string, errorMsg, null, app);
 	}
 
+	/**
+	 * @param string
+	 *            command
+	 * @param errorMsg
+	 *            expected error message
+	 * @param altErrorMsg
+	 *            alternative error message
+	 * @param app
+	 *            application
+	 */
 	public static void shouldFail(String string, String errorMsg,
 			String altErrorMsg, App app) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
@@ -41,6 +51,14 @@ public class AlgebraTestHelper {
 		}
 	}
 
+	/**
+	 * @param cmdName
+	 *            command name
+	 * @param signature
+	 *            numbers of agruments supported by the command
+	 * @param app
+	 *            application
+	 */
 	public static void dummySyntaxesShouldFail(String cmdName,
 			List<Integer> signature, App app) {
 		for (int args : signature) {
@@ -210,6 +228,11 @@ public class AlgebraTestHelper {
 		testSyntaxSingle(input, getMatchers(expected), proc, tpl);
 	}
 
+	/**
+	 * @param expected
+	 *            list of expected strings
+	 * @return list of corresponding matchers
+	 */
 	public static List<Matcher<String>> getMatchers(String... expected) {
 		ArrayList<Matcher<String>> matchers = new ArrayList<>();
 		for (String exp : expected) {
