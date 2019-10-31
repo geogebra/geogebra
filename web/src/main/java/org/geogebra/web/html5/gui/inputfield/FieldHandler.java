@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class FieldHandler implements FocusHandler, BlurHandler {
 
-	AppW appl;
+	private AppW appl;
 
 	public FieldHandler(AppW app) {
 		appl = app;
@@ -72,7 +72,7 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 				return;
 			}
 			KeyboardManagerInterface kbManager = app.getKeyboardManager();
-			if (app.hasPopup() && kbManager!=null) {
+			if (app.hasPopup() && kbManager != null) {
 				kbManager.setOnScreenKeyboardTextField(null);
 				return;
 			}
