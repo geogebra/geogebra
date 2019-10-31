@@ -330,6 +330,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 			case "evaluator":
 				activity = new EvaluatorActivity();
 				break;
+			case "suite":
+				activity = new SuiteActivity();
+				break;
 			default:
 				activity = new ClassicActivity(new AppConfigDefault());
 		}
