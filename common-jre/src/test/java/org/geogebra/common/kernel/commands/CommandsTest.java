@@ -65,7 +65,7 @@ public class CommandsTest {
 				StringTemplate.xmlTemplate);
 	}
 
-	private static void testSyntax(String s, List<Matcher<String>> expected,
+	protected static void testSyntax(String s, List<Matcher<String>> expected,
 			App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
 		if (syntaxes == -1000) {
