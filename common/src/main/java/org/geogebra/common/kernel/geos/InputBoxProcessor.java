@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
@@ -108,10 +109,13 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		inputBox.setLinkedGeo(linkedGeo);
 	}
 
-	private String preprocess(String inputText, StringTemplate tpl) {
+	private String  preprocess(String inputText, StringTemplate tpl) {
 		String defineText = inputText;
 
-		if (linkedGeo.isGeoText()) {
+		if (linkedGeo instanceof GeoVectorND && linkedGeo.isIndependent()) {
+			defineText = "(" + inputText.replace("{", "")
+					.replace("}", "") + ")";
+		} else if (linkedGeo.isGeoText()) {
 			defineText = "\"" + defineText + "\"";
 		} else if ("?".equals(inputText.trim()) || "".equals(inputText.trim())) {
 			defineText = "?";

@@ -29,12 +29,12 @@ import java.util.Iterator;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.DependentAlgo;
@@ -507,6 +507,10 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return buildValueString(tpl).toString();
 	}
 
+	public String toValueStringAsColumnVector(StringTemplate tpl) {
+		return buildColumnVectorValueString(tpl).toString();
+	}
+
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
@@ -564,6 +568,71 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			break;
 		}
 		return sbBuildValueString;
+	}
+
+	private StringBuilder buildColumnVectorValueString(StringTemplate tpl) {
+		sbBuildValueString.setLength(0);
+
+		switch (tpl.getStringType()) {
+		case GIAC:
+			sbBuildValueString.append("ggbvect[");
+			sbBuildValueString.append(kernel.format(getInhomVec().getX(), tpl));
+			sbBuildValueString.append(',');
+			sbBuildValueString.append(kernel.format(getInhomVec().getY(), tpl));
+			sbBuildValueString.append("]");
+			return sbBuildValueString;
+
+		default: // continue below
+		}
+		switch (getToStringMode()) {
+		case Kernel.COORD_POLAR:
+			sbBuildValueString.append("(");
+			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
+			sbBuildValueString.append("; ");
+			sbBuildValueString
+					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
+			sbBuildValueString.append(")");
+			break;
+
+		case Kernel.COORD_COMPLEX:
+			sbBuildValueString.append(kernel.format(x, tpl));
+			sbBuildValueString.append(" ");
+			kernel.formatSigned(y, sbBuildValueString, tpl);
+			sbBuildValueString.append(Unicode.IMAGINARY);
+			break;
+
+		case Kernel.COORD_CARTESIAN_3D:
+			sbBuildValueString.append("{");
+			sbBuildValueString.append(surroundWithBrackets(x, tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(surroundWithBrackets(y, tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(surroundWithBrackets(z, tpl));
+			sbBuildValueString.append("}");
+			break;
+
+		case Kernel.COORD_SPHERICAL:
+			// TODO
+			break;
+
+		default: // CARTESIAN
+			sbBuildValueString.append("{");
+			sbBuildValueString.append(surroundWithBrackets(x, tpl));
+			sbBuildValueString.append(", ");
+			sbBuildValueString.append(surroundWithBrackets(y, tpl));
+			sbBuildValueString.append("}");
+			break;
+		}
+		return sbBuildValueString;
+	}
+
+	private String surroundWithBrackets(double value, StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append(kernel.format(value, tpl));
+		sb.append("}");
+		return sb.toString();
+
 	}
 
 	/**

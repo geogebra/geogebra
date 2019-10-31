@@ -6,10 +6,10 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.MatrixTransformable;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.MatrixTransformable;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -850,4 +850,32 @@ public class GeoVector3D extends GeoVec4D
 	public ValidExpression toValidExpression() {
 		return getVector();
 	}
+
+	public String toValueStringAsColumnVector(StringTemplate tpl) {
+		return buildColumnVectorValueString(tpl).toString();
+	}
+
+	private String buildColumnVectorValueString(StringTemplate tpl) {
+		double[] coords = getInhomCoords();
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append(surroundWithBrackets(coords[0], tpl));
+		sb.append(", ");
+		sb.append(surroundWithBrackets(coords[1], tpl));
+		sb.append(", ");
+		sb.append(surroundWithBrackets(coords[2], tpl));
+		sb.append("}");
+		return sb.toString();
+	}
+
+	private String surroundWithBrackets(double value, StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append(kernel.format(value, tpl));
+		sb.append("}");
+		return sb.toString();
+
+	}
+
+
 }

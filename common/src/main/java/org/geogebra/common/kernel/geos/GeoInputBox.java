@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.TextObject;
 
@@ -104,7 +105,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		String linkedGeoText;
 
-		if (linkedGeo.isGeoNumeric()) {
+		if (hasIndependentVector()) {
+			linkedGeoText = getColumnMatrix((GeoVectorND)linkedGeo);
+		} else
+			if (linkedGeo.isGeoNumeric()) {
 			GeoNumeric numeric = (GeoNumeric) linkedGeo;
 
 			if (!numeric.isDefined() || isSymbolicMode() && numeric.isSymbolicMode()) {
@@ -116,13 +120,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			}
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
-		}
+			}
 
 		if ("?".equals(linkedGeoText)) {
 			return "";
 		}
-
 		return linkedGeoText;
+	}
+
+	private boolean hasIndependentVector() {
+		return linkedGeo instanceof GeoVectorND && linkedGeo.isIndependent();
 	}
 
 	/**
@@ -146,7 +153,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				linkedGeoText = linkedGeo.getRedefineString(true, true);
 			}
 		} else if (isSymbolicMode()) {
-			linkedGeoText = toLaTex(linkedGeo);
+			if (linkedGeo.isGeoVector() && !linkedGeo.isIndependent()) {
+				linkedGeoText = linkedGeo.getRedefineString(true, true);
+			} else {
+				linkedGeoText = toLaTex(linkedGeo);
+			}
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
@@ -156,6 +167,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		}
 
 		return linkedGeoText;
+	}
+
+	private String getColumnMatrix(GeoVectorND vector) {
+		return vector.toValueStringAsColumnVector(tpl);
 	}
 
 	private String toLaTex(GeoElementND geo) {
