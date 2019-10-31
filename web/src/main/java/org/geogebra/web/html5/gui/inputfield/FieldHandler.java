@@ -4,6 +4,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -70,8 +71,9 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 			if (CancelEventTimer.cancelKeyboardHide()) {
 				return;
 			}
-			if (app.hasPopup()) {
-				app.getKeyboardManager().setOnScreenKeyboardTextField(null);
+			KeyboardManagerInterface kbManager = app.getKeyboardManager();
+			if (app.hasPopup() && kbManager!=null) {
+				kbManager.setOnScreenKeyboardTextField(null);
 				return;
 			}
 			app.hideKeyboard();

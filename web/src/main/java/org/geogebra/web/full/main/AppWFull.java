@@ -453,6 +453,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void doSetLanguage(String lang, boolean asyncCall) {
 		super.doSetLanguage(lang, asyncCall);
+		if (asyncCall) {
+			getKeyboardManager().updateKeyboardLanguage();
+		}
 
 		if (getLocalization().isRightToLeftReadingOrder()) {
 			ResourcesInjectorFull.injectRTLstyles();
@@ -2106,9 +2109,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
 	}
 
-	/**
-	 * @return manager for showing/hiding keyboard
-	 */
+	@Override
 	public @Nonnull KeyboardManager getKeyboardManager() {
 		if (keyboardManager == null) {
 			keyboardManager = new KeyboardManager(this);

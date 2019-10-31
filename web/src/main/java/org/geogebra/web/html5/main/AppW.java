@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -646,9 +648,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		notifyLocalizationLoaded();
 		// importatnt for accessibility
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
-		if (asyncCall && getKeyboardManager() != null) {
-			getKeyboardManager().updateKeyboardLanguage();
-		}
 	}
 
 	/**
@@ -4042,7 +4041,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
 	}
 
-	public KeyboardManagerInterface getKeyboardManager() {
+	/**
+	 * @return manager for showing/hiding keyboard
+	 */
+	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
 		return null;
 	}
 }
