@@ -1118,7 +1118,7 @@ __GGB__keysVar["af"].command = {
     "Zipf.Syntax": "[ <Number of Elements>, <Exponent> ]\n[ <Number of Elements>, <Exponent>, <Boolean Cumulative> ]\n[ <Number of Elements>, <Exponent>, <Variable Value>, <Boolean Cumulative> ]",
     "Zipf.SyntaxCAS": "[ <Number of Elements>, <Exponent>, <Variable Value>, <Boolean Cumulative> ]",
     "ZoomIn": "ZoomIn",
-    "ZoomIn.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]\n[ <Min x>, <Min y>, <Min z>, <Max x>, <Max y>, <Max z> ]",
+    "ZoomIn.Syntax": "[ ]\n[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]\n[ <Min x>, <Min y>, <Min z>, <Max x>, <Max y>, <Max z> ]",
     "ZoomOut": "ZoomOut",
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "mad": "mad",

@@ -38,7 +38,6 @@ public class CommandSignatures {
 			}
 			if ("Function".equals(cmdName) || "Random".equals(cmdName)
 					|| "DataFunction".equals(cmdName)
-					|| "ZoomIn".equals(cmdName)
 					|| "StartLogging".equals(cmdName)) {
 				signature.add(0);
 			}

@@ -1118,7 +1118,7 @@ __GGB__keysVar["nl"].command = {
     "Zipf.Syntax": "[ <Aantal elementen>, <Exponent> ]\n[ <Aantal elementen>, <Exponent>, <Boolean Cumulatief> ]\n[ <Aantal elementen>, <Exponent>, <Variabele waarde>, <Boolean Cumulatief> ]",
     "Zipf.SyntaxCAS": "[ <Aantal elementen>, <Exponent>, <Toevalsveranderlijke>, <Cumulatief_aan> ]",
     "ZoomIn": "Inzoomen",
-    "ZoomIn.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]",
+    "ZoomIn.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]\n[ <Min x>, <Min y>, <Max x>, <Max y> ]\n[ <Min x>, <Min y>, <Min z>, <Max x>, <Max y>, <Max z> ]",
     "ZoomOut": "Uitzoomen",
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
     "mad": "gaa",
