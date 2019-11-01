@@ -156,4 +156,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
+
+	@Test
+	public void testCanBeSymbolicForLine() {
+		add("A = (0,0)");
+		add("B = (2,2)");
+		add("f:Line(A,B)");
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
 }
