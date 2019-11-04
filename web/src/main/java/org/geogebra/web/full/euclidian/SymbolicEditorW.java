@@ -4,6 +4,7 @@
  import org.geogebra.common.awt.GPoint;
  import org.geogebra.common.awt.GRectangle;
  import org.geogebra.common.euclidian.SymbolicEditor;
+ import org.geogebra.common.euclidian.draw.DrawInputBox;
  import org.geogebra.common.kernel.geos.GeoInputBox;
  import org.geogebra.common.main.App;
  import org.geogebra.web.full.gui.components.MathFieldEditor;
@@ -27,7 +28,11 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 						InputBoxWidget, BlurHandler {
 
 	private final App app;
+	private final EuclidianViewW view;
+
 	private GeoInputBox geoInputBox;
+	private DrawInputBox drawInputBox;
+
 	private GRectangle bounds;
 	private String text;
 	private MathFieldEditor editor;
@@ -39,8 +44,9 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	 * @param app
 	 *            The application.
 	 */
-	public SymbolicEditorW(App app) {
+	public SymbolicEditorW(App app, EuclidianViewW view) {
 		this.app = app;
+		this.view = view;
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 
@@ -54,6 +60,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds,
 			AbsolutePanel parent) {
 		this.geoInputBox = geoInputBox;
+		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
+
 		this.bounds = bounds;
 		resetChanges();
 		editor.attach(parent);
@@ -65,8 +73,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void resetChanges() {
-		boolean wasEditing = geoInputBox.isEditing();
-		this.geoInputBox.setEditing(true);
+		boolean wasEditing = drawInputBox.isEditing();
+		this.drawInputBox.setEditing(true);
 		editor.setVisible(true);
 		decorator.update(bounds, geoInputBox);
 		editor.setKeyboardVisibility(true);
@@ -91,22 +99,22 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public boolean isClicked(GPoint point) {
-		return geoInputBox.isEditing() && bounds.contains(point.getX(), point.getY());
+		return drawInputBox.isEditing() && bounds.contains(point.getX(), point.getY());
 	}
 
 	@Override
 	public void hide() {
-		if (!geoInputBox.isEditing()) {
+		if (!drawInputBox.isEditing()) {
 			return;
 		}
 
 		applyChanges();
-		geoInputBox.setEditing(false);
+		drawInputBox.setEditing(false);
 		AnimationScheduler.get()
 				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				((EuclidianViewW) app.getActiveEuclidianView()).doRepaint2();
+				view.doRepaint2();
 				editor.setVisible(false);
 			}
 		});
