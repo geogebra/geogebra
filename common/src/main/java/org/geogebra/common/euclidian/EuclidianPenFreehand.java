@@ -168,18 +168,18 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return false;
 		}
 
-		if (expected == null) {
-			boolean shapeCreated = mouseReleasedFreehand(x, y);
-			penPoints.clear();
+		penPoints.add(new GPoint(x, y));
 
-			app.refreshViews(); // clear trace
+		GeoElement shape = checkExpectedShape();
 
-			minX = Integer.MAX_VALUE;
-			maxX = Integer.MIN_VALUE;
+		penPoints.clear();
 
-			return shapeCreated;
-		}
-		return checkExpectedShape(x, y);
+		app.refreshViews(); // clear trace
+
+		minX = Integer.MAX_VALUE;
+		maxX = Integer.MIN_VALUE;
+
+		return shape != null;
 	}
 
 	@Override
@@ -193,22 +193,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		super.addPointPenMode(newPoint);
 	}
 
-	/** @return true if a shape was created, false otherwise */
-	private boolean mouseReleasedFreehand(int x, int y) {
-		GeoElement shape = checkShapes(x, y);
-
-		if (shape != null) {
-			return true;
-		}
-
-		return createFunction();
-	}
-
-	private boolean createFunction() {
+	private GeoElement createFunction() {
 		int n = maxX - minX + 1;
 
 		if (n < 0) {
-			return false;
+			return null;
 		}
 
 		// now check if it can be a function (increasing or decreasing x)
@@ -230,7 +219,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (!monotonic) {
 			penPoints.clear();
 			app.refreshViews();
-			return false;
+			return null;
 		}
 
 		double[] freehand1 = new double[n];
@@ -294,22 +283,13 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		fun.setLineType(getPenLineStyle());
 		fun.setObjColor(getPenColor());
 
-		minX = Integer.MAX_VALUE;
-		maxX = Integer.MIN_VALUE;
-
-		return true;
+		return fun;
 	}
 
 	/**
-	 * @param x
-	 *            x-coord of new point
-	 * @param y
-	 *            y-coord of new point
 	 * @return geo that fits current points + new point
 	 */
-	private GeoElement checkShapes(int x, int y) {
-		initShapeRecognition(x, y);
-
+	private GeoElement checkShapes() {
 		GeoElement geo;
 		if ((geo = tryPolygonOrLine()) != null || (geo = tryCircle()) != null) {
 			if (geo.isGeoConic()) {
@@ -324,14 +304,17 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * Creates predicted shape if possible
-	 *
-	 * @param x
-	 *            x-coord of new point
-	 * @param y
-	 *            y-coord of new point
 	 */
-	private boolean checkExpectedShape(int x, int y) {
-		initShapeRecognition(x, y);
+	GeoElement checkExpectedShape() {
+		if (expected == null) {
+			GeoElement shapeCreated = checkShapes();
+
+			if (shapeCreated == null) {
+				shapeCreated = createFunction();
+			}
+
+			return shapeCreated;
+		}
 
 		switch (this.expected) {
 		case polygon:
@@ -344,14 +327,20 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return createFunction();
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
 	 * creates a circle if possible
 	 */
-	private boolean createCircle() {
-		return tryCircleThroughExistingPoints() != null || tryCircle() != null;
+	private GeoElement createCircle() {
+		GeoElement circle = tryCircleThroughExistingPoints();
+
+		if (circle != null) {
+			return circle;
+		}
+
+		return tryCircle();
 	}
 
 	/**
@@ -384,7 +373,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/**
 	 * creates a polygon if possible
 	 */
-	private boolean createPolygon() {
+	private GeoElement createPolygon() {
 		GeoElement polygon = null;
 
 		int n = getPolygonal();
@@ -414,12 +403,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					factory.vectorPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				}
-				return true;
+				return polygon;
 			}
-			return true;
+			return polygon;
 		}
 		resetInitialPoint();
-		return false;
+		return null;
 	}
 
 	private void resetParameters() {
@@ -636,7 +625,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *            number of vertices
 	 * @return polygon
 	 */
-	protected GeoElement tryPolygon(int n) {
+	private GeoElement tryPolygon(int n) {
 		int j;
 		RecoSegment temp1;
 		optimize_polygonal(n);
