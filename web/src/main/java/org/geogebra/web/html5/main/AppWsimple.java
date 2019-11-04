@@ -9,6 +9,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -118,17 +119,23 @@ public class AppWsimple extends AppW {
 
 		initUndoInfoSilent();
 
-		getEuclidianView1().synCanvasSize();
-		getEuclidianView1().createImage();
+		EuclidianViewW view = getEuclidianView1();
+		view.synCanvasSize();
+		view.createImage();
 		getAppletFrame().resetAutoSize();
 
-		getEuclidianView1().doRepaint2();
 		frame.hideSplash();
 
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
 		setAltText();
+		updateEuclidianView(view);
+	}
+
+	private void updateEuclidianView(EuclidianViewW view) {
+		view.updateBounds(true, true);
+		view.doRepaint2();
 	}
 
 	@Override
