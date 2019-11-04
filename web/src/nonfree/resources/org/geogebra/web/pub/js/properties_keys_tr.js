@@ -2530,6 +2530,7 @@ __GGB__keysVar["tr"].menu = {
     "ReallySignOut": "Ger\xe7ekten oturumu kapatmak istiyor musunuz?",
     "ReceivedData": "Al\u0131nan Veri",
     "Recent": "Son Kullan\u0131lanlar\u0131 A\xe7",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "En Son",
     "RecentlyUsed": "Son kullan\u0131lanlar",
     "RecomputeAllViews": "T\xfcm Nesneleri Yeniden Hesapla",

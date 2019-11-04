@@ -2530,6 +2530,7 @@ __GGB__keysVar["eu"].menu = {
     "ReallySignOut": "Ziur al zaude saioa itxi nahi duzula?",
     "ReceivedData": "Jasotako Datuak",
     "Recent": "Azken fitxategiak",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Azkena",
     "RecentlyUsed": "Duela gutxi erabilitakoak",
     "RecomputeAllViews": "Kalkulatu Berriro Objektu Guztiak",

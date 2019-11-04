@@ -2530,6 +2530,7 @@ __GGB__keysVar["ro"].menu = {
     "ReallySignOut": "Dori\u021bi \xeentr-adev\u0103r s\u0103 v\u0103 deconecta\u021bi?",
     "ReceivedData": "Date primite",
     "Recent": "Deschidere recent",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Recent",
     "RecentlyUsed": "Recent utilizat",
     "RecomputeAllViews": "Recalcula\u0163i toate obiectele",

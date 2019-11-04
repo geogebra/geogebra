@@ -2530,6 +2530,7 @@ __GGB__keysVar["ml"].menu = {
     "ReallySignOut": "Do you really want to sign out?",
     "ReceivedData": "Received Data",
     "Recent": "Open Recent",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Recent",
     "RecentlyUsed": "\u0d05\u0d1f\u0d41\u0d24\u0d4d\u0d24\u0d15\u0d3e\u0d32\u0d24\u0d4d\u0d24\u0d4d \u0d09\u0d2a\u0d2f\u0d4b\u0d17\u0d3f\u0d1a\u0d4d\u0d1a",
     "RecomputeAllViews": "Recompute All Objects",

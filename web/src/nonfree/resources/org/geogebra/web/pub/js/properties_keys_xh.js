@@ -2530,6 +2530,7 @@ __GGB__keysVar["xh"].menu = {
     "ReallySignOut": "Ingaba ufuna ukuyeka nyhani?",
     "ReceivedData": "Ulwazi olufunyenweyo",
     "Recent": "Vula Kutshanje",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "kuTshanje",
     "RecentlyUsed": "Esanda kusetyenziswa",
     "RecomputeAllViews": "Phinda ubale Zonke iZinto",

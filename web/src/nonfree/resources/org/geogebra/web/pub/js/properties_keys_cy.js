@@ -2530,6 +2530,7 @@ __GGB__keysVar["cy"].menu = {
     "ReallySignOut": "Ydych wir am allgofnodi?",
     "ReceivedData": "Received Data",
     "Recent": "Agor Ffeil Ddiweddar",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Diweddar",
     "RecentlyUsed": "Recently used",
     "RecomputeAllViews": "Ailgyfrifiannu pob gwrthrych",

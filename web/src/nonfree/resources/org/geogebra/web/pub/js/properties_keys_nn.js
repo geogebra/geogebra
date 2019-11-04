@@ -2530,6 +2530,7 @@ __GGB__keysVar["nn"].menu = {
     "ReallySignOut": "Vil du verkelig logge ut?",
     "ReceivedData": "Mottekne data",
     "Recent": "Opne sist brukte",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Sist brukte",
     "RecentlyUsed": "Nyleg brukte",
     "RecomputeAllViews": "Oppdater alt",

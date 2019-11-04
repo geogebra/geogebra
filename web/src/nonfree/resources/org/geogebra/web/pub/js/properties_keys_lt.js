@@ -2530,6 +2530,7 @@ __GGB__keysVar["lt"].menu = {
     "ReallySignOut": "Ar tikrai norite atsijungti?",
     "ReceivedData": "Received Data",
     "Recent": "Atidaryti neseniai naudotus",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Paskutiniai",
     "RecentlyUsed": "Recently used",
     "RecomputeAllViews": "Atnaujinti visus objektus",

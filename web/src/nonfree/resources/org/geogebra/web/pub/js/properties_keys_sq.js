@@ -2530,6 +2530,7 @@ __GGB__keysVar["sq"].menu = {
     "ReallySignOut": "Do you really want to sign out?",
     "ReceivedData": "Received Data",
     "Recent": "Hapur jo shume kohe para",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Jo shume kohe para",
     "RecentlyUsed": "Recently used",
     "RecomputeAllViews": "Rillogarit te Gjithe Objektet",

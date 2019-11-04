@@ -2530,6 +2530,7 @@ __GGB__keysVar["ms"].menu = {
     "ReallySignOut": "Anda betul-betul ingin daftar keluar?",
     "ReceivedData": "Terima Data",
     "Recent": "Buka Terbaru",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Baru-baru",
     "RecentlyUsed": "Recently used",
     "RecomputeAllViews": "Mengira semula Semua Objek",

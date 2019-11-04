@@ -2530,6 +2530,7 @@ __GGB__keysVar["fa"].menu = {
     "ReallySignOut": "\u0622\u06cc\u0627 \u0648\u0627\u0642\u0639\u0627\u064b \u0645\u06cc\u200c\u062e\u0648\u0627\u0647\u06cc\u062f \u062e\u0627\u0631\u062c \u0634\u0648\u06cc\u062f\u061f",
     "ReceivedData": "\u062f\u0627\u062f\u0647\u200c\u0647\u0627\u06cc \u062f\u0631\u06cc\u0627\u0641\u062a\u06cc",
     "Recent": "\u0628\u0627\u0632 \u06a9\u0631\u062f\u0646 \u0627\u062e\u06cc\u0631",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "\u0627\u062e\u06cc\u0631",
     "RecentlyUsed": "\u0628\u0647 \u062a\u0627\u0632\u06af\u06cc \u0627\u0633\u062a\u0641\u0627\u062f\u0647 \u0634\u062f\u0647",
     "RecomputeAllViews": "\u0645\u062d\u0627\u0633\u0628\u0647 \u062f\u0648\u0628\u0627\u0631\u0647 \u0647\u0645\u0647 \u0627\u0634\u06cc\u0627\u0621",

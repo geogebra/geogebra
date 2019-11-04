@@ -2530,6 +2530,7 @@ __GGB__keysVar["fi"].menu = {
     "ReallySignOut": "Haluatko kirjautua ulos?",
     "ReceivedData": "Vastaanotettu data",
     "Recent": "Viimeksi k\xe4ytetyt",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Viimeisin",
     "RecentlyUsed": "Viimeksi k\xe4ytetyt",
     "RecomputeAllViews": "Laske uudestaan kaikki objektit",

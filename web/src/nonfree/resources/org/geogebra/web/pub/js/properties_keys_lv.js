@@ -2530,6 +2530,7 @@ __GGB__keysVar["lv"].menu = {
     "ReallySignOut": "Vai tie\u0161\u0101m v\u0113lies izrakst\u012bties?",
     "ReceivedData": "Received Data",
     "Recent": "Atv\u0113rts nesen",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Jaun\u0101k\u0101",
     "RecentlyUsed": "Recently used",
     "RecomputeAllViews": "P\u0101rr\u0113\u0137in\u0101t visus objektus",

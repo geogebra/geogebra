@@ -2530,6 +2530,7 @@ __GGB__keysVar["uz"].menu = {
     "ReallySignOut": "Haqiqatan ham chiqmoqchimisiz?",
     "ReceivedData": "Olingan ma'lumotlar",
     "Recent": "Oxirgilarni ochish",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Joriy rang",
     "RecentlyUsed": "So'nggi foydalanganlar",
     "RecomputeAllViews": "Barcha obyektlarni qayta hisoblash",

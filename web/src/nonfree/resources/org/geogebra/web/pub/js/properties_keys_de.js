@@ -2530,6 +2530,7 @@ __GGB__keysVar["de"].menu = {
     "ReallySignOut": "M\xf6chten Sie sich wirklich abmelden?",
     "ReceivedData": "Erhaltene Daten",
     "Recent": "Zuletzt verwendete Dateien",
+    "RecentChangesInfo.Graphing": "In order to enable the GeoGebra Graphing Calculator to be fully compatible with high-stakes tests, and to allow users to more easily relate this particular app to traditional graphing calculators, we have removed the geometric construction features.",
     "RecentColor": "Letzte",
     "RecentlyUsed": "K\xfcrzlich verwendet",
     "RecomputeAllViews": "Alle Objekte neu berechnen",
