@@ -139,14 +139,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		if (linkedGeo.isGeoNumeric()) {
 			if (symbolicMode && !((GeoNumeric) linkedGeo).isSimple()) {
-				linkedGeoText = toLaTex(linkedGeo);
+				linkedGeoText = toLaTex();
 			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
 				linkedGeoText = linkedGeo.toValueString(tpl);
 			} else {
 				linkedGeoText = linkedGeo.getRedefineString(true, true);
 			}
 		} else if (isSymbolicMode()) {
-			linkedGeoText = toLaTex(linkedGeo);
+			linkedGeoText = toLaTex();
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
@@ -158,12 +158,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return linkedGeoText;
 	}
 
-	private String toLaTex(GeoElementND geo) {
-		if (geo.isGeoFunction()) {
-			return geo.getRedefineString(true, true,
+	private String toLaTex() {
+		if (canBeSymbolicFunction()) {
+			return linkedGeo.getRedefineString(true, true,
 					getStringtemplateForLaTeX());
 		}
-		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
+		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
 	private StringTemplate getStringtemplateForLaTeX() {
@@ -278,7 +278,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			boolean substituteNos = linkedGeo.isGeoNumeric()
 					&& linkedGeo.isIndependent();
 
-			if (linkedGeo.isGeoFunction()) {
+			if (canBeSymbolicFunction()) {
 				linkedText = linkedGeo.getRedefineString(true, true);
 			} else {
 				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
@@ -441,11 +441,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	private boolean canBeSymbolicFunction() {
-		if (linkedGeo instanceof GeoFunction) {
-			GeoFunction function = (GeoFunction) linkedGeo;
-			return function.isGeoFunction() || function.isBooleanFunction();
-		}
-		return linkedGeo instanceof GeoFunctionNVar;
+		return linkedGeo instanceof GeoFunction || linkedGeo instanceof GeoFunctionNVar;
 	}
 
 	private boolean canBeSymbolicNumber() {
