@@ -211,7 +211,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			}
 		}
 
-		monotonicTest = monotonicTest / penPoints.size();
+		monotonicTest = monotonicTest / (penPoints.size() - 1);
 
 		// allow 10% error
 		boolean monotonic = monotonicTest > 0.9 || monotonicTest < 0.1;
