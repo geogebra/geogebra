@@ -409,7 +409,10 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		if (canSetWidgetPixelSize()) {
-			drawTextfieldOnCanvas(g2);
+			if (!geoInputBox.isEditing()) {
+				drawTextfieldOnCanvas(g2);
+			}
+
 			highlightLabel(g2, latexLabel);
 			if (geo.isLabelVisible()) {
 				drawLabel(g2, getGeoInputBox(), labelDesc);

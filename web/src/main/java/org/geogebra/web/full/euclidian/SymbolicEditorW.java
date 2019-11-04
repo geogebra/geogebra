@@ -1,11 +1,13 @@
  package org.geogebra.web.full.euclidian;
 
+ import com.google.gwt.animation.client.AnimationScheduler;
  import org.geogebra.common.awt.GPoint;
  import org.geogebra.common.awt.GRectangle;
  import org.geogebra.common.euclidian.SymbolicEditor;
  import org.geogebra.common.kernel.geos.GeoInputBox;
  import org.geogebra.common.main.App;
  import org.geogebra.web.full.gui.components.MathFieldEditor;
+ import org.geogebra.web.html5.euclidian.EuclidianViewW;
  import org.geogebra.web.html5.euclidian.InputBoxWidget;
  import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
@@ -94,17 +96,20 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public void hide() {
-		editor.setVisible(false);
-		onHide();
-	}
-
-	private void onHide() {
 		if (!geoInputBox.isEditing()) {
 			return;
 		}
 
 		applyChanges();
 		geoInputBox.setEditing(false);
+		AnimationScheduler.get()
+				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				((EuclidianViewW) app.getActiveEuclidianView()).doRepaint2();
+				editor.setVisible(false);
+			}
+		});
 	}
 
 	@Override
