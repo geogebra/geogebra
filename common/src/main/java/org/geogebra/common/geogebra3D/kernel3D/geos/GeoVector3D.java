@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Transformable;
+import org.geogebra.common.kernel.geos.VectorToMatrix;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -54,6 +55,7 @@ public class GeoVector3D extends GeoVec4D
 	private StringBuilder sb;
 
 	private boolean trace;
+	private VectorToMatrix converter = null;
 
 	/**
 	 * simple constructor
@@ -856,26 +858,13 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	private String buildColumnVectorValueString(StringTemplate tpl) {
-		double[] coords = getInhomCoords();
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(surroundWithBrackets(coords[0], tpl));
-		sb.append(", ");
-		sb.append(surroundWithBrackets(coords[1], tpl));
-		sb.append(", ");
-		sb.append(surroundWithBrackets(coords[2], tpl));
-		sb.append("}");
-		return sb.toString();
+		return getConverter().build(tpl, getInhomCoords());
 	}
 
-	private String surroundWithBrackets(double value, StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(kernel.format(value, tpl));
-		sb.append("}");
-		return sb.toString();
-
+	private VectorToMatrix getConverter() {
+		if (converter == null) {
+			converter = new VectorToMatrix(kernel);
+		}
+		return converter;
 	}
-
-
 }

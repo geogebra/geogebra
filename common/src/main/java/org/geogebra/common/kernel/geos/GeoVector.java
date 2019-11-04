@@ -85,6 +85,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	private StringBuilder sbToString = new StringBuilder(50);
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
 	private StringBuilder sb;
+	private VectorToMatrix converter;
 
 	/**
 	 * Creates new GeoVector
@@ -602,13 +603,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			sbBuildValueString.append("{");
-			sbBuildValueString.append(surroundWithBrackets(x, tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(surroundWithBrackets(y, tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(surroundWithBrackets(z, tpl));
-			sbBuildValueString.append("}");
+			sbBuildValueString.append(getConverter().build(tpl, x, y, z));
 			break;
 
 		case Kernel.COORD_SPHERICAL:
@@ -616,14 +611,17 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			break;
 
 		default: // CARTESIAN
-			sbBuildValueString.append("{");
-			sbBuildValueString.append(surroundWithBrackets(x, tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(surroundWithBrackets(y, tpl));
-			sbBuildValueString.append("}");
+			sbBuildValueString.append(getConverter().build(tpl, x, y));
 			break;
 		}
 		return sbBuildValueString;
+	}
+
+	private VectorToMatrix getConverter() {
+		if (converter == null) {
+			converter = new VectorToMatrix(kernel);
+		}
+		return converter;
 	}
 
 	private String surroundWithBrackets(double value, StringTemplate tpl) {
