@@ -68,7 +68,13 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * maximum determinant for lines (e.g. sides of a polygon) decrease to allow
 	 * lines that are not so straight
 	 */
-	private double LINE_MAX_DET = 0.015;
+	private static final double LINE_MAX_DET = 0.015;
+
+	private static final double CONIC_AXIS_ERROR_RATIO = 10;
+
+	private static final int MAX_POLYGON_SIDES = 4;
+
+	private static final double SLANT_TOLERANCE = 5 * Math.PI / 180;
 
 	/**
 	 * type that is expected to be created
@@ -86,21 +92,14 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		function,
 	}
 
-	private ShapeType expected = null;
-	private static final double CONIC_AXIS_ERROR_RATIO = 10;
-	private RecoSegment reco_queue_a = new RecoSegment();
-	private RecoSegment reco_queue_b = new RecoSegment();
-	private RecoSegment reco_queue_c = new RecoSegment();
-	private RecoSegment reco_queue_d = new RecoSegment();
-	private RecoSegment reco_queue_e = new RecoSegment();
-	private Inertia a = null;
-	private Inertia b = null;
-	private Inertia c = null;
-	private Inertia d = null;
+	private ShapeType expected;
+
+	private final RecoSegment[] recos = new RecoSegment[5];
+	private final Inertia[] inertias = new Inertia[4];
+
 	private int[] brk;
 	private int recognizer_queue_length = 0;
-    private static final int MAX_POLYGON_SIDES = 4;
-	private static final double SLANT_TOLERANCE = 5 * Math.PI / 180;
+
 	private int minX = Integer.MAX_VALUE;
 	private int maxX = Integer.MIN_VALUE;
 
@@ -134,6 +133,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 */
 	public EuclidianPenFreehand(App app, EuclidianView view) {
 		super(app, view);
+		for (int i = 0; i < recos.length; i++) {
+			recos[i] = new RecoSegment();
+		}
 	}
 
 	/**
@@ -322,7 +324,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * Creates predicted shape if possible
-	 * 
+	 *
 	 * @param x
 	 *            x-coord of new point
 	 * @param y
@@ -354,7 +356,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * tries to construct a circle through 3 existing points, null otherwise
-	 * 
+	 *
 	 * @return {@link GeoElement circle}
 	 */
 	private GeoElement tryCircleThroughExistingPoints() {
@@ -580,10 +582,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *         {@code null} otherwise
 	 */
 	private GeoElement tryLine() {
-		RecoSegment rs = getRecoSegment(0);
+		RecoSegment rs = recos[0];
 		rs.startpt = brk[0];
 		rs.endpt = brk[1];
-		get_segment_geometry(a, rs);
+		get_segment_geometry(inertias[0], rs);
 
 		if (Math.abs(rs.angle) < SLANT_TOLERANCE) {
 			rs.angle = 0;
@@ -641,18 +643,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		while (n + recognizer_queue_length > MAX_POLYGON_SIDES) {
 			j = 1;
-			temp1 = reco_queue_b;
+			temp1 = recos[1];
 			while (j < recognizer_queue_length && temp1.startpt != 0) {
 				j++;
-				if (j == 2) {
-					temp1 = reco_queue_c;
-				}
-				if (j == 3) {
-					temp1 = reco_queue_d;
-				}
-				if (j == 4) {
-					temp1 = reco_queue_e;
-				}
+				temp1 = recos[j];
 			}
 			recognizer_queue_length = recognizer_queue_length - j;
 			int te1 = 0;
@@ -660,8 +654,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			RecoSegment t1;
 			RecoSegment t2;
 			for (int k = 0; k < recognizer_queue_length; ++k) {
-				t1 = getRecoSegment(te1);
-				t2 = getRecoSegment(te2);
+				t1 = recos[te1];
+				t2 = recos[te2];
 
 				t1.startpt = t2.startpt;
 				t1.endpt = t2.endpt;
@@ -680,24 +674,14 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		RecoSegment rs;
-		Inertia ss = null;
 		int temp_reco = recognizer_queue_length;
 		recognizer_queue_length = recognizer_queue_length + n;
 		for (j = 0; j < n; ++j) {
-			rs = getRecoSegment(temp_reco + j);
-
-			if (j == 0) {
-				ss = a;
-			} else if (j == 1) {
-				ss = b;
-			} else if (j == 2) {
-				ss = c;
-			} else if (j == 3) {
-				ss = d;
-			}
+			rs = recos[temp_reco + j];
 			rs.startpt = brk[j];
 			rs.endpt = brk[j + 1];
-			get_segment_geometry(ss, rs);
+
+			get_segment_geometry(inertias[j], rs);
 		}
 
 		GeoElement geo;
@@ -720,7 +704,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		int i;
 		double dist, avg_angle = 0;
 
-		RecoSegment rs = getRecoSegment(recognizer_queue_length - nsides);
+		RecoSegment rs = recos[recognizer_queue_length - nsides];
 		RecoSegment r1;
 		RecoSegment r2;
 		// AbstractApplication.debug(rs.startpt);
@@ -728,9 +712,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return null;
 		}
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(
-					recognizer_queue_length - nsides + ((i + 1) % nsides));
+			r1 = recos[recognizer_queue_length - nsides + i];
+			r2 = recos[
+					recognizer_queue_length - nsides + ((i + 1) % nsides)];
 			// AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2)
 			// > RECTANGLE_ANGLE_TOLERANCE);
 			if (Math.abs(Math.abs(r1.angle - r2.angle)
@@ -747,9 +731,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					+ (r1.y2 - r1.y1) * (r2.ycenter - r1.ycenter)) < 0;
 		}
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(
-					recognizer_queue_length - nsides + ((i + 1) % nsides));
+			r1 = recos[recognizer_queue_length - nsides + i];
+			r2 = recos[
+					recognizer_queue_length - nsides + ((i + 1) % nsides)];
 			dist = Math.hypot(
 					(r1.reversed ? r1.x1 : r1.x2)
 							- (r2.reversed ? r2.x2 : r2.x1),
@@ -767,7 +751,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			avg_angle = Math.PI / 2;
 		}
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
+			r1 = recos[recognizer_queue_length - nsides + i];
 			r1.angle = avg_angle + i * Math.PI / 2;
 		}
 
@@ -775,9 +759,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double[] points = new double[10];
 
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(
-					recognizer_queue_length - nsides + ((i + 1) % nsides));
+			r1 = recos[recognizer_queue_length - nsides + i];
+			r2 = recos[
+					recognizer_queue_length - nsides + ((i + 1) % nsides)];
 			calc_edge_isect(r1, r2, pt);
 			points[2 * i + 2] = pt[0];
 			points[2 * i + 3] = pt[1];
@@ -895,22 +879,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		r.y2 = r.ycenter + lmax * Math.sin(r.angle);
 	}
 
-	private RecoSegment getRecoSegment(int n) {
-		switch (n) {
-		case 0:
-			return reco_queue_a;
-		case 1:
-			return reco_queue_b;
-		case 2:
-			return reco_queue_c;
-		case 3:
-			return reco_queue_d;
-		case 4:
-			return reco_queue_e;
-		}
-		return null;
-	}
-
 	private static void calc_edge_isect(RecoSegment r1, RecoSegment r2,
 			double[] pt) {
 		double t = (r2.xcenter - r1.xcenter) * Math.sin(r2.angle)
@@ -925,7 +893,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return null;
 		}
 
-		RecoSegment rs = getRecoSegment(recognizer_queue_length - nsides);
+		RecoSegment rs = recos[recognizer_queue_length - nsides];
 		if (rs.startpt != 0) {
 			return null;
 		}
@@ -937,17 +905,17 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double[] pt = new double[2];
 
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(
-					recognizer_queue_length - nsides + (i + 1) % nsides);
+			r1 = recos[recognizer_queue_length - nsides + i];
+			r2 = recos[
+					recognizer_queue_length - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
 			r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math
 					.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
 		}
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(
-					recognizer_queue_length - nsides + (i + 1) % nsides);
+			r1 = recos[recognizer_queue_length - nsides + i];
+			r2 = recos[
+					recognizer_queue_length - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
 			dist = Math.hypot((r1.reversed ? r1.x1 : r1.x2) - pt[0],
 					(r1.reversed ? r1.y1 : r1.y2) - pt[1])
@@ -961,9 +929,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double[] points = new double[nsides * 2 + 2];
 
 		for (i = 0; i < nsides; ++i) {
-			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(
-					recognizer_queue_length - nsides + (i + 1) % nsides);
+			r1 = recos[recognizer_queue_length - nsides + i];
+			r2 = recos[
+					recognizer_queue_length - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
 			points[2 * i + 2] = pt[0];
 			points[2 * i + 3] = pt[1];
@@ -993,40 +961,23 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	private void copyInertiaToTemp(Inertia temp1, Inertia temp2, int i) {
-		if (i - 1 == 0) {
-			temp1.copyValuesFrom(a);
-			temp2.copyValuesFrom(b);
-		} else if (i - 1 == 1) {
-			temp1.copyValuesFrom(b);
-			temp2.copyValuesFrom(c);
-		} else if (i - 1 == 2) {
-			temp1.copyValuesFrom(c);
-			temp2.copyValuesFrom(d);
-		}
+		temp1.copyValuesFrom(inertias[i - 1]);
+		temp2.copyValuesFrom(inertias[i]);
 	}
 
 	private void copyInertiaFromTemp(Inertia temp1, Inertia temp2, int i) {
-		if (i - 1 == 0) {
-			a.copyValuesFrom(temp1);
-			b.copyValuesFrom(temp2);
-		} else if (i - 1 == 1) {
-			b.copyValuesFrom(temp1);
-			c.copyValuesFrom(temp2);
-		} else if (i - 1 == 2) {
-			c.copyValuesFrom(temp1);
-			d.copyValuesFrom(temp2);
-		}
+		inertias[i - 1].copyValuesFrom(temp1);
+		inertias[i].copyValuesFrom(temp2);
 	}
 
 	/**
 	 * @return number of vertices
 	 */
-	protected int getPolygonal() {
+	private int getPolygonal() {
 		brk = new int[5];
-		a = new Inertia();
-		b = new Inertia();
-		c = new Inertia();
-		d = new Inertia();
+		for (int i = 0; i < inertias.length; i++) {
+			inertias[i] = new Inertia();
+		}
 
 		return this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0,
 				0);
@@ -1106,15 +1057,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		brk[n1 + offset1] = i1;
 		brk[n1 + 1 + offset1] = i2;
 
-		if (offset2 + n1 == 0) {
-			a.copyValuesFrom(s);
-		} else if (offset2 + n1 == 1) {
-			b.copyValuesFrom(s);
-		} else if (offset2 + n1 == 2) {
-			c.copyValuesFrom(s);
-		} else if (offset2 + n1 == 3) {
-			d.copyValuesFrom(s);
-		}
+		inertias[offset2 + n1].copyValuesFrom(s);
 
 		if (i2 < end) {
 			n2 = this.findPolygonal(i2, end, nsides - n1 - 1, offset1 + n1 + 1,
@@ -1140,9 +1083,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(),
 				null, points);
 		GeoElement poly = algo.getOutput(0);
-		// poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		// poly.setLineType(penLineStyle);
-		// poly.setObjColor(penColor);
+
 		if (view.getEuclidianController()
 				.getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
 			poly.setIsShape(app.isWhiteboardActive());
@@ -1256,7 +1197,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 	}
 
-	private final static double i_det(Inertia s) {
+	private static double i_det(Inertia s) {
 		double ixx = i_xx(s);
 		double iyy = i_yy(s);
 		double ixy = i_xy(s);
