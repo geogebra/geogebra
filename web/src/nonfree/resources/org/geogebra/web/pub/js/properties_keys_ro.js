@@ -3398,6 +3398,7 @@ __GGB__keysVar["ro"].menu = {
     "stylebar.xOyPlane": "Afi\u0219eaz\u0103 sau ascunde planul xOy",
     "svg": "Grafic\u0103 Vectorial\u0103 Scalabil\u0103 (gvs)",
     "takepicture": "Face\u021bi o fotografie",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "inegal",
     "units": "unitate",
     "vertical": "Vertical",

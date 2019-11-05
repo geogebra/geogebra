@@ -3398,6 +3398,7 @@ __GGB__keysVar["tr"].menu = {
     "stylebar.xOyPlane": "xOy D\xfczlemini G\xf6ster veya Sakla",
     "svg": "\xd6l\xe7eklenebilir Vekt\xf6r Grafi\u011fi",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "e\u015fit de\u011fil",
     "units": "birim",
     "vertical": "dikey",

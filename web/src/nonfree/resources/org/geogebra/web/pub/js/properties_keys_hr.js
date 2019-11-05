@@ -3398,6 +3398,7 @@ __GGB__keysVar["hr"].menu = {
     "stylebar.xOyPlane": "Poka\u017ei ili sakrij xOy ravninu",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "nejednako",
     "units": "jedinica",
     "vertical": "Vertikalan",

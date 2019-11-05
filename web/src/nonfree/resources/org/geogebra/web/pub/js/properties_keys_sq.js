@@ -3398,6 +3398,7 @@ __GGB__keysVar["sq"].menu = {
     "stylebar.xOyPlane": "Show or hide xOy plane",
     "svg": "Grafike Vektoriale te Shkallezueshem",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "Jo i Barabarte",
     "units": "unit(s)",
     "vertical": "Vertikal",

@@ -3398,6 +3398,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "stylebar.xOyPlane": "\u986f\u793a xy \u5e73\u9762",
     "svg": "SVG",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\u4e0d\u7b49\u65bc",
     "units": "\u55ae\u4f4d",
     "vertical": "\u5782\u76f4",

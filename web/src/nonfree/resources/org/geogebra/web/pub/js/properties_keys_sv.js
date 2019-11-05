@@ -3398,6 +3398,7 @@ __GGB__keysVar["sv"].menu = {
     "stylebar.xOyPlane": "Visa eller d\xf6lj xOy-planet",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Ta foto",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "olika med",
     "units": "enhet",
     "vertical": "vertikal",

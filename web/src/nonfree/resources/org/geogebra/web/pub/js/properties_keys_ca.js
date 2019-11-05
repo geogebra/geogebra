@@ -3398,6 +3398,7 @@ __GGB__keysVar["ca"].menu = {
     "stylebar.xOyPlane": "Mostra o amaga el pla xy",
     "svg": "Gr\xe0fics vectorials escalables",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "desigual",
     "units": "unitat(s)",
     "vertical": "vertical",

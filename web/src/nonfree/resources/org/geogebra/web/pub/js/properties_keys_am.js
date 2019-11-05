@@ -3398,6 +3398,7 @@ __GGB__keysVar["am"].menu = {
     "stylebar.xOyPlane": "xOy \u12c8\u1208\u120d \u12a0\u1233\u12ed \u12c8\u12ed\u121d \u12f0\u1265\u1245",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\u12a5\u12a9\u120d \u12eb\u120d\u1206\u1290",
     "units": "\u12a0\u1203\u12f5(s)",
     "vertical": "\u12a0\u1240\u1263\u12ca",

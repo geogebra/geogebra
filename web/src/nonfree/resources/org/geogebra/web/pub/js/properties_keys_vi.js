@@ -3398,6 +3398,7 @@ __GGB__keysVar["vi"].menu = {
     "stylebar.xOyPlane": "Show or hide xOy plane",
     "svg": "\u0110\u1ed3 th\u1ecb v\xe9c t\u01a1 v\xf4 h\u01b0\u1edbng",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "kh\xf4ng b\u1eb1ng nhau",
     "units": "unit(s)",
     "vertical": "Th\u1eb3ng \u0111\u1ee9ng",

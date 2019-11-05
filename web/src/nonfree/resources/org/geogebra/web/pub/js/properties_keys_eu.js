@@ -3398,6 +3398,7 @@ __GGB__keysVar["eu"].menu = {
     "stylebar.xOyPlane": "xOy planoa erakutsi edo ezkutatu",
     "svg": "Irudi Bektorial Eskalagarriak",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "desberdin",
     "units": "unitate",
     "vertical": "Bertikala",

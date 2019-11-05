@@ -3398,6 +3398,7 @@ __GGB__keysVar["ko"].menu = {
     "stylebar.xOyPlane": "xOy \ud3c9\uba74 \ubcf4\uc774\uae30 / \uc228\uae30\uae30",
     "svg": "SVG",
     "takepicture": "\uc0ac\uc9c4 \ucd2c\uc601",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\uac19\uc9c0 \uc54a\uc74c",
     "units": "\ub2e8\uc704",
     "vertical": "\uc218\uc9c1",

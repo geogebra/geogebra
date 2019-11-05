@@ -3398,6 +3398,7 @@ __GGB__keysVar["cy"].menu = {
     "stylebar.xOyPlane": "Show or hide xOy plane",
     "svg": "Graffeg Fector",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "anhafal",
     "units": "unit(s)",
     "vertical": "Fertigol",

@@ -3398,6 +3398,7 @@ __GGB__keysVar["hu"].menu = {
     "stylebar.xOyPlane": "xy s\xedk mutat\xe1sa / elrejt\xe9se",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "nem egyenl\u0151",
     "units": "unitok",
     "vertical": "F\xfcgg\u0151leges",

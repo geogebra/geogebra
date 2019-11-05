@@ -3398,6 +3398,7 @@ __GGB__keysVar["sk"].menu = {
     "stylebar.xOyPlane": "Uk\xe1za\u0165 alebo skry\u0165 rovinu xOy",
     "svg": "\u0160k\xe1lova\u0165eln\xe1 vektorov\xe1 grafika (svg)",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "nerovn\xe1 sa",
     "units": "jednotka(y)",
     "vertical": "vertik\xe1lna",

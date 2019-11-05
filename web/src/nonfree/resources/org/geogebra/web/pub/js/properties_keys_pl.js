@@ -3398,6 +3398,7 @@ __GGB__keysVar["pl"].menu = {
     "stylebar.xOyPlane": "Poka\u017c lub ukryj p\u0142aszczyzn\u0119 xOy",
     "svg": "Scaleable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "r\xf3\u017cny",
     "units": "jednostka(jednostki)",
     "vertical": "pionowy",

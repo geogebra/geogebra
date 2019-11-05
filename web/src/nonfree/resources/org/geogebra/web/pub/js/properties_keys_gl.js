@@ -3398,6 +3398,7 @@ __GGB__keysVar["gl"].menu = {
     "stylebar.xOyPlane": "Mostra ou Oculta o plano xOy",
     "svg": "Formato de gr\xe1fico SVG",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "desigual",
     "units": "unidad(es)",
     "vertical": "Vertical",

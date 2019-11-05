@@ -3398,6 +3398,7 @@ __GGB__keysVar["da"].menu = {
     "stylebar.xOyPlane": "Vis eller skjul xOy planet",
     "svg": "Skalerbar vektor grafik",
     "takepicture": "Tag et billede",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "forskellig fra",
     "units": "enhed(er)",
     "vertical": "lodret",

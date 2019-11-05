@@ -3398,6 +3398,7 @@ __GGB__keysVar["ms"].menu = {
     "stylebar.xOyPlane": "Tunjuk atau sembunyi satah xOy",
     "svg": "Grafik Vektor Boleh Skala",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "tidak sama",
     "units": "unit",
     "vertical": "Tegak",

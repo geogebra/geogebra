@@ -3398,6 +3398,7 @@ __GGB__keysVar["eo"].menu = {
     "stylebar.xOyPlane": "Montri a\u016d ka\u015di ebenon xOy",
     "svg": "Streka Vari-skala Grafiko",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "malsamaj",
     "units": "unuo(j)",
     "vertical": "Vertikala",

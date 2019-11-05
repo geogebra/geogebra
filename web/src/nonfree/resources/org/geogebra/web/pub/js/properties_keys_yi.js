@@ -3398,6 +3398,7 @@ __GGB__keysVar["yi"].menu = {
     "stylebar.xOyPlane": "Show or hide xOy plane",
     "svg": "Scalable Vector Graphics (svg)",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\u05d0\u05d5\u05de\u05d2\u05dc\u05f2\u05b7\u05da",
     "units": "\u05d0\u05d9\u05d9\u05e0\u05e1(\u05df)",
     "vertical": "\u05d5\u05d5\u05e2\u05e8\u05d8\u05d9\u05e7\u05d0\u05b7\u05dc",

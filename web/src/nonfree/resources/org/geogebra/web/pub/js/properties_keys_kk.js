@@ -3398,6 +3398,7 @@ __GGB__keysVar["kk"].menu = {
     "stylebar.xOyPlane": "Show or hide xOy plane",
     "svg": "\u041c\u0430\u0441\u0448\u0442\u0430\u0431\u044b \u0430\u0443\u044b\u0441\u043f\u0430\u043b\u044b \u0432\u0435\u043a\u0442\u043e\u0440\u043b\u0430\u0440 \u0433\u0440\u0430\u0444\u0438\u043a\u0442\u0435\u0440\u0456",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\u0442\u0435\u04a3 \u0435\u043c\u0435\u0441",
     "units": "\u0431\u0456\u0440\u043b\u0456\u043a(\u0442\u0435\u0440)",
     "vertical": "\u0422\u0456\u0433\u0456\u043d\u0435\u043d",

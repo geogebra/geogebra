@@ -3398,6 +3398,7 @@ __GGB__keysVar["sr"].menu = {
     "stylebar.xOyPlane": "Prika\u017ei ili sakrij xOy ravan",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "nejednako",
     "units": "jedinica(e)",
     "vertical": "vertikalan",

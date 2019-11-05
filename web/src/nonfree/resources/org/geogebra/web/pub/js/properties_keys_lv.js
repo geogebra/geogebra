@@ -3398,6 +3398,7 @@ __GGB__keysVar["lv"].menu = {
     "stylebar.xOyPlane": "Show or hide xOy plane",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "Nav vien\u0101ds",
     "units": "Vien\u012bba(as)",
     "vertical": "Vertik\u0101ls",
