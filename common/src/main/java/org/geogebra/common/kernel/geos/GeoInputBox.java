@@ -9,8 +9,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoPointInRegion;
-import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -137,7 +135,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		String linkedGeoText;
 
 		if (linkedGeo.isGeoNumeric()) {
-			if (symbolicMode && !((GeoNumeric) linkedGeo).isSimple()) {
+			if (symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
+					&& !((GeoNumeric) linkedGeo).isSimple()) {
 				linkedGeoText = toLaTex();
 			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
 				linkedGeoText = linkedGeo.toValueString(tpl);
@@ -263,36 +262,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *            the Drawable's text field
 	 */
 	public void updateText(TextObject textFieldToUpdate) {
-		String linkedText;
-
-		if (linkedGeo.isGeoText()) {
-			linkedText = ((GeoText) linkedGeo).getTextString();
-		} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath
-				|| linkedGeo.getParentAlgorithm() instanceof AlgoPointInRegion) {
-			linkedText = linkedGeo.toValueString(tpl);
-		} else {
-
-			// want just a number for eg a=3 but we want variables for eg
-			// y=m x + c
-			boolean substituteNos = linkedGeo.isGeoNumeric()
-					&& linkedGeo.isIndependent();
-
-			if (canBeSymbolicFunction()) {
-				linkedText = linkedGeo.getRedefineString(true, true);
-			} else {
-				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
-			}
-		}
-
-		if (linkedText == null || "?".equals(linkedText) && !linkedGeo.isGeoText()) {
-			linkedText = "";
-		}
-
-		if (linkedGeo.isGeoText()) {
-			linkedText = linkedText.replaceAll("\n", "\\\\\\\\n");
-		}
-
 		// avoid redraw error
+		String linkedText = getText();
 		if (!textFieldToUpdate.getText().equals(linkedText)) {
 			textFieldToUpdate.setText(linkedText);
 		}

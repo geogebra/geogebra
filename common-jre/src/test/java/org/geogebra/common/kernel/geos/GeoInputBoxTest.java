@@ -100,7 +100,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("? \\; a", inputBox.getText());
+		Assert.assertEquals("?a", inputBox.getText());
 		Assert.assertEquals("?a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
