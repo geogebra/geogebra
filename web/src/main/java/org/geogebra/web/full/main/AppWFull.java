@@ -1159,7 +1159,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		} else {
 			this.startAutoSave();
 		}
-
 	}
 
 	/**
