@@ -2,6 +2,8 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -23,7 +25,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class TextControllerW
-		implements TextController, KeyDownHandler {
+		implements TextController, KeyDownHandler, BlurHandler {
 	private MowTextEditor editor;
 	private AppW app;
 
@@ -49,11 +51,19 @@ public class TextControllerW
 		AbsolutePanel evPanel = getView().getAbsolutePanel();
 		evPanel.add(editor);
 		editor.addKeyDownHandler(this);
+		editor.addBlurHandler(this);
 	}
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		updateBoundingBox();
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		if (!app.getSelectionManager().containsSelectedGeo(text)) {
+			stopEditing();
+		}
 	}
 
 	@Override
@@ -71,6 +81,7 @@ public class TextControllerW
 		} else {
 			text.remove();
 		}
+		text = null;
 	}
 
 	private void updateEditor(GFont font, int x, int y, int width, int height) {
