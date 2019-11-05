@@ -15,3 +15,4 @@ web/war
 **/.classpath
 **/bin
 **/src/main/javacc/**/*.java
+/web/gradle.properties
