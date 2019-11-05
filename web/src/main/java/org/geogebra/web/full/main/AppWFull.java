@@ -1147,8 +1147,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 			public void run() {
 				LocalizationW localization = getLocalization();
 				String message = localization.getMenu("RecentChangesInfo.Graphing");
-				String readMore = localization.getMenu("")
-				WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message);
+				String readMore = localization.getMenu("tutorial_apps_comparison");
+				String link = "https://www.geogebra.org/m/" + readMore;
+				WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
 				dialog.show();
 			}
 		});
