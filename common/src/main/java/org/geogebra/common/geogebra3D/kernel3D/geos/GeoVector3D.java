@@ -858,7 +858,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	private String buildColumnVectorValueString(StringTemplate tpl) {
-		return getConverter().build(tpl, getInhomCoords());
+		return getConverter().build(tpl, getDefinition().wrap());
 	}
 
 	private VectorToMatrix getConverter() {

@@ -603,7 +603,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			sbBuildValueString.append(getConverter().build(tpl, x, y, z));
+			sbBuildValueString.append(getConverter().build(tpl, getDefinition()));
 			break;
 
 		case Kernel.COORD_SPHERICAL:
@@ -611,7 +611,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			break;
 
 		default: // CARTESIAN
-			sbBuildValueString.append(getConverter().build(tpl, x, y));
+			sbBuildValueString.append(getConverter().build(tpl, getDefinition()));
 			break;
 		}
 		return sbBuildValueString;
