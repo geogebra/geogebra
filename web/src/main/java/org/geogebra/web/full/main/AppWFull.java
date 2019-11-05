@@ -56,6 +56,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.ShareControllerW;
+import org.geogebra.web.full.gui.WhatsNewDialog;
 import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -111,6 +112,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
@@ -1140,25 +1142,36 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void maybeStartAutosave() {
-		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
-			return;
-		}
-		final String materialJSON = getFileManager().getAutosaveJSON();
-		if (materialJSON != null && !this.isStartedWithFile()
-				&& this.getExam() == null) {
+		afterLocalizationLoaded(new Runnable() {
+			@Override
+			public void run() {
+				LocalizationW localization = getLocalization();
+				String message = localization.getMenu("RecentChangesInfo.Graphing");
+				String readMore = localization.getMenu("")
+				WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message);
+				dialog.show();
+			}
+		});
 
-			afterLocalizationLoaded(new Runnable() {
-
-				@Override
-				public void run() {
-					getDialogManager()
-							.showRecoverAutoSavedDialog(AppWFull.this,
-									materialJSON);
-				}
-			});
-		} else {
-			this.startAutoSave();
-		}
+//		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
+//			return;
+//		}
+//		final String materialJSON = getFileManager().getAutosaveJSON();
+//		if (materialJSON != null && !this.isStartedWithFile()
+//				&& this.getExam() == null) {
+//
+//			afterLocalizationLoaded(new Runnable() {
+//
+//				@Override
+//				public void run() {
+//					getDialogManager()
+//							.showRecoverAutoSavedDialog(AppWFull.this,
+//									materialJSON);
+//				}
+//			});
+//		} else {
+//			this.startAutoSave();
+//		}
 	}
 
 	/**

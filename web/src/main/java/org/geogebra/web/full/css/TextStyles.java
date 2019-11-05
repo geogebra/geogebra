@@ -10,15 +10,6 @@ import org.geogebra.web.resources.SassResource;
 public interface TextStyles extends ClientBundle {
 	TextStyles INSTANCE = GWT.create(TextStyles.class);
 
-	/** Headline 6 style name */
-	String HEADLINE_6 = "headline6";
-
-	/** Subtitle 1 style name */
-	String SUBTITLE_1 = "subtitle1";
-
-	/** Subtitle 1 styled link style name */
-	String SUBTITLE_1_LINK = "subtitle1-link";
-
 	@Source("org/geogebra/web/resources/scss/text-styles.scss")
 	SassResource textStyles();
 }
