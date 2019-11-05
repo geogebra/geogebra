@@ -135,7 +135,7 @@ public class TextControllerW
 	}
 
 	@Override
-	public boolean shouldStartEditing(GeoText text, int x, int y, boolean dragged) {
+	public boolean handleTextPressed(GeoText text, int x, int y, boolean dragged) {
 		if (text != null && this.text == text && !dragged) {
 			edit(text);
 			moveCursor(x, y);

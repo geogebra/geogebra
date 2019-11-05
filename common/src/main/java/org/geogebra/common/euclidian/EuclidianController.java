@@ -10325,7 +10325,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void wrapMouseReleased(AbstractEvent event) {
 		if (getTextController() != null) {
 			GeoElement topText = view.getHits().getFirstHit(TestGeo.GEOTEXT);
-			if (getTextController().shouldStartEditing((GeoText) topText,
+			if (getTextController().handleTextPressed((GeoText) topText,
 					event.getX(), event.getY(), draggingOccured)) {
 				return;
 			}

@@ -38,7 +38,7 @@ public interface TextController {
 	 * @param dragged whether it was a drag event
 	 * @return whether editing was started
 	 */
-	boolean shouldStartEditing(GeoText text, int x, int y, boolean dragged);
+	boolean handleTextPressed(GeoText text, int x, int y, boolean dragged);
 
 	/**
 	 * 
