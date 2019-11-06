@@ -572,14 +572,8 @@ public class EuclidianPen implements GTimerListener {
 		}
 		int ptsLength = 0;
 		if (lastAlgo == null) {
-			// lastPolyLine = new GeoPolyLine(cons, "hello");
 			newPts = new ArrayList<>(penPoints2.size());
-			// newPts = new GeoList(cons);
 		} else {
-			// newPts = lastPolyLine.getPointsList();
-
-			// force a gap
-			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 			AlgoLocusStroke algo = getAlgoStroke(lastAlgo);
 
 			ptsLength = algo.getPointsLength();
@@ -594,9 +588,6 @@ public class EuclidianPen implements GTimerListener {
 		}
 
 		for (GPoint p : penPoints2) {
-			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),
-			// view.toRealWorldCoordY(p.getY()), 1));
-
 			double x = view.toRealWorldCoordX(p.getX());
 			double y = view.toRealWorldCoordY(p.getY());
 
