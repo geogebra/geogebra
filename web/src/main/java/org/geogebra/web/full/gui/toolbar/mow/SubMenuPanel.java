@@ -13,6 +13,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Base class of submenus of MOWToorbar
@@ -142,6 +143,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		for (Integer mode : menu) {
 			if (app.isModeValid(mode)) {
 				ToolButton btn = new ToolButton(mode, app, this);
+				TestHarness.setAttr(btn, "selectModeButton" + mode);
 				group.add(btn);
 				col++;
 			}

@@ -3,7 +3,6 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
@@ -59,7 +58,7 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 
 	@Override
 	public boolean isVisible() {
-		return !getWidget().getStyleName().contains("hidden");
+		return !getWidget().getElement().hasClassName("hidden");
 	}
 
 	/**
@@ -165,18 +164,6 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		bounds.setBounds(getAbsoluteLeft(), getAbsoluteTop() - topOffset , getOffsetWidth(),
 				getOffsetHeight());
 		return bounds;
-	}
-
-	/**
-	 * Sets bounds of the editor.
-	 * 
-	 * @param rect
-	 *            to set.
-	 */
-	public void setBounds(GRectangle2D rect) {
-		setWidth((int) rect.getWidth());
-		setHeight((int) rect.getHeight());
-		bounds.setBounds(rect.getBounds());
 	}
 
 	@Override

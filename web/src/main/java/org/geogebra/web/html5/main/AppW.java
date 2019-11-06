@@ -1622,6 +1622,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				if (getImageManager().isPreventAuxImage()) {
 					geoImage.setAuxiliaryObject(false);
 				}
+				if (app.isWhiteboardActive()) {
+					app.getActiveEuclidianView().getEuclidianController()
+							.selectAndShowBoundingBox(geoImage);
+				}
 				setDefaultCursor();
 				storeUndoInfo();
 			}

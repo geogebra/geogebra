@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.draw.DrawText;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -40,7 +39,7 @@ public class TextControllerW
 	private AppW app;
 
 	/** GeoText to edit */
-	GeoText text;
+	private GeoText text;
 	private GeoText lastText;
 
 	/**
@@ -114,22 +113,15 @@ public class TextControllerW
 
 	@Override
 	public GeoText createText(GeoPointND loc) {
-		if (loc == null) {
-			return null;
-		}
 		GeoText t = app.getKernel().getAlgebraProcessor().text("");
-		app.getSelectionManager().addSelectedGeo(t);
 		t.setEuclidianVisible(true);
 		t.setAbsoluteScreenLocActive(false);
 		// always use RW coords, ignore rw argument
 		Coords coords = loc.getInhomCoordsInD3();
 		t.setRealWorldLoc(getView().toRealWorldCoordX(coords.getX()),
 				getView().toRealWorldCoordY(coords.getY()));
-		t.setAbsoluteScreenLocActive(false);
 		t.setLabel(null);
 		edit(t, true);
-		app.getKernel().notifyRepaint();
-		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		return t;
 	}
 
@@ -150,6 +142,17 @@ public class TextControllerW
 		this.text = geo;
 		text.update();
 
+		updatePosition(geo);
+		updateBoundingBox();
+		if (create) {
+			updateAndShowStylebar();
+		}
+		editor.show();
+		editor.requestFocus();
+		getView().repaint();
+	}
+
+	private void updatePosition(GeoText geo) {
 		DrawText d = getDrawText(geo);
 		if (d != null) {
 			int x = d.xLabel - EuclidianStatic.EDITOR_MARGIN;
@@ -160,17 +163,20 @@ public class TextControllerW
 			int height = (int) d.getBounds().getHeight()
 					- 2 * EuclidianStatic.EDITOR_MARGIN;
 			updateEditor(d.getTextFont(), x, y, width, height);
-			if (create) {
-				updateBoundingBox();
-			}
 		}
-		editor.show();
-		editor.requestFocus();
-		getView().repaint();
+	}
+
+	private void updateBoundingBox() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				doUpdateBoundingBox();
+			}
+		});
 	}
 
 	/**
-	 * Update bounding box and repaint.
+	 * Update bounding box immediately
 	 */
 	void doUpdateBoundingBox() {
 		DrawText d = getDrawText(text);
@@ -181,12 +187,18 @@ public class TextControllerW
 		getView().repaint();
 	}
 
-	private void updateBoundingBox() {
+	private void updateAndShowStylebar() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
 			@Override
 			public void execute() {
-				doUpdateBoundingBox();
+				DrawText d = getDrawText(text);
+				if (d != null) {
+					d.adjustBoundingBoxToText(getEditorBounds());
+					getView().getEuclidianController().selectAndShowBoundingBox(text);
+					editor.show();
+					editor.requestFocus();
+				}
+				getView().repaint();
 			}
 		});
 	}
@@ -355,5 +367,15 @@ public class TextControllerW
 		stopEditing();
 		editor.removeFromParent();
 		editor = null;
+	}
+
+	/**
+	 * Update position of editor and bounding box.
+	 */
+	public void updateEditorPosition() {
+		if (text != null && text.isEditMode()) {
+			updatePosition(text);
+			doUpdateBoundingBox();
+		}
 	}
 }

@@ -575,10 +575,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				|| (kc == KeyCodes.D && shift) || (kc == KeyCodes.C && shift);
 	}
 
-	// public static native void printActiveElement() /*-{
-	// $wnd.console.log($wnd.document.activeElement);
-	// }-*/;
-
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();

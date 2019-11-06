@@ -2,7 +2,6 @@ package org.geogebra.web.full.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -10,11 +9,9 @@ import java.util.Set;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
@@ -320,9 +317,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void writeEmbeds(Construction cons, ZipFile archiveContent) {
 		persist();
-		Iterator<GeoElement> it = cons.getGeoSetConstructionOrder().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : cons.getGeoSetConstructionOrder()) {
 			if (geo instanceof GeoEmbed) {
 				int id = ((GeoEmbed) geo).getEmbedID();
 				String encoded = content.get(id);
@@ -415,24 +410,24 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void openGraspableMTool() {
 		openTool("https://graspablemath.com");
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-						ModeSetter.DOCK_PANEL);
-			}
-		});
 	}
 
 	private void openTool(String URL) {
-		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setUrl(URL);
 		ge.setAppName("extension");
 		ge.initPosition(app.getActiveEuclidianView());
 		ge.setEmbedId(app.getEmbedManager().nextID());
 		ge.setLabel(null);
 		app.storeUndoInfo();
+		app.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				app.getActiveEuclidianView().getEuclidianController()
+						.selectAndShowBoundingBox(ge);
+			}
+		});
 	}
 
 	/**

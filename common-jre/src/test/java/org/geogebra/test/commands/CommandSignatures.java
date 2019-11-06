@@ -13,6 +13,7 @@ import org.geogebra.common.main.Localization;
 public class CommandSignatures {
 
 	private static LocalizationJre loc = new LocalizationCommon(3);
+
 	static {
 		loc.setApp(new AppCommon(loc, new AwtFactoryCommon()));
 	}
@@ -38,7 +39,6 @@ public class CommandSignatures {
 			}
 			if ("Function".equals(cmdName) || "Random".equals(cmdName)
 					|| "DataFunction".equals(cmdName)
-					|| "ZoomIn".equals(cmdName)
 					|| "StartLogging".equals(cmdName)) {
 				signature.add(0);
 			}

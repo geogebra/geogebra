@@ -54,9 +54,6 @@ public final class DrawText extends Drawable {
 	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
 	private static final GColor EDITOR_BORDER_COLOR = GColor.GRAY;
 
-	// private static final int SELECTION_DIAMETER_ADD = 4;
-	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;
-
 	private GeoText text;
 	private boolean isVisible;
 	private boolean isLaTeX;
@@ -64,7 +61,6 @@ public final class DrawText extends Drawable {
 	private int fontStyle = -1;
 	private boolean serifFont;
 	private GFont textFont;
-	private GeoPointND loc; // text location
 
 	// private Image eqnImage;
 	private int oldXpos;
@@ -137,7 +133,7 @@ public final class DrawText extends Drawable {
 			xLabel = text.getAbsoluteScreenLocX();
 			yLabel = text.getAbsoluteScreenLocY();
 		} else {
-			loc = text.getStartPoint();
+			GeoPointND loc = text.getStartPoint();
 			if (loc == null) {
 				xLabel = (int) view.getXZero();
 				yLabel = (int) view.getYZero();
@@ -246,7 +242,6 @@ public final class DrawText extends Drawable {
 					}
 					drawMultilineText(g2, textFont);
 				}
-
 			}
 
 			// draw label rectangle
@@ -322,13 +317,10 @@ public final class DrawText extends Drawable {
 			fontStyle = newFontStyle;
 			serifFont = newSerifFont;
 
-			// if (isLaTeX) {
-			// //setEqnFontSize();
-			// } else {
 			App app = view.getApplication();
 			textFont = app.getFontCanDisplay(text.getTextString(), serifFont,
 					fontStyle, fontSize);
-			// }
+
 			return true;
 		}
 

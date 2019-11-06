@@ -1009,7 +1009,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void setUpEmbedManager(int mode) {
-		GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
+		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
 		if (mode == EuclidianConstants.MODE_CAS) {
 			ge.setAppName("cas");
 		}
@@ -1021,8 +1021,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			@Override
 			public void run() {
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-						ModeSetter.DOCK_PANEL);
+				selectAndShowBoundingBox(ge);
 			}
 		});
 	}
@@ -3501,15 +3500,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// got location
-		if (app.has(Feature.MOW_TEXT_TOOL)) {
+		if (loc != null && app.has(Feature.MOW_TEXT_TOOL)) {
 			if (wasBoundingBoxHit) {
 				return false;
 			}
 
 			GeoText t = getTextController().createText(loc);
-			if (t != null) {
-				memorizeJustCreatedGeos(t.asArray());
-			}
+			memorizeJustCreatedGeos(t.asArray());
+
 			if (textRectangleShape != null) {
 				if (customSize) {
 					getTextController().resizeEditor(
@@ -9492,7 +9490,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// move drawing pad or axis
 		case EuclidianConstants.MODE_TRANSLATEVIEW:
-
 			mousePressedTranslatedView(type, specialMoveEvent(e));
 
 			break;
@@ -9725,15 +9722,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			processRightPressFor3D(event);
 			return;
 		}
-		setViewHits(event.getType());
 
+		setViewHits(event.getType());
 		dispatchMouseDownEvent(event);
 
-		if (app.isWhiteboardActive()
-				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
-				&& !getView().getHits().isEmpty()) {
-			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
-		}
 		if (shallMoveView(event)) {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
@@ -10358,11 +10350,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (handleVideoReleased()) {
 			return;
 		}
-		if (app.isWhiteboardActive()
-				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
-				&& !draggingOccured) {
-			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
-		}
 		if (getTextController() != null
 				&& getTextController().handleTextReleased(draggingOccured,
 						event.getX(), event.getY())
@@ -10442,15 +10429,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape()
 						&& view.getDrawableFor(geo) != null) {
-				Drawable d = ((Drawable) view.getDrawableFor(geo));
-				d.update();
-				if (d.getBoundingBox().getRectangle() != null) {
-					view.setBoundingBox(d.getBoundingBox());
-					view.repaintView();
-					selection.addSelectedGeo(geo);
-					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-							ModeSetter.DOCK_PANEL);
-				}
+				setBoundingBoxForGeo(geo);
 			}
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -10608,27 +10587,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else {
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
 					&& mode == EuclidianConstants.MODE_SELECT) {
-				switch (lastSelectionPressResult) {
-				case REMOVE:
+				if (lastSelectionPressResult == SelectionToolPressResult.REMOVE) {
 					selection.removeSelectedGeo(lastSelectionToolGeoToRemove, true, true);
 					lastSelectionToolGeoToRemove = null;
-					break;
-				case EMPTY:
+				} else if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
 					selection.clearSelectedGeos(true, true);
-					break;
-				case ADD:
-				case DEFAULT:
-				default:
-					// nothing to do
-					break;
 				}
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
-				switch (lastSelectionPressResult) {
-				case EMPTY:
+				if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
 					clearSelections();
-					break;
-				case DEFAULT:
-				default:
+				} else {
 					// select the geo that was clicked and set boundingbox
 					if (isMultiSelection() && !wasBoundingBoxHit
 							&& !event.isRightClick()
@@ -10638,12 +10606,24 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								true, true);
 						view.setBoundingBox(((Drawable) view
 								.getDrawableFor(lastSelectionToolGeoToRemove))
-										.getBoundingBox());
+								.getBoundingBox());
 						view.repaintView();
 						lastSelectionToolGeoToRemove = null;
 					}
-					break;
 				}
+			}
+		}
+
+		if (app.isWhiteboardActive()
+				&& mode == EuclidianConstants.MODE_TRANSLATEVIEW
+				&& !draggingOccured) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
+
+			GeoElement geo = chooseGeo(view.getHits().getTopHits(), true);
+			if (geo != null) {
+				view.setBoundingBox(
+						((Drawable) view.getDrawableFor(geo)).getBoundingBox());
+				view.repaintView();
 			}
 		}
 
@@ -12927,5 +12907,28 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	private void decreaseTargets() {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
+	}
+
+	private void setBoundingBoxForGeo(GeoElement geoElement) {
+		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
+		d.update();
+		if (d.getBoundingBox().getRectangle() != null) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+					ModeSetter.DOCK_PANEL);
+			view.setBoundingBox(d.getBoundingBox());
+			view.repaintView();
+			selection.addSelectedGeo(geoElement);
+		}
+	}
+
+	/**
+	 * Select the geoElement and show bounding box and stylebar
+	 *
+	 * @param geoElement geoElement to select
+	 */
+	public void selectAndShowBoundingBox(GeoElement geoElement) {
+		clearSelections();
+		setBoundingBoxForGeo(geoElement);
+		showDynamicStylebar();
 	}
 }

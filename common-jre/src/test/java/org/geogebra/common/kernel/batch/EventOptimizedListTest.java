@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.batch;
 
+import java.util.Iterator;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Iterator;
 
 public class EventOptimizedListTest extends BaseUnitTest {
 
@@ -45,7 +45,6 @@ public class EventOptimizedListTest extends BaseUnitTest {
 		addUpdateEvent(secondElement);
 		addUpdateEvent(secondElement);
 		addRemoveEvent(secondElement);
-
 
 		Iterator<Event> iterator = eventOptimizedList.iterator();
 

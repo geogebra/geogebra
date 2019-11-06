@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.geogebra.common.move.ggtapi.models.Chapter;
@@ -85,10 +86,10 @@ public class EmbedInputDialog extends MediaDialog
 	}
 
 	private void showEmptyEmbeddedElement() {
-		showEmbeddedElement("");
+		createAndShowEmbeddedElement("");
 	}
 
-	private void showEmbeddedElement(String url) {
+	private GeoElement createAndShowEmbeddedElement(String url) {
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setUrl(url);
 		ge.setAppName("extension");
@@ -96,6 +97,8 @@ public class EmbedInputDialog extends MediaDialog
 		ge.setEmbedId(app.getEmbedManager().nextID());
 		ge.setLabel(null);
 		app.storeUndoInfo();
+
+		return ge;
 	}
 
 	private void embedGeoGebraAndHide(String base64) {
@@ -131,8 +134,9 @@ public class EmbedInputDialog extends MediaDialog
 	@Override
 	public void callback(URLStatus obj) {
 		if (obj.getErrorKey() == null) {
-			showEmbeddedElement(obj.getUrl());
+			GeoElement geo = createAndShowEmbeddedElement(obj.getUrl());
 			hide();
+			onMediaElementCreated(geo);
 		} else {
 			showError(obj.getErrorKey());
 		}

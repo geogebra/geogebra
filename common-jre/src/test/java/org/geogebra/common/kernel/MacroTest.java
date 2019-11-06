@@ -8,22 +8,22 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MacroTest {
-	static AppCommon3D app;
-	static AlgebraProcessor ap;
-	private static String syntax;
+	private AppCommon3D app;
+	private AlgebraProcessor ap;
+	private String syntax;
 
-	@BeforeClass
-	public static void setupApp() {
+	@Before
+	public void setupApp() {
 		app = new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 
-	private static void t(String input, String expected) {
+	private void t(String input, String expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}

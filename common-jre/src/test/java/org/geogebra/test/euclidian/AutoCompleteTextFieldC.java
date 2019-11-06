@@ -24,8 +24,8 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	private String textField = "";
 	private TextAlignment alignment;
-	private boolean focus=false;
-	private GeoInputBox geoInputBox=null;
+	private boolean focus = false;
+	private GeoInputBox geoInputBox = null;
 	private List<FocusListener> focusListeners = new ArrayList<>();
 
 	@Override
@@ -134,7 +134,8 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top, int width, int height) {
+	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width, int height) {
 		// for test, not needed
 	}
 

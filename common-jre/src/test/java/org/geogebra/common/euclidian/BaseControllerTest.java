@@ -23,6 +23,9 @@ public class BaseControllerTest {
 		reset();
 	}
 
+	/**
+	 * Setup the app
+	 */
 	@BeforeClass
 	public static void setup() {
 		app = new AppCommon3D(new LocalizationCommon(3),

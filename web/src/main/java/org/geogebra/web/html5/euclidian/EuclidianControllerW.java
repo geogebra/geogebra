@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Hits;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
@@ -19,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -490,14 +488,23 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public TextController getTextController() {
-		if (!app.has(Feature.MOW_TEXT_TOOL)) {
+	public TextControllerW getTextController() {
+		if (!app.isWhiteboardActive()) {
 			return null;
 		}
 		if (textController == null) {
 			textController = new TextControllerW((AppW) app);
 		}
 		return textController;
+	}
+
+	/**
+	 * Update position of the text editor
+	 */
+	public void updateEditorPosition() {
+		if (textController != null) {
+			textController.updateEditorPosition();
+		}
 	}
 
 	/**

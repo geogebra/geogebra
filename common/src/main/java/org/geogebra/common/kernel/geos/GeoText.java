@@ -1502,17 +1502,11 @@ public class GeoText extends GeoElement
 			return super.getDefinitionForEditor();
 		}
 
-		String ret = getAlgebraDescription(StringTemplate.editorTemplate)
-                .replace("\"", "").replace(Unicode.OPEN_DOUBLE_QUOTE + "", "")
-				.replace(Unicode.CLOSE_DOUBLE_QUOTE + "", "");
-
-		// remove "text1=" from the start
-		// don't use split() - text itself might contain "="
-		if (ret.indexOf('=') > -1) {
-			ret = ret.substring(ret.indexOf('=') + 1);
+		if (isDefinitionValid()) {
+			return StringTemplate.editorTemplate.escapeString(str);
 		}
 
-		return ret;
+		return "?";
 	}
 
 	/**

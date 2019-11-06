@@ -96,7 +96,7 @@ public class ViewW {
 	}
 
 	@ExternalAccess
-	private void putIntoArchiveContent(String key, String value) {
+	protected void putIntoArchiveContent(String key, String value) {
 		archiveContent.put(key, value);
 		if (archiveContent.size() == zippedLength) {
 			maybeLoadFile();
@@ -304,7 +304,7 @@ public class ViewW {
 	}
 
 	@ExternalAccess
-	private void prepare(int t) {
+	protected void prepare(int t) {
 		archiveContent = new GgbFile();
 		this.zippedLength = t;
 	}

@@ -2,6 +2,7 @@ package org.geogebra.common.media;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoAudio;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
@@ -22,11 +23,12 @@ public class MediaFactory {
 
 	/**
 	 * Add audio to construction
-	 * 
+	 *
 	 * @param url
 	 *            audio URL
+	 * @return the created audio geoElement
 	 */
-	public void addAudio(String url) {
+	public GeoElement addAudio(String url) {
 		EuclidianView ev = app.getActiveEuclidianView();
 		GeoAudio audio = new GeoAudio(app.getKernel().getConstruction(), url);
 		audio.setAbsoluteScreenLoc((ev.getWidth() - audio.getWidth()) / 2,
@@ -34,15 +36,17 @@ public class MediaFactory {
 		audio.setLabel(null);
 		app.storeUndoInfo();
 		app.getActiveEuclidianView().repaint();
+		return audio;
 	}
 
 	/**
 	 * Create video and add it to construction.
-	 * 
+	 *
 	 * @param videoUrl
 	 *            video URL
+	 * @return the created video geoElement
 	 */
-	public void addVideo(VideoURL videoUrl) {
+	public GeoElement addVideo(VideoURL videoUrl) {
 		final EuclidianView ev = app.getActiveEuclidianView();
 		final GeoVideo video = app.getVideoManager().createVideo(
 				app.getKernel().getConstruction(),
@@ -61,5 +65,6 @@ public class MediaFactory {
 
 		video.setLabel(null);
 		app.storeUndoInfo();
+		return video;
 	}
 }

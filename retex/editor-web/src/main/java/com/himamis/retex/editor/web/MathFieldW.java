@@ -64,8 +64,6 @@ import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
@@ -607,7 +605,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void hideCopyPasteButtons() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -619,19 +616,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void showCopyPasteButtons() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void scroll(int dx, int dy) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1040,18 +1034,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		this.leftAltDown = leftAltDown;
 	}
 
-	private static void parseText(String text0, MathFieldW mf) {
-		Parser parser = new Parser(mf.getMetaModel());
-		MathFormula formula;
-		try {
-			formula = parser.parse(text0);
-			mf.setFormula(formula);
-		} catch (ParseException e) {
-			FactoryProvider.debugS("Problem parsing: " + text0);
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
 	 * math syntax) into the editor.
@@ -1063,11 +1045,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public void setText(String text0, boolean asPlainText) {
 		if (asPlainText) {
-			parseText("", this);
+			mathFieldInternal.parse("");
 			setPlainTextMode(true);
 			insertString(text0);
 		} else {
-			parseText(text0, this);
+			mathFieldInternal.parse(text0);
 		}
 	}
 
