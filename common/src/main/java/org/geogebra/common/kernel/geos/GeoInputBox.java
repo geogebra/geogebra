@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPointInRegion;
@@ -173,10 +174,17 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return vector.toValueStringAsColumnVector(tpl);
 	}
 
+	@Override
+	public boolean isLaTeXTextCommand() {
+		return super.isLaTeXTextCommand();
+	}
+
 	private String toLaTex(GeoElementND geo) {
 		if (geo.isGeoFunction()) {
 			return geo.getRedefineString(true, true,
 					getStringtemplateForLaTeX());
+		} else if (geo instanceof GeoVector3D) {
+			return ((GeoVector3D) geo).getColumnMatrix(StringTemplate.latexTemplate);
 		}
 		return geo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}

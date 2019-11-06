@@ -342,11 +342,7 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
+		resetStringBuilder();
 
 		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
 			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(),
@@ -378,6 +374,20 @@ public class GeoVector3D extends GeoVec4D
 
 	}
 
+	private void resetStringBuilder() {
+		if (sb == null) {
+			sb = new StringBuilder();
+		} else {
+			sb.setLength(0);
+		}
+	}
+
+	public String getColumnMatrix(StringTemplate tpl) {
+		resetStringBuilder();
+		String[] values = VectorToMatrix.getLaTeXValues(getDefinition().wrap(), tpl);
+		GeoVector.buildTabular(values, sb);
+		return sb.toString();
+	}
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */

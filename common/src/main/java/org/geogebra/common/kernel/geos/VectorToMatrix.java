@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -14,7 +17,7 @@ public class VectorToMatrix {
 	}
 
 	public String build(StringTemplate template, ExpressionNode expressionNode) {
-		MyVecNDNode vecNode = (MyVecNDNode)(expressionNode.getLeft());
+		MyVecNDNode vecNode =  (MyVecNDNode)(expressionNode.getLeft());
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -37,6 +40,20 @@ public class VectorToMatrix {
 		sb.append(value.toLaTeXString(true, tpl));
 		sb.append("}");
 		return sb.toString();
+	}
+
+	public static String[] getLaTeXValues(ExpressionNode expressionNode, StringTemplate tpl) {
+		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.getLeft();
+		List<String> list = new ArrayList<>();
+		if (vecNode != null) {
+			list.add(vecNode.getX().toLaTeXString(true, tpl));
+			list.add(vecNode.getY().toLaTeXString(true, tpl));
+			ExpressionValue z = vecNode.getZ();
+			list.add(z != null ? z.toLaTeXString(true, tpl): "");
+		}
+
+		String[] array = new String[3];
+		return list.toArray(array);
 	}
 
 }
