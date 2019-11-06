@@ -116,8 +116,6 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_FUNCTION);
-		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PEN);
 
 		// points

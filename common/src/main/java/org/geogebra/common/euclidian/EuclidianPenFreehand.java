@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -94,8 +93,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	private ShapeType expected;
 
-	private final RecoSegment[] recos = new RecoSegment[5];
-	private final Inertia[] inertias = new Inertia[4];
+	private final RecoSegment[] recos = new RecoSegment[MAX_POLYGON_SIDES + 1];
+	private final Inertia[] inertias = new Inertia[MAX_POLYGON_SIDES];
 
 	private int[] brk;
 	private int recognizer_queue_length = 0;
@@ -157,6 +156,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			RECTANGLE_LINEAR_TOLERANCE = 0.25;
 			POLYGON_LINEAR_TOLERANCE = 0.25;
 			RECTANGLE_ANGLE_TOLERANCE = 17 * Math.PI / 180;
+			break;
+		default:
 			break;
 		}
 	}
@@ -374,7 +375,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * creates a polygon if possible
 	 */
 	private GeoElement createPolygon() {
-		GeoElement polygon = null;
+		GeoPolygon polygon = null;
 
 		int n = getPolygonal();
 		if (n > 1) { // if it's not a line
@@ -385,25 +386,29 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		if (polygon != null) {
 			ArrayList<GeoPoint> list = new ArrayList<>();
-			for (GeoPointND point : ((GeoPolygon) polygon).getPoints()) {
+			for (GeoPointND point : polygon.getPoints()) {
 				if (point instanceof GeoPoint) {
 					list.add((GeoPoint) point);
 				}
 			}
-			if (list.size() == ((GeoPolygon) polygon).getPoints().length
+			if (list.size() == polygon.getPoints().length
 					&& expected != ShapeType.polygon) {
 				// true if all the points are GeoPoints, otherwise the
 				// original Polygon will not be deleted
 				polygon.remove();
 				PolygonFactory factory = new PolygonFactory(this.app.getKernel());
+
+				GeoElement[] result;
 				if (expected == ShapeType.rigidPolygon) {
-					factory.rigidPolygon(null,
+					 result = factory.rigidPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				} else {
-					factory.vectorPolygon(null,
+					result = factory.vectorPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				}
-				return polygon;
+				if (result != null) {
+					return result[0];
+				}
 			}
 			return polygon;
 		}
@@ -625,7 +630,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *            number of vertices
 	 * @return polygon
 	 */
-	private GeoElement tryPolygon(int n) {
+	private GeoPolygon tryPolygon(int n) {
 		int j;
 		RecoSegment temp1;
 		optimize_polygonal(n);
@@ -673,7 +678,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			get_segment_geometry(inertias[j], rs);
 		}
 
-		GeoElement geo;
+		GeoPolygon geo;
 		if ((geo = try_rectangle()) != null
 				|| (geo = try_closed_polygon(3)) != null
 				|| (geo = try_closed_polygon(4)) != null) {
@@ -683,7 +688,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		return null;
 	}
 
-	private GeoElement try_rectangle() {
+	private GeoPolygon try_rectangle() {
 		int nsides = 4;
 
 		if (recognizer_queue_length < nsides) {
@@ -877,7 +882,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		pt[1] = r1.ycenter + t * Math.sin(r1.angle);
 	}
 
-	private GeoElement try_closed_polygon(int nsides) {
+	private GeoPolygon try_closed_polygon(int nsides) {
 		if (recognizer_queue_length < nsides) {
 			return null;
 		}
@@ -1066,12 +1071,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 *            {@link GeoPointND}
 	 * @return {@link GeoElement Polygon} created of given points
 	 */
-	private GeoElement createPolygonFromPoints(GeoPointND[] points) {
+	private GeoPolygon createPolygonFromPoints(GeoPointND[] points) {
 		points[0].setHighlighted(false);
 
 		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(),
 				null, points);
-		GeoElement poly = algo.getOutput(0);
+		GeoPolygon poly = algo.getPoly();
 
 		if (view.getEuclidianController()
 				.getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
@@ -1083,13 +1088,13 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			for (GeoPointND point : points) {
 				point.setEuclidianVisible(false);
 			}
-			if (poly instanceof GeoPolygon) {
-				for (GeoSegmentND geoSeg : ((GeoPolygon) poly).getSegments()) {
-					((GeoSegment) geoSeg).setSelectionAllowed(false);
-					((GeoSegment) geoSeg).setLabelVisible(false);
-				}
+
+			for (GeoSegmentND geoSeg : poly.getSegments()) {
+				geoSeg.setSelectionAllowed(false);
+				geoSeg.setLabelVisible(false);
 			}
 		}
+
 		return poly;
 	}
 
