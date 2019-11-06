@@ -320,6 +320,11 @@ public class AlgoLocusStroke extends AlgoElement {
 		return poly.getPointLength();
 	}
 
+	/**
+	 * Copy the i-th point of the pen stroke
+	 * @param i ordinal of the point to copy
+	 * @return copy of the i-th point
+	 */
 	public MyPoint getPointCopy(int i) {
 		return new MyPoint(poly.getPoints().get(i).getX(),
 				poly.getPoints().get(i).getY());

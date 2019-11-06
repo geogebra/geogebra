@@ -1,14 +1,12 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
