@@ -53,7 +53,6 @@ public class EuclidianPenFreehandTest extends BaseControllerTest {
 				freehandPen.checkExpectedShape().getGeoClassType());
 	}
 
-
 	@Test
 	public void restrictedFreehandPenShouldFailRecognizingConic() {
 		EuclidianPenFreehand freehandPen
