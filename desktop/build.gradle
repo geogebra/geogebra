@@ -81,7 +81,7 @@ dependencies {
 
     testCompile project(':keyboard-base')
     testCompile 'junit:junit:4.+'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.0.0'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.1.0'
     testCompile project(':ggbjdk')
     testCompile project(':common-jre').sourceSets.test.output
 }
