@@ -891,16 +891,29 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
 
 		return buildLatexString(kernel, sb, symbolic, tpl, getToStringMode(), x,
 				y,
 				this);
 	}
+
+
+	private void resetStringBuilder() {
+		if (sb == null) {
+			sb = new StringBuilder();
+		} else {
+			sb.setLength(0);
+		}
+	}
+
+	@Override
+	public String toLaTeXStringAsColumnVector(StringTemplate tpl) {
+		resetStringBuilder();
+		String[] values = VectorToMatrix.getLaTeXValues(getDefinition().wrap(), tpl);
+		GeoVector.buildTabular(values, sb);
+		return sb.toString();
+	}
+
 
 	/**
 	 * @param kernel

@@ -105,4 +105,12 @@ public interface GeoVectorND
 	 * @return the column vector that can be rendered by editor.
 	 */
 	String toValueStringAsColumnVector(StringTemplate tpl);
+
+	/**
+	 * Get vector as column vector for rendering
+	 * @param tpl
+	 * 		StringTemplate
+	 * @return the LaTeX string to render a column vector.
+	 */
+	String toLaTeXStringAsColumnVector(StringTemplate tpl);
 }
