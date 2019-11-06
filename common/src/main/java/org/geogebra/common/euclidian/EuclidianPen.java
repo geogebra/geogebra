@@ -580,7 +580,7 @@ public class EuclidianPen implements GTimerListener {
 
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
-			AlgoLocusStroke algo = getAlgoStrokeInterface(lastAlgo);
+			AlgoLocusStroke algo = getAlgoStroke(lastAlgo);
 
 			ptsLength = algo.getPointsLength();
 
@@ -650,7 +650,7 @@ public class EuclidianPen implements GTimerListener {
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
-	private static AlgoLocusStroke getAlgoStrokeInterface(AlgoElement al) {
+	private static AlgoLocusStroke getAlgoStroke(AlgoElement al) {
 		if (al instanceof AlgoLocusStroke) {
 			return (AlgoLocusStroke) al;
 		}
