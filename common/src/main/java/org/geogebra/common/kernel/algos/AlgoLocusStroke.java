@@ -53,7 +53,7 @@ public class AlgoLocusStroke extends AlgoElement {
 	public AlgoLocusStroke(Construction cons, List<MyPoint> points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
-		updatePointArray(points, 0, 0);
+		updatePointArray(points, 0);
 		// poly = new GeoPolygon(cons, points);
 		// updatePointArray already covered compute
 		input = new GeoElement[1];
@@ -84,8 +84,8 @@ public class AlgoLocusStroke extends AlgoElement {
 	// data has to have at least 2 defined points after each other
 	private static boolean canBeBezierCurve(List<MyPoint> data) {
 		boolean firstDefFound = false;
-		for (int i = 0; i < data.size(); i++) {
-			if (data.get(i).isDefined()) {
+		for (MyPoint datum : data) {
+			if (datum.isDefined()) {
 				if (firstDefFound) {
 					return true;
 				}
@@ -105,11 +105,8 @@ public class AlgoLocusStroke extends AlgoElement {
 	 * @param initialIndex
 	 *            index from which to start smoothing (consider previous points
 	 *            smooth)
-	 * @param xscale
-	 *            view scale, used for filtering
 	 */
-	public void updatePointArray(List<MyPoint> data, int initialIndex,
-			double xscale) {
+	public void updatePointArray(List<MyPoint> data, int initialIndex) {
 		poly.resetPointsWithoutControl();
 		// check if we have a point list
 		// create new points array
@@ -123,35 +120,25 @@ public class AlgoLocusStroke extends AlgoElement {
 			for (int i = 0; i < initialIndex; i++) {
 				pointList.add(data.get(i));
 			}
+
 			int index = initialIndex;
-			// if (data.get(index).isDefined()) {
-			// // move at first point
-			// pointList.add(
-			// new MyPoint(data.get(index).getX(),
-			// data.get(index).getY(),
-			// SegmentType.MOVE_TO));
-			// }
-			// Log.debug("1: (" + data[0].getInhomX() + "," +
-			// data[0].getInhomY()
-			// + ") -> " +
-			// SegmentType.MOVE_TO);
 			while (index <= data.size()) {
 				// TODO
 				// separator for XML
-				List<MyPoint> unfiltered = getPartOfPenStroke(index, data);
+				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
 				if (!pointList.isEmpty()
 						&& pointList.get(pointList.size() - 1).isDefined()
-						&& unfiltered.size() > 0) {
+						&& partOfStroke.size() > 0) {
 					pointList.add(new MyPoint(Double.NaN, Double.NaN,
 							SegmentType.LINE_TO));
 				}
 				// if we found single point
 				// just add it to the list without control points
-				if (unfiltered.size() > 0) {
+				if (partOfStroke.size() > 0) {
 					pointList.add(
-							unfiltered.get(0).withType(SegmentType.MOVE_TO));
+							partOfStroke.get(0).withType(SegmentType.MOVE_TO));
 				}
-				List<MyPoint> partOfStroke = unfiltered;
+
 				if (partOfStroke.size() == 1) {
 					pointList.add(
 							partOfStroke.get(0).withType(SegmentType.LINE_TO));
@@ -183,7 +170,7 @@ public class AlgoLocusStroke extends AlgoElement {
 						}
 					}
 				}
-				index = index + Math.max(unfiltered.size(), 1);
+				index = index + Math.max(partOfStroke.size(), 1);
 			}
 			poly.setPoints(pointList);
 		} else {
@@ -200,8 +187,8 @@ public class AlgoLocusStroke extends AlgoElement {
 		double dx2 = c.x - b.x;
 		double dy1 = a.y - b.y;
 		double dy2 = c.y - b.y;
-		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
-		return ret;
+
+		return Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
 	}
 
 	// returns the part of array started at index until first undef point
@@ -290,8 +277,8 @@ public class AlgoLocusStroke extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 
 		// set output
@@ -435,5 +422,4 @@ public class AlgoLocusStroke extends AlgoElement {
 		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
 	}
-
 }
