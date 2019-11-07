@@ -13,7 +13,6 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -50,21 +49,20 @@ public class ModeDeleteLocus {
 	/**
 	 * @param e
 	 *            mouse event
-	 * @param deleteSize
-	 *            delete square size
 	 * @param forceOnlyStrokes
 	 *            whether to only delete strokes
 	 */
-	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
-			boolean forceOnlyStrokes) {
+	public void handleMouseDraggedForDelete(AbstractEvent e, boolean forceOnlyStrokes) {
 		if (e == null) {
 			return;
 		}
 
 		int eventX = e.getX();
 		int eventY = e.getY();
-		rect.setBounds(eventX - deleteSize / 2, eventY - deleteSize / 2,
-				deleteSize, deleteSize);
+		rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
+				eventY - ec.getDeleteToolSize() / 2,
+				ec.getDeleteToolSize(), ec.getDeleteToolSize());
+
 		view.setDeletionRectangle(rect);
 		view.getHitDetector().setIntersectionHits(rect);
 		Hits h = view.getHits();
@@ -77,8 +75,6 @@ public class ModeDeleteLocus {
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 
 		Iterator<GeoElement> it = h.iterator();
-
-		resetAlgoSet();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			// delete tool should delete the object for dragging
@@ -88,112 +84,9 @@ public class ModeDeleteLocus {
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoLocusStroke) {
-				GeoLocusStroke gps = (GeoLocusStroke) geo;
+				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo,
+						eventX, eventY);
 
-				// we need two arrays for the case that AlgoAttachCopyToView is
-				// involved
-				// the original points (dataPoints) are saved, but will be
-				// translated
-				// and everything by the algorithm so that the
-				// GeoLocusStroke-output
-				// holds the points which are really drawn (and should be used
-				// for
-				// hit detection).
-
-				List<MyPoint> dataPoints;
-
-				if (geo.getParentAlgorithm() != null && (geo
-						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
-					AlgoElement ae = geo.getParentAlgorithm();
-					for (int i = 0; i < ae.getInput().length; i++) {
-						if (ae.getInput()[i] instanceof GeoLocusStroke) {
-							gps = (GeoLocusStroke) ae.getInput()[i];
-						}
-					}
-				}
-
-				if (gps.getParentAlgorithm() != null
-						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					dataPoints = ((AlgoLocusStroke) gps
-							.getParentAlgorithm()).getPointsWithoutControl();
-				} else {
-					dataPoints = gps.getPoints();
-				}
-				boolean hasVisiblePart = false;
-				if (dataPoints.size() > 0) {
-					for (int i = 0; i < dataPoints.size(); i++) {
-						MyPoint p = dataPoints.get(i);
-						if (p.isDefined() && Math.max(
-								Math.abs(eventX
-										- view.toScreenCoordXd(p.getX())),
-								Math.abs(eventY - view.toScreenCoordYd(
-										p.getY()))) <= deleteSize / 2.0) {
-							// end point of segment is in rectangle
-							if ((i - 1 >= 0
-									&& dataPoints.get(i - 1).isDefined())) {
-								// get intersection point
-								interPoints.clear();
-								interPoints = getAllIntersectionPoint(
-										dataPoints.get(i - 1),
-										dataPoints.get(i),
-											rect);
-								if (!interPoints.isEmpty()
-										&& interPoints.size() == 1) {
-									i = handleEraserAtJoinPointOrEndOfSegments(
-
-											dataPoints, i);
-
-								}
-								// no intersection point
-								else {
-									i = handleEraserAtPoint(dataPoints, i);
-								}
-							}
-							// start point of segment is in rectangle
-							else if (i - 1 >= 0
-									&& !dataPoints.get(i - 1).isDefined()
-									&& i + 1 < dataPoints.size()
-									&& dataPoints.get(i + 1).isDefined()) {
-								handleEraserAtStartPointOfSegment(
-										dataPoints, i);
-							}
-							// handle first/last/single remained point
-							else {
-								handleLastFirstOrSinglePoints(dataPoints, i);
-							}
-						}
-						// eraser is between the endpoints of segment
-						else {
-							if (i < dataPoints.size() - 1
-									&& dataPoints.get(i).isDefined()
-									&& dataPoints.get(i + 1).isDefined()) {
-								i = handleEraserBetweenPointsOfSegment(
-										dataPoints, i); // TODO
-								// if (newDataAndRealPoint != null
-								// && !newDataAndRealPoint.isEmpty()) {
-								// i = i + 2;
-								// }
-							}
-						}
-
-						if (!hasVisiblePart && dataPoints.get(i).isDefined()) {
-							hasVisiblePart = true;
-						}
-					}
-
-					deleteUnnecessaryUndefPoints(dataPoints);
-
-					updatePolyLineDataPoints(dataPoints, gps);
-					if (gps.getParentAlgorithm() != null
-							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-						((AlgoLocusStroke) gps.getParentAlgorithm())
-								.updatePointArray(dataPoints, 0);
-					}
-
-				} else {
-					Log.debug(
-							"Can't delete points on stroke: output & input sizes differ.");
-				}
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
 				}
@@ -209,17 +102,143 @@ public class ModeDeleteLocus {
 		// do not delete images using eraser
 		h.removeImages();
 		ec.deleteAll(h);
-		updateAlgoSet();
 	}
 
-	private void updateAlgoSet() {
-		// TODO Auto-generated method stub
+	/**
+	 * @param hits
+	 *            hit objects
+	 * @param selPreview
+	 *            for preview
+	 * @return whether something was deleted
+	 */
+	public boolean process(Hits hits, boolean selPreview) {
+		if (hits.isEmpty() || this.penDeleteMode) {
+			return false;
+		}
+		ec.addSelectedGeo(hits, 1, false, selPreview);
+		if (ec.selGeos() == 1) {
+			GeoElement[] geos = ec.getSelectedGeos();
+			// delete only parts of GeoLocusStroke, not the whole object
+			// when eraser tool is used
+			if (geos[0] instanceof GeoLocusStroke
+					&& ec.getMode() == EuclidianConstants.MODE_ERASER) {
+				updatePenDeleteMode(hits);
+				if (ec.getMouseLoc() == null) {
+					return false;
+				}
 
+				int eventX = ec.getMouseLoc().getX();
+				int eventY = ec.getMouseLoc().getY();
+				rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
+						eventY - ec.getDeleteToolSize() / 2,
+						ec.getDeleteToolSize(), ec.getDeleteToolSize());
+
+				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0],
+						eventX, eventY);
+
+				if (!hasVisiblePart) { // still something visible, don't delete
+					// remove this Stroke
+					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+				}
+			}
+			// delete this object
+			else {
+				if (!(geos[0] instanceof GeoImage)) {
+					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
-	private void resetAlgoSet() {
-		// TODO Auto-generated method stub
+	private boolean deletePartOfPenStroke(GeoLocusStroke gls, int eventX, int eventY) {
+		// we need two arrays for the case that AlgoAttachCopyToView is
+		// involved
+		// the original points (dataPoints) are saved, but will be
+		// translated
+		// and everything by the algorithm so that the
+		// GeoLocusStroke-output
+		// holds the points which are really drawn (and should be used
+		// for
+		// hit detection).
 
+		List<MyPoint> dataPoints;
+
+		if (gls.getParentAlgorithm() != null
+				&& (gls.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
+			AlgoElement ae = gls.getParentAlgorithm();
+			for (int i = 0; i < ae.getInput().length; i++) {
+				if (ae.getInput()[i] instanceof GeoLocusStroke) {
+					gls = (GeoLocusStroke) ae.getInput()[i];
+				}
+			}
+		}
+
+		if (gls.getParentAlgorithm() != null
+				&& gls.getParentAlgorithm() instanceof AlgoLocusStroke) {
+			dataPoints = ((AlgoLocusStroke) gls.getParentAlgorithm())
+					.getPointsWithoutControl();
+		} else {
+			dataPoints = gls.getPoints();
+		}
+
+		boolean hasVisiblePart = false;
+		if (dataPoints.size() > 0) {
+			for (int i = 0; i < dataPoints.size(); i++) {
+				MyPoint p = dataPoints.get(i);
+				if (p.isDefined() && Math.max(
+						Math.abs(eventX - view.toScreenCoordXd(p.getX())),
+						Math.abs(eventY - view.toScreenCoordYd(p.getY())))
+						<= ec.getDeleteToolSize() / 2.0) {
+					// end point of segment is in rectangle
+					if ((i - 1 >= 0 && dataPoints.get(i - 1).isDefined())) {
+						// get intersection point
+						interPoints.clear();
+						interPoints = getAllIntersectionPoint(dataPoints.get(i - 1),
+								dataPoints.get(i), rect);
+
+						if (interPoints.size() == 1) {
+							i = handleEraserAtJoinPointOrEndOfSegments(dataPoints, i);
+						} else {
+							i = handleEraserAtPoint(dataPoints, i);
+						}
+					} else if (i - 1 >= 0 && !dataPoints.get(i - 1).isDefined()
+							&& i + 1 < dataPoints.size()
+							&& dataPoints.get(i + 1).isDefined()) {
+						// start point of segment is in rectangle
+						handleEraserAtStartPointOfSegment(
+								dataPoints, i);
+					} else {
+						// handle first/last/single remained point
+						handleLastFirstOrSinglePoints(
+								dataPoints, i);
+					}
+				} else if (i < dataPoints.size() - 1 && dataPoints.get(i).isDefined()
+						&& dataPoints.get(i + 1).isDefined()) {
+					// eraser is between the endpoints of segment
+					i = handleEraserBetweenPointsOfSegment(dataPoints, i);
+				}
+
+				if (!hasVisiblePart && dataPoints.get(i).isDefined()) {
+					hasVisiblePart = true;
+				}
+			}
+
+			deleteUnnecessaryUndefPoints(dataPoints);
+
+			updatePolyLineDataPoints(dataPoints, gls);
+			if (gls.getParentAlgorithm() != null
+					&& gls.getParentAlgorithm() instanceof AlgoLocusStroke) {
+				((AlgoLocusStroke) gls.getParentAlgorithm())
+						.updatePointArray(dataPoints, 0);
+			}
+		} else {
+			Log.debug(
+					"Can't delete points on stroke: output & input sizes differ.");
+		}
+
+		return hasVisiblePart;
 	}
 
 	private static void deleteUnnecessaryUndefPoints(List<MyPoint> dataPoints) {
@@ -284,11 +303,10 @@ public class ModeDeleteLocus {
 	private void updatePenDeleteMode(Hits h) {
 		// if we switched to pen deletion just now, some geos may still need
 		// removing
-		Iterator<GeoElement> it2 = h.iterator();
-		while (it2.hasNext()) {
-			GeoElement geo2 = it2.next();
+		for (GeoElement geo2 : h) {
 			if (geo2 instanceof GeoLocusStroke) {
 				this.penDeleteMode = true;
+				return;
 			}
 		}
 	}
@@ -302,7 +320,7 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return intersection point with top of rectangle (if there is any)
 	 */
-	public GPoint2D getTopIntersectionPoint(MyPoint point1, MyPoint point2,
+	private GPoint2D getTopIntersectionPoint(MyPoint point1, MyPoint point2,
 			GRectangle rectangle) {
 		// Top line
 		return getIntersectionPoint(point1, point2,
@@ -320,7 +338,7 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return intersection point with bottom of rectangle (if there is any)
 	 */
-	public GPoint2D getBottomIntersectionPoint(MyPoint point1, MyPoint point2,
+	private GPoint2D getBottomIntersectionPoint(MyPoint point1, MyPoint point2,
 			GRectangle rectangle) {
 		// Bottom line
 		return getIntersectionPoint(point1, point2,
@@ -339,7 +357,7 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return intersection point with left side of rectangle (if there is any)
 	 */
-	public GPoint2D getLeftIntersectionPoint(MyPoint point1, MyPoint point2,
+	private GPoint2D getLeftIntersectionPoint(MyPoint point1, MyPoint point2,
 			GRectangle rectangle) {
 		// Left side
 		return getIntersectionPoint(point1, point2,
@@ -357,7 +375,7 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return intersection point with right side of rectangle (if there is any)
 	 */
-	public GPoint2D getRightIntersectionPoint(MyPoint point1, MyPoint point2,
+	private GPoint2D getRightIntersectionPoint(MyPoint point1, MyPoint point2,
 			GRectangle rectangle) {
 		// Right side
 		return getIntersectionPoint(point1, point2,
@@ -379,7 +397,7 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return list of intersection points
 	 */
-	public ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1,
+	private ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1,
 			MyPoint point2,
 			GRectangle rectangle) {
 		ArrayList<GPoint2D> interPointList = new ArrayList<>();
@@ -424,7 +442,7 @@ public class ModeDeleteLocus {
 	 *            end coord of end point of second segment
 	 * @return intersection point
 	 */
-	public GPoint2D getIntersectionPoint(MyPoint point1, MyPoint point2,
+	private GPoint2D getIntersectionPoint(MyPoint point1, MyPoint point2,
 			double startPointX, double startPointY, double endPointX,
 			double endPointY) {
 		double x1 = view.toScreenCoordXd(point1.getX());
@@ -510,171 +528,19 @@ public class ModeDeleteLocus {
 		return coords;
 	}
 
-	/**
-	 * @param type
-	 *            event type
-	 */
-	public void mousePressed(PointerEventType type) {
+	public void mousePressed() {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
 	}
 
 	private static void updatePolyLineDataPoints(List<MyPoint> dataPoints,
 			GeoLocusStroke gps) {
-			if (gps.getParentAlgorithm() != null
+		if (gps.getParentAlgorithm() != null
 					&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-				((AlgoLocusStroke) gps.getParentAlgorithm())
-						.updateFrom(dataPoints);
+			((AlgoLocusStroke) gps.getParentAlgorithm())
+					.updateFrom(dataPoints);
 			gps.notifyUpdate();
-			}
-	}
-
-	/**
-	 * @param hits
-	 *            hit objects
-	 * @param control
-	 *            control pressed
-	 * @param selPreview
-	 *            for preview
-	 * @return whether something was deleted
-	 */
-	public boolean process(Hits hits, boolean control,
-			boolean selPreview) {
-		if (hits.isEmpty() || this.penDeleteMode) {
-			return false;
 		}
-		ec.addSelectedGeo(hits, 1, false, selPreview);
-		if (ec.selGeos() == 1) {
-			GeoElement[] geos = ec.getSelectedGeos();
-			resetAlgoSet();
-			// delete only parts of GeoLocusStroke, not the whole object
-			// when eraser tool is used
-			if (geos[0] instanceof GeoLocusStroke
-					&& ec.getMode() == EuclidianConstants.MODE_ERASER) {
-				updatePenDeleteMode(hits);
-				int eventX = 0;
-				int eventY = 0;
-				if (ec.getMouseLoc() != null) {
-					eventX = ec.getMouseLoc().getX();
-					eventY = ec.getMouseLoc().getY();
-					rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
-							eventY - ec.getDeleteToolSize() / 2,
-							ec.getDeleteToolSize(), ec.getDeleteToolSize());
-				} else {
-					return false;
-				}
-				GeoLocusStroke gps = (GeoLocusStroke) geos[0];
-				List<MyPoint> dataPoints;
-
-				if (geos[0].getParentAlgorithm() != null && (geos[0]
-						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
-					AlgoElement ae = geos[0].getParentAlgorithm();
-					for (int i = 0; i < ae.getInput().length; i++) {
-						if (ae.getInput()[i] instanceof GeoLocusStroke) {
-							gps = (GeoLocusStroke) ae.getInput()[i];
-						}
-					}
-				}
-				if (gps.getParentAlgorithm() != null
-						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					dataPoints = ((AlgoLocusStroke) gps
-							.getParentAlgorithm()).getPointsWithoutControl();
-
-				} else {
-					dataPoints = gps.getPoints();
-				}
-
-				boolean hasVisiblePart = false;
-				if (dataPoints.size() > 0) {
-					for (int i = 0; i < dataPoints.size(); i++) {
-						MyPoint p = dataPoints.get(i);
-						if (p.isDefined() && Math.max(
-								Math.abs(eventX
-										- view.toScreenCoordXd(p.getX())),
-								Math.abs(eventY
-										- view.toScreenCoordYd(p.getX()))) <= ec
-												.getDeleteToolSize() / 2.0) {
-							// end point of segment is in rectangle
-							if ((i - 1 >= 0
-									&& dataPoints.get(i - 1).isDefined())) {
-								// get intersection point
-								interPoints.clear();
-								interPoints = getAllIntersectionPoint(
-										dataPoints.get(i - 1),
-										dataPoints.get(i), rect);
-								// one intersection point
-								if (!interPoints.isEmpty()
-										&& interPoints.size() == 1) {
-									i = handleEraserAtJoinPointOrEndOfSegments(
-											dataPoints, i);
-								}
-								// no intersection point
-								else {
-									i = handleEraserAtPoint(dataPoints, i);
-								}
-							}
-							// start point of segment is in rectangle
-							else if (i - 1 >= 0
-									&& !dataPoints.get(i - 1).isDefined()
-									&& i + 1 < dataPoints.size()
-									&& dataPoints.get(i + 1).isDefined()) {
-								handleEraserAtStartPointOfSegment(
-										dataPoints, i);
-							}
-							// handle first/last/single remained point
-							else {
-								handleLastFirstOrSinglePoints(
-										dataPoints, i);
-							}
-						}
-						// eraser is between the points of segment
-						else {
-							if (i < dataPoints.size() - 1
-									&&
-									dataPoints.get(i).isDefined()
-									&& dataPoints.get(i + 1).isDefined()) {
-								i = handleEraserBetweenPointsOfSegment(
-										dataPoints, i); // TODO
-								// if (newDataAndRealPoint != null
-								// && !newDataAndRealPoint.isEmpty()) {
-								// i = i + 2;
-								// }
-							}
-						}
-
-						if (!hasVisiblePart && dataPoints.get(i).isDefined()) {
-							hasVisiblePart = true;
-						}
-					}
-
-					deleteUnnecessaryUndefPoints(dataPoints);
-
-					updatePolyLineDataPoints(dataPoints, gps);
-					if (gps.getParentAlgorithm() != null
-							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-						((AlgoLocusStroke) gps.getParentAlgorithm())
-								.updatePointArray(dataPoints, 0);
-					}
-
-				} else {
-					Log.debug(
-							"Can't delete points on stroke: input & output sizes differ.");
-				}
-				if (!hasVisiblePart) { // still something visible, don't delete
-					// remove this Stroke
-					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
-				}
-				updateAlgoSet();
-			}
-			// delete this object
-			else {
-				if (!(geos[0] instanceof GeoImage)) {
-					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
-				}
-			}
-			return true;
-		}
-		return false;
 	}
 
 	private static void handleLastFirstOrSinglePoints(List<MyPoint> dataPoints,
@@ -701,7 +567,7 @@ public class ModeDeleteLocus {
 		interPoints = getAllIntersectionPoint(dataPoints.get(i),
 				dataPoints.get(i + 1),
 				rect);
-		if (!interPoints.isEmpty() && interPoints.size() == 1) {
+		if (interPoints.size() == 1) {
 			double realX = view.toRealWorldCoordX(interPoints.get(0).getX());
 			double realY = view.toRealWorldCoordY(interPoints.get(0).getY());
 			// switch old point with intersection point
@@ -784,7 +650,7 @@ public class ModeDeleteLocus {
 			secondInterPoints = getAllIntersectionPoint(dataPoints.get(i),
 					dataPoints.get(i + 1), rect);
 			// case point is the join point of 2 segments
-			if (!secondInterPoints.isEmpty() && secondInterPoints.size() == 1) {
+			if (secondInterPoints.size() == 1) {
 				interPoints.add(secondInterPoints.get(0));
 				double[] realCoords = getInterRealCoords(
 						dataPoints.get(i - 1));

@@ -305,8 +305,7 @@ public class EuclidianPen implements GTimerListener {
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode()
-					.handleMouseDraggedForDelete(e,
-							view.getSettings().getDeleteToolSize(), true);
+					.handleMouseDraggedForDelete(e, true);
 			app.getKernel().notifyRepaint();
 		} else {
 			// drawing in progress, so we need repaint
