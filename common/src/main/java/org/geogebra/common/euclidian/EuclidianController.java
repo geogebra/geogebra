@@ -531,7 +531,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
 						&& temporaryMode
 						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
-				&& selection.getSelectedGeos().size() > 1;
+				&& selection.getSelectedGeos().size() > 0;
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
@@ -8722,26 +8722,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			textRectangleShape = AwtFactory.getPrototype().newRectangle();
 		}
 
-		int width = event.getX() - startPosition.getX();
-		int height = event.getY() - startPosition.getY();
+		int width = Math.abs(event.getX() - startPosition.getX());
+		int height = Math.abs(event.getY() - startPosition.getY());
+		int left = Math.min(startPosition.getX(), event.getX());
+		int top = Math.min(startPosition.getY(), event.getY());
 
-		if (height >= 0) {
-			if (width >= 0) {
-				textRectangleShape.setBounds(startPosition.getX(),
-						startPosition.getY(), width, height);
-			} else { // width < 0
-				textRectangleShape.setBounds(startPosition.getX() + width,
-						startPosition.getY(), -width, height);
-			}
-		} else { // height < 0
-			if (width >= 0) {
-				textRectangleShape.setBounds(startPosition.getX(),
-						startPosition.getY() + height, width, -height);
-			} else { // width < 0
-				textRectangleShape.setBounds(startPosition.getX() + width,
-						startPosition.getY() + height, -width, -height);
-			}
-		}
+		textRectangleShape.setBounds(left, top, width, height);
 	}
 
 	/**
@@ -9524,6 +9510,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
+		view.resetPartialHits(event.getX(), event.getY());
 
 		setMoveModeForFurnitures();
 
@@ -10114,30 +10101,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				// check if it was a selection with the rectangle or just a drag
+				view.getHitDetector().addIntersectionHits(view.getSelectionRectangle(), TestGeo.GEOLOCUS);
 				if (view.getSelectionRectangle() != null) {
 					view.setSelectionRectangle(null);
 					// hit found
 					if (hits != null && hits.size() > 0) {
 						selection.setSelectedGeos(hits, true);
-						// single selection
-						if (hits.size() == 1) {
-							Drawable dr = ((Drawable) view
-									.getDrawableFor(hits.get(0)));
-							BoundingBox boundingBox = dr.getBoundingBox();
 
-							view.setBoundingBox(boundingBox);
-							view.repaintView();
-						}
-						// multi-selection
-						else {
-							setBoundingBoxFromList(hits);
-						}
+						setBoundingBoxFromList(hits);
+
 					}
 				}
 			} else {
 				setAppSelectedGeos(hits, false);
 			}
-			app.updateSelection((hits != null));
+			app.updateSelection(hits != null);
 
 			// if alt pressed, create list of objects as string and copy to
 			// input bar
@@ -10367,24 +10345,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 		}
-		// resize, single selection
-		if (getResizedShape() != null) {
+		
+		GPoint2D eventCoords = AwtFactory
+				.getPrototype().newPoint2D(event.getX(), event.getY());
+		if (getResizedShape() != null) { // resize, single selection
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
-			getResizedShape().updateGeo(AwtFactory.getPrototype()
-					.newPoint2D(event.getX(), event.getY()));
+			getResizedShape().updateGeo(eventCoords);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
 			}
 			storeUndoInfo();
 			setResizedShape(null);
-		}
-		// resize, multi-selection
-		else if (isMultiResize) {
+		} else if (isMultiResize) { // resize, multi selection
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			for (GeoElement geo : selection.getSelectedGeos()) {
-				((Drawable) view.getDrawableFor(geo)).updateGeo(AwtFactory
-						.getPrototype().newPoint2D(event.getX(), event.getY()));
+				((Drawable) view.getDrawableFor(geo)).updateGeo(eventCoords);
 			}
 			storeUndoInfo();
 			isMultiResize = false;
@@ -12788,22 +12764,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (!dr.hasRotationHandler()) {
 					hasRotationHandler = false;
 				}
-				GRectangle2D bounds = dr.getBoundingBox() != null
-						? dr.getBoundingBox().getRectangle()
-						: dr.getBounds();
+				GRectangle2D bounds = dr.getBoundsClipped();
 				if (bounds != null) {
-					if (bounds.getMinX() < minX) {
-						minX = bounds.getMinX();
-					}
-					if (bounds.getMaxX() > maxX) {
-						maxX = bounds.getMaxX();
-					}
-					if (bounds.getMinY() < minY) {
-						minY = bounds.getMinY();
-					}
-					if (bounds.getMaxY() > maxY) {
-						maxY = bounds.getMaxY();
-					}
+					minX = Math.min(minX, bounds.getMinX());
+					maxX = Math.max(maxX, bounds.getMaxX());
+					minY = Math.min(minY, bounds.getMinY());
+					maxY = Math.max(maxY, bounds.getMaxY());
 				}
 			}
 			if (geo.isLocked()) {

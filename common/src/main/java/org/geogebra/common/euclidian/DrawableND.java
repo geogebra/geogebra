@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -191,5 +192,11 @@ public abstract class DrawableND {
 	 * @return drawable for element
 	 */
 	public abstract DrawableND createDrawableND(GeoElement listElement);
+
+	/**
+	 * @param rect
+	 *            clipping rectangle for partial hits
+	 */
+	public abstract void setPartialHitClip(GRectangle rect);
 
 }

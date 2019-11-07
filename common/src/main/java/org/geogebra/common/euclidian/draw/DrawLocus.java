@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Rotateable;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -60,6 +59,8 @@ public class DrawLocus extends Drawable {
 
 	private int bitmapShiftX;
 	private int bitmapShiftY;
+
+	private GRectangle partialHitClip;
 
 	/**
 	 * Creates new drawable for given locus
@@ -236,10 +237,7 @@ public class DrawLocus extends Drawable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (isHighlighted()) {
-				// draw locus
-				g2.setPaint(geo.getSelColor());
-				g2.setStroke(selStroke);
-				g2.draw(gp);
+				drawHighlighted(g2);
 			}
 
 			// draw locus
@@ -251,6 +249,18 @@ public class DrawLocus extends Drawable {
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
+		}
+	}
+
+	private void drawHighlighted(GGraphics2D g2) {
+		g2.setPaint(geo.getSelColor());
+		g2.setStroke(selStroke);
+		if (partialHitClip != null) {
+			g2.setClip(partialHitClip, true);
+			g2.draw(gp);
+			g2.resetClip();
+		} else {
+			g2.draw(gp);
 		}
 	}
 
@@ -281,12 +291,9 @@ public class DrawLocus extends Drawable {
 				return false;
 			}
 		}
-		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+		boolean isHit = strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);
-
-		/*
-		 * return gp.intersects(x-2,y-2,4,4) && !gp.contains(x-2,y-2,4,4);
-		 */
+		return isHit;
 	}
 
 	@Override
@@ -317,6 +324,14 @@ public class DrawLocus extends Drawable {
 		return gp.getBounds();
 	}
 
+	@Override
+	public GRectangle getBoundsClipped() {
+		if (this.partialHitClip != null) {
+			return gp.getBounds().createIntersection(partialHitClip).getBounds();
+		}
+		return getBounds();
+	}
+
 	private GRectangle2D getBounds2D() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
@@ -325,33 +340,16 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D p,
+	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
-		if (!geo.getKernel().getApplication().isWhiteboardActive()) {
-			return;
-		}
-		updateLocus(handler, p);
+		updatePoints(handler, point, getBoundingBox().getRectangle());
+		update();
+		getBoundingBox().setRectangle(getBounds2D());
 	}
 
 	@Override
 	public void updateGeo(GPoint2D p) {
-		((GeoLocus) geo).resetSavedBoundingBoxValues(false);
-	}
-
-	/**
-	 * update locus by dragging side handler
-	 * 
-	 * @param handler
-	 *            - handler was hit
-	 * @param p
-	 *            - mouse position
-	 */
-	private void updateLocus(EuclidianBoundingBoxHandler handler,
-			GPoint2D p) {
-		updatePoints(handler, p,
-				getBoundingBox().getRectangle());
-		update();
-		getBoundingBox().setRectangle(getBounds2D());
+		locus.resetSavedBoundingBoxValues(false);
 	}
 
 	/**
@@ -367,27 +365,27 @@ public class DrawLocus extends Drawable {
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
 			GPoint2D p, GRectangle2D gRectangle2D) {
 		// save the original rates when scaling first time
-		((GeoLocus) geo).saveOriginalRates(gRectangle2D);
+		locus.saveOriginalRates(gRectangle2D);
 
 		switch (handler) {
 		case TOP:
 		case BOTTOM:
-			((GeoLocus) geo).updatePointsY(handler, p.getY(), gRectangle2D,
+			locus.updatePointsY(handler, p.getY(), gRectangle2D,
 					Double.NaN);
 			break;
 		case LEFT:
 		case RIGHT:
-			((GeoLocus) geo).updatePointsX(handler, p.getX(), gRectangle2D);
+			locus.updatePointsX(handler, p.getX(), gRectangle2D);
 			break;
 		case TOP_LEFT:
 		case BOTTOM_LEFT:
 		case TOP_RIGHT:
 		case BOTTOM_RIGHT:
-			((GeoLocus) geo).saveRatio(gRectangle2D);
-			double newWidth = ((GeoLocus) geo).updatePointsX(handler,
+			locus.saveRatio(gRectangle2D);
+			double newWidth = locus.updatePointsX(handler,
 					p.getX(),
 					gRectangle2D);
-			((GeoLocus) geo).updatePointsY(handler, p.getY(), gRectangle2D,
+			locus.updatePointsY(handler, p.getY(), gRectangle2D,
 					newWidth);
 			break;
 		default: // UNDEFINED - maybe not possible
@@ -413,6 +411,23 @@ public class DrawLocus extends Drawable {
 			return boundingBox;
 		}
 		return null;
+	}
+
+	@Override
+	public void setPartialHitClip(GRectangle rect) {
+		this.partialHitClip = rect;
+	}
+
+	@Override
+	public void resetPartialHitClip(int x, int y) {
+		if (partialHitClip != null && !partialHitClip.contains(x, y)) {
+			partialHitClip = null;
+		}
+	}
+
+	@Override
+	public boolean hasRotationHandler() {
+		return geo instanceof Rotateable;
 	}
 
 }

@@ -45,11 +45,11 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -2405,7 +2405,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
+		if (!geo.toGeoElement().isSelected()) {
+			DrawableND drawableND = drawableMap.get(geo);
+			if (drawableND != null) {
+				drawableND.setPartialHitClip(null);
+			}
+		}
 	}
 
 	@Override
@@ -6562,5 +6567,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public HitDetector getHitDetector() {
 		return hitDetector;
+	}
+
+	/**
+	 * Reset partial hits for all drawables
+	 * 
+	 * @param x
+	 *            screen x-coord of pointer event
+	 * @param y
+	 *            screen y-coord of pointer event
+	 */
+	public void resetPartialHits(int x, int y) {
+		for (Drawable draw : this.allDrawableList) {
+			draw.resetPartialHitClip(x, y);
+		}
 	}
 }

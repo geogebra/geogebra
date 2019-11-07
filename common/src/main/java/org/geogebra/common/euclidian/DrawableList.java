@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 /**
  * List to store Drawable objects for fast drawing.
  */
-public class DrawableList {
+public class DrawableList implements Iterable<Drawable> {
 	/** first drawable in the list */
 	public Link head;
 	private Link tail;
@@ -305,6 +305,11 @@ public class DrawableList {
 			// do nothing
 		}
 
+	}
+
+	@Override
+	public Iterator<Drawable> iterator() {
+		return getIterator();
 	}
 
 }

@@ -516,10 +516,8 @@ public abstract class Drawable extends DrawableND {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y,
-			int hitThreshold) {
-		if (getBoundingBox() != null
-				&& getBoundingBox() == view.getBoundingBox()) {
+	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
+		if (getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()) {
 			return getBoundingBox().getHitHandler(x, y, hitThreshold);
 		}
 
@@ -916,5 +914,22 @@ public abstract class Drawable extends DrawableND {
 	private GColor getActiveColor() {
 		App app = geo.getKernel().getApplication();
 		return app.getPrimaryColor();
+	}
+
+	@Override
+	public void setPartialHitClip(GRectangle rect) {
+		// just strokes
+	}
+
+	/**
+	 * @return bounding box for multi-selection, possibly clipped
+	 */
+	public GRectangle2D getBoundsClipped() {
+		return getBoundingBox() != null ? getBoundingBox().getRectangle() : getBounds();
+	}
+
+	public void resetPartialHitClip(int x, int y) {
+		// only for strokes
+
 	}
 }

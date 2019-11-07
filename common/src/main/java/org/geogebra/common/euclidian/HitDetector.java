@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.TestGeo;
 
 public class HitDetector {
 	private ArrayList<GeoElement> hitPointOrBoundary;
@@ -44,7 +45,6 @@ public class HitDetector {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
-
 					hitMask = hitMask || geo.isMask();
 
 					if (geo.getLastHitType() == HitType.ON_BOUNDARY) {
@@ -152,6 +152,17 @@ public class HitDetector {
 	 */
 	public void setIntersectionHits(GRectangle rect) {
 		hits.init();
+		addIntersectionHits(rect, TestGeo.OBJECT);
+	}
+
+	/**
+	 * sets array of GeoElements whose visual representation is inside of the
+	 * given screen rectangle
+	 * 
+	 * @param rect
+	 *            rectangle
+	 */
+	public void addIntersectionHits(GRectangle rect, TestGeo filter) {
 		if (rect == null) {
 			return;
 		}
@@ -159,8 +170,9 @@ public class HitDetector {
 		DrawableIterator it = view.allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
+			d.setPartialHitClip(rect);
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.intersectsRectangle(rect)) {
+			if (geo.isEuclidianVisible() && filter.check(geo) && d.intersectsRectangle(rect)) {
 				hits.add(geo);
 			}
 		}
