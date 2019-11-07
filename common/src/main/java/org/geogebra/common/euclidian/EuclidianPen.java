@@ -562,7 +562,7 @@ public class EuclidianPen implements GTimerListener {
 		this.initialPoint = null;
 	}
 
-	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
+	private void addPointsToPolyLine(ArrayList<GPoint> penPoints) {
 		Construction cons = app.getKernel().getConstruction();
 		List<MyPoint> newPts;
 		if (startNewStroke) {
@@ -571,22 +571,20 @@ public class EuclidianPen implements GTimerListener {
 		}
 		int ptsLength = 0;
 		if (lastAlgo == null) {
-			newPts = new ArrayList<>(penPoints2.size());
+			newPts = new ArrayList<>(penPoints.size());
 		} else {
 			AlgoLocusStroke algo = getAlgoStroke(lastAlgo);
 
-			ptsLength = algo.getPointsLength();
+			List<MyPoint> oldPoints = algo.getPoints();
+			ptsLength = oldPoints.size();
 
-			newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
+			newPts = new ArrayList<>(ptsLength + 1 + penPoints.size());
 
-			for (int i = 0; i < ptsLength; i++) {
-				newPts.add(algo.getPointCopy(i));
-			}
-
+			newPts.addAll(oldPoints);
 			newPts.add(new MyPoint(Double.NaN, Double.NaN));
 		}
 
-		for (GPoint p : penPoints2) {
+		for (GPoint p : penPoints) {
 			double x = view.toRealWorldCoordX(p.getX());
 			double y = view.toRealWorldCoordY(p.getY());
 
