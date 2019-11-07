@@ -4,14 +4,18 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
+import org.geogebra.common.euclidian.ViewTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /** no GUI implementation of EV */
@@ -37,6 +41,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 	public EuclidianViewNoGui(EuclidianController ec, int viewNo,
 			EuclidianSettings settings, GGraphics2D g2) {
 		super(ec, viewNo, settings);
+		viewTextField = newViewTextField();
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.GRAY);
 		ec.setView(this);
@@ -48,6 +53,35 @@ public class EuclidianViewNoGui extends EuclidianView {
 				.createGraphics();
 		ec.getApplication().getKernel().attach(this);
 		settingsChanged(settings);
+	}
+
+	private ViewTextField newViewTextField() {
+		return new ViewTextField() {
+			@Override
+			public AutoCompleteTextField getTextField() {
+				return null;
+			}
+
+			@Override
+			public void setBoxVisible(boolean isVisible) {
+
+			}
+
+			@Override
+			public void setBoxBounds(GRectangle labelRectangle) {
+
+			}
+
+			@Override
+			protected AutoCompleteTextField getTextField(int length, DrawInputBox drawInputBox) {
+				return null;
+			}
+
+			@Override
+			public void remove() {
+
+			}
+		};
 	}
 
 	@Override

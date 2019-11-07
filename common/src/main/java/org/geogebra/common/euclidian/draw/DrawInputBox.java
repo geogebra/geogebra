@@ -359,7 +359,13 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 	}
 
-	private GRectangle getInputFieldBounds() {
+	/**
+	 * Returns the bounds of the input box.
+	 * This method is public for testing.
+	 *
+	 * @return The bounds of the input box.
+	 */
+	public GRectangle getInputFieldBounds() {
 		return getInputFieldBounds(view.getGraphicsForPen());
 	}
 
@@ -609,9 +615,12 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
+	 * Returns the input box.
+	 * This method is public for testing.
+	 *
 	 * @return input box
 	 */
-	GeoInputBox getGeoInputBox() {
+	public GeoInputBox getGeoInputBox() {
 		return geoInputBox;
 	}
 }

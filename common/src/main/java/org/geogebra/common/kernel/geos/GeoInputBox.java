@@ -435,6 +435,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return sb.toString();
 	}
 
+	/**
+	 * Sets the symboli mode.
+	 *
+	 * @param symbolicMode True means symbolic mode, false means non-symbolic mode.
+	 */
+	public void setSymbolicMode(boolean symbolicMode) {
+		setSymbolicMode(symbolicMode, false);
+	}
+
 	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		this.symbolicMode = mode;
