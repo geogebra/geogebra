@@ -5,9 +5,12 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentList;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public class VectorToMatrix {
 	private final Kernel kernel;
@@ -54,6 +57,21 @@ public class VectorToMatrix {
 
 		String[] array = new String[3];
 		return list.toArray(array);
+	}
+
+	public static boolean isEditable(GeoElementND geo) {
+		if (geo.getParentAlgorithm() instanceof AlgoDependentList) {
+			AlgoElement algo = geo.getParentAlgorithm();
+			for (int i = 0; i < algo.getInputLength(); i++) {
+				GeoElementND element = algo.getInput(i);
+				if (!element.isIndependent() && !(element
+						.getParentAlgorithm() instanceof AlgoDependentList)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 }

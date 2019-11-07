@@ -116,6 +116,19 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void independentVectorsMustBeColumnEditable() {
+		setupInput("l", "(1, 2, 3)");
+		Assert.assertEquals("{{1}, {2}, {3}}", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void independentSymbolicVectorsMustBeColumnEditable() {
+		add("a: 1");
+		setupInput("l", "(1, 2, a)");
+		Assert.assertEquals("{{1}, {2}, {a}}", inputBox.getTextForEditor());
+	}
+
+	@Test
 	public void nonsymbolicShouldSupportDecimals() {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);

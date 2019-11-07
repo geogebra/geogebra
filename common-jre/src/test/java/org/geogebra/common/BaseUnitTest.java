@@ -79,7 +79,7 @@ public class BaseUnitTest {
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
-	protected GeoElement add(String command) {
+	public GeoElement add(String command) {
 		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(command, false);
 		return ret.length == 0 ? null : ret[0].toGeoElement();
