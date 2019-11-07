@@ -1511,19 +1511,23 @@ $duration: 0.2s;
 
    	.MaterialDialogBox.whatsNewDialog {
    	    width: 560px;
-   	    padding-right: 24px;
    	    .title {
    	        @extend .headline6;
    	        margin-top: 0px;
             margin-bottom: 20px;
    	    }
-   	    .message {
-   	        @extend .subtitle1;
-   	        margin-right: 4px;
+   	    .messagePanel {
+   	        padding-right: 16px;
+   	        .message {
+                @extend .subtitle1;
+               	margin-right: 4px;
+            }
+            .link {
+                @extend .subtitle1-link;
+            }
    	    }
-   	    .link {
-   	        @extend .subtitle1-link;
-
-   	    }
+        .DialogButtonPanel {
+            padding-top: 28px;
+        }
    	}
 }

@@ -18,6 +18,12 @@ import org.geogebra.web.shared.DialogBoxW;
  */
 public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 
+	private static final String DIALOG_STYLE_NAME = "whatsNewDialog";
+	private static final String TITLE_STYLE_NAME = "title";
+	private static final String MESSAGE_PANEL_STYLE_NAME = "messagePanel";
+	private static final String MESSAGE_STYLE_NAME = "message";
+	private static final String LINK_STYLE_NAME = "link";
+
 	/**
 	 * Create a new WhatsNewDialog.
 	 * @param app the app
@@ -30,7 +36,7 @@ public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private void setupView(Localization localization, String whatsNewMessage, String readMoreLink) {
-		addStyleName("whatsNewDialog");
+		addStyleName(DIALOG_STYLE_NAME);
 		Widget view = createView(localization, whatsNewMessage, readMoreLink);
 		add(view);
 	}
@@ -49,12 +55,13 @@ public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 	private Widget createTitle(Localization localization) {
 		Label title = new Label();
 		title.setText(localization.getMenu("WhatsNew"));
-		title.addStyleName("title");
+		title.addStyleName(TITLE_STYLE_NAME);
 		return title;
 	}
 
 	private Widget createFlowPanel(Localization localization, String whatsNewMessage, String readMoreLink) {
 		FlowPanel flowPanel = new FlowPanel();
+		flowPanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
 		Widget message = createMessage(whatsNewMessage);
 		Widget readMore = createReadMore(localization, readMoreLink);
 		flowPanel.add(message);
@@ -65,21 +72,22 @@ public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 	private Widget createMessage(String whatsNewMessage) {
 		InlineLabel message = new InlineLabel();
 		message.setText(whatsNewMessage);
-		message.addStyleName("message");
+		message.addStyleName(MESSAGE_STYLE_NAME);
 		return message;
 	}
 
 	private Widget createReadMore(Localization localization, String readMoreLink) {
 		Anchor link = new Anchor();
 		link.setText(localization.getMenu("ReadMore"));
-		link.addStyleName("link");
-		link.setHref("www.geogebra.org/m/");
+		link.addStyleName(LINK_STYLE_NAME);
+		link.setHref(readMoreLink);
+		link.setTarget("_blank");
 		return link;
 	}
 
 	private Panel createOkButton(Localization localization) {
 		FlowPanel panel = new FlowPanel();
-		panel.setStyleName("DialogButtonPanel");
+		panel.setStyleName(DIALOG_BUTTON_PANEL_STYLE_NAME);
 		StandardButton okButton = new StandardButton(
 				localization.getMenu("OK"), null);
 		okButton.addFastClickHandler(this);

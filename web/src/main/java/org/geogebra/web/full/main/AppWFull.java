@@ -3,6 +3,8 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -99,6 +101,7 @@ import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -206,8 +209,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		this.frame = frame;
 		this.device = device;
 
-		if (this.getArticleElement().getDataParamApp()) {
-			maybeStartAutosave();
+		if (getArticleElement().getDataParamApp()) {
+			startDialogChain();
 		}
 
 		setAppletHeight(frame.getComputedHeight());
@@ -1141,38 +1144,62 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void maybeStartAutosave() {
+	private void startDialogChain() {
 		afterLocalizationLoaded(new Runnable() {
 			@Override
 			public void run() {
-				LocalizationW localization = getLocalization();
-				String message = localization.getMenu("RecentChangesInfo.Graphing");
-				String readMore = localization.getMenu("tutorial_apps_comparison");
-				String link = "https://www.geogebra.org/m/" + readMore;
-				WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
-				dialog.show();
+				maybeShowRecentChangesDialog();
 			}
 		});
+	}
 
-//		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
-//			return;
-//		}
-//		final String materialJSON = getFileManager().getAutosaveJSON();
-//		if (materialJSON != null && !this.isStartedWithFile()
-//				&& this.getExam() == null) {
-//
-//			afterLocalizationLoaded(new Runnable() {
-//
-//				@Override
-//				public void run() {
-//					getDialogManager()
-//							.showRecoverAutoSavedDialog(AppWFull.this,
-//									materialJSON);
-//				}
-//			});
-//		} else {
-//			this.startAutoSave();
-//		}
+	private void maybeShowRecentChangesDialog() {
+		if (true) {
+			showRecentChangesDialog(new Runnable() {
+				@Override
+				public void run() {
+					maybeStartAutosave();
+				}
+			});
+		} else {
+			maybeStartAutosave();
+		}
+	}
+
+	private void maybeStartAutosave() {
+		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
+			return;
+		}
+		final String materialJSON = getFileManager().getAutosaveJSON();
+		if (materialJSON != null && !isStartedWithFile() && getExam() == null) {
+
+			afterLocalizationLoaded(new Runnable() {
+
+				@Override
+				public void run() {
+					getDialogManager()
+							.showRecoverAutoSavedDialog(AppWFull.this, materialJSON);
+				}
+			});
+		} else {
+			startAutoSave();
+		}
+	}
+
+	private void showRecentChangesDialog(final Runnable closingCallback) {
+		LocalizationW localization = getLocalization();
+		String message = localization.getMenu("RecentChangesInfo.Graphing");
+		String readMore = localization.getMenu("tutorial_apps_comparison");
+		String link = "https://www.geogebra.org/m/" + readMore;
+		WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
+		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
+				closingCallback.run();
+			}
+		});
+		dialog.show();
+		dialog.center();
 	}
 
 	/**
