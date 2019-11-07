@@ -43,6 +43,7 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
@@ -1243,7 +1244,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	@Override
-	public void addRulerTypeItem(String item) {
+	public void addRulerTypeItem(String item, BackgroundType type) {
 		// implemented in web
 	}
 

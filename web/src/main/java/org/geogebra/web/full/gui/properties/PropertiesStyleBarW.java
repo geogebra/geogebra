@@ -140,7 +140,6 @@ public class PropertiesStyleBarW extends
 		toolbar.setStyleName("menuProperties");
 		TestHarness.setAttr(toolbar, "menuProperties");
 		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
-		toolbar.setFocusOnHoverEnabled(false);
 		NoDragImage closeImage = new NoDragImage(
 				KeyboardResources.INSTANCE.keyboard_close_black(), 24, 24);
 		closeImage.addStyleName("closeButton");

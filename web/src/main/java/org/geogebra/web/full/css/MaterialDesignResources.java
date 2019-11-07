@@ -271,6 +271,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/grid_black.svg")
 	SVGResource grid_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/minor_gridlines.svg")
+	SVGResource minor_gridlines();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/axes_black.svg")
 	SVGResource axes_black();
 
