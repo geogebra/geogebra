@@ -52,7 +52,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	private ArrayList<GPoint2D> nonScaledPointList;
 	private double nonScaledWidth;
 	private double nonScaledHeight;
-	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
 	/**
 	 * index of point closest to changingPoint
@@ -350,11 +349,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(getDefinition(tpl));
-		return sbToString.toString();
+		return label + " = " + getDefinition(tpl);
 	}
 
 	@Override
