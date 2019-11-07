@@ -1381,6 +1381,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return false;
 	}
 
+	@Override
+	public boolean isAlgebraViewEditable() {
+		return !(getParentAlgorithm() instanceof AlgoFunctionFreehand);
+	}
+
 	/**
 	 * changes variable interpretation: if swapped, the function is considered
 	 * to be x=f(y).
