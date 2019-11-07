@@ -327,10 +327,9 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	public int getPreferredHeight() {
-		int height = (int) Math.round(((getView().getApplication().getFontSize()
+		return (int) Math.round(((getView().getApplication().getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
 				+ TF_MARGIN_VERTICAL;
-		return Math.max(height, MIN_HEIGHT);
 	}
 
 	@Override
@@ -358,6 +357,10 @@ public class DrawInputBox extends CanvasDrawable {
 		if (textField != null) {
 			textField.drawBounds(g2, bgColor, getInputFieldBounds(g2));
 		}
+	}
+
+	private GRectangle getInputFieldBounds() {
+		return getInputFieldBounds(view.getGraphicsForPen());
 	}
 
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
@@ -453,7 +456,7 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
 		return geoInputBox.isSymbolicMode()
-			? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
+			? getInputFieldBounds().contains(x, y)
 			: super.hitWidgetBounds(x, y);
 
 	}
@@ -536,7 +539,8 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setVisible(true);
 		
 		if (canSetWidgetPixelSize()) {
-			tf.setPrefSize(getPreferredWidth(), getPreferredHeight());
+			GRectangle bounds = getInputFieldBounds();
+			tf.setPrefSize((int) bounds.getWidth(), (int) bounds.getHeight());
 		} else {
 			view.getViewTextField().setColumns(getGeoInputBox().getLength());
 		}
@@ -557,7 +561,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void attachMathField() {
 		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds(view.getGraphicsForPen()));
+		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds());
 		geoInputBox.updateRepaint();
 	}
 
