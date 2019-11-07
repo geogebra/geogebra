@@ -814,6 +814,7 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void translate(Coords v) {
 		super.translate(v);
+
 		startPoint.translate(v);
 		endPoint.translate(v);
 

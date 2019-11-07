@@ -72,7 +72,7 @@ public class MathFieldCommon implements MathField {
 	@Override
 	public boolean hasFocus() {
 		// stub
-		return false;
+		return true;
 	}
 
 	@Override

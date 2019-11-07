@@ -35,8 +35,7 @@ import org.geogebra.common.util.StringUtil;
  * 
  * @author Michael Borcherds
  */
-public class AlgoLocusStroke extends AlgoElement
-		implements AlgoStrokeInterface {
+public class AlgoLocusStroke extends AlgoElement {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
 	/** output */
@@ -317,12 +316,15 @@ public class AlgoLocusStroke extends AlgoElement
 		return "";
 	}
 
-	@Override
 	public int getPointsLength() {
 		return poly.getPointLength();
 	}
 
-	@Override
+	/**
+	 * Copy the i-th point of the pen stroke
+	 * @param i ordinal of the point to copy
+	 * @return copy of the i-th point
+	 */
 	public MyPoint getPointCopy(int i) {
 		return new MyPoint(poly.getPoints().get(i).getX(),
 				poly.getPoints().get(i).getY());

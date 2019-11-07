@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -16,7 +15,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
-import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -281,7 +279,7 @@ public class EuclidianPen implements GTimerListener {
 	public void setPenGeo(GeoElement penGeo) {
 		if (penGeo == null) {
 			lastAlgo = null;
-		} else if (penGeo.getParentAlgorithm() instanceof AlgoStrokeInterface) {
+		} else if (penGeo.getParentAlgorithm() instanceof AlgoLocusStroke) {
 			lastAlgo = penGeo.getParentAlgorithm();
 		}
 	}
@@ -574,46 +572,22 @@ public class EuclidianPen implements GTimerListener {
 		}
 		int ptsLength = 0;
 		if (lastAlgo == null) {
-			// lastPolyLine = new GeoPolyLine(cons, "hello");
 			newPts = new ArrayList<>(penPoints2.size());
-			// newPts = new GeoList(cons);
 		} else {
-			// newPts = lastPolyLine.getPointsList();
+			AlgoLocusStroke algo = getAlgoStroke(lastAlgo);
 
-			// force a gap
-			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
-			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
+			ptsLength = algo.getPointsLength();
 
-			if (algo instanceof AlgoLocusStroke) {
-				ArrayList<MyPoint> pointsNoControl = ((AlgoLocusStroke) algo)
-						.getPoints();
-				ptsLength = pointsNoControl.size();
+			newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
 
-				newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
-
-				for (int i = 0; i < ptsLength; i++) {
-					newPts.add(pointsNoControl.get(i));
-				}
-			} else {
-				ptsLength = algo.getPointsLength();
-
-				newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
-
-				for (int i = 0; i < ptsLength; i++) {
-					newPts.add(algo.getPointCopy(i));
-				}
-
+			for (int i = 0; i < ptsLength; i++) {
+				newPts.add(algo.getPointCopy(i));
 			}
-			newPts.add(new MyPoint(Double.NaN, Double.NaN));
 
+			newPts.add(new MyPoint(Double.NaN, Double.NaN));
 		}
 
-		Iterator<GPoint> it = penPoints2.iterator();
-		while (it.hasNext()) {
-			GPoint p = it.next();
-			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),
-			// view.toRealWorldCoordY(p.getY()), 1));
-
+		for (GPoint p : penPoints2) {
 			double x = view.toRealWorldCoordX(p.getX());
 			double y = view.toRealWorldCoordY(p.getY());
 
@@ -630,8 +604,7 @@ public class EuclidianPen implements GTimerListener {
 			lastAlgo.getOutput(0).updateRepaint();
 			return;
 		}
-		AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
-				.getStrokeAlgo(newPts);
+		AlgoElement newPolyLine = new AlgoLocusStroke(cons, newPts);
 		// set label
 		newPolyLine.getOutput(0).setLabel(null);
 		algo = newPolyLine;
@@ -668,11 +641,11 @@ public class EuclidianPen implements GTimerListener {
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
-	private static AlgoStrokeInterface getAlgoStrokeInterface(AlgoElement al) {
-		if (al instanceof AlgoStrokeInterface) {
-			return (AlgoStrokeInterface) al;
+	private static AlgoLocusStroke getAlgoStroke(AlgoElement al) {
+		if (al instanceof AlgoLocusStroke) {
+			return (AlgoLocusStroke) al;
 		}
-		return (AlgoStrokeInterface) al.getInput()[0].getParentAlgorithm();
+		return (AlgoLocusStroke) al.getInput()[0].getParentAlgorithm();
 	}
 
 	/**

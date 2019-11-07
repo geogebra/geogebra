@@ -3398,6 +3398,7 @@ __GGB__keysVar["xh"].menu = {
     "stylebar.xOyPlane": "Bonisa okanye Fihla ixOy plane",
     "svg": "iScalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "azilingani",
     "units": "iiunit(s)",
     "vertical": "iVertical",

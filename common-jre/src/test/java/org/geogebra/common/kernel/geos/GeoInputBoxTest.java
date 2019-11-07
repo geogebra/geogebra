@@ -67,6 +67,15 @@ public class GeoInputBoxTest extends BaseUnitTest {
     }
 
     @Test
+    public void testMatrixShouldBeInLaTeX() {
+        add("m1 = {{1, 2, 3}, {4, 5, 6}}");
+        GeoInputBox inputBox = (GeoInputBox) add("InputBox(m1)");
+        inputBox.setSymbolicMode(true, false);
+        Assert.assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
+				inputBox.getText());
+    }
+
+    @Test
     public void inputBoxTextAlignmentIsInXMLTest() {
         App app = getApp();
         add("A = (1,1)");

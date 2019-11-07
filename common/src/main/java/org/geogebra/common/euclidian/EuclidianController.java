@@ -38,8 +38,6 @@ import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.modes.ModeDelete;
-import org.geogebra.common.euclidian.modes.ModeDeleteInterface;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
@@ -369,7 +367,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	// Paste preview
 	private double vertexX = Double.NaN;
 	private double vertexY = Double.NaN;
-	private ModeDeleteInterface deleteMode;
+	private ModeDeleteLocus deleteMode;
 	private ModeShape shapeMode;
 	private GPoint2D.Double startPoint = new GPoint2D.Double();
 	private boolean externalHandling;
@@ -515,6 +513,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_LINE:
 		case EuclidianConstants.MODE_SHAPE_POLYGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+		case EuclidianConstants.MODE_MASK:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
@@ -572,11 +571,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return true;
 	}
 
-	ModeDeleteInterface getDeleteMode() {
+	ModeDeleteLocus getDeleteMode() {
 		if (deleteMode == null && view != null) {
-			deleteMode = view.getApplication().has(Feature.MOW_PEN_IS_LOCUS) 
-					? new ModeDeleteLocus(view) : new ModeDelete(view);
+			deleteMode = new ModeDeleteLocus(view);
 		}
+
 		return deleteMode;
 	}
 
@@ -9690,7 +9689,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		this.pressedButton = view.getHitButton();
+		this.pressedButton = view.getHitDetector().getHitButton();
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);
@@ -10028,7 +10027,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			clearSelections();
 		}
 
-		view.setHits(oldRectangle);
+		view.getHitDetector().setHits(oldRectangle);
 		Hits hits = view.getHits();
 
 		boolean changedKernel = false;
@@ -10401,6 +10400,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// resize, single selection
 		if (getResizedShape() != null) {
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			getResizedShape().updateGeo(AwtFactory.getPrototype()
 					.newPoint2D(event.getX(), event.getY()));
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
@@ -10409,21 +10409,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			storeUndoInfo();
 			setResizedShape(null);
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 		// resize, multi-selection
 		else if (isMultiResize) {
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			for (GeoElement geo : selection.getSelectedGeos()) {
 				((Drawable) view.getDrawableFor(geo)).updateGeo(AwtFactory
 						.getPrototype().newPoint2D(event.getX(), event.getY()));
 			}
-		}
-		// undo/redo for multi-selection
-		if (isMultiResize) {
 			storeUndoInfo();
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {

@@ -3398,6 +3398,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "stylebar.xOyPlane": "\u0623\u0638\u0647\u0631 \u0623\u0648 \u0627\u062e\u0641\u0650 \u0633\u0637\u062d xOy",
     "svg": "SVG",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\u0645\u062e\u062a\u0644\u0641\u0627\u0646",
     "units": "unit(s)",
     "vertical": "\u0639\u0645\u0648\u062f\u064a",

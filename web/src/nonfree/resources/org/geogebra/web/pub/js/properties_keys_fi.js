@@ -3398,6 +3398,7 @@ __GGB__keysVar["fi"].menu = {
     "stylebar.xOyPlane": "N\xe4yt\xe4 tai piilota xy-taso",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "eri suuri kuin",
     "units": "yksikk\xf6(\xe4)",
     "vertical": "Pystysuora",

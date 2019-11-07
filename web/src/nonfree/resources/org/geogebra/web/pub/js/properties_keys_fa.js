@@ -3398,6 +3398,7 @@ __GGB__keysVar["fa"].menu = {
     "stylebar.xOyPlane": "xOy \u0622\u0634\u06a9\u0627\u0631 \u06cc\u0627 \u067e\u0646\u0647\u0627\u0646 \u06a9\u0631\u062f\u0646 \u0635\u0641\u062d\u0647",
     "svg": "\u06af\u0631\u0627\u0641\u06cc\u06a9 \u0628\u0631\u062f\u0627\u0631\u06cc \u0645\u0642\u06cc\u0627\u0633\u200c\u067e\u0630\u06cc\u0631",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\u0646\u0627\u0645\u0633\u0627\u0648\u06cc",
     "units": "\u0648\u0627\u062d\u062f (\u0647\u0627)",
     "vertical": "\u0639\u0645\u0648\u062f\u06cc",

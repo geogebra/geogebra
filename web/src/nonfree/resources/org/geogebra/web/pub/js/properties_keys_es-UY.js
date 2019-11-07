@@ -3398,6 +3398,7 @@ __GGB__keysVar["es-UY"].menu = {
     "stylebar.xOyPlane": "Mostrar/ocultar plano xOy",
     "svg": "Imagen vectorial SVG",
     "takepicture": "Tomar foto",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "desigual",
     "units": "unidad(es)",
     "vertical": "Vertical",

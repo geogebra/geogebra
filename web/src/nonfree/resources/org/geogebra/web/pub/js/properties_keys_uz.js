@@ -3398,6 +3398,7 @@ __GGB__keysVar["uz"].menu = {
     "stylebar.xOyPlane": "xOy tekislikni ko'rsatish yoki yashirish",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "teng emas",
     "units": "birlik(lar)",
     "vertical": "Vertikal",

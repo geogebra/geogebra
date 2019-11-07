@@ -3398,6 +3398,7 @@ __GGB__keysVar["lt"].menu = {
     "stylebar.xOyPlane": "Rodyti arba spl\u0117ti xOy plok\u0161tum\u0105",
     "svg": "Kei\u010diamo dyd\u017eio vektorin\u0117 grafika",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "nelygus",
     "units": "vienetas(-ai)",
     "vertical": "Statmenas",

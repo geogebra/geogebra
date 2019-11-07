@@ -3398,6 +3398,7 @@ __GGB__keysVar["is"].menu = {
     "stylebar.xOyPlane": "S\xfdna e\xf0a fela xOy plan",
     "svg": "St\xe6kkanlegar vigurmyndir",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "\xf3jafnt",
     "units": "eining(ar)",
     "vertical": "L\xf3\xf0r\xe9tt",

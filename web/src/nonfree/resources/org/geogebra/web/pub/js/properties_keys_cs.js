@@ -3398,6 +3398,7 @@ __GGB__keysVar["cs"].menu = {
     "stylebar.xOyPlane": "Zobrazit nebo skr\xfdt rovinu xOy",
     "svg": "\u0160k\xe1lovat grafick\xfd vektor",
     "takepicture": "Ud\u011blat sn\xedmek",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "nerovn\xe1 se",
     "units": "jednotky",
     "vertical": "svisle",

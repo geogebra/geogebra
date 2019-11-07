@@ -3398,6 +3398,7 @@ __GGB__keysVar["nb"].menu = {
     "stylebar.xOyPlane": "Vis eller skjul xOy plan",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Ta bilde",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "forskjellig fra",
     "units": "enhet(er)",
     "vertical": "Vertikal",

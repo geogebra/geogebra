@@ -3398,6 +3398,7 @@ __GGB__keysVar["et"].menu = {
     "stylebar.xOyPlane": "N\xe4ita v\xf5i peida xOy tasand",
     "svg": "Skaleeritav vektorgraafika",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "ei ole v\xf5rdne(sed)",
     "units": "\xfchik(ud)",
     "vertical": "Vertikaalne",

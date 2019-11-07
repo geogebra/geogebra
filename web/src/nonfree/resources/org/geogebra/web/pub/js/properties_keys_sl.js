@@ -3398,6 +3398,7 @@ __GGB__keysVar["sl"].menu = {
     "stylebar.xOyPlane": "Poka\u017ei ali skrij ravnino xOy",
     "svg": "Spremenljiva vektorska grafika (SVG)",
     "takepicture": "Take Picture",
+    "tutorial_apps_comparison": "shfwqcpr",
     "unequal": "neenako",
     "units": "mere",
     "vertical": "navpi\u010dno",

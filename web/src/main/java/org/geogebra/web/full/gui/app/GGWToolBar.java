@@ -999,6 +999,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();
 
+		case EuclidianConstants.MODE_MASK:
+			return resourceBundle.mode_mask();
+
 		default:
 			return AppResources.INSTANCE.empty();
 		}
