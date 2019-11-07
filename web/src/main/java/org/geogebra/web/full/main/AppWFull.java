@@ -95,6 +95,7 @@ import org.geogebra.web.full.main.activity.MebisNotesActivity;
 import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
+import org.geogebra.web.full.main.activity.SuiteActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -329,6 +330,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 				break;
 			case "evaluator":
 				activity = new EvaluatorActivity();
+				break;
+			case "suite":
+				activity = new SuiteActivity();
 				break;
 			default:
 				activity = new ClassicActivity(new AppConfigDefault());
