@@ -87,7 +87,8 @@ public class CursorController {
 	 *            current state
 	 */
 	public static void firstField(EditorState editorState) {
-		firstField(editorState, editorState.getRootComponent());
+		MathSequence root = editorState.getRootComponent();
+		firstField(editorState, root.extractMatrix());
 	}
 
 	/**
@@ -117,7 +118,8 @@ public class CursorController {
 	 *            current state
 	 */
 	public static void lastField(EditorState editorState) {
-		lastField(editorState, editorState.getRootComponent());
+		MathSequence root = editorState.getRootComponent();
+		lastField(editorState, root.extractMatrix());
 	}
 
 	/**
@@ -180,6 +182,8 @@ public class CursorController {
 			firstField(editorState, component1);
 			return true;
 			// try to delve down the tree
+		} else if (MathArray.isMatrix(container)) {
+			return false;
 		} else {
 			return nextField(editorState, container);
 		}
@@ -219,7 +223,7 @@ public class CursorController {
 			lastField(editorState, component1);
 
 			// delve down the tree
-		} else {
+		} else if (!MathArray.isMatrix(container)) {
 			prevField(editorState, container);
 		}
 	}
@@ -303,7 +307,7 @@ public class CursorController {
 			if (function.rows() > 1) {
 				int downIndex = component.getParentIndex()
 						+ function.columns() * rowChange;
-				if (downIndex < function.size()) {
+				if (downIndex >= 0 && downIndex < function.size()) {
 					editorState
 							.setCurrentField(function.getArgument(downIndex));
 					editorState.setCurrentOffset(0);

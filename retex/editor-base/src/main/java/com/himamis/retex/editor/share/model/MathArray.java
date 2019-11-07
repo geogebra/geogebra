@@ -307,4 +307,14 @@ public class MathArray extends MathContainer {
 			addArgument(entry);
 		}
 	}
+
+	/**
+	 *
+	 * @param container a MathFieldContainer
+	 * @return true if container is a matrix.
+	 */
+	public static boolean isMatrix(MathComponent container) {
+		return container instanceof MathArray
+				&& ((MathArray) container).isMatrix();
+	}
 }

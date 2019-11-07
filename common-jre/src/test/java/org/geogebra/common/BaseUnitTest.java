@@ -1,8 +1,6 @@
 package org.geogebra.common;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,7 +35,7 @@ public class BaseUnitTest {
 	 * @return app instance for 2D testing
 	 */
 	public AppCommon createAppCommon() {
-		return new AppCommon(new LocalizationCommon(2), new AwtFactoryCommon());
+		return AppCommonFactory.create();
 	}
 
 	/**
