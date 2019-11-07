@@ -1211,15 +1211,21 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void showRecentChangesDialog(String message, String link, final Runnable closingCallback) {
-		WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
+		final WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
 		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
 			@Override
 			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
 				closingCallback.run();
 			}
 		});
-		dialog.show();
-		dialog.center();
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				dialog.show();
+				dialog.center();
+			}
+		};
+		timer.schedule(0);
 	}
 
 	/**
