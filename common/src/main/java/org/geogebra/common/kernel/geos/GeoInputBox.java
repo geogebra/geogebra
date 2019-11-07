@@ -148,7 +148,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		} else if (isSymbolicMode()) {
 			linkedGeoText = toLaTex();
 		} else {
-			linkedGeoText = linkedGeo.getRedefineString(true, true);
+			linkedGeoText = getLinkedGeoRedefineString();
 		}
 
 		if ("?".equals(linkedGeoText)) {
@@ -158,12 +158,26 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return linkedGeoText;
 	}
 
+	private String getLinkedGeoRedefineString() {
+		return linkedGeo.getRedefineString(true, true);
+	}
+
 	private String toLaTex() {
-		if (canBeSymbolicFunction()) {
+		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
+
+		if (hasSymbolicFunction() || flatEditableList) {
 			return linkedGeo.getRedefineString(true, true,
 					getStringtemplateForLaTeX());
 		}
 		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
+	}
+
+	private boolean hasEditableMatrix() {
+		if (!linkedGeo.isGeoList()) {
+			return false;
+		}
+
+		return ((GeoList) linkedGeo).isEditableMatrix();
 	}
 
 	private StringTemplate getStringtemplateForLaTeX() {
@@ -278,7 +292,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			boolean substituteNos = linkedGeo.isGeoNumeric()
 					&& linkedGeo.isIndependent();
 
-			if (canBeSymbolicFunction()) {
+			if (hasSymbolicFunction()) {
 				linkedText = linkedGeo.getRedefineString(true, true);
 			} else {
 				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
@@ -432,19 +446,19 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 *
 	 * @return if linked object can be a symbolic one.
 	 */
 	public boolean canBeSymbolic() {
-		return canBeSymbolicNumber() || canBeSymbolicFunction() || linkedGeo.isGeoPoint()
-				|| linkedGeo.isGeoVector() || linkedGeo.isGeoPlane() || linkedGeo.isGeoLine();
+		return hasSymbolicNumber() || hasSymbolicFunction()
+				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
+				|| linkedGeo.isGeoLine() || linkedGeo.isGeoPlane() || linkedGeo.isGeoList();
 	}
 
-	private boolean canBeSymbolicFunction() {
+	private boolean hasSymbolicFunction() {
 		return linkedGeo instanceof GeoFunction || linkedGeo instanceof GeoFunctionNVar;
 	}
 
-	private boolean canBeSymbolicNumber() {
+	private boolean hasSymbolicNumber() {
 		if (!linkedGeo.isGeoNumeric()) {
 			return false;
 		}
@@ -454,8 +468,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 *
-	 * @return if the GeoInputBox is under editing.
+	 * @return if the GeoInputBox is being edited
 	 */
 	public boolean isEditing() {
 		return editing;

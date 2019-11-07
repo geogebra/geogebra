@@ -169,4 +169,28 @@ public class MathSequence extends MathContainer {
 		return this;
 	}
 
+	/**
+	 * Extract the matrix if sequence contains one only.
+	 *
+	 * @return the matrix if any, the component unchanged
+	 * 		   otherwise.
+	 */
+	public MathContainer extractMatrix() {
+		if (size() == 1) {
+			MathComponent argument = getArgument(0);
+			if (MathArray.isMatrix(argument)) {
+				return (MathContainer) argument;
+			}
+		}
+
+		return this;
+	}
+
+	/**
+	 *
+	 * @return true if sequence is a matrix.
+	 */
+	public boolean isMatrix() {
+		return extractMatrix() != this;
+	}
 }
