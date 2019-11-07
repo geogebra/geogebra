@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 /** Accessible alternative to MenuBar */
 public class AriaMenuBar extends Widget {
+
 	private AriaMenuItem selectedItem;
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
 	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
 	private boolean autoOpen;
-	private boolean focusOnHover;
 	private boolean handleArrows = true;
 
 	/**
@@ -200,6 +200,9 @@ public class AriaMenuBar extends Widget {
 	 */
 	public boolean moveSelectionDown() {
 		int next = allItems.indexOf(selectedItem) + 1;
+		if (next >= allItems.size()) {
+			next = 0;
+		}
 		if (next < allItems.size()) {
 			selectItem(allItems.get(next));
 			return true;
@@ -368,11 +371,11 @@ public class AriaMenuBar extends Widget {
 	protected void itemOver(AriaMenuItem item) {
 		if (item != null) {
 			removeSubPopup();
+			selectItem(item);
 		}
 		if (item != null
 				&& "true".equals(item.getElement().getAttribute("hasPopup"))
 				&& autoOpen) {
-			selectItem(item);
 			doItemAction(item);
 		}
 	}
@@ -407,21 +410,6 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void removeSubPopup() {
 		// needs override
-	}
-
-	/**
-	 * @param focusOnHover
-	 *            whether mouseover should select items
-	 */
-	public void setFocusOnHoverEnabled(boolean focusOnHover) {
-		this.focusOnHover = focusOnHover;
-	}
-
-	/**
-	 * @return whether mouseover should select items
-	 */
-	public boolean isFocusOnHover() {
-		return focusOnHover;
 	}
 
 	/**

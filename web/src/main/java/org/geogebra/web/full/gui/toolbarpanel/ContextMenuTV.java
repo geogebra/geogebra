@@ -14,8 +14,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -169,7 +167,7 @@ public class ContextMenuTV {
 	 */
 	public void show(GPoint p) {
 		wrappedPopup.show(p);
-		focusDeferred();
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
 	/**
@@ -182,15 +180,6 @@ public class ContextMenuTV {
 	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
-		focusDeferred();
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-			}
-		});
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 }

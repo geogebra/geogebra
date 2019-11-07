@@ -19,6 +19,8 @@ public class DrawBackground {
 	 * background
 	 */
 	private static final double SVG_SCALE = 2;
+	private static final double SVG_BASE_WIDTH = 539;
+	private static final double RULING_BASE_WIDTH = 10.5;
 	private EuclidianView view;
 	private EuclidianSettings settings;
 	private double gap;
@@ -50,7 +52,7 @@ public class DrawBackground {
 		g2.setStroke(rulerStroke);
 		updateRulerGap();
 		gap = settings.getBackgroundRulerGap();
-		width = 10.5;
+		width = RULING_BASE_WIDTH;
 		switch (settings.getBackgroundType()) {
 		case RULER:
 			drawRuledBackground(g2);
@@ -67,6 +69,7 @@ public class DrawBackground {
 		case SVG:
 		case ELEMENTARY12:
 		case ELEMENTARY12_HOUSE:
+		case ELEMENTARY12_COLORED:
 		case ELEMENTARY34:
 		case MUSIC:
 			drawSVG(g2);
@@ -84,6 +87,8 @@ public class DrawBackground {
 		if (y > 0) {
 			y -= h;
 		}
+
+		width = svg.getWidth() / SVG_BASE_WIDTH * RULING_BASE_WIDTH;
 
 		int x = (int) getStartX();
 		g2.saveTransform();
@@ -134,82 +139,93 @@ public class DrawBackground {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawHorizontalLines(GGraphics2D g2, boolean subgrid) {
+	private void drawHorizontalLines(GGraphics2D g2, boolean subgrid, boolean infinite) {
 		double start = view.getYZero() % gap;
+		double startX = infinite ? start - gap : getStartX();
+		double endX = infinite ? view.getWidth() : getEndX();
+
+		doDrawHorizontalLines(g2, subgrid, startX, endX, start - gap,
+				view.getHeight());
+	}
+
+	private void doDrawHorizontalLines(GGraphics2D g2, boolean subgrid, double xStart, double xEnd,
+									   double yStart, double yEnd) {
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
-		double x = getStartX();
-		double xEnd = getEndX();
-		double yEnd = view.getHeight();
-		double y = start - gap;
 
+		double y = yStart;
 		if (subgrid) {
 			double subGap = gap / 10;
 			int lineCount = 0;
 			while (y <= yEnd) {
 				if (lineCount % 10 != 0) {
-					addStraightLineToGeneralPath(g2, x, y, xEnd, y);
+					addStraightLineToGeneralPath(g2, xStart, y, xEnd, y);
 				}
 				y += subGap;
 				lineCount++;
 			}
 		} else {
 			while (y <= yEnd) {
-				addStraightLineToGeneralPath(g2, x, y, xEnd, y);
+				addStraightLineToGeneralPath(g2, xStart, y, xEnd, y);
 				y += gap;
 			}
 		}
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawVerticalLines(GGraphics2D g2, boolean subgrid) {
+	private void drawVerticalLines(GGraphics2D g2, boolean subgrid, boolean infinite) {
 		double start = view.getYZero() % gap;
+		double startX = infinite ? (view.getXZero() % gap) - gap : getStartX();
+		double endX = infinite ? view.getWidth() : getEndX();
+
+		doDrawVerticalLines(g2, subgrid, startX, endX, start - gap,
+				view.getHeight() + 2 * gap);
+	}
+
+	private void doDrawVerticalLines(GGraphics2D g2, boolean subgrid, double xStart, double xEnd,
+									 double yStart, double height) {
 		// draw main grid
 		g2.setColor(subgrid ? settings.getBgSubLineColor()
 				: settings.getBgRulerColor());
 		g2.startGeneralPath();
 
-		double x = getStartX();
-		double xEnd = getEndX();
-		double y = start - gap;
-		double height = view.getHeight() + 2 * gap;
-
+		double x = xStart;
 		if (subgrid) {
 			double subGap = gap / 10;
 			int lineCount = 0;
 			while (x <= xEnd) {
 				if (lineCount % 10 != 0) {
-					addStraightLineToGeneralPath(g2, x, y, x, y + height);
+					addStraightLineToGeneralPath(g2, x, yStart, x, yStart + height);
 				}
 				x += subGap;
 				lineCount++;
 			}
 		} else {
 			while (x <= xEnd) {
-				addStraightLineToGeneralPath(g2, x, y, x, y + height);
+				addStraightLineToGeneralPath(g2, x, yStart, x, yStart + height);
 				x += gap;
 			}
 			// make sure last line is drawn despite of rounding errors
-			addStraightLineToGeneralPath(g2, xEnd, y, xEnd, y + height);
+			addStraightLineToGeneralPath(g2, xEnd, yStart, xEnd, yStart + height);
 		}
 		g2.endAndDrawGeneralPath();
 	}
 
 	private void drawRuledBackground(GGraphics2D g2) {
-		drawHorizontalLines(g2, false);
+		drawHorizontalLines(g2, false, false);
 		drawVerticalFrame(g2);
 	}
 
 	private void drawSquaredBackground(GGraphics2D g2) {
-		drawHorizontalLines(g2, false);
-		drawVerticalLines(g2, false);
+		drawHorizontalLines(g2, false, true);
+		drawVerticalLines(g2, false, true);
 	}
 
 	private void drawSquaredSubgrid(GGraphics2D g2) {
-		drawHorizontalLines(g2, true);
-		drawVerticalLines(g2, true);
+		drawHorizontalLines(g2, true, true);
+		drawVerticalLines(g2, true, true);
 	}
 
 	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,

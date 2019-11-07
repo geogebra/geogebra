@@ -108,16 +108,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		this.setGeos(geos);
 		setGeo(geos.get(0));
 
-		String title;
-		if (geos.size() == 1) {
-			title = getGeoTitle();
-		} else {
-			title = loc.getMenu("Selection");
-		}
-		setTitle(title);
-
 		if (app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
+		} else {
+			String title;
+			if (geos.size() == 1) {
+				title = getGeoTitle();
+			} else {
+				title = loc.getMenu("Selection");
+			}
+			setTitle(title);
 		}
 	}
 
@@ -1121,21 +1121,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					@Override
 					public void execute() {
-						if (app.isUnbundledOrWhiteboard()) {
-							wrappedPopup.setVisible(true);
-							wrappedPopup.setMenuShown(false);
-						} else {
-							wrappedPopup.setVisible(false);
-						}
+						wrappedPopup.setVisible(false);
 					}
 				});
+		title.addStyleName("menuTitle");
+
 		wrappedPopup.addItem(title);
-		if (app.isUnbundledOrWhiteboard()) {
-			title.addStyleName("no-hover");
-		} else {
-			title.addStyleName("menuTitle");
-			wrappedPopup.addSeparator();
-		}
+		wrappedPopup.addSeparator();
 	}
 
 	/**
@@ -1235,7 +1227,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
-				wrappedPopup.getPopupMenu().moveSelectionDown();
+				wrappedPopup.getPopupMenu().focus();
 			}
 		});
 	}

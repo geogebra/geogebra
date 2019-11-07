@@ -1,0 +1,66 @@
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" width="595.7"
+     height="383" viewBox="0 0 595.7 383">
+  <defs>
+    <style>
+      .cls-1 {
+      fill: #cfc;
+      }
+
+      .cls-2 {
+      fill: #fff;
+      fill-rule: evenodd;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+      fill: none;
+      }
+
+      .cls-3, .cls-4 {
+      stroke: #231f20;
+      stroke-miterlimit: 10;
+      stroke-width: 0.57px;
+      }
+
+      .cls-4 {
+      stroke-linecap: square;
+      }
+    </style>
+  </defs>
+  <title>colored</title>
+  <g id="Layer_2" data-name="Layer 2">
+    <rect class="cls-1" width="595.7" height="383"/>
+    <g id="Layer_1-2" data-name="Layer 1-2">
+      <path class="cls-2" d="M28.63.35H566.57V14.53H28.63Z"/>
+      <path class="cls-2" d="M28.88,28.7H566.82V42.87H28.88Z"/>
+      <path class="cls-2" d="M28.88,64.12H566.82V78.29H28.88Z"/>
+      <path class="cls-2" d="M28.88,92.46H566.82v14.17H28.88Z"/>
+      <path class="cls-2" d="M28.63,127.88H566.57v14.17H28.63Z"/>
+      <path class="cls-2" d="M28.88,156.22H566.82V170.4H28.88Z"/>
+      <path class="cls-2" d="M28.88,191.64H566.82v14.18H28.88Z"/>
+      <path class="cls-2" d="M28.63,220H566.57v14.18H28.63Z"/>
+      <path class="cls-2" d="M28.63,255.4H566.57v14.18H28.63Z"/>
+      <path class="cls-2" d="M28.63,283.74H566.57v14.18H28.63Z"/>
+      <path class="cls-2" d="M28.88,319.16H566.82v14.18H28.88Z"/>
+      <path class="cls-2" d="M28.88,347.51H566.82v14.17H28.88Z"/>
+      <line class="cls-3" x1="28.63" y1="14.53" x2="567.07" y2="14.53"/>
+      <line class="cls-3" x1="28.63" y1="28.7" x2="567.07" y2="28.7"/>
+      <rect class="cls-4" x="28.63" y="0.35" width="538.43" height="42.51"/>
+      <line class="cls-3" x1="28.63" y1="78.29" x2="567.07" y2="78.29"/>
+      <line class="cls-3" x1="28.63" y1="92.46" x2="567.07" y2="92.46"/>
+      <rect class="cls-4" x="28.63" y="64.12" width="538.43" height="42.51"/>
+      <line class="cls-3" x1="28.63" y1="142.05" x2="567.07" y2="142.05"/>
+      <line class="cls-3" x1="28.63" y1="156.22" x2="567.07" y2="156.22"/>
+      <rect class="cls-4" x="28.63" y="127.88" width="538.43" height="42.51"/>
+      <line class="cls-3" x1="28.63" y1="205.82" x2="567.07" y2="205.82"/>
+      <line class="cls-3" x1="28.63" y1="219.98" x2="567.07" y2="219.98"/>
+      <rect class="cls-4" x="28.63" y="191.64" width="538.43" height="42.51"/>
+      <line class="cls-3" x1="28.63" y1="269.57" x2="567.07" y2="269.57"/>
+      <line class="cls-3" x1="28.63" y1="283.74" x2="567.07" y2="283.74"/>
+      <rect class="cls-4" x="28.63" y="255.4" width="538.43" height="42.51"/>
+      <line class="cls-3" x1="28.63" y1="333.33" x2="567.07" y2="333.33"/>
+      <line class="cls-3" x1="28.63" y1="347.51" x2="567.07" y2="347.51"/>
+      <rect class="cls-4" x="28.63" y="319.16" width="538.43" height="42.51"/>
+      <rect class="cls-5" x="28.63" y="361.67" width="538.43" height="21.25"/>
+    </g>
+  </g>
+</svg>

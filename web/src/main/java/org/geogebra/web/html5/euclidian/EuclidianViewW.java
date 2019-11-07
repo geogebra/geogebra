@@ -1791,6 +1791,8 @@ public class EuclidianViewW extends EuclidianView implements
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12();
 		case ELEMENTARY12_HOUSE:
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12house();
+		case ELEMENTARY12_COLORED:
+			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12colored();
 		case ELEMENTARY34:
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary34();
 		case MUSIC:

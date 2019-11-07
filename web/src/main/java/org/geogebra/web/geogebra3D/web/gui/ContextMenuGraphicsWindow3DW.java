@@ -41,7 +41,6 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		super(app);
 		this.px = px;
 		this.py = py;
-		setTitle(loc.getMenu("GraphicsView3D"));
 		buildGUI();
 	}
 
