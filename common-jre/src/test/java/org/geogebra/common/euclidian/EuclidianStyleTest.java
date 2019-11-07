@@ -9,15 +9,15 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class EuclidianStyleTest {
-	private static AppCommon3D app;
-	private static ConstructionDefaults cd;
+	private AppCommon3D app;
+	private ConstructionDefaults cd;
 
-	@BeforeClass
-	public static void setupApp() {
+	@Before
+	public void setupApp() {
 		app = new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
 		cd = app.getKernel().getConstruction().getConstructionDefaults();
@@ -37,7 +37,7 @@ public class EuclidianStyleTest {
 		Assert.assertNull(transparentText2.getBackgroundColor());
 	}
 
-	private static GeoElementND t(String string) {
+	private GeoElementND t(String string) {
 		return app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(string, false)[0];
 	}

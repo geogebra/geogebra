@@ -149,4 +149,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add(label + ":" + value);
 		inputBox = (GeoInputBox) add("ib=InputBox(" + label + ")");
 	}
+
+	@Test
+	public void testCanBeSymbolicForPlane() {
+		add("A = (0,0)");
+		add("B = (2,0)");
+		add("C = (2,2)");
+		add("p:Plane(A,B,C)");
+		GeoInputBox inputBox = (GeoInputBox) add("InputBox(p)");
+		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
 }

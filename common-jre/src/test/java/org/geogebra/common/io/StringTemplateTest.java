@@ -16,24 +16,18 @@ import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gwt.regexp.shared.RegExp;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class StringTemplateTest {
-	static AppCommon3D app;
-
-	@BeforeClass
-	public static void initialize() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
-	}
+	private AppCommon3D app;
 
 	@Before
-	public void cleanup() {
-		app.getKernel().clearConstruction(true);
+	public void initialize() {
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 	}
 
 	@Test
@@ -93,23 +87,26 @@ public class StringTemplateTest {
 	public void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
-		tcl("If[x>0,x,-x]",
-				"\\left\\{\\begin{array}{ll} x& : x > 0\\\\ -x& : \\text{otherwise} \\end{array}\\right. ");
-		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
+		tcl("If[x>0,x,-x]", "\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
+						+ " -x& : \\text{otherwise} \\end{array}\\right. ");
+		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
+				+ " -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<0,-x,7]]", caseThree);
 		tcl("If[x>1,x,x<0,-x,7]", caseThree);
-		String caseTwo = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x <= 0 \\end{array}\\right. ";
+		String caseTwo = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
+				+ " -x& : x <= 0 \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<=0,-x]]", caseTwo);
 		tcl("If[x>1,x,x<=0,-x]", caseTwo);
 		// x>2 is impossible for x<=0
 		tcl("If[x>0,x,If[x>2,-x]]", caseSimple);
-		String caseImpossible = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x <= 1 \\end{array}\\right. ";
+		String caseImpossible = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
+				+ " -x& : x <= 1 \\end{array}\\right. ";
 		// x>1 and x<=2 cover the whole axis, further conditions are irrelevant
 		tcl("If[x>1,x,If[x<=2,-x,If[x>3,x^2,x^3]]]", caseImpossible);
 		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
 	}
 
-	private static void tcl(String string, String string2) {
+	private void tcl(String string, String string2) {
 		GeoElementND geo = add(string);
 		Assert.assertTrue(geo instanceof GeoFunction);
 		Assert.assertEquals(
@@ -118,13 +115,13 @@ public class StringTemplateTest {
 				string2.replace("<=", Unicode.LESS_EQUAL + ""));
 	}
 
-	private static void tex(String string, String string2) {
+	private void tex(String string, String string2) {
 		GeoElementND geo = add(string);
 		Assert.assertEquals(string2,
 				geo.getDefinition(StringTemplate.latexTemplate));
 	}
 
-	private static GeoElementND add(String string) {
+	private GeoElementND add(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, TestErrorHandler.INSTANCE,

@@ -29,6 +29,7 @@
 package com.himamis.retex.editor.share.editor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import com.google.j2objc.annotations.Weak;
@@ -92,6 +93,9 @@ public class MathFieldInternal
 	private boolean longPressOccured = false;
 
 	private boolean selectionMode = false;
+
+	private static final ArrayList<Integer> MATRIX_TOP_LEFT_CARET
+			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
 	/**
 	 * @param mathField
@@ -161,6 +165,13 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
+		setCaretPathIfMatrix(formula.getRootComponent());
+	}
+
+	private void setCaretPathIfMatrix(MathSequence sequence) {
+		if (sequence.isMatrix()) {
+			setCaretPath(MATRIX_TOP_LEFT_CARET);
+		}
 	}
 
 	/**
@@ -762,7 +773,7 @@ public class MathFieldInternal
 
 	/**
 	 * Parse text to a formula and update content
-	 * 
+	 *
 	 * @param text
 	 *            ASCII math input
 	 */

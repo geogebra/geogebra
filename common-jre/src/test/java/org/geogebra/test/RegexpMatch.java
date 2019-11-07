@@ -9,6 +9,12 @@ public final class RegexpMatch extends TypeSafeMatcher<String> {
 	private RegexpMatch(String regexp) {
 		this.regexp = regexp;
 	}
+
+	/**
+	 * @param regexp
+	 *            regular expression
+	 * @return matcher
+	 */
 	public static RegexpMatch matches(String regexp) {
 		return new RegexpMatch(regexp);
 	}

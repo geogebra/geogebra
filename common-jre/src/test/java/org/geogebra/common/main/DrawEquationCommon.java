@@ -16,6 +16,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class DrawEquationCommon extends DrawEquation {
 
+	@Override
 	public GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2,
 			int x, int y, String text, GFont font, boolean serif,
 			GColor fgColor, GColor bgColor, boolean useCache,
@@ -23,17 +24,18 @@ public class DrawEquationCommon extends DrawEquation {
 		return AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
+	@Override
 	public Image getCachedDimensions(String text, GeoElementND geo,
 			Color fgColor, GFont font, int style, int[] ret) {
 		return null;
 	}
 
+	@Override
 	public void checkFirstCall(App app) {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderCommon());
 		}
 		checkFirstCallStatic();
-
 	}
 
 	public Color convertColor(GColor color) {

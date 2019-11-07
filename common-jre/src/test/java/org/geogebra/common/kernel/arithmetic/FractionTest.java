@@ -9,15 +9,15 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class FractionTest {
 
-	private static App app;
+	private App app;
 
-	@BeforeClass
-	public static void setup() {
+	@Before
+	public void setup() {
 		app = new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
 	}
@@ -35,7 +35,7 @@ public class FractionTest {
 		t("5*10^(-2)", "1 / 20");
 	}
 
-	private static void t(String string, String string2) {
+	private void t(String string, String string2) {
 		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(string, false,
 						TestErrorHandler.INSTANCE,
