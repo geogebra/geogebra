@@ -534,6 +534,15 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private boolean handleIsMask(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setIsMask(MyXMLHandler.parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
 	private boolean handleBreakpoint(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setConsProtocolBreakpoint(
@@ -2001,6 +2010,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "interpolate":
 				handleInterpolate(attrs);
+				break;
+			case "isMask":
+				handleIsMask(attrs);
 				break;
 			case "isShape":
 				handleIsShape(attrs);

@@ -402,11 +402,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (!checkIsOnFilling()) {
 			// draggable only from sides of poly
 			// or from sides of boundingBox
-			if (wasSegmentHit
-					|| (getBoundingBox() != null
-							&& getBoundingBox() == view.getBoundingBox()
-							&& getBoundingBox().hit(x, y,
-									hitThreshold))) {
+			if (wasSegmentHit) {
 				poly.setLastHitType(HitType.ON_BOUNDARY);
 				return true;
 			} 
@@ -417,9 +413,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// also check for boundingBox is has filling
 		return (t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))
-				|| (getBoundingBox() != null
-						&& getBoundingBox().hit(x, y, hitThreshold));
+						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)));
 	}
 
 	@Override

@@ -26,7 +26,6 @@ import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawAudio;
-import org.geogebra.common.euclidian.draw.DrawButton;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
@@ -56,10 +55,8 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -76,6 +73,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
@@ -188,6 +186,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected GRectangle shapeRectangle;
 	/**
+	 * preview rectangle for mask tool
+	 */
+	private GRectangle maskPreview;
+	/**
 	 * preview shape for ellipse
 	 */
 	protected GEllipse2DDouble shapeEllipse;
@@ -270,9 +272,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// private double scaleRatio = 1.0;
 	/** print scale ratio */
 	protected double printingScale;
-	private ArrayList<GeoElement> hitPointOrBoundary;
-	private ArrayList<GeoElement> hitFilling;
-	private ArrayList<GeoElement> hitLabel;
 
 	// Map (geo, drawable) for GeoElements and Drawables
 	private final HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
@@ -442,7 +441,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected EuclidianController euclidianController;
 
 	// ggb3D 2009-02-05
-	private Hits hits;
 
 	private GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble(); // polar
@@ -534,6 +532,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
+	private final HitDetector hitDetector;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -577,7 +576,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return pointStyles[i];
 	}
 
+	/**
+	 * Default constructor needed for Android Bean
+	 */
 	public EuclidianView() {
+		hitDetector = new HitDetector(this);
 	}
 
 	/**
@@ -590,12 +593,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView(EuclidianController ec, int viewNo,
 		EuclidianSettings settings) {
+		this();
 		init(ec, viewNo, settings);
 	}
 
 	/**
 	 * @param ec
 	 *            controller
+	 * @param viewNo
+	 *            view number can be 1, 2 or EVNO_GENERAL
 	 * @param settings
 	 *            settings
 	 */
@@ -629,7 +635,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			kernel.getConstruction().setIgnoringNewTypes(false);
 		}
 		// ggb3D 2009-02-05
-		hits = new Hits();
+		hitDetector.reset();
 
 		printScaleNF = FormatFactory.getPrototype().getNumberFormat("#.#####",
 				5);
@@ -1889,11 +1895,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						|| this.updateBackgroundOnNextRepaint;
 				return;
 			}
-			// Keep update of input boxes synchronous #4416
-			if ((!geo.isGeoText() || !((GeoText) geo)
-					.isNeedsUpdatedBoundingBox())
-					&& !geo.isGeoInputBox()
-					&& (!geo.getTrace() || d.isTracing())) {
+			if (!needsSynchUpdate(geo, d.isTracing())) {
 				d.setNeedsUpdate(true);
 				return;
 			}
@@ -1907,6 +1909,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				repaint();
 			}
 		}
+	}
+
+	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
+		// Keep update of input boxes synchronous #4416
+		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
+				|| geo.isGeoInputBox() || (geo.getTrace() && !tracing) || geo.isMask();
 	}
 
 	/**
@@ -2107,7 +2115,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** get the hits recorded */
 	@Override
 	public Hits getHits() {
-		return hits;
+		return hitDetector.getHits();
 	}
 
 	/**
@@ -2161,130 +2169,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void setHits(GPoint p, PointerEventType type) {
-		setHits(p, app.getCapturingThreshold(type));
-		if (type == PointerEventType.TOUCH && this.hits.size() == 0) {
-			setHits(p, app.getCapturingThreshold(type) * 3);
-		}
-	}
-
-	/**
-	 * sets the hits of GeoElements whose visual representation is at screen
-	 * coords (x,y). order: points, vectors, lines, conics
-	 */
-	public void setHits(GPoint p, int hitThreshold) {
-		hits.init();
-
-		if (hitPointOrBoundary == null) {
-			hitPointOrBoundary = new ArrayList<>();
-			hitFilling = new ArrayList<>();
-			hitLabel = new ArrayList<>();
-		} else {
-			hitPointOrBoundary.clear();
-			hitFilling.clear();
-			hitLabel.clear();
-		}
-		if (p == null) {
-			return;
-		}
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.isEuclidianVisible()) {
-				if (d.hit(p.x, p.y, hitThreshold)) {
-					GeoElement geo = d.getGeoElement();
-					if (geo.getLastHitType() == HitType.ON_BOUNDARY) {
-						hitPointOrBoundary.add(geo);
-					} else {
-						hitFilling.add(geo);
-					}
-				} else if (d.hitLabel(p.x, p.y)) {
-					GeoElement geo = d.getGeoElement();
-					hitLabel.add(geo);
-				}
-			}
-		}
-
-		// labels first
-		for (GeoElement geo : hitLabel) {
-			hits.add(geo);
-		}
-
-		// then points and paths
-		for (GeoElement geo : hitPointOrBoundary) {
-			hits.add(geo);
-		}
-
-		// then regions
-		for (GeoElement geo : hitFilling) {
-			if (geo.isSelectionAllowed(this)) {
-				hits.add(geo);
-			}
-		}
-
-		// look for axis
-		if (hits.getImageCount() == 0) {
-			// x axis hit
-			if (showAxes[0]
-					&& (Math.abs(getYAxisCrossingPixel() - p.y) < hitThreshold)) {
-				// handle positive axis only
-				if (!positiveAxes[0]
-						|| (getXAxisCrossingPixel() < p.x - hitThreshold)) {
-					hits.add(kernel.getXAxis());
-				}
-			}
-			// y axis hit
-			if (showAxes[1]
-					&& (Math.abs(getXAxisCrossingPixel() - p.x) < hitThreshold)) {
-				// handle positive axis only
-				if (!positiveAxes[1]
-						|| (getYAxisCrossingPixel() > p.y - hitThreshold)) {
-					hits.add(kernel.getYAxis());
-				}
-			}
-		}
-
-		// keep geoelements only on the top layer
-		int maxlayer = 0;
-		for (int i = 0; i < hits.size(); ++i) {
-			GeoElement geo = hits.get(i);
-			if (maxlayer < geo.getLayer()) {
-				maxlayer = geo.getLayer();
-			}
-		}
-		for (int i = hits.size() - 1; i >= 0; i--) {
-			GeoElement geo = hits.get(i);
-			if (geo.getLayer() < maxlayer) {
-				hits.remove(i);
-			}
-		}
-
-		// remove all lists and images if there are other objects too
-		if ((hits.size() - (hits.getListCount() + hits.getImageCount())) > 0) {
-			for (int i = hits.size() - 1; i >= 0; i--) {
-				GeoElement geo = hits.get(i);
-				if ((geo.isGeoList() && !((GeoList) geo).drawAsComboBox())
-						|| geo.isGeoImage()) {
-					hits.remove(i);
-				}
-			}
-		}
-
-	}
-
-	@Override
-	public MyButton getHitButton() {
-		int size = hits.size();
-		for (int i = size - 1; i >= 0; i--) {
-			GeoElement geoElement = hits.get(i);
-			if (geoElement instanceof GeoButton) {
-				DrawableND drawable = getDrawableFor(geoElement);
-				if (drawable instanceof DrawButton) {
-					return ((DrawButton) drawable).myButton;
-				}
-			}
-		}
-
-		return null;
+		hitDetector.setHits(p, type);
 	}
 
 	/**
@@ -2967,6 +2852,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setShapeRectangle(GRectangle shapeRectangle) {
 		this.shapeRectangle = shapeRectangle;
+	}
+
+	/**
+	 * @param maskPreview
+	 *            - preview of rectangle for mask tool
+	 */
+	public void setMaskPreview(GRectangle maskPreview) {
+		this.maskPreview = maskPreview;
 	}
 
 	/**
@@ -3687,6 +3580,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			previewDrawable.drawPreview(g2);
 		}
 		adjustObjects();
+		drawMasks(g2);
 	}
 
 	/**
@@ -4340,6 +4234,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * Draw masks
+	 *
+	 * @param g2
+	 *            graphics
+	 */
+	public void drawMasks(GGraphics2D g2) {
+		DrawableIterator it = allDrawableList.getIterator();
+		it.reset();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			if (d.geo.isMask()) {
+				if (d.needsUpdate()) {
+					d.setNeedsUpdate(false);
+					d.update();
+				}
+
+				d.draw(g2);
+			}
+		}
+	}
+
+	/**
 	 * Switch antialiasing to true for given graphics
 	 * 
 	 * @param g2
@@ -4430,53 +4346,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return this.settings;
 	}
 
-	/**
-	 * sets array of GeoElements whose visual representation is inside of the
-	 * given screen rectangle
-	 */
-	@Override
-	public final void setHits(GRectangle rect) {
-		hits.init();
-		if (rect == null) {
-			return;
-		}
-
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.isInside(rect)) {
-				hits.add(geo);
-			}
-		}
-	}
-
 	@Override
 	public void updateCursor(GeoPointND point) {
 		// used in 3D
-	}
-
-	/**
-	 * sets array of GeoElements whose visual representation is inside of the
-	 * given screen rectangle
-	 * 
-	 * @param rect
-	 *            rectangle
-	 */
-	public final void setIntersectionHits(GRectangle rect) {
-		hits.init();
-		if (rect == null) {
-			return;
-		}
-
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.intersectsRectangle(rect)) {
-				hits.add(geo);
-			}
-		}
 	}
 
 	@Override
@@ -4496,6 +4368,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public GRectangle getShapeRectangle() {
 		return shapeRectangle;
+	}
+
+	/**
+	 *
+	 * @return mask
+	 */
+	public GRectangle getMaskPreview() {
+		return maskPreview;
 	}
 
 	/**
@@ -6661,5 +6541,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
 		return false;
+	}
+
+	/**
+	 * Draw mask preview if any.
+	 * @param g2 Graphics to draw to.
+	 */
+	void drawMaskPreview(GGraphics2D g2) {
+		if (maskPreview == null) {
+			return;
+		}
+
+		drawShape(g2, GeoGebraColorConstants.MEBIS_MASK,
+				GeoGebraColorConstants.MEBIS_MASK,
+				null, maskPreview);
+	}
+
+	/**
+	 * @return hit detector
+	 */
+	public HitDetector getHitDetector() {
+		return hitDetector;
 	}
 }

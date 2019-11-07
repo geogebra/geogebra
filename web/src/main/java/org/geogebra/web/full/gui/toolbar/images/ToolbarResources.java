@@ -291,4 +291,5 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_pen();
 
+	ResourcePrototype mode_mask();
 }

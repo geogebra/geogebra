@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 //import java.awt.Graphics2D;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -180,7 +181,7 @@ public class DrawableList {
 			GeoElement geo = cur.d.getGeoElement();
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-					&& !(geo.isGeoInputBox())) {
+					&& !(geo.isGeoInputBox()) && !geo.isMask()) {
 				if (cur.d.needsUpdate()) {
 					cur.d.setNeedsUpdate(false);
 					cur.d.update();

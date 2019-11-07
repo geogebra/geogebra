@@ -70,7 +70,7 @@ public class ModeDelete implements ModeDeleteInterface {
 		rect.setBounds(eventX - deleteSize / 2, eventY - deleteSize / 2,
 				deleteSize, deleteSize);
 		view.setDeletionRectangle(rect);
-		view.setIntersectionHits(rect);
+		view.getHitDetector().setIntersectionHits(rect);
 		Hits h = view.getHits();
 		if (!this.objDeleteMode && !this.penDeleteMode) {
 			updatePenDeleteMode(h);

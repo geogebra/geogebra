@@ -515,6 +515,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_LINE:
 		case EuclidianConstants.MODE_SHAPE_POLYGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+		case EuclidianConstants.MODE_MASK:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
@@ -9690,7 +9691,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		this.pressedButton = view.getHitButton();
+		this.pressedButton = view.getHitDetector().getHitButton();
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);
@@ -10028,7 +10029,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			clearSelections();
 		}
 
-		view.setHits(oldRectangle);
+		view.getHitDetector().setHits(oldRectangle);
 		Hits hits = view.getHits();
 
 		boolean changedKernel = false;
@@ -10401,6 +10402,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// resize, single selection
 		if (getResizedShape() != null) {
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			getResizedShape().updateGeo(AwtFactory.getPrototype()
 					.newPoint2D(event.getX(), event.getY()));
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
@@ -10409,21 +10411,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			storeUndoInfo();
 			setResizedShape(null);
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 		// resize, multi-selection
 		else if (isMultiResize) {
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			for (GeoElement geo : selection.getSelectedGeos()) {
 				((Drawable) view.getDrawableFor(geo)).updateGeo(AwtFactory
 						.getPrototype().newPoint2D(event.getX(), event.getY()));
 			}
-		}
-		// undo/redo for multi-selection
-		if (isMultiResize) {
 			storeUndoInfo();
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {
