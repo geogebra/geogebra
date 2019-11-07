@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Cookies;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -146,6 +147,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AppWFull extends AppW implements HasKeyboard {
 
+	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
 	private DataCollection dataCollection;
@@ -188,6 +190,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
+	private String autosavedMaterial = null;
 
 	/**
 	 *
@@ -1145,6 +1148,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void startDialogChain() {
+		autosavedMaterial = getFileManager().getAutosaveJSON();
 		afterLocalizationLoaded(new Runnable() {
 			@Override
 			public void run() {
@@ -1154,31 +1158,47 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void maybeShowRecentChangesDialog() {
-		if (true) {
-			showRecentChangesDialog(new Runnable() {
+		if (shouldShowRecentChangesDialog(RECENT_CHANGES_KEY)) {
+			LocalizationW localization = getLocalization();
+			String message = localization.getMenu(RECENT_CHANGES_KEY);
+			String readMore = localization.getMenu("tutorial_apps_comparison");
+			String link = "https://www.geogebra.org/m/" + readMore;
+			showRecentChangesDialog(message, link, new Runnable() {
 				@Override
 				public void run() {
 					maybeStartAutosave();
 				}
 			});
+			setHideRecentChanges(RECENT_CHANGES_KEY);
 		} else {
 			maybeStartAutosave();
 		}
 	}
 
+	private String getRecentChangesCookieKey(String key) {
+		return "RecentChanges" + key + "Shown";
+	}
+
+	private boolean shouldShowRecentChangesDialog(String key) {
+		String shown = Cookies.getCookie(getRecentChangesCookieKey(key));
+		return !"true".equals(shown);
+	}
+
+	private void setHideRecentChanges(String key) {
+		Cookies.setCookie(getRecentChangesCookieKey(key), "true");
+	}
+
 	private void maybeStartAutosave() {
-		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
+		if (hasMacroToRestore() || !getLAF().autosaveSupported()) {
 			return;
 		}
-		final String materialJSON = getFileManager().getAutosaveJSON();
-		if (materialJSON != null && !isStartedWithFile() && getExam() == null) {
-
+		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
 			afterLocalizationLoaded(new Runnable() {
-
 				@Override
 				public void run() {
-					getDialogManager()
-							.showRecoverAutoSavedDialog(AppWFull.this, materialJSON);
+					getDialogManager().showRecoverAutoSavedDialog(
+							AppWFull.this, autosavedMaterial);
+					autosavedMaterial = null;
 				}
 			});
 		} else {
@@ -1186,11 +1206,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void showRecentChangesDialog(final Runnable closingCallback) {
-		LocalizationW localization = getLocalization();
-		String message = localization.getMenu("RecentChangesInfo.Graphing");
-		String readMore = localization.getMenu("tutorial_apps_comparison");
-		String link = "https://www.geogebra.org/m/" + readMore;
+	private void showRecentChangesDialog(String message, String link, final Runnable closingCallback) {
 		WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
 		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
 			@Override
