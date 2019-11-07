@@ -50,7 +50,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private static final int TF_MARGIN_VERTICAL = 10;
 	/** Padding of the field (plain text) */
 	public static final int TF_PADDING_HORIZONTAL = 2;
-	private static final int MIN_HEIGHT = 30;
+	private static final int MIN_HEIGHT = 38;
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
@@ -327,9 +327,10 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	public int getPreferredHeight() {
-		return (int) Math.round(((getView().getApplication().getFontSize()
+		int height = (int) Math.round(((getView().getApplication().getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
 				+ TF_MARGIN_VERTICAL;
+		return Math.max(height, MIN_HEIGHT);
 	}
 
 	@Override
