@@ -50,7 +50,6 @@ public class DrawInputBox extends CanvasDrawable {
 	private static final int TF_MARGIN_VERTICAL = 10;
 	/** Padding of the field (plain text) */
 	public static final int TF_PADDING_HORIZONTAL = 2;
-	private static final int MIN_HEIGHT = 30;
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
@@ -360,15 +359,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
-		GRectangle textRendererBounds =
-				textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
-		return ensureMinHeight(textRendererBounds);
-	}
-
-	private GRectangle ensureMinHeight(GRectangle bounds) {
-		int height = (int) Math.max(bounds.getHeight(), MIN_HEIGHT);
-		bounds.setSize((int) bounds.getWidth(), height);
-		return bounds;
+		return textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
