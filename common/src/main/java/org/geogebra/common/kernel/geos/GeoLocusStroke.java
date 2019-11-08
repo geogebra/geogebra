@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationSolver;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
@@ -297,5 +300,146 @@ public class GeoLocusStroke extends GeoLocus
 			}
 		});
 		return pointsNoControl;
+	}
+
+	public ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1, MyPoint point2,
+			   double x, double y, double width, double height) {
+		// intersection points
+		ArrayList<GPoint2D> interPointList = new ArrayList<>();
+
+		if (point2.getSegmentType() == SegmentType.CURVE_TO) {
+			int i = getPoints().indexOf(point2);
+			MyPoint control1 = getPoints().get(i - 2);
+			MyPoint control2 = getPoints().get(i - 1);
+
+			// Top line
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x, y, x + width, y);
+
+			// Bottom line
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x, y - height, x + width, y - height);
+
+			// Left side
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x, y, x, y - height);
+
+			// Right side
+			getIntersectionPoints(interPointList, point1, control1, control2, point2,
+					x + width, y, x + width, y - height);
+		} else {
+			double x1 = point1.getX();
+			double y1 = point1.getY();
+			double x2 = point2.getX();
+			double y2 = point2.getY();
+
+			// Top line
+			GPoint2D topInter = getIntersectionPoint(x1, y1, x2, y2,
+					x, y, x + width, y);
+			if (topInter != null) {
+				interPointList.add(topInter);
+			}
+			// Bottom line
+			GPoint2D bottomInter = getIntersectionPoint(x1, y1, x2, y2,
+					x, y - height, x + width, y - height);
+			if (bottomInter != null) {
+				interPointList.add(bottomInter);
+			}
+			// Left side
+			GPoint2D leftInter = getIntersectionPoint(x1, y1, x2, y2,
+					x, y, x, y - height);
+			if (leftInter != null) {
+				interPointList.add(leftInter);
+			}
+			// Right side
+			GPoint2D rightInter = getIntersectionPoint(x1, y1, x2, y2,
+					x + width, y, x + width, y - height);
+			if (rightInter != null) {
+				interPointList.add(rightInter);
+			}
+		}
+
+		return interPointList;
+	}
+
+	private static void getIntersectionPoints(ArrayList<GPoint2D> interPointList,
+			  MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
+			  double x1, double y1, double x2, double y2) {
+		double A = y2 - y1;
+		double B = x1 - x2;
+		double C = x1 * (y1 - y2) + y1 * (x2 - x1);
+
+		double[] bx = bezierCoeffs(point1.x, control1.x, control2.x, point2.x);
+		double[] by = bezierCoeffs(point1.y, control1.y, control2.y, point2.y);
+
+		double[] P = {
+				A * bx[3] + B * by[3] + C,
+				A * bx[2] + B * by[2],
+				A * bx[1] + B * by[1],
+				A * bx[0] + B * by[0],
+		};
+
+		double[] r = new double[3];
+
+		EquationSolver.solveCubicS(P, r, Kernel.MAX_PRECISION);
+
+		for (double t : r) {
+			if (t <= 0 || t > 1) {
+				continue;
+			}
+
+			double x = bx[0]*t*t*t + bx[1]*t*t + bx[2]*t + bx[3];
+			double y = by[0]*t*t*t + by[1]*t*t + by[2]*t + by[3];
+
+			if (onSegment(x1, y1, x, y, x2, y2)) {
+				interPointList.add(new GPoint2D.Double(x, y));
+			}
+		}
+	}
+
+	private static double[] bezierCoeffs(double P0, double P1, double P2, double P3) {
+		return new double[] {
+				-P0 + 3 * P1 - 3 * P2 + P3,
+				3 * P0 - 6 * P1 + 3 * P2,
+				-3 * P0 + 3 * P1,
+				P0,
+		};
+	}
+
+	private static GPoint2D getIntersectionPoint(double x1, double y1, double x2, double y2,
+										  double x3, double y3, double x4, double y4) {
+		GPoint2D p = null;
+
+		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+		// are not parallel
+		if (d != 0.0) {
+			// coords of intersection point with line
+			double xi = ((x3 - x4) * (x1 * y2 - y1 * x2)
+					- (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
+			double yi = ((y3 - y4) * (x1 * y2 - y1 * x2)
+					- (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
+			// needed to get only the intersection points with segment
+			// and not with line
+			if (onSegment(x1, y1, xi, yi, x2, y2)
+					&& onSegment(x3, y3, xi, yi, x4, y4)) {
+				p = new GPoint2D.Double(xi, yi);
+			}
+		}
+		return p;
+	}
+
+	// check if intersection point is on segment
+	private static boolean onSegment(double segStartX, double segStartY,
+									 double interPointX, double interPointY, double segEndX,
+									 double segEndY) {
+		return onSegmentCoord(segStartX, interPointX, segEndX)
+				&& onSegmentCoord(segStartY, interPointY, segEndY);
+	}
+
+	private static boolean onSegmentCoord(double segStart, double interPoint,
+										  double segEnd) {
+		return (interPoint <= Math.max(segStart, segEnd)
+				&& interPoint >= Math.min(segStart, segEnd))
+				|| (segStart == segEnd);
 	}
 }

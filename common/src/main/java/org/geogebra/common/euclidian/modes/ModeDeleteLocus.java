@@ -166,11 +166,11 @@ public class ModeDeleteLocus {
 					if ((i - 1 >= 0 && dataPoints.get(i - 1).isDefined())) {
 						// get intersection point
 						interPoints.clear();
-						interPoints = getAllIntersectionPoint(dataPoints.get(i - 1),
+						interPoints = getAllIntersectionPoint(gls, dataPoints.get(i - 1),
 								dataPoints.get(i), rect);
 
 						if (interPoints.size() == 1) {
-							i = handleEraserAtJoinPointOrEndOfSegments(dataPoints, i);
+							i = handleEraserAtJoinPointOrEndOfSegments(gls, dataPoints, i);
 						} else {
 							i = handleEraserAtPoint(dataPoints, i);
 						}
@@ -178,7 +178,7 @@ public class ModeDeleteLocus {
 							&& i + 1 < dataPoints.size()
 							&& dataPoints.get(i + 1).isDefined()) {
 						// start point of segment is in rectangle
-						handleEraserAtStartPointOfSegment(dataPoints, i);
+						handleEraserAtStartPointOfSegment(gls, dataPoints, i);
 					} else {
 						// handle first/last/single remained point
 						handleLastFirstOrSinglePoints(dataPoints, i);
@@ -186,7 +186,7 @@ public class ModeDeleteLocus {
 				} else if (i < dataPoints.size() - 1 && dataPoints.get(i).isDefined()
 						&& dataPoints.get(i + 1).isDefined()) {
 					// eraser is between the endpoints of segment
-					i = handleEraserBetweenPointsOfSegment(dataPoints, i);
+					i = handleEraserBetweenPointsOfSegment(gls, dataPoints, i);
 				}
 
 				if (!hasVisiblePart && dataPoints.get(i).isDefined()) {
@@ -278,83 +278,9 @@ public class ModeDeleteLocus {
 	}
 
 	/**
-	 * @param point1
-	 *            start point of segment
-	 * @param point2
-	 *            end point of segment
-	 * @param rectangle
-	 *            eraser
-	 * @return intersection point with top of rectangle (if there is any)
-	 */
-	private GPoint2D getTopIntersectionPoint(MyPoint point1, MyPoint point2,
-			GRectangle rectangle) {
-		// Top line
-		return getIntersectionPoint(point1, point2,
-				rectangle.getX(), rectangle.getY(),
-						rectangle.getX() + rectangle.getWidth(),
-				rectangle.getY());
-	}
-
-	/**
-	 * @param point1
-	 *            start point of segment
-	 * @param point2
-	 *            end point of segment
-	 * @param rectangle
-	 *            eraser
-	 * @return intersection point with bottom of rectangle (if there is any)
-	 */
-	private GPoint2D getBottomIntersectionPoint(MyPoint point1, MyPoint point2,
-			GRectangle rectangle) {
-		// Bottom line
-		return getIntersectionPoint(point1, point2,
-				rectangle.getX(),
-						rectangle.getY() + rectangle.getHeight(),
-						rectangle.getX() + rectangle.getWidth(),
-				rectangle.getY() + rectangle.getHeight());
-	}
-
-	/**
-	 * @param point1
-	 *            start point of segment
-	 * @param point2
-	 *            end point of segment
-	 * @param rectangle
-	 *            eraser
-	 * @return intersection point with left side of rectangle (if there is any)
-	 */
-	private GPoint2D getLeftIntersectionPoint(MyPoint point1, MyPoint point2,
-			GRectangle rectangle) {
-		// Left side
-		return getIntersectionPoint(point1, point2,
-				rectangle.getX(), rectangle.getY(),
-						rectangle.getX(),
-				rectangle.getY() + rectangle.getHeight());
-	}
-
-	/**
-	 * @param point1
-	 *            start point of segment
-	 * @param point2
-	 *            end point of segment
-	 * @param rectangle
-	 *            eraser
-	 * @return intersection point with right side of rectangle (if there is any)
-	 */
-	private GPoint2D getRightIntersectionPoint(MyPoint point1, MyPoint point2,
-			GRectangle rectangle) {
-		// Right side
-		return getIntersectionPoint(point1, point2,
-				rectangle.getX() + rectangle.getWidth(),
-						rectangle.getY(),
-						rectangle.getX() + rectangle.getWidth(),
-				rectangle.getY() + rectangle.getHeight());
-	}
-
-	/**
 	 * method to get all intersection points of a segment with the eraser (with
 	 * each side of rectangle)
-	 * 
+	 *
 	 * @param point1
 	 *            start point of segment
 	 * @param point2
@@ -363,98 +289,23 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return list of intersection points
 	 */
-	private ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1,
-			MyPoint point2,
-			GRectangle rectangle) {
-		ArrayList<GPoint2D> interPointList = new ArrayList<>();
+	private ArrayList<GPoint2D> getAllIntersectionPoint(GeoLocusStroke gls,
+				MyPoint point1, MyPoint point2, GRectangle rectangle) {
+		double x = view.toRealWorldCoordX(rectangle.getX());
+		double y = view.toRealWorldCoordY(rectangle.getY());
+		double width = rectangle.getWidth() * view.getInvXscale();
+		double height = rectangle.getHeight() * view.getInvYscale();
+
 		// intersection points
-		GPoint2D topInter = getTopIntersectionPoint(point1, point2, rectangle);
-		if (topInter != null) {
-			interPointList.add(topInter);
-		}
-		GPoint2D bottomInter = getBottomIntersectionPoint(point1, point2,
-				rectangle);
-		if (bottomInter != null) {
-			interPointList.add(bottomInter);
-		}
-		GPoint2D leftInter = getLeftIntersectionPoint(point1, point2,
-				rectangle);
-		if (leftInter != null) {
-			interPointList.add(leftInter);
-		}
-		GPoint2D rightInter = getRightIntersectionPoint(point1, point2,
-				rectangle);
-		if (rightInter != null) {
-			interPointList.add(rightInter);
+		ArrayList<GPoint2D> interPointList = gls.getAllIntersectionPoint(point1, point2,
+				x, y, width, height);
+
+		for (GPoint2D point : interPointList) {
+			point.setX(view.toScreenCoordX(point.getX()));
+			point.setY(view.toScreenCoordY(point.getY()));
 		}
 
 		return interPointList;
-	}
-
-	/**
-	 * method to get the intersection point of two segment (not line)
-	 * 
-	 * @param point1
-	 *            start point of first segment
-	 * @param point2
-	 *            end point of first segment
-	 * @param startPointX
-	 *            start coord of start point of second segment
-	 * @param startPointY
-	 *            end coord of start point of second segment
-	 * @param endPointX
-	 *            start coord of end point of second segment
-	 * @param endPointY
-	 *            end coord of end point of second segment
-	 * @return intersection point
-	 */
-	private GPoint2D getIntersectionPoint(MyPoint point1, MyPoint point2,
-			double startPointX, double startPointY, double endPointX,
-			double endPointY) {
-		double x1 = view.toScreenCoordXd(point1.getX());
-		double y1 = view.toScreenCoordYd(point1.getY());
-		double x2 = view.toScreenCoordXd(point2.getX());
-		double y2 = view.toScreenCoordYd(point2.getY());
-
-		double x3 = startPointX;
-		double y3 = startPointY;
-		double x4 = endPointX;
-		double y4 = endPointY;
-		GPoint2D p = null;
-
-		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-		// are not parallel
-		if (d != 0.0) {
-			// coords of intersection point with line
-			double xi = ((x3 - x4) * (x1 * y2 - y1 * x2)
-					- (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
-			double yi = ((y3 - y4) * (x1 * y2 - y1 * x2)
-					- (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
-			// needed to get only the intersection points with segment
-			// and not with line
-			if (onSegment(Math.round(x1), Math.round(y1), xi, yi,
-					Math.round(x2), Math.round(y2))
-					&& onSegment(Math.round(x3), Math.round(y3), xi, yi,
-							Math.round(x4), Math.round(y4))) {
-				p = new GPoint2D.Double(xi, yi);
-			}
-		}
-		return p;
-	}
-
-	// check if intersection point is on segment
-	private static boolean onSegment(double segStartX, double segStartY,
-			double interPointX, double interPointY, double segEndX,
-			double segEndY) {
-		return onSegmentCoord(segStartX, interPointX, segEndX)
-				&& onSegmentCoord(segStartY, interPointY, segEndY);
-	}
-
-	private static boolean onSegmentCoord(double segStartX, double interPointX,
-			double segEndX) {
-		return (interPointX <= Math.max(segStartX, segEndX)
-				&& interPointX >= Math.min(segStartX, segEndX))
-				|| (segStartX == segEndX);
 	}
 
 	// check if the two intersection point is close enough
@@ -516,11 +367,11 @@ public class ModeDeleteLocus {
 		}
 	}
 
-	private void handleEraserAtStartPointOfSegment(List<MyPoint> dataPoints,
+	private void handleEraserAtStartPointOfSegment(GeoLocusStroke gls, List<MyPoint> dataPoints,
 			int i) {
 		// get intersection points
 		interPoints.clear();
-		interPoints = getAllIntersectionPoint(dataPoints.get(i),
+		interPoints = getAllIntersectionPoint(gls, dataPoints.get(i),
 				dataPoints.get(i + 1),
 				rect);
 		if (interPoints.size() == 1) {
@@ -597,13 +448,13 @@ public class ModeDeleteLocus {
 		return index;
 	}
 
-	private int handleEraserAtJoinPointOrEndOfSegments(List<MyPoint> dataPoints,
+	private int handleEraserAtJoinPointOrEndOfSegments(GeoLocusStroke gls, List<MyPoint> dataPoints,
 			int i) {
 		ArrayList<GPoint2D> secondInterPoints;
 
 		if (i + 1 < dataPoints.size() && dataPoints.get(i + 1).isDefined()) {
 			// see if there is intersection point with next segment
-			secondInterPoints = getAllIntersectionPoint(dataPoints.get(i),
+			secondInterPoints = getAllIntersectionPoint(gls, dataPoints.get(i),
 					dataPoints.get(i + 1), rect);
 			// case point is the join point of 2 segments
 			if (secondInterPoints.size() == 1) {
@@ -632,10 +483,10 @@ public class ModeDeleteLocus {
 		dataPoints.addAll(newPolyLinePoints);
 	}
 
-	private int handleEraserBetweenPointsOfSegment(
+	private int handleEraserBetweenPointsOfSegment(GeoLocusStroke gls,
 			List<MyPoint> dataPoints, int i) {
 		interPoints.clear();
-		interPoints = getAllIntersectionPoint(dataPoints.get(i),
+		interPoints = getAllIntersectionPoint(gls, dataPoints.get(i),
 				dataPoints.get(i + 1), rect);
 
 		if (interPoints.size() >= 2) {
