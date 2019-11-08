@@ -256,9 +256,8 @@ public class AlgoCompare extends AlgoElement {
             result = result.replaceAll("\\(\\s", "(");
             result = result.replaceAll("\\s\\)", ")");
 
-            // Simplify 1*... to ...
-            result = result.replaceAll("(\\s)\\(1\\)\\s" + Unicode.CENTER_DOT + "\\s", "$1");
-            // Use math symbols instead of Mathematica notation
+            // Simplify (1)*... to ...
+            result = result.replaceAll("\\(1\\)(\\s)" + Unicode.CENTER_DOT + "\\s", "");            // Use math symbols instead of Mathematica notation
             result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
             String repl = "<";
             if (htmlMode) {
