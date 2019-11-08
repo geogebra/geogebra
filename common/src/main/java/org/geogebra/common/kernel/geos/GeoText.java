@@ -122,15 +122,11 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
-	private EditMode editMode = EditMode.None;
+	private boolean isEditMode;
 
 	private int textHeight;
 	private GRectangle mowBoundingBox;
 	private boolean mowBoundingBoxJustLoaded = false;
-
-	private enum EditMode {
-		None, Ready, Edit
-	}
 
 	/**
 	 * Creates new text
@@ -1524,36 +1520,15 @@ public class GeoText extends GeoElement
 	}
 
 	public boolean isEditMode() {
-		return editMode == EditMode.Edit;
+		return isEditMode;
 	}
 
 	public void setEditMode() {
-		editMode = EditMode.Edit;
-	}
-
-	public void setReadyToEdit() {
-		editMode = EditMode.Ready;
+		this.isEditMode = true;
 	}
 
 	public void cancelEditMode() {
-		editMode = EditMode.None;
-	}
-
-	/**
-	 * process in edit mode
-	 */
-	public void processEditMode() {
-		switch (editMode) {
-		case None:
-			setReadyToEdit();
-			break;
-		case Ready:
-			setEditMode();
-			break;
-		case Edit:
-		default:
-			break;
-		}
+		this.isEditMode = false;
 	}
 
 	public void setTextHeight(int height) {

@@ -52,7 +52,6 @@ public final class DrawText extends Drawable {
 	 * color used to draw rectangle around text when highlighted
 	 */
 	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
-	private static final GColor EDITOR_BORDER_COLOR = GColor.GRAY;
 
 	private GeoText text;
 	private boolean isVisible;
@@ -229,12 +228,7 @@ public final class DrawText extends Drawable {
 				drawMultilineLaTeX(g2, textFont, geo.getObjectColor(),
 						bg != null ? bg : view.getBackgroundCommon());
 			} else {
-				if (text.isEditMode()) {
-					g2.setStroke(rectangleStroke);
-					g2.setPaint(EDITOR_BORDER_COLOR);
-					GRectangle rect = getBounds();
-					g2.draw(rect);
-				} else {
+				if (!text.isEditMode()) {
 					if (geo.getAlphaValue() > 0.0) {
 						g2.setPaint(geo.getFillColor());
 					} else {
