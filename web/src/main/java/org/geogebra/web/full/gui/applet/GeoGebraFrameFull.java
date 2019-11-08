@@ -489,7 +489,7 @@ public class GeoGebraFrameFull
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| getKeyboardManager().getKeyboardShouldBeShownFlag()
+				|| getKeyboardManager().shouldKeyboardBeShown()
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
 			return true;

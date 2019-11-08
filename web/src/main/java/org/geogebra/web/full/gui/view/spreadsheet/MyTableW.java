@@ -1706,7 +1706,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					if (keyboardManager != null) {
 						app.showKeyboard(textField,
 								keyboardManager
-										.getKeyboardShouldBeShownFlag());
+										.shouldKeyboardBeShown());
 					} else {
 						app.showKeyboard(textField, true);
 					}

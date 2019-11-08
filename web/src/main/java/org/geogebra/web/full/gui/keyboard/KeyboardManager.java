@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class KeyboardManager
 		implements ResizeHandler, KeyboardManagerInterface {
 
+	private static final int SWITCHER_HEIGHT = 40;
 	private AppW app;
 	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
@@ -110,12 +111,9 @@ public class KeyboardManager
 		if (realHeight > 0) {
 			return realHeight;
 		}
-		int newHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
+		int keyboardContentHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
 				: TabbedKeyboard.BIG_HEIGHT;
-		// add switcher height
-		newHeight += 40;
-
-		return newHeight;
+		return keyboardContentHeight + SWITCHER_HEIGHT;
 	}
 
 	/**
@@ -137,10 +135,8 @@ public class KeyboardManager
 
 	private RootPanel createKeyboardRoot() {
 		Element detachedKeyboardParent = DOM.createDiv();
-
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
-		Element container = app.getArticleElement().getParentElement()
-				.getParentElement();
+		Element container = getAppletContainer();
 		container.appendChild(detachedKeyboardParent);
 		container.getStyle().setProperty("paddingBottom",
 				estimateKeyboardHeight() + "px");
@@ -148,6 +144,15 @@ public class KeyboardManager
 		detachedKeyboardParent.setId(keyboardParentId);
 		Window.addResizeHandler(this);
 		return RootPanel.get(keyboardParentId);
+	}
+
+	private Element getAppletContainer() {
+		Element scaler = app.getArticleElement().getParentElement();
+		Element container = scaler.getParentElement();
+		if (container == null) {
+			return RootPanel.getBodyElement();
+		}
+		return container;
 	}
 
 	@Override
@@ -169,11 +174,9 @@ public class KeyboardManager
 	public VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField, UpdateKeyBoardListener listener) {
 		ensureKeyboardExists();
-
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
-
 		keyboard.setListener(listener);
 		return keyboard;
 	}
@@ -189,19 +192,16 @@ public class KeyboardManager
 	}
 
 	private boolean keyboardIsScientific() {
-		ArticleElementInterface articleElement = app
-				.getArticleElement();
-
+		ArticleElementInterface articleElement = app.getArticleElement();
 		if ("evaluator".equals(articleElement.getDataParamAppName())) {
 			return "scientific"
 					.equals(articleElement.getParamKeyboardType("normal"));
 		}
-
 		return app.getConfig().hasScientificKeyboard();
 	}
 
 	@Override
-	public boolean getKeyboardShouldBeShownFlag() {
+	public boolean shouldKeyboardBeShown() {
 		return keyboard != null && keyboard.shouldBeShown();
 	}
 

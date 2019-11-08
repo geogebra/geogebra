@@ -22,9 +22,20 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
 	void checkLanguage();
 
+	/**
+	 * @param popup
+	 *            popup that should not close when clicking the keyboard
+	 */
 	void addAutoHidePartner(GPopupPanel popup);
 
-	void selectTab(KeyboardType numbers);
+	/**
+	 * @param type
+	 *            selected tab
+	 */
+	void selectTab(KeyboardType type);
 
+	/**
+	 * @return DOM element
+	 */
 	Element getElement();
 }

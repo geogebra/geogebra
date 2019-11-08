@@ -11,7 +11,7 @@ public interface KeyboardManagerInterface {
 	/**
 	 * @return whether keyboard should be shown
 	 */
-	boolean getKeyboardShouldBeShownFlag();
+	boolean shouldKeyboardBeShown();
 
 	/**
 	 * @param tablePopup
