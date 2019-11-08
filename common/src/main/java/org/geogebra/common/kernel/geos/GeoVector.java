@@ -1213,4 +1213,9 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return getVector();
 	}
 
+	@Override
+	public boolean isColumnEditabe() {
+		return isIndependent()
+				|| getParentAlgorithm() instanceof AlgoDependentVector;
+	}
 }

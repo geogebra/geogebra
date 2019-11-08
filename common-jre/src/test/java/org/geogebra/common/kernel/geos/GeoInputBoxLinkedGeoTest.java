@@ -129,6 +129,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void compoundVectorsMustBeFlatEditable() {
+		add("u: (1, 2, 3)");
+		add("v: (3, 4, 5)");
+		setupInput("l", "u + v");
+		Assert.assertEquals("u + v", inputBox.getTextForEditor());
+	}
+
+	@Test
 	public void nonsymbolicShouldSupportDecimals() {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);

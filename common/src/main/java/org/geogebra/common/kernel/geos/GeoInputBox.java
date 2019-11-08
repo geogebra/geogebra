@@ -129,7 +129,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	private boolean hasIndependentVector() {
-		return linkedGeo instanceof GeoVectorND && linkedGeo.isIndependent();
+		return linkedGeo instanceof GeoVectorND &&
+				((GeoVectorND) linkedGeo).isColumnEditabe();
 	}
 
 	/**

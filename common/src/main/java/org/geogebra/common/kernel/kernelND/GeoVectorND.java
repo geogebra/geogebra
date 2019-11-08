@@ -113,4 +113,10 @@ public interface GeoVectorND
 	 * @return the LaTeX string to render a column vector.
 	 */
 	String toLaTeXStringAsColumnVector(StringTemplate tpl);
+
+	/**
+	 *
+	 * @return true if the vector is column-editable.
+	 */
+	boolean isColumnEditabe();
 }
