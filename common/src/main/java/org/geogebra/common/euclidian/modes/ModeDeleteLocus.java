@@ -84,8 +84,8 @@ public class ModeDeleteLocus {
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoLocusStroke) {
-				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo,
-						eventX, eventY);
+				boolean hasVisiblePart = deletePartOfPenStroke(
+						(GeoLocusStroke) geo, eventX, eventY);
 
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
@@ -133,8 +133,8 @@ public class ModeDeleteLocus {
 						eventY - ec.getDeleteToolSize() / 2,
 						ec.getDeleteToolSize(), ec.getDeleteToolSize());
 
-				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0],
-						eventX, eventY);
+				boolean hasVisiblePart = deletePartOfPenStroke(
+						(GeoLocusStroke) geos[0], eventX, eventY);
 
 				if (!hasVisiblePart) { // still something visible, don't delete
 					// remove this Stroke
@@ -153,44 +153,17 @@ public class ModeDeleteLocus {
 	}
 
 	private boolean deletePartOfPenStroke(GeoLocusStroke gls, int eventX, int eventY) {
-		// we need two arrays for the case that AlgoAttachCopyToView is
-		// involved
-		// the original points (dataPoints) are saved, but will be
-		// translated
-		// and everything by the algorithm so that the
-		// GeoLocusStroke-output
-		// holds the points which are really drawn (and should be used
-		// for
-		// hit detection).
+		ArrayList<MyPoint> dataPoints = gls.getPointsWithoutControl();
 
-		List<MyPoint> dataPoints;
-
-		if (gls.getParentAlgorithm() != null
-				&& (gls.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
-			AlgoElement ae = gls.getParentAlgorithm();
-			for (int i = 0; i < ae.getInput().length; i++) {
-				if (ae.getInput()[i] instanceof GeoLocusStroke) {
-					gls = (GeoLocusStroke) ae.getInput()[i];
-				}
-			}
-		}
-
-		if (gls.getParentAlgorithm() != null
-				&& gls.getParentAlgorithm() instanceof AlgoLocusStroke) {
-			dataPoints = ((AlgoLocusStroke) gls.getParentAlgorithm())
-					.getPointsWithoutControl();
-		} else {
-			dataPoints = gls.getPoints();
-		}
+		double deleteThreshold = ec.getDeleteToolSize() / 2.0;
 
 		boolean hasVisiblePart = false;
 		if (dataPoints.size() > 0) {
 			for (int i = 0; i < dataPoints.size(); i++) {
 				MyPoint p = dataPoints.get(i);
-				if (p.isDefined() && Math.max(
-						Math.abs(eventX - view.toScreenCoordXd(p.getX())),
-						Math.abs(eventY - view.toScreenCoordYd(p.getY())))
-						<= ec.getDeleteToolSize() / 2.0) {
+				if (p.isDefined()
+						&& Math.abs(eventX - view.toScreenCoordXd(p.getX())) <= deleteThreshold
+						&& Math.abs(eventY - view.toScreenCoordYd(p.getY())) <= deleteThreshold) {
 					// end point of segment is in rectangle
 					if ((i - 1 >= 0 && dataPoints.get(i - 1).isDefined())) {
 						// get intersection point
@@ -207,12 +180,10 @@ public class ModeDeleteLocus {
 							&& i + 1 < dataPoints.size()
 							&& dataPoints.get(i + 1).isDefined()) {
 						// start point of segment is in rectangle
-						handleEraserAtStartPointOfSegment(
-								dataPoints, i);
+						handleEraserAtStartPointOfSegment(dataPoints, i);
 					} else {
 						// handle first/last/single remained point
-						handleLastFirstOrSinglePoints(
-								dataPoints, i);
+						handleLastFirstOrSinglePoints(dataPoints, i);
 					}
 				} else if (i < dataPoints.size() - 1 && dataPoints.get(i).isDefined()
 						&& dataPoints.get(i + 1).isDefined()) {
@@ -227,11 +198,9 @@ public class ModeDeleteLocus {
 
 			deleteUnnecessaryUndefPoints(dataPoints);
 
-			if (gls.getParentAlgorithm() != null
-					&& gls.getParentAlgorithm() instanceof AlgoLocusStroke) {
-				((AlgoLocusStroke) gls.getParentAlgorithm())
-						.updatePointArray(dataPoints, 0);
-			}
+			gls.getPoints().clear();
+			((AlgoLocusStroke) gls.getParentAlgorithm()).appendPointArray(dataPoints);
+			gls.update();
 		} else {
 			Log.debug(
 					"Can't delete points on stroke: output & input sizes differ.");

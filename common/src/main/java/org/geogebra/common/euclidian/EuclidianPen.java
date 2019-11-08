@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -13,7 +12,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -539,26 +537,12 @@ public class EuclidianPen implements GTimerListener {
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints) {
 		Construction cons = app.getKernel().getConstruction();
-		List<MyPoint> newPts;
 		if (startNewStroke) {
 			lastAlgo = null;
 			startNewStroke = false;
 		}
-		int ptsLength = 0;
-		if (lastAlgo == null) {
-			newPts = new ArrayList<>(penPoints.size());
-		} else {
-			AlgoLocusStroke algo = getAlgoStroke(lastAlgo);
 
-			List<MyPoint> oldPoints = algo.getPoints();
-			ptsLength = oldPoints.size();
-
-			newPts = new ArrayList<>(ptsLength + 1 + penPoints.size());
-
-			newPts.addAll(oldPoints);
-			newPts.add(new MyPoint(Double.NaN, Double.NaN));
-		}
-
+		ArrayList<MyPoint> newPts = new ArrayList<>(penPoints.size());
 		for (GPoint p : penPoints) {
 			double x = view.toRealWorldCoordX(p.getX());
 			double y = view.toRealWorldCoordY(p.getY());
@@ -570,7 +554,7 @@ public class EuclidianPen implements GTimerListener {
 
 		// don't set label
 		if (lastAlgo != null) {
-			lastAlgo.updatePointArray(newPts, ptsLength);
+			lastAlgo.appendPointArray(newPts);
 			lastAlgo.getOutput(0).updateRepaint();
 			return;
 		}
@@ -596,13 +580,6 @@ public class EuclidianPen implements GTimerListener {
 		poly.updateRepaint();
 
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
-	}
-
-	private static AlgoLocusStroke getAlgoStroke(AlgoElement al) {
-		if (al instanceof AlgoLocusStroke) {
-			return (AlgoLocusStroke) al;
-		}
-		return (AlgoLocusStroke) al.getInput()[0].getParentAlgorithm();
 	}
 
 	/**

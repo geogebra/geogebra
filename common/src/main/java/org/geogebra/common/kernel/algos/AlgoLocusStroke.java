@@ -40,9 +40,6 @@ public class AlgoLocusStroke extends AlgoElement {
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
 	/** output */
 	protected GeoLocusStroke poly;
-	// list of all points (also newly calculated control points of
-	// bezier curve)
-	private ArrayList<MyPoint> pointList = new ArrayList<>();
 
 	/**
 	 * @param cons
@@ -50,10 +47,10 @@ public class AlgoLocusStroke extends AlgoElement {
 	 * @param points
 	 *            vertices of the polygon
 	 */
-	public AlgoLocusStroke(Construction cons, List<MyPoint> points) {
+	public AlgoLocusStroke(Construction cons, ArrayList<MyPoint> points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
-		updatePointArray(points, 0);
+		appendPointArray(points);
 		// poly = new GeoPolygon(cons, points);
 		// updatePointArray already covered compute
 		input = new GeoElement[1];
@@ -98,53 +95,40 @@ public class AlgoLocusStroke extends AlgoElement {
 	}
 
 	/**
-	 * Update point array of polygon using the given array list
-	 * 
+	 * Append the given points to the locus stroke
+	 *
 	 * @param data
 	 *            points
-	 * @param initialIndex
-	 *            index from which to start smoothing (consider previous points
-	 *            smooth)
 	 */
-	public void updatePointArray(List<MyPoint> data, int initialIndex) {
+	public void appendPointArray(ArrayList<MyPoint> data) {
 		poly.resetXMLPointBuilder();
-		// check if we have a point list
-		// create new points array
-		int size = data.size();
 		poly.setDefined(true);
-		poly.getPoints().clear();
+
+		ArrayList<MyPoint> smoothedPoints = poly.getPoints();
+
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data)) {
-			pointList.clear();
-			for (int i = 0; i < initialIndex; i++) {
-				pointList.add(data.get(i));
-			}
-
-			int index = initialIndex;
+			int index = 0;
 			while (index <= data.size()) {
-				// TODO
-				// separator for XML
 				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
-				if (!pointList.isEmpty()
-						&& pointList.get(pointList.size() - 1).isDefined()
+				if (!data.isEmpty()
+						&& data.get(data.size() - 1).isDefined()
 						&& partOfStroke.size() > 0) {
-					pointList.add(new MyPoint(Double.NaN, Double.NaN,
+					smoothedPoints.add(new MyPoint(Double.NaN, Double.NaN,
 							SegmentType.LINE_TO));
 				}
+
 				// if we found single point
 				// just add it to the list without control points
 				if (partOfStroke.size() > 0) {
-					pointList.add(
-							partOfStroke.get(0).withType(SegmentType.MOVE_TO));
+					smoothedPoints.add(partOfStroke.get(0).withType(SegmentType.MOVE_TO));
 				}
 
 				if (partOfStroke.size() == 1) {
-					pointList.add(
-							partOfStroke.get(0).withType(SegmentType.LINE_TO));
+					smoothedPoints.add(partOfStroke.get(0).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() == 2) {
-					pointList.add(
-							partOfStroke.get(1).withType(SegmentType.LINE_TO));
+					smoothedPoints.add(partOfStroke.get(1).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() > 1) {
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
@@ -156,28 +140,27 @@ public class AlgoLocusStroke extends AlgoElement {
 								controlPoints.get(3)[i - 1],
 								SegmentType.CONTROL);
 						MyPoint endpoint = partOfStroke.get(i);
-						if (angle(pointList.get(pointList.size() - 1), ctrl1,
+						if (angle(data.get(data.size() - 1), ctrl1,
 								endpoint) > MIN_CURVE_ANGLE
-								|| angle(pointList.get(pointList.size() - 1),
-										ctrl2, endpoint) > MIN_CURVE_ANGLE) {
-							pointList.add(ctrl1);
-							pointList.add(ctrl2);
-							pointList.add(
+								|| angle(data.get(data.size() - 1),
+								ctrl2, endpoint) > MIN_CURVE_ANGLE) {
+							smoothedPoints.add(ctrl1);
+							smoothedPoints.add(ctrl2);
+							smoothedPoints.add(
 									endpoint.withType(SegmentType.CURVE_TO));
 						} else {
-							pointList.add(
+							smoothedPoints.add(
 									endpoint.withType(SegmentType.LINE_TO));
 						}
 					}
 				}
 				index = index + Math.max(partOfStroke.size(), 1);
 			}
-			poly.setPoints(pointList);
 		} else {
-			for (int i = 0; i < size; i++) {
-				poly.getPoints().add(new MyPoint(data.get(i).getX(),
+			for (int i = 0; i < data.size(); i++) {
+				smoothedPoints.add(new MyPoint(data.get(i).getX(),
 						data.get(i).getY(),
-					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
+						i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
 
@@ -308,28 +291,6 @@ public class AlgoLocusStroke extends AlgoElement {
 	}
 
 	/**
-	 * @return list of points without the control points
-	 */
-	public ArrayList<MyPoint> getPointsWithoutControl() {
-		final ArrayList<MyPoint> pointsNoControl = new ArrayList<>();
-		poly.processPointsWithoutControl(new AsyncOperation<MyPoint>() {
-
-			@Override
-			public void callback(MyPoint obj) {
-				pointsNoControl.add(obj);
-			}
-		});
-		return pointsNoControl;
-	}
-
-	/**
-	 * @return full list of definition points
-	 */
-	public ArrayList<MyPoint> getPoints() {
-		return poly.getPoints();
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -357,18 +318,17 @@ public class AlgoLocusStroke extends AlgoElement {
 	private void appendPoints(final StringBuilder sb) {
 		final ScientificFormatAdapter formatter = FormatFactory.getPrototype()
 				.getFastScientificFormat(5);
-		poly
-				.processPointsWithoutControl(new AsyncOperation<MyPoint>() {
+		poly.processPointsWithoutControl(new AsyncOperation<MyPoint>() {
 
-					@Override
-					public void callback(MyPoint m) {
-						sb.append("(");
-						sb.append(formatter.format(m.getX()));
-						sb.append(",");
-						sb.append(formatter.format(m.getY()));
-						sb.append("), ");
-					}
-				});
+				@Override
+				public void callback(MyPoint m) {
+					sb.append("(");
+					sb.append(formatter.format(m.getX()));
+					sb.append(",");
+					sb.append(formatter.format(m.getY()));
+					sb.append("), ");
+				}
+		});
 		sb.append("true");
 	}
 

@@ -13,6 +13,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 
+import java.util.ArrayList;
+
 /**
  * Class for polylines created using pen
  * 
@@ -280,5 +282,20 @@ public class GeoLocusStroke extends GeoLocus
 	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return label;
+	}
+
+	/**
+	 * @return list of points without the control points
+	 */
+	public ArrayList<MyPoint> getPointsWithoutControl() {
+		final ArrayList<MyPoint> pointsNoControl = new ArrayList<>();
+		processPointsWithoutControl(new AsyncOperation<MyPoint>() {
+
+			@Override
+			public void callback(MyPoint obj) {
+				pointsNoControl.add(obj);
+			}
+		});
+		return pointsNoControl;
 	}
 }
