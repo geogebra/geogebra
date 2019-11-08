@@ -76,7 +76,7 @@ public class EuclidianPen implements GTimerListener {
 	/** Polyline that conects stylebar to pen settings */
 	public final GeoPolyLine defaultPenLine;
 
-	private AlgoElement lastAlgo = null;
+	private AlgoLocusStroke lastAlgo = null;
 	/** points created by pen */
 	protected ArrayList<GPoint> penPoints = new ArrayList<>();
 
@@ -271,20 +271,6 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * Update the info about last geo so that we can continue a polyline
-	 *
-	 * @param penGeo
-	 *            last object created with pen
-	 */
-	public void setPenGeo(GeoElement penGeo) {
-		if (penGeo == null) {
-			lastAlgo = null;
-		} else if (penGeo.getParentAlgorithm() instanceof AlgoLocusStroke) {
-			lastAlgo = penGeo.getParentAlgorithm();
-		}
-	}
-
-	/**
 	 * Make sure we start using a new polyline
 	 */
 	public void resetPenOffsets() {
@@ -383,18 +369,7 @@ public class EuclidianPen implements GTimerListener {
 	 *            event
 	 */
 	public void addPointPenMode(AbstractEvent e) {
-		// if a PolyLine is selected, we can append to it.
-
-		ArrayList<GeoElement> selGeos = app.getSelectionManager()
-				.getSelectedGeos();
-
-		if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
-			lastAlgo = selGeos.get(0).getParentAlgorithm();
-		}
-
 		view.setCursor(EuclidianCursor.TRANSPARENT);
-
-		// if (g2D == null) g2D = penImage.createGraphics();
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 
@@ -593,35 +568,21 @@ public class EuclidianPen implements GTimerListener {
 					DoubleUtil.checkDecimalFraction(y)));
 		}
 
-		AlgoElement algo;
 		// don't set label
-		if (lastAlgo instanceof AlgoLocusStroke) {
-			((AlgoLocusStroke) lastAlgo).updatePointArray(newPts, ptsLength);
+		if (lastAlgo != null) {
+			lastAlgo.updatePointArray(newPts, ptsLength);
 			lastAlgo.getOutput(0).updateRepaint();
 			return;
 		}
-		AlgoElement newPolyLine = new AlgoLocusStroke(cons, newPts);
+
+		AlgoLocusStroke newPolyLine = new AlgoLocusStroke(cons, newPts);
 		// set label
 		newPolyLine.getOutput(0).setLabel(null);
-		algo = newPolyLine;
+		newPolyLine.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
 
-		algo.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
+		lastAlgo = newPolyLine;
 
-		if (lastAlgo != null) {
-			try {
-				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
-				// String label = lastPolyLine.getPoly().getLabelSimple();
-				// lastPolyLine.getPoly().remove();
-				// lastPolyLine.remove();
-				// newPolyLine.getPoly().setLabel(label);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		lastAlgo = algo;
-
-		GeoElement poly = algo.getOutput(0);
+		GeoElement poly = newPolyLine.getOutput(0);
 
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);

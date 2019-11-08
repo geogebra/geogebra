@@ -107,7 +107,7 @@ public class AlgoLocusStroke extends AlgoElement {
 	 *            smooth)
 	 */
 	public void updatePointArray(List<MyPoint> data, int initialIndex) {
-		poly.resetPointsWithoutControl();
+		poly.resetXMLPointBuilder();
 		// check if we have a point list
 		// create new points array
 		int size = data.size();

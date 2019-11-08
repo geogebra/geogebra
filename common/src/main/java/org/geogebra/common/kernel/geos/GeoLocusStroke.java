@@ -232,7 +232,7 @@ public class GeoLocusStroke extends GeoLocus
 			pt.y += v.getY();
 		}
 
-		resetPointsWithoutControl();
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -258,7 +258,7 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * Reset list of points for XML
 	 */
-	public void resetPointsWithoutControl() {
+	public void resetXMLPointBuilder() {
 		xmlPoints = null;
 	}
 
