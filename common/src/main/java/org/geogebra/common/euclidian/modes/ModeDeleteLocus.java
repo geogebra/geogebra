@@ -16,8 +16,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -601,8 +599,8 @@ public class ModeDeleteLocus {
 
 	private int handleEraserAtJoinPointOrEndOfSegments(List<MyPoint> dataPoints,
 			int i) {
-		int index = i;
 		ArrayList<GPoint2D> secondInterPoints;
+
 		if (i + 1 < dataPoints.size() && dataPoints.get(i + 1).isDefined()) {
 			// see if there is intersection point with next segment
 			secondInterPoints = getAllIntersectionPoint(dataPoints.get(i),
@@ -612,55 +610,20 @@ public class ModeDeleteLocus {
 				interPoints.add(secondInterPoints.get(0));
 				double[] realCoords = getInterRealCoords(
 						dataPoints.get(i - 1));
-				if (i + 2 < dataPoints.size()
-						&& dataPoints.get(i + 2).isDefined()
-						&& i - 2 > 0 && dataPoints.get(i - 2).isDefined()) {
-					// switch old point with
-					// intersection point
-					dataPoints.get(i - 1).setCoords(realCoords[0],
-							realCoords[1]);
-					dataPoints.get(i).setUndefined();
-					// switch old point with
-					// intersection point
-					dataPoints.get(i + 1).setCoords(realCoords[2],
-							realCoords[3]);
-					index = i + 2;
-				} else if (i + 2 < dataPoints.size()
-						&& !dataPoints.get(i + 2).isDefined() && i - 2 > 0
-						&& dataPoints.get(i - 2).isDefined()) {
-					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i,
-							i - 1, i, i + 1, realCoords));
-
-					index = i + 2;
-				} else if (i - 2 > 0 && !dataPoints.get(i - 2).isDefined()
-						&& i + 2 < dataPoints.size()
-						&& dataPoints.get(i + 2).isDefined()) {
-					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
-							i + 1, i + 2, realCoords));
-
-					index = i + 2;
-				} else if (i - 2 > 0 && !dataPoints.get(i - 2).isDefined()
-						&& i + 2 < dataPoints.size()
-						&& !dataPoints.get(i + 2).isDefined()) {
-					swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i,
-							i + 1, i + 2, realCoords));
-					index = i + 3;
-				} else {
-					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
-							i + 1, i + 2, realCoords));
-					index = i + 2;
-				}
+				swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i,
+						i + 1, i + 2, realCoords));
+				return i + 3;
 			}
-		}
-		// point is endpoint of segment
-		else {
+		} else {
+			// point is endpoint of segment
 			double realX = view.toRealWorldCoordX(interPoints.get(0).getX());
 			double realY = view.toRealWorldCoordY(interPoints.get(0).getY());
 			// switch old point with
 			// intersection point
 			dataPoints.get(i).setCoords(realX, realY);
 		}
-		return index;
+
+		return i;
 	}
 
 	private static void swap(List<MyPoint> dataPoints,
@@ -671,44 +634,17 @@ public class ModeDeleteLocus {
 
 	private int handleEraserBetweenPointsOfSegment(
 			List<MyPoint> dataPoints, int i) {
-		int index = i;
 		interPoints.clear();
 		interPoints = getAllIntersectionPoint(dataPoints.get(i),
-				dataPoints.get(i + 1),
-				rect);
+				dataPoints.get(i + 1), rect);
+
 		if (interPoints.size() >= 2) {
 			double[] realCoords = getInterRealCoords(dataPoints.get(i));
-			// case ?,(A),(B),? or ?,(A),(B)
-			if (i - 1 > 0 && !dataPoints.get(i - 1).isDefined()
-					&& ((i + 2 < dataPoints.size()
-							&& !dataPoints.get(i + 2).isDefined())
-							|| i + 1 == dataPoints.size() - 1)) {
-				swap(dataPoints, getNewPolyLinePoints(dataPoints, 3, i, i + 1,
+			swap(dataPoints, getNewPolyLinePoints(dataPoints, 3, i, i + 1,
 						i + 2, i + 3, realCoords));
-				index += 4;
-			}
-			// case ?,(A),(B),...
-			else if (i - 1 > 0 && !dataPoints.get(i - 1).isDefined()
-					&& i + 1 != dataPoints.size() - 1) {
-				swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i + 1,
-						i + 2, i + 3, realCoords));
-				index += 3;
-			}
-			// case ...,(A),(B),?,... or ...,(A),(B)
-			else if (i + 1 == dataPoints.size() - 1
-					|| (i + 2 < dataPoints.size()
-							&& !dataPoints.get(i + 2).isDefined())) {
-				swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i,
-						i + 1, i + 2, realCoords));
-				index += 3;
-			}
-			// otherwise
-			else {
-				swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
-						i + 1, i + 2, realCoords));
-				index += 2;
-			}
+			return i + 4;
 		}
-		return index;
+
+		return i;
 	}
 }
