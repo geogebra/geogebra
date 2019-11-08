@@ -227,7 +227,6 @@ public class ModeDeleteLocus {
 
 			deleteUnnecessaryUndefPoints(dataPoints);
 
-			updatePolyLineDataPoints(dataPoints, gls);
 			if (gls.getParentAlgorithm() != null
 					&& gls.getParentAlgorithm() instanceof AlgoLocusStroke) {
 				((AlgoLocusStroke) gls.getParentAlgorithm())
@@ -531,16 +530,6 @@ public class ModeDeleteLocus {
 	public void mousePressed() {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
-	}
-
-	private static void updatePolyLineDataPoints(List<MyPoint> dataPoints,
-			GeoLocusStroke gps) {
-		if (gps.getParentAlgorithm() != null
-					&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-			((AlgoLocusStroke) gps.getParentAlgorithm())
-					.updateFrom(dataPoints);
-			gps.notifyUpdate();
-		}
 	}
 
 	private static void handleLastFirstOrSinglePoints(List<MyPoint> dataPoints,

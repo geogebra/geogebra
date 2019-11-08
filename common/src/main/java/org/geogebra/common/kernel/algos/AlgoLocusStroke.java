@@ -180,6 +180,10 @@ public class AlgoLocusStroke extends AlgoElement {
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
+
+		if (getOutput() != null) {
+			getOutput(0).updateCascade();
+		}
 	}
 
 	private static double angle(MyPoint a, MyPoint b, MyPoint c) {
@@ -323,20 +327,6 @@ public class AlgoLocusStroke extends AlgoElement {
 	 */
 	public ArrayList<MyPoint> getPoints() {
 		return poly.getPoints();
-	}
-
-	/**
-	 * @param data
-	 *            new point array
-	 */
-	public void updateFrom(List<MyPoint> data) {
-		if (poly.getPoints() != data) {
-			poly.setDefined(true);
-			poly.getPoints().clear();
-			poly.getPoints().addAll(data);
-		}
-		poly.resetPointsWithoutControl();
-		getOutput(0).updateCascade();
 	}
 
 	/**
