@@ -2847,6 +2847,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Successes": "\u6210\u529f",
     "Suggestion.CreateSlider": "Create Slider",
     "Suggestion.SpecialPoints": "Special Points",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\u8a08\u7b97\u5132\u5b58\u683c\u7684\u7e3d\u548c",

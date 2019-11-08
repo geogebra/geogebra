@@ -2847,6 +2847,7 @@ __GGB__keysVar["uz"].menu = {
     "Successes": "Successes",
     "Suggestion.CreateSlider": "Surgich yaratish",
     "Suggestion.SpecialPoints": "Maxsus nuqtalar",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Yig'indi",

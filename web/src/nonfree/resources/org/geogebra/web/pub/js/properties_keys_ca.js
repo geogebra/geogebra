@@ -2847,6 +2847,7 @@ __GGB__keysVar["ca"].menu = {
     "Successes": "\xc8xits",
     "Suggestion.CreateSlider": "Crear Punt Lliscant",
     "Suggestion.SpecialPoints": "Punts Notables",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",

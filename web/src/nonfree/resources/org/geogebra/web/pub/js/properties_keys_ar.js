@@ -2847,6 +2847,7 @@ __GGB__keysVar["ar"].menu = {
     "Successes": "\u0627\u0644\u0646\u062c\u0627\u062d\u0627\u062a",
     "Suggestion.CreateSlider": "Create Slider",
     "Suggestion.SpecialPoints": "Special Points",
+    "Suite": "Suite",
     "Sum": "\u0645\u062c\u0640 \u0633",
     "Sum2": "\u0645\u062c\u0640 \u0633\xb2",
     "SumCells": "\u0627\u0644\u0645\u062c\u0645\u0648\u0639",

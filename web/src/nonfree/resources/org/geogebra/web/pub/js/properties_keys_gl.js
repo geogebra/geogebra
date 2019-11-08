@@ -2847,6 +2847,7 @@ __GGB__keysVar["gl"].menu = {
     "Successes": "\xc9xitos",
     "Suggestion.CreateSlider": "Crear esvarador (deslizador)",
     "Suggestion.SpecialPoints": "Puntos especiais",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",

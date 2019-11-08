@@ -2847,6 +2847,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Successes": "\xc8xits",
     "Suggestion.CreateSlider": "Crea un control lliscant",
     "Suggestion.SpecialPoints": "Punts notables",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",
