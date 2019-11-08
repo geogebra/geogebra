@@ -7554,7 +7554,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
 
-				if (textField && !isMoveTextFieldExpected((GeoInputBox) movedGeoElement)) {
+				if (textField && !isMoveTextFieldExpected(movedGeoElement)) {
 					return;
 				}
 
@@ -7627,18 +7627,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private boolean isMoveTextFieldExpected(GeoInputBox geoInputBox) {
-		if (geoInputBox.isEditing()) {
-			return false;
-		}
-
-		if (geoInputBox.isSymbolicMode() && isDraggingBeyondThreshold()) {
-			view.hideSymbolicEditor();
-		}
-
-		return true;
-	}
-
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int absMoveMode) {
 		moveMode = absMoveMode;
 		startLoc = mouseLoc;
@@ -7705,7 +7693,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
 	}
 
-	protected boolean isMoveTextFieldExpected(GeoElementND geo) {
+	private boolean isMoveTextFieldExpected(GeoElementND geo) {
 		if (!geo.isGeoInputBox()) {
 			return false;
 		}

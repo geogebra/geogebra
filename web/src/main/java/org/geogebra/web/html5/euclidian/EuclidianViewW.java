@@ -1451,8 +1451,7 @@ public class EuclidianViewW extends EuclidianView implements
 			return null;
 		}
 
-		SymbolicEditor editor = gm.createSymbolicEditor();
-		return editor;
+		return gm.createSymbolicEditor(this);
 	}
 
 	@Override
