@@ -30,7 +30,7 @@ public class ModeDeleteLocus {
 	private EuclidianController ec;
 	private boolean objDeleteMode = false;
 	private boolean penDeleteMode = false;
-	private ArrayList<GPoint2D> interPoints;
+	private ArrayList<MyPoint> interPoints;
 	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
 			100);
 
@@ -289,7 +289,7 @@ public class ModeDeleteLocus {
 	 *            eraser
 	 * @return list of intersection points
 	 */
-	private ArrayList<GPoint2D> getAllIntersectionPoint(GeoLocusStroke gls,
+	private ArrayList<MyPoint> getAllIntersectionPoint(GeoLocusStroke gls,
 				MyPoint point1, MyPoint point2, GRectangle rectangle) {
 		double x = view.toRealWorldCoordX(rectangle.getX());
 		double y = view.toRealWorldCoordY(rectangle.getY());
@@ -297,10 +297,10 @@ public class ModeDeleteLocus {
 		double height = rectangle.getHeight() * view.getInvYscale();
 
 		// intersection points
-		ArrayList<GPoint2D> interPointList = gls.getAllIntersectionPoint(point1, point2,
+		ArrayList<MyPoint> interPointList = gls.getAllIntersectionPoints(point1, point2,
 				x, y, width, height);
 
-		for (GPoint2D point : interPointList) {
+		for (MyPoint point : interPointList) {
 			point.setX(view.toScreenCoordX(point.getX()));
 			point.setY(view.toScreenCoordY(point.getY()));
 		}
@@ -450,7 +450,7 @@ public class ModeDeleteLocus {
 
 	private int handleEraserAtJoinPointOrEndOfSegments(GeoLocusStroke gls, List<MyPoint> dataPoints,
 			int i) {
-		ArrayList<GPoint2D> secondInterPoints;
+		ArrayList<MyPoint> secondInterPoints;
 
 		if (i + 1 < dataPoints.size() && dataPoints.get(i + 1).isDefined()) {
 			// see if there is intersection point with next segment

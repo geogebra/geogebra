@@ -39,7 +39,7 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
 	/** output */
-	protected GeoLocusStroke poly;
+	private GeoLocusStroke poly;
 
 	/**
 	 * @param cons
@@ -71,11 +71,8 @@ public class AlgoLocusStroke extends AlgoElement {
 		return EuclidianConstants.MODE_POLYLINE;
 	}
 
-	/**
-	 * @return - true, if poly is pen stroke
-	 */
-	public boolean getIsPenStroke() {
-		return true;
+	public GeoLocusStroke getPenStroke() {
+		return poly;
 	}
 
 	// data has to have at least 2 defined points after each other

@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -302,10 +303,63 @@ public class GeoLocusStroke extends GeoLocus
 		return pointsNoControl;
 	}
 
-	public ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1, MyPoint point2,
-			   double x, double y, double width, double height) {
+	public ArrayList<GeoLocusStroke> split(GRectangle2D rectangle) {
+		ArrayList<MyPoint> points = getPointsWithoutControl();
+
+		ArrayList<MyPoint> inside = new ArrayList<>();
+		ArrayList<MyPoint> outside = new ArrayList<>();
+
+		boolean insideF;
+
+		if (rectangle.contains(points.get(0).x, points.get(0).y)) {
+			inside.add(points.get(0));
+			insideF = true;
+		} else {
+			outside.add(points.get(0));
+			insideF = false;
+		}
+
+		for (int i = 1; i < points.size(); i++) {
+			for (MyPoint intersection : getAllIntersectionPoints(
+					points.get(i - 1), points.get(i),
+					rectangle.getX(), rectangle.getY(),
+					rectangle.getWidth(), rectangle.getHeight())) {
+				inside.add(intersection);
+				outside.add(new MyPoint(intersection.getX(), intersection.getY()));
+
+				if (insideF) {
+					inside.add(new MyPoint(Double.NaN, Double.NaN));
+				} else {
+					outside.add(new MyPoint(Double.NaN, Double.NaN));
+				}
+
+				insideF = !insideF;
+			}
+
+			if (insideF) {
+				inside.add(points.get(i));
+			} else {
+				outside.add(points.get(i));
+			}
+		}
+
+		ArrayList<GeoLocusStroke> result = new ArrayList<>();
+		if (inside.size() != 0) {
+			AlgoLocusStroke insideStroke = new AlgoLocusStroke(cons, inside);
+			result.add(insideStroke.getPenStroke());
+		}
+		if (outside.size() != 0) {
+			AlgoLocusStroke outsideStroke = new AlgoLocusStroke(cons, outside);
+			result.add(outsideStroke.getPenStroke());
+		}
+
+		return result;
+	}
+
+	public ArrayList<MyPoint> getAllIntersectionPoints(MyPoint point1, MyPoint point2,
+			double x, double y, double width, double height) {
 		// intersection points
-		ArrayList<GPoint2D> interPointList = new ArrayList<>();
+		ArrayList<MyPoint> interPointList = new ArrayList<>();
 
 		if (point2.getSegmentType() == SegmentType.CURVE_TO) {
 			int i = getPoints().indexOf(point2);
@@ -334,25 +388,25 @@ public class GeoLocusStroke extends GeoLocus
 			double y2 = point2.getY();
 
 			// Top line
-			GPoint2D topInter = getIntersectionPoint(x1, y1, x2, y2,
+			MyPoint topInter = getIntersectionPoint(x1, y1, x2, y2,
 					x, y, x + width, y);
 			if (topInter != null) {
 				interPointList.add(topInter);
 			}
 			// Bottom line
-			GPoint2D bottomInter = getIntersectionPoint(x1, y1, x2, y2,
+			MyPoint bottomInter = getIntersectionPoint(x1, y1, x2, y2,
 					x, y - height, x + width, y - height);
 			if (bottomInter != null) {
 				interPointList.add(bottomInter);
 			}
 			// Left side
-			GPoint2D leftInter = getIntersectionPoint(x1, y1, x2, y2,
+			MyPoint leftInter = getIntersectionPoint(x1, y1, x2, y2,
 					x, y, x, y - height);
 			if (leftInter != null) {
 				interPointList.add(leftInter);
 			}
 			// Right side
-			GPoint2D rightInter = getIntersectionPoint(x1, y1, x2, y2,
+			MyPoint rightInter = getIntersectionPoint(x1, y1, x2, y2,
 					x + width, y, x + width, y - height);
 			if (rightInter != null) {
 				interPointList.add(rightInter);
@@ -362,7 +416,7 @@ public class GeoLocusStroke extends GeoLocus
 		return interPointList;
 	}
 
-	private static void getIntersectionPoints(ArrayList<GPoint2D> interPointList,
+	private static void getIntersectionPoints(ArrayList<MyPoint> interPointList,
 			  MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
 			  double x1, double y1, double x2, double y2) {
 		double A = y2 - y1;
@@ -380,19 +434,19 @@ public class GeoLocusStroke extends GeoLocus
 		};
 
 		double[] r = new double[3];
+		int roots = EquationSolver.solveCubicS(P, r, Kernel.MAX_PRECISION);
 
-		EquationSolver.solveCubicS(P, r, Kernel.MAX_PRECISION);
-
-		for (double t : r) {
-			if (t <= 0 || t > 1) {
+		for (int i = 0; i < roots; i++) {
+			double t = r[i];
+			if (t < 0 || t > 1) {
 				continue;
 			}
 
-			double x = bx[0]*t*t*t + bx[1]*t*t + bx[2]*t + bx[3];
-			double y = by[0]*t*t*t + by[1]*t*t + by[2]*t + by[3];
+			double x = bx[0] * t * t * t + bx[1] * t * t + bx[2] * t + bx[3];
+			double y = by[0] * t * t * t + by[1] * t * t + by[2] * t + by[3];
 
 			if (onSegment(x1, y1, x, y, x2, y2)) {
-				interPointList.add(new GPoint2D.Double(x, y));
+				interPointList.add(new MyPoint(x, y));
 			}
 		}
 	}
@@ -406,9 +460,9 @@ public class GeoLocusStroke extends GeoLocus
 		};
 	}
 
-	private static GPoint2D getIntersectionPoint(double x1, double y1, double x2, double y2,
+	private static MyPoint getIntersectionPoint(double x1, double y1, double x2, double y2,
 										  double x3, double y3, double x4, double y4) {
-		GPoint2D p = null;
+		MyPoint p = null;
 
 		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
 		// are not parallel
@@ -422,7 +476,7 @@ public class GeoLocusStroke extends GeoLocus
 			// and not with line
 			if (onSegment(x1, y1, xi, yi, x2, y2)
 					&& onSegment(x3, y3, xi, yi, x4, y4)) {
-				p = new GPoint2D.Double(xi, yi);
+				p = new MyPoint(xi, yi);
 			}
 		}
 		return p;
