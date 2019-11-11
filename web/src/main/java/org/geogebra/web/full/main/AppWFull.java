@@ -3,6 +3,9 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Cookies;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -56,6 +59,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.ShareControllerW;
+import org.geogebra.web.full.gui.WhatsNewDialog;
 import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -99,6 +103,7 @@ import org.geogebra.web.full.main.activity.SuiteActivity;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -112,6 +117,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
@@ -142,6 +148,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AppWFull extends AppW implements HasKeyboard {
 
+	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
 	private DataCollection dataCollection;
@@ -184,6 +191,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
+	private String autosavedMaterial = null;
 
 	/**
 	 *
@@ -205,8 +213,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		this.frame = frame;
 		this.device = device;
 
-		if (this.getArticleElement().getDataParamApp()) {
-			maybeStartAutosave();
+		if (getArticleElement().getDataParamApp()) {
+			startDialogChain();
 		}
 
 		setAppletHeight(frame.getComputedHeight());
@@ -1143,27 +1151,81 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void maybeStartAutosave() {
-		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
-			return;
-		}
-		final String materialJSON = getFileManager().getAutosaveJSON();
-		if (materialJSON != null && !this.isStartedWithFile()
-				&& this.getExam() == null) {
+	private void startDialogChain() {
+		autosavedMaterial = getFileManager().getAutosaveJSON();
+		afterLocalizationLoaded(new Runnable() {
+			@Override
+			public void run() {
+				maybeShowRecentChangesDialog();
+			}
+		});
+	}
 
-			afterLocalizationLoaded(new Runnable() {
-
+	private void maybeShowRecentChangesDialog() {
+		if (shouldShowRecentChangesDialog(RECENT_CHANGES_KEY)) {
+			LocalizationW localization = getLocalization();
+			String message = localization.getMenu(RECENT_CHANGES_KEY);
+			String readMore = localization.getMenu("tutorial_apps_comparison");
+			String link = "https://www.geogebra.org/m/" + readMore;
+			showRecentChangesDialog(message, link, new Runnable() {
 				@Override
 				public void run() {
-					getDialogManager()
-							.showRecoverAutoSavedDialog(AppWFull.this,
-									materialJSON);
+					maybeStartAutosave();
+				}
+			});
+			setHideRecentChanges(RECENT_CHANGES_KEY);
+		} else {
+			maybeStartAutosave();
+		}
+	}
+
+	private String getRecentChangesCookieKey(String key) {
+		return "RecentChanges" + key + "Shown";
+	}
+
+	private boolean shouldShowRecentChangesDialog(String key) {
+		String shown = Cookies.getCookie(getRecentChangesCookieKey(key));
+		return !"true".equals(shown);
+	}
+
+	private void setHideRecentChanges(String key) {
+		Cookies.setCookie(getRecentChangesCookieKey(key), "true");
+	}
+
+	private void maybeStartAutosave() {
+		if (hasMacroToRestore() || !getLAF().autosaveSupported()) {
+			return;
+		}
+		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
+			afterLocalizationLoaded(new Runnable() {
+				@Override
+				public void run() {
+					getDialogManager().showRecoverAutoSavedDialog(
+							AppWFull.this, autosavedMaterial);
+					autosavedMaterial = null;
 				}
 			});
 		} else {
-			this.startAutoSave();
+			startAutoSave();
 		}
+	}
 
+	private void showRecentChangesDialog(String message, String link, final Runnable closingCallback) {
+		final WhatsNewDialog dialog = new WhatsNewDialog(AppWFull.this, message, link);
+		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
+				closingCallback.run();
+			}
+		});
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				dialog.show();
+				dialog.center();
+			}
+		};
+		timer.schedule(0);
 	}
 
 	/**

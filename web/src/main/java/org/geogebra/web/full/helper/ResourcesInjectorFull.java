@@ -4,6 +4,7 @@ import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MebisResources;
 import org.geogebra.web.full.css.StylesProvider;
+import org.geogebra.web.full.css.TextStyles;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.resources.JavaScriptInjector;
@@ -43,6 +44,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.scientificLayoutScss());
 		StyleInjector.inject(GuiResources.INSTANCE.evaluatorScss());
 		StyleInjector.inject(GuiResources.INSTANCE.headerScss());
+		StyleInjector.inject(TextStyles.INSTANCE.textStyles());
 
 		injectLTRstyles();
 		injectGreekFonts();
