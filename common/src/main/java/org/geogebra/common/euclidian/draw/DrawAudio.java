@@ -200,12 +200,12 @@ public class DrawAudio extends Drawable {
 	}
 
 	@Override
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return geoAudio.getWidth();
 	}
 
 	@Override
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return geoAudio.getHeight();
 	}
 

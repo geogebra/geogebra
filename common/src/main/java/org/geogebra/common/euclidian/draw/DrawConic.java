@@ -2460,12 +2460,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		return coord;
 	}
 
-	/**
-	 * update geo of drawable
-	 * 
-	 * @param p
-	 *            - mouse position
-	 */
 	@Override
 	public void updateGeo() {
 		setFixCornerX(Double.NaN);

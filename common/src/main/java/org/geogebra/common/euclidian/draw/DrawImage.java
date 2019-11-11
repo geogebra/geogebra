@@ -283,12 +283,12 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return IMG_WIDTH_THRESHOLD;
 	}
 
 	@Override
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return IMG_WIDTH_THRESHOLD;
 	}
 

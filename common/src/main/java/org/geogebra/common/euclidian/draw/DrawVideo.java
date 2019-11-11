@@ -60,12 +60,12 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return VIDEO_SIZE_THRESHOLD;
 	}
 

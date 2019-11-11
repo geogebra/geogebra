@@ -504,10 +504,10 @@ public class BoundingBox {
 		int newWidth = 1;
 		int newHeight = 1;
 		boolean fixRatio = video.isFixedRatio();
-		int sizeThreshold = ((Drawable) video).getWidthThreshold();
+		double sizeThreshold = ((Drawable) video).getWidthThreshold();
 		switch (handler) {
 		case TOP_RIGHT:
-			newWidth = Math.max(eventX - video.getLeft(), sizeThreshold);
+			newWidth = (int) Math.max(eventX - video.getLeft(), sizeThreshold);
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
 			video.setAbsoluteScreenLoc(video.getLeft(),
 					video.getTop() - newHeight + video.getHeight());
@@ -517,7 +517,7 @@ public class BoundingBox {
 			break;
 
 		case BOTTOM_RIGHT:
-			newWidth = Math.max(eventX - video.getLeft(), sizeThreshold);
+			newWidth = (int) Math.max(eventX - video.getLeft(), sizeThreshold);
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
 			video.setWidth(newWidth);
 			video.setHeight(newHeight);
@@ -549,7 +549,7 @@ public class BoundingBox {
 			break;
 
 		case RIGHT:
-			newWidth = Math.max(eventX - video.getLeft(), sizeThreshold);
+			newWidth = (int) Math.max(eventX - video.getLeft(), sizeThreshold);
 			video.setWidth(newWidth);
 			if (fixRatio) {
 				Double h = video.getOriginalRatio() * newWidth;
@@ -602,7 +602,7 @@ public class BoundingBox {
 			break;
 
 		case BOTTOM:
-			newHeight = Math.max(eventY - video.getTop(), sizeThreshold);
+			newHeight = (int) Math.max(eventY - video.getTop(), sizeThreshold);
 			video.setHeight(newHeight);
 			if (fixRatio) {
 				Double w = newHeight / video.getOriginalRatio();

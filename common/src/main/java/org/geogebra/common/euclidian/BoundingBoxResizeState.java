@@ -15,8 +15,8 @@ public class BoundingBoxResizeState {
 	private GRectangle2D rect;
 	private double[][] ratios;
 	private double widthHeightRatio = 1;
-	private int widthThreshold = BoundingBox.SIDE_THRESHOLD;
-	private int heightThreshold = BoundingBox.SIDE_THRESHOLD;
+	private double widthThreshold = Double.NEGATIVE_INFINITY;
+	private double heightThreshold = Double.NEGATIVE_INFINITY;
 
 	/**
 	 * thresholdXReached from last update
@@ -98,14 +98,14 @@ public class BoundingBoxResizeState {
 	/**
 	 * @return minimum width of the bounding box based on the selected elements
 	 */
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return widthThreshold;
 	}
 
 	/**
 	 * @return minimum height of the bounding box based on the selected elements
 	 */
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return heightThreshold;
 	}
 

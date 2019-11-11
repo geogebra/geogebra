@@ -200,8 +200,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return min width in pixels
 	 */
-	public int getWidthThreshold() {
-		return 0;
+	public double getWidthThreshold() {
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
@@ -209,8 +209,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return min height in pixels
 	 */
-	public int getHeightThreshold() {
-		return 0;
+	public double getHeightThreshold() {
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
