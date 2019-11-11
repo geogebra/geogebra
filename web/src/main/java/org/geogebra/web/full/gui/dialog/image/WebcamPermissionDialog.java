@@ -139,13 +139,13 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 	}
 
 	private String getPermissionDeniedTitleKey() {
-		return Browser.isElectron() && Browser.isMacOS() ? "permission.camera.denied"
-				: "Webcam.Denied.Caption";
+		return Browser.isElectron() && Browser.isMacOS() && !app1.isMebis() ? "permission.camera" +
+				".denied" : "Webcam.Denied.Caption";
 	}
 
 	private String getPermissionDeniedMessageKey() {
-		return Browser.isElectron() && Browser.isMacOS() ? "permission.request" : "Webcam.Denied" +
-				".Message";
+		return Browser.isElectron() && Browser.isMacOS() && !app1.isMebis() ? "permission" +
+				".request" : "Webcam.Denied.Message";
 	}
 
 }
