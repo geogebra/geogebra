@@ -8138,14 +8138,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							&& !startBoundingBoxState.lastThresholdX) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.RIGHT);
-						dr.updateGeo(point);
+						dr.updateGeo();
 					}
 					if (!DoubleUtil.isEqual(newMaxY - newMinY,
 							bounds.getHeight())
 							&& !startBoundingBoxState.lastThresholdY) {
 						dr.updateByBoundingBoxResize(point,
 								EuclidianBoundingBoxHandler.BOTTOM);
-						dr.updateGeo(point);
+						dr.updateGeo();
 					}
 				}
 				if (bounds != null) {
@@ -10345,12 +10345,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return;
 			}
 		}
-		
-		GPoint2D eventCoords = AwtFactory
-				.getPrototype().newPoint2D(event.getX(), event.getY());
+
 		if (getResizedShape() != null) { // resize, single selection
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
-			getResizedShape().updateGeo(eventCoords);
+			getResizedShape().updateGeo();
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -10360,7 +10358,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else if (isMultiResize) { // resize, multi selection
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			for (GeoElement geo : selection.getSelectedGeos()) {
-				((Drawable) view.getDrawableFor(geo)).updateGeo(eventCoords);
+				((Drawable) view.getDrawableFor(geo)).updateGeo();
 			}
 			storeUndoInfo();
 			isMultiResize = false;

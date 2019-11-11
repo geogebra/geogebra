@@ -2467,7 +2467,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 *            - mouse position
 	 */
 	@Override
-	public void updateGeo(GPoint2D p) {
+	public void updateGeo() {
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
 		flipped = false;

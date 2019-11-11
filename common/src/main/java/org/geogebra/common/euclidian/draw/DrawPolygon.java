@@ -524,7 +524,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 *            - mouse position
 	 */
 	@Override
-	public void updateGeo(GPoint2D point) {
+	public void updateGeo() {
 		if (prewPolygon != null) {
 			updateRealPointsOfPolygon();
 			prewPolygon = null;

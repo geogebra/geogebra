@@ -780,13 +780,9 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * method to update geoElement of drawable by drag of resize handlers of
-	 * boundingBox
-	 * 
-	 * @param p
-	 *            - mouse release position
+	 * method to update geoElement of drawable after resizing the boundingBox
 	 */
-	public void updateGeo(GPoint2D p) {
+	public void updateGeo() {
 		// do nothing here
 	}
 
@@ -912,7 +908,7 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	private GColor getActiveColor() {
-		App app = geo.getKernel().getApplication();
+		App app = view.getApplication();
 		return app.getPrimaryColor();
 	}
 
@@ -928,8 +924,15 @@ public abstract class Drawable extends DrawableND {
 		return getBoundingBox() != null ? getBoundingBox().getRectangle() : getBounds();
 	}
 
+	/**
+	 * Reset partial hit rectangle after click
+	 * 
+	 * @param x
+	 *            screen x-coord of the click
+	 * @param y
+	 *            screen y-coord of the click
+	 */
 	public void resetPartialHitClip(int x, int y) {
 		// only for strokes
-
 	}
 }

@@ -348,7 +348,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public void updateGeo(GPoint2D p) {
+	public void updateGeo() {
 		locus.resetSavedBoundingBoxValues(false);
 	}
 
