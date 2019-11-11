@@ -65,7 +65,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -209,13 +208,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			// locus in selection
 			labelMode.setVisible(model.isNameValueShown());
-		}
-
-		public void autoShowCaption() {
-			GeoElement geo0 = model.getGeoAt(0);
-			geo0.setLabelVisible(true);
-			geo0.setLabelMode(GeoElementND.LABEL_CAPTION);
-			model.updateProperties();
 		}
 
 		@Override
