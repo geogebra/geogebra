@@ -494,132 +494,25 @@ public class BoundingBox {
 	 *            widget
 	 * @param p
 	 *            pointer position
-	 * @param handler
+	 * @param p2
 	 *            hit handler
 	 */
 	public void resize(DrawWidget video, GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
-		int eventX = (int) p.getX();
-		int eventY = (int) p.getY();
+			GPoint2D p2) {
 		int newWidth = 1;
 		int newHeight = 1;
 		boolean fixRatio = video.isFixedRatio();
-		double sizeThreshold = ((Drawable) video).getWidthThreshold();
-		switch (handler) {
-		case TOP_RIGHT:
-			newWidth = (int) Math.max(eventX - video.getLeft(), sizeThreshold);
+		
+		newWidth = (int) Math.abs(p.getX() - p2.getX());
+		newHeight = (int) Math.abs(p.getY() - p2.getY());
+		if (fixRatio) {
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
-			video.setAbsoluteScreenLoc(video.getLeft(),
-					video.getTop() - newHeight + video.getHeight());
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			video.update();
-			break;
-
-		case BOTTOM_RIGHT:
-			newWidth = (int) Math.max(eventX - video.getLeft(), sizeThreshold);
-			newHeight = (int) (video.getOriginalRatio() * newWidth);
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			video.update();
-			break;
-
-		case TOP_LEFT:
-			newWidth = video.getWidth() + video.getLeft() - eventX;
-			if (newWidth <= sizeThreshold) {
-				return;
-			}
-			newHeight = (int) (video.getOriginalRatio() * newWidth);
-			video.setAbsoluteScreenLoc(eventX, video.getTop() - newHeight + video.getHeight());
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			video.update();
-			break;
-
-		case BOTTOM_LEFT:
-			newWidth = video.getWidth() + video.getLeft() - eventX;
-			if (newWidth <= sizeThreshold) {
-				return;
-			}
-			newHeight = (int) (video.getOriginalRatio() * newWidth);
-			video.setAbsoluteScreenLoc(eventX, video.getTop());
-			video.setWidth(newWidth);
-			video.setHeight(newHeight);
-			video.update();
-			break;
-
-		case RIGHT:
-			newWidth = (int) Math.max(eventX - video.getLeft(), sizeThreshold);
-			video.setWidth(newWidth);
-			if (fixRatio) {
-				Double h = video.getOriginalRatio() * newWidth;
-				newHeight = h.intValue();
-				video.setAbsoluteScreenLoc(video.getLeft(),
-						video.getTop() + video.getHeight() / 2 - newHeight / 2);
-				video.setHeight(newHeight);
-			} else {
-				video.resetRatio();
-			}
-			video.update();
-			break;
-
-		case LEFT:
-			newWidth = video.getWidth() + video.getLeft() - eventX;
-			if (newWidth <= sizeThreshold) {
-				return;
-			}
-			video.setWidth(newWidth);
-			if (fixRatio) {
-				Double h = video.getOriginalRatio() * newWidth;
-				newHeight = h.intValue();
-				video.setAbsoluteScreenLoc(eventX,
-						video.getTop() + video.getHeight() / 2 - newHeight / 2);
-				video.setHeight(newHeight);
-			} else {
-				video.setAbsoluteScreenLoc(eventX, video.getTop());
-				video.resetRatio();
-			}
-			video.update();
-			break;
-
-		case TOP:
-			newHeight = video.getHeight() + video.getTop() - eventY;
-			if (newHeight <= sizeThreshold) {
-				return;
-			}
-			video.setHeight(newHeight);
-			if (fixRatio) {
-				Double w = (newHeight / video.getOriginalRatio());
-				newWidth = w.intValue();
-				video.setAbsoluteScreenLoc(video.getLeft() + video.getWidth() / 2 - newWidth / 2,
-						eventY);
-				video.setWidth(newWidth);
-			} else {
-				video.setAbsoluteScreenLoc(video.getLeft(), eventY);
-				video.resetRatio();
-			}
-			video.update();
-			break;
-
-		case BOTTOM:
-			newHeight = (int) Math.max(eventY - video.getTop(), sizeThreshold);
-			video.setHeight(newHeight);
-			if (fixRatio) {
-				Double w = newHeight / video.getOriginalRatio();
-				newWidth = w.intValue();
-				video.setAbsoluteScreenLoc(video.getLeft() + video.getWidth() / 2 - newWidth / 2,
-						video.getTop());
-				video.setWidth(newWidth);
-			} else {
-				video.resetRatio();
-			}
-			video.update();
-			break;
-		case UNDEFINED:
-		default:
-			break;
 		}
-
+		video.setAbsoluteScreenLoc((int) Math.min(p.getX(), p2.getX()),
+				(int) Math.min(p.getY(), p2.getY()));
+		video.setWidth(newWidth);
+		video.setHeight(newHeight);
+		video.update();
 	}
 
 	/**

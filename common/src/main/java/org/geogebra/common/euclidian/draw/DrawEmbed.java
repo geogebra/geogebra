@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -9,7 +11,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.factories.AwtFactory;
@@ -177,12 +178,11 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
+	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
-		getBoundingBox().resize(this, p, handler);
+		getBoundingBox().resize(this, pts.get(0), pts.get(1));
 	}
 
 	@Override

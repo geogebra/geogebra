@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GAlphaComposite;
 import org.geogebra.common.awt.GColor;
@@ -557,6 +559,11 @@ public final class DrawImage extends Drawable {
 			}
 			geoImage.update();
 		}
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> points) {
+
 	}
 
 	private void updateImageCrop(GPoint2D p,

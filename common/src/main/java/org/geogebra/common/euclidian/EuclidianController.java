@@ -48,6 +48,7 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
@@ -8108,11 +8109,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
 			// calculate new positions relative to bounding box
-			double newMinX = startBoundingBoxState.getRatios(i)[0] * bbWidth,
-					newMaxX = startBoundingBoxState.getRatios(i)[1] * bbWidth,
-					newMinY = startBoundingBoxState.getRatios(i)[2]
+			double newMinX = startBoundingBoxState.getRatios(i).get(0).getX() * bbWidth,
+					newMaxX = startBoundingBoxState.getRatios(i).get(1).getX() * bbWidth,
+					newMinY = startBoundingBoxState.getRatios(i).get(0).getY()
 							* bbHeight,
-					newMaxY = startBoundingBoxState.getRatios(i)[3]
+					newMaxY = startBoundingBoxState.getRatios(i).get(1).getY()
 							* bbHeight;
 			if (dr instanceof DrawSegment) {
 				// segments must be handled differently (by translating the
@@ -8120,75 +8121,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				handleResizeForSegment((GeoSegment) geo, dr, bbMinX, bbMinY,
 						newMinX, newMaxX, newMinY, newMaxY);
 			} else {
-				GRectangle2D bounds = dr.getBounds();
-				if (dr.getBoundingBox() != null) {
-					// if it has bounding box override bounds
-					bounds = dr.getBoundingBox().getRectangle();
-
-					// the position of the maxX and maxY from the old minX and
-					// minY
-					double maxXFromOld = bounds.getMinX() + (newMaxX - newMinX),
-							maxYFromOld = bounds.getMinY()
-									+ (newMaxY - newMinY);
-					// resize to new width and height
-					GPoint2D point = AwtFactory.getPrototype()
-							.newPoint2D(maxXFromOld, maxYFromOld);
-					if (!DoubleUtil.isEqual(newMaxX - newMinX,
-							bounds.getWidth())
-							&& !startBoundingBoxState.lastThresholdX) {
-						dr.updateByBoundingBoxResize(point,
-								EuclidianBoundingBoxHandler.RIGHT);
-						dr.updateGeo();
-					}
-					if (!DoubleUtil.isEqual(newMaxY - newMinY,
-							bounds.getHeight())
-							&& !startBoundingBoxState.lastThresholdY) {
-						dr.updateByBoundingBoxResize(point,
-								EuclidianBoundingBoxHandler.BOTTOM);
-						dr.updateGeo();
-					}
+				ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(i);
+				ArrayList<GPoint2D> transformedPts = new ArrayList<>();
+				for (GPoint2D pt : pts) {
+					transformedPts.add(new MyPoint(bbMinX + pt.getX() * bbWidth,
+							bbMinY + pt.getY() * bbHeight));
 				}
-				if (bounds != null) {
-					// if the geo wasn't resized in a direction & the divisor
-					// isn't 0, recalculate the minimum coordinates
-					// the + 1 makes sure this happens even if the final size
-					// is miscalculated, maybe caused by roundings (ie. images)
-					if ((bounds.getWidth() <= dr.getWidthThreshold() + 1)
-							&& (startBoundingBoxState.getRectangle().getWidth()
-									- startBoundingBoxState.getWidth(i)) != 0) {
-						double ratioX = (bbWidth - bounds.getWidth())
-								/ (startBoundingBoxState.getRectangle()
-										.getWidth()
-										- startBoundingBoxState.getWidth(i));
-						newMinX = startBoundingBoxState.getRatios(i)[0]
-								* startBoundingBoxState.getRectangle()
-										.getWidth()
-								* ratioX;
-					}
-					if ((bounds.getHeight() <= dr.getHeightThreshold() + 1)
-							&& (startBoundingBoxState.getRectangle().getHeight()
-									- startBoundingBoxState
-											.getHeight(i)) != 0) {
-						double ratioY = (bbHeight - bounds.getHeight())
-								/ (startBoundingBoxState.getRectangle()
-										.getHeight()
-										- startBoundingBoxState.getHeight(i));
-						newMinY = startBoundingBoxState.getRatios(i)[2]
-								* startBoundingBoxState.getRectangle()
-										.getHeight()
-								* ratioY;
-					}
-					// calculate the difference between the new and old
-					// positions (minX) and then apply translate
-					double dx = startBoundingBoxState.lastThresholdX ? 0
-							: (newMinX + bbMinX - bounds.getMinX()),
-							dy = startBoundingBoxState.lastThresholdY ? 0
-									: (newMinY + bbMinY - bounds.getMinY());
-					if (geo.isTranslateable() && (dx != 0 || dy != 0)) {
-						((Translateable) geo).translate(new Coords(
-								dx / view.getXscale(), -dy / view.getYscale()));
-					}
-				}
+				dr.fromPoints(transformedPts);
 			}
 			// last update for drawable
 			dr.update();
@@ -12777,8 +12716,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// create union bounding box
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
-		BoundingBox boundingBox = new BoundingBox(rect, false,
-				hasRotationHandler);
+		BoundingBox boundingBox = new BoundingBox(rect, false, hasRotationHandler);
 		boundingBox.setFixed(fixed);
 		boundingBox.setColor(app.getPrimaryColor());
 		view.setBoundingBox(boundingBox);

@@ -1,12 +1,13 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -155,13 +156,12 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
+	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
 
-		getBoundingBox().resize(this, point, handler);
+		getBoundingBox().resize(this, pts.get(0), pts.get(1));
 	}
 
 	@Override

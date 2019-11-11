@@ -18,6 +18,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -33,6 +36,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -934,5 +938,21 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public void resetPartialHitClip(int x, int y) {
 		// only for strokes
+	}
+
+	public void fromPoints(ArrayList<GPoint2D> transformedPts) {
+		// only shapes
+	}
+
+	protected List<GPoint2D> toPoints() {
+		GRectangle2D bounds = getBoundingBox() != null
+				? getBoundingBox().getRectangle()
+				: getBounds();
+		List<GPoint2D> ret = new ArrayList<>(2);
+		ret.add(
+				new MyPoint(bounds.getMinX(), bounds.getMinY()));
+		ret.add(
+				new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
+		return ret;
 	}
 }

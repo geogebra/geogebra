@@ -28,11 +28,9 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -186,8 +184,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private boolean isCircle = false;
 	/** eigenvectors */
 	protected Coords[] ev;
-
-	private boolean flipped = false;
+	private boolean lastOrientation;
 
 	@Override
 	public GArea getShape() {
@@ -2134,248 +2131,25 @@ public class DrawConic extends SetDrawable implements Previewable {
 		this.isCircle = isCircle;
 	}
 
-	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
-		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
-		if (Double.isNaN(fixCornerX)) {
-			switch (hitHandler) {
-			case BOTTOM_LEFT:
-			case TOP_LEFT:
-				fixCornerX = boundingBoxRectangle.getMaxX();
-				break;
-			case LEFT:
-				fixCornerX = boundingBoxRectangle.getMaxX();
-				fixCornerY = boundingBoxRectangle.getMinY();
-				break;
-			case TOP_RIGHT:
-			case BOTTOM_RIGHT:
-				fixCornerX = boundingBoxRectangle.getX();
-				break;
-			case RIGHT:
-				fixCornerX = boundingBoxRectangle.getX();
-				fixCornerY = boundingBoxRectangle.getMinY();
-				break;
-			default:
-				break;
-			}
-		}
-		if (Double.isNaN(fixCornerY)) {
-			switch (hitHandler) {
-			case TOP_LEFT:
-			case TOP_RIGHT:
-				fixCornerY = boundingBoxRectangle.getMaxY();
-				break;
-			case TOP:
-				fixCornerX = boundingBoxRectangle.getMinX();
-				fixCornerY = boundingBoxRectangle.getMaxY();
-				break;
-			case BOTTOM_LEFT:
-			case BOTTOM_RIGHT:
-				fixCornerY = boundingBoxRectangle.getMinY();
-				break;
-			case BOTTOM:
-				fixCornerX = boundingBoxRectangle.getMinX();
-				fixCornerY = boundingBoxRectangle.getMinY();
-				break;
-			default:
-				break;
-			}
-		}
-		if (Double.isNaN(proportion)) {
-			proportion = boundingBoxRectangle.getWidth()
-					/ boundingBoxRectangle.getHeight();
-		}
-		if (Double.isNaN(oldWidth)) {
-			oldWidth = boundingBoxRectangle.getWidth();
-		}
-		if (Double.isNaN(oldHeight)) {
-			oldHeight = boundingBoxRectangle.getHeight();
-		}
-	}
-
-
-
-	/**
-	 * update ellipse/circle by dragging corner handler
-	 * 
-	 * @param hitHandler
-	 *            - handler was hit
-	 * @param p
-	 *            - mouse position
-	 */
-	protected void updateEllipseCorner(EuclidianBoundingBoxHandler hitHandler,
-			GPoint2D p) {
-		fixCornerCoords(hitHandler);
-
-		/*
-		 * if (conic.getParentAlgorithm() != null && conic .getParentAlgorithm()
-		 * instanceof AlgoEllipseHyperbolaFociPoint) { translatePoints(event);
-		 * this.update(); //
-		 * etBoundingBox().setRectangle(prewEllipse.getBounds()); return; }
-		 */
-		// init
-		int dx = (int) (p.getX() - fixCornerX);
-		int dy = (int) (p.getY() - fixCornerY);
-		double width = dx;
-		double height = dy;
-
-		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-
-		if (height >= 0) {
-			if (width >= 0) {
-				if (isCircle) {
-					rect.setFrame(fixCornerX, fixCornerY, width,
-							width);
-				} else {
-					rect.setFrame(fixCornerX, fixCornerY, width,
-							(int) (width / proportion));
-				}
-			} else { // width < 0
-				if (isCircle) {
-					rect.setFrame(
-							fixCornerX + width, fixCornerY, -width,
-							-width);
-				} else {
-					rect.setFrame(
-							fixCornerX + width, fixCornerY, -width,
-							(int) (-width / proportion));
-				}
-			}
-		} else { // height < 0
-			if (width >= 0) {
-				if (isCircle) {
-					rect.setFrame(fixCornerX, fixCornerY - width,
-							width, width);
-				} else {
-					int newHeight = (int) (width / proportion);
-					rect.setFrame(fixCornerX, fixCornerY - newHeight,
-							width, newHeight);
-				}
-			} else { // width < 0
-				if (isCircle) {
-					rect.setFrame(
-							fixCornerX + width, fixCornerY + width,
-							-width, -width);
-				} else {
-					int newHeight = (int) (-width / proportion);
-					rect.setFrame(
-							fixCornerX + width, fixCornerY - newHeight, -width,
-							newHeight);
-				}
-			}
-		}
-		getBoundingBox().setRectangle(rect);
-	}
-
-	/**
-	 * update ellipse/circle by dragging side handler
-	 * 
-	 * @param hitHandler
-	 *            - handler was hit
-	 * @param p
-	 *            - mouse position
-	 */
-	protected void updateEllipseSide(EuclidianBoundingBoxHandler hitHandler,
-			GPoint2D p) {
-		fixCornerCoords(hitHandler);
-		int width = (int) (p.getX() - fixCornerX);
-		int height = (int) (p.getY() - fixCornerY);
-		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-
-		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
-		if (hitHandler == EuclidianBoundingBoxHandler.LEFT
-				|| hitHandler == EuclidianBoundingBoxHandler.RIGHT) {
-			if (width >= 0) {
-				rect.setFrame(fixCornerX,
-						boundingBoxRectangle.getMinY(), width,
-						boundingBoxRectangle.getHeight());
-			} else { // width < 0
-				rect.setFrame(fixCornerX + width,
-						boundingBoxRectangle.getMinY(), -width,
-						boundingBoxRectangle.getHeight());
-			}
-		}
-		if (hitHandler == EuclidianBoundingBoxHandler.TOP
-				|| hitHandler == EuclidianBoundingBoxHandler.BOTTOM) {
-			if (height >= 0) {
-				rect.setFrame(boundingBoxRectangle.getMinX(),
-						fixCornerY, boundingBoxRectangle.getWidth(),
-						height);
-			} else { // height < 0
-				rect.setFrame(boundingBoxRectangle.getMinX(),
-						fixCornerY + height,
-						boundingBoxRectangle.getWidth(), -height);
-			}
-		}
-		// with side handler dragging no circle anymore
-		setIsCircle(false);
-		proportion = Double.NaN;
-		getBoundingBox().setRectangle(rect);
-	}
-
 	/**
 	 * resizing by drag of side handler for rotated ellipses
 	 */
-	private void stretchEllipse(EuclidianBoundingBoxHandler hitHandler,
+	private void stretchEllipse(GPoint2D p0,
 			GPoint2D p) {
-		fixCornerCoords(hitHandler);
-		// get handler
-		EuclidianBoundingBoxHandler realHandler = hitHandler;
-		if (flipped) {
-			realHandler = flipHitHandler(realHandler);
-		}
-		// handle stretch
-		double ratio = 1;
-		boolean resizeX = false, resizeY = false;
-		switch (realHandler) {
-		case RIGHT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
-			ratio = (p.getX() - fixCornerX)
-					/ getBoundingBox().getRectangle().getWidth();
-			if (p.getX() < fixCornerX) {
-				flipped = !flipped;
-			}
-			resizeY = realHandler != EuclidianBoundingBoxHandler.RIGHT;
-			resizeX = true;
-			break;
-		case LEFT:
-		case TOP_LEFT:
-		case BOTTOM_LEFT:
-			ratio = (fixCornerX - p.getX())
-					/ getBoundingBox().getRectangle().getWidth();
-			if (p.getX() > fixCornerX) {
-				flipped = !flipped;
-			}
-			resizeX = true;
-			resizeY = realHandler != EuclidianBoundingBoxHandler.LEFT;
-			break;
-		case TOP:
-			ratio = (fixCornerY - p.getY())
-					/ getBoundingBox().getRectangle().getHeight();
-			if (p.getY() > fixCornerY) {
-				flipped = !flipped;
-			}
-			resizeY = true;
-			break;
-		case BOTTOM:
-			ratio = (p.getY() - fixCornerY)
-					/ getBoundingBox().getRectangle().getHeight();
-			if (p.getY() < fixCornerY) {
-				flipped = !flipped;
-			}
-			resizeY = true;
-			break;
-		case UNDEFINED:
-			break;
-		}
+		double ratioX = (p.getX() - p0.getX()) / getBoundingBox().getRectangle().getWidth();
+		double ratioY = (p.getY() - p0.getY()) / getBoundingBox().getRectangle().getHeight();
+		boolean flip = (ratioX * ratioY < 0) ^ lastOrientation;
+		lastOrientation = ratioX * ratioY < 0;
+		if (ratioX != 0 && ratioY != 0) {
 
-		if (ratio != 0) {
-			if (resizeX) {
-				applyStretch(0, 1, ratio);
-			}
-			if (resizeY) {
-				applyStretch(1, 0, ratio);
-			}
+			applyStretch(0, 1, Math.abs(ratioX));
+			applyStretch(1, 0, flip ? -Math.abs(ratioY) : Math.abs(ratioY));
+			double centerX = view.toRealWorldCoordX((p.getX() + p0.getX()) / 2);
+			double centerY = view.toRealWorldCoordY((p.getY() + p0.getY()) / 2);
+			Coords corner = new Coords(centerX - conic.getMidpoint().getX(),
+					centerY - conic.getMidpoint().getY(), 0);
+			conic.translate(corner);
+
 			// with side handler dragging no circle anymore
 			setIsCircle(false);
 			// update bounding box
@@ -2384,32 +2158,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 	}
 
-	private static EuclidianBoundingBoxHandler flipHitHandler(
-			EuclidianBoundingBoxHandler handler) {
-		switch (handler) {
-		case RIGHT:
-			return EuclidianBoundingBoxHandler.LEFT;
-		case LEFT:
-			return EuclidianBoundingBoxHandler.RIGHT;
-		case TOP:
-			return EuclidianBoundingBoxHandler.BOTTOM;
-		case BOTTOM:
-			return EuclidianBoundingBoxHandler.TOP;
-		case TOP_LEFT:
-			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
-		case TOP_RIGHT:
-			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
-		case BOTTOM_LEFT:
-			return EuclidianBoundingBoxHandler.TOP_RIGHT;
-		case BOTTOM_RIGHT:
-			return EuclidianBoundingBoxHandler.TOP_LEFT;
-		}
-		return handler;
-	}
-
 	private void applyStretch(double cos, double sin, double factor) {
-		Coords corner = new Coords(-view.toRealWorldCoordX(this.fixCornerX),
-				-view.toRealWorldCoordY(this.fixCornerY), 0);
+		Coords corner = new Coords(conic.getMidpoint().getX(), conic.getMidpoint().getY(), 0);
 		conic.translate(corner);
 		AlgoShearOrStretch.stretch(conic, cos, sin, factor);
 		corner.mulInside(-1);
@@ -2417,59 +2167,27 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
+	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (conic.getRotation() != 0) {
-			stretchEllipse(handler, p);
-		} else if (isCornerHandler(handler)) {
-			updateEllipseCorner(handler, p);
-			updateRealGeo(p);
+			stretchEllipse(pts.get(0), pts.get(1));
 		} else {
-			updateEllipseSide(handler, p);
-			updateRealGeo(p);
+			updateRealGeo(pts);
 		}
-	}
-
-	private double[] getEndPointRealCoords(GPoint2D p) {
-		double[] coord = new double[2];
-		double startPointX = fixCornerX;
-		double startPointY = fixCornerY;
-
-		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
-		if (startPointX >= p.getX()) { // right
-			coord[0] = view.toRealWorldCoordX(
-					startPointX - boundingBoxRectangle.getWidth());
-
-		} else { // left
-			coord[0] = view.toRealWorldCoordX(
-					startPointX + boundingBoxRectangle.getWidth());
-		}
-		if (startPointY >= p.getY()) {
-			if (isCircle) {
-				coord[1] = view.toRealWorldCoordY(startPointY - boundingBoxRectangle.getWidth());
-			} else {
-				coord[1] = view.toRealWorldCoordY(boundingBoxRectangle.getMinY());
-			}
-		} else {
-			if (isCircle) {
-				coord[1] = view.toRealWorldCoordY(startPointY + boundingBoxRectangle.getWidth());
-			} else {
-				coord[1] = view.toRealWorldCoordY(boundingBoxRectangle.getMaxY());
-			}
-		}
-		return coord;
 	}
 
 	@Override
 	public void updateGeo() {
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
-		flipped = false;
 		view.repaintView();
 	}
 
-	private void updateRealGeo(GPoint2D p) {
-		double[] equ = getEquationOfConic(p);
+	private void updateRealGeo(ArrayList<GPoint2D> pts) {
+		double startX = view.toRealWorldCoordX(pts.get(0).getX());
+		double startY = view.toRealWorldCoordY(pts.get(0).getY());
+		double endX = view.toRealWorldCoordX(pts.get(1).getX());
+		double endY = view.toRealWorldCoordY(pts.get(1).getY());
+		double[] equ = getEquationOfConic(startX, startY, endX, endY);
 		if (equ != null) {
 			conic.setMatrix(equ);
 		}
@@ -2478,18 +2196,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		this.update();
 	}
 
-	private double[] getEquationOfConic(GPoint2D p) {
-		// real coords
-		double startX = view
-				.toRealWorldCoordX(fixCornerX);
-		double startY = view
-				.toRealWorldCoordY(fixCornerY);
-
-		double endX, endY;
-		double[] coords = getEndPointRealCoords(p);
-		endX = coords[0];
-		endY = coords[1];
-		
+	private static double[] getEquationOfConic(double startX, double startY, double endX,
+			double endY) {
 		if (Double.isNaN(startX) || Double.isNaN(startY) || Double.isNaN(endX) 
 				|| Double.isNaN(endY)) {
 			return null;

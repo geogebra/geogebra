@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGeneralPath;
@@ -26,13 +27,13 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -44,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -520,8 +522,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * method to update points of poly after mouse release
 	 * 
-	 * @param point
-	 *            - mouse position
 	 */
 	@Override
 	public void updateGeo() {
@@ -552,18 +552,25 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point,
 			EuclidianBoundingBoxHandler handler) {
-		poly.setEuclidianVisible(false);
-		poly.updateRepaint();
-		if (isCornerHandler(handler)) {
-			updateFreePolygonCorner(handler, point);
-		} else {
-			updateFreePolygonSide(handler, point);
+		// never called
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> pts) {
+		if (prewPolygon == null) {
+			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
 		}
-		view.setShapePolygon(prewPolygon);
-		view.setShapeFillCol(poly.getFillColor());
-		view.setShapeObjCol(poly.getObjectColor());
-		view.setShapeStroke(EuclidianStatic
-				.getStroke(poly.getLineThickness() / 2.0, poly.getLineType()));
+
+		// init poly
+		prewPolygon.reset();
+		// move to start point
+		prewPolygon.moveTo(pts.get(0).getX(), pts.get(0).getY());
+		// draw segments
+		for (int i = 1; i < pts.size(); i++) {
+			prewPolygon.lineTo(pts.get(i).getX(), pts.get(i).getY());
+		}
+		prewPolygon.closePath();
+		updateGeo();
 	}
 
 	private void updateRealPointsOfPolygon() {
@@ -625,144 +632,22 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	/**
-	 * update the coords of free polygon by dragging corner handler
-	 * 
-	 * @param hitHandler
-	 *            - handler was hit
-	 * @param point
-	 *            - mouse position
-	 */
-	protected void updateFreePolygonCorner(
-			EuclidianBoundingBoxHandler hitHandler,
-			GPoint2D point) {
-		double[] pointsX = new double[poly.getPointsLength()];
-		double[] pointsY = new double[poly.getPointsLength()];
-
-		if (prewPolygon == null) {
-			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
-		}
-
-		fixCornerCoords(hitHandler);
-		
-		int newWidth = (int) (point.getX() - fixCornerX);
-		int height = (int) (point.getY() - fixCornerY);
-		int newHeight = (int) (newWidth * oldHeight / oldWidth);
-
-		double ratioWidth = newWidth / oldWidth;
-		double ratioHeight = newHeight / oldHeight;
-		
-		double[] currCoords = new double[6];
-		GPathIterator it = gp.getPathIterator(null);
-		int i = poly.getPointsLength();
-
-		while (!it.isDone() && i > 0) {
-			i--;
-			it.currentSegment(currCoords);
-			// bottom or top right corner was moved
-			if (height >= 0) {
-				pointsX[i] = fixCornerX
-						+ (Math.abs(currCoords[0] - fixCornerX)) * ratioWidth;
-				if (newWidth >= 0) {
-					pointsY[i] = fixCornerY
-						+ (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
-				} else {
-					pointsY[i] = fixCornerY
-							- (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
-				}
-			}
-			// bottom or top left corner was moved
-			else {
-				pointsX[i] = fixCornerX
-						+ (Math.abs(currCoords[0] - fixCornerX)) * ratioWidth;
-				if (newWidth >= 0) {
-					pointsY[i] = fixCornerY
-							- (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
-				} else {
-					pointsY[i] = fixCornerY
-							+ (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
-				}
-			}
-			it.next();
-		}
-		// init poly
-		prewPolygon.reset();
-		// move to start point
-		prewPolygon.moveTo(pointsX[0], pointsY[0]);
-		// draw segments
-		for (int index = 1; index < pointsX.length; index++) {
-			prewPolygon.lineTo(pointsX[index], pointsY[index]);
-		}
-		prewPolygon.closePath();
-		// set new bounding box
-		getBoundingBox().setRectangle(prewPolygon.getBounds());
-	}
-
-	/**
-	 * update the coords of free polygon by dragging side handler
-	 * 
-	 * @param hitHandler
-	 *            - handler was hit
-	 * @param point
-	 *            - mouse position
-	 */
-	protected void updateFreePolygonSide(EuclidianBoundingBoxHandler hitHandler,
-			GPoint2D point) {
-		double[] pointsX = new double[poly.getPointsLength()];
-		double[] pointsY = new double[poly.getPointsLength()];
-
-		if (prewPolygon == null) {
-			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
-		}
-
-		fixCornerCoords(hitHandler);
-
-		if (!Double.isNaN(fixCornerX)) {
-			double width = point.getX() - fixCornerX;
-			double[] currCoords = new double[6];
-			GPathIterator it = gp.getPathIterator(null);
-			int i = poly.getPointsLength();
-			while (!it.isDone() && i > 0) {
-				i--;
-				it.currentSegment(currCoords);
-				// left or right side was moved
-				pointsX[i] = fixCornerX
-							+ (Math.abs(currCoords[0] - fixCornerX)) * width
-									/ oldWidth;
-				pointsY[i] = currCoords[1];
-				it.next();
-			}
-		}
-
-		if (!Double.isNaN(fixCornerY)) {
-			double height = point.getY() - fixCornerY;
-			double[] currCoords = new double[6];
-			GPathIterator it = gp.getPathIterator(null);
-			int i = poly.getPointsLength();
-			while (!it.isDone() && i > 0) {
-				i--;
-				it.currentSegment(currCoords);
-				// bottom or top side was moved
-				pointsX[i] = currCoords[0];
-				pointsY[i] = fixCornerY
-							+ (Math.abs(currCoords[1] - fixCornerY)) * height
-									/ oldHeight;
-				it.next();
-			}
-		}
-
-		prewPolygon.reset();
-		prewPolygon.moveTo(pointsX[0], pointsY[0]);
-		for (int index = 1; index < pointsX.length; index++) {
-			prewPolygon.lineTo(pointsX[index], pointsY[index]);
-		}
-		prewPolygon.closePath();
-
-		getBoundingBox().setRectangle(prewPolygon.getBounds());
-	}
-
 	@Override
 	protected boolean hasRotationHandler() {
 		return true;
+	}
+
+	@Override
+	protected List<GPoint2D> toPoints() {
+		List<GPoint2D> ret = new ArrayList<>(this.poly.getNumPoints());
+		for (GeoPointND pt : this.poly.getPoints()) {
+			pt.updateCoords2D();
+			MyPoint screenPt = new MyPoint(view.toScreenCoordX(pt.getX2D()),
+					view.toScreenCoordY(pt.getY2D()));
+			Log.debug(screenPt);
+			ret.add(screenPt);
+
+		}
+		return ret;
 	}
 }
