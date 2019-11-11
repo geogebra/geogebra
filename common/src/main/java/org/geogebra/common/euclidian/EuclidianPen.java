@@ -554,7 +554,7 @@ public class EuclidianPen implements GTimerListener {
 
 		// don't set label
 		if (lastAlgo != null) {
-			lastAlgo.appendPointArray(newPts);
+			lastAlgo.getPenStroke().appendPointArray(newPts);
 			lastAlgo.getOutput(0).updateRepaint();
 			return;
 		}
