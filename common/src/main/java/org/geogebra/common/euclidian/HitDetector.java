@@ -170,9 +170,9 @@ public class HitDetector {
 		DrawableIterator it = view.allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			d.setPartialHitClip(rect);
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && filter.check(geo) && d.intersectsRectangle(rect)) {
+				d.setPartialHitClip(rect);
 				hits.add(geo);
 			}
 		}
