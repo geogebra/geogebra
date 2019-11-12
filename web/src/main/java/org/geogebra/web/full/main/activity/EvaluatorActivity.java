@@ -30,7 +30,7 @@ public class EvaluatorActivity extends BaseActivity {
 		frame.clear();
 		frame.add(editor);
 
-		if (getPreventFocus(appW)) {
+		if (appW.getArticleElement().preventFocus()) {
 			editor.requestFocus();
 		}
 	}
@@ -46,9 +46,5 @@ public class EvaluatorActivity extends BaseActivity {
 	 */
 	public EvaluatorAPI getEditorAPI() {
 		return editor.getAPI();
-	}
-
-	private boolean getPreventFocus(AppW appW) {
-		return ((ArticleElement) appW.getArticleElement()).getDataParamPreventFocus();
 	}
 }

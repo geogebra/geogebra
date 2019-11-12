@@ -853,8 +853,4 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public String getParamKeyboardType(String def) {
 		return getStringDataParam("keyboardType", def);
 	}
-
-	public boolean getDataParamPreventFocus() {
-		return getBoolDataParam("preventFocus", false);
-	}
 }
