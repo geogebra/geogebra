@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
-import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -532,7 +531,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
 						&& temporaryMode
 						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
-				&& selection.getSelectedGeos().size() > 0;
+				&& selection.getSelectedGeos().size() > 0 && !this.specialBoundingBoxNeeded();
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
@@ -8109,26 +8108,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
 			// calculate new positions relative to bounding box
-			double newMinX = startBoundingBoxState.getRatios(i).get(0).getX() * bbWidth,
-					newMaxX = startBoundingBoxState.getRatios(i).get(1).getX() * bbWidth,
-					newMinY = startBoundingBoxState.getRatios(i).get(0).getY()
-							* bbHeight,
-					newMaxY = startBoundingBoxState.getRatios(i).get(1).getY()
-							* bbHeight;
-			if (dr instanceof DrawSegment) {
-				// segments must be handled differently (by translating the
-				// points separately)
-				handleResizeForSegment((GeoSegment) geo, dr, bbMinX, bbMinY,
-						newMinX, newMaxX, newMinY, newMaxY);
-			} else {
-				ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(i);
-				ArrayList<GPoint2D> transformedPts = new ArrayList<>();
-				for (GPoint2D pt : pts) {
-					transformedPts.add(new MyPoint(bbMinX + pt.getX() * bbWidth,
-							bbMinY + pt.getY() * bbHeight));
-				}
-				dr.fromPoints(transformedPts);
+			ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(i);
+			ArrayList<GPoint2D> transformedPts = new ArrayList<>();
+			for (GPoint2D pt : pts) {
+				transformedPts.add(
+						new MyPoint(bbMinX + pt.getX() * bbWidth, bbMinY + pt.getY() * bbHeight));
 			}
+			dr.fromPoints(transformedPts);
+
 			// last update for drawable
 			dr.update();
 		}
@@ -8157,42 +8144,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 		}
 		return AwtFactory.getPrototype().newPoint2D(distX, distY);
-	}
-
-	/**
-	 * handle resize for segments
-	 **/
-	private void handleResizeForSegment(GeoSegment seg, Drawable dr,
-			double bbMinX, double bbMinY, double newMinX, double newMaxX,
-			double newMinY, double newMaxY) {
-		double dStartX = 0, dEndX = 0, dStartY = 0, dEndY = 0;
-		// thresholds not reached
-		if (!startBoundingBoxState.lastThresholdX) {
-			if (seg.getEndPoint().getX() - seg.getStartPoint().getX() > 0) {
-				dStartX = newMinX + bbMinX - dr.getBounds().getMinX();
-				dEndX = newMaxX + bbMinX - dr.getBounds().getMaxX();
-			} else {
-				dEndX = newMinX + bbMinX - dr.getBounds().getMinX();
-				dStartX = newMaxX + bbMinX - dr.getBounds().getMaxX();
-			}
-		}
-		if (!startBoundingBoxState.lastThresholdY) {
-			if (seg.getEndPoint().getY() - seg.getStartPoint().getY() < 0) {
-				dStartY = newMinY + bbMinY - dr.getBounds().getMinY();
-				dEndY = newMaxY + bbMinY - dr.getBounds().getMaxY();
-			} else {
-				dEndY = newMinY + bbMinY - dr.getBounds().getMinY();
-				dStartY = newMaxY + bbMinY - dr.getBounds().getMaxY();
-			}
-		}
-		if (dStartX != 0 || dStartY != 0) {
-			seg.getStartPoint().translate(new Coords(dStartX / view.getXscale(),
-					-dStartY / view.getYscale()));
-		}
-		if (dEndX != 0 || dEndY != 0) {
-			seg.getEndPoint().translate(new Coords(dEndX / view.getXscale(),
-					-dEndY / view.getYscale()));
-		}
 	}
 
 	/**
@@ -10040,14 +9991,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				// check if it was a selection with the rectangle or just a drag
-				view.getHitDetector().addIntersectionHits(view.getSelectionRectangle(), TestGeo.GEOLOCUS);
+				view.getHitDetector().addIntersectionHits(view.getSelectionRectangle(),
+						TestGeo.GEOLOCUS);
 				if (view.getSelectionRectangle() != null) {
 					view.setSelectionRectangle(null);
 					// hit found
 					if (hits != null && hits.size() > 0) {
 						selection.setSelectedGeos(hits, true);
 
-						setBoundingBoxFromList(hits);
+						if (specialBoundingBoxNeeded()) {
+							Drawable dr = ((Drawable) view.getDrawableFor(hits.get(0)));
+							BoundingBox boundingBox = dr.getBoundingBox();
+
+							view.setBoundingBox(boundingBox);
+							view.repaintView();
+						}
+						// multi-selection
+						else {
+							setBoundingBoxFromList(hits);
+						}
 
 					}
 				}
@@ -10086,6 +10048,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		kernel.notifyRepaint();
+	}
+
+	private boolean specialBoundingBoxNeeded() {
+		return selection.getSelectedGeos().size() == 1
+				&& (selection.getSelectedGeos().get(0).isGeoSegment()
+						|| selection.getSelectedGeos().get(0).isGeoImage());
 	}
 
 	protected void processSelection() {

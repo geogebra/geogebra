@@ -561,9 +561,87 @@ public final class DrawImage extends Drawable {
 		}
 	}
 
+	/**
+	 * TODO still quite a lot of copy-paste
+	 */
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> points) {
+		GeoPoint A, B, D;
+		double cropMinX, cropMaxX, cropMinY, cropMaxY;
+		GRectangle2D cropBox = null;
+		if (geoImage.isCropped()) {
+			if (!hasImageCropRatio()) {
+				updateImageCropRatio();
+			}
+			cropBox = getCropBox();
+			cropMinX = view.toRealWorldCoordX(cropBox.getMinX());
+			cropMaxX = view.toRealWorldCoordX(cropBox.getMaxX());
+			cropMinY = view.toRealWorldCoordY(cropBox.getMinY());
+			cropMaxY = view.toRealWorldCoordY(cropBox.getMaxY());
 
+			A = new GeoPoint(geo.getConstruction(), cropMinX, cropMaxY, 1.0);
+			A.remove();
+			B = new GeoPoint(geo.getConstruction(), cropMaxX, cropMaxY, 1.0);
+			B.remove();
+			D = new GeoPoint(geo.getConstruction(), cropMinX, cropMinY, 1.0);
+			D.remove();
+		} else {
+			A = geoImage.getCorner(0);
+			B = geoImage.getCorner(1);
+			D = geoImage.getCorner(2);
+		}
+
+		if (A == null) {
+			A = new GeoPoint(geoImage.cons);
+			geoImage.calculateCornerPoint(A, 1);
+		}
+		if (B == null) {
+			B = new GeoPoint(geoImage.cons);
+			geoImage.calculateCornerPoint(B, 2);
+		}
+		if (D == null) {
+			D = new GeoPoint(geoImage.cons);
+			geoImage.calculateCornerPoint(D, 3);
+		}
+		double screenLeft = Math.min(points.get(0).getX(), points.get(1).getX());
+		double screenRight = Math.max(points.get(0).getX(), points.get(1).getX());
+		double screenTop = Math.min(points.get(0).getY(), points.get(1).getY());
+		double screenBottom = Math.max(points.get(0).getY(), points.get(1).getY());
+		A.setCoords(view.toRealWorldCoordX(screenLeft), view.toRealWorldCoordY(screenBottom), 1);
+		A.updateRepaint();
+		B.setCoords(view.toRealWorldCoordX(screenRight), view.toRealWorldCoordY(screenBottom), 1);
+		B.updateRepaint();
+		D.setCoords(view.toRealWorldCoordX(screenLeft), view.toRealWorldCoordY(screenTop), 1);
+		setCorner(D, 2);
+		D.updateRepaint();
+
+		if (geoImage.isCropped()) {
+			// the new screen positions of crop box and the new width/height
+			double screenAX = view.toScreenCoordXd(A.getInhomX());
+			double screenAY = view.toScreenCoordYd(A.getInhomY());
+			double screenBX = view.toScreenCoordXd(B.getInhomX());
+			double screenDY = view.toScreenCoordYd(D.getInhomY());
+			double screenCropWidth = screenBX - screenAX;
+			double screenCropHeight = screenAY - screenDY;
+
+			// change x coordinates of image corners
+
+			updateCropHorizontal(screenCropWidth, screenAX, cropBox);
+
+			// change y coordinates of image corners
+
+			updateCropVerical(screenCropHeight, screenAY, cropBox);
+
+			// update geoImage cornerpoints
+			geoImage.getCorner(0).updateCoords();
+			geoImage.getCorner(0).updateRepaint();
+			geoImage.getCorner(1).updateCoords();
+			geoImage.getCorner(1).updateRepaint();
+			if (geoImage.getCorner(2) != null) {
+				geoImage.getCorner(2).updateCoords();
+				geoImage.getCorner(2).updateRepaint();
+			}
+		}
 	}
 
 	private void updateImageCrop(GPoint2D p,
@@ -928,20 +1006,7 @@ public final class DrawImage extends Drawable {
 			case TOP_LEFT:
 			case LEFT:
 			case BOTTOM_LEFT:
-				double curScaleX = screenCropWidth / cropBox.getWidth();
-				double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
-				double newImageWidth = screenCropWidth * this.imagecropRatioX;
-				double oldDistLeftSide = cropBox.getMinX() - imageScreenAx;
-				double newDistLeftSide = oldDistLeftSide * curScaleX;
-				double newLeftSideImgScr = screenAX - newDistLeftSide;
-				double newLeftSideImg = view.toRealWorldCoordX(newLeftSideImgScr);
-				double newRightSideImg = view
-						.toRealWorldCoordX(newLeftSideImgScr + newImageWidth);
-				geoImage.getCorner(1).setX(newRightSideImg);
-				geoImage.getCorner(0).setX(newLeftSideImg);
-				if (geoImage.getCorner(2) != null) {
-					geoImage.getCorner(2).setX(newLeftSideImg);
-				}
+				updateCropHorizontal(screenCropWidth, screenAX, cropBox);
 				break;
 			default:
 				// do nothing
@@ -956,20 +1021,7 @@ public final class DrawImage extends Drawable {
 			case BOTTOM_LEFT:
 			case BOTTOM:
 			case BOTTOM_RIGHT:
-				double curScaleY = screenCropHeight / cropBox.getHeight();
-				double imageScreenAy = view.toScreenCoordYd(geoImage.getCorner(0).getY());
-				double newImageHeight = screenCropHeight * this.imagecropRatioY;
-				double oldDistBottomSide = imageScreenAy - cropBox.getMaxY();
-				double newDistBottomSide = oldDistBottomSide * curScaleY;
-				double newBottomSideImgScr = screenAY + newDistBottomSide;
-				double newBottomSideImg = view.toRealWorldCoordY(newBottomSideImgScr);
-				geoImage.getCorner(0).setY(newBottomSideImg);
-				geoImage.getCorner(1).setY(newBottomSideImg);
-				if (geoImage.getCorner(2) != null) {
-					double newTopSideImg = view.toRealWorldCoordY(
-							newBottomSideImgScr - newImageHeight);
-					geoImage.getCorner(2).setY(newTopSideImg);
-				}
+				updateCropVerical(screenCropHeight, screenAY, cropBox);
 				break;
 			default:
 				// do nothing
@@ -986,6 +1038,40 @@ public final class DrawImage extends Drawable {
 				geoImage.getCorner(2).updateRepaint();
 			}
 		}
+	}
+
+	private void updateCropVerical(double screenCropHeight, double screenAY, GRectangle2D cropBox) {
+		double curScaleY = screenCropHeight / cropBox.getHeight();
+		double imageScreenAy = view.toScreenCoordYd(geoImage.getCorner(0).getY());
+		double newImageHeight = screenCropHeight * this.imagecropRatioY;
+		double oldDistBottomSide = imageScreenAy - cropBox.getMaxY();
+		double newDistBottomSide = oldDistBottomSide * curScaleY;
+		double newBottomSideImgScr = screenAY + newDistBottomSide;
+		double newBottomSideImg = view.toRealWorldCoordY(newBottomSideImgScr);
+		geoImage.getCorner(0).setY(newBottomSideImg);
+		geoImage.getCorner(1).setY(newBottomSideImg);
+		if (geoImage.getCorner(2) != null) {
+			double newTopSideImg = view.toRealWorldCoordY(newBottomSideImgScr - newImageHeight);
+			geoImage.getCorner(2).setY(newTopSideImg);
+		}
+	}
+
+	private void updateCropHorizontal(double screenCropWidth, double screenAX,
+			GRectangle2D cropBox) {
+		double curScaleX = screenCropWidth / cropBox.getWidth();
+		double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
+		double newImageWidth = screenCropWidth * this.imagecropRatioX;
+		double oldDistLeftSide = cropBox.getMinX() - imageScreenAx;
+		double newDistLeftSide = oldDistLeftSide * curScaleX;
+		double newLeftSideImgScr = screenAX - newDistLeftSide;
+		double newLeftSideImg = view.toRealWorldCoordX(newLeftSideImgScr);
+		double newRightSideImg = view.toRealWorldCoordX(newLeftSideImgScr + newImageWidth);
+		geoImage.getCorner(1).setX(newRightSideImg);
+		geoImage.getCorner(0).setX(newLeftSideImg);
+		if (geoImage.getCorner(2) != null) {
+			geoImage.getCorner(2).setX(newLeftSideImg);
+		}
+
 	}
 
 	private void setCorner(GeoPoint point, int corner) {

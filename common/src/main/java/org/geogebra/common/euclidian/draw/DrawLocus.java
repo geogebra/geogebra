@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
@@ -91,8 +90,7 @@ public class DrawLocus extends Drawable {
 
 		algo = geo.getParentAlgorithm();
 		if (algo instanceof AlgoLocusEquation) {
-			AlgoLocusEquation ale = (AlgoLocusEquation) geo
-					.getParentAlgorithm();
+			AlgoLocusEquation ale = (AlgoLocusEquation) geo.getParentAlgorithm();
 			if (ale.resetFingerprint(geo.getKernel(), false)) {
 				ale.update();
 			}
@@ -107,8 +105,7 @@ public class DrawLocus extends Drawable {
 		buildGeneralPath(locus.getPoints());
 
 		// line on screen?
-		if (!geo.isInverseFill()
-				&& !view.intersects(gp)) {
+		if (!geo.isInverseFill() && !view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -127,8 +124,7 @@ public class DrawLocus extends Drawable {
 			double width = view.getWidth();
 			double height = view.getHeight();
 			xLabel = (int) ((x - xmin) / (xmax - xmin) * width) + 5;
-			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4
-					+ view.getFontSize();
+			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4 + view.getFontSize();
 			/*
 			 * Adding (5,4) will hopefully move the label out of the curve's
 			 * direct hiding. This is just a hack, and it does not work always.
@@ -137,8 +133,7 @@ public class DrawLocus extends Drawable {
 		}
 
 		// draw trace
-		if (geo.isTraceable() && (geo instanceof Traceable)
-				&& ((Traceable) geo).getTrace()) {
+		if (geo.isTraceable() && (geo instanceof Traceable) && ((Traceable) geo).getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null) {
@@ -156,8 +151,7 @@ public class DrawLocus extends Drawable {
 		}
 
 		if (geo.getKernel().getApplication().isWhiteboardActive()
-				&& geo.getGeoClassType() == GeoClass.PENSTROKE
-				&& getBounds() != null) {
+				&& geo.getGeoClassType() == GeoClass.PENSTROKE && getBounds() != null) {
 			getBoundingBox().setRectangle(getBounds2D());
 		}
 	}
@@ -170,8 +164,7 @@ public class DrawLocus extends Drawable {
 	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
 
-			if (geo.isPenStroke()
-					&& !geo.getKernel().getApplication().isExporting()) {
+			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
 				if (bitmap == null) {
 					this.bitmap = makeImage(g2);
 					GGraphics2D g2bmp = bitmap.createGraphics();
@@ -276,8 +269,8 @@ public class DrawLocus extends Drawable {
 		}
 
 		if (geo.isFilled()) {
-			return t.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
+			return t.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold,
+					2 * hitThreshold);
 		}
 		if (!isVisible || objStroke.getLineWidth() <= 0) {
 			return false;
@@ -340,60 +333,6 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
-		updatePoints(handler, point, getBoundingBox().getRectangle());
-		update();
-		getBoundingBox().setRectangle(getBounds2D());
-	}
-
-	@Override
-	public void updateGeo() {
-		locus.resetSavedBoundingBoxValues(false);
-	}
-
-	/**
-	 * Updates the points when resizing the locus with bounding box handler
-	 * 
-	 * @param handler
-	 *            handler was hit
-	 * @param p
-	 *            mouse position
-	 * @param gRectangle2D
-	 *            bounding box rectangle
-	 */
-	public void updatePoints(EuclidianBoundingBoxHandler handler,
-			GPoint2D p, GRectangle2D gRectangle2D) {
-		// save the original rates when scaling first time
-		locus.saveOriginalRates(gRectangle2D);
-
-		switch (handler) {
-		case TOP:
-		case BOTTOM:
-			locus.updatePointsY(handler, p.getY(), gRectangle2D,
-					Double.NaN);
-			break;
-		case LEFT:
-		case RIGHT:
-			locus.updatePointsX(handler, p.getX(), gRectangle2D);
-			break;
-		case TOP_LEFT:
-		case BOTTOM_LEFT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
-			locus.saveRatio(gRectangle2D);
-			double newWidth = locus.updatePointsX(handler,
-					p.getX(),
-					gRectangle2D);
-			locus.updatePointsY(handler, p.getY(), gRectangle2D,
-					newWidth);
-			break;
-		default: // UNDEFINED - maybe not possible
-			Log.warn("unhandled case");
-		}
-	}
-
-	@Override
 	public GRectangle getBoundsForStylebarPosition() {
 		if (gp == null) {
 			return null;
@@ -428,6 +367,25 @@ public class DrawLocus extends Drawable {
 	@Override
 	public boolean hasRotationHandler() {
 		return geo instanceof Rotateable;
+	}
+
+	@Override
+	public ArrayList<GPoint2D> toPoints() {
+		ArrayList<GPoint2D> points = new ArrayList<>();
+		for (MyPoint pt : locus.getPoints()) {
+			points.add(new MyPoint(view.toScreenCoordX(pt.getX()), view.toScreenCoordY(pt.getY())));
+		}
+		return points;
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		int i = 0;
+		for (MyPoint pt : locus.getPoints()) {
+			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
+					view.toRealWorldCoordY(points.get(i).getY()));
+			i++;
+		}
 	}
 
 }

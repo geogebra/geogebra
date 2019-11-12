@@ -178,9 +178,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN;
 	private double fixCornerY = Double.NaN;
-	private double oldWidth = Double.NaN;
-	private double oldHeight = Double.NaN;
-	private double proportion = Double.NaN;
 	private boolean isCircle = false;
 	/** eigenvectors */
 	protected Coords[] ev;

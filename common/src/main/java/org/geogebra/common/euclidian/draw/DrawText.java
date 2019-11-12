@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -20,7 +22,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.TextController;
@@ -282,6 +283,16 @@ public final class DrawText extends Drawable {
 		return labelRectangle.intersects(rect);
 	}
 
+	@Override
+	public double getWidthThreshold() {
+		return MIN_EDITOR_WIDTH;
+	}
+
+	@Override
+	public double getHeightThreshold() {
+		return 0;
+	}
+
 	/**
 	 * Returns false
 	 */
@@ -364,79 +375,15 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		prepareBoundingBoxResize(point, handler);
-		text.update();
-	}
-
-	private void prepareBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
-		double minX = labelRectangle.getMinX();
-		double maxX = labelRectangle.getMaxX();
-		double minY = labelRectangle.getMinY();
-		double maxY = labelRectangle.getMaxY();
-		double mouseY = point.getY();
-		double mouseX = point.getX();
-		GeoPointND startPoint;
-		int h;
-		switch (handler) {
-		case TOP:
-			h = (int) (maxY - mouseY);
-			if (h < text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN) {
-				h = text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN;
-				mouseY = maxY - h;
-			}
-			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
-			startPoint = text.getStartPoint();
-			startPoint.setCoords(startPoint.getInhomX(),
-					view.toRealWorldCoordY(mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN),
-					1.0);
-			break;
-		case BOTTOM:
-			if (mouseY - minY < text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN) {
-				mouseY = minY + text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN;
-			}
-			h = (int) (mouseY - minY);
-			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
-			break;
-		case RIGHT:
-			int w = (int) (mouseX - minX);
-			if (w < MIN_EDITOR_WIDTH) {
-				w = MIN_EDITOR_WIDTH;
-			}
-			labelRectangle.setSize(w,
-					(int) labelRectangle.getHeight());
-			break;
-		case LEFT:
-			int width = (int) (maxX - mouseX);
-			if (width < MIN_EDITOR_WIDTH) {
-				mouseX = maxX - MIN_EDITOR_WIDTH;
-				width = MIN_EDITOR_WIDTH;
-			}
-			width += EuclidianStatic.EDITOR_MARGIN;
-			labelRectangle.setSize(width, (int) labelRectangle.getHeight());
-			startPoint = text.getStartPoint();
-			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
-			break;
-		case BOTTOM_LEFT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
-			break;
-		case TOP_RIGHT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
-			break;
-		case TOP_LEFT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
-			break;
-		case BOTTOM_RIGHT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
-			break;
-		default:
-			break;
-		}
+	public void fromPoints(ArrayList<GPoint2D> pts) {
+		GeoPointND startPoint = text.getStartPoint();
+		double left = Math.min(pts.get(0).getX(), pts.get(1).getX())
+				+ EuclidianStatic.EDITOR_MARGIN;
+		double bottom = Math.min(pts.get(0).getY(), pts.get(1).getY())
+				+ fontSize + EuclidianStatic.EDITOR_MARGIN;
+		startPoint.setCoords(view.toRealWorldCoordX(left), view.toRealWorldCoordY(bottom), 1.0);
+		labelRectangle.setSize((int) Math.abs(pts.get(0).getX() - pts.get(1).getX()),
+				(int) Math.abs((pts.get(0).getY() - pts.get(1).getY())));
 	}
 
 	/**

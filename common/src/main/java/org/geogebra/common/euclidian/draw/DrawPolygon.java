@@ -21,7 +21,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
@@ -45,7 +44,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -550,12 +548,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
-		// never called
-	}
-
-	@Override
 	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (prewPolygon == null) {
 			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
@@ -586,52 +578,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
-		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
-		if (Double.isNaN(fixCornerX)) {
-			switch (hitHandler) {
-			case BOTTOM_LEFT:
-			case TOP_LEFT:
-			case LEFT:
-				fixCornerX = boundingBoxRectangle.getMaxX();
-				break;
-			case TOP_RIGHT:
-			case BOTTOM_RIGHT:
-			case RIGHT:
-				fixCornerX = boundingBoxRectangle.getMinX();
-				break;
-			default:
-				break;
-			}
-		}
-		if (Double.isNaN(fixCornerY)) {
-			switch (hitHandler) {
-			case TOP_LEFT:
-			case TOP_RIGHT:
-			case TOP:
-				fixCornerY = boundingBoxRectangle.getMaxY();
-				break;
-			case BOTTOM_LEFT:
-			case BOTTOM_RIGHT:
-			case BOTTOM:
-				fixCornerY = boundingBoxRectangle.getMinY();
-				break;
-			default:
-				break;
-			}
-		}
-		if (Double.isNaN(proportion)) {
-			proportion = boundingBoxRectangle.getWidth()
-					/ boundingBoxRectangle.getHeight();
-		}
-		if (Double.isNaN(oldWidth)) {
-			oldWidth = boundingBoxRectangle.getWidth();
-		}
-		if (Double.isNaN(oldHeight)) {
-			oldHeight = boundingBoxRectangle.getHeight();
-		}
-	}
-
 	@Override
 	protected boolean hasRotationHandler() {
 		return true;
@@ -644,9 +590,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			pt.updateCoords2D();
 			MyPoint screenPt = new MyPoint(view.toScreenCoordX(pt.getX2D()),
 					view.toScreenCoordY(pt.getY2D()));
-			Log.debug(screenPt);
 			ret.add(screenPt);
-
 		}
 		return ret;
 	}

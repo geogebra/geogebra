@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -641,11 +642,32 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		double realX = view.toRealWorldCoordX(snap.getX());
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);
-
-		s.update();
-		s.updateRepaint();
 		s.getParentAlgorithm().update();
-		update();
+		s.updateRepaint();
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> pts) {
+		s.getStartPoint().setCoords(view.toRealWorldCoordX(pts.get(0).getX()),
+				view.toRealWorldCoordY(pts.get(0).getY()), 1);
+		s.getEndPoint().setCoords(view.toRealWorldCoordX(pts.get(1).getX()),
+				view.toRealWorldCoordY(pts.get(1).getY()), 1);
+		s.getParentAlgorithm().update();
+		s.updateRepaint();
+	}
+
+	@Override
+	public ArrayList<GPoint2D> toPoints() {
+		ArrayList<GPoint2D> ret = new ArrayList<>();
+		addPoint(s.getStartPoint(), ret);
+		addPoint(s.getEndPoint(), ret);
+		return ret;
+	}
+
+	private void addPoint(GeoPointND point, ArrayList<GPoint2D> ret) {
+		point.updateCoords2D();
+		ret.add(new MyPoint(view.toScreenCoordX(point.getX2D()),
+				view.toScreenCoordY(point.getY2D())));
 	}
 
 }
