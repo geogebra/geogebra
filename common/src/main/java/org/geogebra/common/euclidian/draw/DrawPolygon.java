@@ -59,11 +59,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private ArrayList<GeoPointND> points;
 
 	private BoundingBox boundingBox;
-	private double fixCornerX = Double.NaN;
-	private double fixCornerY = Double.NaN;
-	private double proportion = Double.NaN;
-	private double oldWidth = Double.NaN;
-	private double oldHeight = Double.NaN;
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
@@ -457,52 +452,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	/**
-	 * @return fixed x coord of corner
-	 */
-	public double getFixCornerX() {
-		return fixCornerX;
-	}
-
-	/**
-	 * @param fixCornerX
-	 *            - x coord of fixed corner
-	 */
-	public void setFixCornerX(double fixCornerX) {
-		this.fixCornerX = fixCornerX;
-	}
-
-	/**
-	 * @return fixed y coord of corner
-	 */
-	public double getFixCornerY() {
-		return fixCornerY;
-	}
-
-	/**
-	 * @param fixCornerY
-	 *            - y coord of fixed corner
-	 */
-	public void setFixCornerY(double fixCornerY) {
-		this.fixCornerY = fixCornerY;
-	}
-
-	/**
-	 * @param oldWidth
-	 *            - old width of bounding box
-	 */
-	public void setOldWidth(double oldWidth) {
-		this.oldWidth = oldWidth;
-	}
-
-	/**
-	 * @param oldHeight
-	 *            - old height of bounding box
-	 */
-	public void setOldHeight(double oldHeight) {
-		this.oldHeight = oldHeight;
-	}
-
-	/**
 	 * @return true if is square
 	 */
 	public boolean isSquare() {
@@ -540,10 +489,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.update();
 		view.setShapePolygon(null);
 		view.setShapeRectangle(null);
-		setFixCornerX(Double.NaN);
-		setFixCornerY(Double.NaN);
-		setOldWidth(Double.NaN);
-		setOldHeight(Double.NaN);
 		view.repaintView();
 	}
 
