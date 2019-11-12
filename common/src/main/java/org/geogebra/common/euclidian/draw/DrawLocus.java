@@ -275,17 +275,20 @@ public class DrawLocus extends Drawable {
 		if (!isVisible || objStroke.getLineWidth() <= 0) {
 			return false;
 		}
+		updateStrokedShape();
+		return strokedShape != null && strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+				2 * hitThreshold, 2 * hitThreshold);
+	}
+
+	private void updateStrokedShape() {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
 				strokedShape = objStroke.createStrokedShape(gp, 2500);
 			} catch (Exception e) {
 				Log.error("problem creating Locus shape: " + e.getMessage());
-				return false;
 			}
 		}
-		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-				2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override
@@ -295,7 +298,8 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return gp.intersects(rect);
+		updateStrokedShape();
+		return strokedShape != null && strokedShape.intersects(rect);
 	}
 
 	@Override

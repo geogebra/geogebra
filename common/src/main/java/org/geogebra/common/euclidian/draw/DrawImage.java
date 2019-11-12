@@ -616,31 +616,20 @@ public final class DrawImage extends Drawable {
 		D.updateRepaint();
 
 		if (geoImage.isCropped()) {
-			// the new screen positions of crop box and the new width/height
-			double screenAX = view.toScreenCoordXd(A.getInhomX());
-			double screenAY = view.toScreenCoordYd(A.getInhomY());
-			double screenBX = view.toScreenCoordXd(B.getInhomX());
-			double screenDY = view.toScreenCoordYd(D.getInhomY());
-			double screenCropWidth = screenBX - screenAX;
-			double screenCropHeight = screenAY - screenDY;
+			updateCropHorizontal(A, B, cropBox);
+			updateCropVerical(A, D, cropBox);
+			updateCascadeCorners();
+		}
+	}
 
-			// change x coordinates of image corners
-
-			updateCropHorizontal(screenCropWidth, screenAX, cropBox);
-
-			// change y coordinates of image corners
-
-			updateCropVerical(screenCropHeight, screenAY, cropBox);
-
-			// update geoImage cornerpoints
-			geoImage.getCorner(0).updateCoords();
-			geoImage.getCorner(0).updateRepaint();
-			geoImage.getCorner(1).updateCoords();
-			geoImage.getCorner(1).updateRepaint();
-			if (geoImage.getCorner(2) != null) {
-				geoImage.getCorner(2).updateCoords();
-				geoImage.getCorner(2).updateRepaint();
-			}
+	private void updateCascadeCorners() {
+		geoImage.getCorner(0).updateCoords();
+		geoImage.getCorner(0).updateRepaint();
+		geoImage.getCorner(1).updateCoords();
+		geoImage.getCorner(1).updateRepaint();
+		if (geoImage.getCorner(2) != null) {
+			geoImage.getCorner(2).updateCoords();
+			geoImage.getCorner(2).updateRepaint();
 		}
 	}
 
@@ -991,12 +980,7 @@ public final class DrawImage extends Drawable {
 
 		if (geoImage.isCropped()) {
 			// the new screen positions of crop box and the new width/height
-			double screenAX = view.toScreenCoordXd(A.getInhomX());
-			double screenAY = view.toScreenCoordYd(A.getInhomY());
-			double screenBX = view.toScreenCoordXd(B.getInhomX());
-			double screenDY = view.toScreenCoordYd(D.getInhomY());
-			double screenCropWidth = screenBX - screenAX;
-			double screenCropHeight = screenAY - screenDY;
+
 
 			// change x coordinates of image corners
 			switch (handler) {
@@ -1006,7 +990,7 @@ public final class DrawImage extends Drawable {
 			case TOP_LEFT:
 			case LEFT:
 			case BOTTOM_LEFT:
-				updateCropHorizontal(screenCropWidth, screenAX, cropBox);
+				updateCropHorizontal(A, B, cropBox);
 				break;
 			default:
 				// do nothing
@@ -1021,26 +1005,20 @@ public final class DrawImage extends Drawable {
 			case BOTTOM_LEFT:
 			case BOTTOM:
 			case BOTTOM_RIGHT:
-				updateCropVerical(screenCropHeight, screenAY, cropBox);
+				updateCropVerical(A, D, cropBox);
 				break;
 			default:
 				// do nothing
 				break;
 			}
-
-			// update geoImage cornerpoints
-			geoImage.getCorner(0).updateCoords();
-			geoImage.getCorner(0).updateRepaint();
-			geoImage.getCorner(1).updateCoords();
-			geoImage.getCorner(1).updateRepaint();
-			if (geoImage.getCorner(2) != null) {
-				geoImage.getCorner(2).updateCoords();
-				geoImage.getCorner(2).updateRepaint();
-			}
+			updateCascadeCorners();
 		}
 	}
 
-	private void updateCropVerical(double screenCropHeight, double screenAY, GRectangle2D cropBox) {
+	private void updateCropVerical(GeoPoint A, GeoPoint D, GRectangle2D cropBox) {
+		double screenAY = view.toScreenCoordYd(A.getInhomY());
+		double screenDY = view.toScreenCoordYd(D.getInhomY());
+		double screenCropHeight = screenAY - screenDY;
 		double curScaleY = screenCropHeight / cropBox.getHeight();
 		double imageScreenAy = view.toScreenCoordYd(geoImage.getCorner(0).getY());
 		double newImageHeight = screenCropHeight * this.imagecropRatioY;
@@ -1056,8 +1034,11 @@ public final class DrawImage extends Drawable {
 		}
 	}
 
-	private void updateCropHorizontal(double screenCropWidth, double screenAX,
+	private void updateCropHorizontal(GeoPoint A, GeoPoint B,
 			GRectangle2D cropBox) {
+		double screenAX = view.toScreenCoordXd(A.getInhomX());
+		double screenBX = view.toScreenCoordXd(B.getInhomX());
+		double screenCropWidth = screenBX - screenAX;
 		double curScaleX = screenCropWidth / cropBox.getWidth();
 		double imageScreenAx = view.toScreenCoordXd(geoImage.getCorner(0).getX());
 		double newImageWidth = screenCropWidth * this.imagecropRatioX;

@@ -940,10 +940,17 @@ public abstract class Drawable extends DrawableND {
 		// only for strokes
 	}
 
-	public void fromPoints(ArrayList<GPoint2D> transformedPts) {
+	/**
+	 * @param points
+	 *            list of points defining the drawable
+	 */
+	public void fromPoints(ArrayList<GPoint2D> points) {
 		// only shapes
 	}
 
+	/**
+	 * @return list of points defining the drawable
+	 */
 	protected List<GPoint2D> toPoints() {
 		GRectangle2D bounds = getBoundingBox() != null
 				? getBoundingBox().getRectangle()
