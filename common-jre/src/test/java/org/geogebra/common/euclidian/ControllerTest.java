@@ -706,7 +706,7 @@ public class ControllerTest extends BaseControllerTest {
 		dragStart(50, 50);
 		dragEnd(200, 150);
 		checkContent("q1 = 6", "a = 3", "b = 2", "c = 3", "d = 2");
-		GeoElement rectangle = getApp().getKernel().lookupLabel("q1");
+		GeoElement rectangle = lookup("q1");
 		assertEquals(0, rectangle.getAlphaValue(), Kernel.MIN_PRECISION);
 	}
 

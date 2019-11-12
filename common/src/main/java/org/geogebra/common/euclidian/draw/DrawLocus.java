@@ -284,9 +284,8 @@ public class DrawLocus extends Drawable {
 				return false;
 			}
 		}
-		boolean isHit = strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);
-		return isHit;
 	}
 
 	@Override
