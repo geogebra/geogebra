@@ -86,6 +86,7 @@ ext.appSpecs = [
      partials:["undo-redo"], appStoreId:'1412748754'],
     [id:'geometry', title:'Geometry', transKey:'Geometry', exe:'GeoGebraGeometry',
      pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
+    [id:'suite', title:'Graphing Calculator', transKey:'GraphingCalculator'],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
@@ -212,8 +213,9 @@ task copyHtml {
             def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
             def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
                     "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
+            def splashContent = template("${app.id}-splash.html")
             return replaceVendor(html, vendor)
-            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">" + template(app.id+"-splash.html") + "</div>")
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
             .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")

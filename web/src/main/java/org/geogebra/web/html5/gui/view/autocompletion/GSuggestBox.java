@@ -639,7 +639,6 @@ public class GSuggestBox extends Composite
 			// Make sure that CSS styles specified for the default Menu classes
 			// do not affect this menu
 			setStyleName("");
-			setFocusOnHoverEnabled(false);
 		}
 
 		public AriaMenuItem doGetSelectedItem() {

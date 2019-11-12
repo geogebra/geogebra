@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.Rotateable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
@@ -406,7 +407,7 @@ public class DrawLocus extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (view.getApplication().isWhiteboardActive()) {
 			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false, false);
+				boundingBox = createBoundingBox(false, geo instanceof Rotateable);
 			}
 			boundingBox.updateFrom(geo);
 			return boundingBox;

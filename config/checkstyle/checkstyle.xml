@@ -108,7 +108,7 @@
             <property name="allowMissingThrowsTags" value="true"/>
             <property name="allowMissingReturnTag" value="false"/>
             <property name="minLineCount" value="1"/>
-            <property name="allowedAnnotations" value="Override, Test"/>
+            <property name="allowedAnnotations" value="Override, Test, Before"/>
             <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>
     </module>

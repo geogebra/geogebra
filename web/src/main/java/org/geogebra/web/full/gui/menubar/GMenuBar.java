@@ -253,4 +253,16 @@ public class GMenuBar extends AriaMenuBar {
 			selectItem(list.get(list.size() - 1));
 		}
 	}
+
+	/**
+	 * focus menu in a deferred way.
+	 */
+	public void focusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				getElement().focus();
+			}
+		});
+	}
 }

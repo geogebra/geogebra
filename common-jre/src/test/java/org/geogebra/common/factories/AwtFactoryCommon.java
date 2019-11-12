@@ -54,10 +54,11 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
         return null;
     }
 
-    @Override
-    public GGradientPaint newGradientPaint(double x, double y, GColor bg2, double x2, double i, GColor bg) {
-        return null;
-    }
+	@Override
+	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
+			double x2, double i, GColor bg) {
+		return null;
+	}
 
     @Override
 	public FocusListener newFocusListener(Object listener) {

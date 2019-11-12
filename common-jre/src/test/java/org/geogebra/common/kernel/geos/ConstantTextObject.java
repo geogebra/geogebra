@@ -10,27 +10,24 @@ public class ConstantTextObject implements TextObject {
 		this.text = text;
 	}
 
+	@Override
 	public String getText() {
 		return text;
 	}
 
+	@Override
 	public void setText(String text) {
 		this.text = text;
 	}
 
-	public void setColumns(int fieldWidth) {
-		// TODO Auto-generated method stub
-
-	}
-
+	@Override
 	public void setVisible(boolean b) {
-		// TODO Auto-generated method stub
-
+		// stub
 	}
 
+	@Override
 	public void setEditable(boolean b) {
-		// TODO Auto-generated method stub
-
+		// stub
 	}
 
 }

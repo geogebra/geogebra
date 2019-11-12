@@ -42,8 +42,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.util.Unicode;;
-
+import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public class CommandsTest {
@@ -51,22 +50,22 @@ public class CommandsTest {
 	static AlgebraProcessor ap;
 	static List<Integer> signature;
 
-	public static void tRound(String s, String... expected) {
+	private static void tRound(String s, String... expected) {
 		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.editTemplate);
 	}
 
-	public static void t(String s, String... expected) {
+	private static void t(String s, String... expected) {
 		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
 				StringTemplate.xmlTemplate);
 	}
 
-	public static void t(String s, Matcher<String> expected) {
+	private static void t(String s, Matcher<String> expected) {
 		testSyntax(s, Arrays.asList(expected), app, ap,
 				StringTemplate.xmlTemplate);
 	}
 
-	public static void testSyntax(String s, List<Matcher<String>> expected,
+	protected static void testSyntax(String s, List<Matcher<String>> expected,
 			App app1,
 			AlgebraProcessor proc, StringTemplate tpl) {
 		if (syntaxes == -1000) {
@@ -109,11 +108,17 @@ public class CommandsTest {
 		checkSyntaxesStatic();
 	}
 
+	/**
+	 * Assert that there are no unchecked syntaxes left
+	 */
 	public static void checkSyntaxesStatic() {
 		Assert.assertTrue("unchecked syntaxes: " + syntaxes + signature,
 				syntaxes <= 0);
 	}
 
+	/**
+	 * Create the app
+	 */
 	@BeforeClass
 	public static void setupApp() {
 		app = new AppCommon3D(new LocalizationCommon(3),
@@ -267,10 +272,6 @@ public class CommandsTest {
 	private static String deg(String string) {
 		return string + "*" + DEGREE_STRING;
 	}
-
-
-
-
 
 	@Test
 	public void piecewiseIntegration() {
@@ -426,7 +427,6 @@ public class CommandsTest {
 		t("Numerator(0.125/0.166666666666666666)", "3");
 		t("Numerator(0.125/3)", "1");
 		t("Numerator(3/0.166666666666666666)", "18");
-
 	}
 
 	@Test
@@ -814,7 +814,8 @@ public class CommandsTest {
 		t("IntersectPath[x+y+z=1,x+y-z=1]",
 				"X = (1, 0, 0) + " + Unicode.lambda + " (-2, 2, 0)");
 		tRound("IntersectPath[x^2+y^2+z^2=4,x+y-z=1]",
-				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t), 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))");
+				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t),"
+						+ " 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))");
 		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
 				new String[] { "1", "(2, 2, 0)", "(1, 2, 0)", "(1, 1, 0)",
 						"(2, 1, 0)", "1", "1", "1", "1" });
@@ -987,7 +988,10 @@ public class CommandsTest {
 
 	@Test
 	public void cmdSpline() {
-		String theSpline = "(If(t < 0.38743, 0.88246t^3 + 2.44868t, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377), If(t < 0.38743, -5.43794t^3 + 3.39737t, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623))";
+		String theSpline = "(If(t < 0.38743, 0.88246t^3 + 2.44868t,"
+				+ " -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377), "
+				+ "If(t < 0.38743, -5.43794t^3 + 3.39737t,"
+				+ " 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623))";
 		tRound("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline));
 		tRound("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline));
 		tRound("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]",
@@ -1209,7 +1213,9 @@ public class CommandsTest {
 		t("Vertex[ x^2/9+y^2/4 =1 ]",
 				new String[] { "(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)" });
 		tRound("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
-				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421), (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189), (1.30208, 0.55189)}");
+				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421),"
+						+ " (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189),"
+						+ " (1.30208, 0.55189)}");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
 				new String[] { "(0, 0)", "(1, 0)", "(0, 1)" });
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]", "(1, 0)");
@@ -1235,7 +1241,6 @@ public class CommandsTest {
 		t("SetCoords(B,0,1/0)", new String[0]);
 		t("B", "(2, Infinity)");
 	}
-
 
 	private static void prob(String cmd, String params, String pdf,
 			String cdf) {
@@ -1278,7 +1283,8 @@ public class CommandsTest {
 		prob("TDistribution", "2",
 				"((x^2 / 2 + 1)^(-((2 + 1) / 2)) gamma((2 + 1) / 2)) / (sqrt(2"
 						+ Unicode.pi + ") gamma(2 / 2))",
-				"0.5 + (betaRegularized(2 / 2, 0.5, 1) - betaRegularized(2 / 2, 0.5, 2 / (2 + x^2))) sgn(x) / 2");
+				"0.5 + (betaRegularized(2 / 2, 0.5, 1) "
+						+ "- betaRegularized(2 / 2, 0.5, 2 / (2 + x^2))) sgn(x) / 2");
 	}
 
 	@Test
@@ -1322,14 +1328,17 @@ public class CommandsTest {
 	@Test
 	public void cmdTriangular() {
 		prob("Triangular", "1,3,2",
-				"If(x < 1, 0, If(x < 2, (2 (x - 1)) / ((2 - 1) (3 - 1)), If(x < 3, (2 (x - 3)) / ((2 - 3) (3 - 1)), 0)))",
-				"If(x < 1, 0, If(x < 2, (x - 1)^2 / ((2 - 1) (3 - 1)), If(x < 3, (x - 3)^2 / ((2 - 3) (3 - 1)) + 1, 1)))");
+				"If(x < 1, 0, If(x < 2, (2 (x - 1)) / ((2 - 1) (3 - 1)),"
+						+ " If(x < 3, (2 (x - 3)) / ((2 - 3) (3 - 1)), 0)))",
+				"If(x < 1, 0, If(x < 2, (x - 1)^2 / ((2 - 1) (3 - 1)),"
+						+ " If(x < 3, (x - 3)^2 / ((2 - 3) (3 - 1)) + 1, 1)))");
 	}
 
 	@Test
 	public void cmdFDistribution() {
 		prob("FDistribution", "2,1",
-				"If(x < 0, 0, (1^(1 / 2) (2x)^(2 / 2)) / (beta(2 / 2, 1 / 2) x (2x + 1)^(2 / 2 + 1 / 2)))",
+				"If(x < 0, 0, (1^(1 / 2) (2x)^(2 / 2)) / "
+						+ "(beta(2 / 2, 1 / 2) x (2x + 1)^(2 / 2 + 1 / 2)))",
 				"If(x < 0, 0, betaRegularized(2 / 2, 1 / 2, (2x) / (2x + 1)))",
 				0);
 	}
@@ -1623,7 +1632,8 @@ public class CommandsTest {
 		String column = "\\text{\\text{Column \\%}}&\\;&\\;&\\;\\\\";
 		String pct = "\\;&100&50&66.67\\\\";
 		String pctM = "\\;&0&50&33.33\\\\";
-		String table = "\\begin{array}{|l|r|r||r|}\\hline \\text{\\text{Frequency}}&\\text{L}&\\text{R}&\\text{Total}\\\\"
+		String table = "\\begin{array}{|l|r|r||r|}\\hline "
+				+ "\\text{\\text{Frequency}}&\\text{L}&\\text{R}&\\text{Total}\\\\"
 				+ column + "\\hline \\text{F}&1&1&2\\\\" + pct
 				+ "\\hline \\text{M}&0&1&1\\\\" + pctM
 				+ "\\hline \\hline \\text{Total}&1&2&3\\\\\\hline \\end{array}";
@@ -1782,7 +1792,8 @@ public class CommandsTest {
 	@Test
 	public void cmdComplexRoot() {
 		tRound("Sort({ComplexRoot(x^6 + 7x^3 - 8)})",
-				complex("{-2 + 0i, -0.5 - 0.86603i, -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
+				complex("{-2 + 0i, -0.5 - 0.86603i,"
+						+ " -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
 		t("ComplexRoot( x^2 )", complex("0 + 0i"));
 	}
 

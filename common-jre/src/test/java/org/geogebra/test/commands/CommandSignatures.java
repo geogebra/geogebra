@@ -13,6 +13,7 @@ import org.geogebra.common.main.Localization;
 public class CommandSignatures {
 
 	private static LocalizationJre loc = new LocalizationCommon(3);
+
 	static {
 		loc.setApp(new AppCommon(loc, new AwtFactoryCommon()));
 	}

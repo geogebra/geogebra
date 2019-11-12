@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-
 public class DrawInputBoxAlignmentTest {
 	private static final double INPUT_TOP = 42.0d;
 	private static final double INPUT_LEFT = 38;

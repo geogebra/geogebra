@@ -5,27 +5,28 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 
 public class TextLayoutCommon implements GTextLayout {
 
+	@Override
 	public double getAdvance() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public GRectangle2D getBounds() {
 		return new Rectangle(0, 0, 1, 1);
 	}
 
+	@Override
 	public double getAscent() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public void draw(GGraphics2D g2, int x, int y) {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
 	public double getDescent() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

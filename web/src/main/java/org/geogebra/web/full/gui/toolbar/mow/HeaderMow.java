@@ -71,6 +71,7 @@ public class HeaderMow extends FlowPanel
 		penPanelBtn.addStyleName("flatButton");
 		toolsPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.toolbar_tools(), "Tools");
+		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");
 		toolsPanelBtn.addStyleName("flatButton");
 		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");
 		mediaPanelBtn = createButton(

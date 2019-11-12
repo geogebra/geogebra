@@ -57,6 +57,7 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -630,6 +631,7 @@ public abstract class DockPanelW extends ResizeComposite
 		titleBarPanelContent.add(graphicsContextMenuBtn);
 		graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
 		graphicsContextMenuBtn.addTabHandler(this);
+		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();
 			toggleStyleBarButton = null;
@@ -652,7 +654,7 @@ public abstract class DockPanelW extends ResizeComposite
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				popup.setPopupPosition((int) app.getWidth() - offsetWidth, y);
-				contextMenu.focusDeferred();
+				contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
 			}
 		});
 		popup.addCloseHandler(new CloseHandler<GPopupPanel>() {

@@ -1,8 +1,14 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.TestStringUtil;
 import org.junit.After;
@@ -15,6 +21,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class ControllerTest extends BaseControllerTest {
 	private static ArrayList<TestEvent> events = new ArrayList<>();
 	private static String[] lastCheck;
+	private static boolean lastVisibility;
 
 	private void t(String s) {
 		TestEvent evt = new TestEvent(0, 0);
@@ -54,7 +61,7 @@ public class ControllerTest extends BaseControllerTest {
 				}
 			}
 
-			checkContent(lastCheck);
+			checkContentWithVisibility(lastVisibility, lastCheck);
 		}
 	}
 
@@ -402,8 +409,9 @@ public class ControllerTest extends BaseControllerTest {
 		t("p=Polygon(A,B,4)");
 		click(50, 50);
 		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
-				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2", "perimeterp = 8",
-				"Textp = \"Perimeter of p = 8\"", "Pointp = (1, -1)");
+				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
+				"Textp = \"Perimeter of p = 8\"");
+		checkHiddenContent("perimeterp = 8", "Pointp = (1, -1)");
 	}
 
 	@Test
@@ -415,10 +423,10 @@ public class ControllerTest extends BaseControllerTest {
 	public void translateViewTool() {
 		setMode(EuclidianConstants.MODE_TRANSLATEVIEW); // TODO 40
 		t("C:Corner[4]");
-		checkContent("C = (-0.02, 0.02)");
+		checkHiddenContent("C = (-0.02, 0.02)");
 		dragStart(100, 100);
 		dragEnd(200, 100);
-		checkContent("C = (-2.02, 0.02)");
+		checkHiddenContent("C = (-2.02, 0.02)");
 		events.clear();
 	}
 
@@ -426,9 +434,9 @@ public class ControllerTest extends BaseControllerTest {
 	public void zoomInTool() {
 		setMode(EuclidianConstants.MODE_ZOOM_IN);
 		t("C:Corner[4]");
-		checkContent("C = (-0.02, 0.02)");
+		checkHiddenContent("C = (-0.02, 0.02)");
 		click(400, 300);
-		checkContent("C = (2.65333, -1.98667)");
+		checkHiddenContent("C = (2.65333, -1.98667)");
 		events.clear();
 
 	}
@@ -437,9 +445,9 @@ public class ControllerTest extends BaseControllerTest {
 	public void zoomOutTool() {
 		setMode(EuclidianConstants.MODE_ZOOM_OUT);
 		t("C:Corner[4]");
-		checkContent("C = (-0.02, 0.02)");
+		checkHiddenContent("C = (-0.02, 0.02)");
 		click(400, 300);
-		checkContent("C = (-4.03, 3.03)");
+		checkHiddenContent("C = (-4.03, 3.03)");
 		events.clear();
 	}
 
@@ -487,7 +495,8 @@ public class ControllerTest extends BaseControllerTest {
 		click(50, 50);
 		checkContent("A = (0, 0)", "B = (0, -2)", "p = 4", "f = 2", "g = 2",
 				"C = (2, -2)", "D = (2, 0)", "h = 2", "i = 2",
-				"Textp = \"Area of p = 4\"", "Pointp = (1, -1)");
+				"Textp = \"Area of p = 4\"");
+		checkHiddenContent("Pointp = (1, -1)");
 	}
 
 	@Test
@@ -550,7 +559,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(100, 0);
 		click(50, 150);
 		checkContent("A = (0, 0)", "B = (2, 0)", "C = (1, -3)",
-				TestStringUtil.unicode("c: (x - 1)^2 / 10 + y^2 / 9 = 1"));
+				"c: " + explicit("(x - 1)^2 * 9 + y^2 * 10 = 9 *10"));
 	}
 
 	@Test
@@ -560,7 +569,7 @@ public class ControllerTest extends BaseControllerTest {
 		click(500, 0);
 		click(100, 0);
 		checkContent("A = (0, 0)", "B = (10, 0)", "C = (2, 0)",
-				TestStringUtil.unicode("c: (x - 5)^2 / 9 - y^2 / 16 = 1"));
+				"c: " + explicit("-(x - 5)^2 * 16 + y^2 * 9 = -16 * 9"));
 	}
 
 	@Test
@@ -693,7 +702,12 @@ public class ControllerTest extends BaseControllerTest {
 
 	@Test
 	public void shapeRectangleTool() {
-		setMode(EuclidianConstants.MODE_SHAPE_RECTANGLE); // TODO 104
+		setMode(EuclidianConstants.MODE_SHAPE_RECTANGLE);
+		dragStart(50, 50);
+		dragEnd(200, 150);
+		checkContent("q1 = 6", "a = 3", "b = 2", "c = 3", "d = 2");
+		GeoElement rectangle = getApp().getKernel().lookupLabel("q1");
+		assertEquals(0, rectangle.getAlphaValue(), Kernel.MIN_PRECISION);
 	}
 
 	@Test
@@ -774,9 +788,19 @@ public class ControllerTest extends BaseControllerTest {
 	}
 
 	@Override
-	protected void checkContent(String... desc) {
+	protected void checkContentWithVisibility(boolean visibility,
+			String... desc) {
+		lastVisibility = visibility;
 		lastCheck = desc;
-		super.checkContent(desc);
+		super.checkContentWithVisibility(visibility, desc);
+	}
+
+	private String explicit(String string) {
+		GeoConic c = (GeoConic) getApp().getKernel().getAlgebraProcessor()
+				.evaluateToGeoElement(string, false);
+		c.setToImplicit();
+		return TestStringUtil
+				.unicode(c.toValueString(StringTemplate.editTemplate));
 	}
 
 }

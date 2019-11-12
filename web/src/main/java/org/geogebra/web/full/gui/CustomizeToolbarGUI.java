@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui;
 import java.util.Vector;
 
 import org.geogebra.common.gui.CustomizeToolbarModel;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
@@ -16,6 +15,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,14 +38,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import org.geogebra.web.shared.SharedResources;
 
 /**
  * A GUI to customize the toolbar
  *
  */
 public class CustomizeToolbarGUI extends MyHeaderPanel implements
-        CustomizeToolbarListener, SetLabels {
+        CustomizeToolbarListener {
 	private static final int PANEL_GAP = 30;
 	private static final int MARGIN_Y = 21;
 	private static final int ALLTOOLS_SCROLLPANEL_PADDING = 17;

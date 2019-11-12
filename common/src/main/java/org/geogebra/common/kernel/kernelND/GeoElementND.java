@@ -1433,6 +1433,11 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isShape();
 
 	/**
+	 * @return is geo created with mask tool
+	 */
+	boolean isMask();
+
+	/**
 	 * @param flag
 	 *            true to make this highlighted
 	 * 

@@ -42,8 +42,8 @@ public class CommandFilterFactoryTest {
 		}
 		for (Commands command: Commands.values()) {
 			int table = command.getTable();
-			if (table == CommandsConstants.TABLE_TRANSFORMATION ||
-					table == CommandsConstants.TABLE_CONIC) {
+			if (table == CommandsConstants.TABLE_TRANSFORMATION
+					|| table == CommandsConstants.TABLE_CONIC) {
 				Assert.assertFalse(filter.isCommandAllowed(command));
 			}
 		}

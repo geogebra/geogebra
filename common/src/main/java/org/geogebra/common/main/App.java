@@ -2252,8 +2252,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
 		}
-		if (getVideoManager() != null && mode != EuclidianConstants.MODE_MOVE) {
-			getVideoManager().backgroundAll();
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			if (getVideoManager() != null) {
+				getVideoManager().backgroundAll();
+			}
+			euclidianController.widgetsToBackground();
 		}
 		if (getGuiManager() != null) {
 			setModeFromGuiManager(mode, m);
@@ -3844,14 +3847,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
 			return prerelease && whiteboard;
-
-		/**
-		 * MOW-679
-		 *
-		 * doesn't work with Reflect(penstroke, Object)
-		 */
-		case MOW_PEN_IS_LOCUS:
-			return whiteboard;
 
 		/** MOW-763 */
 		case VIDEO_PLAYER_OFFLINE:
