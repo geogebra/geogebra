@@ -6868,7 +6868,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (clickCount == 2) {
+		if (clickCount == 2 && !app.isWhiteboardActive()) {
 			selection.clearSelectedGeos(true, false);
 			app.updateSelection(false);
 			setViewHits(type);
@@ -6877,19 +6877,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (!hits.isEmpty()) {
 				app.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
-
-				if (!app.has(Feature.MOW_TEXT_TOOL) || !geo0.isGeoText()) {
-					if (geo0.isGeoNumeric()
-							&& ((GeoNumeric) geo0).isSlider()) {
-						// double-click slider -> Object Properties
-						getDialogManager().showPropertiesDialog(hits);
-					} else if (!geo0.isProtected(EventType.UPDATE)
-							&& !(geo0.isGeoBoolean() && geo0.isIndependent())
-							&& geo0.isRedefineable()
-							&& !geo0.isGeoButton() && !(geo0.isGeoList()
-									&& ((GeoList) geo0).drawAsComboBox())) {
-						getDialogManager().showRedefineDialog(hits.get(0), true);
-					}
+				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+					// double-click slider -> Object Properties
+					getDialogManager().showPropertiesDialog(hits);
+				} else if (!geo0.isProtected(EventType.UPDATE)
+						&& !(geo0.isGeoBoolean() && geo0.isIndependent()) && geo0.isRedefineable()
+						&& !geo0.isGeoButton()
+						&& !(geo0.isGeoList() && ((GeoList) geo0).drawAsComboBox())) {
+					getDialogManager().showRedefineDialog(hits.get(0), true);
 				}
 			}
 		}
