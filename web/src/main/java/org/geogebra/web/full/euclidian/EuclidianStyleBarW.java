@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -617,8 +616,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnCrop = new MyToggleButtonW(new NoDragImage(
 				MaterialDesignResources.INSTANCE.crop_black(), 24));
 		btnCrop.addStyleName("btnCrop");
-		btnCrop.setDown(app.getActiveEuclidianView().getBoundingBox() != null
-				&& app.getActiveEuclidianView().getBoundingBox().isCropBox());
+		btnCrop.setDown(ev.getBoundingBox() != null
+				&& ev.getBoundingBox().isCropBox());
 		ClickStartHandler.init(btnCrop, new ClickStartHandler(true, true) {
 
 			@Override
@@ -632,10 +631,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected void toggleCrop(boolean val) {
 		if (getBtncrop() != null) {
-			Drawable dr = ((Drawable) app.getActiveEuclidianView()
-					.getDrawableFor(activeGeoList.get(0)));
-			dr.getBoundingBox().setCropBox(val);
-			app.getActiveEuclidianView().repaintView();
+			ev.getEuclidianController().updateBoundingBoxFromSelection(val);
+			ev.getBoundingBox().setCropBox(val);
+			ev.repaintView();
 			updateStyleBar();
 		}
 	}

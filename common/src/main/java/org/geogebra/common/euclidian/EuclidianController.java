@@ -531,7 +531,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
 						&& temporaryMode
 						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
-				&& selection.getSelectedGeos().size() > 0 && !this.specialBoundingBoxNeeded();
+				&& selection.getSelectedGeos().size() > 0 && !this.specialBoundingBoxNeeded(
+						view.getBoundingBox() != null && view.getBoundingBox().isCropBox());
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
@@ -9986,19 +9987,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					// hit found
 					if (hits != null && hits.size() > 0) {
 						selection.setSelectedGeos(hits, true);
-
-						if (specialBoundingBoxNeeded()) {
-							Drawable dr = ((Drawable) view.getDrawableFor(hits.get(0)));
-							BoundingBox boundingBox = dr.getBoundingBox();
-
-							view.setBoundingBox(boundingBox);
-							view.repaintView();
-						}
-						// multi-selection
-						else {
-							setBoundingBoxFromList(hits);
-						}
-
+						updateBoundingBoxFromSelection(false);
 					}
 				}
 			} else {
@@ -10038,10 +10027,26 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		kernel.notifyRepaint();
 	}
 
-	private boolean specialBoundingBoxNeeded() {
+	public void updateBoundingBoxFromSelection(boolean crop) {
+		List<GeoElement> sel = selection.getSelectedGeos();
+		if (specialBoundingBoxNeeded(crop)) {
+			Drawable dr = ((Drawable) view.getDrawableFor(sel.get(0)));
+			BoundingBox boundingBox = dr.getBoundingBox();
+
+			view.setBoundingBox(boundingBox);
+			view.repaintView();
+		}
+		// multi-selection
+		else {
+			setBoundingBoxFromList(sel);
+		}
+	}
+
+	private boolean specialBoundingBoxNeeded(boolean crop) {
 		return selection.getSelectedGeos().size() == 1
 				&& (selection.getSelectedGeos().get(0).isGeoSegment()
-						|| selection.getSelectedGeos().get(0).isGeoImage());
+						|| (selection.getSelectedGeos().get(0).isGeoImage()
+								&& crop));
 	}
 
 	protected void processSelection() {
@@ -12639,7 +12644,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param geos
 	 *            list of GeoElements
 	 */
-	public void setBoundingBoxFromList(ArrayList<GeoElement> geos) {
+	public void setBoundingBoxFromList(List<GeoElement> geos) {
 		// do not update during rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
 			return;

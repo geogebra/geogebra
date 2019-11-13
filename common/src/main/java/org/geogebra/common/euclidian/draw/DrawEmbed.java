@@ -182,7 +182,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
-		getBoundingBox().resize(this, pts.get(0), pts.get(1));
+		BoundingBox.resize(this, pts.get(0), pts.get(1));
 	}
 
 	@Override

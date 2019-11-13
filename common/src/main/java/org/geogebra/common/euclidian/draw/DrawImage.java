@@ -270,10 +270,6 @@ public final class DrawImage extends Drawable {
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
 		}
-		if (geo.getKernel().getApplication().isWhiteboardActive()
-				&& getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
-		}
 
 		if (geo.getKernel().getApplication().isWhiteboardActive()) {
 			if (geoImage.isCropped() && geoImage.getCropBoxRelative() != null) {
@@ -543,27 +539,9 @@ public final class DrawImage extends Drawable {
 				updateOriginalRatio();
 			}
 			updateImageCrop(p, handler);
-		} else {
-			if (Double.isNaN(originalRatio)) {
-				updateOriginalRatio();
-			}
-			if (absoluteLocation) {
-				// updates the current coordinates of corner points
-				geoImage.screenToReal();
-			}
-			geoImage.updateScaleAndLocation();
-			updateImageResize(p, handler);
-
-			if (absoluteLocation) {
-				geoImage.updateScaleAndLocation();
-			}
-			geoImage.update();
 		}
 	}
 
-	/**
-	 * TODO still quite a lot of copy-paste
-	 */
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		GeoPoint A, B, D;
@@ -780,11 +758,13 @@ public final class DrawImage extends Drawable {
 	}
 
 	private int getImageTop() {
-		if (geoImage.getCorner(2) == null) {
+		if (geoImage.getCorner(2) != null) {
+			return view.toScreenCoordY(geoImage.getCorner(2).getY());
+		} else if (geoImage.getCorner(0) != null) {
 			return view.toScreenCoordY(geoImage.getCorner(0).getY())
 					- geoImage.getFillImage().getHeight();
 		}
-		return view.toScreenCoordY(geoImage.getCorner(2).getY());
+		return 0;
 	}
 
 	private void setCropBox(GRectangle2D rect) {
@@ -808,208 +788,6 @@ public final class DrawImage extends Drawable {
 				rect.getWidth() * getOriginalRatioX(),
 				rect.getHeight() * getOriginalRatioY());
 		return cb;
-	}
-
-	private void updateImageResize(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
-		int eventX = (int) p.getX();
-		int eventY = (int) p.getY();
-		GeoPoint A, B, D;
-		double cropMinX, cropMaxX, cropMinY, cropMaxY;
-		GRectangle2D cropBox = null;
-		if (geoImage.isCropped()) {
-			if (!hasImageCropRatio()) {
-				updateImageCropRatio();
-			}
-			cropBox = getCropBox();
-			cropMinX = view.toRealWorldCoordX(cropBox.getMinX());
-			cropMaxX = view.toRealWorldCoordX(cropBox.getMaxX());
-			cropMinY = view.toRealWorldCoordY(cropBox.getMinY());
-			cropMaxY = view.toRealWorldCoordY(cropBox.getMaxY());
-
-			A = new GeoPoint(geo.getConstruction(), cropMinX, cropMaxY, 1.0);
-			A.remove();
-			B = new GeoPoint(geo.getConstruction(), cropMaxX, cropMaxY, 1.0);
-			B.remove();
-			D = new GeoPoint(geo.getConstruction(), cropMinX, cropMinY, 1.0);
-			D.remove();
-		} else {
-			A = geoImage.getCorner(0);
-			B = geoImage.getCorner(1);
-			D = geoImage.getCorner(2);
-		}
-
-		double newWidth = 1;
-		double newHeight = 1;
-		int widthThreshold = Math.min(IMG_WIDTH_THRESHOLD, image.getWidth());
-		if (A == null) {
-			A = new GeoPoint(geoImage.cons);
-			geoImage.calculateCornerPoint(A, 1);
-		}
-		if (B == null) {
-			B = new GeoPoint(geoImage.cons);
-			geoImage.calculateCornerPoint(B, 2);
-		}
-		if (D == null) {
-			D = new GeoPoint(geoImage.cons);
-			geoImage.calculateCornerPoint(D, 3);
-		}
-		switch (handler) {
-		case TOP_RIGHT:
-			newWidth = Math.max(eventX - view.toScreenCoordXd(A.getInhomX()),
-					widthThreshold);
-			B.setX(view.toRealWorldCoordX(
-					view.toScreenCoordXd(A.getInhomX()) + newWidth));
-			newHeight = -originalRatio * newWidth;
-			B.updateCoords();
-			B.updateRepaint();
-			D.setX(A.getInhomX());
-			D.setY(view.toRealWorldCoordY(
-					view.toScreenCoordYd(A.getInhomY()) + newHeight));
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			break;
-		case TOP_LEFT:
-			newWidth = Math.max(view.toScreenCoordXd(B.getInhomX()) - eventX,
-					widthThreshold);
-			A.setX(view.toRealWorldCoordX(
-					view.toScreenCoordXd(B.getInhomX()) - newWidth));
-			A.updateCoords();
-			A.updateRepaint();
-			newHeight = -originalRatio * newWidth;
-			D.setX(A.getInhomX());
-			D.setY(view.toRealWorldCoordY(
-					view.toScreenCoordYd(B.getInhomY()) + newHeight));
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			break;
-		case BOTTOM_RIGHT:
-			newWidth = Math.max(eventX - view.toScreenCoordXd(A.getInhomX()),
-					widthThreshold);
-			D.setX(A.getInhomX());
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			newHeight = -originalRatio * newWidth;
-			B.setX(view.toRealWorldCoordX(
-					view.toScreenCoordXd(A.getInhomX()) + newWidth));
-			B.setY(view.toRealWorldCoordY(
-					view.toScreenCoordYd(D.getInhomY()) - newHeight));
-			B.updateCoords();
-			B.updateRepaint();
-			A.setY(B.getInhomY());
-			A.updateCoords();
-			A.updateRepaint();
-			break;
-		case BOTTOM_LEFT:
-			newWidth = Math.max(view.toScreenCoordXd(B.getInhomX()) - eventX,
-					widthThreshold);
-			A.setX(view.toRealWorldCoordX(
-					view.toScreenCoordXd(B.getInhomX()) - newWidth));
-			newHeight = -originalRatio * newWidth;
-			A.setY(view.toRealWorldCoordY(
-					view.toScreenCoordYd(D.getInhomY()) - newHeight));
-			A.updateCoords();
-			A.updateRepaint();
-			B.setY(A.getInhomY());
-			B.updateCoords();
-			B.updateRepaint();
-			D.setX(A.getInhomX());
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			break;
-		case RIGHT:
-			newWidth = Math.max(eventX - view.toScreenCoordXd(A.getInhomX()),
-					widthThreshold);
-			B.setX(view.toRealWorldCoordX(
-					view.toScreenCoordXd(A.getInhomX()) + newWidth));
-			B.updateCoords();
-			B.updateRepaint();
-			D.setX(A.getInhomX());
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			originalRatio = Double.NaN;
-			break;
-		case LEFT:
-			newWidth = Math.max(view.toScreenCoordXd(B.getInhomX()) - eventX,
-					widthThreshold);
-			A.setX(view.toRealWorldCoordX(
-					view.toScreenCoordXd(B.getInhomX()) - newWidth));
-			A.updateCoords();
-			A.updateRepaint();
-			D.setX(A.getInhomX());
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			originalRatio = Double.NaN;
-			break;
-		case TOP:
-			newHeight = Math.max(view.toScreenCoordYd(A.getInhomY()) - eventY,
-					widthThreshold);
-			D.setY(view.toRealWorldCoordX(
-					view.toScreenCoordXd(A.getInhomY()) + newHeight));
-			D.setX(A.getInhomX());
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			originalRatio = Double.NaN;
-			break;
-		case BOTTOM:
-			newHeight = Math.max(eventY - view.toScreenCoordYd(D.getInhomY()),
-					widthThreshold);
-			D.setX(A.getInhomX());
-			D.updateCoords();
-			D.updateRepaint();
-			setCorner(D, 2);
-			A.setY(view.toRealWorldCoordX(
-					view.toScreenCoordXd(D.getInhomY()) - newHeight));
-			A.updateCoords();
-			A.updateRepaint();
-			B.setY(A.getInhomY());
-			B.updateCoords();
-			B.updateRepaint();
-			originalRatio = Double.NaN;
-			break;
-		default:
-			break;
-		}
-
-		if (geoImage.isCropped()) {
-			// change x coordinates of image corners
-			switch (handler) {
-			case TOP_RIGHT:
-			case RIGHT:
-			case BOTTOM_RIGHT:
-			case TOP_LEFT:
-			case LEFT:
-			case BOTTOM_LEFT:
-				updateCropHorizontal(A, B, cropBox);
-				break;
-			default:
-				// do nothing
-				break;
-			}
-
-			// change y coordinates of image corners
-			switch (handler) {
-			case TOP_LEFT:
-			case TOP:
-			case TOP_RIGHT:
-			case BOTTOM_LEFT:
-			case BOTTOM:
-			case BOTTOM_RIGHT:
-				updateCropVerical(A, D, cropBox);
-				break;
-			default:
-				// do nothing
-				break;
-			}
-			updateCascadeCorners();
-		}
 	}
 
 	private void updateCropVerical(GeoPoint A, GeoPoint D, GRectangle2D cropBox) {

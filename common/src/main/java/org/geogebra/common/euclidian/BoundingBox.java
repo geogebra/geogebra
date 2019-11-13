@@ -497,7 +497,7 @@ public class BoundingBox {
 	 * @param p2
 	 *            hit handler
 	 */
-	public void resize(DrawWidget video, GPoint2D p,
+	public static void resize(DrawWidget video, GPoint2D p,
 			GPoint2D p2) {
 		int newWidth = 1;
 		int newHeight = 1;
