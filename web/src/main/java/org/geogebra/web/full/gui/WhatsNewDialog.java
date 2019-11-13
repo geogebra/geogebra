@@ -35,13 +35,15 @@ public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 		setupView(app.getLocalization(), whatsNewMessage, readMoreLink);
 	}
 
-	private void setupView(Localization localization, String whatsNewMessage, String readMoreLink) {
+	private void setupView(Localization localization, String whatsNewMessage,
+						   String readMoreLink) {
 		addStyleName(DIALOG_STYLE_NAME);
 		Widget view = createView(localization, whatsNewMessage, readMoreLink);
 		add(view);
 	}
 
-	private Widget createView(Localization localization, String whatsNewMessage, String readMoreLink) {
+	private Widget createView(Localization localization, String whatsNewMessage,
+							  String readMoreLink) {
 		VerticalPanel panel = new VerticalPanel();
 		Widget title = createTitle(localization);
 		Widget flowPanel = createFlowPanel(localization, whatsNewMessage, readMoreLink);
@@ -59,7 +61,8 @@ public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 		return title;
 	}
 
-	private Widget createFlowPanel(Localization localization, String whatsNewMessage, String readMoreLink) {
+	private Widget createFlowPanel(Localization localization, String whatsNewMessage,
+								   String readMoreLink) {
 		FlowPanel flowPanel = new FlowPanel();
 		flowPanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
 		Widget message = createMessage(whatsNewMessage);
