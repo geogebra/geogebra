@@ -361,10 +361,12 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public void resetPartialHitClip(int x, int y) {
+	public boolean resetPartialHitClip(int x, int y) {
 		if (partialHitClip != null && !partialHitClip.contains(x, y)) {
 			partialHitClip = null;
+			return geo.isSelected();
 		}
+		return false;
 	}
 
 	@Override

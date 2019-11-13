@@ -6576,10 +6576,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            screen x-coord of pointer event
 	 * @param y
 	 *            screen y-coord of pointer event
+	 * @return whether selection changed
 	 */
-	public void resetPartialHits(int x, int y) {
+	public boolean resetPartialHits(int x, int y) {
+		boolean deselected = false;
 		for (Drawable draw : this.allDrawableList) {
-			draw.resetPartialHitClip(x, y);
+			deselected = draw.resetPartialHitClip(x, y) || deselected;
 		}
+		return deselected;
 	}
 }

@@ -290,7 +290,7 @@ public final class DrawText extends Drawable {
 
 	@Override
 	public double getHeightThreshold() {
-		return 0;
+		return Math.max(text.getTextHeight(), fontSize) + 2 * EuclidianStatic.EDITOR_MARGIN;
 	}
 
 	/**

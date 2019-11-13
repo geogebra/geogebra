@@ -979,9 +979,6 @@ public final class DrawImage extends Drawable {
 		}
 
 		if (geoImage.isCropped()) {
-			// the new screen positions of crop box and the new width/height
-
-
 			// change x coordinates of image corners
 			switch (handler) {
 			case TOP_RIGHT:
@@ -1052,7 +1049,6 @@ public final class DrawImage extends Drawable {
 		if (geoImage.getCorner(2) != null) {
 			geoImage.getCorner(2).setX(newLeftSideImg);
 		}
-
 	}
 
 	private void setCorner(GeoPoint point, int corner) {

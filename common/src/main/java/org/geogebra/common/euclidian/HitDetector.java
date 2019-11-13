@@ -161,6 +161,8 @@ public class HitDetector {
 	 * 
 	 * @param rect
 	 *            rectangle
+	 * @param filter
+	 *            filter to only check some geos
 	 */
 	public void addIntersectionHits(GRectangle rect, TestGeo filter) {
 		if (rect == null) {
@@ -171,7 +173,8 @@ public class HitDetector {
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && filter.check(geo) && d.intersectsRectangle(rect)) {
+			if (geo.isEuclidianVisible() && filter.check(geo) && !hits.contains(geo)
+					&& d.intersectsRectangle(rect)) {
 				d.setPartialHitClip(rect);
 				hits.add(geo);
 			}

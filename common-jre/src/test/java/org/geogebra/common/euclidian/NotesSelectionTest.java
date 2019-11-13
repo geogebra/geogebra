@@ -30,7 +30,7 @@ public class NotesSelectionTest extends BaseControllerTest {
 		setMode(EuclidianConstants.MODE_SELECT_MOW);
 		dragStart(150, 50);
 		dragEnd(250, 150);
-		assertSelected( lookup("stroke1"), lookup("stroke2"));
+		assertSelected(lookup("stroke1"), lookup("stroke2"));
 	}
 
 	private void assertSelected(GeoElement... geos) {

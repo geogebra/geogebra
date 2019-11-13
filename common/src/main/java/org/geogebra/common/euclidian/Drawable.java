@@ -935,9 +935,10 @@ public abstract class Drawable extends DrawableND {
 	 *            screen x-coord of the click
 	 * @param y
 	 *            screen y-coord of the click
+	 * @return whether we clicked outside of partial hit
 	 */
-	public void resetPartialHitClip(int x, int y) {
-		// only for strokes
+	public boolean resetPartialHitClip(int x, int y) {
+		return false; // only for strokes
 	}
 
 	/**

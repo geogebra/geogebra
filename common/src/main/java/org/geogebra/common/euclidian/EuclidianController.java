@@ -8074,34 +8074,22 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		bbHeight = Math.max(bbHeight,
 				startBoundingBoxState.getHeightThreshold());
 
-		boolean thresholdXReached = (bbWidth <= startBoundingBoxState
-				.getWidthThreshold());
-		boolean thresholdYReached = (bbHeight <= startBoundingBoxState
-				.getHeightThreshold());
-		if (thresholdXReached) {
-			// reset bounding box minx after threshold was reached
-			if (mouseDistance.getX() > 0
-					&& bbWidth < startBoundingBoxState.getRectangle()
+		boolean thresholdXReached = bbWidth <= startBoundingBoxState.getWidthThreshold();
+		boolean thresholdYReached = bbHeight <= startBoundingBoxState.getHeightThreshold();
+
+		// reset bounding box minx after threshold was reached
+		if (thresholdXReached && mouseDistance.getX() > 0
+					&& bbWidth <= startBoundingBoxState.getRectangle()
 					.getWidth()) {
 				bbMinX = view.getBoundingBox().getRectangle().getMaxX()
 						- bbWidth;
-			}
-		} else if (startBoundingBoxState.lastThresholdX) {
-			// always finish last resize when threshold is reached
-			startBoundingBoxState.lastThresholdX = false;
 		}
-
-		if (thresholdYReached) {
-			// reset bounding box miny after threshold was reached
-			if (mouseDistance.getY() > 0
-					&& bbHeight < startBoundingBoxState.getRectangle()
+		// reset bounding box miny after threshold was reached
+		if (thresholdYReached && mouseDistance.getY() > 0
+					&& bbHeight <= startBoundingBoxState.getRectangle()
 					.getHeight()) {
 				bbMinY = view.getBoundingBox().getRectangle().getMaxY()
 						- bbHeight;
-			}
-		} else if (startBoundingBoxState.lastThresholdY) {
-			// always finish last resize when threshold is reached
-			startBoundingBoxState.lastThresholdY = false;
 		}
 
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
@@ -8119,8 +8107,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// last update for drawable
 			dr.update();
 		}
-		startBoundingBoxState.lastThresholdX = thresholdXReached;
-		startBoundingBoxState.lastThresholdY = thresholdYReached;
 		view.repaintView();
 	}
 
@@ -9399,8 +9385,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		setMouseLocation(event);
-		this.setViewHits(event.getType());
-		view.resetPartialHits(event.getX(), event.getY());
+		updateHits(event);
 
 		setMoveModeForFurnitures();
 
@@ -9602,6 +9587,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	private void updateHits(AbstractEvent event) {
+		boolean deselected = view.resetPartialHits(event.getX(), event.getY());
+		if (deselected) {
+			app.getSelectionManager().clearSelectedGeos(false);
+		}
+		setViewHits(event.getType());
 	}
 
 	private boolean shouldHideDynamicStyleBar(AbstractEvent event) {
