@@ -600,8 +600,7 @@ public class GeoLocusStroke extends GeoLocus
 				if (!data.isEmpty()
 						&& data.get(data.size() - 1).isDefined()
 						&& partOfStroke.size() > 0) {
-					getPoints().add(new MyPoint(Double.NaN, Double.NaN,
-							SegmentType.LINE_TO));
+					getPoints().add(new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO));
 				}
 
 				// if we found single point
@@ -614,9 +613,8 @@ public class GeoLocusStroke extends GeoLocus
 					getPoints().add(partOfStroke.get(0).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() == 2) {
 					getPoints().add(partOfStroke.get(1).withType(SegmentType.LINE_TO));
-				} else if (partOfStroke.size() > 1) {
-					ArrayList<double[]> controlPoints = getControlPoints(
-							partOfStroke);
+				} else if (partOfStroke.size() > 2) {
+					ArrayList<double[]> controlPoints = getControlPoints(partOfStroke);
 					for (int i = 1; i < partOfStroke.size(); i++) {
 						MyPoint ctrl1 = new MyPoint(controlPoints.get(0)[i - 1],
 								controlPoints.get(1)[i - 1],
@@ -624,18 +622,17 @@ public class GeoLocusStroke extends GeoLocus
 						MyPoint ctrl2 = new MyPoint(controlPoints.get(2)[i - 1],
 								controlPoints.get(3)[i - 1],
 								SegmentType.CONTROL);
+
+						MyPoint startpoint = partOfStroke.get(i - 1);
 						MyPoint endpoint = partOfStroke.get(i);
-						if (angle(data.get(data.size() - 1), ctrl1,
-								endpoint) > MIN_CURVE_ANGLE
-								|| angle(data.get(data.size() - 1),
-								ctrl2, endpoint) > MIN_CURVE_ANGLE) {
+
+						if (angle(startpoint, ctrl1, endpoint) > MIN_CURVE_ANGLE
+								|| angle(startpoint, ctrl2, endpoint) > MIN_CURVE_ANGLE) {
 							getPoints().add(ctrl1);
 							getPoints().add(ctrl2);
-							getPoints().add(
-									endpoint.withType(SegmentType.CURVE_TO));
+							getPoints().add(endpoint.withType(SegmentType.CURVE_TO));
 						} else {
-							getPoints().add(
-									endpoint.withType(SegmentType.LINE_TO));
+							getPoints().add(endpoint.withType(SegmentType.LINE_TO));
 						}
 					}
 				}
@@ -643,8 +640,7 @@ public class GeoLocusStroke extends GeoLocus
 			}
 		} else {
 			for (int i = 0; i < data.size(); i++) {
-				getPoints().add(new MyPoint(data.get(i).getX(),
-						data.get(i).getY(),
+				getPoints().add(new MyPoint(data.get(i).getX(), data.get(i).getY(),
 						i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
