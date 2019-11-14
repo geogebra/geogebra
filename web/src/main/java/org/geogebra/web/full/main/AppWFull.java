@@ -1162,7 +1162,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void maybeShowRecentChangesDialog() {
-		if (shouldShowRecentChangesDialog(RECENT_CHANGES_KEY)) {
+		if (shouldShowRecentChangesDialog(RECENT_CHANGES_KEY) && isUnbundledGraphing()) {
 			LocalizationW localization = getLocalization();
 			String message = localization.getMenu(RECENT_CHANGES_KEY);
 			String readMore = localization.getMenu("tutorial_apps_comparison");
