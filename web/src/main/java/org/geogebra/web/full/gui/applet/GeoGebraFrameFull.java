@@ -29,6 +29,7 @@ import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
@@ -524,10 +525,22 @@ public class GeoGebraFrameFull
 
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
-			boolean isButtonNeeded = getGuiManager().hasKeyboardListener();
+			boolean isButtonNeeded = getGuiManager().hasKeyboardListener()
+					&& !isKeyboardWantedFromCookie() && isTextFieldFocused(textField);
 			showKeyboardButton.show(isButtonNeeded, textField);
 			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
+	}
+
+
+	private boolean isTextFieldFocused(MathKeyboardListener textField) {
+		if(textField instanceof RetexKeyboardListener) {
+			return ((RetexKeyboardListener) textField).getMathField().hasFocus();
+		} else if (textField instanceof RadioTreeItem) {
+			return ((RadioTreeItem) textField).getMathField().hasFocus();
+		}
+
+		return false;
 	}
 
 	private boolean appNeedsKeyboard() {

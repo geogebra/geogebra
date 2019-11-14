@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 
@@ -47,6 +48,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 	private RetexKeyboardListener retexListener;
 	private boolean preventBlur;
 	private List<BlurHandler> blurHandlers;
+	private boolean useKeyboardButton = true;
 
 	/**
 	 * Constructor
@@ -232,7 +234,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 			return;
 		}
 
-		frame.doShowKeyBoard(show, retexListener);
+		if (useKeyboardButton) {
+			frame.showKeyBoard(show, retexListener, true);
+		} else {
+			frame.doShowKeyBoard(show, retexListener);
+		}
 	}
 
 	/**
@@ -264,5 +270,13 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 
 	public void setVisible(boolean visible) {
 		Dom.toggleClass(main, "hidden", !visible);
+	}
+
+	public MathKeyboardListener getKeyboardListener() {
+		return retexListener;
+	}
+
+	public void setUseKeyboardButton(boolean useKeyboardButton) {
+		this.useKeyboardButton = useKeyboardButton;
 	}
 }
