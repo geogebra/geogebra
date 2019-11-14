@@ -61,7 +61,7 @@ public interface TextController {
 	 *            drawable
 	 * @return wrapped text
 	 */
-	String wrapText(String editText, DrawText d);
+	String wrapText(String editText, DrawText d, GRectangle bounds);
 
 	/**
 	 * Stops the current editor.

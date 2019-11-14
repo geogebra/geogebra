@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
@@ -38,6 +39,7 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -181,15 +183,13 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private boolean isCircle = false;
 	/** eigenvectors */
 	protected Coords[] ev;
-	private boolean lastOrientation;
+	private GeoLine diameter;
 
 	@Override
 	public GArea getShape() {
 		GArea area = super.getShape() != null ? super.getShape()
 				: (fillShape == null ? AwtFactory.getPrototype().newArea()
 						: AwtFactory.getPrototype().newArea(fillShape));
-		// Log.debug(conic.isInverseFill() + "," + shape +
-		// ","+super.getShape());
 		if (conic.isInverseFill()) {
 			GArea complement = AwtFactory.getPrototype()
 					.newArea(view.getBoundingPath());
@@ -409,8 +409,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			break;
 		}
 
-		// Log.debug("isVisible = " + isVisible);
-
 		if (!isVisible) {
 			return;
 		}
@@ -513,7 +511,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 		// looks if it's on view
 		Coords p = view.getCoordsForView(conic.getMidpoint3D());
-		// Log.debug("\n"+view+"\n"+p);
 		if (!DoubleUtil.isZero(p.getZ())) {
 			isVisible = false;
 			return;
@@ -2021,14 +2018,11 @@ public class DrawConic extends SetDrawable implements Previewable {
 				for (int i = 0; i < prevPoints.size(); i++) {
 					Coords p = view.getCoordsForView(
 							prevPoints.get(i).getInhomCoordsInD3());
-					// Log.debug("p["+i+"]=\n"+p);
 					previewTempPoints[i].setCoords(p.projectInfDim(), false);
 				}
 				previewTempPoints[0].updateCascade();
 			}
-
 		}
-
 	}
 
 	@Override
@@ -2131,16 +2125,20 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/**
 	 * resizing by drag of side handler for rotated ellipses
 	 */
-	private void stretchEllipse(GPoint2D p0,
-			GPoint2D p) {
+	private void stretchEllipse(GPoint2D p0, GPoint2D p, GPoint2D tangent) {
 		double ratioX = (p.getX() - p0.getX()) / getBoundingBox().getRectangle().getWidth();
 		double ratioY = (p.getY() - p0.getY()) / getBoundingBox().getRectangle().getHeight();
-		boolean flip = (ratioX * ratioY < 0) ^ lastOrientation;
-		lastOrientation = ratioX * ratioY < 0;
+		boolean originalTangentIncreaseScreen = Math.abs(tangent.getY() - p.getY()) > Math
+				.abs(p0.getY() - tangent.getY());
+		boolean boxOrientationChanged = ratioX * ratioY < 0;
 		if (ratioX != 0 && ratioY != 0) {
-
 			applyStretch(0, 1, Math.abs(ratioX));
-			applyStretch(1, 0, flip ? -Math.abs(ratioY) : Math.abs(ratioY));
+			applyStretch(1, 0, Math.abs(ratioY));
+			updateDiameter();
+			boolean tangentIncreaseScreen = diameter.getX() * diameter.getY() < 0;
+			if (originalTangentIncreaseScreen ^ boxOrientationChanged != tangentIncreaseScreen) {
+				applyStretch(1, 0, -1);
+			}
 			double centerX = view.toRealWorldCoordX((p.getX() + p0.getX()) / 2);
 			double centerY = view.toRealWorldCoordY((p.getY() + p0.getY()) / 2);
 			Coords corner = new Coords(centerX - conic.getMidpoint().getX(),
@@ -2166,7 +2164,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (conic.getRotation() != 0) {
-			stretchEllipse(pts.get(0), pts.get(1));
+			stretchEllipse(pts.get(0), pts.get(1), pts.get(2));
 		} else {
 			updateRealGeo(pts);
 		}
@@ -2214,5 +2212,23 @@ public class DrawConic extends SetDrawable implements Previewable {
 	@Override
 	protected boolean hasRotationHandler() {
 		return true;
+	}
+
+	@Override
+	protected List<GPoint2D> toPoints() {
+		List<GPoint2D> ret = super.toPoints();
+		updateDiameter();
+		double tangentPointX = view.toRealWorldCoordX(ret.get(1).getX());
+		double tangentPointY = diameter.value(tangentPointX);
+		ret.add(new MyPoint(view.toScreenCoordX(tangentPointX),
+				view.toScreenCoordY(tangentPointY)));
+		return ret;
+	}
+
+	private void updateDiameter() {
+		if (diameter == null) {
+			diameter = new GeoLine(conic.getConstruction(), 0, 1, 1);
+		}
+		conic.diameterLine(0, 1, diameter);
 	}
 }

@@ -8027,7 +8027,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (startBoundingBoxState == null) {
 			startBoundingBoxState = new BoundingBoxResizeState(
 					view.getBoundingBox().getRectangle(),
-					selection.getSelectedGeos(), view);
+					selection.getSelectedGeos(), view, handler.isDiagonal());
 		}
 		GPoint2D mouseDistance = getMouseDistance(event, handler);
 
@@ -8036,35 +8036,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				bbHeight = startBoundingBoxState.getRectangle().getHeight(),
 				bbMinX = startBoundingBoxState.getRectangle().getMinX(),
 				bbMinY = startBoundingBoxState.getRectangle().getMinY();
-		switch (handler) {
-		case RIGHT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
-			bbWidth += mouseDistance.getX();
-			break;
-		case LEFT:
-		case TOP_LEFT:
-		case BOTTOM_LEFT:
-			bbWidth -= mouseDistance.getX();
+		bbWidth += mouseDistance.getX() * handler.getDx();
+		bbHeight += mouseDistance.getY() * handler.getDy();
+		if (handler.getDx() < 0) {
 			bbMinX += mouseDistance.getX();
-			break;
-		default:
-			break;
 		}
-		switch (handler) {
-		case TOP:
-		case TOP_LEFT:
-		case TOP_RIGHT:
-			bbHeight -= mouseDistance.getY();
+		if (handler.getDy() < 0) {
 			bbMinY += mouseDistance.getY();
-			break;
-		case BOTTOM:
-		case BOTTOM_LEFT:
-		case BOTTOM_RIGHT:
-			bbHeight += mouseDistance.getY();
-			break;
-		default:
-			break;
 		}
 		bbWidth = Math.max(bbWidth, startBoundingBoxState.getWidthThreshold());
 		bbHeight = Math.max(bbHeight,
@@ -8324,7 +8302,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				isMultiResize = true;
 				startBoundingBoxState = new BoundingBoxResizeState(
 						view.getBoundingBox().getRectangle(),
-						selection.getSelectedGeos(), view);
+						selection.getSelectedGeos(), view, view.getHitHandler().isDiagonal());
 			}
 		}
 		// find and set movedGeoElement

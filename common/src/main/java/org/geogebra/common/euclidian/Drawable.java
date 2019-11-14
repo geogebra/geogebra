@@ -957,10 +957,15 @@ public abstract class Drawable extends DrawableND {
 				? getBoundingBox().getRectangle()
 				: getBounds();
 		List<GPoint2D> ret = new ArrayList<>(2);
-		ret.add(
-				new MyPoint(bounds.getMinX(), bounds.getMinY()));
-		ret.add(
-				new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
+		ret.add(new MyPoint(bounds.getMinX(), bounds.getMinY()));
+		ret.add(new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
 		return ret;
+	}
+
+	/**
+	 * @return width threshold for
+	 */
+	public double getDiagonalWidthThreshold() {
+		return getWidthThreshold();
 	}
 }

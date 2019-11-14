@@ -29,7 +29,7 @@ public class BoundingBoxResizeState {
 	 *            current view
 	 */
 	public BoundingBoxResizeState(GRectangle2D rect, ArrayList<GeoElement> geos,
-			EuclidianView view) {
+			EuclidianView view, boolean diagonal) {
 		this.rect = rect;
 		ratios = new ArrayList<>();
 
@@ -40,7 +40,8 @@ public class BoundingBoxResizeState {
 				Drawable dr = (Drawable) view.getDrawableFor(geo);
 				// check and update thresholds
 				if (dr.getWidthThreshold() > widthThreshold) {
-					widthThreshold = dr.getWidthThreshold();
+					widthThreshold = diagonal ? dr.getDiagonalWidthThreshold()
+							: dr.getWidthThreshold();
 				}
 				if (dr.getHeightThreshold() > heightThreshold) {
 					heightThreshold = dr.getHeightThreshold();
