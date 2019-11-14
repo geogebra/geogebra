@@ -293,28 +293,25 @@ public class GeoLocusStroke extends GeoLocus
 		return label;
 	}
 
+	/**
+	 * Splits the stroke into two separate strokes
+	 * @param rectangle the real rectangle to use for the boundary of the split
+	 * @return a list of one or two elements, containing the inside
+	 * 		and outside part of the stroke, if it exists
+	 */
 	public ArrayList<GeoLocusStroke> split(GRectangle2D rectangle) {
 		ArrayList<MyPoint> inside = new ArrayList<>();
 		ArrayList<MyPoint> outside = new ArrayList<>();
 
-		int i = 0;
-
-		while (i < getPoints().size() - 1) {
+		for (int i = 0; i < getPoints().size() - 1; i++) {
 			if (getPoints().get(i).getSegmentType() == SegmentType.CONTROL) {
-				i++;
 				continue;
 			}
 
 			if (!getPoints().get(i).isDefined()) {
-				if (inside.size() > 0 && inside.get(inside.size() - 1).isDefined()) {
-					inside.add(new MyPoint(Double.NaN, Double.NaN));
-				}
+				ensureTrailingNaN(inside);
+				ensureTrailingNaN(outside);
 
-				if (outside.size() > 0 && outside.get(outside.size() - 1).isDefined()) {
-					outside.add(new MyPoint(Double.NaN, Double.NaN));
-				}
-
-				i++;
 				continue;
 			}
 
@@ -330,22 +327,20 @@ public class GeoLocusStroke extends GeoLocus
 				outside.add(new MyPoint(intersection.getX(), intersection.getY()));
 
 				if (insideF) {
-					inside.add(new MyPoint(Double.NaN, Double.NaN));
+					ensureTrailingNaN(inside);
 				} else {
-					outside.add(new MyPoint(Double.NaN, Double.NaN));
+					ensureTrailingNaN(outside);
 				}
 
 				insideF = !insideF;
 			}
-
-			i++;
 		}
 
 		MyPoint last = getPoints().get(getPointLength() - 1);
 		if (rectangle.contains(last.x, last.y)) {
-			inside.add(getPoints().get(i));
+			inside.add(last);
 		} else {
-			outside.add(getPoints().get(i));
+			outside.add(last);
 		}
 
 		ArrayList<GeoLocusStroke> result = new ArrayList<>();
@@ -361,22 +356,22 @@ public class GeoLocusStroke extends GeoLocus
 		return result;
 	}
 
+	/**
+	 * Deletes part of the pen stroke
+	 * @param rectangle the real reactangle, the inside part of which
+	 * 		should be removed from the pen stroke
+	 * @return true, if the pen stroke still has points left after the deletion
+	 */
 	public boolean deletePart(GRectangle2D rectangle) {
 		ArrayList<MyPoint> outside = new ArrayList<>();
 
-		int i = 0;
-
-		while (i < getPoints().size() - 1) {
+		for (int i = 0; i < getPoints().size() - 1; i++) {
 			if (getPoints().get(i).getSegmentType() == SegmentType.CONTROL) {
-				i++;
 				continue;
 			}
 
 			if (!getPoints().get(i).isDefined()) {
-				if (outside.size() > 0 && outside.get(outside.size() - 1).isDefined()) {
-					outside.add(new MyPoint(Double.NaN, Double.NaN));
-				}
-				i++;
+				ensureTrailingNaN(outside);
 				continue;
 			}
 
@@ -389,24 +384,28 @@ public class GeoLocusStroke extends GeoLocus
 				outside.add(intersection);
 
 				if (outsideF) {
-					outside.add(new MyPoint(Double.NaN, Double.NaN));
+					ensureTrailingNaN(outside);
 				}
 
 				outsideF = !outsideF;
 			}
-
-			i++;
 		}
 
 		MyPoint last = getPoints().get(getPointLength() - 1);
 		if (!rectangle.contains(last.x, last.y)) {
-			outside.add(getPoints().get(i));
+			outside.add(last);
 		}
 
 		getPoints().clear();
 		appendPointArray(outside);
 
 		return !outside.isEmpty();
+	}
+
+	private void ensureTrailingNaN(List<MyPoint> data) {
+		if (data.size() > 0 && data.get(data.size() - 1).isDefined()) {
+			data.add(new MyPoint(Double.NaN, Double.NaN));
+		}
 	}
 
 	private ArrayList<MyPoint> getAllIntersectionPoints(final int index, GRectangle2D rectangle) {

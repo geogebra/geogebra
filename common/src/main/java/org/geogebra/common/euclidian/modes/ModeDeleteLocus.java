@@ -163,6 +163,9 @@ public class ModeDeleteLocus {
 		}
 	}
 
+	/**
+	 * resets objDeleteMode and penDeleteMode on mouse press
+	 */
 	public void mousePressed() {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
