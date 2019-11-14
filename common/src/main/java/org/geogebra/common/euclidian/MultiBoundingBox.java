@@ -100,5 +100,4 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		return hitX <= Math.max(segStartX, segEndX) + hitThreshold
 				&& hitX >= Math.min(segStartX, segEndX) - hitThreshold;
 	}
-
 }

@@ -257,7 +257,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public boolean handleArrowKeyMovement(List<GeoElement> geos,
 			double[] diff, double increment) {
-		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes();
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
 		boolean allSliders = true;
@@ -1426,7 +1426,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			// DELETE selected objects
 			if (!app.isApplet() || keyboardShortcutsEnabled()) {
-				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes();
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 				app.deleteSelectedObjects(false);
 				return true;
 			}

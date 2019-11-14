@@ -923,6 +923,11 @@ public abstract class Drawable extends DrawableND {
 		// just strokes
 	}
 
+	@Override
+	public GRectangle getPartialHitClip() {
+		return null;
+	}
+
 	/**
 	 * @return bounding box for multi-selection, possibly clipped
 	 */
@@ -979,10 +984,5 @@ public abstract class Drawable extends DrawableND {
 			setNeedsUpdate(false);
 			update();
 		}
-	}
-
-	@Override
-	public GRectangle getPartialHitClip() {
-		return null;
 	}
 }

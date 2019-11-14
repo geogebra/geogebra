@@ -361,14 +361,6 @@ public class GeoLocusStroke extends GeoLocus
 		return result;
 	}
 
-	/**
-	 * Get list of strokes after split
-	 * 
-	 * @param removeOriginal
-	 *            - true if the original stroke should be removed
-	 * @return list of part strokes after split, or the stroke itself if no
-	 *         splitting needed
-	 */
 	@Override
 	public List<GeoElement> getPartialSelection(boolean removeOriginal) {
 		EuclidianView view = this.getKernel().getApplication().getActiveEuclidianView();
@@ -379,10 +371,12 @@ public class GeoLocusStroke extends GeoLocus
 		} else {
 			GRectangle viewRectangle = view.getDrawableFor(this).getPartialHitClip();
 			GRectangle2D realRectangle = AwtFactory.getPrototype().newRectangle2D();
-			realRectangle.setRect(view.toRealWorldCoordX(viewRectangle.getX()),
+			realRectangle.setRect(
+					view.toRealWorldCoordX(viewRectangle.getX()),
 					view.toRealWorldCoordY(viewRectangle.getY() + viewRectangle.getHeight()),
 					viewRectangle.getWidth() * view.getInvXscale(),
-					viewRectangle.getHeight() * view.getInvYscale());
+					viewRectangle.getHeight() * view.getInvYscale()
+			);
 
 			splits = this.split(realRectangle);
 

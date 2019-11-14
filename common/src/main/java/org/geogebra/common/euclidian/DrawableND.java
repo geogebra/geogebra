@@ -199,6 +199,8 @@ public abstract class DrawableND {
 	 */
 	public abstract void setPartialHitClip(GRectangle rect);
 
+	/**
+	 * @return partialHitClip (used for strokes to select part of stroke)
+	 */
 	public abstract GRectangle getPartialHitClip();
-
 }

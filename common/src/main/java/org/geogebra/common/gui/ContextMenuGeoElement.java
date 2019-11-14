@@ -504,6 +504,7 @@ public abstract class ContextMenuGeoElement {
 	 * Toggle tracing
 	 */
 	public void traceCmd() {
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		// if there is at least 1 geo, which has no trace, all geo will have
 		// trace, otherwise, if all geo has trace, tracing will be set to false
@@ -726,8 +727,10 @@ public abstract class ContextMenuGeoElement {
 		if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
 			app.getSelectionManager().addSelectedGeo(getGeo());
 		}
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
+		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
 		app.getCopyPaste().pasteFromXML(app, false);
 	}
 

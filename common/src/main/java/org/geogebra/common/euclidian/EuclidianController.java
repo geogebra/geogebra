@@ -417,6 +417,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private int numOfTargets = 0;
 
 	private SnapController snapController = new SnapController();
+	private ArrayList<GeoElement> splitPartsToRemove = new ArrayList<>();
 
 	/**
 	 * state for selection tool over press/release
@@ -6355,7 +6356,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void moveDependent(boolean repaint) {
 		translationVec.setX(xRW - getStartPointX());
 		translationVec.setY(yRW - getStartPointY());
-		this.splitSelectedStrokes();
+		this.splitSelectedStrokes(true);
 		setStartPointLocation(xRW, yRW);
 
 		// we don't specify screen coords for translation as all objects are
@@ -6402,7 +6403,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		tmpCoordsL3.setX(xRW);
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
-		splitSelectedStrokes();
+		splitSelectedStrokes(true);
 		ArrayList<GeoElement> moveMultipleObjectsList = companion
 				.removeParentsOfView(getAppSelectedGeos());
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
@@ -7812,7 +7813,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
-			splitSelectedStrokes();
+			splitSelectedStrokes(true);
 			GRectangle2D bounds = (getResizedShape() != null)
 					? getResizedShape().getBounds()
 					: view.getBoundingBox().getRectangle();
@@ -8020,7 +8021,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void handleResizeMultiple(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		// if for some reason there was no state initialized
-		splitSelectedStrokes();
+		splitSelectedStrokes(true);
 		if (startBoundingBoxState == null) {
 			startBoundingBoxState = new BoundingBoxResizeState(
 					view.getBoundingBox().getRectangle(),
@@ -8084,22 +8085,38 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	/**
 	 * Replace partially selected strokes by their parts.
 	 */
-	public void splitSelectedStrokes() {
+	public void splitSelectedStrokes(boolean removeOriginal) {
 		boolean changed = false;
 		ArrayList<GeoElement> newSelection = new ArrayList<>();
 		ArrayList<GeoElement> oldSelection = new ArrayList<>(selection.getSelectedGeos());
 		for (GeoElement geo : oldSelection) {
-			GeoElement replacement = geo.getPartialSelection(true).get(0);
+			List<GeoElement> splitParts = geo.getPartialSelection(removeOriginal);
+			GeoElement replacement = splitParts.get(0);
 			newSelection.add(replacement);
 			if (replacement != geo) {
 				changed = true;
 				replaceTranslated(geo, replacement);
+				if (!removeOriginal && splitParts.size() > 1) {
+					for (GeoElement part : splitParts) {
+						splitPartsToRemove.add(part);
+					}
+				}
 			}
 		}
 		if (changed) {
 			selection.setSelectedGeos(newSelection);
 			updateBoundingBoxFromSelection(false);
+			showDynamicStylebar();
 			startBoundingBoxState = null;
+		}
+	}
+
+	/**
+	 * After duplicating the part of stroke we do not need the created parts during splitting.
+	 */
+	public void removeSplitParts() {
+		for (GeoElement part : splitPartsToRemove) {
+			part.remove();
 		}
 	}
 

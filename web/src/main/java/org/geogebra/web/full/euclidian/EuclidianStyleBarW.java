@@ -655,9 +655,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 				// force closing keyboard
 				getFrame().showKeyBoard(false, null, true);
 				boolean deletePoints = true;
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 				for (int i = activeGeoList.size() - 1; i >= 0; i--) {
 					if (!(activeGeoList.get(i) instanceof GeoPoint)) {
-						activeGeoList.get(i).remove();
 						deletePoints = false;
 					}
 				}

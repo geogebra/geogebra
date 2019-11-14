@@ -330,6 +330,11 @@ public class DrawLocus extends Drawable {
 		return getBounds();
 	}
 
+	@Override
+	public GRectangle getPartialHitClip() {
+		return partialHitClip;
+	}
+
 	private GRectangle2D getBounds2D() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
@@ -398,10 +403,4 @@ public class DrawLocus extends Drawable {
 			((GeoLocusStroke) locus).resetXMLPointBuilder();
 		}
 	}
-
-	@Override
-	public GRectangle getPartialHitClip() {
-		return this.partialHitClip;
-	}
-
 }

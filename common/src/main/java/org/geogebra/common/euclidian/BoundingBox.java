@@ -90,7 +90,7 @@ public abstract class BoundingBox<T extends GShape> {
 
 	/**
 	 * Initialize the array of handlers, don't specify positions
-	 * 
+	 *
 	 * @param nrHandlers
 	 *            rebuild the list of handlers
 	 */
@@ -116,7 +116,7 @@ public abstract class BoundingBox<T extends GShape> {
 
 	/**
 	 * Draw and fill strokes
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -134,7 +134,7 @@ public abstract class BoundingBox<T extends GShape> {
 
 	/**
 	 * Draw the bounding box outline
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
