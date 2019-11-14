@@ -2847,6 +2847,7 @@ __GGB__keysVar["eu"].menu = {
     "Successes": "Arrakastak",
     "Suggestion.CreateSlider": "Sortu Irristailua",
     "Suggestion.SpecialPoints": "Puntu Bereziak",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Batura",

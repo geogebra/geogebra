@@ -8,16 +8,15 @@ import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 
 /**
  * Class for editing in-place text on whiteboard.
@@ -26,7 +25,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
  *
  */
 public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
-		MouseUpHandler, MouseDownHandler, MouseMoveHandler {
+		MouseMoveHandler {
 	private GRectangle bounds;
 
 	/**
@@ -37,9 +36,12 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		setAttribute("contenteditable", "true");
 		getWidget().addStyleName("mowTextEditor");
 		setWidth(80);
-		addMouseDownHandler(this);
-		addMouseUpHandler(this);
+
+		ClickStartHandler.initDefaults(this, false, true);
+		ClickEndHandler.initDefaults(this, false, true);
 		addMouseMoveHandler(this);
+
+		EventUtil.stopPointer(getElement());
 	}
 
 	/**
@@ -171,16 +173,6 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		event.stopPropagation();
 	}
 
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
-		event.stopPropagation();
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		event.stopPropagation();
-	}
-
 	public native void moveCursor(int x, int y) /*-{
 		var targetContainer = $doc.elementFromPoint(x, y);
 		var chars = targetContainer.innerText.split("");
@@ -194,10 +186,12 @@ public class MowTextEditor extends AdvancedFlowPanel implements Persistable,
 		var charIndex = parseInt(targetNode.getAttribute("data-char"));
 		targetContainer.innerHTML = oldHTML;
 
-		charIndex = charIndex || targetContainer.childNodes[0].length;
+		if (targetContainer.childNodes[0] !== undefined) {
+			charIndex = charIndex || targetContainer.childNodes[0].length;
 
-		this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
-				targetContainer.childNodes[0], charIndex);
+			this.@org.geogebra.web.html5.euclidian.MowTextEditor::select(*)(
+					targetContainer.childNodes[0], charIndex);
+		}
 	}-*/;
 
 	@ExternalAccess

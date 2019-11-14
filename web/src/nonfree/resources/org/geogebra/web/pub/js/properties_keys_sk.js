@@ -2847,6 +2847,7 @@ __GGB__keysVar["sk"].menu = {
     "Successes": "\xdaspechy",
     "Suggestion.CreateSlider": "Create Slider",
     "Suggestion.SpecialPoints": "Special Points",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "S\u010d\xedtanie hodn\xf4t vyzna\u010denej oblasti buniek",

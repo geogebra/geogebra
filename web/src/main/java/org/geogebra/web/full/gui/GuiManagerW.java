@@ -2532,8 +2532,8 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public SymbolicEditor createSymbolicEditor() {
-		return new SymbolicEditorW(app);
+	public SymbolicEditor createSymbolicEditor(EuclidianViewW view) {
+		return new SymbolicEditorW(app, view);
 	}
 
 	/**

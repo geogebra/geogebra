@@ -2847,6 +2847,7 @@ __GGB__keysVar["fi"].menu = {
     "Successes": "Onnistumiset",
     "Suggestion.CreateSlider": "Luo liuku",
     "Suggestion.SpecialPoints": "Erikoispisteet",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Summa",

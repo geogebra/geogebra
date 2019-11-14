@@ -31,25 +31,20 @@ public interface TextController {
 	void edit(GeoText geo);
 
 	/**
+	 * Maybe start editing the current text
+	 * @param text text just interacted with
+	 * @param x screen coordinate x of the event
+	 * @param y screen coordinate y of the event
+	 * @param dragged whether it was a drag event
+	 * @return whether editing was started
+	 */
+	boolean handleTextPressed(GeoText text, int x, int y, boolean dragged);
+
+	/**
 	 * 
 	 * @return the bounding rectangle of the current editor.
 	 */
 	public GRectangle getEditorBounds();
-
-	/**
-	 * Handles pointer press on text object.
-	 */
-	void handleTextPressed();
-
-	/**
-	 * Handles pointer release on text object.
-	 * 
-	 * @param drag
-	 *            true if release is happened after drag.
-	 * 
-	 * @return true if release is handled.
-	 */
-	boolean handleTextReleased(boolean drag, int x, int y);
 
 	/**
 	 *
@@ -67,11 +62,6 @@ public interface TextController {
 	 * @return wrapped text
 	 */
 	String wrapText(String editText, DrawText d);
-
-	/**
-	 * @return if text editor is active.
-	 */
-	boolean isEditing();
 
 	/**
 	 * Stops the current editor.

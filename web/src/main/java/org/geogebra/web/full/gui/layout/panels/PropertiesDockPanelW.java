@@ -69,14 +69,6 @@ public class PropertiesDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		if (view != null) {
-			view.updateAVvisible(visible);
-		}
-	}
-
-	@Override
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}

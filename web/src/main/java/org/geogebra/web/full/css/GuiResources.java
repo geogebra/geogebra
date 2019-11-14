@@ -397,6 +397,7 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/popup-styles.scss")
 	SassResource popupStyleScss();
 
+	@Override
 	@Source("org/geogebra/web/resources/scss/settings-styles.scss")
 	SassResource settingsStyleScss();
 

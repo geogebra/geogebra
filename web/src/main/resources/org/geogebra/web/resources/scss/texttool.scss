@@ -3,17 +3,14 @@
 .GeoGebraFrame{
 	.mowTextEditor {
 		position: absolute;
-		border: 1px solid $teal-default;
 		z-index: 99;
 		min-height: 32px;
-		top: 20px;
-		left: 300px;	
-		padding: 2px;
+		padding: 3px;
 		word-wrap: break-word;
 		/* selection needed for iOS */
 		-webkit-user-select: text;
 		user-select: text;
-		
+
 		p {
 			margin: 0;
 		}

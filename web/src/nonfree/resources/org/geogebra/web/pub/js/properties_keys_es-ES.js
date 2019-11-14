@@ -2847,6 +2847,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Successes": "\xc8xitos",
     "Suggestion.CreateSlider": "Crear deslizador",
     "Suggestion.SpecialPoints": "Puntos especiales",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",
