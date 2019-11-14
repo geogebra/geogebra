@@ -2551,7 +2551,7 @@ __GGB__keysVar["ca"].menu = {
     "RegressionAnalysis": "An\xe0lisi de regressi\xf3",
     "RegressionModel": "Model de regressi\xf3",
     "RegularPolygon": "Pol\xedgon regular",
-    "RegularPolygon.Help": "Seleccioneu dos punts, que seran els v\xe8rtexs d'un costat, i entreu el nombre de costats",
+    "RegularPolygon.Help": "Seleccioneu dos punts, que seran els v\xe8rtexs d'un costat, o un punt, un pla i un altre punt i entreu el nombre de costats.",
     "Relation": "Relaci\xf3 entre dos objectes",
     "Relation.Help": "Seleccioneu dos objectes",
     "Relative": "Relatives",
