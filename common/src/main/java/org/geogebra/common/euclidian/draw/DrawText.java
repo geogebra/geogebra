@@ -311,8 +311,7 @@ public final class DrawText extends Drawable {
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 
-		if (text.getTextString() != null
-				&& textFont.canDisplayUpTo(text.getTextString()) != -1
+		if (incompatibleCharacters()
 				|| fontSize != newFontSize || fontStyle != newFontStyle
 				|| newSerifFont != serifFont) {
 			super.updateFontSize();
@@ -329,6 +328,11 @@ public final class DrawText extends Drawable {
 		}
 
 		return false;
+	}
+
+	private boolean incompatibleCharacters() {
+		return text.getTextString() != null
+				&& textFont.canDisplayUpTo(text.getTextString()) != -1;
 	}
 
 	/**
@@ -411,7 +415,7 @@ public final class DrawText extends Drawable {
 	}
 
 	private double findDiagonalThreshold(double min, double max, GeoText textCopy) {
-		if (max <= min +1) {
+		if (max <= min + 1) {
 			return max;
 		}
 		TextController ctrl = view.getEuclidianController().getTextController();
