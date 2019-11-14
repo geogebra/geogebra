@@ -2847,6 +2847,7 @@ __GGB__keysVar["tr"].menu = {
     "Successes": "Ba\u015farmalar",
     "Suggestion.CreateSlider": "S\xfcrg\xfc Olu\u015fturun",
     "Suggestion.SpecialPoints": "\xd6zel Noktalar",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Bir h\xfccre k\xfcmesindeki de\u011ferleri topla",

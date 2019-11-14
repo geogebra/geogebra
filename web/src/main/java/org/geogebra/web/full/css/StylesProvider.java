@@ -26,4 +26,9 @@ public interface StylesProvider {
 	 * @return dialogStylesScss resource
 	 */
 	SassResource dialogStylesScss();
+
+	/**
+	 * @return settingsStyles resources
+	 */
+	SassResource settingsStyleScss();
 }

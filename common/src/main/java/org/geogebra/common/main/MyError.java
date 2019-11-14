@@ -298,7 +298,7 @@ public class MyError extends Error {
 				"Invalid function:\nPlease enter an explicit function in %0") {
 
 			@Override
-			public String getError(Localization loc, String[] strs) {
+			public String getError(Localization loc, String... strs) {
 				String ret = null;
 				if (loc != null) {
 					ret = loc.getPlain(key, strs.length > 0 ? strs[0] : "x");
@@ -318,7 +318,7 @@ public class MyError extends Error {
 
 		CellAisNotDefined("CellAisNotDefined", "Cell %0 is not defined") {
 			@Override
-			public String getError(Localization loc, String[] strs) {
+			public String getError(Localization loc, String... strs) {
 				String ret = null;
 				if (loc != null) {
 					ret = loc.getPlain(key, strs.length > 0 ? strs[0] : "x");

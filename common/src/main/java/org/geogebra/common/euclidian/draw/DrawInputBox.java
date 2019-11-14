@@ -56,6 +56,8 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private boolean isVisible;
 
+	private boolean editing = false;
+
 	private String oldCaption;
 
 	private int oldLength = 0;
@@ -409,7 +411,10 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		if (canSetWidgetPixelSize()) {
-			drawTextfieldOnCanvas(g2);
+			if (!editing) {
+				drawTextfieldOnCanvas(g2);
+			}
+
 			highlightLabel(g2, latexLabel);
 			if (geo.isLabelVisible()) {
 				drawLabel(g2, getGeoInputBox(), labelDesc);
@@ -599,5 +604,24 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	GeoInputBox getGeoInputBox() {
 		return geoInputBox;
+	}
+
+	/**
+	 *
+	 * @return if the GeoInputBox is under editing.
+	 */
+	public boolean isEditing() {
+		return editing;
+	}
+
+	/**
+	 * Set this true if an editor is active for this input box
+	 * or false if it is not.
+	 *
+	 * @param editing
+	 * 			to set.
+	 */
+	public void setEditing(boolean editing) {
+		this.editing = editing;
 	}
 }

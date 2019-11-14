@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -138,7 +137,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 		if (wrappedPopup == null) {
 			initPopup();
 		}
-		focusDeferred();
+		wrappedPopup.getPopupMenu().focusDeferred();
 		wrappedPopup.setMenuShown(true);
 		toggleIcon(true);
 	}
@@ -170,14 +169,5 @@ public class ContextMenuButtonCard extends MyToggleButton
 					MaterialDesignResources.INSTANCE.more_vert_black()));
 			removeStyleName("active");
 		}
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-			}
-		});
 	}
 }

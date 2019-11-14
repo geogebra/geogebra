@@ -6863,7 +6863,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void wrapMouseclicked(boolean control, int clickCount,
+	private void wrapMouseclicked(boolean control, int clickCount,
 			PointerEventType type) {
 		if (!app.showMenuBar() || control || penMode(this.mode)
 				|| isDragTool()) {
@@ -6880,19 +6880,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				app.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
 
-				if (app.has(Feature.MOW_TEXT_TOOL) && geo0.isGeoText()) {
-
-					getTextController().edit((GeoText) geo0);
-				} else if (geo0.isGeoNumeric()
-						&& ((GeoNumeric) geo0).isSlider()) {
-					// double-click slider -> Object Properties
-					getDialogManager().showPropertiesDialog(hits);
-				} else if (!geo0.isProtected(EventType.UPDATE)
-						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
-						&& geo0.isRedefineable()
-						&& !geo0.isGeoButton() && !(geo0.isGeoList()
-								&& ((GeoList) geo0).drawAsComboBox())) {
-					getDialogManager().showRedefineDialog(hits.get(0), true);
+				if (!app.has(Feature.MOW_TEXT_TOOL) || !geo0.isGeoText()) {
+					if (geo0.isGeoNumeric()
+							&& ((GeoNumeric) geo0).isSlider()) {
+						// double-click slider -> Object Properties
+						getDialogManager().showPropertiesDialog(hits);
+					} else if (!geo0.isProtected(EventType.UPDATE)
+							&& !(geo0.isGeoBoolean() && geo0.isIndependent())
+							&& geo0.isRedefineable()
+							&& !geo0.isGeoButton() && !(geo0.isGeoList()
+									&& ((GeoList) geo0).drawAsComboBox())) {
+						getDialogManager().showRedefineDialog(hits.get(0), true);
+					}
 				}
 			}
 		}
@@ -7554,7 +7553,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
 
-				if (textField && !isMoveTextFieldExpected((GeoInputBox) movedGeoElement)) {
+				if (textField && !isMoveTextFieldExpected(movedGeoElement)) {
 					return;
 				}
 
@@ -7627,18 +7626,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private boolean isMoveTextFieldExpected(GeoInputBox geoInputBox) {
-		if (geoInputBox.isEditing()) {
-			return false;
-		}
-
-		if (geoInputBox.isSymbolicMode() && isDraggingBeyondThreshold()) {
-			view.hideSymbolicEditor();
-		}
-
-		return true;
-	}
-
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo, int absMoveMode) {
 		moveMode = absMoveMode;
 		startLoc = mouseLoc;
@@ -7705,7 +7692,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
 	}
 
-	protected boolean isMoveTextFieldExpected(GeoElementND geo) {
+	private boolean isMoveTextFieldExpected(GeoElementND geo) {
 		if (!geo.isGeoInputBox()) {
 			return false;
 		}
@@ -8678,9 +8665,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		if (getTextController() != null && getTextController().isEditing()) {
-			return;
-		}
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
@@ -9578,9 +9562,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		handleVideoPressed(event);
-		if (getTextController() != null) {
-			getTextController().handleTextPressed();
-		}
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -9626,17 +9607,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& view.getBoundingBox().hitSideOfBoundingBox(event.getX(),
 						event.getY(), app.getCapturingThreshold(event.getType()));
 
+		if (wasBoundingBoxHit && getTextController() != null) {
+			getTextController().stopEditing();
+		}
+
 		Drawable d = view.getBoundingBoxHandlerHit(
 				new GPoint(event.getX(), event.getY()), event.getType());
-		if (EuclidianConstants.isMoveOrSelectionMode(mode)
-				|| mode == EuclidianConstants.MODE_MEDIA_TEXT && app.has(Feature.MOW_TEXT_TOOL)) {
-			// for now allow only corner handlers
-			if (d != null && view
-					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-				setBoundingBoxCursor(d);
-				setResizedShape(d);
-			}
-		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			// no hit or no bounding box, so we have to create
@@ -10338,10 +10314,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
-		if (getTextController() != null
-				&& getTextController().isEditing())  {
-			return;
+		if (getTextController() != null) {
+			GeoElement topText = view.getHits().getFirstHit(TestGeo.GEOTEXT);
+			if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
+				if (getTextController().handleTextPressed((GeoText) topText,
+						event.getX(), event.getY(), draggingOccured)) {
+					// Fix weird multiselect bug. Even if you hit the resize dot
+					// (very likely on touch devices), you probably want to edit the text
+					setResizedShape(null);
+					return;
+				}
+			} else {
+				getTextController().stopEditing();
+			}
 		}
+
 		// will be reset in wrapMouseReleased
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
@@ -10349,21 +10336,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// handle video/audio/embeded/text release (mow)
 		if (handleVideoReleased()) {
-			return;
-		}
-		if (getTextController() != null
-				&& getTextController().handleTextReleased(draggingOccured,
-						event.getX(), event.getY())
-				&& !draggingOccured) {
-			ArrayList<GeoElement> elements = selection.getSelectedGeos();
-			if (elements.size() == 1) {
-				GeoElement selected = elements.get(0);
-				if (selected.hasPreviewPopup()) {
-					showSpecialPointPopup(elements);
-				} else {
-					showDynamicStylebar();
-				}
-			}
 			return;
 		}
 

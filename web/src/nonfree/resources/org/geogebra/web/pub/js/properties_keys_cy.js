@@ -2847,6 +2847,7 @@ __GGB__keysVar["cy"].menu = {
     "Successes": "Llwyddianau",
     "Suggestion.CreateSlider": "Create Slider",
     "Suggestion.SpecialPoints": "Special Points",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Adio cynnwys set o gelloedd",

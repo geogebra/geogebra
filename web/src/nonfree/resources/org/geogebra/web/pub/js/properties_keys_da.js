@@ -2847,6 +2847,7 @@ __GGB__keysVar["da"].menu = {
     "Successes": "Successer",
     "Suggestion.CreateSlider": "Lav skyder",
     "Suggestion.SpecialPoints": "S\xe6rlige punkter",
+    "Suite": "Suite",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Summer v\xe6rdierne fra et udvalg af celler",
