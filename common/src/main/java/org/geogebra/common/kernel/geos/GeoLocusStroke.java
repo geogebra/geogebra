@@ -563,7 +563,6 @@ public class GeoLocusStroke extends GeoLocus
 				|| (segStart == segEnd);
 	}
 
-
 	// data has to have at least 2 defined points after each other
 	private static boolean canBeBezierCurve(List<MyPoint> data) {
 		boolean firstDefFound = false;
