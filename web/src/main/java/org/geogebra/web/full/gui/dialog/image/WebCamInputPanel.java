@@ -186,7 +186,8 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 		webcamDialog.onCameraError();
 		if ("PermissionDeniedError".equals(errName)
 				|| "NotAllowedError".equals(errName)
-				|| (Browser.isElectron() && Browser.isMacOS()) && "TrackStartError".equals(errName)) {
+				|| (Browser.isElectron() && Browser.isMacOS())
+				&& "TrackStartError".equals(errName)) {
 			showPermissionDeniedDialog();
 		} else if ("NotFoundError".equals(errName)
 				|| "DevicesNotFoundError".equals(errName)
