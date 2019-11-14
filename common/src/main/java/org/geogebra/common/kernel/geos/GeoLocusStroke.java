@@ -596,11 +596,6 @@ public class GeoLocusStroke extends GeoLocus
 			int index = 0;
 			while (index <= data.size()) {
 				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
-				if (!data.isEmpty()
-						&& data.get(data.size() - 1).isDefined()
-						&& partOfStroke.size() > 0) {
-					getPoints().add(new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO));
-				}
 
 				// if we found single point
 				// just add it to the list without control points
@@ -635,6 +630,8 @@ public class GeoLocusStroke extends GeoLocus
 						}
 					}
 				}
+				ensureTrailingNaN(getPoints());
+
 				index = index + Math.max(partOfStroke.size(), 1);
 			}
 		} else {
