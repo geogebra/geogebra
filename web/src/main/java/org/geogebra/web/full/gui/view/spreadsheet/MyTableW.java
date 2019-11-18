@@ -357,10 +357,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private void registerListeners() {
 		SpreadsheetMouseListenerW ml = new SpreadsheetMouseListenerW(app, this);
-		gridPanel.addBitlessDomHandler(ml, MouseDownEvent.getType());
-		gridPanel.addBitlessDomHandler(ml, MouseUpEvent.getType());
-		gridPanel.addBitlessDomHandler(ml, MouseMoveEvent.getType());
-		gridPanel.addBitlessDomHandler(ml, DoubleClickEvent.getType());
+		gridPanel.addDomHandler(ml, MouseDownEvent.getType());
+		gridPanel.addDomHandler(ml, MouseUpEvent.getType());
+		gridPanel.addDomHandler(ml, MouseMoveEvent.getType());
+		gridPanel.addDomHandler(ml, DoubleClickEvent.getType());
 		gridPanel.addBitlessDomHandler(ml, TouchStartEvent.getType());
 		gridPanel.addBitlessDomHandler(ml, TouchMoveEvent.getType());
 		gridPanel.addBitlessDomHandler(ml, TouchEndEvent.getType());
