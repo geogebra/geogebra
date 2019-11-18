@@ -22,7 +22,7 @@ class InputBoxRenderer {
 		String linkedGeoText;
 
 		if (linkedGeo.isGeoNumeric()) {
-			linkedGeoText = getTextForNumeric();
+			linkedGeoText = getTextForNumeric((GeoNumeric)linkedGeo);
 		} else if (inputBox.isSymbolicMode()) {
 			linkedGeoText = getTextForSymbolic();
 		} else {
@@ -46,21 +46,20 @@ class InputBoxRenderer {
 		if (inputBox.hasSymbolicFunction() || flatEditableList) {
 			return getLaTeXRedefineString();
 		} else if (hasVector()) {
-			return getVectorString((GeoVectorND) linkedGeo);
+			return getVectorRenderString((GeoVectorND) linkedGeo);
 		}
 
 		return toLaTex();
 	}
 
-	private String getTextForNumeric() {
-		if (inputBox.symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
-				&& !((GeoNumeric) linkedGeo).isSimple()) {
+	private String getTextForNumeric(GeoNumeric numeric) {
+		if (inputBox.symbolicMode && numeric.isSymbolicMode() && !numeric.isSimple()) {
 			return toLaTex();
-		} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
-			return linkedGeo.toValueString(inputBox.tpl);
+		} else if (numeric.isDefined() && numeric.isIndependent()) {
+			return numeric.toValueString(inputBox.tpl);
 		}
 
-		return linkedGeo.getRedefineString(true, true);
+		return numeric.getRedefineString(true, true);
 	}
 
 	private String toLaTex() {
@@ -71,7 +70,7 @@ class InputBoxRenderer {
 		return linkedGeo instanceof GeoVectorND;
 	}
 
-	private String getVectorString(GeoVectorND vector) {
+	private String getVectorRenderString(GeoVectorND vector) {
 		return vector.isColumnEditabe()
 				? vector.toLaTeXStringAsColumnVector(StringTemplate.latexTemplate)
 				: getLaTeXRedefineString();
