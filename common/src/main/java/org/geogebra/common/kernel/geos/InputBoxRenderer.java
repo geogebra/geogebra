@@ -1,8 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -62,27 +60,34 @@ class InputBoxRenderer {
 		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
 
 		if (inputBox.hasSymbolicFunction() || flatEditableList) {
-			return linkedGeo.getRedefineString(true, true,
-					getStringtemplateForLaTeX());
-		} else if (hasEditableVector()) {
-			return ((GeoVectorND) linkedGeo).toLaTeXStringAsColumnVector(StringTemplate.latexTemplate);
-		} else if (linkedGeo instanceof GeoVectorND) {
-			return linkedGeo.getRedefineString(true, true,
-					getStringtemplateForLaTeX());
+			return getLaTeXRedefineString();
+		} else if (hasVector()) {
+			return getVectorString((GeoVectorND) linkedGeo);
 		}
+
 		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
-	private boolean hasEditableVector() {
-		if (!(linkedGeo instanceof GeoVectorND)) {
-			return false;
-		}
-
-		return ((GeoVectorND)linkedGeo).isColumnEditabe();
+	private boolean hasVector() {
+		return linkedGeo instanceof GeoVectorND;
 	}
 
-	private boolean isMyVecNDNode(ExpressionValue value) {
-		return value instanceof  MyVecNDNode;
+	private String getVectorString(GeoVectorND vector) {
+		return vector.isColumnEditabe()
+				? vector.toLaTeXStringAsColumnVector(StringTemplate.latexTemplate)
+				: getLaTeXRedefineString();
+	}
+
+	private String getLaTeXRedefineString() {
+		return linkedGeo.getRedefineString(true, true,
+				getStringTemplateForLaTeX());
+	}
+
+	private StringTemplate getStringTemplateForLaTeX() {
+		if (stringTemplateForLaTeX == null) {
+			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
+		}
+		return stringTemplateForLaTeX;
 	}
 
 	private boolean hasEditableMatrix() {
@@ -92,12 +97,4 @@ class InputBoxRenderer {
 
 		return ((GeoList) linkedGeo).isEditableMatrix();
 	}
-
-	private StringTemplate getStringtemplateForLaTeX() {
-		if (stringTemplateForLaTeX == null) {
-			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
-		}
-		return stringTemplateForLaTeX;
-	}
-
 }
