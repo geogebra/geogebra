@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -22,29 +24,38 @@ class InputBoxRenderer {
 		String linkedGeoText;
 
 		if (linkedGeo.isGeoNumeric()) {
-			if (inputBox.symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
-					&& !((GeoNumeric) linkedGeo).isSimple()) {
-				linkedGeoText = toLaTex();
-			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
-				linkedGeoText = linkedGeo.toValueString(inputBox.tpl);
-			} else {
-				linkedGeoText = linkedGeo.getRedefineString(true, true);
-			}
+			linkedGeoText = getTextForNumeric();
 		} else if (inputBox.isSymbolicMode()) {
-			if (linkedGeo.isGeoVector() && !linkedGeo.isIndependent()) {
-				linkedGeoText = linkedGeo.getRedefineString(true, true);
-			} else {
-				linkedGeoText = toLaTex();
-			}
+			linkedGeoText = getTextForSymbolic();
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
-		if ("?".equals(linkedGeoText)) {
+		if (isTextUndefined(linkedGeoText)) {
 			return "";
 		}
 
 		return linkedGeoText;
+	}
+
+	private String getTextForSymbolic() {
+		return toLaTex();
+	}
+
+	private boolean isTextUndefined(String text) {
+		return "?".equals(text);
+	}
+
+
+	private String getTextForNumeric() {
+		if (inputBox.symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
+				&& !((GeoNumeric) linkedGeo).isSimple()) {
+			return toLaTex();
+		} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
+			return linkedGeo.toValueString(inputBox.tpl);
+		}
+
+		return linkedGeo.getRedefineString(true, true);
 	}
 
 	private String toLaTex() {
@@ -53,12 +64,26 @@ class InputBoxRenderer {
 		if (inputBox.hasSymbolicFunction() || flatEditableList) {
 			return linkedGeo.getRedefineString(true, true,
 					getStringtemplateForLaTeX());
-		} else if (linkedGeo instanceof GeoVectorND) {
+		} else if (hasEditableVector()) {
 			return ((GeoVectorND) linkedGeo).toLaTeXStringAsColumnVector(StringTemplate.latexTemplate);
+		} else if (linkedGeo instanceof GeoVectorND) {
+			return linkedGeo.getRedefineString(true, true,
+					getStringtemplateForLaTeX());
 		}
 		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
+	private boolean hasEditableVector() {
+		if (!(linkedGeo instanceof GeoVectorND)) {
+			return false;
+		}
+
+		return ((GeoVectorND)linkedGeo).isColumnEditabe();
+	}
+
+	private boolean isMyVecNDNode(ExpressionValue value) {
+		return value instanceof  MyVecNDNode;
+	}
 
 	private boolean hasEditableMatrix() {
 		if (!linkedGeo.isGeoList()) {

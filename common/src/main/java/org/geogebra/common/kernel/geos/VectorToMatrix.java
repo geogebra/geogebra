@@ -20,7 +20,9 @@ public class VectorToMatrix {
 	}
 
 	public String build(StringTemplate template, ExpressionNode expressionNode) {
-		MyVecNDNode vecNode =  (MyVecNDNode)(expressionNode.getLeft());
+
+		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.getLeft()
+				;
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -46,6 +48,9 @@ public class VectorToMatrix {
 	}
 
 	public static String[] getLaTeXValues(ExpressionNode expressionNode, StringTemplate tpl) {
+		if (!(expressionNode.getLeft() instanceof  MyVecNDNode)) {
+			return null;
+		}
 		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.getLeft();
 		List<String> list = new ArrayList<>();
 		if (vecNode != null) {

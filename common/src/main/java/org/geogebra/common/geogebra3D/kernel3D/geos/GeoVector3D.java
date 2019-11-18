@@ -387,6 +387,10 @@ public class GeoVector3D extends GeoVec4D
 	public String toLaTeXStringAsColumnVector(StringTemplate tpl) {
 		resetStringBuilder();
 		String[] values = VectorToMatrix.getLaTeXValues(getDefinition().wrap(), tpl);
+		if (values == null) {
+			return "-";
+		}
+
 		GeoVector.buildTabular(values, sb);
 		return sb.toString();
 	}
