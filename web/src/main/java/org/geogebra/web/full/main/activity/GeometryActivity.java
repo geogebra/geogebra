@@ -20,5 +20,4 @@ public class GeometryActivity extends BaseActivity {
 	public SVGResource getIcon() {
 		return MaterialDesignResources.INSTANCE.geometry();
 	}
-
 }

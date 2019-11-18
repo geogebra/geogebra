@@ -26,7 +26,6 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton exitBtn;
-	private AppW appW;
 
 	/**
 	 * @param app
@@ -37,7 +36,6 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	public ExamExitConfirmDialog(AppW app,
 			AsyncOperation<String> returnHandler) {
 		super(app.getPanel(), app);
-		this.appW = app;
 		this.returnHandler = returnHandler;
 		buildGUI();
 	}
@@ -50,9 +48,9 @@ public class ExamExitConfirmDialog extends DialogBoxW
 		// create button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		cancelBtn = new StandardButton("", appW);
+		cancelBtn = new StandardButton("", app);
 		cancelBtn.addFastClickHandler(this);
-		exitBtn = new StandardButton("", appW);
+		exitBtn = new StandardButton("", app);
 		exitBtn.addFastClickHandler(this);
 		buttonPanel.add(cancelBtn);
 		buttonPanel.add(exitBtn);
@@ -69,8 +67,8 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	public void setLabels() {
 		confirmText.setText(
 				app.getLocalization().getMenu("exam_exit_confirmation"));
-		exitBtn.setLabel(appW.getLocalization().getMenu("Exit"));
-		cancelBtn.setLabel(appW.getLocalization().getMenu("Cancel"));
+		exitBtn.setLabel(app.getLocalization().getMenu("Exit"));
+		cancelBtn.setLabel(app.getLocalization().getMenu("Cancel"));
 	}
 
 	@Override
@@ -82,13 +80,12 @@ public class ExamExitConfirmDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == exitBtn) {
-			appW.getExam().exit();
+			app.getExam().exit();
 			GlobalHeader.INSTANCE.resetAfterExam();
-			new ExamLogAndExitDialog(appW, false, returnHandler, null).show();
+			new ExamLogAndExitDialog((AppW) app, false, returnHandler, null).show();
 			hide();
 		} else if (source == cancelBtn) {
 			hide();
 		}
 	}
-
 }

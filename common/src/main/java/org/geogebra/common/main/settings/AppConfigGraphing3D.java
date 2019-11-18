@@ -119,4 +119,14 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.GRAPHING_3D;
 	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
 }
