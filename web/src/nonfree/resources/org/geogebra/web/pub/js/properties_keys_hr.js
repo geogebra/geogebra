@@ -3327,6 +3327,8 @@ __GGB__keysVar["hr"].menu = {
     "pdf": "Portable Document Format (pdf)",
     "pdfClickOrDrag": "Kliknite za odabrati datoteku ili dovucite i spustite PDF datoteku ovdje",
     "pdfDialogTitle": "Umetni stranicu iz PDF",
+    "permission.bluetooth.denied": "Unable to access bluetooth",
+    "permission.bluetooth.exam_mode": "GeoGebra needs access to bluetooth to verify that it is turned off during Exam Mode.",
     "permission.camera.denied": "Nije mogu\u0107e pristupiti kameri",
     "permission.photos": "GeoGebra treba pristup fotogaleriji kako bi spremila sliku.",
     "permission.photos.denied": "Nemogu\u0107e pristupiti slikama",
