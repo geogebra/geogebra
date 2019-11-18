@@ -129,6 +129,13 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void symbolicShouldSupportVectorsWithVariables() {
+		add("a: 1");
+		setupInput("l", "(1, 2, a)");
+		Assert.assertEquals("(1, 2, a)", inputBox.getText());
+	}
+
+	@Test
 	public void compoundVectorsMustBeFlatEditable() {
 		add("u: (1, 2, 3)");
 		add("v: (3, 4, 5)");

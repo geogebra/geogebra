@@ -11,11 +11,11 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -883,8 +883,7 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public boolean isColumnEditabe() {
-		GeoCasCell cell = getCorrespondingCasCell();
 		return isIndependent()
-				|| (cell != null && cell.hasVariablesOrCommands());
+				|| getDefinition() instanceof MyVecNDNode;
 	}
 }

@@ -30,16 +30,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
-	private StringTemplate tpl = StringTemplate.defaultTemplate;
+	StringTemplate tpl = StringTemplate.defaultTemplate;
 
-	private boolean symbolicMode = false;
-
-	private StringTemplate stringTemplateForLaTeX;
+	protected boolean symbolicMode = false;
 
 	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
 	private @Nonnull InputBoxProcessor inputBoxProcessor;
+	private @Nonnull InputBoxRenderer inputBoxRenderer;
 
 	/**
 	 * Creates new text field
@@ -50,6 +49,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public GeoInputBox(Construction cons) {
 		super(cons);
 		linkedGeo = new GeoText(cons, "");
+	 	inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
@@ -88,6 +88,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			linkedGeo = geo;
 		}
 
+		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
@@ -136,49 +137,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return the text
 	 */
 	public String getText() {
-		if (linkedGeo.isGeoText()) {
-			return ((GeoText) linkedGeo).getTextString();
-		}
-
-		String linkedGeoText;
-
-		if (linkedGeo.isGeoNumeric()) {
-			if (symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
-					&& !((GeoNumeric) linkedGeo).isSimple()) {
-				linkedGeoText = toLaTex();
-			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
-				linkedGeoText = linkedGeo.toValueString(tpl);
-			} else {
-				linkedGeoText = linkedGeo.getRedefineString(true, true);
-			}
-		} else if (isSymbolicMode()) {
-			if (linkedGeo.isGeoVector() && !linkedGeo.isIndependent()) {
-				linkedGeoText = linkedGeo.getRedefineString(true, true);
-			} else {
-				linkedGeoText = toLaTex();
-			}
-		} else {
-			linkedGeoText = linkedGeo.getRedefineString(true, true);
-		}
-
-		if ("?".equals(linkedGeoText)) {
-			return "";
-		}
-
-		return linkedGeoText;
+		return inputBoxRenderer.getText();
 	}
 
-	private String toLaTex() {
-		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
-
-		if (hasSymbolicFunction() || flatEditableList) {
-			return linkedGeo.getRedefineString(true, true,
-					getStringtemplateForLaTeX());
-		} else if (linkedGeo instanceof GeoVectorND) {
-			return ((GeoVectorND) linkedGeo).toLaTeXStringAsColumnVector(StringTemplate.latexTemplate);
-		}
-		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
-	}
 
 	private String getColumnMatrix(GeoVectorND vector) {
 		return vector.toValueStringAsColumnVector(tpl);
@@ -189,21 +150,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return super.isLaTeXTextCommand();
 	}
 
-
-	private boolean hasEditableMatrix() {
-		if (!linkedGeo.isGeoList()) {
-			return false;
-		}
-
-		return ((GeoList) linkedGeo).isEditableMatrix();
-	}
-
-	private StringTemplate getStringtemplateForLaTeX() {
-		if (stringTemplateForLaTeX == null) {
-			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
-		}
-		return stringTemplateForLaTeX;
-	}
 
 	/**
 	 * Returns the linked geo
@@ -444,7 +390,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				|| linkedGeo.isGeoLine() || linkedGeo.isGeoPlane() || linkedGeo.isGeoList();
 	}
 
-	private boolean hasSymbolicFunction() {
+	boolean hasSymbolicFunction() {
 		return linkedGeo instanceof GeoFunction || linkedGeo instanceof GeoFunctionNVar;
 	}
 
