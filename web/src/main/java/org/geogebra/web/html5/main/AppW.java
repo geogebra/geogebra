@@ -2032,18 +2032,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// only needed in AppWFull
 	}
 
-	/**
-	 * @return whether EV1 is the only visible view
-	 */
-
-	public boolean onlyGraphicsViewShowing() {
-		if (!isUsingFullGui() || getGuiManager() == null) {
-			return true;
-		}
-
-		return getGuiManager().getLayout().isOnlyVisible(App.VIEW_EUCLIDIAN);
-	}
-
 	@Override
 	public boolean isUsingFullGui() {
 		return useFullGui;
