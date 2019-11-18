@@ -36,14 +36,21 @@ class InputBoxRenderer {
 		return linkedGeoText;
 	}
 
-	private String getTextForSymbolic() {
-		return toLaTex();
-	}
-
 	private boolean isTextUndefined(String text) {
 		return "?".equals(text);
 	}
 
+	private String getTextForSymbolic() {
+		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
+
+		if (inputBox.hasSymbolicFunction() || flatEditableList) {
+			return getLaTeXRedefineString();
+		} else if (hasVector()) {
+			return getVectorString((GeoVectorND) linkedGeo);
+		}
+
+		return toLaTex();
+	}
 
 	private String getTextForNumeric() {
 		if (inputBox.symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
@@ -57,14 +64,6 @@ class InputBoxRenderer {
 	}
 
 	private String toLaTex() {
-		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
-
-		if (inputBox.hasSymbolicFunction() || flatEditableList) {
-			return getLaTeXRedefineString();
-		} else if (hasVector()) {
-			return getVectorString((GeoVectorND) linkedGeo);
-		}
-
 		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
 	}
 
