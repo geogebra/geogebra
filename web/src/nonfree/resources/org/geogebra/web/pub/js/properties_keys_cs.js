@@ -1756,6 +1756,7 @@ __GGB__keysVar["cs"].menu = {
     "Evaluate": "Vyhodnotit symbolicky",
     "Evaluate.Help": "P\u0159esn\xe9 vyhodnocen\xed",
     "ExamCAS": "GeoGebra Zkou\u0161ka: CAS",
+    "ExamCAS.short": "Zkou\u0161ka: CAS",
     "ExamGraphingCalc.long": "GeoGebra Zkou\u0161ka: Grafick\xe1 kalkula\u010dka",
     "ExamGraphingCalc.short": "Zkou\u0161ka: grafy",
     "ExamSimpleCalc.long": "GeoGebra Zkou\u0161ka: Kalkula\u010dka",

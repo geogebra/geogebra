@@ -1756,6 +1756,7 @@ __GGB__keysVar["th"].menu = {
     "Evaluate": "\u0e1b\u0e23\u0e30\u0e40\u0e21\u0e34\u0e19",
     "Evaluate.Help": "\u0e01\u0e32\u0e23\u0e1b\u0e23\u0e30\u0e40\u0e21\u0e34\u0e19\u0e1c\u0e25\u0e17\u0e35\u0e48\u0e41\u0e21\u0e48\u0e19\u0e15\u0e23\u0e07",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

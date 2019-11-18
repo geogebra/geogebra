@@ -1756,6 +1756,7 @@ __GGB__keysVar["sv"].menu = {
     "Evaluate": "Ber\xe4kna",
     "Evaluate.Help": "Mata in eller v\xe4lj uttryck, sedan v\xe4lj verktyg",
     "ExamCAS": "GeoGebra Prov CAS",
+    "ExamCAS.short": "CAS Provl\xe4ge",
     "ExamGraphingCalc.long": "GeoGebra provgrafr\xe4knare",
     "ExamGraphingCalc.short": "Provgrafr\xe4knare",
     "ExamSimpleCalc.long": "GeoGebrar\xe4knare i provl\xe4ge",

@@ -1756,6 +1756,7 @@ __GGB__keysVar["gl"].menu = {
     "Evaluate": "Aval\xeda",
     "Evaluate.Help": "C\xe1lculo exacto",
     "ExamCAS": "Exame GeoGebra CAS",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "Calculadora Gr\xe1fica Exame GeoGebra",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

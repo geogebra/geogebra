@@ -1756,6 +1756,7 @@ __GGB__keysVar["sq"].menu = {
     "Evaluate": "Zhvillo",
     "Evaluate.Help": "Vleresim i sakte",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

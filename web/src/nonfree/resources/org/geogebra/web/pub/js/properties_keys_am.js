@@ -1756,6 +1756,7 @@ __GGB__keysVar["am"].menu = {
     "Evaluate": "\u121d\u1233\u120c\u12eb\u12ca \u130d\u121d\u1308\u121b",
     "Evaluate.Help": "Enter expression or select input, then activate tool",
     "ExamCAS": "GeoGebra \u1348\u1270\u1293 CAS",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

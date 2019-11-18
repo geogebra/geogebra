@@ -1756,6 +1756,7 @@ __GGB__keysVar["eu"].menu = {
     "Evaluate": "Hurbilketa Sinbolikoa",
     "Evaluate.Help": "Adierazpen bat idatz edota hautatu ezazu, ondoren, aktiba ezazu tresna",
     "ExamCAS": "GeoGebra-azterketa CAS Kalkulagailua",
+    "ExamCAS.short": "Azterketarako CAS",
     "ExamGraphingCalc.long": "GeoGebra-azterketaren Kalkulagailu Grafikoa",
     "ExamGraphingCalc.short": "Azterketaren Kalkulagailu Grafikoa",
     "ExamSimpleCalc.long": "GeoGebra-azterketako Kalkulagailu Zientifikoa",

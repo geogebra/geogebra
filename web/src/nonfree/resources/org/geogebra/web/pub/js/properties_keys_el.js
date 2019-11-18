@@ -1756,6 +1756,7 @@ __GGB__keysVar["el"].menu = {
     "Evaluate": "\u03a5\u03c0\u03bf\u03bb\u03bf\u03b3\u03b9\u03c3\u03bc\u03cc\u03c2",
     "Evaluate.Help": "\u0391\u03ba\u03c1\u03b9\u03b2\u03ae\u03c2 \u03c5\u03c0\u03bf\u03bb\u03bf\u03b3\u03b9\u03c3\u03bc\u03cc\u03c2",
     "ExamCAS": "GeoGebra Exam CAS",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "\u03a5\u03c0\u03bf\u03bb\u03bf\u03b3\u03b9\u03c3\u03c4\u03ae\u03c2 \u0393\u03c1\u03b1\u03c6\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 \u03c4\u03bf\u03c5 GeoGebra Exam",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "\u0391\u03c0\u03bb\u03cc\u03c2 \u03a5\u03c0\u03bf\u03bb\u03bf\u03b3\u03b9\u03c3\u03c4\u03ae\u03c2 \u03c4\u03bf\u03c5 GeoGebra Exam",

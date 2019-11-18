@@ -1756,6 +1756,7 @@ __GGB__keysVar["hr"].menu = {
     "Evaluate": "Izra\u010dunaj",
     "Evaluate.Help": "Unesite izraz ili odaberite unos pa aktivirajte alat",
     "ExamCAS": "GeoGebra Ispit - CAS kalkulator",
+    "ExamCAS.short": "Ispit CAS",
     "ExamGraphingCalc.long": "GeoGebra Ispit - Grafi\u010dki kalkulator",
     "ExamGraphingCalc.short": "Ispit - Grafi\u010dki kalkulator",
     "ExamSimpleCalc.long": "GeoGebra Ispit - Znanstveni kalkulator",

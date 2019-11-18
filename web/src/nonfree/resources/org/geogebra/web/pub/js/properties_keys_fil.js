@@ -1756,6 +1756,7 @@ __GGB__keysVar["fil"].menu = {
     "Evaluate": "Evaluate",
     "Evaluate.Help": "Exact evaluation",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

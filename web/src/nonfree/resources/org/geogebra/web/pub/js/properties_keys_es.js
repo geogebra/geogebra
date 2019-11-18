@@ -1756,6 +1756,7 @@ __GGB__keysVar["es"].menu = {
     "Evaluate": "C\xe1lculo simb\xf3lico",
     "Evaluate.Help": "Ingresa expresi\xf3n o selecciona entrada, luego activa la herramienta",
     "ExamCAS": "GeoGebra Examen Calc. CAS",
+    "ExamCAS.short": "Examen CAS",
     "ExamGraphingCalc.long": "GeoGebra Examen Calculadora Gr\xe1fica",
     "ExamGraphingCalc.short": "Examen Calc. Gr\xe1fica",
     "ExamSimpleCalc.long": "GeoGebra Examen Calculadora Cient\xedfica",

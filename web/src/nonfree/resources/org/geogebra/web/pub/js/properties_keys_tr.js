@@ -1756,6 +1756,7 @@ __GGB__keysVar["tr"].menu = {
     "Evaluate": "Simgesel De\u011ferlendirme",
     "Evaluate.Help": "\u0130fadeyi giriniz veya girdi se\xe7iniz, ard\u0131ndan arac\u0131 etkinle\u015ftiriniz",
     "ExamCAS": "GeoGebra S\u0131nav CAS Hesap Makinesi",
+    "ExamCAS.short": "S\u0131nav CAS",
     "ExamGraphingCalc.long": "GeoGebra S\u0131nav Grafik \xc7izme Hesap Makinesi",
     "ExamGraphingCalc.short": "S\u0131nav Grafik Hesap",
     "ExamSimpleCalc.long": "GeoGebra S\u0131nav Bilimsel Hesap Makinesi",

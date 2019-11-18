@@ -1756,6 +1756,7 @@ __GGB__keysVar["ms"].menu = {
     "Evaluate": "Penilaian simbolik",
     "Evaluate.Help": "Penilaian Tepat",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

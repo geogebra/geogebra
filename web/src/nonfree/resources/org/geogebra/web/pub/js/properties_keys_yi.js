@@ -1756,6 +1756,7 @@ __GGB__keysVar["yi"].menu = {
     "Evaluate": "\u05d0\u05b8\u05e4\u05bc\u05e9\u05d0\u05b7\u05e6\u05df",
     "Evaluate.Help": "\u05d2\u05e2\u05e0\u05d5\u05d9\u05e2\u05e8 \u05d7\u05e9\u05d1\u05d5\u05df",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

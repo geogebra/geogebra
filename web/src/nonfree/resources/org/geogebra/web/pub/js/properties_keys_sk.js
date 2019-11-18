@@ -1756,6 +1756,7 @@ __GGB__keysVar["sk"].menu = {
     "Evaluate": "Vyhodnoti\u0165",
     "Evaluate.Help": "Vykona\u0165 vyhodnotenie",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

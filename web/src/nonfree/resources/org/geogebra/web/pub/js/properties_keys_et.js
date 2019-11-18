@@ -1756,6 +1756,7 @@ __GGB__keysVar["et"].menu = {
     "Evaluate": "Arvuta",
     "Evaluate.Help": "T\xe4pne arvutus",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

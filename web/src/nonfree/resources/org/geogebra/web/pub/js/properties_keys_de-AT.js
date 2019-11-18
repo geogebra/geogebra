@@ -1756,6 +1756,7 @@ __GGB__keysVar["de-AT"].menu = {
     "Evaluate": "Berechne symbolisch",
     "Evaluate.Help": "Gib einen Ausdruck ein oder w\xe4hle eine Eingabe, aktiviere danach das Werkzeug",
     "ExamCAS": "GeoGebra Pr\xfcfung-CAS Rechner",
+    "ExamCAS.short": "Pr\xfcfung CAS",
     "ExamGraphingCalc.long": "GeoGebra Pr\xfcfung Grafikrechner",
     "ExamGraphingCalc.short": "Pr\xfcfung Grafikrechner",
     "ExamSimpleCalc.long": "GeoGebra Pr\xfcfung Rechner",

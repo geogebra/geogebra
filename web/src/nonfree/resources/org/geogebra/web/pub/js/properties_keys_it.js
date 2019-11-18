@@ -1756,6 +1756,7 @@ __GGB__keysVar["it"].menu = {
     "Evaluate": "Calcolo simbolico",
     "Evaluate.Help": "Inserisci un'espressione o seleziona un inserimento, quindi attiva lo strumento",
     "ExamCAS": "Calc. GeoGebra Esame - CAS",
+    "ExamCAS.short": "Esame - CAS",
     "ExamGraphingCalc.long": "Calcolatrice grafica GeoGebra Esame",
     "ExamGraphingCalc.short": "Calc Esame - Grafici",
     "ExamSimpleCalc.long": "Calcolatrice scientifica GeoGebra Esame",
