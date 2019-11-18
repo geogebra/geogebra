@@ -74,4 +74,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.CAS;
 	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "ExamCAS.short";
+	}
 }

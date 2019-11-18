@@ -10,35 +10,35 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
  */
 public class AppConfigScientific extends AppConfigGraphing {
 
-    @Override
-    public String getAppTitle() {
-        return "ScientificCalculator";
-    }
+	@Override
+	public String getAppTitle() {
+		return "ScientificCalculator";
+	}
 
-    @Override
-    public String getAppName() {
-        return "GeoGebraScientificCalculator";
-    }
+	@Override
+	public String getAppName() {
+		return "GeoGebraScientificCalculator";
+	}
 
-    @Override
-    public String getAppNameShort() {
-        return "ScientificCalculator.short";
-    }
+	@Override
+	public String getAppNameShort() {
+		return "ScientificCalculator.short";
+	}
 
-    @Override
-    public String getTutorialKey() {
-        return "TutorialScientific";
-    }
+	@Override
+	public String getTutorialKey() {
+		return "TutorialScientific";
+	}
 
 	@Override
 	public boolean allowsSuggestions() {
 		return false;
 	}
 
-    @Override
+	@Override
 	public boolean isGreekAngleLabels() {
 		return false;
-    }
+	}
 
 	@Override
 	public String getForcedPerspective() {
@@ -83,5 +83,15 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.SCIENTIFIC;
+	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
 	}
 }

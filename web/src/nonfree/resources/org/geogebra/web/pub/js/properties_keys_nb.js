@@ -1756,6 +1756,7 @@ __GGB__keysVar["nb"].menu = {
     "Evaluate": "Symbolsk utregning",
     "Evaluate.Help": "Skriv inn uttrykk eller velg input og aktiver deretter verkt\xf8yet",
     "ExamCAS": "Pr\xf8vekalkulator CAS",
+    "ExamCAS.short": "CAS for pr\xf8vemodulen",
     "ExamGraphingCalc.long": "GeoGebra grafisk kalkulator for pr\xf8ver",
     "ExamGraphingCalc.short": "Pr\xf8vekalkulator grafisk",
     "ExamSimpleCalc.long": "Pr\xf8vekalkulator",

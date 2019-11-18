@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
@@ -96,8 +97,8 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 			message = loc.getMenu(messageKey);
 			break;
 		case PERMISSION_DENIED:
-			messageKey = settings.getMenuLocalizationKey("Webcam.Denied.Message");
-			caption = loc.getMenu("Webcam.Denied.Caption");
+			messageKey = settings.getMenuLocalizationKey(getPermissionDeniedMessageKey());
+			caption = loc.getMenu(getPermissionDeniedTitleKey());
 			message = loc.getMenu(messageKey);
 			break;
 		case ERROR:
@@ -136,4 +137,15 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
 	}
+
+	private String getPermissionDeniedTitleKey() {
+		return Browser.isElectron() && Browser.isMacOS() && !app1.isMebis() ? "permission.camera"
+				+ ".denied" : "Webcam.Denied.Caption";
+	}
+
+	private String getPermissionDeniedMessageKey() {
+		return Browser.isElectron() && Browser.isMacOS() && !app1.isMebis() ? "permission"
+				+ ".request" : "Webcam.Denied.Message";
+	}
+
 }

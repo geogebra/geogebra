@@ -1756,6 +1756,7 @@ __GGB__keysVar["uz"].menu = {
     "Evaluate": "Symbolic Evaluation",
     "Evaluate.Help": "Ifodani kiriting yoki kiritishni tanlang, keyin asbobni faollashtiring",
     "ExamCAS": "GeoGebra imtihon CAS kalkulyatori",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Imtihon muhandislik kalkulyatori",
     "ExamGraphingCalc.short": "Imtihon Grafik kalkulyatori",
     "ExamSimpleCalc.long": "GeoGebra Imtihon muhandislik kalkulatori",

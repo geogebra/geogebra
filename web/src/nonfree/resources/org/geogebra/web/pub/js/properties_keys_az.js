@@ -1756,6 +1756,7 @@ __GGB__keysVar["az"].menu = {
     "Evaluate": "Symbolic Evaluation",
     "Evaluate.Help": "Enter expression or select input, then activate tool",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

@@ -1756,6 +1756,7 @@ __GGB__keysVar["ro"].menu = {
     "Evaluate": "Evaluare simbolic\u0103",
     "Evaluate.Help": "Introduce\u021bi expresia sau selecta\u021bi datele introduse, apoi activa\u021bi unealta",
     "ExamCAS": "Calculator CAS GeoGebra pentru Examen",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "Calculator de Grafice GeoGebra pentru Examen",
     "ExamGraphingCalc.short": "Calculat. de Grafice pt. Examen",
     "ExamSimpleCalc.long": "Calculator \u0218tiin\u021bific GeoGebra pentru Examen",

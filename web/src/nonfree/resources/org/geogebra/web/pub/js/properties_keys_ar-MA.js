@@ -1756,6 +1756,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "Evaluate": "\u062a\u0642\u064a\u064a\u0645",
     "Evaluate.Help": "\u062a\u0642\u064a\u064a\u0645 \u062a\u0627\u0645",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "\u062d\u0627\u0633\u0628\u0629 \u062c\u064a\u0648\u062c\u0628\u0631\u0627 \u0627\u0644\u0639\u0644\u0645\u064a\u0629 \u0644\u0644\u0627\u062e\u062a\u0628\u0627\u0631",

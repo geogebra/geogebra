@@ -1756,6 +1756,7 @@ __GGB__keysVar["vi"].menu = {
     "Evaluate": "\u01af\u1edbc l\u01b0\u1ee3ng",
     "Evaluate.Help": "\u01af\u1edbc l\u01b0\u1ee3ng chu\u1ea9n",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

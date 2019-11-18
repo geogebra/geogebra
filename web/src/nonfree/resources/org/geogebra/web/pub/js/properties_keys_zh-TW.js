@@ -1756,6 +1756,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Evaluate": "\u4ee3\u6578\u904b\u7b97",
     "Evaluate.Help": "\u6c42\u7cbe\u78ba\u503c",
     "ExamCAS": "GeoGebra \u6e2c\u9a57\u4ee3\u6578\u904b\u7b97\u5668",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra \u6e2c\u9a57\u7e6a\u5716\u8a08\u7b97\u6a5f",
     "ExamGraphingCalc.short": "\u6e2c\u9a57\u7e6a\u5716\u8a08\u7b97\u6a5f",
     "ExamSimpleCalc.long": "GeoGebra \u6e2c\u9a57\u79d1\u5b78\u8a08\u7b97\u6a5f",

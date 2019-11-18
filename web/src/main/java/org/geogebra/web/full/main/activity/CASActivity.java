@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
@@ -47,4 +48,8 @@ public class CASActivity extends BaseActivity {
 		kernel.getParser().setHighPrecisionParsing(true);
 	}
 
+	@Override
+	public SVGResource getExamIcon() {
+		return MaterialDesignResources.INSTANCE.exam_cas();
+	}
 }

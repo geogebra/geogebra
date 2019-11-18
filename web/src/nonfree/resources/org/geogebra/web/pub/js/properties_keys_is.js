@@ -1756,6 +1756,7 @@ __GGB__keysVar["is"].menu = {
     "Evaluate": "N\xe1kv\xe6mt gildi",
     "Evaluate.Help": "Setji\xf0 inn st\xe6\xf0u e\xf0a velji\xf0 inntak, virki\xf0 \xfev\xed n\xe6st verkf\xe6ri",
     "ExamCAS": "GeoGebra CAS \xed pr\xf3faham",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Pr\xf3fhamur graf\xedsks vasareiknis",
     "ExamGraphingCalc.short": "Graf\xedskur vasareiknir \xed pr\xf3fham",
     "ExamSimpleCalc.long": "Pr\xf3fhamur einfalds GeoGebra vasareiknis",

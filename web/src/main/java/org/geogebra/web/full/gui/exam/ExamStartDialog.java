@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author csilla
  * 
- *         dialog to enter in graphing calc exam mode
+ *         dialog to enter in graphing or cas calc exam mode
  *
  */
 public class ExamStartDialog extends DialogBoxW

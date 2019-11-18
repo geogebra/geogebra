@@ -1756,6 +1756,7 @@ __GGB__keysVar["xh"].menu = {
     "Evaluate": "uLinganiso loPhononongo",
     "Evaluate.Help": "UfunoLwexabiso oluchanekileyo",
     "ExamCAS": "iCAS Calculator yemviwo zeJiyo",
+    "ExamCAS.short": "I Exam CAS",
     "ExamGraphingCalc.long": "I Graphing Calculator ka GeoGebra",
     "ExamGraphingCalc.short": "iGraphing Calc ye Exam",
     "ExamSimpleCalc.long": "I Scientific Calculator ka Jiyo",

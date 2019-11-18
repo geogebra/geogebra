@@ -214,4 +214,14 @@ public class AppConfigDefault implements AppConfig {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.GRAPHING;
 	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
 }

@@ -1756,6 +1756,7 @@ __GGB__keysVar["fi"].menu = {
     "Evaluate": "Tarkka arvo",
     "Evaluate.Help": "Anna lauseke tai valitse sy\xf6te ja sitten ty\xf6kalu",
     "ExamCAS": "GeoGebra koetilan CAS-laskin",
+    "ExamCAS.short": "Koetila CAS",
     "ExamGraphingCalc.long": "GeoGebra Koe Graphing Calculator",
     "ExamGraphingCalc.short": "Koetilan graafinen laskin",
     "ExamSimpleCalc.long": "GeoGebra koetilan peruslaskin",

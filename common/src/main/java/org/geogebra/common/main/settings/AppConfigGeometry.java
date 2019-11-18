@@ -220,4 +220,14 @@ public class AppConfigGeometry implements AppConfig {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.GEOMETRY;
 	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
 }

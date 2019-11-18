@@ -293,6 +293,8 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void remove(DrawEmbed draw) {
 		EmbedElement frame = widgets.get(draw);
+		draw.getGeoEmbed().setBackground(true);
+		toggleBackground(frame, draw);
 		frame.setVisible(false);
 		widgets.remove(draw);
 		cache.put(draw.getEmbedID(), frame);

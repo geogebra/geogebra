@@ -1756,6 +1756,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Evaluate": "Bereken exact",
     "Evaluate.Help": "Exacte berekening",
     "ExamCAS": "GeoGebra Examen CAS",
+    "ExamCAS.short": "Examen CAS",
     "ExamGraphingCalc.long": "GeoGebra Examen Grafische rekenmachine",
     "ExamGraphingCalc.short": "Examen Grafisch rekenmachine",
     "ExamSimpleCalc.long": "GeoGebra Examen rekenmachine",

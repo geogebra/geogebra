@@ -1756,6 +1756,7 @@ __GGB__keysVar["hu"].menu = {
     "Evaluate": "Szimbolikus ki\xe9rt\xe9kel\xe9s",
     "Evaluate.Help": "Pontos ki\xe9rt\xe9kel\xe9s",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
+    "ExamCAS.short": "Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Vizsga Rajzol\xf3",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",

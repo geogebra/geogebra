@@ -25,7 +25,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ExamLogAndExitDialog extends DialogBoxW
 		implements FastClickHandler, SetLabels {
-	private AppW appW;
 	private AsyncOperation<String> returnHandler;
 	private FlowPanel dialog;
 	// components of title panel
@@ -66,7 +65,6 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			AsyncOperation<String> returnHandler, Widget anchor) {
 		super(app.getPanel(), app);
-		this.appW = app;
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
 		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
@@ -81,21 +79,21 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		// build content panel
 		scrollPanel = new ScrollPanel();
 		contentPanel = new FlowPanel();
-		contentPanel.setStyleName(appW.getExam().isCheating() && isLogDialog
+		contentPanel.setStyleName(app.getExam().isCheating() && isLogDialog
 				? "contentPanel cheating" : "contentPanel");
 		buildContent(isLogDialog);
 		scrollPanel.add(contentPanel);
 		// build button panel
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		if ((appW.getExam().isCheating() && !isLogDialog)
+		if ((app.getExam().isCheating() && !isLogDialog)
 				|| (isLogDialog && activityPanel != null
 						&& activityPanel.getWidgetCount() > 7)) {
 			buttonPanel.addStyleName("withDivider");
 		}
-		okBtn = new StandardButton("", appW);
+		okBtn = new StandardButton("", app);
 		okBtn.addFastClickHandler(this);
-		exitBtn = new StandardButton("", appW);
+		exitBtn = new StandardButton("", app);
 		exitBtn.addFastClickHandler(this);
 		buttonPanel.add(isLogDialog ? okBtn : exitBtn);
 		// build whole dialog
@@ -114,7 +112,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		examTitle = new Label("");
 		examTitle.setStyleName("examTitle");
 		titlePanel.add(calcType);
-		if (appW.getExam().isCheating()) {
+		if (app.getExam().isCheating()) {
 			titlePanel.addStyleName("cheating");
 			alertImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.exam_error(), 24);
@@ -135,7 +133,7 @@ public class ExamLogAndExitDialog extends DialogBoxW
 		if (!isLogDialog) {
 			contentPanel.add(buildBlock(endTimeLbl, endTime));
 		}
-		if (appW.getExam().isCheating()) {
+		if (app.getExam().isCheating()) {
 			activityPanel = buildActivityPanel(isLogDialog);
 			contentPanel.add(buildBlock(activityLbl, activityPanel));
 		}
@@ -143,8 +141,8 @@ public class ExamLogAndExitDialog extends DialogBoxW
 
 	private FlowPanel buildActivityPanel(boolean isLogDialog) {
 		activityPanel = new FlowPanel();
-		appW.getExam()
-				.appendLogTimes(appW.getLocalization(), new ExamLogBuilder() {
+		app.getExam()
+				.appendLogTimes(app.getLocalization(), new ExamLogBuilder() {
 					@Override
 					public void addLine(StringBuilder sb) {
 						addActivity(new Label(sb.toString()));
@@ -174,24 +172,23 @@ public class ExamLogAndExitDialog extends DialogBoxW
 	@Override
 	public void setLabels() {
 		// title panel
-		calcType.setText("GeoGebra "
-				+ appW.getLocalization().getMenu("exam_calctype_graphing"));
-		examTitle.setText(ExamUtil.status(appW));
+		calcType.setText(app.getLocalization().getMenu(app.getConfig().getAppName()));
+		examTitle.setText(ExamUtil.status((AppW) app));
 		// content panel
-		teacherText.setText(appW.getLocalization()
+		teacherText.setText(app.getLocalization()
 				.getMenu("exam_log_show_screen_to_teacher"));
-		durationLbl.setText(appW.getLocalization().getMenu("Duration"));
-		duration.setText(appW.getExam().getElapsedTimeLocalized());
-		dateLbl.setText(appW.getLocalization().getMenu("exam_start_date"));
-		date.setText(appW.getExam().getDate());
-		startTimeLbl.setText(appW.getLocalization().getMenu("exam_start_time"));
-		startTime.setText(appW.getExam().getStartTime());
-		endTimeLbl.setText(appW.getLocalization().getMenu("exam_end_time"));
-		endTime.setText(appW.getExam().getEndTime());
-		activityLbl.setText(appW.getLocalization().getMenu("exam_activity"));
+		durationLbl.setText(app.getLocalization().getMenu("Duration"));
+		duration.setText(app.getExam().getElapsedTimeLocalized());
+		dateLbl.setText(app.getLocalization().getMenu("exam_start_date"));
+		date.setText(app.getExam().getDate());
+		startTimeLbl.setText(app.getLocalization().getMenu("exam_start_time"));
+		startTime.setText(app.getExam().getStartTime());
+		endTimeLbl.setText(app.getLocalization().getMenu("exam_end_time"));
+		endTime.setText(app.getExam().getEndTime());
+		activityLbl.setText(app.getLocalization().getMenu("exam_activity"));
 		// button panel
-		exitBtn.setText(appW.getLocalization().getMenu("Exit"));
-		okBtn.setText(appW.getLocalization().getMenu("OK"));
+		exitBtn.setText(app.getLocalization().getMenu("Exit"));
+		okBtn.setText(app.getLocalization().getMenu("OK"));
 	}
 
 	@Override
@@ -214,13 +211,13 @@ public class ExamLogAndExitDialog extends DialogBoxW
 
 	@Override
 	public void onCancel() {
-		if (appW.getGuiManager() instanceof GuiManagerW
-				&& ((GuiManagerW) appW.getGuiManager())
+		if (app.getGuiManager() instanceof GuiManagerW
+				&& ((GuiManagerW) app.getGuiManager())
 						.getUnbundledToolbar() != null) {
-			((GuiManagerW) appW.getGuiManager()).getUnbundledToolbar()
+			((GuiManagerW) app.getGuiManager()).getUnbundledToolbar()
 					.resetHeaderStyle();
 		}
-		appW.getLAF().toggleFullscreen(false);
+		((AppW) app).getLAF().toggleFullscreen(false);
 		hide();
 		returnHandler.callback("exit");
 	}
