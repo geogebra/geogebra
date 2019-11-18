@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import com.google.gwt.canvas.client.Canvas;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -22,20 +23,19 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.canvas.client.Canvas;
-
 /**
  * Exit exam action
  */
 public class ExitExamAction extends MenuAction<Void> {
-	private static final double PADDING = 24;
-	/** Canvas line height */
+	/**
+	 * Canvas line height
+	 */
 	protected static final int LINE_HEIGHT = 24;
+	private static final double PADDING = 24;
 	private AppW app;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
 	public ExitExamAction(AppW app) {
 		super("exam_menu_exit", MaterialDesignResources.INSTANCE.signout_black());
@@ -181,9 +181,10 @@ public class ExitExamAction extends MenuAction<Void> {
 	/**
 	 * Exit exam and restore normal mode
 	 */
-	protected void exitAndResetExamGraphing() {
+	protected void exitAndResetExamOffline() {
 		getApp().getLAF().toggleFullscreen(false);
-		saveScreenshot(getApp().getLocalization().getMenu("ExamGraphingCalc.long"));
+		saveScreenshot(getApp().getLocalization().getMenu((getApp().getConfig()
+				.getAppName())));
 		getApp().fileNew();
 		resetAfterExam();
 	}
@@ -195,14 +196,14 @@ public class ExitExamAction extends MenuAction<Void> {
 		Localization loc = app.getLocalization();
 		// set Firefox dom.allow_scripts_to_close_windows in about:config to
 		// true to make this work
-		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
+		String[] optionNames = {loc.getMenu("Cancel"), loc.getMenu("Exit")};
 
-		if (getApp().isUnbundledGraphing()) {
+		if (getApp().getConfig().hasExam()) {
 			new ExamExitConfirmDialog(getApp(), new AsyncOperation<String>() {
 				@Override
 				public void callback(String obj) {
 					if ("exit".equals(obj)) {
-						exitAndResetExamGraphing();
+						exitAndResetExamOffline();
 					}
 				}
 			}).show();

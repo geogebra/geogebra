@@ -214,7 +214,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public boolean isGraphingExamSupported() {
+	public boolean isOfflineExamSupported() {
 		return false;
 	}
 
