@@ -99,21 +99,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return ((GeoText) linkedGeo).getTextString();
 		}
 
-		String linkedGeoText;
-
-		if (linkedGeo.isGeoNumeric()) {
-			GeoNumeric numeric = (GeoNumeric) linkedGeo;
-
-			if (!numeric.isDefined() || isSymbolicMode() && numeric.isSymbolicMode()) {
-				linkedGeoText = numeric.getRedefineString(true, true);
-			} else if (numeric.isSymbolicMode()) {
-				linkedGeoText = numeric.getValueForInputBar();
-			} else {
-				linkedGeoText = numeric.toValueString(tpl);
-			}
-		} else {
-			linkedGeoText = linkedGeo.getRedefineString(true, true);
-		}
+		String linkedGeoText = linkedGeo.getRedefineString(true, true);
 
 		if ("?".equals(linkedGeoText)) {
 			return "";
@@ -134,16 +120,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		String linkedGeoText;
 
-		if (linkedGeo.isGeoNumeric()) {
-			if (symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
-					&& !((GeoNumeric) linkedGeo).isSimple()) {
-				linkedGeoText = toLaTex();
-			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
-				linkedGeoText = linkedGeo.toValueString(tpl);
-			} else {
-				linkedGeoText = linkedGeo.getRedefineString(true, true);
-			}
-		} else if (isSymbolicMode()) {
+		if (isSymbolicMode()) {
 			linkedGeoText = toLaTex();
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
@@ -262,7 +239,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *            new value for linkedGeo
 	 */
 	public void updateLinkedGeo(String inputText) {
-		inputBoxProcessor.updateLinkedGeo(inputText, tpl, printDecimals > -1 || printFigures > -1);
+		inputBoxProcessor.updateLinkedGeo(inputText, tpl);
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,7 +27,7 @@ public class CmdSetValue extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -68,7 +69,7 @@ public class CmdSetValue extends CmdScripting {
 
 	/**
 	 * sets a value of a list (or extends the list if you set element n+1)
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param list
@@ -151,7 +152,7 @@ public class CmdSetValue extends CmdScripting {
 
 	/**
 	 * sets arg[0] to arg[1]
-	 * 
+	 *
 	 * @param arg0
 	 *            target
 	 * @param arg1

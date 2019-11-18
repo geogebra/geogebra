@@ -90,39 +90,18 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
 		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-		updateInput("1 + 1 / 5");
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
 		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 	}
 
 	@Test
-	public void symbolicShouldSupportDecimals() {
-		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
-		updateInput("1 + 1 / 5");
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
-	}
-
-	@Test
-	public void nonsymbolicShouldSupportFractions() {
+	public void nonsymbolicShouldShowDefinition() {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(false, false);
-		inputBox.updateRepaint();
-		Assert.assertEquals("6 / 5", inputBox.getTextForEditor());
-		updateInput("1 + 1/5");
-		Assert.assertEquals("6 / 5", inputBox.getTextForEditor());
-	}
-
-	@Test
-	public void nonsymbolicShouldSupportDecimals() {
-		setupInput("l", "1 + 1 / 5");
+		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
-		updateInput("1 + 1/5");
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
+		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 	}
 
 	private void t(String input, String... expected) {
