@@ -162,5 +162,15 @@ public interface AppConfig {
 	 * @return app version
 	 */
 	GeoGebraConstants.Version getVersion();
+
+	/**
+	 * @return weather has exam or not (currently only graphing and cas)
+	 */
+	boolean hasExam();
+
+	/**
+	 * @return the ggbtranskey for the exam starting menu item in the MainMenu
+	 */
+	String getExamMenuItemText();
 }
 

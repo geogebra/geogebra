@@ -20,7 +20,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -49,7 +48,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardListener;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
@@ -66,7 +64,6 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
-import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -91,7 +88,6 @@ import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
-import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
@@ -115,7 +111,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -127,7 +122,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
@@ -175,7 +169,6 @@ public class GuiManagerW extends GuiManager
 	private boolean listeningToLogin = false;
 	private ToolBarW toolbarForUpdate = null;
 	private DataCollectionView dataCollectionView;
-	private VirtualKeyboardGUI onScreenKeyboard;
 	private GeoGebraFrameFull frame;
 
 	private int activeViewID;
@@ -693,20 +686,10 @@ public class GuiManagerW extends GuiManager
 			@Override
 			public void execute() {
 				getApp().centerAndResizeViews();
-				resizeKeyboard();
+				getApp().getKeyboardManager().resizeKeyboard();
 			}
 
 		});
-	}
-
-	/**
-	 * Update keyboard size.
-	 */
-	protected void resizeKeyboard() {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.updateSize();
-			onScreenKeyboard.setStyleName();
-		}
 	}
 
 	private ToolBarW getGeneralToolbar() {
@@ -2150,55 +2133,6 @@ public class GuiManagerW extends GuiManager
 		return "";
 	}
 
-	@Override
-	public boolean getKeyboardShouldBeShownFlag() {
-		return onScreenKeyboard != null && onScreenKeyboard.shouldBeShown();
-	}
-
-	/**
-	 * Return a keyboard and connected to given textfield.
-	 *
-	 * @param textField
-	 *            textfield adapter
-	 * @param listener
-	 *            open/close listener
-	 * @return keyboard
-	 */
-	public VirtualKeyboardGUI getOnScreenKeyboard(
-			MathKeyboardListener textField,
-			UpdateKeyBoardListener listener) {
-		if (onScreenKeyboard == null) {
-			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
-					&& !getApp().getKeyboardManager().shouldDetach();
-			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
-					keyboardIsScientific(), showMoreButton);
-		}
-
-		if (textField != null) {
-			setOnScreenKeyboardTextField(textField);
-		}
-
-		onScreenKeyboard.setListener(listener);
-		return onScreenKeyboard;
-	}
-
-	private boolean keyboardIsScientific() {
-		ArticleElementInterface articleElement = ((AppW) app).getArticleElement();
-
-		if ("evaluator".equals(articleElement.getDataParamAppName())) {
-			return "scientific".equals(articleElement.getParamKeyboardType("normal"));
-		}
-
-		return app.getConfig().hasScientificKeyboard();
-	}
-
-	@Override
-	public void updateKeyboardLanguage() {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.checkLanguage();
-		}
-	}
-
 	/**
 	 * Create keyboard adapter for text editing object.
 	 *
@@ -2234,23 +2168,6 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return null;
-	}
-
-	@Override
-	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard
-				.setProcessing(
-							makeKeyboardListener(textField,
-									AlgebraItem.getLastItemProvider(app)));
-		}
-	}
-
-	@Override
-	public void onScreenEditingEnded() {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.endEditing();
-		}
 	}
 
 	@Override
@@ -2428,13 +2345,6 @@ public class GuiManagerW extends GuiManager
 				.setToolMode(false);
 	}
 
-	@Override
-	public void addKeyboardAutoHidePartner(GPopupPanel popup) {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.addAutoHidePartner(popup);
-		}
-	}
-
 	/**
 	 * Open settings menu for geo element in AV.
 	 */
@@ -2443,12 +2353,6 @@ public class GuiManagerW extends GuiManager
 		if (getApp().isUnbundled() && hasAlgebraView()) {
 			getAlgebraView().openMenuFor(geo);
 		}
-	}
-
-	@Override
-	public boolean isKeyboardClosedByUser() {
-		return this.onScreenKeyboard != null
-				&& !this.onScreenKeyboard.shouldBeShown();
 	}
 
 	@Override

@@ -1422,7 +1422,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void updateBackgroundIfNecessary() {
 		if (updateBackgroundOnNextRepaint) {
-			this.updateBackgroundImage();
+			updateBackgroundImage();
 		}
 		updateBackgroundOnNextRepaint = false;
 	}

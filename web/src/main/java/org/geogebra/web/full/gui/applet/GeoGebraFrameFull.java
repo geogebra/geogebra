@@ -36,7 +36,6 @@ import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -251,13 +250,12 @@ public class GeoGebraFrameFull
 		}
 
 		if (this.isKeyboardShowing() == show) {
-			getGuiManager().setOnScreenKeyboardTextField(textField);
+			getKeyboardManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
 
-		GuiManagerInterfaceW gm = getGuiManager();
-		if (gm != null && !show) {
-			gm.onScreenEditingEnded();
+		if (!show) {
+			getKeyboardManager().onScreenEditingEnded();
 		}
 
 		// this.mainPanel.clear();
@@ -327,7 +325,7 @@ public class GeoGebraFrameFull
 	 *            whether to animate the keyboard in
 	 */
 	void addKeyboard(final MathKeyboardListener textField, boolean animated) {
-		final VirtualKeyboardW keyboard = getOnScreenKeyboard(textField);
+		final VirtualKeyboardGUI keyboard = getOnScreenKeyboard(textField);
 		if (keyboard == null) {
 			return;
 		}
@@ -347,8 +345,7 @@ public class GeoGebraFrameFull
 			app.addAsAutoHidePartnerForPopups(keyboard.asWidget().getElement());
 		}
 		CancelEventTimer.keyboardSetVisible();
-		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
-		this.add(keyboard);
+		getApp().getKeyboardManager().addKeyboard(this);
 		Runnable callback = new Runnable() {
 
 			@Override
@@ -371,7 +368,6 @@ public class GeoGebraFrameFull
 				}
 			}
 		};
-		getApp().getKeyboardManager().updateStyle(keyboard);
 		if (animated) {
 			keyboard.afterShown(callback);
 		} else {
@@ -410,20 +406,20 @@ public class GeoGebraFrameFull
 	 * @param keyBoard
 	 *            keyboard
 	 */
-	protected void onKeyboardAdded(final VirtualKeyboardW keyBoard) {
+	protected void onKeyboardAdded(final VirtualKeyboardGUI keyBoard) {
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
 		if (keyboardManager.shouldDetach()) {
 			keyboardHeight = 0;
 		} else {
 			keyboardHeight = keyboardManager
-				.estimateKeyboardHeight(keyBoard);
+					.estimateKeyboardHeight();
 		}
 
 		app.updateSplitPanelHeight();
 
 		// TODO maybe too expensive?
 		app.updateCenterPanelAndViews();
-		add(keyBoard);
+		keyboardManager.addKeyboard(this);
 		keyBoard.setVisible(true);
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
@@ -493,18 +489,21 @@ public class GeoGebraFrameFull
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| ((getGuiManager() != null
-						&& getGuiManager().getKeyboardShouldBeShownFlag())
-						|| (app.isApplet() && app.isShowToolbar()
-								&& app.getActiveEuclidianView()
-								.getEuclidianController()
-								.modeNeedsKeyboard()))) {
+				|| getKeyboardManager().shouldKeyboardBeShown()
+				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
 			return true;
 		}
 		showKeyboardButton(textField);
 		return false;
 
+	}
+
+	private boolean keyboardNeededForGraphicsTools() {
+		return app.isApplet() && app.isShowToolbar()
+				&& app.getActiveEuclidianView()
+				.getEuclidianController()
+						.modeNeedsKeyboard();
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
@@ -578,7 +577,8 @@ public class GeoGebraFrameFull
 					&& isKeyboardWantedFromCookie()) {
 				if (!app.isStartedWithFile()
 						&& !app.getArticleElement().preventFocus()) {
-					if (getGuiManager().isKeyboardClosedByUser()) {
+					if (getKeyboardManager()
+							.isKeyboardClosedByUser()) {
 						ensureKeyboardEditing();
 						return;
 					}
@@ -615,13 +615,14 @@ public class GeoGebraFrameFull
 		}
 	}
 
+	private KeyboardManager getKeyboardManager() {
+		return getApp().getKeyboardManager();
+	}
+
 	private VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField) {
-		if (getGuiManager() != null) {
-			return getGuiManager()
-					.getOnScreenKeyboard(textField, this);
-		}
-		return null;
+		return getApp().getKeyboardManager().getOnScreenKeyboard(textField,
+				this);
 	}
 
 	/**
@@ -656,7 +657,7 @@ public class GeoGebraFrameFull
 				.getKeyboardListener(dm.getPanelForKeyboard());
 		dm.setFocusedPanel(dm.getPanelForKeyboard());
 
-		guiManager.setOnScreenKeyboardTextField(ml);
+		getKeyboardManager().setOnScreenKeyboardTextField(ml);
 
 		if (ml != null) {
 			ml.setFocus(true, true);
@@ -681,7 +682,7 @@ public class GeoGebraFrameFull
 		KeyboardManager keyboardManager = getApp().getKeyboardManager();
 		if (isKeyboardShowing() && !keyboardManager.shouldDetach()) {
 			int newHeight = keyboardManager
-					.estimateKeyboardHeight(getOnScreenKeyboard(null));
+					.estimateKeyboardHeight();
 
 			if (newHeight > 0) {
 				app.updateSplitPanelHeight();

@@ -1,8 +1,9 @@
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -14,7 +15,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
  * handle dummy cursor on android
  *
  */
-public class DummyCursor {
+public class DummyCursor implements FocusHandler, BlurHandler {
 	/** application */
 	protected AppW app;
 	/** text field */
@@ -95,18 +96,8 @@ public class DummyCursor {
 			// avoid native keyboard opening
 			textField.setReadOnly(true);
 		}
-		textField.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(textField, app);
-			}
-		});
-		textField.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				FieldHandler.focusLost(textField, app);
-			}
-		});
+		textField.addFocusHandler(this);
+		textField.addBlurHandler(this);
 	}
 
 	/**
@@ -114,5 +105,29 @@ public class DummyCursor {
 	 */
 	public boolean isActive() {
 		return dummyActive;
+	}
+
+	@Override
+	public void onFocus(FocusEvent event) {
+		if (!app.isWhiteboardActive() && textField != null) {
+			app.showKeyboard(textField, false);
+			textField.startOnscreenKeyboardEditing();
+		}
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		if (!app.isWhiteboardActive()) {
+			textField.endOnscreenKeyboardEditing();
+			if (CancelEventTimer.cancelKeyboardHide()) {
+				return;
+			}
+			KeyboardManagerInterface kbManager = app.getKeyboardManager();
+			if (app.hasPopup() && kbManager != null) {
+				kbManager.setOnScreenKeyboardTextField(null);
+				return;
+			}
+			app.hideKeyboard();
+		}
 	}
 }
