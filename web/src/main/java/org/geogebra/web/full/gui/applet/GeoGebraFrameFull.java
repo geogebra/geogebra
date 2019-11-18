@@ -525,19 +525,16 @@ public class GeoGebraFrameFull
 
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
-			boolean isButtonNeeded = getGuiManager().hasKeyboardListener()
-					&& !isKeyboardWantedFromCookie() && isTextFieldFocused(textField);
-			showKeyboardButton.show(isButtonNeeded, textField);
+			showKeyboardButton.show(isButtonNeeded(textField), textField);
 			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
 	}
 
-
-	private boolean isTextFieldFocused(MathKeyboardListener textField) {
-		if(textField instanceof RetexKeyboardListener) {
-			return ((RetexKeyboardListener) textField).getMathField().hasFocus();
-		} else if (textField instanceof RadioTreeItem) {
-			return ((RadioTreeItem) textField).getMathField().hasFocus();
+	private boolean isButtonNeeded(MathKeyboardListener textField) {
+		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
+		if (textField != null && keyboardListener != null) {
+			return !isKeyboardWantedFromCookie()
+					&& (textField.hasFocus() || keyboardListener.hasFocus());
 		}
 
 		return false;

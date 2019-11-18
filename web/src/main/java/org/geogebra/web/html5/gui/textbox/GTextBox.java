@@ -30,6 +30,7 @@ public class GTextBox extends TextBox
 	protected boolean isAltKeyDown;
 	protected boolean isShiftKeyDown;
 	protected boolean isMetaKeyDown;
+	private  boolean isFocused = false;
 
 	public GTextBox(Element e) {
 		super(e);
@@ -95,12 +96,18 @@ public class GTextBox extends TextBox
 
 	@Override
 	public void setFocus(boolean b, boolean sv) {
+		isFocused = b;
 		this.setFocus(b);
 	}
 
 	@Override
 	public boolean needsAutofocus() {
 		return false;
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return isFocused;
 	}
 
 	@Override
