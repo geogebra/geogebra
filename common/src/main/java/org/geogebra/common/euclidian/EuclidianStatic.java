@@ -631,6 +631,8 @@ public class EuclidianStatic {
 		// draw text line by line
 		int lineBegin = 0;
 		int length = labelDesc.length();
+		// fix jumping text in mow text editor
+		int yPos = yLabel + (app.has(Feature.MOW_TEXT_TOOL) ? 2 : 0);
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 
@@ -639,7 +641,7 @@ public class EuclidianStatic {
 
 				// end of line reached: draw this line
 				g2.drawString(labelDesc.substring(lineBegin, i), xLabel,
-						yLabel + lines * lineSpread);
+						yPos);
 
 				int width = (int) textWidth(labelDesc.substring(lineBegin, i),
 						font, frc);
@@ -649,15 +651,14 @@ public class EuclidianStatic {
 
 				lines++;
 				lineBegin = i + 1;
+				yPos += lineSpread;
 			}
 		}
-
-		double ypos = yLabel + lines * lineSpread;
 
 		// iOS (bug?) - bold text needs font setting for each line
 		g2.setFont(font);
 
-		g2.drawString(labelDesc.substring(lineBegin), xLabel, ypos);
+		g2.drawString(labelDesc.substring(lineBegin), xLabel, yPos);
 
 		int width = (int) textWidth(labelDesc.substring(lineBegin), font, frc);
 		if (width > xoffset) {

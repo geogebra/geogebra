@@ -82,7 +82,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 								.setPopupPosition(
 										(int) getApp().getWidth() - offsetWidth,
 										y);
-						contextMenu.focusDeferred();
+						contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
 					}
 				});
 	}

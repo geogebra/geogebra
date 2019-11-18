@@ -34,7 +34,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.componentStyles());
 		StyleInjector.inject(stylesProvider.dialogStylesScss());
-		StyleInjector.inject(GuiResources.INSTANCE.settingsStyleScss());
+		StyleInjector.inject(stylesProvider.settingsStyleScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
 

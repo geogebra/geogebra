@@ -399,6 +399,8 @@ public class EuclidianViewCompanion {
 					view.getShapeRectangle());
 		}
 
+		view.drawMaskPreview(g2);
+
 		if (view.getShapeEllipse() != null) {
 			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
 					view.getShapeStroke(), view.getShapeEllipse());

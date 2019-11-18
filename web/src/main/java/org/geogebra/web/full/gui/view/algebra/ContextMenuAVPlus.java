@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 
@@ -171,7 +169,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	 */
 	public void show(GPoint p) {
 		wrappedPopup.show(p);
-		focusDeferred();
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
 	/**
@@ -184,16 +182,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
-		focusDeferred();
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-			}
-		});
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -87,8 +87,7 @@ public class CmdPolyLine extends CommandProcessor {
 				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
 						vec.getY().evaluateDouble()));
 			}
-			AlgoElement algo = kernel.getAlgoDispatcher()
-					.getStrokeAlgo(myPoints);
+			AlgoLocusStroke algo = new AlgoLocusStroke(cons, myPoints);
 			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
 		}

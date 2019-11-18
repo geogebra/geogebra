@@ -6,8 +6,12 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.MyMath;
 
 /**
  * Class for polylines created using pen
@@ -15,7 +19,8 @@ import org.geogebra.common.util.AsyncOperation;
  * @author Zbynek
  */
 public class GeoLocusStroke extends GeoLocus
-		implements MatrixTransformable, Translateable {
+		implements MatrixTransformable, Translateable, Transformable, Mirrorable,
+		PointRotateable, Dilateable {
 
 	/** cache the part of XML that follows after expression label="stroke1" */
 	private StringBuilder xmlPoints;
@@ -95,6 +100,11 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
+	public boolean isMatrixTransformable() {
+		return true;
+	}
+
+	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
 		for (MyPoint pt : getPoints()) {
@@ -103,7 +113,6 @@ public class GeoLocusStroke extends GeoLocus
 			pt.x = a00 * x + a01 * y;
 			pt.y = a10 * x + a11 * y;
 		}
-
 	}
 
 	@Override
@@ -116,22 +125,99 @@ public class GeoLocusStroke extends GeoLocus
 			pt.x = (a00 * x + a01 * y + a02) / z;
 			pt.y = (a10 * x + a11 * y + a12) / z;
 		}
-
 	}
 
-	/**
-	 * @return the definitng points
-	 */
-	public MyPoint[] getPointsND() {
-		// if (getParentAlgorithm() instanceof AlgoLocusStroke) {
-		// return ((AlgoLocusStroke) getParentAlgorithm()).getPointsND();
-		// }
-		MyPoint[] pts = new MyPoint[getPoints().size()];
-		int i = 0;
+	@Override
+	public void dilate(NumberValue r, Coords S) {
+		double rval = r.getDouble();
+		double crval = 1 - rval;
+
 		for (MyPoint pt : getPoints()) {
-			pts[i++] = pt;
+			pt.x = rval * pt.x + crval * S.getX();
+			pt.y = rval * pt.y + crval * S.getY();
 		}
-		return pts;
+	}
+
+	@Override
+	public void mirror(Coords Q) {
+		for (MyPoint pt : getPoints()) {
+			pt.x = 2 * Q.getX() - pt.x;
+			pt.y = 2 * Q.getY() - pt.y;
+		}
+	}
+
+	@Override
+	public void mirror(GeoLineND g1) {
+		GeoLine g = (GeoLine) g1;
+
+		// Y = S(phi).(X - Q) + Q
+		// where Q is a point on g, S(phi) is the mirrorTransform(phi)
+		// and phi/2 is the line's slope angle
+
+		// get arbitrary point of line
+		double qx, qy;
+		if (Math.abs(g.getX()) > Math.abs(g.getY())) {
+			qx = -g.getZ() / g.getX();
+			qy = 0.0d;
+		} else {
+			qx = 0.0d;
+			qy = -g.getZ() / g.getY();
+		}
+
+		// S(phi)
+		double phi = 2.0 * Math.atan2(-g.getX(), g.getY());
+
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+
+		for (MyPoint pt : getPoints()) {
+			// translate -Q
+			pt.x -= qx;
+			pt.y -= qy;
+
+			double x0 = pt.x * cos + pt.y * sin;
+			pt.y = pt.x * sin - pt.y * cos;
+			pt.x = x0;
+
+			// translate back +Q
+			pt.x += qx;
+			pt.y += qy;
+		}
+	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S) {
+		Coords Q = S.getInhomCoords();
+
+		double phi = r.getDouble();
+		double cos = MyMath.cos(phi);
+		double sin = Math.sin(phi);
+
+		double qx = Q.getX();
+		double qy = Q.getY();
+
+		for (MyPoint pt : getPoints()) {
+			double x = pt.x;
+			double y = pt.y;
+
+			pt.x = (x - qx) * cos + (qy - y) * sin + qx;
+			pt.y = (x - qx) * sin + (y - qy) * cos + qy;
+		}
+	}
+
+	@Override
+	public void rotate(NumberValue r) {
+		double phi = r.getDouble();
+		double cos = MyMath.cos(phi);
+		double sin = Math.sin(phi);
+
+		for (MyPoint pt : getPoints()) {
+			double x = pt.x;
+			double y = pt.y;
+
+			pt.x = x * cos - y * sin;
+			pt.y = x * sin + y * cos;
+		}
 	}
 
 	@Override

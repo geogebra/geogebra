@@ -81,7 +81,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return clone of the hits
 	 */
 	public Hits cloneHits() {
-		Hits ret = newHits();
+		Hits ret = createNewHits();
 		if (this.size() > 0) {
 			for (int i = 0; i < this.size(); i++) {
 				ret.add(this.get(i));
@@ -96,14 +96,6 @@ public class Hits extends ArrayList<GeoElement> {
 		ret.cs2DCount = this.cs2DCount;
 
 		return ret;
-	}
-
-	/**
-	 * 
-	 * @return new instance of the same class
-	 */
-	protected Hits newHits() {
-		return new Hits();
 	}
 
 	/** adding specifics GeoElements */

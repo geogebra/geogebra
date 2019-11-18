@@ -216,4 +216,14 @@ public class AppConfigGraphing implements AppConfig {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.GRAPHING;
 	}
+
+	@Override
+	public boolean hasExam() {
+		return true;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "ExamGraphingCalc.short";
+	}
 }

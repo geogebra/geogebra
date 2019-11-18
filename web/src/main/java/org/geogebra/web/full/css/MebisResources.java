@@ -33,6 +33,10 @@ public interface MebisResources extends ClientBundle, StylesProvider, ResourceIc
 	SassResource dialogStylesScss();
 
 	@Override
+	@Source("org/geogebra/web/resources/scss/mebis/settings-styles.scss")
+	SassResource settingsStyleScss();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file_plus.svg")
 	SVGResource newFileMenu();
 

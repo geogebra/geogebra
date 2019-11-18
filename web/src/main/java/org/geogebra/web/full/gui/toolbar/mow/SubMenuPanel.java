@@ -10,10 +10,10 @@ import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Base class of submenus of MOWToorbar

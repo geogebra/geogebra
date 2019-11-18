@@ -276,18 +276,17 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
-		GGraphics2DWI g2w = null;
+		GGraphics2DWI g2w;
 		if (app.isWhiteboardActive()) {
 			g2w = g2bg;
-			g2w.clearAll();
 		} else {
 			g2w = (GGraphics2DWI) g2;
 		}
+		g2w.clearAll();
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
 		        || kernel.needToShowAnimationButton()) {
-			g2w.drawImage(bgImage,
-					0, 0);
+			g2w.drawImage(bgImage, 0, 0);
 		} else {
 			g2w.fillWith(getBackgroundCommon());
 		}
@@ -299,7 +298,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
-		this.updateBackgroundIfNecessary();
+		updateBackgroundIfNecessary();
 
 		if (app.isWhiteboardActive()) {
 			g2p.clearAll();
@@ -726,8 +725,10 @@ public class EuclidianViewW extends EuclidianView implements
 	 * Initialize background image
 	 */
 	public void createImage() {
-		bgImage = makeImage();
-		bgGraphics = bgImage.createGraphics();
+		if (bgImage != null) {
+			bgImage = makeImage();
+			bgGraphics = bgImage.createGraphics();
+		}
 	}
 
 	@Override
@@ -1451,8 +1452,7 @@ public class EuclidianViewW extends EuclidianView implements
 			return null;
 		}
 
-		SymbolicEditor editor = gm.createSymbolicEditor();
-		return editor;
+		return gm.createSymbolicEditor(this);
 	}
 
 	@Override
@@ -1791,6 +1791,8 @@ public class EuclidianViewW extends EuclidianView implements
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12();
 		case ELEMENTARY12_HOUSE:
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12house();
+		case ELEMENTARY12_COLORED:
+			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12colored();
 		case ELEMENTARY34:
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary34();
 		case MUSIC:

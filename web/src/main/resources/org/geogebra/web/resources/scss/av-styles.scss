@@ -71,14 +71,6 @@ $duration: 0.2s;
 			cursor: default;
 		}
 
-		.gwt-MenuItem:hover {
-			background-color: $selected-menuitem-background;
-			img {
-				opacity: 0.87;
-			}
-			color: $black;
-		}
-
 		.gwt-MenuItem-disabled,
 		.gwt-MenuItem-disabled:hover {
 			img {
@@ -134,13 +126,9 @@ $duration: 0.2s;
 			}
 		}
 
-		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
+		 span.gwt-RadioButton.RadioButtonMenuItem {
 			padding-left: 16px; 
 			padding-right: 16px; 
-		} 
-
-		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame:hover { 
-			background-color: $selected-menuitem-background; 
 		} 
 
 		.gwt-MenuItem.no-image {
@@ -154,10 +142,6 @@ $duration: 0.2s;
 
 			img {
 				opacity: 0.87;
-			}
-
-			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
-				background-color: $selected-menuitem-background; 
 			}
 		}
 

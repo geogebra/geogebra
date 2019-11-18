@@ -271,6 +271,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/grid_black.svg")
 	SVGResource grid_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/minor_gridlines.svg")
+	SVGResource minor_gridlines();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/axes_black.svg")
 	SVGResource axes_black();
 
@@ -441,6 +444,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/exam_graphing.svg")
 	SVGResource exam_graphing();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/exam_cas.svg")
+	SVGResource exam_cas();
 
 	// MOW resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/arrow-alt-circle-down.svg")
