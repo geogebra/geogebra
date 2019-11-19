@@ -3327,6 +3327,8 @@ __GGB__keysVar["kk"].menu = {
     "pdf": "\u0422\u0430\u0441\u044b\u043c\u0430\u043b\u044b \u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442 \u0424\u043e\u0440\u043c\u0430\u0442\u044b (pdf)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
+    "permission.bluetooth.denied": "Unable to access bluetooth",
+    "permission.bluetooth.exam_mode": "GeoGebra needs access to bluetooth to verify that it is turned off during Exam Mode.",
     "permission.camera.denied": "Unable to access camera",
     "permission.photos": "GeoGebra needs access to your photo library to save an image.",
     "permission.photos.denied": "Unable to access photos",

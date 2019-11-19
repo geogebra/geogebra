@@ -3327,6 +3327,8 @@ __GGB__keysVar["el"].menu = {
     "pdf": "Portable Document Format (PDF)",
     "pdfClickOrDrag": "Click to select file or drag and drop PDF file here",
     "pdfDialogTitle": "Insert Page from PDF",
+    "permission.bluetooth.denied": "Unable to access bluetooth",
+    "permission.bluetooth.exam_mode": "GeoGebra needs access to bluetooth to verify that it is turned off during Exam Mode.",
     "permission.camera.denied": "\u0391\u03c0\u03bf\u03c4\u03c5\u03c7\u03af\u03b1 \u03c0\u03c1\u03cc\u03c3\u03b2\u03b1\u03c3\u03b7\u03c2 \u03c3\u03c4\u03b7\u03bd \u03ba\u03ac\u03bc\u03b5\u03c1\u03b1",
     "permission.photos": "GeoGebra needs access to your photo library to save an image.",
     "permission.photos.denied": "Unable to access photos",

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -139,6 +141,7 @@ import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 
@@ -645,9 +648,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		notifyLocalizationLoaded();
 		// importatnt for accessibility
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
-		if (asyncCall && getGuiManager() != null) {
-			getGuiManager().updateKeyboardLanguage();
-		}
 	}
 
 	/**
@@ -4027,5 +4027,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void endDrawRecordingAndLogResults() {
 		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
+	}
+
+	/**
+	 * @return manager for showing/hiding keyboard
+	 */
+	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
+		return null;
 	}
 }

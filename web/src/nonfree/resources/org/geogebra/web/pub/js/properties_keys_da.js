@@ -3327,6 +3327,8 @@ __GGB__keysVar["da"].menu = {
     "pdf": "Transportabelt dokument (pdf)",
     "pdfClickOrDrag": "Klik for at v\xe6lge en fil eller tr\xe6k og slip PDF-filen her.",
     "pdfDialogTitle": "Inds\xe6t en fra PDF",
+    "permission.bluetooth.denied": "Unable to access bluetooth",
+    "permission.bluetooth.exam_mode": "GeoGebra needs access to bluetooth to verify that it is turned off during Exam Mode.",
     "permission.camera.denied": "Kan ikke f\xe5 adgang til kamera",
     "permission.photos": "GeoGebra har brug for adgang til dit fotoalbum for at kunne gemme billeder.",
     "permission.photos.denied": "Kunne ikke f\xe5 adgang til fotos",

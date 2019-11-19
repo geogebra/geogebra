@@ -36,6 +36,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -119,6 +120,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private static int counter = 0;
 	private String foregroundCssColor = "#000000";
 	private String backgroundCssColor = "#ffffff";
+	private ChangeHandler changeHandler;
 
 	/**
 	 * 
@@ -625,7 +627,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	@Override
 	public void fireInputChangedEvent() {
-		// TODO Auto-generated method stub
+		if (changeHandler != null) {
+			changeHandler.onChange(null);
+		}
 	}
 
 	@Override
@@ -1123,5 +1127,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public void setBackgroundCssColor(String cssColor) {
 		this.backgroundCssColor = cssColor;
+	}
+
+	public void setChangeListener(ChangeHandler changeHandler) {
+		this.changeHandler = changeHandler;
 	}
 }

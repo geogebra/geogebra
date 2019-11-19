@@ -97,7 +97,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			addStyleName("animating");
 		}
 		show();
-
 	}
 
 	@Override

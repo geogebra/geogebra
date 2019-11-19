@@ -3327,6 +3327,8 @@ __GGB__keysVar["de"].menu = {
     "pdf": "PDF-Format (pdf)",
     "pdfClickOrDrag": "Hier klicken, um eine Datei auszuw\xe4hlen, oder PDF per Drag & Drop einf\xfcgen",
     "pdfDialogTitle": "Seite aus PDF einf\xfcgen",
+    "permission.bluetooth.denied": "Unable to access bluetooth",
+    "permission.bluetooth.exam_mode": "GeoGebra needs access to bluetooth to verify that it is turned off during Exam Mode.",
     "permission.camera.denied": "Zugriff auf die Kamera nicht m\xf6glich",
     "permission.photos": "GeoGebra ben\xf6tigt Zugriff auf deine Fotogalerie, um Bilder zu speichern.",
     "permission.photos.denied": "Kein Zugriff auf Fotos m\xf6glich",

@@ -3327,6 +3327,8 @@ __GGB__keysVar["nb"].menu = {
     "pdf": "Pdf",
     "pdfClickOrDrag": "Klikk for \xe5 velge fil, eller dra og slipp PDF-fila her",
     "pdfDialogTitle": "Sett inn side fra PDF",
+    "permission.bluetooth.denied": "Unable to access bluetooth",
+    "permission.bluetooth.exam_mode": "GeoGebra needs access to bluetooth to verify that it is turned off during Exam Mode.",
     "permission.camera.denied": "Det g\xe5r ikke \xe5 f\xe5 kontakt med kameraet",
     "permission.photos": "GeoGebra m\xe5 ha tilgang til bildebiblioteket for \xe5 kunne lagre et bilde.",
     "permission.photos.denied": "Ikke tilgang til bilder",
