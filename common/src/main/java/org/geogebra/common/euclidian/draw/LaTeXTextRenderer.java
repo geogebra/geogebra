@@ -38,15 +38,18 @@ public class LaTeXTextRenderer implements TextRenderer {
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GDimension latexDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getText());
-		double inputHeight = latexDimension.getHeight() + BOTTOM_MARGIN;
-		double top = drawInputBox.yLabel + MARGIN - inputHeight / 2
-				+ drawInputBox.getPreferredHeight() / 2.0;
-		GRectangle rectangle = AwtFactory.getPrototype().newRectangle(
+		int inputBoxHeight = drawInputBox.getPreferredHeight();
+		double labelHeight = drawInputBox.getLabelRectangle().getHeight();
+
+		double inputBoxTop = drawInputBox.yLabel - (Math.abs(inputBoxHeight - labelHeight) / 2);
+
+		int inputBoxWidth =
+				drawInputBox.measureLatex(graphics, geo, font, geo.getText()).getWidth();
+
+		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
-				(int) Math.round(top),
-				Math.max(drawInputBox.boxWidth, latexDimension.getWidth()),
-				(int) Math.round(inputHeight));
-		return rectangle;
+				(int) Math.round(inputBoxTop),
+				Math.max(drawInputBox.boxWidth, inputBoxWidth),
+				inputBoxHeight);
 	}
 }

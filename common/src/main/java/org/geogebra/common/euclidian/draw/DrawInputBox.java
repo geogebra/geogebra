@@ -329,9 +329,10 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	public int getPreferredHeight() {
-		return (int) Math.round(((getView().getApplication().getFontSize()
+		int height = (int) Math.round(((getView().getApplication().getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
 				+ TF_MARGIN_VERTICAL;
+		return Math.max(height, MIN_HEIGHT);
 	}
 
 	@Override
@@ -550,8 +551,7 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setVisible(true);
 		
 		if (canSetWidgetPixelSize()) {
-			GRectangle bounds = getInputFieldBounds();
-			tf.setPrefSize((int) bounds.getWidth(), (int) bounds.getHeight());
+			tf.setPrefSize(getPreferredWidth(), getPreferredHeight());
 		} else {
 			view.getViewTextField().setColumns(getGeoInputBox().getLength());
 		}
@@ -646,5 +646,9 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;
+	}
+
+	GRectangle getLabelRectangle() {
+		return labelRectangle;
 	}
 }
