@@ -112,6 +112,54 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals("5", inputBox.getTextForEditor());
 	}
 
+	@Test
+	public void shouldBeEmptyAfterSettingLineUndefined() {
+		setupInput("f", "y = 5");
+		t("SetValue(f, ?)");
+		Assert.assertEquals("", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingLineUndefined() {
+		setupInput("f", "y = 5");
+		t("SetValue(f, ?)");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldBeEmptyAfterSettingPlaneUndefined() {
+		setupInput("eq1", "4x + 3y + 2z = 1");
+		t("SetValue(eq1, ?)");
+		Assert.assertEquals("", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingPlaneUndefined() {
+		setupInput("eq1", "4x + 3y + 2z = 1");
+		t("SetValue(eq1, ?)");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldBeEmptyAfterSettingComplexUndefined() {
+		setupInput("z1", "3 + i");
+		t("SetValue(z1, ?)");
+		Assert.assertEquals("", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingComplexUndefined() {
+		setupInput("z1", "3 + i");
+		t("SetValue(z1, ?)");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+	}
+
 	private void t(String input, String... expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),
