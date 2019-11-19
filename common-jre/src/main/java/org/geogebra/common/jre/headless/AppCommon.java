@@ -674,7 +674,14 @@ public class AppCommon extends App {
     public DrawEquation getDrawEquation() {
         return new DrawEquation() {
 			@Override
-			public GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2, int x, int y, String text, GFont font, boolean serif, GColor fgColor, GColor bgColor, boolean useCache, boolean updateAgain, Runnable callback) {
+			public GDimension drawEquation(App app,
+										   GeoElementND geo,
+										   GGraphics2D g2,
+										   int x, int y,
+										   String text, GFont font, boolean serif,
+										   GColor fgColor, GColor bgColor,
+										   boolean useCache, boolean updateAgain,
+										   Runnable callback) {
 				return new GDimension() {
 					@Override
 					public int getWidth() {
@@ -689,7 +696,10 @@ public class AppCommon extends App {
 			}
 
 			@Override
-			public Image getCachedDimensions(String text, GeoElementND geo, Color fgColor, GFont font, int style, int[] ret) {
+			public Image getCachedDimensions(String text,
+											 GeoElementND geo,
+											 Color fgColor, GFont font,
+											 int style, int[] ret) {
 				return null;
 			}
 
@@ -704,7 +714,9 @@ public class AppCommon extends App {
 			}
 
 			@Override
-			public GDimension measureEquation(App app, GeoElement geo0, String text, GFont font, boolean serif) {
+			public GDimension measureEquation(App app,
+											  GeoElement geo0,
+											  String text, GFont font, boolean serif) {
 				return null;
 			}
 		};

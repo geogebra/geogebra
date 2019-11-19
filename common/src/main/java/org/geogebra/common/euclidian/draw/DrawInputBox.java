@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -373,15 +374,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
-		GRectangle textRendererBounds =
-				textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
-		return ensureMinHeight(textRendererBounds);
-	}
-
-	private GRectangle ensureMinHeight(GRectangle bounds) {
-		int height = (int) Math.max(bounds.getHeight(), MIN_HEIGHT);
-		bounds.setSize((int) bounds.getWidth(), height);
-		return bounds;
+		return textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
@@ -393,13 +386,10 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawText(GGraphics2D g2, String text) {
 		int textTop = (int) Math.round(getInputFieldBounds(g2).getY());
-		int lineHeight = getTextBottom();
-
-		textRenderer.drawText(view.getApplication(), geoInputBox, g2, textFont, text,
-				getTextLeft(), textTop, getContentWidth(), lineHeight);
+		textRenderer.drawText(geoInputBox, g2, textFont, text, getTextLeft(), textTop);
 	}
 
-	private double getContentWidth() {
+	double getContentWidth() {
 		return boxWidth - TF_PADDING_HORIZONTAL * 2;
 	}
 
@@ -407,7 +397,7 @@ public class DrawInputBox extends CanvasDrawable {
 		return boxLeft + TF_PADDING_HORIZONTAL;
 	}
 
-	private int getTextBottom() {
+	int getTextBottom() {
 		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
 	}
 
@@ -650,5 +640,9 @@ public class DrawInputBox extends CanvasDrawable {
 
 	GRectangle getLabelRectangle() {
 		return labelRectangle;
+	}
+
+	App getApp() {
+		return view.getApplication();
 	}
 }

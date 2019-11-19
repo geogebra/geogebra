@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.App;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -26,8 +25,9 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	@Override
-	public void drawText(App app, GeoInputBox geo, GGraphics2D graphics, GFont font,
-						 String text, double xPos, double yPos, double boxWidth, int lineHeight) {
+	public void drawText(GeoInputBox geo, GGraphics2D graphics,
+						 GFont font, String text,
+						 double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos);
 
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, text);
