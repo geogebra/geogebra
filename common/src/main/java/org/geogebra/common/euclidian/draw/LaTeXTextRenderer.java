@@ -15,9 +15,6 @@ import com.google.j2objc.annotations.Weak;
  */
 public class LaTeXTextRenderer implements TextRenderer {
 
-	// This margin is to match how the editor places the equation
-	private static final double MARGIN = 3.0;
-
 	// This margin is to match the height of the editor
 	private static final int BOTTOM_MARGIN = 10;
 
@@ -31,8 +28,14 @@ public class LaTeXTextRenderer implements TextRenderer {
 	@Override
 	public void drawText(App app, GeoInputBox geo, GGraphics2D graphics, GFont font,
 						 String text, double xPos, double yPos, double boxWidth, int lineHeight) {
-		drawInputBox.drawLatex(graphics, geo, font, text,
-				(int) Math.round(xPos), (int) Math.round(yPos + MARGIN));
+		int textLeft = (int) Math.round(xPos);
+
+		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, text);
+		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2;
+		int textTop = (int) Math.round(yPos + diffToCenter);
+
+		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop);
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
