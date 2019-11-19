@@ -92,7 +92,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	/**
 	 *
-	 * @return text to edit.
+	 * @return text to edit with the symbolic editor
 	 */
 	public String getTextForEditor() {
 		if (linkedGeo.isGeoText()) {
@@ -109,7 +109,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Get the text (used for scripting)
+	 * Get the text to display and edit with the non symbolic editor
 	 *
 	 * @return the text
 	 */

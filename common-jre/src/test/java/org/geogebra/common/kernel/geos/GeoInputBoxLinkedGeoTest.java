@@ -104,6 +104,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 	}
 
+	@Test
+	public void shouldShowValueForSimpleNumeric() {
+		setupInput("l", "5");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("5", inputBox.getText());
+		Assert.assertEquals("5", inputBox.getTextForEditor());
+	}
+
 	private void t(String input, String... expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),

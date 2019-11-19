@@ -2426,10 +2426,6 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
-		// if (symbolic)
-		// return toString();
-		// else
-		// return toDefinedValueString();
 	}
 
 	/**
@@ -6095,7 +6091,7 @@ public abstract class GeoElement extends ConstructionElement
 			diffSb.append(")]");
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString(),
 					null);
-			return (Double.valueOf(diff) == 0d);
+			return (Double.parseDouble(diff) == 0d);
 		} catch (final Throwable e) {
 			return false;
 		}
@@ -6104,23 +6100,15 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String getFormulaString(final StringTemplate tpl,
 			final boolean substituteNumbers) {
-
-		String ret = "";
-
 		// GeoFunction & GeoFunctionNVar override this, no need to care about
 		// them
-		// only inequalities call this
 
-		// matrices
-		if (isGeoList() && tpl.hasType(StringType.LATEX)
-				&& ((GeoList) this).isMatrix()) {
+		String ret;
+		if (isMatrix() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
-		}
-		// vectors
-		else if (isGeoVector() && tpl.hasType(StringType.LATEX)) {
+		} else if (isGeoVector() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
-		} // curves
-		else if (isGeoCurveCartesian() && tpl.hasType(StringType.LATEX)) {
+		} else if (isGeoCurveCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
@@ -6128,11 +6116,6 @@ public abstract class GeoElement extends ConstructionElement
 			ret = substituteNumbers ? toValueString(tpl) : getDefinition(tpl);
 		}
 
-		// GeoNumeric eg a=1
-		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
-				&& isLabelSet()) {
-			ret = tpl.printVariableName(label);
-		}
 		if ("".equals(ret) && isGeoCasCell()
 				&& ((GeoCasCell) this).getAssignmentVariable() != null) {
 			ret = getLabel(tpl);
@@ -6148,9 +6131,7 @@ public abstract class GeoElement extends ConstructionElement
 		 */
 
 		if (tpl.hasType(StringType.LATEX)) {
-			if ("?".equals(ret)) {
-				ret = "?";
-			} else if ((Unicode.INFINITY + "").equals(ret)) {
+			if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
 				ret = "-\\infty";

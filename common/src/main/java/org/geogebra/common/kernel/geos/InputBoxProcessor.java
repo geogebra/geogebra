@@ -60,8 +60,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			Log.error(e1.getMessage());
 			showError();
 		}
-
-		inputBox.setLinkedGeo(linkedGeo);
 	}
 
 	private String preprocess(String inputText, StringTemplate tpl) {
