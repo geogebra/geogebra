@@ -1248,11 +1248,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return false;
 
 		/*
-		 * 
+		 *
 		 * double ax2=ax*ax, ay2=ay*ay, az2=az*az, bx2=bx*bx, by2=by*by,
 		 * bz2=bz*bz, cx2=cx*cx, cy2=cy*cy, cz2=cz*cz, dx2=dx*dx, dy2=dy*dy,
 		 * dz2=dz*dz;
-		 * 
+		 *
 		 * double det= ax2*bx*bz*cy*cz*dz2 - ax2*bx*bz*cz2*dy*dz -
 		 * ax2*by*bz*cx*cz*dz2 + ax2*by*bz*cz2*dx*dz + ax2*bz2*cx*cz*dy*dz -
 		 * ax2*bz2*cy*cz*dx*dz - ax*az*bx2*cy*cz*dz2 + ax*az*bx2*cz2*dy*dz -
@@ -1529,7 +1529,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * add "=" or not for "A=(...)"
-	 * 
+	 *
 	 * @param sbToString
 	 *            string build
 	 * @param toStringMode
@@ -1613,7 +1613,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		default: // continue below
 		}
 
-		if (isInfinite()) {
+		if (isInfinite() || (!isDefined && getToStringMode() == Kernel.COORD_COMPLEX)) {
 			sbBuildValueString.append("?");
 			return sbBuildValueString;
 		}
@@ -1946,20 +1946,20 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/*
 	 * /** Tells this point that the given Locateable has this point as start
 	 * point.
-	 * 
+	 *
 	 * public void registerLocateable(Locateable l) { if (locateableList ==
 	 * null) locateableList = new ArrayList(); if (locateableList.contains(l))
 	 * return;
-	 * 
+	 *
 	 * // add only locateables that are not already // part of the updateSet of
 	 * this point AlgoElement parentAlgo =
 	 * l.toGeoElement().getParentAlgorithm(); if (parentAlgo == null ||
 	 * !(getAlgoUpdateSet().contains(parentAlgo))) { // add the locatable
 	 * locateableList.add(l); } }
-	 * 
+	 *
 	 * /** Tells this point that the given Locatable no longer has this point as
 	 * start point.
-	 * 
+	 *
 	 * public void unregisterLocateable(Locateable l) { if (locateableList !=
 	 * null) { locateableList.remove(l); } }
 	 */
@@ -1977,7 +1977,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			/*
 			 * // copy locateableList into array Object [] locs =
 			 * locateableList.toArray(); locateableList.clear();
-			 * 
+			 *
 			 * // tell all locateables for (int i=0; i < locs.length; i++) {
 			 * Locateable loc = (Locateable) locs[i];
 			 * loc.removeStartPoint(this); loc.toGeoElement().updateCascade(); }

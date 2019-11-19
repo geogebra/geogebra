@@ -1502,17 +1502,6 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * @return
-	 * 
-	 * 		private static Color getInverseColor(Color c) { float[] hsb =
-	 *         Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
-	 *         hsb[0] += 0.40; if (hsb[0] > 1) hsb[0]--; hsb[1] = 1; hsb[2] =
-	 *         0.7f; return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-	 * 
-	 *         }
-	 */
-
-	/**
 	 * Moves label by updating label offset
 	 * 
 	 * @param xcoord

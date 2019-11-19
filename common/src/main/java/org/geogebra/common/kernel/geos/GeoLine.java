@@ -191,7 +191,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		this.y = y;
 		this.z = z;
 		setDefinition(null);
-		// Application.debug("x="+x+", y="+y+", z="+z);
 	}
 
 	/**
@@ -211,9 +210,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	final public void setCoords(GeoVec3D v) {
 		setCoords(v.x, v.y, v.z);
-		/*
-		 * x = v.x; y = v.y; z = v.z;
-		 */
 	}
 
 	/**
@@ -675,15 +671,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean showInAlgebraView() {
-		// independent or defined
-		// return isIndependent() || isDefined();
-
-		return isDefined() || showUndefinedInAlgebraView;
+		return showUndefinedInAlgebraView || isDefined();
 	}
 
 	/**
 	 * Set whether this line should be visible in AV when undefined
-	 * 
+	 *
 	 * @param flag
 	 *            true to show undefined
 	 */
@@ -1016,17 +1009,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
 				&& getToStringMode() != EQUATION_USER)) {
-
-			String ret = "y = ?";
-
 			if (getToStringMode() == PARAMETRIC) {
-				ret = "X = (?, ?)";
-			} else if (DoubleUtil.isZero(y)) {
+				return "X = (?, ?)";
+			} else {
 				// eg list = {x = ?}
-				ret = "x = ?";
+				return  "?";
 			}
-
-			return ret;
 		}
 
 		switch (getToStringMode()) {
