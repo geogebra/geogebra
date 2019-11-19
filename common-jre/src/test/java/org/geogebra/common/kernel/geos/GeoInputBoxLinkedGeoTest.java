@@ -122,13 +122,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void independentSymbolicVectorsMustBeColumnEditable() {
-		add("a: 1");
-		setupInput("l", "(1, 2, a)");
-		Assert.assertEquals("{{1}, {2}, {a}}", inputBox.getTextForEditor());
-	}
-
-	@Test
 	public void symbolicShouldSupportVectorsWithVariables() {
 		add("a: 1");
 		setupInput("l", "(1, 2, a)");
