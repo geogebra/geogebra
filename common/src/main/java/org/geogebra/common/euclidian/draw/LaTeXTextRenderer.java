@@ -19,7 +19,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 	private static final double MARGIN = 3.0;
 
 	// This margin is to match the height of the editor
-	private static final double BOTTOM_MARGIN = 10;
+	private static final int BOTTOM_MARGIN = 10;
 
 	@Weak
 	private DrawInputBox drawInputBox;
@@ -35,16 +35,21 @@ public class LaTeXTextRenderer implements TextRenderer {
 				(int) Math.round(xPos), (int) Math.round(yPos + MARGIN));
 	}
 
+	private int calculateInputBoxHeight(GDimension textDimension) {
+		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_MARGIN;
+		return Math.max(textHeightWithMargin, DrawInputBox.MIN_HEIGHT);
+	}
+
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		int inputBoxHeight = drawInputBox.getPreferredHeight();
-		double labelHeight = drawInputBox.getLabelRectangle().getHeight();
+		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getText());
 
+		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+		double labelHeight = drawInputBox.getLabelRectangle().getHeight();
 		double inputBoxTop = drawInputBox.yLabel - (Math.abs(inputBoxHeight - labelHeight) / 2);
 
-		int inputBoxWidth =
-				drawInputBox.measureLatex(graphics, geo, font, geo.getText()).getWidth();
+		int inputBoxWidth = textDimension.getWidth();
 
 		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
