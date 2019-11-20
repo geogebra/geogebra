@@ -34,9 +34,6 @@ import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.LocateableList;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -47,6 +44,9 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -1214,31 +1214,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// Using Ptolemy's theorem
 
-		double ab = cz * dz
-				* Math.sqrt((bx * az - ax * bz) * (bx * az - ax * bz)
-						+ (by * az - ay * bz) * (by * az - ay * bz));
-		double ac = bz * dz
-				* Math.sqrt((cx * az - ax * cz) * (cx * az - ax * cz)
-						+ (cy * az - ay * cz) * (cy * az - ay * cz));
-		double ad = bz * cz
-				* Math.sqrt((dx * az - ax * dz) * (dx * az - ax * dz)
-						+ (dy * az - ay * dz) * (dy * az - ay * dz));
-		double bc = az * dz
-				* Math.sqrt((cx * bz - bx * cz) * (cx * bz - bx * cz)
-						+ (cy * bz - by * cz) * (cy * bz - by * cz));
-		double bd = az * cz
-				* Math.sqrt((dx * bz - bx * dz) * (dx * bz - bx * dz)
-						+ (dy * bz - by * dz) * (dy * bz - by * dz));
-		double cd = az * bz
-				* Math.sqrt((dx * cz - cx * dz) * (dx * cz - cx * dz)
-						+ (dy * cz - cy * dz) * (dy * cz - cy * dz));
+		double ab = Math.hypot(bx * az - ax * bz, by * az - ay * bz);
+		double ac = Math.hypot(cx * az - ax * cz, cy * az - ay * cz);
+		double ad = Math.hypot(dx * az - ax * dz, dy * az - ay * dz);
+		double bc = Math.hypot(cx * bz - bx * cz, cy * bz - by * cz);
+		double bd = Math.hypot(dx * bz - bx * dz, dy * bz - by * dz);
+		double cd = Math.hypot(dx * cz - cx * dz, dy * cz - cy * dz);
 
-		return DoubleUtil.isZero((ab * cd + bc * ad - ac * bd) / (az * bz * cz * dz),
-					Kernel.MIN_PRECISION)
-				|| DoubleUtil.isZero((ab * cd + ac * bd - bc * ad) / (az * bz * cz * dz),
-					Kernel.MIN_PRECISION)
-				|| DoubleUtil.isZero((bc * ad + ac * bd - ab * cd) / (az * bz * cz * dz),
-					Kernel.MIN_PRECISION);
+		// each product of distances is scaled by D = az * bz * cz * dz,
+		// compatible with 458df513 where it was scaled by D^2 and divided by D
+		return DoubleUtil.isZero(ab * cd + bc * ad - ac * bd, Kernel.MIN_PRECISION)
+				|| DoubleUtil.isZero(ab * cd + ac * bd - bc * ad, Kernel.MIN_PRECISION)
+				|| DoubleUtil.isZero(bc * ad + ac * bd - ab * cd, Kernel.MIN_PRECISION);
 	}
 
 	/**
