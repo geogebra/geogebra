@@ -1,7 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;

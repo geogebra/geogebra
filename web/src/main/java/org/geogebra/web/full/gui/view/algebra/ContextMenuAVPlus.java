@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -65,7 +66,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addExpressionItem();
-		if (!app.getSettings().getToolbarSettings().is3D()) {
+		if (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN3D) {
 			addTextItem();
 
 			if (app.showToolBar() && toolbarHasImageMode()) {
