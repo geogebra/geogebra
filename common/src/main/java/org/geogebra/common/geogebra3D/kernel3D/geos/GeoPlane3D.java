@@ -468,9 +468,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return label +
-				": " + // TODO use kernel property
-				toValueString(tpl);
+		return label + ": " + toValueString(tpl);
 	}
 
 	@Override

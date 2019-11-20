@@ -1527,6 +1527,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            point string mode
 	 * @param coordStyle
 	 *            point coord style
+	 * @return the correct equals sign
 	 */
 	public static String getEqualSign(int toStringMode, int coordStyle) {
 		if (toStringMode == Kernel.COORD_COMPLEX) {
