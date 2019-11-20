@@ -22,7 +22,7 @@ class InputBoxRenderer {
 		String linkedGeoText;
 
 		if (linkedGeo.isGeoNumeric()) {
-			linkedGeoText = getTextForNumeric((GeoNumeric)linkedGeo);
+			linkedGeoText = getTextForNumeric((GeoNumeric) linkedGeo);
 		} else if (inputBox.isSymbolicMode()) {
 			linkedGeoText = getTextForSymbolic();
 		} else {

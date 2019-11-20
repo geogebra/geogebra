@@ -858,8 +858,9 @@ public class GeoVector3D extends GeoVec4D
 		return getVector();
 	}
 
+	@Override
 	public String toValueStringAsColumnVector(StringTemplate tpl) {
-		return buildColumnVectorValueString(tpl).toString();
+		return buildColumnVectorValueString(tpl);
 	}
 
 	private String buildColumnVectorValueString(StringTemplate tpl) {

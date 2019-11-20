@@ -506,6 +506,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return buildValueString(tpl).toString();
 	}
 
+	@Override
 	public String toValueStringAsColumnVector(StringTemplate tpl) {
 		return buildColumnVectorValueString(tpl).toString();
 	}
@@ -642,7 +643,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		if (startPoint != null) {
 			xmlsb.append(startPoint.getStartPointXML());
 		}
-
 	}
 
 	@Override
@@ -817,7 +817,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	}
 
-	public static void buildTabular(String[] inputs, StringBuilder sb) {
+	private static void buildTabular(String[] inputs, StringBuilder sb) {
 		boolean alignOnDecimalPoint = true;
 		for (int i = 0; i < inputs.length; i++) {
 			if (inputs[i].indexOf('.') == -1) {
@@ -851,7 +851,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 				y,
 				this);
 	}
-
 
 	private void resetStringBuilder() {
 		if (sb == null) {
@@ -926,7 +925,8 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 					inputs[0] = vn.getX().toString(tpl);
 					inputs[1] = vn.getY().toString(tpl);
 				} else {
-					return definition.toString(tpl); }
+					return definition.toString(tpl);
+				}
 
 			} else {
 				inputs = new String[2];

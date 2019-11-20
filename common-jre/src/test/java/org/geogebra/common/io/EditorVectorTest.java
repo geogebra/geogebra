@@ -11,7 +11,6 @@ import org.junit.Test;
 
 public class EditorVectorTest extends BaseUnitTest {
 
-
 	@Override
 	public AppCommon createAppCommon() {
 		return new AppCommon3D(new LocalizationCommon(3),
