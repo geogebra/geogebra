@@ -125,6 +125,30 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals("1.2", inputBox.getTextForEditor());
 	}
 
+	@Test
+	public void functionParameterShouldNotChangeToX() {
+		add("f(c) = c / ?");
+		inputBox = (GeoInputBox) add("ib=InputBox(f)");
+		inputBox.setSymbolicMode(false, false);
+		Assert.assertEquals("c / ?", inputBox.getText());
+		updateInput("?");
+		Assert.assertEquals("", inputBox.getText());
+		updateInput("c / 3");
+		Assert.assertEquals("c / 3", inputBox.getText());
+	}
+
+	@Test
+	public void twoVariableFunctionParameterShouldNotChangeToX() {
+		add("g(p, q) = p / ?");
+		inputBox = (GeoInputBox) add("ib=InputBox(g)");
+		inputBox.setSymbolicMode(false, false);
+		Assert.assertEquals("p / ?", inputBox.getText());
+		updateInput("?");
+		Assert.assertEquals("", inputBox.getText());
+		updateInput("p / q");
+		Assert.assertEquals("p / q", inputBox.getText());
+	}
+
 	private void t(String input, String... expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),

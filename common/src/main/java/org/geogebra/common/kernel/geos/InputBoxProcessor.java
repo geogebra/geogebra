@@ -140,12 +140,15 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			// GeoNumeric)
 			defineText = defineText + "+0" + Unicode.IMAGINARY;
 
-		} else if (linkedGeo instanceof FunctionalNVar) {
+		}
+
+		if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
+
 		return defineText;
 	}
 
