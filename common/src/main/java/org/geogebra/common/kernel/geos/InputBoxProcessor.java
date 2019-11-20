@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -91,7 +92,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 						linkedGeo.isIndependent(), false).withSliders(false);
 
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, this, null);
+						defineText, info, true, this, ErrorHelper.silent());
 				return;
 			}
 		} catch (Throwable throwable) {
