@@ -65,7 +65,7 @@ public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory
 
         List<Integer> others = new ArrayList<>(Arrays.asList(
                 EuclidianConstants.MODE_PEN,
-                EuclidianConstants.MODE_FREEHAND_SHAPE));
+                EuclidianConstants.MODE_FREEHAND_FUNCTION));
 
         if (!isPhoneApp) {
             others.addAll(Arrays.asList(

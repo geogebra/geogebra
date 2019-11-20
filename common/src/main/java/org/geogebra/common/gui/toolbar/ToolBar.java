@@ -39,7 +39,6 @@ public class ToolBar {
 	static private final String[][] DEFAULT_TOOLBAR = {
 			{ "0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62", "0 39 77 73 62",
 					"0 77 73 74 62"},
-			// TODO check again after merge of graphing too removal
 			{ "1 501 67 5 19 72 75 76" }, { "2 15 45 18 65 7 37" },
 			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
 			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
