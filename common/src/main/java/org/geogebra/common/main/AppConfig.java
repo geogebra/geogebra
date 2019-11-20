@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 public interface AppConfig {
@@ -137,9 +137,9 @@ public interface AppConfig {
 	int getDefaultLabelingStyle();
 
 	/**
-	 * @return the Command Selector for the app.
+	 * @return the Command filter for the app.
 	 */
-	CommandNameFilter getCommandNameFilter();
+	CommandFilter getCommandFilter();
 
 	/**
 	 * @return whether the app should show the tools panel or not

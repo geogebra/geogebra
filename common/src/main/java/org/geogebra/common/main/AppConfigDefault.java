@@ -6,7 +6,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 /**
@@ -191,7 +191,7 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
+	public CommandFilter getCommandFilter() {
 		return null;
 	}
 

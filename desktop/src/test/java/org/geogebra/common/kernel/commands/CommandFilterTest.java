@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.List;
 
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.junit.Test;
@@ -12,9 +12,9 @@ public class CommandFilterTest extends AlgebraTest {
 
 	@Test
 	public void noCASfilterTest() {
-		CommandNameFilter cf = CommandNameFilterFactory
-				.createNoCasCommandNameFilter();
-		app.getKernel().getAlgebraProcessor().addCommandNameFilter(cf);
+		CommandFilter cf = CommandFilterFactory
+				.createNoCasCommandFilter();
+		app.getKernel().getAlgebraProcessor().addCommandFilter(cf);
 		for (Commands cmd0 : Commands.values()) {
 			Commands cmd = cmd0;
 			if (cmd0 == Commands.Derivative) {

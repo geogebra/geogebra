@@ -1,20 +1,21 @@
 package org.geogebra.common.kernel.commands.selector;
 
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.CommandsConstants;
 
 /**
- * Creates CommandNameFilters for various apps.
+ * Creates CommandFilters for various apps.
  * 
  * @author laszlo
  *
  */
-public final class CommandNameFilterFactory {
+public final class CommandFilterFactory {
 	/**
 	 *
-	 * @return Returns the CommandNameFilter that allows only the Scientific
+	 * @return Returns the CommandFilter that allows only the Scientific
 	 *         Calculator commands
 	 */
-	public static CommandNameFilter createSciCalcCommandNameFilter() {
+	public static CommandFilter createSciCalcCommandFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(
 				false);
 		commandNameFilter.addCommands(Commands.Mean, Commands.mean, Commands.SD,
@@ -25,9 +26,56 @@ public final class CommandNameFilterFactory {
 	}
 
 	/**
+	 * Creates a CommandFilter for the Graphing app.
+	 *
+	 * @return command filter
+	 */
+	public static CommandFilter createGraphingCommandFilter() {
+		CommandFilter noCasCommandFilter = createNoCasCommandFilter();
+		CommandFilter tableFilter = new CommandTableFilter(CommandsConstants.TABLE_CONIC,
+				CommandsConstants.TABLE_TRANSFORMATION);
+		CommandFilter nameFilter = createGraphingNameFilter();
+		CommandFilter composite = new CompositeCommandFilter(noCasCommandFilter,
+				tableFilter, nameFilter);
+		return new EnglishCommandFilter(composite);
+	}
+
+	private static CommandFilter createGraphingNameFilter() {
+		CommandNameFilterSet nameFilter = new CommandNameFilterSet(true);
+		nameFilter.addCommands(Commands.PerpendicularVector, Commands.OrthogonalVector,
+				Commands.UnitOrthogonalVector, Commands.UnitVector, Commands.Cross, Commands.Dot,
+				Commands.Reflect, Commands.Mirror, Commands.AngleBisector,
+				Commands.AngularBisector, Commands.Angle, Commands.ConjugateDiameter,
+				Commands.Diameter, Commands.LinearEccentricity, Commands.Excentricity,
+				Commands.MajorAxis, Commands.FirstAxis, Commands.MinorAxis, Commands.SecondAxis,
+				Commands.SemiMajorAxisLength, Commands.FirstAxisLength,
+				Commands.SemiMinorAxisLength, Commands.SecondAxisLength, Commands.Length,
+				Commands.Relation, Commands.AffineRatio, Commands.Arc, Commands.AreCollinear,
+				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
+				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular, Commands.Area,
+				Commands.Barycenter, Commands.Centroid, Commands.CircularArc, Commands.CircleArc,
+				Commands.CircularSector, Commands.CircleSector, Commands.CircumcircularArc,
+				Commands.CircumcircleArc, Commands.CircumcircularSector,
+				Commands.CircumcircleSector, Commands.Circumference, Commands.ClosestPoint,
+				Commands.ClosestPointRegion, Commands.CrossRatio, Commands.Cubic,
+				Commands.Direction, Commands.Distance, Commands.Envelope, Commands.IntersectPath,
+				Commands.Locus, Commands.LocusEquation, Commands.Midpoint, Commands.Perimeter,
+				Commands.PerpendicularBisector, Commands.LineBisector, Commands.PerpendicularLine,
+				Commands.OrthogonalLine, Commands.Polygon, Commands.PolyLine, Commands.Polyline,
+				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
+				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
+				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
+				Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial,
+				Commands.TaylorSeries, Commands.Asymptote, Commands.OsculatingCircle,
+				Commands.CommonDenominator, Commands.CompleteSquare, Commands.Div, Commands.Mod,
+				Commands.Division);
+		return nameFilter;
+	}
+
+	/**
 	 * @return name filter for apps with no CAS
 	 */
-	public static CommandNameFilter createNoCasCommandNameFilter() {
+	public static CommandFilter createNoCasCommandFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(Commands.LocusEquation, Commands.Envelope,
 				Commands.Expand, Commands.Factor, Commands.Factors,
@@ -46,7 +94,7 @@ public final class CommandNameFilterFactory {
 	/**
 	 * @return name filter for apps with CAS
 	 */
-	public static CommandNameFilter createCasCommandNameFilter() {
+	public static CommandFilter createCasCommandFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
 		commandNameFilter.addCommands(
 				// CAS specific command
