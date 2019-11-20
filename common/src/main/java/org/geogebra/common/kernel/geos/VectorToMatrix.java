@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
@@ -39,6 +36,16 @@ public class VectorToMatrix {
 
 	}
 
+	public String build(StringTemplate tpl, double x, double y) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append(surroundWithBrackets(x, tpl));
+		sb.append(", ");
+		sb.append(surroundWithBrackets(y, tpl));
+		sb.append("}");
+		return sb.toString();
+	}
+
 	private String surroundWithBrackets(ExpressionValue value, StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -47,21 +54,12 @@ public class VectorToMatrix {
 		return sb.toString();
 	}
 
-	public static String[] getLaTeXValues(ExpressionNode expressionNode, StringTemplate tpl) {
-		if (!(expressionNode.getLeft() instanceof  MyVecNDNode)) {
-			return null;
-		}
-		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.getLeft();
-		List<String> list = new ArrayList<>();
-		if (vecNode != null) {
-			list.add(vecNode.getX().toLaTeXString(true, tpl));
-			list.add(vecNode.getY().toLaTeXString(true, tpl));
-			ExpressionValue z = vecNode.getZ();
-			list.add(z != null ? z.toLaTeXString(true, tpl): "");
-		}
-
-		String[] array = new String[3];
-		return list.toArray(array);
+	private String surroundWithBrackets(double value, StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append(kernel.format(value, tpl));
+		sb.append("}");
+		return sb.toString();
 	}
 
 	public static boolean isEditable(GeoElementND geo) {
@@ -78,5 +76,4 @@ public class VectorToMatrix {
 		}
 		return false;
 	}
-
 }

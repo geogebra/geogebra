@@ -103,7 +103,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		String linkedGeoText;
 
-		if (hasIndependentVector()) {
+		if (hasLaTeXEditableVector()) {
 			linkedGeoText = getColumnMatrix((GeoVectorND)linkedGeo);
 		} else
 			if (linkedGeo.isGeoNumeric()) {
@@ -126,7 +126,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return linkedGeoText;
 	}
 
-	private boolean hasIndependentVector() {
+	private boolean hasLaTeXEditableVector() {
 		return linkedGeo instanceof GeoVectorND &&
 				((GeoVectorND) linkedGeo).isColumnEditabe();
 	}

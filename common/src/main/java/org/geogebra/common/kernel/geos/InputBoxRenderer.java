@@ -72,7 +72,7 @@ class InputBoxRenderer {
 
 	private String getVectorRenderString(GeoVectorND vector) {
 		return vector.isColumnEditabe()
-				? vector.toLaTeXStringAsColumnVector(StringTemplate.latexTemplate)
+				? vector.toLaTeXString(true, StringTemplate.latexTemplate)
 				: getLaTeXRedefineString();
 	}
 
