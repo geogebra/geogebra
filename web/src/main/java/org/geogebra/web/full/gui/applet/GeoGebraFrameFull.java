@@ -501,6 +501,7 @@ public class GeoGebraFrameFull
 								.getEuclidianController()
 								.modeNeedsKeyboard()))) {
 			doShowKeyBoard(show, textField);
+			showKeyboardButton(textField);
 			return true;
 		}
 		showKeyboardButton(textField);
@@ -532,8 +533,12 @@ public class GeoGebraFrameFull
 
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
 		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
+		if (app.getGuiManager().hasSpreadsheetView() || app.isUnbundled()) {
+			return keyboardListener != null;
+		}
+
 		if (textField != null && keyboardListener != null) {
-			return !isKeyboardWantedFromCookie()
+			return app.isKeyboardNeeded()
 					&& (textField.hasFocus() || keyboardListener.hasFocus());
 		}
 
