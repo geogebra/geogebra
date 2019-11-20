@@ -14,6 +14,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -42,6 +43,7 @@ public class ShowKeyboardButton extends SimplePanel {
 		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
 				.keyboard_show_material().getSafeUri().asString());
 		this.add(showKeyboard);
+		TestHarness.setAttr(this, "showKeyboardButton");
 
 		if (listener instanceof ComplexPanel) {
 			((ComplexPanel) listener).add(this);
