@@ -7,8 +7,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -88,21 +86,16 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				// setValue -> avoid slider range changing
 
 				linkedGeo.updateRepaint();
-
 			} else {
 				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 						linkedGeo.isIndependent(), false).withSliders(false);
 
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, this, kernel.getApplication().getErrorHandler());
+						defineText, info, true, this, null);
 				return;
 			}
-		} catch (MyError e1) {
-			kernel.getApplication().showError(e1);
-			return;
-		} catch (Exception e1) {
-			Log.error(e1.getMessage());
-			showError();
+		} catch (Throwable throwable) {
+			Log.error(throwable.getMessage());
 			return;
 		}
 		inputBox.setLinkedGeo(linkedGeo);
@@ -168,9 +161,5 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 
 		}
 		inputBox.setLinkedGeo(obj);
-	}
-
-	private void showError() {
-		kernel.getApplication().showError(Errors.InvalidInput);
 	}
 }
