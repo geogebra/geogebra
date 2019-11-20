@@ -23,6 +23,11 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class DialogBoxW extends GDialogBox {
+
+	/**
+	 * Style name for the button panels inside the dialogs.
+	 */
+	protected static final String DIALOG_BUTTON_PANEL_STYLE_NAME = "DialogButtonPanel";
 	
 	private ErrorHandler eh;
 	/** Cancel button */
