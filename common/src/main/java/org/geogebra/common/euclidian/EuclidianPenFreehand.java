@@ -230,7 +230,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		for (GPoint p : penPoints) {
 			int index = p.x - minX;
-			if (Double.isNaN(freehand1[index])) {
+			if (index >= 0 && index < freehand1.length
+					&& Double.isNaN(freehand1[index])) {
 				freehand1[index] = view.toRealWorldCoordY(p.y);
 			}
 		}
