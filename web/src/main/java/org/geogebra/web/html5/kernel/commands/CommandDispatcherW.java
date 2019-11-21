@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.kernel.commands;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
@@ -186,6 +187,13 @@ public class CommandDispatcherW extends CommandDispatcher {
 
 				@Override
 				public void onSuccess() {
+					// Forcing CAS to load...
+					GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+					try {
+						cas.getCurrentCAS().evaluateRaw("1");
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
 					LoggerW.loaded("prover");
 					proverDispatcher = new CommandDispatcherProver();
 					initCmdTable();

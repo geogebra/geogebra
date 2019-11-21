@@ -333,7 +333,8 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function isLocalhost(){
-		return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost)(:.+)?$/);
+	    return true;
+		// return location.protocol.match(/(chrome|app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost)(:.+)?$/);
 	}
 	function showStartScreen(){
 		var lang = getURLparam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";

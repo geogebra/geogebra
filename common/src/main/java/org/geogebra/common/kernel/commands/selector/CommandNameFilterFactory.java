@@ -29,7 +29,7 @@ public final class CommandNameFilterFactory {
 	 */
 	public static CommandNameFilter createNoCasCommandNameFilter() {
 		CommandNameFilterSet commandNameFilter = new CommandNameFilterSet(true);
-		commandNameFilter.addCommands(Commands.LocusEquation, Commands.Envelope,
+		commandNameFilter.addCommands(Commands.LocusEquation, Commands.Envelope, Commands.Discover,
 				Commands.Expand, Commands.Factor, Commands.Factors,
 				Commands.IFactor, Commands.CFactor, Commands.Simplify,
 				Commands.SurdText, Commands.ParametricDerivative,
@@ -69,7 +69,7 @@ public final class CommandNameFilterFactory {
                 Commands.CircumcircularArc, Commands.CircumcircleArc, Commands.CircumcircularSector,
                 Commands.CircumcircleSector, Commands.Cubic, Commands.Direction,
                 Commands.Distance, Commands.Envelope, Commands.IntersectPath,
-                Commands.Locus, Commands.LocusEquation, Commands.Midpoint,
+                Commands.Locus, Commands.LocusEquation, Commands.Discover, Commands.Midpoint,
                 Commands.Point, Commands.Polygon, Commands.Polyline,
                 Commands.PolyLine, Commands.ProveDetails, Commands.Ray,
                 Commands.RigidPolygon, Commands.Sector, Commands.Segment,

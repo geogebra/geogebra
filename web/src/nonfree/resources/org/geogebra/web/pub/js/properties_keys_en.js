@@ -261,6 +261,8 @@ __GGB__keysVar["en"].command = {
     "Direction.Syntax": "[ <Line> ]",
     "Directrix": "Directrix",
     "Directrix.Syntax": "[ <Conic> ]",
+    "Discover": "Discover",
+    "Discover.Syntax": "[ <Point> ]",
     "Distance": "Distance",
     "Distance.Syntax": "[ <Point>, <Object> ]\n[ <Line>, <Line> ]\n[ <Plane>, <Plane> ]",
     "Div": "Div",
