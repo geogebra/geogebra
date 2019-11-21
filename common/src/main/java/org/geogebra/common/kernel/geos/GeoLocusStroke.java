@@ -1,14 +1,19 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -16,11 +21,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Class for polylines created using pen
@@ -366,18 +366,19 @@ public class GeoLocusStroke extends GeoLocus
 		ArrayList<MyPoint> outside = new ArrayList<>();
 
 		for (int i = 0; i < getPoints().size() - 1; i++) {
-			if (getPoints().get(i).getSegmentType() == SegmentType.CONTROL) {
+			MyPoint currentPoint = getPoints().get(i);
+			if (currentPoint.getSegmentType() == SegmentType.CONTROL) {
 				continue;
 			}
 
-			if (!getPoints().get(i).isDefined()) {
+			if (!currentPoint.isDefined()) {
 				ensureTrailingNaN(outside);
 				continue;
 			}
 
-			boolean outsideF = !rectangle.contains(getPoints().get(i).x, getPoints().get(i).y);
+			boolean outsideF = !rectangle.contains(currentPoint.x, currentPoint.y);
 			if (outsideF) {
-				outside.add(getPoints().get(i));
+				outside.add(currentPoint);
 			}
 
 			for (MyPoint intersection : getAllIntersectionPoints(i, rectangle)) {
@@ -629,7 +630,9 @@ public class GeoLocusStroke extends GeoLocus
 						}
 					}
 				}
-				ensureTrailingNaN(getPoints());
+				if (index < data.size()) {
+					ensureTrailingNaN(getPoints());
+				}
 
 				index = index + Math.max(partOfStroke.size(), 1);
 			}

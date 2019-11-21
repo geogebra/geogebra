@@ -378,7 +378,8 @@ public class DrawLocus extends Drawable {
 	public ArrayList<GPoint2D> toPoints() {
 		ArrayList<GPoint2D> points = new ArrayList<>();
 		for (MyPoint pt : locus.getPoints()) {
-			points.add(new MyPoint(view.toScreenCoordX(pt.getX()), view.toScreenCoordY(pt.getY())));
+			points.add(
+					new MyPoint(view.toScreenCoordXd(pt.getX()), view.toScreenCoordYd(pt.getY())));
 		}
 		return points;
 	}

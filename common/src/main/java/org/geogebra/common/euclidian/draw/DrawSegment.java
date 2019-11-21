@@ -666,8 +666,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	private void addPoint(GeoPointND point, ArrayList<GPoint2D> ret) {
 		point.updateCoords2D();
-		ret.add(new MyPoint(view.toScreenCoordX(point.getX2D()),
-				view.toScreenCoordY(point.getY2D())));
+		ret.add(new MyPoint(view.toScreenCoordXd(point.getX2D()),
+				view.toScreenCoordYd(point.getY2D())));
 	}
 
 }

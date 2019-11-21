@@ -2220,8 +2220,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		updateDiameter();
 		double tangentPointX = view.toRealWorldCoordX(ret.get(1).getX());
 		double tangentPointY = diameter.value(tangentPointX);
-		ret.add(new MyPoint(view.toScreenCoordX(tangentPointX),
-				view.toScreenCoordY(tangentPointY)));
+		ret.add(new MyPoint(view.toScreenCoordXd(tangentPointX),
+				view.toScreenCoordYd(tangentPointY)));
 		return ret;
 	}
 

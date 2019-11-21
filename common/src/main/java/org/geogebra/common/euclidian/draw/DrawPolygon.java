@@ -533,8 +533,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		List<GPoint2D> ret = new ArrayList<>(this.poly.getNumPoints());
 		for (GeoPointND pt : this.poly.getPoints()) {
 			pt.updateCoords2D();
-			MyPoint screenPt = new MyPoint(view.toScreenCoordX(pt.getX2D()),
-					view.toScreenCoordY(pt.getY2D()));
+			MyPoint screenPt = new MyPoint(view.toScreenCoordXd(pt.getX2D()),
+					view.toScreenCoordYd(pt.getY2D()));
 			ret.add(screenPt);
 		}
 		return ret;
