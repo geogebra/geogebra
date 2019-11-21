@@ -11,6 +11,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -57,9 +58,9 @@ public class SplashDialog extends SimplePanel {
 			style.setPosition(Position.ABSOLUTE);
 			style.setZIndex(1000000);
 			style.setBackgroundColor("white");
+			HTML logo = new HTML(GuiResourcesSimple.INSTANCE
+					.ggbSplashHtml().getText());
 			if (showLogo) {
-				HTML logo = new HTML(GuiResourcesSimple.INSTANCE
-				        .ggbSplashHtml().getText());
 				panel.add(logo);
 			}
 			Image spinner = new NoDragImage(GuiResourcesSimple.INSTANCE
@@ -71,9 +72,27 @@ public class SplashDialog extends SimplePanel {
 			sstyle.setPosition(Position.ABSOLUTE);
 			sstyle.setMarginLeft(-8, Unit.PX);
 
-			panel.add(spinner);
+			//panel.add(spinner);
 			addNativeLoadHandler(spinner.getElement());
 			add(panel);
+
+			final DecoratedPopupPanel popup = new DecoratedPopupPanel();
+			popup.add(logo);
+			popup.setSize("427px", "527px");
+			popup.center();
+			popup.show();
+			// Now here i want to wait for like 5 secs and then
+			Timer timer = new Timer()
+			{
+				@Override
+				public void run()
+				{
+					popup.hide();
+				}
+			};
+
+			timer.schedule(5000);
+
 		} else {
 			Timer afterConstructor = new Timer() {
 
