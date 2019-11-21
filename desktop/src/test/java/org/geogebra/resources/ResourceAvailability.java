@@ -45,34 +45,12 @@ public class ResourceAvailability {
 		StringUtil.setPrototypeIfNull(new StringUtilD());
 		ImageManagerD man = new ImageManagerD(new JPanel());
 		StringBuilder missing = new StringBuilder();
-		HashMap<Integer, String> hm = new HashMap<>();
-		for (int j = 0; j < EuclidianConstants.class.getFields().length; j++) {
-			try {
-				hm.put(EuclidianConstants.class.getFields()[j].getInt(null),
-						EuclidianConstants.class.getFields()[j].getName());
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
 
 		for (int i = 0; i < 1000; i++) {
 			String modeText = EuclidianConstants.getModeTextSimple(i);
 
 			if (modeText.isEmpty()) {
 				continue;
-			}
-			if (i < 500) {
-				System.out.println("@Test\npublic void "
-						+ StringUtil.uncapitalize(modeText)
-						+ "Tool(){\n\tapp.setMode(EuclidianConstants."
-						+ hm.get(i)
-						+ ");\t//TODO " + i + "\n}\n");
 			}
 			switch (i) {
 			case EuclidianConstants.MODE_SELECTION_LISTENER:
@@ -88,6 +66,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_GRASPABLE_MATH:
 			case EuclidianConstants.MODE_CAS:
 			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			case EuclidianConstants.MODE_MASK:
 				continue;
 			default:
@@ -100,7 +79,7 @@ public class ResourceAvailability {
 			}
 
 		}
-		Assert.assertEquals(missing.toString(), missing.toString(), "");
 
+		Assert.assertEquals(missing.toString(), missing.toString(), "");
 	}
 }

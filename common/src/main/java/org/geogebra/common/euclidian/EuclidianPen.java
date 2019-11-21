@@ -40,39 +40,6 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	protected EuclidianView view;
 
-	/**
-	 * minimum determinant for circles decrease to allow less "round" circles
-	 */
-	public double CIRCLE_MIN_DET = 0.95;
-
-	/**
-	 * increase to allow uglier circles
-	 */
-	public double CIRCLE_MAX_SCORE = 0.10;
-
-	/**
-	 * maximum deviation between the segment lengths increase to allow less
-	 * beautiful rectangles
-	 */
-	public double RECTANGLE_LINEAR_TOLERANCE = 0.20;
-
-	/**
-	 * maximum deviation between the segment lengths increase to allow less
-	 * beautiful polygons
-	 */
-	public double POLYGON_LINEAR_TOLERANCE = 0.20;
-
-	/**
-	 * maximum deviation between the angles of a rectangle increase to allow
-	 * less beautiful rectangles
-	 */
-	public double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
-
-	/**
-	 * maximum determinant for lines (e.g. sides of a polygon) decrease to allow
-	 * lines that are not so straight
-	 */
-	public double LINE_MAX_DET = 0.015;
 	/** Polyline that conects stylebar to pen settings */
 	public final GeoPolyLine defaultPenLine;
 
@@ -113,9 +80,6 @@ public class EuclidianPen implements GTimerListener {
 	private int penLineStyle;
 	private GColor penColor = GColor.BLACK;
 	private PenPreviewLine penPreviewLine;
-
-	// being used for Freehand Shape tool (not done yet)
-	// private boolean recognizeShapes = false;
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -395,8 +359,6 @@ public class EuclidianPen implements GTimerListener {
 
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 
-		// if (g2D == null) g2D = penImage.createGraphics();
-
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 
 		addPointPenMode(newPoint);
@@ -518,15 +480,6 @@ public class EuclidianPen implements GTimerListener {
 
 		app.setDefaultCursor();
 
-		// if (!erasing && recognizeShapes) {
-		// checkShapes(e);
-		// }
-
-		// if (lastPenImage != null) penImage = lastPenImage.getImage();
-		// //app.getExternalImage(lastPenImage);
-
-		// Application.debug(penPoints.size()+"");
-
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
@@ -541,16 +494,6 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void startTimer() {
 		timer.start();
-	}
-
-	/**
-	 * @param x
-	 *            initial x
-	 * @param y
-	 *            initial y
-	 */
-	protected void initShapeRecognition(int x, int y) {
-		penPoints.add(new GPoint(x, y));
 	}
 
 	/**
@@ -614,10 +557,6 @@ public class EuclidianPen implements GTimerListener {
 		if (lastAlgo != null) {
 			try {
 				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
-				// String label = lastPolyLine.getPoly().getLabelSimple();
-				// lastPolyLine.getPoly().remove();
-				// lastPolyLine.remove();
-				// newPolyLine.getPoly().setLabel(label);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -658,17 +597,6 @@ public class EuclidianPen implements GTimerListener {
 		}
 		this.penColor = color;
 		lineDrawingColor = color;
-	}
-
-	/**
-	 * used for subclasses to return the last shape that was created
-	 *
-	 * NOT USED IN THIS CLASS
-	 *
-	 * @return null
-	 */
-	public GeoElement getCreatedShape() {
-		return null;
 	}
 
 	/**
