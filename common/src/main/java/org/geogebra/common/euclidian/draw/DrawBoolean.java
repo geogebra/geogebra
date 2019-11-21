@@ -38,7 +38,8 @@ import org.geogebra.common.util.StringUtil;
  */
 public final class DrawBoolean extends Drawable {
 
-	private static final int LABEL_MARGIN = 14;
+	private static final int LABEL_MARGIN_TEXT = 10;
+	private static final int LABEL_MARGIN_LATEX = 5;
 
 	private GeoBoolean geoBool;
 
@@ -113,8 +114,6 @@ public final class DrawBoolean extends Drawable {
 		if (isVisible) {
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
-			int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + 5;
-			int posY = geoBool.labelOffsetY;
 
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
 					isHighlighted(), g2, geoBool.labelOffsetX,
@@ -128,12 +127,15 @@ public final class DrawBoolean extends Drawable {
 				textSize.x = d.getWidth();
 				textSize.y = d.getHeight();
 
+				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
+						+ LABEL_MARGIN_LATEX;
+				int posY = geoBool.labelOffsetY;
 				if (checkBoxIcon.getIconHeight() < d.getHeight()) {
 					posY -= (d.getHeight() - checkBoxIcon.getIconHeight()) / 2;
 				} else {
 					posY += (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
-
 				}
+
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
 				g2.setColor(GColor.RED);
@@ -160,7 +162,7 @@ public final class DrawBoolean extends Drawable {
 							.round(layout.getBounds().getHeight());
 					textSize.x = width;
 					int left = geoBool.labelOffsetX
-							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN;
+							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT;
 					int top = geoBool.labelOffsetY
 							+ checkBoxIcon.getIconWidth() / 2;
 					top += height / 2;
