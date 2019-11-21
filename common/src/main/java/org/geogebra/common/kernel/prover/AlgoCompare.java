@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.realgeom.RealGeomWebService;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 
@@ -119,10 +121,6 @@ public class AlgoCompare extends AlgoElement {
         rewrites = new TreeMap<>(Collections.reverseOrder());
 
         RealGeomWebService realgeomWS = cons.getApplication().getRealGeomWS();
-        if (realgeomWS == null || (!realgeomWS.isAvailable())) {
-            outputText.setTextString("RealGeomWS is not available");
-            return;
-        }
 
         AlgoAreCongruent aae = new AlgoAreCongruent(cons, inputElement1, inputElement2);
         GeoBoolean gb = new GeoBoolean(cons);
@@ -198,6 +196,16 @@ public class AlgoCompare extends AlgoElement {
         Log.debug("freevars=" + freeVars);
         Log.debug("elimvars=" + elimVars);
 
+        /*
+        Set<Set<PPolynomial>> eliminationIdeal;
+        eliminationIdeal = PPolynomial.eliminate(
+                as.getPolynomials()
+                        .toArray(new PPolynomial[as.getPolynomials()
+                                .size()]),
+                as.substitutions, kernel, 0, true, false,
+                as.freeVariables);
+        */
+
         String vars = freeVars;
         if (!"".equals(elimVars)) {
             vars += "," + elimVars;
@@ -205,6 +213,72 @@ public class AlgoCompare extends AlgoElement {
         for (String v : extraVars) {
             vars += "," + v;
         }
+
+        // Start of direct Giac computation.
+        /* Example code:
+           [assume(m>0),solve(eliminate(subst([-v6+v4+v3-v1,-v5-v4+v3+v2,v7+v4-v2-v1,v8-v3-v2+v1,
+           -v9^2+v8^2+v7^2-2*v8*v4+v4^2-2*v7*v3+v3^2,-v10^2+v4^2+v3^2-2*v4*v2+v2^2-2*v3*v1+v1^2,-w1+v10+v10,w1*m-(v9)],
+           [v1=0,v2=0,v3=0,v4=1]),[v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,w1])[0],m)][1]
+         */
+        StringBuilder gc = new StringBuilder();
+        gc.append("[assume(m>0),solve(eliminate(subst([");
+        gc.append(as.getPolys());
+        for (String po : extraPolys) {
+            gc.append(",").append(po);
+        }
+        gc.append(",").append(lhs_var).append("*m-(").append(rhs_var).append(")],[");
+
+        StringBuilder varsubst = new StringBuilder();
+        int i = 0;
+        for (PVariable v : as.freeVariables) {
+            if (i<4) {
+                int value = 0;
+                if (i == 2)
+                    value = 1;
+                // 0,0,1,0 according to (0,0) and (1,0)
+                if (i > 0)
+                    varsubst.append(",");
+                varsubst.append(v).append("=").append(value);
+                ++i;
+            }
+        }
+
+        Localization loc = kernel.getLocalization();
+        String or = loc.getMenu("Symbol.Or").toLowerCase();
+
+        gc.append(varsubst).append("]),[");
+        gc.append(vars).append("])[0],m)][1]");
+        GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+        try {
+            String elimSol = cas.getCurrentCAS().evaluateRaw(gc.toString());
+            if (!elimSol.equals("?")) {
+                elimSol = elimSol.substring(1, elimSol.length() - 1);
+                String[] cases = elimSol.split(",");
+                String retval = "";
+                for (String result : cases) {
+                    if (!"".equals(retval)) {
+                        retval += " " + or + " ";
+                    }
+                    result = result.replace("m=", "");
+                    result = result.replace("*", "" + Unicode.CENTER_DOT);
+                    retval += inp2 + " = " + result + " " + Unicode.CENTER_DOT + " " + inp1;
+                }
+                outputText.setTextString(retval);
+                return;
+            }
+            // The result is not just a number. (Or a set of numbers.)
+        } catch (Throwable throwable) {
+            Log.debug("Error when trying elimination");
+        }
+        // End of direct Giac computation.
+
+        if (realgeomWS == null || (!realgeomWS.isAvailable())) {
+            // outputText.setTextString("RealGeomWS is not available");
+            Log.debug("RealGeomWS is not available");
+            outputText.setTextString("");
+            return;
+        }
+
         rgParameters.append("&vars=").append(vars);
         rgParameters.append("&posvariables=");
         Iterator it = rewrites.entrySet().iterator();
@@ -232,7 +306,7 @@ public class AlgoCompare extends AlgoElement {
             }
 
             if (!"".equals(retval)) {
-                retval += " or ";
+                retval += " " + or + " ";
             }
 
             result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");

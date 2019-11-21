@@ -384,7 +384,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoNumberValue a, GeoNumberValue b) {
 		Boolean bool = DoubleUtil.isEqual(a.getDouble(), b.getDouble());
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
-        if (bool || !app.getRealGeomWS().isAvailable()) {
+        if (bool) {
             register(true, RelationCommand.AreEqual, str);
         } else {
             register(true, RelationCommand.Compare, str);
@@ -417,13 +417,8 @@ public class RelationNumerical {
 								true, loc));
 			}
 		} else {
-			if (app.getRealGeomWS().isAvailable()) {
-				register(true, RelationCommand.Compare, congruentSegmentString((GeoElement) a,
+			register(true, RelationCommand.Compare, congruentSegmentString((GeoElement) a,
 						(GeoElement) b, false, loc));
-			} else {
-				register(false, null, congruentSegmentString((GeoElement) a,
-						(GeoElement) b, false, loc));
-			}
 		}
 
 		// Checking parallelism:
