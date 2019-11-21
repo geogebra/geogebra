@@ -100,7 +100,9 @@ public class GeoFactory {
 		case "interval":
 			return new GeoInterval(cons1);
 		case "line":
-			return new GeoLine(cons1);
+			GeoLine geoLine = new GeoLine(cons1);
+			geoLine.showUndefinedInAlgebraView(true);
+			return geoLine;
 		case "list":
 			return new GeoList(cons1);
 		case "locus":
