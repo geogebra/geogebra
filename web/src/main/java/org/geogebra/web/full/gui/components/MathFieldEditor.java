@@ -272,10 +272,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 		Dom.toggleClass(main, "hidden", !visible);
 	}
 
+	/**
+	 * @return keyboard listener
+	 */
 	public MathKeyboardListener getKeyboardListener() {
 		return retexListener;
 	}
 
+	/**
+	 * sets whether the editor should use the show keyboard button logic
+	 */
 	public void setUseKeyboardButton(boolean useKeyboardButton) {
 		this.useKeyboardButton = useKeyboardButton;
 	}
