@@ -129,12 +129,8 @@ public final class DrawBoolean extends Drawable {
 
 				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
 						+ LABEL_MARGIN_LATEX;
-				int posY = geoBool.labelOffsetY;
-				if (checkBoxIcon.getIconHeight() < d.getHeight()) {
-					posY -= (d.getHeight() - checkBoxIcon.getIconHeight()) / 2;
-				} else {
-					posY += (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
-				}
+				int posY = geoBool.labelOffsetY
+						+ (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
 
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
@@ -164,8 +160,7 @@ public final class DrawBoolean extends Drawable {
 					int left = geoBool.labelOffsetX
 							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT;
 					int top = geoBool.labelOffsetY
-							+ checkBoxIcon.getIconWidth() / 2;
-					top += height / 2;
+							+ (checkBoxIcon.getIconHeight() + height) / 2;
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							labelDesc, left, top, false);
 				}
@@ -173,13 +168,6 @@ public final class DrawBoolean extends Drawable {
 
 			updateLabel();
 		}
-	}
-
-	/**
-	 * Removes button from view again
-	 */
-	public void remove() {
-		// view.remove(checkBox);
 	}
 
 	/**
