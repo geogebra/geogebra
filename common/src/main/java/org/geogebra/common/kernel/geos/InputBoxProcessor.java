@@ -112,7 +112,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	private String  preprocess(String inputText, StringTemplate tpl) {
 		String defineText = inputText;
 
-		if (linkedGeo instanceof GeoVectorND && linkedGeo.isIndependent()) {
+		if (linkedGeo instanceof GeoVectorND && ((GeoVectorND) linkedGeo).isColumnEditable()) {
 			defineText = "(" + inputText.replace("{", "")
 					.replace("}", "") + ")";
 		} else if (linkedGeo.isGeoText()) {

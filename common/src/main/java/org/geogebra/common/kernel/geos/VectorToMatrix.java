@@ -25,7 +25,7 @@ public class VectorToMatrix {
 	 */
 	public String build(StringTemplate template, ExpressionNode expressionNode) {
 
-		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.getLeft();
+		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.unwrap();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
@@ -43,35 +43,30 @@ public class VectorToMatrix {
 	}
 
 	/**
-	 * Builds a matrix-like string {{x}, {y}} from x, y
+	 * Builds a matrix-like string {{x}, {y}..} from x, y...
 	 * @param tpl the StringTemplate to use.
-	 * @param x value.
-	 * @param y value.
+	 * @param coordinates the values of the vector build from.
 	 * @return {{x}, {y}} format string.
 	 */
-	public String build(StringTemplate tpl, double x, double y) {
+	public String build(StringTemplate tpl, double... coordinates) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append(surroundWithBrackets(x, tpl));
-		sb.append(", ");
-		sb.append(surroundWithBrackets(y, tpl));
+		String separator = "";
+		for (double i: coordinates) {
+			sb.append(separator);
+			sb.append(surroundWithBrackets(i, tpl));
+			separator = ", ";
+		}
 		sb.append("}");
 		return sb.toString();
 	}
 
 	private String surroundWithBrackets(ExpressionValue value, StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(value.toLaTeXString(true, tpl));
-		sb.append("}");
-		return sb.toString();
+		return "{" + value.toLaTeXString(true, tpl) + "}";
 	}
 
 	private String surroundWithBrackets(double value, StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(kernel.format(value, tpl));
-		sb.append("}");
-		return sb.toString();
+		return "{" + kernel.format(value, tpl) + "}";
 	}
+
 }

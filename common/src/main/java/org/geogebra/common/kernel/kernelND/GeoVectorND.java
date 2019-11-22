@@ -110,5 +110,5 @@ public interface GeoVectorND
 	 *
 	 * @return true if the vector is column-editable.
 	 */
-	boolean isColumnEditabe();
+	boolean isColumnEditable();
 }

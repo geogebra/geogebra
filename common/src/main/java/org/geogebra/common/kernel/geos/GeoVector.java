@@ -508,7 +508,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public String toValueStringAsColumnVector(StringTemplate tpl) {
-		return buildColumnVectorValueString(tpl).toString();
+		return buildColumnVectorValueString(tpl);
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
@@ -570,18 +570,15 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return sbBuildValueString;
 	}
 
-	private StringBuilder buildColumnVectorValueString(StringTemplate tpl) {
+	private String buildColumnVectorValueString(StringTemplate tpl) {
 		if (getToStringMode() != Kernel.COORD_CARTESIAN) {
-			return buildValueString(tpl);
+			return buildValueString(tpl).toString();
 		}
 
-		sbBuildValueString.setLength(0);
 		ExpressionNode definition = getDefinition();
-		String vectorSting = definition != null
+		return definition != null
 				? getConverter().build(tpl, getDefinition())
 				: getConverter().build(tpl, getX(), getY());
-		sbBuildValueString.append(vectorSting);
-		return sbBuildValueString;
 	}
 
 	private VectorToMatrix getConverter() {
@@ -1157,7 +1154,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public boolean isColumnEditabe() {
+	public boolean isColumnEditable() {
 		return isIndependent()
 				|| getParentAlgorithm() instanceof AlgoDependentVector;
 	}

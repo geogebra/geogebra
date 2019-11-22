@@ -864,7 +864,10 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	private String buildColumnVectorValueString(StringTemplate tpl) {
-		return getConverter().build(tpl, getDefinition().wrap());
+		ExpressionNode definition = getDefinition();
+		return definition != null
+				? getConverter().build(tpl, getDefinition())
+				: getConverter().build(tpl, getX(), getY(), getZ());
 	}
 
 	private VectorToMatrix getConverter() {
@@ -875,8 +878,8 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public boolean isColumnEditabe() {
+	public boolean isColumnEditable() {
 		return isIndependent()
-				|| getDefinition() instanceof MyVecNDNode;
+				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }
