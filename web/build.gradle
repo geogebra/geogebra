@@ -168,7 +168,7 @@ task copyHtml {
             into warDirRel
         }
 
-        appSpecs.each({app->
+        appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
             // TODO notes features should go to stable, then we simplify this
@@ -176,32 +176,28 @@ task copyHtml {
             file("war/${app.id}-template.html").text = replaceHtml(app, prerelease)
             file("war/${app.id}-offline.html").text = english(replaceHtml(app, prerelease, true), app.title)
             file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
-        });
+        }
     }
 }
 
 task copyHandlebars {
     doLast {
-        appSpecs.each({app->
+        appSpecs.each { app ->
             def appID = app.id.split("-")[0]
-            def replaceHtml = app.id == "classic" ? classicHtml : appHtml
             // TODO notes features should go to stable, then we simplify this
             def prerelease = "notes".equals(appID)
             file(project.getProperty("handlebarsDir") + "/${app.id}-template.handlebars").text = handlebars(appHtml(app, prerelease))
-        })
+        }
     }
 }
 
 task createSolverHtml {
     doLast {
-        def header = headerPartials(template("app-header-beta.html"), null);
-        String solver = template("solver-template.html")
-            .replace("<!--HEADER-->", header)
-            .replace("<!--SPLASH STYLE-->", template("app-header.css"))
+        String solver = solverHtml()
         // for server rendering
         file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
         file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
-        // for direct use autotest
+        // for localhost and autotest
         file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")
             .replace("<!--APP TYPE-->", "solver")
@@ -217,9 +213,9 @@ task createSolverHtml {
 
 task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
-        ["web3d", "webSimple"].each {module ->
+        ["web3d", "webSimple"].each { module ->
             def dir = file("build/gwt/out/$module");
-            fileTree(dir).each { f->
+            fileTree(dir).each { f ->
                 println "$f -> $f"
                 def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
                 file(outFile.parent).mkdirs();
