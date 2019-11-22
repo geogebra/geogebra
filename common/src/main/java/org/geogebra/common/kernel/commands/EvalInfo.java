@@ -22,6 +22,7 @@ public class EvalInfo {
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
+	private boolean allowTypeChange = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
 
@@ -140,6 +141,7 @@ public class EvalInfo {
 		ret.symbolicMode = this.symbolicMode;
 		ret.copyingPlainVariables = this.copyingPlainVariables;
 		ret.labelFilter = this.labelFilter;
+		ret.allowTypeChange = this.allowTypeChange;
 		return ret;
 	}
 
@@ -267,6 +269,10 @@ public class EvalInfo {
 		return forceUserEquation;
 	}
 
+	public boolean isPreventingTypeChange() {
+		return !allowTypeChange;
+	}
+
 	/**
 	 * 
 	 * @return whether random numbers should be updated on a redefinition
@@ -351,5 +357,17 @@ public class EvalInfo {
 	 */
 	public boolean isLabelRedefinitionAllowedFor(String label) {
 		return labelFilter == null || labelFilter.test(label);
+	}
+
+	/**
+	 * Calling this prevents the AlgebraProcessor to change the type of the GeoElement.
+	 * It sets the element to undefined when trying to replace with a new type.
+	 *
+	 * @return a copy of the eval info which prevents type change.
+	 */
+	public EvalInfo withPreventingTypeChange() {
+		EvalInfo info = copy();
+		info.allowTypeChange = false;
+		return info;
 	}
 }

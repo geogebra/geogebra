@@ -1994,7 +1994,8 @@ public class AlgebraProcessor {
 					}
 
 					// STANDARD CASE: REDFINED
-					else {
+					else if (!(info.isPreventingTypeChange()) || compatibleTypes(replaceable.getGeoClassType(),
+							ret[0].getGeoClassType())) {
 						GeoElement newGeo = ret[0];
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
 						if (cell != null) {
@@ -2016,6 +2017,10 @@ public class AlgebraProcessor {
 								? newGeo.getLabelSimple()
 								: replaceable.getLabelSimple();
 						ret[0] = kernel.lookupLabel(newLabel);
+					} else {
+						// Set undefined
+						ret[0] = replaceable;
+						replaceable.setUndefined();
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;

@@ -88,10 +88,11 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				// setValue -> avoid slider range changing
 
 				linkedGeo.updateRepaint();
-
 			} else {
 				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-						linkedGeo.isIndependent(), false).withSliders(false);
+						false, false).withSliders(false)
+						.withNoRedefinitionAllowed().withPreventingTypeChange();
+//				;
 
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
 						defineText, info, true, this, kernel.getApplication().getErrorHandler());

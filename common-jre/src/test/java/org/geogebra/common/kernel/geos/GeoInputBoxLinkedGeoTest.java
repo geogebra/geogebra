@@ -147,7 +147,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	private void setupInput(String label, String value) {
 		add(label + ":" + value);
-		inputBox = (GeoInputBox) add("ib=InputBox(" + label + ")");
+		inputBox = add("ib=InputBox(" + label + ")");
 	}
 
 	@Test
@@ -156,7 +156,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("B = (2,0)");
 		add("C = (2,2)");
 		add("p:Plane(A,B,C)");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(p)");
+		GeoInputBox inputBox = add("InputBox(p)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
 }

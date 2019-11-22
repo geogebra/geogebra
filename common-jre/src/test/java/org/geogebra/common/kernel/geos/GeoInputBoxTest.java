@@ -37,8 +37,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void symbolicInputBoxUseDefinitionForFunctions() {
 		add("f = x+1");
 		add("g = 2f(x+2)+1");
-		GeoInputBox inputBox1 = (GeoInputBox) add("InputBox(f)");
-		GeoInputBox inputBox2 = (GeoInputBox) add("InputBox(g)");
+		GeoInputBox inputBox1 = add("InputBox(f)");
+		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		Assert.assertEquals("x + 1", inputBox1.getText());
 		Assert.assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
@@ -48,8 +48,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void symbolicInputBoxUseDefinitionForFunctionsNVar() {
 		add("f = x*y+1");
 		add("g = 2f(x+2, y)+1");
-		GeoInputBox inputBox1 = (GeoInputBox) add("InputBox(f)");
-		GeoInputBox inputBox2 = (GeoInputBox) add("InputBox(g)");
+		GeoInputBox inputBox1 = add("InputBox(f)");
+		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		Assert.assertEquals("x y + 1", inputBox1.getText());
 		Assert.assertEquals("2f(x + 2, y) + 1", inputBox2.getTextForEditor());
@@ -61,7 +61,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
     public void symbolicInputBoxTextShouldBeInLaTeX() {
         add("f = x + 12");
         add("g = 2f(x + 1) + 2");
-        GeoInputBox inputBox2 = (GeoInputBox) add("InputBox(g)");
+        GeoInputBox inputBox2 = add("InputBox(g)");
         inputBox2.setSymbolicMode(true, false);
         Assert.assertEquals("2 \\; f\\left(x + 1 \\right) + 2", inputBox2.getText());
     }
@@ -69,7 +69,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
     @Test
     public void testMatrixShouldBeInLaTeX() {
         add("m1 = {{1, 2, 3}, {4, 5, 6}}");
-        GeoInputBox inputBox = (GeoInputBox) add("InputBox(m1)");
+        GeoInputBox inputBox = add("InputBox(m1)");
         inputBox.setSymbolicMode(true, false);
         Assert.assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
 				inputBox.getText());
@@ -79,7 +79,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
     public void inputBoxTextAlignmentIsInXMLTest() {
         App app = getApp();
         add("A = (1,1)");
-        GeoInputBox inputBox = (GeoInputBox) add("B = Inputbox(A)");
+        GeoInputBox inputBox = add("B = Inputbox(A)");
         Assert.assertEquals(TextAlignment.LEFT, inputBox.getAlignment());
         inputBox.setAlignment(TextAlignment.CENTER);
         Assert.assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
@@ -92,7 +92,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testForSimpleUndefinedGeo() {
 		add("a=?");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
+		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 		Assert.assertEquals("", inputBox.getText());
 		Assert.assertEquals("", inputBox.getTextForEditor());
@@ -107,7 +107,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("a=1");
 		add("b=?a");
 
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(b)");
+		GeoInputBox inputBox = add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
 		Assert.assertEquals("?a", inputBox.getText());
 		Assert.assertEquals("?a", inputBox.getTextForEditor());
@@ -120,7 +120,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testForEmptyInput() {
 		add("a=1");
 
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
+		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 
 		textObject.setText("");
@@ -138,7 +138,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testForUndefinedInputInput() {
 		add("a=1");
 
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
+		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 
 		textObject.setText("?");
@@ -155,7 +155,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testInputForGeoText() {
 		add("text = \"?\" ");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(text)");
+		GeoInputBox inputBox = add("InputBox(text)");
 
 		inputBox.setSymbolicMode(true, false);
 		Assert.assertEquals("?", inputBox.getText());
@@ -168,14 +168,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testCanBeSymbolicForNVarFunction() {
 		add("f(x, y) = x + y");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		GeoInputBox inputBox = add("InputBox(f)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
 
 	@Test
 	public void testCanBeSymbolicForBooleanFunction() {
 		add("f(x, y) = x == y");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		GeoInputBox inputBox = add("InputBox(f)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
 
@@ -184,7 +184,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("A = (0,0)");
 		add("B = (2,2)");
 		add("f:Line(A,B)");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
+		GeoInputBox inputBox = add("InputBox(f)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
+
+	@Test
+	public void testCannotRedefineObjects() {
+		GeoVector vec2D = add("Vector2D = Vector((1,2))");
+
+		GeoInputBox inputBox = add("InputBox(Vector2D)");
+		inputBox.updateLinkedGeo("x^2");
+		Assert.assertFalse(vec2D.isDefined());
 	}
 }
