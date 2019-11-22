@@ -121,9 +121,8 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
-		return getBoundingBox() != null
-				&& getBoundingBox() == view.getBoundingBox()
-				&& getBoundingBox().hit(hitX, hitY, hitThreshold);
+		return view.getBoundingBox() != null && geo.isSelected()
+				&& view.getBoundingBox().hit(hitX, hitY, hitThreshold);
 	}
 
 	@Override
@@ -140,7 +139,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	public BoundingBox getBoundingBox() {
 		if (video.isBackground()) {
 			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false, false);
+				boundingBox = createBoundingBox(false);
 				setMetrics();
 			}
 			boundingBox.updateFrom(geo);

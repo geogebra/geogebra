@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.SegmentBoundingBox;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
@@ -64,7 +65,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	// For drawing ticks
 	private GLine2D[] decoTicks;
 
-	private BoundingBox boundingBox;
+	private SegmentBoundingBox boundingBox;
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	/**
@@ -126,19 +127,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 				// for segment only two handler
-				boundingBox.getHandlers().get(0).setFrameFromCenter(
-						line.getX1(), line.getY1(), line.getX1() + 5,
-						line.getY1() + 5);
-				boundingBox.getHandlers().get(1).setFrameFromCenter(
-						line.getX2(), line.getY2(), line.getX2() + 5,
-						line.getY2() + 5);
-				// handler for rotation
-				// boundingBox.getHandlers().get(2).setFrameFromCenter(
-				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
-				// getBounds().getMaxY() + 15,
-				// (getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
-				// getBounds().getMaxY() + 15 + 3);
-
+				boundingBox.setHandlerFromCenter(0, line.getX1(), line.getY1());
+				boundingBox.setHandlerFromCenter(1, line.getX2(), line.getY2());
 			} else {
 				getBoundingBox().setRectangle(null);
 			}
@@ -614,8 +604,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = createBoundingBox(false, true);
-			boundingBox.setNrHandlers(2);
+			boundingBox = new SegmentBoundingBox();
+			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
 		boundingBox.updateFrom(geo);
 		return boundingBox;

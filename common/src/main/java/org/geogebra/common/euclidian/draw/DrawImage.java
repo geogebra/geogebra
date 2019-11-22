@@ -32,6 +32,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
+import org.geogebra.common.euclidian.CropBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -344,7 +345,8 @@ public final class DrawImage extends Drawable {
 				// improve rendering quality for transformed images
 				Object oldInterpolationHint = g3
 						.setInterpolationHint(needsInterpolationRenderingHint);
-				if (getBoundingBox().isCropBox()) {
+				if (view.getBoundingBox() != null && view.getBoundingBox().isCropBox()
+						&& geo.isSelected()) {
 					g3.setComposite(AwtFactory.getPrototype().newAlphaComposite(0.5f));
 					g3.drawImage(image, 0, 0);
 					g3.setComposite(AwtFactory.getPrototype().newAlphaComposite(1.0f));
@@ -509,7 +511,8 @@ public final class DrawImage extends Drawable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = createBoundingBox(true, false);
+			boundingBox = new CropBox();
+			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
 		boundingBox.updateFrom(geo);
 		return boundingBox;
@@ -841,5 +844,11 @@ public final class DrawImage extends Drawable {
 			return getCropBox();
 		}
 		return getBounds();
+	}
+
+	@Override
+	public GRectangle2D getBoundsClipped() {
+		updateIfNeeded();
+		return super.getBoundsClipped();
 	}
 }

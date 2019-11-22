@@ -2071,7 +2071,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = createBoundingBox(false, true);
+			boundingBox = createBoundingBox(true);
 		}
 		boundingBox.updateFrom(geo);
 		return boundingBox;

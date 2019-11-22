@@ -171,7 +171,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * @return bounding box construction
 	 */
-	public abstract BoundingBox getBoundingBox();
+	public abstract BoundingBox<? extends GShape> getBoundingBox();
 
 	@Override
 	public double getxLabel() {
@@ -900,12 +900,11 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Helper method for creating a BoundingBox object.
-	 * @param isImage is image
 	 * @param hasRotationHandler has rotation handler
 	 * @return bounding box
 	 */
-	protected BoundingBox createBoundingBox(boolean isImage, boolean hasRotationHandler) {
-		BoundingBox boundingBox = new BoundingBox(isImage, hasRotationHandler);
+	protected BoundingBox<? extends GShape> createBoundingBox(boolean hasRotationHandler) {
+		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
 		boundingBox.setColor(getActiveColor());
 
 		return boundingBox;
@@ -967,5 +966,15 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public double getDiagonalWidthThreshold() {
 		return getWidthThreshold();
+	}
+
+	/**
+	 * Update this if it's marked as outdated
+	 */
+	public void updateIfNeeded() {
+		if (needsUpdate()) {
+			setNeedsUpdate(false);
+			update();
+		}
 	}
 }

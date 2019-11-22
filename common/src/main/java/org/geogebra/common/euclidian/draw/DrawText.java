@@ -363,7 +363,7 @@ public final class DrawText extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false, false);
+				boundingBox = createBoundingBox(false);
 				boundingBox.setRectangle(getBounds());
 			}
 			boundingBox.updateFrom(geo);

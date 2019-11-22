@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.Rotateable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
@@ -347,7 +348,7 @@ public class DrawLocus extends Drawable {
 	public BoundingBox getBoundingBox() {
 		if (view.getApplication().isWhiteboardActive()) {
 			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false, geo instanceof Rotateable);
+				boundingBox = createBoundingBox(geo instanceof Rotateable);
 			}
 			boundingBox.updateFrom(geo);
 			return boundingBox;
@@ -391,6 +392,9 @@ public class DrawLocus extends Drawable {
 			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
 					view.toRealWorldCoordY(points.get(i).getY()));
 			i++;
+		}
+		if (locus instanceof GeoLocusStroke) {
+			((GeoLocusStroke) locus).resetXMLPointBuilder();
 		}
 	}
 

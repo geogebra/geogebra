@@ -8390,10 +8390,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (geo != null && view.getDrawableFor(geo) != null
+		if (geo != null && mode == EuclidianConstants.MODE_SELECT_MOW
+				&& view.getDrawableFor(geo) != null
 				&& !wasBoundingBoxHit) {
-			view.setBoundingBox(
-					((Drawable) view.getDrawableFor(geo)).getBoundingBox());
+			updateBoundingBoxFromSelection(
+					view.getBoundingBox() != null && view.getBoundingBox().isCropBox());
 			view.repaintView();
 		}
 
@@ -8523,8 +8524,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
 				if (d != null && view
 						.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-					if (view.getBoundingBox() != null && view.getBoundingBox()
-							.equals(d.getBoundingBox())) {
+					if (view.getBoundingBox() != null
+							&& view.getBoundingBox().equals(d.getBoundingBox())) {
 						setBoundingBoxCursor(d);
 						setResizedShape(d);
 					}
@@ -9564,7 +9565,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void updateHits(AbstractEvent event) {
-		boolean deselected = view.resetPartialHits(event.getX(), event.getY());
+		boolean deselected = view.resetPartialHits(event.getX(), event.getY(),
+				app.getCapturingThreshold(event.getType()));
 		if (deselected) {
 			app.getSelectionManager().clearSelectedGeos(false);
 		}
@@ -10024,10 +10026,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean specialBoundingBoxNeeded(boolean crop) {
-		return selection.getSelectedGeos().size() == 1
-				&& (selection.getSelectedGeos().get(0).isGeoSegment()
-						|| (selection.getSelectedGeos().get(0).isGeoImage()
-								&& crop));
+		ArrayList<GeoElement> selectedGeos = selection.getSelectedGeos();
+		if (selectedGeos.size() == 1) {
+			GeoElement geoElement = selectedGeos.get(0);
+			return geoElement.isGeoSegment()
+					|| (geoElement.isGeoImage() && !geoElement.isLocked() && crop);
+		}
+		return false;
 	}
 
 	protected void processSelection() {
@@ -10249,9 +10254,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {
 			GeoElement geo = getShapeMode()
 						.handleMouseReleasedForShapeMode(event);
-			if (geo != null && geo.isShape()
-						&& view.getDrawableFor(geo) != null) {
-				setBoundingBoxForGeo(geo);
+			if (geo != null && geo.isShape() && view.getDrawableFor(geo) != null) {
+				app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
+				selectAndShowBoundingBox(geo);
 			}
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -12658,7 +12663,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// create union bounding box
 		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
 				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
-		BoundingBox boundingBox = new BoundingBox(rect, false, hasRotationHandler);
+		BoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
+		boundingBox.setRectangle(rect);
 		boundingBox.setFixed(fixed);
 		boundingBox.setColor(app.getPrimaryColor());
 		view.setBoundingBox(boundingBox);
@@ -12720,18 +12726,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		numOfTargets = numOfTargets == 0 ? 0 : numOfTargets - 1;
 	}
 
-	private void setBoundingBoxForGeo(GeoElement geoElement) {
-		Drawable d = ((Drawable) view.getDrawableFor(geoElement));
-		d.update();
-		if (d.getBoundingBox().getRectangle() != null) {
-			app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-					ModeSetter.DOCK_PANEL);
-			view.setBoundingBox(d.getBoundingBox());
-			view.repaintView();
-			selection.addSelectedGeo(geoElement);
-		}
-	}
-
 	/**
 	 * Select the geoElement and show bounding box and stylebar
 	 *
@@ -12739,7 +12733,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void selectAndShowBoundingBox(GeoElement geoElement) {
 		clearSelections();
-		setBoundingBoxForGeo(geoElement);
+		selection.addSelectedGeo(geoElement);
+		updateBoundingBoxFromSelection(false);
 		showDynamicStylebar();
 	}
 }

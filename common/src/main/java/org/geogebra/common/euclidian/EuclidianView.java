@@ -2838,16 +2838,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            - bounding box for select
 	 */
 	public void setBoundingBox(BoundingBox boundingBox) {
-		// if old bounding box reset -> reset crop properties
-		if (this.boundingBox != null && boundingBox != null
-				&& boundingBox.equals(this.boundingBox)) {
-			boundingBox.setCropBox(this.boundingBox.isCropBox());
-		}
-		// end croping if geo deselected or other geo selected
-		if ((boundingBox == null || !boundingBox.equals(this.boundingBox))
-				&& this.boundingBox != null) {
-			this.boundingBox.setCropBox(false);
-		}
 		this.boundingBox = boundingBox;
 	}
 
@@ -3538,7 +3528,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public abstract boolean requestFocusInWindow();
 
-	// Michael Borcherds 2008-03-01
 	/**
 	 * Draws all geometric objects
 	 * 
@@ -3556,17 +3545,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
 			drawLayers[layer].drawAll(g2);
-
-			if (getEuclidianController().isMultiSelection()) {
-				getEuclidianController().setBoundingBoxFromList(
-						app.getSelectionManager().getSelectedGeos());
-			}
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
 		}
+		if (getEuclidianController().isMultiSelection()) {
+			getEuclidianController()
+					.setBoundingBoxFromList(app.getSelectionManager().getSelectedGeos());
+		}
 	}
 
-	// Michael Borcherds 2008-03-01
 	/**
 	 * Draws all objects
 	 * 
@@ -4250,11 +4237,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			if (d.geo.isMask()) {
-				if (d.needsUpdate()) {
-					d.setNeedsUpdate(false);
-					d.update();
-				}
-
+				d.updateIfNeeded();
 				d.draw(g2);
 			}
 		}
@@ -6576,9 +6559,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            screen x-coord of pointer event
 	 * @param y
 	 *            screen y-coord of pointer event
+	 * @param threshold
+	 *            hit threshold
 	 * @return whether selection changed
 	 */
-	public boolean resetPartialHits(int x, int y) {
+	public boolean resetPartialHits(int x, int y, int threshold) {
+		if (boundingBox != null && boundingBox.hit(x, y, threshold)) {
+			return false;
+		}
 		boolean deselected = false;
 		for (Drawable draw : this.allDrawableList) {
 			deselected = draw.resetPartialHitClip(x, y) || deselected;

@@ -632,7 +632,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected void toggleCrop(boolean val) {
 		if (getBtncrop() != null) {
 			ev.getEuclidianController().updateBoundingBoxFromSelection(val);
-			ev.getBoundingBox().setCropBox(val);
 			ev.repaintView();
 			updateStyleBar();
 		}

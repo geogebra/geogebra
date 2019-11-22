@@ -214,6 +214,7 @@ public class GeoLocusStroke extends GeoLocus
 			pt.x = (x - qx) * cos + (qy - y) * sin + qx;
 			pt.y = (x - qx) * sin + (y - qy) * cos + qy;
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -229,6 +230,7 @@ public class GeoLocusStroke extends GeoLocus
 			pt.x = x * cos - y * sin;
 			pt.y = x * sin + y * cos;
 		}
+		resetXMLPointBuilder();
 	}
 
 	@Override
@@ -269,7 +271,7 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * Reset list of points for XML
 	 */
-	private void resetXMLPointBuilder() {
+	public void resetXMLPointBuilder() {
 		xmlPoints = null;
 	}
 

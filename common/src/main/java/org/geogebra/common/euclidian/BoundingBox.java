@@ -4,11 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GEllipse2DDouble;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -25,21 +21,17 @@ import org.geogebra.common.main.GeoGebraColorConstants;
  * @author csilla
  *
  */
-public class BoundingBox {
-	private GRectangle2D rectangle;
-	private ArrayList<GEllipse2DDouble> handlers;
-	private ArrayList<GGeneralPath> cropHandlers;
-	private int nrHandlers = 8;
-	private boolean isCropBox = false;
-	private boolean isImage = false;
+public abstract class BoundingBox<T extends GShape> {
+	protected GRectangle2D rectangle;
+	protected final ArrayList<T> handlers;
 	private GColor color;
 	private boolean fixed;
 
-	private static final int ROTATION_HANDLER_DISTANCE = 25;
 	/**
 	 * size of handler
 	 */
 	public static final int HANDLER_RADIUS = 5;
+
 	/**
 	 * minimum width and height for multi-selection
 	 */
@@ -47,36 +39,10 @@ public class BoundingBox {
 
 	/**
 	 * Make new bounding box
-	 *
-	 * @param isImage
-	 *            true if is boundingBox of image
-	 * @param hasRotationHandler
-	 *            has rotation handler
 	 */
-	public BoundingBox(boolean isImage, boolean hasRotationHandler) {
-		setNrHandlers(hasRotationHandler ? 9 : 8);
-		setHandlers(new ArrayList<GEllipse2DDouble>());
-		if (isImage) {
-			this.isImage = isImage;
-			setCropHandlers(new ArrayList<GGeneralPath>());
-		}
+	public BoundingBox() {
+		handlers = new ArrayList<>();
 		setColor(GeoGebraColorConstants.GEOGEBRA_ACCENT);
-	}
-
-	/**
-	 * New bounding box with defined rectangle
-	 *
-	 * @param rect
-	 *            defined rectangle
-	 * @param isImage
-	 *            true is bounding box of image
-	 * @param hasRotationHandler
-	 *            has rotation handler
-	 */
-	public BoundingBox(GRectangle rect, boolean isImage,
-			boolean hasRotationHandler) {
-		this(isImage, hasRotationHandler);
-		setRectangle(rect);
 	}
 
 	/**
@@ -117,178 +83,24 @@ public class BoundingBox {
 	}
 
 	/**
-	 * @return handler points of bounding box construction
-	 */
-	public ArrayList<GEllipse2DDouble> getHandlers() {
-		return handlers;
-	}
-
-	/**
-	 * @param index
-	 *            of handler
-	 * @return handler
-	 */
-	public GEllipse2DDouble getHandler(int index) {
-		return handlers.get(index);
-	}
-
-	/**
-	 * @param index
-	 *            of handler
-	 * @return point with center coordinates of handler
-	 */
-	public GPoint getHandlerCenter(int index) {
-		int x = (int) (handlers.get(index).getBounds().getMinX() + HANDLER_RADIUS);
-		int y = (int) (handlers.get(index).getBounds().getMinY() + HANDLER_RADIUS);
-		return new GPoint(x, y);
-	}
-
-	/**
-	 * @param handlers
-	 *            - points of bounding box construction
-	 */
-	public void setHandlers(ArrayList<GEllipse2DDouble> handlers) {
-		this.handlers = handlers;
-	}
-
-	/**
 	 * @return true if cropBox should be shown instead of boundingBox
 	 */
 	public boolean isCropBox() {
-		return isCropBox;
+		return false;
 	}
 
-	/**
-	 * @param isCropBox
-	 *            set if boundingBox or cropBox should be shown
-	 */
-	public void setCropBox(boolean isCropBox) {
-		this.isCropBox = isCropBox;
-	}
+	protected abstract void createHandlers();
 
-	/**
-	 * @return crop handlers
-	 */
-	public ArrayList<GGeneralPath> getCropHandlers() {
-		return cropHandlers;
-	}
-
-	/**
-	 * @param cropHandlers
-	 *            list of crop handlers
-	 */
-	public void setCropHandlers(ArrayList<GGeneralPath> cropHandlers) {
-		this.cropHandlers = cropHandlers;
-	}
-
-	/**
-	 * @return number of needed handlers
-	 */
-	public int getNrHandlers() {
-		return nrHandlers;
-	}
-
-	/**
-	 * @param nrHandlers
-	 *            - number of handlers
-	 */
-	public void setNrHandlers(int nrHandlers) {
-		this.nrHandlers = nrHandlers;
-	}
-
-	private void createHandlers() {
-		if (handlers == null) {
-			handlers = new ArrayList<>();
-		}
+	protected void initHandlers(int nrHandlers) {
 		handlers.clear();
 		// init bounding box handler list
-		for (int i = 0; i < /* = */nrHandlers; i++) {
-			GEllipse2DDouble handler = AwtFactory.getPrototype()
-					.newEllipse2DDouble();
-			handlers.add(handler);
-		}
-		createBoundingBoxHandlers();
-		if (isImage) {
-			if (cropHandlers == null) {
-				cropHandlers = new ArrayList<>();
-			}
-			cropHandlers.clear();
-			for (int i = 0; i < /* = */nrHandlers; i++) {
-				GGeneralPath cropHandler = AwtFactory.getPrototype()
-						.newGeneralPath();
-				cropHandlers.add(cropHandler);
-			}
-			createCropHandlers();
+		for (int i = 0; i < nrHandlers; i++) {
+			handlers.add(createHandler());
 		}
 	}
 
-	private void createCropHandlers() {
-		if (nrHandlers == 8) {
-			// corner crop handlers
-			cropHandlers.get(0).moveTo(rectangle.getX(), rectangle.getY() + 10);
-			cropHandlers.get(0).lineTo(rectangle.getX(), rectangle.getY());
-			cropHandlers.get(0).lineTo(rectangle.getX() + 10, rectangle.getY());
-			cropHandlers.get(1).moveTo(rectangle.getX(),
-					rectangle.getMaxY() - 10);
-			cropHandlers.get(1).lineTo(rectangle.getX(), rectangle.getMaxY());
-			cropHandlers.get(1).lineTo(rectangle.getX() + 10,
-					rectangle.getMaxY());
-			cropHandlers.get(2).moveTo(rectangle.getMaxX() - 10,
-					rectangle.getMaxY());
-			cropHandlers.get(2).lineTo(rectangle.getMaxX(),
-					rectangle.getMaxY());
+	protected abstract T createHandler();
 
-			cropHandlers.get(2).lineTo(rectangle.getMaxX(),
-					rectangle.getMaxY() - 10);
-			cropHandlers.get(3).moveTo(rectangle.getMaxX(),
-					rectangle.getY() + 10);
-			cropHandlers.get(3).lineTo(rectangle.getMaxX(), rectangle.getY());
-			cropHandlers.get(3).lineTo(rectangle.getMaxX() - 10,
-					rectangle.getY());
-			// side handlers
-			double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
-			double centerY = (rectangle.getMinY() + rectangle.getMaxY()) / 2;
-			cropHandlers.get(4).moveTo(centerX - 5, rectangle.getMinY());
-			cropHandlers.get(4).lineTo(centerX + 5, rectangle.getMinY());
-			cropHandlers.get(5).moveTo(rectangle.getMinX(), centerY - 5);
-			cropHandlers.get(5).lineTo(rectangle.getMinX(), centerY + 5);
-			cropHandlers.get(6).moveTo(centerX - 5, rectangle.getMaxY());
-			cropHandlers.get(6).lineTo(centerX + 5, rectangle.getMaxY());
-			cropHandlers.get(7).moveTo(rectangle.getMaxX(), centerY - 5);
-			cropHandlers.get(7).lineTo(rectangle.getMaxX(), centerY + 5);
-		}
-	}
-
-	private void createBoundingBoxHandlers() {
-		if (nrHandlers == 8 || nrHandlers == 9) {
-			// corner handlers
-			setHandlerFromCenter(0, rectangle.getX(), rectangle.getY());
-			setHandlerFromCenter(1, rectangle.getX(), rectangle.getMaxY());
-			setHandlerFromCenter(2, rectangle.getMaxX(), rectangle.getMaxY());
-			setHandlerFromCenter(3, rectangle.getMaxX(), rectangle.getY());
-
-			// side handlers
-			double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
-			double centerY = (rectangle.getMinY() + rectangle.getMaxY()) / 2;
-			// top
-			setHandlerFromCenter(4, centerX, rectangle.getMinY());
-			// left
-			setHandlerFromCenter(5, rectangle.getMinX(), centerY);
-			// bottom
-			setHandlerFromCenter(6, centerX, rectangle.getMaxY());
-			// right
-			setHandlerFromCenter(7, rectangle.getMaxX(), centerY);
-			if (nrHandlers == 9) {
-				// rotation handler
-				setHandlerFromCenter(8, centerX,
-						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
-			}
-		}
-	}
-
-	private void setHandlerFromCenter(int i, double x, double y) {
-		handlers.get(i).setFrameFromCenter(x, y, x + HANDLER_RADIUS, y + HANDLER_RADIUS);
-	}
 
 	/**
 	 * method to draw the bounding box construction for selected geo
@@ -296,50 +108,28 @@ public class BoundingBox {
 	 * @param g2
 	 *            - graphics
 	 */
-	public void draw(GGraphics2D g2) {
-		// draw bounding box
-		if (rectangle != null && nrHandlers > 2) {
+	public abstract void draw(GGraphics2D g2);
+
+	protected void drawHandlers(GGraphics2D g2) {
+		for (GShape handler : handlers) {
+			g2.setPaint(color);
+			g2.fill(handler);
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
+					GBasicStroke.JOIN_MITER));
+			g2.setColor(GColor.GEOGEBRA_GRAY);
+			g2.draw(handler);
+		}
+
+	}
+
+	protected void drawRectangle(GGraphics2D g2) {
+		if (rectangle != null) {
 			g2.setColor(GColor.newColor(192, 192, 192, 0.0));
-			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
-					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
+					GBasicStroke.JOIN_MITER));
 			g2.fill(rectangle);
 			g2.setColor(color);
 			g2.draw(rectangle);
-		}
-		if (handlers != null && !handlers.isEmpty() && !isCropBox) {
-			// join rotation handler and bounding box
-			if (nrHandlers == 9) {
-				GLine2D line = AwtFactory.getPrototype().newLine2D();
-				line.setLine((rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY(),
-						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
-				g2.setColor(color);
-				g2.draw(line);
-			}
-
-			for (int i = 0; i < nrHandlers; i++) {
-				g2.setPaint(color);
-				g2.fill(handlers.get(i));
-				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
-						GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
-				g2.setColor(GColor.GEOGEBRA_GRAY);
-				g2.draw(handlers.get(i));
-			}
-		}
-		if (cropHandlers != null && !cropHandlers.isEmpty() && isCropBox) {
-			g2.setColor(GColor.WHITE);
-			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(6.0f,
-					GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_ROUND));
-			for (int i = 0; i < nrHandlers; i++) {
-				g2.draw(cropHandlers.get(i));
-			}
-			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(4.0f,
-					GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_ROUND));
-			g2.setColor(GColor.BLACK);
-			for (int i = 0; i < nrHandlers; i++) {
-				g2.draw(cropHandlers.get(i));
-			}
 		}
 	}
 
@@ -371,27 +161,18 @@ public class BoundingBox {
 	 * @return number of handler which was hit
 	 */
 	public int hitHandlers(int x, int y, int hitThreshold) {
-		int index = -1;
 		if (fixed) {
 			return -1;
 		}
-		if (!handlers.isEmpty() && !isCropBox) {
-			for (int i = 0; i < handlers.size(); i++) {
-				GEllipse2DDouble point = handlers.get(i);
-				if (hit(point, x, y, hitThreshold)) {
-					return i;
-				}
+
+		for (int i = 0; i < handlers.size(); i++) {
+			GShape point = handlers.get(i);
+			if (hit(point, x, y, hitThreshold)) {
+				return i;
 			}
 		}
-		if (cropHandlers != null && !cropHandlers.isEmpty() && isCropBox) {
-			for (int i = 0; i < cropHandlers.size(); i++) {
-				GGeneralPath cropHandler = cropHandlers.get(i);
-				if (hit(cropHandler, x, y, hitThreshold)) {
-					return i;
-				}
-			}
-		}
-		return index;
+
+		return -1;
 	}
 
 	private static boolean hit(GShape shape, int x, int y, int hitThreshold) {
@@ -450,13 +231,11 @@ public class BoundingBox {
 	 *            - threshold
 	 * @return true if hits any side of boundingBox
 	 */
-	public boolean hitSideOfBoundingBox(int x, int y, int hitThreshold) {
-		if (rectangle == null || nrHandlers == 2) {
-			return false;
-		}
-		return
-		// left side
-		onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
+	public abstract boolean hitSideOfBoundingBox(int x, int y, int hitThreshold);
+
+	protected boolean hitRectangle(int x, int y, int hitThreshold) {
+		// TODO Auto-generated method stub
+		return onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
 				rectangle.getMinX(), rectangle.getMaxY(), hitThreshold)
 				// top side
 				|| onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
@@ -466,18 +245,11 @@ public class BoundingBox {
 						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold)
 				// right side
 				|| onSegment(rectangle.getMaxX(), rectangle.getMinY(), x, y,
-						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold)
-				// rotation handler
-				|| (nrHandlers == 9 && onSegment(
-						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY(), x, y,
-						(rectangle.getMinX() + rectangle.getMaxX()) / 2,
-						rectangle.getMinY() - ROTATION_HANDLER_DISTANCE,
-						hitThreshold));
+						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold);
 	}
 
-	// check if intersection point is on segment
-	private static boolean onSegment(double segStartX, double segStartY,
+	/** check if intersection point is on segment */
+	protected static boolean onSegment(double segStartX, double segStartY,
 			int hitX, int hitY, double segEndX, double segEndY,
 			int hitThreshold) {
 		if (hitX <= Math.max(segStartX, segEndX) + 2 * hitThreshold
