@@ -29,19 +29,19 @@ import java.util.Iterator;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -790,34 +790,18 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public static void buildLatexValueStringCoordCartesian3D(
 			Kernel kernel, StringTemplate tpl, double x, double y, double z,
 			StringBuilder sb, GeoVectorND vector, boolean symbolic) {
-		String[] inputs;
 		if (symbolic && vector.getDefinition() != null) {
-			String symbolicStr = vector.getDefinition().toLaTeXString(true, tpl);
-			// remove \left( and \right)
-			int firstIndex = symbolicStr.indexOf("\\left(");
-			int lastIndex = symbolicStr.lastIndexOf("\\right)");
-
-			if (firstIndex > -1 && lastIndex > -1) {
-				inputs = symbolicStr.substring(firstIndex + 6, lastIndex)
-						.split(",");
-			} else {
-				inputs = new String[3];
-				inputs[0] = kernel.format(x, tpl);
-				inputs[1] = kernel.format(y, tpl);
-				inputs[2] = kernel.format(z, tpl);
-			}
+			sb.append(getColumnLaTeXfromExpression(vector.getDefinition(), tpl));
 		} else {
-			inputs = new String[3];
+			String[] inputs = new String[3];
 			inputs[0] = kernel.format(x, tpl);
 			inputs[1] = kernel.format(y, tpl);
 			inputs[2] = kernel.format(z, tpl);
+			buildTabular(inputs, sb);
 		}
-
-		buildTabular(inputs, sb);
-
 	}
 
-	private static void buildTabular(String[] inputs, StringBuilder sb) {
+	private static String buildTabular(String[] inputs, StringBuilder sb) {
 		boolean alignOnDecimalPoint = true;
 		for (int i = 0; i < inputs.length; i++) {
 			if (inputs[i].indexOf('.') == -1) {
@@ -841,7 +825,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 
 		sb.append("\\end{align} \\right)");
-
+		return sb.toString();
 	}
 
 	@Override
@@ -909,42 +893,34 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		default: // CARTESIAN
 
-			String[] inputs;
 			ExpressionNode definition = vector.getDefinition();
 			if (symbolic && definition != null) {
-
-				// need to do something different for (xx,yy) and a (1,2) + c
-
-				ExpressionNode en = vector.getDefinition();
-				ExpressionValue ev = en.unwrap();
-
-				if (ev instanceof MyVecNode) {
-					MyVecNode vn = (MyVecNode) ev;
-
-					inputs = new String[2];
-					inputs[0] = vn.getX().toString(tpl);
-					inputs[1] = vn.getY().toString(tpl);
-				} else {
-					return definition.toString(tpl);
-				}
-
-			} else {
-				inputs = new String[2];
-				inputs[0] = kernel.format(x, tpl);
-				inputs[1] = kernel.format(y, tpl);
+				return getColumnLaTeXfromExpression(definition, tpl);
 			}
-
-			// MathQuillGGB can't render v = \left( \begin{tabular}{r}-10 \\ 0
-			// \\ \end{tabular} \right)
-			// so use eg \binom{ -10 }{ 0 } in web
-			// see #1987
-
-			buildTabular(inputs, sb);
-
-			break;
+			String[] inputs = new String[2];
+			inputs[0] = kernel.format(x, tpl);
+			inputs[1] = kernel.format(y, tpl);
+			return buildTabular(inputs, sb);
 		}
 
 		return sb.toString();
+	}
+
+	private static String getColumnLaTeXfromExpression(ExpressionNode definition,
+			StringTemplate tpl) {
+		ExpressionValue ev = definition.unwrap();
+		// need to do something different for (xx,yy) and a (1,2) + c
+		if (ev instanceof MyVecNDNode) {
+			MyVecNDNode vn = (MyVecNDNode) ev;
+			String[] inputs = new String[vn.getDimension()];
+			inputs[0] = vn.getX().toString(tpl);
+			inputs[1] = vn.getY().toString(tpl);
+			if (vn.getDimension() > 2) {
+				inputs[2] = vn.getZ().toString(tpl);
+			}
+			return buildTabular(inputs, new StringBuilder());
+		}
+		return definition.toString(tpl);
 	}
 
 	@Override
