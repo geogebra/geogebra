@@ -407,7 +407,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private SelectionToolPressResult lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
 	private GeoElement lastSelectionToolGeoToRemove;
-	private ArrayList<GeoElement> moveMultipleObjectsList;
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
@@ -6356,7 +6355,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected void moveDependent(boolean repaint) {
 		translationVec.setX(xRW - getStartPointX());
 		translationVec.setY(yRW - getStartPointY());
-
+		this.splitSelectedStrokes();
 		setStartPointLocation(xRW, yRW);
 
 		// we don't specify screen coords for translation as all objects are
@@ -6403,15 +6402,28 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		tmpCoordsL3.setX(xRW);
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
+		splitSelectedStrokes();
+		ArrayList<GeoElement> moveMultipleObjectsList = companion
+				.removeParentsOfView(getAppSelectedGeos());
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-			MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
-		} else {
-			MoveGeos.moveObjects(
-					companion.removeParentsOfView(getAppSelectedGeos()),
-					translationVec, tmpCoordsL3, null, view);
+			addFreePoints(moveMultipleObjectsList);
 		}
+		MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
 		if (repaint) {
 			kernel.notifyRepaint();
+		}
+	}
+
+	private void addFreePoints(ArrayList<GeoElement> geoList) {
+		int initialSize = geoList.size();
+		for (int i = 0; i < initialSize; i++) {
+			GeoElement geo = geoList.get(i);
+			AlgoElement algo = geo.getParentAlgorithm();
+			if (algo != null) { // add input points from algo
+				for (GeoPointND point : geo.getFreeInputPoints(getView())) {
+					geoList.add((GeoElement) point);
+				}
+			}
 		}
 	}
 
@@ -6923,23 +6935,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		setDragCursor();
 		if (translationVec == null) {
 			translationVec = new Coords(2);
-		}
-		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-			// add free input points to move list
-			if (moveMultipleObjectsList == null) {
-				moveMultipleObjectsList = new ArrayList<>();
-			} else {
-				moveMultipleObjectsList.clear();
-			}
-			for (GeoElement geo : companion.removeParentsOfView(getAppSelectedGeos())) {
-				moveMultipleObjectsList.add(geo);
-				AlgoElement algo = geo.getParentAlgorithm();
-				if (algo != null) { // add input points from algo
-					for (GeoPointND point : geo.getFreeInputPoints(getView())) {
-						moveMultipleObjectsList.add((GeoElement) point);
-					}
-				}
-			}
 		}
 	}
 
@@ -8086,18 +8081,35 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.repaintView();
 	}
 
-	private void splitSelectedStrokes() {
-		int state = kernel.getConstruction().getStep();
+	/**
+	 * Replace partially selected strokes by their parts.
+	 */
+	public void splitSelectedStrokes() {
+		boolean changed = false;
 		ArrayList<GeoElement> newSelection = new ArrayList<>();
 		ArrayList<GeoElement> oldSelection = new ArrayList<>(selection.getSelectedGeos());
 		for (GeoElement geo : oldSelection) {
-			newSelection.add(geo.getPartialSelection(true).get(0));
+			GeoElement replacement = geo.getPartialSelection(true).get(0);
+			newSelection.add(replacement);
+			if (replacement != geo) {
+				changed = true;
+				replaceTranslated(geo, replacement);
+			}
 		}
-		if (kernel.getConstruction().getStep() > state) {
-
+		if (changed) {
 			selection.setSelectedGeos(newSelection);
 			updateBoundingBoxFromSelection(false);
 			startBoundingBoxState = null;
+		}
+	}
+
+	protected void replaceTranslated(GeoElement geo, GeoElement replacement) {
+		if (this.movedGeoElement == geo) {
+			movedGeoElement = replacement;
+		}
+		if (translateableGeos != null && translateableGeos.contains(geo)) {
+			translateableGeos.remove(geo);
+			translateableGeos.add(replacement);
 		}
 	}
 
