@@ -199,4 +199,6 @@ public abstract class DrawableND {
 	 */
 	public abstract void setPartialHitClip(GRectangle rect);
 
+	public abstract GRectangle getPartialHitClip();
+
 }

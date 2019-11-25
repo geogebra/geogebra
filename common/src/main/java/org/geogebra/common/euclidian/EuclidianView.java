@@ -177,7 +177,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * bounding box
 	 */
-	protected BoundingBox boundingBox;
+	protected BoundingBox<? extends GShape> boundingBox;
 	private EuclidianBoundingBoxHandler hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 
 	// shape tools
@@ -2837,7 +2837,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param boundingBox
 	 *            - bounding box for select
 	 */
-	public void setBoundingBox(BoundingBox boundingBox) {
+	public void setBoundingBox(BoundingBox<? extends GShape> boundingBox) {
 		this.boundingBox = boundingBox;
 	}
 
@@ -4326,7 +4326,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
-
 	}
 
 	@Override
@@ -4347,7 +4346,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return boundingBox
 	 */
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<? extends GShape> getBoundingBox() {
 		return boundingBox;
 	}
 

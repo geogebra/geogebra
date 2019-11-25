@@ -2147,4 +2147,9 @@ public abstract class Drawable3D extends DrawableND {
 	public void setPartialHitClip(GRectangle rect) {
 		// just strokes
 	}
+
+	@Override
+	public GRectangle getPartialHitClip() {
+		return null;
+	}
 }

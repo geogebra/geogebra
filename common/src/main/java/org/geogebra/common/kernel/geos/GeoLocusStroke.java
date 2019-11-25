@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -301,7 +304,7 @@ public class GeoLocusStroke extends GeoLocus
 	 * @return a list of one or two elements, containing the inside
 	 * 		and outside part of the stroke, if it exists
 	 */
-	public ArrayList<GeoLocusStroke> split(GRectangle2D rectangle) {
+	public ArrayList<GeoElement> split(GRectangle2D rectangle) {
 		ArrayList<MyPoint> inside = new ArrayList<>();
 		ArrayList<MyPoint> outside = new ArrayList<>();
 
@@ -345,7 +348,7 @@ public class GeoLocusStroke extends GeoLocus
 			outside.add(last);
 		}
 
-		ArrayList<GeoLocusStroke> result = new ArrayList<>();
+		ArrayList<GeoElement> result = new ArrayList<>();
 		if (inside.size() != 0) {
 			AlgoLocusStroke insideStroke = new AlgoLocusStroke(cons, inside);
 			result.add(insideStroke.getPenStroke());
@@ -356,6 +359,45 @@ public class GeoLocusStroke extends GeoLocus
 		}
 
 		return result;
+	}
+
+	/**
+	 * Get list of strokes after split
+	 * 
+	 * @param removeOriginal
+	 *            - true if the original stroke should be removed
+	 * @return list of part strokes after split, or the stroke itself if no
+	 *         splitting needed
+	 */
+	@Override
+	public List<GeoElement> getPartialSelection(boolean removeOriginal) {
+		EuclidianView view = this.getKernel().getApplication().getActiveEuclidianView();
+
+		List<GeoElement> splits = new ArrayList<>();
+		if (view.getDrawableFor(this).getPartialHitClip() == null) {
+			splits.add(this);
+		} else {
+			GRectangle viewRectangle = view.getDrawableFor(this).getPartialHitClip();
+			GRectangle2D realRectangle = AwtFactory.getPrototype().newRectangle2D();
+			realRectangle.setRect(view.toRealWorldCoordX(viewRectangle.getX()),
+					view.toRealWorldCoordY(viewRectangle.getY() + viewRectangle.getHeight()),
+					viewRectangle.getWidth() * view.getInvXscale(),
+					viewRectangle.getHeight() * view.getInvYscale());
+
+			splits = this.split(realRectangle);
+
+			for (GeoElement split : splits) {
+				split.setLabel(null);
+				split.setVisualStyle(this);
+				split.setEuclidianVisible(true);
+				split.update();
+			}
+
+			if (removeOriginal) {
+				this.remove();
+			}
+		}
+		return splits;
 	}
 
 	/**

@@ -977,4 +977,9 @@ public abstract class Drawable extends DrawableND {
 			update();
 		}
 	}
+
+	@Override
+	public GRectangle getPartialHitClip() {
+		return null;
+	}
 }

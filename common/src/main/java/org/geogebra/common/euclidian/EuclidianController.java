@@ -7817,6 +7817,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
+			splitSelectedStrokes();
 			GRectangle2D bounds = (getResizedShape() != null)
 					? getResizedShape().getBounds()
 					: view.getBoundingBox().getRectangle();
@@ -8024,6 +8025,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void handleResizeMultiple(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		// if for some reason there was no state initialized
+		splitSelectedStrokes();
 		if (startBoundingBoxState == null) {
 			startBoundingBoxState = new BoundingBoxResizeState(
 					view.getBoundingBox().getRectangle(),
@@ -8082,6 +8084,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			dr.update();
 		}
 		view.repaintView();
+	}
+
+	private void splitSelectedStrokes() {
+		int state = kernel.getConstruction().getStep();
+		ArrayList<GeoElement> newSelection = new ArrayList<>();
+		ArrayList<GeoElement> oldSelection = new ArrayList<>(selection.getSelectedGeos());
+		for (GeoElement geo : oldSelection) {
+			newSelection.add(geo.getPartialSelection(true).get(0));
+		}
+		if (kernel.getConstruction().getStep() > state) {
+
+			selection.setSelectedGeos(newSelection);
+			updateBoundingBoxFromSelection(false);
+			startBoundingBoxState = null;
+		}
 	}
 
 	/**
@@ -8300,9 +8317,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				setResizedShape(d);
 			} else if (isMultiSelection() && wasBoundingBoxHit) {
 				isMultiResize = true;
-				startBoundingBoxState = new BoundingBoxResizeState(
-						view.getBoundingBox().getRectangle(),
-						selection.getSelectedGeos(), view, view.getHitHandler().isDiagonal());
 			}
 		}
 		// find and set movedGeoElement

@@ -398,4 +398,9 @@ public class DrawLocus extends Drawable {
 		}
 	}
 
+	@Override
+	public GRectangle getPartialHitClip() {
+		return this.partialHitClip;
+	}
+
 }
