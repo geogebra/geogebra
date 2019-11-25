@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
 
 /**
@@ -47,10 +48,10 @@ public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
     @Override
     public ToolCollection createToolCollection() {
         ToolCollectionImpl impl = new ToolCollectionImpl();
-        impl.addLevel(LEVEL_STANDARD);
+        impl.addLevel(ToolsetLevel.STANDARD);
 
         List<ToolbarItem> items = getToolbarItems();
-        for (ToolbarItem item: items) {
+        for (ToolbarItem item : items) {
             impl.addCategory(null, item.getMenu());
         }
         return impl;

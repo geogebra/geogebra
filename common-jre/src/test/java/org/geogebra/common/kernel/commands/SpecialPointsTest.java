@@ -5,7 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +29,11 @@ public class SpecialPointsTest extends BaseUnitTest {
 
 	@Test
 	public void specialPointsForSegment() {
-		add("s:Segment((-1,-1),(1,1))");
+		Construction cons = getConstruction();
+		GeoPoint a = new GeoPoint(cons, -1, -1, 0);
+		GeoPoint b = new GeoPoint(cons, 1, 1, 0);
+		GeoSegment segment = new GeoSegment(cons, a, b);
+		segment.setLabel("s");
 		updateSpecialPoints("s");
 		assertEquals(0, numberOfSpecialPoints());
 	}

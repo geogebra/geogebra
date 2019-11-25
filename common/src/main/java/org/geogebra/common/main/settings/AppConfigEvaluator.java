@@ -1,8 +1,8 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfigDefault;
 
 /**
@@ -37,7 +37,7 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
-		return CommandNameFilterFactory.createNoCasCommandNameFilter();
+	public CommandFilter getCommandFilter() {
+		return CommandFilterFactory.createNoCasCommandFilter();
 	}
 }
