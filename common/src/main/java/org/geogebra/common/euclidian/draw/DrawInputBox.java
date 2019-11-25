@@ -158,7 +158,7 @@ public class DrawInputBox extends CanvasDrawable {
 				getView().requestFocusInWindow();
 				tf.setVisible(false);
 				draw(getView().getGraphicsForPen());
-				getGeoInputBox().updateLinkedGeo(tf.getText());
+				// let focusLost change geo.
 			} else {
 				GeoElementND linkedGeo = geoInputBox.getLinkedGeo();
 
