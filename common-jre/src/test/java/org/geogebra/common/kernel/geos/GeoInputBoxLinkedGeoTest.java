@@ -43,10 +43,10 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void enteringNewValueShouldKeepVectorType3D() {
-		setupAndCheckInput("v3", "(1, 3, 0)");
+		setupAndCheckInput("v3", "(1, 3, 6)");
 		updateInput("(1, 5)");
-		t("v3", "(1, 5)");
-		hasType("v3", GeoClass.VECTOR);
+		t("v3", "(1, 5, 0)");
+		hasType("v3", GeoClass.VECTOR3D);
 	}
 
 	@Test

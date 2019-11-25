@@ -3321,7 +3321,7 @@ public class AlgebraProcessor {
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
-		GeoVec3D[] ret = new GeoVec3D[1];
+		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		// make point if complex parts are present, e.g. 3 + i
@@ -3340,31 +3340,33 @@ public class AlgebraProcessor {
 		}
 		boolean isVector = n.shouldEvaluateToGeoVector();
 
+		GeoVec3D vector;
 		if (isIndependent) {
 			// get coords
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector) {
-				ret[0] = kernel.getAlgoDispatcher().vector(x, y);
+				vector = kernel.getAlgoDispatcher().vector(x, y);
 			} else {
-				ret[0] = kernel.getAlgoDispatcher().point(x, y, complex);
+				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
-			ret[0].setDefinition(n);
-			ret[0].setLabel(label);
+			vector.setDefinition(n);
+			vector.setLabel(label);
 		} else {
 			if (isVector) {
-				ret[0] = dependentVector(label, n);
+				vector = dependentVector(label, n);
 			} else {
-				ret[0] = dependentPoint(label, n, complex);
+				vector = dependentPoint(label, n, complex);
 			}
 		}
 		if (polar) {
-			ret[0].setMode(Kernel.COORD_POLAR);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_POLAR);
+			vector.updateRepaint();
 		} else if (complex) {
-			ret[0].setMode(Kernel.COORD_COMPLEX);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_COMPLEX);
+			vector.updateRepaint();
 		}
+		ret[0] = vector;
 		return ret;
 	}
 
