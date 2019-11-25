@@ -66,7 +66,8 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		if (rectangle == null) {
 			return false;
 		}
-		return hitRectangle(x, y, hitThreshold) || hitRotationHandlerLine(x, y, hitThreshold);
+		return hitRectangle(x, y, 2 * hitThreshold)
+				|| hitRotationHandlerLine(x, y, 2 * hitThreshold);
 	}
 
 	private boolean hitRotationHandlerLine(int x, int y, int hitThreshold) {
@@ -84,6 +85,21 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	private void setHandlerFromCenter(int i, double x, double y) {
 		handlers.get(i).setFrameFromCenter(x, y, x + HANDLER_RADIUS,
 				y + HANDLER_RADIUS);
+	}
+
+	/**
+	 * check if intersection point is on segment Threshold includes line
+	 * thickness.
+	 */
+	private static boolean onSegment(double segStartX, double segStartY, int hitX, int hitY,
+			double segEndX, double segEndY, int hitThreshold) {
+		if (hitX <= Math.max(segStartX, segEndX) + hitThreshold
+				&& hitX >= Math.min(segStartX, segEndX) - hitThreshold
+				&& hitY <= Math.max(segStartY, segEndY) + hitThreshold
+				&& hitY >= Math.min(segStartY, segEndY) - hitThreshold) {
+			return true;
+		}
+		return false;
 	}
 
 }

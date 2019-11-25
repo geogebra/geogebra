@@ -67,7 +67,7 @@ public class CropBox extends BoundingBox<GGeneralPath> {
 
 	@Override
 	public boolean hitSideOfBoundingBox(int x, int y, int hitThreshold) {
-		return rectangle != null && hitRectangle(x, y, hitThreshold);
+		return rectangle != null && hitRectangle(x, y, 2 * hitThreshold);
 	}
 
 	@Override

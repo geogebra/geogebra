@@ -6654,7 +6654,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			if (view.getBoundingBox() != null && geo == null) {
 				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
-					setBoundingBoxCursor(d);
+					setBoundingBoxCursor();
 					return;
 				} else if (view.getBoundingBox()
 						.hitSideOfBoundingBox(event.getX(), event.getY(),
@@ -6664,7 +6664,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 									app.getCapturingThreshold(event.getType()));
 					// set handler and cursor
 					view.setHitHandler(handler);
-					setBoundingBoxCursor(null);
+					setBoundingBoxCursor();
 					// if handler is UNDEFINED the side of the bounding box
 					// was hit
 					if (handler == EuclidianBoundingBoxHandler.UNDEFINED) {
@@ -7860,7 +7860,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else {
 			// resize, single selection
 			if (getResizedShape() != null) {
-				setBoundingBoxCursor(getResizedShape());
+				setBoundingBoxCursor();
 				// resize selected geo
 				if (getResizedShape().getGeoElement().isSelected()) {
 					dontClearSelection = true;
@@ -8313,7 +8313,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (view.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 			if (d != null) {
-				setBoundingBoxCursor(d);
+				setBoundingBoxCursor();
 				setResizedShape(d);
 			} else if (isMultiSelection() && wasBoundingBoxHit) {
 				isMultiResize = true;
@@ -8540,7 +8540,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 					if (view.getBoundingBox() != null
 							&& view.getBoundingBox().equals(d.getBoundingBox())) {
-						setBoundingBoxCursor(d);
+						setBoundingBoxCursor();
 						setResizedShape(d);
 					}
 				} else {
@@ -12630,11 +12630,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void setBoundingBoxCursor(Drawable drawable) {
+	private void setBoundingBoxCursor() {
 		EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
-		EuclidianCursor cursor = BoundingBox.getCursor(nrHandler, drawable);
-		if (cursor != null) {
-			view.setCursor(cursor);
+		BoundingBox<?> box = view.getBoundingBox();
+		if (box != null) {
+			EuclidianCursor cursor = box.getCursor(nrHandler);
+			if (cursor != null) {
+				view.setCursor(cursor);
+			}
 		}
 	}
 

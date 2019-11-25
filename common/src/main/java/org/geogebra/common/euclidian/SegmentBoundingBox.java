@@ -38,4 +38,9 @@ public class SegmentBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		handlers.get(i).setFrameFromCenter(x, y, x + HANDLER_RADIUS, y + HANDLER_RADIUS);
 	}
 
+	@Override
+	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler nrHandler) {
+		return EuclidianCursor.DRAG;
+	}
+
 }

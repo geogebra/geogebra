@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -89,18 +88,28 @@ public abstract class BoundingBox<T extends GShape> {
 		return false;
 	}
 
+	/**
+	 * Create handlers for current rectangle
+	 */
 	protected abstract void createHandlers();
 
+	/**
+	 * Initialize the array of handlers, don't specify positions
+	 * 
+	 * @param nrHandlers
+	 *            rebuild the list of handlers
+	 */
 	protected void initHandlers(int nrHandlers) {
 		handlers.clear();
-		// init bounding box handler list
 		for (int i = 0; i < nrHandlers; i++) {
 			handlers.add(createHandler());
 		}
 	}
 
+	/**
+	 * @return a single handler
+	 */
 	protected abstract T createHandler();
-
 
 	/**
 	 * method to draw the bounding box construction for selected geo
@@ -110,6 +119,12 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public abstract void draw(GGraphics2D g2);
 
+	/**
+	 * Draw and fill strokes
+	 * 
+	 * @param g2
+	 *            graphics
+	 */
 	protected void drawHandlers(GGraphics2D g2) {
 		for (GShape handler : handlers) {
 			g2.setPaint(color);
@@ -122,6 +137,12 @@ public abstract class BoundingBox<T extends GShape> {
 
 	}
 
+	/**
+	 * Draw the bounding box outline
+	 * 
+	 * @param g2
+	 *            graphics
+	 */
 	protected void drawRectangle(GGraphics2D g2) {
 		if (rectangle != null) {
 			g2.setColor(GColor.newColor(192, 192, 192, 0.0));
@@ -142,7 +163,6 @@ public abstract class BoundingBox<T extends GShape> {
 	}
 
 	/**
-	 *
 	 * @param threshold
 	 *            controller threshold
 	 * @return distance threshold to select a point
@@ -228,37 +248,25 @@ public abstract class BoundingBox<T extends GShape> {
 	 * @param y
 	 *            - y coord of hit
 	 * @param hitThreshold
-	 *            - threshold
+	 *            - threshold (without line thickness)
 	 * @return true if hits any side of boundingBox
 	 */
 	public abstract boolean hitSideOfBoundingBox(int x, int y, int hitThreshold);
 
+	/**
+	 * @param x
+	 *            screen x-coord
+	 * @param y
+	 *            screen y-coord
+	 * @param hitThreshold
+	 *            max distance between rectangle and event (includes line
+	 *            thickness)
+	 * @return whether rectangle was hit
+	 */
 	protected boolean hitRectangle(int x, int y, int hitThreshold) {
-		// TODO Auto-generated method stub
-		return onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
-				rectangle.getMinX(), rectangle.getMaxY(), hitThreshold)
-				// top side
-				|| onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
-						rectangle.getMaxX(), rectangle.getMinY(), hitThreshold)
-				// bottom side
-				|| onSegment(rectangle.getMinX(), rectangle.getMaxY(), x, y,
-						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold)
-				// right side
-				|| onSegment(rectangle.getMaxX(), rectangle.getMinY(), x, y,
-						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold);
-	}
-
-	/** check if intersection point is on segment */
-	protected static boolean onSegment(double segStartX, double segStartY,
-			int hitX, int hitY, double segEndX, double segEndY,
-			int hitThreshold) {
-		if (hitX <= Math.max(segStartX, segEndX) + 2 * hitThreshold
-				&& hitX >= Math.min(segStartX, segEndX) - 2 * hitThreshold
-				&& hitY <= Math.max(segStartY, segEndY) + 2 * hitThreshold
-				&& hitY >= Math.min(segStartY, segEndY) - 2 * hitThreshold) {
-			return true;
-		}
-		return false;
+		GRectangle hitArea = AwtFactory.getPrototype().newRectangle(x - hitThreshold,
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		return rectangle.intersects(hitArea) && !rectangle.contains(hitArea);
 	}
 
 	/**
@@ -290,15 +298,9 @@ public abstract class BoundingBox<T extends GShape> {
 	/**
 	 * @param nrHandler
 	 *            handler
-	 * @param drawable
-	 *            drawable for the bounding box
 	 * @return resizing cursor or null
 	 */
-	public static EuclidianCursor getCursor(EuclidianBoundingBoxHandler nrHandler,
-			Drawable drawable) {
-		if (drawable instanceof DrawSegment) {
-			return EuclidianCursor.DRAG;
-		}
+	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler nrHandler) {
 		switch (nrHandler) {
 		case TOP_LEFT:
 		case BOTTOM_RIGHT:

@@ -140,14 +140,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		}
 		if (geo.isShape() && view
-				.getHitHandler() != EuclidianBoundingBoxHandler.ROTATION) {
-			if (getBounds() != null) {
+				.getHitHandler() != EuclidianBoundingBoxHandler.ROTATION && getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
-				if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getHeight(),
-						getBoundingBox().getRectangle().getWidth(), 2)) {
-					setIsSquare(true);
-				}
-			}
 		}
 	}
 
