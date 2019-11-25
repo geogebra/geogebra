@@ -211,7 +211,7 @@ public class DrawInputBox extends CanvasDrawable {
 		if (geoInputBox.isSymbolicMode()) {
 			textRenderer = new LaTeXTextRenderer(this);
 		} else {
-			textRenderer = new SimpleTextRenderer(this);
+			textRenderer = new SimpleTextRenderer(view.getApplication(), this);
 		}
 		if (getTextField() == null) {
 			return;
@@ -610,12 +610,9 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	/**
-	 * Returns the input box.
-	 * This method is public for testing.
-	 *
 	 * @return input box
 	 */
-	public GeoInputBox getGeoInputBox() {
+	GeoInputBox getGeoInputBox() {
 		return geoInputBox;
 	}
 
@@ -640,9 +637,5 @@ public class DrawInputBox extends CanvasDrawable {
 
 	GRectangle getLabelRectangle() {
 		return labelRectangle;
-	}
-
-	App getApp() {
-		return view.getApplication();
 	}
 }

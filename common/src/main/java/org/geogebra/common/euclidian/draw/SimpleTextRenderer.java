@@ -24,9 +24,9 @@ public class SimpleTextRenderer implements TextRenderer {
 	 * @param drawable
 	 *            drawable
 	 */
-	SimpleTextRenderer(DrawInputBox drawable) {
+	SimpleTextRenderer(App app, DrawInputBox drawable) {
 		this.drawable = drawable;
-		app = drawable.getApp();
+		this.app = app;
 	}
 
 	@Override

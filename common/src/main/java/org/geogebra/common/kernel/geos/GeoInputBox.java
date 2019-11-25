@@ -402,9 +402,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Sets the symboli mode.
+	 * Sets the symbolic mode.
 	 *
-	 * @param symbolicMode True means symbolic mode, false means non-symbolic mode.
+	 * @param symbolicMode True for symbolic mode
 	 */
 	public void setSymbolicMode(boolean symbolicMode) {
 		setSymbolicMode(symbolicMode, false);
