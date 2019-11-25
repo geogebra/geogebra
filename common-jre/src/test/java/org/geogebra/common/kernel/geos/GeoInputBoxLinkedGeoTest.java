@@ -58,15 +58,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void enteringIncompatibleTypeShouldBeIgnored() {
-		setupAndCheckInput("n", "4");
-		getApp().storeUndoInfo();
-		updateInput("y");
-		t("n", "4");
-		hasType("n", GeoClass.NUMERIC);
-	}
-
-	@Test
 	public void enteringNewValueShouldKeepComplexNumber() {
 		setupAndCheckInput("P", "1 + " + Unicode.IMAGINARY);
 		updateInput("7");
