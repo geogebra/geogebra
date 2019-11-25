@@ -65,4 +65,9 @@ public class GgbSettings implements VendorSettings {
 	public boolean isGraspableMathEnabled() {
 		return true;
 	}
+
+	@Override
+	public boolean isReleaseOnly() {
+		return false;
+	}
 }
