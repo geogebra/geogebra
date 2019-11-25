@@ -1230,7 +1230,7 @@ public class AlgebraProcessor {
 		} finally {
 			kernel.getConstruction().registerFunctionVariable(null);
 		}
-		return geoElements;
+ 		return geoElements;
 	}
 
 	/**

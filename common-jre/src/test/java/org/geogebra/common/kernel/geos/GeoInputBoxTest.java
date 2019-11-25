@@ -1,7 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.TextObject;
 import org.junit.Assert;
@@ -191,9 +194,26 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testCannotRedefineObjects() {
 		GeoVector vec2D = add("Vector2D = Vector((1,2))");
-
 		GeoInputBox inputBox = add("InputBox(Vector2D)");
 		inputBox.updateLinkedGeo("x^2");
 		Assert.assertFalse(vec2D.isDefined());
+
+		GeoImplicitCurve plane = add("Plane: x + y + z = 1");
+		inputBox = add("InputBox(Plane)");
+		inputBox.updateLinkedGeo("x^2");
+		Assert.assertFalse(plane.isDefined());
+	}
+
+	@Test
+	public void testGeoPointDoesNotChangeDisplayMode() {
+		GeoPoint point = add("A = (1, 2)");
+		GeoInputBox inputBox = add("InputBox(A)");
+		Assert.assertEquals(point.getToStringMode(), Kernel.COORD_CARTESIAN);
+
+		inputBox.updateLinkedGeo("1 + i");
+		Assert.assertEquals(point.getToStringMode(), Kernel.COORD_CARTESIAN);
+
+		inputBox.updateLinkedGeo("(2; 3)");
+		Assert.assertEquals(point.getToStringMode(), Kernel.COORD_CARTESIAN);
 	}
 }

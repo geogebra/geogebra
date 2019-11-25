@@ -7718,6 +7718,15 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * Set serialization mode for this element.
+	 *
+	 * @param toStringMode serialization mode
+	 */
+	public final void setToStringMode(int toStringMode) {
+		this.toStringMode = toStringMode;
+	}
+
+	/**
 	 * Set this to true, if the element should have a preview popup.
 	 * That is only values should be shown.
 	 *

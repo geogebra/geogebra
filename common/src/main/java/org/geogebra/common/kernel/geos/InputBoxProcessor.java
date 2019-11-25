@@ -18,7 +18,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Updates linked element for an input box from user input
  */
-public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
+public class InputBoxProcessor {
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private Kernel kernel;
@@ -95,7 +95,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 //				;
 
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, this, kernel.getApplication().getErrorHandler());
+						defineText, info, true, new InputBoxCallback(), kernel.getApplication().getErrorHandler());
 				return;
 			}
 		} catch (MyError e1) {
@@ -155,23 +155,45 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
-	@Override
-	public void callback(GeoElementND obj) {
-		if (isComplexNumber()) {
-			ExpressionNode def = obj.getDefinition();
-			if (def != null && def.getOperation() == Operation.PLUS && def.getRight()
-					.toString(StringTemplate.defaultTemplate).equals("0" + Unicode.IMAGINARY)) {
-				obj.setDefinition(def.getLeftTree());
-				inputBox.setLinkedGeo(obj);
-				obj.updateRepaint();
-				return;
-			}
-
-		}
-		inputBox.setLinkedGeo(obj);
-	}
-
 	private void showError() {
 		kernel.getApplication().showError(Errors.InvalidInput);
+	}
+
+	private class InputBoxCallback implements AsyncOperation<GeoElementND> {
+
+		private int toStringMode;
+
+		private InputBoxCallback() {
+			saveToStringMode();
+		}
+
+		private void saveToStringMode() {
+			if (linkedGeo instanceof GeoPoint) {
+				toStringMode = ((GeoPoint) linkedGeo).getToStringMode();
+			}
+		}
+
+		private void restoreToStringMode() {
+			if (linkedGeo instanceof GeoPoint) {
+				((GeoPoint) linkedGeo).setToStringMode(toStringMode);
+			}
+		}
+
+		@Override
+		public void callback(GeoElementND obj) {
+			if (isComplexNumber()) {
+				ExpressionNode def = obj.getDefinition();
+				if (def != null && def.getOperation() == Operation.PLUS && def.getRight()
+						.toString(StringTemplate.defaultTemplate).equals("0" + Unicode.IMAGINARY)) {
+					obj.setDefinition(def.getLeftTree());
+					inputBox.setLinkedGeo(obj);
+					obj.updateRepaint();
+					return;
+				}
+
+			}
+			inputBox.setLinkedGeo(obj);
+			restoreToStringMode();
+		}
 	}
 }
