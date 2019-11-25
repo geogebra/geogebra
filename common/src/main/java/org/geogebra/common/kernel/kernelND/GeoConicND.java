@@ -1381,6 +1381,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param mode
 	 *            equation mode (one of EQUATION_* constants)
 	 */
+	@Override
 	final public void setToStringMode(int mode) {
 		switch (mode) {
 		case EQUATION_SPECIFIC:

@@ -7722,7 +7722,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *
 	 * @param toStringMode serialization mode
 	 */
-	public final void setToStringMode(int toStringMode) {
+	public void setToStringMode(int toStringMode) {
 		this.toStringMode = toStringMode;
 	}
 
