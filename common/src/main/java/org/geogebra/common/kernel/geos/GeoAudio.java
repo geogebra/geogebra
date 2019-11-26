@@ -67,6 +67,12 @@ public class GeoAudio extends GeoMedia {
 	}
 
 	@Override
+	public void remove() {
+		pause();
+		super.remove();
+	}
+
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return null;
 	}
@@ -89,7 +95,6 @@ public class GeoAudio extends GeoMedia {
 		return true;
 	}
 
-	@Override
 	public void play() {
 		if (!hasSoundManager()) {
 			return;
@@ -97,7 +102,6 @@ public class GeoAudio extends GeoMedia {
 		app.getSoundManager().play(this);
 	}
 
-	@Override
 	public boolean isPlaying() {
 		if (!hasSoundManager()) {
 			return false;
@@ -129,7 +133,6 @@ public class GeoAudio extends GeoMedia {
 		app.getSoundManager().setCurrentTime(src, secs);
 	}
 
-	@Override
 	public void pause() {
 		if (!hasSoundManager()) {
 			return;
