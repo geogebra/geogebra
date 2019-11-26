@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -65,6 +64,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private int oldLength = 0;
 	private GFont textFont;
 	private TextRenderer textRenderer;
+	private GDimension labelDimension = null;
 
 	/**
 	 * @param view
@@ -434,7 +434,7 @@ public class DrawInputBox extends CanvasDrawable {
 					? geo.getBackgroundColor() : view.getBackgroundCommon();
 			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
 					boxHeight);
-					
+
 			highlightLabel(g2, latexLabel);
 
 			g2.setPaint(geo.getObjectColor());
@@ -473,7 +473,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 		if (isLatexString(text)) {
-			drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
+			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
 		} else {
 			g2.setPaint(geo.getObjectColor());
 
@@ -635,7 +635,12 @@ public class DrawInputBox extends CanvasDrawable {
 		this.editing = editing;
 	}
 
-	GRectangle getLabelRectangle() {
-		return labelRectangle;
+	/**
+	 *
+	 * @return height of the label depending of whether it was latex or not
+	 */
+	int getHeightForLabel() {
+		return labelDimension != null ? labelDimension.getHeight()
+				: (int) labelRectangle.getHeight();
 	}
 }
