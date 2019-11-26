@@ -272,6 +272,9 @@ public class EvalInfo {
 		return forceUserEquation;
 	}
 
+	/**
+	 * @return whether type change is allowed during redefinition
+	 */
 	public boolean isPreventingTypeChange() {
 		return !allowTypeChange;
 	}
