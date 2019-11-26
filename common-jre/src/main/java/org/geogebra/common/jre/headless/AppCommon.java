@@ -1,8 +1,6 @@
 package org.geogebra.common.jre.headless;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
@@ -33,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
@@ -57,9 +54,6 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 /**
  * Common App class used for testing.

@@ -48,7 +48,7 @@ public class DrawEquationMock extends DrawEquation {
 
 	@Override
 	public void checkFirstCall(App app) {
-
+		// nothing to do here
 	}
 
 	@Override
