@@ -2002,8 +2002,8 @@ public class AlgebraProcessor {
 					}
 
 					// STANDARD CASE: REDFINED
-					else if (!(info.isPreventingTypeChange()) ||
-							compatibleTypes(replaceable.getGeoClassType(),
+					else if (!(info.isPreventingTypeChange())
+							|| compatibleTypes(replaceable.getGeoClassType(),
 							ret[0].getGeoClassType())) {
 						GeoElement newGeo = ret[0];
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
