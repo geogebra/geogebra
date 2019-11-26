@@ -93,7 +93,6 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoFrame;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -411,7 +410,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
-	private GeoFrame lastVideo = null;
+	private GeoWidget lastVideo = null;
 	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
@@ -9776,7 +9775,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
-		GeoFrame dv = getVideoHit();
+		GeoWidget dv = getWidgetHit();
 
 		if (dv == null) {
 			widgetsToBackground();
@@ -9800,7 +9799,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		lastVideo = (GeoFrame) movedGeoMedia;
+		lastVideo = movedGeoMedia;
 		videoMoved = true;
 	}
 
@@ -9810,7 +9809,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (videoMoved) {
-			lastVideo.setReady();
 			videoMoved = false;
 			return false;
 		}
@@ -9835,8 +9833,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private boolean videoHasError() {
 		return lastVideo instanceof GeoVideo
 				&& app.getVideoManager().isPlayerOffline((GeoVideo) lastVideo);
-
-		}
+	}
 
 	private void setMoveModeForFurnitures() {
 		Hits hits = view.getHits();
@@ -10957,12 +10954,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	protected GeoFrame getVideoHit() {
+	protected GeoWidget getWidgetHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
-			for (GeoElement geo : hits.getTopHits()) {
-				if (geo instanceof GeoFrame) {
-					return (GeoFrame) geo;
+			Hits topHits = hits.getTopHits();
+			for (int i = topHits.size() - 1; i >= 0; i--) {
+				GeoElement geo = topHits.get(i);
+				if (geo instanceof GeoWidget) {
+					return (GeoWidget) geo;
 				}
 			}
 		}

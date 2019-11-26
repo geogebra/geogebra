@@ -65,15 +65,6 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 	}
 
 	/**
-	 * Called after video specified by its id is loaded.
-	 *
-	 */
-	@Override
-	public void onReady() {
-		video.setBackground(true);
-	}
-
-	/**
 	 *
 	 * @return if iframe is valid.
 	 */

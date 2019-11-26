@@ -38,8 +38,6 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 
 	abstract void update();
 
-	abstract void onReady();
-
 	/**
 	 * @return if the player is valid.
 	 */

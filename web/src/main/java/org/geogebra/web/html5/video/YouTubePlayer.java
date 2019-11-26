@@ -20,9 +20,11 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class YouTubePlayer extends VideoPlayer {
+
 	private static boolean youTubeAPI;
-	private JavaScriptObject ytPlayer;
 	private static ArrayList<YouTubePlayer> waiting = new ArrayList<>();
+
+	private JavaScriptObject ytPlayer;
 	private PersistableFrame frame;
 
 	/**
@@ -102,18 +104,10 @@ public class YouTubePlayer extends VideoPlayer {
 		waiting.clear();
 	}
 
-	/**
-	 *
-	 * @return if YouTube API is present and ready to use.
-	 */
-	public static boolean hasYouTubeApi() {
-		return youTubeAPI;
-	}
-
 	private static native void loadYouTubeApi() /*-{
 		$wnd.youtube_api_ready = function() {
 			@org.geogebra.web.html5.video.YouTubePlayer::onAPIReady()();
-		}
+		};
 
 		var tag = document.createElement('script');
 		tag.id = 'youtube-iframe';
@@ -130,17 +124,11 @@ public class YouTubePlayer extends VideoPlayer {
 	protected native JavaScriptObject createYouTubePlayer(
 			String youtubeId) /*-{
 		var that = this;
-		var ytPlayer = new $wnd.YT.Player(
+        return new $wnd.YT.Player(
 				that.@org.geogebra.web.html5.video.AbstractVideoPlayer::playerId,
 				{
-					videoId : youtubeId,
-					events : {
-						'onReady' : function(event) {
-							that.@org.geogebra.web.html5.video.YouTubePlayer::onReady()();
-						}
-					}
+					videoId : youtubeId
 				});
-		return ytPlayer;
 	}-*/;
 
 	@Override

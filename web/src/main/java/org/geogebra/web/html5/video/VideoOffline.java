@@ -4,10 +4,8 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -63,14 +61,9 @@ public class VideoOffline extends AbstractVideoPlayer {
 		if (video.hasSize()) {
 			return;
 		}
+
 		video.setWidth(DEFAULT_WIDTH);
 		video.setHeight(DEFAULT_HEIGHT);
-
-	}
-
-	@Override
-	public void onReady() {
-		// intentionally empty
 	}
 
 	@Override

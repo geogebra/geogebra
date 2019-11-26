@@ -15,7 +15,7 @@ import org.geogebra.common.util.StringUtil;
  * @author laszlo
  *
  */
-public class GeoVideo extends GeoMedia implements GeoFrame {
+public class GeoVideo extends GeoMedia {
 
 	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
 
@@ -188,7 +188,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
-		setReady();
 		changed = true;
 		runSizeCallbackIfReady();
 	}
@@ -196,7 +195,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	@Override
 	public void setHeight(int height) {
 		super.setHeight(height);
-		setReady();
 		changed = true;
 		runSizeCallbackIfReady();
 	}
@@ -335,23 +333,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 */
 	public void setPreview(MyImage preview) {
 		this.preview = preview;
-	}
-
-	/**
-	 * 
-	 * @return if player is ready to play.
-	 */
-	@Override
-	public boolean isReady() {
-		return false;
-	}
-
-	/**
-	 * Sets video playable for next click.
-	 */
-	@Override
-	public void setReady() {
-		// do nothing
 	}
 
 	/**
