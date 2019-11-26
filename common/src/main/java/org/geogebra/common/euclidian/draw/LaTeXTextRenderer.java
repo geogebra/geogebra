@@ -32,7 +32,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, text);
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
-		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2;
+		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
 		int textTop = (int) Math.round(yPos + diffToCenter);
 
 		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop);
