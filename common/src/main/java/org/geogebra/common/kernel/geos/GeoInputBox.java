@@ -40,6 +40,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private @Nonnull GeoElementND linkedGeo;
 	private @Nonnull InputBoxProcessor inputBoxProcessor;
 
+	private String badSyntax;
+
 	/**
 	 * Creates new text field
 	 *
@@ -128,6 +130,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return the text
 	 */
 	public String getText() {
+		if (badSyntax != null) {
+			return badSyntax;
+		}
 		if (linkedGeo.isGeoText()) {
 			return ((GeoText) linkedGeo).getTextString();
 		}
@@ -449,5 +454,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public boolean needsSymbolButton() {
 		return getLength() >= EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
 				&& !(linkedGeo instanceof GeoText && linkedGeo.isLabelSet());
+	}
+
+	public void setBadSyntax(String badSyntax) {
+		this.badSyntax = badSyntax;
 	}
 }
