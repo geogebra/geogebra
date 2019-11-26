@@ -9820,10 +9820,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (selection.containsSelectedGeo(lastVideo)) {
-			if (lastVideo.isReady()) {
-				view.setBoundingBox(null);
-				view.repaintView();
-			}
+			showDynamicStylebar();
 			if (lastVideo instanceof GeoVideo) {
 				app.getVideoManager().play((GeoVideo) lastVideo);
 			}

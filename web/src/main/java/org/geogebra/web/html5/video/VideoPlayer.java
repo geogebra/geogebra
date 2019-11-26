@@ -71,7 +71,6 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 	@Override
 	public void onReady() {
 		video.setBackground(true);
-		selectPlayer();
 	}
 
 	/**

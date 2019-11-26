@@ -21,13 +21,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 	private final static int DEFAULT_WIDTH = 420;
 	private final static int DEFAULT_HEIGHT = 365;
 	private VideoErrorPanel errorPanel;
-	private Command commandSelect = new Command() {
-		@Override
-		public void execute() {
-			selectPlayer();
-			update();
-		}
-	};
 
 	/**
 	 * Constructor. *
@@ -43,13 +36,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 		String errorId = vendorSettings.getMenuLocalizationKey("VideoAccessError");
 		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
 		stylePlayer();
-		selectDeferred();
-	}
-
-	private void selectDeferred() {
-		// need to call this at the end of page rendering
-		// to make sure that bounding box appears.
-		Scheduler.get().scheduleDeferred(commandSelect);
 	}
 
 	/**

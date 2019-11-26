@@ -24,20 +24,6 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	}
 
 	/**
-	 * Selects player showing its bounding box.
-	 */
-	void selectPlayer() {
-		EuclidianView view = app.getActiveEuclidianView();
-		Drawable d = ((Drawable) view.getDrawableFor(video));
-		d.update();
-		if (d.getBoundingBox().getRectangle() != null) {
-			view.setBoundingBox(d.getBoundingBox());
-			view.repaintView();
-			app.getSelectionManager().addSelectedGeo(video);
-		}
-	}
-
-	/**
 	 * @return the associated GeoVideo object.
 	 */
 	public GeoVideo getVideo() {
@@ -71,7 +57,6 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	public void sendBackground(boolean background) {
 		video.setBackground(background);
 		update();
-		Dom.toggleClass(asWidget(), "background", background);
 	}
 
 	/**
