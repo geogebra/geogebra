@@ -89,6 +89,28 @@ public class GeoInputBoxTest extends BaseUnitTest {
         Assert.assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
     }
 
+    @Test
+    public void inputBoxBadSyntaxInXMLTest() {
+        App app = getApp();
+        add("A = (1,1)");
+        GeoInputBox inputBox = (GeoInputBox) add("B = Inputbox(A)");
+        inputBox.updateLinkedGeo("(1,2)");
+
+		// correct syntax should not contain badSyntax field in XML
+		String appXML = app.getXML();
+		app.setXML(appXML, true);
+		inputBox = (GeoInputBox) lookup("B");
+		Assert.assertNull(inputBox.getBadSyntax());
+
+        String wrongSyntax = "(1,1)error";
+        inputBox.updateLinkedGeo(wrongSyntax);
+        appXML = app.getXML();
+        app.setXML(appXML, true);
+        inputBox = (GeoInputBox) lookup("B");
+        // This does not work yet, becasue integration test can not run AutoCompleteTextField
+//        Assert.assertTrue(wrongSyntax.equals(inputBox.getBadSyntax()));
+    }
+
 	@Test
 	public void testForSimpleUndefinedGeo() {
 		add("a=?");

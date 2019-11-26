@@ -484,4 +484,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		}
 		setBadSyntax(null);
 	}
+
+	public String getBadSyntax() {
+		return badSyntax;
+	}
 }
