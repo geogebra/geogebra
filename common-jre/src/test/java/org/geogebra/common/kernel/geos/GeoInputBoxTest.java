@@ -15,6 +15,14 @@ import org.junit.Test;
 
 public class GeoInputBoxTest extends BaseUnitTest {
 
+	private static final String POINT_2D = "(1,2)";
+	private static final String POINT_3D = "(1,2,3)";
+	private static final String FUNCTION = "x^2";
+	private static final String CONIC = "x^2+y^2=1";
+	private static final String LINE = "x+3y=1";
+	private static final String PLANE = "x+y+z=1";
+	private static final String NUMBER = "4";
+
 	@Override
 	public AppCommon createAppCommon() {
 		return AppCommonFactory.create3D();
@@ -219,14 +227,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		point.remove();
 	}
 
-	private static String POINT_2D = "(1,2)";
-	private static String POINT_3D = "(1,2,3)";
-	private static String FUNCTION = "x^2";
-	private static String CONIC = "x^2+y^2=1";
-	private static String LINE = "x+3y=1";
-	private static String PLANE = "x+y+z=1";
-	private static String NUMBER = "4";
-
 	@Test
 	public void test2DVectorRedefinition() {
 		testRedefinition("v", "=", POINT_2D,
@@ -305,11 +305,11 @@ public class GeoInputBoxTest extends BaseUnitTest {
 									String redefinition, GeoClass keepType,
 									boolean assertDefined) {
 		String input = label + sign + expression;
-		GeoElementND element = add(input);
+		add(input);
 		GeoInputBox inputBox = add("InputBox(" + label + ")");
 		inputBox.updateLinkedGeo(redefinition);
-		// Get element, as it might have been recreated
-		element = inputBox.getLinkedGeo();
+
+		GeoElementND element = inputBox.getLinkedGeo();
 		if (assertDefined) {
 			Assert.assertTrue(input + " should be redefinable to " + redefinition,
 					element.isDefined());
