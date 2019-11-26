@@ -15,7 +15,7 @@ public class CropBox extends BoundingBox<GGeneralPath> {
 
 	@Override
 	protected void createHandlers() {
-		initHandlers(8);
+		initHandlers(CROP_HANDLERS);
 		createhandlers();
 	}
 
@@ -28,7 +28,6 @@ public class CropBox extends BoundingBox<GGeneralPath> {
 		handlers.get(1).lineTo(rectangle.getX() + 10, rectangle.getMaxY());
 		handlers.get(2).moveTo(rectangle.getMaxX() - 10, rectangle.getMaxY());
 		handlers.get(2).lineTo(rectangle.getMaxX(), rectangle.getMaxY());
-
 		handlers.get(2).lineTo(rectangle.getMaxX(), rectangle.getMaxY() - 10);
 		handlers.get(3).moveTo(rectangle.getMaxX(), rectangle.getY() + 10);
 		handlers.get(3).lineTo(rectangle.getMaxX(), rectangle.getY());

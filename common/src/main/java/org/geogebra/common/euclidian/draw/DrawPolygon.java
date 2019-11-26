@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
@@ -58,8 +59,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 
-	private BoundingBox boundingBox;
-	private boolean isSquare = false;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private boolean fillShape = false;
@@ -437,27 +437,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = createBoundingBox(true);
 		}
 		boundingBox.updateFrom(geo);
 		return boundingBox;
-	}
-
-	/**
-	 * @return true if is square
-	 */
-	public boolean isSquare() {
-		return isSquare;
-	}
-
-	/**
-	 * @param isSquare
-	 *            - if it is square
-	 */
-	public void setIsSquare(boolean isSquare) {
-		this.isSquare = isSquare;
 	}
 
 	/**

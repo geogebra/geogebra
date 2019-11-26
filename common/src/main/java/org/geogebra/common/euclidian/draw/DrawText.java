@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -67,7 +68,7 @@ public final class DrawText extends Drawable {
 	private int oldYpos;
 	private boolean needsBoundingBoxOld;
 
-	private BoundingBox boundingBox;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	/**
 	 * thickness for the highlight frame
 	 */
@@ -360,7 +361,7 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (isWhiteboardText()) {
 			if (boundingBox == null) {
 				boundingBox = createBoundingBox(false);

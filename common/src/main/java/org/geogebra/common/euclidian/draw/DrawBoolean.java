@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -346,9 +345,7 @@ public final class DrawBoolean extends Drawable {
 		 * @return checkbox width
 		 */
 		public int getIconWidth() {
-
 			return ev.getBooleanSize();
-
 		}
 
 		/**
@@ -356,13 +353,7 @@ public final class DrawBoolean extends Drawable {
 		 */
 		public int getIconHeight() {
 			return ev.getBooleanSize();
-
 		}
 	}
 
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

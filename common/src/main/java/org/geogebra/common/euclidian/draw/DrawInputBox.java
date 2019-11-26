@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -592,11 +591,6 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void apply() {
 		getGeoInputBox().updateLinkedGeo(getTextField().getText());
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		return null;
 	}
 
 	/**

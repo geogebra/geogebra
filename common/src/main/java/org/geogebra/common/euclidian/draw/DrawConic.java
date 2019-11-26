@@ -177,10 +177,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private boolean isPreview = false;
 	private boolean ignoreSingularities;
 
-	private BoundingBox boundingBox;
-	private double fixCornerX = Double.NaN;
-	private double fixCornerY = Double.NaN;
-	private boolean isCircle = false;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	/** eigenvectors */
 	protected Coords[] ev;
 	private GeoLine diameter;
@@ -263,12 +260,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 			neededPrevPoints = 4;
 			break;
-
 		}
 
-		// neededPrevPoints = mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		// ? 1
-		// : 2;
 		previewTempPoints = new GeoPoint[neededPrevPoints + 1];
 		for (int i = 0; i < previewTempPoints.length; i++) {
 			previewTempPoints[i] = new GeoPoint(cons);
@@ -435,13 +428,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (geo.isShape()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
-				if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getHeight(),
-						getBoundingBox().getRectangle().getWidth(), 2)) {
-					setIsCircle(true);
-				}
 			} else {
 				getBoundingBox().setRectangle(null);
-				setIsCircle(false);
 			}
 		}
 	}
@@ -2069,57 +2057,12 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = createBoundingBox(true);
 		}
 		boundingBox.updateFrom(geo);
 		return boundingBox;
-	}
-
-	/**
-	 * @return fixed x coord of corner
-	 */
-	public double getFixCornerX() {
-		return fixCornerX;
-	}
-
-	/**
-	 * @param fixCornerX
-	 *            - x coord of fixed corner
-	 */
-	public void setFixCornerX(double fixCornerX) {
-		this.fixCornerX = fixCornerX;
-	}
-
-	/**
-	 * @return fixed y coord of corner
-	 */
-	public double getFixCornerY() {
-		return fixCornerY;
-	}
-
-	/**
-	 * @param fixCornerY
-	 *            - y coord of fixed corner
-	 */
-	public void setFixCornerY(double fixCornerY) {
-		this.fixCornerY = fixCornerY;
-	}
-
-	/**
-	 * @return true if is circle
-	 */
-	public boolean isCircle() {
-		return isCircle;
-	}
-
-	/**
-	 * @param isCircle
-	 *            - if it is circle
-	 */
-	public void setIsCircle(boolean isCircle) {
-		this.isCircle = isCircle;
 	}
 
 	/**
@@ -2145,8 +2088,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 					centerY - conic.getMidpoint().getY(), 0);
 			conic.translate(corner);
 
-			// with side handler dragging no circle anymore
-			setIsCircle(false);
 			// update bounding box
 			getBoundingBox().setRectangle(rectForRotatedEllipse());
 			conic.updateRepaint();
@@ -2172,8 +2113,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 	@Override
 	public void updateGeo() {
-		setFixCornerX(Double.NaN);
-		setFixCornerY(Double.NaN);
 		view.repaintView();
 	}
 

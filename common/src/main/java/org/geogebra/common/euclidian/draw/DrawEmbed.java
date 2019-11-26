@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -23,7 +24,7 @@ import org.geogebra.common.main.App.ExportType;
  * Drawable for embedded apps
  */
 public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
-	private BoundingBox boundingBox;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private GRectangle2D bounds;
 	private double originalRatio = Double.NaN;
 	private GeoEmbed geoEmbed;
@@ -133,7 +134,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = createBoundingBox(false);
 			setMetrics();

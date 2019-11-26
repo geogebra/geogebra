@@ -7,20 +7,19 @@ import org.geogebra.common.factories.AwtFactory;
 
 public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	private static final int ROTATION_HANDLER_DISTANCE = 25;
-	protected int nrHandlers = 8;
+	private final boolean hasRotationHandler;
 
 	public MultiBoundingBox(boolean hasRotationHandler) {
-		nrHandlers = hasRotationHandler ? 9 : 8;
+		this.hasRotationHandler = hasRotationHandler;
 	}
 
 	@Override
 	protected void createHandlers() {
-		initHandlers(nrHandlers);
+		initHandlers(hasRotationHandler ? 9 : 8);
 		createBoundingBoxHandlers();
 	}
 
 	private void createBoundingBoxHandlers() {
-
 		// corner handlers
 		setHandlerFromCenter(0, rectangle.getX(), rectangle.getY());
 		setHandlerFromCenter(1, rectangle.getX(), rectangle.getMaxY());
@@ -38,18 +37,17 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		setHandlerFromCenter(6, centerX, rectangle.getMaxY());
 		// right
 		setHandlerFromCenter(7, rectangle.getMaxX(), centerY);
-		if (nrHandlers == 9) {
+		if (hasRotationHandler) {
 			// rotation handler
 			setHandlerFromCenter(8, centerX, rectangle.getMinY() - ROTATION_HANDLER_DISTANCE);
 		}
-
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
 		// draw bounding box
 		drawRectangle(g2);
-		if (nrHandlers == 9) {
+		if (hasRotationHandler) {
 			GLine2D line = AwtFactory.getPrototype().newLine2D();
 			double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
 			line.setLine(centerX, rectangle.getMinY(),
@@ -72,7 +70,7 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
 	private boolean hitRotationHandlerLine(int x, int y, int hitThreshold) {
 		double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
-		return nrHandlers == 9 && onSegment(centerX,
+		return hasRotationHandler && onSegment(centerX,
 				rectangle.getMinY(), x, y, centerX,
 				rectangle.getMinY() - ROTATION_HANDLER_DISTANCE, hitThreshold);
 	}
@@ -93,13 +91,14 @@ public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	 */
 	private static boolean onSegment(double segStartX, double segStartY, int hitX, int hitY,
 			double segEndX, double segEndY, int hitThreshold) {
-		if (hitX <= Math.max(segStartX, segEndX) + hitThreshold
-				&& hitX >= Math.min(segStartX, segEndX) - hitThreshold
-				&& hitY <= Math.max(segStartY, segEndY) + hitThreshold
-				&& hitY >= Math.min(segStartY, segEndY) - hitThreshold) {
-			return true;
-		}
-		return false;
+		return onSegmentCoord(segStartX, hitX, segEndX, hitThreshold)
+				&& onSegmentCoord(segStartY, hitY, segEndY, hitThreshold);
+	}
+
+	private static boolean onSegmentCoord(double segStartX, int hitX, double segEndX,
+			int hitThreshold) {
+		return hitX <= Math.max(segStartX, segEndX) + hitThreshold
+				&& hitX >= Math.min(segStartX, segEndX) - hitThreshold;
 	}
 
 }

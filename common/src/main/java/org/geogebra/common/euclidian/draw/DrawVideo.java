@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -30,7 +31,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	private GRectangle bounds;
 	private int left;
 	private int top;
-	private BoundingBox boundingBox;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private double originalRatio = Double.NaN;
 	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
@@ -136,7 +137,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (video.isBackground()) {
 			if (boundingBox == null) {
 				boundingBox = createBoundingBox(false);

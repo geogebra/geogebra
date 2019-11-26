@@ -24,7 +24,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -602,7 +601,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public SegmentBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = new SegmentBoundingBox();
 			boundingBox.setColor(view.getApplication().getPrimaryColor());

@@ -26,6 +26,7 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
@@ -169,9 +170,11 @@ public abstract class Drawable extends DrawableND {
 	public abstract GeoElement getGeoElement();
 
 	/**
-	 * @return bounding box construction
+	 * @return bounding box with handlers
 	 */
-	public abstract BoundingBox<? extends GShape> getBoundingBox();
+	public BoundingBox<? extends GShape> getBoundingBox() {
+		return null;
+	}
 
 	@Override
 	public double getxLabel() {
@@ -903,7 +906,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param hasRotationHandler has rotation handler
 	 * @return bounding box
 	 */
-	protected BoundingBox<? extends GShape> createBoundingBox(boolean hasRotationHandler) {
+	protected BoundingBox<GEllipse2DDouble> createBoundingBox(boolean hasRotationHandler) {
 		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
 		boundingBox.setColor(getActiveColor());
 
