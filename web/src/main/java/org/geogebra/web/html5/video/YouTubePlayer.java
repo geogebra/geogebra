@@ -148,36 +148,6 @@ public class YouTubePlayer extends VideoPlayer {
 		return isFrameValid();
 	}
 
-	/**
-	 * Play the video.
-	 */
-	@Override
-	public void play() {
-		video.play();
-		if (video.isPlaying()) {
-			play(ytPlayer);
-		}
-		update();
-	}
-
-	/**
-	 * Pause the video.
-	 */
-	@Override
-	public void pause() {
-		video.pause();
-		pause(ytPlayer);
-		update();
-	}
-
-	private native void play(JavaScriptObject player) /*-{
-		player.playVideo();
-	}-*/;
-
-	private native void pause(JavaScriptObject player) /*-{
-		player.pauseVideo();
-	}-*/;
-
 	@Override
 	public Widget asWidget() {
 		return frame;

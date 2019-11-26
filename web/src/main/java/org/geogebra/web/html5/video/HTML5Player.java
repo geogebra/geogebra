@@ -53,22 +53,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	}
 
 	@Override
-	public void play() {
-		video.play();
-		if (video.isPlaying()) {
-			v.play();
-		}
-		update();
-	}
-
-	@Override
-	public void pause() {
-		video.pause();
-		v.pause();
-		update();
-	}
-
-	@Override
 	public Widget asWidget() {
 		return main;
 	}

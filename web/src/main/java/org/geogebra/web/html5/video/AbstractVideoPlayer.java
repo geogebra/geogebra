@@ -6,8 +6,10 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
 import com.google.gwt.user.client.ui.IsWidget;
+import org.geogebra.web.html5.util.Dom;
 
 public abstract class AbstractVideoPlayer implements IsWidget {
+
 	/** The application */
 	protected App app;
 
@@ -36,7 +38,6 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	}
 
 	/**
-	 *
 	 * @return the associated GeoVideo object.
 	 */
 	public GeoVideo getVideo() {
@@ -59,18 +60,7 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	abstract boolean isValid();
 
 	/**
-	 * Play the video.
-	 */
-	abstract void play();
-
-	/**
-	 * Pause the video.
-	 */
-	abstract void pause();
-
-		/**
-	 * @param video2
-	 *            other video
+	 * @param video2 other video
 	 * @return whether the player is compatible with the oter video
 	 */
 	abstract boolean matches(GeoVideo video2);
@@ -78,13 +68,13 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	/**
 	 * Sends the player background.
 	 */
-	public void sendBackground() {
-		video.setBackground(true);
+	public void sendBackground(boolean background) {
+		video.setBackground(background);
 		update();
+		Dom.toggleClass(asWidget(), "background", background);
 	}
 
 	/**
-	 *
 	 * @return if player is offline.
 	 */
 	abstract boolean isOffline();

@@ -53,15 +53,8 @@ public class VideoManagerW implements VideoManager {
 		if (video == null) {
 			return;
 		}
-		playerOf(video).play();
-	}
 
-	@Override
-	public void pause(GeoVideo video) {
-		if (video == null || !hasPlayer(video)) {
-			return;
-		}
-		playerOf(video).pause();
+		playerOf(video).sendBackground(false);
 	}
 
 	@Override
@@ -69,7 +62,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-		playerOf(video).sendBackground();
+		playerOf(video).sendBackground(true);
 	}
 
 	@Override

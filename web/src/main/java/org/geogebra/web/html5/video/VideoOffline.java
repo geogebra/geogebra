@@ -93,17 +93,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 	}
 
 	@Override
-	public void play() {
-		// intentionally empty
-	}
-
-	@Override
-	public void pause() {
-		// intentionally empty
-	}
-
-	@Override
-	public void sendBackground() {
+	public void sendBackground(boolean background) {
 		// intentionally empty
 	}
 
