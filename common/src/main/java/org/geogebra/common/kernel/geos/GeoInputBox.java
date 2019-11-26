@@ -39,8 +39,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
-	private @Nonnull
-	InputBoxProcessor inputBoxProcessor;
+	private @Nonnull InputBoxProcessor inputBoxProcessor;
 
 	/**
 	 * Creates new text field
