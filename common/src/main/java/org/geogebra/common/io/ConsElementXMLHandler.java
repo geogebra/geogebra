@@ -1122,6 +1122,20 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
+	private boolean handleBadSyntax(LinkedHashMap<String, String> attrs) {
+
+		// name of linked geo
+		String val = attrs.get("val");
+
+		if (geo instanceof GeoInputBox) {
+			((GeoInputBox) geo).setBadSyntax(val);
+		} else {
+			Log.error("Bad syntax not supported for " + geo.getGeoClassType());
+		}
+
+		return true;
+	}
+
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
 		String align = attrs.get("val");
 
@@ -2040,6 +2054,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "length":
 				handleLength(attrs);
+				break;
+			case "badSyntax":
+				handleBadSyntax(attrs);
 				break;
 			case "listType":
 				handleListType(attrs);
