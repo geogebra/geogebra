@@ -44,7 +44,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	 *            whether to use rounding
 	 */
 	public void updateLinkedGeo(String inputText, StringTemplate tpl, boolean useRounding) {
-		inputBox.setBadSyntax(null);
 		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
@@ -91,8 +90,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				linkedGeo.updateRepaint();
 
 			} else {
-				inputBox.setBadSyntax(inputText);
-
 				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 						linkedGeo.isIndependent(), false).withSliders(false);
 
@@ -175,5 +172,9 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 
 	private void showError() {
 		kernel.getApplication().showError(Errors.InvalidInput);
+	}
+
+	public GeoInputBox getInputBox() {
+		return inputBox;
 	}
 }

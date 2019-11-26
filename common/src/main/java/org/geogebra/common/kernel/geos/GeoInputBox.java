@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -464,5 +465,23 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	public void setBadSyntax(String badSyntax) {
 		this.badSyntax = badSyntax;
+	}
+
+	/**
+	 * Called by a AlgebraProcessor after correct syntax is validated
+	 *
+	 * @param syntaxIsBad
+	 *            true if syntax of InputBox text field is incorrect.
+	 */
+	public void updateBadSyntax(boolean syntaxIsBad) {
+		if (syntaxIsBad) {
+			AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView().
+					getTextField();
+			if (tf != null) {
+				setBadSyntax(tf.getText());
+				return;
+			}
+		}
+		setBadSyntax(null);
 	}
 }
