@@ -70,9 +70,4 @@ public interface VendorSettings {
 	*   @return the graspable mode if it's enabled or not
 	 */
 	boolean isGraspableMathEnabled();
-
-	/**
-	 * @return if the app has released or not.
-	 */
-	boolean isReleaseOnly();
 }

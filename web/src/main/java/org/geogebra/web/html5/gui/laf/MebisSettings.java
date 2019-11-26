@@ -72,9 +72,4 @@ public class MebisSettings implements VendorSettings {
 	public boolean isGraspableMathEnabled() {
 		return false;
 	}
-
-	@Override
-	public boolean isReleaseOnly() {
-		return true;
-	}
 }

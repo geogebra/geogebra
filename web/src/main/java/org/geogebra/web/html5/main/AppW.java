@@ -4035,13 +4035,4 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
 		return null;
 	}
-
-	@Override
-	public String getVersionString() {
-		Platform platform = getPlatform();
-		if (platform != null && getVendorSettings().isReleaseOnly()) {
-			return platform.getVersionString(false, false, getConfig().getAppCode());
-		}
-		return super.getVersionString();
-	}
 }
