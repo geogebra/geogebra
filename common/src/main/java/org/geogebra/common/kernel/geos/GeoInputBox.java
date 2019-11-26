@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
@@ -38,7 +39,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
-	private @Nonnull InputBoxProcessor inputBoxProcessor;
+	private @Nonnull
+	InputBoxProcessor inputBoxProcessor;
 
 	/**
 	 * Creates new text field

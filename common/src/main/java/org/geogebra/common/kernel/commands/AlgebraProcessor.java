@@ -70,6 +70,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -1951,6 +1952,13 @@ public class AlgebraProcessor {
 			throws CircularDefinitionException {
 		// try to replace replaceable geo by ret[0]
 		if (replaceable != null && ret.length > 0) {
+			RedefinitionRule rule = info.getRedefinitionRule();
+			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
+					ret[0].getGeoClassType())) {
+				// Set undefined
+				ret[0] = replaceable;
+				replaceable.setUndefined();
+			} else
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
 			// (note: texts are always redefined)

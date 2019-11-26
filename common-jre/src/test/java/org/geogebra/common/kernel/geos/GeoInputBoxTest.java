@@ -1,16 +1,24 @@
 package org.geogebra.common.kernel.geos;
 
+import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
-import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.TextObject;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class GeoInputBoxTest extends BaseUnitTest {
+
+	@Override
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create3D();
+	}
 
 	private TextObject textObject = new TextObject() {
 		String content;
@@ -192,28 +200,124 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testCannotRedefineObjects() {
-		GeoVector vec2D = add("Vector2D = Vector((1,2))");
-		GeoInputBox inputBox = add("InputBox(Vector2D)");
-		inputBox.updateLinkedGeo("x^2");
-		Assert.assertFalse(vec2D.isDefined());
+	public void testGeoPointDoesNotChangeDisplayMode() {
+		testDoesNotChangeDisplayMode("(1, 2)", Kernel.COORD_CARTESIAN);
+		testDoesNotChangeDisplayMode("1 + 2" + Unicode.IMAGINARY, Kernel.COORD_COMPLEX);
+		testDoesNotChangeDisplayMode("(1; 2)", Kernel.COORD_POLAR);
+	}
 
-		GeoImplicitCurve plane = add("Plane: x + y + z = 1");
-		inputBox = add("InputBox(Plane)");
-		inputBox.updateLinkedGeo("x^2");
-		Assert.assertFalse(plane.isDefined());
+	private void testDoesNotChangeDisplayMode(String original, int type) {
+		GeoPoint point = add("A = " + original);
+		GeoInputBox inputBox = add("InputBox(A)");
+		Assert.assertEquals(point.getToStringMode(), type);
+
+		String[] inputs = {"(1, 2)", "1 + i", "(2; 3)"};
+		for (String input: inputs) {
+			inputBox.updateLinkedGeo(input);
+			Assert.assertEquals(point.getToStringMode(), type);
+		}
+		point.remove();
+	}
+
+	private static String POINT_2D = "(1,2)";
+	private static String POINT_3D = "(1,2,3)";
+	private static String FUNCTION = "x^2";
+	private static String CONIC = "x^2+y^2=1";
+	private static String LINE = "x+3y=1";
+	private static String PLANE = "x+y+z=1";
+	private static String NUMBER = "4";
+
+	@Test
+	public void test2DVectorRedefinition() {
+		testRedefinition("v", "=", POINT_2D,
+				GeoClass.VECTOR,
+				new String[] {FUNCTION, CONIC, LINE, PLANE, NUMBER, POINT_3D},
+				new String[] {POINT_2D});
 	}
 
 	@Test
-	public void testGeoPointDoesNotChangeDisplayMode() {
-		GeoPoint point = add("A = (1, 2)");
-		GeoInputBox inputBox = add("InputBox(A)");
-		Assert.assertEquals(point.getToStringMode(), Kernel.COORD_CARTESIAN);
+	public void test3DVectorRedefinition() {
+		testRedefinition("v", "=", POINT_3D,
+				GeoClass.VECTOR3D,
+				new String[] {FUNCTION, CONIC, LINE, PLANE, NUMBER},
+				new String[] {POINT_3D, POINT_2D});
+	}
 
-		inputBox.updateLinkedGeo("1 + i");
-		Assert.assertEquals(point.getToStringMode(), Kernel.COORD_CARTESIAN);
+	@Test
+	public void testPlaneRedefinition() {
+		testRedefinition("a", ":", PLANE,
+				GeoClass.PLANE3D,
+				new String[] {FUNCTION, CONIC, NUMBER, POINT_3D, POINT_2D},
+				new String[] {LINE, PLANE});
+	}
 
-		inputBox.updateLinkedGeo("(2; 3)");
-		Assert.assertEquals(point.getToStringMode(), Kernel.COORD_CARTESIAN);
+	@Test
+	public void test2DPointRedefinition() {
+		testRedefinition("A", "=", POINT_2D,
+				GeoClass.POINT,
+				new String[] {FUNCTION, CONIC, LINE, PLANE, POINT_3D},
+				new String[] {POINT_2D, NUMBER});
+	}
+
+	@Test
+	public void test3DPointRedefinition() {
+		testRedefinition("A", "=", POINT_3D,
+				GeoClass.POINT3D,
+				new String[] {FUNCTION, CONIC, LINE, PLANE},
+				new String[] {POINT_3D, POINT_2D, NUMBER});
+	}
+
+	@Test
+	public void testConicRedefinition() {
+		testRedefinition("eq1", ":", CONIC,
+				GeoClass.CONIC,
+				new String[] {FUNCTION, LINE, PLANE, NUMBER, POINT_3D, POINT_2D},
+				new String[] {CONIC});
+	}
+
+	@Test
+	public void testFunctionRedefinition() {
+		testRedefinition("f", "=", FUNCTION,
+				GeoClass.FUNCTION,
+				new String[] {CONIC, LINE, PLANE, POINT_3D, POINT_2D},
+				new String[] {FUNCTION, NUMBER});
+	}
+
+	@Test
+	public void testLineRedefinition() {
+		testRedefinition("f", ":", LINE,
+				GeoClass.LINE,
+				new String[] {CONIC, FUNCTION, PLANE, POINT_3D, POINT_2D},
+				new String[] {LINE, NUMBER});
+	}
+
+	private void testRedefinition(String label, String sign, String expression, GeoClass keepType,
+								  String[] refusedRedefinitions, String[] acceptedRedefinitions) {
+		for (String refused: refusedRedefinitions) {
+			assertRedefinition(label, sign, expression, refused, keepType, false);
+		}
+		for (String refused: acceptedRedefinitions) {
+			assertRedefinition(label, sign, expression, refused, keepType, true);
+		}
+	}
+
+	private void assertRedefinition(String label, String sign, String expression,
+									String redefinition, GeoClass keepType,
+									boolean assertDefined) {
+		String input = label + sign + expression;
+		GeoElementND element = add(input);
+		GeoInputBox inputBox = add("InputBox(" + label + ")");
+		inputBox.updateLinkedGeo(redefinition);
+		// Get element, as it might have been recreated
+		element = inputBox.getLinkedGeo();
+		if (assertDefined) {
+			Assert.assertTrue(input + " should be redefinable to " + redefinition,
+					element.isDefined());
+		} else {
+			Assert.assertFalse(input + " should not be redefinable to " + redefinition,
+					element.isDefined());
+		}
+		Assert.assertEquals(keepType, element.getGeoClassType());
+		element.remove();
 	}
 }

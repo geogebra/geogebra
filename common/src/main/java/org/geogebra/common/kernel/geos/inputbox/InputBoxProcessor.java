@@ -1,16 +1,20 @@
-package org.geogebra.common.kernel.geos;
+package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -19,6 +23,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Updates linked element for an input box from user input
  */
 public class InputBoxProcessor {
+
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private Kernel kernel;
@@ -91,11 +96,13 @@ public class InputBoxProcessor {
 			} else {
 				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 						false, false).withSliders(false)
-						.withNoRedefinitionAllowed().withPreventingTypeChange();
-//				;
+						.withNoRedefinitionAllowed().withPreventingTypeChange()
+						.withRedefinitionRule(createRedefinitionRule());
 
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, new InputBoxCallback(), kernel.getApplication().getErrorHandler());
+						defineText, info, true,
+						new InputBoxCallback(this, inputBox),
+						new InputBoxErrorHandler(inputBox, kernel.getApplication().getErrorHandler()));
 				return;
 			}
 		} catch (MyError e1) {
@@ -137,10 +144,6 @@ public class InputBoxProcessor {
 			// make sure user can enter regular "i"
 			defineText = defineText.replace('i', Unicode.IMAGINARY);
 
-			// z=2 doesn't work for complex numbers (parses to
-			// GeoNumeric)
-			defineText = defineText + "+0" + Unicode.IMAGINARY;
-
 		} else if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
@@ -150,50 +153,19 @@ public class InputBoxProcessor {
 		return defineText;
 	}
 
-	private boolean isComplexNumber() {
+	private RedefinitionRule createRedefinitionRule() {
+		RedefinitionRule same = RedefinitionRules.sameClassRule();
+		RedefinitionRule point = RedefinitionRules.oneWayRule(GeoClass.POINT3D, GeoClass.POINT);
+		RedefinitionRule vector = RedefinitionRules.oneWayRule(GeoClass.VECTOR3D, GeoClass.VECTOR);
+		return RedefinitionRules.anyRule(same, point, vector);
+	}
+
+	boolean isComplexNumber() {
 		return linkedGeo.isGeoPoint()
 				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
 	private void showError() {
 		kernel.getApplication().showError(Errors.InvalidInput);
-	}
-
-	private class InputBoxCallback implements AsyncOperation<GeoElementND> {
-
-		private int toStringMode;
-
-		private InputBoxCallback() {
-			saveToStringMode();
-		}
-
-		private void saveToStringMode() {
-			if (linkedGeo instanceof GeoPoint) {
-				toStringMode = ((GeoPoint) linkedGeo).getToStringMode();
-			}
-		}
-
-		private void restoreToStringMode() {
-			if (linkedGeo instanceof GeoPoint) {
-				((GeoPoint) linkedGeo).setToStringMode(toStringMode);
-			}
-		}
-
-		@Override
-		public void callback(GeoElementND obj) {
-			if (isComplexNumber()) {
-				ExpressionNode def = obj.getDefinition();
-				if (def != null && def.getOperation() == Operation.PLUS && def.getRight()
-						.toString(StringTemplate.defaultTemplate).equals("0" + Unicode.IMAGINARY)) {
-					obj.setDefinition(def.getLeftTree());
-					inputBox.setLinkedGeo(obj);
-					obj.updateRepaint();
-					return;
-				}
-
-			}
-			inputBox.setLinkedGeo(obj);
-			restoreToStringMode();
-		}
 	}
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.util.GPredicate;
 
 /**
@@ -25,6 +26,7 @@ public class EvalInfo {
 	private boolean allowTypeChange = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
+	private RedefinitionRule redefinitionRule;
 
 	/**
 	 * @param labelOut
@@ -142,6 +144,7 @@ public class EvalInfo {
 		ret.copyingPlainVariables = this.copyingPlainVariables;
 		ret.labelFilter = this.labelFilter;
 		ret.allowTypeChange = this.allowTypeChange;
+		ret.redefinitionRule = this.redefinitionRule;
 		return ret;
 	}
 
@@ -369,5 +372,27 @@ public class EvalInfo {
 		EvalInfo info = copy();
 		info.allowTypeChange = false;
 		return info;
+	}
+
+	/**
+	 * Eval info with a custom redefinition rule. This rule will be applied when the element
+	 * is being replaced by another element.
+	 *
+	 * @param rule redefinition rule
+	 * @return a copy of the eval info
+	 */
+	public EvalInfo withRedefinitionRule(RedefinitionRule rule) {
+		EvalInfo info = copy();
+		info.redefinitionRule = rule;
+		return info;
+	}
+
+	/**
+	 * Get the redefinition rule. This specifies the allowed redefinition types.
+	 *
+	 * @return redefinition rule
+	 */
+	public RedefinitionRule getRedefinitionRule() {
+		return redefinitionRule;
 	}
 }
