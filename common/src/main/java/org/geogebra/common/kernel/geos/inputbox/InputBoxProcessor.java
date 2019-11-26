@@ -102,7 +102,8 @@ public class InputBoxProcessor {
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
 						defineText, info, true,
 						new InputBoxCallback(this, inputBox),
-						new InputBoxErrorHandler(inputBox, kernel.getApplication().getErrorHandler()));
+						new InputBoxErrorHandler(inputBox,
+								kernel.getApplication().getErrorHandler()));
 				return;
 			}
 		} catch (MyError e1) {
@@ -155,8 +156,10 @@ public class InputBoxProcessor {
 
 	private RedefinitionRule createRedefinitionRule() {
 		RedefinitionRule same = RedefinitionRules.sameClassRule();
-		RedefinitionRule point = RedefinitionRules.oneWayRule(GeoClass.POINT3D, GeoClass.POINT);
-		RedefinitionRule vector = RedefinitionRules.oneWayRule(GeoClass.VECTOR3D, GeoClass.VECTOR);
+		RedefinitionRule point = RedefinitionRules.oneWayRule(
+				GeoClass.POINT3D, GeoClass.POINT);
+		RedefinitionRule vector = RedefinitionRules.oneWayRule(
+				GeoClass.VECTOR3D, GeoClass.VECTOR);
 		return RedefinitionRules.anyRule(same, point, vector);
 	}
 
