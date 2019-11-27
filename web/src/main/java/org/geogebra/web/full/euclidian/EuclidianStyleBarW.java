@@ -652,23 +652,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void onClick(Widget source) {
-				// force closing keyboard
-				getFrame().showKeyBoard(false, null, true);
-				boolean deletePoints = true;
 				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
-				for (int i = activeGeoList.size() - 1; i >= 0; i--) {
-					if (!(activeGeoList.get(i) instanceof GeoPoint)) {
-						deletePoints = false;
-					}
-				}
-				if (deletePoints) {
-					app.deleteSelectedObjects(false);
-				} else {
-					app.storeUndoInfo();
-				}
-
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelectionAndRectangle();
+				app.deleteSelectedObjects(false);
 			}
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
