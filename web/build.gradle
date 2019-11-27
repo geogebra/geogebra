@@ -183,7 +183,6 @@ task copyHandlebars {
         appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            // TODO notes features should go to stable, then we simplify this
             def templatePath = project.getProperty("handlebarsDir") + "/${app.id}-template.handlebars"
             file(templatePath).text = handlebars(replaceHtml(app, false))
         }
