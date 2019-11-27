@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
@@ -71,6 +72,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 				canvas, listener,
 				directFormulaConversion,
 				null);
+		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
 		mathField.getInputTextArea().getElement().setAttribute("data-test", "mathFieldTextArea");
@@ -264,5 +266,12 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, ClickListene
 
 	public void setVisible(boolean visible) {
 		Dom.toggleClass(main, "hidden", !visible);
+	}
+
+	/**
+	 * Update screen reader description
+	 */
+	public void updateAriaLabel() {
+		mathField.setAriaLabel(mathField.getDescription());
 	}
 }

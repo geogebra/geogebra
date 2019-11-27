@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
@@ -12,11 +13,12 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -26,7 +28,8 @@ import com.google.gwt.user.client.ui.Label;
  * @author Laszlo
  */
 class NamePanel extends OptionPanel
-		implements ObjectNameModel.IObjectNameListener, ErrorHandler {
+		implements ObjectNameModel.IObjectNameListener, ErrorHandler,
+		FocusListenerDelegate {
 	ObjectNameModel model;
 	private AutoCompleteTextFieldW tfName;
 	private AutoCompleteTextFieldW tfDefinition;
@@ -71,9 +74,10 @@ class NamePanel extends OptionPanel
 		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, true);
 		tfName = inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
-		tfName.addFocusListener(new FocusListenerW(this) {
+		tfName.addBlurHandler(new BlurHandler() {
+
 			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				if (model.noLabelUpdateNeeded(tfName.getText())) {
 					return;
 				}
@@ -95,30 +99,7 @@ class NamePanel extends OptionPanel
 		tfDefinition = inputPanelDef.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 
-		tfDefinition.addFocusListener(new FocusListenerW(this) {
-			@Override
-			public void wrapFocusGained() {
-				// started to type something : store current geo if focus
-				// lost
-				currentGeoForFocusLost = model.getCurrentGeo();
-			}
-
-			@Override
-			protected void wrapFocusLost() {
-				// model.redefineCurrentGeo(currentGeoForFocusLost,
-				// tfDefinition.getText(), redefinitionForFocusLost,
-				// NamePanel.this);
-				if (model.getCurrentGeo() == currentGeoForFocusLost) {
-					model.applyDefinitionChange(tfDefinition.getText(),
-							app.getErrorHandler());
-				} else {
-					model.redefineCurrentGeo(currentGeoForFocusLost,
-							tfDefinition.getText(),
-							redefinitionForFocusLost,
-							app.getErrorHandler());
-				}
-			}
-		});
+		tfDefinition.addFocusListener(this);
 
 		tfDefinition.addKeyHandler(new KeyHandler() {
 
@@ -137,9 +118,10 @@ class NamePanel extends OptionPanel
 		tfCaption = inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 
-		tfCaption.addFocusListener(new FocusListenerW(this) {
+		tfCaption.addBlurHandler(new BlurHandler() {
+
 			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				doCaptionChanged();
 			}
 		});
@@ -186,6 +168,28 @@ class NamePanel extends OptionPanel
 		captionPanel.setStyleName("optionsInput");
 		setWidget(mainWidget);
 		updateGUI(true, true);
+	}
+
+	@Override
+	public void focusGained() {
+		// started to type something : store current geo if focus
+		// lost
+		currentGeoForFocusLost = model.getCurrentGeo();
+	}
+
+	@Override
+	public void focusLost() {
+		// model.redefineCurrentGeo(currentGeoForFocusLost,
+		// tfDefinition.getText(), redefinitionForFocusLost,
+		// NamePanel.this);
+		if (model.getCurrentGeo() == currentGeoForFocusLost) {
+			model.applyDefinitionChange(tfDefinition.getText(),
+					app.getErrorHandler());
+		} else {
+			model.redefineCurrentGeo(currentGeoForFocusLost,
+					tfDefinition.getText(), redefinitionForFocusLost,
+					app.getErrorHandler());
+		}
 	}
 
 	private void applyName() {

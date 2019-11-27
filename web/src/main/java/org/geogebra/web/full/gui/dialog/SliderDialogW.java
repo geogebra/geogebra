@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -176,7 +175,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		tfLabel = new AutoCompleteTextFieldW(-1, appw);
 		tfLabel.enableGGBKeyboard();
 		updateLabelField(number, false);
-		tfLabel.addFocusListener(new FocusListenerW(tfLabel));
+		// TODO blur handler ?
 		tfLabel.requestToShowSymbolButton();
 		nameWidget.add(tfLabel);
 		

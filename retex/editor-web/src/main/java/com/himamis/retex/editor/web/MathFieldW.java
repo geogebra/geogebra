@@ -372,7 +372,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				int code = convertToJavaKeyCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 						getModifiers(event), getChar(event.getNativeEvent())));
-
+				FactoryProvider.debugS("down:" + code);
 				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_LEFT
 						|| code == JavaKeyCodes.VK_RIGHT) {
@@ -401,6 +401,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (expressionReader != null) {
 			setAriaLabel(this.mathFieldInternal.getEditorState()
 					.getDescription(expressionReader));
+		} else {
+			FactoryProvider.debugS("no reader");
 		}
 	}
 
@@ -1066,14 +1068,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * @param er
-	 *            expression reader
 	 * @return description for screen reader
 	 */
-	public String getDescription(ExpressionReader er) {
-		mathFieldInternal.getEditorState();
-		return ScreenReaderSerializer.fullDescription(er,
+	public String getDescription() {
+		if (expressionReader != null) {
+			return ScreenReaderSerializer.fullDescription(expressionReader,
 				mathFieldInternal.getEditorState().getRootComponent());
+		}
+		return "";
 	}
 
 	/**

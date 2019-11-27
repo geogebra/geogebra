@@ -76,19 +76,23 @@ import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -225,12 +229,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private class ShowConditionPanel extends OptionPanel
-			implements IShowConditionListener, ErrorHandler {
+			implements IShowConditionListener, ErrorHandler, Command {
 		private ShowConditionModel model;
 		private FormLabel title;
 		private AutoCompleteTextFieldW tfCondition;
 
-		boolean processed;
 		private FlowPanel errorPanel;
 
 		public ShowConditionPanel() {
@@ -248,30 +251,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			title = new FormLabel().setFor(tfCondition);
 			title.setStyleName("panelTitle");
 			mainPanel.add(title);
-
-			tfCondition.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						doActionPerformed();
-					}
-				}
-			});
-
-			tfCondition.addFocusListener(new FocusListenerW(this) {
-				@Override
-				protected void wrapFocusGained() {
-					processed = false;
-				}
-
-				@Override
-				protected void wrapFocusLost() {
-					if (!processed) {
-						doActionPerformed();
-					}
-				}
-			});
+			SingleActionProcessor processor = new SingleActionProcessor(this);
+			processor.handleEvents(tfCondition);
 			// put it all together
 			mainPanel.add(inputPanel);
 			errorPanel = new FlowPanel();
@@ -307,8 +288,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			return tfCondition.getCommand();
 		}
 
-		void doActionPerformed() {
-			processed = true;
+		@Override
+		public void execute() {
 			errorPanel.clear();
 			model.applyChanges(tfCondition.getText(), this);
 		}
@@ -441,7 +422,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private class ColorFunctionPanel extends OptionPanel
-			implements IColorFunctionListener {
+			implements IColorFunctionListener, Command {
 
 		ColorFunctionModel model;
 		private InputPanelW inputPanelA;
@@ -465,8 +446,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		private String defaultB = "0";
 		private String defaultA = "1";
 
-		boolean processed = false;
-
 		public ColorFunctionPanel() {
 			model = new ColorFunctionModel(app, this);
 			setModel(model);
@@ -487,43 +466,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			nameLabelG = new FormLabel().setFor(tfGreen);
 			nameLabelB = new FormLabel().setFor(tfBlue);
 			nameLabelA = new FormLabel().setFor(tfAlpha);
-
-			FocusListenerW focusListener = new FocusListenerW(this) {
-
-				@Override
-				protected void wrapFocusGained() {
-					processed = false;
-				}
-
-				@Override
-				protected void wrapFocusLost() {
-					if (!processed) {
-						doActionPerformed();
-					}
-				}
-			};
-
-			tfRed.addFocusListener(focusListener);
-			tfGreen.addFocusListener(focusListener);
-			tfBlue.addFocusListener(focusListener);
-			tfAlpha.addFocusListener(focusListener);
-
-			KeyHandler keyHandler = new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						if (!processed) {
-							doActionPerformed();
-						}
-					}
-				}
-			};
-
-			tfRed.addKeyHandler(keyHandler);
-			tfGreen.addKeyHandler(keyHandler);
-			tfBlue.addKeyHandler(keyHandler);
-			tfAlpha.addKeyHandler(keyHandler);
+			SingleActionProcessor processor = new SingleActionProcessor(this);
+			processor.handleEvents(tfRed);
+			processor.handleEvents(tfGreen);
+			processor.handleEvents(tfBlue);
+			processor.handleEvents(tfAlpha);
 
 			btRemove = new Label();
 			btRemove.addStyleName("textButton");
@@ -543,7 +490,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 					colorSpace = cbColorSpace.getSelectedIndex();
 					allowSetComboBoxLabels = false;
 					setLabels();
-					doActionPerformed();
+					execute();
 					cbColorSpace.setSelectedIndex(colorSpace);
 				}
 			});
@@ -635,9 +582,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			// btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		}
 
-		void doActionPerformed() {
-			processed = true;
-
+		@Override
+		public void execute() {
 			String strRed = tfRed.getText();
 			String strGreen = tfGreen.getText();
 			String strBlue = tfBlue.getText();
@@ -698,6 +644,46 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public void updateSelection(Object[] geos) {
 			// updateSelection(geos);
 		}
+	}
+
+	private class SingleActionProcessor
+			implements FocusHandler, BlurHandler, KeyHandler {
+		boolean processed = false;
+		Command command;
+
+		public SingleActionProcessor(Command callback) {
+			command = callback;
+		}
+
+		@Override
+		public void onFocus(FocusEvent evt) {
+			processed = false;
+		}
+
+		@Override
+		public void onBlur(BlurEvent evt) {
+			if (!processed) {
+				processed = true;
+				command.execute();
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			if (e.isEnterKey()) {
+				if (!processed) {
+					processed = true;
+					command.execute();
+				}
+			}
+		}
+
+		protected void handleEvents(AutoCompleteTextFieldW textField) {
+			textField.addBlurHandler(this);
+			textField.addFocusHandler(this);
+			textField.addKeyHandler(this);
+		}
+
 	}
 
 	private class LayerPanel extends ListBoxPanel {

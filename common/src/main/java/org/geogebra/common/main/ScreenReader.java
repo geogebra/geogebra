@@ -448,4 +448,12 @@ public class ScreenReader {
 	public static String convertToReadable(String s) {
 		return s.replace("_", " subscript ").replace("-", " minus ");
 	}
+
+	/**
+	 * @param text
+	 *            debug string with a prefix (for console filter)
+	 */
+	public static void debug(String text) {
+		Log.debug("read text: " + text);
+	}
 }
