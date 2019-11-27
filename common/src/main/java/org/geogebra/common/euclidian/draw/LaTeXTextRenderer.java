@@ -15,7 +15,8 @@ import com.google.j2objc.annotations.Weak;
 public class LaTeXTextRenderer implements TextRenderer {
 
 	// This margin is to match the height of the editor
-	private static final int BOTTOM_MARGIN = 10;
+	private static final int BOTTOM_OFFSET = 10;
+	public static final int MARGIN = 8;
 
 	@Weak
 	private DrawInputBox drawInputBox;
@@ -39,7 +40,7 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_MARGIN;
+		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_OFFSET + MARGIN;
 		return Math.max(textHeightWithMargin, DrawInputBox.MIN_HEIGHT);
 	}
 
