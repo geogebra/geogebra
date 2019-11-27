@@ -230,4 +230,9 @@ public class AppConfigGeometry implements AppConfig {
 	public String getExamMenuItemText() {
 		return "";
 	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return true;
+	}
 }

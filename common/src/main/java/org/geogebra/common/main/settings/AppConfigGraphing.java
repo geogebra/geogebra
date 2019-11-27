@@ -226,4 +226,9 @@ public class AppConfigGraphing implements AppConfig {
 	public String getExamMenuItemText() {
 		return "ExamGraphingCalc.short";
 	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return true;
+	}
 }
