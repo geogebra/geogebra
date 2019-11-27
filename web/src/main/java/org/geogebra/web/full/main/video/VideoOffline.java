@@ -72,7 +72,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 	}
 
 	@Override
-	public void sendBackground(boolean background) {
+	public void setBackground(boolean background) {
 		// intentionally empty
 	}
 

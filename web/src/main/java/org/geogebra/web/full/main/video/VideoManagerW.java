@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import org.geogebra.web.html5.util.Dom;
 
 /**
  * Class for managing audio content.
@@ -57,7 +56,7 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 
-		playerOf(video).sendBackground(false);
+		playerOf(video).setBackground(false);
 	}
 
 	@Override
@@ -65,7 +64,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-		playerOf(video).sendBackground(true);
+		playerOf(video).setBackground(true);
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	/**
 	 * Sends the player background.
 	 */
-	public void sendBackground(boolean background) {
+	public void setBackground(boolean background) {
 		video.setBackground(background);
 		update();
 	}
