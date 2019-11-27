@@ -210,7 +210,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				.getTextField();
 		if (tf != null) {
 			inputBox.setTempUserInput(tf.getText());
-			return;
 		} else {
 			inputBox.setTempUserInput(null);
 		}
