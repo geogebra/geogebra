@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Represents a placeholder for videos.
