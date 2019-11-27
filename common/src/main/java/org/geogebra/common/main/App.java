@@ -2251,9 +2251,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			currentSelectionListener = null;
 		}
 		if (mode != EuclidianConstants.MODE_MOVE) {
-			if (getVideoManager() != null) {
-				getVideoManager().backgroundAll();
-			}
 			euclidianController.widgetsToBackground();
 		}
 		if (getGuiManager() != null) {

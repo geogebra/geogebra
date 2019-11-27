@@ -110,11 +110,13 @@ public class VideoManagerW implements VideoManager {
 			AbstractVideoPlayer other = cache.get(i);
 			if (other.matches(video)) {
 				players.put(video, other);
+				other.video = video;
 				other.asWidget().setVisible(true);
 				cache.remove(other);
 				return;
 			}
 		}
+
 		AppW app = (AppW) video.getKernel().getApplication();
 		boolean offline = app.has(Feature.VIDEO_PLAYER_OFFLINE)
 				&& !video.isOnline();
