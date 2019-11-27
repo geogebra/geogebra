@@ -1,22 +1,22 @@
 package org.geogebra.common.main.error;
 
-import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.InputBoxProcessor;
 import org.geogebra.common.util.AsyncOperation;
 
 public class InputBoxErrorHandler implements ErrorHandler{
 
-    private GeoInputBox inputBox;
+    private InputBoxProcessor inputBoxProcessor;
     private ErrorHandler handler;
 
-    public InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler) {
-        this.inputBox = inputBox;
+    public InputBoxErrorHandler(InputBoxProcessor inputBoxProcessor, ErrorHandler handler) {
+        this.inputBoxProcessor = inputBoxProcessor;
         this.handler = handler;
     }
 
     @Override
     public void showError(String msg) {
         handler.showError(msg);
-        inputBox.updateBadSyntax();
+        inputBoxProcessor.updateBadSyntax();
     }
 
     @Override
@@ -38,5 +38,4 @@ public class InputBoxErrorHandler implements ErrorHandler{
     public void resetError() {
         handler.resetError();
     }
-
 }

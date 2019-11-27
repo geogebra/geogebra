@@ -473,21 +473,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Called by a AlgebraProcessor after correct syntax is validated
-	 *
-	 */
-	public void updateBadSyntax() {
-		AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView()
-				.getTextField();
-		if (tf != null) {
-			setBadSyntax(tf.getText());
-			return;
-		} else {
-			setBadSyntax(null);
-		}
-	}
-
-	/**
 	 * Returns badSyntax of userInput. Return null if there is no badSyntax.
 	 *
 	 * @return bad syntax

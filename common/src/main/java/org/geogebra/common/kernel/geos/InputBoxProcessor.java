@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -46,7 +47,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		this.algebraProcessor = kernel.getAlgebraProcessor();
 		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
 		ErrorHandler errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
-		this.errorHandler = new InputBoxErrorHandler(inputBox, errorHandler);
+		this.errorHandler = new InputBoxErrorHandler(this, errorHandler);
 	}
 
 	/**
@@ -198,5 +199,20 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	 */
 	public GeoInputBox getInputBox() {
 		return inputBox;
+	}
+
+	/**
+	 * Called by a AlgebraProcessor after correct syntax is validated
+	 *
+	 */
+	public void updateBadSyntax() {
+		AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView()
+				.getTextField();
+		if (tf != null) {
+			inputBox.setBadSyntax(tf.getText());
+			return;
+		} else {
+			inputBox.setBadSyntax(null);
+		}
 	}
 }
