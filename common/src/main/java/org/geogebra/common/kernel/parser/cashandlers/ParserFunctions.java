@@ -28,8 +28,8 @@ public class ParserFunctions {
 			"acosh", "atanh", "real", "imaginary", "conjugate",
 			"fractionalPart" };
 
-	private final List<Map<String, Operation>> stringToOp = new ArrayList<>();
-	private final Set<String> reservedFunctionNames = new HashSet<>();
+	private final List<Map<String, Operation>> functionMap = new ArrayList<>();
+	private final Set<String> reservedFunctions = new HashSet<>();
 	private final TreeSet<String> syntaxes = new TreeSet<>();
 	private boolean localeLoaded = false;
 	private boolean inverseTrig = false;
@@ -44,7 +44,7 @@ public class ParserFunctions {
 
 	private void initStringToOp() {
 		for (int i = 0; i <= MAX_ARGS; i++) {
-			stringToOp.add(new HashMap<String, Operation>());
+			functionMap.add(new HashMap<String, Operation>());
 		}
 	}
 
@@ -55,10 +55,10 @@ public class ParserFunctions {
 	}
 
 	private void clearFields() {
-		reservedFunctionNames.clear();
+		reservedFunctions.clear();
 		syntaxes.clear();
 		for (int i = 0; i <= MAX_ARGS; i++) {
-			stringToOp.get(i).clear();
+			functionMap.get(i).clear();
 		}
 	}
 
@@ -275,24 +275,24 @@ public class ParserFunctions {
 	}
 
 	private void put(int size, String name, Operation op, String arg) {
-		reservedFunctionNames.add(name);
+		reservedFunctions.add(name);
 		if (arg != null) {
 			syntaxes.add(name + arg);
 		}
 		if (size <= MAX_ARGS && size >= 0) {
-			stringToOp.get(size).put(name, op);
+			functionMap.get(size).put(name, op);
 		}
 	}
 
 	private void addReservedFunctions() {
-		reservedFunctionNames.add(Unicode.IMAGINARY + "");
-		reservedFunctionNames.add(Unicode.EULER_STRING);
-		reservedFunctionNames.add(Unicode.EULER_GAMMA_STRING);
+		reservedFunctions.add(Unicode.IMAGINARY + "");
+		reservedFunctions.add(Unicode.EULER_STRING);
+		reservedFunctions.add(Unicode.EULER_GAMMA_STRING);
 		// need to check for pi as GeoPolygon.setLabel() uses
 		// pointLabel.toLowercase()
-		reservedFunctionNames.add(Unicode.pi + "");
-		reservedFunctionNames.add("freehand");
-		reservedFunctionNames.add("deg");
+		reservedFunctions.add(Unicode.pi + "");
+		reservedFunctions.add("freehand");
+		reservedFunctions.add("deg");
 	}
 
 	/**
@@ -327,7 +327,7 @@ public class ParserFunctions {
 		if (size > MAX_ARGS) {
 			return null;
 		}
-		Operation ret = stringToOp.get(size).get(s);
+		Operation ret = functionMap.get(size).get(s);
 		if (!inverseTrig || ret == null) {
 			return ret;
 		}
@@ -355,7 +355,7 @@ public class ParserFunctions {
 	 * @return true if label is reserved
 	 */
 	public boolean isReserved(String s) {
-		return reservedFunctionNames.contains(s);
+		return reservedFunctions.contains(s);
 	}
 
 	/**
