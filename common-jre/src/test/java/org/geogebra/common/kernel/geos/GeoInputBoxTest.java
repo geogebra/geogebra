@@ -107,8 +107,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
         appXML = app.getXML();
         app.setXML(appXML, true);
         inputBox = (GeoInputBox) lookup("B");
-        // This does not work yet, becasue integration test can not run AutoCompleteTextField
-//        Assert.assertTrue(wrongSyntax.equals(inputBox.getTempUserInput()));
+		Assert.assertEquals(wrongSyntax, inputBox.getTempUserInput());
     }
 
 	@Test

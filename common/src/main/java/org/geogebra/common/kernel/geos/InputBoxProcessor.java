@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -47,7 +46,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		this.algebraProcessor = kernel.getAlgebraProcessor();
 		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
 		ErrorHandler errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
-		this.errorHandler = new InputBoxErrorHandler(this, errorHandler);
+		this.errorHandler = new InputBoxErrorHandler(inputBox, errorHandler);
 	}
 
 	/**
@@ -63,6 +62,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
+		errorHandler.setInputText(inputText);
 		inputBox.setTempUserInput(null);
 		String defineText = preprocess(inputText, tpl);
 
@@ -189,29 +189,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	private void maybeShowError(MyError.Errors error) {
 		if (showErrorDialog) {
 			app.showError(error);
-		}
-	}
-
-	/**
-	 * Returns GeoInputBox which is processed by InputBoxProcessor
-	 *
-	 * @return input box
-	 */
-	public GeoInputBox getInputBox() {
-		return inputBox;
-	}
-
-	/**
-	 * Called by a AlgebraProcessor after correct syntax is validated
-	 *
-	 */
-	public void updateTempUserInput() {
-		AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView()
-				.getTextField();
-		if (tf != null) {
-			inputBox.setTempUserInput(tf.getText());
-		} else {
-			inputBox.setTempUserInput(null);
 		}
 	}
 }
