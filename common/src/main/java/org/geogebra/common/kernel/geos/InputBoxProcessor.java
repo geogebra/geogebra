@@ -174,6 +174,11 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		kernel.getApplication().showError(Errors.InvalidInput);
 	}
 
+	/**
+	 * Returns GeoInputBox which is processed by InputBoxProcessor
+	 *
+	 * @return input box
+	 */
 	public GeoInputBox getInputBox() {
 		return inputBox;
 	}

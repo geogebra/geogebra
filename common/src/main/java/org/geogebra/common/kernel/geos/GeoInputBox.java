@@ -463,6 +463,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				&& !(linkedGeo instanceof GeoText && linkedGeo.isLabelSet());
 	}
 
+	/**
+	 * Sets the bad syntax.  If there is no bad syntax, the null is passed as parameter.
+	 *
+	 * @param badSyntax the new badSyntax. Can be {@code null}.
+	 */
 	public void setBadSyntax(String badSyntax) {
 		this.badSyntax = badSyntax;
 	}
@@ -475,8 +480,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public void updateBadSyntax(boolean syntaxIsBad) {
 		if (syntaxIsBad) {
-			AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView().
-					getTextField();
+			AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView()
+					.getTextField();
 			if (tf != null) {
 				setBadSyntax(tf.getText());
 				return;
@@ -485,6 +490,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		setBadSyntax(null);
 	}
 
+	/**
+	 * Returns badSyntax of userInput. Return null if there is no badSyntax.
+	 *
+	 * @return bad syntax
+	 */
 	public String getBadSyntax() {
 		return badSyntax;
 	}
