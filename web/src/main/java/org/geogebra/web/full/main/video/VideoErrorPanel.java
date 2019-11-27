@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class VideoErrorPanel extends PersistablePanel {
 	private final Localization loc;
-	public Label error;
+	private Label error;
 	private String errorId;
 
 	/**
