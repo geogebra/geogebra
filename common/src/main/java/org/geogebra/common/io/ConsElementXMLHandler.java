@@ -1122,15 +1122,15 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleBadSyntax(LinkedHashMap<String, String> attrs) {
+	private boolean handleTempUserInput(LinkedHashMap<String, String> attrs) {
 
 		// name of linked geo
 		String val = attrs.get("val");
 
 		if (geo instanceof GeoInputBox) {
-			((GeoInputBox) geo).setBadSyntax(val);
+			((GeoInputBox) geo).setTempUserInput(val);
 		} else {
-			Log.error("Bad syntax not supported for " + geo.getGeoClassType());
+			Log.error("temp user input not supported for " + geo.getGeoClassType());
 		}
 
 		return true;
@@ -2055,8 +2055,8 @@ public class ConsElementXMLHandler {
 			case "length":
 				handleLength(attrs);
 				break;
-			case "badSyntax":
-				handleBadSyntax(attrs);
+			case "tempUserInput":
+				handleTempUserInput(attrs);
 				break;
 			case "listType":
 				handleListType(attrs);

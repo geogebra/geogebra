@@ -16,7 +16,7 @@ public class InputBoxErrorHandler implements ErrorHandler{
     @Override
     public void showError(String msg) {
         handler.showError(msg);
-        inputBoxProcessor.updateBadSyntax();
+        inputBoxProcessor.updateTempUserInput();
     }
 
     @Override

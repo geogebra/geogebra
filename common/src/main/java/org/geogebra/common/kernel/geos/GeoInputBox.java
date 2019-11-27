@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -41,7 +40,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private @Nonnull GeoElementND linkedGeo;
 	private @Nonnull InputBoxProcessor inputBoxProcessor;
 
-	private String badSyntax;
+	private String tempUserInput;
 
 	/**
 	 * Creates new text field
@@ -131,8 +130,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return the text
 	 */
 	public String getText() {
-		if (badSyntax != null) {
-			return badSyntax;
+		if (tempUserInput != null) {
+			return tempUserInput;
 		}
 		if (linkedGeo.isGeoText()) {
 			return ((GeoText) linkedGeo).getTextString();
@@ -257,9 +256,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"/>\n");
 		}
 
-		if (badSyntax != null) {
-			sb.append("\t<badSyntax val=\"");
-			sb.append(badSyntax);
+		if (tempUserInput != null) {
+			sb.append("\t<tempUserInput val=\"");
+			sb.append(tempUserInput);
 			sb.append("\"/>\n");
 		}
 	}
@@ -464,20 +463,21 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Sets the bad syntax.  If there is no bad syntax, the null is passed as parameter.
+	 * Sets the temp user input in case syntax is incorrect. If the syntax is correct the null is
+	 * passed as parameter
 	 *
-	 * @param badSyntax the new badSyntax. Can be {@code null}.
+	 * @param tempUserInput the new tempUserInput. Can be {@code null}.
 	 */
-	public void setBadSyntax(String badSyntax) {
-		this.badSyntax = badSyntax;
+	public void setTempUserInput(String tempUserInput) {
+		this.tempUserInput = tempUserInput;
 	}
 
 	/**
-	 * Returns badSyntax of userInput. Return null if there is no badSyntax.
+	 * Returns tempUserInput of userInput. Return null if there is no tempUserInput.
 	 *
-	 * @return bad syntax
+	 * @return temp user input
 	 */
-	public String getBadSyntax() {
-		return badSyntax;
+	public String getTempUserInput() {
+		return tempUserInput;
 	}
 }

@@ -63,7 +63,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
-		inputBox.setBadSyntax(null);
+		inputBox.setTempUserInput(null);
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;
@@ -205,14 +205,14 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	 * Called by a AlgebraProcessor after correct syntax is validated
 	 *
 	 */
-	public void updateBadSyntax() {
+	public void updateTempUserInput() {
 		AutoCompleteTextField tf = kernel.getApplication().getActiveEuclidianView()
 				.getTextField();
 		if (tf != null) {
-			inputBox.setBadSyntax(tf.getText());
+			inputBox.setTempUserInput(tf.getText());
 			return;
 		} else {
-			inputBox.setBadSyntax(null);
+			inputBox.setTempUserInput(null);
 		}
 	}
 }
