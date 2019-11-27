@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.error.InputBoxErrorHandler;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -28,7 +29,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	private Kernel kernel;
 	private App app;
 	private AlgebraProcessor algebraProcessor;
-	private ErrorHandler errorHandler;
+	private InputBoxErrorHandler errorHandler;
 	private boolean showErrorDialog;
 
 	/**
@@ -44,7 +45,8 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		this.app = kernel.getApplication();
 		this.algebraProcessor = kernel.getAlgebraProcessor();
 		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
-		this.errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
+		ErrorHandler errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
+		this.errorHandler = new InputBoxErrorHandler(inputBox, errorHandler);
 	}
 
 	/**
@@ -60,6 +62,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
+		inputBox.setBadSyntax(null);
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;

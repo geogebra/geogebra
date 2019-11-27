@@ -567,13 +567,8 @@ public class AlgebraProcessor {
 				}
 			};
 
-			GeoElementND[] ret = processAlgebraCommandNoExceptionHandling(newValue, false, handler,
+			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
 					changeCallback, info);
-
-			if (callback instanceof InputBoxProcessor) {
-				boolean badSyntax = ret == null;
-				((InputBoxProcessor) callback).getInputBox().updateBadSyntax(badSyntax);
-			}
 
 			// make sure listeneres are enabled if redefinition failed
 			app.getScriptManager().enableListeners();
