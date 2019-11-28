@@ -99,6 +99,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return text to edit.
 	 */
 	public String getTextForEditor() {
+		if (tempUserInput != null) {
+			return tempUserInput;
+		}
+
 		if (linkedGeo.isGeoText()) {
 			return ((GeoText) linkedGeo).getTextString();
 		}
