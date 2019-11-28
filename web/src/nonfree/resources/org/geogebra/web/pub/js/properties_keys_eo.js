@@ -3345,6 +3345,7 @@ __GGB__keysVar["eo"].menu = {
     "polar": "polusa",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Reset construction",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

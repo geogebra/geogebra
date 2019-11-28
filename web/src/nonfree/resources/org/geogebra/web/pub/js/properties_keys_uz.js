@@ -3345,6 +3345,7 @@ __GGB__keysVar["uz"].menu = {
     "polar": "qutb",
     "rename.resource": "Resursni qayta nomlash",
     "resetConstruction": "Reset construction",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra Resurslarini izlash",
     "shareByLink": "Havola bo'yicha ulashish",
     "shareGroupHelpText": "Guruh(lar)ni tanlang",

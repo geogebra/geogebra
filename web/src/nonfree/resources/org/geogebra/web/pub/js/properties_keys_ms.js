@@ -3345,6 +3345,7 @@ __GGB__keysVar["ms"].menu = {
     "polar": "kutub",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Set Semula pembinaan",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Cari Bahan-bahan GeoGebra",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

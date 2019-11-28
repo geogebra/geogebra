@@ -3345,6 +3345,7 @@ __GGB__keysVar["es"].menu = {
     "polar": "polar",
     "rename.resource": "Renombrar recurso",
     "resetConstruction": "Reinicio de la construcci\xf3n",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Buscar Recursos GeoGebra",
     "shareByLink": "Compartir con enlace",
     "shareGroupHelpText": "Selecciona uno o m\xe1s grupos",

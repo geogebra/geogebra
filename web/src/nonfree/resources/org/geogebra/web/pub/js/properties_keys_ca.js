@@ -3345,6 +3345,7 @@ __GGB__keysVar["ca"].menu = {
     "polar": "FormaPolar",
     "rename.resource": "Canviar el nom del material",
     "resetConstruction": "Reinicia la construcci\xf3",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Recerca de materials de GeoGebra",
     "shareByLink": "Comparteix amb un enlla\xe7",
     "shareGroupHelpText": "Select one or more group(s)",

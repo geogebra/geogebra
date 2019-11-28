@@ -3345,6 +3345,7 @@ __GGB__keysVar["fil"].menu = {
     "polar": "polar",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Ulitin ang gawain",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

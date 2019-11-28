@@ -3345,6 +3345,7 @@ __GGB__keysVar["ta"].menu = {
     "polar": "\u0bae\u0bc1\u0ba9\u0bc8\u0bb5\u0bae\u0bcd",
     "rename.resource": "Rename Resource",
     "resetConstruction": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc8 \u0bae\u0bc0\u0bb3 \u0b85\u0bae\u0bc8\u0b95\u0bcd\u0b95",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

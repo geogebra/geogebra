@@ -3345,6 +3345,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "polar": "polar",
     "rename.resource": "Renomear Recusro",
     "resetConstruction": "Reiniciar a constru\xe7\xe3o",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Pesquisar nos materiais do GeoGebra",
     "shareByLink": "Partilhar por link",
     "shareGroupHelpText": "Selecione um ou mais grupos",

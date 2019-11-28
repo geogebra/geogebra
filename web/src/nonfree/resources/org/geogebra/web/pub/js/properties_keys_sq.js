@@ -3345,6 +3345,7 @@ __GGB__keysVar["sq"].menu = {
     "polar": "Polare",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Rivendos Ndertimin",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

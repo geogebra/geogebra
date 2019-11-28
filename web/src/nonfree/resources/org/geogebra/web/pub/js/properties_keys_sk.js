@@ -3345,6 +3345,7 @@ __GGB__keysVar["sk"].menu = {
     "polar": "pol\xe1rne",
     "rename.resource": "Rename Resource",
     "resetConstruction": "resetova\u0165 kon\u0161trukciu",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Vyh\u013ead\xe1vanie medzi materi\xe1lmi",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

@@ -3345,6 +3345,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "polar": "\u6975\u5ea7\u6a19",
     "rename.resource": "Rename Resource",
     "resetConstruction": "\u91cd\u65b0\u958b\u59cb",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u641c\u5c0b\u5716\u6a94",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

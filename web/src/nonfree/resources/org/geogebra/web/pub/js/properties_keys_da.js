@@ -3345,6 +3345,7 @@ __GGB__keysVar["da"].menu = {
     "polar": "pol\xe6r",
     "rename.resource": "Omd\xf8b materiale",
     "resetConstruction": "nulstil konstruktionen",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "S\xf8g blandt GeoGebra Materialer",
     "shareByLink": "Delt med link",
     "shareGroupHelpText": "V\xe6lg en eller flere grupper",

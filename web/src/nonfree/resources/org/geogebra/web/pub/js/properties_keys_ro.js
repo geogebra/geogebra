@@ -3345,6 +3345,7 @@ __GGB__keysVar["ro"].menu = {
     "polar": "polare",
     "rename.resource": "Redenume\u0219te resursa",
     "resetConstruction": "Reseta\u021bi construc\u021bia",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Caut\u0103 \xeen materialele GeoGebra",
     "shareByLink": "Partaja\u021bi link-ul",
     "shareGroupHelpText": "Selecteaz\u0103 unul sau mai multe grupuri",

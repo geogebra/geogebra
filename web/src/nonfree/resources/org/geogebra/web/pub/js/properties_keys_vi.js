@@ -3345,6 +3345,7 @@ __GGB__keysVar["vi"].menu = {
     "polar": "c\u1ef1c",
     "rename.resource": "Rename Resource",
     "resetConstruction": "x\xe1c l\u1eadp l\u1ea1i c\xe1ch d\u1ef1ng h\xecnh",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

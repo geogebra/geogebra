@@ -3345,6 +3345,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "polar": "\u6781\u5750\u6807",
     "rename.resource": "\u91cd\u65b0\u547d\u540d\u8d44\u6e90",
     "resetConstruction": "\u91cd\u7f6e\u4f5c\u56fe",
+    "saveTemplate": "\u4e0e\u6a21\u677f\u76f8\u540c",
     "search_geogebra_materials": "\u641c\u7d22 GeoGebra \u8d44\u6e90",
     "shareByLink": "\u5171\u4eab\u94fe\u63a5",
     "shareGroupHelpText": "\u9009\u62e9\u4e00\u4e2a\u6216\u591a\u4e2a\u7ec4",

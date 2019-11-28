@@ -3345,6 +3345,7 @@ __GGB__keysVar["tr"].menu = {
     "polar": "kutupsal",
     "rename.resource": "Kayna\u011f\u0131 Yeniden \u0130simlendir",
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra Kaynaklar\u0131n\u0131 Tara",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Bir veya daha fazla grup se\xe7in",

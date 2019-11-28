@@ -3345,6 +3345,7 @@ __GGB__keysVar["hu"].menu = {
     "polar": "pol\xe1r",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Szerkeszt\xe9s t\xf6rl\xe9se",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra anyagok keres\xe9se",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
