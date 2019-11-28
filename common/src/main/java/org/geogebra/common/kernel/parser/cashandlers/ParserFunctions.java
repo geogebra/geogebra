@@ -1,18 +1,11 @@
 package org.geogebra.common.kernel.parser.cashandlers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-
-import com.himamis.retex.editor.share.util.Unicode;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Handles function references for Parser.
@@ -21,278 +14,37 @@ import org.geogebra.common.util.StringUtil;
  */
 public class ParserFunctions {
 
-	private static final int MAX_ARGS = 4;
-	private static final String[] TRANSLATABLE_1_VAR = new String[] { "sin", "cos",
-			"tan", "cot", "csc", "sec", "sinh", "cosh", "tanh", "coth", "csch",
-			"sech", "asin", "acos", "atan", "asind", "acosd", "atand", "asinh",
-			"acosh", "atanh", "real", "imaginary", "conjugate",
-			"fractionalPart" };
+	private static class FunctionReference {
 
-	private final List<Map<String, Operation>> functionMap = new ArrayList<>();
-	private final Set<String> reservedFunctions = new HashSet<>();
-	private final TreeSet<String> syntaxes = new TreeSet<>();
-	private boolean localeLoaded = false;
+		private String name;
+		private int size;
+		private String arguments;
+		private Operation operation;
+
+		FunctionReference(String name, int size, String arguments, Operation operation) {
+			this.name = name;
+			this.size = size;
+			this.arguments = arguments;
+			this.operation = operation;
+		}
+	}
+
+	private final List<FunctionReference> translatables = new ArrayList<>();
+	private final FunctionReferences references = new FunctionReferences();
+	private FunctionReferences localizedReferences = new FunctionReferences();
+
 	private boolean inverseTrig = false;
 
-	/**
-	 * Initializes the string => operation map and reserved names set
-	 */
-	public ParserFunctions() {
-		initStringToOp();
-		reset();
+	public void add(String name, int size, String args, Operation op) {
+		references.put(size, name, op, args);
 	}
 
-	private void initStringToOp() {
-		for (int i = 0; i <= MAX_ARGS; i++) {
-			functionMap.add(new HashMap<String, Operation>());
-		}
+	public void addReserved(String name) {
+		references.putReserved(name);
 	}
 
-	private void reset() {
-		clearFields();
-		addFunctions();
-		addReservedFunctions();
-	}
-
-	private void clearFields() {
-		reservedFunctions.clear();
-		syntaxes.clear();
-		for (int i = 0; i <= MAX_ARGS; i++) {
-			functionMap.get(i).clear();
-		}
-	}
-
-	private void addFunctions() {
-		put2(1, "sin", Operation.SIN);
-		put2(1, "cos", Operation.COS);
-		put2(1, "tan", Operation.TAN);
-		put2(1, "csc", Operation.CSC);
-		put2(1, "cosec", Operation.CSC);
-		put2(1, "sec", Operation.SEC);
-		put2(1, "cot", Operation.COT);
-		put2(1, "cotan", Operation.COT);
-		put2(1, "ctg", Operation.COT);
-
-		put2(1, "sinh", Operation.SINH);
-		put2(1, "cosh", Operation.COSH);
-		put2(1, "tanh", Operation.TANH);
-		put2(1, "csch", Operation.CSCH);
-		put2(1, "cosech", Operation.CSCH);
-		put2(1, "sech", Operation.SECH);
-		put2(1, "coth", Operation.COTH);
-		put2(1, "cotanh", Operation.COTH);
-		put2(1, "ctgh", Operation.COTH);
-
-		put(1, "asind", Operation.ARCSIND);
-		put(1, "arcsind", Operation.ARCSIND);
-		put2(1, "arcSind", Operation.ARCSIND);
-
-		put(1, "acosd", Operation.ARCCOSD);
-		put(1, "arccosd", Operation.ARCCOSD);
-		put2(1, "arcCosd", Operation.ARCCOSD);
-
-		put(1, "atand", Operation.ARCTAND);
-		put(1, "arctand", Operation.ARCTAND);
-		put2(1, "arcTand", Operation.ARCTAND);
-
-		put(2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
-		put(2, "arctan2d", Operation.ARCTAN2D, "( <y>, <x> )");
-		put(2, "arcTan2d", Operation.ARCTAN2D, null);
-		put(2, "ArcTan2d", Operation.ARCTAN2D, null);
-
-		put2(1, "asin", Operation.ARCSIN);
-		put2(1, "arcsin", Operation.ARCSIN);
-		put(1, "aSin", Operation.ARCSIN, null);
-		put(1, "ASin", Operation.ARCSIN, null);
-		put(1, "arcSin", Operation.ARCSIN, null);
-		put(1, "arsin", Operation.ARCSIN, null);
-		put(1, "arSin", Operation.ARCSIN, null);
-		put(1, "ArcSin", Operation.ARCSIN, null);
-
-		put2(1, "acos", Operation.ARCCOS);
-		put2(1, "arccos", Operation.ARCCOS);
-		put(1, "ACos", Operation.ARCCOS, null);
-		put(1, "aCos", Operation.ARCCOS, null);
-		put(1, "arcCos", Operation.ARCCOS, null);
-		put(1, "arcos", Operation.ARCCOS, null);
-		put(1, "arCos", Operation.ARCCOS, null);
-		put(1, "ArcCos", Operation.ARCCOS, null);
-
-		put2(1, "atan", Operation.ARCTAN);
-		put2(1, "arctan", Operation.ARCTAN);
-		put(1, "aTan", Operation.ARCTAN, null);
-		put(1, "ATan", Operation.ARCTAN, null);
-		put(1, "arcTan", Operation.ARCTAN, null);
-		put(1, "artan", Operation.ARCTAN, null);
-		put(1, "arTan", Operation.ARCTAN, null);
-		put(1, "ArcTan", Operation.ARCTAN, null);
-
-		put(1, "asinh", Operation.ASINH);
-		put(1, "aSinh", Operation.ASINH, null);
-		put(1, "Asinh", Operation.ASINH, null);
-		put(1, "ASinh", Operation.ASINH, null);
-		put(1, "Arcsinh", Operation.ASINH, null);
-		put(1, "ArcSinh", Operation.ASINH, null);
-		put(1, "arsinh", Operation.ASINH, null);
-		put(1, "arSinh", Operation.ASINH, null);
-		put(1, "arcsinh", Operation.ASINH);
-		put(1, "arcSinh", Operation.ASINH, null);
-
-		put(1, "acosh", Operation.ACOSH);
-		put(1, "aCosh", Operation.ACOSH, null);
-		put(1, "Acosh", Operation.ACOSH, null);
-		put(1, "ACosh", Operation.ACOSH, null);
-		put(1, "arccosh", Operation.ACOSH);
-		put(1, "arcCosh", Operation.ACOSH, null);
-		put(1, "arcosh", Operation.ACOSH, null);
-		put(1, "arCosh", Operation.ACOSH, null);
-		put(1, "Arccosh", Operation.ACOSH, null);
-		put(1, "ArcCosh", Operation.ACOSH, null);
-
-		put2(1, "arctanh", Operation.ATANH);
-		put(1, "arcTanh", Operation.ATANH, null);
-		put2(1, "atanh", Operation.ATANH);
-		put(1, "aTanh", Operation.ATANH, null);
-		put(1, "ATanh", Operation.ATANH, null);
-		put(1, "artanh", Operation.ATANH, null);
-		put(1, "arTanh", Operation.ATANH, null);
-		put(1, "ArcTanh", Operation.ATANH, null);
-
-		put2(2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
-		put(2, "artan2", Operation.ARCTAN2, null);
-		put2(2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
-		put(2, "aTan2", Operation.ARCTAN2, null);
-		put(2, "ATan2", Operation.ARCTAN2, null);
-		put(2, "arTan2", Operation.ARCTAN2, null);
-		put(2, "arcTan2", Operation.ARCTAN2, null);
-		put(2, "ArcTan2", Operation.ARCTAN2, null);
-
-		put2(1, "erf", Operation.ERF);
-
-		put(1, "psi", Operation.PSI);
-
-		put(2, "polygamma", Operation.POLYGAMMA, "( <m>, <x> )");
-		put(2, "polyGamma", Operation.POLYGAMMA, null);
-		put(2, "PolyGamma", Operation.POLYGAMMA, null);
-
-		put2(1, "exp", Operation.EXP);
-
-		put(1, "LambertW", Operation.LAMBERTW);
-		put(2, "LambertW", Operation.LAMBERTW);
-
-		put(1, "log", Operation.LOG);
-		put2(1, "ln", Operation.LOG);
-
-		put(2, "log", Operation.LOGB, "( <b> , <x> )");
-		put2(2, "ln", Operation.LOGB, null);
-
-		put(1, "ld", Operation.LOG2);
-		put(1, "log2", Operation.LOG2);
-
-		put(1, "lg", Operation.LOG10);
-		put(1, "log10", Operation.LOG10);
-
-		put2(1, "zeta", Operation.ZETA);
-
-		put2(2, "beta", Operation.BETA, "( <a>, <b> )");
-
-		put2(3, "beta", Operation.BETA_INCOMPLETE, "( <a>, <b>, <x> )");
-
-		put(3, "betaRegularized", Operation.BETA_INCOMPLETE_REGULARIZED,
-				"( <a>, <b>, <x> )");
-		put(3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED, null);
-
-		put2(1, "gamma", Operation.GAMMA);
-
-		put2(2, "gamma", Operation.GAMMA_INCOMPLETE, "( <x>, <y> )");
-
-		put(2, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED);
-
-		put2(1, "cosIntegral", Operation.CI);
-		put2(1, "sinIntegral", Operation.SI);
-		put2(1, "expIntegral", Operation.EI);
-
-		// functions that come from CAS / Giac
-		put(2, "gGbInTeGrAl", Operation.INTEGRAL, null);
-		put(2, "gGbSuBsTiTuTiOn", Operation.SUBSTITUTION, null);
-		put(4, "gGbSuM", Operation.SUM, null);
-		put(2, "gGbIfElSe", Operation.IF, null);
-		put(3, "gGbIfElSe", Operation.IF_ELSE, null);
-
-		put(1, "arbint", Operation.ARBINT);
-
-		put(1, "arbconst", Operation.ARBCONST);
-
-		put(1, "arbcomplex", Operation.ARBCOMPLEX);
-
-		put2(1, "sqrt", Operation.SQRT);
-		put2(1, "cbrt", Operation.CBRT);
-		put2(1, "abs", Operation.ABS);
-
-		put(1, "sgn", Operation.SGN);
-		put2(1, "sign", Operation.SGN);
-		put2(1, "floor", Operation.FLOOR);
-		put2(1, "ceil", Operation.CEIL);
-		put2(1, "round", Operation.ROUND);
-		put2(2, "round", Operation.ROUND2, "( <x>, <y> )");
-		put2(1, "conjugate", Operation.CONJUGATE);
-		put2(1, "arg", Operation.ARG);
-		put2(1, "alt", Operation.ALT, "( (x, y, z) )");
-
-		put(0, "random", Operation.RANDOM, "()");
-		put(1, "x", Operation.XCOORD, null);
-		put(1, "y", Operation.YCOORD, null);
-		put(1, "z", Operation.ZCOORD, null);
-
-		put(2, "nroot", Operation.NROOT, "( <x>, <n> )");
-		put(2, "NRoot", Operation.NROOT, null);
-
-		put2(1, "real", Operation.REAL);
-		put2(1, "imaginary", Operation.IMAGINARY);
-
-		put(1, "fractionalpart", Operation.FRACTIONAL_PART, null);
-		put2(1, "fractionalPart", Operation.FRACTIONAL_PART);
-
-		put(2, "ggbdiff", Operation.DIFF, null);
-		put(3, "ggbdiff", Operation.DIFF, null);
-
-		put(1, "vectorize", Operation.MATRIXTOVECTOR, null);
-
-		put(2, "nPr", Operation.NPR, "( <n>, <r> )");
-	}
-
-	private void put(int size, String name, Operation op) {
-		put(size, name, op, "( <x> )");
-	}
-
-	private void put2(int size, String name, Operation op) {
-		put2(size, name, op, "( <x> )");
-	}
-
-	private void put2(int size, String name, Operation op, String arg) {
-		put(size, name, op, arg);
-		put(size, StringUtil.capitalize(name), op, null);
-	}
-
-	private void put(int size, String name, Operation op, String arg) {
-		reservedFunctions.add(name);
-		if (arg != null) {
-			syntaxes.add(name + arg);
-		}
-		if (size <= MAX_ARGS && size >= 0) {
-			functionMap.get(size).put(name, op);
-		}
-	}
-
-	private void addReservedFunctions() {
-		reservedFunctions.add(Unicode.IMAGINARY + "");
-		reservedFunctions.add(Unicode.EULER_STRING);
-		reservedFunctions.add(Unicode.EULER_GAMMA_STRING);
-		// need to check for pi as GeoPolygon.setLabel() uses
-		// pointLabel.toLowercase()
-		reservedFunctions.add(Unicode.pi + "");
-		reservedFunctions.add("freehand");
-		reservedFunctions.add("deg");
+	public void addTranslatable(String name, int size, String args, Operation op) {
+		translatables.add(new FunctionReference(name, size, args, op));
 	}
 
 	/**
@@ -302,36 +54,29 @@ public class ParserFunctions {
 	 *            localization
 	 */
 	public void updateLocale(Localization loc) {
-		// reset is expensive, do not do that if we only have intl. function
-		// names so far
-		if (localeLoaded) {
-			reset();
-		}
-		localeLoaded = true;
-		for (String fn: TRANSLATABLE_1_VAR) {
-			put(1, loc.getFunction(fn, false), get(fn, 1));
-		}
+		localizedReferences = new FunctionReferences();
 
-		put(2, loc.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
-		put(2, loc.getFunction("nPr"), Operation.NPR, "( <n>, <r> )");
+		for (FunctionReference reference: translatables) {
+			String localized = loc.getFunction(reference.name, reference.size != 1);
+			localizedReferences.put(reference.size, localized, reference.operation, reference.arguments);
+		}
 	}
 
 	/**
-	 * @param s
+	 * @param name
 	 *            function name
 	 * @param size
 	 *            number of arguments
 	 * @return operation
 	 */
-	public Operation get(String s, int size) {
-		if (size > MAX_ARGS) {
-			return null;
+	public Operation get(String name, int size) {
+		Operation operation = localizedReferences.get(name, size);
+		operation = operation == null ? references.get(name, size) : operation;
+
+		if (!inverseTrig || operation == null) {
+			return operation;
 		}
-		Operation ret = functionMap.get(size).get(s);
-		if (!inverseTrig || ret == null) {
-			return ret;
-		}
-		switch (ret) {
+		switch (operation) {
 		case ARCSIN:
 			return Operation.ARCSIND;
 		case ARCTAN:
@@ -341,7 +86,7 @@ public class ParserFunctions {
 		case ARCTAN2:
 			return Operation.ARCTAN2D;
 		default:
-			return ret;
+			return operation;
 		}
 	}
 
@@ -350,12 +95,12 @@ public class ParserFunctions {
 	 * predefined functions these should also be documented here:
 	 * http://wiki.geogebra.org/en/Manual:Naming_Objects
 	 * 
-	 * @param s
+	 * @param name
 	 *            label
 	 * @return true if label is reserved
 	 */
-	public boolean isReserved(String s) {
-		return reservedFunctions.contains(s);
+	public boolean isReserved(String name) {
+		return references.isReserved(name) || localizedReferences.isReserved(name);
 	}
 
 	/**
@@ -367,13 +112,10 @@ public class ParserFunctions {
 	 *         brackets at the end)
 	 */
 	public ArrayList<String> getCompletions(String prefix) {
-		ArrayList<String> completions = new ArrayList<>();
-		for (String candidate : syntaxes.tailSet(prefix)) {
-			if (!candidate.startsWith(prefix)) {
-				break;
-			}
-			completions.add(candidate);
-		}
+		ArrayList<String> completions = references.getCompletions(prefix);
+		ArrayList<String> localized = localizedReferences.getCompletions(prefix);
+		completions.addAll(localized);
+		Collections.sort(completions);
 		return completions;
 	}
 
@@ -385,13 +127,10 @@ public class ParserFunctions {
 	 * @return English function name
 	 */
 	public String getInternal(Localization localization, String string) {
-		for (String translatable: TRANSLATABLE_1_VAR) {
-			if (localization.getFunction(translatable).equals(string)) {
-				return translatable;
+		for (FunctionReference reference: translatables) {
+			if (localization.getFunction(reference.name).equals(string)) {
+				return reference.name;
 			}
-		}
-		if (localization.getFunction("nroot").equals(string)) {
-			return "nroot";
 		}
 		return null;
 	}
@@ -402,12 +141,12 @@ public class ParserFunctions {
 	 * @return whether this is a translatable function
 	 */
 	public boolean isTranslatableFunction(String string) {
-		for (String translatable: TRANSLATABLE_1_VAR) {
-			if (translatable.equals(string)) {
+		for (FunctionReference reference: translatables) {
+			if (reference.name.equals(string)) {
 				return true;
 			}
 		}
-		return "nroot".equals(string);
+		return false;
 	}
 
 	/**

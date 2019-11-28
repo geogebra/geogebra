@@ -17,7 +17,7 @@ public class ParserFunctionsTest {
 
 	@Before
 	public void setUp() {
-		parserFunctions = new ParserFunctions();
+		parserFunctions = ParserFunctionsFactory.createParserFunctions();
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class ParserFunctionsTest {
 		parserFunctions.updateLocale(loc);
 		Mockito.verify(loc).getFunction("sin", false);
 		Mockito.verify(loc).getFunction("sin", false);
-		Mockito.verify(loc).getFunction("nroot");
+		Mockito.verify(loc).getFunction("nroot", true);
 	}
 
 	@Test
