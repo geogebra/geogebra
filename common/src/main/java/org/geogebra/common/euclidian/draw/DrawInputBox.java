@@ -473,7 +473,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 		if (isLatexString(text)) {
-			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
+			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, getLabelTop());
 		} else {
 			g2.setPaint(geo.getObjectColor());
 
@@ -639,8 +639,8 @@ public class DrawInputBox extends CanvasDrawable {
 	 *
 	 * @return height of the label depending of whether it was latex or not
 	 */
-	int getHeightForLabel() {
-		return labelDimension != null ? labelDimension.getHeight()
-				: (int) labelRectangle.getHeight();
+	int getHeightForLabel(String label) {
+		return isLatexString(label) && labelDimension != null ? labelDimension.getHeight()
+				: getLabelTextHeight();
 	}
 }

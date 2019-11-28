@@ -199,7 +199,7 @@ public abstract class CanvasDrawable extends Drawable {
 		if (geo.isLabelVisible() && isHighlighted()) {
 			g2.setPaint(GColor.LIGHT_GRAY);
 			if (latex) {
-				g2.fillRect(xLabel, yLabel, labelSize.x, labelSize.y);
+				g2.fillRect(xLabel, getLabelTop(), labelSize.x, labelSize.y);
 			} else {
 				g2.fillRect(xLabel, getLabelTop(),
 						labelSize.x, getLabelHeight());
@@ -207,7 +207,7 @@ public abstract class CanvasDrawable extends Drawable {
 		}
 	}
 
-	private int getLabelTop() {
+	int getLabelTop() {
 		return yLabel + ((boxHeight - getLabelTextHeight()) / 2);
 	}
 
@@ -215,7 +215,7 @@ public abstract class CanvasDrawable extends Drawable {
 		return getLabelTextHeight() + HIGHLIGHT_MARGIN;
 	}
 
-	private int getLabelTextHeight() {
+	int getLabelTextHeight() {
 		return (int) (getLabelFontSize() * LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
 	}
 

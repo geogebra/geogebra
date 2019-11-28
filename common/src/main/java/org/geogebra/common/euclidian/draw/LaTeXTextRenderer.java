@@ -50,8 +50,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getText());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
-		double labelHeight = drawInputBox.getHeightForLabel();
-		double inputBoxTop = drawInputBox.yLabel + ((labelHeight - inputBoxHeight) / 2);
+		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
+		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / 2);
 
 		int inputBoxWidth = textDimension.getWidth();
 
