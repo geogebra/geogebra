@@ -3,13 +3,13 @@ package org.geogebra.common.main.error;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.AsyncOperation;
 
-public class InputBoxErrorHandler implements ErrorHandler{
+class InputBoxErrorHandler implements ErrorHandler{
 
     private GeoInputBox inputBox;
     private ErrorHandler handler;
     private String inputText;
 
-    public InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler, String inputText) {
+    InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler, String inputText) {
         this.inputBox = inputBox;
         this.handler = handler;
         this.inputText = inputText;
