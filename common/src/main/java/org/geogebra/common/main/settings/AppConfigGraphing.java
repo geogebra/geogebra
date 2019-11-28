@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
@@ -230,6 +231,6 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public ParserFunctions createParserFunctions() {
-		return null;
+		return ParserFunctionsFactory.createGraphingParserFunctions();
 	}
 }

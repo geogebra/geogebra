@@ -4,6 +4,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
+/**
+ * Creates ParserFunctions.
+ */
 public class ParserFunctionsFactory {
 
 	private static final String SINGLE_ARG = "( <x> )";
@@ -20,8 +23,24 @@ public class ParserFunctionsFactory {
 	 * @return parser functions
 	 */
 	public static ParserFunctions createParserFunctions() {
+		return createParserFunctions(true);
+	}
+
+	/**
+	 * Creates a ParserFunctions for the Graphing app.
+	 *
+	 * @return parser functions
+	 */
+	public static ParserFunctions createGraphingParserFunctions() {
+		return createParserFunctions(false);
+	}
+
+	private static ParserFunctions createParserFunctions(boolean addExtra) {
 		ParserFunctionsImpl parserFunctions = new ParserFunctionsImpl();
 		addFunctions(parserFunctions);
+		if (addExtra) {
+			addExtraFunctions(parserFunctions);
+		}
 		addReservedFunctions(parserFunctions);
 		addTranslatable(parserFunctions);
 
@@ -202,8 +221,6 @@ public class ParserFunctionsFactory {
 		put2(pf, 1, "round", Operation.ROUND);
 		put2(pf, 2, "round", Operation.ROUND2, "( <x>, <y> )");
 		put2(pf, 1, "conjugate", Operation.CONJUGATE);
-		put2(pf, 1, "arg", Operation.ARG);
-		put2(pf, 1, "alt", Operation.ALT, "( (x, y, z) )");
 
 		put(pf, 0, "random", Operation.RANDOM, "()");
 		put(pf, 1, "x", Operation.XCOORD, null);
@@ -227,21 +244,30 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "nPr", Operation.NPR, "( <n>, <r> )");
 	}
 
-	private static void put(ParserFunctionsImpl pf, int size, String name, Operation op) {
+	private static void addExtraFunctions(ParserFunctionsImpl pf) {
+		put2(pf, 1, "arg", Operation.ARG);
+		put2(pf, 1, "alt", Operation.ALT, "( (x, y, z) )");
+	}
+
+	private static void put(ParserFunctionsImpl pf, int size, String name,
+							Operation op) {
 		put(pf, size, name, op, SINGLE_ARG);
 	}
 
-	private static void put2(ParserFunctionsImpl pf, int size, String name, Operation op) {
+	private static void put2(ParserFunctionsImpl pf, int size, String name,
+							 Operation op) {
 		put2(pf, size, name, op, SINGLE_ARG);
 	}
 
-	private static void put2(ParserFunctionsImpl pf, int size, String name, Operation op, String arg) {
+	private static void put2(ParserFunctionsImpl pf, int size, String name,
+							 Operation op, String arg) {
 		String capitalized = StringUtil.capitalize(name);
 		put(pf, size, name, op, arg);
 		put(pf, size, capitalized, op, null);
 	}
 
-	private static void put(ParserFunctionsImpl pf, int size, String name, Operation op, String arg) {
+	private static void put(ParserFunctionsImpl pf, int size, String name,
+							Operation op, String arg) {
 		pf.add(name, size, arg, op);
 	}
 
