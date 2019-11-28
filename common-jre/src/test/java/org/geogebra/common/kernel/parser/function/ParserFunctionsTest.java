@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.parser.cashandlers;
+package org.geogebra.common.kernel.parser.function;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
