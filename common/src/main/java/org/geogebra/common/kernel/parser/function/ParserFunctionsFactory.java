@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.parser.cashandlers;
+package org.geogebra.common.kernel.parser.function;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.plugin.Operation;
@@ -14,8 +14,13 @@ public class ParserFunctionsFactory {
 			"acosh", "atanh", "real", "imaginary", "conjugate",
 			"fractionalPart" };
 
+	/**
+	 * Creates a ParserFunctions with the default functions.
+	 *
+	 * @return parser functions
+	 */
 	public static ParserFunctions createParserFunctions() {
-		ParserFunctions parserFunctions = new ParserFunctions();
+		ParserFunctionsImpl parserFunctions = new ParserFunctionsImpl();
 		addFunctions(parserFunctions);
 		addReservedFunctions(parserFunctions);
 		addTranslatable(parserFunctions);
@@ -23,7 +28,7 @@ public class ParserFunctionsFactory {
 		return parserFunctions;
 	}
 
-	private static void addFunctions(ParserFunctions pf) {
+	private static void addFunctions(ParserFunctionsImpl pf) {
 		put2(pf, 1, "sin", Operation.SIN);
 		put2(pf, 1, "cos", Operation.COS);
 		put2(pf, 1, "tan", Operation.TAN);
@@ -222,25 +227,25 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "nPr", Operation.NPR, "( <n>, <r> )");
 	}
 
-	private static void put(ParserFunctions pf, int size, String name, Operation op) {
+	private static void put(ParserFunctionsImpl pf, int size, String name, Operation op) {
 		put(pf, size, name, op, SINGLE_ARG);
 	}
 
-	private static void put2(ParserFunctions pf, int size, String name, Operation op) {
+	private static void put2(ParserFunctionsImpl pf, int size, String name, Operation op) {
 		put2(pf, size, name, op, SINGLE_ARG);
 	}
 
-	private static void put2(ParserFunctions pf, int size, String name, Operation op, String arg) {
+	private static void put2(ParserFunctionsImpl pf, int size, String name, Operation op, String arg) {
 		String capitalized = StringUtil.capitalize(name);
 		put(pf, size, name, op, arg);
 		put(pf, size, capitalized, op, null);
 	}
 
-	private static void put(ParserFunctions pf, int size, String name, Operation op, String arg) {
+	private static void put(ParserFunctionsImpl pf, int size, String name, Operation op, String arg) {
 		pf.add(name, size, arg, op);
 	}
 
-	private static void addReservedFunctions(ParserFunctions pf) {
+	private static void addReservedFunctions(ParserFunctionsImpl pf) {
 		pf.addReserved(Unicode.IMAGINARY + "");
 		pf.addReserved(Unicode.EULER_STRING);
 		pf.addReserved(Unicode.EULER_GAMMA_STRING);
@@ -249,7 +254,7 @@ public class ParserFunctionsFactory {
 		pf.addReserved("deg");
 	}
 
-	private static void addTranslatable(ParserFunctions pf) {
+	private static void addTranslatable(ParserFunctionsImpl pf) {
 		for (String fn: TRANSLATABLE_1_VAR) {
 			pf.addTranslatable(fn, 1, SINGLE_ARG, pf.get(fn ,1));
 		}

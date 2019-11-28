@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.parser.cashandlers;
 
 import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.junit.Assert;

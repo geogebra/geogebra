@@ -5,6 +5,7 @@ import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 public interface AppConfig {
@@ -172,5 +173,10 @@ public interface AppConfig {
 	 * @return the ggbtranskey for the exam starting menu item in the MainMenu
 	 */
 	String getExamMenuItemText();
+
+	/**
+	 * @return creates app specific parser functions
+	 */
+	ParserFunctions createParserFunctions();
 }
 

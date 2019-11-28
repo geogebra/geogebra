@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.parser.cashandlers;
+package org.geogebra.common.kernel.parser.function;
 
 import org.geogebra.common.plugin.Operation;
 

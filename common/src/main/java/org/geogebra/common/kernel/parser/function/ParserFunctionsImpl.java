@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.parser.cashandlers;
+package org.geogebra.common.kernel.parser.function;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,10 +9,10 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Handles function references for Parser.
- * 
+ *
  * @author zbynek
  */
-public class ParserFunctions {
+class ParserFunctionsImpl implements ParserFunctions {
 
 	private static class FunctionReference {
 
@@ -35,24 +35,41 @@ public class ParserFunctions {
 
 	private boolean inverseTrig = false;
 
-	public void add(String name, int size, String args, Operation op) {
+	/**
+	 * Add a function reference.
+	 *
+	 * @param name name of the function
+	 * @param size number of arguments
+	 * @param args the format of the arguments (e.g. <code>"< (x) >"</code>
+	 * @param op the operation
+	 */
+	void add(String name, int size, String args, Operation op) {
 		references.put(size, name, op, args);
 	}
 
-	public void addReserved(String name) {
+	/**
+	 * Add a reserved function name.
+	 *
+	 * @param name reserved function name
+	 */
+	void addReserved(String name) {
 		references.putReserved(name);
 	}
 
-	public void addTranslatable(String name, int size, String args, Operation op) {
+	/**
+	 * Add a translatable function name. This will be added to the
+	 * collection of functions when updateLocale is called.
+	 *
+	 * @param name name of the translatable function
+	 * @param size number of arguments
+	 * @param args the format of the arguments (e.g. <code>"< (x) >"</code>
+	 * @param op the operation
+	 */
+	void addTranslatable(String name, int size, String args, Operation op) {
 		translatables.add(new FunctionReference(name, size, args, op));
 	}
 
-	/**
-	 * Updates local names of functions
-	 * 
-	 * @param loc
-	 *            localization
-	 */
+	@Override
 	public void updateLocale(Localization loc) {
 		localizedReferences = new FunctionReferences();
 
@@ -62,13 +79,7 @@ public class ParserFunctions {
 		}
 	}
 
-	/**
-	 * @param name
-	 *            function name
-	 * @param size
-	 *            number of arguments
-	 * @return operation
-	 */
+	@Override
 	public Operation get(String name, int size) {
 		Operation operation = localizedReferences.get(name, size);
 		operation = operation == null ? references.get(name, size) : operation;
@@ -77,40 +88,25 @@ public class ParserFunctions {
 			return operation;
 		}
 		switch (operation) {
-		case ARCSIN:
-			return Operation.ARCSIND;
-		case ARCTAN:
-			return Operation.ARCTAND;
-		case ARCCOS:
-			return Operation.ARCCOSD;
-		case ARCTAN2:
-			return Operation.ARCTAN2D;
-		default:
-			return operation;
+			case ARCSIN:
+				return Operation.ARCSIND;
+			case ARCTAN:
+				return Operation.ARCTAND;
+			case ARCCOS:
+				return Operation.ARCCOSD;
+			case ARCTAN2:
+				return Operation.ARCTAN2D;
+			default:
+				return operation;
 		}
 	}
 
-	/**
-	 * Some names cannot be used for elements because of collision with
-	 * predefined functions these should also be documented here:
-	 * http://wiki.geogebra.org/en/Manual:Naming_Objects
-	 * 
-	 * @param name
-	 *            label
-	 * @return true if label is reserved
-	 */
+	@Override
 	public boolean isReserved(String name) {
 		return references.isReserved(name) || localizedReferences.isReserved(name);
 	}
 
-	/**
-	 * Find completions for a given prefix (Arnaud 03/10/2011)
-	 * 
-	 * @param prefix
-	 *            the wanted prefix
-	 * @return all the built-in functions starting with this prefix (with
-	 *         brackets at the end)
-	 */
+	@Override
 	public ArrayList<String> getCompletions(String prefix) {
 		ArrayList<String> completions = references.getCompletions(prefix);
 		ArrayList<String> localized = localizedReferences.getCompletions(prefix);
@@ -119,13 +115,7 @@ public class ParserFunctions {
 		return completions;
 	}
 
-	/**
-	 * @param localization
-	 *            localization
-	 * @param string
-	 *            translated function
-	 * @return English function name
-	 */
+	@Override
 	public String getInternal(Localization localization, String string) {
 		for (FunctionReference reference: translatables) {
 			if (localization.getFunction(reference.name).equals(string)) {
@@ -135,11 +125,7 @@ public class ParserFunctions {
 		return null;
 	}
 
-	/**
-	 * @param string
-	 *            english function name
-	 * @return whether this is a translatable function
-	 */
+	@Override
 	public boolean isTranslatableFunction(String string) {
 		for (FunctionReference reference: translatables) {
 			if (reference.name.equals(string)) {
@@ -149,11 +135,7 @@ public class ParserFunctions {
 		return false;
 	}
 
-	/**
-	 * @param inverseTrig
-	 *            whether inverse trig functions should be replaced by deg
-	 *            variants
-	 */
+	@Override
 	public void setInverseTrig(boolean inverseTrig) {
 		this.inverseTrig = inverseTrig;
 	}
