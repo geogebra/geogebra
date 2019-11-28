@@ -500,7 +500,11 @@ public class DrawInputBox extends CanvasDrawable {
 
 		view.getViewTextField().revalidateBox();
 		measureLabel(view.getGraphicsForPen(), getGeoInputBox(), labelDesc);
-		labelRectangle.setBounds(boxLeft, boxTop, getPreferredWidth(), getPreferredHeight());
+		labelRectangle.setBounds(boxLeft,
+				(int) Math.round(getLabelTop() + ((getHeightForLabel(labelDesc)
+						- getPreferredHeight()) / 2.0)),
+				getPreferredWidth(),
+				getPreferredHeight());
 		view.getViewTextField().setBoxBounds(labelRectangle);
 	}
 
