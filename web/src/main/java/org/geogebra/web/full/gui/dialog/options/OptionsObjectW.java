@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
@@ -81,14 +79,10 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -644,46 +638,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public void updateSelection(Object[] geos) {
 			// updateSelection(geos);
 		}
-	}
-
-	private class SingleActionProcessor
-			implements FocusHandler, BlurHandler, KeyHandler {
-		boolean processed = false;
-		Command command;
-
-		public SingleActionProcessor(Command callback) {
-			command = callback;
-		}
-
-		@Override
-		public void onFocus(FocusEvent evt) {
-			processed = false;
-		}
-
-		@Override
-		public void onBlur(BlurEvent evt) {
-			if (!processed) {
-				processed = true;
-				command.execute();
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			if (e.isEnterKey()) {
-				if (!processed) {
-					processed = true;
-					command.execute();
-				}
-			}
-		}
-
-		protected void handleEvents(AutoCompleteTextFieldW textField) {
-			textField.addBlurHandler(this);
-			textField.addFocusHandler(this);
-			textField.addKeyHandler(this);
-		}
-
 	}
 
 	private class LayerPanel extends ListBoxPanel {

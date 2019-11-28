@@ -406,7 +406,7 @@ public class ScreenReader {
 	 *            the application.
 	 */
 	public static void readAnimationState(App app) {
-		String text = "";
+		String text;
 		Localization loc = app.getLocalization();
 		if (app.getKernel().getAnimatonManager().isRunning()) {
 			text = loc.getMenuDefault("AnimationStarted", "animation is started");
@@ -419,6 +419,8 @@ public class ScreenReader {
 	/**
 	 * @param sel
 	 *            selected object
+	 * @param builder
+	 *            screen reader output builder
 	 * @return aural text + info about next/prev objects
 	 */
 	public static String getAuralText(GeoElement sel, ScreenReaderBuilder builder) {

@@ -87,7 +87,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		}
 
 		editor.setText(text);
-
+		editor.setLabel(geoInputBox.getAuralText());
 	}
 
 	private void updateText() {

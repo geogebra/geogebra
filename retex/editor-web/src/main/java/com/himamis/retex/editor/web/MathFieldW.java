@@ -203,22 +203,40 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
-		if ((mobileBrowser() || isMacOS() || isIE()) && !"".equals(label)) {
+		Element target = getElementForAriaLabel();
+		if (target != null) {
+			target.setAttribute("aria-label", label);
+		}
+	}
+
+	private Element getElementForAriaLabel() {
+		if ((mobileBrowser() || isMacOS() || isIE())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
-			FactoryProvider.debugS(label);
-			if (!"textbox".equals(parent.getElement().getAttribute("role"))) {
-				parent.getElement().setAttribute("aria-live", "assertive");
-				parent.getElement().setAttribute("aria-atomic", "true");
-				parent.getElement().setAttribute("role", "textbox");
+			Element parentElement = parent.getElement();
+			if (!"textbox".equals(parentElement.getAttribute("role"))) {
+				parentElement.setAttribute("aria-live", "assertive");
+				parentElement.setAttribute("aria-atomic", "true");
+				parentElement.setAttribute("role", "textbox");
 			}
 
-			parent.getElement().setAttribute("aria-label", label);
-			return;
+			return parentElement;
 		}
 		if (inputTextArea != null) {
-			inputTextArea.getElement().setAttribute("aria-label", label);
+			return inputTextArea.getElement();
 		}
+		return null;
+	}
+
+	/**
+	 * @return aria label
+	 */
+	public String getAriaLabel() {
+		Element target = getElementForAriaLabel();
+		if (target != null) {
+			return target.getAttribute("aria-label");
+		}
+		return "";
 	}
 
 	/**
@@ -668,7 +686,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (focus) {
 			startBlink();
 			if (focusHandler != null) {
-				focusHandler.onFocus(null);
+				focusHandler.onFocus(new FocusEvent() {
+					// send non-null event here so that it's logged
+				});
 			}
 			focuser = new Timer() {
 
@@ -1072,7 +1092,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public String getDescription() {
 		if (expressionReader != null) {
-			return ScreenReaderSerializer.fullDescription(expressionReader,
+			return ScreenReaderSerializer.fullDescription(
+					expressionReader,
 				mathFieldInternal.getEditorState().getRootComponent());
 		}
 		return "";
@@ -1131,6 +1152,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		this.backgroundCssColor = cssColor;
 	}
 
+	/**
+	 * @param changeHandler
+	 *            change event handler
+	 */
 	public void setChangeListener(ChangeHandler changeHandler) {
 		this.changeHandler = changeHandler;
 	}
