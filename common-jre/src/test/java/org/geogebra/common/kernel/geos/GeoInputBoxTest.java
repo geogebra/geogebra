@@ -107,6 +107,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSymbolicInputBoxGetTextWithError() {
+		add("a = 1");
+		GeoInputBox box = (GeoInputBox) add("InputBox(a)");
+		box.setSymbolicMode(true, true);
+		Assert.assertEquals("1", box.getTextForEditor());
+		box.updateLinkedGeo("1+/");
+		Assert.assertEquals("1+/", box.getTextForEditor());
+	}
+
+	@Test
 	public void testForSimpleUndefinedGeo() {
 		add("a=?");
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
