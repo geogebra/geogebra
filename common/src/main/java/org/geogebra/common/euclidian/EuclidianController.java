@@ -10298,7 +10298,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geo = getShapeMode()
 						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape() && view.getDrawableFor(geo) != null) {
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 				selectAndShowBoundingBox(geo);
 			}
 			if (!isDraggingOccuredBeyondThreshold()) {
@@ -12778,6 +12777,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param geoElement geoElement to select
 	 */
 	public void selectAndShowBoundingBox(GeoElement geoElement) {
+		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		clearSelections();
 		selection.addSelectedGeo(geoElement);
 		updateBoundingBoxFromSelection(false);
