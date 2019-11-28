@@ -1149,6 +1149,21 @@ $duration: 0.2s;
    					margin: 8px 16px 15px 0px !important;
    				}
    		}
+
+   		.templatePanel {
+   		    display: flex;
+   		    margin-bottom: 20px;
+
+   		    .checkbox {
+   		        margin: 2px 16px 0px 0px;
+   		    }
+
+   		    .templateTxt {
+                font-size: 100%;
+                height: 28px;
+                line-height: 28px;
+            }
+   		}
 	}
 
 /****************************************************
