@@ -29,7 +29,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	private Kernel kernel;
 	private App app;
 	private AlgebraProcessor algebraProcessor;
-	private InputBoxErrorHandler errorHandler;
+	private ErrorHandler errorHandler;
 	private boolean showErrorDialog;
 
 	/**
@@ -45,8 +45,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		this.app = kernel.getApplication();
 		this.algebraProcessor = kernel.getAlgebraProcessor();
 		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
-		ErrorHandler errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
-		this.errorHandler = new InputBoxErrorHandler(inputBox, errorHandler);
+		this.errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
 	}
 
 	/**
@@ -62,7 +61,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
-		errorHandler.setInputText(inputText);
 		inputBox.setTempUserInput(null);
 		String defineText = preprocess(inputText, tpl);
 
@@ -108,7 +106,8 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 						linkedGeo.isIndependent(), false).withSliders(false);
 
 				algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, this, errorHandler);
+						defineText, info, true, this,
+						new InputBoxErrorHandler(inputBox, errorHandler, inputText));
 			}
 		} catch (MyError error) {
 			maybeShowError(error);

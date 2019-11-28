@@ -463,19 +463,19 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Sets the temp user input in case syntax is incorrect. If the syntax is correct the null is
-	 * passed as parameter
+	 * Sets the temporary user input in case syntax is incorrect.
+	 * If the syntax is correct the null is passed as parameter.
 	 *
-	 * @param tempUserInput the new tempUserInput. Can be {@code null}.
+	 * @param tempUserInput the new temporary user input. Can be {@code null}.
 	 */
 	public void setTempUserInput(String tempUserInput) {
 		this.tempUserInput = tempUserInput;
 	}
 
 	/**
-	 * Returns tempUserInput of userInput. Return null if there is no tempUserInput.
+	 * Returns temporary user input. Can be {@code null}.
 	 *
-	 * @return temp user input
+	 * @return temporary user input
 	 */
 	public String getTempUserInput() {
 		return tempUserInput;

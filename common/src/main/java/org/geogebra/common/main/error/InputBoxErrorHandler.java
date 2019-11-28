@@ -9,9 +9,10 @@ public class InputBoxErrorHandler implements ErrorHandler{
     private ErrorHandler handler;
     private String inputText;
 
-    public InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler) {
+    public InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler, String inputText) {
         this.inputBox = inputBox;
         this.handler = handler;
+        this.inputText = inputText;
     }
 
     @Override
@@ -23,6 +24,7 @@ public class InputBoxErrorHandler implements ErrorHandler{
     @Override
     public void showCommandError(String command, String message) {
         handler.showCommandError(command, message);
+        inputBox.setTempUserInput(inputText);
     }
 
     @Override
@@ -38,13 +40,5 @@ public class InputBoxErrorHandler implements ErrorHandler{
     @Override
     public void resetError() {
         handler.resetError();
-    }
-
-    /**
-     * @param inputText
-     *            user input text
-     */
-    public void setInputText(String inputText) {
-        this.inputText = inputText;
     }
 }
