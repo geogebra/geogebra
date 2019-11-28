@@ -89,7 +89,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 *            to read.
 	 */
 	private void read(final String text) {
-		ScreenReader.debug("read text: " + text);
+		ScreenReader.debug(text);
 		// make sure text isn't truncated by <return>
 		// https://help.geogebra.org/topic/alttext-reading-stops-at-hard-return
 		setText(text.replace('\n', ' '));

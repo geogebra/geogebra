@@ -48,6 +48,7 @@ implements ITextFieldListener {
 		mainPanel.add(tfAnimStep);
 		setWidget(mainPanel);
 
+		// update on every change, so no extra blur handler needed
 		tfAnimStep.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -55,8 +56,6 @@ implements ITextFieldListener {
 				doActionPerformed();
 			}
 		});
-
-		// TODO blur handler?
 
 		tfAnimStep.addKeyDownHandler(new KeyDownHandler() {
 

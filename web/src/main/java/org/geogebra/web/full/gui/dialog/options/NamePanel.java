@@ -68,9 +68,7 @@ class NamePanel extends OptionPanel
 		this.model = new ObjectNameModel(app, this);
 		setModel(model);
 
-		// NAME PANEL
-
-		// non auto complete input panel
+		// name field: no auto-completion
 		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, true);
 		tfName = inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
@@ -140,7 +138,6 @@ class NamePanel extends OptionPanel
 		// name panel
 		nameStrPanel = new FlowPanel();
 		nameLabel = new FormLabel("").setFor(inputPanelName);
-		// inputPanelName.insert(nameLabel, 0);
 
 		nameStrPanel.add(nameLabel);
 		nameStrPanel.add(inputPanelName);
@@ -172,16 +169,12 @@ class NamePanel extends OptionPanel
 
 	@Override
 	public void focusGained() {
-		// started to type something : store current geo if focus
-		// lost
+		// started to type something : store current geo if focus lost
 		currentGeoForFocusLost = model.getCurrentGeo();
 	}
 
 	@Override
 	public void focusLost() {
-		// model.redefineCurrentGeo(currentGeoForFocusLost,
-		// tfDefinition.getText(), redefinitionForFocusLost,
-		// NamePanel.this);
 		if (model.getCurrentGeo() == currentGeoForFocusLost) {
 			model.applyDefinitionChange(tfDefinition.getText(),
 					app.getErrorHandler());
@@ -195,7 +188,6 @@ class NamePanel extends OptionPanel
 	private void applyName() {
 		model.applyNameChange(tfName.getText(),
 				app.getErrorHandler());
-
 	}
 
 	@Override
@@ -262,14 +254,10 @@ class NamePanel extends OptionPanel
 	@Override
 	public void setNameText(final String text) {
 		if ("".equals(text)) {
-			handleEmptyName();
+			Log.debug("name is empty");
 		}
 		tfName.setText(text);
 		tfName.requestFocus();
-	}
-
-	private void handleEmptyName() {
-		Log.debug("name is empty");
 	}
 
 	@Override
