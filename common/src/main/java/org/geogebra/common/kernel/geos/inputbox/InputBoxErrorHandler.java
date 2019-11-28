@@ -1,9 +1,10 @@
-package org.geogebra.common.main.error;
+package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
-class InputBoxErrorHandler implements ErrorHandler{
+class InputBoxErrorHandler implements ErrorHandler {
 
     private GeoInputBox inputBox;
     private ErrorHandler handler;
