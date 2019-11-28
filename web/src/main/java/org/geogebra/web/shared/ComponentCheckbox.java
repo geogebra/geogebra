@@ -14,13 +14,17 @@ public class ComponentCheckbox extends FlowPanel {
 
     private boolean selected;
 
+    /**
+     *
+     * @param setSelected true if the checkmark is shown
+     */
     public ComponentCheckbox(boolean setSelected) {
         setSelected(setSelected);
         this.addStyleName("checkbox");
         SimplePanel background = new SimplePanel();
         background.addStyleName("background");
-        NoDragImage checkMark = new NoDragImage(MaterialDesignResources.INSTANCE.check_white(),
-                14,14);
+        NoDragImage checkMark = new NoDragImage(MaterialDesignResources.INSTANCE.check_white(),14
+                ,14);
         checkMark.addStyleName("checkmark");
         this.add(background);
         this.add(checkMark);

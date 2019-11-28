@@ -118,6 +118,29 @@ $duration: 0.2s;
 			font-size: 95%;
 			margin-right: 16px;
 		}
+
+		.templatePanel {
+            display: flex;
+
+            .checkbox {
+           	    margin: 2px 16px 0px 0px;
+
+           	    &.selected {
+           	        .background {
+           	            border-color: $teal-default;
+                        background-color: $teal-default;
+           	        }
+           	    }
+
+           	}
+
+            .templateTxt {
+                font-size: 100%;
+                height: 28px;
+                line-height: 28px;
+            }
+        }
+
 		.buttonPanel {
    			height: 36px;
    			text-align: right;
@@ -131,8 +154,9 @@ $duration: 0.2s;
    			}
 
    			.visibility {
-   				top: 130px;
-   				left: 76px;
+   			    bottom: 6px;
+                left: 76px;
+                top: auto;
    			 }
 
    			.MyCanvasButton {

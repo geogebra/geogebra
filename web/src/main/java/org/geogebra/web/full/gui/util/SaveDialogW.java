@@ -23,6 +23,7 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -68,6 +69,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private MaterialVisibility defaultVisibility;
 	private Localization loc;
 	private BaseWidgetFactory widgetFactory;
+	private ComponentCheckbox templateCheckbox;
+	private Label templateTxt;
 
 	/**
 	 * Creates a new GeoGebra save dialog.
@@ -90,6 +93,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.getCaption().setText(loc.getMenu("Save"));
 		VerticalPanel p = new VerticalPanel();
 		p.add(getTitelPanel());
+		if (app.isWhiteboardActive()) {
+			p.add(getChecboxPanel());
+		}
 		p.add(getButtonPanel());
 		contentPanel.add(p);
 		addCancelButton();
@@ -162,6 +168,18 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			saveButton.setEnabled(true);
 		}
 
+	}
+
+	private FlowPanel getChecboxPanel() {
+		FlowPanel checkboxPanel = new FlowPanel();
+		checkboxPanel.addStyleName("templatePanel");
+		templateCheckbox = new ComponentCheckbox(false);
+		templateTxt = new Label();
+		templateTxt.setStyleName("templateTxt");
+		templateTxt.setText(loc.getMenu("saveTemplate"));
+		checkboxPanel.add(templateCheckbox);
+		checkboxPanel.add(templateTxt);
+		return checkboxPanel;
 	}
 
 	private FlowPanel getButtonPanel() {
@@ -420,6 +438,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				loc.getMenu("Shared"));
 		this.listBox.setItemText(MaterialVisibility.Public.getIndex(),
 				loc.getMenu("Public"));
+		if (templateTxt != null) {
+			templateTxt.setText(loc.getMenu("saveTemplate"));
+		}
 	}
 
 	@Override
