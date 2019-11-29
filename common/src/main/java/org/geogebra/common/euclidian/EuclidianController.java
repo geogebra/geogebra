@@ -9775,7 +9775,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleVideoPressed(AbstractEvent event) {
-		GeoWidget dv = getWidgetHit();
+		GeoWidget dv = getVideoOrEmbedHit();
 
 		if (dv == null) {
 			widgetsToBackground();
@@ -10954,13 +10954,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return null;
 	}
 
-	protected GeoWidget getWidgetHit() {
+	protected GeoWidget getVideoOrEmbedHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			Hits topHits = hits.getTopHits();
 			for (int i = topHits.size() - 1; i >= 0; i--) {
 				GeoElement geo = topHits.get(i);
-				if (geo instanceof GeoWidget) {
+				if (geo instanceof GeoVideo || geo instanceof GeoEmbed) {
 					return (GeoWidget) geo;
 				}
 			}
