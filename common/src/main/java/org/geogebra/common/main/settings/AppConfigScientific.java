@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 
@@ -93,5 +94,10 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public String getExamMenuItemText() {
 		return "";
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
 	}
 }
