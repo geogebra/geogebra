@@ -166,6 +166,7 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 		playerOf(video).asWidget().removeFromParent();
+		players.remove(video);
 	}
 
 	@Override
