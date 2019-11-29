@@ -1,9 +1,11 @@
 package org.geogebra.common.gui.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -23,7 +25,7 @@ public class TableSymbols {
 			" cbrt(x) ",
 			" abs(x) ",
 			" sgn(x) ",
-			" alt(x, y, z))",
+			" alt((x, y, z))",
 			" arg(x) ",
 			" conjugate(x) ",
 			" floor(x) ",
@@ -383,9 +385,8 @@ public class TableSymbols {
 	 *            application
 	 * @return popup symbol table
 	 */
-	public final static String[][] basicSymbolsMap(Localization app) {
-
-		String[][] array = {
+	public static String[][] basicSymbolsMap(Localization app) {
+		return new String[][] {
 				// LOWERCASE GREEK
 				{ Unicode.alpha + "",
 						app.getPlain("GreekCharacterA", Unicode.alpha + "") },
@@ -500,9 +501,6 @@ public class TableSymbols {
 				{ Unicode.NBSP + "", app.getMenu("Symbol.NBSP") }, // non-breaking
 																	// space
 		};
-
-		return array;
-
 	}
 
 	/**
@@ -512,7 +510,7 @@ public class TableSymbols {
 	 *            symbol table
 	 * @return list of symbols
 	 */
-	public final static String[] basicSymbols(Localization app,
+	public static String[] basicSymbols(Localization app,
 			String[][] map) {
 
 		ArrayList<String> extraSymbols = new ArrayList<>();
@@ -542,7 +540,7 @@ public class TableSymbols {
 	 *            international symbols
 	 * @return symbols
 	 */
-	public final static String[] basicSymbolsToolTips(Localization app,
+	public static String[] basicSymbolsToolTips(Localization app,
 			String[][] map) {
 
 		ArrayList<String> extraTooltips = new ArrayList<>();
@@ -571,32 +569,28 @@ public class TableSymbols {
 	 *            app
 	 * @return translated names eg sin(x) -> sen(x)
 	 */
-	public final static String[] getTranslatedFunctions(App app) {
-
-		StringBuilder sb = new StringBuilder();
+	public static String[] getTranslatedFunctions(App app) {
+		ParserFunctions parserFunctions = app.getParserFunctions();
 		Localization loc = app.getLocalization();
-		String[] ret = new String[FUNCTIONS.length];
-		for (int i = 0; i < FUNCTIONS.length; i++) {
-			String[] strs = FUNCTIONS[i].split("\\(");
-
+		ArrayList<String> functions = new ArrayList<>();
+		for (String function: FUNCTIONS) {
+			String[] strs = function.split("\\(", 2);
 			String functionName = strs[0].trim();
-			String translatedFunctionName = loc
-					.getMenu(Localization.FUNCTION_PREFIX + functionName);
-			if (translatedFunctionName
-					.startsWith(Localization.FUNCTION_PREFIX)) {
-				// translation not supported for this function
-				ret[i] = FUNCTIONS[i];
-			} else {
-				sb.setLength(0);
-				sb.append(' ');
-				sb.append(translatedFunctionName);
-				sb.append('(');
-				sb.append(strs[1]);
-				ret[i] = sb.toString();
+			if (parserFunctions.isReserved(functionName)) {
+				String translatedFunctionName = loc
+						.getMenu(Localization.FUNCTION_PREFIX + functionName);
+				if (translatedFunctionName
+						.startsWith(Localization.FUNCTION_PREFIX)) {
+					// translation not supported for this function
+					functions.add(function);
+				} else {
+					String translated = " " + translatedFunctionName + "(" + strs[1];
+					functions.add(translated);
+				}
 			}
 		}
 
-		return ret;
+		return toArray(functions);
 	}
 
 	/**
@@ -606,43 +600,51 @@ public class TableSymbols {
 	 *            app
 	 * @return translated names eg sin(x) -> sen(x)
 	 */
-	public final static String[][] getTranslatedFunctionsGrouped(App app) {
-
-		StringBuilder sb = new StringBuilder();
+	public static String[][] getTranslatedFunctionsGrouped(App app) {
+		ParserFunctions parserFunctions = app.getParserFunctions();
 		Localization loc = app.getLocalization();
-		String[][] ret = new String[FUNCTIONS_GROUPED.length][];
-		for (int i = 0; i < FUNCTIONS_GROUPED.length; i++) {
-
-			ret[i] = new String[FUNCTIONS_GROUPED[i].length];
-
-			for (int j = 0; j < FUNCTIONS_GROUPED[i].length; j++) {
-
-				String[] strs = FUNCTIONS_GROUPED[i][j].split("\\(");
+		List<List<String>> ret = new ArrayList<>();
+		for (String[] functionGroup: FUNCTIONS_GROUPED) {
+			List<String> group = new ArrayList<>();
+			for (String function: functionGroup) {
+				String[] strs = function.split("\\(", 2);
 				String functionName = strs[0].trim();
-				String translatedFunctionName = loc
-						.getMenu(Localization.FUNCTION_PREFIX + functionName);
-				if (translatedFunctionName
-						.startsWith(Localization.FUNCTION_PREFIX)) {
-					// translation not supported for this function
-					ret[i][j] = FUNCTIONS_GROUPED[i][j];
-				} else {
-					sb.setLength(0);
-					sb.append(' ');
-					sb.append(translatedFunctionName);
-					sb.append('(');
-					sb.append(strs[1]);
-					ret[i][j] = sb.toString();
+				if (parserFunctions.isReserved(functionName)) {
+					String translatedFunctionName = loc
+							.getMenu(Localization.FUNCTION_PREFIX + functionName);
+					if (translatedFunctionName
+							.startsWith(Localization.FUNCTION_PREFIX)) {
+						group.add(function);
+					} else {
+						String translated = " " + translatedFunctionName + "(" + strs[1];
+						group.add(translated);
+					}
 				}
 			}
+			if (!group.isEmpty()) {
+				ret.add(group);
+			}
 		}
+		return toArrays(ret);
+	}
 
+	private static String[] toArray(List<String> list) {
+		return list.toArray(new String[0]);
+	}
+
+	private static String[][] toArrays(List<List<String>> lists) {
+		String[][] ret = new String[lists.size()][];
+		for (int i = 0; i < lists.size(); i++) {
+			List<String> list = lists.get(i);
+			ret[i] = toArray(list);
+		}
 		return ret;
 	}
 
 	/**
 	 * @return greek symbols including varphi, varepsilon etc.
 	 */
-	public final static String[] greekLettersPlusVariants() {
+	public static String[] greekLettersPlusVariants() {
 		ArrayList<String> list = new ArrayList<>();
 		GeoElement.addAddAllGreekUpperCase(list);
 		GeoElement.addAddAllGreekLowerCaseNoPi(list);
@@ -656,5 +658,4 @@ public class TableSymbols {
 
 		return s;
 	}
-
 }
