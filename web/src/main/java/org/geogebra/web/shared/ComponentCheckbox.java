@@ -23,8 +23,8 @@ public class ComponentCheckbox extends FlowPanel {
         this.addStyleName("checkbox");
         SimplePanel background = new SimplePanel();
         background.addStyleName("background");
-        NoDragImage checkMark = new NoDragImage(MaterialDesignResources.INSTANCE.check_white(),14
-                ,14);
+        NoDragImage checkMark = new NoDragImage(MaterialDesignResources.INSTANCE.check_white(),
+                14, 14);
         checkMark.addStyleName("checkmark");
         this.add(background);
         this.add(checkMark);

@@ -288,8 +288,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	public void onSave() {
 		if (templateCheckbox != null) {
-			setSaveType(templateCheckbox.isSelected() ?
-					MaterialType.ggsTemplate : MaterialType.ggs);
+			setSaveType(templateCheckbox.isSelected()
+					? MaterialType.ggsTemplate : MaterialType.ggs);
 		}
 		appW.getSaveController().saveAs(title.getText(),
 				getSelectedVisibility(), this);
