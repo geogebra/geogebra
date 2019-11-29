@@ -100,8 +100,8 @@ public class InputBoxProcessor {
 						.withRedefinitionRule(createRedefinitionRule());
 
 				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true,
-						new InputBoxCallback(this, inputBox),
+						defineText, info, false,
+						new InputBoxCallback(kernel.getApplication(), this, inputBox),
 						new InputBoxErrorHandler(inputBox,
 								kernel.getApplication().getErrorHandler()));
 				return;

@@ -6,16 +6,19 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 
 class InputBoxCallback implements AsyncOperation<GeoElementND> {
 
+	private App app;
 	private InputBoxProcessor processor;
 	private GeoInputBox inputBox;
 	private int toStringMode;
 
-	InputBoxCallback(InputBoxProcessor processor, GeoInputBox inputBox) {
+	InputBoxCallback(App app, InputBoxProcessor processor, GeoInputBox inputBox) {
+		this.app = app;
 		this.processor = processor;
 		this.inputBox = inputBox;
 		saveToStringMode();
@@ -47,5 +50,6 @@ class InputBoxCallback implements AsyncOperation<GeoElementND> {
 			}
 		}
 		inputBox.setLinkedGeo(obj);
+		app.storeUndoInfo();
 	}
 }
