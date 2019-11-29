@@ -1958,6 +1958,7 @@ public class AlgebraProcessor {
 				// Set undefined
 				ret[0] = replaceable;
 				replaceable.setUndefined();
+				replaceable.updateRepaint();
 			} else
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
@@ -2030,6 +2031,7 @@ public class AlgebraProcessor {
 						// Set undefined
 						ret[0] = replaceable;
 						replaceable.setUndefined();
+						replaceable.updateRepaint();
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
