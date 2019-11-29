@@ -291,6 +291,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				new String[] {LINE, NUMBER});
 	}
 
+	@Test
+	public void testNumberRedefinition() {
+		testRedefinition("a", "=", NUMBER,
+				GeoClass.NUMERIC,
+				new String[] {CONIC, FUNCTION, PLANE, POINT_3D, POINT_2D, LINE},
+				new String[] {NUMBER});
+	}
+
 	private void testRedefinition(String label, String sign, String expression, GeoClass keepType,
 								  String[] refusedRedefinitions, String[] acceptedRedefinitions) {
 		for (String refused: refusedRedefinitions) {
