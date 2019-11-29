@@ -74,6 +74,16 @@ public interface SaveController {
 	void setSaveType(MaterialType saveType);
 
 	/**
+	 * @return type of material it should be saved (e.g. ggb/ggs/ggsTemplate)
+	 */
+	MaterialType getSaveType();
+
+	/**
+	 * @return true if the material is saved as template
+	 */
+	boolean savedAsTemplate();
+
+	/**
 	 * Sets the callback that needs to be run after saving material.
 	 * 
 	 * @param runAfterSave

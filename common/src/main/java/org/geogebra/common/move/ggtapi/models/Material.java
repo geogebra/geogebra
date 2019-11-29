@@ -21,7 +21,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public enum MaterialType {
-		ggb, ggt, ggs, link, book, ws, csv, flexiblews;
+		ggb, ggt, ggs, link, book, ws, csv, flexiblews, ggsTemplate;
 	}
 
 	public static final int MAX_TITLE_LENGTH = 255;

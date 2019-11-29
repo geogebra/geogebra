@@ -94,7 +94,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		VerticalPanel p = new VerticalPanel();
 		p.add(getTitelPanel());
 		if (app.isWhiteboardActive()) {
-			p.add(getChecboxPanel());
+			p.add(getCheckboxPanel());
 		}
 		p.add(getButtonPanel());
 		contentPanel.add(p);
@@ -170,7 +170,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	}
 
-	private FlowPanel getChecboxPanel() {
+	private FlowPanel getCheckboxPanel() {
 		FlowPanel checkboxPanel = new FlowPanel();
 		checkboxPanel.addStyleName("templatePanel");
 		templateCheckbox = new ComponentCheckbox(false);
@@ -287,6 +287,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
+		if (templateCheckbox != null) {
+			setSaveType(templateCheckbox.isSelected() ?
+					MaterialType.ggsTemplate : MaterialType.ggs);
+		}
 		appW.getSaveController().saveAs(title.getText(),
 				getSelectedVisibility(), this);
 	}
@@ -351,6 +355,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				appW.getFileManager().getFileProvider() == Provider.TUBE);
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.saveButton.setEnabled(false);
+		}
+		if (templateCheckbox != null) {
+			templateCheckbox.setSelected(false);
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override

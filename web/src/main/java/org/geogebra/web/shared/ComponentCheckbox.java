@@ -34,7 +34,6 @@ public class ComponentCheckbox extends FlowPanel {
             @Override
             public void onClickStart(int x, int y, PointerEventType type) {
                 setSelected(!isSelected());
-                updateCheckboxStyle();
             }
         });
     }
@@ -52,6 +51,7 @@ public class ComponentCheckbox extends FlowPanel {
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
+        updateCheckboxStyle();
     }
 
     /**

@@ -286,6 +286,10 @@ $duration: 0.2s;
    			font-family: Roboto,sans-serif;
     		font-weight: 400 !important;
 
+    		.html-face {
+    		    text-align: center;
+    		}
+
     		&:hover {
     			background: $mow_card_background_hover !important;
     			color: $teal-dark;

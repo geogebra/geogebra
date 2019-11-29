@@ -310,6 +310,16 @@ public class SaveControllerW implements SaveController {
 		this.saveType = saveType;
 	}
 
+	@Override
+	public MaterialType getSaveType() {
+		return saveType;
+	}
+
+	@Override
+	public boolean savedAsTemplate() {
+		return MaterialType.ggsTemplate.equals(getSaveType());
+	}
+
 	/**
 	 * @param base64
 	 *            material base64

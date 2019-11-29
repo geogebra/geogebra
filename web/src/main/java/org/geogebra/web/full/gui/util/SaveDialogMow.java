@@ -198,6 +198,8 @@ public class SaveDialogMow extends DialogBoxW
 									((AppW) app).getActiveMaterial()
 											.getVisibility())
 							: MaterialVisibility.Private;
+			setSaveType(templateCheckbox.isSelected() ?
+                    MaterialType.ggsTemplate : MaterialType.ggs);
 			app.getSaveController().saveAs(getInputField().getText(),
 					visibility, this);
 		}
@@ -228,6 +230,7 @@ public class SaveDialogMow extends DialogBoxW
 		super.show();
 		center();
 		setTitle();
+		templateCheckbox.setSelected(false);
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
