@@ -522,6 +522,14 @@
 			z-index: $z_mow_foreground;
 		 }		
 	}
+
+	.mowMenuSeparator {
+		background-color: #dedede;
+		height: 1px;
+		width: calc(100% - 56px);
+		list-style: none;
+		margin: 6px 0 6px auto;
+	}
 }
 
 

@@ -134,9 +134,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	}
 
-	// private int EuclidianViewXOffset;
-
-	// private int EuclidianViewYOffset;
 	/**
 	 * @return offset to get correct getY() in mouseEvents
 	 */
@@ -197,10 +194,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	/**
-	 * TODO kill long touch
+	 * Fire touch event at the specified coordinates (right click if not unbundled)
 	 */
 	public void handleLongTouch(int x, int y) {
-		Log.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
 		        ZeroOffset.INSTANCE);
 		if (!app.isUnbundled()) {
@@ -418,9 +414,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.resetPinchZoomOccured();
 		final boolean inputBoxFocused = false;
 		ec.setDefaultEventType(PointerEventType.TOUCH, true);
+
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
-			onTouchStart(e);
+			onPointerEventStart(e);
 			if (isWholePageDrag()) {
 				return;
 			}
@@ -433,17 +430,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (!inputBoxFocused && !isWholePageDrag()) {
 			preventTouchIfNeeded(event);
 		}
-	}
-
-	/**
-	 * Starts the touch.
-	 * @param event abstract touch event
-	 */
-	public void onTouchStart(AbstractEvent event) {
-		if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
-			longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
-		}
-		onPointerEventStart(event);
 	}
 
 	private boolean isWholePageDrag() {
@@ -676,9 +662,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.wrapMouseReleased(e);
 		e.release();
 
-//		boolean elementCreated = ec.pen != null
-//		        && ec.pen.getCreatedShape() != null;
-
 		ec.resetModeAfterFreehand();
 	}
 
@@ -715,6 +698,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			drawingRecorder
 					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
 		}
+		if (event.getType() == PointerEventType.TOUCH
+				&& EuclidianConstants.isMoveOrSelectionMode(ec.getMode())) {
+			longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
+		}
+
 		if (!ec.isTextfieldHasFocus()) {
 			dragModeMustBeSelected = true;
 			dragModeIsRightClick = event.isRightClick();

@@ -65,9 +65,6 @@ public class GMenuBar extends AriaMenuBar {
 	
 	@Override
 	public void addSeparator() {
-		if (app.isUnbundledOrWhiteboard()) {
-			return;
-		}
 		this.separators  ++;
 		super.addSeparator();
 	}

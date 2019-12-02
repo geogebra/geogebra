@@ -87,6 +87,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			}
 			addShowAllObjAndStandView();
 		} else {
+			addPasteItem();
+			wrappedPopup.addSeparator();
 			addRulingMenuItem(ot);
 			addBackgroundMenuItem();
 		}
@@ -103,7 +105,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		AriaMenuItem mi = new AriaMenuItem(
 				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
 				(AriaMenuBar) yaxisMenu);
-		mi.addStyleName("mi_no_image_new");
 		if (!app.isUnbundled()) {
 			wrappedPopup.addItem(mi);
 		}
@@ -604,14 +605,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-
-	@Override
-	protected void updateEditItems() {
-		if (!app.isUnbundledOrWhiteboard()) {
-			return;
-		}
-		updatePasteItem();
 	}
 
 	/**

@@ -188,9 +188,6 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 					localization.getMenu("PerformToolOn"), false,
 			        selectAnotherMenu);
 		}
-		if (!app.isUnbundledOrWhiteboard()) {
-			selectAnotherMenuItem.addStyleName("mi_no_image");
-		} 
 		wrappedPopup.addItem(selectAnotherMenuItem);
 	}
 
