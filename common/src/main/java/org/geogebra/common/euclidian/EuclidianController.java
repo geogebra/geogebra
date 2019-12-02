@@ -80,7 +80,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
@@ -146,7 +145,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -296,9 +294,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	// ==============================================
 	// Delete tool
 
-	// private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
-	protected int previousPointCapturing;
-	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<>();
 	protected GPoint startLoc;
 	protected GPoint lastMouseLoc;
 	protected GPoint oldLoc = new GPoint();
@@ -10295,8 +10290,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		boolean changedKernel0 = false;
-
 		if (draggingOccured && movedGeoElement != null) {
 			app.getEventDispatcher().dispatchEvent(
 					new Event(EventType.DRAG_END, movedGeoElement)
@@ -10369,8 +10362,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// remember helper point, see createNewPoint()
-		if ((changedKernel || this.checkboxChangeOccured) && !changedKernel0
-				&& !modeCreatesHelperPoints(mode)) {
+		if ((changedKernel || this.checkboxChangeOccured) && !modeCreatesHelperPoints(mode)) {
 			this.checkboxChangeOccured = false;
 			storeUndoInfo();
 		}

@@ -4002,9 +4002,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new SettingsBuilderW(this);
 	}
 
-	/**
-	 * @return copy/paste utility
-	 */
+	@Override
 	public CopyPasteW getCopyPaste() {
 		if (copyPaste == null) {
 			copyPaste = new CopyPasteW();

@@ -55,7 +55,7 @@ public abstract class CopyPaste {
 	// otherwise the parsed label could be regarded as a spreadsheet label
 	// see GeoElement.isSpreadsheetLabel
 	// check if name is valid for geo
-	public static String labelPrefix = "CLIPBOARDmagicSTRING";
+	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
 	public abstract void copyToXML(App app, List<GeoElement> selection);
 

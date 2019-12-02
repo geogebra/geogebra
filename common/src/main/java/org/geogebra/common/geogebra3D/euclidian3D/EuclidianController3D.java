@@ -172,8 +172,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private Coords tmpCoordsForOrigin = new Coords(4);
 	private Coords tmpCoordsForDirection = new Coords(4);
 
-	protected double startPointZ;
-
 	private Hits3D goodHits;
 	/**
 	 * array list for intersection curves

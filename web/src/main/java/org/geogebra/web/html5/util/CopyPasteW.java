@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -47,12 +48,8 @@ public class CopyPasteW extends CopyPaste {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
-		GeoElement geo;
-		ArrayList<AlgoElement> geoal;
-		AlgoElement ale;
-		GeoElement[] geos;
 		for (int i = conels.size() - 1; i >= 0; i--) {
-			geo = (GeoElement) conels.get(i);
+			GeoElement geo = (GeoElement) conels.get(i);
 
 			// also doing this here, which is not about the name of the method,
 			// but making sure textfields (which require algos) are shown
@@ -64,28 +61,24 @@ public class CopyPasteW extends CopyPaste {
 				ret.add(geo.getParentAlgorithm());
 			}
 
-			geoal = geo.getAlgorithmList();
+			ArrayList<AlgoElement> geoal = geo.getAlgorithmList();
 
-			for (AlgoElement algoElement : geoal) {
-				ale = algoElement;
-
+			for (AlgoElement ale : geoal) {
 				ArrayList<ConstructionElement> ac = new ArrayList<>();
 				ac.addAll(Arrays.asList(ale.getInput()));
 
 				if (conels.containsAll(ac) && !conels.contains(ale)) {
 					conels.add(ale);
-					geos = ale.getOutput();
-					if (geos != null) {
-						for (GeoElement geoElement : geos) {
-							if (!ret.contains(geoElement)
-									&& !conels.contains(geoElement)) {
-								ret.add(geoElement);
-							}
+					for (GeoElement geoElement : ale.getOutput()) {
+						if (!ret.contains(geoElement)
+								&& !conels.contains(geoElement)) {
+							ret.add(geoElement);
 						}
 					}
 				}
 			}
 		}
+
 		conels.addAll(ret);
 		return ret;
 	}
@@ -302,6 +295,7 @@ public class CopyPasteW extends CopyPaste {
         }
     }-*/;
 
+    @ExternalAccess
 	private static native void pasteText(App app, String text) /*-{
     	var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 
@@ -312,10 +306,12 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}-*/;
 
+	@ExternalAccess
 	private static void pasteImage(App app, String encodedImage) {
 		((AppW) app).urlDropHappened(encodedImage, null, null, null);
 	}
 
+	@ExternalAccess
 	private static void pastePlainText(App app, String plainText) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
@@ -351,6 +347,7 @@ public class CopyPasteW extends CopyPaste {
 		return clipboardContent.substring(clipboardContent.indexOf('\n'));
 	}
 
+	@ExternalAccess
 	private static void pasteGeoGebraXML(App app, String clipboardContent) {
 		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent);
 		String copiedXML = separateCopiedXML(clipboardContent);
@@ -358,7 +355,8 @@ public class CopyPasteW extends CopyPaste {
 		pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML);
 	}
 
-	private static void pasteGeoGebraXMLInternal(App app, ArrayList<String> copiedXmlLabels, String copiedXml) {
+	private static void pasteGeoGebraXMLInternal(App app,
+			ArrayList<String> copiedXmlLabels, String copiedXml) {
 		app.getKernel().notifyPaste(copiedXml);
 
 		// it turned out to be necessary for e.g. handleLabels

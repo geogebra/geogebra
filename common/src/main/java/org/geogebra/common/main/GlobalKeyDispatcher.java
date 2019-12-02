@@ -1014,7 +1014,6 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected abstract void showPrintPreview(App app2);
 
-
 	protected void handleCtrlV() {
 		// overridden in desktop, in web, we listen to paste events
 	}
