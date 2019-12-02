@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.arithmetic.filter;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Functional;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.plugin.Operation;
@@ -12,17 +14,18 @@ public class GraphingOperationArgumentFilter implements OperationArgumentFilter 
 
 	@Override
 	public boolean isAllowed(Operation operation, ExpressionValue left, ExpressionValue right) {
-		return !isVectorProduct(operation, left, right) && !isNotNumericAbs(operation, left, right);
+		return !filtersVector(operation, left, right) && !filtersAbs(operation, left, right);
 	}
 
-	private boolean isVectorProduct(Operation operation, ExpressionValue left,
+	private boolean filtersVector(Operation operation, ExpressionValue left,
 									ExpressionValue right) {
 		return (operation.equals(Operation.MULTIPLY) || operation.equals(Operation.VECTORPRODUCT))
 				&& left instanceof VectorNDValue && right instanceof VectorNDValue;
 	}
 
-	private boolean isNotNumericAbs(Operation operation, ExpressionValue left,
+	private boolean filtersAbs(Operation operation, ExpressionValue left,
 								   ExpressionValue right) {
-		return operation.equals(Operation.ABS) && left instanceof NumberValue;
+		return operation.equals(Operation.ABS) && !(left instanceof NumberValue
+				|| left instanceof FunctionalNVar);
 	}
 }
