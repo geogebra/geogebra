@@ -13,7 +13,7 @@ public class GraphingOperationArgumentFilter implements OperationArgumentFilter 
 
 	@Override
 	public boolean isAllowed(Operation operation, ExpressionValue left, ExpressionValue right) {
-		return !filtersVector(operation, left, right) && !filtersAbs(operation, left, right);
+		return !filtersVector(operation, left, right) && !filtersAbs(operation, left);
 	}
 
 	private boolean filtersVector(Operation operation, ExpressionValue left,
@@ -22,8 +22,7 @@ public class GraphingOperationArgumentFilter implements OperationArgumentFilter 
 				&& left instanceof VectorNDValue && right instanceof VectorNDValue;
 	}
 
-	private boolean filtersAbs(Operation operation, ExpressionValue left,
-								   ExpressionValue right) {
+	private boolean filtersAbs(Operation operation, ExpressionValue left) {
 		return operation.equals(Operation.ABS) && !(left instanceof NumberValue
 				|| left instanceof FunctionalNVar);
 	}
