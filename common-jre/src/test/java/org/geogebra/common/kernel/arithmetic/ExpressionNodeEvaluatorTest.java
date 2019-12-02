@@ -15,18 +15,21 @@ public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void testOperationFilterPassing() {
 		OperationArgumentFilter filter = Mockito.mock(OperationArgumentFilter.class);
-		Mockito.when(filter.isAllowed(Mockito.any(Operation.class), Mockito.any(ExpressionValue.class),
+		Mockito.when(filter.isAllowed(Mockito.any(Operation.class),
+				Mockito.any(ExpressionValue.class),
 				Mockito.any(ExpressionValue.class))).thenReturn(true);
 		ExpressionNodeEvaluator evaluator = createEvaluator(filter);
 		ExpressionNode minusExpression = parseExpression("1-2");
-		ExpressionValue minusValue = evaluator.evaluate(minusExpression, StringTemplate.defaultTemplate);
+		ExpressionValue minusValue = evaluator.evaluate(minusExpression,
+				StringTemplate.defaultTemplate);
 		Assert.assertNotNull(minusValue);
 	}
 
 	@Test(expected = MyError.class)
 	public void testOperationFilterRejecting() {
 		OperationArgumentFilter filter = Mockito.mock(OperationArgumentFilter.class);
-		Mockito.doReturn(false).when(filter).isAllowed(Mockito.eq(Operation.PLUS), Mockito.any(ExpressionValue.class),
+		Mockito.doReturn(false).when(filter).isAllowed(Mockito.eq(Operation.PLUS),
+				Mockito.any(ExpressionValue.class),
 				Mockito.any(ExpressionValue.class));
 		ExpressionNodeEvaluator evaluator = createEvaluator(filter);
 		ExpressionNode plusExpression = parseExpression("1+2");
