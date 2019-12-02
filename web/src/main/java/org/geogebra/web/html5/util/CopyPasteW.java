@@ -338,7 +338,9 @@ public class CopyPasteW extends CopyPaste {
 		drawText.update();
 		((EuclidianViewW) ev).doRepaint2();
 
-		ev.getEuclidianController().selectAndShowBoundingBox(txt);
+		if (app.isWhiteboardActive()) {
+			ev.getEuclidianController().selectAndShowBoundingBox(txt);
+		}
 	}
 
 	private static ArrayList<String> separateXMLLabels(String clipboardContent) {
@@ -423,6 +425,12 @@ public class CopyPasteW extends CopyPaste {
 
 	public static native void installPaste(App app, Element target) /*-{
     	target.addEventListener('paste', function (a) {
+    	    if (a.target.tagName.toUpperCase() === 'INPUT'
+				|| a.target.tagName.toUpperCase() === 'TEXTAREA'
+				|| a.target.parentElement.classList.contains("mowTextEditor")) {
+    	        return;
+			}
+
             var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 
     	    var text = a.clipboardData.getData("text/plain");
