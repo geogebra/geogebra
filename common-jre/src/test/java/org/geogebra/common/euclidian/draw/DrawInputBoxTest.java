@@ -7,32 +7,9 @@ import org.geogebra.common.util.TextObject;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class DrawInputBoxTest extends BaseUnitTest {
-
-	private TextObject textObject = new TextObject() {
-		String content;
-
-		@Override
-		public String getText() {
-			return content;
-		}
-
-		@Override
-		public void setText(String s) {
-			content = s;
-		}
-
-		@Override
-		public void setVisible(boolean b) {
-
-		}
-
-		@Override
-		public void setEditable(boolean b) {
-
-		}
-	};
 
 	@Test
 	public void testConsistentHeight() {
@@ -50,7 +27,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 		add("a=1");
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
-		textObject.setText("");
+		TextObject textObject = mockTextObjectWithReturn("");
 		inputBox.textObjectUpdated(textObject);
 
 		DrawInputBox inputBoxDrawer = new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
@@ -89,13 +66,13 @@ public class DrawInputBoxTest extends BaseUnitTest {
 		EuclidianView ev = getApp().getActiveEuclidianView();
 		ev.setViewTextField(new TextFieldCommonJre(ev));
 
-		textObject.setText("");
+		TextObject textObject = mockTextObjectWithReturn("");
 		inputBox.textObjectUpdated(textObject);
 
 		DrawInputBox inputBoxDrawer = new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
 
 		int symbolicInputBoxHeightEmptyInput = getHeightOfInputBox(inputBoxDrawer, true);
-		textObject.setText("2");
+		textObject = mockTextObjectWithReturn("2");
 		inputBox.textObjectUpdated(textObject);
 
 		int symbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
@@ -110,5 +87,11 @@ public class DrawInputBoxTest extends BaseUnitTest {
 	private void setSymbolicMode(DrawInputBox inputBoxDrawer, boolean symbolicMode) {
 		inputBoxDrawer.getGeoInputBox().setSymbolicMode(symbolicMode);
 		inputBoxDrawer.update();
+	}
+
+	private TextObject mockTextObjectWithReturn(String text) {
+		TextObject textObject = Mockito.mock(TextObject.class);
+		Mockito.when(textObject.getText()).thenReturn(text);
+		return textObject;
 	}
 }
