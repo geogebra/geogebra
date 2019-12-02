@@ -6,17 +6,21 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Element;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoMedia;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.web.html5.main.AppW;
@@ -354,7 +358,7 @@ public class CopyPasteW extends CopyPaste {
 		// don't update properties view
 		app.updateSelection(false);
 
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		EuclidianView ev = app.getActiveEuclidianView();
 		app.getGgbApi().evalXML(copiedXml);
 		app.getKernel().getConstruction().updateConstruction(false);
 		if (ev == app.getEuclidianView1()) {
@@ -374,14 +378,28 @@ public class CopyPasteW extends CopyPaste {
 		if (app.isWhiteboardActive()) {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
 			for (GeoElement created : createdElements) {
-				if (created.isShape()) {
+				if (created.isShape() || created instanceof GeoLocusStroke
+						|| created instanceof GeoMedia) {
 					shapes.add(created);
 				}
 			}
 
 			app.getSelectionManager().setSelectedGeos(shapes);
-			app.getActiveEuclidianView().getEuclidianController().setBoundingBoxFromList(shapes);
+			ev.getEuclidianController().setBoundingBoxFromList(shapes);
+			ev.getEuclidianController().showDynamicStylebar();
 		}
+
+		int viewCenterX = ev.getWidth() / 2;
+		int viewCenterY = ev.getHeight() / 2;
+
+		GRectangle2D boundingBoxRectangle = ev.getBoundingBox().getRectangle();
+
+		double boxCenterX = boundingBoxRectangle.getX() + boundingBoxRectangle.getWidth() / 2;
+		double boxCenterY = boundingBoxRectangle.getY() + boundingBoxRectangle.getHeight() / 2;
+
+		Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX), ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
+
+		MoveGeos.moveObjects(createdElements, coords, null, null, ev);
 	}
 
 	@Override

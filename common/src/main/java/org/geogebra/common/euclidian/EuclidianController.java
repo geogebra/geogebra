@@ -5433,7 +5433,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				selectionPreview);
 	}
 
-	protected void showDynamicStylebar() {
+	public void showDynamicStylebar() {
 		// implemented in EuclidianControllerW
 	}
 
