@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 /**
@@ -229,5 +231,10 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
 		return null;
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createParserFunctions();
 	}
 }

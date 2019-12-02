@@ -6,6 +6,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 public interface AppConfig {
@@ -110,12 +111,12 @@ public interface AppConfig {
 	/**
 	 * @return whether sliders in AV are allowed
 	 */
-	public boolean hasSlidersInAV();
+	boolean hasSlidersInAV();
 
 	/**
 	 * @return true if sliders are created automatically
 	 */
-	public boolean hasAutomaticSliders();
+	boolean hasAutomaticSliders();
 
 	/**
 	 * @return whether objects should be labeled a, b, ...
@@ -181,5 +182,10 @@ public interface AppConfig {
 	 * @return operation argument filter
 	 */
 	OperationArgumentFilter createOperationArgumentFilter();
+
+	/**
+	 * @return creates app specific parser functions
+	 */
+	ParserFunctions createParserFunctions();
 }
 

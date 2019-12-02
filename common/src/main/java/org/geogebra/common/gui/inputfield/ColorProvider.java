@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
