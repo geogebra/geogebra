@@ -39,7 +39,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolicI;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
-import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
