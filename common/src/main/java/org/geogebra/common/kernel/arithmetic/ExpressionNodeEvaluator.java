@@ -57,7 +57,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param kernel
 	 *            kernel
 	 */
-	public ExpressionNodeEvaluator(Localization loc, Kernel kernel, OperationArgumentFilter filter) {
+	public ExpressionNodeEvaluator(Localization loc, Kernel kernel,
+								   OperationArgumentFilter filter) {
 		this.loc = loc;
 		this.kernel = kernel;
 		this.filter = filter;

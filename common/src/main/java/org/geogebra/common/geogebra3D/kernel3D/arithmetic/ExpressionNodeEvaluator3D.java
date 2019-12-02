@@ -32,7 +32,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	 * @param kernel kernel
 	 * @param filter operation filter
 	 */
-	public ExpressionNodeEvaluator3D(Localization loc, Kernel kernel, OperationArgumentFilter filter) {
+	public ExpressionNodeEvaluator3D(Localization loc, Kernel kernel,
+									 OperationArgumentFilter filter) {
 		super(loc, kernel, filter);
 	}
 
