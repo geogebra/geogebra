@@ -45,6 +45,7 @@ import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFacto
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -4740,6 +4741,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				break;
 			case GRAPHER_3D:
 				factory = new Graphing3DToolCollectionFactory();
+				break;
+			case SUITE:
+				factory = new SuiteToolCollectionFactory();
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();
