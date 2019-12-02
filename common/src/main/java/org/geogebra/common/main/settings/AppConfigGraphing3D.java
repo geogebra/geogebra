@@ -7,7 +7,12 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Config for 3D Graphing Calculator app
@@ -128,5 +133,10 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public String getExamMenuItemText() {
 		return "";
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		return new HashSet<>(Arrays.asList(FillType.values()));
 	}
 }
