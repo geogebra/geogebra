@@ -38,7 +38,8 @@ import org.geogebra.common.util.StringUtil;
  */
 public final class DrawBoolean extends Drawable {
 
-	private static final int LABEL_MARGIN = 14;
+	private static final int LABEL_MARGIN_TEXT = 10;
+	private static final int LABEL_MARGIN_LATEX = 5;
 
 	private GeoBoolean geoBool;
 
@@ -110,17 +111,13 @@ public final class DrawBoolean extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-
 		if (isVisible) {
-
 			g2.setFont(view.getFontPoint());
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
-			int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + 5;
-			int posY = geoBool.labelOffsetY;
 
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
-					isHighlighted(), g2, geoBool.labelOffsetX + 5,
-					geoBool.labelOffsetY + 5, view.getBooleanSize());
+					isHighlighted(), g2, geoBool.labelOffsetX,
+					geoBool.labelOffsetY, view.getBooleanSize());
 
 			if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
@@ -130,12 +127,11 @@ public final class DrawBoolean extends Drawable {
 				textSize.x = d.getWidth();
 				textSize.y = d.getHeight();
 
-				if (checkBoxIcon.getIconHeight() < d.getHeight()) {
-					posY -= (d.getHeight() - checkBoxIcon.getIconHeight()) / 2;
-				} else {
-					posY += (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
+				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
+						+ LABEL_MARGIN_LATEX;
+				int posY = geoBool.labelOffsetY
+						+ (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
 
-				}
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
 				g2.setColor(GColor.RED);
@@ -162,10 +158,9 @@ public final class DrawBoolean extends Drawable {
 							.round(layout.getBounds().getHeight());
 					textSize.x = width;
 					int left = geoBool.labelOffsetX
-							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN;
+							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT;
 					int top = geoBool.labelOffsetY
-							+ checkBoxIcon.getIconWidth() / 2 + 5;
-					top += height / 2;
+							+ (checkBoxIcon.getIconHeight() + height) / 2;
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							labelDesc, left, top, false);
 				}
@@ -173,25 +168,6 @@ public final class DrawBoolean extends Drawable {
 
 			updateLabel();
 		}
-
-		/*
-		 * if (isVisible) { // the button is drawn as a swing component by the
-		 * view // They are Swing components and children of the view
-		 * 
-		 * // draw label rectangle if (geo.doHighlighting()) {
-		 * g2.setStroke(objStroke); g2.setPaint(Color.lightGray);
-		 * g2.draw(labelRectangle);
-		 * 
-		 * Application.debug("highlight drawn");
-		 * checkBox.setBorder(BorderFactory.createEtchedBorder()); } }
-		 */
-	}
-
-	/**
-	 * Removes button from view again
-	 */
-	public void remove() {
-		// view.remove(checkBox);
 	}
 
 	/**

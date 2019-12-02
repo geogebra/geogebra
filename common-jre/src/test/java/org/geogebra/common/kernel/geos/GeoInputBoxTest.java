@@ -103,13 +103,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testForComplexUndefinedGeo() {
+	public void testForDependentUndefinedGeo() {
 		add("a=1");
 		add("b=?a");
 
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("?a", inputBox.getText());
+		Assert.assertEquals("? \\; a", inputBox.getText());
 		Assert.assertEquals("?a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
