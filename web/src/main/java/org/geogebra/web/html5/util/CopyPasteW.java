@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 
 public class CopyPasteW extends CopyPaste {
@@ -320,12 +321,22 @@ public class CopyPasteW extends CopyPaste {
 
 		GeoText txt = app.getKernel().getAlgebraProcessor().text(plainText);
 		txt.setLabel(null);
+		txt.setAbsoluteScreenLocActive(true);
 
 		DrawText drawText = (DrawText) app.getActiveEuclidianView().getDrawableFor(txt);
 		GRectangle bounds = AwtFactory.getPrototype().newRectangle(
 				0, 0, defaultTextWidth, 0);
 		drawText.adjustBoundingBoxToText(bounds);
 		drawText.update();
+
+		// unfortunately the doRepaints are necessary to update the position of the GeoText :(
+		((EuclidianViewW) ev).doRepaint2();
+
+		txt.setAbsoluteScreenLoc((ev.getWidth() - defaultTextWidth) / 2,
+				(int) (ev.getHeight() - drawText.getBounds().getHeight()) / 2);
+
+		drawText.update();
+		((EuclidianViewW) ev).doRepaint2();
 
 		ev.getEuclidianController().selectAndShowBoundingBox(txt);
 	}
@@ -379,27 +390,29 @@ public class CopyPasteW extends CopyPaste {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
-						|| created instanceof GeoMedia) {
+						|| created instanceof GeoMedia || created instanceof GeoText) {
 					shapes.add(created);
 				}
 			}
 
 			app.getSelectionManager().setSelectedGeos(shapes);
 			ev.getEuclidianController().setBoundingBoxFromList(shapes);
+			int viewCenterX = ev.getWidth() / 2;
+			int viewCenterY = ev.getHeight() / 2;
+
+			GRectangle2D boundingBoxRectangle = ev.getBoundingBox().getRectangle();
+
+			double boxCenterX = boundingBoxRectangle.getX() + boundingBoxRectangle.getWidth() / 2;
+			double boxCenterY = boundingBoxRectangle.getY() + boundingBoxRectangle.getHeight() / 2;
+
+			Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX),
+					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
+
+			MoveGeos.moveObjects(createdElements, coords, null, null, ev);
+			ev.updateAllDrawables(true);
+
 			ev.getEuclidianController().showDynamicStylebar();
 		}
-
-		int viewCenterX = ev.getWidth() / 2;
-		int viewCenterY = ev.getHeight() / 2;
-
-		GRectangle2D boundingBoxRectangle = ev.getBoundingBox().getRectangle();
-
-		double boxCenterX = boundingBoxRectangle.getX() + boundingBoxRectangle.getWidth() / 2;
-		double boxCenterY = boundingBoxRectangle.getY() + boundingBoxRectangle.getHeight() / 2;
-
-		Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX), ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
-
-		MoveGeos.moveObjects(createdElements, coords, null, null, ev);
 	}
 
 	@Override

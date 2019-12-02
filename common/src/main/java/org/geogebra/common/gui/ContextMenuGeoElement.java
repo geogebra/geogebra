@@ -725,6 +725,7 @@ public abstract class ContextMenuGeoElement {
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos());
+		app.getActiveEuclidianView().setBoundingBox(null);
 		deleteCmd(true);
 	}
 
