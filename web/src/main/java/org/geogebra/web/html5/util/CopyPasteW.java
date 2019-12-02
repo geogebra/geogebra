@@ -27,6 +27,9 @@ public class CopyPasteW extends CopyPaste {
 
 	private static final int defaultTextWidth = 300;
 
+	private static ArrayList<String> copiedXmlLabels = new ArrayList<>();
+	private static StringBuilder copiedXml = new StringBuilder();
+
 	/**
 	 * copyToXML - Add the algos which belong to our selected geos Also
 	 * add the geos which might be side-effects of these algos
@@ -34,7 +37,7 @@ public class CopyPasteW extends CopyPaste {
 	 * @param conels input and output
 	 * @return the possible side-effect geos
 	 */
-	private ArrayList<ConstructionElement> addAlgosDependentFromInside(
+	private static ArrayList<ConstructionElement> addAlgosDependentFromInside(
 			ArrayList<ConstructionElement> conels) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<>();
@@ -90,10 +93,10 @@ public class CopyPasteW extends CopyPaste {
 	 *
 	 * @param conels construction elements
 	 */
-	private List<String> beforeSavingToXML(ArrayList<ConstructionElement> conels,
+	private static void beforeSavingToXML(ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostohide) {
 
-		List<String> copiedXMLlabels = new ArrayList<>();
+		copiedXmlLabels.clear();
 
 		ConstructionElement geo;
 		String label;
@@ -102,7 +105,7 @@ public class CopyPasteW extends CopyPaste {
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null) {
-					copiedXMLlabels.add(label);
+					copiedXmlLabels.add(labelPrefix + label);
 					((GeoElement) geo).setLabelSimple(labelPrefix + label);
 				}
 			}
@@ -116,8 +119,6 @@ public class CopyPasteW extends CopyPaste {
 				geostohide.remove(geo);
 			}
 		}
-
-		return copiedXMLlabels;
 	}
 
 	/**
@@ -126,7 +127,7 @@ public class CopyPasteW extends CopyPaste {
 	 *
 	 * @param conels construction elements
 	 */
-	private void afterSavingToXML(ArrayList<ConstructionElement> conels,
+	private static void afterSavingToXML(ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostoshow) {
 
 		ConstructionElement geo;
@@ -160,6 +161,19 @@ public class CopyPasteW extends CopyPaste {
 
 	@Override
 	public void copyToXML(App app, List<GeoElement> geos) {
+		copyToXMLInternal(app, geos);
+
+		StringBuilder textToSave = new StringBuilder();
+		for (String label : copiedXmlLabels) {
+			textToSave.append(label).append(" ");
+		}
+		textToSave.append("\n");
+		textToSave.append(copiedXml);
+
+		saveToClipboard(textToSave.toString());
+	}
+
+	private static void copyToXMLInternal(App app, List<GeoElement> geos) {
 		if (geos.isEmpty()) {
 			return;
 		}
@@ -178,24 +192,23 @@ public class CopyPasteW extends CopyPaste {
 			return;
 		}
 
-		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(
-				geoslocal);
+		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(geoslocal);
 
 		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
 
 		Kernel kernel = app.getKernel();
 
-		List<String> copiedXMLlabels = beforeSavingToXML(geoslocal, geostohide);
+		beforeSavingToXML(geoslocal, geostohide);
 
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		kernel.setSaveScriptsToXML(false);
 
-		StringBuilder copiedXML = new StringBuilder();
+		copiedXml.setLength(0);
 		Construction cons = app.getKernel().getConstruction();
 		for (int i = 0; i < cons.steps(); ++i) {
 			ConstructionElement ce = cons.getConstructionElement(i);
 			if (geoslocal.contains(ce)) {
-				ce.getXML(false, copiedXML);
+				ce.getXML(false, copiedXml);
 			}
 		}
 
@@ -204,15 +217,6 @@ public class CopyPasteW extends CopyPaste {
 		afterSavingToXML(geoslocal, geostohide);
 
 		app.setBlockUpdateScripts(scriptsBlocked);
-
-		StringBuilder textToSave = new StringBuilder();
-		for (String label : copiedXMLlabels) {
-			textToSave.append(label).append(" ");
-		}
-		textToSave.append("\n");
-		textToSave.append(copiedXML);
-
-		saveToClipboard(textToSave.toString());
 	}
 
 	private static native void saveToClipboard(String toSave) /*-{
@@ -315,25 +319,15 @@ public class CopyPasteW extends CopyPaste {
 
 		DrawText drawText = (DrawText) app.getActiveEuclidianView().getDrawableFor(txt);
 		GRectangle bounds = AwtFactory.getPrototype().newRectangle(
-				(ev.getWidth() - defaultTextWidth) / 2,
-				ev.getHeight() / 2 - 100,
-				defaultTextWidth,
-				100
-		);
+				0, 0, defaultTextWidth, 0);
 		drawText.adjustBoundingBoxToText(bounds);
+		drawText.update();
 
 		ev.getEuclidianController().selectAndShowBoundingBox(txt);
 	}
 
 	private static ArrayList<String> separateXMLLabels(String clipboardContent) {
-		ArrayList<String> ret = new ArrayList<>();
-		String[] labels = clipboardContent.split("\n")[0].split(" ");
-
-		for (String label : labels) {
-			ret.add(labelPrefix + label);
-		}
-
-		return ret;
+		return new ArrayList<>(Arrays.asList(clipboardContent.split("\n")[0].split(" ")));
 	}
 
 	private static String separateCopiedXML(String clipboardContent) {
@@ -344,7 +338,11 @@ public class CopyPasteW extends CopyPaste {
 		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent);
 		String copiedXML = separateCopiedXML(clipboardContent);
 
-		app.getKernel().notifyPaste(copiedXML);
+		pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML);
+	}
+
+	private static void pasteGeoGebraXMLInternal(App app, ArrayList<String> copiedXmlLabels, String copiedXml) {
+		app.getKernel().notifyPaste(copiedXml);
 
 		// it turned out to be necessary for e.g. handleLabels
 		boolean scriptsBlocked = app.isBlockUpdateScripts();
@@ -357,7 +355,7 @@ public class CopyPasteW extends CopyPaste {
 		app.updateSelection(false);
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		app.getGgbApi().evalXML(copiedXML);
+		app.getGgbApi().evalXML(copiedXml);
 		app.getKernel().getConstruction().updateConstruction(false);
 		if (ev == app.getEuclidianView1()) {
 			app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -367,14 +365,29 @@ public class CopyPasteW extends CopyPaste {
 			app.setActiveView(App.VIEW_EUCLIDIAN2);
 		}
 
-		ArrayList<GeoElement> createdElements = handleLabels(app, copiedXMLlabels, false);
+		ArrayList<GeoElement> createdElements = handleLabels(app, copiedXmlLabels, false);
 
 		app.setBlockUpdateScripts(scriptsBlocked);
 
 		app.getKernel().notifyPasteComplete();
 
-		app.getSelectionManager().setSelectedGeos(createdElements);
-		app.getActiveEuclidianView().getEuclidianController().setBoundingBoxFromList(createdElements);
+		if (app.isWhiteboardActive()) {
+			ArrayList<GeoElement> shapes = new ArrayList<>();
+			for (GeoElement created : createdElements) {
+				if (created.isShape()) {
+					shapes.add(created);
+				}
+			}
+
+			app.getSelectionManager().setSelectedGeos(shapes);
+			app.getActiveEuclidianView().getEuclidianController().setBoundingBoxFromList(shapes);
+		}
+	}
+
+	@Override
+	public void duplicate(App app, List<GeoElement> geos) {
+		copyToXMLInternal(app, geos);
+		pasteGeoGebraXMLInternal(app, copiedXmlLabels, copiedXml.toString());
 	}
 
 	public static native void installPaste(App app, Element target) /*-{

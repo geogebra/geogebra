@@ -734,10 +734,8 @@ public abstract class ContextMenuGeoElement {
 	public void duplicateCmd() {
 		ensureGeoInSelection();
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
-		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos());
+		app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
 		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
-		app.getCopyPaste().pasteFromXML(app);
 	}
 
 	/**

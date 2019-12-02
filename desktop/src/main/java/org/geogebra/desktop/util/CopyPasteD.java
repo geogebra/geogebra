@@ -657,4 +657,10 @@ public class CopyPasteD extends CopyPaste {
 	public void pasteFromXML(App app) {
 		pasteFromXML(app, false);
 	}
+
+	@Override
+	public void duplicate(App app, List<GeoElement> selection) {
+		copyToXML(app, selection);
+		pasteFromXML(app);
+	}
 }
