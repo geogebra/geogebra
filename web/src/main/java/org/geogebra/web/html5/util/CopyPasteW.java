@@ -1,0 +1,407 @@
+package org.geogebra.web.html5.util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.google.gwt.dom.client.Element;
+import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoInputBox;
+import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.CopyPaste;
+import org.geogebra.web.html5.main.AppW;
+
+public class CopyPasteW extends CopyPaste {
+
+	private static final String pastePrefix = "ggbpastedata";
+
+	private static final int defaultTextWidth = 300;
+
+	/**
+	 * copyToXML - Add the algos which belong to our selected geos Also
+	 * add the geos which might be side-effects of these algos
+	 *
+	 * @param conels input and output
+	 * @return the possible side-effect geos
+	 */
+	private ArrayList<ConstructionElement> addAlgosDependentFromInside(
+			ArrayList<ConstructionElement> conels) {
+
+		ArrayList<ConstructionElement> ret = new ArrayList<>();
+
+		GeoElement geo;
+		ArrayList<AlgoElement> geoal;
+		AlgoElement ale;
+		GeoElement[] geos;
+		for (int i = conels.size() - 1; i >= 0; i--) {
+			geo = (GeoElement) conels.get(i);
+
+			// also doing this here, which is not about the name of the method,
+			// but making sure textfields (which require algos) are shown
+			if ((geo.getParentAlgorithm() instanceof AlgoInputBox)
+					&& (!ret.contains(geo.getParentAlgorithm()))
+					&& (!conels.contains(geo.getParentAlgorithm()))) {
+				// other algos will be added to this anyway,
+				// so we can handle this issue in this method
+				ret.add(geo.getParentAlgorithm());
+			}
+
+			geoal = geo.getAlgorithmList();
+
+			for (AlgoElement algoElement : geoal) {
+				ale = algoElement;
+
+				ArrayList<ConstructionElement> ac = new ArrayList<>();
+				ac.addAll(Arrays.asList(ale.getInput()));
+
+				if (conels.containsAll(ac) && !conels.contains(ale)) {
+					conels.add(ale);
+					geos = ale.getOutput();
+					if (geos != null) {
+						for (GeoElement geoElement : geos) {
+							if (!ret.contains(geoElement)
+									&& !conels.contains(geoElement)) {
+								ret.add(geoElement);
+							}
+						}
+					}
+				}
+			}
+		}
+		conels.addAll(ret);
+		return ret;
+	}
+
+	/**
+	 * copyToXML - Before saving the conels to xml, we have to rename its
+	 * labels with labelPrefix and memorize those renamed labels and also hide
+	 * the GeoElements in geostohide, and keep in geostohide only those which
+	 * were actually hidden...
+	 *
+	 * @param conels construction elements
+	 */
+	private List<String> beforeSavingToXML(ArrayList<ConstructionElement> conels,
+			ArrayList<ConstructionElement> geostohide) {
+
+		List<String> copiedXMLlabels = new ArrayList<>();
+
+		ConstructionElement geo;
+		String label;
+		for (ConstructionElement conel : conels) {
+			geo = conel;
+			if (geo.isGeoElement()) {
+				label = ((GeoElement) geo).getLabelSimple();
+				if (label != null) {
+					copiedXMLlabels.add(label);
+					((GeoElement) geo).setLabelSimple(labelPrefix + label);
+				}
+			}
+		}
+
+		for (int j = geostohide.size() - 1; j >= 0; j--) {
+			geo = geostohide.get(j);
+			if (geo.isGeoElement() && ((GeoElement) geo).isEuclidianVisible()) {
+				((GeoElement) geo).setEuclidianVisible(false);
+			} else {
+				geostohide.remove(geo);
+			}
+		}
+
+		return copiedXMLlabels;
+	}
+
+	/**
+	 * copyToXML - Step 6 After saving the conels to xml, we have to rename its
+	 * labels and also show the GeoElements in geostoshow
+	 *
+	 * @param conels construction elements
+	 */
+	private void afterSavingToXML(ArrayList<ConstructionElement> conels,
+			ArrayList<ConstructionElement> geostoshow) {
+
+		ConstructionElement geo;
+		String label;
+		for (ConstructionElement conel : conels) {
+			geo = conel;
+			if (geo.isGeoElement()) {
+				label = ((GeoElement) geo).getLabelSimple();
+				if (label != null && label.length() >= labelPrefix.length()) {
+					if (label.substring(0, labelPrefix.length())
+							.equals(labelPrefix)) {
+						try {
+							((GeoElement) geo).setLabelSimple(
+									label.substring(labelPrefix.length()));
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+
+		for (int j = geostoshow.size() - 1; j >= 0; j--) {
+			geo = geostoshow.get(j);
+			if (geo.isGeoElement()) {
+				((GeoElement) geo).setEuclidianVisible(true);
+			}
+		}
+	}
+
+	@Override
+	public void copyToXML(App app, List<GeoElement> geos) {
+		if (geos.isEmpty()) {
+			return;
+		}
+
+		boolean scriptsBlocked = app.isBlockUpdateScripts();
+		app.setBlockUpdateScripts(true);
+
+		// create geoslocal and geostohide
+		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
+		geoslocal.addAll(geos);
+
+		addSubGeos(geoslocal);
+
+		if (geoslocal.isEmpty()) {
+			app.setBlockUpdateScripts(scriptsBlocked);
+			return;
+		}
+
+		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(
+				geoslocal);
+
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
+
+		Kernel kernel = app.getKernel();
+
+		List<String> copiedXMLlabels = beforeSavingToXML(geoslocal, geostohide);
+
+		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
+		kernel.setSaveScriptsToXML(false);
+
+		StringBuilder copiedXML = new StringBuilder();
+		Construction cons = app.getKernel().getConstruction();
+		for (int i = 0; i < cons.steps(); ++i) {
+			ConstructionElement ce = cons.getConstructionElement(i);
+			if (geoslocal.contains(ce)) {
+				ce.getXML(false, copiedXML);
+			}
+		}
+
+		kernel.setSaveScriptsToXML(saveScriptsToXML);
+
+		afterSavingToXML(geoslocal, geostohide);
+
+		app.setBlockUpdateScripts(scriptsBlocked);
+
+		StringBuilder textToSave = new StringBuilder();
+		for (String label : copiedXMLlabels) {
+			textToSave.append(label).append(" ");
+		}
+		textToSave.append("\n");
+		textToSave.append(copiedXML);
+
+		saveToClipboard(textToSave.toString());
+	}
+
+	private static native void saveToClipboard(String toSave) /*-{
+        var encoded = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix + btoa(toSave);
+
+        if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.write) {
+            // Supported in Chrome
+
+            var data = new ClipboardItem({
+                'text/plain': new Blob([encoded], {type: 'text/plain'})
+            });
+
+            $wnd.navigator.clipboard.write([data]).then(function () {
+                console.log("successfully wrote gegeobra data to clipboard");
+            }, function () {
+                console.log("writing geogebra data to clipboard failed");
+            });
+        } else {
+            if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
+                // Supported in Firefox
+
+                $wnd.navigator.clipboard.writeText(encoded).then(function () {
+                    console.log("successfully wrote text to clipboard");
+                }, function () {
+                    console.log("writing text to clipboard failed");
+                });
+            }
+
+            $wnd.sessionStorage.setItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
+        }
+    }-*/;
+
+	@Override
+	public native void pasteFromXML(App app)  /*-{
+        if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
+            // supported in Chrome
+
+            $wnd.navigator.clipboard.read().then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    for (var j = 0; j < data[i].types.length; j++) {
+						if (data[i].types[j] === 'image/png') {
+							var reader = new FileReader();
+
+							reader.addEventListener("load", function () {
+								@org.geogebra.web.html5.util.CopyPasteW::pasteImage(*)(app, this.result);
+							}, false);
+
+							data[i].getType('image/png').then(function (item) {
+								reader.readAsDataURL(item);
+							});
+						} else if (data[i].types[j] === 'text/plain') {
+							data[i].getType('text/plain').then(function (item) {
+								item.text().then(function (text) {
+									@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+								});
+							});
+						}
+                	}
+                }
+            }, function(reason) {
+                console.log("reading data from clipboard failed " + reason);
+			});
+        } else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
+            // not sure if any browser enters this at the time of writing
+
+            $wnd.navigator.clipboard.readText().then(function (text) {
+                @org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+            }, function (reason) {
+                console.log("reading text from clipboard failed: " + reason);
+            })
+        } else {
+            // session storage fallback for all other browsers
+
+			var stored = $wnd.sessionStorage.getItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix);
+			if (stored) {
+                @org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
+			}
+        }
+    }-*/;
+
+	private static native void pasteText(App app, String text) /*-{
+    	var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
+
+		if (text.startsWith(pastePrefix)) {
+			@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, atob(text.substring(pastePrefix.length)));
+		} else {
+            @org.geogebra.web.html5.util.CopyPasteW::pastePlainText(*)(app, text);
+		}
+	}-*/;
+
+	private static void pasteImage(App app, String encodedImage) {
+		((AppW) app).urlDropHappened(encodedImage, null, null, null);
+	}
+
+	private static void pastePlainText(App app, String plainText) {
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		GeoText txt = app.getKernel().getAlgebraProcessor().text(plainText);
+		txt.setLabel(null);
+
+		DrawText drawText = (DrawText) app.getActiveEuclidianView().getDrawableFor(txt);
+		GRectangle bounds = AwtFactory.getPrototype().newRectangle(
+				(ev.getWidth() - defaultTextWidth) / 2,
+				ev.getHeight() / 2 - 100,
+				defaultTextWidth,
+				100
+		);
+		drawText.adjustBoundingBoxToText(bounds);
+
+		ev.getEuclidianController().selectAndShowBoundingBox(txt);
+	}
+
+	private static ArrayList<String> separateXMLLabels(String clipboardContent) {
+		ArrayList<String> ret = new ArrayList<>();
+		String[] labels = clipboardContent.split("\n")[0].split(" ");
+
+		for (String label : labels) {
+			ret.add(labelPrefix + label);
+		}
+
+		return ret;
+	}
+
+	private static String separateCopiedXML(String clipboardContent) {
+		return clipboardContent.substring(clipboardContent.indexOf('\n'));
+	}
+
+	private static void pasteGeoGebraXML(App app, String clipboardContent) {
+		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent);
+		String copiedXML = separateCopiedXML(clipboardContent);
+
+		app.getKernel().notifyPaste(copiedXML);
+
+		// it turned out to be necessary for e.g. handleLabels
+		boolean scriptsBlocked = app.isBlockUpdateScripts();
+		app.setBlockUpdateScripts(true);
+
+		// don't update selection
+		app.getActiveEuclidianView().getEuclidianController()
+				.clearSelections(true, false);
+		// don't update properties view
+		app.updateSelection(false);
+
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		app.getGgbApi().evalXML(copiedXML);
+		app.getKernel().getConstruction().updateConstruction(false);
+		if (ev == app.getEuclidianView1()) {
+			app.setActiveView(App.VIEW_EUCLIDIAN);
+		} else if (app.isEuclidianView3D(ev)) {
+			app.setActiveView(App.VIEW_EUCLIDIAN3D);
+		} else {
+			app.setActiveView(App.VIEW_EUCLIDIAN2);
+		}
+
+		ArrayList<GeoElement> createdElements = handleLabels(app, copiedXMLlabels, false);
+
+		app.setBlockUpdateScripts(scriptsBlocked);
+
+		app.getKernel().notifyPasteComplete();
+
+		app.getSelectionManager().setSelectedGeos(createdElements);
+		app.getActiveEuclidianView().getEuclidianController().setBoundingBoxFromList(createdElements);
+	}
+
+	public static native void installPaste(App app, Element target) /*-{
+    	target.addEventListener('paste', function (a) {
+            var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
+
+    	    var text = a.clipboardData.getData("text/plain");
+            if (text && !text.startsWith(pastePrefix)) {
+                @org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+                return;
+            }
+
+            if (a.clipboardData.files.length > 0) {
+                var reader = new FileReader();
+
+                reader.addEventListener("load", function () {
+                    @org.geogebra.web.html5.util.CopyPasteW::pasteImage(*)(app, this.result);
+                }, false);
+
+                reader.readAsDataURL(a.clipboardData.files[0]);
+                return;
+			}
+
+            var stored = $wnd.sessionStorage.getItem(pastePrefix);
+            if (stored) {
+                @org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
+            }
+        });
+    }-*/;
+}

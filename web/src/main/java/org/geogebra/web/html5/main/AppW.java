@@ -163,6 +163,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.CopyPasteW;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -195,6 +196,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private SoundManagerW soundManager;
 	private VideoManagerW videoManager;
 	private AsyncManager asyncManager;
+
+	private CopyPasteW copyPaste;
 
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
@@ -3997,6 +4000,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public SettingsBuilder newSettingsBuilder() {
 		return new SettingsBuilderW(this);
+	}
+
+	/**
+	 * @return copy/paste utility
+	 */
+	public CopyPasteW getCopyPaste() {
+		if (copyPaste == null) {
+			copyPaste = new CopyPasteW();
+		}
+
+		return copyPaste;
 	}
 
 	/**

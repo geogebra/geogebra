@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.dom.client.Style.Unit;

@@ -221,22 +221,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 			String[][] data = DataImport.parseExternalData(app, transferString, isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
-
-			/* old hack
-			// in theory
-			// special case: hacking in Web, input is coming from us
-			String[] data0 = transferString.split("\n");
-			String[] data00 = data0[0].split("\t");
-			String[][] data = new String[data0.length][data00.length];
-			for (int i = 0; i < data0.length; i++)
-				data[i] = data0[i].split("\t");
-			// String[][] data = DataImportW.parseExternalData(app,
-			// transferString, null,
-			// isCSV);
-			succ = pasteExternalMultiple(data, column1, row1, column2, row2);*/
-
-			// Application.debug("newline index "+buf.indexOf("\n"));
-			// Application.debug("length "+buf.length());
 		}
 
 		return succ;
@@ -272,7 +256,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 	public static String getClipboardContents(Runnable onFocusChange) {
 		String clipboard = null;
 		if (isChromeWebapp()) { // use chrome web app paste API
-			clipboard = getSystemClipboardChromeWebapp();
+			clipboard = getSystemClipboard();
 			if (onFocusChange != null) {
 				onFocusChange.run();
 			}
@@ -298,12 +282,11 @@ public class CopyPasteCutW extends CopyPasteCut {
 		return $doc.isChromeWebapp && $doc.isChromeWebapp();
 	}-*/;
 
-	private static native String getSystemClipboardChromeWebapp() /*-{
+	public static native String getSystemClipboard() /*-{
 		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
 		copyFrom.select();
 		$doc.execCommand('paste');
-		var contents = copyFrom.value;
-		return contents;
+        return copyFrom.value;
 	}-*/;
 
 	private static native String getSystemClipboardIE() /*-{

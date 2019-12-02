@@ -704,11 +704,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Command pasteCommand = new Command() {
 			@Override
 			public void execute() {
-				if (!app.getCopyPaste().isEmpty()) {
-					app.setWaitCursor();
-					pasteCmd();
-					app.setDefaultCursor();
-				}
+				app.setWaitCursor();
+				pasteCmd();
+				app.setDefaultCursor();
 			}
 		};
 
@@ -721,7 +719,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
+		mnuPaste.setEnabled(true);
 	}
 
 	private void addPinForClassic() {

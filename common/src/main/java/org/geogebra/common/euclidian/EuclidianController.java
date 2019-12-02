@@ -277,8 +277,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected boolean moveModeSelectionHandled;
 
 	protected boolean highlightJustCreatedGeos = true;
-	protected ArrayList<GeoElement> pastePreviewSelected = null;
-	protected ArrayList<GeoElement> pastePreviewSelectedAndDependent;
 	protected int mode;
 	protected int oldMode;
 	protected int moveMode = MOVE_NONE;
@@ -364,7 +362,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected long lastMousePressedTime;
 
 	// ==============================================
-	// Paste preview
 	private double vertexX = Double.NaN;
 	private double vertexY = Double.NaN;
 	private ModeDeleteLocus deleteMode;
@@ -629,249 +626,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return new EuclidianControllerCompanion(this);
 	}
 
-	protected void updatePastePreviewPosition() {
-		if (translationVec == null) {
-			translationVec = new Coords(2);
-		}
-		translationVec.setX(xRW - getStartPointX());
-		translationVec.setY(yRW - getStartPointY());
-		setStartPointLocation(xRW, yRW);
-		if (tmpCoordsL3 == null) {
-			tmpCoordsL3 = new Coords(3);
-		}
-		tmpCoordsL3.setX(xRW);
-		tmpCoordsL3.setY(yRW);
-		tmpCoordsL3.setZ(0);
-		MoveGeos.moveObjects(pastePreviewSelected, translationVec,
-				tmpCoordsL3, null, view);
-	}
-
-	private void setPastePreviewPosition() {
-		if (translationVec == null) {
-			translationVec = new Coords(2);
-		}
-		double middleX = view.toRealWorldCoordX(view.getWidth() / 2.0);
-		double middleY = view.toRealWorldCoordY(view.getHeight() / 2.0);
-		translationVec.setX(middleX - getStartPointX());
-		translationVec.setY(middleY - getStartPointY());
-		setStartPointLocation(middleX, middleY);
-		if (tmpCoordsL3 == null) {
-			tmpCoordsL3 = new Coords(3);
-		}
-		tmpCoordsL3.setX(middleX);
-		tmpCoordsL3.setY(middleY);
-		tmpCoordsL3.setZ(0);
-		MoveGeos.moveObjects(pastePreviewSelected, translationVec,
-				tmpCoordsL3, null, view);
-	}
-
-	/**
-	 * Select paste preview.
-	 */
-	public final void setPastePreviewSelected() {
-		// don't allow paste on top of another paste until its placed
-		if (pastePreviewSelected != null) {
-			while (!pastePreviewSelected.isEmpty()) {
-				GeoElement geo = pastePreviewSelected.get(0);
-				pastePreviewSelected.remove(geo);
-				geo.remove();
-			}
-		} else {
-			pastePreviewSelected = new ArrayList<>();
-		}
-		pastePreviewSelectedAndDependent = new ArrayList<>();
-		pastePreviewSelectedAndDependent.addAll(getAppSelectedGeos());
-
-		boolean firstMoveable = true;
-		for (GeoElement geo : getAppSelectedGeos()) {
-			if ((geo.isIndependent() || geo.isPenStroke())
-					&& geo.isMoveable()) {
-				pastePreviewSelected.add(geo);
-				if (firstMoveable) {
-					if (geo.isGeoPoint()) {
-						setStartPointLocation(((GeoPointND) geo).getInhomX(),
-								((GeoPointND) geo).getInhomY());
-						firstMoveable = false;
-					} else if (geo instanceof GeoText) {
-						if (((GeoText) geo).hasAbsoluteLocation()) {
-							GeoPointND loc = ((GeoText) geo).getStartPoint();
-							if (loc != null) {
-								setStartPointLocation(loc.getInhomX(),
-										loc.getInhomY());
-							} else {
-								double x = ((GeoText) geo)
-										.getAbsoluteScreenLocX();
-								double y = ((GeoText) geo)
-										.getAbsoluteScreenLocY();
-								x = (int) view.toRealWorldCoordX(x);
-								y = (int) view.toRealWorldCoordY(y);
-								setStartPointLocation(x, y);
-							}
-							firstMoveable = false;
-						}
-					} else if (geo.isGeoNumeric()) {
-						if (!((GeoNumeric) geo).isAbsoluteScreenLocActive()) {
-							setStartPointLocation(
-									((GeoNumeric) geo).getRealWorldLocX(),
-									((GeoNumeric) geo).getRealWorldLocY());
-							firstMoveable = false;
-						} else {
-							setStartPointLocation(
-									view.toRealWorldCoordX(((GeoNumeric) geo)
-											.getAbsoluteScreenLocX()),
-									view.toRealWorldCoordY(((GeoNumeric) geo)
-											.getAbsoluteScreenLocY()));
-							firstMoveable = false;
-						}
-					} else if (geo.isGeoImage()) {
-						if (((GeoImage) geo).hasAbsoluteLocation()) {
-							GeoPoint loc = ((GeoImage) geo).getStartPoints()[2];
-							if (loc != null) { // top left defined
-								setStartPointLocation(loc.inhomX, loc.inhomY);
-								firstMoveable = false;
-							} else {
-								loc = ((GeoImage) geo).getStartPoint();
-								if (loc != null) { // bottom left defined
-									setStartPointLocation(loc.inhomX,
-											loc.inhomY);
-									firstMoveable = false;
-								} else {
-									loc = ((GeoImage) geo).getStartPoints()[1];
-									if (loc != null) { // bottom right defined
-										setStartPointLocation(loc.inhomX,
-												loc.inhomY);
-										firstMoveable = false;
-									}
-								}
-							}
-						}
-					} else if (geo.isGeoBoolean()) {
-						setStartPointLocation(
-								view.toRealWorldCoordX(((GeoBoolean) geo)
-										.getAbsoluteScreenLocX()),
-								view.toRealWorldCoordY(((GeoBoolean) geo)
-										.getAbsoluteScreenLocY() + 20));
-						firstMoveable = false;
-					} else if (geo instanceof AbsoluteScreenLocateable
-							&& ((AbsoluteScreenLocateable) geo).isFurniture()) {
-						setStartPointLocation(
-								view.toRealWorldCoordX(((AbsoluteScreenLocateable) geo)
-										.getAbsoluteScreenLocX() - 5),
-								view.toRealWorldCoordY(((AbsoluteScreenLocateable) geo)
-										.getAbsoluteScreenLocY() + 30));
-						firstMoveable = false;
-					} else if (geo instanceof GeoConic) {
-						updateConicForPaste((GeoConic) geo);
-					} else if (geo instanceof GeoLocusStroke) {
-						setStartPointLocation(
-								((GeoLocusStroke) geo).getPoints().get(0)
-										.getX(),
-								((GeoLocusStroke) geo).getPoints().get(0)
-										.getY());
-						firstMoveable = false;
-					}
-				}
-			}
-		}
-		if (firstMoveable) {
-			setStartPointLocation((view.getXmin() + view.getXmax()) / 2,
-					(view.getYmin() + view.getYmax()) / 2);
-		}
-		if ((pastePreviewSelected != null) && !pastePreviewSelected.isEmpty()) {
-			previousPointCapturing = view.getPointCapturingMode();
-			view.setPointCapturing(
-					EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS);
-
-			// remove moved points from sticky points temporarily
-			for (GeoElement geo : pastePreviewSelectedAndDependent) {
-				if (geo instanceof GeoPointND) {
-					if (view.getStickyPointList().contains(geo)) {
-						view.getStickyPointList().remove(geo);
-					}
-				}
-			}
-			persistentStickyPointList = new ArrayList<>();
-			persistentStickyPointList.addAll(view.getStickyPointList());
-
-			setPastePreviewPosition();
-			kernel.notifyRepaint();
-		}
-	}
-
-	private void updateConicForPaste(GeoConic geo) {
-		if (geo.isCircle()) {
-			geo.setCircle(
-					new GeoPoint(kernel.getConstruction(),
-							view.toRealWorldCoordX(view.getWidth() / 2.0),
-							view.toRealWorldCoordY(view.getHeight() / 2.0), 1),
-					geo.getCircleRadius());
-		} else if (geo.isEllipse()) {
-			geo.translate(
-					view.toRealWorldCoordX(view.getWidth() / 2.0)
-							- geo.getMidpoint().getX(),
-					view.toRealWorldCoordY(view.getHeight() / 2.0)
-							- geo.getMidpoint().getY());
-			geo.updateRepaint();
-		}
-	}
-
-	/**
-	 * @return whether the previous paste is finished (no paste preview)
-	 */
-	public boolean mayPaste() {
-		return pastePreviewSelected == null
-				|| pastePreviewSelected.isEmpty();
-	}
-
-	/**
-	 * Remove all paste preview objects.
-	 */
-	public void deletePastePreviewSelected() {
-		if (pastePreviewSelected != null) {
-			while (!pastePreviewSelected.isEmpty()) {
-				GeoElement geo = pastePreviewSelected.get(0);
-				pastePreviewSelected.remove(geo);
-				geo.remove();
-			}
-			pastePreviewSelected = null;
-		}
-		pastePreviewSelectedAndDependent = null;
-	}
-
-	/**
-	 * Merge points after paste.
-	 */
-	public void mergeStickyPointsAfterPaste() {
-		EvalInfo info = new EvalInfo(
-				!kernel.getConstruction().isSuppressLabelsActive(), true);
-		for (GeoElement geo : pastePreviewSelected) {
-			if (geo.isGeoPoint() && (geo instanceof GeoPoint)
-					&& geo.isIndependent()) {
-				for (GeoPointND geo2 : persistentStickyPointList) {
-					if (DoubleUtil.isEqual(geo2.getInhomX(),
-							((GeoPoint) geo).getInhomX())
-							&& DoubleUtil.isEqual(geo2.getInhomY(),
-							((GeoPoint) geo).getInhomY())) {
-						geo.setEuclidianVisible(false);
-						String geolabel = geo.getLabelSimple();
-
-						kernel.getAlgebraProcessor()
-								.changeGeoElementNoExceptionHandling(geo,
-										geo2.wrap(), info, false, null,
-										ErrorHelper.silent());
-						GeoElement newGeo = kernel.lookupLabel(geolabel);
-						if (newGeo != null) {
-							newGeo.setEuclidianVisible(false);
-							newGeo.updateRepaint();
-						}
-
-						break;
-					}
-				}
-			}
-		}
-	}
-
 	/**
 	 * @return previous mode
 	 */
@@ -1070,9 +824,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		switch (endMode) {
 		default:
 			// do nothing
-			break;
-		case EuclidianConstants.MODE_MOVE:
-			// deletePastePreviewSelected();
 			break;
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
@@ -6724,15 +6475,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (hit.isGeoNumeric() && ((GeoNumeric) hit).isSlider()
 					&& ((labelMode == GeoElementND.LABEL_NAME_VALUE)
 							|| (labelMode == GeoElementND.LABEL_VALUE))) {
-				// only do this if we are not pasting something from the
-				// clipboard right now
-				// because moving on the label of a slider might move the pasted
-				// objects away otherwise
-				if (pastePreviewSelected == null || pastePreviewSelected.isEmpty()) {
 					setStartPointLocation(((GeoNumeric) hit).getSliderX(),
 							((GeoNumeric) hit).getSliderY());
-				}
-
 			}
 		}
 
@@ -8914,11 +8658,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (pastePreviewSelected != null) {
-			if (!pastePreviewSelected.isEmpty()) {
-				updatePastePreviewPosition();
-			}
-		}
 		handleMouseDragged(true, event, startCapture);
 	}
 
@@ -9591,12 +9330,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
-				if (mayPaste()) { // #5246 make sure we don't switch to
-					// translation if we have geos to paste
-					if (!view.isAREnabled()) {
-						view.setMode(getModeForShallMoveView(event));
-					}
+				if (!view.isAREnabled()) {
+					view.setMode(getModeForShallMoveView(event));
 				}
+
 				// if over an axis, force the correct cursor to be displayed
 				if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
 					setCursorForTranslateView(view.getHits());
@@ -10559,24 +10296,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		boolean changedKernel0 = false;
-		if (pastePreviewSelected != null) {
-			// add moved points to sticky points again
-			for (GeoElement geo : pastePreviewSelectedAndDependent) {
-				if (geo.isGeoPoint()) {
-					if (!view.getStickyPointList().contains(geo)) {
-						view.getStickyPointList().add((GeoPointND) geo);
-					}
-				}
-			}
-			persistentStickyPointList = new ArrayList<>();
-
-			pastePreviewSelected = null;
-			pastePreviewSelectedAndDependent = null;
-			view.setPointCapturing(previousPointCapturing);
-			changedKernel0 = true;
-			app.getKernel().getConstruction().getUndoManager()
-					.storeUndoInfoAfterPasteOrAdd();
-		}
 
 		if (draggingOccured && movedGeoElement != null) {
 			app.getEventDispatcher().dispatchEvent(

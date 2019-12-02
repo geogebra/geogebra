@@ -45,7 +45,6 @@ public class UndoManagerW extends UndoManager {
 		        .getCurrentUndoXML(true);
 
 		doStoreUndoInfo(currentUndoXML);
-		app.getCopyPaste().pastePutDownCallback(app);
 	}
 
 	@Override
