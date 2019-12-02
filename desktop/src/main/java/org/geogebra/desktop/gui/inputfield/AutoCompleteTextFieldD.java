@@ -22,7 +22,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -980,10 +980,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	@Override
-	public void addFocusListener(FocusListener focusListener) {
-		if (focusListener instanceof FocusListenerD) {
-			super.addFocusListener((FocusListenerD) focusListener);
-		}
+	public void addFocusListener(FocusListenerDelegate focusListener) {
+		super.addFocusListener(new FocusListenerD(focusListener));
 	}
 
 	@Override
@@ -1106,4 +1104,5 @@ public class AutoCompleteTextFieldD extends MathTextField
 			return SwingConstants.RIGHT;
 		}
 	}
+
 }
