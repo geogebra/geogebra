@@ -8118,6 +8118,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (GeoElement part : splitPartsToRemove) {
 			part.remove();
 		}
+		if (app.isWhiteboardActive()) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		}
 	}
 
 	protected void replaceTranslated(GeoElement geo, GeoElement replacement) {

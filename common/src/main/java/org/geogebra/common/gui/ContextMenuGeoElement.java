@@ -730,8 +730,8 @@ public abstract class ContextMenuGeoElement {
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
-		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
 		app.getCopyPaste().pasteFromXML(app, false);
+		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
 	}
 
 	/**
