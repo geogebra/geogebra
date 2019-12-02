@@ -1,5 +1,6 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 
@@ -11,6 +12,11 @@ public class AppConfigSuite extends AppConfigGraphing {
 	@Override
 	public String getAppCode() {
 		return "suite";
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
 	}
 
 	@Override
