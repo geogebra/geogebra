@@ -7,11 +7,12 @@ import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimati
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -68,15 +69,10 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		});
 
 		tfAnimSpeed.enableGGBKeyboard();
-		tfAnimSpeed.addFocusListener(new FocusListenerW(this) {
+		tfAnimSpeed.addBlurHandler(new BlurHandler() {
 
 			@Override
-			protected void wrapFocusGained() {
-				// only handle blur
-			}
-
-			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				doActionPerformed();
 			}
 		});

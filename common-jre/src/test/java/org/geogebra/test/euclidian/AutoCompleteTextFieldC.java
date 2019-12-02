@@ -7,9 +7,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.FocusListenerCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -26,7 +25,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	private TextAlignment alignment;
 	private boolean focus = false;
 	private GeoInputBox geoInputBox = null;
-	private List<FocusListener> focusListeners = new ArrayList<>();
+	private List<FocusListenerDelegate> focusListeners = new ArrayList<>();
 
 	@Override
 	public void showPopupSymbolButton(boolean b) {
@@ -64,7 +63,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void addFocusListener(FocusListener focusListener) {
+	public void addFocusListener(FocusListenerDelegate focusListener) {
 		this.focusListeners.add(focusListener);
 	}
 
@@ -205,8 +204,8 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	 * Notify all listeners
 	 */
 	public void blur() {
-		for (FocusListener listener : focusListeners) {
-			((FocusListenerCommon) listener).focusLost();
+		for (FocusListenerDelegate listener : focusListeners) {
+			listener.focusLost();
 		}
 	}
 }

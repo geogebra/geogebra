@@ -16,13 +16,14 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -108,9 +109,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			}
 		});
 
-		tf.addFocusListener(new FocusListenerW(this) {
+		tf.addBlurHandler(new BlurHandler() {
+
 			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				model.applyMinMax(tf.getText(), type);
 				BasicTab.this.optionsEuclidianW.updateView();
 			}
@@ -145,11 +147,11 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			}
 		});
 
-		tf.addFocusListener(new FocusListenerW(this) {
-			@Override
-			protected void wrapFocusLost() {
-				applyAxesRatio();
+		tf.addBlurHandler(new BlurHandler() {
 
+			@Override
+			public void onBlur(BlurEvent event) {
+				applyAxesRatio();
 			}
 		});
 	}

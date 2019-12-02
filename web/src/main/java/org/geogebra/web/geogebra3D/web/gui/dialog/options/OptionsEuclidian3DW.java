@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -20,6 +19,8 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -418,9 +419,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			});
 
-			tfPersp.addFocusListener(new FocusListenerW(this) {
+			tfPersp.addBlurHandler(new BlurHandler() {
+
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					processPerspText();
 				}
 			});
@@ -452,9 +454,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					}
 				}
 			});
-			tfGlassesEyeSep.addFocusListener(new FocusListenerW(this) {
+			tfGlassesEyeSep.addBlurHandler(new BlurHandler() {
+
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					processGlassesEyeSepText();
 				}
 			});
@@ -508,9 +511,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			});
 
-			tfObliqueAngle.addFocusListener(new FocusListenerW(this) {
+			tfObliqueAngle.addBlurHandler(new BlurHandler() {
+
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					processObliqueAngleText();
 				}
 			});
@@ -527,9 +531,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			});
 
-			tfObliqueFactor.addFocusListener(new FocusListenerW(this) {
+			tfObliqueFactor.addBlurHandler(new BlurHandler() {
+
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					processObliqueFactorText();
 				}
 			});
