@@ -205,7 +205,7 @@ class NamePanel extends OptionPanel
 			autoShowCaption();
 		}
 		model.applyCaptionChange(tfCaption.getText());
-		((EuclidianViewW)app.getActiveEuclidianView()).doRepaint();
+		((EuclidianViewW) app.getActiveEuclidianView()).doRepaint();
 	}
 
 	private void autoShowCaption() {
