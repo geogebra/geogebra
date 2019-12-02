@@ -123,7 +123,11 @@ public class GeoGebraFrameFull
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
 
-		CopyPasteW.installPaste(application, getElement());
+		if (!app.isApplet()) {
+			CopyPasteW.installPaste(application, RootPanel.getBodyElement());
+		} else {
+			CopyPasteW.installPaste(application, getElement());
+		}
 
 		if (app != null) {
 			kbButtonSpace.addStyleName("kbButtonSpace");
