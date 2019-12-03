@@ -24,11 +24,11 @@ import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.ExternalAccess;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 
 public class CopyPasteW extends CopyPaste {
 
+	@ExternalAccess
 	private static final String pastePrefix = "ggbpastedata";
 
 	private static final int defaultTextWidth = 300;
