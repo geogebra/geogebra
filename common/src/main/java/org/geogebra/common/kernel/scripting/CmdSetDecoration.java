@@ -23,8 +23,6 @@ public class CmdSetDecoration extends CmdScripting {
 	 *
 	 * @param kernel
 	 *            kernel
-	 * @param availableTypes
-	 *            fill types that are available
 	 */
 	public CmdSetDecoration(Kernel kernel) {
 		super(kernel);
