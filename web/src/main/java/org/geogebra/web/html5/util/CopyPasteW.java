@@ -323,16 +323,15 @@ public class CopyPasteW extends CopyPaste {
 		GRectangle bounds = AwtFactory.getPrototype().newRectangle(
 				0, 0, defaultTextWidth, 0);
 		drawText.adjustBoundingBoxToText(bounds);
-		drawText.update();
 
-		// unfortunately the doRepaints are necessary to update the position of the GeoText :(
-		((EuclidianViewW) ev).doRepaint2();
+		txt.setNeedsUpdatedBoundingBox(true);
+		txt.update();
 
 		txt.setAbsoluteScreenLoc((ev.getWidth() - defaultTextWidth) / 2,
 				(int) (ev.getHeight() - drawText.getBounds().getHeight()) / 2);
 
-		drawText.update();
-		((EuclidianViewW) ev).doRepaint2();
+		txt.setNeedsUpdatedBoundingBox(true);
+		txt.update();
 
 		if (app.isWhiteboardActive()) {
 			ev.getEuclidianController().selectAndShowBoundingBox(txt);
