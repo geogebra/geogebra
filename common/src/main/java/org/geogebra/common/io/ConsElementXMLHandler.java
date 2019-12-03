@@ -1125,10 +1125,13 @@ public class ConsElementXMLHandler {
 	private boolean handleTempUserInput(LinkedHashMap<String, String> attrs) {
 
 		// name of linked geo
-		String val = attrs.get("val");
+		String eval = attrs.get("eval");
+		String display = attrs.get("display");
 
 		if (geo instanceof GeoInputBox) {
-			((GeoInputBox) geo).setTempUserInput(val);
+			GeoInputBox inputBox = (GeoInputBox) geo;
+			inputBox.setTempUserDisplayInput(display);
+			inputBox.setTempUserEvalInput(eval);
 		} else {
 			Log.error("temp user input not supported for " + geo.getGeoClassType());
 		}

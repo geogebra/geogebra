@@ -42,7 +42,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private @Nonnull
 	InputBoxProcessor inputBoxProcessor;
 
-	private String tempUserInput;
+	private String tempUserEvalInput;
+	private String tempUserDisplayInput;
 
 	/**
 	 * Creates new text field
@@ -99,8 +100,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return text to edit.
 	 */
 	public String getTextForEditor() {
-		if (tempUserInput != null) {
-			return tempUserInput;
+		if (tempUserEvalInput != null) {
+			return tempUserEvalInput;
 		}
 
 		if (linkedGeo.isGeoText()) {
@@ -136,8 +137,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return the text
 	 */
 	public String getText() {
-		if (tempUserInput != null) {
-			return tempUserInput;
+		if (tempUserEvalInput != null) {
+			return tempUserEvalInput;
 		}
 		if (linkedGeo.isGeoText()) {
 			return ((GeoText) linkedGeo).getTextString();
@@ -165,6 +166,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		}
 
 		return linkedGeoText;
+	}
+
+	public String getDisplayText() {
+		if (tempUserDisplayInput != null) {
+			return tempUserDisplayInput;
+		}
+		return getText();
 	}
 
 	private String toLaTex() {
@@ -262,9 +270,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"/>\n");
 		}
 
-		if (tempUserInput != null) {
-			sb.append("\t<tempUserInput val=\"");
-			sb.append(tempUserInput);
+		if (tempUserDisplayInput != null && tempUserEvalInput != null) {
+			sb.append("\t<tempUserInput display=\"");
+			sb.append(tempUserDisplayInput);
+			sb.append("\" eval=\"");
+			sb.append(tempUserEvalInput);
 			sb.append("\"/>\n");
 		}
 	}
@@ -469,21 +479,42 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Sets the temporary user input in case syntax is incorrect.
-	 * If the syntax is correct the null is passed as parameter.
+	 * Get the temporary user evaluation input. This input is
+	 * in ASCII math format and can be evaluated.
 	 *
-	 * @param tempUserInput the new temporary user input. Can be {@code null}.
+	 * @return user eval input
 	 */
-	public void setTempUserInput(String tempUserInput) {
-		this.tempUserInput = tempUserInput;
+	public String getTempUserEvalInput() {
+		return tempUserEvalInput;
 	}
 
 	/**
-	 * Returns temporary user input. Can be {@code null}.
+	 * Set the temporary user evaluation input. This input
+	 * must be in ASCII math format.
 	 *
-	 * @return temporary user input
+	 * @param tempUserEvalInput temporary user eval input
 	 */
-	public String getTempUserInput() {
-		return tempUserInput;
+	public void setTempUserEvalInput(String tempUserEvalInput) {
+		this.tempUserEvalInput = tempUserEvalInput;
+	}
+
+	/**
+	 * Get the temporary user display input. This input
+	 * can be in ASCII or LaTeX format.
+	 *
+	 * @return temporary display user input
+	 */
+	public String getTempUserDisplayInput() {
+		return tempUserDisplayInput;
+	}
+
+	/**
+	 * Set the temporary user display input. This input
+	 * must be in LaTeX or ASCII math format.
+	 *
+	 * @param tempUserDisplayInput temporary user display input
+	 */
+	public void setTempUserDisplayInput(String tempUserDisplayInput) {
+		this.tempUserDisplayInput = tempUserDisplayInput;
 	}
 }

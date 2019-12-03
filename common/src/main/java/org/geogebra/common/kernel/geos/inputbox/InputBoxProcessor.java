@@ -63,7 +63,8 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
-		inputBox.setTempUserInput(null);
+
+
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;
@@ -107,9 +108,11 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 						linkedGeo.isIndependent(), false).withSliders(false);
 
-				algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, this,
-						new InputBoxErrorHandler(inputBox, errorHandler, inputText));
+				String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+				ErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
+						tempUserDisplayInput, inputText);
+				algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo, defineText, info,
+						true, this, handler);
 			}
 		} catch (MyError error) {
 			maybeShowError(error);
@@ -117,6 +120,14 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			Log.error(exception.getMessage());
 			maybeShowError(MyError.Errors.InvalidInput);
 		}
+	}
+
+	private String getAndClearTempUserDisplayInput(String inputText) {
+		String tempUserInput = inputBox.getTempUserDisplayInput();
+		inputBox.setTempUserDisplayInput(null);
+		inputBox.setTempUserEvalInput(null);
+
+		return tempUserInput == null ? inputText : tempUserInput;
 	}
 
 	private String preprocess(String inputText, StringTemplate tpl) {

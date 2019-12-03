@@ -365,7 +365,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
-		String text = getGeoInputBox().getText();
+		String text = getGeoInputBox().getDisplayText();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 		g2.setPaint(geo.getObjectColor());
 		drawText(g2, text);

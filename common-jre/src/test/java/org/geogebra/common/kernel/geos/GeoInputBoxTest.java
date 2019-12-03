@@ -75,24 +75,44 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void inputBoxTempInputUserInXMLTest() {
-		App app = getApp();
+	public void testTempUserInputNotInXml() {
 		add("A = (1,1)");
 		GeoInputBox inputBox = (GeoInputBox) add("B = Inputbox(A)");
 		inputBox.updateLinkedGeo("(1,2)");
 
-		// correct syntax should not contain temp user input field in XML
+		App app = getApp();
 		String appXML = app.getXML();
 		app.setXML(appXML, true);
 		inputBox = (GeoInputBox) lookup("B");
-		Assert.assertNull(inputBox.getTempUserInput());
+		Assert.assertNull(inputBox.getTempUserDisplayInput());
+		Assert.assertNull(inputBox.getTempUserEvalInput());
+	}
 
-		String wrongSyntax = "(1,1)error";
+	@Test
+	public void testTempUserInputInXml() {
+		add("A = (1,1)");
+		GeoInputBox inputBox = (GeoInputBox) add("B = Inputbox(A)");
+
+		String wrongSyntax = "(1,1)+";
 		inputBox.updateLinkedGeo(wrongSyntax);
-		appXML = app.getXML();
+
+		App app = getApp();
+		String appXML = app.getXML();
 		app.setXML(appXML, true);
 		inputBox = (GeoInputBox) lookup("B");
-		Assert.assertEquals(wrongSyntax, inputBox.getTempUserInput());
+		Assert.assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
+		Assert.assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
+	}
+
+	@Test
+	public void testSymbolicUserInput() {
+		add("a = 5");
+		GeoInputBox inputBox = (GeoInputBox) add("Inputbox(a)");
+		String tempDisplayInput = "\\frac{5}{\\nbsp}";
+		inputBox.setTempUserDisplayInput(tempDisplayInput);
+		inputBox.updateLinkedGeo("5/");
+		Assert.assertEquals(tempDisplayInput, inputBox.getDisplayText());
+		Assert.assertEquals("5/", inputBox.getText());
 	}
 
 	@Test

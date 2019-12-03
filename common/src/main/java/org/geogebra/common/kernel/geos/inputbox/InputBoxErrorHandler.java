@@ -8,24 +8,33 @@ class InputBoxErrorHandler implements ErrorHandler {
 
     private GeoInputBox inputBox;
     private ErrorHandler handler;
-    private String inputText;
 
-    InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler, String inputText) {
+    private String tempUserDisplayInput;
+    private String tempUserEvalInput;
+
+    InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler,
+                         String tempUserDisplayInput, String tempUserEvalInput) {
         this.inputBox = inputBox;
         this.handler = handler;
-        this.inputText = inputText;
+        this.tempUserDisplayInput = tempUserDisplayInput;
+        this.tempUserEvalInput = tempUserEvalInput;
     }
 
     @Override
     public void showError(String msg) {
         handler.showError(msg);
-        inputBox.setTempUserInput(inputText);
+        setTempUserInput();
     }
 
     @Override
     public void showCommandError(String command, String message) {
         handler.showCommandError(command, message);
-        inputBox.setTempUserInput(inputText);
+        setTempUserInput();
+    }
+
+    private void setTempUserInput() {
+        inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+        inputBox.setTempUserEvalInput(tempUserEvalInput);
     }
 
     @Override
