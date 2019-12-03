@@ -3045,11 +3045,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		getActiveEuclidianView().setStandardView(true);
 	}
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-
 	/**
 	 * Full version eg X.Y.Zd-prerelease
 	 *
@@ -3828,7 +3823,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease;
+			return prerelease || whiteboard;
 
 		// **********************************************************************
 		// MOBILE END
@@ -3850,10 +3845,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
 			return whiteboard;
-
-		/** MOW-763 */
-		case VIDEO_PLAYER_OFFLINE:
-			return prerelease && whiteboard;
 
 		// **********************************************************************
 		// MOW END
