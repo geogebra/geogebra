@@ -331,7 +331,7 @@ abstract public class ObjectSettingsModel {
      * @return whether the geos show fix/unfix button
      */
     public boolean areObjectsShowingFixUnfix() {
-        if (geoElement == null || (hasFunctionProperties() && shouldHideFixSetting())) {
+        if (geoElement == null || (hasFunctionProperties() && app.getConfig().isObjectDraggingRestricted())) {
             return false;
         }
 
@@ -663,15 +663,6 @@ abstract public class ObjectSettingsModel {
             }
         }
         return true;
-    }
-
-    /**
-     * Tells whether the Fix/Unfix should be shown or not
-     *
-     * @return true, if the user is in exam mode so the Fix/Unfix button/setting should be hidden
-     */
-    public boolean shouldHideFixSetting() {
-        return app.getExam() != null && app.getExam().isStarted();
     }
 
     /**

@@ -79,4 +79,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public String getExamMenuItemText() {
 		return "ExamCAS.short";
 	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return false;
+	}
 }

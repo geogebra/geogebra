@@ -9,4 +9,9 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public String getAppCode() {
 		return "suite";
 	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return false;
+	}
 }
