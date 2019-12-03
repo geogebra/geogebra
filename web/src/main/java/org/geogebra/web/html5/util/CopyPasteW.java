@@ -10,6 +10,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -19,6 +20,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoMedia;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
@@ -317,7 +319,6 @@ public class CopyPasteW extends CopyPaste {
 
 		GeoText txt = app.getKernel().getAlgebraProcessor().text(plainText);
 		txt.setLabel(null);
-		txt.setAbsoluteScreenLocActive(true);
 
 		DrawText drawText = (DrawText) app.getActiveEuclidianView().getDrawableFor(txt);
 		GRectangle bounds = AwtFactory.getPrototype().newRectangle(
@@ -327,8 +328,14 @@ public class CopyPasteW extends CopyPaste {
 		txt.setNeedsUpdatedBoundingBox(true);
 		txt.update();
 
-		txt.setAbsoluteScreenLoc((ev.getWidth() - defaultTextWidth) / 2,
-				(int) (ev.getHeight() - drawText.getBounds().getHeight()) / 2);
+		try {
+			txt.setStartPoint(new GeoPoint(app.getKernel().getConstruction(),
+					ev.toRealWorldCoordX((ev.getWidth() - defaultTextWidth) / 2.0),
+					ev.toRealWorldCoordY((ev.getHeight() - drawText.getBounds().getHeight()) / 2),
+					1));
+		} catch (CircularDefinitionException e) {
+			// should never happen
+		}
 
 		txt.setNeedsUpdatedBoundingBox(true);
 		txt.update();
