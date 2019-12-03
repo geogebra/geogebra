@@ -517,4 +517,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public void setTempUserDisplayInput(String tempUserDisplayInput) {
 		this.tempUserDisplayInput = tempUserDisplayInput;
 	}
+
+	/**
+	 * Clears the temp user inputs.
+	 */
+	public void clearTempUserInput() {
+		this.tempUserDisplayInput = null;
+		this.tempUserEvalInput = null;
+	}
 }

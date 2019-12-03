@@ -64,7 +64,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			return;
 		}
 
-
+		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;
@@ -108,7 +108,6 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 						linkedGeo.isIndependent(), false).withSliders(false);
 
-				String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 				ErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
 						tempUserDisplayInput, inputText);
 				algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo, defineText, info,

@@ -151,6 +151,7 @@ public class DrawInputBox extends CanvasDrawable {
 			}
 
 			AutoCompleteTextField tf = getTextField();
+			geoInputBox.clearTempUserInput();
 
 			if (e.isEnterKey()) {
 				// Force focus removal in IE
