@@ -423,7 +423,8 @@ public class CopyPasteW extends CopyPaste {
 	public static native void installPaste(App app, Element target) /*-{
 		target.addEventListener('paste', function (a) {
 			if (a.target.tagName.toUpperCase() === 'INPUT'
-				|| a.target.tagName.toUpperCase() === 'TEXTAREA'
+                || a.target.tagName.toUpperCase() === 'TEXTAREA'
+                || a.target.tagName.toUpperCase() === 'BR'
 				|| a.target.parentElement.classList.contains("mowTextEditor")) {
 				return;
 			}
@@ -431,7 +432,7 @@ public class CopyPasteW extends CopyPaste {
 			var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 
 			var text = a.clipboardData.getData("text/plain");
-			if (text && !text.startsWith(pastePrefix)) {
+			if (text) {
 				@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
 				return;
 			}

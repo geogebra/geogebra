@@ -1027,16 +1027,19 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * overridden in desktop Default implementation copies into XML
-	 * 
+	 *
 	 * @param cut
 	 *            whether to cut (false = copy)
 	 */
 	protected void handleCopyCut(boolean cut) {
 		// Copy selected geos
 		app.setWaitCursor();
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(cut);
 		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos());
 		if (cut) {
 			app.deleteSelectedObjects(cut);
+		} else {
+			app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
 		}
 		app.updateMenubar();
 		app.setDefaultCursor();
