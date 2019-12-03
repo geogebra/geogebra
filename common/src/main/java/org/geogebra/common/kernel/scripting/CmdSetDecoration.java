@@ -5,6 +5,8 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MyError;
 
 import java.util.Set;
@@ -24,9 +26,15 @@ public class CmdSetDecoration extends CmdScripting {
 	 * @param availableTypes
 	 *            fill types that are available
 	 */
-	public CmdSetDecoration(Kernel kernel, Set<FillType> availableTypes) {
+	public CmdSetDecoration(Kernel kernel) {
 		super(kernel);
-		this.availableTypes = availableTypes;
+		this.availableTypes = getAvailableFillTypes(kernel);
+	}
+
+	private Set<FillType> getAvailableFillTypes(Kernel kernel) {
+		App app = kernel.getApplication();
+		AppConfig config = app.getConfig();
+		return config.getAvailableFillTypes();
 	}
 
 	@Override
