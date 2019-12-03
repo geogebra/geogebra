@@ -168,6 +168,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return linkedGeoText;
 	}
 
+	/**
+	 * Get the string that should be displayed by the renderer.
+	 *
+	 * @return editor display string
+	 */
 	public String getDisplayText() {
 		if (tempUserDisplayInput != null) {
 			return tempUserDisplayInput;
