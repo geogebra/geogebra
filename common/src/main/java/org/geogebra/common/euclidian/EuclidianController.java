@@ -6161,7 +6161,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void addFreePoints(ArrayList<GeoElement> geoList) {
+	public void addFreePoints(ArrayList<GeoElement> geoList) {
 		int initialSize = geoList.size();
 		for (int i = 0; i < initialSize; i++) {
 			GeoElement geo = geoList.get(i);

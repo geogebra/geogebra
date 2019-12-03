@@ -744,10 +744,15 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void copyCmd() {
 		ensureGeoInSelection();
+		ArrayList<GeoElement> selection
+				= new ArrayList<>(app.getSelectionManager().getSelectedGeos());
+
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos());
 		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+
+		app.getSelectionManager().setSelectedGeos(selection);
 	}
 
 	/**

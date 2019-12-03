@@ -1034,6 +1034,9 @@ public abstract class GlobalKeyDispatcher {
 	protected void handleCopyCut(boolean cut) {
 		// Copy selected geos
 		app.setWaitCursor();
+		ArrayList<GeoElement> tempSelection
+				= new ArrayList<>(selection.getSelectedGeos());
+
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(cut);
 		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos());
 		if (cut) {
@@ -1042,6 +1045,8 @@ public abstract class GlobalKeyDispatcher {
 			app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
 		}
 		app.updateMenubar();
+
+		selection.setSelectedGeos(tempSelection);
 		app.setDefaultCursor();
 	}
 

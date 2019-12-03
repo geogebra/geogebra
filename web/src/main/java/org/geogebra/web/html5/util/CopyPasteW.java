@@ -407,6 +407,7 @@ public class CopyPasteW extends CopyPaste {
 			Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX),
 					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
 
+			ev.getEuclidianController().addFreePoints(createdElements);
 			MoveGeos.moveObjects(createdElements, coords, null, null, ev);
 			ev.updateAllDrawables(true);
 
