@@ -233,7 +233,11 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void addSeparator() {
 		Element li = DOM.createElement("LI");
-		Dom.toggleClass(li, "mowMenuSeparator", "menuSeparator", getApp().isWhiteboardActive());
+		if (getApp() != null && getApp().isWhiteboardActive()) {
+			li.setClassName("mowMenuSeparator");
+		} else {
+			li.setClassName("menuSeparator");
+		}
 		li.setAttribute("role", "presentation");
 		getElement().appendChild(li);
 	}
