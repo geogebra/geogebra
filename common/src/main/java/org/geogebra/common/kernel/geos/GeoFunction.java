@@ -1467,14 +1467,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return true;
 	}
 
-	/*
-	 * public final GeoFunctionConditional getParentCondFun() { return
-	 * parentCondFun; }
-	 * 
-	 * public final void setParentCondFun(GeoFunctionConditional parentCondFun)
-	 * { this.parentCondFun = parentCondFun; }
-	 */
-
 	// Michael Borcherds 2009-02-15
 	@Override
 	public boolean isEqual(GeoElementND geo) {

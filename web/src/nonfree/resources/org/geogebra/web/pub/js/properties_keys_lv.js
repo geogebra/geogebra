@@ -3345,6 +3345,7 @@ __GGB__keysVar["lv"].menu = {
     "polar": "pol\u0101rs",
     "rename.resource": "Rename Resource",
     "resetConstruction": "p\u0101rl\u0101d\u0113t konstrukcijas",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

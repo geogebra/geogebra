@@ -3345,6 +3345,7 @@ __GGB__keysVar["xh"].menu = {
     "polar": "ipolar",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Phinda ulungise uLwakhiwo",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Khangela kwiziXhobo zeJiyoJebra",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

@@ -3345,6 +3345,7 @@ __GGB__keysVar["cy"].menu = {
     "polar": "pegynlin",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Ailosod y lluniad",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

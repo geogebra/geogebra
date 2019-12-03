@@ -3345,6 +3345,7 @@ __GGB__keysVar["lt"].menu = {
     "polar": "polinis",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Atstatyti konstrukcij\u0105",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra pateik\u010di\u0173 paie\u0161ka",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

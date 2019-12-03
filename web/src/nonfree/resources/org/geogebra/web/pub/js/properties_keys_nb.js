@@ -3345,6 +3345,7 @@ __GGB__keysVar["nb"].menu = {
     "polar": "polar",
     "rename.resource": "Gi nytt navn til ressursen",
     "resetConstruction": "Tilbakestill figuren",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "S\xf8k ettet GeoGebra-materiell",
     "shareByLink": "Del med lenke",
     "shareGroupHelpText": "Velg en eller flere grupper",

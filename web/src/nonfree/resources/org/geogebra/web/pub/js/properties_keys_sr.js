@@ -3345,6 +3345,7 @@ __GGB__keysVar["sr"].menu = {
     "polar": "polarno",
     "rename.resource": "Rename Resource",
     "resetConstruction": "resetuj konstrukciju",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra Materijale",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

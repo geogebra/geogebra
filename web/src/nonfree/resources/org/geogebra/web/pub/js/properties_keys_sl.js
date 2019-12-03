@@ -3345,6 +3345,7 @@ __GGB__keysVar["sl"].menu = {
     "polar": "polarni",
     "rename.resource": "Preimenuj vir",
     "resetConstruction": "Ponovno za\u010dni konstrukcijo",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Prei\u0161\u010di GeoGebra vire",
     "shareByLink": "Deljeno s povezavo",
     "shareGroupHelpText": "Izbira ene ali ve\u010d skupin",

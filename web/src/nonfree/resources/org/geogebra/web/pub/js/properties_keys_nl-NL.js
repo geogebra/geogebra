@@ -3345,6 +3345,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "polar": "polair",
     "rename.resource": "Hernoem materiaal",
     "resetConstruction": "Constructie herbeginnen",
+    "saveTemplate": "Sla op als sjabloon",
     "search_geogebra_materials": "Zoek naar GeoGebra bestanden",
     "shareByLink": "Delen via link",
     "shareGroupHelpText": "Selecteer een of meer groepen",

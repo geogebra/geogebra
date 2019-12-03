@@ -3345,6 +3345,7 @@ __GGB__keysVar["sv"].menu = {
     "polar": "pol\xe4r",
     "rename.resource": "D\xf6p om resursen",
     "resetConstruction": "Nollst\xe4ll konstruktion",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "S\xf6k efter GeoGebraresurser",
     "shareByLink": "Dela l\xe4nk",
     "shareGroupHelpText": "V\xe4lj en eller flera grupper",

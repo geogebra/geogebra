@@ -3345,6 +3345,7 @@ __GGB__keysVar["eu"].menu = {
     "polar": "polarra",
     "rename.resource": "Berrizendatu Baliabidea",
     "resetConstruction": "Hasi eraikuntza berriro",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Behatu GeoGebra-baliabideak",
     "shareByLink": "Esteka bidez partekatu",
     "shareGroupHelpText": "Aukeratu talde bat edo gehiago",

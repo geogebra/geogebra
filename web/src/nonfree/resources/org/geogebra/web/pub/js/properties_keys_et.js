@@ -3345,6 +3345,7 @@ __GGB__keysVar["et"].menu = {
     "polar": "polaar",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Taasalusta konstruktsiooni",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Otsi GeoGebra materjale",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

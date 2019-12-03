@@ -3345,6 +3345,7 @@ __GGB__keysVar["fi"].menu = {
     "polar": "napa",
     "rename.resource": "Nime\xe4 resurssi uudelleen",
     "resetConstruction": "Aloita piirros alusta",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Hae GeoGebra Materiaaleista",
     "shareByLink": "Jaa linkill\xe4",
     "shareGroupHelpText": "Valitse yksi tai useampi ryhm\xe4",

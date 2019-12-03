@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -29,8 +28,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -50,7 +47,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Web dialog for slider creation
  */
 public class SliderDialogW extends DialogBoxW implements ClickHandler,
-		ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboardPopup {
+		ValueChangeHandler<Boolean>, HasKeyboardPopup {
 	private Button btOK;
 	private Button btCancel;
 	private AutoCompleteTextFieldW tfLabel;
@@ -66,7 +63,6 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	private VerticalPanel nameWidget;
 	
 	private AppW appw;
-	//private SliderPanel sliderPanel;
 	
 	private GeoElement geoResult;
 	private GeoNumeric number;
@@ -86,13 +82,11 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	public SliderDialogW(final AppW app, int x, int y) {
 		super(false, true, null, app.getPanel(), app);
 
-		//super(app.getFrame(), false);
 		this.appw = app;
 		this.loc = app.getLocalization();
 		this.addStyleName("sliderDialog");
 		this.addStyleName("GeoGebraFrame");
-		//addWindowListener(this);
-		
+
 		// create temp geos that may be returned as result
 		Construction cons = app.getKernel().getConstruction();
 
@@ -135,12 +129,9 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	}
 
 	private void createGUI() {
-		// setTitle(loc.getMenu("Slider"));
-		//setResizable(false);
-		this.getCaption().setText(loc.getMenu("Slider"));
+		getCaption().setText(loc.getMenu("Slider"));
 
-		//Create components to be displayed
-		//mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);		
+		// Create components to be displayed
 		mainWidget.add(contentWidget = new VerticalPanel());
 		mainWidget.add(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("DialogButtonPanel");
@@ -165,8 +156,7 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 
 		sliderPanel = new SliderPanelW(appw, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
-		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
-		
+
 		Label nameLabel = new Label(loc.getMenu("Name"));
 		if (appw.isUnbundledOrWhiteboard()) {
 			nameLabel.setStyleName("coloredLabel");
@@ -176,7 +166,6 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		tfLabel = new AutoCompleteTextFieldW(-1, appw);
 		tfLabel.enableGGBKeyboard();
 		updateLabelField(number, false);
-		tfLabel.addFocusListener(new FocusListenerW(tfLabel));
 		tfLabel.requestToShowSymbolButton();
 		nameWidget.add(tfLabel);
 		
@@ -185,12 +174,10 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 		// buttons
 		btOK = new Button(loc.getMenu("OK"));
 		btOK.addClickHandler(this);
-		// btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		btCancel = new Button(loc.getMenu("Cancel"));
 		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(this);
-		// btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		bottomWidget.add(btOK);
 		bottomWidget.add(btCancel);
@@ -214,14 +201,14 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 			// set label of geoResult
 			String strLabel;
 			String text = tfLabel.getText();
-			try {								
+			try {
 				strLabel = appw.getKernel().getAlgebraProcessor()
 						.parseLabel(text);
 			} catch (Exception e) {
 				strLabel = null;
-			}			
+			}
 			geoResult.setLabel(strLabel);
-			
+
 			// allow eg a=2 in the Name dialog to set the initial value
 			if (strLabel != null && text.indexOf('=') > -1
 					&& text.indexOf('=') == text.lastIndexOf('=')) {
@@ -251,7 +238,6 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 				}
 			}
 		}
-		
 		return geoResult;
 	}
 
@@ -265,7 +251,6 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 			geoResult.setLabelVisible(true);
 			sliderPanel.applyAll(geoResult);
 			geoResult.update();
-			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
 			if (!rbAngle.getValue()) {
 				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
 						appw.getActiveEuclidianView());
@@ -309,10 +294,5 @@ public class SliderDialogW extends DialogBoxW implements ClickHandler,
 	private void sliderPanelUpdate(Object[] geos) {
 		sliderPanel.updatePanel(geos);
 	}
-
-	@Override
-	public void onChange(ChangeEvent event) {
-	    // TODO Auto-generated method stub
-    }
 	
 }

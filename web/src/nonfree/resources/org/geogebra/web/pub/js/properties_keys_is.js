@@ -3345,6 +3345,7 @@ __GGB__keysVar["is"].menu = {
     "polar": "skaut",
     "rename.resource": "Rename Resource",
     "resetConstruction": "Endursetja sm\xed\xf0",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Leit \xe1 GeoGebra Materials",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

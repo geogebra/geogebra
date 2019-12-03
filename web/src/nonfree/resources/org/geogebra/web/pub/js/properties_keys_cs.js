@@ -3345,6 +3345,7 @@ __GGB__keysVar["cs"].menu = {
     "polar": "pol\xe1rn\xed",
     "rename.resource": "P\u0159ejmenovat materi\xe1l",
     "resetConstruction": "znovunastaven\xed konstrukce",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Hledat GeoGebra materi\xe1ly",
     "shareByLink": "Sd\xedlet odkaz",
     "shareGroupHelpText": "Vyberte jednu nebo v\xedce skupiin",

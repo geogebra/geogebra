@@ -3345,6 +3345,7 @@ __GGB__keysVar["bg"].menu = {
     "polar": "\u043f\u043e\u043b\u044f\u0440\u0430",
     "rename.resource": "Rename Resource",
     "resetConstruction": "\u041d\u0443\u043b\u0438\u0440\u0430\u043d\u0435 \u043d\u0430 \u043a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044f\u0442\u0430",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u0422\u044a\u0440\u0441\u0435\u043d\u0435 \u043d\u0430 GeoGebra \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",

@@ -7,6 +7,9 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Adapter between input box widget and drawable
+ */
 public abstract class ViewTextField {
 
 	/**
@@ -27,7 +30,6 @@ public abstract class ViewTextField {
 		GeoInputBox geoInputBox = (GeoInputBox) drawInputBox.getGeoElement();
 		if (geoInputBox != getTextField().getInputBox()) {
 			applyChanges();
-
 		}
 
 		getTextField().setAuralText(geoInputBox.getAuralText());

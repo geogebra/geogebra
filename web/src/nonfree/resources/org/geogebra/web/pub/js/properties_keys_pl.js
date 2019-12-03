@@ -3345,6 +3345,7 @@ __GGB__keysVar["pl"].menu = {
     "polar": "biegunowy",
     "rename.resource": "Zmie\u0144 nazw\u0119 zasobu",
     "resetConstruction": "Reset konstrukcji",
+    "saveTemplate": "Save as template",
     "search_geogebra_materials": "Szukaj materia\u0142\xf3w GeoGebra",
     "shareByLink": "Udost\u0119pnij przez link",
     "shareGroupHelpText": "Select one or more group(s)",
