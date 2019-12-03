@@ -218,43 +218,43 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	private static native void saveToClipboard(String toSave) /*-{
-        var encoded = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix + btoa(toSave);
+		var encoded = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix + btoa(toSave);
 
-        if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.write) {
-            // Supported in Chrome
+		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.write) {
+			// Supported in Chrome
 
-            var data = new ClipboardItem({
-                'text/plain': new Blob([encoded], {type: 'text/plain'})
-            });
+			var data = new ClipboardItem({
+				'text/plain': new Blob([encoded], {type: 'text/plain'})
+			});
 
-            $wnd.navigator.clipboard.write([data]).then(function () {
-                console.log("successfully wrote gegeobra data to clipboard");
-            }, function () {
-                console.log("writing geogebra data to clipboard failed");
-            });
-        } else {
-            if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
-                // Supported in Firefox
+			$wnd.navigator.clipboard.write([data]).then(function () {
+				console.log("successfully wrote gegeobra data to clipboard");
+			}, function () {
+				console.log("writing geogebra data to clipboard failed");
+			});
+		} else {
+			if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
+				// Supported in Firefox
 
-                $wnd.navigator.clipboard.writeText(encoded).then(function () {
-                    console.log("successfully wrote text to clipboard");
-                }, function () {
-                    console.log("writing text to clipboard failed");
-                });
-            }
+				$wnd.navigator.clipboard.writeText(encoded).then(function () {
+					console.log("successfully wrote text to clipboard");
+				}, function () {
+					console.log("writing text to clipboard failed");
+				});
+			}
 
-            $wnd.sessionStorage.setItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
-        }
-    }-*/;
+			$wnd.sessionStorage.setItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
+		}
+	}-*/;
 
 	@Override
 	public native void pasteFromXML(App app)  /*-{
-        if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
-            // supported in Chrome
+		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
+			// supported in Chrome
 
-            $wnd.navigator.clipboard.read().then(function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    for (var j = 0; j < data[i].types.length; j++) {
+			$wnd.navigator.clipboard.read().then(function (data) {
+				for (var i = 0; i < data.length; i++) {
+					for (var j = 0; j < data[i].types.length; j++) {
 						if (data[i].types[j] === 'image/png') {
 							var reader = new FileReader();
 
@@ -272,37 +272,37 @@ public class CopyPasteW extends CopyPaste {
 								});
 							});
 						}
-                	}
-                }
-            }, function(reason) {
-                console.log("reading data from clipboard failed " + reason);
+					}
+				}
+			}, function(reason) {
+				console.log("reading data from clipboard failed " + reason);
 			});
-        } else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
-            // not sure if any browser enters this at the time of writing
+		} else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
+			// not sure if any browser enters this at the time of writing
 
-            $wnd.navigator.clipboard.readText().then(function (text) {
-                @org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
-            }, function (reason) {
-                console.log("reading text from clipboard failed: " + reason);
-            })
-        } else {
-            // session storage fallback for all other browsers
+			$wnd.navigator.clipboard.readText().then(function (text) {
+				@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+			}, function (reason) {
+				console.log("reading text from clipboard failed: " + reason);
+			})
+		} else {
+			// session storage fallback for all other browsers
 
 			var stored = $wnd.sessionStorage.getItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix);
 			if (stored) {
-                @org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
+				@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
 			}
-        }
-    }-*/;
+		}
+	}-*/;
 
-    @ExternalAccess
+	@ExternalAccess
 	private static native void pasteText(App app, String text) /*-{
-    	var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
+		var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 
 		if (text.startsWith(pastePrefix)) {
 			@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, atob(text.substring(pastePrefix.length)));
 		} else {
-            @org.geogebra.web.html5.util.CopyPasteW::pastePlainText(*)(app, text);
+			@org.geogebra.web.html5.util.CopyPasteW::pastePlainText(*)(app, text);
 		}
 	}-*/;
 
@@ -422,36 +422,36 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	public static native void installPaste(App app, Element target) /*-{
-    	target.addEventListener('paste', function (a) {
-    	    if (a.target.tagName.toUpperCase() === 'INPUT'
+		target.addEventListener('paste', function (a) {
+			if (a.target.tagName.toUpperCase() === 'INPUT'
 				|| a.target.tagName.toUpperCase() === 'TEXTAREA'
 				|| a.target.parentElement.classList.contains("mowTextEditor")) {
-    	        return;
+				return;
 			}
 
-            var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
+			var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 
-    	    var text = a.clipboardData.getData("text/plain");
-            if (text && !text.startsWith(pastePrefix)) {
-                @org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
-                return;
-            }
-
-            if (a.clipboardData.files.length > 0) {
-                var reader = new FileReader();
-
-                reader.addEventListener("load", function () {
-                    @org.geogebra.web.html5.util.CopyPasteW::pasteImage(*)(app, this.result);
-                }, false);
-
-                reader.readAsDataURL(a.clipboardData.files[0]);
-                return;
+			var text = a.clipboardData.getData("text/plain");
+			if (text && !text.startsWith(pastePrefix)) {
+				@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
+				return;
 			}
 
-            var stored = $wnd.sessionStorage.getItem(pastePrefix);
-            if (stored) {
-                @org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
-            }
-        });
-    }-*/;
+			if (a.clipboardData.files.length > 0) {
+				var reader = new FileReader();
+
+				reader.addEventListener("load", function () {
+					@org.geogebra.web.html5.util.CopyPasteW::pasteImage(*)(app, this.result);
+				}, false);
+
+				reader.readAsDataURL(a.clipboardData.files[0]);
+				return;
+			}
+
+			var stored = $wnd.sessionStorage.getItem(pastePrefix);
+			if (stored) {
+				@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
+			}
+		});
+	}-*/;
 }
