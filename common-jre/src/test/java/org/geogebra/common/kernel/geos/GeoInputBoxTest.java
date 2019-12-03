@@ -235,4 +235,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(f)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
+
+	@Test
+	public void testErrorWorksWithString() {
+		add("a = 5");
+		GeoInputBox inputBox = (GeoInputBox) add("ib = InputBox(a)");
+		GeoText text = (GeoText) add("ib + \"\"");
+
+		inputBox.updateLinkedGeo("1+");
+		Assert.assertEquals("1+", text.getTextString());
+	}
 }
