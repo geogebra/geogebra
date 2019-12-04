@@ -552,11 +552,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// else
 		inst.app = inst.createApplication(articleElement, this.laf);
 		inst.app.setCustomToolBar();
-		// useDataParamBorder(articleElement, inst);
-		// inst.add(inst.app.buildApplicationPanel());
-		boolean showAppPicker = app.isPerspectivesPopupVisible();
-		// inst.app.buildApplicationPanel();
-		if (showAppPicker) {
+
+		if (app.isPerspectivesPopupVisible()) {
 			app.showPerspectivesPopup();
 		}
 		// need to call setLabels here
