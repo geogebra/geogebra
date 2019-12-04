@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.web.html5.main.AppW;
@@ -462,4 +463,30 @@ public class CopyPasteW extends CopyPaste {
 			}
 		});
 	}-*/;
+
+	/**
+	 * Check if there is any readable content in the system clipboard (if supported),
+	 * or the internal clipboard (if not)
+	 */
+	public static native void checkClipboard(AsyncOperation<Boolean> callback) /*-{
+        if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
+            $wnd.navigator.permissions.query({
+                name: 'clipboard-read'
+            }).then(function(permissionStatus) {
+                if (permissionStatus) {
+                    $wnd.navigator.clipboard.readText().then(function (text) {
+                        callback.@org.geogebra.common.util.AsyncOperation::callback(*)(!!text);
+                    }, function (reason) {
+                        callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
+                    })
+                } else {
+                    callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
+                }
+            });
+        } else {
+            var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
+            var stored = $wnd.sessionStorage.getItem(pastePrefix);
+            callback.@org.geogebra.common.util.AsyncOperation::callback(*)(!!stored);
+        }
+    }-*/;
 }

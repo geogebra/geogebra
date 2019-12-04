@@ -28,6 +28,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -46,6 +47,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
+import org.geogebra.web.html5.util.CopyPasteW;
 
 /**
  * @author gabor
@@ -64,7 +66,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * localization
 	 */
 	protected Localization loc;
-	private AriaMenuItem mnuPaste;
 	private LabelController labelController;
 
 	/**
@@ -643,16 +644,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 		};
 
-		mnuPaste = addHtmlAction(pasteCommand, MainMenu.getMenuBarHtml(img,
+		final AriaMenuItem mnuPaste = addHtmlAction(pasteCommand, MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Paste")));
-	}
 
-	private void updateEditItems() {
-		if (!app.isUnbundledOrWhiteboard() || mnuPaste == null) {
-			return;
-		}
+		CopyPasteW.checkClipboard(new AsyncOperation<Boolean>() {
 
-		mnuPaste.setEnabled(true);
+			@Override
+			public void callback(Boolean hasContent) {
+				mnuPaste.setEnabled(hasContent);
+			}
+		});
 	}
 
 	private void addPinForClassic() {
@@ -1084,7 +1085,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            coord
 	 */
 	public void showScaled(Element c, int x, int y) {
-		updateEditItems();
 		wrappedPopup.showScaled(c, x, y);
 		focusDeferred();
 	}
@@ -1094,7 +1094,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            show in p's coord
 	 */
 	public void show(GPoint p) {
-		updateEditItems();
 		wrappedPopup.show(p);
 		focusDeferred();
 	}

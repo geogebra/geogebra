@@ -13,7 +13,6 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.html5.util.Dom;
 
 /** Accessible alternative to MenuBar */
 public class AriaMenuBar extends Widget {
