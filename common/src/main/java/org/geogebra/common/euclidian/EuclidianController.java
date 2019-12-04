@@ -6161,6 +6161,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
+	/**
+	 * Add free input points of all parent algos of geos in the list.
+	 * 
+	 * @param geoList
+	 *            input/output list of geos
+	 */
 	public void addFreePoints(ArrayList<GeoElement> geoList) {
 		int initialSize = geoList.size();
 		for (int i = 0; i < initialSize; i++) {
