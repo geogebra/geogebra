@@ -174,10 +174,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return editor display string
 	 */
 	public String getDisplayText() {
-		if (tempUserDisplayInput != null) {
-			return tempUserDisplayInput;
-		}
-		return getText();
+		return tempUserDisplayInput != null ? tempUserDisplayInput : getText();
 	}
 
 	private String toLaTex() {
