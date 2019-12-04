@@ -12419,9 +12419,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				fixed = true;
 			}
 		}
-		// create union bounding box
-		GRectangle rect = AwtFactory.getPrototype().newRectangle((int) minX,
-				(int) minY, (int) (maxX - minX), (int) (maxY - minY));
+		// create union bounding box; rounding to prevent anti-aliasing
+		GRectangle rect = AwtFactory.getPrototype().newRectangle(
+				(int) Math.round(minX), (int) Math.round(minY),
+				(int) Math.round(maxX - minX), (int) Math.round(maxY - minY));
 		BoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
 		boundingBox.setRectangle(rect);
 		boundingBox.setFixed(fixed);
