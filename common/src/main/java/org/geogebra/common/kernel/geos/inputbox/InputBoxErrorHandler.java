@@ -33,7 +33,7 @@ class InputBoxErrorHandler implements ErrorHandler {
         handleError();
     }
 
-    private void handleError() {
+    void handleError() {
         setTempUserInput();
         setLinkedGeoUndefined();
     }

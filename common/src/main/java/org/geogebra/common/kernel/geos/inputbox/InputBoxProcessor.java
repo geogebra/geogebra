@@ -65,59 +65,54 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		}
 
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+		InputBoxErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
+				tempUserDisplayInput, inputText);
+
+		try {
+			updateLinkedGeoNoErrorHandling(inputText, tpl, useRounding, handler);
+		} catch (MyError error) {
+			handler.handleError();
+			maybeShowError(error);
+		} catch (Throwable throwable) {
+			handler.handleError();
+			Log.error(throwable.getMessage());
+			maybeShowError(MyError.Errors.InvalidInput);
+		}
+	}
+
+	private void updateLinkedGeoNoErrorHandling(String inputText, StringTemplate tpl,
+							boolean useRounding, ErrorHandler errorHandler) throws Exception {
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;
-
 		if (linkedGeo.isGeoNumeric()) {
-			try {
-				parsed = kernel.getParser().parseExpression(inputText);
-			} catch (Throwable e) {
-				// nothing to do
-			}
+			parsed = kernel.getParser().parseExpression(inputText);
 		}
 
 		// for a simple number, round it to the textfield setting (if set)
 		if (parsed != null && parsed.isConstant() && !linkedGeo.isGeoAngle()
 				&& useRounding) {
-			try {
-				// can be a calculation eg 1/2+3
-				// so use full GeoGebra parser
-				double num = algebraProcessor.evaluateToDouble(inputText, false, null);
-				defineText = kernel.format(num, tpl);
-
-			} catch (Exception e) {
-				// user has entered eg 33+
-				// do nothing
-				e.printStackTrace();
-			}
+			// can be a calculation eg 1/2+3
+			// so use full GeoGebra parser
+			double num = algebraProcessor.evaluateToDouble(inputText, false, null);
+			defineText = kernel.format(num, tpl);
 		}
 
-		try {
-			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent() && parsed != null
+		if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent() && parsed != null
 					&& parsed.isConstant()) {
-				// can be a calculation eg 1/2+3
-				// so use full GeoGebra parser
-				algebraProcessor.evaluateToDouble(defineText, false, (GeoNumeric) linkedGeo);
+			// can be a calculation eg 1/2+3
+			// so use full GeoGebra parser
+			algebraProcessor.evaluateToDouble(defineText, false, (GeoNumeric) linkedGeo);
 
-				// setValue -> avoid slider range changing
+			// setValue -> avoid slider range changing
 
-				linkedGeo.updateRepaint();
-				inputBox.setLinkedGeo(linkedGeo);
-			} else {
-				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-						linkedGeo.isIndependent(), false).withSliders(false);
-
-				ErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
-						tempUserDisplayInput, inputText);
-				algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo, defineText, info,
-						true, this, handler);
-			}
-		} catch (MyError error) {
-			maybeShowError(error);
-		} catch (Exception exception) {
-			Log.error(exception.getMessage());
-			maybeShowError(MyError.Errors.InvalidInput);
+			linkedGeo.updateRepaint();
+			inputBox.setLinkedGeo(linkedGeo);
+		} else {
+			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+					linkedGeo.isIndependent(), false).withSliders(false);
+			algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo, defineText, info,
+					true, this, errorHandler);
 		}
 	}
 
