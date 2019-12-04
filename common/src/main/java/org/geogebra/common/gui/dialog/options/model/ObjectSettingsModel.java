@@ -754,7 +754,8 @@ abstract public class ObjectSettingsModel {
     }
 
     public boolean hasFixUnfixFunctionProperty() {
-        return app.getActiveEuclidianView().canMoveFunctions();
+        return app.getActiveEuclidianView().canMoveFunctions()
+                && !app.getConfig().isObjectDraggingRestricted();
     }
 
     public boolean hasPointStyleProperty() {
