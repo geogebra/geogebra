@@ -10,6 +10,9 @@ public class TemplateChooserController {
     private ArrayList<TemplatePreviewCard> templates;
     private TemplatePreviewCard selected;
 
+    /**
+     * @param app see {@link AppW}
+     */
     public TemplateChooserController(AppW app) {
         templates = new ArrayList<>();
         templates.add(new TemplatePreviewCard(app, null, false,
@@ -55,6 +58,9 @@ public class TemplateChooserController {
         setSelected(templates.get(0));
     }
 
+    /**
+     * @return currently selected card
+     */
     public TemplatePreviewCard getSelected() {
         return selected;
     }
@@ -67,6 +73,9 @@ public class TemplateChooserController {
         this.selected = newSelected;
     }
 
+    /**
+     * @return list of template cards
+     */
     public ArrayList<TemplatePreviewCard> getTemplates() {
         return templates;
     }

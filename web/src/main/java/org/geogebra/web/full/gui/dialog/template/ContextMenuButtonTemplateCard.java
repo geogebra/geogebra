@@ -6,7 +6,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 
-class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
+public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
     private  TemplatePreviewCard templateCard;
 
     /**
@@ -17,6 +17,7 @@ class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
         this.templateCard = templateCard;
         initPopup();
     }
+
     @Override
     protected void initPopup() {
         super.initPopup();

@@ -9,6 +9,9 @@ public class TemplateChooser extends OptionDialog {
     private Localization loc;
     private TemplateChooserController controller;
 
+    /**
+     * @param app see {@link AppW}
+     */
     public TemplateChooser(AppW app) {
         super(app.getPanel(), app);
         loc = app.getLocalization();

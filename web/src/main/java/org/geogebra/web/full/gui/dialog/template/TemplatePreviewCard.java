@@ -75,8 +75,8 @@ public class TemplatePreviewCard extends FlowPanel
         // panel containing the info regarding the material
         FlowPanel infoPanel = new FlowPanel();
         infoPanel.setStyleName("cardInfoPanel");
-        Label cardTitle = new Label(getMaterial() == null ?
-                app.getLocalization().getMenu("blankFile") : getMaterial().getTitle());
+        Label cardTitle = new Label(getMaterial() == null ? app.getLocalization().getMenu(
+                "blankFile") : getMaterial().getTitle());
         cardTitle.setStyleName("cardTitle");
         infoPanel.add(cardTitle);
         if (hasMoreButton) {
@@ -86,6 +86,9 @@ public class TemplatePreviewCard extends FlowPanel
         this.add(infoPanel);
     }
 
+    /**
+     * @param selected true if template should be selected, false otherwise
+     */
     public void setSelected(boolean selected) {
         if (selected) {
             this.addStyleName("selected");
@@ -115,26 +118,32 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void setLabels() {
+        // do nothing here
     }
 
     @Override
     public void remove() {
+        // nothing to do here
     }
 
     @Override
     public void rename(String title) {
+        // nothing to do here
     }
 
     @Override
     public void setMaterialTitle(String title) {
+        // nothing to do here
     }
 
     @Override
     public void copy() {
+        // nothing to do here
     }
 
     @Override
     public void onDelete() {
+        // TODO handle delete here
     }
 
     @Override
@@ -144,6 +153,7 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void setShare(String groupID, boolean share, AsyncOperation<Boolean> callback) {
+        // nothing to do here
     }
 
     @Override
@@ -153,5 +163,6 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void updateVisibility(String visibility) {
+        // nothing to do here
     }
 }
