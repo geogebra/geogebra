@@ -1744,8 +1744,6 @@ public abstract class GlobalKeyDispatcher {
 			} else if (geo.isGeoInputBox()) {
 				app.getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
-			} else if (app.has(Feature.MOW_TEXT_TOOL) && geo.isGeoText()) {
-				app.getEuclidianController().getTextController().edit((GeoText) geo);
 			}
 		}
 		return false;

@@ -47,7 +47,8 @@ if(hasProperty("eclipse")){
 }
 
 dependencies {
-    compile project(':web:dev'), 
+    compile project(path: ':carota-web', configuration: 'gwt')
+    compile project(':web:dev'),
         project(':common'),
         project(':renderer-base'),
         project(':editor-base'),

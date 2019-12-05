@@ -114,6 +114,25 @@ public abstract class Drawable extends DrawableND {
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
 
+	/**
+	 * Create a default drawable. GeoElement and the view must be set
+	 * after creation in the constructor.
+	 */
+	public Drawable() {
+		this(null, null);
+	}
+
+	/**
+	 * Create a drawable.
+	 *
+	 * @param view euclidean view
+	 * @param geo geo element
+	 */
+	public Drawable(EuclidianView view, GeoElement geo) {
+		this.view = view;
+		this.geo = geo;
+	}
+
 	// boolean createdByDrawList = false;
 
 	@Override

@@ -71,7 +71,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
-	private TextControllerW textController = null;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -481,26 +480,6 @@ public class EuclidianControllerW extends EuclidianController implements
 			app.invokeLater(pointerUpCallback);
 		} else {
 			pointerUpCallback.run();
-		}
-	}
-
-	@Override
-	public TextControllerW getTextController() {
-		if (!app.isWhiteboardActive()) {
-			return null;
-		}
-		if (textController == null) {
-			textController = new TextControllerW((AppW) app);
-		}
-		return textController;
-	}
-
-	/**
-	 * Update position of the text editor
-	 */
-	public void updateEditorPosition() {
-		if (textController != null) {
-			textController.updateEditorPosition();
 		}
 	}
 

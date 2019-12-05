@@ -23,14 +23,12 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -65,8 +63,6 @@ public final class DrawText extends Drawable {
 	private int oldXpos;
 	private int oldYpos;
 	private boolean needsBoundingBoxOld;
-
-	private BoundingBox boundingBox;
 	/**
 	 * thickness for the highlight frame
 	 */
@@ -113,13 +109,8 @@ public final class DrawText extends Drawable {
 			updateStrokes(text);
 		}
 
-		String newText;
-		TextController ctrl = view.getEuclidianController().getTextController();
-		if (geo.getKernel().getApplication().has(Feature.MOW_TEXT_TOOL) && ctrl != null) {
-			newText = ctrl.wrapText(text.getTextString(), this);
-		} else {
-			newText = text.getTextString();
-		}
+		String newText = text.getTextString();
+
 		boolean textChanged = labelDesc == null || !labelDesc.equals(newText)
 				|| isLaTeX != text.isLaTeX()
 				|| text.isNeedsUpdatedBoundingBox() != needsBoundingBoxOld;
@@ -189,15 +180,6 @@ public final class DrawText extends Drawable {
 					labelRectangle.getWidth() * view.getInvXscale(),
 					-labelRectangle.getHeight() * view.getInvYscale());
 		}
-
-		if (boundingBox != null) {
-			if (isWhiteboardText()) {
-				boundingBox.setRectangle(getBounds());
-				text.setMowBoundingBox(getBounds());
-			} else {
-				boundingBox.resetBoundingBox();
-			}
-		}
 	}
 
 	@Override
@@ -258,9 +240,6 @@ public final class DrawText extends Drawable {
 			return;
 		}
 		labelRectangle.setBounds(rect);
-		if (boundingBox != null) {
-			boundingBox.setRectangle(labelRectangle);
-		}
 	}
 
 	/**
@@ -336,31 +315,14 @@ public final class DrawText extends Drawable {
 					(int) Math.max(labelRectangle.getWidth(), MIN_EDITOR_WIDTH),
 					(int) Math.max(labelRectangle.getHeight(),
 							MIN_EDITOR_HEIGHT));
-		} else if (view.getApplication().has(Feature.MOW_TEXT_TOOL)) {
-			if (text.isMowBoundingBoxJustLoaded()) {
-				labelRectangle.setBounds(text.getMowBoundingBox());
-				text.setMowBoundingBoxJustLoaded(false);
-			}
 		}
+
 		return labelRectangle;
 	}
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		if (isWhiteboardText()) {
-			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false, false);
-				boundingBox.setRectangle(getBounds());
-			}
-			boundingBox.updateFrom(geo);
-			return boundingBox;
-		}
 		return null;
-	}
-
-	private boolean isWhiteboardText() {
-		return view.getApplication().has(Feature.MOW_TEXT_TOOL)
-				&& text.isIndependent() && !text.isLaTeX();
 	}
 
 	@Override

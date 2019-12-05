@@ -1,0 +1,20 @@
+buildscript {
+    dependencies {
+        classpath "org.wisepersist:gwt-gradle-plugin:$gwtGradlePluginVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'gwt-base'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+gwt {
+    gwtVersion=gwtCompilerVersion
+}
+
+// Publish the sources in the gwt configuration
+artifacts {
+    gwt sourceSets.main.allSource.srcDirs, jar
+}

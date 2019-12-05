@@ -632,7 +632,7 @@ public class EuclidianStatic {
 		int lineBegin = 0;
 		int length = labelDesc.length();
 		// fix jumping text in mow text editor
-		int yPos = yLabel + (app.has(Feature.MOW_TEXT_TOOL) ? 2 : 0);
+		int yPos = yLabel;
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 
@@ -671,14 +671,7 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		if (app.has(Feature.MOW_TEXT_TOOL) && geo instanceof GeoText) {
-			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
-					(int) ret.getWidth(),
-					Math.max((int) ret.getHeight(), height + 2 * EDITOR_MARGIN));
-			((GeoText) geo).setTextHeight(height);
-		} else {
-			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
-		}
+		ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		return ret;
 	}
 

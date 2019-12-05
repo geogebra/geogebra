@@ -1463,8 +1463,9 @@ public class ConsElementXMLHandler {
 				Integer.parseInt(attrs.get("x")), Integer.parseInt(attrs.get("y")),
 				Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
 		GeoText text = (GeoText) geo;
-		text.setMowBoundingBox(rect);
-		text.setMowBoundingBoxJustLoaded(true);
+
+		// TODO: handle GeoInlineText here
+
 		return true;
 	}
 

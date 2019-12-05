@@ -12,7 +12,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -655,8 +654,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		resetPenTool();
 
-		resetTextTool();
-
 		resetToolbarPanel();
 
 		if (getGuiManager() != null) {
@@ -668,17 +665,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 						.getUnbundledToolbar() != null) {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
-		}
-	}
-
-	private void resetTextTool() {
-		if (!has(Feature.MOW_TEXT_TOOL)) {
-			return;
-		}
-
-		TextController ctrl = getEuclidianController().getTextController();
-		if (ctrl != null) {
-			ctrl.reset();
 		}
 	}
 
@@ -1693,7 +1679,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
-		resetTextTool();
 	}
 
 	private void updatePerspective(Perspective p) {
