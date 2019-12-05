@@ -11158,10 +11158,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseWheelMoved(int x, int y, double delta,
 			boolean shiftOrMeta, boolean alt) {
-		if (view.hasDynamicStyleBar()) {
-			this.hideDynamicStylebar();
-		}
-
 		if (getTextController() != null) {
 			getTextController().stopEditing();
 		}
