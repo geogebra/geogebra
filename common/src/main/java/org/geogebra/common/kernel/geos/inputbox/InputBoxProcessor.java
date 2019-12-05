@@ -2,13 +2,11 @@ package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -45,76 +43,29 @@ public class InputBoxProcessor {
 	 *            user input
 	 * @param tpl
 	 *            template
-	 * @param useRounding
-	 *            whether to use rounding
 	 */
-	public void updateLinkedGeo(String inputText, StringTemplate tpl, boolean useRounding) {
+	public void updateLinkedGeo(String inputText, StringTemplate tpl) {
 		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
 		String defineText = preprocess(inputText, tpl);
 
-		ExpressionNode parsed = null;
-
-		if (linkedGeo.isGeoNumeric()) {
-			try {
-				parsed = kernel.getParser().parseExpression(inputText);
-			} catch (Throwable e) {
-				// nothing to do
-			}
-		}
-
-		// for a simple number, round it to the textfield setting (if set)
-		if (parsed != null && parsed.isConstant() && !linkedGeo.isGeoAngle()
-				&& useRounding) {
-			try {
-				// can be a calculation eg 1/2+3
-				// so use full GeoGebra parser
-				double num = kernel.getAlgebraProcessor()
-						.evaluateToDouble(inputText, false, null);
-				defineText = kernel.format(num, tpl);
-
-			} catch (Exception e) {
-				// user has entered eg 33+
-				// do nothing
-				e.printStackTrace();
-			}
-		}
-
 		try {
-			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent() && parsed != null
-					&& parsed.isConstant()) {
-				// can be a calculation eg 1/2+3
-				// so use full GeoGebra parser
-				kernel.getAlgebraProcessor().evaluateToDouble(defineText, false,
-						(GeoNumeric) linkedGeo);
+			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+					false, false).withSliders(false)
+					.withNoRedefinitionAllowed().withPreventingTypeChange()
+					.withRedefinitionRule(createRedefinitionRule());
 
-				// setValue -> avoid slider range changing
-
-				linkedGeo.updateRepaint();
-			} else {
-				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-						false, false).withSliders(false)
-						.withNoRedefinitionAllowed().withPreventingTypeChange()
-						.withRedefinitionRule(createRedefinitionRule());
-
-				kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, false,
-						new InputBoxCallback(kernel.getApplication(), this, inputBox),
-						new InputBoxErrorHandler(inputBox,
-								kernel.getApplication().getErrorHandler()));
-				return;
-			}
+			kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
+					defineText, info, false, new InputBoxCallback(kernel.getApplication(), this, inputBox), new InputBoxErrorHandler(inputBox,
+							kernel.getApplication().getErrorHandler()));
 		} catch (MyError e1) {
 			kernel.getApplication().showError(e1);
-			return;
 		} catch (Exception e1) {
 			Log.error(e1.getMessage());
 			showError();
-			return;
 		}
-		inputBox.setLinkedGeo(linkedGeo);
 	}
 
 	private String preprocess(String inputText, StringTemplate tpl) {

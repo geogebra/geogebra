@@ -5,7 +5,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -33,7 +33,7 @@ public interface AutoCompleteTextField
 	// javax.swing.JComponent
 	void requestFocus();
 
-	void addFocusListener(FocusListener focusListener);
+	void addFocusListener(FocusListenerDelegate focusListener);
 
 	void addKeyHandler(KeyHandler handler);
 

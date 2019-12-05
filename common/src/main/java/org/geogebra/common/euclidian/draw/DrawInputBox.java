@@ -21,11 +21,9 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -76,8 +74,7 @@ public class DrawInputBox extends CanvasDrawable {
 		this.geo = geo;
 
 		if (getTextField() != null) {
-			getTextField().addFocusListener(
-					AwtFactory.getPrototype().newFocusListener(new InputFieldListener()));
+			getTextField().addFocusListener(new InputFieldListener());
 			getTextField().addKeyHandler(new InputFieldKeyListener());
 
 		}
@@ -90,7 +87,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldListener extends FocusListener
+	public class InputFieldListener
 			implements FocusListenerDelegate {
 
 		private String initialText;
@@ -100,11 +97,11 @@ public class DrawInputBox extends CanvasDrawable {
 			if (!isSelectedForInput()) {
 				return;
 			}
+
 			getView().getEuclidianController().textfieldHasFocus(true);
 			updateGeoInputBox();
 
 			initialText = getTextField().getText();
-
 			view.getViewTextField().setBoxVisible(true);
 		}
 
@@ -158,7 +155,7 @@ public class DrawInputBox extends CanvasDrawable {
 				getView().requestFocusInWindow();
 				tf.setVisible(false);
 				draw(getView().getGraphicsForPen());
-				getGeoInputBox().updateLinkedGeo(tf.getText());
+				getGeoInputBox().textObjectUpdated(getTextField());
 			} else {
 				GeoElementND linkedGeo = geoInputBox.getLinkedGeo();
 
@@ -214,6 +211,7 @@ public class DrawInputBox extends CanvasDrawable {
 		if (getTextField() == null) {
 			return;
 		}
+
 		if (!forView) {
 			getTextField().setVisible(false);
 			view.getViewTextField().setBoxVisible(false);

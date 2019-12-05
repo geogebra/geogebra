@@ -10,12 +10,13 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.NumberListBox;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -215,9 +216,10 @@ public class AxisPanel extends FlowPanel
 			}
 		});
 
-		tfCross.addFocusListener(new FocusListenerW(this) {
+		tfCross.addBlurHandler(new BlurHandler() {
+
 			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				model.applyCrossing(tfCross.getText());
 			}
 		});
