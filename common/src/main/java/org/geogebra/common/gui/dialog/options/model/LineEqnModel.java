@@ -49,7 +49,8 @@ public class LineEqnModel extends MultipleOptionsModel {
 	 */
 	public static boolean forceInputForm(App app, GeoElement geo) {
 		return !app.getSettings().getCasSettings().isEnabled()
-				&& app.isExamStarted() && (geo instanceof EquationValue);
+				&& app.isExamStarted() && (geo instanceof EquationValue)
+				|| app.isUnbundledGraphing();
 	}
 
 	private GeoLine getLineAt(int index) {
