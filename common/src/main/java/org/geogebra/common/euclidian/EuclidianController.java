@@ -10231,9 +10231,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			GeoElement geo = chooseGeo(view.getHits().getTopHits(), true);
 			if (geo != null) {
-				view.setBoundingBox(
-						((Drawable) view.getDrawableFor(geo)).getBoundingBox());
-				view.repaintView();
+				selectAndShowBoundingBox(geo);
 			}
 		}
 
