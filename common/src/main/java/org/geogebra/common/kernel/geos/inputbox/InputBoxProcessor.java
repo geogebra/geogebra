@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.geos;
+package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -6,6 +6,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -60,58 +63,65 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
+
+		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+		InputBoxErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
+				tempUserDisplayInput, inputText);
+
+		try {
+			updateLinkedGeoNoErrorHandling(inputText, tpl, useRounding, handler);
+		} catch (MyError error) {
+			handler.handleError();
+			maybeShowError(error);
+		} catch (Throwable throwable) {
+			handler.handleError();
+			Log.error(throwable.getMessage());
+			maybeShowError(MyError.Errors.InvalidInput);
+		}
+	}
+
+	private void updateLinkedGeoNoErrorHandling(String inputText, StringTemplate tpl,
+							boolean useRounding, ErrorHandler errorHandler) throws Exception {
 		String defineText = preprocess(inputText, tpl);
 
 		ExpressionNode parsed = null;
-
 		if (linkedGeo.isGeoNumeric()) {
-			try {
-				parsed = kernel.getParser().parseExpression(inputText);
-			} catch (Throwable e) {
-				// nothing to do
-			}
+			parsed = kernel.getParser().parseExpression(inputText);
 		}
 
 		// for a simple number, round it to the textfield setting (if set)
 		if (parsed != null && parsed.isConstant() && !linkedGeo.isGeoAngle()
 				&& useRounding) {
-			try {
-				// can be a calculation eg 1/2+3
-				// so use full GeoGebra parser
-				double num = algebraProcessor.evaluateToDouble(inputText, false, null);
-				defineText = kernel.format(num, tpl);
-
-			} catch (Exception e) {
-				// user has entered eg 33+
-				// do nothing
-				e.printStackTrace();
-			}
+			// can be a calculation eg 1/2+3
+			// so use full GeoGebra parser
+			double num = algebraProcessor.evaluateToDouble(inputText, false, null);
+			defineText = kernel.format(num, tpl);
 		}
 
-		try {
-			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent() && parsed != null
+		if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent() && parsed != null
 					&& parsed.isConstant()) {
-				// can be a calculation eg 1/2+3
-				// so use full GeoGebra parser
-				algebraProcessor.evaluateToDouble(defineText, false, (GeoNumeric) linkedGeo);
+			// can be a calculation eg 1/2+3
+			// so use full GeoGebra parser
+			algebraProcessor.evaluateToDouble(defineText, false, (GeoNumeric) linkedGeo);
 
-				// setValue -> avoid slider range changing
+			// setValue -> avoid slider range changing
 
-				linkedGeo.updateRepaint();
-				inputBox.setLinkedGeo(linkedGeo);
-			} else {
-				EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-						linkedGeo.isIndependent(), false).withSliders(false);
-
-				algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
-						defineText, info, true, this, errorHandler);
-			}
-		} catch (MyError error) {
-			maybeShowError(error);
-		} catch (Exception exception) {
-			Log.error(exception.getMessage());
-			maybeShowError(MyError.Errors.InvalidInput);
+			linkedGeo.updateRepaint();
+			inputBox.setLinkedGeo(linkedGeo);
+		} else {
+			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+					linkedGeo.isIndependent(), false).withSliders(false);
+			algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo, defineText, info,
+					true, this, errorHandler);
 		}
+	}
+
+	private String getAndClearTempUserDisplayInput(String inputText) {
+		String tempUserInput = inputBox.getTempUserDisplayInput();
+		inputBox.setTempUserDisplayInput(null);
+		inputBox.setTempUserEvalInput(null);
+
+		return tempUserInput == null ? inputText : tempUserInput;
 	}
 
 	private String preprocess(String inputText, StringTemplate tpl) {
