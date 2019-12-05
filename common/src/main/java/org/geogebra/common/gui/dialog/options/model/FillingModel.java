@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -80,13 +81,10 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 
 	private void setupFillTypes() {
-		fillTypes = new ArrayList<>();
+		Set<FillType> types = new HashSet<>(Arrays.asList(FillType.values()));
 		Set<FillType> availableFillTypes = app.getConfig().getAvailableFillTypes();
-		for (FillType fillType: FillType.values()) {
-			if (availableFillTypes.contains(fillType)) {
-				fillTypes.add(fillType);
-			}
-		}
+		types.retainAll(availableFillTypes);
+		fillTypes = new ArrayList<>(types);
 	}
 
 	private IFillingListener getFillingListener() {

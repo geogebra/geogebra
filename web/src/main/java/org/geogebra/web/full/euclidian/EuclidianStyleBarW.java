@@ -1,7 +1,9 @@
 package org.geogebra.web.full.euclidian;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -1174,16 +1176,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private FillType[] getFillTypes() {
-		FillType[] wantedTypes = { FillType.STANDARD, FillType.HATCH,
-				FillType.DOTTED, FillType.CROSSHATCHED, FillType.HONEYCOMB };
+		Set<FillType> wantedTypes = new HashSet<>(Arrays.asList(FillType.STANDARD, FillType.HATCH,
+				FillType.DOTTED, FillType.CROSSHATCHED, FillType.HONEYCOMB));
 		Set<FillType> availableTypes = app.getConfig().getAvailableFillTypes();
-		List<FillType> fillTypes = new ArrayList<>();
-		for (FillType type: wantedTypes) {
-			if (availableTypes.contains(type)) {
-				fillTypes.add(type);
-			}
-		}
-		return fillTypes.toArray(new FillType[0]);
+		wantedTypes.retainAll(availableTypes);
+		return wantedTypes.toArray(new FillType[0]);
 	}
 
 	private void createFillingBtn() {

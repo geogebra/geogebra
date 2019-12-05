@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.color;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -12,10 +11,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Button to get popup with filling options.
@@ -39,8 +34,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 
 		createFillTable();
 	}
-
-
+	
 	private void createFillTable() {
 		ImageOrText[] icons = new ImageOrText[fillTypes.length];
 		for (int i = 0; i < fillTypes.length; i++) {
