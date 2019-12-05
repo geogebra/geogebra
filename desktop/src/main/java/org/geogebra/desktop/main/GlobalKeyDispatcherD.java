@@ -239,7 +239,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
-			super.handleCtrlV();
+			app.setWaitCursor();
+			app.getCopyPaste().pasteFromXML(app);
+			app.setDefaultCursor();
 			tryPasteEquation();
 		}
 	}

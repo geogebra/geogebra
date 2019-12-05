@@ -31,6 +31,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
+import org.geogebra.desktop.util.CopyPasteD;
 
 /**
  * UndoManager handles undo information for a Construction. It uses an undo info
@@ -70,7 +71,7 @@ public class UndoManagerD extends UndoManager {
 			@Override
 			public void run() {
 				doStoreUndoInfo(currentUndoXML);
-				app.getCopyPaste().pastePutDownCallback(app);
+				((CopyPasteD) app.getCopyPaste()).pastePutDownCallback(app);
 			}
 		};
 		execute(undoSaverThread);

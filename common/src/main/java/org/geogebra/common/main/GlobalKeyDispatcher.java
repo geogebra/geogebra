@@ -360,8 +360,6 @@ public abstract class GlobalKeyDispatcher {
 				app.loseFocus();
 			} else {
 				app.setMoveMode();
-				app.getActiveEuclidianView().getEuclidianController()
-						.deletePastePreviewSelected();
 			}
 			consumed = true;
 			break;
@@ -1016,14 +1014,8 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected abstract void showPrintPreview(App app2);
 
-	/**
-	 * Handles Ctrl+V; overridden in desktop Default implementation pastes from
-	 * XML and returns true
-	 */
 	protected void handleCtrlV() {
-		app.setWaitCursor();
-		app.getCopyPaste().pasteFromXML(app, false);
-		app.setDefaultCursor();
+		// overridden in desktop, in web, we listen to paste events
 	}
 
 	/**
@@ -1035,18 +1027,26 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * overridden in desktop Default implementation copies into XML
-	 * 
+	 *
 	 * @param cut
 	 *            whether to cut (false = copy)
 	 */
 	protected void handleCopyCut(boolean cut) {
 		// Copy selected geos
 		app.setWaitCursor();
-		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
+		ArrayList<GeoElement> tempSelection
+				= new ArrayList<>(selection.getSelectedGeos());
+
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(cut);
+		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos());
 		if (cut) {
 			app.deleteSelectedObjects(cut);
+		} else {
+			app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
 		}
 		app.updateMenubar();
+
+		selection.setSelectedGeos(tempSelection);
 		app.setDefaultCursor();
 	}
 

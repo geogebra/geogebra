@@ -724,7 +724,8 @@ public abstract class ContextMenuGeoElement {
 		ensureGeoInSelection();
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
+				app.getSelectionManager().getSelectedGeos());
+		app.getActiveEuclidianView().setBoundingBox(null);
 		deleteCmd(true);
 	}
 
@@ -734,10 +735,8 @@ public abstract class ContextMenuGeoElement {
 	public void duplicateCmd() {
 		ensureGeoInSelection();
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
-		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
+		app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
 		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
-		app.getCopyPaste().pasteFromXML(app, false);
 	}
 
 	/**
@@ -745,17 +744,22 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void copyCmd() {
 		ensureGeoInSelection();
+		ArrayList<GeoElement> selection
+				= new ArrayList<>(app.getSelectionManager().getSelectedGeos());
+
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
+				app.getSelectionManager().getSelectedGeos());
 		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+
+		app.getSelectionManager().setSelectedGeos(selection);
 	}
 
 	/**
 	 * Pastes copied elements
 	 */
 	public void pasteCmd() {
-		app.getCopyPaste().pasteFromXML(app, false);
+		app.getCopyPaste().pasteFromXML(app);
 	}
 
 	/**

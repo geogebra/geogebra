@@ -460,7 +460,7 @@ public class ModeShape {
 	}
 
 	private GeoPoint invisibleScreenPoint(double startX, double startY) {
-		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(), null,
+		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(),
 				view.toRealWorldCoordX(startX), view.toRealWorldCoordY(startY), 1);
 		pt.setEuclidianVisible(false);
 		pt.updateRepaint();
