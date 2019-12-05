@@ -170,7 +170,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = (GeoInputBox) add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 
-
 		Mockito.when(textObject.getText()).thenReturn("");
 		inputBox.textObjectUpdated(textObject);
 
