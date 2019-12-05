@@ -37,6 +37,10 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 
 	@Override
 	public void execute(Void geo, AppWFull appW) {
-		appW.getDialogManager().getSaveDialog().showIfNeeded(this);
+		if (app.isWhiteboardActive()) {
+			app.getDialogManager().showTemplateChooser();
+		} else {
+			appW.getDialogManager().getSaveDialog().showIfNeeded(this);
+		}
 	}
 }

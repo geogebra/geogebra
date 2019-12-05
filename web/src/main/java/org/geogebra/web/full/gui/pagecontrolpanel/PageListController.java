@@ -113,8 +113,6 @@ public class PageListController implements PageListControllerInterface,
 	 * 
 	 * @param i
 	 *            index of the slide to load
-	 * @param newPage
-	 *            true if slide is new slide
 	 */
 	private void loadSlide(int i) {
 		try {
