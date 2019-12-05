@@ -154,7 +154,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void functionParameterShouldNotChangeToX() {
 		add("f(c) = c / ?");
-		inputBox = (GeoInputBox) add("ib=InputBox(f)");
+		inputBox = add("ib=InputBox(f)");
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("c / ?", inputBox.getText());
 		updateInput("?");
@@ -166,7 +166,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void twoVariableFunctionParameterShouldNotChangeToX() {
 		add("g(p, q) = p / ?");
-		inputBox = (GeoInputBox) add("ib=InputBox(g)");
+		inputBox = add("ib=InputBox(g)");
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("p / ?", inputBox.getText());
 		updateInput("?");

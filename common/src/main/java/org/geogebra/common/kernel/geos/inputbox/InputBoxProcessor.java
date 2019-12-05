@@ -96,7 +96,8 @@ public class InputBoxProcessor {
 			// make sure user can enter regular "i"
 			defineText = defineText.replace('i', Unicode.IMAGINARY);
 
-		} else if (linkedGeo instanceof FunctionalNVar) {
+		}
+		if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
