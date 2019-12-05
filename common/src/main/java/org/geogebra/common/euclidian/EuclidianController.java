@@ -410,8 +410,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
-	private GeoWidget lastVideo = null;
-	private boolean videoMoved;
 	private boolean popupJustClosed = false;
 	private ModeMacro modeMacro;
 	private int numOfTargets = 0;
@@ -6211,10 +6209,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoMedia.setAbsoluteScreenLoc(view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
-		if (movedGeoMedia instanceof GeoVideo
-				|| movedGeoMedia instanceof GeoEmbed) {
-			moveVideo();
-		}
 		if (repaint) {
 			movedGeoMedia.updateRepaint();
 		} else {
@@ -8271,7 +8265,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.getEmbedManager() != null) {
 			app.getEmbedManager().backgroundAll();
 		}
-		lastVideo = null;
 	}
 
 	private void moveView() {
@@ -9562,7 +9555,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		handleVideoPressed(event);
+		widgetsToBackground();
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -9774,63 +9767,28 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return view.isSymbolicEditorClicked(mouseLoc);
 	}
 
-	private void handleVideoPressed(AbstractEvent event) {
-		widgetsToBackground();
+	private boolean handleVideoEmbedReleased() {
+		GeoWidget widget = getVideoOrEmbedHit();
 
-		GeoWidget dv = getVideoOrEmbedHit();
-
-		if ((mode != EuclidianConstants.MODE_MOVE
-				&& mode != EuclidianConstants.MODE_SELECT_MOW)
-				|| isMultiSelection()) {
-			return;
-		}
-
-		if (!event.isRightClick() && dv != null) {
-			clearSelections();
-			lastVideo = dv;
-		}
-	}
-
-	private void moveVideo() {
-		if (mode != EuclidianConstants.MODE_MOVE
-				&& mode != EuclidianConstants.MODE_SELECT_MOW) {
-			return;
-		}
-
-		lastVideo = movedGeoMedia;
-		videoMoved = true;
-	}
-
-	private boolean handleVideoReleased() {
-		if (lastVideo == null) {
+		if (draggingOccured || widget == null || videoHasError(widget)) {
 			return false;
 		}
 
-		if (videoMoved) {
-			videoMoved = false;
-			return false;
+		selectAndShowBoundingBox(widget);
+
+		if (widget instanceof GeoVideo) {
+			app.getVideoManager().play((GeoVideo) widget);
+		}
+		if (widget instanceof GeoEmbed) {
+			app.getEmbedManager().play((GeoEmbed) widget);
 		}
 
-		if (videoHasError()) {
-			return false;
-		}
-
-		if (selection.containsSelectedGeo(lastVideo)) {
-			showDynamicStylebar();
-			if (lastVideo instanceof GeoVideo) {
-				app.getVideoManager().play((GeoVideo) lastVideo);
-			}
-			if (lastVideo instanceof GeoEmbed) {
-				app.getEmbedManager().play((GeoEmbed) lastVideo);
-			}
-			return true;
-		}
-		return false;
+		return true;
 	}
 
-	private boolean videoHasError() {
-		return lastVideo instanceof GeoVideo
-				&& app.getVideoManager().isPlayerOffline((GeoVideo) lastVideo);
+	private boolean videoHasError(GeoWidget video) {
+		return video instanceof GeoVideo
+				&& app.getVideoManager().isPlayerOffline((GeoVideo) video);
 	}
 
 	private void setMoveModeForFurnitures() {
@@ -10329,7 +10287,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			am.setTabOverGeos(true);
 		}
 		// handle video/audio/embeded/text release (mow)
-		if (handleVideoReleased()) {
+		if (handleVideoEmbedReleased()) {
 			return;
 		}
 
