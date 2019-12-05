@@ -690,7 +690,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		GeoLine l = (GeoLine) geo;
 		parameter = l.parameter;
-		toStringMode = l.toStringMode;
+		maybeSetToStringMode(l.toStringMode);
 		reuseDefinition(geo);
 	}
 
@@ -942,11 +942,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		case EQUATION_IMPLICIT_NON_CANONICAL:
 		case EQUATION_GENERAL:
 		case EQUATION_USER:
-			toStringMode = mode;
+			maybeSetToStringMode(mode);
 			break;
 
 		default:
-			toStringMode = EQUATION_IMPLICIT;
+			maybeSetToStringMode(EQUATION_IMPLICIT);
 		}
 	}
 
@@ -1820,7 +1820,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public void setToGeneral() {
-		this.toStringMode = GeoLine.EQUATION_GENERAL;
+		maybeSetToStringMode(EQUATION_GENERAL);
 	}
 
 	@Override
@@ -1960,4 +1960,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
+	private void maybeSetToStringMode(int mode) {
+		if (!cons.getKernel().getApplication().isUnbundledGraphing()) {
+			toStringMode = mode;
+		} else {
+			toStringMode = EQUATION_USER;
+		}
+	}
 }

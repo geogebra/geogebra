@@ -1302,7 +1302,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND co = (GeoConicND) geo;
 
 		// copy everything
-		toStringMode = co.toStringMode;
+		maybeSetToStringMode(co.toStringMode);
 		type = co.type;
 		for (int i = 0; i < 6; i++) {
 			matrix[i] = co.matrix[i]; // flat matrix A
@@ -1381,7 +1381,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param mode
 	 *            equation mode (one of EQUATION_* constants)
 	 */
-	final public void setToStringMode(int mode) {
+	public void setToStringMode(int mode) {
 		switch (mode) {
 		case EQUATION_SPECIFIC:
 		case EQUATION_EXPLICIT:
@@ -1389,11 +1389,11 @@ public abstract class GeoConicND extends GeoQuadricND
 		case EQUATION_PARAMETRIC:
 		case EQUATION_VERTEX:
 		case EQUATION_CONICFORM:
-			this.toStringMode = mode;
+			maybeSetToStringMode(mode);
 			break;
 
 		default:
-			this.toStringMode = EQUATION_IMPLICIT;
+			maybeSetToStringMode(EQUATION_IMPLICIT);
 		}
 	}
 
@@ -4579,6 +4579,14 @@ public abstract class GeoConicND extends GeoQuadricND
 			return false;
 		}
 		return true;
+	}
+
+	private void maybeSetToStringMode(int mode) {
+		if (!cons.getKernel().getApplication().isUnbundledGraphing()) {
+			toStringMode = mode;
+		} else {
+			toStringMode = EQUATION_USER;
+		}
 	}
 
 }
