@@ -245,13 +245,20 @@ public class CopyPasteW extends CopyPaste {
 					console.log("writing text to clipboard failed");
 				});
 			}
-
-			$wnd.sessionStorage.setItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
 		}
+
+        $wnd.sessionStorage.setItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
 	}-*/;
 
 	@Override
 	public native void pasteFromXML(App app)  /*-{
+		function storageFallback() {
+            var stored = $wnd.sessionStorage.getItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix);
+            if (stored) {
+                @org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
+            }
+		}
+
 		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
 			// supported in Chrome
 
@@ -279,6 +286,7 @@ public class CopyPasteW extends CopyPaste {
 				}
 			}, function(reason) {
 				console.log("reading data from clipboard failed " + reason);
+				storageFallback();
 			});
 		} else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
 			// not sure if any browser enters this at the time of writing
@@ -287,15 +295,11 @@ public class CopyPasteW extends CopyPaste {
 				@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
 			}, function (reason) {
 				console.log("reading text from clipboard failed: " + reason);
+				storageFallback();
 			})
 		} else {
-			// session storage fallback for all other browsers
-
-			var stored = $wnd.sessionStorage.getItem(@org.geogebra.web.html5.util.CopyPasteW::pastePrefix);
-			if (stored) {
-				@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
-			}
-		}
+            storageFallback();
+        }
 	}-*/;
 
 	@ExternalAccess
@@ -419,6 +423,7 @@ public class CopyPasteW extends CopyPaste {
 			MoveGeos.moveObjects(createdElements, coords, null, null, ev);
 			ev.updateAllDrawables(true);
 
+			ev.getEuclidianController().updateBoundingBoxFromSelection(false);
 			ev.getEuclidianController().showDynamicStylebar();
 		}
 	}
@@ -472,8 +477,8 @@ public class CopyPasteW extends CopyPaste {
         if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
             $wnd.navigator.permissions.query({
                 name: 'clipboard-read'
-            }).then(function(permissionStatus) {
-                if (permissionStatus) {
+            }).then(function(result) {
+                if (result.state === "granted") {
                     $wnd.navigator.clipboard.readText().then(function (text) {
                         callback.@org.geogebra.common.util.AsyncOperation::callback(*)(!!text);
                     }, function (reason) {
