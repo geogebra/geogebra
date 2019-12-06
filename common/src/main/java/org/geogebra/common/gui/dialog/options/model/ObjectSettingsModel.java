@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -846,7 +847,12 @@ abstract public class ObjectSettingsModel {
         boolean show = geoElementsList.size() > 0;
         for (int i = 0; i < geoElementsList.size(); i++) {
             GeoElement element = geoElementsList.get(i);
-            show = show && element instanceof GeoLine && !element.isNumberValue();
+            if (app.isUnbundledGraphing()) {
+                show = show && !(element instanceof  GeoLine) || (element instanceof  GeoConicND);
+            } else {
+                show = show && (element instanceof GeoLine);
+            }
+            show = show && !element.isNumberValue();
             show = show && element.getDefinition() == null;
         }
         return show;
