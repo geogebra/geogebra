@@ -47,11 +47,11 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -6872,7 +6872,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (clickCount == 2) {
+		if (clickCount == 2 && !app.isWhiteboardActive()) {
 			selection.clearSelectedGeos(true, false);
 			app.updateSelection(false);
 			setViewHits(type);
@@ -6882,18 +6882,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				app.setMode(EuclidianConstants.MODE_MOVE);
 				GeoElement geo0 = hits.get(0);
 
-				if (!app.has(Feature.MOW_TEXT_TOOL) || !geo0.isGeoText()) {
-					if (geo0.isGeoNumeric()
-							&& ((GeoNumeric) geo0).isSlider()) {
-						// double-click slider -> Object Properties
-						getDialogManager().showPropertiesDialog(hits);
-					} else if (!geo0.isProtected(EventType.UPDATE)
-							&& !(geo0.isGeoBoolean() && geo0.isIndependent())
-							&& geo0.isRedefineable()
-							&& !geo0.isGeoButton() && !(geo0.isGeoList()
-									&& ((GeoList) geo0).drawAsComboBox())) {
-						getDialogManager().showRedefineDialog(hits.get(0), true);
-					}
+				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
+					// double-click slider -> Object Properties
+					getDialogManager().showPropertiesDialog(hits);
+				} else if (!geo0.isProtected(EventType.UPDATE)
+						&& !(geo0.isGeoBoolean() && geo0.isIndependent()) && geo0.isRedefineable()
+						&& !geo0.isGeoButton()
+						&& !(geo0.isGeoList() && ((GeoList) geo0).drawAsComboBox())) {
+					getDialogManager().showRedefineDialog(hits.get(0), true);
 				}
 			}
 		}
@@ -9820,8 +9816,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (selection.containsSelectedGeo(lastVideo)) {
+			showDynamicStylebar();
 			if (lastVideo.isReady()) {
-				view.setBoundingBox(null);
 				view.repaintView();
 			}
 			if (lastVideo instanceof GeoVideo) {
@@ -11158,10 +11154,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseWheelMoved(int x, int y, double delta,
 			boolean shiftOrMeta, boolean alt) {
-		if (view.hasDynamicStyleBar()) {
-			this.hideDynamicStylebar();
-		}
-
 		if (getTextController() != null) {
 			getTextController().stopEditing();
 		}
