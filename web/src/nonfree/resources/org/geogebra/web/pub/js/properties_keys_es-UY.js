@@ -3317,7 +3317,6 @@ __GGB__keysVar["es-UY"].menu = {
     "mow.offlineMyFiles": "Abrir archivo fuera de l\xednea",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "rqbdrgkw",
     "of": "de",
     "off": "Desactivar",

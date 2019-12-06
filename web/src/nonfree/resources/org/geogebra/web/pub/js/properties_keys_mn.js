@@ -3317,7 +3317,6 @@ __GGB__keysVar["mn"].menu = {
     "mow.offlineMyFiles": "\u041e\u0444\u0444\u043b\u0430\u0439\u043d \u0444\u0430\u0439\u043b \u043d\u044d\u044d\u0445",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "fp7bctpr",
     "of": "\u0438\u0439\u043d",
     "off": "\u0445\u0430\u0430\u0445",

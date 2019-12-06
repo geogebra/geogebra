@@ -3317,7 +3317,6 @@ __GGB__keysVar["eu"].menu = {
     "mow.offlineMyFiles": "Ireki lineaz kanpoko artxiboa",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "fp7bctpr",
     "of": "artean",
     "off": "Ez-gaitua",

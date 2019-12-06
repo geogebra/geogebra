@@ -3317,7 +3317,6 @@ __GGB__keysVar["ro"].menu = {
     "mow.offlineMyFiles": "Deschide fi\u0219ier offline",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "fp7bctpr",
     "of": "din",
     "off": "de pe",

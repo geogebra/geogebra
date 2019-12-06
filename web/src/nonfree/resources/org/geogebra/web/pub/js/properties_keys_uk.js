@@ -3317,7 +3317,6 @@ __GGB__keysVar["uk"].menu = {
     "mow.offlineMyFiles": "\u0412\u0456\u0434\u043a\u0440\u0438\u0442\u0438 \u0444\u0430\u0439\u043b \u0443 \u0440\u0435\u0436\u0438\u043c\u0456 \u043e\u0444\u043b\u0430\u0439\u043d",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "\u041d\u043e\u0432\u0438\u0439 \u0444\u0430\u0439\u043b",
     "notes_tutorials": "fp7bctpr",
     "of": "\u0432\u0456\u0434",
     "off": "\u0432\u0438\u043c\u043a.",
