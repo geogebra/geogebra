@@ -43,7 +43,6 @@ public class GeoAudio extends GeoMedia {
 	public GeoAudio(Construction c, String url) {
 		this(c);
 		setSrc(url, MediaFormat.AUDIO_HTML5);
-		setLabel("audio");
 	}
 
 	@Override

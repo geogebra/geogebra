@@ -344,10 +344,7 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public GRectangle getBoundsForStylebarPosition() {
-		if (gp == null) {
-			return null;
-		}
-		return gp.getBounds();
+		return getBoundsClipped();
 	}
 
 	@Override
