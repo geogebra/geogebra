@@ -8,7 +8,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.media.VideoURL;
@@ -120,11 +119,8 @@ public class VideoManagerW implements VideoManager {
 				return;
 			}
 		}
-		AppW app = (AppW) video.getKernel().getApplication();
-		boolean offline = app.has(Feature.VIDEO_PLAYER_OFFLINE)
-				&& !video.isOnline();
 
-		final AbstractVideoPlayer player = offline
+		final AbstractVideoPlayer player = !video.isOnline()
 				? createPlayerOffline(video, players.size())
 				: createPlayer(video, players.size()) ;
 
