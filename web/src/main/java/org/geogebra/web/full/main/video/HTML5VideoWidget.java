@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.util.ExternalAccess;
 
@@ -56,12 +56,12 @@ public class HTML5VideoWidget extends Widget {
 		var that = this;
 		video.oncanplaythrough = function() {
 			that
-					.@org.geogebra.web.html5.video.HTML5VideoWidget::listenerOnLoad(
+					.@org.geogebra.web.full.main.video.HTML5VideoWidget::listenerOnLoad(
 							II)(video.videoWidth, video.videoHeight);
 		}
 
 		video.onerror = function() {
-			that.@org.geogebra.web.html5.video.HTML5VideoWidget::listenerOnError()();
+			that.@org.geogebra.web.full.main.video.HTML5VideoWidget::listenerOnError()();
 		}
 	}-*/;
 

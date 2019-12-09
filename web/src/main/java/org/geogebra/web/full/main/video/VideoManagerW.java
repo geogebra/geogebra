@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +12,10 @@ import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.media.VideoURL;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 
@@ -52,15 +54,8 @@ public class VideoManagerW implements VideoManager {
 		if (video == null) {
 			return;
 		}
-		playerOf(video).play();
-	}
 
-	@Override
-	public void pause(GeoVideo video) {
-		if (video == null || !hasPlayer(video)) {
-			return;
-		}
-		playerOf(video).pause();
+		playerOf(video).setBackground(false);
 	}
 
 	@Override
@@ -68,7 +63,7 @@ public class VideoManagerW implements VideoManager {
 		if (video == null || !hasPlayer(video)) {
 			return;
 		}
-		playerOf(video).sendBackground();
+		playerOf(video).setBackground(true);
 	}
 
 	@Override
@@ -114,6 +109,7 @@ public class VideoManagerW implements VideoManager {
 			AbstractVideoPlayer other = cache.get(i);
 			if (other.matches(video)) {
 				players.put(video, other);
+				other.video = video;
 				other.asWidget().setVisible(true);
 				cache.remove(other);
 				return;
@@ -132,11 +128,12 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 
-		AppW app = (AppW) video.getKernel().getApplication();
-		GeoGebraFrameW appFrame = app.getAppletFrame();
 		players.put(video, player);
-		appFrame.add(player);
 
+		AppWFull app = (AppWFull) video.getKernel().getApplication();
+		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN);
+		((EuclidianDockPanelW) panel).getEuclidianPanel().add(player);
 	}
 
 	private AbstractVideoPlayer createPlayerOffline(GeoVideo video, int id) {
@@ -164,6 +161,7 @@ public class VideoManagerW implements VideoManager {
 			return;
 		}
 		playerOf(video).asWidget().removeFromParent();
+		players.remove(video);
 	}
 
 	@Override

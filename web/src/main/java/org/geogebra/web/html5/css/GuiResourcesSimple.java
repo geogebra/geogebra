@@ -25,9 +25,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/canvas2pdf_min.js")
 	TextResource canvas2Pdf();
 
-	@Source("org/geogebra/web/resources/js/youtube.js")
-	TextResource youtube();
-
 	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
 	ImageResource icons_play_circle();
 

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 
@@ -62,16 +62,6 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 			asWidget().removeStyleName("background");
 		}
 		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
-	}
-
-	/**
-	 * Called after video specified by its id is loaded.
-	 *
-	 */
-	@Override
-	public void onReady() {
-		video.setBackground(true);
-		selectPlayer();
 	}
 
 	/**

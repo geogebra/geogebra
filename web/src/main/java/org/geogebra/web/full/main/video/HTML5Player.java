@@ -1,8 +1,8 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.util.PersistablePanel;
-import org.geogebra.web.html5.video.HTML5VideoWidget.VideoListener;
+import org.geogebra.web.full.main.video.HTML5VideoWidget.VideoListener;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,22 +50,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	@Override
 	public boolean isValid() {
 		return isFrameValid();
-	}
-
-	@Override
-	public void play() {
-		video.play();
-		if (video.isPlaying()) {
-			v.play();
-		}
-		update();
-	}
-
-	@Override
-	public void pause() {
-		video.pause();
-		v.pause();
-		update();
 	}
 
 	@Override
