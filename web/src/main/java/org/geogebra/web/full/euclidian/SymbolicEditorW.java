@@ -139,10 +139,10 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private void applyChanges() {
 		setTempUserDisplayInput();
 		String editedText = editor.getText();
-		if (editedText.trim().equals(text)) {
-			return;
+		if (!editedText.trim().equals(text)) {
+			geoInputBox.updateLinkedGeo(editedText);
 		}
-		geoInputBox.updateLinkedGeo(editedText);
+		app.getKernel().storeUndoInfo();
 	}
 
 	private void setTempUserDisplayInput() {
