@@ -12,12 +12,10 @@ import java.util.List;
 
 public class UserMenuItemGroup extends AbstractMenuItemGroup {
 
-	private LogInOperation logInOperation;
-	private List<MenuItem> loggedInItems;
+	private List<MenuItem> items;
 
 	UserMenuItemGroup(LogInOperation logInOperation) {
-		this.logInOperation = logInOperation;
-		this.loggedInItems = createLoggedInItems();
+		this.items = logInOperation.isLoggedIn() ? createLoggedInItems() : createLoggedOutItems(logInOperation);
 	}
 
 	private List<MenuItem> createLoggedInItems() {
@@ -25,15 +23,15 @@ public class UserMenuItemGroup extends AbstractMenuItemGroup {
 		return Collections.singletonList(signIn);
 	}
 
-	private List<MenuItem> createLoggedOutItems() {
+	private List<MenuItem> createLoggedOutItems(LogInOperation logInOperation) {
 		GeoGebraTubeUser user = logInOperation.getModel().getLoggedInUser();
-		MenuItem userItem = new ActionableItemImpl(Icon.USER_ICON, user.getUserName(), Action.NONE);
+		MenuItem userItem = new ActionableItemImpl(Icon.USER_ICON, user.getUserName(), Action.OPEN_PROFILE_PAGE);
 		MenuItem signOut = new ActionableItemImpl(Icon.SIGN_OUT, "SignOut", Action.SIGN_OUT);
 		return Arrays.asList(userItem, signOut);
 	}
 
 	@Override
 	public List<MenuItem> getMenuItems() {
-		return logInOperation.isLoggedIn() ? loggedInItems : createLoggedOutItems();
+		return items;
 	}
 }
