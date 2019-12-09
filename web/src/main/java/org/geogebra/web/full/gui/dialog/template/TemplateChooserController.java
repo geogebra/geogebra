@@ -65,6 +65,10 @@ public class TemplateChooserController {
         return selected;
     }
 
+    /**
+     * Store selected template card
+     * @param newSelected
+     */
     public void setSelected(TemplatePreviewCard newSelected) {
         if (selected != null) {
             this.selected.setSelected(false);
@@ -80,6 +84,10 @@ public class TemplateChooserController {
         return templates;
     }
 
+    /**
+     * Action to take when create btn clicked
+     * @param app see {@link AppW}
+     */
     public void onCreate(App app) {
         if (selected.getMaterial() == null) {
             app.fileNew();
