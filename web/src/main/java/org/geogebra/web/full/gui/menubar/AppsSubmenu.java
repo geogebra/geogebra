@@ -34,17 +34,17 @@ public class AppsSubmenu extends Submenu {
 
 	private void initActions() {
 		addMenuItem("graphing", "GraphingCalculator",
-				MaterialDesignResources.INSTANCE.graphing());
+				SvgPerspectiveResources.INSTANCE.menu_icon_algebra24());
 		addMenuItem("geometry", "Geometry",
-				MaterialDesignResources.INSTANCE.geometry());
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics());
 		addMenuItem("3d", "Graphing3D",
-				MaterialDesignResources.INSTANCE.graphing3D());
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D24());
 		addMenuItem("cas", "CASCalculator",
-				SvgPerspectiveResources.INSTANCE.menu_icon_cas());
+				SvgPerspectiveResources.INSTANCE.menu_icon_cas24());
 		addMenuItem("calculator", "ScientificCalculator",
 				MaterialDesignResources.INSTANCE.scientific());
 		addMenuItem("notes", "Notes",
-				MaterialDesignResources.INSTANCE.whiteboard());
+				SvgPerspectiveResources.INSTANCE.menu_icon_whiteboard24());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 		if (app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported()) {

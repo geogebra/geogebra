@@ -44,9 +44,7 @@ public class PerspectivesMenuW extends Submenu {
 		addPerspective(4, pr.menu_icon_graphics3D24());
 		addPerspective(2, pr.menu_icon_spreadsheet24());
 		addPerspective(5, pr.menu_icon_probability24());
-		if (app.isWhiteboardActive()) {
-			addPerspective(6, pr.menu_icon_whiteboard24());
-		}
+
 		if (!app.isExam()) {
 			if (app.getLAF().examSupported()) {
 
