@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class DrawInputBoxAlignmentTest {
-	private static final double INPUT_TOP = 42.0d;
+	private static final double INPUT_TOP = 53.0d;
 	private static final double INPUT_LEFT = 38;
 	private static final double TEXT_WIDTH = 36;
 	private static final double INPUT_WIDTH = 194;

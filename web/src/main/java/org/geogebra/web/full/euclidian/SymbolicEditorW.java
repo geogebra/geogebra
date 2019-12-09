@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
@@ -52,6 +53,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
+		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
+		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
