@@ -6,6 +6,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -38,8 +39,12 @@ public class AppsSubmenu extends Submenu {
 				MaterialDesignResources.INSTANCE.geometry());
 		addMenuItem("3d", "Graphing3D",
 				MaterialDesignResources.INSTANCE.graphing3D());
+		addMenuItem("cas", "CASCalculator",
+				SvgPerspectiveResources.INSTANCE.menu_icon_cas());
 		addMenuItem("calculator", "ScientificCalculator",
 				MaterialDesignResources.INSTANCE.scientific());
+		addMenuItem("notes", "Notes",
+				MaterialDesignResources.INSTANCE.whiteboard());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 		if (app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported()) {
