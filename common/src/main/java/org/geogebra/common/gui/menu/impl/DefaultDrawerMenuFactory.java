@@ -11,7 +11,6 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -73,12 +72,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItemGroup createMainMenuItemGroup() {
 		MenuItem clearConstruction = clearConstruction();
 		MenuItem save = logInOperation == null ? null : saveFile();
-		MenuItem downloadAs = platform == GeoGebraConstants.Platform.DESKTOP ?
-				showDownloadAs() : null;
-		MenuItem printPreview = platform == GeoGebraConstants.Platform.DESKTOP ?
-				previewPrint() : null;
-		MenuItem startExamMode = platform == GeoGebraConstants.Platform.DESKTOP ?
-				null : startExamMode();
+		MenuItem downloadAs = isDesktop() ? showDownloadAs() : null;
+		MenuItem printPreview = isDesktop() ? previewPrint() : null;
+		MenuItem startExamMode = isDesktop() ? null : startExamMode();
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
@@ -109,21 +105,25 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private static MenuItemGroup createUserGroup(LogInOperation logInOperation) {
 		if (logInOperation.isLoggedIn()) {
-			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
-			return new MenuItemGroupImpl(signIn);
-		} else {
 			GeoGebraTubeUser user = logInOperation.getModel().getLoggedInUser();
 			MenuItem userItem = new ActionableItemImpl(Icon.USER_ICON,
 					user.getUserName(), Action.OPEN_PROFILE_PAGE);
 			MenuItem signOut = new ActionableItemImpl(Icon.SIGN_OUT,
 					"SignOut", Action.SIGN_OUT);
 			return new MenuItemGroupImpl(userItem, signOut);
+		} else {
+			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
+			return new MenuItemGroupImpl(signIn);
 		}
 	}
 
 	private boolean isMobile() {
 		return platform == GeoGebraConstants.Platform.ANDROID
 				|| platform == GeoGebraConstants.Platform.IOS;
+	}
+
+	private boolean isDesktop() {
+		return platform == GeoGebraConstants.Platform.WEB;
 	}
 
 	private static MenuItem startExamMode() {
