@@ -77,7 +77,9 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		}
 	}
 
-	private void updateLinkedGeoNoErrorHandling(String inputText, StringTemplate tpl, ErrorHandler errorHandler) {
+	private void updateLinkedGeoNoErrorHandling(String inputText,
+												StringTemplate tpl,
+												ErrorHandler errorHandler) {
 		String defineText = preprocess(inputText, tpl);
 
 		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),

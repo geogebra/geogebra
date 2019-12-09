@@ -47,7 +47,8 @@ public class LaTeXTextRenderer implements TextRenderer {
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getDisplayText());
+		GDimension textDimension =
+				drawInputBox.measureLatex(graphics, geo, font, geo.getDisplayText());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
