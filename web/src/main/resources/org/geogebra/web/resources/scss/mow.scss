@@ -18,7 +18,8 @@
 	$z_mow_video: 50;
 	$z_mow_video_background: 12;
 	$z_mow_foreground: 50;
-	
+	$z_mask: 50;
+
 /*****************
 *   STYLEBAR
 ******************/	
@@ -522,6 +523,15 @@
 			z-index: $z_mow_foreground;
 		 }		
 	}
+
+	 // unit rectangle for mask to transform with matrix
+	 .maskWidget {
+	    position: absolute;
+	    z-index: $z_mask;
+	    top: 0;
+	    left: 0;
+	    width: 1px;
+	    height: 1px;
+	    transform-origin: left top;
+	}
 }
-
-

@@ -9,6 +9,7 @@ import java.util.Set;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
@@ -221,10 +222,15 @@ public class EmbedManagerW implements EmbedManager {
 		embedElement.setSize(contentWidth, contentHeight);
 	}
 
-	private static void toggleBackground(EmbedElement frame,
+	private void toggleBackground(EmbedElement frame,
 			DrawEmbed drawEmbed) {
+		boolean background = drawEmbed.getGeoEmbed().isBackground();
 		Dom.toggleClass(frame.getGreatParent(), "background",
-				drawEmbed.getGeoEmbed().isBackground());
+				background);
+
+		if (!background) {
+			app.getMaskWidgets().masksToForeground();
+		}
 	}
 
 	@Override
@@ -356,8 +362,8 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void play(GeoEmbed lastVideo) {
-		DrawableND de = app.getActiveEuclidianView()
-				.getDrawableFor(lastVideo);
+		EuclidianView ev = app.getActiveEuclidianView();
+		DrawableND de = ev.getDrawableFor(lastVideo);
 		if (de instanceof DrawEmbed) {
 			lastVideo.setBackground(false);
 			toggleBackground(widgets.get(de), (DrawEmbed) de);
