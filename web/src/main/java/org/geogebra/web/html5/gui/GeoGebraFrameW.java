@@ -683,7 +683,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	@Override
 	public void setSize(int width, int height) {
-		// setPixelSize(width, height);
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, height);
 			setFramePixelSize(width, height);

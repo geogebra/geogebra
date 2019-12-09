@@ -238,7 +238,6 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		} else {
 			plane = (GeoPlane3D) kernel.getManager3D().dependentPlane3D(equ);
 		}
-		plane.showUndefinedInAlgebraView(true);
 		setEquationLabelAndVisualStyle(plane, label, info);
 
 		return array(plane);

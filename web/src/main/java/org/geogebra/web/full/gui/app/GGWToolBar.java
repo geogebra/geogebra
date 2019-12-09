@@ -671,6 +671,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_FITLINE:
 			return resourceBundle.mode_fitline_32();
 
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+			return resourceBundle.mode_freehandshape_32();
+
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return resourceBundle.mode_freehandshape_32();
 

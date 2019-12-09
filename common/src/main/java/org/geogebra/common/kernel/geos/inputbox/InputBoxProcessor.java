@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -55,10 +54,8 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 	 *            user input
 	 * @param tpl
 	 *            template
-	 * @param useRounding
-	 *            whether to use rounding
 	 */
-	public void updateLinkedGeo(String inputText, StringTemplate tpl, boolean useRounding) {
+	public void updateLinkedGeo(String inputText, StringTemplate tpl) {
 		if (!linkedGeo.isLabelSet() && linkedGeo.isGeoText()) {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
@@ -69,7 +66,7 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 				tempUserDisplayInput, inputText);
 
 		try {
-			updateLinkedGeoNoErrorHandling(inputText, tpl, useRounding, handler);
+			updateLinkedGeoNoErrorHandling(inputText, tpl, handler);
 		} catch (MyError error) {
 			handler.handleError();
 			maybeShowError(error);
@@ -80,40 +77,14 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		}
 	}
 
-	private void updateLinkedGeoNoErrorHandling(String inputText, StringTemplate tpl,
-							boolean useRounding, ErrorHandler errorHandler) throws Exception {
+	private void updateLinkedGeoNoErrorHandling(String inputText, StringTemplate tpl, ErrorHandler errorHandler) {
 		String defineText = preprocess(inputText, tpl);
 
-		ExpressionNode parsed = null;
-		if (linkedGeo.isGeoNumeric()) {
-			parsed = kernel.getParser().parseExpression(inputText);
-		}
+		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+				linkedGeo.isIndependent(), false).withSliders(false);
 
-		// for a simple number, round it to the textfield setting (if set)
-		if (parsed != null && parsed.isConstant() && !linkedGeo.isGeoAngle()
-				&& useRounding) {
-			// can be a calculation eg 1/2+3
-			// so use full GeoGebra parser
-			double num = algebraProcessor.evaluateToDouble(inputText, false, null);
-			defineText = kernel.format(num, tpl);
-		}
-
-		if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent() && parsed != null
-					&& parsed.isConstant()) {
-			// can be a calculation eg 1/2+3
-			// so use full GeoGebra parser
-			algebraProcessor.evaluateToDouble(defineText, false, (GeoNumeric) linkedGeo);
-
-			// setValue -> avoid slider range changing
-
-			linkedGeo.updateRepaint();
-			inputBox.setLinkedGeo(linkedGeo);
-		} else {
-			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-					linkedGeo.isIndependent(), false).withSliders(false);
-			algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo, defineText, info,
-					true, this, errorHandler);
-		}
+		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
+				defineText, info, true, this, errorHandler);
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {
@@ -156,12 +127,15 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			// GeoNumeric)
 			defineText = defineText + "+0" + Unicode.IMAGINARY;
 
-		} else if (linkedGeo instanceof FunctionalNVar) {
+		}
+
+		if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
+
 		return defineText;
 	}
 

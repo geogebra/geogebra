@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
@@ -15,6 +16,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -56,6 +58,8 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
+		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
+		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
@@ -92,7 +96,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		}
 
 		editor.setText(text);
-
+		editor.setLabel(geoInputBox.getAuralText());
 	}
 
 	private void updateText() {
@@ -153,6 +157,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		decorator.update();
 		geoInputBox.update();
 		editor.scrollHorizontally();
+		editor.updateAriaLabel();
 	}
 
 	@Override

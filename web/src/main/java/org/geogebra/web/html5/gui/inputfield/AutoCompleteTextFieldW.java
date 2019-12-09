@@ -10,7 +10,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
@@ -488,11 +488,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void addFocusListener(FocusListener listener) {
-		if (listener instanceof FocusListenerW) {
-			textField.getValueBox().addFocusHandler((FocusListenerW) listener);
-			textField.getValueBox().addBlurHandler((FocusListenerW) listener);
-		}
+	public void addFocusListener(FocusListenerDelegate listener) {
+		FocusListenerW focusListener = new FocusListenerW(listener, textField);
+		addFocusHandler(focusListener);
+		addBlurHandler(focusListener);
 	}
 
 	@Override

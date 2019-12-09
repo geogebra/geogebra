@@ -70,8 +70,8 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -170,7 +170,7 @@ public class AlgebraProcessor {
 
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
-	private CommandNameFilter noCASfilter;
+	private CommandFilter noCASfilter;
 
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
@@ -3567,14 +3567,14 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Sets the CommandNameFilter to the CommandDispatcher
+	 * Sets the CommandFilter to the CommandDispatcher
 	 * 
-	 * @param CommandNameFilter
-	 *            only the commands that are allowed by the CommandNameFilter
+	 * @param commandFilter
+	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
-	public void addCommandNameFilter(CommandNameFilter CommandNameFilter) {
-		cmdDispatcher.addCommandNameFilter(CommandNameFilter);
+	public void addCommandFilter(CommandFilter commandFilter) {
+		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 
 	/**
@@ -3628,7 +3628,7 @@ public class AlgebraProcessor {
 			return syntax.getCommandSyntaxCAS("NIntegral");
 		}
 		if (noCASfilter == null) {
-			noCASfilter = CommandNameFilterFactory.createNoCasCommandNameFilter();
+			noCASfilter = CommandFilterFactory.createNoCasCommandFilter();
 		}
 		if (!noCASfilter.isCommandAllowed(cmd)) {
 			return null;
