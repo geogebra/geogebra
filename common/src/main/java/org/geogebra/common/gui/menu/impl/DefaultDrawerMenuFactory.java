@@ -144,8 +144,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"GeoGebra3DGrapher.short", Action.START_GRAPHING_3D);
 		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
 				"ScientificCalculator", Action.START_SCIENTIFIC);
-		ActionableItem cas = platform == GeoGebraConstants.Platform.WEB ? null :
-				new ActionableItemImpl(Icon.APP_CAS_CALCULATOR,
+		ActionableItem cas = platform == GeoGebraConstants.Platform.WEB ? null
+				: new ActionableItemImpl(Icon.APP_CAS_CALCULATOR,
 						"CASCalculator", Action.START_CAS_CALCULATOR);
 		ActionableItem classic = isMobile() ? null : new ActionableItemImpl(Icon.APP_CLASSIC,
 				"Classic", Action.START_CLASSIC);
@@ -153,7 +153,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				graphing3d, scientific, cas, classic);
 		return retVal.toArray(new ActionableItem[0]);
 	}
-
 
 	private static MenuItem openFile() {
 		return new ActionableItemImpl(Icon.SEARCH, "Load", Action.SHOW_SEARCH_VIEW);

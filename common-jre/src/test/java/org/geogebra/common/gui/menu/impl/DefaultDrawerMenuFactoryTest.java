@@ -32,8 +32,8 @@ public class DefaultDrawerMenuFactoryTest {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.WEB, GeoGebraConstants.Version.GRAPHING,
-				logInOperation);
+				GeoGebraConstants.Platform.WEB,
+				GeoGebraConstants.Version.GRAPHING, logInOperation);
 		assertBasicProperties(factory, 4, 7, 5, 2, 1);
 	}
 
@@ -41,22 +41,24 @@ public class DefaultDrawerMenuFactoryTest {
 	public void testGraphingWebOnline() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(true);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.WEB, GeoGebraConstants.Version.GRAPHING,
-				logInOperation);
+				GeoGebraConstants.Platform.WEB,
+				GeoGebraConstants.Version.GRAPHING, logInOperation);
 		assertBasicProperties(factory, 4, 7, 5, 2, 2);
 	}
 
 	@Test
 	public void testScientificIos() {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.IOS, GeoGebraConstants.Version.SCIENTIFIC, null);
+				GeoGebraConstants.Platform.IOS,
+				GeoGebraConstants.Version.SCIENTIFIC, null);
 		assertBasicProperties(factory, 2, 2, 3);
 	}
 
 	@Test
 	public void testGraphingIos() {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.IOS, GeoGebraConstants.Version.GRAPHING, null);
+				GeoGebraConstants.Platform.IOS,
+				GeoGebraConstants.Version.GRAPHING, null);
 		assertBasicProperties(factory, 2, 5, 3);
 	}
 
@@ -64,14 +66,16 @@ public class DefaultDrawerMenuFactoryTest {
 	public void testGraphingAndroidOffline() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.ANDROID, GeoGebraConstants.Version.GRAPHING, logInOperation);
+				GeoGebraConstants.Platform.ANDROID,
+				GeoGebraConstants.Version.GRAPHING, logInOperation);
 		assertBasicProperties(factory, 3, 6, 3, 1);
 	}
 
 	@Test
 	public void testScientificWeb() {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.WEB, GeoGebraConstants.Version.SCIENTIFIC, null);
+				GeoGebraConstants.Platform.WEB,
+				GeoGebraConstants.Version.SCIENTIFIC, null);
 		assertBasicProperties(factory, 3, 1, 5, 2);
 	}
 
