@@ -666,7 +666,7 @@ public class AppCommon extends App {
 
     @Override
     public DrawEquation getDrawEquation() {
-        return new DrawEquationMock();
+        return new DrawEquationStub();
     }
 
     @Override

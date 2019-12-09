@@ -1,5 +1,9 @@
 package org.geogebra.web.full.euclidian;
 
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -40,6 +44,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private String text;
 	private MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
+	private TeXSerializer serializer;
 
 	/**
 	 * Constructor
@@ -59,6 +64,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
+		serializer = new TeXSerializer();
 	}
 
 	@Override
@@ -131,11 +137,19 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void applyChanges() {
+		setTempUserDisplayInput();
 		String editedText = editor.getText();
 		if (editedText.trim().equals(text)) {
 			return;
 		}
 		geoInputBox.updateLinkedGeo(editedText);
+	}
+
+	private void setTempUserDisplayInput() {
+		MathFieldInternal mathFieldInternal = editor.getMathField().getInternal();
+		MathFormula formula = mathFieldInternal.getFormula();
+		String latex = serializer.serialize(formula);
+		geoInputBox.setTempUserDisplayInput(latex);
 	}
 
 	@Override
