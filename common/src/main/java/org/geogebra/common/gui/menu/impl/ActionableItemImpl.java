@@ -8,6 +8,10 @@ class ActionableItemImpl extends AbtractMenuItem implements ActionableItem {
 
 	private Action action;
 
+	ActionableItemImpl(String label, Action action) {
+		this(null, label, action);
+	}
+
 	ActionableItemImpl(Icon icon, String label, Action action) {
 		super(icon, label);
 		this.action = action;

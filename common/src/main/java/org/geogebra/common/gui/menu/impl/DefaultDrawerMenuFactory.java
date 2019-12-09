@@ -7,22 +7,43 @@ import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Menu factory creating the default menus for all app versions and platforms.
+ */
 public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private GeoGebraConstants.Platform platform;
 	private LogInOperation logInOperation;
 
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform, GeoGebraConstants.Version version) {
+	/**
+	 * Create a new DrawerMenuFactory.
+	 *
+	 * @param platform platform
+	 * @param version version
+	 */
+	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+									GeoGebraConstants.Version version) {
 		this(platform, version, null);
 	}
 
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform, GeoGebraConstants.Version version, LogInOperation logInOperation) {
+	/**
+	 * Create a new DrawerMenuFactory.
+	 *
+	 * @param platform platform
+	 * @param version version
+	 * @param logInOperation if loginOperation is not null, it creates menu options that require
+	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
+	 */
+	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+									GeoGebraConstants.Version version,
+									LogInOperation logInOperation) {
 		super(version);
 		this.platform = platform;
 		this.logInOperation = logInOperation;
@@ -52,9 +73,12 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private MenuItemGroup createMainMenuItemGroup() {
 		MenuItem clearConstruction = clearConstruction();
 		MenuItem save = logInOperation == null ? null : saveFile();
-		MenuItem downloadAs = platform == GeoGebraConstants.Platform.DESKTOP ? showDownloadAs() : null;
-		MenuItem printPreview = platform == GeoGebraConstants.Platform.DESKTOP ? previewPrint() : null;
-		MenuItem startExamMode = platform == GeoGebraConstants.Platform.DESKTOP ? null : startExamMode();
+		MenuItem downloadAs = platform == GeoGebraConstants.Platform.DESKTOP ?
+				showDownloadAs() : null;
+		MenuItem printPreview = platform == GeoGebraConstants.Platform.DESKTOP ?
+				previewPrint() : null;
+		MenuItem startExamMode = platform == GeoGebraConstants.Platform.DESKTOP ?
+				null : startExamMode();
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
@@ -78,17 +102,33 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private MenuItemGroup createUserGroup() {
 		if (logInOperation != null) {
-			return new UserMenuItemGroup(logInOperation);
+			return createUserGroup(logInOperation);
 		}
 		return null;
 	}
 
+	private static MenuItemGroup createUserGroup(LogInOperation logInOperation) {
+		if (logInOperation.isLoggedIn()) {
+			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
+			return new MenuItemGroupImpl(signIn);
+		} else {
+			GeoGebraTubeUser user = logInOperation.getModel().getLoggedInUser();
+			MenuItem userItem = new ActionableItemImpl(Icon.USER_ICON,
+					user.getUserName(), Action.OPEN_PROFILE_PAGE);
+			MenuItem signOut = new ActionableItemImpl(Icon.SIGN_OUT,
+					"SignOut", Action.SIGN_OUT);
+			return new MenuItemGroupImpl(userItem, signOut);
+		}
+	}
+
 	private boolean isMobile() {
-		return platform == GeoGebraConstants.Platform.ANDROID || platform == GeoGebraConstants.Platform.IOS;
+		return platform == GeoGebraConstants.Platform.ANDROID
+				|| platform == GeoGebraConstants.Platform.IOS;
 	}
 
 	private static MenuItem startExamMode() {
-		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY, "exam_menu_entry", Action.START_EXAM_MODE);
+		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
+				"exam_menu_entry", Action.START_EXAM_MODE);
 	}
 
 	private MenuItem showAppPicker() {
@@ -96,22 +136,22 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private ActionableItem[] startAppItems() {
-		ArrayList<ActionableItem> items = new ArrayList<>(Arrays.<ActionableItem>asList(
-				new ActionableItemImpl(Icon.APP_GRAPHING, "GraphingCalculator", Action.START_GRAPHING),
-				new ActionableItemImpl(Icon.APP_GEOMETRY, "Geometry", Action.START_GEOMETRY),
-				new ActionableItemImpl(Icon.APP_GRAPHING3D, "GeoGebra3DGrapher.short", Action.START_GRAPHING_3D),
-				new ActionableItemImpl(Icon.APP_SCIENTIFIC, "ScientificCalculator", Action.START_SCIENTIFIC),
-				new ActionableItemImpl(Icon.APP_CAS_CALCULATOR, "CASCalculator", Action.START_CAS_CALCULATOR),
-				new ActionableItemImpl(Icon.APP_CLASSIC, "Classic", Action.START_CLASSIC)));
-		switch (platform) {
-			case WEB:
-				items.remove(5); // cas
-				break;
-			case ANDROID:
-			case IOS:
-				items.remove(6); // classic
-		}
-		return items.toArray(new ActionableItem[0]);
+		ActionableItem graphing = new ActionableItemImpl(Icon.APP_GRAPHING,
+				"GraphingCalculator", Action.START_GRAPHING);
+		ActionableItem geometry = new ActionableItemImpl(Icon.APP_GEOMETRY,
+				"Geometry", Action.START_GEOMETRY);
+		ActionableItem graphing3d = new ActionableItemImpl(Icon.APP_GRAPHING3D,
+				"GeoGebra3DGrapher.short", Action.START_GRAPHING_3D);
+		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
+				"ScientificCalculator", Action.START_SCIENTIFIC);
+		ActionableItem cas = platform == GeoGebraConstants.Platform.WEB ? null :
+				new ActionableItemImpl(Icon.APP_CAS_CALCULATOR,
+						"CASCalculator", Action.START_CAS_CALCULATOR);
+		ActionableItem classic = isMobile() ? null : new ActionableItemImpl(Icon.APP_CLASSIC,
+				"Classic", Action.START_CLASSIC);
+		List<ActionableItem> retVal = removeNulls(graphing, geometry,
+				graphing3d, scientific, cas, classic);
+		return retVal.toArray(new ActionableItem[0]);
 	}
 
 
@@ -140,39 +180,48 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static MenuItem showHelpAndFeedback() {
-		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL, "Tutorial", Action.SHOW_TUTORIALS);
-		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER, "AskAQuestion", Action.SHOW_FORUM);
-		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT, "ReportBug", Action.REPORT_PROBLEM);
-		ActionableItem license = new ActionableItemImpl(Icon.INFO, "AboutLicense", Action.SHOW_LICENSE);
+		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
+				"Tutorial", Action.SHOW_TUTORIALS);
+		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
+				"AskAQuestion", Action.SHOW_FORUM);
+		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
+				"ReportBug", Action.REPORT_PROBLEM);
+		ActionableItem license = new ActionableItemImpl(Icon.INFO,
+				"AboutLicense", Action.SHOW_LICENSE);
 		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback",
 				tutorials, askQuestion, reportProblem, license);
 	}
 
 	private MenuItem showDownloadAs() {
-		ActionableItem png = new ActionableItemImpl(Icon.NONE, "PNGImage", Action.DOWNLOAD_PNG);
-		ActionableItem svg = new ActionableItemImpl(Icon.NONE, "SVGImage", Action.DOWNLOAD_SVG);
-		ActionableItem pdf = new ActionableItemImpl(Icon.NONE, "PDFDocument", Action.DOWNLOAD_PDF);
+		ActionableItem png = new ActionableItemImpl(null, "PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem svg = new ActionableItemImpl(null, "SVGImage", Action.DOWNLOAD_SVG);
+		ActionableItem pdf = new ActionableItemImpl(null, "PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 			case NOTES:
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadSlides(), png, svg, pdf);
+				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs",
+						createDownloadSlides(), png, svg, pdf);
 			case GRAPHING_3D:
-				ActionableItem dae = new ActionableItemImpl(Icon.NONE, "ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
-				ActionableItem html = new ActionableItemImpl(Icon.NONE, "ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(), png, svg, pdf, createStl(), dae, html);
+				ActionableItem dae = new ActionableItemImpl(
+						"ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
+				ActionableItem html = new ActionableItemImpl(
+						"ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
+				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
+						png, svg, pdf, createStl(), dae, html);
 			default:
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(), png, svg, pdf, createStl());
+				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
+						png, svg, pdf, createStl());
 		}
 	}
 
 	private static ActionableItem createDownloadGgb() {
-		return new ActionableItemImpl(Icon.NONE, "GeoGebraFile", Action.DOWNLOAD_GGB);
+		return new ActionableItemImpl("GeoGebraFile", Action.DOWNLOAD_GGB);
 	}
 
 	private static ActionableItem createDownloadSlides() {
-		return new ActionableItemImpl(Icon.NONE, "SlidesGgs", Action.DOWNLOAD_GGS);
+		return new ActionableItemImpl("SlidesGgs", Action.DOWNLOAD_GGS);
 	}
 
 	private static ActionableItem createStl() {
-		return new ActionableItemImpl(Icon.NONE, "3DPrint", Action.DOWNLOAD_STL);
+		return new ActionableItemImpl("3DPrint", Action.DOWNLOAD_STL);
 	}
 }
