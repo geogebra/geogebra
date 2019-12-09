@@ -9764,27 +9764,33 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean handleVideoEmbedReleased() {
-		GeoWidget widget = getVideoOrEmbedHit();
-
-		if (draggingOccured || widget == null || videoHasError(widget)) {
+		if (draggingOccured || view.getHits().isEmpty()) {
 			return false;
 		}
 
-		selectAndShowBoundingBox(widget);
+		GeoElement topHit = view.getHits().get(view.getHits().size() - 1);
 
-		if (widget instanceof GeoVideo) {
-			app.getVideoManager().play((GeoVideo) widget);
-		}
-		if (widget instanceof GeoEmbed) {
-			app.getEmbedManager().play((GeoEmbed) widget);
+		if (topHit instanceof GeoVideo) {
+			if (videoHasError((GeoVideo) topHit)) {
+				return false;
+			}
+
+			selectAndShowBoundingBox(topHit);
+			app.getVideoManager().play((GeoVideo) topHit);
+			return true;
 		}
 
-		return true;
+		if (topHit instanceof GeoEmbed) {
+			selectAndShowBoundingBox(topHit);
+			app.getEmbedManager().play((GeoEmbed) topHit);
+			return true;
+		}
+
+		return false;
 	}
 
-	private boolean videoHasError(GeoWidget video) {
-		return video instanceof GeoVideo
-				&& app.getVideoManager().isPlayerOffline((GeoVideo) video);
+	private boolean videoHasError(GeoVideo video) {
+		return app.getVideoManager().isPlayerOffline(video);
 	}
 
 	private void setMoveModeForFurnitures() {
@@ -10282,10 +10288,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
 			am.setTabOverGeos(true);
 		}
-		// handle video/audio/embeded/text release (mow)
-		if (handleVideoEmbedReleased()) {
-			return;
-		}
 
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
@@ -10354,6 +10356,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
+			return;
+		}
+
+		// handle video/audio/embeded/text release (mow)
+		if (handleVideoEmbedReleased()) {
 			return;
 		}
 
@@ -10902,20 +10909,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-		}
-		return null;
-	}
-
-	protected GeoWidget getVideoOrEmbedHit() {
-		Hits hits = view.getHits();
-		if (hits != null && hits.size() > 0) {
-			Hits topHits = hits.getTopHits();
-			for (int i = topHits.size() - 1; i >= 0; i--) {
-				GeoElement geo = topHits.get(i);
-				if (geo instanceof GeoVideo || geo instanceof GeoEmbed) {
-					return (GeoWidget) geo;
-				}
-			}
 		}
 		return null;
 	}
