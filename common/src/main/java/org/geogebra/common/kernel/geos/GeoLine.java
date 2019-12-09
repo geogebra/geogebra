@@ -1961,7 +1961,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private void maybeSetToStringMode(int mode) {
-		if (!cons.getKernel().getApplication().isUnbundledGraphing()) {
+		if (!cons.getApplication().getConfig().forceInputForm()) {
 			toStringMode = mode;
 		} else {
 			toStringMode = EQUATION_USER;

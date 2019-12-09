@@ -40,4 +40,9 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	public CommandFilter getCommandFilter() {
 		return CommandFilterFactory.createNoCasCommandFilter();
 	}
+
+	@Override
+	public boolean forceInputForm() {
+		return false;
+	}
 }

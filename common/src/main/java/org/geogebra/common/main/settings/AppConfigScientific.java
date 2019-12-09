@@ -94,4 +94,9 @@ public class AppConfigScientific extends AppConfigGraphing {
 	public String getExamMenuItemText() {
 		return "";
 	}
+
+	@Override
+	public boolean forceInputForm() {
+		return false;
+	}
 }

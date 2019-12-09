@@ -847,7 +847,7 @@ abstract public class ObjectSettingsModel {
         boolean show = geoElementsList.size() > 0;
         for (int i = 0; i < geoElementsList.size(); i++) {
             GeoElement element = geoElementsList.get(i);
-            if (app.isUnbundledGraphing()) {
+            if (app.getConfig().forceInputForm()) {
                 show = show && !(element instanceof  GeoLine) || (element instanceof  GeoConicND);
             } else {
                 show = show && (element instanceof GeoLine);

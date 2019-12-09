@@ -172,5 +172,10 @@ public interface AppConfig {
 	 * @return the ggbtranskey for the exam starting menu item in the MainMenu
 	 */
 	String getExamMenuItemText();
+
+	/**
+	 * @return weather has forced input form for equations (currently only graphing)
+	 */
+	boolean forceInputForm();
 }
 

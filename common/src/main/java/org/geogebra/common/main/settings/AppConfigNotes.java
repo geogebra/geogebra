@@ -39,4 +39,9 @@ public class AppConfigNotes extends AppConfigDefault {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.NOTES;
 	}
+
+	@Override
+	public boolean forceInputForm() {
+		return false;
+	}
 }

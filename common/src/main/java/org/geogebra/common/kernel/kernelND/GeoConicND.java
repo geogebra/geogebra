@@ -4582,7 +4582,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private void maybeSetToStringMode(int mode) {
-		if (!cons.getKernel().getApplication().isUnbundledGraphing()) {
+		if (!cons.getApplication().getConfig().forceInputForm()) {
 			toStringMode = mode;
 		} else {
 			toStringMode = EQUATION_USER;

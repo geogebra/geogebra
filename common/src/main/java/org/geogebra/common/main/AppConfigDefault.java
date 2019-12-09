@@ -224,4 +224,9 @@ public class AppConfigDefault implements AppConfig {
 	public String getExamMenuItemText() {
 		return "";
 	}
+
+	@Override
+	public boolean forceInputForm() {
+		return false;
+	}
 }

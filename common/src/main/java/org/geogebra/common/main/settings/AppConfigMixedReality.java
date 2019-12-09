@@ -33,4 +33,9 @@ public class AppConfigMixedReality extends AppConfigDefault {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.MIXED_REALITY;
 	}
+
+	@Override
+	public boolean forceInputForm() {
+		return false;
+	}
 }

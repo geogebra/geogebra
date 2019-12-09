@@ -129,4 +129,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public String getExamMenuItemText() {
 		return "";
 	}
+
+	@Override
+	public boolean forceInputForm() {
+		return false;
+	}
 }
