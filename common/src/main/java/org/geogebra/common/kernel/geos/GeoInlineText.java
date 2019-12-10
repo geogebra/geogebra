@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -11,7 +12,7 @@ import org.geogebra.common.plugin.GeoClass;
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoElement {
+public class GeoInlineText extends GeoElement implements Translateable {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -148,5 +149,15 @@ public class GeoInlineText extends GeoElement {
 	@Override
 	public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
+	}
+
+	@Override
+	public void translate(Coords v) {
+		location.setLocation(location.getX() + v.getX(), location.getY() + v.getY());
+	}
+
+	@Override
+	public boolean isTranslateable() {
+		return true;
 	}
 }
