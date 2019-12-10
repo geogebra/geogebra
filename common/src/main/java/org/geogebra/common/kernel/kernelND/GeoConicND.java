@@ -1382,18 +1382,22 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            equation mode (one of EQUATION_* constants)
 	 */
 	public void setToStringMode(int mode) {
-		switch (mode) {
-		case EQUATION_SPECIFIC:
-		case EQUATION_EXPLICIT:
-		case EQUATION_USER:
-		case EQUATION_PARAMETRIC:
-		case EQUATION_VERTEX:
-		case EQUATION_CONICFORM:
-			maybeSetToStringMode(mode);
-			break;
+		if (isEquationFormEnforced()) {
+			toStringMode = EQUATION_USER;
+		} else {
+			switch (mode) {
+				case EQUATION_SPECIFIC:
+				case EQUATION_EXPLICIT:
+				case EQUATION_USER:
+				case EQUATION_PARAMETRIC:
+				case EQUATION_VERTEX:
+				case EQUATION_CONICFORM:
+					toStringMode = mode;
+					break;
 
-		default:
-			maybeSetToStringMode(EQUATION_IMPLICIT);
+				default:
+					toStringMode = EQUATION_IMPLICIT;
+			}
 		}
 	}
 
@@ -4582,11 +4586,18 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private void maybeSetToStringMode(int mode) {
-		int enforcedEquationForm = cons.getApplication().getConfig().getEnforcedConicEquationForm();
-		if (enforcedEquationForm != -1) {
-			toStringMode = enforcedEquationForm;
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
 		} else {
 			toStringMode = mode;
+		}
+	}
+
+	private boolean isEquationFormEnforced() {
+		if (cons.getApplication().getConfig().getEnforcedConicEquationForm() == -1) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
