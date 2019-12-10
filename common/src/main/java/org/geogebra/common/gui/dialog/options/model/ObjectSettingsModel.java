@@ -840,7 +840,7 @@ abstract public class ObjectSettingsModel {
             }
             if (element instanceof  GeoConicND) {
                 forcedInputForm =
-                        app.getConfig().getEnforcedLineEquationForm() == GeoConic.EQUATION_USER;
+                        app.getConfig().getEnforcedConicEquationForm() == GeoConic.EQUATION_USER;
             }
             show = show && !forcedInputForm;
             show = show && element instanceof GeoLine && !element.isNumberValue();
