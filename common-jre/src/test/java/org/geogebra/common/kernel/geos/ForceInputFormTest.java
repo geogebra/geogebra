@@ -20,9 +20,9 @@ public class ForceInputFormTest extends BaseUnitTest {
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-        Assert.assertTrue(geoLine.getToStringMode() == GeoLine.EQUATION_USER);
-        Assert.assertTrue(parabola.getToStringMode() == GeoConic.EQUATION_USER);
-        Assert.assertTrue(hyperbola.getToStringMode() == GeoConic.EQUATION_USER);
+        Assert.assertEquals(geoLine.getToStringMode(), GeoLine.EQUATION_USER);
+        Assert.assertEquals(parabola.getToStringMode(), GeoConic.EQUATION_USER);
+        Assert.assertEquals(hyperbola.getToStringMode(), GeoConic.EQUATION_USER);
     }
 
     @Test
