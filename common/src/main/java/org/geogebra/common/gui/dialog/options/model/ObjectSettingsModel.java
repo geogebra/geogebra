@@ -7,21 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoButton;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoVec3D;
-import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.geos.*;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -847,12 +833,17 @@ abstract public class ObjectSettingsModel {
         boolean show = geoElementsList.size() > 0;
         for (int i = 0; i < geoElementsList.size(); i++) {
             GeoElement element = geoElementsList.get(i);
-            if (app.getConfig().forceInputForm()) {
-                show = show && !(element instanceof  GeoLine) || (element instanceof  GeoConicND);
-            } else {
-                show = show && (element instanceof GeoLine);
+            boolean forcedInputForm = false;
+            if (element instanceof  GeoLine) {
+                forcedInputForm =
+                        app.getConfig().getEnforcedLineEquationForm() == GeoLine.EQUATION_USER;
             }
-            show = show && !element.isNumberValue();
+            if (element instanceof  GeoConicND) {
+                forcedInputForm =
+                        app.getConfig().getEnforcedLineEquationForm() == GeoConic.EQUATION_USER;
+            }
+            show = show && !forcedInputForm;
+            show = show && element instanceof GeoLine && !element.isNumberValue();
             show = show && element.getDefinition() == null;
         }
         return show;

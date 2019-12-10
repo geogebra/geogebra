@@ -225,8 +225,13 @@ public class AppConfigDefault implements AppConfig {
 		return "";
 	}
 
-	@Override
-	public boolean forceInputForm() {
-		return false;
-	}
+    @Override
+    public int getEnforcedLineEquationForm() {
+	    return -1;
+    }
+
+    @Override
+    public int getEnforcedConicEquationForm() {
+        return -1;
+    }
 }

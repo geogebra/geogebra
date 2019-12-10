@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -228,7 +229,12 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean forceInputForm() {
-		return true;
+	public int getEnforcedLineEquationForm() {
+		return GeoLine.EQUATION_USER;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return GeoConic.EQUATION_USER;
 	}
 }

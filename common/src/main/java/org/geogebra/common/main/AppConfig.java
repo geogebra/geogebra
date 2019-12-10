@@ -176,6 +176,15 @@ public interface AppConfig {
 	/**
 	 * @return weather has forced input form for equations (currently only graphing)
 	 */
-	boolean forceInputForm();
+
+	/**
+	 * @return EQUATION_USER if it's true and -1 if it's false (currently only graphing)
+	 */
+	int getEnforcedLineEquationForm();
+
+	/**
+	 * @return EQUATION_USER if it's true and -1 if it's false (currently only graphing)
+	 */
+	int getEnforcedConicEquationForm();
 }
 

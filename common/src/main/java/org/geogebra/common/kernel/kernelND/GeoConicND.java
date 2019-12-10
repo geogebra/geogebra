@@ -4582,10 +4582,11 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private void maybeSetToStringMode(int mode) {
-		if (!cons.getApplication().getConfig().forceInputForm()) {
-			toStringMode = mode;
+		int enforcedEquationForm = cons.getApplication().getConfig().getEnforcedConicEquationForm();
+		if (enforcedEquationForm != -1) {
+			toStringMode = enforcedEquationForm;
 		} else {
-			toStringMode = EQUATION_USER;
+			toStringMode = mode;
 		}
 	}
 

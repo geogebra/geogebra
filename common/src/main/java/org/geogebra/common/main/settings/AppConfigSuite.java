@@ -11,7 +11,12 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean forceInputForm() {
-		return false;
+	public int getEnforcedLineEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return -1;
 	}
 }
