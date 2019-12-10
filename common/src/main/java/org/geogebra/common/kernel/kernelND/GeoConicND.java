@@ -1385,19 +1385,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (isEquationFormEnforced()) {
 			toStringMode = EQUATION_USER;
 		} else {
-			switch (mode) {
-				case EQUATION_SPECIFIC:
-				case EQUATION_EXPLICIT:
-				case EQUATION_USER:
-				case EQUATION_PARAMETRIC:
-				case EQUATION_VERTEX:
-				case EQUATION_CONICFORM:
-					toStringMode = mode;
-					break;
-
-				default:
-					toStringMode = EQUATION_IMPLICIT;
-			}
+			setModeHelper(mode);
 		}
 	}
 
@@ -4598,6 +4586,22 @@ public abstract class GeoConicND extends GeoQuadricND
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	private void setModeHelper(int mode) {
+		switch (mode) {
+			case EQUATION_SPECIFIC:
+			case EQUATION_EXPLICIT:
+			case EQUATION_USER:
+			case EQUATION_PARAMETRIC:
+			case EQUATION_VERTEX:
+			case EQUATION_CONICFORM:
+				toStringMode = mode;
+				break;
+
+			default:
+				toStringMode = EQUATION_IMPLICIT;
 		}
 	}
 

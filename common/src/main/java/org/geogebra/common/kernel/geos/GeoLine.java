@@ -939,18 +939,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (isEquationFormEnforced()) {
 			toStringMode = EQUATION_USER;
 		} else {
-			switch (mode) {
-				case PARAMETRIC:
-				case EQUATION_EXPLICIT:
-				case EQUATION_IMPLICIT_NON_CANONICAL:
-				case EQUATION_GENERAL:
-				case EQUATION_USER:
-					toStringMode = mode;
-					break;
-
-				default:
-					toStringMode = EQUATION_IMPLICIT;
-			}
+			setModeHelper(mode);
 		}
 	}
 
@@ -1977,6 +1966,21 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	private void setModeHelper(int mode) {
+		switch (mode) {
+			case PARAMETRIC:
+			case EQUATION_EXPLICIT:
+			case EQUATION_IMPLICIT_NON_CANONICAL:
+			case EQUATION_GENERAL:
+			case EQUATION_USER:
+				toStringMode = mode;
+				break;
+
+			default:
+				toStringMode = EQUATION_IMPLICIT;
 		}
 	}
 }
