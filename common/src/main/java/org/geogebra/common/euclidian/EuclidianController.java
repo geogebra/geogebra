@@ -156,7 +156,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 public abstract class EuclidianController implements SpecialPointsListener {
 
@@ -8669,9 +8668,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		}
+
 		// preview shape for mow text tool
-		if (mode == EuclidianConstants.MODE_MEDIA_TEXT
-				&& app.has(Feature.MOW_TEXT_TOOL)) {
+		if (mode == EuclidianConstants.MODE_MEDIA_TEXT) {
 			view.setBoundingBox(null);
 			updateTextRectangle(event);
 			view.setShapeRectangle(textRectangleShape);
