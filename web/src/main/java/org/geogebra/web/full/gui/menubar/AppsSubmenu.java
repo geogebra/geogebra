@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -13,6 +12,8 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+
+import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -34,17 +35,18 @@ public class AppsSubmenu extends Submenu {
 
 	private void initActions() {
 		addMenuItem("graphing", "GraphingCalculator",
-				SvgPerspectiveResources.INSTANCE.menu_icon_algebra24());
+				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent());
 		addMenuItem("geometry", "Geometry",
-				SvgPerspectiveResources.INSTANCE.menu_icon_graphics());
+				SvgPerspectiveResources.INSTANCE
+						.menu_icon_geometry_transparent());
 		addMenuItem("3d", "Graphing3D",
-				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D24());
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent());
 		addMenuItem("cas", "CASCalculator",
-				SvgPerspectiveResources.INSTANCE.menu_icon_cas24());
+				SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent());
 		addMenuItem("calculator", "ScientificCalculator",
 				MaterialDesignResources.INSTANCE.scientific());
 		addMenuItem("notes", "Notes",
-				SvgPerspectiveResources.INSTANCE.menu_icon_whiteboard24());
+				SvgPerspectiveResources.INSTANCE.menu_icon_whiteboard_transparent());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 		if (app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported()) {

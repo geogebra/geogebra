@@ -69,7 +69,7 @@ public class EmbedManagerW implements EmbedManager {
 		this.app = app;
 		this.counter = 0;
 		preview = new MyImageW(ImageManagerW.getInternalImage(
-				SvgPerspectiveResources.INSTANCE.menu_icon_algebra24()), true);
+				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent()), true);
 	}
 
 	@Override

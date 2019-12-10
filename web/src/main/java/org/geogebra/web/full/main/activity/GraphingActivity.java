@@ -19,7 +19,7 @@ public class GraphingActivity extends BaseActivity {
 
 	@Override
 	public SVGResource getIcon() {
-		return SvgPerspectiveResources.INSTANCE.menu_icon_algebra24();
+		return SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent();
 	}
 
 	@Override

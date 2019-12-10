@@ -33,7 +33,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 
 		switch (type) {
 		case EUCLIDIAN3D:
-			return pr.menu_icon_graphics3D24().getSafeUri().asString();
+			return pr.menu_icon_graphics3D_transparent().getSafeUri().asString();
 		case EUCLIDIAN_FOR_PLANE:
 			return pr.menu_icon_graphics_extra().getSafeUri().asString();
 		default:

@@ -22,7 +22,7 @@ public class Graphing3DActivity extends BaseActivity {
 
 	@Override
 	public SVGResource getIcon() {
-		return SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D24();
+		return SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent();
 	}
 
 	@Override

@@ -37,12 +37,12 @@ public class PerspectivesMenuW extends Submenu {
 
 	private void initActions() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
-		addPerspective(0, pr.menu_icon_algebra24());
-		addPerspective(3, pr.menu_icon_cas24());
-		addPerspective(1, pr.menu_icon_geometry24());
-		addPerspective(4, pr.menu_icon_graphics3D24());
-		addPerspective(2, pr.menu_icon_spreadsheet24());
-		addPerspective(5, pr.menu_icon_probability24());
+		addPerspective(0, pr.menu_icon_algebra_transparent());
+		addPerspective(3, pr.menu_icon_cas_transparent());
+		addPerspective(1, pr.menu_icon_geometry_transparent());
+		addPerspective(4, pr.menu_icon_graphics3D_transparent());
+		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
+		addPerspective(5, pr.menu_icon_probability_transparent());
 
 		if (!app.isExam()) {
 			if (app.getLAF().examSupported()) {

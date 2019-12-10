@@ -211,15 +211,15 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
-			return pr.menu_icon_spreadsheet24().getSafeUri().asString();
+			return pr.menu_icon_spreadsheet_transparent().getSafeUri().asString();
 		case EUCLIDIAN:
 			return pr.menu_icon_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return pr.menu_icon_graphics224().getSafeUri().asString();
+			return pr.menu_icon_graphics2_transparent().getSafeUri().asString();
 		case CAS:
-			return pr.menu_icon_cas24().getSafeUri().asString();
+			return pr.menu_icon_cas_transparent().getSafeUri().asString();
 		case ALGEBRA:
-			return pr.menu_icon_algebra24().getSafeUri().asString();
+			return pr.menu_icon_algebra_transparent().getSafeUri().asString();
 		case OBJECTS:
 			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();
 		case LAYOUT:
