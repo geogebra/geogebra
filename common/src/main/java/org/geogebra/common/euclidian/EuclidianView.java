@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
@@ -58,6 +59,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -279,7 +281,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
 
-	protected DrawableList allDrawableList = new DrawableList();
+	public DrawableList allDrawableList = new DrawableList();
 	/** lists of geos on different layers */
 	public DrawableList[] drawLayers;
 
@@ -2095,6 +2097,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d == null) {
 			return;
 		}
+
 		drawLayers[layer].remove(d);
 		if (d instanceof RemoveNeeded) {
 			((RemoveNeeded) d).remove();
@@ -6547,7 +6550,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *
 	 * @return an implementation of the text controller.
 	 */
-	public InlineTextController createInlineTextController() {
+	public InlineTextController createInlineTextController(GeoInlineText geo) {
 		return null;
 	}
 }

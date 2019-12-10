@@ -25,6 +25,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1858,7 +1859,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public InlineTextController createInlineTextController() {
-		return new InlineTextControllerW(getAbsolutePanel().getParent().getElement());
+	public InlineTextController createInlineTextController(GeoInlineText geo) {
+		return new InlineTextControllerW(geo, getAbsolutePanel().getParent().getElement());
 	}
 }

@@ -10,9 +10,11 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
@@ -4439,6 +4441,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 		if (getApplication().getEmbedManager() != null) {
 			getApplication().getEmbedManager().storeEmbeds();
+		}
+		for (Drawable dr : app.getActiveEuclidianView().allDrawableList) {
+			if (dr instanceof DrawInlineText) {
+				((DrawInlineText) dr).remove();
+			}
 		}
 	}
 

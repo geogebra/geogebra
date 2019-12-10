@@ -16,11 +16,42 @@ public class CarotaEditor implements Editor {
 	private JavaScriptObject editor;
 
 	private static native JavaScriptObject createEditorNative(Element div) /*-{
-		return $wnd.carota.editor.create(div);
+		var editor = $wnd.carota.editor.create(div);
+
+		div.querySelector('.carotaSpacer').addEventListener('click', function(e) {
+			console.log("clicked");
+			e.stopPropagation();
+		});
+
+		return editor;
 	}-*/;
 
 	private static native void focusNative(JavaScriptObject editor) /*-{
 		editor.notifySelectionChanged(true);
+	}-*/;
+
+	private native void setContentNative(JavaScriptObject editor, String content) /*-{
+		editor.load(JSON.parse(content));
+	}-*/;
+
+	private native void addListenerNative(Widget widget, JavaScriptObject editor,
+			EditorChangeListener listener) /*-{
+		var updateTimer = null;
+
+		editor.contentChanged(function() {
+			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)(
+				widget.@com.google.gwt.user.client.ui.Widget::getOffsetWidth()(),
+				widget.@com.google.gwt.user.client.ui.Widget::getOffsetHeight()()
+			);
+
+			if (updateTimer !== null) {
+				clearTimeout(updateTimer);
+			}
+			updateTimer = setTimeout(function() {
+				updateTimer = null;
+				listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onContentChanged(*)(JSON.stringify(editor.save()));
+			}, 500);
+		})
 	}-*/;
 
 	/**
@@ -33,6 +64,8 @@ public class CarotaEditor implements Editor {
 
 	private Widget createWidget() {
 		HTML html = new HTML("<div></div>");
+		html.addStyleName("mowWidget");
+		html.addStyleName("background");
 		editor = createEditorNative(html.getElement());
 		return html;
 	}
@@ -50,5 +83,15 @@ public class CarotaEditor implements Editor {
 	@Override
 	public Widget getWidget() {
 		return widget;
+	}
+
+	@Override
+	public void setContent(String content) {
+		setContentNative(editor, content);
+	}
+
+	@Override
+	public void addListener(EditorChangeListener listener) {
+		addListenerNative(widget, editor, listener);
 	}
 }
