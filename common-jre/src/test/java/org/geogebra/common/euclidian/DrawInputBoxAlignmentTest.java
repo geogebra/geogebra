@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.eq;
 
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -17,7 +19,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 public class DrawInputBoxAlignmentTest {
-	private static final double INPUT_TOP = 53.0d;
 	private static final double INPUT_LEFT = 38;
 	private static final double TEXT_WIDTH = 36;
 	private static final double INPUT_WIDTH = 194;
@@ -30,7 +31,7 @@ public class DrawInputBoxAlignmentTest {
 		app = new AppCommon(new LocalizationCommon(2), factoryCommon);
 		EuclidianView ev = app.getActiveEuclidianView();
 		ev.initAxesValues();
-		((EuclidianViewNoGui) ev).setViewTextField(new TextFieldCommonJre(ev));
+		ev.setViewTextField(new TextFieldCommonJre(ev));
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("ZoomIn(-1,-1, 1,1) ", false);
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("f = \"123456\" ", false);
 		inputBox = (GeoInputBox) app.getKernel().getAlgebraProcessor()
@@ -41,8 +42,8 @@ public class DrawInputBoxAlignmentTest {
 	public void inputBoxTextAlignmentTest() {
 		inputBox.setAlignment(TextAlignment.LEFT);
 		inputBox.update();
-		verifyDrawString("A", 30.0d, INPUT_TOP);
-		verifyDrawString("123456", INPUT_LEFT + 2, INPUT_TOP);
+		verifyDrawString("A", 30.0d);
+		verifyDrawString("123456", INPUT_LEFT + 2);
 		verifyAlignment(TextAlignment.LEFT);
 	}
 
@@ -50,9 +51,9 @@ public class DrawInputBoxAlignmentTest {
 	public void inputBoxTextAlignmentTestCenter() {
 		inputBox.setAlignment(TextAlignment.CENTER);
 		inputBox.update();
-		verifyDrawString("123456",
-				INPUT_LEFT + INPUT_WIDTH * .5 - TEXT_WIDTH * .5,
-				INPUT_TOP);
+		verifyDrawString(
+				"123456",
+				INPUT_LEFT + INPUT_WIDTH * .5 - TEXT_WIDTH * .5);
 		verifyAlignment(TextAlignment.CENTER);
 	}
 
@@ -60,9 +61,10 @@ public class DrawInputBoxAlignmentTest {
 	public void inputBoxTextAlignmentTestRight() {
 		inputBox.setAlignment(TextAlignment.RIGHT);
 		inputBox.update();
-		verifyDrawString("123456", INPUT_LEFT + INPUT_WIDTH - TEXT_WIDTH
-				- DrawInputBox.TF_PADDING_HORIZONTAL,
-				INPUT_TOP);
+		verifyDrawString(
+				"123456",
+				INPUT_LEFT + INPUT_WIDTH - TEXT_WIDTH
+						- DrawInputBox.TF_PADDING_HORIZONTAL);
 		verifyAlignment(TextAlignment.RIGHT);
 	}
 
@@ -73,10 +75,10 @@ public class DrawInputBoxAlignmentTest {
 		assertEquals(left, autoCompleteTextFieldC.getAlignment());
 	}
 
-	private void verifyDrawString(String string, double d, double e) {
+	private void verifyDrawString(String string, double x) {
 		GGraphicsCommon graphics = Mockito.spy(new GGraphicsCommon());
 		Drawable drawable = (Drawable) app.getActiveEuclidianView().getDrawableFor(inputBox);
 		drawable.draw(graphics);
-		Mockito.verify(graphics).drawString(string, d, e);
+		Mockito.verify(graphics).drawString(eq(string), eq(x), anyDouble());
 	}
 }

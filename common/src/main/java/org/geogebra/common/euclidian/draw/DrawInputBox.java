@@ -48,7 +48,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private static final int TF_MARGIN_VERTICAL = 10;
 	/** Padding of the field (plain text) */
 	public static final int TF_PADDING_HORIZONTAL = 2;
-	public static final int MIN_HEIGHT = 46;
+	public static final int MIN_HEIGHT = 24;
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
