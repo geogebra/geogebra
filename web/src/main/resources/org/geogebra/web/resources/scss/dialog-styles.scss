@@ -1,5 +1,7 @@
 @import 'colors';
+@import 'text-styles';
 $duration: 0.2s;
+
 
 .GeoGebraFrame {
 
@@ -1169,6 +1171,7 @@ $duration: 0.2s;
    		}
    		&.narrowDialog {
 			max-width: 376px; // 400px - (8px + 16px) padding
+			width: fit-content;
 		}
 		&.noButtons {
 			.gwt-Label{
@@ -1505,5 +1508,27 @@ $duration: 0.2s;
    		.DialogButtonPanel {
 			margin-right: 8px;
 		}
+   	}
+
+   	.MaterialDialogBox.whatsNewDialog {
+   	    width: 560px;
+   	    .title {
+   	        @extend .headline6;
+   	        margin-top: 0px;
+            margin-bottom: 20px;
+   	    }
+   	    .messagePanel {
+   	        padding-right: 16px;
+   	        .message {
+                @extend .subtitle1;
+               	margin-right: 4px;
+            }
+            .link {
+                @extend .subtitle1-link;
+            }
+   	    }
+        .DialogButtonPanel {
+            padding-top: 28px;
+        }
    	}
 }

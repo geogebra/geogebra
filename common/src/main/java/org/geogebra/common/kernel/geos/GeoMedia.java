@@ -117,16 +117,6 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	protected abstract void onSourceChanged();
 
 	/**
-	 * Plays the media.
-	 */
-	public abstract void play();
-
-	/**
-	 * @return if media is playing.
-	 */
-	public abstract boolean isPlaying();
-
-	/**
 	 * @return the duration in seconds.
 	 */
 	public abstract int getDuration();
@@ -150,17 +140,6 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	 */
 	public MediaFormat getFormat() {
 		return format;
-	}
-
-	/**
-	 * Stops media play back.
-	 */
-	public abstract void pause();
-
-	@Override
-	public void remove() {
-		pause();
-		super.remove();
 	}
 
 	@Override

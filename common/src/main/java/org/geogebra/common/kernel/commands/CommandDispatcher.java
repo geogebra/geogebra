@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -77,7 +77,7 @@ public abstract class CommandDispatcher {
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
-	private List<CommandNameFilter> commandNameFilters;
+	private List<CommandFilter> commandFilters;
 	/** number of visible tables */
 	public static final int tableCount = 20;
 
@@ -147,8 +147,8 @@ public abstract class CommandDispatcher {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandNameFilters = new ArrayList<>();
-		addCommandNameFilter(app.getConfig().getCommandNameFilter());
+		commandFilters = new ArrayList<>();
+		addCommandFilter(app.getConfig().getCommandFilter());
 	}
 
 	/**
@@ -197,7 +197,7 @@ public abstract class CommandDispatcher {
 	 */
 	public boolean isAllowedByNameFilter(Commands command) {
 		boolean allowed = true;
-		for (CommandNameFilter filter : commandNameFilters) {
+		for (CommandFilter filter : commandFilters) {
 			allowed = allowed && filter.isCommandAllowed(command);
 		}
 		return allowed;
@@ -973,26 +973,26 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * add a new CommandNameFilter
+	 * Add a new CommandFilter.
 	 * 
 	 * @param filter
 	 *            to add. only the commands that are allowed by all
-	 *            commandNameFilters will be added to the command table
+	 *            commandFilters will be added to the command table
 	 */
-	public void addCommandNameFilter(CommandNameFilter filter) {
+	public void addCommandFilter(CommandFilter filter) {
 		if (filter != null) {
-			commandNameFilters.add(filter);
+			commandFilters.add(filter);
 		}
 	}
 
 	/**
-	 * remove commandNameFilter
+	 * remove command filter
 	 * 
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandNameFilter(CommandNameFilter filter) {
-		commandNameFilters.remove(filter);
+	public void removeCommandFilter(CommandFilter filter) {
+		commandFilters.remove(filter);
 	}
 
 	/**

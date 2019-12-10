@@ -39,13 +39,13 @@ import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -85,7 +85,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -2253,9 +2252,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			currentSelectionListener = null;
 		}
 		if (mode != EuclidianConstants.MODE_MOVE) {
-			if (getVideoManager() != null) {
-				getVideoManager().backgroundAll();
-			}
 			euclidianController.widgetsToBackground();
 		}
 		if (getGuiManager() != null) {
@@ -3825,7 +3821,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease;
+			return prerelease || whiteboard;
 
 		// **********************************************************************
 		// MOBILE END
@@ -3846,11 +3842,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
-			return prerelease && whiteboard;
-
-		/** MOW-763 */
-		case VIDEO_PLAYER_OFFLINE:
-			return prerelease && whiteboard;
+			return whiteboard;
 
 		// **********************************************************************
 		// MOW END
@@ -4717,32 +4709,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return tool categorization for this app
-	 */
-	public ToolCategorization createToolCategorization() {
-		// Needed temporary, until the toolset levels are not implemented on iOS
-		// too
-		ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getPlatform().isPhone());
-		return new ToolCategorization(this, getSettings().getToolbarSettings());
-	}
-
-	/**
 	 * Create a tool collection factory for this app.
 	 *
 	 * @return a ToolCollectionFactory
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
-		ToolCollectionFactory factory = null;
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
 		if (toolbarDefinition == null
-				|| ToolBar.isDefaultToolbar(toolbarDefinition)
-				|| ToolBar.isDefaultToolbar3D(toolbarDefinition)) {
-			factory = createDefaultToolCollectionFactory();
+				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
+			return createDefaultToolCollectionFactory();
 		} else {
-			factory = new CustomToolCollectionFactory(this, toolbarDefinition);
+			return new CustomToolCollectionFactory(this, toolbarDefinition);
 		}
-		return factory;
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
@@ -4756,6 +4734,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				break;
 			case GRAPHER_3D:
 				factory = new Graphing3DToolCollectionFactory();
+				break;
+			case SUITE:
+				factory = new SuiteToolCollectionFactory();
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();

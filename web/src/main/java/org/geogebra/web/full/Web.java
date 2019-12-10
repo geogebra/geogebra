@@ -90,7 +90,7 @@ public class Web implements EntryPoint {
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 		GeoGebraFrameFull.renderArticleElement(el,
 				(AppletFactory) GWT.create(AppletFactory.class),
-				getLAF(ArticleElement.getGeoGebraMobileTags()), clb);
+				getLAF(), clb);
 	}
 
 	/**
@@ -100,21 +100,18 @@ public class Web implements EntryPoint {
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 		GeoGebraFrameFull.main(geoGebraMobileTags,
 				(AppletFactory) GWT.create(AppletFactory.class),
-				getLAF(geoGebraMobileTags), null);
+				getLAF(), null);
 	}
 
 	/**
-	 * @param geoGebraMobileTags
-	 *            article elements
 	 * @return look and feel based the first article that has laf parameter
 	 */
-	public static GLookAndFeel getLAF(
-			ArrayList<ArticleElement> geoGebraMobileTags) {
+	public static GLookAndFeel getLAF() {
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
 			String laf = ((ArticleElement) nodes.getItem(i))
-					.getAttribute("data-param-laf");
+					.getDataParamLAF();
 			if ("smart".equals(laf)) {
 				return new SmartLookAndFeel();
 			}

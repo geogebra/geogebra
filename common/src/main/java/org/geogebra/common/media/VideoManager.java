@@ -56,19 +56,11 @@ public interface VideoManager {
 
 	/**
 	 * Plays/resumes GeoVideo object.
-	 * 
+	 *
 	 * @param geo
 	 *            to play.
 	 */
 	void play(GeoVideo geo);
-
-	/**
-	 * Pauses GeoVideo object.
-	 * 
-	 * @param geo
-	 *            to pause.
-	 */
-	void pause(GeoVideo geo);
 
 	/**
 	 * Puts GeoVideo object on the background.

@@ -1,12 +1,12 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 /**
@@ -191,7 +191,7 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
+	public CommandFilter getCommandFilter() {
 		return null;
 	}
 
@@ -213,5 +213,20 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.GRAPHING;
+	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return false;
 	}
 }

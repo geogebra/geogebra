@@ -39,7 +39,7 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-	public boolean isGraphingExamSupported() {
+	public boolean isOfflineExamSupported() {
 		return true;
 	}
 

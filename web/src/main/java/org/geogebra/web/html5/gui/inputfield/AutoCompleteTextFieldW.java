@@ -10,7 +10,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
@@ -43,6 +43,7 @@ import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -229,10 +230,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 				int etype = event.getTypeInt();
 
+				KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
 				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
 						&& !app.isWhiteboardActive()
-						&& app.getGuiManager() != null) {
-					app.getGuiManager().setOnScreenKeyboardTextField(
+						&& keyboardManager != null) {
+					keyboardManager.setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
 				}
 
@@ -487,11 +489,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void addFocusListener(FocusListener listener) {
-		if (listener instanceof FocusListenerW) {
-			textField.getValueBox().addFocusHandler((FocusListenerW) listener);
-			textField.getValueBox().addBlurHandler((FocusListenerW) listener);
-		}
+	public void addFocusListener(FocusListenerDelegate listener) {
+		FocusListenerW focusListener = new FocusListenerW(listener, textField);
+		addFocusHandler(focusListener);
+		addBlurHandler(focusListener);
 	}
 
 	@Override
@@ -1262,8 +1263,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private void showTablePopup() {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-			if (app.getGuiManager() != null) {
-				app.getGuiManager().addKeyboardAutoHidePartner(tablePopup);
+			KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
+			if (keyboardManager != null) {
+				keyboardManager.addKeyboardAutoHidePartner(tablePopup);
 			}
 		}
 		if (this.tablePopup != null) {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -59,7 +61,6 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -139,7 +140,7 @@ import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.html5.video.VideoManagerW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.plugin.WebsocketLogger;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -193,7 +194,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected FontManagerW fontManager;
 	private SpreadsheetTableModelSimple tableModel;
 	private SoundManagerW soundManager;
-	private VideoManagerW videoManager;
 	private AsyncManager asyncManager;
 
 	protected MaterialsManagerI fm;
@@ -486,14 +486,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return soundManager;
 	}
 
-	@Override
-	public final VideoManager getVideoManager() {
-		if (videoManager == null) {
-			videoManager = new VideoManagerW();
-		}
-		return videoManager;
-	}
-
 	/**
 	 * Use the async manager's schedule method when you try to access
 	 * parts of the code that have been split by the GWT compiler
@@ -645,9 +637,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		notifyLocalizationLoaded();
 		// importatnt for accessibility
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
-		if (asyncCall && getGuiManager() != null) {
-			getGuiManager().updateKeyboardLanguage();
-		}
 	}
 
 	/**
@@ -2030,18 +2019,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void setCustomToolBar() {
 		// only needed in AppWFull
-	}
-
-	/**
-	 * @return whether EV1 is the only visible view
-	 */
-
-	public boolean onlyGraphicsViewShowing() {
-		if (!isUsingFullGui() || getGuiManager() == null) {
-			return true;
-		}
-
-		return getGuiManager().getLayout().isOnlyVisible(App.VIEW_EUCLIDIAN);
 	}
 
 	@Override
@@ -4039,5 +4016,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void endDrawRecordingAndLogResults() {
 		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
+	}
+
+	/**
+	 * @return manager for showing/hiding keyboard
+	 */
+	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
+		return null;
 	}
 }

@@ -228,6 +228,9 @@ public final class EuclidianConstants {
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
 
+	/** Freehand function */
+	public static final int MODE_FREEHAND_FUNCTION = 74;
+
 	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
 
@@ -766,6 +769,9 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return "FreehandShape";
+
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+			return "FreehandFunction";
 
 		// case EuclidianConstants.MODE_VISUAL_STYLE:
 		// return "VisualStyle";

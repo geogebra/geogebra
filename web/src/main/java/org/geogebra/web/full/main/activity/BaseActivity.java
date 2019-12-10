@@ -131,4 +131,9 @@ public class BaseActivity implements GeoGebraActivity {
 	public ApiExporter getApiExporter() {
 		return new ApiExporter();
 	}
+
+	@Override
+	public SVGResource getExamIcon() {
+		return null;
+	}
 }

@@ -1,17 +1,17 @@
 package org.geogebra.web.full.gui.menubar;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -42,22 +42,26 @@ public class AppsSubmenu extends Submenu {
 				MaterialDesignResources.INSTANCE.scientific());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
-		if (app.isUnbundledGraphing() && !app.isExam() && app.getLAF().isGraphingExamSupported()) {
-			addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.exam_graphing(),
-					app.getLocalization().getMenu("ExamGraphingCalc.short")),
-					true, new MenuCommand(getApp()) {
-
-						@Override
-						public void execute() {
-							if (app.isMenuShowing()) {
-								app.toggleMenu();
-							}
-							((DialogManagerW) app.getDialogManager())
-									.getSaveDialog()
-									.showIfNeeded(getExamCallback());
-						}
-					});
+		if (app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported()) {
+			addExamMenuItem();
 		}
+	}
+
+	private void addExamMenuItem() {
+		addItem(MainMenu.getMenuBarHtml(((AppWFull) app).getActivity().getExamIcon(),
+				app.getLocalization().getMenu(app.getConfig().getExamMenuItemText())),
+				true, new MenuCommand(getApp()) {
+
+					@Override
+					public void execute() {
+						if (app.isMenuShowing()) {
+							app.toggleMenu();
+						}
+						((DialogManagerW) app.getDialogManager())
+								.getSaveDialog()
+								.showIfNeeded(getExamCallback());
+					}
+				});
 	}
 
 	/**
