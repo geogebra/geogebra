@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
 import org.geogebra.common.euclidian.draw.DrawButton;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -38,9 +37,8 @@ public class HitDetector {
 			return;
 		}
 		boolean hitMask = false;
-		DrawableIterator it = view.allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
+
+		for (Drawable d : view.allDrawableList) {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
@@ -156,9 +154,7 @@ public class HitDetector {
 			return;
 		}
 
-		DrawableIterator it = view.allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
+		for (Drawable d : view.allDrawableList) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && d.intersectsRectangle(rect)) {
 				hits.add(geo);
@@ -186,9 +182,7 @@ public class HitDetector {
 			return;
 		}
 
-		DrawableIterator it = view.allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
+		for (Drawable d : view.allDrawableList) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && d.isInside(rect)) {
 				hits.add(geo);
