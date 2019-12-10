@@ -6,7 +6,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
@@ -37,7 +36,7 @@ public class PerspectivesMenuW extends Submenu {
 	}
 
 	private void initActions() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		addPerspective(0, pr.menu_icon_algebra24());
 		addPerspective(3, pr.menu_icon_cas24());
 		addPerspective(1, pr.menu_icon_geometry24());

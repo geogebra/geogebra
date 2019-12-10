@@ -81,7 +81,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private void createPanelsToolbar() {
 		buttons = new FlowPanel();
 		buttons.setStyleName("panelRow");
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		final MyToggleButtonW btnGeneral = new MyToggleButtonW(new NoDragImage(
 				ImgResourceHelper.safeURI(pr.menu_icon_graphics()), 24));
 		buttons.add(btnGeneral);

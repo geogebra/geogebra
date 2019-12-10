@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -67,7 +66,7 @@ public class PerspectivesPopup {
 	}
 
 	private void setLabels() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		contentPanel.clear();
 		addPerspective(0, pr.menu_icon_algebra24());
 		addPerspective(1, pr.menu_icon_geometry24());

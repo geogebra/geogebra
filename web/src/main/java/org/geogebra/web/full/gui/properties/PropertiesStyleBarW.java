@@ -7,13 +7,11 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
 
@@ -205,7 +203,7 @@ public class PropertiesStyleBarW extends
 	 * @return icon URL
 	 */
 	protected String getTypeIcon(OptionType type) {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		switch (type) {
 		case GLOBAL:
 			return MaterialDesignResources.INSTANCE.gear().getSafeUri()

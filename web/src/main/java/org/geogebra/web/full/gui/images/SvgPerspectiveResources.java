@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.images;
 
-import org.geogebra.web.full.gui.ImageFactory;
+import com.google.gwt.core.client.GWT;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
@@ -10,7 +10,8 @@ import com.google.gwt.resources.client.ClientBundle;
  */
 @SuppressWarnings("javadoc")
 public interface SvgPerspectiveResources extends ClientBundle {
-	SvgPerspectiveResources INSTANCE = ImageFactory.getPerspectiveResources();
+
+	SvgPerspectiveResources INSTANCE = GWT.create(SvgPerspectiveResources.class);
 
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_algebra.svg")
 	SVGResource menu_icon_algebra();
