@@ -61,5 +61,6 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toForeground() {
 		Dom.toggleClass(editor.getWidget(), "background", false);
+		editor.focus();
 	}
 }

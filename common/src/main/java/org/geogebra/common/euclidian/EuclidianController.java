@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -416,6 +417,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private int numOfTargets = 0;
 
 	private SnapController snapController = new SnapController();
+
+	private GeoInlineText lastInlineText;
 
 	/**
 	 * state for selection tool over press/release
@@ -8244,6 +8247,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.getEmbedManager() != null) {
 			app.getEmbedManager().backgroundAll();
 		}
+		for (Drawable dr : view.allDrawableList) {
+			if (dr instanceof DrawInlineText) {
+				((DrawInlineText) dr).toBackground();
+			}
+		}
 	}
 
 	private void moveView() {
@@ -10226,6 +10234,27 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return draggingOccured && draggingBeyondThreshold;
 	}
 
+	private boolean handleInlineTextHit() {
+		if (view.getHits().isEmpty()) {
+			lastInlineText = null;
+			return false;
+		}
+
+		GeoElement topGeo = view.getHits().get(view.getHits().size() - 1);
+
+		if (topGeo == lastInlineText) {
+			showDynamicStylebar();
+			((DrawInlineText) view.getDrawableFor(topGeo)).toForeground();
+			return true;
+		} else if (topGeo instanceof GeoInlineText) {
+			lastInlineText = (GeoInlineText) topGeo;
+		} else {
+			lastInlineText = null;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Handle pointer release.
 	 * 
@@ -10233,6 +10262,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
+		if (handleInlineTextHit()) {
+			return;
+		}
+
 		// will be reset in wrapMouseReleased
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 		if (am != null && !app.getKernel().getConstruction().isEmpty()) {

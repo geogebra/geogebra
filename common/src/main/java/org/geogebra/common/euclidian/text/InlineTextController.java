@@ -37,7 +37,13 @@ public interface InlineTextController {
 	 */
 	void setHeight(int height);
 
+	/**
+	 * Put the editor behind the canvas
+	 */
 	void toBackground();
 
+	/**
+	 * Bring the editor to the foreground and start editing
+	 */
 	void toForeground();
 }
