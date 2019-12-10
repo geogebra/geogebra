@@ -119,7 +119,6 @@ public class ArbitraryConstIntegrationTest {
 					.append(stElement.getMethodName())
 					.append(stElement.getLineNumber()).append("\n");
 		}
-		;
 		return sts.toString();
 	}
 
@@ -281,11 +280,7 @@ public class ArbitraryConstIntegrationTest {
 		String result;
 
 		try {
-			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().addToConstructionList(f, false);
-
-			f.setInput(input);
-			f.computeOutput();
+			GeoCasCell f = cellFromInput(input);
 
 			f.setInput(inputUpdate);
 			f.computeOutput();
@@ -301,10 +296,17 @@ public class ArbitraryConstIntegrationTest {
 				expectedResult, validResults));
 	}
 
+	private static GeoCasCell cellFromInput(String input) {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		kernel.getConstruction().addToConstructionList(f, false);
+
+		f.setInput(input);
+		f.computeOutput();
+		return f;
+	}
+
 	@Test
 	public void arbConst_Integration_1() {
-		System.err.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-				+ app.getKernel().getConstruction().constsM.size());
 		casCellupdate("Integral[x]", "SolveODE[2y''+3y'=0]",
 				"y = c_1 *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_2");
 	}
@@ -313,6 +315,12 @@ public class ArbitraryConstIntegrationTest {
 	public void arbConst_Integration_2() {
 		casCellupdate("SolveODE[y''+9y=0]", "SolveODE[y''+4y=0]",
 				"y = c_1 * cos(2 * x) + c_2 * sin(2 * x)");
+	}
+
+	@Test
+	public void casCellLatexShouldSHowName() {
+		GeoCasCell cell = cellFromInput("SolveODE(2x)");
+		Assert.assertEquals("\\mathbf{y = c_1 + x^{2}}", cell.getLaTeXOutput());
 	}
 
 	/**
