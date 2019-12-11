@@ -67,7 +67,7 @@ public class TemplateChooserController {
 
     /**
      * Store selected template card
-     * @param newSelected
+     * @param newSelected currently selected card
      */
     public void setSelected(TemplatePreviewCard newSelected) {
         if (selected != null) {
