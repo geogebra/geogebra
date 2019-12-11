@@ -4467,10 +4467,8 @@ public abstract class GeoElement extends ConstructionElement
 		if (isDefinitionValid()) {
 			return toString(tpl);
 		}
-		final StringBuilder sbAlgebraDesc = new StringBuilder();
-		sbAlgebraDesc.append(getAssignmentLHS(tpl));
-		sbAlgebraDesc.append(" = ?");
-		return sbAlgebraDesc.toString();
+
+		return getAssignmentLHS(tpl) + " = ?";
 	}
 
 	/**

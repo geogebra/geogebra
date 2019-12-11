@@ -1463,10 +1463,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public String getVarString(StringTemplate tpl) {
 		if (fun == null) {
-			Log.debug("nope");
 			return tpl.printVariableName("x");
 		}
-		Log.debug("var:" + fun.getVarString(tpl));
 		return fun.getVarString(tpl);
 	}
 
