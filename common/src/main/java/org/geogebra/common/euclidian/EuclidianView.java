@@ -45,11 +45,11 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -901,8 +901,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		if (updateDrawables) {
-			this.updateAllDrawablesForView(true);
-			this.updateBackgroundOnNextRepaint = true;
+			updateAllDrawablesForView(true);
+			invalidateBackground();
 		}
 
 		updatingBounds = false;
@@ -1397,7 +1397,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
         onCoordSystemChangedFromSetCoordSystem();
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
-			updateBackgroundOnNextRepaint = true;
+			invalidateBackground();
 			updateAllDrawablesForView(repaint);
 
 			// needed so that eg Corner[2,1] updates properly on zoom / pan
@@ -1408,6 +1408,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
+	}
+
+	/**
+	 * Make sure background gets updated
+	 */
+	public void invalidateBackground() {
+		updateBackgroundOnNextRepaint = true;
 	}
 
     /**
@@ -2067,7 +2074,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return true;
 		}
 		if (isVisibleInThisView(geo)
-				&& (geo.isLabelSet() || this.isPlotPanel())) {
+				&& (geo.isLabelSet() || isPlotPanel())) {
 			return geo.isEuclidianVisible()
 
 					|| (geo.isGeoText() && ((GeoText) geo)
@@ -2970,7 +2977,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
 		this.drawBorderAxes = drawBorderAxes;
 		// don't show corner coordinates if one of the axes is sticky
-		this.setAxesCornerCoordsVisible(!(drawBorderAxes[0] || drawBorderAxes[1]));
+		setAxesCornerCoordsVisible(!(drawBorderAxes[0] || drawBorderAxes[1]));
 	}
 
 	/**
@@ -3961,8 +3968,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			drawGrid = new DrawGrid(this);
 		}
 		// vars for handling positive-only axes
-		double xCrossPix = this.getXZero() + (axisCross[1] * getXscale());
-		double yCrossPix = this.getYZero() - (axisCross[0] * getYscale());
+		double xCrossPix = getXZero() + (axisCross[1] * getXscale());
+		double yCrossPix = getYZero() - (axisCross[0] * getYscale());
 
 		// this needs to be after setClip()
 		// bug in FreeHEP (PDF export)
@@ -4155,7 +4162,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	double getYAxisCrossingPixel() {
-		return this.getYZero() - (axisCross[0] * getYscale());
+		return getYZero() - (axisCross[0] * getYscale());
 	}
 
 	boolean xAxisOnscreen() {
