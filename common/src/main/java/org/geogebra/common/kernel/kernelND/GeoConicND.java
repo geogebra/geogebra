@@ -1302,7 +1302,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND co = (GeoConicND) geo;
 
 		// copy everything
-		maybeSetToStringMode(co.toStringMode);
+		setModeIfEquationFormIsNotForced(co.toStringMode);
 		type = co.type;
 		for (int i = 0; i < 6; i++) {
 			matrix[i] = co.matrix[i]; // flat matrix A
@@ -1383,9 +1383,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public void setToStringMode(int mode) {
 		if (isEquationFormEnforced()) {
-			toStringMode = EQUATION_USER;
+			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
 		} else {
-			setModeHelper(mode);
+			setModeWithImplicitEquationAsDefault(mode);
 		}
 	}
 
@@ -4573,7 +4573,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return true;
 	}
 
-	private void maybeSetToStringMode(int mode) {
+	private void setModeIfEquationFormIsNotForced(int mode) {
 		if (isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
 		} else {
@@ -4589,7 +4589,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	private void setModeHelper(int mode) {
+	private void setModeWithImplicitEquationAsDefault(int mode) {
 		switch (mode) {
 			case EQUATION_SPECIFIC:
 			case EQUATION_EXPLICIT:
