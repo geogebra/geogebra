@@ -26,6 +26,7 @@ import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -281,8 +282,16 @@ public class SaveControllerW implements SaveController {
 	 */
 	void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback) {
-		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
+		if (app.isWhiteboardActive()) {
+			MarvlAPI api = new MarvlAPI(
+					"http://tafel.dlb-dev01.alp-dlg.net/api",
+					new MarvlURLChecker());
+			api.uploadMaterial(tubeID, visibility, fileName, base64, materialCallback,
+					this.saveType);
+		} else {
+			app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
 				fileName, base64, materialCallback, this.saveType);
+		}
 	}
 
 	@Override

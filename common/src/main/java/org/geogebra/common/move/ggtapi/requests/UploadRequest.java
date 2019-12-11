@@ -54,8 +54,7 @@ public class UploadRequest implements Request {
 	}
 
 	private static String typeString(MaterialType type) {
-		return (type == MaterialType.ggb || type == MaterialType.ggs) ? "applet"
-				: type == MaterialType.ggsTemplate ? "ggs-template" : type.name();
+		return (type == MaterialType.ggb || type == MaterialType.ggs) ? "applet" : type.toString();
 	}
 
 	/**

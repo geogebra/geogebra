@@ -167,7 +167,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		} else {
 			saveButton.setEnabled(true);
 		}
-
 	}
 
 	private FlowPanel getCheckboxPanel() {
@@ -289,7 +288,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	public void onSave() {
 		if (templateCheckbox != null) {
 			setSaveType(templateCheckbox.isSelected()
-					? MaterialType.ggsTemplate : MaterialType.ggs);
+					? appW.getVendorSettings().getTemplateType() : MaterialType.ggs);
 		}
 		appW.getSaveController().saveAs(title.getText(),
 				getSelectedVisibility(), this);

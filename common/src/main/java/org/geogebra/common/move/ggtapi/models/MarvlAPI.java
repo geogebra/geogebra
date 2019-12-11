@@ -308,6 +308,7 @@ public class MarvlAPI implements BackendAPI {
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = makeRequest();
 		request.setContentTypeJson();
+
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
@@ -336,7 +337,7 @@ public class MarvlAPI implements BackendAPI {
 			request.put("title", text);
 			request.put("file", base64);
 			if (StringUtil.emptyOrZero(tubeID)) {
-				request.put("type", type.name());
+				request.put("type", type.toString());
 			}
 		} catch (JSONException e) {
 			materialCallback.onError(e);

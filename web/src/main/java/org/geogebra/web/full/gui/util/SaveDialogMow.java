@@ -199,7 +199,7 @@ public class SaveDialogMow extends DialogBoxW
 											.getVisibility())
 							: MaterialVisibility.Private;
 			setSaveType(templateCheckbox.isSelected()
-					? MaterialType.ggsTemplate : MaterialType.ggs);
+					? ((AppW) app).getVendorSettings().getTemplateType() : MaterialType.ggs);
 			app.getSaveController().saveAs(getInputField().getText(),
 					visibility, this);
 		}
