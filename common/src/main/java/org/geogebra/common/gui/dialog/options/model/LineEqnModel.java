@@ -54,9 +54,10 @@ public class LineEqnModel extends MultipleOptionsModel {
 		boolean isEnforcedConicEquationForm =
 				geo instanceof GeoConicND && app.getConfig().getEnforcedConicEquationForm() != -1;
 		boolean isEnforcedEquationForm = isEnforcedLineEquationForm || isEnforcedConicEquationForm;
-		return !app.getSettings().getCasSettings().isEnabled()
-				&& app.isExamStarted() && (geo instanceof EquationValue)
-				|| isEnforcedEquationForm;
+		boolean isCasDisabled = !app.getSettings().getCasSettings().isEnabled();
+		boolean hasExamStarted = app.isExamStarted();
+		boolean isEquationValue = geo instanceof EquationValue;
+		return (isCasDisabled && hasExamStarted && isEquationValue) || isEnforcedEquationForm;
 	}
 
 	private GeoLine getLineAt(int index) {
