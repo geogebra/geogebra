@@ -191,18 +191,18 @@ public interface AppConfig {
 	Set<FillType> getAvailableFillTypes();
 
 	/**
-	 * Returns -1 or GeoLine.EQUATION_USER
-	 * if user input form is forced for GeoLine (currently only graphing)
+	 * Returns an equation form constant declared in the GeoLine class,
+	 *  or -1 if it's not set
 	 *
-	 * @return GeoLine.EQUATION_USER or -1.
+	 * @return equation form or -1
 	 */
 	int getEnforcedLineEquationForm();
 
 	/**
-	 * Returns -1 or GeoConicND.EQUATION_USER
-	 * if user input form is forced for GeoConicND (currently only graphing)
+	 * Returns an equation form constant declared in the GeoConicND class,
+	 *  or -1 if it's not set
 	 *
-	 * @return GeoConicND.EQUATION_USER or -1.
+	 * @return equation form or -1
 	 */
 	int getEnforcedConicEquationForm();
 

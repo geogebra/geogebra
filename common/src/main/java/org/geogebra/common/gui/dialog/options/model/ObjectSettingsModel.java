@@ -829,7 +829,9 @@ abstract public class ObjectSettingsModel {
                     && app.getConfig().getEnforcedLineEquationForm() != -1;
             boolean isEnforcedConicEquationForm = element instanceof GeoConicND
                     && app.getConfig().getEnforcedConicEquationForm() != -1;
-            show = show && (isEnforcedLineEquationForm || isEnforcedConicEquationForm);
+            boolean isEnforcedEquationForm =
+                    isEnforcedLineEquationForm || isEnforcedConicEquationForm;
+            show = show && !isEnforcedEquationForm;
             show = show && element instanceof GeoLine && !element.isNumberValue();
             show = show && element.getDefinition() == null;
         }
