@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -9,21 +10,44 @@ class InputBoxErrorHandler implements ErrorHandler {
 	private GeoInputBox inputBox;
 	private ErrorHandler handler;
 
-	InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler) {
+	private String tempUserDisplayInput;
+	private String tempUserEvalInput;
+
+
+	InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler,
+						 String tempUserDisplayInput, String tempUserEvalInput) {
 		this.inputBox = inputBox;
 		this.handler = handler;
+		this.tempUserDisplayInput = tempUserDisplayInput;
+		this.tempUserEvalInput = tempUserEvalInput;
 	}
 
 	@Override
 	public void showError(String msg) {
 		handler.showError(msg);
-		setLinkedGeoUndefined();
+		handleError();
 	}
 
 	@Override
 	public void showCommandError(String command, String message) {
 		handler.showCommandError(command, message);
+		handleError();
+	}
+
+	void handleError() {
+		setTempUserInput();
 		setLinkedGeoUndefined();
+	}
+
+	private void setTempUserInput() {
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(tempUserEvalInput);
+	}
+
+	private void setLinkedGeoUndefined() {
+		GeoElementND geoElement = inputBox.getLinkedGeo();
+		geoElement.setUndefined();
+		geoElement.updateRepaint();
 	}
 
 	@Override
@@ -39,9 +63,5 @@ class InputBoxErrorHandler implements ErrorHandler {
 	@Override
 	public void resetError() {
 		handler.resetError();
-	}
-
-	private void setLinkedGeoUndefined() {
-		inputBox.getLinkedGeo().setUndefined();
 	}
 }

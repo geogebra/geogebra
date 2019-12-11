@@ -3,15 +3,18 @@ package org.geogebra.common.kernel.geos.inputbox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
-import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -25,6 +28,10 @@ public class InputBoxProcessor {
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private Kernel kernel;
+	private App app;
+	private AlgebraProcessor algebraProcessor;
+	private ErrorHandler errorHandler;
+	private boolean showErrorDialog;
 
 	/**
 	 * @param inputBox
@@ -36,6 +43,10 @@ public class InputBoxProcessor {
 		this.inputBox = inputBox;
 		this.linkedGeo = linkedGeo;
 		this.kernel = inputBox.getKernel();
+		this.app = kernel.getApplication();
+		this.algebraProcessor = kernel.getAlgebraProcessor();
+		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
+		this.errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
 	}
 
 	/**
@@ -49,24 +60,44 @@ public class InputBoxProcessor {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
-		String defineText = preprocess(inputText, tpl);
+
+		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+		InputBoxErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
+				tempUserDisplayInput, inputText);
 
 		try {
-			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-					false, false).withSliders(false)
-					.withNoRedefinitionAllowed().withPreventingTypeChange()
-					.withRedefinitionRule(createRedefinitionRule());
-
-			kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-					defineText, info, false,
-					new InputBoxCallback(kernel.getApplication(), this, inputBox),
-					new InputBoxErrorHandler(inputBox, kernel.getApplication().getErrorHandler()));
-		} catch (MyError e1) {
-			kernel.getApplication().showError(e1);
-		} catch (Exception e1) {
-			Log.error(e1.getMessage());
-			showError();
+			updateLinkedGeoNoErrorHandling(inputText, tpl, handler);
+		} catch (MyError error) {
+			handler.handleError();
+			maybeShowError(error);
+		} catch (Throwable throwable) {
+			handler.handleError();
+			Log.error(throwable.getMessage());
+			maybeShowError(MyError.Errors.InvalidInput);
 		}
+	}
+
+	private void updateLinkedGeoNoErrorHandling(String inputText,
+												StringTemplate tpl,
+												ErrorHandler errorHandler) {
+		String defineText = preprocess(inputText, tpl);
+
+		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+				false, false).withSliders(false)
+				.withNoRedefinitionAllowed().withPreventingTypeChange()
+				.withRedefinitionRule(createRedefinitionRule());
+
+		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
+				defineText, info, false,
+				new InputBoxCallback(kernel.getApplication(), this, inputBox), errorHandler);
+	}
+
+	private String getAndClearTempUserDisplayInput(String inputText) {
+		String tempUserInput = inputBox.getTempUserDisplayInput();
+		inputBox.setTempUserDisplayInput(null);
+		inputBox.setTempUserEvalInput(null);
+
+		return tempUserInput == null ? inputText : tempUserInput;
 	}
 
 	private String preprocess(String inputText, StringTemplate tpl) {
@@ -121,7 +152,15 @@ public class InputBoxProcessor {
 				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
-	private void showError() {
-		kernel.getApplication().showError(Errors.InvalidInput);
+	private void maybeShowError(MyError error) {
+		if (showErrorDialog) {
+			app.showError(error);
+		}
+	}
+
+	private void maybeShowError(MyError.Errors error) {
+		if (showErrorDialog) {
+			app.showError(error);
+		}
 	}
 }

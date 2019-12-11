@@ -3317,7 +3317,6 @@ __GGB__keysVar["sl"].menu = {
     "mow.offlineMyFiles": "Odpiranje lokalne datoteke",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "fp7bctpr",
     "of": "od",
     "off": "Izklju\u010deno",

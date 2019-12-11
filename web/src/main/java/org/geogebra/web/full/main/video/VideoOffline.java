@@ -1,13 +1,11 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,13 +19,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 	private final static int DEFAULT_WIDTH = 420;
 	private final static int DEFAULT_HEIGHT = 365;
 	private VideoErrorPanel errorPanel;
-	private Command commandSelect = new Command() {
-		@Override
-		public void execute() {
-			selectPlayer();
-			update();
-		}
-	};
 
 	/**
 	 * Constructor. *
@@ -43,13 +34,6 @@ public class VideoOffline extends AbstractVideoPlayer {
 		String errorId = vendorSettings.getMenuLocalizationKey("VideoAccessError");
 		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
 		stylePlayer();
-		selectDeferred();
-	}
-
-	private void selectDeferred() {
-		// need to call this at the end of page rendering
-		// to make sure that bounding box appears.
-		Scheduler.get().scheduleDeferred(commandSelect);
 	}
 
 	/**
@@ -77,14 +61,9 @@ public class VideoOffline extends AbstractVideoPlayer {
 		if (video.hasSize()) {
 			return;
 		}
+
 		video.setWidth(DEFAULT_WIDTH);
 		video.setHeight(DEFAULT_HEIGHT);
-
-	}
-
-	@Override
-	public void onReady() {
-		// intentionally empty
 	}
 
 	@Override
@@ -93,17 +72,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 	}
 
 	@Override
-	public void play() {
-		// intentionally empty
-	}
-
-	@Override
-	public void pause() {
-		// intentionally empty
-	}
-
-	@Override
-	public void sendBackground() {
+	public void setBackground(boolean background) {
 		// intentionally empty
 	}
 

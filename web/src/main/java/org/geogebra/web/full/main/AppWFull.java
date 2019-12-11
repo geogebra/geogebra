@@ -40,6 +40,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -102,6 +103,7 @@ import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.main.activity.SuiteActivity;
+import org.geogebra.web.full.main.video.VideoManagerW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -184,6 +186,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	FloatingMenuPanel floatingMenuPanel = null;
 
 	private EmbedManagerW embedManager;
+	private VideoManagerW videoManager;
 
 	private SaveController saveController = null;
 
@@ -1821,8 +1824,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void persistWidthAndHeight() {
 		if (this.oldSplitLayoutPanel != null) {
-			spWidth = this.oldSplitLayoutPanel.getEstimateWidth();
-			setSpHeight(this.oldSplitLayoutPanel.getEstimateHeight());
+			spWidth = oldSplitLayoutPanel.getEstimateWidth();
+			spHeight = oldSplitLayoutPanel.getEstimateHeight();
 		}
 	}
 
@@ -2116,6 +2119,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 			embedManager = new EmbedManagerW(this);
 		}
 		return embedManager;
+	}
+
+	@Override
+	public final VideoManager getVideoManager() {
+		if (videoManager == null) {
+			videoManager = new VideoManagerW();
+		}
+		return videoManager;
 	}
 
 	private int getSpHeight() {

@@ -3317,7 +3317,6 @@ __GGB__keysVar["hr"].menu = {
     "mow.offlineMyFiles": "Otvori izvanmre\u017enu datoteku",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "fp7bctpr",
     "of": "od",
     "off": "isklju\u010deno",

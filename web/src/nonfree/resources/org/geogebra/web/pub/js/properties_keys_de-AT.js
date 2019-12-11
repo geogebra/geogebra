@@ -3317,7 +3317,6 @@ __GGB__keysVar["de-AT"].menu = {
     "mow.offlineMyFiles": "Offlinedatei \xf6ffnen",
     "mow.openFile": "Datei \xf6ffnen",
     "mow.openFileViewTitle": "Meine Dateien",
-    "newFIle": "",
     "notes_tutorials": "t8zr98tj",
     "of": "von",
     "off": "aus",

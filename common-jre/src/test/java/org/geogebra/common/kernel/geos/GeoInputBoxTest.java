@@ -11,7 +11,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.TextObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class GeoInputBoxTest extends BaseUnitTest {
 
@@ -23,34 +25,17 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	private static final String PLANE = "x+y+z=1";
 	private static final String NUMBER = "4";
 
+	private TextObject textObject;
+
 	@Override
 	public AppCommon createAppCommon() {
 		return AppCommonFactory.create3D();
 	}
 
-	private TextObject textObject = new TextObject() {
-		String content;
-
-		@Override
-		public String getText() {
-			return content;
-		}
-
-		@Override
-		public void setText(String s) {
-			content = s;
-		}
-
-		@Override
-		public void setVisible(boolean b) {
-
-		}
-
-		@Override
-		public void setEditable(boolean b) {
-
-		}
-	};
+	@Before
+	public void setUp() {
+		textObject = Mockito.mock(TextObject.class);
+	}
 
 	@Test
 	public void symbolicInputBoxUseDefinitionForFunctions() {
@@ -109,6 +94,69 @@ public class GeoInputBoxTest extends BaseUnitTest {
     }
 
 	@Test
+	public void testTempUserInputNotInXml() {
+		add("A = (1,1)");
+		GeoInputBox inputBox = add("B = Inputbox(A)");
+		inputBox.updateLinkedGeo("(1,2)");
+
+		App app = getApp();
+		String appXML = app.getXML();
+		app.setXML(appXML, true);
+		inputBox = (GeoInputBox) lookup("B");
+		Assert.assertNull(inputBox.getTempUserDisplayInput());
+		Assert.assertNull(inputBox.getTempUserEvalInput());
+	}
+
+	@Test
+	public void testTempUserInputInXml() {
+		add("A = (1,1)");
+		GeoInputBox inputBox = add("B = Inputbox(A)");
+
+		String wrongSyntax = "(1,1)+";
+		inputBox.updateLinkedGeo(wrongSyntax);
+
+		App app = getApp();
+		String appXML = app.getXML();
+		app.setXML(appXML, true);
+		inputBox = (GeoInputBox) lookup("B");
+		Assert.assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
+		Assert.assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
+	}
+
+	@Test
+	public void testSymbolicUserInput() {
+		add("a = 5");
+		GeoInputBox inputBox =  add("Inputbox(a)");
+		String tempDisplayInput = "\\frac{5}{\\nbsp}";
+		inputBox.setTempUserDisplayInput(tempDisplayInput);
+		inputBox.updateLinkedGeo("5/");
+		inputBox.setSymbolicMode(true);
+		Assert.assertEquals(tempDisplayInput, inputBox.getDisplayText());
+		Assert.assertEquals("5/", inputBox.getText());
+	}
+
+	@Test
+	public void testInputBoxGetTextWithError() {
+		add("A = Point({1, 2})");
+		GeoInputBox box = (GeoInputBox) add("InputBox(A)");
+		Assert.assertEquals(box.getText(), "Point({1, 2})");
+		box.updateLinkedGeo("Point({1, 2})+");
+		Assert.assertEquals(box.getText(), "Point({1, 2})+");
+		box.updateLinkedGeo("Point(1)");
+		Assert.assertEquals(box.getText(), "Point(1)");
+	}
+
+	@Test
+	public void testSymbolicInputBoxGetTextWithError() {
+		add("a = 1");
+		GeoInputBox box = (GeoInputBox) add("InputBox(a)");
+		box.setSymbolicMode(true, true);
+		Assert.assertEquals("1", box.getTextForEditor());
+		box.updateLinkedGeo("1+/");
+		Assert.assertEquals("1+/", box.getTextForEditor());
+	}
+
+	@Test
 	public void testForSimpleUndefinedGeo() {
 		add("a=?");
 		GeoInputBox inputBox = add("InputBox(a)");
@@ -142,7 +190,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 
-		textObject.setText("");
+		Mockito.when(textObject.getText()).thenReturn("");
 		inputBox.textObjectUpdated(textObject);
 
 		Assert.assertEquals("", inputBox.getText());
@@ -160,7 +208,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
 
-		textObject.setText("?");
+		Mockito.when(textObject.getText()).thenReturn("?");
 		inputBox.textObjectUpdated(textObject);
 
 		Assert.assertEquals("", inputBox.getText());
@@ -205,6 +253,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("f:Line(A,B)");
 		GeoInputBox inputBox = add("InputBox(f)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
+
+	@Test
+	public void testErrorWorksWithString() {
+		add("a = 5");
+		GeoInputBox inputBox = add("ib = InputBox(a)");
+		GeoText text = add("ib + \"\"");
+
+		inputBox.updateLinkedGeo("1+");
+		Assert.assertEquals("1+", text.getTextString());
 	}
 
 	@Test
@@ -318,13 +376,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo(redefinition);
 
 		GeoElementND element = inputBox.getLinkedGeo();
-		if (assertDefined) {
-			Assert.assertTrue(input + " should be redefinable to " + redefinition,
-					element.isDefined());
-		} else {
-			Assert.assertFalse(input + " should not be redefinable to " + redefinition,
-					element.isDefined());
-		}
+		Assert.assertEquals(assertDefined, element.isDefined());
 		Assert.assertEquals(keepType, element.getGeoClassType());
 		element.remove();
 	}

@@ -69,9 +69,6 @@ public enum Feature {
 	/** APPS-890 */
 	AUTOLABEL_CAS_SETTINGS,
 
-	/** MOW-763 */
-	VIDEO_PLAYER_OFFLINE,
-
 	/** STUD-17 */
 	SURFACE_OF_REVOLUTION_TOOL,
 

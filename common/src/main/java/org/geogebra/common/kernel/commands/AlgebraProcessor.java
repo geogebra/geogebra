@@ -1959,6 +1959,7 @@ public class AlgebraProcessor {
 				ret[0] = replaceable;
 				replaceable.setUndefined();
 				replaceable.updateRepaint();
+				throw new MyError(loc, Errors.ReplaceFailed);
 			} else
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
@@ -2032,6 +2033,7 @@ public class AlgebraProcessor {
 						ret[0] = replaceable;
 						replaceable.setUndefined();
 						replaceable.updateRepaint();
+						throw new MyError(loc, Errors.ReplaceFailed);
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
@@ -2044,7 +2046,6 @@ public class AlgebraProcessor {
 				}
 			}
 		}
-
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
