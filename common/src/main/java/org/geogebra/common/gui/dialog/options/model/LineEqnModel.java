@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -48,9 +49,13 @@ public class LineEqnModel extends MultipleOptionsModel {
 	 * @return whether to force input form
 	 */
 	public static boolean forceInputForm(App app, GeoElement geo) {
+		boolean isEnforcedLineEquationForm =
+				geo instanceof GeoLine && app.getConfig().getEnforcedLineEquationForm() != -1;
+		boolean isEnforcedConicEquationForm =
+				geo instanceof GeoConicND && app.getConfig().getEnforcedConicEquationForm() != -1;
 		return !app.getSettings().getCasSettings().isEnabled()
 				&& app.isExamStarted() && (geo instanceof EquationValue)
-				|| app.isUnbundledGraphing();
+				|| isEnforcedLineEquationForm || isEnforcedConicEquationForm;
 	}
 
 	private GeoLine getLineAt(int index) {

@@ -174,16 +174,18 @@ public interface AppConfig {
 	String getExamMenuItemText();
 
 	/**
-	 * @return weather has forced input form for equations (currently only graphing)
-	 */
-
-	/**
-	 * @return EQUATION_USER if it's true and -1 if it's false (currently only graphing)
+	 * Returns -1 or GeoLine.EQUATION_USER
+	 * if user input form is forced for GeoLine (currently only graphing)
+	 *
+	 * @return GeoLine.EQUATION_USER or -1.
 	 */
 	int getEnforcedLineEquationForm();
 
 	/**
-	 * @return EQUATION_USER if it's true and -1 if it's false (currently only graphing)
+	 * Returns -1 or GeoConicND.EQUATION_USER
+	 * if user input form is forced for GeoConicND (currently only graphing)
+	 *
+	 * @return GeoConicND.EQUATION_USER or -1.
 	 */
 	int getEnforcedConicEquationForm();
 }

@@ -833,16 +833,11 @@ abstract public class ObjectSettingsModel {
         boolean show = geoElementsList.size() > 0;
         for (int i = 0; i < geoElementsList.size(); i++) {
             GeoElement element = geoElementsList.get(i);
-            boolean forcedInputForm = false;
-            if (element instanceof  GeoLine) {
-                forcedInputForm =
-                        app.getConfig().getEnforcedLineEquationForm() == GeoLine.EQUATION_USER;
-            }
-            if (element instanceof  GeoConicND) {
-                forcedInputForm =
-                        app.getConfig().getEnforcedConicEquationForm() == GeoConic.EQUATION_USER;
-            }
-            show = show && !forcedInputForm;
+            boolean isEnforcedLineEquationForm = element instanceof GeoLine
+                    && app.getConfig().getEnforcedLineEquationForm() != -1;
+            boolean isEnforcedConicEquationForm = element instanceof GeoConicND
+                    && app.getConfig().getEnforcedConicEquationForm() != -1;
+            show = show && (isEnforcedLineEquationForm || isEnforcedConicEquationForm);
             show = show && element instanceof GeoLine && !element.isNumberValue();
             show = show && element.getDefinition() == null;
         }
