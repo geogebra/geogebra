@@ -13,7 +13,6 @@ class InputBoxErrorHandler implements ErrorHandler {
 	private String tempUserDisplayInput;
 	private String tempUserEvalInput;
 
-
 	InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler,
 						 String tempUserDisplayInput, String tempUserEvalInput) {
 		this.inputBox = inputBox;
