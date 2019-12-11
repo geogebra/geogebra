@@ -1,14 +1,19 @@
-package org.geogebra.common.kernel.geos;
+package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -19,9 +24,14 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Updates linked element for an input box from user input
  */
 public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
+
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private Kernel kernel;
+	private App app;
+	private AlgebraProcessor algebraProcessor;
+	private ErrorHandler errorHandler;
+	private boolean showErrorDialog;
 
 	/**
 	 * @param inputBox
@@ -33,6 +43,10 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		this.inputBox = inputBox;
 		this.linkedGeo = linkedGeo;
 		this.kernel = inputBox.getKernel();
+		this.app = kernel.getApplication();
+		this.algebraProcessor = kernel.getAlgebraProcessor();
+		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
+		this.errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
 	}
 
 	/**
@@ -46,20 +60,41 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			((GeoText) linkedGeo).setTextString(inputText);
 			return;
 		}
-		String defineText = preprocess(inputText, tpl);
+
+		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+		InputBoxErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
+				tempUserDisplayInput, inputText);
 
 		try {
-			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-					linkedGeo.isIndependent(), false).withSliders(false);
-
-			kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(linkedGeo,
-					defineText, info, true, this, kernel.getApplication().getErrorHandler());
-		} catch (MyError e1) {
-			kernel.getApplication().showError(e1);
-		} catch (Exception e1) {
-			Log.error(e1.getMessage());
-			showError();
+			updateLinkedGeoNoErrorHandling(inputText, tpl, handler);
+		} catch (MyError error) {
+			handler.handleError();
+			maybeShowError(error);
+		} catch (Throwable throwable) {
+			handler.handleError();
+			Log.error(throwable.getMessage());
+			maybeShowError(MyError.Errors.InvalidInput);
 		}
+	}
+
+	private void updateLinkedGeoNoErrorHandling(String inputText,
+												StringTemplate tpl,
+												ErrorHandler errorHandler) {
+		String defineText = preprocess(inputText, tpl);
+
+		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
+				linkedGeo.isIndependent(), false).withSliders(false);
+
+		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
+				defineText, info, true, this, errorHandler);
+	}
+
+	private String getAndClearTempUserDisplayInput(String inputText) {
+		String tempUserInput = inputBox.getTempUserDisplayInput();
+		inputBox.setTempUserDisplayInput(null);
+		inputBox.setTempUserEvalInput(null);
+
+		return tempUserInput == null ? inputText : tempUserInput;
 	}
 
 	private String preprocess(String inputText, StringTemplate tpl) {
@@ -127,7 +162,15 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		inputBox.setLinkedGeo(obj);
 	}
 
-	private void showError() {
-		kernel.getApplication().showError(Errors.InvalidInput);
+	private void maybeShowError(MyError error) {
+		if (showErrorDialog) {
+			app.showError(error);
+		}
+	}
+
+	private void maybeShowError(MyError.Errors error) {
+		if (showErrorDialog) {
+			app.showError(error);
+		}
 	}
 }

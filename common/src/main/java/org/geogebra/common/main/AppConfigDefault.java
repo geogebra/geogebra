@@ -239,4 +239,9 @@ public class AppConfigDefault implements AppConfig {
 	public boolean isObjectDraggingRestricted() {
 		return false;
 	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return false;
+	}
 }

@@ -121,6 +121,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private String foregroundCssColor = "#000000";
 	private String backgroundCssColor = "#ffffff";
 	private ChangeHandler changeHandler;
+	private int fixMargin = 0;
+	private int minHeight = 0;
 
 	/**
 	 * 
@@ -596,13 +598,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	private double computeHeight(TeXIcon lastIcon2) {
 		int margin = getMargin(lastIcon2);
-		return roundUp(lastIcon2.getIconHeight() + margin + bottomOffset);
+		return Math.max(roundUp(lastIcon2.getIconHeight() + margin + bottomOffset), minHeight);
 	}
 
 	private int getMargin(TeXIcon lastIcon2) {
-		return (int) Math.max(0, roundUp(-lastIcon2.getTrueIconHeight()
-				+ lastIcon2.getTrueIconDepth()
-				+ getFontSize()));
+		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
+				roundUp(-lastIcon2.getTrueIconHeight()
+						+ lastIcon2.getTrueIconDepth()
+						+ getFontSize()));
 	}
 
 	private native boolean active(Element element) /*-{
@@ -1158,5 +1161,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public void setChangeListener(ChangeHandler changeHandler) {
 		this.changeHandler = changeHandler;
+	}
+
+	/**
+	 * sets a fix margin of the mathfield, only used when bigger than 0
+	 * @param fixMargin value of the fix margin
+	 */
+	public void setFixMargin(int fixMargin) {
+		this.fixMargin = fixMargin;
+	}
+
+	/**
+	 * sets a minimum height of the mathfield, only used when bigger than 0
+	 * @param minHeight value of the minimum height
+	 */
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
 	}
 }

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
 

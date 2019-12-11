@@ -243,4 +243,9 @@ public class AppConfigGraphing implements AppConfig {
 	public boolean isObjectDraggingRestricted() {
 		return true;
 	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return true;
+	}
 }

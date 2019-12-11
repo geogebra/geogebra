@@ -53,8 +53,8 @@ public class CalcEmbedElement extends EmbedElement {
 	@Override
 	public void setSize(int contentWidth, int contentHeight) {
 		frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
-		frame.getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
-		frame.getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
+		frame.getElement().getStyle().setWidth(contentWidth, Unit.PX);
+		frame.getElement().getStyle().setHeight(contentHeight, Unit.PX);
 		frame.getApp().checkScaleContainer();
 	}
 

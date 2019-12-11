@@ -13,6 +13,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -200,6 +201,7 @@ class NamePanel extends OptionPanel
 			autoShowCaption();
 		}
 		model.applyCaptionChange(tfCaption.getText());
+		((EuclidianViewW) app.getActiveEuclidianView()).doRepaint();
 	}
 
 	private void autoShowCaption() {

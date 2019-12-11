@@ -171,10 +171,8 @@ task copyHtml {
         appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            // TODO notes features should go to stable, then we simplify this
-            def prerelease = "notes".equals(appID)
-            file("war/${app.id}-template.html").text = replaceHtml(app, prerelease)
-            file("war/${app.id}-offline.html").text = english(replaceHtml(app, prerelease, true), app.title)
+            file("war/${app.id}-template.html").text = replaceHtml(app, false)
+            file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true), app.title)
             file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
         }
     }
@@ -185,10 +183,8 @@ task copyHandlebars {
         appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            // TODO notes features should go to stable, then we simplify this
-            def prerelease = "notes".equals(appID)
             def templatePath = project.getProperty("handlebarsDir") + "/${app.id}-template.handlebars"
-            file(templatePath).text = handlebars(replaceHtml(app, prerelease))
+            file(templatePath).text = handlebars(replaceHtml(app, false))
         }
     }
 }

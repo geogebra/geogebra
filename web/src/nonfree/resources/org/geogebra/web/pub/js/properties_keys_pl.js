@@ -3317,7 +3317,6 @@ __GGB__keysVar["pl"].menu = {
     "mow.offlineMyFiles": "Otw\xf3rz plik w trybie offline",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "newFIle": "New file",
     "notes_tutorials": "fp7bctpr",
     "of": "of",
     "off": "wy\u0142\u0105czony",
