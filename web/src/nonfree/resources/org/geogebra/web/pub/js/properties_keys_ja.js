@@ -3206,6 +3206,7 @@ __GGB__keysVar["ja"].menu = {
     "ar.privacy.photo": "\u3042\u306a\u305f\u306e\u5468\u56f2\u306e\u306b\u3042\u308b3 D \u6570\u5b66\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306e\u5199\u771f\u3092\u4fdd\u5b58",
     "ar.restart": "AR\u3092\u518d\u8d77\u52d5",
     "back": "\u5f8c",
+    "blankFile": "\u7a7a\u306e\u30d5\u30a1\u30a4\u30eb",
     "cartesian": "\u76f4\u4ea4\u5ea7\u6a19",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "\u6642\u8a08\u56de\u308a",

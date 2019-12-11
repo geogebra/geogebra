@@ -3206,6 +3206,7 @@ __GGB__keysVar["cs"].menu = {
     "ar.privacy.photo": "Ulo\u017ete fotky 3D matematick\xfdch objekt\u016f ve va\u0161em okol\xed.",
     "ar.restart": "Restartovat",
     "back": "zp\u011bt",
+    "blankFile": "Blank file",
     "cartesian": "kart\xe9zsky",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "ve sm\u011bru hodin(-)",

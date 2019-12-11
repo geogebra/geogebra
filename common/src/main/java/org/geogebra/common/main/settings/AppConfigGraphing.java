@@ -11,10 +11,15 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Config for Graphing Calculator app
@@ -226,6 +231,23 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public String getExamMenuItemText() {
 		return "ExamGraphingCalc.short";
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		return new HashSet<>(Arrays.asList(FillType.STANDARD, FillType.HATCH,
+				FillType.CROSSHATCHED, FillType.CHESSBOARD, FillType.DOTTED,
+				FillType.HONEYCOMB, FillType.BRICK, FillType.WEAVING, FillType.SYMBOLS));
+	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return true;
+	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return true;
 	}
 
 	@Override

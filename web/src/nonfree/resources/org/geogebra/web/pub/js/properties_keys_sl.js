@@ -3206,6 +3206,7 @@ __GGB__keysVar["sl"].menu = {
     "ar.privacy.photo": "Shrani slike 3D objektov v svojem okolju.",
     "ar.restart": "Ponovni zagon OR",
     "back": "Nazaj",
+    "blankFile": "Blank file",
     "cartesian": "kartezi\u010dni",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "negativna smer (gibanje urinega kazalca)",

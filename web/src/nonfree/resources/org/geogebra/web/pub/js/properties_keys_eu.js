@@ -3206,6 +3206,7 @@ __GGB__keysVar["eu"].menu = {
     "ar.privacy.photo": "Zure inguruko 3D objektu matematikoen argazkiak gorde.",
     "ar.restart": "Berrabiarazi AR",
     "back": "atzera",
+    "blankFile": "Blank file",
     "cartesian": "Kartesiarra",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "erloju-orratzen noranzkoan",

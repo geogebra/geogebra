@@ -3206,6 +3206,7 @@ __GGB__keysVar["lv"].menu = {
     "ar.privacy.photo": "Save photos of your 3D math objects in your surroundings.",
     "ar.restart": "Restart AR",
     "back": "Atpaka\u013c",
+    "blankFile": "Blank file",
     "cartesian": "Dekarta",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "pulkste\u0146r\u0101d\u012bt\u0101jvierziens",

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.video;
+package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class VideoErrorPanel extends PersistablePanel {
 	private final Localization loc;
-	public Label error;
+	private Label error;
 	private String errorId;
 
 	/**

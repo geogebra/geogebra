@@ -3206,6 +3206,7 @@ __GGB__keysVar["nl"].menu = {
     "ar.privacy.photo": "Bewaar foto's van je wiskundige  3D objecten in je omgevingen.",
     "ar.restart": "AR herstarten",
     "back": "Terug",
+    "blankFile": "Leeg bestand",
     "cartesian": "Cartesisch",
     "cas_tutorials": "mpyqh7fe",
     "clockwise": "wijzerzin",

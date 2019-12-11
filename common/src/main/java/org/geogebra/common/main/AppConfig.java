@@ -5,7 +5,10 @@ import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+
+import java.util.Set;
 
 public interface AppConfig {
 
@@ -79,7 +82,6 @@ public interface AppConfig {
 	boolean isEnableStructures();
 
 	/**
-	 * 
 	 * @return the toolbar type of the current app.
 	 */
 	AppType getToolbarType();
@@ -159,6 +161,7 @@ public interface AppConfig {
 
 	/**
 	 * Get the app version in enum.
+	 *
 	 * @return app version
 	 */
 	GeoGebraConstants.Version getVersion();
@@ -172,6 +175,20 @@ public interface AppConfig {
 	 * @return the ggbtranskey for the exam starting menu item in the MainMenu
 	 */
 	String getExamMenuItemText();
+
+	/**
+	 * Whether it shows the error dialog for the input boxes.
+	 *
+	 * @return true iff it should show the error dialog
+	 */
+	boolean isShowingErrorDialogForInputBox();
+
+	/**
+	 * Get the available fill types.
+	 *
+	 * @return fill types
+	 */
+	Set<FillType> getAvailableFillTypes();
 
 	/**
 	 * Returns -1 or GeoLine.EQUATION_USER
@@ -188,5 +205,10 @@ public interface AppConfig {
 	 * @return GeoConicND.EQUATION_USER or -1.
 	 */
 	int getEnforcedConicEquationForm();
-}
 
+	/**
+	 * @return whether the apps uses restricted dragging for certain objects or not
+	 */
+	boolean isObjectDraggingRestricted();
+
+}

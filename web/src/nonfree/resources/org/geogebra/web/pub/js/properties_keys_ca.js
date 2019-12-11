@@ -3206,6 +3206,7 @@ __GGB__keysVar["ca"].menu = {
     "ar.privacy.photo": "Deseu les fotos dels vostres objectes matem\xe0tics 3D en els vostres entorns.",
     "ar.restart": "Reiniciar AR",
     "back": "enrera",
+    "blankFile": "Blank file",
     "cartesian": "cartesi\xe0",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "sentit horari",

@@ -3206,6 +3206,7 @@ __GGB__keysVar["fi"].menu = {
     "ar.privacy.photo": "Tallenna kuvia 3D-objekteista ymp\xe4rist\xf6ss\xe4si.",
     "ar.restart": "K\xe4ynnist\xe4 uudelleen AR",
     "back": "Takaisin",
+    "blankFile": "Blank file",
     "cartesian": "Suorakulmainen",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "my\xf6t\xe4p\xe4iv\xe4\xe4n",

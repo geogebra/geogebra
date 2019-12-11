@@ -13,10 +13,11 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-	compile project(':common')
-	compile project(':giac-jni')
-	compile project(':editor-base')
-	testCompile project(':ggbjdk')
+    compile project(':common')
+    compile project(':giac-jni')
+    compile project(':renderer-base')
+    compile project(':editor-base')
+    testCompile project(':ggbjdk')
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:3.1.0'
@@ -33,7 +34,7 @@ sourceSets {
     }
 }
 
-if(hasProperty("eclipse")){
+if (hasProperty("eclipse")) {
     eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
 }
 
@@ -48,7 +49,7 @@ pmd {
      ruleSetFiles = files("config/pmd.xml")
 }
 test {
-	ignoreFailures = true
+    ignoreFailures = true
 }
 
 checkstyle {

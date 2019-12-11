@@ -1122,6 +1122,23 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
+	private boolean handleTempUserInput(LinkedHashMap<String, String> attrs) {
+
+		// name of linked geo
+		String eval = attrs.get("eval");
+		String display = attrs.get("display");
+
+		if (geo instanceof GeoInputBox) {
+			GeoInputBox inputBox = (GeoInputBox) geo;
+			inputBox.setTempUserDisplayInput(display);
+			inputBox.setTempUserEvalInput(eval);
+		} else {
+			Log.error("temp user input not supported for " + geo.getGeoClassType());
+		}
+
+		return true;
+	}
+
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
 		String align = attrs.get("val");
 
@@ -2040,6 +2057,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "length":
 				handleLength(attrs);
+				break;
+			case "tempUserInput":
+				handleTempUserInput(attrs);
 				break;
 			case "listType":
 				handleListType(attrs);

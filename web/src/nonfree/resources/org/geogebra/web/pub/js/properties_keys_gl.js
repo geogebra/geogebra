@@ -3206,6 +3206,7 @@ __GGB__keysVar["gl"].menu = {
     "ar.privacy.photo": "Garda fotos dos teus obxectos matem\xe1ticos en 3D no teu contorno.",
     "ar.restart": "Restart AR",
     "back": "Atr\xe1s",
+    "blankFile": "Blank file",
     "cartesian": "Cartesiano",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "sentido horario",

@@ -3206,6 +3206,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "ar.privacy.photo": "Save photos of your 3D math objects in your surroundings.",
     "ar.restart": "Restart AR",
     "back": "\u9000\u56de",
+    "blankFile": "Blank file",
     "cartesian": "\u76f4\u89d2\u5ea7\u6a19",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "\u9806\u6642\u91dd",
