@@ -28,7 +28,7 @@ public class DefaultDrawerMenuFactoryTest {
 	}
 
 	@Test
-	public void testGraphingWebOffline() {
+	public void testGraphingWebLoggedOut() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
@@ -38,7 +38,7 @@ public class DefaultDrawerMenuFactoryTest {
 	}
 
 	@Test
-	public void testGraphingWebOnline() {
+	public void testGraphingWebLoggedIn() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(true);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
@@ -63,7 +63,7 @@ public class DefaultDrawerMenuFactoryTest {
 	}
 
 	@Test
-	public void testGraphingAndroidOffline() {
+	public void testGraphingAndroidLoggedOut() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.ANDROID,

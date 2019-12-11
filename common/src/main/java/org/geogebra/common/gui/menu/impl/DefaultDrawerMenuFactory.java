@@ -20,6 +20,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private GeoGebraConstants.Platform platform;
 	private LogInOperation logInOperation;
+	private boolean createExamEntry;
 
 	/**
 	 * Create a new DrawerMenuFactory.
@@ -43,9 +44,26 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 									GeoGebraConstants.Version version,
 									LogInOperation logInOperation) {
+		this(platform, version, logInOperation, false);
+	}
+
+	/**
+	 * Create a new DrawerMenuFactory.
+	 *
+	 * @param platform platform
+	 * @param version version
+	 * @param logInOperation if loginOperation is not null, it creates menu options that require
+	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * @param createExamEntry whether the factory should create the start exam button
+	 */
+	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+									GeoGebraConstants.Version version,
+									LogInOperation logInOperation,
+									boolean createExamEntry) {
 		super(version);
 		this.platform = platform;
 		this.logInOperation = logInOperation;
+		this.createExamEntry = createExamEntry;
 	}
 
 	@Override
@@ -74,7 +92,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem save = logInOperation == null ? null : saveFile();
 		MenuItem downloadAs = isDesktop() ? showDownloadAs() : null;
 		MenuItem printPreview = isDesktop() ? previewPrint() : null;
-		MenuItem startExamMode = isDesktop() ? null : startExamMode();
+		MenuItem startExamMode = createExamEntry ? null : startExamMode();
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
@@ -123,7 +141,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private boolean isDesktop() {
-		return platform == GeoGebraConstants.Platform.WEB;
+		return !isMobile();
 	}
 
 	private static MenuItem startExamMode() {
@@ -205,10 +223,10 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				ActionableItem html = new ActionableItemImpl(
 						"ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
 				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
-						png, svg, pdf, createStl(), dae, html);
+						png, svg, pdf, createDownloadStl(), dae, html);
 			default:
 				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
-						png, svg, pdf, createStl());
+						png, svg, pdf, createDownloadStl());
 		}
 	}
 
@@ -220,7 +238,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return new ActionableItemImpl("SlidesGgs", Action.DOWNLOAD_GGS);
 	}
 
-	private static ActionableItem createStl() {
+	private static ActionableItem createDownloadStl() {
 		return new ActionableItemImpl("3DPrint", Action.DOWNLOAD_STL);
 	}
 }
