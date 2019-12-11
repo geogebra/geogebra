@@ -111,6 +111,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		String tempDisplayInput = "\\frac{5}{\\nbsp}";
 		inputBox.setTempUserDisplayInput(tempDisplayInput);
 		inputBox.updateLinkedGeo("5/");
+		inputBox.setSymbolicMode(true);
 		Assert.assertEquals(tempDisplayInput, inputBox.getDisplayText());
 		Assert.assertEquals("5/", inputBox.getText());
 	}
