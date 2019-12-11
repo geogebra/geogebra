@@ -40,19 +40,19 @@ public interface AppConfig {
 
 	boolean hasSingleEuclidianViewWhichIs3D();
 
-    /**
-     * @return the decimal places that this app uses.
-     */
-    int[] getDecimalPlaces();
+	/**
+	 * @return the decimal places that this app uses.
+	 */
+	int[] getDecimalPlaces();
 
-    /**
-     * @return the significant places that this app uses.
-     */
-    int[] getSignificantFigures();
+	/**
+	 * @return the significant places that this app uses.
+	 */
+	int[] getSignificantFigures();
 
-    /**
-     * @return the array of characters that can be used for the angle labels.
-     */
+	/**
+	 * @return the array of characters that can be used for the angle labels.
+	 */
 	boolean isGreekAngleLabels();
 
 	/**
@@ -77,27 +77,24 @@ public interface AppConfig {
 
 	/**
 	 * @return whether match structures (functions, equations, vectors) are
-	 *         enabled
+	 * enabled
 	 */
 	boolean isEnableStructures();
 
 	/**
-	 * 
 	 * @return the toolbar type of the current app.
 	 */
 	AppType getToolbarType();
 
-    /**
-     *
-     * @return true if grid is shown at start on the active (main) euclidian view
-     */
+	/**
+	 * @return true if grid is shown at start on the active (main) euclidian view
+	 */
 	boolean showGridOnFileNew();
 
-    /**
-     *
-     * @return true if axes are shown at start on the active (main) euclidian view
-     */
-    boolean showAxesOnFileNew();
+	/**
+	 * @return true if axes are shown at start on the active (main) euclidian view
+	 */
+	boolean showAxesOnFileNew();
 
 	/**
 	 * @return whether table view is available
@@ -162,6 +159,7 @@ public interface AppConfig {
 
 	/**
 	 * Get the app version in enum.
+	 *
 	 * @return app version
 	 */
 	GeoGebraConstants.Version getVersion();
@@ -182,5 +180,10 @@ public interface AppConfig {
 	 * @return fill types
 	 */
 	Set<FillType> getAvailableFillTypes();
-}
 
+	/**
+	 * @return whether the apps uses restricted dragging for certain objects or not
+	 */
+	boolean isObjectDraggingRestricted();
+
+}

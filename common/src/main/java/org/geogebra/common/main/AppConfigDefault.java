@@ -234,4 +234,9 @@ public class AppConfigDefault implements AppConfig {
 	public Set<FillType> getAvailableFillTypes() {
 		return new HashSet<>(Arrays.asList(FillType.values()));
 	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return false;
+	}
 }

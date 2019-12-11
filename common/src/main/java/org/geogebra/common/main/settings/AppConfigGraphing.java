@@ -238,4 +238,9 @@ public class AppConfigGraphing implements AppConfig {
 				FillType.CROSSHATCHED, FillType.CHESSBOARD, FillType.DOTTED,
 				FillType.HONEYCOMB, FillType.BRICK, FillType.WEAVING, FillType.SYMBOLS));
 	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return true;
+	}
 }
