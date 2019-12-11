@@ -41,7 +41,7 @@ public final class DrawBoolean extends Drawable {
 	// For some reason checkboxes were drawn 5 pixels from the
 	// label offset of the geo. Cannot be removed, as this would break
 	// old materials :/
-	private static final int LEGACY_OFFSET = 5;
+	public static final int LEGACY_OFFSET = 5;
 
 	private static final int LABEL_MARGIN_TEXT = 10;
 	private static final int LABEL_MARGIN_LATEX = 5;
