@@ -43,10 +43,10 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void enteringNewValueShouldKeepVectorType3D() {
-		setupAndCheckInput("v3", "(1, 3, 0)");
+		setupAndCheckInput("v3", "(1, 3, 6)");
 		updateInput("(1, 5)");
-		t("v3", "(1, 5)");
-		hasType("v3", GeoClass.VECTOR);
+		t("v3", "(1, 5, 0)");
+		hasType("v3", GeoClass.VECTOR3D);
 	}
 
 	@Test
@@ -55,15 +55,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("x = y");
 		t("p", "x - y = 0");
 		hasType("p", GeoClass.PLANE3D);
-	}
-
-	@Test
-	public void enteringIncompatibleTypeShouldBeIgnored() {
-		setupAndCheckInput("n", "4");
-		getApp().storeUndoInfo();
-		updateInput("y");
-		t("n", "4");
-		hasType("n", GeoClass.NUMERIC);
 	}
 
 	@Test
@@ -163,7 +154,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void functionParameterShouldNotChangeToX() {
 		add("f(c) = c / ?");
-		inputBox = (GeoInputBox) add("ib=InputBox(f)");
+		inputBox = add("ib=InputBox(f)");
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("c / ?", inputBox.getText());
 		updateInput("?");
@@ -175,7 +166,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void twoVariableFunctionParameterShouldNotChangeToX() {
 		add("g(p, q) = p / ?");
-		inputBox = (GeoInputBox) add("ib=InputBox(g)");
+		inputBox = add("ib=InputBox(g)");
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("p / ?", inputBox.getText());
 		updateInput("?");
@@ -206,7 +197,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	private void setupInput(String label, String value) {
 		add(label + ":" + value);
-		inputBox = (GeoInputBox) add("ib=InputBox(" + label + ")");
+		inputBox = add("ib=InputBox(" + label + ")");
 	}
 
 	@Test
@@ -215,7 +206,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("B = (2,0)");
 		add("C = (2,2)");
 		add("p:Plane(A,B,C)");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(p)");
+		GeoInputBox inputBox = add("InputBox(p)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
 }

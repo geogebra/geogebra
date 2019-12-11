@@ -416,6 +416,8 @@ public class GeoPlane3D extends GeoElement3D
 		if (geo instanceof GeoLine) {
 			GeoLine line = (GeoLine) geo;
 			setEquation(line.getX(), line.getY(), 0, line.getZ());
+		} else {
+			setUndefined();
 		}
 	}
 

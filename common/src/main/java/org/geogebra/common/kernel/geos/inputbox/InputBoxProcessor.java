@@ -2,20 +2,20 @@ package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -23,7 +23,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Updates linked element for an input box from user input
  */
-public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
+public class InputBoxProcessor {
 
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
@@ -83,10 +83,13 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 		String defineText = preprocess(inputText, tpl);
 
 		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-				linkedGeo.isIndependent(), false).withSliders(false);
+				false, false).withSliders(false)
+				.withNoRedefinitionAllowed().withPreventingTypeChange()
+				.withRedefinitionRule(createRedefinitionRule());
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
-				defineText, info, true, this, errorHandler);
+				defineText, info, false,
+				new InputBoxCallback(kernel.getApplication(), this, inputBox), errorHandler);
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {
@@ -125,41 +128,28 @@ public class InputBoxProcessor implements AsyncOperation<GeoElementND> {
 			// make sure user can enter regular "i"
 			defineText = defineText.replace('i', Unicode.IMAGINARY);
 
-			// z=2 doesn't work for complex numbers (parses to
-			// GeoNumeric)
-			defineText = defineText + "+0" + Unicode.IMAGINARY;
-
 		}
-
 		if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
-
 		return defineText;
 	}
 
-	private boolean isComplexNumber() {
-		return linkedGeo.isGeoPoint()
-				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
+	private RedefinitionRule createRedefinitionRule() {
+		RedefinitionRule same = RedefinitionRules.sameClassRule();
+		RedefinitionRule point = RedefinitionRules.oneWayRule(
+				GeoClass.POINT3D, GeoClass.POINT);
+		RedefinitionRule vector = RedefinitionRules.oneWayRule(
+				GeoClass.VECTOR3D, GeoClass.VECTOR);
+		return RedefinitionRules.anyRule(same, point, vector);
 	}
 
-	@Override
-	public void callback(GeoElementND obj) {
-		if (isComplexNumber()) {
-			ExpressionNode def = obj.getDefinition();
-			if (def != null && def.getOperation() == Operation.PLUS && def.getRight()
-					.toString(StringTemplate.defaultTemplate).equals("0" + Unicode.IMAGINARY)) {
-				obj.setDefinition(def.getLeftTree());
-				inputBox.setLinkedGeo(obj);
-				obj.updateRepaint();
-				return;
-			}
-
-		}
-		inputBox.setLinkedGeo(obj);
+	boolean isComplexNumber() {
+		return linkedGeo.isGeoPoint()
+				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
 	private void maybeShowError(MyError error) {
