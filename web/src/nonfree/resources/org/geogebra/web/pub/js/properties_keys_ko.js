@@ -3206,6 +3206,7 @@ __GGB__keysVar["ko"].menu = {
     "ar.privacy.photo": "\uc8fc\ubcc0\uc758 3\ucc28\uc6d0 \uc218\ud559\uc801 \ub300\uc0c1 \uc0ac\uc9c4\uc744 \uc800\uc7a5\ud558\uc138\uc694.",
     "ar.restart": "\uc99d\uac15\ud604\uc2e4 \ub2e4\uc2dc \uc2dc\uc791\ud558\uae30",
     "back": "\ub4a4\ub85c",
+    "blankFile": "Blank file",
     "cartesian": "\uc9c1\uad50\uc88c\ud45c",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "\uc2dc\uacc4 \ubc29\ud5a5",

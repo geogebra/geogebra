@@ -3206,6 +3206,7 @@ __GGB__keysVar["hr"].menu = {
     "ar.privacy.photo": "Spremi fotografije 3D matemati\u010dkih objekta u svoje okru\u017eje.",
     "ar.restart": "Restart AR",
     "back": "Natrag",
+    "blankFile": "Blank file",
     "cartesian": "Kartezijev",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "u smjeru kazaljke na satu",

@@ -3206,6 +3206,7 @@ __GGB__keysVar["fil"].menu = {
     "ar.privacy.photo": "Save photos of your 3D math objects in your surroundings.",
     "ar.restart": "Restart AR",
     "back": "Balik",
+    "blankFile": "Blank file",
     "cartesian": "Kartesyan",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "clockwise",

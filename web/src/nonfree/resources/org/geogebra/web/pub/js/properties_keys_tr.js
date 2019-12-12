@@ -3206,6 +3206,7 @@ __GGB__keysVar["tr"].menu = {
     "ar.privacy.photo": "\xc7evrenizdeki 3D matematik nesnelerinin foto\u011fraflar\u0131n\u0131 kaydedin.",
     "ar.restart": "AG'yi yeniden ba\u015flat",
     "back": "geri",
+    "blankFile": "Blank file",
     "cartesian": "Kartezyen",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "saat y\xf6n\xfcnde",

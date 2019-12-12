@@ -237,4 +237,9 @@ public class AppConfigDefault implements AppConfig {
 	public ParserFunctions createParserFunctions() {
 		return ParserFunctionsFactory.createParserFunctions();
 	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return false;
+	}
 }

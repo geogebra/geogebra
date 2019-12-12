@@ -3206,6 +3206,7 @@ __GGB__keysVar["is"].menu = {
     "ar.privacy.photo": "Vista\xf0u myndir af 3D st\xe6r\xf0fr\xe6\xf0ihlutum \xed umhverfi \xfe\xednu.",
     "ar.restart": "Restart AR",
     "back": "Tilbaka",
+    "blankFile": "Blank file",
     "cartesian": "Kartesk",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "r\xe9tts\xe6lis",

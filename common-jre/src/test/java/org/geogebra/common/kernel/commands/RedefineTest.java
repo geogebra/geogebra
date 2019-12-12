@@ -1,15 +1,17 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -22,7 +24,7 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class RedefineTest extends Assert {
-	static AppDNoGui app;
+	static AppCommon3D app;
 	static AlgebraProcessor ap;
 
 	@Before
@@ -39,7 +41,8 @@ public class RedefineTest extends Assert {
 	 */
 	@BeforeClass
 	public static void setupApp() {
-		app = AlgebraTest.createApp();
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 
@@ -53,12 +56,12 @@ public class RedefineTest extends Assert {
 				tpl);
 	}
 
-	public static void t(String s, String[] expected) {
+	private static void t(String s, String[] expected) {
 		AlgebraTestHelper.testSyntaxSingle(s, expected, ap,
 				StringTemplate.xmlTemplate);
 	}
 
-	public void checkError(String s, String msg) {
+	private void checkError(String s, String msg) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(s, false, errorStore,
@@ -66,7 +69,7 @@ public class RedefineTest extends Assert {
 		assertEquals(msg, errorStore.getErrors());
 	}
 
-	public void add(String s) {
+	private void add(String s) {
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(s, true,
 						app.getDefaultErrorHandler(), false, null);
@@ -253,7 +256,8 @@ public class RedefineTest extends Assert {
 	@Test
 	public void cmdRename() {
 		checkError("Rename[ 6*7, \"$7\" ]",
-				"Command Rename:\nIllegal argument: Text \"$7\"\n\nSyntax:\nRename( <Object>, <Name> )");
+				"Command Rename:\nIllegal argument: Text \"$7\"\n\n"
+						+ "Syntax:\nRename( <Object>, <Name> )");
 	}
 
 	@Test
@@ -287,7 +291,8 @@ public class RedefineTest extends Assert {
 	public void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
 		t("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
-				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5), If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
+				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5),"
+						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"),
 				StringTemplate.editTemplate);
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");
@@ -331,24 +336,6 @@ public class RedefineTest extends Assert {
 				StringTemplate.editTemplate);
 		t("c", "X = (0, 0, 0) + (0, - cos(t), sin(t))",
 				StringTemplate.editTemplate);
-	}
-
-	@Test
-	public void randomDerivatives() {
-		add("f(x)=1/(x+RandomBetween(1,100))");
-		add("g=Derivative(2*f)");
-		add("h=Derivative(2*f)");
-		add("f1(x)=RandomElement({x^2})");
-		add("g1=Derivative(f1)");
-
-		String xml = "<expression label=\"f2\" exp=\"f2(x) = x\" />"
-				+ "<element type=\"function\" label=\"f2\">" + "<casMap>"
-				+ "<entry key=\"Derivative[((Random[-5, 5] x^Random[3, 4]) + Random[1, 4]) / ((Random[1, 3] x) + Random[1, 5]),x,1]\" val=\"((8 * x^(3)) + (6 * x^(2)) - 4) / ((4 * x^(2)) + (4 * x) + 1)\"/>"
-				+ "</casMap></element>";
-		app.getGgbApi().evalXML(xml);
-		Assert.assertFalse(app.getXML().contains("<entry"));
-		add("UpdateConstruction()");
-		t("g(7)-h(7)", "0");
 	}
 
 	@Test
@@ -410,6 +397,16 @@ public class RedefineTest extends Assert {
 		Assert.assertFalse(get("cb").isDefined());
 		add("SetValue(a,1)");
 		Assert.assertTrue(get("cb").isDefined());
+	}
+
+	@Test
+	public void setValueShouldKeepDefinition() {
+		t("a=1", "1");
+		t("A=(1, 1/a)", "(1, 1)");
+		add("SetValue(a, 0)");
+		t("A", "(NaN, NaN)");
+		add("SetValue(a, 1)");
+		t("A", "(1, 1)");
 	}
 
 }

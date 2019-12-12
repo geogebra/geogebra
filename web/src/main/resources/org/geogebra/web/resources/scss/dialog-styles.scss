@@ -1171,6 +1171,7 @@ $duration: 0.2s;
    		}
    		&.narrowDialog {
 			max-width: 376px; // 400px - (8px + 16px) padding
+			width: fit-content;
 		}
 		&.noButtons {
 			.gwt-Label{

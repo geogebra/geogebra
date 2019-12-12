@@ -3206,6 +3206,7 @@ __GGB__keysVar["sv"].menu = {
     "ar.privacy.photo": "Spara foton av dina matematiska 3D-objekt i din egen milj\xf6.",
     "ar.restart": "Starta om AR",
     "back": "Tillbaka",
+    "blankFile": "Blank file",
     "cartesian": "Kartesisk",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "medurs",

@@ -3206,6 +3206,7 @@ __GGB__keysVar["da"].menu = {
     "ar.privacy.photo": "Gem billeder af dine 3D matematikobjekter mens de er placeret i dine omgivelser.",
     "ar.restart": "Genstart AR",
     "back": "bag",
+    "blankFile": "Tom fil",
     "cartesian": "kartesiansk",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "med uret",

@@ -3206,6 +3206,7 @@ __GGB__keysVar["nb"].menu = {
     "ar.privacy.photo": "Lagre bilder av dine matematiske 3D-objekter i omgivelsene dine.",
     "ar.restart": "Start AR p\xe5 nytt",
     "back": "Tilbake",
+    "blankFile": "Blank file",
     "cartesian": "Kartesisk",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "med klokka",

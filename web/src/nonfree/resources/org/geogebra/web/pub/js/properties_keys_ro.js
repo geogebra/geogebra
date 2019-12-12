@@ -3206,6 +3206,7 @@ __GGB__keysVar["ro"].menu = {
     "ar.privacy.photo": "Salva\u021bi fotografiile cu obiectele matematice 3D din jurul dvs.",
     "ar.restart": "Reporne\u0219te AR",
     "back": "\xeenapoi",
+    "blankFile": "Blank file",
     "cartesian": "Cartezian",
     "cas_tutorials": "mxtyvd22",
     "clockwise": "sensul acelor de ceasornic",
