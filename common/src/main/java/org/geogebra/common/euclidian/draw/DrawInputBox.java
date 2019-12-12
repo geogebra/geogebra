@@ -157,8 +157,7 @@ public class DrawInputBox extends CanvasDrawable {
 				tf.setFocus(false);
 				getView().requestFocusInWindow();
 				tf.setVisible(false);
-				draw(getView().getGraphicsForPen());
-				getGeoInputBox().textObjectUpdated(getTextField());
+				getGeoInputBox().updateLinkedGeo(tf.getText());
 			} else {
 				GeoElementND linkedGeo = geoInputBox.getLinkedGeo();
 
@@ -246,9 +245,8 @@ public class DrawInputBox extends CanvasDrawable {
 
 		setLabelFontSize((int) (view.getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier()));
-
-		updateGeoInputBox();
 		if (isSelectedForInput()) {
+			updateGeoInputBox();
 			updateStyle(getTextField());
 		} else {
 			textFont = getTextFont(getGeoInputBox().getText());
@@ -271,7 +269,6 @@ public class DrawInputBox extends CanvasDrawable {
 			getGeoInputBox().updateText(tf);
 			tf.setTextAlignmentsForInputBox(geoInputBox.getAlignment());
 		}
-
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
@@ -447,7 +444,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 			drawText(g2, text);
 		}
-		
+
 		g2.setFont(font);
 		if (isSelectedForInput()) {
 			view.getViewTextField().repaintBox(g2);
@@ -459,7 +456,6 @@ public class DrawInputBox extends CanvasDrawable {
 		return geoInputBox.isSymbolicMode()
 			? getInputFieldBounds().contains(x, y)
 			: super.hitWidgetBounds(x, y);
-
 	}
 
 	/**
@@ -542,7 +538,7 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setDrawTextField(this);
 		tf.setUsedForInputBox(getGeoInputBox());
 		tf.setVisible(true);
-		
+
 		if (canSetWidgetPixelSize()) {
 			tf.setPrefSize(getPreferredWidth(), getPreferredHeight());
 		} else {
