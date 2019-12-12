@@ -38,12 +38,14 @@ import org.geogebra.common.util.StringUtil;
  */
 public final class DrawBoolean extends Drawable {
 
-	// For some reason checkboxes were drawn 5 pixels from the
-	// label offset of the geo. Cannot be removed, as this would break
-	// old materials :/
+	/**
+	 * For some reason checkboxes were drawn 5 pixels from the label offset of
+	 * the geo (both vertically and horizontally). Cannot be removed, as this
+	 * would break old materials :/
+	 */
 	public static final int LEGACY_OFFSET = 5;
 
-	private static final int LABEL_MARGIN_TEXT = 10;
+	private static final int LABEL_MARGIN_TEXT = 9;
 	private static final int LABEL_MARGIN_LATEX = 5;
 
 	private GeoBoolean geoBool;
