@@ -92,7 +92,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem save = logInOperation == null ? null : saveFile();
 		MenuItem downloadAs = isDesktop() ? showDownloadAs() : null;
 		MenuItem printPreview = isDesktop() ? previewPrint() : null;
-		MenuItem startExamMode = createExamEntry ? null : startExamMode();
+		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}

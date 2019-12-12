@@ -30,7 +30,6 @@ public class DefaultDrawerMenuFactoryTest {
 	@Test
 	public void testGraphingWebLoggedOut() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
-
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
@@ -47,27 +46,27 @@ public class DefaultDrawerMenuFactoryTest {
 	}
 
 	@Test
-	public void testScientificIos() {
+	public void testScientificIosExam() {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.SCIENTIFIC, null);
+				GeoGebraConstants.Version.SCIENTIFIC, null, true);
 		assertBasicProperties(factory, 2, 2, 3);
 	}
 
 	@Test
-	public void testGraphingIos() {
+	public void testGraphingIosExam() {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.GRAPHING, null);
+				GeoGebraConstants.Version.GRAPHING, null, true);
 		assertBasicProperties(factory, 2, 5, 3);
 	}
 
 	@Test
-	public void testGraphingAndroidLoggedOut() {
+	public void testGraphingAndroidLoggedOutExam() {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.ANDROID,
-				GeoGebraConstants.Version.GRAPHING, logInOperation);
+				GeoGebraConstants.Version.GRAPHING, logInOperation, true);
 		assertBasicProperties(factory, 3, 6, 3, 1);
 	}
 
