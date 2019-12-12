@@ -67,12 +67,12 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void addFocusListener(FocusListenerDelegate focusListener) {
-		this.focusListeners.add(focusListener);
+		focusListeners.add(focusListener);
 	}
 
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
-		this.keyHandlers.add(handler);
+		keyHandlers.add(handler);
 	}
 
 	@Override
