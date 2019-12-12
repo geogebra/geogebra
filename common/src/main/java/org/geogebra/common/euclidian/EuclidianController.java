@@ -27,6 +27,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
+import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -7516,13 +7517,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			oldLoc.x = movedGeoBoolean.getAbsoluteScreenLocX();
 			oldLoc.y = movedGeoBoolean.getAbsoluteScreenLocY();
 
-			// part of snap to grid code (the constant 5 comes from DrawBoolean)
+			// part of snap to grid code
 			setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
 					yRW - view.toRealWorldCoordY(oldLoc.y));
-			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x + 5)
-					- xRW;
-			transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y + 5)
-					- yRW;
+			transformCoordsOffset[0]
+					= view.toRealWorldCoordX(oldLoc.x + DrawBoolean.LEGACY_OFFSET) - xRW;
+			transformCoordsOffset[1]
+					= view.toRealWorldCoordY(oldLoc.y + DrawBoolean.LEGACY_OFFSET) - yRW;
 
 			view.setShowMouseCoords(false);
 			setDragCursor();
