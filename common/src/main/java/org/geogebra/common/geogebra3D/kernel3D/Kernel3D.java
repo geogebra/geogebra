@@ -162,7 +162,8 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
-		return new ExpressionNodeEvaluator3D(app.getLocalization(), kernel);
+		return new ExpressionNodeEvaluator3D(app.getLocalization(), kernel,
+				app.getConfig().createOperationArgumentFilter());
 	}
 
 	/**
