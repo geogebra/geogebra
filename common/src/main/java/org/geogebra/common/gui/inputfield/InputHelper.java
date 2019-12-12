@@ -66,7 +66,6 @@ public class InputHelper {
 			return;
 		}
 		for (GeoElementND geo : geos) {
-			updateSymbolicMode(geo);
 			if (geo instanceof GeoText) {
 				GeoText text = (GeoText) geo;
 				centerText(text, ev);

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -107,12 +108,18 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 
 		GeoElement randElement = geoList.get((int) Math.floor(
 				(cons.getApplication().getRandomNumber() * geoList.size())));
-
+		updateSymbolicModeWith(randElement);
 		// check type:
 		if (randElement.getGeoClassType() == element.getGeoClassType()) {
 			element.set(randElement);
 		} else {
 			element.setUndefined();
+		}
+	}
+
+	private void updateSymbolicModeWith(GeoElement geoElement) {
+		if (geoElement.getDefinition().isSimpleFraction() && element instanceof HasSymbolicMode) {
+			((HasSymbolicMode) element).setSymbolicMode(true, false);
 		}
 	}
 

@@ -476,7 +476,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				forceLatex = true;
 			}
 
-			InputHelper.updateSymbolicMode(previewGeo);
 			ariaPreview = previewGeo.getAuralExpression();
 
 			createDVPanels();
