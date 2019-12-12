@@ -3124,7 +3124,7 @@ public class AlgebraProcessor {
 		}
 
 		if (info.isFractions()) {
-			InputHelper.updateSymbolicMode(ret);
+			InputHelper.initSymbolicMode(ret);
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
