@@ -705,7 +705,6 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showTemplateChooser() {
 		templateChooser = new TemplateChooser((AppW) app);
-		templateChooser.show();
 	}
 
 	@Override

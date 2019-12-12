@@ -287,4 +287,12 @@ public interface BackendAPI {
 	boolean anonymousOpen();
 
 	URLChecker getURLChecker();
+
+	/**
+	 * Get templates of current user
+	 *
+	 * @param cb
+	 *            callback to process the response and fill the template material list
+	 */
+	void getTemplateMaterials(final MaterialCallbackI cb);
 }
