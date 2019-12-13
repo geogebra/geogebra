@@ -13,7 +13,7 @@ import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactoryWithoutANS;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 /**
@@ -23,7 +23,7 @@ public class KeyboardFactory {
 
 	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
 	private KeyboardModelFactory mathKeyboardFactory;
-	private KeyboardModelFactory mathKeyboardFactoryWithoutANS;
+	private KeyboardModelFactory defaultKeyboardFactory;
 	private KeyboardModelFactory greekKeyboardFactory;
 	private KeyboardModelFactory functionKeyboardFactory;
 	private LetterKeyboardFactory letterKeyboardFactory;
@@ -35,7 +35,7 @@ public class KeyboardFactory {
 	 */
 	public KeyboardFactory() {
 		mathKeyboardFactory = new MathKeyboardFactory();
-		mathKeyboardFactoryWithoutANS = new MathKeyboardFactoryWithoutANS();
+		defaultKeyboardFactory = new DefaultKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();
@@ -102,8 +102,8 @@ public class KeyboardFactory {
 	 *
 	 * @return math keyboard without ANS
 	 */
-	public Keyboard createMathKeyboardWithoutANS() {
-		return getImpl(mathKeyboardFactoryWithoutANS);
+	public Keyboard createDefaultKeyboardFactory() {
+		return getImpl(defaultKeyboardFactory);
 	}
 
 	/**
