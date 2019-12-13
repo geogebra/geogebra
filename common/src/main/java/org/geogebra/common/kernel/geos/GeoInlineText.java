@@ -3,22 +3,26 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoElement {
+public class GeoInlineText extends GeoElement implements Translateable {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
 
 	private GPoint2D location;
-	private int width;
-	private int height;
+	private double width;
+	private double height;
+
+	private String content;
 
 	/**
 	 * Creates new GeoInlineText instance.
@@ -52,12 +56,16 @@ public class GeoInlineText extends GeoElement {
 		return location;
 	}
 
+	public void setLocation(GPoint2D location) {
+		this.location = location;
+	}
+
 	/**
 	 * Get the widht of the element.
 	 *
 	 * @return width
 	 */
-	public int getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
@@ -66,7 +74,7 @@ public class GeoInlineText extends GeoElement {
 	 *
 	 * @return height
 	 */
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
@@ -75,7 +83,7 @@ public class GeoInlineText extends GeoElement {
 	 *
 	 * @param width element width in pixels
 	 */
-	public void setWidth(int width) {
+	public void setWidth(double width) {
 		this.width = width;
 	}
 
@@ -84,8 +92,16 @@ public class GeoInlineText extends GeoElement {
 	 *
 	 * @param height height in pixels
 	 */
-	public void setHeight(int height) {
+	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getContent() {
+		return content;
 	}
 
 	@Override
@@ -108,6 +124,31 @@ public class GeoInlineText extends GeoElement {
 			width = text.width;
 			height = text.height;
 		}
+	}
+
+	/**
+	 * returns all class-specific xml tags for getXML
+	 */
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		getXMLfixedTag(sb);
+		getXMLvisualTags(sb);
+
+		sb.append("\t<content val=\"");
+		StringUtil.encodeXML(sb, content);
+		sb.append("\"/>\n");
+
+		sb.append("\t<startPoint x=\"");
+		sb.append(location.getX());
+		sb.append("\" y=\"");
+		sb.append(location.getY());
+		sb.append("\"/>\n");
+
+		sb.append("\t<dimensions width=\"");
+		sb.append(width);
+		sb.append("\" height=\"");
+		sb.append(height);
+		sb.append("\"/>\n");
 	}
 
 	@Override
@@ -148,5 +189,15 @@ public class GeoInlineText extends GeoElement {
 	@Override
 	public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
+	}
+
+	@Override
+	public void translate(Coords v) {
+		location.setLocation(location.getX() + v.getX(), location.getY() + v.getY());
+	}
+
+	@Override
+	public boolean isTranslateable() {
+		return true;
 	}
 }

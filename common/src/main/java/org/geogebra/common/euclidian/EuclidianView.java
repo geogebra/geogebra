@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
@@ -45,11 +46,11 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -58,6 +59,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -2095,6 +2097,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d == null) {
 			return;
 		}
+
 		drawLayers[layer].remove(d);
 		if (d instanceof RemoveNeeded) {
 			((RemoveNeeded) d).remove();
@@ -6543,11 +6546,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Create an inline text controller iff the view supports inline text editing.
+	 * Create an inline text controller iff the view supports inline text
+	 * editing.
+	 * 
+	 * @param geo
+	 *            inline text
 	 *
 	 * @return an implementation of the text controller.
 	 */
-	public InlineTextController createInlineTextController() {
+	public InlineTextController createInlineTextController(GeoInlineText geo) {
 		return null;
+	}
+
+	/**
+	 * Remove all widgets for inline texts
+	 */
+	public void resetInlineTexts() {
+		for (Drawable dr : allDrawableList) {
+			if (dr instanceof DrawInlineText) {
+				((DrawInlineText) dr).remove();
+			}
+		}
 	}
 }

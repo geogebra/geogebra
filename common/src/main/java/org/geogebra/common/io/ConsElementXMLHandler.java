@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -217,7 +219,6 @@ public class ConsElementXMLHandler {
 		String height = attrs.get("height");
 		if (width != null && height != null) {
 
-			// workaround for bug where we had "100.0" instead of "100"
 			double widthD = -1;
 			double heightD = -1;
 			try {
@@ -237,6 +238,9 @@ public class ConsElementXMLHandler {
 			} else if (geo instanceof GeoEmbed) {
 				((GeoEmbed) geo).setContentWidth(widthD);
 				((GeoEmbed) geo).setContentHeight(heightD);
+			} else if (geo instanceof GeoInlineText) {
+				((GeoInlineText) geo).setWidth(widthD);
+				((GeoInlineText) geo).setHeight(heightD);
 			}
 
 			return true;
@@ -295,6 +299,16 @@ public class ConsElementXMLHandler {
 		} catch (RuntimeException e) {
 			return false;
 		}
+	}
+
+	private void handleContentParam(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInlineText)) {
+			Log.error("wrong element type for <content>: " + geo.getClass());
+			return;
+		}
+
+		GeoInlineText inlineText = (GeoInlineText) geo;
+		inlineText.setContent(attrs.get("val"));
 	}
 
 	private boolean handleValue(LinkedHashMap<String, String> attrs,
@@ -1048,14 +1062,29 @@ public class ConsElementXMLHandler {
 	 * 
 	 * @see processStartPointList
 	 */
-	private boolean handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof Locateable)) {
-			if (geo instanceof GeoButton) {
-				return handleAbsoluteScreenLocation(attrs, false);
+	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoInlineText) {
+			double x = 0;
+			double y = 0;
+
+			try {
+				x = Double.parseDouble(attrs.get("x"));
+				y = Double.parseDouble(attrs.get("y"));
+			} catch (NumberFormatException e) {
+				Log.error("Incorrect start point for GeoInlineText");
 			}
-			Log.error("wrong element type for <startPoint>: " + geo.getClass());
-			return false;
+
+			GPoint2D startPoint = AwtFactory.getPrototype().newPoint2D(x, y);
+
+			((GeoInlineText) geo).setLocation(startPoint);
+			return;
 		}
+
+		if (!(geo instanceof Locateable)) {
+			Log.error("wrong element type for <startPoint>: " + geo.getClass());
+			return;
+		}
+
 		Locateable locGeo = (Locateable) geo;
 
 		// relative start point (expression or label expected)
@@ -1080,13 +1109,6 @@ public class ConsElementXMLHandler {
 		} else {
 			// absolute start point (coords expected)
 			try {
-				/*
-				 * double x = StringUtil.parseDouble((String) attrs.get("x"));
-				 * double y = StringUtil.parseDouble((String) attrs.get("y"));
-				 * double z = StringUtil.parseDouble((String) attrs.get("z"));
-				 * GeoPoint p = new GeoPoint(cons); p.setCoords(x, y, z);
-				 */
-
 				GeoPointND p = xmlHandler.handleAbsoluteStartPoint(attrs);
 
 				if (number == 0) {
@@ -1101,11 +1123,9 @@ public class ConsElementXMLHandler {
 					locGeo.setWaitForStartPoint();
 				}
 			} catch (Exception e) {
-				return false;
+				// do nothing
 			}
 		}
-
-		return true;
 	}
 
 	private boolean handleLength(LinkedHashMap<String, String> attrs) {
@@ -1984,6 +2004,8 @@ public class ConsElementXMLHandler {
 			case "casMap":
 				xmlHandler.casMapForElement();
 				break;
+			case "content":
+				handleContentParam(attrs);
 			case "decoration":
 				handleDecoration(attrs);
 				break;

@@ -32,7 +32,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public DrawInlineText(EuclidianView view, GeoInlineText text) {
 		super(view, text);
 		this.text = text;
-		this.textController = view.createInlineTextController();
+		this.textController = view.createInlineTextController(text);
 		createEditor();
 		update();
 	}
@@ -45,13 +45,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void update() {
-		GPoint2D point = text.getLocation();
-
 		if (textController != null) {
+			GPoint2D point = text.getLocation();
 			textController.setLocation(view.toScreenCoordX(point.getX()) + padding,
 					view.toScreenCoordY(point.getY()) + padding);
-			textController.setHeight(text.getHeight() - 2 * padding);
-			textController.setWidth(text.getWidth() - 2 * padding);
+			textController.setHeight((int) (text.getHeight() - 2 * padding));
+			textController.setWidth((int) (text.getWidth() - 2 * padding));
 		}
 
 		getBoundingBox().setRectangle(getBounds());
@@ -151,12 +150,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public int getWidth() {
-		return text.getWidth();
+		return (int) text.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return text.getHeight();
+		return (int) text.getHeight();
 	}
 
 	@Override
