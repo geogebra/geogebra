@@ -816,5 +816,11 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setCreator(UserPublic creator) {
 		this.creator = creator;
+		setCreatorAsAuthor();
+	}
+
+	private void setCreatorAsAuthor() {
+		author = creator.getUsername();
+		authorID = creator.getId();
 	}
 }

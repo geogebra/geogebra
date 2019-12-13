@@ -10,7 +10,6 @@ import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Chapter;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -482,7 +481,7 @@ public class SaveControllerW implements SaveController {
 				consTitle = getTitleOnly(consTitle);
 			}
 			if (!app.getLoginOperation()
-					.owns(app.getActiveMaterial()) || isSharedWithStudent()) {
+					.owns(app.getActiveMaterial())) {
 				consTitle = MarvlAPI.getCopyTitle(loc, consTitle);
 				title.setText(consTitle);
 				return true;
@@ -493,12 +492,5 @@ public class SaveControllerW implements SaveController {
 			return true;
 		}
 		return false;
-	}
-
-	private boolean isSharedWithStudent() {
-		GeoGebraTubeUser user = app.getLoginOperation().getModel().getLoggedInUser();
-		String creatorName = app.getActiveMaterial().getCreator().getUsername();
-		return !creatorName.equals(user.getUserName())
-				&& user.isStudent();
 	}
 }
