@@ -16,14 +16,7 @@ public class CarotaEditor implements Editor {
 	private JavaScriptObject editor;
 
 	private static native JavaScriptObject createEditorNative(Element div) /*-{
-		var editor = $wnd.carota.editor.create(div);
-
-		div.querySelector('.carotaSpacer').addEventListener('click', function(e) {
-			console.log("clicked");
-			e.stopPropagation();
-		});
-
-		return editor;
+        return $wnd.carota.editor.create(div);
 	}-*/;
 
 	private static native void focusNative(JavaScriptObject editor) /*-{
