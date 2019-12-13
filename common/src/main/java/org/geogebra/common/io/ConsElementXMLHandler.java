@@ -1064,10 +1064,17 @@ public class ConsElementXMLHandler {
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoInlineText) {
-			GPoint2D startPoint = AwtFactory.getPrototype().newPoint2D(
-					Double.parseDouble(attrs.get("x")),
-					Double.parseDouble(attrs.get("y"))
-			);
+			double x = 0;
+			double y = 0;
+
+			try {
+				x = Double.parseDouble(attrs.get("x"));
+				y = Double.parseDouble(attrs.get("y"));
+			} catch (NumberFormatException e) {
+				Log.error("Incorrect start point for GeoInlineText");
+			}
+
+			GPoint2D startPoint = AwtFactory.getPrototype().newPoint2D(x, y);
 
 			((GeoInlineText) geo).setLocation(startPoint);
 			return;
