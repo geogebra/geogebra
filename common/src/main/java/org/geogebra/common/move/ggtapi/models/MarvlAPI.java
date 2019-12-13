@@ -483,9 +483,10 @@ public class MarvlAPI implements BackendAPI {
 		return urlChecker;
 	}
 
+	@Override
 	public void getTemplateMaterials(final MaterialCallbackI templateMaterialsCB) {
 		if (model == null) {
-			templateMaterialsCB.onError(new Exception("Error on template load"));
+			templateMaterialsCB.onError(new Exception("Error on template load. No model found"));
 			return;
 		}
 

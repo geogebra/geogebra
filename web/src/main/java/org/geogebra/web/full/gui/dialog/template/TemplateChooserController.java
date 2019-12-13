@@ -1,12 +1,9 @@
 package org.geogebra.web.full.gui.dialog.template;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +11,23 @@ import java.util.List;
 public class TemplateChooserController {
     private ArrayList<TemplatePreviewCard> templates;
     private TemplatePreviewCard selected;
-    private MaterialCallbackI requestTemplatesCB;
-    private AsyncOperation<List<Material>> templatesLoadedCB;
 
     /**
      * @param app see {@link AppW}
      */
-    public TemplateChooserController(AppW app, AsyncOperation<List<Material>> templatesLoadedCB) {
+    public TemplateChooserController(AppW app) {
         templates = new ArrayList<>();
-        this.templatesLoadedCB = templatesLoadedCB;
-        populateTemplates(app);
-        setSelected(templates.get(0));
     }
 
-    private void fillTemplates(AppW appW, List<Material> templates) {
+    public void fillTemplates(AppW appW, List<Material> templates) {
+        getTemplates().add(new TemplatePreviewCard(appW, null, false,
+                new AsyncOperation<TemplatePreviewCard>() {
+
+                    @Override
+                    public void callback(TemplatePreviewCard card) {
+                        setSelected(card);
+                    }
+                }));
         for (Material material : templates) {
             getTemplates().add(new TemplatePreviewCard(appW, material, true,
                     new AsyncOperation<TemplatePreviewCard>() {
@@ -38,30 +38,7 @@ public class TemplateChooserController {
                 }
             }));
         }
-        templatesLoadedCB.callback(templates);
-    }
-
-    private void populateTemplates(AppW app) {
-        templates.add(new TemplatePreviewCard(app, null, false,
-                new AsyncOperation<TemplatePreviewCard>() {
-
-                    @Override
-                    public void callback(TemplatePreviewCard card) {
-                        setSelected(card);
-                    }
-                }));
-        requestTemplatesCB = getTemplatesCB(app);
-        app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(requestTemplatesCB);
-    }
-
-    private MaterialCallback getTemplatesCB(final AppW appW) {
-        return new MaterialCallback() {
-
-            @Override
-            public void onLoaded(final List<Material> parseResponse, ArrayList<Chapter> meta) {
-                fillTemplates(appW, parseResponse);
-            }
-        };
+        setSelected(getTemplates().get(0));
     }
 
     /**

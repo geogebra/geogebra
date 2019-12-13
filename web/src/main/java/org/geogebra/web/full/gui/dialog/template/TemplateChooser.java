@@ -2,12 +2,8 @@ package org.geogebra.web.full.gui.dialog.template;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.OptionDialog;
 import org.geogebra.web.html5.main.AppW;
-
-import java.util.List;
 
 public class TemplateChooser extends OptionDialog {
     private Localization loc;
@@ -16,10 +12,11 @@ public class TemplateChooser extends OptionDialog {
     /**
      * @param app see {@link AppW}
      */
-    public TemplateChooser(AppW app) {
+    public TemplateChooser(AppW app, TemplateChooserController controller) {
         super(app.getPanel(), app);
         loc = app.getLocalization();
-        this.controller = new TemplateChooserController(app, templatesLoadedCB());
+        this.controller = controller;
+        buildGUI();
         setGlassEnabled(true);
     }
 
@@ -38,17 +35,6 @@ public class TemplateChooser extends OptionDialog {
         dialogContent.add(getButtonPanel());
         setPrimaryButtonEnabled(true);
         this.add(dialogContent);
-        show();
-    }
-
-    public AsyncOperation<List<Material>> templatesLoadedCB() {
-        return new AsyncOperation<List<Material>>() {
-            @Override
-            public void callback(List<Material> obj) {
-                // build dialog once the templates are loaded
-                buildGUI();
-            }
-        };
     }
 
     @Override
