@@ -338,6 +338,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void clearView() {
+		resetInlineTexts();
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
@@ -345,7 +346,6 @@ public class EuclidianViewW extends EuclidianView implements
 			appW.getGuiManager().clearAbsolutePanels(); 
 		}
 		removeTextField();
-
 	}
 
 	@Override

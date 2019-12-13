@@ -46,11 +46,11 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -281,7 +281,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
 
-	public DrawableList allDrawableList = new DrawableList();
+	protected DrawableList allDrawableList = new DrawableList();
 	/** lists of geos on different layers */
 	public DrawableList[] drawLayers;
 
@@ -6546,11 +6546,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Create an inline text controller iff the view supports inline text editing.
+	 * Create an inline text controller iff the view supports inline text
+	 * editing.
+	 * 
+	 * @param geo
+	 *            inline text
 	 *
 	 * @return an implementation of the text controller.
 	 */
 	public InlineTextController createInlineTextController(GeoInlineText geo) {
 		return null;
+	}
+
+	/**
+	 * Remove all widgets for inline texts
+	 */
+	public void resetInlineTexts() {
+		for (Drawable dr : allDrawableList) {
+			if (dr instanceof DrawInlineText) {
+				((DrawInlineText) dr).remove();
+			}
+		}
 	}
 }
