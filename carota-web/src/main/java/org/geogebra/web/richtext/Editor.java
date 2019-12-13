@@ -15,10 +15,8 @@ public interface Editor {
 
 		/**
 		 * Called instantly on editor state change
-		 * @param width current height of the editor in pixels
-		 * @param height current width of the editor in pixels
 		 */
-		void onSizeChanged(int width, int height);
+		void onSizeChanged();
 	}
 
 	/**

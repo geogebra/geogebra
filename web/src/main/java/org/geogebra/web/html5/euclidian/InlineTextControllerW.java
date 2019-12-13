@@ -28,7 +28,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void create() {
 		editor = new CarotaEditor();
 
-		Widget widget = editor.getWidget();
+		final Widget widget = editor.getWidget();
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
 		parent.appendChild(editor.getWidget().getElement());
@@ -42,9 +42,9 @@ public class InlineTextControllerW implements InlineTextController {
 			}
 
 			@Override
-			public void onSizeChanged(int width, int height) {
-				geo.setWidth(Math.max(width, geo.getWidth()));
-				geo.setHeight(Math.max(height, geo.getHeight()));
+			public void onSizeChanged() {
+				geo.setWidth(Math.max(widget.getOffsetWidth(), geo.getWidth()));
+				geo.setHeight(Math.max(widget.getOffsetHeight(), geo.getHeight()));
 				geo.updateRepaint();
 			}
 		});
