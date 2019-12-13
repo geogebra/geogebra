@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class GeoInlineTextTest extends BaseUnitTest {
 
 	@Test
@@ -31,10 +33,10 @@ public class GeoInlineTextTest extends BaseUnitTest {
 
 		GeoInlineText loadedInlineText = (GeoInlineText) lookup("testText");
 
-		Assert.assertEquals(x, loadedInlineText.getLocation().getX(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(y, loadedInlineText.getLocation().getY(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(width, loadedInlineText.getWidth(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(height, loadedInlineText.getHeight(), Kernel.MAX_PRECISION);
-		Assert.assertEquals(content, loadedInlineText.getContent());
+		assertEquals(x, loadedInlineText.getLocation().getX(), Kernel.MAX_PRECISION);
+		assertEquals(y, loadedInlineText.getLocation().getY(), Kernel.MAX_PRECISION);
+		assertEquals(width, loadedInlineText.getWidth(), Kernel.MAX_PRECISION);
+		assertEquals(height, loadedInlineText.getHeight(), Kernel.MAX_PRECISION);
+		assertEquals(content, loadedInlineText.getContent());
 	}
 }
