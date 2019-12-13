@@ -89,12 +89,19 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void toBackground() {
+		editor.deselect();
 		editor.getWidget().addStyleName("background");
+		geo.updateRepaint();
 	}
 
 	@Override
 	public void toForeground() {
 		editor.getWidget().removeStyleName("background");
 		editor.focus();
+	}
+
+	@Override
+	public void format(String key, Object val) {
+		editor.format(key, val);
 	}
 }

@@ -80,11 +80,8 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-        if (!hasFurtherStyle()) {
-            EuclidianStyleBarStatic.applyTextColor(geoElementsList, color);
-        } else {
-            EuclidianStyleBarStatic.applyColor(geoElementsList, color, geoElement.getAlphaValue(), app);
-        }
+		EuclidianStyleBarStatic.applyColor(geoElementsList, color,
+					geoElement.getAlphaValue());
 
         app.setPropertiesOccured();
     }
@@ -503,15 +500,17 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * @param alpha
-     *         alpha value to be set for the geoElement, it should be between 0 and 100
-     */
+	 * @param alpha
+	 *            alpha value to be set for the geoElement, it should be between
+	 *            0 and 1
+	 */
     public void setAlpha(float alpha) {
         if (geoElement == null) {
             return;
         }
 
-        EuclidianStyleBarStatic.applyColor(geoElementsList, geoElement.getObjectColor(), alpha, app);
+		EuclidianStyleBarStatic.applyColor(geoElementsList,
+				geoElement.getObjectColor(), alpha);
 
         app.setPropertiesOccured();
     }

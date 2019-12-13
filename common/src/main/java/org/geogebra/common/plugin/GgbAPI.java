@@ -621,7 +621,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return "";
 		}
-		return "#" + StringUtil.toHexString(geo.getObjectColor());
+		return StringUtil.toHtmlColor(geo.getObjectColor());
 	}
 
 	@Override
@@ -1509,7 +1509,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public String getPenColor() {
-		return "#" + StringUtil.toHexString(app.getActiveEuclidianView()
+		return StringUtil.toHtmlColor(app.getActiveEuclidianView()
 				.getEuclidianController().getPen().getPenColor());
 	}
 

@@ -1590,9 +1590,7 @@ public class EuclidianStyleBarD extends JToolBar
 				GColor color = btnColor.getSelectedColor();
 				float alpha = btnColor.getSliderValue() / 100.0f;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
-						alpha, app);
-				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
-				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
+						alpha);
 			}
 		}
 
@@ -1608,11 +1606,8 @@ public class EuclidianStyleBarD extends JToolBar
 		else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
-				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
-						color);
-				// btnTextColor.setFgColor((Color)btnTextColor.getSelectedValue());
-				// btnItalic.setForeground((Color)btnTextColor.getSelectedValue());
-				// btnBold.setForeground((Color)btnTextColor.getSelectedValue());
+				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
+						color, 1);
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
@@ -1637,12 +1632,12 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 		} else if (source == btnBold) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.ITALIC,
-					btnBold.isSelected() ? GFont.BOLD : GFont.PLAIN);
+					GFont.BOLD,
+					btnBold.isSelected());
 		} else if (source == btnItalic) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.BOLD,
-					btnItalic.isSelected() ? GFont.ITALIC : GFont.PLAIN);
+					GFont.ITALIC,
+					btnItalic.isSelected());
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());

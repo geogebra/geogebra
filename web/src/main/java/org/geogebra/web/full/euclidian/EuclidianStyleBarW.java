@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1317,17 +1317,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
-			private GColor geoTextColor;
-
 			@Override
 			public void update(Object[] geos) {
 				boolean geosOK = checkTextNoMedia(geos);
 				super.setVisible(geosOK);
-
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoTextColor = geo.getObjectColor();
+					GColor geoTextColor = geo.getObjectColor();
 					updateColorTable();
 
 					// find the geoColor in the table and select it
@@ -1418,7 +1415,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
 								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
+						int style = ((TextStyle) geo).getFontStyle();
 						btnBold.setValue((style & GFont.BOLD) != 0);
 					}
 				}
@@ -1435,7 +1432,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
 								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
+						int style = ((TextStyle) geo).getFontStyle();
 						btnBold.setValue((style & GFont.BOLD) != 0);
 					}
 				}
@@ -1497,7 +1494,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
 								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
+						int style = ((TextStyle) geo).getFontStyle();
 						btnItalic.setValue((style & GFont.ITALIC) != 0);
 					}
 				}
@@ -1514,7 +1511,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					if (geosOK) {
 						GeoElement geo = ((GeoElement) geos[0])
 								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
+						int style = ((TextStyle) geo).getFontStyle();
 						btnItalic.setValue((style & GFont.ITALIC) != 0);
 					}
 				}
@@ -1545,12 +1542,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
 					setSelectedIndex(GeoText.getFontSizeIndex(
-							((TextProperties) geo).getFontSizeMultiplier())); // font
-																				// size
-																				// ranges
-																				// from
-					// -4 to 4, transform
-					// this to 0,1,..,4
+							((TextStyle) geo).getFontSizeMultiplier()));
 				}
 			}
 		};
@@ -1624,7 +1616,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean geosOK = (geos.length > 0);
 		for (int i = 0; i < geos.length; i++) {
 			if (!(((GeoElement) geos[i])
-					.getGeoElementForPropertiesDialog() instanceof TextProperties)) {
+					.getGeoElementForPropertiesDialog() instanceof TextStyle)) {
 				geosOK = false;
 				break;
 			}
@@ -1680,11 +1672,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				if (color == null) {
-					if (app.isWhiteboardActive()) {
-						openColorDialog(targetGeos, true);
-					} else {
-						openPropertiesForColor(true);
-					}
+					openColorChooser(targetGeos, true);
 					return false;
 				}
 				double alpha = btnBgColor.getSliderValue() / 100.0;
@@ -1695,41 +1683,31 @@ public class EuclidianStyleBarW extends StyleBarW2
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
 				if (color == null) {
-					if (app.isWhiteboardActive()) {
-						openColorDialog(targetGeos, false);
-					} else {
-						openPropertiesForColor(false);
-					}
+					openColorChooser(targetGeos, false);
 					return false;
 				}
-				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
-						color);
+				needUndo = applyColor(targetGeos, color, 1);
 			}
 		} else if (source == btnTextBgColor) {
 			if (btnTextBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextBgColor.getSelectedColor();
 				if (color == null) {
-					if (app.isWhiteboardActive()) {
-						openColorDialog(targetGeos, false);
-					} else {
-						openPropertiesForColor(false);
-					}
+					openColorChooser(targetGeos, false);
 					return false;
 				}
-				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
-						color);
+				needUndo = applyColor(targetGeos, color, 1);
 			}
 		} else if (source == btnFilling) {
 			FillType fillType = btnFilling.getSelectedFillType();
 			EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
 
 		} else if (source == btnBold) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.ITALIC, btnBold.isDown() ? GFont.BOLD : GFont.PLAIN);
+			needUndo = applyFontStyle(targetGeos,
+					GFont.BOLD, btnBold.isDown());
 		} else if (source == btnItalic) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.BOLD,
-					btnItalic.isDown() ? GFont.ITALIC : GFont.PLAIN);
+			needUndo = applyFontStyle(targetGeos,
+					GFont.ITALIC,
+					btnItalic.isDown());
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
@@ -1757,6 +1735,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 		return true;
 	}
+
+	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,
+			boolean add) {
+		boolean ret = EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
+				add);
+		String property = mask == GFont.BOLD ? "bold" : "italic";
+		return formatInlineText(targetGeos, property, add) || ret;
+	}
+
+
 
 	/**
 	 * For 3D

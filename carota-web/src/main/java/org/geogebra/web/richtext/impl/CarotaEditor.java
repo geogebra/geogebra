@@ -1,11 +1,12 @@
 package org.geogebra.web.richtext.impl;
 
+import org.geogebra.web.richtext.Editor;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.richtext.Editor;
 
 /**
  * Inline text editor based on Carota.
@@ -16,7 +17,7 @@ public class CarotaEditor implements Editor {
 	private JavaScriptObject editor;
 
 	private static native JavaScriptObject createEditorNative(Element div) /*-{
-        return $wnd.carota.editor.create(div);
+		return $wnd.murok = $wnd.carota.editor.create(div);
 	}-*/;
 
 	private static native void focusNative(JavaScriptObject editor) /*-{
@@ -24,7 +25,7 @@ public class CarotaEditor implements Editor {
 	}-*/;
 
 	private native void setContentNative(JavaScriptObject editor, String content) /*-{
-		editor.load(JSON.parse(content));
+		editor.load(JSON.parse(content), false);
 	}-*/;
 
 	private native void addListenerNative(Widget widget, JavaScriptObject editor,
@@ -84,4 +85,21 @@ public class CarotaEditor implements Editor {
 	public void addListener(EditorChangeListener listener) {
 		addListenerNative(widget, editor, listener);
 	}
+
+	@Override
+	public void deselect() {
+		deselectNative(editor);
+	}
+
+	private static native void deselectNative(JavaScriptObject editor) /*-{
+		editor.select(0, 0, false);
+	}-*/;
+
+	public void format(String key, Object val) {
+		formatNative(editor, key, val);
+	}
+
+	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
+		editor.documentRange().setFormatting(key, val);
+	}-*/;
 }

@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -730,7 +730,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * Changes transparency of this geo
 	 * 
 	 * @param alpha
-	 *            new alpha value
+	 *            new alpha value between 0 and 1
 	 */
 	void setAlphaValue(double alpha);
 

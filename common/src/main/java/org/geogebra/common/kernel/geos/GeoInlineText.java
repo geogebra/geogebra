@@ -1,19 +1,24 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoElement implements Translateable {
+public class GeoInlineText extends GeoElement
+		implements Translateable, TextStyle {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -199,5 +204,29 @@ public class GeoInlineText extends GeoElement implements Translateable {
 	@Override
 	public boolean isTranslateable() {
 		return true;
+	}
+
+	public int getFontStyle() {
+		if (!StringUtil.empty(content)) {
+			try {
+				JSONArray json = new JSONArray(content);
+				JSONObject firstWord = json.optJSONObject(0);
+				if (firstWord != null) {
+					boolean bold = firstWord.optBoolean("bold");
+					boolean italic = firstWord.optBoolean("italic");
+					return (bold ? GFont.BOLD : 0)
+							| (italic ? GFont.ITALIC : 0);
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return GFont.PLAIN;
+	}
+
+	public double getFontSizeMultiplier() {
+		// TODO Auto-generated method stub
+		return 1;
 	}
 }

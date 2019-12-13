@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -486,42 +485,31 @@ public class EuclidianStyleBarStatic {
 	 *            color
 	 * @param alpha
 	 *            opacity
-	 * @param app
-	 *            application
 	 * @return success
 	 */
 	public static boolean applyColor(List<GeoElement> geos, GColor color,
-			double alpha, App app) {
+			double alpha) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			// apply object color to all other geos except images or text
-			// removed: see MOW-441
-			// if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText))
-			// {
+			// apply object color to all other geos except images
+			// (includes texts since MOW-441)
 			if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 				geo.setAlphaValue(alpha);
-			} else if ((geo.getObjectColor() != color
-					|| geo.getAlphaValue() != alpha
-					|| geo instanceof GeoPolyLine && geo.getKernel()
-							.getApplication()
-							.getMode() == EuclidianConstants.MODE_PEN)) {
+			} else if (geo.getObjectColor() != color
+					|| geo.getAlphaValue() != alpha) {
 				geo.setObjColor(color);
 				// if we change alpha for functions, hit won't work properly
 				if (geo.isFillable()) {
 					geo.setAlphaValue(alpha);
 				}
-				if (geo instanceof GeoPolyLine
-						&& geo.getKernel().getApplication()
-								.getMode() == EuclidianConstants.MODE_PEN) {
-					geo.setLineOpacity((int) Math.round(alpha * 255));
-				}
 			}
 			geo.updateVisualStyle(GProperty.COLOR);
 			needUndo = true;
 		}
-		// }
-		app.getKernel().notifyRepaint();
+		if (!geos.isEmpty()) {
+			geos.get(0).getKernel().notifyRepaint();
+		}
 		return needUndo;
 	}
 
@@ -559,27 +547,6 @@ public class EuclidianStyleBarStatic {
 	/**
 	 * @param geos
 	 *            elements
-	 * @param color
-	 *            text color
-	 * @return success
-	 */
-	public static boolean applyTextColor(List<GeoElement> geos, GColor color) {
-		boolean needUndo = false;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
-					&& geo.getObjectColor() != color) {
-				geo.setObjColor(color);
-				geo.updateVisualStyleRepaint(GProperty.COLOR);
-				needUndo = true;
-			}
-		}
-		return needUndo;
-	}
-
-	/**
-	 * @param geos
-	 *            elements
 	 * @param mask
 	 *            bits to filter (&amp;) from font style
 	 * @param add
@@ -587,15 +554,16 @@ public class EuclidianStyleBarStatic {
 	 * @return success
 	 */
 	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask,
-			int add) {
+			boolean add) {
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof TextProperties) {
 				TextProperties text = ((TextProperties) geo);
-				int newStyle = (text.getFontStyle() & mask) | add;
-				if (text.getFontStyle() != newStyle) {
+				int oldStyle = text.getFontStyle();
+				int newStyle = add ? (oldStyle | mask) : (oldStyle & ~mask);
+				if (oldStyle != newStyle) {
 					text.setFontStyle(newStyle);
 					text.updateVisualStyleRepaint(GProperty.FONT);
 					needUndo = true;

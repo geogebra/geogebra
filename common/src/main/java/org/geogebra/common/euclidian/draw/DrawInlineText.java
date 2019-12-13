@@ -178,4 +178,10 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		// Not implemented
 	}
+
+	public void format(String key, Object val) {
+		if (textController != null) {
+			textController.format(key, val);
+		}
+	}
 }

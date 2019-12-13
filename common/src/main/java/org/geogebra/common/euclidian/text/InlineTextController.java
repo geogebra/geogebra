@@ -46,4 +46,6 @@ public interface InlineTextController {
 	 * Bring the editor to the foreground and start editing
 	 */
 	void toForeground();
+
+	void format(String key, Object val);
 }
