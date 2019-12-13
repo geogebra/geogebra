@@ -20,6 +20,7 @@ public class TemplateChooserController {
     }
 
     public void fillTemplates(AppW appW, List<Material> templates) {
+        getTemplates().clear();
         getTemplates().add(new TemplatePreviewCard(appW, null, false,
                 new AsyncOperation<TemplatePreviewCard>() {
 

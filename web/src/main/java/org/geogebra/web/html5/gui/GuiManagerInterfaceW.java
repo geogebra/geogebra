@@ -12,7 +12,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -68,8 +67,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	BrowseViewI getBrowseView(String query);
 
 	BrowseViewI getBrowseView();
-
-	TemplateChooserController getTemplateController();
 
 	void showSciSettingsView();
 

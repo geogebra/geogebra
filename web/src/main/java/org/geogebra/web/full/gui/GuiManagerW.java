@@ -2342,7 +2342,9 @@ public class GuiManagerW extends GuiManager
 	}
 
 	public TemplateChooserController getTemplateController() {
-		templateController = new TemplateChooserController((AppW) app);
+		if (templateController == null) {
+			templateController = new TemplateChooserController((AppW) app);
+		}
 		return templateController;
 	}
 
