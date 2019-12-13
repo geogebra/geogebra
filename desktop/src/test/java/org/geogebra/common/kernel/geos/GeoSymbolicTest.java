@@ -892,6 +892,17 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertEquals("123456790123456787654320987654321", result);
 	}
 
+	@Test
+	public void testMultivariateFunction() {
+		add("f(x, a) = sqrt(x - a)");
+		String xml = app.getXML();
+		Assert.assertTrue(xml.contains("f(x, a)"));
+		app.setXML(xml, true);
+		GeoSymbolic symbolic = getSymbolic("f");
+		Assert.assertEquals("f(x, a) = sqrt(-a + x)",
+				symbolic.toString(StringTemplate.defaultTemplate));
+	}
+
 	private static int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;

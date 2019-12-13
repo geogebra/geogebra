@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -492,6 +493,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			twinGeo.setVisualStyle(this);
 		}
 		super.updateVisualStyle(property);
+	}
+
+	@Override
+	protected void getExpressionXML(StringBuilder sb) {
+		if (isIndependent() && getDefaultGeoType() < 0) {
+			sb.append("<expression");
+			sb.append(" label=\"");
+			sb.append(label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
+			sb.append("\" />\n");
+		}
 	}
 
 	@Override
