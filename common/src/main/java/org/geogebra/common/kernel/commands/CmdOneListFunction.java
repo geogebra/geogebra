@@ -16,15 +16,15 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * abstract class for Commands with one list argument eg Mean[ &lt;List> ]
- * 
+ *
  * if more than one argument, then they are put into a list
- * 
+ *
  * Michael Borcherds 2008-04-12
  */
 public abstract class CmdOneListFunction extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -67,7 +67,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 						GeoClass.NUMERIC);
 				if (list != null) {
 					list.setDefinedWithCurlyBrackets(false);
-					GeoElement[] ret = { doCommand(c.getLabel(), list) };
+					GeoElement[] ret = { doCommand(c.getLabel(), list, info) };
 					return ret;
 				}
 			} else if (arg[0] instanceof VectorValue) {
@@ -75,7 +75,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.POINT);
 				if (list != null) {
-					GeoElement[] ret = { doCommand(c.getLabel(), list) };
+					GeoElement[] ret = { doCommand(c.getLabel(), list, info) };
 					return ret;
 				}
 
@@ -89,7 +89,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 
 	private GeoElement process(Command command, EvalInfo info, GeoElement element) {
 		if (element.isGeoList()) {
-			return doCommand(command.getLabel(), (GeoList) element);
+			return doCommand(command.getLabel(), (GeoList) element, info);
 		} else if (element.isGeoFunction()) {
 
 			// allow FitXXX[ <Freehand Function> ], eg FitSin
@@ -102,13 +102,17 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 						(AlgoFunctionFreehand) fun.getParentAlgorithm());
 
 				if (list != null) {
-					return doCommand(command.getLabel(), list);
+					return doCommand(command.getLabel(), list, info);
 				}
 
 			}
 
 		}
 		throw argErr(command, element);
+	}
+
+	protected GeoElement doCommand(String label, GeoList list, @Nullable EvalInfo info) {
+		return doCommand(label, list);
 	}
 
 	/**
