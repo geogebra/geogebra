@@ -1,8 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -10,6 +7,9 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class LineEqnModel extends MultipleOptionsModel {
 
@@ -55,9 +55,8 @@ public class LineEqnModel extends MultipleOptionsModel {
 				geo instanceof GeoConicND && app.getConfig().getEnforcedConicEquationForm() != -1;
 		boolean isEnforcedEquationForm = isEnforcedLineEquationForm || isEnforcedConicEquationForm;
 		boolean isCasDisabled = !app.getSettings().getCasSettings().isEnabled();
-		boolean hasExamStarted = app.isExamStarted();
 		boolean isEquationValue = geo instanceof EquationValue;
-		return (isCasDisabled && hasExamStarted && isEquationValue) || isEnforcedEquationForm;
+		return (isCasDisabled && isEquationValue) || isEnforcedEquationForm;
 	}
 
 	private GeoLine getLineAt(int index) {

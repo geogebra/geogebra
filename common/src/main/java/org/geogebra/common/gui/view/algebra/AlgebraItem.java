@@ -584,10 +584,7 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowOnlyDefinitionForGeo(
 			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue
-				&& !(geoElement instanceof GeoLine)
-				&& geoElement.getKernel().getApplication().isExamStarted()) {
-
+		if (geoElement instanceof EquationValue && !(geoElement instanceof GeoLine)) {
 			return !isFunctionOrEquationFromUser(geoElement);
 		}
 		return false;
