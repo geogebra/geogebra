@@ -33,6 +33,7 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         addInputButton(row, buttonFactory, "y");
         addInputButton(row, buttonFactory, PI);
         addInputButton(row, buttonFactory, "e", EULER);
+        addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFirstRow(row, buttonFactory);
 
         row = mathKeyboard.nextRow(9.2f);
