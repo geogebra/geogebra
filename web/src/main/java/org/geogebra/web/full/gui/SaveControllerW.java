@@ -282,9 +282,9 @@ public class SaveControllerW implements SaveController {
 	 */
 	void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback) {
-		if (app.isWhiteboardActive()) {
+		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())) {
 			MarvlAPI api = new MarvlAPI(
-					"http://tafel.dlb-dev01.alp-dlg.net/api",
+					app.getVendorSettings().getAPIBaseUrl(),
 					new MarvlURLChecker());
 			api.uploadMaterial(tubeID, visibility, fileName, base64, materialCallback,
 					this.saveType);

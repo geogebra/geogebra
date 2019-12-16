@@ -78,4 +78,9 @@ public class MebisSettings implements VendorSettings {
 	public Material.MaterialType getTemplateType() {
 		return Material.MaterialType.ggsTemplate;
 	}
+
+	@Override
+	public String getAPIBaseUrl() {
+		return "http://tafel.dlb-dev01.alp-dlg.net/api";
+	}
 }
