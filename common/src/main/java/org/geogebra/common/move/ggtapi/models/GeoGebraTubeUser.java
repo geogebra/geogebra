@@ -174,13 +174,6 @@ public class GeoGebraTubeUser extends BaseModel {
 	}
 
 	/**
-	 * @return whether onedrive should be enabled
-	 */
-	public boolean hasOneDrive() {
-		return false;
-	}
-
-	/**
 	 * @return login cookie
 	 */
 	public String getCookie() {
