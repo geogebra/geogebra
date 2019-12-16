@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -64,7 +63,6 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -1469,24 +1467,18 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleBoundingBox(LinkedHashMap<String, String> attrs) {
-		if (!app.has(Feature.MOW_TEXT_TOOL)) {
-			return false;
-		}
-
-		if (!(geo instanceof GeoText)) {
+	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInlineText)) {
 			Log.error("wrong element type for <boundingBox>: " + geo.getClass());
-			return false;
+			return;
 		}
-
-		GRectangle rect = AwtFactory.getPrototype().newRectangle(
-				Integer.parseInt(attrs.get("x")), Integer.parseInt(attrs.get("y")),
-				Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
-		GeoText text = (GeoText) geo;
-
-		// TODO: handle GeoInlineText here
-
-		return true;
+		// TODO: check the code when we convert all MOW texts to inline texts
+		GeoInlineText text = (GeoInlineText) geo;
+		text.setWidth(Integer.parseInt(attrs.get("width")));
+		text.setHeight(Integer.parseInt(attrs.get("height")));
+		text.setLocation(AwtFactory.getPrototype().newPoint2D(
+				Integer.parseInt(attrs.get("x")),
+				Integer.parseInt(attrs.get("y"))));
 	}
 
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {

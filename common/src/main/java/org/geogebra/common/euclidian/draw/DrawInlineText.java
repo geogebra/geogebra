@@ -56,12 +56,18 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		getBoundingBox().setRectangle(getBounds());
 	}
 
+	/**
+	 * Send this to background
+	 */
 	public void toBackground() {
 		if (textController != null) {
 			textController.toBackground();
 		}
 	}
 
+	/**
+	 * Send this to foreground
+	 */
 	public void toForeground() {
 		if (textController != null) {
 			textController.toForeground();

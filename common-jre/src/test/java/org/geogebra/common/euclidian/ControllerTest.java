@@ -805,11 +805,11 @@ public class ControllerTest extends BaseControllerTest {
 		Assert.assertEquals(b.getLocation().getX(), 1.4, Kernel.MAX_PRECISION);
 		Assert.assertEquals(b.getLocation().getY(), -1.6, Kernel.MAX_PRECISION);
 
-		Assert.assertEquals(100, a.getWidth());
-		Assert.assertEquals(30, a.getHeight());
+		Assert.assertEquals(100, a.getWidth(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(30, a.getHeight(), Kernel.MAX_PRECISION);
 
-		Assert.assertEquals(100, b.getWidth());
-		Assert.assertEquals(140, b.getHeight());
+		Assert.assertEquals(100, b.getWidth(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
 	}
 
 	@Override

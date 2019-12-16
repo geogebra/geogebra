@@ -1,12 +1,13 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.web.richtext.Editor;
+import org.geogebra.web.richtext.impl.CarotaEditor;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.common.euclidian.text.InlineTextController;
-import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.web.richtext.impl.CarotaEditor;
-import org.geogebra.web.richtext.Editor;
 
 /**
  * Web implementation of the inline text controller.
@@ -19,6 +20,12 @@ public class InlineTextControllerW implements InlineTextController {
 	private Editor editor;
 	private Style style;
 
+	/**
+	 * @param geo
+	 *            text
+	 * @param parent
+	 *            parent div
+	 */
 	public InlineTextControllerW(GeoInlineText geo, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
@@ -61,6 +68,9 @@ public class InlineTextControllerW implements InlineTextController {
 		style.setTop(y, Style.Unit.PX);
 	}
 
+	/**
+	 * Set content from geo
+	 */
 	public void updateContent() {
 		if (geo.getContent() != null) {
 			editor.setContent(geo.getContent());
