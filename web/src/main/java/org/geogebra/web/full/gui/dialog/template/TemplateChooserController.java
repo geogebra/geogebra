@@ -12,13 +12,17 @@ public class TemplateChooserController {
     private ArrayList<TemplatePreviewCard> templates;
     private TemplatePreviewCard selected;
 
-    /**
-     * @param app see {@link AppW}
+    /** Controller for the template chooser dialog
      */
-    public TemplateChooserController(AppW app) {
+    public TemplateChooserController() {
         templates = new ArrayList<>();
     }
 
+    /**
+     * fill templates list given a material list
+     * @param appW see {@link AppW}
+     * @param templates list of materials having type ggs-templates or notes-templates
+     */
     public void fillTemplates(AppW appW, List<Material> templates) {
         getTemplates().clear();
         getTemplates().add(new TemplatePreviewCard(appW, null, false,

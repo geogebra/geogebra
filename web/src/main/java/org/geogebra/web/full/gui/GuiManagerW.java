@@ -2341,9 +2341,12 @@ public class GuiManagerW extends GuiManager
 		return null;
 	}
 
+	/**
+	 * @return controller of the template chooser dialog
+	 */
 	public TemplateChooserController getTemplateController() {
 		if (templateController == null) {
-			templateController = new TemplateChooserController((AppW) app);
+			templateController = new TemplateChooserController();
 		}
 		return templateController;
 	}

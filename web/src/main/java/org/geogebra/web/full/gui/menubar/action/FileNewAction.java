@@ -31,25 +31,26 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 	@Override
 	public void callback(Boolean active) {
 		if (app.isWhiteboardActive()) {
-			app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(new MaterialCallbackI() {
-				@Override
-				public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
-					if (result.isEmpty()) {
-						app.setWaitCursor();
-						app.fileNew();
-						app.setDefaultCursor();
-					} else {
-                        ((GuiManagerW) app.getGuiManager()).getTemplateController().fillTemplates(app,
-                                result);
-						app.getDialogManager().showTemplateChooser();
-					}
-				}
+			app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+					new MaterialCallbackI() {
+						@Override
+						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+							if (result.isEmpty()) {
+								app.setWaitCursor();
+								app.fileNew();
+								app.setDefaultCursor();
+							} else {
+								((GuiManagerW) app.getGuiManager()).getTemplateController().
+										fillTemplates(app, result);
+								app.getDialogManager().showTemplateChooser();
+							}
+						}
 
-				@Override
-				public void onError(Throwable exception) {
-					Log.error("Error on templates load");
-				}
-			});
+						@Override
+						public void onError(Throwable exception) {
+							Log.error("Error on templates load");
+						}
+					});
 			return;
 		}
 		// ignore active: don't save means we want new construction
