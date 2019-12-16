@@ -17,42 +17,42 @@ public class Views {
 		 * Algebra
 		 */
 		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", SvgPerspectiveResources.INSTANCE
-				.menu_icon_algebra24()),
+				.menu_icon_algebra_transparent()),
 		/**
 		 * Graphics
 		 */
 		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", SvgPerspectiveResources.INSTANCE
-				.menu_icon_graphics24()),
+						.menu_icon_geometry_transparent()),
 		/**
 		 * Graphics 2
 		 */
 		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", SvgPerspectiveResources.INSTANCE
-				.menu_icon_graphics224()),
+				.menu_icon_graphics2_transparent()),
 		/**
 		 * 3D Graphics
 		 */
 		GRAPHICS_3D(App.VIEW_EUCLIDIAN3D, "GraphicsView3D",
-				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D24()),
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent()),
 		/**
 		 * Spreadsheet
 		 */
 		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", SvgPerspectiveResources.INSTANCE
-				.menu_icon_spreadsheet24()),
+				.menu_icon_spreadsheet_transparent()),
 		/**
 		 * CAS
 		 */
-		CAS(App.VIEW_CAS, "CAS", SvgPerspectiveResources.INSTANCE.menu_icon_cas24()),
+		CAS(App.VIEW_CAS, "CAS", SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent()),
 		/**
 		 * 
 		 */
 		PROBABILITY(App.VIEW_PROBABILITY_CALCULATOR, "ProbabilityCalculator",
-				SvgPerspectiveResources.INSTANCE.menu_icon_probability24()),
+				SvgPerspectiveResources.INSTANCE.menu_icon_probability_transparent()),
 		/**
 		 * Construction Protocol
 		 */
 		CONSTRUCTION_PROTOCOL(App.VIEW_CONSTRUCTION_PROTOCOL,
 				"ConstructionProtocol", SvgPerspectiveResources.INSTANCE
-						.menu_icon_construction_protocol24());
+						.menu_icon_construction_protocol_transparent());
 
 		private int id;
 		private String key;
