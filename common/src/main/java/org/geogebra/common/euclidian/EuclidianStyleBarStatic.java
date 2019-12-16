@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -530,9 +531,10 @@ public class EuclidianStyleBarStatic {
 			GeoElement geo = geos.get(i);
 
 			// if text geo, then apply background color
-			if (geo instanceof TextProperties) {
+			if (geo instanceof TextStyle) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
+					Log.error(color + "");
 					geo.setBackgroundColor(color == null ? null : color);
 					// TODO apply background alpha
 					// --------

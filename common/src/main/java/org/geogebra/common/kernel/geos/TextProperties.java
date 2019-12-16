@@ -4,11 +4,6 @@ package org.geogebra.common.kernel.geos;
  * Element with text properties
  */
 public interface TextProperties extends TextStyle {
-	/**
-	 * 
-	 * @return font size (relative)
-	 */
-	public double getFontSizeMultiplier();
 
 	/**
 	 * 

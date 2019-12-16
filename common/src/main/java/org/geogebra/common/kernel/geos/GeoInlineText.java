@@ -206,6 +206,7 @@ public class GeoInlineText extends GeoElement
 		return true;
 	}
 
+	@Override
 	public int getFontStyle() {
 		if (!StringUtil.empty(content)) {
 			try {
@@ -218,15 +219,14 @@ public class GeoInlineText extends GeoElement
 							| (italic ? GFont.ITALIC : 0);
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return GFont.PLAIN;
 	}
 
+	@Override
 	public double getFontSizeMultiplier() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 }
