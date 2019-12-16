@@ -14,6 +14,8 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -107,7 +109,7 @@ public abstract class CommandProcessor {
 	 * @throws CircularDefinitionException
 	 *             if circular definition occurs
 	 */
-	public GeoElement[] process(Command c, EvalInfo info)
+	public GeoElement[] process(Command c, @Nullable EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		return process(c);
 	}

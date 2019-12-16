@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -31,7 +33,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, @Nullable EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -40,31 +42,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			if (arg[0].isGeoList()) {
-				GeoElement[] ret = {
-						doCommand(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
-			} else if (arg[0].isGeoFunction()) {
-
-				// allow FitXXX[ <Freehand Function> ], eg FitSin
-
-				GeoFunction fun = (GeoFunction) arg[0];
-
-				if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
-
-					GeoList list = wrapFreehandFunctionArgInList(kernel,
-							(AlgoFunctionFreehand) fun.getParentAlgorithm());
-
-					if (list != null) {
-						GeoElement[] ret = { doCommand(c.getLabel(), list) };
-						return ret;
-					}
-
-				}
-
-			}
-			throw argErr(c, arg[0]);
-
+			return new GeoElement[]{process(c, info, arg[0])};
 			// more than one argument
 		default:
 
@@ -107,6 +85,30 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 			}
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoElement process(Command command, EvalInfo info, GeoElement element) {
+		if (element.isGeoList()) {
+			return doCommand(command.getLabel(), (GeoList) element);
+		} else if (element.isGeoFunction()) {
+
+			// allow FitXXX[ <Freehand Function> ], eg FitSin
+
+			GeoFunction fun = (GeoFunction) element;
+
+			if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+
+				GeoList list = wrapFreehandFunctionArgInList(kernel,
+						(AlgoFunctionFreehand) fun.getParentAlgorithm());
+
+				if (list != null) {
+					return doCommand(command.getLabel(), list);
+				}
+
+			}
+
+		}
+		throw argErr(command, element);
 	}
 
 	/**
