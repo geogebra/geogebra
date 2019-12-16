@@ -503,7 +503,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// add color and style buttons
 		add(btnColor);
 		add(btnBgColor);
-		// add(btnTextBgColor);
 		add(btnTextColor);
 		if (btnFilling != null) {
 			add(btnFilling);
@@ -1472,9 +1471,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos[0]).isGeoAudio()
-						&& !((GeoElement) geos[0]).isGeoVideo();
+				boolean geosOK = checkGeoText(geos);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
@@ -1639,7 +1636,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					GFont.ITALIC,
 					btnItalic.isDown());
 		} else if (source == btnTextSize) {
-			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
+			needUndo = applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
 		} else if (source == btnAngleInterval) {
 			needUndo = EuclidianStyleBarStatic.applyAngleInterval(targetGeos,
@@ -1664,6 +1661,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 			return false;
 		}
 		return true;
+	}
+
+	private boolean applyTextSize(ArrayList<GeoElement> targetGeos,
+			int selectedIndex) {
+		boolean ret = EuclidianStyleBarStatic.applyTextSize(targetGeos,
+				selectedIndex);
+		double size = GeoText.getRelativeFontSize(selectedIndex)
+				* ev.getFontSize();
+		return formatInlineText(targetGeos, "size", size) || ret;
 	}
 
 	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,

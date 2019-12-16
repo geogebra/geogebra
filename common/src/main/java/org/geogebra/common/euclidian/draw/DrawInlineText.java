@@ -179,6 +179,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		// Not implemented
 	}
 
+	/**
+	 * @param key
+	 *            formatting option
+	 * @param val
+	 *            value (String, int or bool, depending on key)
+	 */
 	public void format(String key, Object val) {
 		if (textController != null) {
 			textController.format(key, val);

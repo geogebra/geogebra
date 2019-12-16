@@ -208,25 +208,37 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public int getFontStyle() {
+		JSONObject firstWord = getFormat();
+		if (firstWord != null) {
+			boolean bold = firstWord.optBoolean("bold");
+			boolean italic = firstWord.optBoolean("italic");
+			return (bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0);
+		}
+
+		return GFont.PLAIN;
+	}
+
+	private JSONObject getFormat() {
 		if (!StringUtil.empty(content)) {
 			try {
 				JSONArray json = new JSONArray(content);
-				JSONObject firstWord = json.optJSONObject(0);
-				if (firstWord != null) {
-					boolean bold = firstWord.optBoolean("bold");
-					boolean italic = firstWord.optBoolean("italic");
-					return (bold ? GFont.BOLD : 0)
-							| (italic ? GFont.ITALIC : 0);
-				}
+				return json.optJSONObject(0);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
-		return GFont.PLAIN;
+		return null;
 	}
 
 	@Override
 	public double getFontSizeMultiplier() {
-		return 1;
+		JSONObject firstWord = getFormat();
+		if (firstWord != null) {
+			int viewFontSize = kernel.getApplication()
+					.getActiveEuclidianView().getFontSize();
+			double size = firstWord.optDouble("size", viewFontSize);
+			return size / viewFontSize;
+		}
+		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 	}
 }

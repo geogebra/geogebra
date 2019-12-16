@@ -102,4 +102,8 @@ public class CarotaEditor implements Editor {
 	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
 		editor.documentRange().setFormatting(key, val);
 	}-*/;
+
+	public static native void setDefaultFontSize(double size) /*-{
+		$wnd.carota.runs.defaultFormatting.size = size;
+	}-*/; 
 }

@@ -1998,6 +1998,7 @@ public class ConsElementXMLHandler {
 				break;
 			case "content":
 				handleContentParam(attrs);
+				break;
 			case "decoration":
 				handleDecoration(attrs);
 				break;

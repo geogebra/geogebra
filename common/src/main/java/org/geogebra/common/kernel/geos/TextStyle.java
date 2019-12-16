@@ -9,6 +9,9 @@ public interface TextStyle extends GeoElementND {
 	 */
 	int getFontStyle();
 
+	/**
+	 * @return relative font size
+	 */
 	double getFontSizeMultiplier();
 
 }
