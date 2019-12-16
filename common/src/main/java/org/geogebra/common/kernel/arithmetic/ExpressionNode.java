@@ -3293,7 +3293,6 @@ public class ExpressionNode extends ValidExpression
 					|| checkForFreeVars(((MyVec3DNode) ev).getY(), name);
 		}
 		if (ev instanceof FunctionNVar) {
-			FunctionNVar var = (FunctionNVar) ev;
 			return checkForFreeVars(((FunctionNVar) ev).getExpression(), name);
 		}
 		return false;
