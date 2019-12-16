@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.commands;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import org.geogebra.common.factories.AwtFactory;
@@ -2326,48 +2324,6 @@ public class NoExceptionsTest {
 		t("ExportImage[\"height\",300]");
 		t("ExportImage[\"width\",300]");
 		t("ExportImage[\"transparent\",true]");
-	}
-
-	// @Test
-	// public void runLast() {
-	//
-	// try {
-	// for (Method m : this.getClass().getMethods()) {
-	// if (!"runLast".equals(m.getName())
-	// && !"wait".equals(m.getName())
-	// && !"notify".equals(m.getName())
-	// && !"notifyAll".equals(m.getName())) {
-	// safeInvoke(m);
-	// }
-	// }
-	// Method mean = this.getClass().getMethod("cmdMeanY");
-	// safeInvoke(mean);
-	// } catch (NoSuchMethodException e) {
-	// e.printStackTrace();
-	// }
-	// }
-
-	private void safeInvoke(Method m) {
-		try {
-			if (m.getParameterTypes().length == 0) {
-				System.out.println(m.getName());
-				m.invoke(this);
-			}
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-			Assert.fail();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Test

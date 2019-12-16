@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
 
+import com.himamis.retex.editor.share.util.KeyCodes;
+
 /**
  * Mock of a textfield, provides consistent getter/setter for content and
  * alignment.
@@ -26,6 +28,7 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	private boolean focus = false;
 	private GeoInputBox geoInputBox = null;
 	private List<FocusListenerDelegate> focusListeners = new ArrayList<>();
+	private List<KeyHandler> keyHandlers = new ArrayList<>();
 
 	@Override
 	public void showPopupSymbolButton(boolean b) {
@@ -64,12 +67,12 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
 	@Override
 	public void addFocusListener(FocusListenerDelegate focusListener) {
-		this.focusListeners.add(focusListener);
+		focusListeners.add(focusListener);
 	}
 
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
-		// for test, not needed
+		keyHandlers.add(handler);
 	}
 
 	@Override
@@ -206,6 +209,15 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	public void blur() {
 		for (FocusListenerDelegate listener : focusListeners) {
 			listener.focusLost();
+		}
+	}
+
+	/**
+	 * Notify all handlers about Enter key release
+	 */
+	public void onEnter() {
+		for (KeyHandler listener : new ArrayList<>(keyHandlers)) {
+			listener.keyReleased(new KeyEventC(KeyCodes.ENTER));
 		}
 	}
 }
