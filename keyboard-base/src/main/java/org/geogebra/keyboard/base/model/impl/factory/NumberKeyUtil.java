@@ -9,7 +9,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.MULTIPLIC
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
-
 public class NumberKeyUtil {
 
     static void addFirstRow(RowImpl row, ButtonFactory buttonFactory) {
@@ -44,5 +43,4 @@ public class NumberKeyUtil {
         addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
         addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
     }
-
 }
