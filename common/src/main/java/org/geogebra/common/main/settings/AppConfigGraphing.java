@@ -7,10 +7,14 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -248,6 +252,16 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean isShowingErrorDialogForInputBox() {
 		return true;
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return new GraphingOperationArgumentFilter();
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createGraphingParserFunctions();
 	}
 
 	@Override
