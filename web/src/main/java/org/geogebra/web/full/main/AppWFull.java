@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Cookies;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -137,6 +134,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -1376,8 +1376,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget) getEuclidianViewpanel());
-			// we need to make sure trace works after this, see #4373 or #4236
-			this.getEuclidianView1().createImage();
+			// we need to make sure trace works after this, see
+			// https://jira.geogebra.org/browse/TRAC-4232
+			// https://jira.geogebra.org/browse/TRAC-4034
+			getEuclidianView1().createImage();
+			getEuclidianView1().invalidateBackground();
 			DockPanelW euclidianDockPanel = (DockPanelW) getEuclidianViewpanel();
 			euclidianDockPanel.setVisible(true);
 			euclidianDockPanel.setEmbeddedSize(getSettings()
@@ -1416,9 +1419,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 			return;
-		}
-		if (isWhiteboardActive()) {
-			this.setToolbarPosition(SwingConstants.SOUTH, false);
 		}
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup

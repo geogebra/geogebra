@@ -41,7 +41,7 @@ android {
     buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion rootProject.minSdkVersion
     }
 
     compileOptions {

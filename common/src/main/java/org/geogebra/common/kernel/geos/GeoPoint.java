@@ -810,7 +810,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	@Override
 	public void setUndefined() {
-		resetDefinition();
 		isDefined = false;
 		super.setUndefined();
 	}
