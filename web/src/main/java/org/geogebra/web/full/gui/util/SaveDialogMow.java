@@ -47,6 +47,7 @@ public class SaveDialogMow extends DialogBoxW
 	private LocalizationW loc;
 	private ComponentCheckbox templateCheckbox;
 	private Label templateTxt;
+	private FlowPanel checkboxRow;
 
 	/**
 	 * @param app see {@link AppW}
@@ -73,7 +74,7 @@ public class SaveDialogMow extends DialogBoxW
 		titleField.addStyleName("inputText");
 		inputPanel.add(titleLbl);
 		inputPanel.add(titleField);
-		FlowPanel checkboxRow = new FlowPanel();
+		checkboxRow = new FlowPanel();
 		checkboxRow.addStyleName("templatePanel");
 		templateCheckbox = new ComponentCheckbox(false);
 		templateTxt = new Label();
@@ -216,6 +217,7 @@ public class SaveDialogMow extends DialogBoxW
 	}
 
 	private void defaultSaveCaptionAndCancel() {
+		checkboxRow.setVisible(true);
 		setCaptionKey("Save");
 		cancelBtn.setLabel(loc.getMenu("Cancel"));
 	}
@@ -277,6 +279,7 @@ public class SaveDialogMow extends DialogBoxW
 	@Override
 	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
 		showIfNeeded(runnable, !app.isSaved(), null);
+		checkboxRow.setVisible(false);
 		setCaptionKey("DoYouWantToSaveYourChanges");
 		cancelBtn.setLabel(loc.getMenu("Discard"));
 	}
