@@ -33,6 +33,10 @@ public interface MebisResources extends ClientBundle, StylesProvider, ResourceIc
 	SassResource dialogStylesScss();
 
 	@Override
+	@Source("org/geogebra/web/resources/scss/mebis/component-styles.scss")
+	SassResource componentStyles();
+
+	@Override
 	@Source("org/geogebra/web/resources/scss/mebis/settings-styles.scss")
 	SassResource settingsStyleScss();
 

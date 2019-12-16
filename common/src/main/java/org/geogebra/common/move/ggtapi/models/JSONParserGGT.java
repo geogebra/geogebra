@@ -41,7 +41,17 @@ public class JSONParserGGT {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
 			try {
-				type = MaterialType.valueOf(getString(obj, "type"));
+				switch (getString(obj, "type")) {
+					case "ggs-template" :
+					    type = MaterialType.ggsTemplate;
+					    break;
+					case "notes-template" :
+					    type = MaterialType.notesTemplate;
+					    break;
+					default:
+					    type = MaterialType.valueOf(getString(obj, "type"));
+					    break;
+				}
 			} catch (Throwable t) {
 				Log.error("Unknown material type:" + getString(obj, "type"));
 			}

@@ -21,7 +21,16 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public enum MaterialType {
-		ggb, ggt, ggs, link, book, ws, csv, flexiblews;
+		ggb, ggt, ggs, link, book, ws, csv, flexiblews, ggsTemplate, notesTemplate;
+
+		@Override
+		public String toString() {
+			switch (this) {
+				case ggsTemplate: return "ggs-template";
+				case notesTemplate: return "notes-template";
+				default: return this.name();
+			}
+		}
 	}
 
 	public static final int MAX_TITLE_LENGTH = 255;
@@ -493,7 +502,7 @@ public class Material implements Comparable<Material>, Serializable {
 		putString(ret, "featured", featured + "");
 		putString(ret, "timestamp", timestamp + "");
 		putString(ret, "url", url);
-		putString(ret, "type", type.name());
+		putString(ret, "type", type.toString());
 		putString(ret, "title", title);
 		putString(ret, "visibility", visibility);
 		putString(ret, "id", id + "");
