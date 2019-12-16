@@ -39,7 +39,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 	}
 
 	/**
-	 * In exam mode: for user equations force input form, for command equations
+	 * For user equations force input form, for command equations
 	 * either don't show them (conic) or force command output (line)
 	 * 
 	 * @param app

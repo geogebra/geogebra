@@ -575,7 +575,7 @@ public class AlgebraItem {
 	/**
 	 * Tells whether the output row should be visible for the given object. We
 	 * want to show only the definition for implicit equations, functions and
-	 * conics created by tool or command in Exam mode
+	 * conics created by tool or command
 	 *
 	 * @param geoElement
 	 *            geoElement
