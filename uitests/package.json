@@ -1,0 +1,16 @@
+{
+  "name": "web-test-harness",
+  "version": "0.1.0",
+  "description": "Test automation suite for testing GeoGebra",
+  "author": "GeoGebra Group",
+  "files": [
+    "*.js"
+  ],
+  "devDependencies": {
+    "cypress": "^3.3.1",
+    "cypress-image-snapshot": "^3.1.1",
+    "http-server": "^0.11.1",
+    "jest-image-snapshot": "2.7.0",
+    "wait-on": "^3.2.0"
+  }
+}
