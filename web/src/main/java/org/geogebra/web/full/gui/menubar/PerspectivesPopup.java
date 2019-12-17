@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -67,23 +66,23 @@ public class PerspectivesPopup {
 	}
 
 	private void setLabels() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		contentPanel.clear();
-		addPerspective(0, pr.menu_icon_algebra24());
-		addPerspective(1, pr.menu_icon_geometry24());
+		addPerspective(0, pr.menu_icon_algebra_transparent());
+		addPerspective(1, pr.menu_icon_geometry_transparent());
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
-			addPerspective(4, pr.menu_icon_graphics3D24());
+			addPerspective(4, pr.menu_icon_graphics3D_transparent());
 		}
 		if (app.supportsView(App.VIEW_CAS)) {
-			addPerspective(3, pr.menu_icon_cas24());
+			addPerspective(3, pr.menu_icon_cas_transparent());
 		}
 
-		addPerspective(2, pr.menu_icon_spreadsheet24());
-		addPerspective(5, pr.menu_icon_probability24());
+		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
+		addPerspective(5, pr.menu_icon_probability_transparent());
 
 		// add exam mode
 		if (app.getLAF().examSupported()) {
-			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),
+			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam_transparent(),
 					"exam_menu_entry", -1, 7);
 			contentPanel.add(examRow);
 		}

@@ -2013,7 +2013,7 @@ __GGB__keysVar["nl"].menu = {
     "InputField": "Invoerbalk",
     "InputField.Help": "Selecteer object om objectnaam naar invoerbalk te kopi\xebren",
     "InputFieldHelp": "<html><body><p><b>Gebruik van het invoerveld</b></p><table border=\"1\"><tr><td>Enter </td><td>Opdracht uitvoeren</td></tr><tr><td>Escape</td><td>Invoerveld leegmaken</td></tr><tr><td>\u2191</td><td>Vorige opdracht</td></tr><tr><td>\u2193</td><td>Volgende opdracht</td></tr><tr><td>F1</td><td>Help voor huidig commando</td></tr></table><p><br><b>Autoaanvulling opdrachten</b><br>Na het intikken van de eerste 3 letters <br>wordt een commando getoond.</p><table border=\"1\"><tr><td>Enter </td><td>Voorgesteld commando aanvaarden</td></tr><tr><td>Ga door met intypen</td><td>typ</td></tr></table></body></html>",
-    "InputForm": "Input formulier",
+    "InputForm": "invoer",
     "InputHelp": "Invoerhulp",
     "InputLabel": "Invoer",
     "InputLabelToolTip": "Tik een opdracht in",

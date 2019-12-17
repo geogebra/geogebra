@@ -36,10 +36,7 @@ public interface BrowseResources extends ClientBundle {
 	
 	@Source("org/geogebra/common/icons/png/web/open-from-location_googledrive.png")
 	ImageResource location_drive();
-	
-	@Source("org/geogebra/common/icons/png/web/open-from-location_skydrive.png")
-	ImageResource location_skydrive();
-	
+
 	@Source("org/geogebra/common/icons/png/web/open-from-location_local-storage.png")
 	ImageResource location_local();
 

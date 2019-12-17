@@ -38,7 +38,14 @@ import org.geogebra.common.util.StringUtil;
  */
 public final class DrawBoolean extends Drawable {
 
-	private static final int LABEL_MARGIN_TEXT = 10;
+	/**
+	 * For some reason checkboxes were drawn 5 pixels from the label offset of
+	 * the geo (both vertically and horizontally). Cannot be removed, as this
+	 * would break old materials :/
+	 */
+	public static final int LEGACY_OFFSET = 5;
+
+	private static final int LABEL_MARGIN_TEXT = 9;
 	private static final int LABEL_MARGIN_LATEX = 5;
 
 	private GeoBoolean geoBool;
@@ -116,8 +123,8 @@ public final class DrawBoolean extends Drawable {
 			g2.setStroke(EuclidianStatic.getDefaultStroke());
 
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
-					isHighlighted(), g2, geoBool.labelOffsetX,
-					geoBool.labelOffsetY, view.getBooleanSize());
+					isHighlighted(), g2, geoBool.labelOffsetX + LEGACY_OFFSET,
+					geoBool.labelOffsetY + LEGACY_OFFSET, view.getBooleanSize());
 
 			if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
@@ -128,9 +135,9 @@ public final class DrawBoolean extends Drawable {
 				textSize.y = d.getHeight();
 
 				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
-						+ LABEL_MARGIN_LATEX;
+						+ LABEL_MARGIN_LATEX + LEGACY_OFFSET;
 				int posY = geoBool.labelOffsetY
-						+ (checkBoxIcon.getIconHeight() - d.getHeight()) / 2;
+						+ (checkBoxIcon.getIconHeight() - d.getHeight()) / 2 + LEGACY_OFFSET;
 
 				App app = view.getApplication();
 				g2.setPaint(geo.getObjectColor());
@@ -158,9 +165,9 @@ public final class DrawBoolean extends Drawable {
 							.round(layout.getBounds().getHeight());
 					textSize.x = width;
 					int left = geoBool.labelOffsetX
-							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT;
+							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT + LEGACY_OFFSET;
 					int top = geoBool.labelOffsetY
-							+ (checkBoxIcon.getIconHeight() + height) / 2;
+							+ (checkBoxIcon.getIconHeight() + height) / 2 + LEGACY_OFFSET;
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							labelDesc, left, top, false);
 				}

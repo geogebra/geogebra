@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -71,6 +70,7 @@ public class DrawInputBoxAlignmentTest {
 	private void verifyAlignment(TextAlignment left) {
 		AutoCompleteTextFieldC autoCompleteTextFieldC = (AutoCompleteTextFieldC) app
 				.getActiveEuclidianView().getTextField();
+		autoCompleteTextFieldC.setUsedForInputBox(inputBox);
 		inputBox.update();
 		assertEquals(left, autoCompleteTextFieldC.getAlignment());
 	}
