@@ -8,10 +8,14 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * DOM widget representing mask, used to mask embedded elements
+ */
 class MaskWidget extends FlowPanel {
 	private final Style style;
 	private EuclidianView view;
@@ -45,12 +49,13 @@ class MaskWidget extends FlowPanel {
 		GPoint2D pA = toScreenPoint(segments[0].getStartPoint().getCoords());
 		GPoint2D pB = toScreenPoint(segments[3].getStartPoint().getCoords());
 		GPoint2D pC = toScreenPoint(segments[2].getStartPoint().getCoords());
-		double m11 = pA.getX() - pB.getX();
-		double m12 = pC.getX() - pB.getX();
+		double ratio = ((AppW) view.getApplication()).getPixelRatio();
+		double m11 = (pA.getX() - pB.getX()) * ratio;
+		double m12 = (pC.getX() - pB.getX()) * ratio;
 		double m13 = pB.getX();
 
-		double m21 = pA.getY() - pB.getY();
-		double m22 = pC.getY() - pB.getY();
+		double m21 = (pA.getY() - pB.getY()) * ratio;
+		double m22 = (pC.getY() - pB.getY()) * ratio;
 		double m23 = pB.getY();
 		String sb = "matrix(" + m11 + ", " + m21
 				+ ", " + m12 + ", " + m22
