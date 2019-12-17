@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -1154,6 +1155,12 @@ public class SelectionManager {
 	public void storeSelectedGeosNames() {
 		selectedGeosNames.clear();
 		for (GeoElement geo : getSelectedGeos()) {
+			if (geo instanceof GeoLocusStroke) {
+				String labelParent = ((GeoLocusStroke) geo).getSplitParentLabel();
+				if (kernel.lookupLabel(labelParent) == null) {
+					selectedGeosNames.add(labelParent);
+				}
+			}
 			selectedGeosNames.add(geo.getLabelSimple());
 		}
 	}
