@@ -86,7 +86,6 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  */
 
 public abstract class GgbAPI implements JavaScriptAPI {
-	// /// ----- Properties ----- /////
 	/** kernel */
 	protected Kernel kernel = null;
 	/** construction */
@@ -96,8 +95,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	/** application */
 	protected App app = null;
 
-	// private PluginManager pluginmanager= null;
-	// /// ----- Interface ----- /////
 	/**
 	 * Returns reference to Construction
 	 * 
@@ -198,7 +195,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		return ret;
-
 	}
 
 	/**
@@ -207,11 +203,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized boolean evalCommand(String cmdString) {
-
 		String labels = evalCommandGetLabels(cmdString);
-
 		return labels != null;
-
 	}
 
 	/**
@@ -223,8 +216,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return comma separated labels
 	 */
 	public synchronized String evalCommandGetLabels(String cmdString) {
-
-		// Application.debug("evalCommand called..."+cmdString);
 		GeoElementND[] result;
 
 		// this is new in GeoGebra 4.2 and it will stop some files working
@@ -256,7 +247,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			kernel.setUseInternalCommandNames(oldVal);
 			return ret.toString();
-
 		}
 
 		String[] cmdStrings = cmdString.split("[\\n]+");
@@ -270,7 +260,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					ret.append(",");
 				}
 			}
-
 		}
 
 		kernel.setUseInternalCommandNames(oldVal);
@@ -285,12 +274,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return ret.toString();
 	}
 
-	/**
-	 * prints a string to the Java Console
-	 */
 	@Override
 	public synchronized void debug(String string) {
-
 		Log.debug(string);
 	}
 
@@ -444,40 +429,29 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return objList.toArray(new String[objList.size()]);
 	}
 
-	/**
-	 * Sets the fixed state of the object with the given name.
-	 */
 	@Override
-	public synchronized void setFixed(String objName, boolean flag) {
+	public synchronized void setFixed(String objName, boolean fixed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null && geo.isFixable()) {
-			geo.setFixed(flag);
-			geo.updateRepaint();
+			setFixedAndNotify(fixed, geo);
 		}
 	}
 
-	/**
-	 * Sets the fixed state of the object with the given name.
-	 * 
-	 * @param objName
-	 *            object name
-	 * @param fixed
-	 *            whether it should be fixed
-	 * @param selectionAllowed
-	 *            whether selection should be allowed
-	 */
+	@Override
 	public synchronized void setFixed(String objName, boolean fixed,
 			boolean selectionAllowed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null) {
-
 			geo.setSelectionAllowed(selectionAllowed);
-
 			if (geo.isFixable()) {
-				geo.setFixed(fixed);
-				geo.updateVisualStyleRepaint(GProperty.COMBINED);
+				setFixedAndNotify(fixed, geo);
 			}
 		}
+	}
+
+	private static void setFixedAndNotify(boolean fixed, GeoElement geo) {
+		geo.setFixed(fixed);
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	/**
@@ -727,7 +701,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void setOnTheFlyPointCreationActive(boolean flag) {
 		app.setOnTheFlyPointCreationActive(flag);
-
 	}
 
 	@Override
@@ -1186,7 +1159,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		return kernel.getExpressionNodeEvaluator().handleXcoord(geo,
 				Operation.XCOORD);
-
 	}
 
 	/**
@@ -1228,9 +1200,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return;
 		}
-
 		CmdSetCoords.setCoords(geo, x, y);
-
 	}
 
 	@Override
@@ -1240,9 +1210,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return;
 		}
-
 		CmdSetCoords.setCoords(geo, x, y, z);
-
 	}
 
 	/**
@@ -1782,7 +1750,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -1809,7 +1776,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		return isVisibleInView(geo, view);
-
 	}
 
 	private static boolean isVisibleInView(GeoElement geo, int view) {
@@ -1835,7 +1801,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public int getCASObjectNumber() {
 		return kernel.getConstruction().getCASObjectNumber();
-
 	}
 
 	/**
@@ -1911,9 +1876,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 
 			geo.updateRepaint();
-
 		}
-
 	}
 
 	@Override
@@ -1941,7 +1904,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 * 
 	 *            wheter labels draggable in geogebra-web applets or not
 	 */
 	@Override
@@ -1951,7 +1913,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 * 
 	 *            wheter shift - drag - zoom enabled in geogebra-web applets or
 	 *            not
 	 */
@@ -1979,7 +1940,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		evs.endBatch();
 		kernel.notifyRepaint();
-
 	}
 
 	@Override
@@ -2044,7 +2004,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.setPointCapturing(capture);
 		kernel.notifyRepaint();
-
 	}
 
 	@Override
@@ -2052,7 +2011,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		geo.setAuxiliaryObject(flag);
 		geo.updateRepaint();
-
 	}
 
 	/**
@@ -2097,7 +2055,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 				handler.callback(frame.getCode());
 			}
-
 		};
 	}
 
@@ -2297,9 +2254,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String getScreenReaderOutput(String label) {
 		GeoElement geo = kernel.lookupLabel(label);
-
 		return geo.toValueString(StringTemplate.screenReader);
-
 	}
 
 	/**
