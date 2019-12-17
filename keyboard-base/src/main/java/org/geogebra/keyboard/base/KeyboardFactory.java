@@ -102,7 +102,7 @@ public class KeyboardFactory {
 	 *
 	 * @return math keyboard without ANS
 	 */
-	public Keyboard createDefaultKeyboardFactory() {
+	public Keyboard createDefaultKeyboard() {
 		return getImpl(defaultKeyboardFactory);
 	}
 
