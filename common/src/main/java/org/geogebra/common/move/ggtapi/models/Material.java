@@ -502,7 +502,7 @@ public class Material implements Comparable<Material>, Serializable {
 		putString(ret, "featured", featured + "");
 		putString(ret, "timestamp", timestamp + "");
 		putString(ret, "url", url);
-		putString(ret, "type", type.name());
+		putString(ret, "type", type.toString());
 		putString(ret, "title", title);
 		putString(ret, "visibility", visibility);
 		putString(ret, "id", id + "");
