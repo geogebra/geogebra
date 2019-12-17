@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -474,7 +475,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			if (geo.isFixable()) {
 				geo.setFixed(fixed);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.COMBINED);
 			}
 		}
 	}
