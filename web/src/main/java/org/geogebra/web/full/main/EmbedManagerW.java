@@ -113,7 +113,8 @@ public class EmbedManagerW implements EmbedManager {
 				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
-				.attr("allowStyleBar", "true");
+				.attr("allowStyleBar", "true")
+				.attr("borderColor", "#CCC");
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
 			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
