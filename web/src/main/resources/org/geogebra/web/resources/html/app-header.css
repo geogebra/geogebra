@@ -310,6 +310,11 @@ svg.icon.left {
     padding-top: 4px;
 }
 
+.GeoGebraFrame .appPickerItem:hover {
+    background-color: #eee;
+    color: #000;
+}
+
 .GeoGebraFrame .settingsBtnScientific {
     margin: 6px;
     float: right;

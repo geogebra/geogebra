@@ -110,7 +110,7 @@ public class Graphics2DA implements Graphics2DInterface {
 	@SuppressWarnings("deprecation")
 	public Transform getTransform() {
 		Matrix matrix = null;
-		if (mView != null && android.os.Build.VERSION.SDK_INT >= 11) {
+		if (mView != null) {
 			matrix = mView.getMatrix();
 		}
 		if (matrix == null) {

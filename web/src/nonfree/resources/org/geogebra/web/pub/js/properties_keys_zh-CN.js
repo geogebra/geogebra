@@ -2514,7 +2514,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Range": "\u8303\u56f4",
     "RawData": "\u539f\u59cb\u6570\u636e",
     "Ray": "\u5c04\u7ebf",
-    "Ray.Help": "\u9009\u5b9a\u7aef\u70b9, \u518d\u9009\u5b9a\u5c04\u7ebf\u8981\u7ecf\u8fc7\u7684\u70b9",
+    "Ray.Help": "\u9009\u5b9a\u7aef\u70b9, \u518d\u9009\u5b9a\u5c04\u7ebf\u8981\u7ecf\u8fc7\u7684\u53e6\u4e00\u70b9",
     "Ray.Tool": "\u5c04\u7ebf",
     "RayThroughAB": "\u7aef\u70b9\u4e3a %0 \u4e14\u7ecf\u8fc7\u70b9 %1 \u7684\u5c04\u7ebf",
     "RayThroughAWithDirectionB": "\u7aef\u70b9\u4e3a %0, \u65b9\u5411\u5411\u91cf\u4e3a %1 \u7684\u5c04\u7ebf",
