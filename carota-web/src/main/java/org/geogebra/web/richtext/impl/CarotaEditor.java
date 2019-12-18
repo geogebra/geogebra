@@ -21,8 +21,8 @@ public class CarotaEditor implements Editor {
 	}-*/;
 
 	private static native void focusNative(JavaScriptObject editor, int x, int y) /*-{
-    	var ordinal = editor.byCoordinate(x, y).ordinal;
-    	editor.select(ordinal, ordinal, true);
+		var ordinal = editor.byCoordinate(x, y).ordinal;
+		editor.select(ordinal, ordinal, true);
 	}-*/;
 
 	private native void setContentNative(JavaScriptObject editor, String content) /*-{

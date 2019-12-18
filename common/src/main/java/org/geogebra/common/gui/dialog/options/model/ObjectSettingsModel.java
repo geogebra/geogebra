@@ -88,8 +88,8 @@ abstract public class ObjectSettingsModel {
 
     /**
      * @return if the label of the geoElement is visible or not
-     */
-    public boolean isLabelShown() {
+      */
+	public boolean isLabelShown() {
         return geoElement != null && geoElement.isLabelVisible();
     }
 

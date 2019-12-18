@@ -534,7 +534,6 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof TextStyle) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
-					Log.error(color + "");
 					geo.setBackgroundColor(color == null ? null : color);
 					// TODO apply background alpha
 					// --------
