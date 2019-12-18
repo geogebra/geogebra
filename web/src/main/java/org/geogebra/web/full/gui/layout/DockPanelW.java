@@ -648,7 +648,7 @@ public abstract class DockPanelW extends ResizeComposite
 		int x = graphicsContextMenuBtn.getAbsoluteLeft();
 		final int y = 8;
 		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-				app, x, y);
+				app, x, y, false);
 		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
 		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override

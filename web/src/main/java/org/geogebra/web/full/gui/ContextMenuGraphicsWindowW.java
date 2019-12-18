@@ -60,8 +60,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 *            x pos of popup
 	 * @param py
 	 *            y pos of popup
+	 * @param showPaste
+	 *            whether to show the paste button (false for the graphics settings button)
 	 */
-	public ContextMenuGraphicsWindowW(AppW app, double px, double py) {
+	public ContextMenuGraphicsWindowW(AppW app, double px, double py, boolean showPaste) {
 		this(app);
 		this.px = px;
 		this.py = py;
@@ -87,8 +89,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			}
 			addShowAllObjAndStandView();
 		} else {
-			addPasteItem();
-			wrappedPopup.addSeparator();
+			if (showPaste) {
+				addPasteItem();
+				wrappedPopup.addSeparator();
+			}
 			addRulingMenuItem(ot);
 			addBackgroundMenuItem();
 		}
