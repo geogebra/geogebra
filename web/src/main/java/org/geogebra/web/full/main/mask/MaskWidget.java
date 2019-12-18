@@ -6,9 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -45,11 +43,11 @@ class MaskWidget extends FlowPanel {
 	}
 
 	private void transformWithMatrix() {
-		GeoSegmentND[] segments = polygon.getSegments();
-		GPoint2D pA = toScreenPoint(segments[0].getStartPoint().getCoords());
-		GPoint2D pB = toScreenPoint(segments[3].getStartPoint().getCoords());
-		GPoint2D pC = toScreenPoint(segments[2].getStartPoint().getCoords());
-		double ratio = ((AppW) view.getApplication()).getPixelRatio();
+		GPoint2D pA = toScreenPoint(polygon.getPoint(1).getCoords());
+		GPoint2D pB = toScreenPoint(polygon.getPoint(2).getCoords());
+		GPoint2D pC = toScreenPoint(polygon.getPoint(3).getCoords());
+		// .maskWidget size is 100x100px to avoid rounding problem in Chrome
+		double ratio = .01;
 		double m11 = (pA.getX() - pB.getX()) * ratio;
 		double m12 = (pC.getX() - pB.getX()) * ratio;
 		double m13 = pB.getX();
