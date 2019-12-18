@@ -6522,7 +6522,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		inlineText.setLabel(null);
-		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground();
+		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
 		selectAndShowBoundingBox(inlineText);
 
 		return true;
@@ -10225,7 +10225,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (topGeo == lastInlineText && !draggingOccured) {
 			showDynamicStylebar();
-			((DrawInlineText) view.getDrawableFor(topGeo)).toForeground();
+			((DrawInlineText) view.getDrawableFor(topGeo)).toForeground(mouseLoc.x, mouseLoc.y);
 
 			// Fix weird multiselect bug.
 			setResizedShape(null);

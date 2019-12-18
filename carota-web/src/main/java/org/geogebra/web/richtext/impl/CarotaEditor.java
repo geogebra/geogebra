@@ -20,8 +20,9 @@ public class CarotaEditor implements Editor {
 		return $wnd.murok = $wnd.carota.editor.create(div);
 	}-*/;
 
-	private static native void focusNative(JavaScriptObject editor) /*-{
-		editor.notifySelectionChanged(true);
+	private static native void focusNative(JavaScriptObject editor, int x, int y) /*-{
+    	var ordinal = editor.byCoordinate(x, y).ordinal;
+    	editor.select(ordinal, ordinal, true);
 	}-*/;
 
 	private native void setContentNative(JavaScriptObject editor, String content) /*-{
@@ -62,11 +63,11 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
-	public void focus() {
+	public void focus(final int x, final int y) {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				focusNative(editor);
+				focusNative(editor, x, y);
 			}
 		});
 	}

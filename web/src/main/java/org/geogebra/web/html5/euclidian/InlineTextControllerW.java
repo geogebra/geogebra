@@ -99,9 +99,10 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void toForeground() {
+	public void toForeground(int x, int y) {
 		editor.getWidget().removeStyleName("background");
-		editor.focus();
+		editor.focus(x - editor.getWidget().getAbsoluteLeft(),
+				y - editor.getWidget().getAbsoluteTop() + view.getAbsoluteTop());
 	}
 
 	@Override

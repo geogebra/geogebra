@@ -67,10 +67,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	/**
 	 * Send this to foreground
+	 * @param x x mouse coordinates in pixels
+	 * @param y y mouse coordinates in pixels
 	 */
-	public void toForeground() {
+	public void toForeground(int x, int y) {
 		if (textController != null) {
-			textController.toForeground();
+			textController.toForeground(x, y);
 		}
 	}
 

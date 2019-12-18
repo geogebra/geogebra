@@ -29,7 +29,7 @@ public interface Editor {
 	/**
 	 * Focuses the editor.
 	 */
-	void focus();
+	void focus(int x, int y);
 
 	/**
 	 * Sets the editor change listener
