@@ -81,10 +81,7 @@ public class EuclidianPen implements GTimerListener {
 	private GColor penColor = GColor.BLACK;
 	private PenPreviewLine penPreviewLine;
 
-	private GColor lastSelectedPenColor = GColor.BLACK;
-	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
-	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -143,64 +140,6 @@ public class EuclidianPen implements GTimerListener {
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.BLACK;
 		lineOpacity = 85 * 255 / 100;
-	}
-
-	/**
-	 * @return last selected pen color
-	 */
-	public GColor getLastSelectedPenColor() {
-		return lastSelectedPenColor;
-	}
-
-	/**
-	 * @param lastSelectedPenColor
-	 *            update last selected pen color
-	 */
-	public void setLastSelectedPenColor(GColor lastSelectedPenColor) {
-		this.lastSelectedPenColor = lastSelectedPenColor;
-	}
-
-	/**
-	 * @return last selected highlighter color
-	 */
-	public GColor getLastSelectedHighlighterColor() {
-		return lastSelectedHighlighterColor;
-	}
-
-	/**
-	 * @param lastSelectedHighlighterColor
-	 *            update last selected highlighter color
-	 */
-	public void setLastSelectedHighlighterColor(GColor lastSelectedHighlighterColor) {
-		this.lastSelectedHighlighterColor = lastSelectedHighlighterColor;
-	}
-
-	/**
-	 * @return last selected size for pen
-	 */
-	public int getLastPenThickness() {
-		return lastPenThickness;
-	}
-
-	/**
-	 * @param lastPenThickness size of pen
-	 */
-	public void setLastPenThickness(int lastPenThickness) {
-		this.lastPenThickness = lastPenThickness;
-	}
-
-	/**
-	 * @return last selected size of highlighter
-	 */
-	public int getLastHighlighterThinckness() {
-		return lastHighlighterThinckness;
-	}
-
-	/**
-	 * @param lastHighlighterThinckness size of highlighter
-	 */
-	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
-		this.lastHighlighterThinckness = lastHighlighterThinckness;
 	}
 
 	/**

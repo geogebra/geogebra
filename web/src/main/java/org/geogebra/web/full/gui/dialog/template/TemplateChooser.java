@@ -27,6 +27,9 @@ public class TemplateChooser extends OptionDialog {
         dialogContent.addStyleName("templateChooserContent");
         FlowPanel templatesPanel = new FlowPanel();
         templatesPanel.addStyleName("templatesPanel");
+        if (controller.getTemplates().size() > 6) {
+            templatesPanel.addStyleName("withBorder");
+        }
         for (TemplatePreviewCard templateCard : controller.getTemplates()) {
             templatesPanel.add(templateCard);
         }

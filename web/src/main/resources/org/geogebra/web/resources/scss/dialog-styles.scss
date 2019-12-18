@@ -1577,6 +1577,9 @@ $duration: 0.2s;
    	.MaterialDialogBox.optionDialog.templateChooser {
    	    padding-left: 0px;
         padding-right: 0px;
+        max-width: 680px;
+        max-height: 486px;
+        overflow: auto;
 
    	    .Caption {
    	        height: 26px;
@@ -1586,14 +1589,18 @@ $duration: 0.2s;
    	    }
 
    	    .templatesPanel {
-            width: 670px;
-            height: 372px;
+            max-width: 670px;
+            max-height: 370px;
             display: inline-block;
             overflow: auto;
             padding-left: 10px;
-            margin-top: 6px;
+            margin-top: 4px;
             padding-bottom: 10px;
-            border-bottom: 1px solid;
+
+            &.withBorder {
+                border-bottom: 1px solid $black-12;
+                padding-bottom: 9px;
+            }
 
    	        .templateCard {
    	            width: 200px;
@@ -1603,7 +1610,7 @@ $duration: 0.2s;
                 transition: box-shadow .25s;
                 position: relative;
                 display: inline-block;
-                margin: 14px 2px 2px 14px;
+                margin: 16px 0px 0px 16px;
                 cursor: pointer;
 
                 &:hover {
@@ -1664,6 +1671,7 @@ $duration: 0.2s;
 
         .DialogButtonPanel {
             margin-right: 8px;
+            padding-top: 4px !important;
 
             .button {
                 color: $mow_primary;

@@ -4827,30 +4827,29 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 			if (app.getSaveController().savedAsTemplate()) {
 				// size of pen
-				EuclidianPen pen = getEuclidianController().getPen();
-				sbxml.append("\t<penSize=\"");
-				sbxml.append(pen.getLastPenThickness());
+				sbxml.append("\t<penSize val=\"");
+				sbxml.append(settings.getLastPenThickness());
 				sbxml.append("\"/>\n");
 
 				// color of pen
 				sbxml.append("\t<penColor");
-				XMLBuilder.appendRGB(sbxml, pen.getLastSelectedPenColor());
+				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
 				sbxml.append("\"/>\n");
 
 				// size of highlighter
-				sbxml.append("\t<highlighterSize=\"");
-				sbxml.append(pen.getLastHighlighterThinckness());
+				sbxml.append("\t<highlighterSize val=\"");
+				sbxml.append(settings.getLastHighlighterThinckness());
 				sbxml.append("\"/>\n");
 
 				// highlighter of pen
 				sbxml.append("\t<highlighterColor");
-				XMLBuilder.appendRGB(sbxml, pen.getLastSelectedHighlighterColor());
+				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
 				sbxml.append("\"/>\n");
 
 				// size of eraser
-				sbxml.append("\t<eraserSize=\"");
+				/*sbxml.append("\t<eraserSize val=\"");
 				sbxml.append(getEuclidianController().getDeleteToolSize());
-				sbxml.append("\"/>\n");
+				sbxml.append("\"/>\n");*/
 			}
 		}
 		// axes line style
