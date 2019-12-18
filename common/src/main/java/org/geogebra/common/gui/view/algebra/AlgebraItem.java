@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -584,7 +585,9 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowOnlyDefinitionForGeo(
 			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue && !(geoElement instanceof GeoLine)) {
+		boolean hasForcedLineEquation =
+				LineEqnModel.forceInputForm(geoElement.getKernel().getApplication(), geoElement);
+		if (geoElement instanceof EquationValue && hasForcedLineEquation) {
 			return !isFunctionOrEquationFromUser(geoElement);
 		}
 		return false;
