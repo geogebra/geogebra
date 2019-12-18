@@ -6,12 +6,18 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MaskWidgetList;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.euclidian.EuclidianControllerW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
+import org.geogebra.web.html5.euclidian.PointerEventHandler;
+import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
 /**
@@ -73,8 +79,21 @@ public class MaskWidgetListW implements MaskWidgetList {
 		ClickStartHandler.init(maskWidget, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				int xOffset = maskWidget.getAbsoluteLeft()
+						- view.getAbsoluteLeft();
+				int yOffset = maskWidget.getAbsoluteTop()
+						- view.getAbsoluteTop();
 				controller.widgetsToBackground();
-				controller.selectAndShowBoundingBox(polygon);
+				view.getApplication().getSelectionManager().clearSelectedGeos();
+				
+				if (view instanceof EuclidianViewW) {
+					PointerEventHandler.startCapture((EuclidianViewW) view);
+					MouseTouchGestureControllerW mtg = ((EuclidianControllerW) controller)
+							.getMouseTouchGestureController();
+					AbstractEvent event = new PointerEvent(x + xOffset,
+							y + yOffset, type, mtg);
+					mtg.onPointerEventStart(event);
+				}
 			}
 		});
 
