@@ -786,6 +786,7 @@ public class MyXMLHandler implements DocHandler {
 			break;
 		case "eraserSize":
 			ok = handleEraserSize(evSet, attrs);
+			break;
 		case "grid":
 			ok = handleGrid(evSet, attrs);
 			break;
@@ -805,9 +806,10 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleLabelStyle(evSet, attrs);
 			break;
 		case "language":
-			ok =  handleLanguage(app, attrs);
+			ok = handleLanguage(app, attrs);
+			break;
 		case "penSize":
-			ok =handlePenSize(evSet, attrs);
+			ok = handlePenSize(evSet, attrs);
 			break;
 		case "penColor":
 			ok = handlePenColor(evSet, attrs);

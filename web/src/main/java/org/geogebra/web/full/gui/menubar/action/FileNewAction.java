@@ -38,8 +38,8 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 							if (result.isEmpty()) {
 								onFileNew();
 							} else {
-								((GuiManagerW) app.getGuiManager()).getTemplateController().
-										fillTemplates(app, result);
+								((GuiManagerW) app.getGuiManager()).getTemplateController()
+										.fillTemplates(app, result);
 								app.getDialogManager().showTemplateChooser();
 							}
 						}

@@ -81,8 +81,6 @@ public class EuclidianPen implements GTimerListener {
 	private GColor penColor = GColor.BLACK;
 	private PenPreviewLine penPreviewLine;
 
-
-
 	/************************************************
 	 * Construct EuclidianPen
 	 *
