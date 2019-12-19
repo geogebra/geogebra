@@ -411,9 +411,11 @@ public class AlgebraProcessor {
 								 boolean redefineIndependent, boolean storeUndoInfo,
 								 boolean withSliders, ErrorHandler handler,
 								 AsyncOperation<GeoElementND> callback) {
-		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
+		EvalInfo info =
+				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
-						.withLabelRedefinitionAllowedFor(geo.getLabelSimple());
+						.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
+						.withFractions(true);
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
