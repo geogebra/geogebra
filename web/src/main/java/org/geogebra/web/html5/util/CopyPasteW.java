@@ -462,6 +462,8 @@ public class CopyPasteW extends CopyPaste {
 			ev.getEuclidianController().updateBoundingBoxFromSelection(false);
 			ev.getEuclidianController().showDynamicStylebar();
 		}
+
+		app.storeUndoInfo();
 	}
 
 	@Override
