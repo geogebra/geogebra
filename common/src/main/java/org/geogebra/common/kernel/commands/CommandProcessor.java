@@ -14,8 +14,6 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
