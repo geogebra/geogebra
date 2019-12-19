@@ -37,8 +37,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void create() {
-		editor = new CarotaEditor();
-		CarotaEditor.setDefaultFontSize(view.getFontSize());
+		editor = new CarotaEditor(view.getFontSize());
 		final Widget widget = editor.getWidget();
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
@@ -72,9 +71,7 @@ public class InlineTextControllerW implements InlineTextController {
 		style.setTop(y, Style.Unit.PX);
 	}
 
-	/**
-	 * Set content from geo
-	 */
+	@Override
 	public void updateContent() {
 		if (geo.getContent() != null) {
 			editor.setContent(geo.getContent());

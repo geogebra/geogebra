@@ -49,8 +49,8 @@ public class CarotaEditor implements Editor {
 	/**
 	 * Create a new instance of Carota editor.
 	 */
-	public CarotaEditor() {
-		CarotaUtil.ensureJavascriptInjected();
+	public CarotaEditor(double defaultFontSize) {
+		CarotaUtil.ensureInitialized(defaultFontSize);
 		widget = createWidget();
 	}
 
@@ -104,7 +104,4 @@ public class CarotaEditor implements Editor {
 		editor.documentRange().setFormatting(key, val);
 	}-*/;
 
-	public static native void setDefaultFontSize(double size) /*-{
-		$wnd.carota.runs.defaultFormatting.size = size;
-	}-*/; 
 }

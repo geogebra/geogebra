@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Inline Geo Text element.
@@ -28,11 +29,15 @@ public class GeoInlineText extends GeoElement
 	private double height;
 
 	private String content;
+	private int contentDefaultSize;
 
 	/**
 	 * Creates new GeoInlineText instance.
 	 *
-	 * @param c construction
+	 * @param c
+	 *            construction
+	 * @param location
+	 *            on-screen location
 	 */
 	public GeoInlineText(Construction c, GPoint2D location) {
 		this(c, location, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -50,6 +55,12 @@ public class GeoInlineText extends GeoElement
 		this.location = location;
 		this.width = width;
 		this.height = height;
+		this.contentDefaultSize = getCurrentFontSize();
+	}
+
+	private int getCurrentFontSize() {
+		return kernel.getApplication().getSettings().getFontSettings()
+				.getAppFontSize();
 	}
 
 	/**
@@ -61,6 +72,10 @@ public class GeoInlineText extends GeoElement
 		return location;
 	}
 
+	/**
+	 * @param location
+	 *            on-screen location
+	 */
 	public void setLocation(GPoint2D location) {
 		this.location = location;
 	}
@@ -101,10 +116,17 @@ public class GeoInlineText extends GeoElement
 		this.height = height;
 	}
 
+	/**
+	 * @param content
+	 *            JSON representation of the document (used by Carota)
+	 */
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+	/**
+	 * @return JSON representation of the document (used by Carota)
+	 */
 	public String getContent() {
 		return content;
 	}
@@ -208,7 +230,7 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public int getFontStyle() {
-		JSONObject firstWord = getFormat();
+		JSONObject firstWord = getFormat().optJSONObject(0);
 		if (firstWord != null) {
 			boolean bold = firstWord.optBoolean("bold");
 			boolean italic = firstWord.optBoolean("italic");
@@ -218,21 +240,21 @@ public class GeoInlineText extends GeoElement
 		return GFont.PLAIN;
 	}
 
-	private JSONObject getFormat() {
+	private JSONArray getFormat() {
 		if (!StringUtil.empty(content)) {
 			try {
 				JSONArray json = new JSONArray(content);
-				return json.optJSONObject(0);
+				return json;
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return new JSONArray();
 	}
 
 	@Override
 	public double getFontSizeMultiplier() {
-		JSONObject firstWord = getFormat();
+		JSONObject firstWord = getFormat().optJSONObject(0);
 		if (firstWord != null) {
 			int viewFontSize = kernel.getApplication()
 					.getActiveEuclidianView().getFontSize();
@@ -240,5 +262,32 @@ public class GeoInlineText extends GeoElement
 			return size / viewFontSize;
 		}
 		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
+	}
+
+	/**
+	 * @return whether size change was needed
+	 */
+	public boolean updateFontSize() {
+		if (contentDefaultSize != getCurrentFontSize()) {
+			try {
+				JSONArray words = getFormat();
+				for (int i = 0; i < words.length(); i++) {
+					JSONObject word = words.optJSONObject(i);
+					if (word.has("size")) {
+						double size = word.getDouble("size")
+								* getCurrentFontSize()
+								/ contentDefaultSize;
+						word.put("size", size);
+					}
+				}
+
+				content = words.toString();
+				contentDefaultSize = getCurrentFontSize();
+				return true;
+			} catch (JSONException | RuntimeException e) {
+				Log.debug(e);
+			}
+		}
+		return false;
 	}
 }
