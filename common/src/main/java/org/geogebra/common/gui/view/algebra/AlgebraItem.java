@@ -10,15 +10,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.DescriptionMode;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
-import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.geos.*;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -582,18 +574,18 @@ public class AlgebraItem {
 	 * @return true if we should only show the definition for the object but not
 	 *         output row
 	 */
-	public static boolean shouldShowOnlyDefinitionForGeo(
-			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue) {
-			boolean show = true;
-			if (geoElement instanceof GeoLine) {
-				boolean hasForcedLineEquationHiddenInAV = geoElement.getKernel()
-						.getApplication().getConfig().hasForcedLineEquationHiddenInAV();
-				show = hasForcedLineEquationHiddenInAV;
-			}
-			return show && !isFunctionOrEquationFromUser(geoElement);
+	public static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
+		boolean hasEquation = geoElement instanceof EquationValue;
+		boolean shouldHideEquations =
+				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
+		boolean hasSensitiveEquation =
+				geoElement instanceof GeoLine || geoElement instanceof GeoConic;
+		boolean showOnlyDef = hasEquation && !isFunctionOrEquationFromUser(geoElement);
+		if (shouldHideEquations) {
+			return  showOnlyDef && hasSensitiveEquation;
+		} else {
+			return showOnlyDef;
 		}
-		return false;
 	}
 
 	/**

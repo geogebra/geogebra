@@ -275,7 +275,7 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean hasForcedLineEquationHiddenInAV() {
+	public boolean shouldHideEquations() {
 		return false;
 	}
 }

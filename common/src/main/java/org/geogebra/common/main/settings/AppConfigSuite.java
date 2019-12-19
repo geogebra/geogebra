@@ -62,7 +62,7 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean hasForcedLineEquationHiddenInAV() {
+	public boolean shouldHideEquations() {
 		return false;
 	}
 }

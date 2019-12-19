@@ -51,7 +51,7 @@ public class AppConfigNotes extends AppConfigDefault {
 	}
 
 	@Override
-	public boolean hasForcedLineEquationHiddenInAV() {
+	public boolean shouldHideEquations() {
 		return false;
 	}
 }

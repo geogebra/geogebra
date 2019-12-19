@@ -52,7 +52,7 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	}
 
 	@Override
-	public boolean hasForcedLineEquationHiddenInAV() {
+	public boolean shouldHideEquations() {
 		return false;
 	}
 }

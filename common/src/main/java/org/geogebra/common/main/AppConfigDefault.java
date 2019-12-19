@@ -269,7 +269,7 @@ public class AppConfigDefault implements AppConfig {
     }
 
 	@Override
-	public boolean hasForcedLineEquationHiddenInAV() {
+	public boolean shouldHideEquations() {
 		return false;
 	}
 }

@@ -220,11 +220,11 @@ public interface AppConfig {
     int getEnforcedConicEquationForm();
 
     /**
-     * Whether it shows the equation for the line in AV.
+     * Whether it shows the equation in AV.
      *
-     * @return true if equation for line should be hidden in AV
+     * @return true if equation should be hidden in AV
      */
-    boolean hasForcedLineEquationHiddenInAV();
+    boolean shouldHideEquations();
 
     /**
      * @return whether the apps uses restricted dragging for certain objects or not

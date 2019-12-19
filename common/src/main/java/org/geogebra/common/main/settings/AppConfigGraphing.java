@@ -275,7 +275,7 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean hasForcedLineEquationHiddenInAV() {
+	public boolean shouldHideEquations() {
 		return true;
 	}
 }
