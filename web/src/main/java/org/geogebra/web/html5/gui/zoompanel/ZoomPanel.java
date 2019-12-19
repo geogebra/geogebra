@@ -45,13 +45,13 @@ public class ZoomPanel extends FlowPanel
 	/**
 	 * enter/exit fullscreen mode
 	 */
-	StandardButton fullscreenBtn;
+	private StandardButton fullscreenBtn;
 
 	/** application */
 	private AppW app;
 	private final EuclidianView view;
 
-	private List<StandardButton> buttons = null;
+	private List<StandardButton> buttons;
 	private ZoomController zoomController;
 	private boolean zoomButtonsVisible;
 	private LocalizationW loc;
@@ -138,7 +138,7 @@ public class ZoomPanel extends FlowPanel
 			@Override
 			public void onClick(Widget source) {
 				getZoomController().onFullscreenPressed(getPanelElement(),
-						fullscreenBtn);
+						fullscreenBtn, type);
 				setFullScreenAuralText();
 			}
 		};
@@ -334,22 +334,15 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private static boolean needsFullscreenButton(AppW app) {
-		return isFullscreenButtonRequested(app) && isFullscreenAvailable(app);
-	}
+		if (app.getArticleElement().getDataParamApp()) {
+			return ZoomController.isRunningInIframe() || !Browser.isMobile();
+		} else {
+			if (!app.getArticleElement().getDataParamShowFullscreenButton()) {
+				return false;
+			}
 
-	private static boolean isFullscreenButtonRequested(AppW app) {
-		boolean isMobileFullScreenButtonEnabled =
-				app.getVendorSettings().getViewPreferences().isMobileFullScreenButtonEnabled();
-		boolean isRequestedForScreenType = !Browser.isMobile() || isMobileFullScreenButtonEnabled;
-		return app.getArticleElement().getDataParamShowFullscreenButton()
-				|| (app.getArticleElement().getDataParamApp()
-						&& isRequestedForScreenType);
-	}
-
-	private static boolean isFullscreenAvailable(AppW app) {
-		return !ZoomController.useEmulatedFullscreen(app)
-				|| !ZoomController.isRunningInIframe()
-				|| app.getVendorSettings().getFullscreenHandler() != null;
+			return !(Browser.isiOS() && ZoomController.isRunningInIframe());
+		}
 	}
 
 	private static boolean needsZoomButtons(AppW app) {
@@ -408,7 +401,7 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if panel have visible buttons.
 	 */
 	public boolean hasButtons() {
