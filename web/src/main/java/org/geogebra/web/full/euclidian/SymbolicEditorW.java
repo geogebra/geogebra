@@ -1,9 +1,5 @@
 package org.geogebra.web.full.euclidian;
 
-import com.google.gwt.animation.client.AnimationScheduler;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -16,14 +12,18 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -126,6 +126,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 			public void execute(double timestamp) {
 				view.doRepaint2();
 				editor.setVisible(false);
+				editor.setKeyboardVisibility(false);
 			}
 		});
 	}
