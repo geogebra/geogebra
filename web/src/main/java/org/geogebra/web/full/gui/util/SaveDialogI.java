@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -15,8 +14,6 @@ public interface SaveDialogI {
 	void setSaveType(MaterialType type);
 
 	void setLabels();
-
-	SaveDialogI setDefaultVisibility(MaterialVisibility visibility);
 
 	void hide();
 

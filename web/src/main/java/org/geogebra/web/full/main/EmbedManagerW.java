@@ -19,9 +19,9 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.embed.CalcEmbedElement;
@@ -69,7 +69,7 @@ public class EmbedManagerW implements EmbedManager {
 		this.app = app;
 		this.counter = 0;
 		preview = new MyImageW(ImageManagerW.getInternalImage(
-				MaterialDesignResources.INSTANCE.graphing()), true);
+				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent()), true);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.events.BaseEvent;
@@ -83,10 +82,7 @@ public class ShareControllerW implements ShareController {
 	 * Create material and save online
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
-		// for mow default visibility: private
-		MaterialVisibility visibility = app.isWhiteboardActive() ? MaterialVisibility.Private
-				: MaterialVisibility.Shared;
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().setDefaultVisibility(visibility)
+		((DialogManagerW) app.getDialogManager()).getSaveDialog()
 				.showIfNeeded(shareCallback, true, anchor);
 	}
 
