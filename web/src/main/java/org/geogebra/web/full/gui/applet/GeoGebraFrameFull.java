@@ -276,7 +276,7 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.ANIMATING_OUT;
 			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
-			removeKeyboard(textField);
+			removeKeyboard();
 			keyboardState = KeyboardState.HIDDEN;
 		}
 
@@ -293,8 +293,8 @@ public class GeoGebraFrameFull
 		timer.schedule(0);
 	}
 
-	private void removeKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(textField);
+	private void removeKeyboard() {
+		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(null);
 		this.setKeyboardShowing(false);
 
 		ToolbarPanel toolbarPanel = getGuiManager()
@@ -581,7 +581,7 @@ public class GeoGebraFrameFull
 				ensureKeyboardDeferred();
 				add(keyBoard);
 			} else {
-				removeKeyboard(null);
+				removeKeyboard();
 				if (this.showKeyboardButton != null) {
 					this.showKeyboardButton.hide();
 				}
