@@ -1,5 +1,3 @@
-import '../../support/commands.js'
-
 describe('CASLoaded test', () => {
     beforeEach(() => {
         cy.visit('classic.html');

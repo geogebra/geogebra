@@ -1,5 +1,3 @@
-import '../../support/embed/commands.js'
-
 describe('Evaluator test', () => {
     beforeEach(() => {
         cy.visit('evaluator.html');

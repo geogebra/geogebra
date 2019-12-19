@@ -1,5 +1,3 @@
-import '../../support/commands.js'
-
 describe('Reset test', () => {
     beforeEach(() => {
         cy.viewport("ipad-2");

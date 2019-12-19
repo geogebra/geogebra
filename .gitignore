@@ -16,3 +16,5 @@ web/war
 **/bin
 **/src/main/javacc/**/*.java
 /web/gradle.properties
+/uitests/cypress/snapshots
+/uitests/cypress/videos

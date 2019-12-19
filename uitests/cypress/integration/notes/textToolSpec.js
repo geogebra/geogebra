@@ -1,4 +1,4 @@
-import {selectors} from '../../support/selectors'
+import {selectors} from 'ggb-web-test-harness/selectors'
 
 describe('Text tool test', () => {
     beforeEach(() => {

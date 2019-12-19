@@ -1,4 +1,4 @@
-import {selectors} from '../../support/selectors'
+import {selectors} from 'ggb-web-test-harness/selectors'
 
 describe('Context menu test', () => {
     beforeEach(() => {
@@ -11,7 +11,7 @@ describe('Context menu test', () => {
     it("Context menu should be shown", () => {
         // Enter x^2-2 in the input line
         cy.writeInAVInput("x^2{rightarrow}-2{enter}");
-
+        console.log(selectors);
         // Context menu button
         selectors.avMoreButton.get().eq(0).click();
         selectors.avContextMenuDelete.get().should('be.visible');
