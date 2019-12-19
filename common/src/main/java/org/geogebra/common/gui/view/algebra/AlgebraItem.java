@@ -574,18 +574,17 @@ public class AlgebraItem {
 	 * @return true if we should only show the definition for the object but not
 	 *         output row
 	 */
-	public static boolean shouldShowOnlyDefinitionForGeo(GeoElementND geoElement) {
-		boolean hasEquation = geoElement instanceof EquationValue;
+	public static boolean shouldShowOnlyDefinitionForGeo(
+			GeoElementND geoElement) {
 		boolean shouldHideEquations =
 				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
+		boolean hasEquation = geoElement instanceof EquationValue;
 		boolean hasSensitiveEquation =
 				geoElement instanceof GeoLine || geoElement instanceof GeoConic;
-		boolean showOnlyDef = hasEquation && !isFunctionOrEquationFromUser(geoElement);
-		if (shouldHideEquations) {
-			return  showOnlyDef && hasSensitiveEquation;
-		} else {
-			return showOnlyDef;
-		}
+		boolean shouldHideSensitiveEquation = hasSensitiveEquation && shouldHideEquations;
+		boolean hasGeneratedEquation = hasEquation && !isFunctionOrEquationFromUser(geoElement);
+
+		return hasGeneratedEquation && (!hasSensitiveEquation || shouldHideSensitiveEquation);
 	}
 
 	/**
