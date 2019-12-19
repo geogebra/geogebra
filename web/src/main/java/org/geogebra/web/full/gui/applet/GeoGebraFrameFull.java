@@ -492,6 +492,7 @@ public class GeoGebraFrameFull
 				|| getKeyboardManager().shouldKeyboardBeShown()
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
+			showKeyboardButton(textField);
 			return true;
 		}
 		showKeyboardButton(textField);
@@ -523,10 +524,23 @@ public class GeoGebraFrameFull
 
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
-			boolean isButtonNeeded = getGuiManager().hasKeyboardListener();
-			showKeyboardButton.show(isButtonNeeded, textField);
+			showKeyboardButton.show(isButtonNeeded(textField), textField);
 			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
+	}
+
+	private boolean isButtonNeeded(MathKeyboardListener textField) {
+		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
+		if (app.getGuiManager().hasSpreadsheetView() || app.isUnbundled()) {
+			return keyboardListener != null;
+		}
+
+		if (textField != null && keyboardListener != null) {
+			return app.isKeyboardNeeded()
+					&& (textField.hasFocus() || keyboardListener.hasFocus());
+		}
+
+		return false;
 	}
 
 	private boolean appNeedsKeyboard() {

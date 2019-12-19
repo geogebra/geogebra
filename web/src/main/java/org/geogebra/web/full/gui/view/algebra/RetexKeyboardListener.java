@@ -62,6 +62,11 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return true;
 	}
 
+	@Override
+	public boolean hasFocus() {
+		return getMathField().hasFocus();
+	}
+
 	/**
 	 * @param unicodeKeyChar
 	 *            code
