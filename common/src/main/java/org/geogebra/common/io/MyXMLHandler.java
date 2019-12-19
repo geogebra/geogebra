@@ -2488,7 +2488,7 @@ public class MyXMLHandler implements DocHandler {
 			int embeddedSize = Integer.parseInt(attrs.get("size"));
 
 			String plane = attrs.get("plane");
-			DockPanelData dp = new DockPanelData(viewId, toolbar, isVisible,
+			DockPanelData dp = new DockPanelData(viewId, toolbar, false,
 					openInFrame, showStyleBar, windowRect, embeddedDef,
 					embeddedSize, plane);
 			if (app.getConfig() != null) {

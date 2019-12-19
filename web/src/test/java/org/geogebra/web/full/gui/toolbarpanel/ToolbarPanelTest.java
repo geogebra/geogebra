@@ -6,6 +6,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
@@ -81,5 +82,24 @@ public class ToolbarPanelTest {
 	public void openTableView() {
 		toolbarPanel.openTableView(true);
 		verifyDispatchEventCalled(EventType.TABLE_PANEL_SELECTED);
+	}
+
+	@Test
+	public void testSaveToolbarState() {
+		toolbarPanel.open();
+		Assert.assertTrue(toolbarPanel.isOpen());
+		Assert.assertTrue(mockApp().getXML().contains("view id=\"" + App.VIEW_ALGEBRA
+				+ "\" visible=\"true\""));
+
+		toolbarPanel.close();
+		Assert.assertTrue(toolbarPanel.isClosed());
+
+		mockApp().invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				Assert.assertTrue(mockApp().getXML().contains("view id=\""
+						+ App.VIEW_ALGEBRA + "\" visible=\"false\""));
+			}
+		});
 	}
 }
