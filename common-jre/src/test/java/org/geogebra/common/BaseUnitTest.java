@@ -1,10 +1,14 @@
 package org.geogebra.common;
 
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.junit.Before;
 
 /**
@@ -83,6 +87,26 @@ public class BaseUnitTest {
 		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(command, false);
 		return ret.length == 0 ? null : ret[0].toGeoElement();
+	}
+
+	/**
+	 * @param command
+	 *            algebra input to be processed
+	 * @return resulting element
+	 */
+	protected GeoElement addAvInput(String command) {
+		App app = getApp();
+		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
+		GeoElementND[] geoElements =
+				algebraProcessor
+						.processAlgebraCommandNoExceptionHandling(
+								command,
+								false,
+								app.getErrorHandler(),
+								info,
+								null);
+		return geoElements.length == 0 ? null : geoElements[0].toGeoElement();
 	}
 
 	/**

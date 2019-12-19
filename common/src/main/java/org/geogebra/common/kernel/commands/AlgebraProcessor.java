@@ -2174,7 +2174,7 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info.isSimplifyingIntegers())) {
+		if (!fun.initFunction(info)) {
 			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),

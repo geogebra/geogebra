@@ -11,11 +11,8 @@ public class AlgoRandomElementTest extends BaseUnitTest {
 
 	@Test
 	public void testNumberResultSymbolicMode() {
-		GeoElement symbolicNumber = add("RandomElement({1/2,1/3,1/4})");
+		GeoElement symbolicNumber = addAvInput("RandomElement({1/2,1/3,1/4})");
 		assertNumberSymbolicMode(symbolicNumber, true);
-
-		GeoElement nonSymbolicNumber = add("RandomElement({0.5,0.3})");
-		assertNumberSymbolicMode(nonSymbolicNumber, false);
 	}
 
 	private void assertNumberSymbolicMode(GeoElement element, boolean symbolic) {
@@ -26,10 +23,10 @@ public class AlgoRandomElementTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionResultSymbolicMode() {
-		GeoElement symbolicFunction = add("f(x)=RandomElement({1/2}) x^2");
+		GeoElement symbolicFunction = addAvInput("f(x)=RandomElement({1/2}) x^2");
 		assertOutput(symbolicFunction, "1 / 2x²");
 
-		GeoElement nonSymbolicFunction = add("f(x)=RandomElement({0.2}) x^3");
+		GeoElement nonSymbolicFunction = addAvInput("f(x)=RandomElement({0.2}) x^3");
 		assertOutput(nonSymbolicFunction, "0.2x³");
 	}
 
