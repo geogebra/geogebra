@@ -54,7 +54,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	private FlowPanel providerPanel;
 	private StandardButton locationTube;
 	private StandardButton locationDrive;
-	private StandardButton locationSkyDrive;
 	private Widget locationLocal;
 	/** application */
 	protected final AppW app;
@@ -181,27 +180,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			});
 		}
 		this.providerPanel.add(this.locationDrive);
-
-	}
-
-	private void addOneDriveButton() {
-
-		if (this.locationSkyDrive == null) {
-			this.locationSkyDrive = new StandardButton(
-					BrowseResources.INSTANCE.location_skydrive(), app);
-			this.locationSkyDrive.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					if (BrowseGUI.this.app.getGoogleDriveOperation() != null) {
-						app.getFileManager().setFileProvider(Provider.ONE);
-						// TODO open skydrive picker
-					}
-				}
-			});
-		}
-		this.providerPanel.add(this.locationSkyDrive);
-
 	}
 
 	/**
@@ -398,9 +376,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			this.addDriveButton();
 		} else if (user != null) {
 			Log.debug(user.getIdentifier());
-		}
-		if (user != null && user.hasOneDrive()) {
-			this.addOneDriveButton();
 		}
 		// Set Tube as the active on
 		locationTube.addStyleName("selected");

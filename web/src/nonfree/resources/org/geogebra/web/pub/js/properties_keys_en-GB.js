@@ -1342,7 +1342,7 @@ __GGB__keysVar["en-GB"].menu = {
     "AuxiliaryObject": "Auxiliary Object",
     "AuxiliaryObjects": "Auxiliary Objects",
     "Axes": "Axes",
-    "AxesColored": "Colored Axes",
+    "AxesColored": "Coloured Axes",
     "AxisLabel": "Label",
     "AxisOfA": "Axis of %0",
     "AxisTicks": "Ticks",
