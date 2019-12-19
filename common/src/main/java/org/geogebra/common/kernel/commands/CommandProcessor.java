@@ -109,7 +109,7 @@ public abstract class CommandProcessor {
 	 * @throws CircularDefinitionException
 	 *             if circular definition occurs
 	 */
-	public GeoElement[] process(Command c, @Nullable EvalInfo info)
+	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		return process(c);
 	}
