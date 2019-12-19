@@ -43,4 +43,9 @@ public class AppConfigMixedReality extends AppConfigDefault {
 	public int getEnforcedConicEquationForm() {
 		return -1;
 	}
+
+	@Override
+	public boolean hasForcedLineEquationHiddenInAV() {
+		return false;
+	}
 }

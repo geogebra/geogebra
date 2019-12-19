@@ -273,4 +273,9 @@ public class AppConfigGraphing implements AppConfig {
 	public int getEnforcedConicEquationForm() {
 		return GeoConic.EQUATION_USER;
 	}
+
+	@Override
+	public boolean hasForcedLineEquationHiddenInAV() {
+		return true;
+	}
 }

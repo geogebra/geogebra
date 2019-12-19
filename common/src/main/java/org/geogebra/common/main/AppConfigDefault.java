@@ -267,4 +267,9 @@ public class AppConfigDefault implements AppConfig {
     public int getEnforcedConicEquationForm() {
         return -1;
     }
+
+	@Override
+	public boolean hasForcedLineEquationHiddenInAV() {
+		return false;
+	}
 }

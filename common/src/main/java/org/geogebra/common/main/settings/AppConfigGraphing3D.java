@@ -167,4 +167,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public ParserFunctions createParserFunctions() {
 		return ParserFunctionsFactory.createParserFunctions();
 	}
+
+	@Override
+	public boolean hasForcedLineEquationHiddenInAV() {
+		return false;
+	}
 }
