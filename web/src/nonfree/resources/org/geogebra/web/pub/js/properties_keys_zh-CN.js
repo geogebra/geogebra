@@ -1342,7 +1342,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "AuxiliaryObject": "\u8f85\u52a9\u5bf9\u8c61",
     "AuxiliaryObjects": "\u8f85\u52a9\u5bf9\u8c61",
     "Axes": "\u5750\u6807\u8f74",
-    "AxesColored": "\u6709\u8272\u8f74\u7ebf",
+    "AxesColored": "\u7740\u8272\u8f74\u7ebf",
     "AxisLabel": "\u6807\u7b7e",
     "AxisOfA": "%0 \u7684\u8f74\u7ebf",
     "AxisTicks": "\u523b\u5ea6",
