@@ -1590,18 +1590,19 @@ $duration: 0.2s;
    	    }
 
    	    .templatesPanel {
-            max-width: 673px;
-            max-height: 370px;
+   	        max-width: 649px;
+            height: 372px;
             display: inline-block;
             overflow: auto;
-            padding-left: 10px;
-            padding-right: 22px;
-            margin-top: 4px;
-            padding-bottom: 10px;
+            padding-left: 15px;
+            padding-right: 16px;
+            margin-top: 12px;
 
             &.withBorder {
                 border-bottom: 1px solid $black-12;
-                padding-bottom: 9px;
+                height: 371px;
+                max-width: 665px;
+                padding-right: 0px;
             }
 
    	        .templateCard {
@@ -1612,7 +1613,7 @@ $duration: 0.2s;
                 transition: box-shadow .25s;
                 position: relative;
                 display: inline-block;
-                margin: 16px 0px 0px 16px;
+                margin: 8px 8px 8px 8px;
                 cursor: pointer;
 
                 &:hover {

@@ -123,7 +123,7 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void remove() {
-        // nothing to do here
+        removeFromParent();
     }
 
     @Override

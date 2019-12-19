@@ -36,9 +36,7 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 						@Override
 						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 							if (result.isEmpty()) {
-								app.setWaitCursor();
-								app.fileNew();
-								app.setDefaultCursor();
+								onFileNew();
 							} else {
 								((GuiManagerW) app.getGuiManager()).getTemplateController().
 										fillTemplates(app, result);
@@ -53,6 +51,10 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 					});
 			return;
 		}
+		onFileNew();
+	}
+
+	public void onFileNew() {
 		// ignore active: don't save means we want new construction
 		app.setWaitCursor();
 		app.fileNew();

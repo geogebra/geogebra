@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Label;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -194,11 +195,6 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
-			MaterialVisibility visibility = ((AppW) app)
-					.getActiveMaterial() != null ? MaterialVisibility.value(
-									((AppW) app).getActiveMaterial()
-											.getVisibility())
-							: MaterialVisibility.Private;
 			setSaveType(templateCheckbox.isSelected()
 					? ((AppW) app).getVendorSettings().getTemplateType() : MaterialType.ggs);
 			Material activeMaterial = ((AppW) app).getActiveMaterial();
@@ -221,6 +217,7 @@ public class SaveDialogMow extends DialogBoxW
 	}
 
 	private void defaultSaveCaptionAndCancel() {
+		checkboxRow.setVisible(true);
 		setCaptionKey("Save");
 		cancelBtn.setLabel(loc.getMenu("Cancel"));
 	}
@@ -262,11 +259,6 @@ public class SaveDialogMow extends DialogBoxW
 	@Override
 	public void setSaveType(MaterialType saveType) {
 		app.getSaveController().setSaveType(saveType);
-	}
-
-	@Override
-	public SaveDialogI setDefaultVisibility(MaterialVisibility visibility) {
-		return this;
 	}
 
 	/**

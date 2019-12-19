@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 
