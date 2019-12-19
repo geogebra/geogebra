@@ -201,6 +201,10 @@ public class SaveDialogMow extends DialogBoxW
 							: MaterialVisibility.Private;
 			setSaveType(templateCheckbox.isSelected()
 					? ((AppW) app).getVendorSettings().getTemplateType() : MaterialType.ggs);
+			Material activeMaterial = ((AppW) app).getActiveMaterial();
+			MaterialVisibility visibility = activeMaterial != null
+					? MaterialVisibility.value(activeMaterial.getVisibility())
+					: MaterialVisibility.Private;
 			app.getSaveController().saveAs(getInputField().getText(),
 					visibility, this);
 		}
@@ -217,7 +221,6 @@ public class SaveDialogMow extends DialogBoxW
 	}
 
 	private void defaultSaveCaptionAndCancel() {
-		checkboxRow.setVisible(true);
 		setCaptionKey("Save");
 		cancelBtn.setLabel(loc.getMenu("Cancel"));
 	}

@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbar;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -87,7 +86,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 	}
 
 	private void addBackButton() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		back = new StandardButton(pr.menu_header_back(), null, 32, app);
 		back.addStyleName("submenuBack");
 		back.addFastClickHandler(new FastClickHandler() {

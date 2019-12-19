@@ -39,11 +39,6 @@ public abstract class AlgoTangentPointND extends AlgoElement
 	protected GeoPointND[] tangentPoints;
 	protected boolean equalLines = false;
 
-	/*
-	 * AlgoTangentPoint(Construction cons, String label, GeoPoint P, GeoConic c)
-	 * { this(cons, P, c); GeoElement.setLabels(label, tangents); }
-	 */
-
 	/**
 	 * @param cons
 	 *            construction

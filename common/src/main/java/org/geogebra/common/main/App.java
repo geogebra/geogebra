@@ -45,6 +45,7 @@ import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFacto
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -72,7 +73,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -2251,9 +2252,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			currentSelectionListener = null;
 		}
 		if (mode != EuclidianConstants.MODE_MOVE) {
-			if (getVideoManager() != null) {
-				getVideoManager().backgroundAll();
-			}
 			euclidianController.widgetsToBackground();
 		}
 		if (getGuiManager() != null) {
@@ -2920,7 +2918,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ParserFunctions getParserFunctions() {
 		if (pf == null) {
-			pf = new ParserFunctions();
+			pf = getConfig().createParserFunctions();
 		}
 		pf.setInverseTrig(
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
@@ -3823,7 +3821,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease;
+			return prerelease || whiteboard;
 
 		// **********************************************************************
 		// MOBILE END
@@ -3844,11 +3842,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
-			return prerelease && whiteboard;
-
-		/** MOW-763 */
-		case VIDEO_PLAYER_OFFLINE:
-			return prerelease && whiteboard;
+			return whiteboard;
 
 		// **********************************************************************
 		// MOW END
@@ -4740,6 +4734,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				break;
 			case GRAPHER_3D:
 				factory = new Graphing3DToolCollectionFactory();
+				break;
+			case SUITE:
+				factory = new SuiteToolCollectionFactory();
 				break;
 			default:
 				factory = new GraphingToolCollectionFactory();

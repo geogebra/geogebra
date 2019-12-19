@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.App;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -15,11 +14,9 @@ import com.google.j2objc.annotations.Weak;
  */
 public class LaTeXTextRenderer implements TextRenderer {
 
-	// This margin is to match how the editor places the equation
-	private static final double MARGIN = 3.0;
-
 	// This margin is to match the height of the editor
-	private static final double BOTTOM_MARGIN = 10;
+	private static final int BOTTOM_OFFSET = 10;
+	public static final int MARGIN = 8;
 
 	@Weak
 	private DrawInputBox drawInputBox;
@@ -29,24 +26,40 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	@Override
-	public void drawText(App app, GeoInputBox geo, GGraphics2D graphics, GFont font,
-						 String text, double xPos, double yPos, double boxWidth, int lineHeight) {
-		drawInputBox.drawLatex(graphics, geo, font, text,
-				(int) Math.round(xPos), (int) Math.round(yPos + MARGIN));
+	public void drawText(GeoInputBox geo, GGraphics2D graphics,
+						 GFont font, String text,
+						 double xPos, double yPos) {
+		int textLeft = (int) Math.round(xPos);
+
+		GDimension textDimension = drawInputBox.measureLatex(graphics, geo, font, text);
+		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
+		int textTop = (int) Math.round(yPos + diffToCenter);
+
+		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop);
+	}
+
+	private int calculateInputBoxHeight(GDimension textDimension) {
+		int textHeightWithMargin = textDimension.getHeight() + BOTTOM_OFFSET + MARGIN;
+		return Math.max(textHeightWithMargin, DrawInputBox.MIN_HEIGHT);
 	}
 
 	@Override
 	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
 									String labelDescription) {
-		GDimension latexDimension = drawInputBox.measureLatex(graphics, geo, font, geo.getText());
-		double inputHeight = latexDimension.getHeight() + BOTTOM_MARGIN;
-		double top = drawInputBox.yLabel + MARGIN - inputHeight / 2
-				+ drawInputBox.getPreferredHeight() / 2.0;
-		GRectangle rectangle = AwtFactory.getPrototype().newRectangle(
+		GDimension textDimension =
+				drawInputBox.measureLatex(graphics, geo, font, geo.getDisplayText());
+
+		int inputBoxHeight = calculateInputBoxHeight(textDimension);
+		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
+		double inputBoxTop = drawInputBox.getLabelTop() + ((labelHeight - inputBoxHeight) / 2);
+
+		int inputBoxWidth = textDimension.getWidth();
+
+		return AwtFactory.getPrototype().newRectangle(
 				drawInputBox.boxLeft,
-				(int) Math.round(top),
-				Math.max(drawInputBox.boxWidth, latexDimension.getWidth()),
-				(int) Math.round(inputHeight));
-		return rectangle;
+				(int) Math.round(inputBoxTop),
+				Math.max(drawInputBox.boxWidth, inputBoxWidth),
+				inputBoxHeight);
 	}
 }

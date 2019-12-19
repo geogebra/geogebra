@@ -126,7 +126,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private long lastRepaint;
 
 	private boolean inFocus = false;
-
+	/** application **/
 	AppW appW = (AppW) super.app;
 
 	private ImageElement resetImage;
@@ -134,7 +134,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private ImageElement pauseImage;
 	private ImageElement playImageHL;
 	private ImageElement pauseImageHL;
-
+	/** parent panel */
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;
 
@@ -279,10 +279,10 @@ public class EuclidianViewW extends EuclidianView implements
 		GGraphics2DWI g2w;
 		if (app.isWhiteboardActive()) {
 			g2w = g2bg;
+			g2w.clearAll();
 		} else {
 			g2w = (GGraphics2DWI) g2;
 		}
-		g2w.clearAll();
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
 		        || kernel.needToShowAnimationButton()) {
@@ -725,10 +725,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 * Initialize background image
 	 */
 	public void createImage() {
-		if (bgImage != null) {
-			bgImage = makeImage();
-			bgGraphics = bgImage.createGraphics();
-		}
+		bgImage = makeImage();
+		bgGraphics = bgImage.createGraphics();
 	}
 
 	@Override
@@ -774,7 +772,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Deprecated
 	public void initBgCanvas() {
 		if (this.g2bg == null) {
-			this.initBackgroundCanvas(evPanel);
+			initBackgroundCanvas(evPanel);
 		}
 	}
 
@@ -803,7 +801,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		((EuclidianControllerW) euclidiancontroller).setView(this);
 
-		if (this.getViewID() != App.VIEW_TEXT_PREVIEW) {
+		if (getViewID() != App.VIEW_TEXT_PREVIEW) {
 			registerKeyHandlers(canvas);
 			registerMouseTouchGestureHandlers(euclidianViewPanel,
 			        (EuclidianControllerW) euclidiancontroller);
@@ -860,12 +858,6 @@ public class EuclidianViewW extends EuclidianView implements
 				EuclidianViewW.selectNextGeoOnTab(EuclidianViewW.this);
 			}
 		});
-
-		// euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller,
-		// KeyPressEvent.getType());
-		// euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-		// euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-		// euclidianViewPanel.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 
 		EuclidianSettings es = null;
 		if (settings != null) {
@@ -986,7 +978,6 @@ public class EuclidianViewW extends EuclidianView implements
 		canvas.addKeyUpHandler(this.appW.getGlobalKeyDispatcher());
 		canvas.addKeyPressHandler(this.appW.getGlobalKeyDispatcher());
 		}
-
 	}
 
 	private void registerMouseTouchGestureHandlers(
@@ -1181,7 +1172,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (appW.getGuiManager() == null) {
 			return null;
 		}
-		return appW.getGuiManager().newEuclidianStylebar(this, this.getViewID());
+		return appW.getGuiManager().newEuclidianStylebar(this, getViewID());
 	}
 
 	@Override
@@ -1384,8 +1375,8 @@ public class EuclidianViewW extends EuclidianView implements
 		g2p.setDevicePixelRatio(pixelRatio);
 		if (realHeight > 0 && realWidth > 0) {
 			g2p.setCoordinateSpaceSize(realWidth, realHeight);
-			this.createImage();
-			this.updateBackground();
+			createImage();
+			updateBackground();
 			repaint();
 		}
 	}

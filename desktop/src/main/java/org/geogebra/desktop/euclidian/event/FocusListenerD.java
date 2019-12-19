@@ -2,26 +2,29 @@ package org.geogebra.desktop.euclidian.event;
 
 import java.awt.event.FocusEvent;
 
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
+
 /**
  * @author judit
  *
  */
-public class FocusListenerD
-		extends org.geogebra.common.euclidian.event.FocusListener
-		implements java.awt.event.FocusListener {
+public class FocusListenerD implements java.awt.event.FocusListener {
+	private FocusListenerDelegate delegate;
 
-	public FocusListenerD(Object listener) {
-		setListenerClass(listener);
+	public FocusListenerD(@Nonnull FocusListenerDelegate listener) {
+		delegate = listener;
 	}
 
 	@Override
 	public void focusGained(FocusEvent e) {
-		wrapFocusGained();
+		delegate.focusGained();
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		wrapFocusLost();
+		delegate.focusLost();
 	}
 
 }

@@ -12,8 +12,7 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Geo for embedded apps
  */
-public class GeoEmbed extends GeoWidget
-		implements GeoFrame, Translateable {
+public class GeoEmbed extends GeoWidget implements Translateable {
 
 	private boolean defined = true;
 	private int embedID;
@@ -205,16 +204,6 @@ public class GeoEmbed extends GeoWidget
 	 */
 	public void setBackground(boolean background) {
 		this.background = background;
-	}
-
-	@Override
-	public void setReady() {
-		background = false;
-	}
-
-	@Override
-	public boolean isReady() {
-		return !background;
 	}
 
 	@Override
