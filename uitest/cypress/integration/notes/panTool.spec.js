@@ -1,4 +1,4 @@
-import {selectors} from 'ggb-web-test-harness/selectors'
+import {selectors} from '@geogebra/web-test-harness/selectors'
 
 describe('Pan tool test', () => {
     beforeEach(() => {

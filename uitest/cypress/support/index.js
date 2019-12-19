@@ -13,8 +13,9 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import './commands'
+import { addGeoGebraCommands } from '@geogebra/web-test-harness/commands';
 
-beforeEach(function () {
-  cy.setCookie("RecentChangesRecentChangesInfo.GraphingShown", "true");
-})
+addGeoGebraCommands();
+
+beforeEach(cy.skipDialog)
+afterEach(cy.setSaved)

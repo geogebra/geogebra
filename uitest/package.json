@@ -1,5 +1,5 @@
 {
-  "name": "web-test-harness",
+  "name": "@geogebra/uitest",
   "version": "0.1.0",
   "description": "Test automation suite for testing GeoGebra",
   "author": "GeoGebra Group",
@@ -11,9 +11,7 @@
     "cypress-image-snapshot": "^3.1.1",
     "http-server": "^0.11.1",
     "jest-image-snapshot": "2.7.0",
-    "wait-on": "^3.2.0"
-  },
-  "dependencies": {
-    "ggb-web-test-harness": "file:../../web-test-harness"
+    "wait-on": "^3.2.0",
+    "@geogebra/web-test-harness": "0.1.0"
   }
 }

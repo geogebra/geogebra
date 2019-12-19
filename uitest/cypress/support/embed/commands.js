@@ -1,4 +1,5 @@
-import {selectors} from '../selectors'
+import {selectors} from '@geogebra/web-test-harness/selectors'
+
 Cypress.Commands.add("writeInMathField", {}, text => {
     selectors.mathField.get().focus().type(text, {force: true});
 });
