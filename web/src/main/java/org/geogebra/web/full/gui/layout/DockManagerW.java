@@ -429,7 +429,7 @@ public class DockManagerW extends DockManager {
 				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 				panel.setShowStyleBar(dpData[i].showStyleBar());
 				panel.setOpenInFrame(dpData[i].isOpenInFrame());
-
+				panel.setToolMode(dpData[i].isToolMode());
 
 				// detach views which were visible, but are not in the new
 				// perspective
@@ -441,7 +441,6 @@ public class DockManagerW extends DockManager {
 				panel.setVisible(
 						dpData[i].isVisible() && !dpData[i].isOpenInFrame());
 
-				panel.setToolMode(dpData[i].isToolMode());
 				if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN
 						|| dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
 					((EuclidianDockPanelWAbstract) panel).reset();
