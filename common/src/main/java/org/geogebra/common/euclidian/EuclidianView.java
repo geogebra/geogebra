@@ -4822,7 +4822,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (!GColor.MOW_RULER.equals(rulerColor)) {
 				sbxml.append("\t<rulerColor");
 				XMLBuilder.appendRGB(sbxml, rulerColor);
-				sbxml.append("\"/>\n");
+				sbxml.append("/>\n");
 			}
 
 			if (app.getSaveController().savedAsTemplate()) {
@@ -4834,7 +4834,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				// color of pen
 				sbxml.append("\t<penColor");
 				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
-				sbxml.append("\"/>\n");
+				sbxml.append("/>\n");
 
 				// size of highlighter
 				sbxml.append("\t<highlighterSize val=\"");
@@ -4844,12 +4844,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				// highlighter of pen
 				sbxml.append("\t<highlighterColor");
 				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
-				sbxml.append("\"/>\n");
+				sbxml.append("/>\n");
 
 				// size of eraser
-				/*sbxml.append("\t<eraserSize val=\"");
+				sbxml.append("\t<eraserSize val=\"");
 				sbxml.append(getEuclidianController().getDeleteToolSize());
-				sbxml.append("\"/>\n");*/
+				sbxml.append("\"/>\n");
+
+				sbxml.append("\t<language val=\"");
+				sbxml.append(app.getLocalization().getLanguage());
+				sbxml.append("\"/>\n");
 			}
 		}
 		// axes line style

@@ -804,6 +804,8 @@ public class MyXMLHandler implements DocHandler {
 		case "labelStyle":
 			ok = handleLabelStyle(evSet, attrs);
 			break;
+		case "language":
+			ok =  handleLanguage(app, attrs);
 		case "penSize":
 			ok =handlePenSize(evSet, attrs);
 			break;
@@ -1507,7 +1509,7 @@ public class MyXMLHandler implements DocHandler {
 	private static boolean handleEraserSize(EuclidianSettings ev,
 										 LinkedHashMap<String, String> attrs) {
 		int eraserSize = Integer.parseInt(attrs.get("val"));
-		ev.setLastPenThickness(eraserSize);
+		ev.setDeleteToolSize(eraserSize);
 		return true;
 	}
 
@@ -1542,6 +1544,14 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 		ev.setLastSelectedHighlighterColor(col);
+		return true;
+	}
+
+	private static boolean handleLanguage(App app,
+			  LinkedHashMap<String, String> attrs) {
+		String lang = attrs.get("val");
+		Log.debug("LANGUAGE: " + lang);
+		app.setLanguage(lang);
 		return true;
 	}
 
