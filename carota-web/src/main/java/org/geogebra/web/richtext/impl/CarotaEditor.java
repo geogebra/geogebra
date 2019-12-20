@@ -34,7 +34,9 @@ public class CarotaEditor implements Editor {
 		var updateTimer = null;
 
 		editor.contentChanged(function() {
-			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)();
+			setTimeout(function() {
+                listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)();
+            }, 0);
 
 			if (updateTimer !== null) {
 				clearTimeout(updateTimer);

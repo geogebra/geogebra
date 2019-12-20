@@ -1317,9 +1317,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private boolean checkTextNoInputBox(List<GeoElement> geos) {
 		boolean geosOK = checkGeoText(geos);
-		for (Object obj : geos) {
-			GeoElement geo0 = (GeoElement) obj;
-			if (geo0.isGeoInputBox()) {
+		for (GeoElement geo : geos) {
+			if (geo.isGeoInputBox()) {
 				return false;
 			}
 		}
@@ -1335,9 +1334,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					boolean geosOK = checkTextNoInputBox(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
-						GeoElement geo = geos.get(0)
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextStyle) geo).getFontStyle();
+						int style = getFontStyle(geos);
 						btnBold.setValue((style & GFont.BOLD) != 0);
 					}
 				}
@@ -1413,9 +1410,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					boolean geosOK = checkTextNoInputBox(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
-						GeoElement geo = geos.get(0)
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextStyle) geo).getFontStyle();
+						int style = getFontStyle(geos);
 						btnItalic.setValue((style & GFont.ITALIC) != 0);
 					}
 				}
@@ -1958,5 +1953,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 	@Override
 	public boolean isVisible() {
 		return visible;
+	}
+
+	private static int getFontStyle(List<GeoElement> geos) {
+		int style = 0;
+		for (GeoElement geo : geos) {
+			style |= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
+		}
+
+		return style;
 	}
 }
