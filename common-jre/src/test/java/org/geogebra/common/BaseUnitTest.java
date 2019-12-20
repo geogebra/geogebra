@@ -79,34 +79,45 @@ public class BaseUnitTest {
     }
 
 	/**
+	 * Use this method when you want to test the commands as if those were read from file.
+	 *
 	 * @param command
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
 	protected GeoElement add(String command) {
-		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(command, false);
-		return ret.length == 0 ? null : ret[0].toGeoElement();
+		GeoElementND[] geoElements =
+				getAlgebraProcessor().processAlgebraCommand(command, false);
+		return getFirstElement(geoElements);
+	}
+
+	private AlgebraProcessor getAlgebraProcessor() {
+		return getApp().getKernel().getAlgebraProcessor();
+	}
+
+	private GeoElement getFirstElement(GeoElementND[] geoElements) {
+		return geoElements.length == 0 ? null : geoElements[0].toGeoElement();
 	}
 
 	/**
+	 * Use this method when you want to test the commands as if those were inserted in AV.
+	 *
 	 * @param command
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
 	protected GeoElement addAvInput(String command) {
 		App app = getApp();
-		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
 		GeoElementND[] geoElements =
-				algebraProcessor
+				getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
 								command,
 								false,
 								app.getErrorHandler(),
 								info,
 								null);
-		return geoElements.length == 0 ? null : geoElements[0].toGeoElement();
+		return getFirstElement(geoElements);
 	}
 
 	/**
